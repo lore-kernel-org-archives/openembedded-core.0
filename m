@@ -1,347 +1,125 @@
-Return-Path: <colinmca242@gmail.com>
+Return-Path: <oecore.mailinglist@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A88AE7717D
-	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 14:22:22 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.102654.1733754139197730761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9952CE7717D
+	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 14:29:12 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.102827.1733754550581651689
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Dec 2024 06:22:19 -0800
+ Mon, 09 Dec 2024 06:29:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xy4kBA0w;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: colinmca242@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3d2a30afcso4307639a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 06:22:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IlabKz5c;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: oecore.mailinglist@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385ed7f6605so1947421f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 06:29:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733754137; x=1734358937; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=64vIlUdY2MyiP/ZWGJuaiOPyX6TSOdPvP67BLx8LtiU=;
-        b=Xy4kBA0wssdte5DEzq8te4fKjEnBjmgcP2QxHB9W19mTbNs+uXbtjcs+Nscky16QrD
-         ZaNTJ8L25h8W2RGx4lgFeErhm39pAOWQGBPhoPumkR2Hc98i2bsHXRH6pyrUs0iNHtrS
-         DhFbeARBqB+ASjdUS4pmdakQ6FOJdbZnQbJKbvSGV/yKiLFy8E6dKtw1JtIgO/IQhUaJ
-         dHQGupS3rTVHUz04cX45wmeQW7L3dzA+s79b4p4qB60wG0m15ZkqxB3GBAgYvJINRcll
-         buvKWGpp7Amx44yVrBwxaoL3l7gsN07UtlzI1sj/nGRkAfQ7pbY8m0WUTSiBSDCM8n3y
-         Wq2Q==
+        d=gmail.com; s=20230601; t=1733754549; x=1734359349; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Unkgd+QFjECRgS+Xid6wCJm7jxXevagldiVWtKSc61o=;
+        b=IlabKz5cCOW/h+UjGAVejWICBO4NvJ57xLx1NOz1JaOzGqFb4EQ9OQP7L68Y45KnXj
+         AL4Vi4VLm3F0mQlqsZo1dUIU7wnndMzV/9T9X5v+gDKD7TZqH1ghJbRac+OiiuAmPYg5
+         1+bF0SmxGc+Z/1U9G+547a7FcWdDPvA120R8x57hSHiZFk4Bo2n9gLonmHRuenGAeSoE
+         62Er9LjN7qVYYx8V0y51AIOyxgJDF0c0UI/XwRDpePsMtLHStpTE35k0//Bv4/iXBuYb
+         Wc5qybiqyjLhMo1t1NryCGH1nRDZ0m2fDFemsv/4vCeYYIgYaSdEDu0yN9jVW2qp6Ijd
+         tJ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733754137; x=1734358937;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=64vIlUdY2MyiP/ZWGJuaiOPyX6TSOdPvP67BLx8LtiU=;
-        b=CRmijC3RBsedqCUY+ZxoJKonKS6JGnBBIpLGoJBqv/ROuI0o+v5CWRz40Rf7wJE4Rr
-         xthfVz5a82Gkgs2ck1Vf0fGLvZlPzMmvpHq0Btrqc4bJ/GJO9/QXkpKLf43iEXCjaq9E
-         3AXieVu+xBZ0mg2HGKtbXtvU+AWS+OR3Dw6QyFYbUXCy/VpptHq+50QcXDiFtcuC3Trh
-         S/5szZ4XnR4Fcp0a5VOXcO9OjWY/69kgmt87yfzbn46Dc87oHvHgcWpinqcv0iQYQN7L
-         CgqqQYdg/sknOvHXRXPSWmsuapc7VL6UQdgbKoXZDYCWvUCsyumwxEDg7Cj9NZX9qYuA
-         NeCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqHgeHQXltwUCtWC+wrPMYTkK8aTCqmskIgwkhFzSRAWefngMUVzdL3/PHLnQ67nO6LyO5lqQk5KeFvitJu9Ukyw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzo8mdOROScBfghPI16aM5Uca7LSJ+Osif4ts0usKEf3dj06KHJ
-	tzuiChcYPupTMz5oUjSsO0xNyt8GPAAC5eKKBMwQM3gYWca/wfVAakG6jDRTCUpOupqkoQFejBj
-	UGXD9pU4fX4JN5F6yqkYQshPUL7I=
-X-Gm-Gg: ASbGncs8lBZe9OaDtBqyYGU1gHEiN4pZ/G0cYjf92pzGTQpobNvytoGnvcGNX3ZJj1K
-	fhYFZx0E7a2udUwHq6KBhyNRhboU0E0Ys
-X-Google-Smtp-Source: AGHT+IEXubbhCgtyqm7hqL2rhAAU+CaiP20Lj8SjYWdTuxP9V7gPg2jjHfD2dCA1tGlxEoqp6C60TJe1VgsCUtnqgBM=
-X-Received: by 2002:a05:6402:43c5:b0:5d0:b51c:8479 with SMTP id
- 4fb4d7f45d1cf-5d3be680125mr13677684a12.10.1733754137216; Mon, 09 Dec 2024
- 06:22:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733754549; x=1734359349;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Unkgd+QFjECRgS+Xid6wCJm7jxXevagldiVWtKSc61o=;
+        b=gB90nR8SlSmn18M/vBOjGpAkoY2HEwisxcQDCcLy2rYZygmGKWx/7E935/RCjOqz8b
+         v9C1642VHxReVIcj2R+4BK/y3iO0c3qb6QRefusGsGk1Vz3W/MkohU15t3DtaZyq/trD
+         gq2DW8wTJa5ehEQ1k8TgPGwS2VsPcHZuCfEQLSixIzLghK1zvmYju+hno13pch2KiDjA
+         79TRmb80Fhv31w6+yZg9/q5XCZiF/3yG1tUBH/vESqRqhbnCkRITy5Vy6vw/x6/c2Jxj
+         pOUrRV83dmcsO3WugZkv9AXZRqcq9yXww3qLlFaD62iC0WW3Dz2gXxtj2Kr3dHHgphEG
+         548A==
+X-Forwarded-Encrypted: i=1; AJvYcCVqx7B3G6U+v5ijWOkO6y7StXlpgCx2ait4sFqAgWk3ByADKVS6sdSO7YYwNHoNn5TlBARjEv1FTH0K6CwlUELVRQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzxiJyQrkzh7nLeqhInWjI6If2eTlEbGacnQPZ1ZnTWTCZh7j2L
+	TcjUXIsRunsLQyobriDaDC/WafLt39WpCAass4dfsizu4ID56E6GAnDXeQ==
+X-Gm-Gg: ASbGncsrY5REWe0TzaDBxAP8VmytMdXRiTenJrn6WJ+tAonwXCa/jabbIbZ2VEnDLjt
+	/S5dGtYxNLc701EhGNIqOzR8QPrfn9VrOaoIw3czTU9yOipWWoc08LOHdRJ0UTYNc89Gp1edFQF
+	81WD1kATL90rwuxSv6o06mNsg+GiZLtaz85zc+gPDo9zrcL15/TAKFMTv+jfBJS7gz2qBN6cmge
+	fHHLnlIYuzjUkPJeGMaDunPCD3FVnZWGbCrHcCY4Z+Q8pdGfvxXjLjSQ+4v/inkXRVwExIdbMXJ
+	FTmgV87EXM1+dhlYhZS+QBMlKyEFSg==
+X-Google-Smtp-Source: AGHT+IHzWTR9+DSmgYVdiK5Et3nSPDyGxGXLF1tVziTRpamPTlNNg6Y2KLriyXYjlIMLvn1crtMSbA==
+X-Received: by 2002:a05:6000:4609:b0:385:e8ff:b9c9 with SMTP id ffacd0b85a97d-386453f9ef7mr453831f8f.42.1733754548672;
+        Mon, 09 Dec 2024 06:29:08 -0800 (PST)
+Received: from [192.168.188.21] (77.118.58.106.wireless.dyn.drei.com. [77.118.58.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52cbd72sm196665435e9.44.2024.12.09.06.29.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 06:29:07 -0800 (PST)
+Message-ID: <73d14e42-55a9-5400-fc57-6de2de1c4dba@gmail.com>
+Date: Mon, 9 Dec 2024 15:29:06 +0100
 MIME-Version: 1.0
-References: <20241130175038.870014-1-colinmca242@gmail.com>
- <Z02bDqe_cY6uqij-@bootlin-mathieu> <PA4PR10MB57070ADE2916F49300B63B4BFD352@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <PA4PR10MB57070ADE2916F49300B63B4BFD352@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
-From: Colin <colinmca242@gmail.com>
-Date: Mon, 9 Dec 2024 08:22:09 -0600
-Message-ID: <CAAyLwgQMUPkg_5i16nFchF32_2cZdnt88njRfVRZDjuHjWQfmA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check: Add versioned CVSS vector strings
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007a18000628d717a8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [OE-core] [PATCH v2] wic: bootimg-pcbios.py: optionally pass
+ 'initrd' from .wks(.in) via sourceparams
+Content-Language: en-US
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Robert Berger <Robert.Berger@ReliableEmbeddedSystems.com>
+References: <20241206164822.18330-1-Robert.Berger@ReliableEmbeddedSystems.com>
+ <D66Z8Z0753NP.2HHE39VDDW4FO@bootlin.com>
+From: Robert Berger <oecore.mailinglist@gmail.com>
+In-Reply-To: <D66Z8Z0753NP.2HHE39VDDW4FO@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 14:22:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208484
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 14:29:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208485
 
---0000000000007a18000628d717a8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hello,
 
-Would the tests be able to be run again? I think the API appears to be more
-stable now. If the tests are still failing, I can rebase this patch on top
-of a
-commit that changes the retry attempts to a higher number and send in both
-patches.
+On 12/9/24 08:05, Mathieu Dubois-Briand wrote:
+> On Fri Dec 6, 2024 at 5:48 PM CET, Robert Berger via lists.openembedded.org wrote:
+>> optionally allow to pass 'initrd' from .wks(.in) via sourceparams
+>>
+>> Signed-off-by: Robert Berger <Robert.Berger@ReliableEmbeddedSystems.com>
+>> ---
+> 
+> Hi,
+> 
+> I believe this patch is the source of the following error on the
+> autobuilder:
+> 
+>    File "/srv/pokybuild/yocto-worker/wic/build/scripts/lib/wic/plugins/source/bootimg-pcbios.py", line 177, in do_prepare_partition
+>      initrd_dir_and_file = os.path.join(deploy_dir_image, initrd)
+>    File "<frozen posixpath>", line 89, in join
+>    File "<frozen genericpath>", line 188, in _check_arg_types
+> TypeError: join() argument must be str, bytes, or os.PathLike object, not 'NoneType'
+> 
+> https://valkyrie.yoctoproject.org/#/builders/15/builds/580/steps/12/logs/stdio
+> 
+> Can you have a look at this issue, please ?
+> 
+> 
 
-Besides the issue where the database fails to rebuild due to the NIST API's
-stability, is there any other feedback or are there any concerns with this
-patch?
+Please drop that patch for now - it will take me some time to find my 
+example which uses it ;)
 
-Thanks,
-Colin
+Regards,
 
-On Mon, Dec 2, 2024 at 6:15=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.co=
-m> wrote:
+Robert
 
-> This is due to current NVD DB stability issues.
-> WARNING: cve-update-nvd2-native-1.0-r0 do_fetch: CVE database update fail=
-ed
-> This can happen only if API calls to NVD DB fail.
->
-> So either valkyrie infrastructure needs to increase the retry settings to
-> 20+
-> (via CVE_DB_UPDATE_ATTEMPTS, I did that "temporarily" two weeks ago on ou=
-r
-> infra),
-> or this change needs to wait until NVD DB infra is fixed (which can take =
-a
-> loooong time).
-> Of course the increase of timeout may mean the update job may take 3-4
-> hours more...
-> But once it completes, the DB file will be cached and all should return t=
-o
-> normal.
->
-> Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Mathieu Dubois-Briand via
-> > lists.openembedded.org
-> > Sent: Monday, December 2, 2024 12:34
-> > To: colinmca242@gmail.com
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] cve-check: Add versioned CVSS vector
-> strings
-> >
-> > On Sat, Nov 30, 2024 at 05:50:38PM +0000, Colin McAllister via
-> > lists.openembedded.org wrote:
-> > > Currently, cve-check includes a vector string for each CVE included i=
-n
-> > > the issue list for each package. This vector string is the lowest
-> > > CVSS version that's available. For example, if a CVE has both a v2 an=
-d
-> > > v3.1 vector strint, the v2 vector string is only included.
-> > >
-> > > This patch adds each supported vector string (v2, v3, and v4). For v3=
-,
-> > > v3.1 is preferred over v3. If a vector string is not available for a
-> > > given verison, the string will default to "UNKNOWN".
-> > >
-> > > Signed-off-by: Colin McAllister <colinmca242@gmail.com>
-> >
-> > Hi Colin,
-> >
-> > Thanks for your new patch. As for last week, it seems to be triggering
-> > some issues on the autobuilder:
-> >
-> > ERROR: cve-update-nvd2-native-1.0-r0 do_unpack: Error executing a pytho=
-n
-> > function in exec_func_python() autogenerated:
-> > The stack trace of python calls that resulted in this exception/failure
-> was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> >      0001:
-> >  *** 0002:do_unpack(d)
-> >      0003:
-> > File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipe=
-s-
-> > core/meta/cve-update-nvd2-native.bb', lineno: 105, function: do_unpack
-> >      0101:do_fetch[vardeps] =3D ""
-> >      0102:
-> >      0103:python do_unpack() {
-> >      0104:    import shutil
-> >  *** 0105:    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"),
-> > d.getVar("CVE_CHECK_DB_FILE"))
-> >      0106:}
-> >      0107:do_unpack[lockfiles] +=3D "${CVE_CHECK_DB_DLDIR_LOCK}
-> > ${CVE_CHECK_DB_FILE_LOCK}"
-> >      0108:
-> >      0109:def cleanup_db_download(db_file, db_tmp_file):
-> > File: '/usr/lib/python3.9/shutil.py', lineno: 264, function: copyfile
-> >      0260:
-> >      0261:    if not follow_symlinks and _islink(src):
-> >      0262:        os.symlink(os.readlink(src), dst)
-> >      0263:    else:
-> >  *** 0264:        with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst=
-:
-> >      0265:            # macOS
-> >      0266:            if _HAS_FCOPYFILE:
-> >      0267:                try:
-> >      0268:                    _fastcopy_fcopyfile(fsrc, fdst,
-> posix._COPYFILE_DATA)
-> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> > '/srv/autobuilder/valkyrie.yocto.io/current_sources/CVE_CHECK2/nvdcve_2=
--
-> > 3.db'
-> >
-> >
-> https://valkyrie.yoctoproject.org/#/builders/76/builds/524/steps/15/logs/=
-st
-> > dio
-> >
-> https://valkyrie.yoctoproject.org/#/builders/35/builds/532/steps/14/logs/=
-st
-> > dio
-> >
-> > Is this something you can fix ?
-> >
-> > --
-> > Mathieu Dubois-Briand, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
->
+-- 
+Robert Berger
+Embedded Software Evangelist
 
---0000000000007a18000628d717a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reliable Embedded Systems
+Consulting Training Engineering
+URL: https://www.reliableembeddedsystems.com
 
-<div dir=3D"ltr">Hello,<br><br>Would the tests be able to be run again? I t=
-hink the API appears to be more<br>stable now. If the tests are still faili=
-ng, I can rebase this patch on top of a<br>commit that changes the retry at=
-tempts to a higher number and send in both<br>patches.<br><br>Besides the i=
-ssue where the database fails to rebuild due to the NIST API&#39;s<br>stabi=
-lity, is there any other feedback or are there any concerns with this<br>pa=
-tch?<br><br>Thanks,<br>Colin</div><br><div class=3D"gmail_quote gmail_quote=
-_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 2, 2024 at 6:=
-15=E2=80=AFAM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siemens.com">P=
-eter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">This is due to current NVD DB stability issues.<br>
-WARNING: cve-update-nvd2-native-1.0-r0 do_fetch: CVE database update failed=
-<br>
-This can happen only if API calls to NVD DB fail.<br>
-<br>
-So either valkyrie infrastructure needs to increase the retry settings to 2=
-0+<br>
-(via CVE_DB_UPDATE_ATTEMPTS, I did that &quot;temporarily&quot; two weeks a=
-go on our infra),<br>
-or this change needs to wait until NVD DB infra is fixed (which can take a =
-loooong time).<br>
-Of course the increase of timeout may mean the update job may take 3-4 hour=
-s more...<br>
-But once it completes, the DB file will be cached and all should return to =
-normal.<br>
-<br>
-Peter<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Mathieu Dubois-Briand via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; Sent: Monday, December 2, 2024 12:34<br>
-&gt; To: <a href=3D"mailto:colinmca242@gmail.com" target=3D"_blank">colinmc=
-a242@gmail.com</a><br>
-&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: Re: [OE-core] [PATCH] cve-check: Add versioned CVSS vector st=
-rings<br>
-&gt; <br>
-&gt; On Sat, Nov 30, 2024 at 05:50:38PM +0000, Colin McAllister via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; Currently, cve-check includes a vector string for each CVE includ=
-ed in<br>
-&gt; &gt; the issue list for each package. This vector string is the lowest=
-<br>
-&gt; &gt; CVSS version that&#39;s available. For example, if a CVE has both=
- a v2 and<br>
-&gt; &gt; v3.1 vector strint, the v2 vector string is only included.<br>
-&gt; &gt;<br>
-&gt; &gt; This patch adds each supported vector string (v2, v3, and v4). Fo=
-r v3,<br>
-&gt; &gt; v3.1 is preferred over v3. If a vector string is not available fo=
-r a<br>
-&gt; &gt; given verison, the string will default to &quot;UNKNOWN&quot;.<br=
->
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Colin McAllister &lt;<a href=3D"mailto:colinmca242=
-@gmail.com" target=3D"_blank">colinmca242@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Hi Colin,<br>
-&gt; <br>
-&gt; Thanks for your new patch. As for last week, it seems to be triggering=
-<br>
-&gt; some issues on the autobuilder:<br>
-&gt; <br>
-&gt; ERROR: cve-update-nvd2-native-1.0-r0 do_unpack: Error executing a pyth=
-on<br>
-&gt; function in exec_func_python() autogenerated:<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function:=
- &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
-&gt;=C2=A0 *** 0002:do_unpack(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
-&gt; File: &#39;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/r=
-ecipes-<br>
-&gt; core/meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"noreferr=
-er" target=3D"_blank">cve-update-nvd2-native.bb</a>&#39;, lineno: 105, func=
-tion: do_unpack<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0101:do_fetch[vardeps] =3D &quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0102:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0103:python do_unpack() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0104:=C2=A0 =C2=A0 import shutil<br>
-&gt;=C2=A0 *** 0105:=C2=A0 =C2=A0 shutil.copyfile(d.getVar(&quot;CVE_CHECK_=
-DB_DLDIR_FILE&quot;),<br>
-&gt; d.getVar(&quot;CVE_CHECK_DB_FILE&quot;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0106:}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0107:do_unpack[lockfiles] +=3D &quot;${CVE_CHECK_D=
-B_DLDIR_LOCK}<br>
-&gt; ${CVE_CHECK_DB_FILE_LOCK}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0108:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0109:def cleanup_db_download(db_file, db_tmp_file)=
-:<br>
-&gt; File: &#39;/usr/lib/python3.9/shutil.py&#39;, lineno: 264, function: c=
-opyfile<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0260:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0261:=C2=A0 =C2=A0 if not follow_symlinks and _isl=
-ink(src):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0262:=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.symlink(os.rea=
-dlink(src), dst)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0263:=C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 *** 0264:=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(src, &#39;rb&#39;=
-) as fsrc, open(dst, &#39;wb&#39;) as fdst:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0265:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # m=
-acOS<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0266:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if =
-_HAS_FCOPYFILE:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0267:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 try:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0268:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 _fastcopy_fcopyfile(fsrc, fdst, posix._COPYFILE_DA=
-TA)<br>
-&gt; Exception: FileNotFoundError: [Errno 2] No such file or directory:<br>
-&gt; &#39;/srv/autobuilder/<a href=3D"http://valkyrie.yocto.io/current_sour=
-ces/CVE_CHECK2/nvdcve_2-" rel=3D"noreferrer" target=3D"_blank">valkyrie.yoc=
-to.io/current_sources/CVE_CHECK2/nvdcve_2-</a><br>
-&gt; 3.db&#39;<br>
-&gt; <br>
-&gt; <a href=3D"https://valkyrie.yoctoproject.org/#/builders/76/builds/524/=
-steps/15/logs/st" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoc=
-toproject.org/#/builders/76/builds/524/steps/15/logs/st</a><br>
-&gt; dio<br>
-&gt; <a href=3D"https://valkyrie.yoctoproject.org/#/builders/35/builds/532/=
-steps/14/logs/st" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoc=
-toproject.org/#/builders/35/builds/532/steps/14/logs/st</a><br>
-&gt; dio<br>
-&gt; <br>
-&gt; Is this something you can fix ?<br>
-&gt; <br>
-&gt; --<br>
-&gt; Mathieu Dubois-Briand, Bootlin<br>
-&gt; Embedded Linux and Kernel engineering<br>
-&gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://bootlin.com</a><br>
-</blockquote></div>
+Schedule a web meeting:
+https://calendly.com/reliableembeddedsystems/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
 
---0000000000007a18000628d717a8--
 
