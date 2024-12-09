@@ -1,114 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DACE7717D
-	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 16:54:53 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.106842.1733763288336576252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEDBE77180
+	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 17:01:03 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.106857.1733763659505015046
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Dec 2024 08:54:48 -0800
+ Mon, 09 Dec 2024 09:00:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IyXsGYOt;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434a2033562so43762755e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 08:54:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SeuPmpa4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-434a852bb6eso44857275e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 09:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733763287; x=1734368087; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQ3a6xpxs9GgA0SogE6VWHaqrvND7Vh7ipV0cqcBb9w=;
-        b=IyXsGYOt+4GzPALTxsvWast9iiDCe14vTKdNP4ZkbUAKrnK77zGsAB6mO/GBuNevgY
-         lboFQGekLVAo5by9wWKEnUwHJpYgpZeXfjsUrv8ZpQr/0M9u8byRo+QEFxnBFHd//Alq
-         5SSM/OIE/4pqvSgWBiSGYKewRwpZAw5ennoiUd6cmqkd+BSee3ds4mcpYQlQwc++f0eR
-         ddI5lDU0T3IRnOxvZHodPLIjvokwbGwBtrdNA3PYKY4fir84s07wgzaudCiiJdSDNbLd
-         xr8alRtaI7VhHRx6o7fGgGg1T/v3O0bwQfJth1i6FOAq78gBv3SXRVwE5THYOG9D8xfT
-         8iLg==
+        d=linuxfoundation.org; s=google; t=1733763658; x=1734368458; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KXjO+rtozg2T32K1OaUS5FSiXiMv5ktoGeaHHjiVRzU=;
+        b=SeuPmpa43OywUTFQ38mZQkBOEzJRYPtYEeL4JXkGzH61PucU6/fZ4DAd43rNqVRxy+
+         w+j088yvSOVlkwpHJubF2gPMJyUBlwUZM/mNgy/elivzJmVSenbwgIHxVyeLrYA9Xp+M
+         0ggqgRVknX6FAZ3QYZM7V1pzW7rrao3nk2PuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733763287; x=1734368087;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pQ3a6xpxs9GgA0SogE6VWHaqrvND7Vh7ipV0cqcBb9w=;
-        b=UdbatMMT1tbgOHy6Srrm0pt9XwsWu8RDNAHce7xCPV5ANBm4qMeAV5fE6ZtOKxBxCp
-         0VytizybNVTy1WkG2Zq+xod0HRC4wEIp/syjJ3aICin/WiJJO0InSFplZUcEMEWzAt9e
-         q2HoayGTq5K/goQNlWuZLR2nNGtQ525BGYaWquKJc4V7KXt4ifUcYso0nqeeqFBr6Jb5
-         GCMCyVRD14zWIPyReL5W4dabS8yF3PD9yGKOFCunI+sMZTtGVICleGWguKAUOUYDz521
-         Z+fuz5l0JlraBXOF8Tbw59KZTLi6n1eyX7VwluHsM+EgAdx48lXk8KcaHpna+sdP4wXp
-         OGsg==
-X-Gm-Message-State: AOJu0YyOBAJv5gWKH1GE1zOPPwR+k3f2kFKK5rw7g7oiwYzmHb77Z5Bg
-	gm+ISxqnLGVYwZfwjVrZ2K1BevQQOExqeJqHCKNhE4biilrDpkdH7lHIeA==
-X-Gm-Gg: ASbGnct8YkIY9x3OozprgYBM6uOvidHvm9AY0odlbvvUqX8Ksx3Z1PWWLfHoFeo+egV
-	JkbsGnV1Xfuh+5hL67a1n8J5cMe3PnREjIC6044Ep/b1YQ3kHxb4ilDveVadUxva3jd37eWY8ej
-	iqfRwXKIQQbKB7/072PwmZAsW/FPP9VVIf6uKWNzA9HfC3rjq8gBucdRGbkQL/Ax8a9Du/JeCkb
-	u4rBibdrAKY5bi6y9RGRXC30mgxhccDScXZNBx3u5WqBKW/KfKk5p0GKbUd3EcupbROAl/lXkUx
-	u+HG5+C/yO8=
-X-Google-Smtp-Source: AGHT+IFbmvVFWARYvnWPzEYb1GbMCpyuYKJBiP7cOxZrt6bgE+TWHv5e1TP1oxqnNTOtAeG3vOr9Dw==
-X-Received: by 2002:a05:600c:1f85:b0:431:547e:81d0 with SMTP id 5b1f17b1804b1-434ddeb5a8amr102915055e9.11.1733763286346;
-        Mon, 09 Dec 2024 08:54:46 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-386348182d4sm8390183f8f.53.2024.12.09.08.54.45
+        d=1e100.net; s=20230601; t=1733763658; x=1734368458;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KXjO+rtozg2T32K1OaUS5FSiXiMv5ktoGeaHHjiVRzU=;
+        b=Qi/arJAiPUqLx1+2wu+8bCDK/3oDpW1i+4rnK61DiS97LHeD2rJQPsoKZGSfmaAeFf
+         uvSYJQg0FQ2iITSgHLEifQzFdh5xBzxRUY7JIZZKS4mkhFtFg941BDAZbEY5+WLXOWKg
+         q30nfqEBrXC4ig3vEZiFnm0jKrlnCMdhrtGoR8NkMpf/DPGFqasfKg+sfNHajt1zLVjW
+         pKWqP2vCmEym//pypdv8XV45BY0pXEktA3ngWmC4en+2oIkYcB8UFOoA7f3Xs74g09T3
+         96GWCyAHevqBt3sstN7nNRZ4aaO1bygCfXNqYcAIUJuYClw3nDbXAkXQNwOoZ0EkdUxD
+         vzjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUz8Jx5AVZgFxw3BEchzOxNA6i6icadaBMg5At9FF/HdPhU5gYfSY9SYLeuOoGFeoBWjMOOvEQ3/Y9ma/ffdH3aLw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzDY4cDozEC/GbeI0cwDNJQytZo/O15WXkBjVEepXtZ+IzbY8co
+	Maycw6KVVXDB0IJ1Cg5V9N9XSyqU7XGJT5sCyn1jMVb/JxQUYFihZY5WpUmk03M=
+X-Gm-Gg: ASbGncuLHQOW6q+Ovl//WCC/d2dMu3BubSxuNjO97Qhc/e6AT+u6KnlR2EDrg+fbcel
+	aZ00Xb0pkh8hgOsVGdNI6gDmS//KkFvuHsYjHr7mZlUEYIQkn+cCaiayVzwtMFurUUEEDICI4xp
+	48q8wx1LYJmUDnMIOla3orj/fEcSe0vYqmiNz7piR5oQaDLjDvaeuF3075km8yK1M3qe5EqAvRm
+	4Z/Rlsw6NhmDcMTJRO82RP+dZh/uRMtqXqbgfCUHW5wrLldQC/O9XS/HHdNmFKPpxlHJGi50OTs
+	yI/Hxg6ehrFWZvW9Aw92D4pVLzs1gaFSupJJs+Y=
+X-Google-Smtp-Source: AGHT+IE7BQHpV/FTVg9W6QGN4/eSwQv00YnS+vDnriXTdmwfUxhC1hdZhO/p8RZQ4y5mHewThM/VPg==
+X-Received: by 2002:a05:600c:1c0f:b0:434:f8a0:9dd8 with SMTP id 5b1f17b1804b1-434fff307dfmr10740325e9.1.1733763657721;
+        Mon, 09 Dec 2024 09:00:57 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2b41:c06d:2eaf:52ed? ([2001:8b0:aba:5f3c:2b41:c06d:2eaf:52ed])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434fb066874sm30545565e9.32.2024.12.09.09.00.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 08:54:45 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH] dbus: disable assertions and enable only modular tests
-Date: Mon,  9 Dec 2024 17:54:39 +0100
-Message-Id: <20241209165439.2549621-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        Mon, 09 Dec 2024 09:00:57 -0800 (PST)
+Message-ID: <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
+ config fragments
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Mon, 09 Dec 2024 17:00:55 +0000
+In-Reply-To: <20241118162643.1423409-3-alex.kanavin@gmail.com>
+References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
+	 <20241118162643.1423409-3-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 16:54:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208489
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 17:01:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208490
 
-There was a report that enabling assertions and all tests results in
-notices in log.do_configure:
+On Mon, 2024-11-18 at 17:26 +0100, Alexander Kanavin via
+lists.openembedded.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>=20
+> This allows fine-tuning local configurations with pre-frabricated
+> configuration snippets in a structured, controlled way. It's also
+> an important building block for bitbake-setup.
+>=20
+> There are three (and a half) operations (list/enable/disable/disable
+> all), and here's the 'list' output:
+>=20
+> alex@Zen2:/srv/storage/alex/yocto/build-64$ bitbake-config-build list-fra=
+gments
+> NOTE: Starting bitbake server...
+> Available fragments in selftest layer located in /srv/work/alex/poky/meta=
+-selftest:
+>=20
+> selftest/test-fragment	(disabled)	This is a configuration fragment intend=
+ed for testing in oe-selftest context
+> selftest/more-fragments-here/test-another-fragment	(disabled)	This is a s=
+econd configuration fragment intended for testing in oe-selftest context
+>=20
+> The tool requires that each fragment contains a one-line summary, and one=
+ or more
+> lines of description, as BB_CONF_FRAGMENT_SUMMARY[layerid/fragmentname] s=
+tyle metadata.
 
-NOTE: building with unit tests increases the size of the installed library and renders it insecure.
-NOTE: building with assertions increases library size and decreases performance.
+The other area I've been wondering about is this output. I think we
+need to take a quick step back and look at it from a usability
+perspective and make sure we're showing the information in the optimal
+way.
 
-This was overlooked when dbus and dbus-tests recipes were merged;
-enabling all tests and assertions still requires a special, separate
-build of dbus. If those tests are useful this could be revisited.
-Until then, we should use productions settings for the main recipe.
+I'm far from a UI expert, in fact I've been told I shouldn't comment on
+such things however I do have some thoughts.
 
-Buildhistory-diff:
-packages/core2-64-poky-linux/dbus/dbus-dbg: PKGSIZE changed from 9958176 to 8627824 (-13%)
-packages/core2-64-poky-linux/dbus/dbus-lib: PKGSIZE changed from 544347 to 346339 (-36%)
-packages/core2-64-poky-linux/dbus/dbus-ptest: PKGSIZE changed from 3524983 to 3116951 (-12%)
-packages/core2-64-poky-linux/dbus/dbus-ptest: FILELIST: removed "/usr/share/installed-tests/dbus/test-dbus-launch-eval.sh_with_config.test /usr/share/installed-tests/dbus/test-counter_with_config.test /usr/libexec/installed-tests/dbus/test-dbus-launch-eval.sh /usr/libexec/installed-tests/dbus/test-dbus-launch-x11.sh /usr/share/installed-tests/dbus/test-counter.test /usr/libexec/installed-tests/dbus/test-counter /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh.test /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh_with_config.test /usr/share/installed-tests/dbus/test-dbus-launch-eval.sh.test"
-packages/core2-64-poky-linux/dbus/dbus: PKGSIZE changed from 510939 to 350331 (-31%)
+Firstly, I think the "(disabled)" is the wrong way to show that
+information. It would be more compact and perhaps more usable to show
+the elements sorted into two sections along the lines of:
 
-(From OE-Core rev: 054ce01ae84eb10e055a41ec8dd85ebce9ea23c8)
+"""
+Enabled fragments:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/dbus/dbus_1.14.8.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+selftest/test-fragment - This is a configuration fragment intended for test=
+ing in oe-selftest context
 
-diff --git a/meta/recipes-core/dbus/dbus_1.14.8.bb b/meta/recipes-core/dbus/dbus_1.14.8.bb
-index f03e5c2d2e4..6f4d8ae92e9 100644
---- a/meta/recipes-core/dbus/dbus_1.14.8.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.8.bb
-@@ -22,9 +22,8 @@ EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --enable-largefile \
-                 --with-system-socket=/run/dbus/system_bus_socket \
--                --enable-tests \
-+                --enable-modular-tests \
-                 --enable-checks \
--                --enable-asserts \
-                 --runstatedir=/run \
-                 "
- EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
--- 
-2.39.5
+Unused fragments:
+
+selftest/more-fragments-here/test-another-fragment - This is a second confi=
+guration fragment intended for testing in oe-selftest context
+"""
+
+Secondly when listing the fragments, the current approach does lend
+itself to cut and past but also doesn't group neatly. For example you
+could do something like:
+
+selftest/
+  test-fragment - This is a configuration fragment intended for testing in =
+oe-selftest context
+  more-fragments-here/test-another-fragment - This is a second configuratio=
+n fragment intended for testing in oe-selftest context
+
+I'm torn on that but it may be easier for people to read. We should
+also think about how terminal line wrapping will effect the output and
+try to ensure it remains readable.
+
+As with the previous email, I'm open to other thoughts on this.
+
+Cheers,
+
+Richard
 
 
