@@ -1,80 +1,78 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BEAE77173
-	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 07:05:10 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.95473.1733727904230503963
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDBEAE77173
+	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 08:41:50 +0000 (UTC)
+Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
+ by mx.groups.io with SMTP id smtpd.web11.96466.1733733706230784195
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Dec 2024 23:05:04 -0800
+ Mon, 09 Dec 2024 00:41:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=P8k6oYSs;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D45C91C0009;
-	Mon,  9 Dec 2024 07:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733727902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wbuRZ4JtCiTecMeCBv84/gMxmArySPoivJLI7UOZFTk=;
-	b=P8k6oYSsPmrvPkrw6iYNvY7w6Br3igI3hIYtlEAOLaLzhBzkh5Jc3wKNP2bssvn+BFh3t3
-	3jfvwL0D2WGt9/pzEYnGqIpCj1hOCjMyh5+dRFqdywY2gKIb9YvRGmdCS039kwwh0gTvNY
-	RscmSuxo2/zFdic69pIuhMrVfQ6WjGGBTD1GFqryaGtPJ3+ujnw+QO0qdaoW3/O9x4tQSC
-	vfUaPEpo/cieICeR2so4tBAkOypzy8D71XdcZBmjQaHIzlYVd74qYVAMOqkrwXsL83i8Zc
-	5t2mTURiwqyurXvFqwJgAhlecREYrenliQY1UsTw+aKsb7547/wu86OStwEntw==
-Mime-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 9 Dec
+ 2024 16:41:43 +0800
+Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Mon, 9 Dec 2024 16:41:43 +0800
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <troy_lee@aspeedtech.com>, <jamin_lin@aspeedtech.com>
+Subject: [PATCH v1] python3-pyhsslms: Add 2.0.0 recipe
+Date: Mon, 9 Dec 2024 16:41:42 +0800
+Message-ID: <20241209084142.939432-1-jamin_lin@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Dec 2024 08:05:02 +0100
-Message-Id: <D66Z8Z0753NP.2HHE39VDDW4FO@bootlin.com>
-Cc: "Robert Berger" <Robert.Berger@ReliableEmbeddedSystems.com>
-Subject: Re: [OE-core] [PATCH v2] wic: bootimg-pcbios.py: optionally pass
- 'initrd' from .wks(.in) via sourceparams
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <oecore.mailinglist@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241206164822.18330-1-Robert.Berger@ReliableEmbeddedSystems.com>
-In-Reply-To: <20241206164822.18330-1-Robert.Berger@ReliableEmbeddedSystems.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 07:05:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208474
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 08:41:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208475
 
-On Fri Dec 6, 2024 at 5:48 PM CET, Robert Berger via lists.openembedded.org=
- wrote:
-> optionally allow to pass 'initrd' from .wks(.in) via sourceparams
->
-> Signed-off-by: Robert Berger <Robert.Berger@ReliableEmbeddedSystems.com>
-> ---
+This recipe was placed in meta-arm meta layer,
+https://git.yoctoproject.org/meta-arm/tree/meta-arm/recipes-devtools/python=
+/python3-pyhsslms_2.0.0.bb
 
-Hi,
+However, users may want to build this python module but do not want to add
+"meta-arm" layer. To make this recipe more flexible, move this recipe from
+meta-arm to OpenEmbedded-Core/meta layer.
 
-I believe this patch is the source of the following error on the
-autobuilder:
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+---
+ .../python/python3-pyhsslms_2.0.0.bb               | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyhsslms_2.0.0.bb
 
-  File "/srv/pokybuild/yocto-worker/wic/build/scripts/lib/wic/plugins/sourc=
-e/bootimg-pcbios.py", line 177, in do_prepare_partition
-    initrd_dir_and_file =3D os.path.join(deploy_dir_image, initrd)
-  File "<frozen posixpath>", line 89, in join
-  File "<frozen genericpath>", line 188, in _check_arg_types
-TypeError: join() argument must be str, bytes, or os.PathLike object, not '=
-NoneType'
-
-https://valkyrie.yoctoproject.org/#/builders/15/builds/580/steps/12/logs/st=
-dio
-
-Can you have a look at this issue, please ?
-
-
+diff --git a/meta/recipes-devtools/python/python3-pyhsslms_2.0.0.bb b/meta/=
+recipes-devtools/python/python3-pyhsslms_2.0.0.bb
+new file mode 100644
+index 0000000000..b18d1c8e86
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pyhsslms_2.0.0.bb
+@@ -0,0 +1,14 @@
++SUMMARY =3D "Pure-Python implementation of HSS/LMS Digital Signatures (RFC=
+ 8554)"
++HOMEPAGE =3D"https://pypi.org/project/pyhsslms"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Dbbc59ef8bf238c2902ca816b87b=
+58571"
++
++inherit python_setuptools_build_meta
++
++# Maintainer refused to upload source to pypi.org, but said he would in a =
+future release.  In the meantime, do github
++SRC_URI =3D "git:///github.com/russhousley/pyhsslms.git;branch=3Dmaster;pr=
+otocol=3Dhttps"
++SRCREV =3D "c798728deed6d3f681c9e6bfd7fe8a6705f5638b"
++
++S =3D "${WORKDIR}/git"
++
++BBCLASSEXTEND =3D "native nativesdk"
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
 
 
