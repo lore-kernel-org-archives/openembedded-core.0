@@ -2,133 +2,110 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E93FE77182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A1AE77183
 	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 20:56:57 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.3952.1733864213750250904
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.3950.1733864212191814867
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 12:56:53 -0800
+ Tue, 10 Dec 2024 12:56:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xharGWOE;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7fd4c0220bbso2796289a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:56:53 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=feOooDHc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7fdc6e04411so1161406a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:56:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733864213; x=1734469013; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733864211; x=1734469011; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ma8RC9FSZGvZeJgLBO9uY62pAdBkZv5RCDUHTSTovUM=;
-        b=xharGWOEkQ5diPp3nTFv8CO7bIf4tAndlrt2/F6j4z4rjG4L9cdU6JueGQwtbS5nPR
-         9D8qesMJ4REC5UFzfwgAFKyM5Ds+cio5NUHflXykwlrN+w4B28cCG2LUzJiolXe7NyON
-         n6ePC87+NWQPyZcgBDiIvJ1KIZHzia4AEMMxI7EwJ4LyvCcGzksgMiHUHpn66hr9j3Yw
-         HV3XtsypLS4CG65L0KDwufDJtZevzTnpZLRBeKvWx8FegU2BFdelbp0Zp1i+Lt6qw7jL
-         qhZsp+Ogy+19BZUo8yPSzEfYVesA7Ep45OmAgD7Q4M3Xd4DKSW26rHUcjMSkOGxyyKM3
-         AIsQ==
+        bh=R3JYqvCoIrChbAxk1J1bbb8r3TNEOe8KUuVpps0mXN0=;
+        b=feOooDHcWUVCYCLX7wrxMZivpRpq80/ta7VRicpedJLIRC6Rudr3/YtfIBfero2ZhQ
+         v7fhxV7nhFtnC+YAwtyFeQzwdEmTuuBWlX1eHMHivpjRwCaskcRAeRHWIJ7YU6FiDpYt
+         WY8Ig4mTxeR4Smw4EAN2l3Su6yCBL2lwWB/PlMWxiMSor1vmz2Nng5XSy4eZ2HOF/m1n
+         fpnGcEQpw6fxsSQwxqYyxPncFtb6TFxViMz05Oqx+PAPGM2l+nfPzs/YPiCAuLDbFt3N
+         B17WtdP5IazbtPzsWmXCKMnZ+Sj6xlcVUMAYV6PzVgMO2jqdQgPF0zAxhlD6RBNhC233
+         TOzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733864213; x=1734469013;
+        d=1e100.net; s=20230601; t=1733864211; x=1734469011;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ma8RC9FSZGvZeJgLBO9uY62pAdBkZv5RCDUHTSTovUM=;
-        b=f3jHxge/tw+cHO9pl0o8psbKOQVKCLs7WYoWzKVEcCtPBvAq5/vE68pHknaAKmxXQS
-         62WR4c50CQ3fG70fPXGfAjaNB8UfYch66OJxcvjZsZOEb2Eg+DhbrBHhFtKnbQfQwGtc
-         /BtKBSs1xZGgzvk6P9RNqlNCmmYTZqUKaxJJJ9SF0KruLqIFoJciCCNtvUEMDqaw/JI2
-         R7184P/RR2F5S83h36Yev0xzzRDBznz5JZgcZ0j7jbaEw662nAFw7hAwcK/FOuwfFwfn
-         ygvHcZ7U5piL2ZBK+UwEO1exL7ShQq3bZOIHCr04AsW9G/BuJBYePLR9wxNkvPU6TeBM
-         PeQA==
-X-Gm-Message-State: AOJu0Yz11+s5Kt/a+Z4cEa8pibUk5z/77SRjclF3nwXoOu3spsalGO72
-	VxMvVqU4D/+y6rhxgKedm6A1mU3yIYX0GnGk2OUSZFATAZ4/5zSd4wCY32RL+zCQ5I92t1LW0Bv
-	W
-X-Gm-Gg: ASbGncvk2ZezVXnfzvJ0QPHq0g3QPHrb0MjxFuXQI440HEVapgQupDeAq4vM8JIdtNL
-	yZ8UzNYMmCVyGvBziS1dYjYxOzy7k9IV9pcqP0GgmXLsWoMizqh8dnmgmX7sslP2W7wvWVIHCrb
-	Y3KlP6agFoig8uoP8qoY6eR7Az6UR4/tgBMtsGY/lwREXSzHy226Ryz7Lfjhv+bmJuZTN1pxDfc
-	5wYfqaNSgSJeodP15m8ZHC+BrEbXKjxgM8R2gqkGxg=
-X-Google-Smtp-Source: AGHT+IHMUM/d8MDb3xXlaezJckgWvZIr9+uFDncJmgDhDoCPJ8cbT/NAd0JcWl5wiYX4Vsx68cnuvg==
-X-Received: by 2002:a17:90b:1fc3:b0:2ea:77d9:6345 with SMTP id 98e67ed59e1d1-2f127fdb4afmr636246a91.22.1733864213019;
-        Tue, 10 Dec 2024 12:56:53 -0800 (PST)
+        bh=R3JYqvCoIrChbAxk1J1bbb8r3TNEOe8KUuVpps0mXN0=;
+        b=fg9NNcXZi+LJTSd0zxGCq6YZ2H4P8YKE7QgmeK37r0W/J62KagZ08HwPfV5zbP+azs
+         r81yKcla/cqmjCA2gbaSLeRTPu3gLWhyoSEPs8He3BJ7ClZZqbHsZwU7qQ5yTAEbbfY8
+         kwsUA3pUYW1kC13ljD7TG17STz2lH+BhkeqjS+l5jkrYn5vybjHJenI6rB8NZnmDx5m4
+         0siN/xq6EodArUnqj+ZEA64BPTkeDwVrQgIdjsfJwQp9HbD78+QK/MMxvoUurX7bUu2y
+         CW8wGEI3VWqz4jIyy78dLnnYppVtmetLGo3iHNL4KyRZin1HC49dVftX/xilBXi7lgWa
+         dX5g==
+X-Gm-Message-State: AOJu0YyVgY014z48bcwVPoz+4wRCHNzLNBdRDaux2zilSBpzSFxpAHWm
+	k7BH6jcmLVUomOe4e9va81Dv27qzTqXqqO26ZYoSRylaG59xzjVWzphj5B0LX/PUQaY9VlJlAPp
+	d
+X-Gm-Gg: ASbGncvZRboYln9xjiexpNcCH7F+LH6X+fXd6BrnA64YbCzYZd/h/mPRCzKj6gax++B
+	NgqioL8kEAn93Q97SikJoX+ccQek+EbF2c3HGdy6OfMP2YmYUETXN9XJ3P6dC6fAX/mAzpw4QUK
+	t8/G0M6fhUh30CjzNcdFCIyNtqev0MtU3souBvAlmAurO0h4+9Lh3w7et/M5xo2q9wHHpYpAdZh
+	4Du74AijQ7i/QiqUMV8J54Dotdgn2C36e1il0DcpiE=
+X-Google-Smtp-Source: AGHT+IEHGm3swk3cW6yXqaCaVwLZ4shzmvUYspVcPPqgWo6wa1EKiwrHn+vl4v+IRS5DHdzkbGNS7Q==
+X-Received: by 2002:a17:90b:5112:b0:2ee:ba0c:1718 with SMTP id 98e67ed59e1d1-2f1280effe4mr626300a91.37.1733864211469;
+        Tue, 10 Dec 2024 12:56:51 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef45ff77b9sm10245470a91.36.2024.12.10.12.56.52
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef45ff77b9sm10245470a91.36.2024.12.10.12.56.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 12:56:52 -0800 (PST)
+        Tue, 10 Dec 2024 12:56:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/12] sanity: check for working user namespaces
-Date: Tue, 10 Dec 2024 12:56:28 -0800
-Message-Id: <3577ceca39c7c3be81563de9ccf06a805f61d3ca.1733863624.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/12] dnf: drop python3-iniparse from DEPENDS and RDEPENDS
+Date: Tue, 10 Dec 2024 12:56:27 -0800
+Message-Id: <3273ace1e5e4b0573ceaa44f2710f651db9ae525.1733863624.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733863624.git.steve@sakoman.com>
 References: <cover.1733863624.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 20:56:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208555
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208554
 
-From: Ross Burton <ross.burton@arm.com>
+From: Guðni Már Gilbert <gudni.m.g@gmail.com>
 
-If user namespaces are not available (typically because AppArmor is
-blocking them), alert the user.
+python3-iniparse dependency was dropped 2019, see the
+following commit as reference:
+https://github.com/rpm-software-management/dnf/pull/1329/commits/d7d0e0e2f9d8c7d021c794821ad0b56a39ebc01f
 
-We consider network isolation sufficiently important that this is a fatal
-error, and the user will need to configure AppArmor to allow bitbake to
-create a user namespace.
+When looking at the Git history, this happened around tag 4.2.1
 
-[ YOCTO #15592 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b6af956fe6e876957a49d4abf425e8c789bf0459)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/sanity.bbclass | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ meta/recipes-devtools/dnf/dnf_4.19.0.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 1d242f0f0a..72dab0fea2 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -475,6 +475,29 @@ def check_wsl(d):
-             bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
-     return None
+diff --git a/meta/recipes-devtools/dnf/dnf_4.19.0.bb b/meta/recipes-devtools/dnf/dnf_4.19.0.bb
+index 37a2cc7de2..9c7c59818e 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.19.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.19.0.bb
+@@ -27,7 +27,7 @@ S = "${WORKDIR}/git"
  
-+def check_userns():
-+    """
-+    Check that user namespaces are functional, as they're used for network isolation.
-+    """
-+
-+    # There is a known failure case with AppAmrmor where the unshare() call
-+    # succeeds (at which point the uid is nobody) but writing to the uid_map
-+    # fails (so the uid isn't reset back to the user's uid). We can detect this.
-+    parentuid = os.getuid()
-+    pid = os.fork()
-+    if not pid:
-+        try:
-+            bb.utils.disable_network()
-+        except:
-+            pass
-+        os._exit(parentuid != os.getuid())
-+
-+    ret = os.waitpid(pid, 0)[1]
-+    if ret:
-+        bb.fatal("User namespaces are not usable by BitBake, possibly due to AppArmor.\n"
-+                 "See https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions for more information.")
-+
-+
- # Require at least gcc version 8.0
- #
- # This can be fixed on CentOS-7 with devtoolset-6+
-@@ -641,6 +664,7 @@ def check_sanity_version_change(status, d):
-     status.addresult(check_git_version(d))
-     status.addresult(check_perl_modules(d))
-     status.addresult(check_wsl(d))
-+    status.addresult(check_userns())
+ inherit cmake gettext bash-completion setuptools3-base systemd
  
-     missing = ""
+-DEPENDS += "libdnf librepo libcomps python3-iniparse"
++DEPENDS += "libdnf librepo libcomps"
  
+ # manpages generation requires http://www.sphinx-doc.org/
+ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
+@@ -49,7 +49,6 @@ RDEPENDS:${PN} += " \
+   python3-sqlite3 \
+   python3-compression \
+   python3-rpm \
+-  python3-iniparse \
+   python3-json \
+   python3-curses \
+   python3-misc \
 -- 
 2.34.1
 
