@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF882E7717F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F82E77182
 	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 20:56:46 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.3943.1733864202740917386
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.3944.1733864204176906093
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 12:56:42 -0800
+ Tue, 10 Dec 2024 12:56:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UcLUnlNB;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7fd45005a09so2037588a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:56:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aQmP2awj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ee6c2d6db0so5333572a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733864202; x=1734469002; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733864203; x=1734469003; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xkk2+YxQJ0zIsJWXce1x5t5snM40mftNztTDmM/Ilvo=;
-        b=UcLUnlNB9pIWizqKCNCqmC4VEZbI6HgavjwDry+hOBrUVj6mE2R9nKYCSv3LY+eml8
-         2ITvvGgEVduNch9tC7MgtMev4Jh9keZ0hCuCqiuRpBOM2d4Zqqh/9BbwOGqJKrDnisit
-         v88YJFuFxODVv8M40UcmgrhJxRiFT+0pybFW53bttR2zUUzPRrssjDhkl8kB/8/DoUhV
-         BPK8dE81l/sCJY5LBf0UdP4w4b+S2D77jHoawCYmmDa9OwktCaKbO38fe4DOf59nykgI
-         33Kx/5r63s9vp89175afX3C71OSDZ5ogPcv14C+/Pu7jRs5GTkhyw+zZ/KyS8m1/1jk4
-         YWiw==
+        bh=PuUHVQCswlzYbvobDYLhncBUImR62llYhq9rgUmg2P8=;
+        b=aQmP2awj/o1UQbNfEkQ+RSWndbngGlWNZSPmecN8XR8mesxG6bGYeZmM5f6gvI1LJA
+         15AvPvmpF0n19T6nfkrQ1fNfCIlCZKP8V5853Fo+aXVBK9gSfBeziykiqhl4UqG1tFbL
+         RXaP0yGxsTUgVAISgkxxGfwTRxnA0u+GBYW7IUEoR41Drec6iqFpXP307TOkTErabaUM
+         LjrkIsf4e7B9FZU+XFxDBTOH7xYRy/+wv1Keb5evYbD2P/mTGZvp8aiEl0YWK4ecODvO
+         9vUVhTX9FB/So9e2+A7IZ7EhXQU2J61bPY9z1DiMhDgrIFwUI6zseM+E8k3gnAm5FsC3
+         AJpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733864202; x=1734469002;
+        d=1e100.net; s=20230601; t=1733864203; x=1734469003;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xkk2+YxQJ0zIsJWXce1x5t5snM40mftNztTDmM/Ilvo=;
-        b=AKk197L3dw1KgJapFhrIk/KuUqQE+GtJiLxcZk8aOT4tYgqf1wR9n7JD+dfn4wmHR8
-         WhQgxPVvfw+/mBpeWWGPKbbDySBR2zs2nfKuSIud2VR77Q8J09Ox7mifFw0geAKmuGC7
-         +g5J/abSY9imRsGiKzAnKb9wouTJVYDTfzM8yydWiogJThgDGLYzMW1Ps9003jEbtWjC
-         fNZ3/pOcJSRNiEcrf5eF2CCRetfdme2YY7JDrsDMzg/JVeFVOeHGQ46UuKYIpOlJayxm
-         VvyjEpWVdZIPRlieXmLi1GxaGHm/D+wFzTVlSoYQPCNocFe1l9gVIXNd8l7XzJff7REg
-         s+TQ==
-X-Gm-Message-State: AOJu0Yxg2AUDXa29Yy4fVMN2FZH7pd8Xl56inJctY7MxNhVk44LhL7VS
-	F+OuBDQWjFnPJyD+5ywaM5YmulQRvYUqnt8LVLsYCpLKmF2848RoPjkySu3NCT2TiqzwK/Os6TI
-	U
-X-Gm-Gg: ASbGncu+o2xlQgk03xKOArC7YhlU05DWrpxLL9iWKNfQK+MqEJek3sOoZt8v3Up3PS2
-	qjieFI5sfv5OkhAJ7358FJv6zrlDVxPfwXUC0CSJRGbQ0VIYoqKxa1BJN1a2NCGX1LTDm987LvG
-	CdPFqYKvkOo7qu5KI4RSU6OqY/ZqmsPXQS+wr9+jrJdb+b1FcmRz7U4m1pCVlvs9Sxr2gA0BiUQ
-	97iqLRqVCJo/3+3IvfGviwNBe0LE7OHDkGEqOUGZz8=
-X-Google-Smtp-Source: AGHT+IECgvFyKhF9fhoOYO210Fl4K4ple1qRXqXYFzn7Lu4bq9nFYHkqRwL2zI2vLMJd1w8eKecP2w==
-X-Received: by 2002:a17:90a:578e:b0:2ee:c918:cd60 with SMTP id 98e67ed59e1d1-2f127fee938mr653546a91.20.1733864201949;
-        Tue, 10 Dec 2024 12:56:41 -0800 (PST)
+        bh=PuUHVQCswlzYbvobDYLhncBUImR62llYhq9rgUmg2P8=;
+        b=Ot6UXtDraUfTlREf9YmjheE+ofR4eDdV2hU4DRmUBTEWIeSsSPysO5nacWUyAzXYiU
+         Ksq/BG56GErjAJWHTO8PKPrYat1Y5zK6/w52veeOyxHtSS2Qz3k9iZu+5eBt8eWHDSw/
+         WuWg+IJIrti0NQz8HkTsz+8tLOfJPbaAv4VPX4yA8dN9BUh9GjmfbYgFhHt3AnRNFiip
+         jLGtq87Jmb4XOvYFbX2vdyEtQ7uPTbLAGq53wz75PMz3wiXdSstUEENdhSWVkrQHhbPK
+         hpO0pKxxOZEjAhurLPltQPDnmnpZYiaaVQRLPr1cm8xxI9X4FGEbEV9mouhsOic7w4YQ
+         LCLA==
+X-Gm-Message-State: AOJu0YxTX0rh4oUS7VJ/K+i9eKloYGn/ZgkjLA3Qj9rIsiz/XftpS3Sm
+	OvEt6PJY86xoQYGaDFHNXV5susax6gZYxw3OPyqLfylYGwuuEs51nvUAZF6rAznl0XTaPvdkbaE
+	5
+X-Gm-Gg: ASbGncuaUwfAjlpjrJkD310ZranAv6k81LZ3OC+q/g55kHjckX1ED2sHqj15Xv67Fsx
+	ETP3vhBbVzI59R0fVUSP3KPS/QPn2HqdR4XtlOiCIFKBe78dmb2bZGWVK8T+PJu4gUTZt+4yJet
+	Nu/Ak+uSBnN4viYky/6Txt+v/S//0PbFGT+yew/SjedXyDiKgk7FjwFi9ea2mM2J+J2bdT2xnU3
+	v9brvrvhLPGqbbbRK/Zce3OOCTOUmz7WMBnK+vcZEc=
+X-Google-Smtp-Source: AGHT+IFxhsxfpJwAIO/OdcA+0yumhy0SwexpNr/h18PYs70iZXnmSQVUL6XZ1ucaaXXUxBRQ7VRuDw==
+X-Received: by 2002:a17:90b:230c:b0:2ee:b0f1:ba17 with SMTP id 98e67ed59e1d1-2f128048ebfmr620856a91.37.1733864203435;
+        Tue, 10 Dec 2024 12:56:43 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef45ff77b9sm10245470a91.36.2024.12.10.12.56.41
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef45ff77b9sm10245470a91.36.2024.12.10.12.56.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 12:56:41 -0800 (PST)
+        Tue, 10 Dec 2024 12:56:43 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/12] ffmpeg: fix CVE-2023-49528
-Date: Tue, 10 Dec 2024 12:56:20 -0800
-Message-Id: <a5e0e1f8be3c6611c09158c80e26848ae3d4f4e7.1733863624.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/12] ffmpeg: fix CVE-2024-7055
+Date: Tue, 10 Dec 2024 12:56:21 -0800
+Message-Id: <71a9c2d01ad8ed83f9da6e6b9541fcf1d9baed48.1733863624.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733863624.git.steve@sakoman.com>
 References: <cover.1733863624.git.steve@sakoman.com>
@@ -66,95 +66,78 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 20:56:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208547
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208548
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Buffer Overflow vulnerability in FFmpeg version n6.1-3-g466799d4f5, allows a
-local attacker to execute arbitrary code and cause a denial of service (DoS)
-via the af_dialoguenhance.c:261:5 in the de_stereo component.
+A vulnerability was found in FFmpeg up to 7.0.1. It has been classified as critical.
+This affects the function pnm_decode_frame in the library /libavcodec/pnmdec.c.
+The manipulation leads to heap-based buffer overflow. It is possible to initiate
+the attack remotely. The exploit has been disclosed to the public and may be used.
+Upgrading to version 7.0.2 is able to address this issue. It is recommended to
+upgrade the affected component. The associated identifier of this vulnerability is VDB-273651.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2023-49528.patch        | 58 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2024-7055.patch         | 38 +++++++++++++++++++
  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49528.patch
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49528.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49528.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
 new file mode 100644
-index 0000000000..37e1ab61d1
+index 0000000000..afd857ceac
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49528.patch
-@@ -0,0 +1,58 @@
-+From 2d9ed64859c9887d0504cd71dbd5b2c15e14251a Mon Sep 17 00:00:00 2001
-+From: Paul B Mahol <onemda@gmail.com>
-+Date: Sat, 25 Nov 2023 12:54:28 +0100
-+Subject: [PATCH 3/3] avfilter/af_dialoguenhance: fix overreads
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
+@@ -0,0 +1,38 @@
++From 587acd0d4020859e67d1f07aeff2c885797ebcce Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Thu, 18 Jul 2024 21:12:54 +0200
++Subject: [PATCH] avcodec/pnmdec: Use 64bit for input size check
 +
-+CVE: CVE-2023-49528
++Fixes: out of array read
++Fixes: poc3
 +
-+Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/2d9ed64859c9887d0504cd71dbd5b2c15e14251a]
++Reported-by: VulDB CNA Team
++Found-by: CookedMelon
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++(cherry picked from commit 3faadbe2a27e74ff5bb5f7904ec27bb1f5287dc8)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2024-7055
++
++Upstream-Status: Backport [https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=587acd0d4020859e67d1f07aeff2c885797ebcce]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ libavfilter/af_dialoguenhance.c | 17 +++++++++--------
-+ 1 file changed, 9 insertions(+), 8 deletions(-)
++ libavcodec/pnmdec.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavfilter/af_dialoguenhance.c b/libavfilter/af_dialoguenhance.c
-+index 1762ea7..29c8ab1 100644
-+--- a/libavfilter/af_dialoguenhance.c
-++++ b/libavfilter/af_dialoguenhance.c
-+@@ -96,12 +96,12 @@ static int config_input(AVFilterLink *inlink)
-+     if (!s->window)
-+         return AVERROR(ENOMEM);
-+
-+-    s->in_frame       = ff_get_audio_buffer(inlink, s->fft_size * 4);
-+-    s->center_frame   = ff_get_audio_buffer(inlink, s->fft_size * 4);
-+-    s->out_dist_frame = ff_get_audio_buffer(inlink, s->fft_size * 4);
-+-    s->windowed_frame = ff_get_audio_buffer(inlink, s->fft_size * 4);
-+-    s->windowed_out   = ff_get_audio_buffer(inlink, s->fft_size * 4);
-+-    s->windowed_prev  = ff_get_audio_buffer(inlink, s->fft_size * 4);
-++    s->in_frame       = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-++    s->center_frame   = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-++    s->out_dist_frame = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-++    s->windowed_frame = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-++    s->windowed_out   = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-++    s->windowed_prev  = ff_get_audio_buffer(inlink, (s->fft_size + 2) * 2);
-+     if (!s->in_frame || !s->windowed_out || !s->windowed_prev ||
-+         !s->out_dist_frame || !s->windowed_frame || !s->center_frame)
-+         return AVERROR(ENOMEM);
-+@@ -250,6 +250,7 @@ static int de_stereo(AVFilterContext *ctx, AVFrame *out)
-+     float *right_osamples  = (float *)out->extended_data[1];
-+     float *center_osamples = (float *)out->extended_data[2];
-+     const int offset = s->fft_size - s->overlap;
-++    const int nb_samples = FFMIN(s->overlap, s->in->nb_samples);
-+     float vad;
-+
-+     // shift in/out buffers
-+@@ -258,8 +259,8 @@ static int de_stereo(AVFilterContext *ctx, AVFrame *out)
-+     memmove(left_out, &left_out[s->overlap], offset * sizeof(float));
-+     memmove(right_out, &right_out[s->overlap], offset * sizeof(float));
-+
-+-    memcpy(&left_in[offset], left_samples, s->overlap * sizeof(float));
-+-    memcpy(&right_in[offset], right_samples, s->overlap * sizeof(float));
-++    memcpy(&left_in[offset], left_samples, nb_samples * sizeof(float));
-++    memcpy(&right_in[offset], right_samples, nb_samples * sizeof(float));
-+     memset(&left_out[offset], 0, s->overlap * sizeof(float));
-+     memset(&right_out[offset], 0, s->overlap * sizeof(float));
-+
++diff --git a/libavcodec/pnmdec.c b/libavcodec/pnmdec.c
++index acd77ea..40cc2ae 100644
++--- a/libavcodec/pnmdec.c
+++++ b/libavcodec/pnmdec.c
++@@ -264,7 +264,7 @@ static int pnm_decode_frame(AVCodecContext *avctx, AVFrame *p,
++         break;
++     case AV_PIX_FMT_GBRPF32:
++         if (!s->half) {
++-            if (avctx->width * avctx->height * 12 > s->bytestream_end - s->bytestream)
+++            if (avctx->width * avctx->height * 12LL > s->bytestream_end - s->bytestream)
++                 return AVERROR_INVALIDDATA;
++             scale = 1.f / s->scale;
++             if (s->endian) {
 +--
 +2.40.0
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
-index 05a4c05e24..a793817ec2 100644
+index a793817ec2..8f4a8d34c0 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
-@@ -35,6 +35,7 @@ SRC_URI = " \
-     file://CVE-2023-49501.patch \
+@@ -36,6 +36,7 @@ SRC_URI = " \
      file://CVE-2024-28661.patch \
      file://CVE-2023-50007.patch \
-+    file://CVE-2023-49528.patch \
+     file://CVE-2023-49528.patch \
++    file://CVE-2024-7055.patch \
  "
  
  SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
