@@ -2,107 +2,120 @@ Return-Path: <jsbronder@cold-front.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15088E7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 15:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F803E7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 15:15:20 +0000 (UTC)
 Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by mx.groups.io with SMTP id smtpd.web10.12560.1733843425695489177
+ by mx.groups.io with SMTP id smtpd.web10.12653.1733843716905454261
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 07:10:25 -0800
+ Tue, 10 Dec 2024 07:15:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cold-front.org header.s=fm3 header.b=tj+SoEb0;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=oV+TGeRz;
+ dkim=pass header.i=@cold-front.org header.s=fm3 header.b=blUsruWc;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=WnCputwO;
  spf=pass (domain: cold-front.org, ip: 103.168.172.151, mailfrom: jsbronder@cold-front.org)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id D66051384194;
-	Tue, 10 Dec 2024 10:10:24 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 10 Dec 2024 10:10:24 -0500
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id 34CCE13841A1;
+	Tue, 10 Dec 2024 10:15:16 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Tue, 10 Dec 2024 10:15:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm3; t=1733843424; x=1733929824; bh=vqCHCE+3MA
-	ur4qYU9TVlgACmW9euJ9pUW4qenGFlwYo=; b=tj+SoEb0Jo2grxOxFfNpWZ07dQ
-	3rQWVZaJY89hfUKT6cs2t15jzO0kgHblRlrRewVYq6qwmIwoXx8bDBMf262dXhPQ
-	zVW2ePUQ8LsYwP7X8rPD5XdbY0xS/p2SlTUNLhYs6ydXfO1ti56HcayBMrdF2cwT
-	gNRkw/WNoj+hShf0DDK7fa9AVMHmtHyfxMortTwkljskNXNbUt+SuWKJq8kqjP+9
-	qBS49PjV+UDYiXG3QbGGURgfl2YXaLMaY0B+ASyCEgXNuYqekJ948uZv05sCkBtx
-	+HkT4iPJOWDWA2W6xoVmkKQGnEi+PtPR8KkrH1b5eVW4vpL2eRiz3C0zmCig==
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1733843716; x=1733930116; bh=CTzTZwEZ5RFohTv0bQCUKD2IIzhbIRb1
+	8voHWx7XDRg=; b=blUsruWc+pXNEboHjbWzev0vD9hhy3NRTK+ZtxxbDMBIeOJe
+	doVLwecTtWuQnzkgaPU4lbdVLmXKXy+5FE8AnIaEAKfUDCAu4/5SZvMTeJj8xKi5
+	jDFzHMNKZGyIq8KYxm5R4y/aetnx4JPfraT6b5NsQoiyK37h3phTJDeSI3MMZ7oq
+	Ryg+1c7qrrG4vc5o8GHzLy/5+Vr9IFFAX9qi6G8ALzQDz4C4/Az9CjQAKCSUMXmS
+	4XXF/GtN2L5VqomGfTjDeM9d1i1Snn93az7Ko1UW43rnizCes2UShnht4V4KDqTb
+	Mvovgv6jVts1E7GRNHG29O5wempuDj6byQ9Kzg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1733843424; x=1733929824; bh=vqCHCE+3MAur4qYU9TVlgACmW9euJ9pUW4q
-	enGFlwYo=; b=oV+TGeRzLC+tJlK+BEn0MnGrf4dOLoFccFWLVfsR9y9B3sst9T3
-	52CGrj7NlTWiIv+BiC2S2AMhIYd0gWhCQrKEO5tB/L8ldWA5tj/aVTQAeymc5bez
-	pDyRlX7lIAmlSNS7c+UNIg8xeN2FonGZkL+t7naUNwkXwdiuMK6MiG/yHOnI+W3b
-	unl0dTl4N0CjvEKe8Ee4ZFB1vSwA7ZgkxPB8Wj3xlVm5S19ogn8Q9j/L7zixfK6+
-	TrDr0+ERySr+Fhs/R9pBW+J6s/aFBNq07FpM0UOCTOW2Jux+v0nsIA6AHz+q7orO
-	GlSDDRDCiL/qs39Yho6aiddsElg5MAIT4AQ==
-X-ME-Sender: <xms:4FlYZ8mMymQuApqGYGnWkQLQsIMu36lY83lpkZ25rgq49r_kENTkbw>
-    <xme:4FlYZ72j_EPoCtB8nulR05VabUBrCC5WukIoQtbq_Wk67K9BZjKRriJ-qb7gpyYau
-    BMhoDZcilB1IPS3GA>
-X-ME-Received: <xmr:4FlYZ6rdSb3VpxHaIppK8M1v9yioPX3oAZ0YmrT4sq0L3szEG0whFJ7m6Pp28VWJYSC5BGWHFqn-M8KBk7PkzrXmX-CaVUeoAmbbwWYPCA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeekgdejudcutefuodetggdotefrodftvf
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733843716; x=
+	1733930116; bh=CTzTZwEZ5RFohTv0bQCUKD2IIzhbIRb18voHWx7XDRg=; b=W
+	nCputwO9ZsHrsFf+NWRPjes1YACKTS2T1IH1AywyQbVi0c0+JVSjfN4CvEsdbTV2
+	rnAhvP8IiDOB+O4Og67aNwbzoqTSvxR6KWyvt/K4co1quT+zjJKEv4/VbOMAsoa9
+	7vjGBr3yyP2rgPjcunJ5zzmfPu6DkR7CoLuVScHRja/KFVyL+7RAd1JheMUboZ4z
+	7IqMoZgv+rumu1F1kwyz0p08hyu59dIaIwU9Tb7GM0jFNE6fezf/x9iLMzwKSodQ
+	ILiNaLDlGHzkzD3TFPYZt4B+3IYd1VXRShJz0pjm6vdrs6btu9eguZzPUVM1Z4Rf
+	OiVl2O3lt2Ecs0VOOsqfA==
+X-ME-Sender: <xms:A1tYZx1uxKBio2EWR9ataXfamLqgN81suNhI4a0MrV-iv2cWneyp-A>
+    <xme:A1tYZ4EMQ9-U4s3rhXMaaeaRFyB8g2524m4K63rROFJQCR8bfDUwDBjgwry5ZigYK
+    8lseEYAREbl7lnNsg>
+X-ME-Received: <xmr:A1tYZx6RFKnjjmFVPiFaWHa586DzJX4Y7aYgfgrzSGo-qD7hf1iDOv_8orzBAIHnsWkqtHLznoiwjKsM_hpj6rXU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeekgdejvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefuff
-    fkofgggfestdekredtredttdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceo
-    jhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrh
-    hnpedugffhvdekueehudduudfhueeiieekgeeflefhgfefjeegleehjefhfedtleehgeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjshgsrh
-    honhguvghrsegtohhlugdqfhhrohhnthdrohhrghdpnhgspghrtghpthhtohepvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvg
-    eslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepjhhssghr
-    ohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhg
-X-ME-Proxy: <xmx:4FlYZ4mJNf_pc2cdWs_CyDJGo5P2sr_-t-5cjLDjFHAm_I2qQShA5w>
-    <xmx:4FlYZ61p7JcYCMYiL28NLdspt6gC1tr8pdAvKZ3utq0KM5hHRuHJjA>
-    <xmx:4FlYZ_sI_Qg2MrQdXhWph2SkCcwLRdGYpCOGe1rcqmIPkGSUY8P7sg>
-    <xmx:4FlYZ2Xmz43c0C3j3ym_HD04hub2JD3NC7aMQeUzpfyCVPK4U1bFGA>
-    <xmx:4FlYZ4Af6OCZPPEEaN8RHZcPXbWHq5d234R6WGvpgwrewLAlqsBWg4Dx>
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuf
+    fkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefluhhsthhinhcuuehrohhnuggv
+    rhcuoehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrth
+    htvghrnhepkeeifeevuddvheeftdehteeuhfeftdeuudelhfeuheduleegvddtgeehgfeu
+    feefnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpkhgvrhhnvghlrd
+    horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    jhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgpdhnsggprhgtphhtthhope
+    efpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeguvghnihhsseguvghnihigrdho
+    rhhgpdhrtghpthhtohepghhuughnihdrmhdrghesghhmrghilhdrtghomhdprhgtphhtth
+    hopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvggu
+    uggvugdrohhrgh
+X-ME-Proxy: <xmx:A1tYZ-0proi5RBbCY-KvDncqlENxbr75g-r8oaY2F0QS_u2SI7W22g>
+    <xmx:A1tYZ0GMkhSsGMW6S5Tv2eBJr5A51CBtXA7dXj62puPyV_Jhsu23IA>
+    <xmx:A1tYZ_-5OpexCAvjw6QsOeTr0GA_2PO2ROTITgmh5KMqhc59EacBnA>
+    <xmx:A1tYZxndzTIAewAM-FmLQziLVXGsrR8Gt75qPIiRZORk94sXXWJNsg>
+    <xmx:BFtYZ4DAmiCthstYis3ed0PGK74I0BmyYmrWvXRgWQWx6EP7E_rHcAY3>
 Feedback-ID: iea0042cb:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Dec 2024 10:10:24 -0500 (EST)
+ 10 Dec 2024 10:15:15 -0500 (EST)
+Date: Tue, 10 Dec 2024 10:15:15 -0500
 From: Justin Bronder <jsbronder@cold-front.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Justin Bronder <jsbronder@cold-front.org>
-Subject: [PATCH] bitbake.conf: add lz4c to HOSTTOOLS_NONFATAL
-Date: Tue, 10 Dec 2024 10:10:16 -0500
-Message-ID: <20241210151015.2450083-2-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.47.0
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: gudni.m.g@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: bitbake.conf: require lz4 instead of lz4c
+Message-ID: <Z1hbAyxCZe2q0Stv@ravine.members.linode.com>
+References: <2ff2f153f3d383ffa0fb240b6af32f7a3a3c8994.camel@pengutronix.de>
+ <5971.1732375730064880818@lists.openembedded.org>
+ <Z0TAHptOcCYEzSXB@ravine.members.linode.com>
+ <20241210035121.GF23825@denix.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241210035121.GF23825@denix.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 15:10:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208537
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 15:15:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208538
 
-Commit fe167e082cbde1c6d186ecdda531abef610ac2ac switched to requiring
-lz4 instead of lz4c which allows us to support distros dropping lz4c.
-However, it's only in the 6.13 kernel that CONFIG_KERNEL_LZ4 makes the
-switch from lz4c to lz4.  So we should continue to link lz4c if it's
-available to support older kernels.
+On 09/12/24 22:51 -0500, Denys Dmytriyenko wrote:
+> On Mon, Nov 25, 2024 at 01:21:18PM -0500, Justin Bronder wrote:
+> > On 23/11/24 07:28 -0800, Gu�ni M�r Gilbert via lists.openembedded.org wrote:
+> > > Hi I'm seeing a build error on latest master when building Linux 6.10 due to missing lz4c tool.
+> > > 
+> > > I see it's still used even in Linux 6.12: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Makefile?h=v6.12.1#n511
+> > > 
+> > > On my build host, lz4c is symlinked to lz4. But I suspect the issue is lz4c was removed from HOSTTOOLS.
+> > > 
+> > > Anyone else seeing this problem?
+> > 
+> > Yes, I can reproduce it when setting CONFIG_KERNEL_LZ4.  I've sent a patch 
+> > upstream.  If they are receptive I'll submit it for linux-yocto.
+> 
+> Ok, this got merged to 6.13-rc kernel series, but it's now broken for all the 
+> downstream BSPs and older kernel versions that use LZ4, besides linux-yocto. 
+> Sigh...
+> 
+> 
+> > But perhaps in the meantime we should add lz4c to HOSTTOOLS_NONFATAL?
+> 
+> Was there a patch submitted to have both lz4 and lz4c listed in HOSTTOOLS* 
+> (at least temporatily until this gets propagated everywhere)?
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
----
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
+I sent one just now.  Apologies for the annoyances this has caused.  No good
+deed goes unpunished ;)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1d2c2e0022..c7927d19a0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -553,6 +553,9 @@ HOSTTOOLS_NONFATAL += "gsutil"
- # Link to git-lfs if present
- HOSTTOOLS_NONFATAL += "git-lfs"
- 
-+# Link to lz4c if present, used by linux <6.13 with CONFIG_KERNEL_LZ4
-+HOSTTOOLS_NONFATAL += "lz4c"
-+
- CCACHE ??= ""
- 
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+https://lore.kernel.org/openembedded-core/20241210151015.2450083-2-jsbronder@cold-front.org/T/#u
+
 -- 
-2.47.0
-
+Justin Bronder
 
