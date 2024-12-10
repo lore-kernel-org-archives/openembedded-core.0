@@ -1,86 +1,108 @@
-Return-Path: <alexander.sverdlin@siemens.com>
+Return-Path: <jsbronder@cold-front.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AA1E77182
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 13:25:19 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.10293.1733837116103420020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15088E7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 15:10:40 +0000 (UTC)
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+ by mx.groups.io with SMTP id smtpd.web10.12560.1733843425695489177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 05:25:17 -0800
+ Tue, 10 Dec 2024 07:10:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm2 header.b=K6MPk4LF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-456497-2024121013251039017a0fa7d4ea2472-yo_tag@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2024121013251039017a0fa7d4ea2472
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 10 Dec 2024 14:25:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=nSctxGKd5WU86WAdryZSSuhsfFqjJCCrBdUSoam5TWY=;
- b=K6MPk4LFVzBN3rO6kt9Qc5Em6JQRWp1Yww0vwxs+65sG6s+6jRhfez5OXMKdyB4oXCF87t
- Nv/ZI1Z0CKNbvgUUGt54Jrz0dqeaR3Degw4lLCV8di4OEoXs4Z60Y0/VQ7qcdHW/RXxUjmpF
- 1atfSOvXrS3mZ/rP2U2P3lGNCoWwMVoHse46gJNcYqlBQJUlR0KF2LKqoyALRsO2cz7yMfhw
- YY0e1FHY1jn7vw3Z2a0tb5MB3chfgkRnduwRWA79MxD4i6m8DByOam8senEBKhX12S2kMS5+
- H2A6tMKRP5vus6PgTOoLlAZ2N5MI/EjsHW2l7GpXoQ0PQJTsqNrU5xeQ==;
-From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+ dkim=pass header.i=@cold-front.org header.s=fm3 header.b=tj+SoEb0;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=oV+TGeRz;
+ spf=pass (domain: cold-front.org, ip: 103.168.172.151, mailfrom: jsbronder@cold-front.org)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id D66051384194;
+	Tue, 10 Dec 2024 10:10:24 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Tue, 10 Dec 2024 10:10:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1733843424; x=1733929824; bh=vqCHCE+3MA
+	ur4qYU9TVlgACmW9euJ9pUW4qenGFlwYo=; b=tj+SoEb0Jo2grxOxFfNpWZ07dQ
+	3rQWVZaJY89hfUKT6cs2t15jzO0kgHblRlrRewVYq6qwmIwoXx8bDBMf262dXhPQ
+	zVW2ePUQ8LsYwP7X8rPD5XdbY0xS/p2SlTUNLhYs6ydXfO1ti56HcayBMrdF2cwT
+	gNRkw/WNoj+hShf0DDK7fa9AVMHmtHyfxMortTwkljskNXNbUt+SuWKJq8kqjP+9
+	qBS49PjV+UDYiXG3QbGGURgfl2YXaLMaY0B+ASyCEgXNuYqekJ948uZv05sCkBtx
+	+HkT4iPJOWDWA2W6xoVmkKQGnEi+PtPR8KkrH1b5eVW4vpL2eRiz3C0zmCig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1733843424; x=1733929824; bh=vqCHCE+3MAur4qYU9TVlgACmW9euJ9pUW4q
+	enGFlwYo=; b=oV+TGeRzLC+tJlK+BEn0MnGrf4dOLoFccFWLVfsR9y9B3sst9T3
+	52CGrj7NlTWiIv+BiC2S2AMhIYd0gWhCQrKEO5tB/L8ldWA5tj/aVTQAeymc5bez
+	pDyRlX7lIAmlSNS7c+UNIg8xeN2FonGZkL+t7naUNwkXwdiuMK6MiG/yHOnI+W3b
+	unl0dTl4N0CjvEKe8Ee4ZFB1vSwA7ZgkxPB8Wj3xlVm5S19ogn8Q9j/L7zixfK6+
+	TrDr0+ERySr+Fhs/R9pBW+J6s/aFBNq07FpM0UOCTOW2Jux+v0nsIA6AHz+q7orO
+	GlSDDRDCiL/qs39Yho6aiddsElg5MAIT4AQ==
+X-ME-Sender: <xms:4FlYZ8mMymQuApqGYGnWkQLQsIMu36lY83lpkZ25rgq49r_kENTkbw>
+    <xme:4FlYZ72j_EPoCtB8nulR05VabUBrCC5WukIoQtbq_Wk67K9BZjKRriJ-qb7gpyYau
+    BMhoDZcilB1IPS3GA>
+X-ME-Received: <xmr:4FlYZ6rdSb3VpxHaIppK8M1v9yioPX3oAZ0YmrT4sq0L3szEG0whFJ7m6Pp28VWJYSC5BGWHFqn-M8KBk7PkzrXmX-CaVUeoAmbbwWYPCA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeekgdejudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefuff
+    fkofgggfestdekredtredttdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceo
+    jhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrh
+    hnpedugffhvdekueehudduudfhueeiieekgeeflefhgfefjeegleehjefhfedtleehgeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjshgsrh
+    honhguvghrsegtohhlugdqfhhrohhnthdrohhrghdpnhgspghrtghpthhtohepvddpmhho
+    uggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvg
+    eslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepjhhssghr
+    ohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhg
+X-ME-Proxy: <xmx:4FlYZ4mJNf_pc2cdWs_CyDJGo5P2sr_-t-5cjLDjFHAm_I2qQShA5w>
+    <xmx:4FlYZ61p7JcYCMYiL28NLdspt6gC1tr8pdAvKZ3utq0KM5hHRuHJjA>
+    <xmx:4FlYZ_sI_Qg2MrQdXhWph2SkCcwLRdGYpCOGe1rcqmIPkGSUY8P7sg>
+    <xmx:4FlYZ2Xmz43c0C3j3ym_HD04hub2JD3NC7aMQeUzpfyCVPK4U1bFGA>
+    <xmx:4FlYZ4Af6OCZPPEEaN8RHZcPXbWHq5d234R6WGvpgwrewLAlqsBWg4Dx>
+Feedback-ID: iea0042cb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Dec 2024 10:10:24 -0500 (EST)
+From: Justin Bronder <jsbronder@cold-front.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
-	Peter Marko <peter.marko@siemens.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Joe Slater <joe.slater@windriver.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH] systemd: actively disable Predictable Network Interface Names if !pni-names
-Date: Tue, 10 Dec 2024 14:25:03 +0100
-Message-ID: <20241210132507.2240753-1-alexander.sverdlin@siemens.com>
+Cc: Justin Bronder <jsbronder@cold-front.org>
+Subject: [PATCH] bitbake.conf: add lz4c to HOSTTOOLS_NONFATAL
+Date: Tue, 10 Dec 2024 10:10:16 -0500
+Message-ID: <20241210151015.2450083-2-jsbronder@cold-front.org>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-456497:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:25:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208536
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 15:10:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208537
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Commit fe167e082cbde1c6d186ecdda531abef610ac2ac switched to requiring
+lz4 instead of lz4c which allows us to support distros dropping lz4c.
+However, it's only in the 6.13 kernel that CONFIG_KERNEL_LZ4 makes the
+switch from lz4c to lz4.  So we should continue to link lz4c if it's
+available to support older kernels.
 
-Currently pni-names PACKAGECONFIG option adds "mac" names policy if
-selected, but nothing otherwise. In systemd Predictable Network Interface
-Names are applied by default which leads to inconsistend behaviour.
-
-One could think that pni-names in DISTRO_FEATURES would enable or disable
-Predictable Network Interface Names, but currently if not present it's
-only actively disabled for QEMU via kernel command line
-(commit 9e9c33d51e40
-("qemuboot/runqemu: Fix 6.2 and later kernel network device naming")).
-It has no effect on the real HW. If the option is present, it merely adds
-"mac" into default NamePolicy, which may or may not have observable
-effects.
-
-Make pni-names semantics more consistent by actively suppressing
-Predictable Network Interface Names if the feature is not present.
-
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
 ---
- meta/recipes-core/systemd/systemd_256.8.bb | 3 +++
+ meta/conf/bitbake.conf | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
-index c1915d7e941..2b5a90aacbc 100644
---- a/meta/recipes-core/systemd/systemd_256.8.bb
-+++ b/meta/recipes-core/systemd/systemd_256.8.bb
-@@ -390,6 +390,9 @@ do_install() {
- 		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
- 			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 		fi
-+	else
-+		# Actively disable Predictable Network Interface Names
-+		sed -i 's/^NamePolicy=.*/NamePolicy=/;s/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 	fi
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1d2c2e0022..c7927d19a0 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -553,6 +553,9 @@ HOSTTOOLS_NONFATAL += "gsutil"
+ # Link to git-lfs if present
+ HOSTTOOLS_NONFATAL += "git-lfs"
  
++# Link to lz4c if present, used by linux <6.13 with CONFIG_KERNEL_LZ4
++HOSTTOOLS_NONFATAL += "lz4c"
++
+ CCACHE ??= ""
+ 
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
 -- 
-2.47.1
+2.47.0
 
 
