@@ -1,176 +1,100 @@
-Return-Path: <philip@balister.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A89E7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 12:59:49 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web11.2158.1733801418055699075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F76AE7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 13:05:59 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web10.9806.1733835951818325001
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Dec 2024 19:30:18 -0800
+ Tue, 10 Dec 2024 05:05:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KhXeu9b5;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: majortomtosourcecontrol@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-841a9366b5eso359583939f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Dec 2024 19:30:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nYYFM231;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6d8e773ad77so30143856d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 05:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733801417; x=1734406217; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VoHRjWxReqCTkq1bf4O3YRHY5i9wwt1VW45wjvRMUh8=;
-        b=KhXeu9b5gVDRMtzJM6JCvYKfB/R/DXxSmWcuh9CP8HlEEgl+swyxMc3/CpVRMqgyuO
-         iEsduWTSGJ3+4N+0PTe+EpV9cPD5JA+HxGVg/ThAdX88a5RbcOxxkKB73gPmmiFWhSW5
-         WEajoK19YbCL9q9Ubgh3PKYwa0RZTosxgmOIrYDGp4EX6iXnjbk+3wvGkCIpvQvla6lN
-         0SGgflGEDrpUUZ4Pt1zQHPSQxMoNMmFDquCVRSSmf6yTZ2fi4boLC+VY8AZnLKCyS/W3
-         bLDqey1dh9jUwo2rt8V80B2J16d4EjI1Ym8GGuBqg1g9GLV8tFWAfAtOyzAbIYGpqo09
-         VqXw==
+        d=gmail.com; s=20230601; t=1733835951; x=1734440751; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0oIj1xWKPdby0vrQ40WH8zN7utwfWW1alZZrawjvIUo=;
+        b=nYYFM2310Da++FAMTFW00TjXrIwpOrHvLxKTJ/VY2tm4fPieWEurqIzoo9qibSVaYl
+         Pd03+PJT9UuhjxBMIm6Rxhg6gHSCcB8S+BiP0aTiDY6MZLiAZEZx6usRDeIicHmJgMRp
+         o4EVvuFJE+IkHu8l3/0BGH2IJl4sQnyOBrAVa7vh+RM4Wqu0yMwix2W2EM7ChHC2qz6w
+         m+i9z4hSP+b/2DmGKkVlmZxQyaPUgmAJ7IDjdFIzTPTI01BPSLIjvLpSCzlOHXeAdOYs
+         CxQTnji0/bAnkzNU5IkqKBv8jfhvASeqkEPQ0vWOSc50e/zE+IYPy8mTKLxANunLKCdO
+         xzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733801417; x=1734406217;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VoHRjWxReqCTkq1bf4O3YRHY5i9wwt1VW45wjvRMUh8=;
-        b=RZJavbujBtRVF8LtnQ+XUVHEv9Tfsft1MmWL0Y2I7elU7AVmtAJVaxI8AG9ABpkiKI
-         Fb26dhpRiNQp1ggExCywz0GGlDsV90/u1lsKxZPcQ2S/lWGqNkSW0QfCb55Wr9Awg/2p
-         j9Z6DeuyLDKFhDpGRYHNwWyOCgPhHVrVlPDwTO2XE+VXIWvhvza5dgkcYO22cKiX6wrQ
-         LQxz40jRInEsoI7xjKRB9FgsFmcgglTdBdNcLGUfA2f6Y/8mj4AdC8/N0ylLegdISxUP
-         zB/ZbrRoKHOo58cSk6ifMG4muqcUOiUXWxh2F+fvVy/hmr7mWCB80jd1391ijzg0fkGj
-         yrOw==
-X-Forwarded-Encrypted: i=1; AJvYcCXbs6/P7gVHZjkLQxzM61PfvX7X1Nm6zbKTNonK81++K9xuK5JPCVF0Q8DPy3ims5FZ8o+r+v8z0/jAT0vhEwH5xA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzQf5LR6m2q+1bjkEgBR5R+/KejnRB4Fxg5JjweBTnpOoJac8qo
-	Xvpt0O7+TZKA4Eh7c6mTnhI4c5KHC2nUC90IcP+3JFOMa1/Fc4Kh
-X-Gm-Gg: ASbGnctN3c5dVNvw6e+D80qVchqXu0MZtZOEjO2U/1uZyhnkRvXvbMnqRWxTWVNOp5p
-	ZoJdQSq/djfI/mHDO2o2IHVopu+pXtV1FI2KVwEmtgNgjPx5AIav10oDFkC0olUR7/Jp3/QJpmC
-	lJl0+QXTW9JprTyjxzruQypgOuYpNb9Nd40VWnRsEmbVVuh77cnn7+coHdnbAvpCLmPKyYOu01N
-	uazCwW5C8h/LzNxyT+/FfF91WMwfuW+nptXnzdUCfx1D7W7uPek/8ZE7LAcdGkn2pqSx/fg9ajH
-	EcICIYLQCN5yxzigEOBYM39W6W/nfG4=
-X-Google-Smtp-Source: AGHT+IHe5TXySfVT/c4rMbGz/+d1HhXiISbcfaVoj+23/p7cBnEOTy8dXozwil7hIQJ+symcObHv/w==
-X-Received: by 2002:a05:6602:1355:b0:844:7956:df9c with SMTP id ca18e2360f4ac-844b4e6a4f2mr420999839f.0.1733801417078;
-        Mon, 09 Dec 2024 19:30:17 -0800 (PST)
-Received: from [172.26.252.3] (174-29-210-206.hlrn.qwest.net. [174.29.210.206])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e2c72a1246sm557849173.37.2024.12.09.19.30.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 19:30:16 -0800 (PST)
-Message-ID: <07df4d74-e0b2-48c3-b9a0-95c762b267ca@gmail.com>
-Date: Mon, 9 Dec 2024 20:30:16 -0700
+        d=1e100.net; s=20230601; t=1733835951; x=1734440751;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0oIj1xWKPdby0vrQ40WH8zN7utwfWW1alZZrawjvIUo=;
+        b=jtT21oSziD2gk9QPmgFATpaebRdV7H9rekglEQuUPWILHVGDDzIFT8ffQeqhC+YiCD
+         DqI8a7U+484os8WE/oDaTG6cmXKzQlf2n0JYWLkNfc/U0NrGnFUq76FsAxd0PxcYtAA1
+         Q2Z7ZDhtZjNohygSFnR1VK8/2rWr54ENn4X47pdkKN6MB69ATygKC8CAlJRQtcHxeHg4
+         uX82AEwaYqmqeMlLVGzHOGOmHMy+okWr/wS9hao/BQM44oXKlUuWXJzLJkhkud+3noUL
+         FrgFK3lEXguqjz3vZKXi0BbqP5zAeQr0W4k0Jb1HCRxxIEDQAtD/oi5HYkMg+w2ngzPN
+         PSug==
+X-Gm-Message-State: AOJu0YyWLTK8NxbA9OB3EW1gCtpCfjnXosWuXVdpSYEYE7QqeVv+YCmp
+	Lv/elQDKfnGmotz6DgGrB6YgiOIgx93MLjU4QcqzDN3+GbMudxyvrNjEMEBSiEA0+2cUoi8LzVJ
+	P9yJ018BBjn7KjS6Aa4MuH02eS90P/A==
+X-Gm-Gg: ASbGncuzuEoRYMe5P+1T0GgLp8/CtSq7S8kp92oFt5atpxTDNbbIwxggVc+4L7TFUHC
+	jIckgufmouVB9hMkufnbf+8XI74U+nrt003Mxmwu3tJW+ZGoHevo+mOWqx9rHi4bYq3m4Kg==
+X-Google-Smtp-Source: AGHT+IHk3q/BXC5rdZJY0Rkt47wSY0DRL9DL9P+6kfGn9nRqvaFTwq1JYi+dGu9bgn9cbxhZkYoNpEtcKCv0vCa8568=
+X-Received: by 2002:a05:6214:410e:b0:6d8:8256:41d7 with SMTP id
+ 6a1803df08f44-6d91e415cf9mr63060046d6.33.1733835950601; Tue, 10 Dec 2024
+ 05:05:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [BACKPORT] uboot-sign: fix U-Boot binary with public key
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: steve@sakoman.com, openembedded-core@lists.openembedded.org
-References: <6c59a659-d47e-48d5-81af-a729b8533f62@gmail.com>
- <20241206233052.GD23825@denix.org>
-From: Clayton Casciato <majortomtosourcecontrol@gmail.com>
-In-Reply-To: <20241206233052.GD23825@denix.org>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
+ <20241118162643.1423409-3-alex.kanavin@gmail.com> <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
+In-Reply-To: <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Dec 2024 14:05:39 +0100
+Message-ID: <CANNYZj_ONOGam=9um4qqqAc_D0gQHrQML3a9eXBEgHLCiRtM1A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
+ config fragments
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:59:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208534
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208535
 
-On 12/6/24 4:30 PM, Denys Dmytriyenko wrote:
-> Clayton,
+On Mon, 9 Dec 2024 at 18:00, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Firstly, I think the "(disabled)" is the wrong way to show that
+> information. It would be more compact and perhaps more usable to show
+> the elements sorted into two sections along the lines of:
+>
+> """
+> Enabled fragments:
+>
+> selftest/test-fragment - This is a configuration fragment intended for testing in oe-selftest context
+>
+> Unused fragments:
+>
+> selftest/more-fragments-here/test-another-fragment - This is a second configuration fragment intended for testing in oe-selftest context
+> """
 
-Hi, Denys
+This is fine, I can fix it.
 
-> 
-> This is not the way to request backports. Please just read the list for past 
-> submissions and it will be clear how those should be made.
+> Secondly when listing the fragments, the current approach does lend
+> itself to cut and past but also doesn't group neatly. For example you
+> could do something like:
+>
+> selftest/
+>   test-fragment - This is a configuration fragment intended for testing in oe-selftest context
+>   more-fragments-here/test-another-fragment - This is a second configuration fragment intended for testing in oe-selftest context
 
-Steve has previously communicated this is an acceptable format.
-Please see https://lists.openembedded.org/g/openembedded-core/message/207185
+If we start going down this path, we might as well write an
+interactive curses UI, and keep the command line output 'flat' like it
+is now. I'm also not sure what is the best approach, we'd need to take
+fragments into practical use and accumulate a sizable amount of them
+perhaps. Such things can be easily tweaked from experience.
 
-I take it you would prefer to see a distinct request for each branch.
-
-> 
-> 
-> Steve,
-> 
-> Please do NOT backport this change to stable releases, as it seems incorrect 
-> and causes issues downstream and should probably get reverted from master.
-
-I agree given the feedback.
-
-> 
-> Thanks.
-
-Thank you!
-
-> 
-> 
-> 
-> On Tue, Nov 26, 2024 at 08:17:34AM -0700, Clayton Casciato via lists.openembedded.org wrote:
->> Hi, Steve!
->>
->> I would like to backport this from master to Styhead and Scarthgap.
->>
->> Thank you!
->>
->> Clayton Casciato
->>
->> --
->>
->> commit 0d14e99aa18ee38293df63d585fafc270a4538be
->> Author: Clayton Casciato <majortomtosourcecontrol@gmail.com>
->> Date:   Fri Nov 22 08:00:00 2024 -0700
->>
->>     uboot-sign: fix U-Boot binary with public key
->>     
->>     Fixes [YOCTO #15649]
->>     
->>     The U-Boot binary in the "deploy" directory is missing the public key
->>     when the removed logic branch is used.
->>     
->>     The simple concatenation of the binary and DTB with public key works as
->>     expected on a BeagleBone Black.
->>     
->>     Given:
->>     MACHINE = beaglebone-yocto
->>     UBOOT_SIGN_KEYNAME = "dev"
->>     
->>     Post-patch (poky/build/tmp/deploy/images/beaglebone-yocto):
->>     $ hexdump -e "16 \"%_p\" \"\\n\"" u-boot-beaglebone-yocto.dtb \
->>     | tr -d '\n' | grep -o 'key-dev'
->>     key-dev
->>     
->>     $ hexdump -e "16 \"%_p\" \"\\n\"" u-boot.img \
->>     | tr -d '\n' | grep -o 'key-dev'
->>     key-dev
->>     
->>     Non-Poky BeagleBone Black testing (Scarthgap):
->>     U-Boot 2024.01 [...]
->>     [...]
->>     Using 'conf-ti_omap_am335x-boneblack.dtb' configuration
->>     Verifying Hash Integrity ... sha256,rsa4096:dev+ OK
->>     Trying 'kernel-1' kernel subimage
->>     [...]
->>     
->>     Signed-off-by: Clayton Casciato <majortomtosourcecontrol@gmail.com>
->>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
->> index a17be745ce..7ee73b872a 100644
->> --- a/meta/classes-recipe/uboot-sign.bbclass
->> +++ b/meta/classes-recipe/uboot-sign.bbclass
->> @@ -122,13 +122,7 @@ concat_dtb() {
->>  	# If we're not using a signed u-boot fit, concatenate SPL w/o DTB & U-Boot DTB
->>  	# with public key (otherwise U-Boot will be packaged by uboot_fitimage_assemble)
->>  	if [ "${SPL_SIGN_ENABLE}" != "1" ] ; then
->> -		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
->> -			[ -e "${UBOOT_DTB_BINARY}" ]; then
->> -			oe_runmake EXT_DTB="${UBOOT_DTB_SIGNED}" ${UBOOT_MAKE_TARGET}
->> -			if [ -n "${binary}" ]; then
->> -				cp ${binary} ${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
->> -			fi
->> -		elif [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
->> +		if [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
->>  			if [ -n "${binary}" ]; then
->>  				cat ${UBOOT_NODTB_BINARY} ${UBOOT_DTB_SIGNED} | tee ${binary} > \
->>  					${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
->>
-
+Alex
 
