@@ -1,100 +1,86 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexander.sverdlin@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F76AE7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 13:05:59 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.9806.1733835951818325001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AA1E77182
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 13:25:19 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.10293.1733837116103420020
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 05:05:51 -0800
+ Tue, 10 Dec 2024 05:25:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nYYFM231;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6d8e773ad77so30143856d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 05:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733835951; x=1734440751; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0oIj1xWKPdby0vrQ40WH8zN7utwfWW1alZZrawjvIUo=;
-        b=nYYFM2310Da++FAMTFW00TjXrIwpOrHvLxKTJ/VY2tm4fPieWEurqIzoo9qibSVaYl
-         Pd03+PJT9UuhjxBMIm6Rxhg6gHSCcB8S+BiP0aTiDY6MZLiAZEZx6usRDeIicHmJgMRp
-         o4EVvuFJE+IkHu8l3/0BGH2IJl4sQnyOBrAVa7vh+RM4Wqu0yMwix2W2EM7ChHC2qz6w
-         m+i9z4hSP+b/2DmGKkVlmZxQyaPUgmAJ7IDjdFIzTPTI01BPSLIjvLpSCzlOHXeAdOYs
-         CxQTnji0/bAnkzNU5IkqKBv8jfhvASeqkEPQ0vWOSc50e/zE+IYPy8mTKLxANunLKCdO
-         xzag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733835951; x=1734440751;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0oIj1xWKPdby0vrQ40WH8zN7utwfWW1alZZrawjvIUo=;
-        b=jtT21oSziD2gk9QPmgFATpaebRdV7H9rekglEQuUPWILHVGDDzIFT8ffQeqhC+YiCD
-         DqI8a7U+484os8WE/oDaTG6cmXKzQlf2n0JYWLkNfc/U0NrGnFUq76FsAxd0PxcYtAA1
-         Q2Z7ZDhtZjNohygSFnR1VK8/2rWr54ENn4X47pdkKN6MB69ATygKC8CAlJRQtcHxeHg4
-         uX82AEwaYqmqeMlLVGzHOGOmHMy+okWr/wS9hao/BQM44oXKlUuWXJzLJkhkud+3noUL
-         FrgFK3lEXguqjz3vZKXi0BbqP5zAeQr0W4k0Jb1HCRxxIEDQAtD/oi5HYkMg+w2ngzPN
-         PSug==
-X-Gm-Message-State: AOJu0YyWLTK8NxbA9OB3EW1gCtpCfjnXosWuXVdpSYEYE7QqeVv+YCmp
-	Lv/elQDKfnGmotz6DgGrB6YgiOIgx93MLjU4QcqzDN3+GbMudxyvrNjEMEBSiEA0+2cUoi8LzVJ
-	P9yJ018BBjn7KjS6Aa4MuH02eS90P/A==
-X-Gm-Gg: ASbGncuzuEoRYMe5P+1T0GgLp8/CtSq7S8kp92oFt5atpxTDNbbIwxggVc+4L7TFUHC
-	jIckgufmouVB9hMkufnbf+8XI74U+nrt003Mxmwu3tJW+ZGoHevo+mOWqx9rHi4bYq3m4Kg==
-X-Google-Smtp-Source: AGHT+IHk3q/BXC5rdZJY0Rkt47wSY0DRL9DL9P+6kfGn9nRqvaFTwq1JYi+dGu9bgn9cbxhZkYoNpEtcKCv0vCa8568=
-X-Received: by 2002:a05:6214:410e:b0:6d8:8256:41d7 with SMTP id
- 6a1803df08f44-6d91e415cf9mr63060046d6.33.1733835950601; Tue, 10 Dec 2024
- 05:05:50 -0800 (PST)
+ dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm2 header.b=K6MPk4LF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-456497-2024121013251039017a0fa7d4ea2472-yo_tag@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2024121013251039017a0fa7d4ea2472
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 10 Dec 2024 14:25:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=alexander.sverdlin@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=nSctxGKd5WU86WAdryZSSuhsfFqjJCCrBdUSoam5TWY=;
+ b=K6MPk4LFVzBN3rO6kt9Qc5Em6JQRWp1Yww0vwxs+65sG6s+6jRhfez5OXMKdyB4oXCF87t
+ Nv/ZI1Z0CKNbvgUUGt54Jrz0dqeaR3Degw4lLCV8di4OEoXs4Z60Y0/VQ7qcdHW/RXxUjmpF
+ 1atfSOvXrS3mZ/rP2U2P3lGNCoWwMVoHse46gJNcYqlBQJUlR0KF2LKqoyALRsO2cz7yMfhw
+ YY0e1FHY1jn7vw3Z2a0tb5MB3chfgkRnduwRWA79MxD4i6m8DByOam8senEBKhX12S2kMS5+
+ H2A6tMKRP5vus6PgTOoLlAZ2N5MI/EjsHW2l7GpXoQ0PQJTsqNrU5xeQ==;
+From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	Peter Marko <peter.marko@siemens.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Joe Slater <joe.slater@windriver.com>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] systemd: actively disable Predictable Network Interface Names if !pni-names
+Date: Tue, 10 Dec 2024 14:25:03 +0100
+Message-ID: <20241210132507.2240753-1-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
- <20241118162643.1423409-3-alex.kanavin@gmail.com> <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
-In-Reply-To: <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 10 Dec 2024 14:05:39 +0100
-Message-ID: <CANNYZj_ONOGam=9um4qqqAc_D0gQHrQML3a9eXBEgHLCiRtM1A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
- config fragments
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-456497:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208535
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:25:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208536
 
-On Mon, 9 Dec 2024 at 18:00, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Firstly, I think the "(disabled)" is the wrong way to show that
-> information. It would be more compact and perhaps more usable to show
-> the elements sorted into two sections along the lines of:
->
-> """
-> Enabled fragments:
->
-> selftest/test-fragment - This is a configuration fragment intended for testing in oe-selftest context
->
-> Unused fragments:
->
-> selftest/more-fragments-here/test-another-fragment - This is a second configuration fragment intended for testing in oe-selftest context
-> """
+From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 
-This is fine, I can fix it.
+Currently pni-names PACKAGECONFIG option adds "mac" names policy if
+selected, but nothing otherwise. In systemd Predictable Network Interface
+Names are applied by default which leads to inconsistend behaviour.
 
-> Secondly when listing the fragments, the current approach does lend
-> itself to cut and past but also doesn't group neatly. For example you
-> could do something like:
->
-> selftest/
->   test-fragment - This is a configuration fragment intended for testing in oe-selftest context
->   more-fragments-here/test-another-fragment - This is a second configuration fragment intended for testing in oe-selftest context
+One could think that pni-names in DISTRO_FEATURES would enable or disable
+Predictable Network Interface Names, but currently if not present it's
+only actively disabled for QEMU via kernel command line
+(commit 9e9c33d51e40
+("qemuboot/runqemu: Fix 6.2 and later kernel network device naming")).
+It has no effect on the real HW. If the option is present, it merely adds
+"mac" into default NamePolicy, which may or may not have observable
+effects.
 
-If we start going down this path, we might as well write an
-interactive curses UI, and keep the command line output 'flat' like it
-is now. I'm also not sure what is the best approach, we'd need to take
-fragments into practical use and accumulate a sizable amount of them
-perhaps. Such things can be easily tweaked from experience.
+Make pni-names semantics more consistent by actively suppressing
+Predictable Network Interface Names if the feature is not present.
 
-Alex
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+---
+ meta/recipes-core/systemd/systemd_256.8.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
+index c1915d7e941..2b5a90aacbc 100644
+--- a/meta/recipes-core/systemd/systemd_256.8.bb
++++ b/meta/recipes-core/systemd/systemd_256.8.bb
+@@ -390,6 +390,9 @@ do_install() {
+ 		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
+ 			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+ 		fi
++	else
++		# Actively disable Predictable Network Interface Names
++		sed -i 's/^NamePolicy=.*/NamePolicy=/;s/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+ 	fi
+ }
+ 
+-- 
+2.47.1
+
 
