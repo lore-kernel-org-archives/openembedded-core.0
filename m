@@ -1,103 +1,100 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD5CE7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 11:51:08 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.8428.1733831464551225865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CDDE7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 12:02:18 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.8724.1733832133852870122
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 03:51:04 -0800
+ Tue, 10 Dec 2024 04:02:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PzyKbPJR;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2166651f752so14540605ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 03:51:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733831464; x=1734436264; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bMrS1kV2lZLd0MjdNrakvLcZTGhfg19V9mea6u/cFfs=;
-        b=PzyKbPJREzj9ll/Sp3qrmmfJ41yqrc0UoAlyIiSdAj0a22dn3kDrBP05itXkK7wFy5
-         lxC1fVkdN7rgPCYZmsFBwQc/XL1jPbk5fGOVNnkluTGjeoVEILoJedSwlCk/Aw+QPXq7
-         vDzYek01pGN33pvrvZMGjaWF5h1ZZ0sS8mpIT38q2eIzKjhp0UP4nkFV6Ma3mAH19WKC
-         WljcrYr2VDovNlS7+MLa1uGFEkqNbC47aPwwvV6ViojHqV8kBhQKK57obB1AVuoYC/8V
-         0QHkxXyl3PXadEHs3j27Gf+8Vmo5Z6knn4cDJAM8SdT15Wzn0HW9NA4Tjbl4iEOhMm1p
-         k/Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733831464; x=1734436264;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bMrS1kV2lZLd0MjdNrakvLcZTGhfg19V9mea6u/cFfs=;
-        b=rEGHsmKl2B86p+rkEF40zN0/ymKViVp8/dV2rGwEW8qVM8qhEiXPtlhaAB2jcT05LM
-         YVDqFcd4VL/ELE/lsiYPyRrzxOQ+ppZoBCCLRooUjE9qdlTFnHwb1z6pIWENLe1X6Loe
-         sTnIOV8Nl2IhXC01WDtGMQSBoLFcLO3D7pUGip0kGI4AK06Z7m0+9xMIUvntHbPd7fFM
-         LyQCGRZA2Xu4al4YjoTqloNZGi2fUTh8yzALFdeiSxqP1hwa6uKgN9agr9BSIyqrkaQr
-         ROKsJqaBPqfCFz7dh6/5KrEfEf8zPpcZB3FO9BSST/pVmonkgTXklbwsXWHf++vgZ8cE
-         prew==
-X-Gm-Message-State: AOJu0YzDr3t9j6LWAXVq15Xql2YxprymATVppWFBH/U5r8X4W6PpT98G
-	m8BrnooNbEuS4v8rZPATe1JxMpTHFdwBISUBgU9iXuPdSltLsLeAWpTLazm4rw+xHWEoARBxBLV
-	qBTbNzgxO2ewkwEtwa8hUwvUGNlqwvqLU
-X-Gm-Gg: ASbGncthTRZlGdGLY6QSgj252IEJh70czCyZOQeyc4KEqLDRdWRcyORROvomZriZtVf
-	T8Ur8fD05JRRwtsxEDkEhrToUjV0jkK1AiDrcKw==
-X-Google-Smtp-Source: AGHT+IHJ6MG3gVEHMUOoHjxrnsdS/d1afIHg1pfpiBBs+uLvMK26+Gpk2GG8WrktlDKhlKt+Edfo+UvafKV1QJ1OA2Y=
-X-Received: by 2002:a17:90b:554e:b0:2ee:70cb:a500 with SMTP id
- 98e67ed59e1d1-2ef6955fa26mr22634876a91.1.1733831463826; Tue, 10 Dec 2024
- 03:51:03 -0800 (PST)
-MIME-Version: 1.0
-References: <180FCE6B9F7A1D87.24224@lists.openembedded.org>
-In-Reply-To: <180FCE6B9F7A1D87.24224@lists.openembedded.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 10 Dec 2024 12:50:52 +0100
-Message-ID: <CAApg2=R3JRnuRfe46r9qoSmpUuxXCWb2D2rUBDaXxiUJ8xiuQg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC 0/3] cve-check: use the more stable old feed
-To: rybczynska@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Marta Rybczynska <marta.rybczynska@ygreky.com>
-Content-Type: multipart/alternative; boundary="000000000000807f7d0628e918dd"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AzqHZxz/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Fw3K/Mep;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010193b072c996-555864a0-7a7a-4e78-bb21-be4294aef341-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1733832133; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=GWIh9Kc/ZR8mjTXsDayjZoH/Gp0vMjsE6HGE7MRxJRU=;
+	b=AzqHZxz/y08JW0FSCxTY2K8wHuMKvAEVPUKLtslR1ki2HETXYjr3BCt3Fwooqqa8
+	M8cNX+atwYW/oJCoMznsLC3YlYwzyW9idddH9ZXeRqqCW4fX+P6jo2yNTNq5sAhU3N7
+	yG8dzUIG9DFgltPPbdEePGcLp5P+b53Sz88qL2eA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733832133;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GWIh9Kc/ZR8mjTXsDayjZoH/Gp0vMjsE6HGE7MRxJRU=;
+	b=Fw3K/Mepk6YCmPH8tTgUi8lHJ+BWCR7Rt3iL7RRgoYBkP5hTKt0lCJgmU8mQIZ/8
+	Kn0p6RcRwNVgo0StRRTj/NhlTdYYNNgsVxCzhLPseppyXh5+xZku8JRi6icWhZWhxKz
+	Un6SXBrywB2YQb6d6P5tmNngs/vIPazR0rczYPtc=
+From: patchtest@automation.yoctoproject.org
+To: Marta Rybczynska <rybczynska@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RFC 1/3] Restore cve-update-db from kirkstone
+In-Reply-To: <20241210114839.1579228-2-marta.rybczynska@ygreky.com>
+References: <20241210114839.1579228-2-marta.rybczynska@ygreky.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193b072c996-555864a0-7a7a-4e78-bb21-be4294aef341-000000@us-west-2.amazonses.com>
+Date: Tue, 10 Dec 2024 12:02:13 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.12.10-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 11:51:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208527
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:02:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208528
 
---000000000000807f7d0628e918dd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-On Tue, Dec 10, 2024 at 12:49=E2=80=AFPM Marta Rybczynska via lists.openemb=
-edded.org
-<rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-> This patchset re-enables the old (deprecated) NVD feed for cve-check.
-> It also opens the way to use another data source using the same format.
->
+---
+Testing patch /home/patchtest/share/mboxes/RFC-1-3-Restore-cve-update-db-from-kirkstone.patch
 
-Explanation: this allows the switch to
-https://github.com/fkie-cad/nvd-json-data-feeds
-as a second step.
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
-Regards,
-Marta
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
---000000000000807f7d0628e918dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 10,=
- 2024 at 12:49=E2=80=AFPM Marta Rybczynska via <a href=3D"http://lists.open=
-embedded.org">lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto=
-:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pat=
-chset re-enables the old (deprecated) NVD feed for cve-check.<br>
-It also opens the way to use another data source using the same format.<br>=
-</blockquote><div><br></div><div>Explanation: this allows the switch to=C2=
-=A0<a href=3D"https://github.com/fkie-cad/nvd-json-data-feeds">https://gith=
-ub.com/fkie-cad/nvd-json-data-feeds</a></div><div>as a second step.</div><d=
-iv><br></div><div>Regards,</div><div>Marta</div></div></div>
+---
 
---000000000000807f7d0628e918dd--
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
