@@ -2,50 +2,50 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 613BFE77180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F52EE7717F
 	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 21:18:57 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.4416.1733865533355845320
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.4411.1733865534084195145
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 13:18:53 -0800
+ Tue, 10 Dec 2024 13:18:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G728hCE6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=o+JL5r5s;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010193b2706c11-915aeead-8b33-4628-b40a-074d51541dfb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=euiqiCgz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rk0/NgeO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010193b2706f49-7eb89488-2d36-492e-8f51-378982eb1ae6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733865532; i=@automation.yoctoproject.org;
+	t=1733865533; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ZXAkVPrwnGELQlrgq3akY0JOu+/YRoSmiG3MzoEnYlw=;
-	b=G728hCE6P9qOGUhVdY2glA8E+oFD/LrwrxtxZ3w5ar/U+KPNTm3Ilw+W1MB6Bbf3
-	xn4muiB+Z9aA00g3SLDwnac7jQSUShpgS5/sg/hOnPp/KzMR40cD4kIIIDBI3QJb7JA
-	vUG7ZvA8ydF2C4NRor7JYIQdziKjAOW6SxZwbRJ0=
+	bh=eyhmFYmZEr3IVFImm4Bq/i3Y5aAc11G+A6MXftQ1hn0=;
+	b=euiqiCgzV73F+lWvhsiV9nTsaAULUZiCALfdRXfU3VCXOjX3wcSheQ/B2DfqA6XF
+	Ddomn66hzQPxqb0wPi3Ti0U/Fxbds6VluspOP5NLibfUqjpHOLhXxw7DW2dsPE5XowN
+	Hk1yQQTW/dbYQNqi85ybAdp+3nJoIIYbw/DV5HUc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733865532;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733865533;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ZXAkVPrwnGELQlrgq3akY0JOu+/YRoSmiG3MzoEnYlw=;
-	b=o+JL5r5slSFgK1kw684mh6YlU+LLnmcVB/govm9+9Z0Vb89lzsYkZ1FHWUGvcgIB
-	EaeXLn9wvbKZmMqQ248lhOzh+zHbPINm70YTF9BKtRbqUGNDJfAfw7SYX1wUzgMWlqE
-	U/DRRwbqGPve3/t7w6l+7Ub9pSmsamX7JkKd5ttk=
+	bh=eyhmFYmZEr3IVFImm4Bq/i3Y5aAc11G+A6MXftQ1hn0=;
+	b=rk0/NgeOecsCzGGqNWN9U7583gGU2GqNfxwJ3ObhIfHz6QWgQT3ZkbWxAN6Y+IwE
+	h0eElA0bFnFcmzYRGC8ah2K03+wEYebd3jh0RcEqJ1RGoyso806swzENA0U1kYUGYcq
+	uN0QYCFhn3mcrOUUQmjddsCQIbulg9sO7wtYNBe4=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 5/6] poky/poky-tiny: update default to v6.12
+Subject: Patchtest results for [PATCH 6/6] yocto-bsp: drop 6.10 bbappend
 In-Reply-To: 
- <96fdaf0aab7a75c7dbf9e5bee583ac3c6353f262.1733864271.git.bruce.ashfield@gmail.com>
+ <6b100ab4a08b463db909022b5bd2a6ac7513c29d.1733864271.git.bruce.ashfield@gmail.com>
 References: 
- <96fdaf0aab7a75c7dbf9e5bee583ac3c6353f262.1733864271.git.bruce.ashfield@gmail.com>
+ <6b100ab4a08b463db909022b5bd2a6ac7513c29d.1733864271.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193b2706c11-915aeead-8b33-4628-b40a-074d51541dfb-000000@us-west-2.amazonses.com>
-Date: Tue, 10 Dec 2024 21:18:52 +0000
+Message-ID: <01010193b2706f49-7eb89488-2d36-492e-8f51-378982eb1ae6-000000@us-west-2.amazonses.com>
+Date: Tue, 10 Dec 2024 21:18:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.10-54.240.27.193
+X-SES-Outgoing: 2024.12.10-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 21:18:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208563
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208564
 
 --NextPart
 Content-Type: text/plain
@@ -55,7 +55,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/5-6-poky-poky-tiny-update-default-to-v6.12.patch
+Testing patch /home/patchtest/share/mboxes/6-6-yocto-bsp-drop-6.10-bbappend.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
