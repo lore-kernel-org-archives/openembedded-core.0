@@ -2,175 +2,102 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE2C1E7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 11:49:28 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.8393.1733831359390686829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD5CE7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 11:51:08 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.8428.1733831464551225865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 03:49:19 -0800
+ Tue, 10 Dec 2024 03:51:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PgqcS+dW;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434a742481aso49446085e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 03:49:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PzyKbPJR;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2166651f752so14540605ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 03:51:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733831357; x=1734436157; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=llgQvTX/hvDP/aOU1rLE47P2LtryoS5sr7Qe3U+5tTY=;
-        b=PgqcS+dWDc0zEG9I28ZWxA2ZQDmfrHGPG1AwgkgnctoP1xiywSjPpF5jWMJhfPzXYj
-         HLtZtih/1BuofFcIcFAlIP2CaM4SvHf4PEiI+Cr5YJemT/se8BBHE/QJhyGpqY7fV8Wn
-         5R9D1d10CeE1O7NpYKoay7mJRIExk/cxsxc8e3qtu2WwzLkntJ99ypQtFQ896C2zNwgo
-         +AKYO2aE5MjJpYHNTvCiYWCpA+nuN7ArBpL3dzDjF6FkXnvXE4GO606mSpXCxUCzFgxA
-         iE9f+alqMVDaqwSvacOOd0w6gbGB0Zkeaws5LuhH0T+s94aC1UxOJKDpcNKShZb7Ca/O
-         +Q2g==
+        d=gmail.com; s=20230601; t=1733831464; x=1734436264; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMrS1kV2lZLd0MjdNrakvLcZTGhfg19V9mea6u/cFfs=;
+        b=PzyKbPJREzj9ll/Sp3qrmmfJ41yqrc0UoAlyIiSdAj0a22dn3kDrBP05itXkK7wFy5
+         lxC1fVkdN7rgPCYZmsFBwQc/XL1jPbk5fGOVNnkluTGjeoVEILoJedSwlCk/Aw+QPXq7
+         vDzYek01pGN33pvrvZMGjaWF5h1ZZ0sS8mpIT38q2eIzKjhp0UP4nkFV6Ma3mAH19WKC
+         WljcrYr2VDovNlS7+MLa1uGFEkqNbC47aPwwvV6ViojHqV8kBhQKK57obB1AVuoYC/8V
+         0QHkxXyl3PXadEHs3j27Gf+8Vmo5Z6knn4cDJAM8SdT15Wzn0HW9NA4Tjbl4iEOhMm1p
+         k/Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733831357; x=1734436157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=llgQvTX/hvDP/aOU1rLE47P2LtryoS5sr7Qe3U+5tTY=;
-        b=qX6cerKZmF8cIAB5C9+j/4DE8dcKoK6qOPU7o93oPLMAdG2iUj+vyWhVOr0rmLsfAS
-         2fL9PnVYwU0a4WApakj6RrnLicmOo0knRXlccmnLgjZMmaLV9L0VW86oxUS+p1G9w93b
-         1rqw0WeqNkVDGRbaoB1g5TWc8yNpfblaO7FZ0xkZTkY0+FMqOVyMJM/K2ay/AVOHkFia
-         vKfb+8SnM6snQabDcl4ykGmP8ipoL8SQHIMrd1RseOB7M0AjqWfpSVUOgjJn46vrkHsa
-         WAfUsMQloMimiVEqlteHRN5t1psH2R1u45CLqXfmc3M0JPuemWoktmMHJQ34scQKZ/GL
-         nSmw==
-X-Gm-Message-State: AOJu0Yxked48VvVlJIOGDim96OJ68uUv+JYgVUPJsisLWKZrkZrgKB9G
-	STZg08ZZ6lGBIFAbo0vAAX7YYQ8NKB79f6Mh3v7YFktpMRdeDRRgF7K/NA==
-X-Gm-Gg: ASbGncvPbr8ae9dvdVf4A+NFOOLcMPJgt4QE84Z/nUgPozpTAVLBMoyq/GCP50ycrlC
-	xIJ/GgdUxduCK+bwKtMhKZwSYWicdO+SQJu7DAvTvV+cikgnlLfm59yIawQh7it+xoZH8AVWrFG
-	ECfw1NN+bT2nmfJLM2wWz4O0t2m6ZDGpgqYkz68GijMHZl5vAGBpDLW8cHjzMLWtYFqiN6mkQ3e
-	m4M7YCJgKEuh4E9cgmkZCfr8qe9YfX9uvoblToZK1g06MTg+GlVnC1ZSSgvjNevkQQ=
-X-Google-Smtp-Source: AGHT+IF2slhZxizTZzZ6cSIx2ZMfF5y7SUcvIg+kdixx+Qbd5SeTVzvjJzZbgvQ3EYypskgSzrXkJA==
-X-Received: by 2002:a05:600c:5492:b0:434:faa9:5266 with SMTP id 5b1f17b1804b1-434faa953d2mr56691955e9.13.1733831357130;
-        Tue, 10 Dec 2024 03:49:17 -0800 (PST)
-Received: from voyage.lan ([2a0d:3344:23bc:5a10:70e8:c835:72ed:f8f5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861ecf3efasm15569553f8f.17.2024.12.10.03.49.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 03:49:16 -0800 (PST)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
-Subject: [RFC 2/3] cve-update-db-native2: update structure
-Date: Tue, 10 Dec 2024 12:48:06 +0100
-Message-ID: <20241210114839.1579228-3-marta.rybczynska@ygreky.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241210114839.1579228-1-marta.rybczynska@ygreky.com>
-References: <20241210114839.1579228-1-marta.rybczynska@ygreky.com>
+        d=1e100.net; s=20230601; t=1733831464; x=1734436264;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bMrS1kV2lZLd0MjdNrakvLcZTGhfg19V9mea6u/cFfs=;
+        b=rEGHsmKl2B86p+rkEF40zN0/ymKViVp8/dV2rGwEW8qVM8qhEiXPtlhaAB2jcT05LM
+         YVDqFcd4VL/ELE/lsiYPyRrzxOQ+ppZoBCCLRooUjE9qdlTFnHwb1z6pIWENLe1X6Loe
+         sTnIOV8Nl2IhXC01WDtGMQSBoLFcLO3D7pUGip0kGI4AK06Z7m0+9xMIUvntHbPd7fFM
+         LyQCGRZA2Xu4al4YjoTqloNZGi2fUTh8yzALFdeiSxqP1hwa6uKgN9agr9BSIyqrkaQr
+         ROKsJqaBPqfCFz7dh6/5KrEfEf8zPpcZB3FO9BSST/pVmonkgTXklbwsXWHf++vgZ8cE
+         prew==
+X-Gm-Message-State: AOJu0YzDr3t9j6LWAXVq15Xql2YxprymATVppWFBH/U5r8X4W6PpT98G
+	m8BrnooNbEuS4v8rZPATe1JxMpTHFdwBISUBgU9iXuPdSltLsLeAWpTLazm4rw+xHWEoARBxBLV
+	qBTbNzgxO2ewkwEtwa8hUwvUGNlqwvqLU
+X-Gm-Gg: ASbGncthTRZlGdGLY6QSgj252IEJh70czCyZOQeyc4KEqLDRdWRcyORROvomZriZtVf
+	T8Ur8fD05JRRwtsxEDkEhrToUjV0jkK1AiDrcKw==
+X-Google-Smtp-Source: AGHT+IHJ6MG3gVEHMUOoHjxrnsdS/d1afIHg1pfpiBBs+uLvMK26+Gpk2GG8WrktlDKhlKt+Edfo+UvafKV1QJ1OA2Y=
+X-Received: by 2002:a17:90b:554e:b0:2ee:70cb:a500 with SMTP id
+ 98e67ed59e1d1-2ef6955fa26mr22634876a91.1.1733831463826; Tue, 10 Dec 2024
+ 03:51:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <180FCE6B9F7A1D87.24224@lists.openembedded.org>
+In-Reply-To: <180FCE6B9F7A1D87.24224@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 10 Dec 2024 12:50:52 +0100
+Message-ID: <CAApg2=R3JRnuRfe46r9qoSmpUuxXCWb2D2rUBDaXxiUJ8xiuQg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC 0/3] cve-check: use the more stable old feed
+To: rybczynska@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Marta Rybczynska <marta.rybczynska@ygreky.com>
+Content-Type: multipart/alternative; boundary="000000000000807f7d0628e918dd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 11:49:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208525
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 11:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208527
 
-Update the database structure and tasks to fit the current YP master.
-This means:
-- add the unpack task
-- update the database structure (CVSS, vector string)
+--000000000000807f7d0628e918dd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-However, the old feed does not include CVSS4
+On Tue, Dec 10, 2024 at 12:49=E2=80=AFPM Marta Rybczynska via lists.openemb=
+edded.org
+<rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
----
- .../meta/cve-update-db-native2.bb             | 26 ++++++++++++++-----
- 1 file changed, 20 insertions(+), 6 deletions(-)
+> This patchset re-enables the old (deprecated) NVD feed for cve-check.
+> It also opens the way to use another data source using the same format.
+>
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native2.bb b/meta/recipes-core/meta/cve-update-db-native2.bb
-index e042e67b09..9077e7686e 100644
---- a/meta/recipes-core/meta/cve-update-db-native2.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native2.bb
-@@ -5,7 +5,6 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- inherit native
- 
--deltask do_unpack
- deltask do_patch
- deltask do_configure
- deltask do_compile
-@@ -21,6 +20,9 @@ CVE_DB_UPDATE_INTERVAL ?= "86400"
- # Timeout for blocking socket operations, such as the connection attempt.
- CVE_SOCKET_TIMEOUT ?= "60"
- 
-+CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK2/${CVE_CHECK_DB_FILENAME}"
-+CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
-+
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_1.1.db"
- 
- python () {
-@@ -38,7 +40,7 @@ python do_fetch() {
- 
-     bb.utils.export_proxies(d)
- 
--    db_file = d.getVar("CVE_CHECK_DB_FILE")
-+    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
-     db_dir = os.path.dirname(db_file)
-     db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
- 
-@@ -72,10 +74,16 @@ python do_fetch() {
-         os.remove(db_tmp_file)
- }
- 
--do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
-+do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
- do_fetch[file-checksums] = ""
- do_fetch[vardeps] = ""
- 
-+python do_unpack() {
-+    import shutil
-+    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
-+}
-+do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
-+
- def cleanup_db_download(db_file, db_tmp_file):
-     """
-     Cleanup the download space from possible failed downloads
-@@ -183,7 +191,7 @@ def initialize_db(conn):
-         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
- 
-         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
--            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-+            SCOREV2 TEXT, SCOREV3 TEXT, SCOREV4 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
- 
-         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
-             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
-@@ -263,23 +271,29 @@ def update_db(conn, jsondata):
-             continue
- 
-         accessVector = None
-+        vectorString = None
-+        cvssv2 = 0.0
-+        cvssv3 = 0.0
-+        cvssv4 = 0.0
-         cveId = elt['cve']['CVE_data_meta']['ID']
-         cveDesc = elt['cve']['description']['description_data'][0]['value']
-         date = elt['lastModifiedDate']
-         try:
-             accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-+            vectorString = elt['impact']['baseMetricV2']['cvssV2']['vectorString']
-             cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-         except KeyError:
-             cvssv2 = 0.0
-         try:
-             accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
-+            vectorString = vectorString or elt['impact']['baseMetricV2']['cvssV3']['vectorString']
-             cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-         except KeyError:
-             accessVector = accessVector or "UNKNOWN"
-             cvssv3 = 0.0
- 
--        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
--                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
-+        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?, ?)",
-+                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
- 
-         configurations = elt['configurations']['nodes']
-         for config in configurations:
--- 
-2.45.2
+Explanation: this allows the switch to
+https://github.com/fkie-cad/nvd-json-data-feeds
+as a second step.
 
+Regards,
+Marta
+
+--000000000000807f7d0628e918dd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 10,=
+ 2024 at 12:49=E2=80=AFPM Marta Rybczynska via <a href=3D"http://lists.open=
+embedded.org">lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto=
+:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pat=
+chset re-enables the old (deprecated) NVD feed for cve-check.<br>
+It also opens the way to use another data source using the same format.<br>=
+</blockquote><div><br></div><div>Explanation: this allows the switch to=C2=
+=A0<a href=3D"https://github.com/fkie-cad/nvd-json-data-feeds">https://gith=
+ub.com/fkie-cad/nvd-json-data-feeds</a></div><div>as a second step.</div><d=
+iv><br></div><div>Regards,</div><div>Marta</div></div></div>
+
+--000000000000807f7d0628e918dd--
 
