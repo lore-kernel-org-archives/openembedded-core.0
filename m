@@ -1,117 +1,218 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AFAFE7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 12:35:29 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.9340.1733834127752465707
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A399E77180
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 12:45:29 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.9533.1733834722388906544
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 04:35:27 -0800
+ Tue, 10 Dec 2024 04:45:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L5oSBM5e;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so2119959a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 04:35:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ab73zMdh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5cf6f367f97so8085765a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 04:45:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733834127; x=1734438927; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AAbxcA+jg2Qz0YizAJye5AMG4hEP9Lr5WLyLdqwCYPE=;
-        b=L5oSBM5eQcBIXnzTclBZN7XQlK+heQdbouLOAkJSWsOhgDKStVuvwLAU5QKUjwP/lB
-         lQnmAbLkJwLLywGKlA0PaT8AIZbtqRH+tkAkvrpfq8FnEyAeZ2ECyxP3ziKoAfn0SQo+
-         vwynx71ikKuO0oFg5QbUneDzWA6met5AefTzUI6JYri6Rw84BSEkl/qRIyeTiV9iy/ai
-         GQuDwtquzi+kjlQBflWZbzMo9zEEFrt6KiJ8Fhqra3XLxN0I3xUHB4SMrXmawm5uKaHa
-         WxMp5Xf058A5qpt5bQ0pBf3cA/2GHFfb1mq3yp2KIauPAAgOa3ABD/00k5+BQPmdyZf7
-         YWcA==
+        d=gmail.com; s=20230601; t=1733834721; x=1734439521; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oYkLWEiUESkEOqAXCWRGJtYM5jIbz8q9HCz6sqgdMm8=;
+        b=Ab73zMdhtA4md2Wm7L/H85P9k5nZ5tDl1WsIyDBqnMYkVvoStMDdULI0+IKCzlplTi
+         l6uP99EDU4c7l4/BPSeg042kdqQDOGXbVS7QXw3ugW7ryNACEkQwPN140hn3T0AyFhRz
+         2HEEJzPdA0I/N7waVjZRNY5sUA29709gvBShdYCj8jeN5YJGtyfL2ywuidccSjG1LaFO
+         NwDIl2kUQwlWhMCJcIcjSn0M4ToAggkjHgy2BY2kr2lHWGAXa2wj4d0jqSFyJtM5V0aG
+         fqxP9NFSneGJi+9p/QRSUXzhescLxOzpYDuJakklrFLd/vWL/a6+jQBzzxUbKyM7JL9u
+         h8Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733834127; x=1734438927;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1733834721; x=1734439521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AAbxcA+jg2Qz0YizAJye5AMG4hEP9Lr5WLyLdqwCYPE=;
-        b=ZLr2WayuX23AKfrG5ezWExKjIfg1m5BEmTmuo69pHr+mJXLlPCY6U9Ae0sAEmGpYW0
-         EBc0g7NGTfxGM7Gyj0sKQmC3e+rzWYskQGJKCMPFpfMwzXtNkceMQV2T5+JffUs5CriC
-         fqciM2474kSMZDYKpQ3yTDWpIniHy+sUiLqMD6CK/iPquKrVTroQqF4ltQPMUTEW8Xqy
-         bMIUsQQaX5McWw3+zWJzTNV2KLqynkLVklVKwDtWoYHLMRD+VSLgxLRPFJcwh72twoLe
-         K7uVXMXGYa2JS8o6Fj5Dg7H1k2Ygu/BmD+uh1sQ2hZ9YJkxpJGasO8Ez1JwjDxFEza/1
-         jKWQ==
-X-Gm-Message-State: AOJu0YzZfj0FCtJPF7EaZ5pTv1blXsyshrcYcYNV7Q6U2CDvcwNZj/n0
-	P5lrwSOlB7noRbL5b5MToq90lB0vu98oeNk1zzZP2Y8VkrLHuMK4HL41vwm4F2AydMiGjchEWP2
-	Tf+w3CRstogv0f4E0A8qAgrgbCP4=
-X-Gm-Gg: ASbGncvJ7ZVLabQ0q7tsCc7gq242LLPZV9zmkYSumD7WUBbblHaL5M3GJGkAzc2iSDA
-	8/gdPzMKWYfkoOe+TwCov4Qb+IM3eGqW84lWWhw==
-X-Google-Smtp-Source: AGHT+IF86G6Il+rRAVa7G0UJQrpc0A7xOGRiMx9Z0M/LBECFdJUe9ICC5tbgFKVSZkPJ2dm0U62v66JKs/5QASxlgXo=
-X-Received: by 2002:a17:90b:2b47:b0:2ee:b2fe:eeeb with SMTP id
- 98e67ed59e1d1-2ef6a6c2694mr20589232a91.22.1733834127141; Tue, 10 Dec 2024
- 04:35:27 -0800 (PST)
+        bh=oYkLWEiUESkEOqAXCWRGJtYM5jIbz8q9HCz6sqgdMm8=;
+        b=Y623KxFXoPIzWNCb69my0oZMI4JQEkJ9fsDWnkIVbTs4e3leF2FOM0fbvu17gFufil
+         1own+YfVo5uAIevQmx6Xbzh3qb5dLKmiQ/eDoOGOWHA/6tQYjwTclEjEsJAILNAMVvUB
+         raeeRWeeF36kjtEgp9ehCvbzI8LbWeZ0njugDCwE1oosxuC3aQvTn2YDGb3DVMgFpg5x
+         JMgqMyiYYayEsmQlZrSmz0DJJFRIhrjWQTkNV7BSRLr2ksrtV/ZxbdlOmz62gUGwU9VH
+         NsZIKCzmY8xgRGMUPg1OJGuOkBUBDNYhJWnr7380fyLvikg3ku/ghJvc+3jXf4FVhtFh
+         dPBw==
+X-Gm-Message-State: AOJu0Yz9fUmX2Epk9HHgJb63xqeCWKgjuW6IhjZei0PRphThQ/I6WE/M
+	OtyfvkJLLUhrcNy1KGbJHx3zY9nK/bIxYgU6BqSGEJPEuSpAFweikAFCww==
+X-Gm-Gg: ASbGncsYYe5kYBbtGxM8pkwOGWoR/R1+nv2MrmzUxTpsfg0IoQcfyoGMqQI/Br17HpG
+	+qR1Ont3hrZzF9pVU8WIJYZpOqR2zk09ZHlom5DKSE8y1CyncWmog6C/jejGxaoxXPGB3ClF5FC
+	/RMqoUrlFd/h8ooZgxulm5P7k2CtLle04SyGNSQ4QtaN4nNo2ZFsZyla4MvvLILsFayxyoO0NWc
+	N+3+3njJR47e662FF53xN4CvKHBq8nkIp5YlkdvCviP6yfQaXZMbKvXsW+70yAql4kwMNGQY9M1
+	z1Padujx/+k=
+X-Google-Smtp-Source: AGHT+IG0YR3iW9o9Z0PGH/nilibS1yJ9B7e7aCWIYs2GJX+iM/pBH9a1auYNT9ELNWoinHLxTTx9PA==
+X-Received: by 2002:a05:6402:13d1:b0:5d3:e8d1:a43 with SMTP id 4fb4d7f45d1cf-5d4185fe039mr5258316a12.27.1733834720405;
+        Tue, 10 Dec 2024 04:45:20 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d3c4019675sm6237454a12.50.2024.12.10.04.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 04:45:19 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] unzip: Fix configure tests to use modern C
+Date: Tue, 10 Dec 2024 13:45:15 +0100
+Message-ID: <20241210124515.3286524-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20241210114839.1579228-1-marta.rybczynska@ygreky.com>
- <20241210114839.1579228-4-marta.rybczynska@ygreky.com> <AS1PR10MB5697826BEDC05432727D5678FD3D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697826BEDC05432727D5678FD3D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 10 Dec 2024 13:35:15 +0100
-Message-ID: <CAApg2=SqKjVDGJ=idTRS0QbqX2=WA0u+A_b1j=HG_TztNEh+gw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC 3/3] cve-check: revert to old NVD feed
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Marta Rybczynska <marta.rybczynska@ygreky.com>
-Content-Type: multipart/alternative; boundary="0000000000003f75710628e9b7d2"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:35:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208531
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 12:45:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208532
 
---0000000000003f75710628e9b7d2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Khem Raj <raj.khem@gmail.com>
 
-On Tue, Dec 10, 2024 at 1:33=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
-om>
-wrote:
+Newer compilers end up with errors while compiling these test snippets
+and build results in failures.
 
-> This should probably be made configurable so we can switch to a source
-> which is reliable/available/up-to-date at time of build.
->
-> Maybe something like
-> CVE_CHECK_DB_FETCHER ?=3D "cve-update-db-native2"
-> CVE_CHECK_DB_FILENAME ?=3D "${@'nvdcve_2-2.db' if
-> d.getVar('CVE_CHECK_DB_FETCHER') =3D=3D 'cve-update-nvd2-native' else
-> 'nvdcve_1-3.db'}"
-> do_cve_check[depends] =3D "${CVE_CHECK_DB_FETCHER}:do_unpack"
->
->
-You're right here. There will be an additional variable in the next version
-of the patch adding yet another source, so that you can choose from three
-of them.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ ...rrect-system-headers-and-prototypes-.patch | 112 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/0001-configure-Add-correct-system-headers-and-prototypes-.patch
 
-Kind regards,
-Marta
+diff --git a/meta/recipes-extended/unzip/unzip/0001-configure-Add-correct-system-headers-and-prototypes-.patch b/meta/recipes-extended/unzip/unzip/0001-configure-Add-correct-system-headers-and-prototypes-.patch
+new file mode 100644
+index 0000000000..f7e0854cd9
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/0001-configure-Add-correct-system-headers-and-prototypes-.patch
+@@ -0,0 +1,112 @@
++From 5ac5885d35257888d0e4a9dda903405314f9fc84 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 10 Aug 2022 17:53:13 -0700
++Subject: [PATCH] configure: Add correct system headers and prototypes to tests
++
++Newer compilers e.g. clang-15+ have turned stricter towards these
++warnings and turned them into errors which results in subtle failures
++during build, therefore make the testcases use the needed headers and
++modern C
++
++Upstream-Status: Inactive-Upstream
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ unix/configure | 51 +++++++++++++++++++++++++++++++++++++++-----------
++ 1 file changed, 40 insertions(+), 11 deletions(-)
++
++diff --git a/unix/configure b/unix/configure
++index 49579f3..8fd82dd 100755
++--- a/unix/configure
+++++ b/unix/configure
++@@ -379,14 +379,37 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
++ 
++ # Check for missing functions
++ # add NO_'function_name' to flags if missing
++-for func in fchmod fchown lchown nl_langinfo
++-do
++-  echo Check for $func
++-  echo "int main(){ $func(); return 0; }" > conftest.c
++-  $CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
++-  [ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_`echo $func | tr '[a-z]' '[A-Z]'`"
++-done
+++echo Check for fchmod
+++cat > conftest.c << _EOF_
+++#include <sys/stat.h>
+++int main(){ fchmod(0,0); return 0; }
+++_EOF_
+++$CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
+++[ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_FCHMOD"
++ 
+++echo Check for fchown
+++cat > conftest.c << _EOF_
+++#include <unistd.h>
+++int main(){ fchown(0,0,0); return 0; }
+++_EOF_
+++$CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
+++[ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_FCHOWN"
+++
+++echo Check for lchown
+++cat > conftest.c << _EOF_
+++#include <unistd.h>
+++int main(){ lchown(NULL,0,0); return 0; }
+++_EOF_
+++$CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
+++[ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_LCHOWN"
+++
+++echo Check for nl_langinfo
+++cat > conftest.c << _EOF_
+++#include <langinfo.h>
+++int main(){ nl_langinfo(0); return 0; }
+++_EOF_
+++$CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
+++[ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_NL_LANGINFO"
++ # Check (seriously) for a working lchmod.
++ echo 'Check for lchmod'
++ temp_file="/tmp/unzip_test_$$"
++@@ -401,14 +424,17 @@ ln -s "${temp_link}" "${temp_file}" && \
++ rm -f "${temp_file}"
++ 
++ echo Check for memset
++-echo "int main(){ char k; memset(&k,0,0); return 0; }" > conftest.c
+++cat > conftest.c << _EOF_
+++#include <string.h>
+++int main(){ char k; memset(&k,0,0); return 0; }
+++_EOF_
++ $CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
++ [ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DZMEM"
++ 
++ echo Check for errno declaration
++ cat > conftest.c << _EOF_
++ #include <errno.h>
++-main()
+++int main()
++ {
++   errno = 0;
++   return 0;
++@@ -419,6 +445,8 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
++ 
++ echo Check for directory libraries
++ cat > conftest.c << _EOF_
+++#include <sys/types.h>
+++#include <dirent.h>
++ int main() { return closedir(opendir(".")); }
++ _EOF_
++ 
++@@ -523,10 +551,11 @@ fi
++ # needed for AIX (and others ?) when mmap is used
++ echo Check for valloc
++ cat > conftest.c << _EOF_
++-main()
+++#include <stdlib.h>
+++int main()
++ {
++ #ifdef MMAP
++-    valloc();
+++    valloc(0);
++ #endif
++ }
++ _EOF_
++-- 
++2.37.1
++
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index cf532c09d6..0f73cfaa22 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0529.patch \
+         file://CVE-2022-0530.patch \
+         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
++        file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.47.1
 
---0000000000003f75710628e9b7d2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 10,=
- 2024 at 1:33=E2=80=AFPM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@sie=
-mens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">This should probably be made configurable =
-so we can switch to a source which is reliable/available/up-to-date at time=
- of build.<br>
-<br>
-Maybe something like<br>
-CVE_CHECK_DB_FETCHER ?=3D &quot;cve-update-db-native2&quot;<br>
-CVE_CHECK_DB_FILENAME ?=3D &quot;${@&#39;nvdcve_2-2.db&#39; if d.getVar(&#3=
-9;CVE_CHECK_DB_FETCHER&#39;) =3D=3D &#39;cve-update-nvd2-native&#39; else &=
-#39;nvdcve_1-3.db&#39;}&quot;<br>
-do_cve_check[depends] =3D &quot;${CVE_CHECK_DB_FETCHER}:do_unpack&quot;<br>
-<br></blockquote><div><br></div><div>You&#39;re right here. There will be a=
-n additional variable in the next version of the patch adding yet another s=
-ource, so that you can choose from three of them.</div><div><br></div><div>=
-Kind regards,</div><div>Marta <br></div></div></div>
-
---0000000000003f75710628e9b7d2--
 
