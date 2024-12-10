@@ -1,102 +1,119 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F52EE7717F
-	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 21:18:57 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.4411.1733865534084195145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DDFE7717F
+	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 21:53:57 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.5236.1733867633371579560
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 13:18:54 -0800
+ Tue, 10 Dec 2024 13:53:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=euiqiCgz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rk0/NgeO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010193b2706f49-7eb89488-2d36-492e-8f51-378982eb1ae6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733865533; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=eyhmFYmZEr3IVFImm4Bq/i3Y5aAc11G+A6MXftQ1hn0=;
-	b=euiqiCgzV73F+lWvhsiV9nTsaAULUZiCALfdRXfU3VCXOjX3wcSheQ/B2DfqA6XF
-	Ddomn66hzQPxqb0wPi3Ti0U/Fxbds6VluspOP5NLibfUqjpHOLhXxw7DW2dsPE5XowN
-	Hk1yQQTW/dbYQNqi85ybAdp+3nJoIIYbw/DV5HUc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733865533;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=eyhmFYmZEr3IVFImm4Bq/i3Y5aAc11G+A6MXftQ1hn0=;
-	b=rk0/NgeOecsCzGGqNWN9U7583gGU2GqNfxwJ3ObhIfHz6QWgQT3ZkbWxAN6Y+IwE
-	h0eElA0bFnFcmzYRGC8ah2K03+wEYebd3jh0RcEqJ1RGoyso806swzENA0U1kYUGYcq
-	uN0QYCFhn3mcrOUUQmjddsCQIbulg9sO7wtYNBe4=
-From: patchtest@automation.yoctoproject.org
-To: bruce.ashfield@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 6/6] yocto-bsp: drop 6.10 bbappend
-In-Reply-To: 
- <6b100ab4a08b463db909022b5bd2a6ac7513c29d.1733864271.git.bruce.ashfield@gmail.com>
-References: 
- <6b100ab4a08b463db909022b5bd2a6ac7513c29d.1733864271.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193b2706f49-7eb89488-2d36-492e-8f51-378982eb1ae6-000000@us-west-2.amazonses.com>
-Date: Tue, 10 Dec 2024 21:18:53 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.10-54.240.27.30
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HHPS9AzP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434e69857d9so414265e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1733867631; x=1734472431; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MxBgBAg365i7wGMiSRomRiEh1ohXlreZNyI0ox6vQAE=;
+        b=HHPS9AzPH8sak67q+IDe/zKukMVQRQKTDNOdnaE4GzMAD/HwJ/vvowVSRoUIzjXB15
+         no50dcECVKabrtUw/PAV0fVte3ZfLbe5Hz9oSqpMAIh91E+9ffQMvIHPoArjNV55+uCF
+         wkCqkX/oOuumJCsOvMiuRGHfyEHXPJsjbJeyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733867631; x=1734472431;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MxBgBAg365i7wGMiSRomRiEh1ohXlreZNyI0ox6vQAE=;
+        b=aAtmsWHCXtdyleaR0sch8jMJwX8VAoPK6HuaJotu80xg9M357+a+lfnwL3TrtSHezH
+         AnTK4U1FLz2tcwC3ZUupnjOG8swgCGLrgWuyHDMyMV2bromPa2egtf0UKGFHzoKihbik
+         A3JrcwD7z5jxGBTXo8F/UWCCTmLU/jJvPvvx9wgpIangMpUoCjmZxauGh2rnklbNUKXR
+         LnEDw18kbaJ5AcH+neh7m3loidE+MoQI29aV+X2JbV2XVHnKJ/J+d3VWJOhOvI0ta6LM
+         ebN7TRbvZv0DsherD+t7hoLPnjH1VfvH/qI5PWGp/P3ov7Uzbz+yXmnazSPRjjznuif6
+         L+Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHDjVyM1gJTXA+DLz1vvVV7SDSjOBeY5o2u/8I9Y6SJ/I2dQzOIXAZZ/DjangQP2uTE/Pue+t2hXUlA9MxAgA76w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywb7ivpHJKRnFSumC3Nkejfth/wSQcsDfTL++PqkwcUFXd4UyL8
+	+NS+4/OXs5cpZ1++EIlI9SYp1V8V8V48rvKoPzpJlDs+u/54BWlRwdLTiZYaqvs=
+X-Gm-Gg: ASbGncvXkhzHBMpy1M0Lv23c9/vELpYtQKQlFd3UflQ9YwiQ1pnsoXHwWLeQYUkSLTX
+	AjeDMiU1ppSmsIfnMYcJVtwC01xoiDC++noreEiFOLCEusxZQrHt+ZmR5Wk4xwb2IXXnRT16+iC
+	QLY3rdcIil2985Ll1zFwNDonIf0MMQz0nK10zhN895upe03mlJzX1tHN/uLG57I/s4PJJasLpF7
+	75rvOt1Nn+R0YYFmRc7+EagoFnYju3JVLgr4C6yd9kt3OIIxj270XRpwRwB5kRluAl0bYd2LWjV
+	zE3BwBSrsanc7BTgF5xjR8kBOef9WrtKfBgbsKxyysY=
+X-Google-Smtp-Source: AGHT+IF5n0Sgd5aGW/UuQkaC0d8GsxmX7CMIba6DLUIq/SkNZv3C2xgP6q8IJ/Eku0xJGZ9gnfuLDQ==
+X-Received: by 2002:a05:600c:3226:b0:434:e65e:457b with SMTP id 5b1f17b1804b1-4361c58ee82mr2221145e9.3.1733867631444;
+        Tue, 10 Dec 2024 13:53:51 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d1b6:218e:c6fb:2d33? ([2001:8b0:aba:5f3c:d1b6:218e:c6fb:2d33])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-435017d724esm47396975e9.19.2024.12.10.13.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 13:53:50 -0800 (PST)
+Message-ID: <9c3143ebb7f9e17cfbd318ef0e17994aae7264be.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bitbake.conf: add lz4c to HOSTTOOLS_NONFATAL
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: jsbronder@cold-front.org, openembedded-core@lists.openembedded.org
+Cc: Denys Dmytriyenko <denys@konsulko.com>
+Date: Tue, 10 Dec 2024 21:53:48 +0000
+In-Reply-To: <20241210151015.2450083-2-jsbronder@cold-front.org>
+References: <20241210151015.2450083-2-jsbronder@cold-front.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 21:18:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208564
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 21:53:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208565
 
---NextPart
-Content-Type: text/plain
+On Tue, 2024-12-10 at 10:10 -0500, Justin Bronder via lists.openembedded.or=
+g wrote:
+> Commit fe167e082cbde1c6d186ecdda531abef610ac2ac switched to requiring
+> lz4 instead of lz4c which allows us to support distros dropping lz4c.
+> However, it's only in the 6.13 kernel that CONFIG_KERNEL_LZ4 makes the
+> switch from lz4c to lz4.=C2=A0 So we should continue to link lz4c if it's
+> available to support older kernels.
+>=20
+> Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+> ---
+> =C2=A0meta/conf/bitbake.conf | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 1d2c2e0022..c7927d19a0 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -553,6 +553,9 @@ HOSTTOOLS_NONFATAL +=3D "gsutil"
+> =C2=A0# Link to git-lfs if present
+> =C2=A0HOSTTOOLS_NONFATAL +=3D "git-lfs"
+> =C2=A0
+> +# Link to lz4c if present, used by linux <6.13 with CONFIG_KERNEL_LZ4
+> +HOSTTOOLS_NONFATAL +=3D "lz4c"
+> +
+> =C2=A0CCACHE ??=3D ""
+> =C2=A0
+> =C2=A0TOOLCHAIN_OPTIONS =3D " --sysroot=3D${STAGING_DIR_TARGET}"
+>=20
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The YP TSC chatted a bit about this. Personally, I'm a bit nervous as
+this could make the builds a bit non-deterministic and allow the builds
+to fail well into the build. We try to do that "up front" if and where
+we can to make developers lives easier. This becomes more likely as
+distros drop lz4c and releases age, i.e. we'll hit problems years down
+the line.
 
----
-Testing patch /home/patchtest/share/mboxes/6-6-yocto-bsp-drop-6.10-bbappend.patch
+I did have an idea for another potential solution which would be to put
+a lz4c wrapper in the scripts/native-intercept directory which tweaks
+the parameters and calls lz4.=C2=A0Could I convince someone to see if that
+would work?
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Cheers,
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+Richard
 
 
---NextPart--
+
+
+
 
