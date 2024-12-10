@@ -2,61 +2,61 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE93E77182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED53E77180
 	for <webhook@archiver.kernel.org>; Tue, 10 Dec 2024 21:06:37 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web10.4185.1733864790022729655
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web11.4149.1733864791300048530
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 13:06:30 -0800
+ Tue, 10 Dec 2024 13:06:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZHmkM8Jq;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-467777d7c83so11465481cf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:06:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J+YF/bqJ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-46753228bfbso24576901cf.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 13:06:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733864789; x=1734469589; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1733864790; x=1734469590; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VLHiv35ka3kX87sbYtPdQmP6EM00dr9N1d0nsC+Fk70=;
-        b=ZHmkM8JqSBX3Q56kHJkSZaK9qt3HeFAUMHEtCDSfQPNa/Tav1A3ooTJ8a9CHLeX4Gr
-         vBpPzbLhauSoG7uYHxpkeaDXnf4wVAb412bltK9OZgYdbfAA5X2rv6VYrp9wWcRXpUzR
-         yPgiKZEeySkPfBVqISrOkB/1yNfXZdyUX+EK4wgMJ7bC212QkXsrmZumxntfkiDrO/Bn
-         U/nCObPwgLH1nWt9xTwlwNRWTKg4INW5f83MHEbnknp6C/NNkiG7V4TJQkx7djeBJTDS
-         q/5RTQb86XAH+QHO76HJOk+Xq09APf1eGSADcaRrBCrgMDnEXXzVfN0WNSa8i1HSZaKH
-         h47w==
+        bh=S8X23n1vNwxsHN8S7AF6riL3X4JJyjsXwv14sOb01os=;
+        b=J+YF/bqJ+iQO6Vj77Yv7lZzqCj1WAuUzeayXlFxera9KF42/KMrZD1J4l/S04+WB4q
+         o1vsZ+ewCF52I23A1Oryi9RB/Y6k7AgDhA6CB0t1fbnuCSj0GgQjVMKOyU8yTBDws1Nr
+         f1PKEZ7GDpRMN3Rxd5V54AdYIY0rBrxm7fC78k3egNR/1leY8d1jMqtBwdzCE0cIk8ac
+         8pn/JAR6TFtPXRhizGpr/Z9R/AnEDUrimxNM+1ExAegzGc2Sa1EWI6fqvYK0w/xbrbs+
+         2LB8j7qe1V7F64aTdB6XJxW3fZ9uNNF8WGjVn8nDYxMGJ4eGhBEV6vK5zH9QyDfs+t0y
+         t8Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733864789; x=1734469589;
+        d=1e100.net; s=20230601; t=1733864790; x=1734469590;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VLHiv35ka3kX87sbYtPdQmP6EM00dr9N1d0nsC+Fk70=;
-        b=gwom+KWBeGijN3LlEXucuhOg1/KhENDqnsyBIF0chG+KrewbA8pzkIavhYIEtE0PIW
-         Ps+/g0M4/6WOe6/yIX1SgyeQKbJOpOI9GHR861KND0aA9i5hxPQY0kE8Fh/VxqXDzqpT
-         0sfXT4psTlj3EFv9JTO4NhtV+u+p0vbNGFdKJ1BNMQLCsWInLXfDxfPnIYqyX8feAY44
-         T3cnYC9aVrJaWR+ctZoNgvO+q56ObhEGbynhJMqDwe1YU8smmoIANtKhibNlyjXYuNjp
-         KiB3MnrDDy4q2+j5I2BhI6yx5GvvD5RMx62CGhqP8Z9zHpeT2GKjhBCRL85289j6uGwx
-         h7AQ==
-X-Gm-Message-State: AOJu0YyYsSlLuaF5aRRM4aTVCqjoHccj16Yr+gt7YRTGgaUXhhw8G0A8
-	7SjB+n5cE6lH099Xt0vcwCOvHReLWjJu4+QJr8qOR7hZZ7Sy+aqv7oTdwSAt
-X-Gm-Gg: ASbGncuXumFES9qANYXiHZ5UYfwloLCNyvwjR4YhDgDFRhPwbISW+qVzFpQf1cwTSTU
-	RS/IEEmg+fsQQBFCaIz4/1mLlJj0Lg6+j5f6cFg9+aeJg0Px9cs9/aIj68rcRp70WWVDcWKuUTI
-	iLrFNymM2fEeR/PTbMPgxH4WwZ3zVNWFXITKfQ60+1Qi4BLhRQhHmHsdG8uB684zQd9kcGwaKOz
-	xc4r0zMrULcCoWLGdosfLscU7+ZGN7Aq8j1kPVi0bf/70oKxgAGM55D+z/kZ1b39JuTgdDj7gGO
-	RPEIYPcr1TzJCng12dNb0FjRJSA+zvj8Wf1xa6ZsWPh4VtiqxWJRIVE=
-X-Google-Smtp-Source: AGHT+IG4Y7+I5w2YqFO3pDgkY2TKDQOPHTlGtZ5Onkxz8gjhF8j/+9AGN+iVNEd5IVlG1jzcXZ6PPw==
-X-Received: by 2002:a05:622a:1389:b0:467:5a54:877a with SMTP id d75a77b69052e-46789309d4fmr5935301cf.28.1733864789069;
-        Tue, 10 Dec 2024 13:06:29 -0800 (PST)
+        bh=S8X23n1vNwxsHN8S7AF6riL3X4JJyjsXwv14sOb01os=;
+        b=sEZPumhosQttZaV1I12uwUh9uWTiEf5kaYzvxVibIIZ4yNKF0PXRGDX7sGhROXdHUw
+         oioUd8SSSY3rYzPcLplQGPM/OkZvk+SCutRiiYwePEhlFxXZGA+KIZmqcuCeIRG4gr/s
+         HSwpptEtfUYQAt+xZB24DA1jeh4jaigXWDIg6O+WF879f+7eY1etSmMrAuVW0RuvDLmP
+         LA8qXWqPzki6KFqMWg+leZ7jKTVqqsgUdGhE4R3T3Eb1T2YLUYiXzzuMLRyV+Pi3C7Z8
+         d67319PyrnNXiWXH3hiVaG7ipHzO9kEo+KotHuOoA28rd6tXkpMPU51mpNfXy74BPbGJ
+         k3Cw==
+X-Gm-Message-State: AOJu0YwTcDUjykwPBHMXkawO+/TjHbVH+sNcLVO3RfDaBibxrOmB6L5/
+	rTXNZhtF+aDVyT9jBY7jhKfqxJCZ8pjlN9LkG+ikysLG0fOkbCkBjjHPrNtV
+X-Gm-Gg: ASbGncsjQQB7lmFIQhnUeIptmpNxm39ooWPaAXc8/3w9HWzZGnBxwDY3CBIbIVEe1W3
+	h3YRlhAL/KRstLQLNBiLsNyQREVRzs5FXic8GuHfkkbm+j+J/OItIB8WFYaeR8IZY4SP2FfwRWS
+	+fP6KrsNffPLDx32HkidPX+GQIPzh8ptMUBDGX5+9k8srnHHhBdIR1AjoT3GDVvJdwY+AFm1x/k
+	IDQVqIsNsOVDEHXpugC5P4i+mecZdLSdj/WsD2Q5gjgmWYYEGMGJLvS85GR8AJaBTZGQlsQ/Mpu
+	68EI/A70o5gLbbZXZk12JzXtNdApkDgxBNxS57V0QcbMuDa2Gfys9PU=
+X-Google-Smtp-Source: AGHT+IG4KqViJkFC+N7M38Kr5rSwKPUyvSV1lNmbBYHPmLnIQFJ2luijL3Kmtiid01chEuE0mWk1BQ==
+X-Received: by 2002:a05:622a:1825:b0:467:4395:2ac9 with SMTP id d75a77b69052e-4678930acf9mr5231941cf.31.1733864790195;
+        Tue, 10 Dec 2024 13:06:30 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4676e091d95sm18415301cf.12.2024.12.10.13.06.27
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4676e091d95sm18415301cf.12.2024.12.10.13.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 13:06:28 -0800 (PST)
+        Tue, 10 Dec 2024 13:06:29 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/6] poky/poky-tiny: update default to v6.12
-Date: Tue, 10 Dec 2024 16:06:17 -0500
-Message-Id: <96fdaf0aab7a75c7dbf9e5bee583ac3c6353f262.1733864271.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 6/6] yocto-bsp: drop 6.10 bbappend
+Date: Tue, 10 Dec 2024 16:06:18 -0500
+Message-Id: <6b100ab4a08b463db909022b5bd2a6ac7513c29d.1733864271.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1733864271.git.bruce.ashfield@gmail.com>
 References: <cover.1733864271.git.bruce.ashfield@gmail.com>
@@ -66,47 +66,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Dec 2024 21:06:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208561
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208562
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The 6.12 kernel is a LTS and our next reference kernel, so
-we bump our default to it.
+The 6.10 reference kernel has been removed from OE core, so
+we drop our bbappend.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta-poky/conf/distro/poky-tiny.conf | 2 +-
- meta-poky/conf/distro/poky.conf      | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../linux/linux-yocto_6.10.bbappend           | 19 -------------------
+ 1 file changed, 19 deletions(-)
+ delete mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.10.bbappend
 
-diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
-index fd17097b56..20c13e6f60 100644
---- a/meta-poky/conf/distro/poky-tiny.conf
-+++ b/meta-poky/conf/distro/poky-tiny.conf
-@@ -44,7 +44,7 @@ FULL_OPTIMIZATION = "-Os"
- # Distro config is evaluated after the machine config, so we have to explicitly
- # set the kernel provider to override a machine config.
- PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
--PREFERRED_VERSION_linux-yocto-tiny ?= "6.10%"
-+PREFERRED_VERSION_linux-yocto-tiny ?= "6.12%"
- 
- # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
- #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
-diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-index b17bee5db5..f35f5382e1 100644
---- a/meta-poky/conf/distro/poky.conf
-+++ b/meta-poky/conf/distro/poky.conf
-@@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
- 
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
- 
--PREFERRED_VERSION_linux-yocto ?= "6.10%"
--PREFERRED_VERSION_linux-yocto-rt ?= "6.10%"
-+PREFERRED_VERSION_linux-yocto ?= "6.12"
-+PREFERRED_VERSION_linux-yocto-rt ?= "6.12%"
- 
- SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
- SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
+diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.10.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.10.bbappend
+deleted file mode 100644
+index 5d80f9d23b..0000000000
+--- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.10.bbappend
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# COMPATIBLE_MACHINE:beaglebone-yocto = "beaglebone-yocto"
+-COMPATIBLE_MACHINE:genericarm64 = "genericarm64"
+-# COMPATIBLE_MACHINE:genericx86 = "genericx86"
+-# COMPATIBLE_MACHINE:genericx86-64 = "genericx86-64"
+-
+-KMACHINE:beaglebone-yocto ?= "beaglebone"
+-KMACHINE:genericarm64 ?= "genericarm64"
+-KMACHINE:genericx86 ?= "common-pc"
+-KMACHINE:genericx86-64 ?= "common-pc-64"
+-
+-SRCREV_machine:beaglebone-yocto = "1025debfd0d40f7f8d0547328bbf50ac543bdeba"
+-SRCREV_machine:genericarm64 = "1025debfd0d40f7f8d0547328bbf50ac543bdeba"
+-SRCREV_machine:genericx86 = "1025debfd0d40f7f8d0547328bbf50ac543bdeba"
+-SRCREV_machine:genericx86-64 = "1025debfd0d40f7f8d0547328bbf50ac543bdeba"
+-
+-LINUX_VERSION:beaglebone-yocto = "6.10.8"
+-LINUX_VERSION:genericarm64 = "6.10.8"
+-LINUX_VERSION:genericx86 = "6.10.8"
+-LINUX_VERSION:genericx86-64 = "6.10.8"
 -- 
 2.39.2
 
