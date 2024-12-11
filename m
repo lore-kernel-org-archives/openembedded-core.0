@@ -1,161 +1,262 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7B7E77184
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 21:59:16 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.6608.1733954355223196902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD503E77180
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 23:36:26 +0000 (UTC)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web10.8466.1733960180123934552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 13:59:15 -0800
+ Wed, 11 Dec 2024 15:36:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CUO63VE9;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3863703258fso685489f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 13:59:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h0MqrNVX;
+ spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-29737adb604so3012fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 15:36:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733954353; x=1734559153; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1733960179; x=1734564979; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2y32TV2a6HlkYt57OuRpiV7oQNAJbYhJOaI+hlxMnUM=;
-        b=CUO63VE9Y5RbKQ/MH95mw6KvvqR4p4JhR6CFcolmzpzSbSsneJJc7ESRJvDbPWcyHV
-         qmulvchbOW9TDKMXU15vaq4z5czzI9q1myvmWR9GvpUC+4CQ596Tkblo9dxxOqJs0tYO
-         MxU/2eckpmwBXLKwngvVaRmd0Glv76RP9BO9OcxbZRwH+V06vA3M6chRrXUCEuqOemhl
-         flIiRuBvbrwuMBO4/DlbVAvcK3KLZACuBTu+/nJ8byF/ejL4KNyZ4H4gQmNGYus2yB3f
-         GOaNJZ7g3DKFUUpgaGPsJDR8APZIOdxVC1rPFHH5Kw2t60vTm1ZIcQKlmcfNiOUzzlJF
-         lO+w==
+        bh=IPw0GIrSOwPDSovuenXNjNPGZjy3pYYxi+gtwYwPtc8=;
+        b=h0MqrNVXtY0bp1gKcCq4tiZeK0d/FDQkEIgEgtxzZeeZ3QagnQyzjoH00IrWtZw/RN
+         FeVGI+zgzukx6dO+EbneSPW/8kNTp0/X9DNj4wf5cRaeauyAInFt+715BxMlMu1s8OiG
+         GuMFTEeNj3FizdJb310yu/TTen5W4uj5OWwPiEJZqb+c0yz0B8oNWmY7ZLruDOpf0fxr
+         PHbqXFyXgFp7CuwJ5tZF67Pwn1brxato8UtnStIgoNsIwDQ9qBNzxhBBFaHr2XY3fKYL
+         tXG8U1gzsEVFnzCqWXI4b4F1iv1FeCrh2bqXkab7C8RPsUzOAZPYEGHZ1ZakCSpJbKWA
+         yFpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733954353; x=1734559153;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1733960179; x=1734564979;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2y32TV2a6HlkYt57OuRpiV7oQNAJbYhJOaI+hlxMnUM=;
-        b=kMXyGbb2Ij9LlH0pgneLuQchdqmcrdEM3WudMWu/Uw7HPryx9PVy1nL7FVklZ2JERD
-         BoY+QQfTTu8MWkGcQNBBx7c/bXYU6sm+yhOCzGrvbVt67QZbwRze1Pq0Trf+gS8Ns6Sm
-         8p6GhQxZisN9W8yY+iE7u5jtkmPBxjj7OF7q37B28Z9zKfjW7EJUvdtlIC/nnw2fnj9G
-         sXmUFpPZe82ueUjVIf13uFE3azhuY3l4bza8/jMWPsiywLm/qq5jbZiQyvMLCZX06w56
-         MTmA/11B1ho5Tu+YfkMYW4KQe5/Z33epPx9vnce2wHGWxsnbdAi1FUukKSEhz7ECqZAO
-         56xw==
-X-Gm-Message-State: AOJu0YykCUgKv7JuKILc99s1DLil38M3dkphneeEmftk4aR0MZt7696Y
-	zEy78tsFPZjoJxiyM5k0nltUBwD0uJavCq1IQXLaqG2+v9pkHD2N0DpqnQ==
-X-Gm-Gg: ASbGnctZmmk3gS8kx4JXRIxf9SPCBoUCByd8PA8yD95z05aqj9uVjXWUDCL8d6k1nOf
-	5F3aopyitxiAn/DgduETiCJynBfRqsbqBRghtsi2uThn4bjB4H5kUhffYRXiTWTrpH0hCCnBx8D
-	BxkZK//OwcxesN6Rk0LsEAdhAiarLzsfpen1o1xWuwbLDFGXX4Ut6TbL+mE26ZxC8c4AmlPgqvp
-	h5aLi0ePRqjuQ7Ijanl8GDprCqyAHYU58/eybqXp8oZzIlJFOEf4Vxcrsd4gXw7fFhciKf53Q==
-X-Google-Smtp-Source: AGHT+IFwwV8wtzybfzoy8X5s7K1w0gLPq4vxC5LbJ+g/oJjMdMt4jx9u+Vd8PaMw+eXig7ASxsXhyg==
-X-Received: by 2002:a05:6000:186e:b0:386:3327:4f21 with SMTP id ffacd0b85a97d-38788858799mr538045f8f.27.1733954353216;
-        Wed, 11 Dec 2024 13:59:13 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824c5c98sm2180792f8f.58.2024.12.11.13.59.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 13:59:12 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 5/5] systemd: split networkd into its own package
-Date: Wed, 11 Dec 2024 22:58:41 +0100
-Message-ID: <20241211215859.2187259-6-adrian.freihofer@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241211215859.2187259-1-adrian.freihofer@gmail.com>
-References: <20241211215859.2187259-1-adrian.freihofer@gmail.com>
+        bh=IPw0GIrSOwPDSovuenXNjNPGZjy3pYYxi+gtwYwPtc8=;
+        b=lVOypNge4YNJ/vVHzzF8JHe0LFsbodqmJci10MO+tMJ24mTycSadLlvg5GeGUeuVon
+         DiV5C67D3v1ATJ3V6fUtclstCJC8KTZ0vjM+P0grNfvu0yfT1SI+0oWJ8sl0MQEAcuI2
+         BuymfFdZoTeL7INVFt7oaw40slSwVgRalIgAU77svq/OIDD6kfIWu/giC7W6KSpk81gT
+         wz8iNWCbAWisUGjt7KJDqG5U4MCLeRKljz57jKO/nW9Hf+ss/9ShdHM3cpNgARs4zAwT
+         zOlV1T06BrOEWmnSSpW0rkTBvucbAg4J38Kr/scEr4MDEITIQa2wuogl/IM+C7EPW767
+         sM/w==
+X-Gm-Message-State: AOJu0YypgaMbVpzBGaR+O57KsNFkRO5ZDzJL3WQcKWS+Ey3s+eSSAryt
+	9WR+D3P6mBa31c0jY2/tDtOggWlXFSMA5IbtN0FZlvyVcSEgNBTCyelvR6u+VASQyWxzOItAa1i
+	+1yaEuze+4teOdmMbObbZobQPvADJUw==
+X-Gm-Gg: ASbGncviFW5JSp4shsx/iGKlypPCVv29bgukTGuttefKwDKqcwvo5qsYofhNA9tdvpB
+	jttfpOpHDlJC6uNbiny9YYtMcDPBJgVG9lRtk1ZAxAy09gN9MwA==
+X-Google-Smtp-Source: AGHT+IFjnmfo38nq7Suj5xFBt1mout+GQ8Ndni+S+Sqzojzzsp4YN+tBb93d3edN1nnE0DkzhRwVuEs7T1e+Kh5AkVQ=
+X-Received: by 2002:a05:6871:68e:b0:29d:c624:7cc4 with SMTP id
+ 586e51a60fabf-2a38232e72amr1185457fac.6.1733960179318; Wed, 11 Dec 2024
+ 15:36:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241211180036.1710054-1-sunilkumar.dora@windriver.com>
+In-Reply-To: <20241211180036.1710054-1-sunilkumar.dora@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 11 Dec 2024 15:35:53 -0800
+Message-ID: <CAMKF1soxHqg-7KkGtSZKqf6gRgJKrw8GFTZCr9Nt5qUnuPzswA@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] gcc: Fix c++: tweak for Wrange-loop-construct
+To: SunilKumar.Dora@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 21:59:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208616
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 23:36:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208617
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+seems good to me.
 
-Support of images with different network management implementations
-without having to recompile systemd and other components.
-
-Fedora does this as well since systemd version 246.6-2:
-https://src.fedoraproject.org/rpms/systemd/blob/rawhide/f/systemd.spec#_578
-This proves that it is technically possible and officially supported by
-systemd.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/recipes-core/systemd/systemd_256.8.bb | 27 +++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
-index c1915d7e941..ca43c8d2ddb 100644
---- a/meta/recipes-core/systemd/systemd_256.8.bb
-+++ b/meta/recipes-core/systemd/systemd_256.8.bb
-@@ -412,6 +412,7 @@ PACKAGE_BEFORE_PN = "\
-     ${PN}-journal-remote \
-     ${PN}-kernel-install \
-     ${PN}-mime \
-+    ${PN}-networkd \
-     ${PN}-rpm-macros \
-     ${PN}-udev-rules \
-     ${PN}-vconsole-setup \
-@@ -440,6 +441,7 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
-                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
-                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
-                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
-+                    ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-networkd', '', d)} \
- "
- SYSTEMD_SERVICE:${PN}-binfmt = "systemd-binfmt.service"
- 
-@@ -453,7 +455,7 @@ GROUPADD_PARAM:${PN} = "-r systemd-journal;"
- GROUPADD_PARAM:udev = "-r render"
- GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
- USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
--USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
-+USERADD_PARAM:${PN}-networkd = "--system -d / -M --shell /sbin/nologin systemd-network"
- USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${datadir}/polkit-1 polkitd;', '', d)}"
- USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /sbin/nologin systemd-resolve;', '', d)}"
- USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /sbin/nologin systemd-timesync;', '', d)}"
-@@ -620,6 +622,27 @@ FILES:${PN}-extra-utils = "\
- FILES:${PN}-mime = "${MIMEDIR}"
- RRECOMMENDS:${PN} += "${PN}-mime"
- 
-+FILES:${PN}-networkd = "\
-+    ${bindir}/networkctl \
-+    ${datadir}/dbus-1/system-services/org.freedesktop.network1.service \
-+    ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
-+    ${datadir}/polkit-1/actions/org.freedesktop.network1.policy \
-+    ${nonarch_libdir}/sysusers.d/systemd-network.conf \
-+    ${nonarch_libdir}/tmpfiles.d/systemd-network.conf \
-+    ${sysconfdir}/systemd/networkd.conf \
-+    ${systemd_system_unitdir}/systemd-networkd* \
-+    ${systemd_unitdir}/network/*.network \
-+    ${systemd_unitdir}/network/*.network.example \
-+    ${systemd_unitdir}/networkd.conf \
-+    ${systemd_unitdir}/systemd-networkd* \
-+"
-+# systemd-networkd-persistent-storage.service BindsTo=systemd-networkd.service
-+# systemd-networkd.service has Also=systemd-networkd-wait-online.service
-+SYSTEMD_SERVICE:${PN}-networkd = "systemd-networkd.service"
-+CONFFILES:${PN}-networkd = "${sysconfdir}/systemd/networkd.conf"
-+RDEPENDS:${PN}-networkd += "${PN}"
-+RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-networkd', '', d)}"
-+
- FILES:${PN}-udev-rules = "\
-                         ${nonarch_libdir}/udev/rules.d/70-uaccess.rules \
-                         ${nonarch_libdir}/udev/rules.d/71-seat.rules \
-@@ -630,7 +653,6 @@ FILES:${PN}-udev-rules = "\
- CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
- 	${sysconfdir}/systemd/journald.conf \
- 	${sysconfdir}/systemd/logind.conf \
--	${sysconfdir}/systemd/networkd.conf \
- 	${sysconfdir}/systemd/pstore.conf \
- 	${sysconfdir}/systemd/resolved.conf \
- 	${sysconfdir}/systemd/sleep.conf \
-@@ -698,7 +720,6 @@ FILES:${PN} = " ${base_bindir}/* \
-                 ${nonarch_libdir}/modprobe.d/README \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.timedate1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.locale1.conf \
--                ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.resolve1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.systemd1.conf \
-                 ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '${datadir}/dbus-1/system.d/org.freedesktop.hostname1_no_polkit.conf', '', d)} \
--- 
-2.47.0
-
+On Wed, Dec 11, 2024 at 10:01=E2=80=AFAM SunilKumar.Dora via
+lists.openembedded.org
+<SunilKumar.Dora=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Sunil Dora <sunilkumar.dora@windriver.com>
+>
+> This commit updates the warning to use a check for "trivially constructib=
+le" instead of
+> "trivially copyable." The original check was incorrect, as "trivially cop=
+yable" only applies
+> to types that can be copied trivially, whereas "trivially constructible" =
+is the correct check
+> for types that can be trivially default-constructed.
+>
+> This change ensures the warning is more accurate and aligns with the prop=
+er type traits.
+>
+> LLVM accepted a similar fix:
+> https://github.com/llvm/llvm-project/issues/47355
+>
+> PR c++/116731 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D116731]
+>
+> Signed-off-by: Marek Polacek <polacek@redhat.com>
+> Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-13.3.inc        |   1 +
+>  ...ix-c-tweak-for-Wrange-loop-construct.patch | 113 ++++++++++++++++++
+>  2 files changed, 114 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-fo=
+r-Wrange-loop-construct.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-13.3.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-13.3.inc
+> index ffe90c7188..8b6c2a5938 100644
+> --- a/meta/recipes-devtools/gcc/gcc-13.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-13.3.inc
+> @@ -66,6 +66,7 @@ SRC_URI =3D "${BASEURI} \
+>             file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
+ \
+>             file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
+>             file://0027-Fix-gcc-vect-module-testcases.patch \
+> +          file://0028-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
+>             file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch=
+ \
+>  "
+>  SRC_URI[sha256sum] =3D "0845e9621c9543a13f484e94584a49ffc0129970e9914624=
+235fc1d061a0c083"
+> diff --git a/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-for-Wrang=
+e-loop-construct.patch b/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak=
+-for-Wrange-loop-construct.patch
+> new file mode 100644
+> index 0000000000..745b38f7f1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-for-Wrange-loop-=
+construct.patch
+> @@ -0,0 +1,113 @@
+> +From 66aa69e2add2b8641a652768b0eac30f00427145 Mon Sep 17 00:00:00 2001
+> +From: Sunil Dora <sunilkumar.dora@windriver.com>
+> +Date: Wed, 11 Dec 2024 09:48:16 -0800
+> +Subject: [PATCH] gcc: Fix c++: tweak for Wrange-loop-construct
+> +
+> +This commit updates the warning to use a check for "trivially constructi=
+ble" instead of
+> +"trivially copyable." The original check was incorrect, as "trivially co=
+pyable" only applies
+> +to types that can be copied trivially, whereas "trivially constructible"=
+ is the correct check
+> +for types that can be trivially default-constructed.
+> +
+> +This change ensures the warning is more accurate and aligns with the pro=
+per type traits.
+> +
+> +LLVM accepted a similar fix:
+> +https://github.com/llvm/llvm-project/issues/47355
+> +
+> +PR c++/116731 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D116731]
+> +
+> +Upstream-Status: Backport [https://gcc.gnu.org/g:179dc0f0fe01012675c1b43=
+0591b9891ce96c26e]
+> +
+> +Signed-off-by: Marek Polacek <polacek@redhat.com>
+> +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+> +---
+> + gcc/cp/parser.cc                              |  7 ++-
+> + .../g++.dg/warn/Wrange-loop-construct3.C      | 57 +++++++++++++++++++
+> + 2 files changed, 61 insertions(+), 3 deletions(-)
+> + create mode 100644 gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C
+> +
+> +diff --git a/gcc/cp/parser.cc b/gcc/cp/parser.cc
+> +index 4e67da6ff..5dd94357d 100644
+> +--- a/gcc/cp/parser.cc
+> ++++ b/gcc/cp/parser.cc
+> +@@ -13854,11 +13854,12 @@ warn_for_range_copy (tree decl, tree expr)
+> +   else if (!CP_TYPE_CONST_P (type))
+> +     return;
+> +
+> +-  /* Since small trivially copyable types are cheap to copy, we suppres=
+s the
+> +-     warning for them.  64B is a common size of a cache line.  */
+> ++  /* Since small trivially constructible types are cheap to construct, =
+we
+> ++     suppress the warning for them.  64B is a common size of a cache li=
+ne.  */
+> ++  tree list =3D build_tree_list (NULL_TREE, TREE_TYPE (expr));
+> +   if (TREE_CODE (TYPE_SIZE_UNIT (type)) !=3D INTEGER_CST
+> +       || (tree_to_uhwi (TYPE_SIZE_UNIT (type)) <=3D 64
+> +-        && trivially_copyable_p (type)))
+> ++        && is_trivially_xible (INIT_EXPR, type, list)))
+> +     return;
+> +
+> +   /* If we can initialize a reference directly, suggest that to avoid t=
+he
+> +diff --git a/gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C b/gcc/te=
+stsuite/g++.dg/warn/Wrange-loop-construct3.C
+> +new file mode 100644
+> +index 000000000..3d9d0c908
+> +--- /dev/null
+> ++++ b/gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C
+> +@@ -0,0 +1,57 @@
+> ++// PR c++/116731
+> ++// { dg-do compile { target c++11 } }
+> ++// { dg-options "-Wrange-loop-construct" }
+> ++
+> ++void
+> ++f0 ()
+> ++{
+> ++  struct S {
+> ++    char a[64];
+> ++    S& operator=3D(const S&) { return *this; };
+> ++  };
+> ++
+> ++  S arr[8];
+> ++  for (const auto r : arr)
+> ++    (void) r;
+> ++}
+> ++
+> ++void
+> ++f1 ()
+> ++{
+> ++  struct S {
+> ++    char a[65];
+> ++    S& operator=3D(const S&) { return *this; };
+> ++  };
+> ++
+> ++  S arr[8];
+> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
+> ++    (void) r;
+> ++}
+> ++
+> ++void
+> ++f2 ()
+> ++{
+> ++  struct S {
+> ++    char a[64];
+> ++    S& operator=3D(const S&) { return *this; };
+> ++    ~S() { }
+> ++  };
+> ++
+> ++  S arr[8];
+> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
+> ++    (void) r;
+> ++}
+> ++
+> ++void
+> ++f3 ()
+> ++{
+> ++  struct S {
+> ++    char a[65];
+> ++    S& operator=3D(const S&) { return *this; };
+> ++    ~S() { }
+> ++  };
+> ++
+> ++  S arr[8];
+> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
+> ++    (void) r;
+> ++}
+> +--
+> +2.43.0
+> +
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#208599): https://lists.openembedded.org/g/openembedde=
+d-core/message/208599
+> Mute This Topic: https://lists.openembedded.org/mt/110066262/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
