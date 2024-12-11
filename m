@@ -1,85 +1,85 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6E5E77182
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 11:25:14 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web10.8619.1733916311102205937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4996E77182
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 12:07:34 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.9240.1733918851429868925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 03:25:11 -0800
+ Wed, 11 Dec 2024 04:07:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CHjiS1cP;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d8f1505045so35903896d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 03:25:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733916310; x=1734521110; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eaOVrnIX0wjo1wAOGemblZ+cwf8ASpFXzYm5M7CAsyo=;
-        b=CHjiS1cPmwUribBtiSImWc6lk9426CYxI2+69uallnsojc8sBXgeDpcXQbfT1MC5qV
-         co+MKVOIh/nULmYo6SBZcoTTPviXi5H0HnvZCTUmv+XgkLbZCagg2+kwtx3SXuHbXXYr
-         26xk+aUx+feh1e9PM2sZXqQ8DlI31zhDSJ/kUHk1y1gupBoRWDuiOq8beJCFMDYl90p9
-         hz3YW1X7qlVypTIxp+fT7LfErJOQSAT7GbOjd/Rujy0I9nuj7Xr30CugGxhWs5jGvngd
-         H2o8M4Bl22PMZT4uiv1JR3sKWlfh92N6Ye+o+ifizLhR2xnauhL67YCWNqBQlOs7Tc7n
-         uH0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733916310; x=1734521110;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eaOVrnIX0wjo1wAOGemblZ+cwf8ASpFXzYm5M7CAsyo=;
-        b=Ut5fkCXpZgaSBdA3ABQpuPHiKBxrgtmhShRfn1P9ZTnAd/33sWc4Xewtv4oLQ2iTgS
-         uNMtaQawMAPPBb/0DqVeUBFULkxyPSjDS6FuMYjYF42kaJXN01YPJa5S7DJgHM1oBUzn
-         7+NgGK5W9eS9yYFoUlW8OR4LfPl/OMFSeRTWlC8vWss7NNBzwlR/YMy8XkxJw+BA8g/X
-         qtFhgyqEZpHPb10wQJjdMgPPzfQlfwhXWJg/NxDGvLY4n8rFL1XTfsVaPZJXw0y8ZAPd
-         CzMsaOabypD+tZRGmpKHlLBCfJWC/lvSoW6fT/tsRxvbxFL4N9MFa2ZuGB7/Dj8J1dmH
-         o79w==
-X-Gm-Message-State: AOJu0YyH7FqtOG5d8ywhTXx3wQjycdNnfD57hUCz7cA0l4iylQtHRtOb
-	saT+oCg4tcjNK8wcyrdyxRQa/l/vrS7w1dVZNOgtHq9fNsYiq2kZOKWhO1wx+liIzOHF37mrzGb
-	06Zj4WG+it9eUUmskgqWI/b54sBg=
-X-Gm-Gg: ASbGncs395/6jpawZvUIjxpUTjO7BiEZLeejbWOmrOa5YFMdMDyedXlLD5F5tuz4FMm
-	+Qr/BBSU+kI0UjRxmTKyNhcrrKTlt5s5UC4jG+mSBWHQMh2u25PFHp8XlmiKgqBCDNPIbTg==
-X-Google-Smtp-Source: AGHT+IHDMTOOe1wS5SK3mWTR4GwAh0sFxHfgnvQpCju74W/x1/5DY4ue5KUsbEELfFybbNhAcNFGTwgrskEECJXRa58=
-X-Received: by 2002:a05:6214:c8c:b0:6d4:fff:f9cf with SMTP id
- 6a1803df08f44-6d934bb0addmr49538916d6.35.1733916310179; Wed, 11 Dec 2024
- 03:25:10 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=207545b38d=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBBuev1011874;
+	Wed, 11 Dec 2024 12:07:30 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xc3n0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 11 Dec 2024 12:07:29 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 11 Dec 2024 04:07:28 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 11 Dec 2024 04:07:28 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jpewhacker@gmail.com>
+Subject: [PATCH 1/3] meta/lib/oe/sbom30.py: correct alias
+Date: Wed, 11 Dec 2024 04:07:26 -0800
+Message-ID: <20241211120728.3737604-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
- <20241118162643.1423409-3-alex.kanavin@gmail.com> <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
- <CANNYZj_ONOGam=9um4qqqAc_D0gQHrQML3a9eXBEgHLCiRtM1A@mail.gmail.com> <4254d23ae9ad100e70f199fa4949ce00bfe7063c.camel@linuxfoundation.org>
-In-Reply-To: <4254d23ae9ad100e70f199fa4949ce00bfe7063c.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 11 Dec 2024 12:24:58 +0100
-Message-ID: <CANNYZj-Ox6t8yV7Bh2NePmseYCW843Z5ozq50y2Tyoa=GeDPyg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
- config fragments
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: NmwStc4H6qYeh2xefGxW1PT7jh4dOg6C
+X-Proofpoint-ORIG-GUID: NmwStc4H6qYeh2xefGxW1PT7jh4dOg6C
+X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=67598081 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=rorgr0BEAAAA:8 a=t7CeM3EgAAAA:8 a=ViQE9sQjDe0smNEyRb0A:9 a=FuUPMLReglAHmohU_o2S:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-11_10,2024-12-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412110088
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 11:25:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208575
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 12:07:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208576
 
-On Tue, 10 Dec 2024 at 16:27, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+After commit [spdx 3.0: Rework how SPDX aliases are linked] applied,
+it added extra "/" to namespace, which causing the replacement of
+UNIHASH missing a "/"
 
-> > If we start going down this path, we might as well write an
-> > interactive curses UI, and keep the command line output 'flat' like it
-> > is now. I'm also not sure what is the best approach, we'd need to take
-> > fragments into practical use and accumulate a sizable amount of them
-> > perhaps. Such things can be easily tweaked from experience.
->
-> Having experimented with curses UIs, they're a pain and don't really do
-> what you hope/think they would.
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/0b308e4b9ad979f642d8787c61f76c31bdcad04837eeaaf8bc383f33f99bbeb8/flex-nativeUNIHASH/build/recipe
 
-We might be thinking of different things: my suggestion is that
-interactive 'kernel menuconfig' type UI is worth exploring for
-fragments (or bitbake-setup, for that matter).
+After applying this commit to remove "/" from namespace.
 
-Alex
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/0b308e4b9ad979f642d8787c61f76c31bdcad04837eeaaf8bc383f33f99bbeb8/flex-native/UNIHASH/build/recipe
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/lib/oe/sbom30.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 29cb9e45ad..08fea2aca3 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -267,7 +267,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+ 
+     def new_alias_id(self, obj, replace):
+         unihash = self.d.getVar("BB_UNIHASH")
+-        namespace = self.get_namespace() + "/"
++        namespace = self.get_namespace()
+         if unihash not in obj._id:
+             bb.warn(f"Unihash {unihash} not found in {obj._id}")
+             return None
+-- 
+2.25.1
+
 
