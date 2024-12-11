@@ -1,167 +1,377 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BDBE7717F
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 02:46:22 +0000 (UTC)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (APC01-PSA-obe.outbound.protection.outlook.com [40.107.255.134])
- by mx.groups.io with SMTP id smtpd.web10.2078.1733885180836974673
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B77FE7717F
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 03:04:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2318.1733886270185618356
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Dec 2024 18:46:21 -0800
+ Tue, 10 Dec 2024 19:04:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector2 header.b=FxDG+HqS;
- spf=pass (domain: aspeedtech.com, ip: 40.107.255.134, mailfrom: jamin_lin@aspeedtech.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=207545b38d=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB2HTJ4003262
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 03:04:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xbnmr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 03:04:28 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BB34SBA008747;
+	Wed, 11 Dec 2024 03:04:28 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2040.outbound.protection.outlook.com [104.47.70.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xbnmp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Dec 2024 03:04:28 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NzRDxa+XhLQ9O74NCRyG2MRvK9cuSPuVnxMHiO/hCjCH/BNMhrGRtEiz5CHzNiGN4GOgnddKV04j2pmu/uxi65YEChbSESnG7s/kSJZjIFxQ7uqcpOgE1kBUDlHz46kNMDKVjYBnluR05ehSb8wYus/XKX2Tk5tA1UKZhm5nw6bc0rH7g9XwVVofaMTH9j2RIZ5QM47uBXMvTQ521Ge3sYI+sK5R19VJMVllsVRemEjWtRzSUBtaQq5i24+n8/7x4FcKW22zJnUU8BeDCAmAL8nr8TYDU2A6gjznoe9o2xSWZVUcyGn19fGbsST8UioQewpU06kU6kilX9k/Ng6/9w==
+ b=H4uDCycFVr2YdtHpT3AG85q505nED/AqZ8lwdJhhB5yVZ/1NIz+SPOANNLAFePqzxmchZ/Ouyg6TINhbACOtVwHY8a1HFbDL2OBTSx5iqAZt+3+pyGX2bAlwETw08F8NxFFJHCXRPmmf4dG32kHQp29HZ9K5OTAXWn6W21BSyVy7xaUb+MBNwLNbyiVv5QGpMJ7yyKi0PaxM7Suqr9rTByC6qbMGAVnseBQr1lefD4rfzdJjFEnTXHpw6dHHpYzGXnKu5q0sP2tj6dYFQyXRoRYFSDwSn+dVZn6xOzMEBacv6a3Ccz3ovwSxkp4mq5AMATVCgjBtoztD7U8H5ta7rw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z9yCxVTG5INPJkYp1ddqnuY+fOmFbe2J0VaLah3/P2s=;
- b=yFXWjT2xOjmFGE/XTiEGbvcJpb0T7mnHUAmklWS7Gg10ELaCuZBGLCZSdXKoAOr/dTDLv1Unj4iuMLkYO9DUYWBv1bEMVKV1SFg5BukwY/jXF9giBTLO1s1lxQ0pUzEw6yxm2wgAlCDZs0PKyHEqhv2aZ/8mYxIrH2zoKxbQ3oL/aeANyNawEGU3+8EQKP7/CA6kYVGzto5Qyb9eKT8bW8Oefkgmk4WVj/JM7Q+aX1wAhPdogdY9nV5m4JkyO7ZVejXRl8QVf/HbDaUcHMDG7dmaB9UnGWT3gpfcwaDt/iGCdpzkwSpmiWIglLnVJx6Vx9/QM+LP9u2Au3PtgKTw2A==
+ bh=4D8r02JrJDYjGTqIKcIsP8LCbr8RZzTFgUvoclbLYrc=;
+ b=TFzW9xHomeROEJhJOEaCsGtNfMVjWlbk3cvd/Z/L3YspUEHJdbdIb3OaRD5uozx9taJuisFWlJvJ287IxhaioL5D6wIiaavNJ2hhQ84nrlc70y0aidaQ/Lv9/M1UxOVMSAR/DgjaVzGaW3Igud0IWQWNl2bycHxIZMnExyMUt9i2Qsr8PP7Wcw49wLPtAQJkasktYmBjOuYhMYhuEL9Av2mUu3qnmcUpzHhK0zaa3RjD831h7HKbH6x/3LYXrWcBGkWaVRCjDZmProrENKapTXc9jmYJ0sk/CdN7g4oZSQTFc7jBYCGgFYW/uq+koxTsGCfinhg2KggpcgqE/jbHew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z9yCxVTG5INPJkYp1ddqnuY+fOmFbe2J0VaLah3/P2s=;
- b=FxDG+HqSIFd2B0a56LgqU1hJbkl37xCvomgdHZguh2SQvxICUAdclYPmHZQfET1hOhQdovGc4m2A4BReXfYH4x2pss4BqFyJI+zeuh33gQw/JA99XHjPnpycHxH79pJ+WQb8Itk3DwTNCjBccxJFSHrpuKuNWK63mrId7VkJ2mXDGKq86Hu8IJ5zVdu8tAKZt64BXP1co0PED+4x5kH3bQv6w2yjZ2U+qkNwVWoX4mHNnNnwLodDEwa/FaTce/3NEL4nqURqkp6A/gpbtJofbf/jFvYLuAf+D3Z7bVeKJ6xuD6XjyKxYX8FyoxVqeLFv1E/YKYz8C3PFada9YSCbaw==
-Received: from SI2PR06MB5041.apcprd06.prod.outlook.com (2603:1096:4:1a4::6) by
- SEZPR06MB5072.apcprd06.prod.outlook.com (2603:1096:101:38::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.9; Wed, 11 Dec 2024 02:46:14 +0000
-Received: from SI2PR06MB5041.apcprd06.prod.outlook.com
- ([fe80::705a:352a:7564:8e56]) by SI2PR06MB5041.apcprd06.prod.outlook.com
- ([fe80::705a:352a:7564:8e56%7]) with mapi id 15.20.8251.011; Wed, 11 Dec 2024
- 02:46:13 +0000
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>, "ross.burton@arm.com"
-	<ross.burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Troy Lee
-	<troy_lee@aspeedtech.com>
-Subject: RE: [OE-core] [PATCH v4 0/3] uboot-sign: support ATF and TFE ITS
- generation
-Thread-Topic: [OE-core] [PATCH v4 0/3] uboot-sign: support ATF and TFE ITS
- generation
-Thread-Index: AQHbOYOscRgtxl75AkC5qc3dm++B17LMxhgAgAun+ICAABPwIIAGu9ZwgAE8ExA=
-Date: Wed, 11 Dec 2024 02:46:13 +0000
-Message-ID: 
- <SI2PR06MB5041EF10BC086B3776F6F11CFC3E2@SI2PR06MB5041.apcprd06.prod.outlook.com>
-References: <20241118063233.698679-1-jamin_lin@aspeedtech.com>
-	 <1762D5D7-817A-4852-920F-C6B57DAFD599@arm.com>
- <2cf9f5fe20b351481ef08b9e13eca31c5ee02a85.camel@gmail.com>
- <180E7161025130F9.8554@lists.openembedded.org>
- <SI2PR06MB5041F08E8F60CC3B5E31E9A4FC3D2@SI2PR06MB5041.apcprd06.prod.outlook.com>
-In-Reply-To: 
- <SI2PR06MB5041F08E8F60CC3B5E31E9A4FC3D2@SI2PR06MB5041.apcprd06.prod.outlook.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR06MB5041:EE_|SEZPR06MB5072:EE_
-x-ms-office365-filtering-correlation-id: 6cc12bb0-1b45-4221-b05f-08dd198dfa68
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?L0NBRkd6eUNGQVlqZmZvY1NnS1hjR2hnNkQ0ZzEweFJGYlBHUjNvZmxzMkhx?=
- =?utf-8?B?RndhOWZ3YzBMdFpLT3hUYU9PVDlHQUJWdjBRejhEellRWmlIZVdRK1VGclRn?=
- =?utf-8?B?K2YrMmUrVXlMTGZWNGY5WVhvWWQ3cVcxcVZ2SlJ3cXpiTUhJazJKR1dRRitm?=
- =?utf-8?B?WEhmOXlaNk1rcDZOSlNHTWh3Mm5TWnloRGdEdkNudUNOaG5aSEgrbmovR0ZP?=
- =?utf-8?B?cHU0UjhBVUQyU0czVVJSRzRCVHhxTnNiM0Fla2NyRjJ5NjdWOVd5SnFjQUlx?=
- =?utf-8?B?ZmRrak1TcGZ3aHI4QVNLdDJJQVNNVkZQZEF6QWM4TXdqZDl0VWI2aTdQVTV1?=
- =?utf-8?B?SC9JU1kvTWl0Q1ZpYVR4TXQrc2hIaDN0ZHd6T1VSRW8zSXNWZk11L20xVE0x?=
- =?utf-8?B?SDNPaTBhUlVXTlZWbTRuZTZMNlZhM08zYndib1dRM0RJVXZFVTA3SHZvNjZ6?=
- =?utf-8?B?MUNCS2FCYk9oSitBRk15cU50ZVhvQVJkODY3aGgxdkk3emw2R010NmVnbEFS?=
- =?utf-8?B?VE9xMTFTZ3VPaElRUEhybE9ranJ0cFdlMFR2d1BLSVVxYlVHamxJT21OZ2Vu?=
- =?utf-8?B?bE1KREVweVBpM3hDbUk3WjJmUlkvR1lkNC9qTTlldUVmWHc2MjBnVXg4TmUz?=
- =?utf-8?B?VXA2MWpRVEE3SW5lc1VqRGdqa3UyU1V1SGJSWmdZR09zbmQrNHVsSm5nNGtG?=
- =?utf-8?B?TUhUbkpWYnpDbld5QnJIcWhVN0MweFh3QjBVdGg1NHArREd1eDNqc0RjR0kz?=
- =?utf-8?B?YTlsNm1sbWxzSDhacEhBaXpQd0xkaURHdE04K1NhWmU2N1hPNnAwM2hwRVJ5?=
- =?utf-8?B?aElteGQ3d1d6NjIzYXo0UDBhMytoYUJMODV0UEcwSFRCQnEwSTY3cHhWR1c0?=
- =?utf-8?B?YjhORWVpSytiQ3RKYUx2WWFEazRPNERWZ3dONkFnTTRaNFBSaEMyN1laYldL?=
- =?utf-8?B?bUdPaGhQN2FKVnZtci9UVHhodENnK2lpS3BTc0F5Qy95TllQWW45akVoT3Mw?=
- =?utf-8?B?Yk5kZjVGS3hDWFJqeUNuaUcwT3hSdm8wTnlSNFB5RnZCRmJjdXNCeXBhRUdj?=
- =?utf-8?B?eStPQlBwZWh4RUlndTlERkY1THNETUZJc2Z6cDNib3hEVkZTc0VrNkxoeU0z?=
- =?utf-8?B?WnV0UXVQZkYxWGxGQVdKSlZtNDhJYXQ4c3NKdDdKa0ZQN3VjVVF1aXVJNmU1?=
- =?utf-8?B?WnJZK0JDb1BVUHRBTU9ESjk3eG8rMllrOGhjcDNLak85YVdMMGJaS0lqSnU1?=
- =?utf-8?B?a2ZxZmNxWmtERDRpS1VKQU1mbG9rcU9PeVFyNzUyNDFWL1FoUW5oNFJxdGRh?=
- =?utf-8?B?MlVDVDBBS0swZEsrS3ZWWXBORVVCSFhLdGFobnFSaUEwbEVLeHVab082M1c2?=
- =?utf-8?B?Z2gxamx0WXM1MndNYzZiVGk2dnRHLzI2aHRxQ0hRNEFEN3haM2VvMFZVYTFn?=
- =?utf-8?B?WW5Nbm5STzFxUVczclhKZGRia0ZlQUdhbFVmL3IxV2NSV1hqamRJRzZxN0ZB?=
- =?utf-8?B?Q3lCYSt4QUFSTlJkMGNiTnljYmFPY1htR292ck1EdDByZHFTR0tZSk40UFRC?=
- =?utf-8?B?SmEzTEk3SFRqNW8yaE9icFBNNFJWK0p2T3QvR1BsVWxlMnU3YVlSNWFXYk8v?=
- =?utf-8?B?clVEazAyclVpdXRNRU9oVm5XNzhXRlpaRFdES0hlSXVZTnRYVzB0U1Q3OHdU?=
- =?utf-8?B?NENhVnhvNFk4djY3QThWcGN4SFEvMURQNkNGeHpWbloyd1A1SG5FT0NNUEhZ?=
- =?utf-8?B?OGhYOU9WR0R1eEFQUkU1SVhyUDNNTmpEcVVmTTQyd1VDb2VXclI5dHYrUmhr?=
- =?utf-8?Q?Lxfs9N7d0jshb3iyU7crIcf6FKGNiALKtuf/4=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5041.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YkRsQlpVdU1zR2pTVFFEclRhakpKMi9MVEFlMWRxMjJuWlJoM29iZWsra2Ex?=
- =?utf-8?B?UzNBa1BSeWZOWjBYK3pxbUY4VURDN1hqSnMyY3VobDhzMkV2Q0pSRlZ6cW9t?=
- =?utf-8?B?NG1lL2FjeW11UkhYempRcnF0WUp3Nm9JWkVwbU5JNzVpaVdrdWdXWEoyaHBC?=
- =?utf-8?B?U2pVTk03bENWZUx1cERlUTNKRkhnUEd5Q0N0ei9KR2c0cmdRY1FteWZHdC9I?=
- =?utf-8?B?UUdKSmVNL3ZqVFlzcEZwc2cyV0JFbjZyWk5NaTY5VDF5Si9ubHd1ajB5ZHhD?=
- =?utf-8?B?RXg4MExUaHFVV1BOU3l0OHNNWUxYZXNTWkticC90RnpnTDlZVmRTYW56Yk5G?=
- =?utf-8?B?ZHFUZ2M2czFka1pTVkNoOEQ0d0oyY3NhZGI4ZU03cTdUMm1Cd2piTGgydXlI?=
- =?utf-8?B?VmFDTWZVVUswK2RMWmRpUmE0ZEppNHBUWWg5QlduL2RRSnZPNUQ1ZVU0dERz?=
- =?utf-8?B?UXFQdXZGU3hrL0RzMnkwUDB4NnlrelhNZ3RFR2p3ZzhBbGVtdDhzSUFhMmJT?=
- =?utf-8?B?VlpReGJnd29pYzhEYjQxTW5RRWVRT1I2YzFYNDBrMjlZem9JMWhmcDBQNys4?=
- =?utf-8?B?ejYwSW1HZmRiaXR1ekFJZE90dExKVGRuTEwwY1NPUlVaTE55aTVOeU9vQUpn?=
- =?utf-8?B?VDNoaDY4YmhLaE5RRHMwV2R5NjZSUkR2V2NhMFRacU5hVXh1NVpMaytGbGFv?=
- =?utf-8?B?NzVGL1o3TzUxbkFJSi9TRzMrOGxkb216dDluQzZKNmtXOE5LZ3E5WTQ3dTlH?=
- =?utf-8?B?LzhNYVRKcFBUakpvWTRKZDcyWVVkU25vZ0JqSS9Yd1R1RTc3VlZqRGFITWVn?=
- =?utf-8?B?NUs1NjA3N3RXNHpaSFJqa3hkckVIS25keFROWXBpOStrQ2lpM0IrNTNnWGRs?=
- =?utf-8?B?Y1NjaTNUQVhnU1J2TW1kV2x4MmZZcERycjdzQy9qR3RRQjlPUmp4Mzc1bWVM?=
- =?utf-8?B?YTJBUG1oQncvVnVRbkFORGZQdllDdThYbUk3UTNlbHpJcXNobHZaVmpTeDhN?=
- =?utf-8?B?WUxLN2RSM1lCMldzb0FUc0dLOU5NL21mN0pKcnpFUXZUY3RYNWRlV3FhS0Vw?=
- =?utf-8?B?NSthd1JIdklEUUJUYUM3dWJ6VTN4OGRmMnhuVWM0NGlyVEZieUlBR3FzYWl0?=
- =?utf-8?B?d2NxOUhVTnBTRmJvd2Q4ejhETTVmVi90NXp3Zk9qZFVWd3M1YzlQQmtrWVJI?=
- =?utf-8?B?bXJNbVc3NUd5K01mTmVZbTRWVzFHblpNNThKdWR6RUtnZVFFT0VvQU5DeWZP?=
- =?utf-8?B?UUE4Yi9GUnNIMFMyelVOYkdrbE1td1ZyYmdtZ0VoWVBRWVByWW9URG9LTGhU?=
- =?utf-8?B?ZVRMdkhsK3JxQmVHZnhnb1Y5NFNCdnlhTmdURHgzbi83a2JHMzh5ckdoVFh2?=
- =?utf-8?B?YVhyamFXYjVmc2dxUEJGclFLRXNGL0ZZRExBR2pmRTdua3kxbTJOYlZHeG1o?=
- =?utf-8?B?cGNUZTZPTUpoZTk2dVJJL2N0cmFRcmFZeWF3Q2p5VFV1RVNDVWZNRTdKWVIv?=
- =?utf-8?B?QkxUSVJSZFJuVktCaWM0aTQ4aDlVM3RoRFkweVNqNThlM1JWV2VVcVZxRk9s?=
- =?utf-8?B?RlN2MWI5dXhSYW8xclBNd3lHWWJVZm9oNmJtRnNhK1A5ZjhSeDhOM1BOYVlG?=
- =?utf-8?B?K0QrVkRNVVF1NksyYUlrbE1yb25UbWF0UTBXbVVYNHBvcVhSanR1ckVlT0pi?=
- =?utf-8?B?N2VqUVpnemxxV2VmU1VqYzBhMmYyMWEydzFKYmNMb2s4OUV1ejE3eUxYUXUx?=
- =?utf-8?B?NDhHNCswelJ6K2NReEJDVjlKay9hTkdGYkIwWDNiQXRkVlRlS1dxUFVvVGl1?=
- =?utf-8?B?WElKaWdsdEJqc3pwTjZ4djBzKzYvWkQrMlpJQzg1a2ovWVBFU1FYWUJ4M1J2?=
- =?utf-8?B?UDZDN0dwK2N4b2NOSTZld2p1RmZYUk1BOWhYcm1oUXcvbXhhRm1sSk5ERXE3?=
- =?utf-8?B?ZVJpczNiOUVYekFBaHpNcGZXWk9JdXU3RTlhNlVEQm0vQXpHcFZoTFlOZVNO?=
- =?utf-8?B?SXhTNy9peFdOVndBUitiR2xOOHpEVVUwWWtoS0JDcGNQVC9tTmNUd2xHMlRn?=
- =?utf-8?B?S1NhcGo3Wm9TS29nSEE1akRSWnNZeEtzcUV1TDd4S1I4ZVFUK3lrRmN1eFIv?=
- =?utf-8?Q?brCRE+YF/u6H6aVQB6x+O8qJm?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by DS7PR11MB7887.namprd11.prod.outlook.com (2603:10b6:8:e2::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Wed, 11 Dec
+ 2024 03:04:24 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e%4]) with mapi id 15.20.8230.016; Wed, 11 Dec 2024
+ 03:04:24 +0000
+Content-Type: multipart/alternative;
+ boundary="------------Y3Ozw1bRUfQLVSBu9zZ32VSA"
+Message-ID: <bc98e563-26ee-40a8-8878-1a5c943f41e0@windriver.com>
+Date: Wed, 11 Dec 2024 11:04:19 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [oe-core][PATCH 3/3] oeqa/selftest: Add SPDX 3.0 include source
+ cases for core_image_minimal build
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20241125081500.4048680-1-hongxu.jia@windriver.com>
+ <20241125081500.4048680-4-hongxu.jia@windriver.com>
+ <CAJdd5GanQHGooSz0V1jV-NuDfKkdqjt1Ms2ZypYqvz5peP1=mA@mail.gmail.com>
+Content-Language: en-US
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <CAJdd5GanQHGooSz0V1jV-NuDfKkdqjt1Ms2ZypYqvz5peP1=mA@mail.gmail.com>
+X-ClientProxiedBy: TYCPR01CA0179.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b2::14) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|DS7PR11MB7887:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6242392e-edf9-417f-2522-08dd1990843b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?MTlLaldGOVJpOTRzbkVlTEZzblowVTJjbzhhL0Z2T0tUVXZHUHJMMi9BYmV0?=
+ =?utf-8?B?WGY3U3NNdVY5V3dYYWVMTVNMQTcrNmc1UGliZFFoemUzcno3U2tnR2JnaWQy?=
+ =?utf-8?B?Y3pDOGFDbHpvU0gza2MwcDNIYlltNmI1QnRNMHpmL0pIZzNsZFZMY0poMkIy?=
+ =?utf-8?B?bnF6NlJUVzloMGFUM2F0M2ttZm84OFJtbGxxcjN2bVBpTGJGelBVMFBuUGEz?=
+ =?utf-8?B?MWdIQ2dSSWZWa2twSi9nVXFYQkVOSjBNTVlkbGlwYXpMYThqTVZ1UjRjZDdK?=
+ =?utf-8?B?NXR3ekdleDlDOC94N016aVRtSnEydFgvN29DRkJSN2FEU1BZZnlwenA5TG41?=
+ =?utf-8?B?ZTZrSGVqOENzdDUzZ21rTlJMK3gwdmVMR3FaeklyUVNtb0xwM2hLV0JSczN4?=
+ =?utf-8?B?YW5TODhpSk4rK00xQzJtQ1FjYjhSSWRkNis1Umdlc2hYdmNzc3FnUUFCdUFw?=
+ =?utf-8?B?Q3FTV3FRZnNqWk1ua0FJR0d6VnlsV3YrTVppQkVGSmhNMWFidXBiaWZmSGEz?=
+ =?utf-8?B?RGFjckJySnF5KytKcVRUdGQ1L2o5bTNRNzllaGVtSW5NeU1VR0RXZmhUNmQw?=
+ =?utf-8?B?Wkp2WHlRUkFLaVkvcVRxNWJyYkZyenFOVzNBOFZOMXhNSmtmWmI5aFI4NDQ5?=
+ =?utf-8?B?SkpuNGJ0MkZjTGd6NU04Y1Zkdk9tK2wzcllsTHM1ZU1JKzhUN3gxOTJ1RFhS?=
+ =?utf-8?B?VG1uclpPaWxBWDM2VGRjOWdQWUx6QTYwUUdqTGNpVll6aWZicEhWd1RMQUZh?=
+ =?utf-8?B?M3BQa29UbnN1WWVDeWV0VkVXUWdHS2ttdkNuYnlFTys1WE1vKzhyc1RhcGpY?=
+ =?utf-8?B?Z0pnYXlZTlNtNE1IWHgzc0d3aWtkdTlWK092Wm1HRzFJazUrR1VYK0R5aWVL?=
+ =?utf-8?B?K3FwaGtqTlNFeE1wQjdDYy9PRjJjQXlhMUV3clRsOVRXUVRUeG1oVEUzd3kv?=
+ =?utf-8?B?R01kdEc1b1hWM0xhWi9XcEMzQ2d0a2NkeEUvMW1FWDFSZUYwbE9wNCtKQXAx?=
+ =?utf-8?B?WEdDOWZBN1ZTZkJZZGkreDdtTGNnSTFDWHBaVmdnWDNjb084c0FPanJRaWZu?=
+ =?utf-8?B?UXJIVUx3dEJMbngwaXdpRnNuTkU0S25yaGU2VmYwQ0xoQm5xNkk2dEtzQkF6?=
+ =?utf-8?B?MTVtcXlDTmY2TEh5S2UxdXRoVmUwVzBPdExUdDl0TVp3OCtET2NEVFNZMlAw?=
+ =?utf-8?B?MHl2NFlLL2lGMVhXVUovMTZnOXVvNi84Q1FmTDdKOC9POXcvUEtybFVXOWU3?=
+ =?utf-8?B?aEFoUG01ejFYRnBpT0tIUktXQm5CWWZxSkNoOE9XTks4VS81dUhEcEdLNWFj?=
+ =?utf-8?B?QjlXNTREODhhV2ZxUTF4azhXUWZxYi80cTNVMWhsaHVpZUJBSTFRQ1hjWDRX?=
+ =?utf-8?B?Ui94SForM3daNFNWQmErZEpMcEhiQTV0cGo3a3RMd0c2ZWpNY0JNQWtHNitY?=
+ =?utf-8?B?bGdVWWlxTFgwK2w5VEh1RHBwaUtDamZEVW5rR204WXpjRkpKcGlEN1Ewbko0?=
+ =?utf-8?B?enlKV09KcmRtZ1FQOGxJb0FaejVybVN1b2V1SkVwWWVlRDc2Z3pWZ2ZhZ2pB?=
+ =?utf-8?B?U01yRWc1MnVSMm1WSHFxekJxRys0OVRja2NuM0ZiQ1VWTGQrMlY1TmdvaFBF?=
+ =?utf-8?B?bmxHeVpKalFhUHllS1NkMWNBRW9TTlRiYTE4MkFRVXVWVXd2dDlqMDFSNVYw?=
+ =?utf-8?B?N1JONmpQaVRSbGNIUmxWT1QwMHFVRmpLenk3WGJaT2UzeUExeFQ3cndNVmVj?=
+ =?utf-8?B?amtIZWZTZ3ZuQjNWekpxRllJVUhRZnM0YVhOajQralBsaXZNdGJOcTBjQ244?=
+ =?utf-8?B?ZGFxV0FHKzJ1N2hzV3o5UT09?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RjFRVktxb0pSTjJxVGI0dVAwUmFmZUlVRlZVM24zMzdhVzloUnowTE5OQ1V0?=
+ =?utf-8?B?eGxoSjBFSitOeUVXdzZiUmY2S3kyeTN6M2p0dnZFMEZqdmduZTBMRjUrTkEw?=
+ =?utf-8?B?eDV1amhPNi95RktMNUkxNjMycHd2Skx0VUdrc1drM055THIyd1NWRFBsWGlE?=
+ =?utf-8?B?RXFidlltcWcwbnBPSHMwOXJFWDFGV1hVV3dDN2lNeElBaDAveE5yVWsvNUdS?=
+ =?utf-8?B?ckJOelZCcDhCTzNXMUxlaXZiNG9FbGd4ejIydWVLWDNrRFdQcXVtZnNWSjlj?=
+ =?utf-8?B?cmZ5VnN6cEhQck1WV201UTBBaFdQVVBUK2g4YnFQenFyeWZ5ZFFCZSswNy9p?=
+ =?utf-8?B?WEVLUUR4dDlXNzc4VXYyVit0d2ZzdjVOclhmWitzRDBncklaWTdxNU1aeWtQ?=
+ =?utf-8?B?alFLN21PM3pZdUtwK1k3Q0UxbDZuVlVrbmtyZU9Ga0RoZDNTZXhkamJucy85?=
+ =?utf-8?B?Ui9XbTdScHJ2QUdWS1VkNUphN2p2blUxUDJVNzRzWHl3UHBJVjF6bldqYVRp?=
+ =?utf-8?B?MXdieHZGTUw0UUYvVVdSczNEUFBRTUl4Ynl0UGZRUUwwZTBkWGNJMDBqUEhY?=
+ =?utf-8?B?T1UzTUFnWUY1RllldDVKNEU1WHcySmsvSkF6TzFZNlB0bThwNHo2b09xTjE0?=
+ =?utf-8?B?VlVDWkVlS1lYemd5YVRXSzN0M1NGOW9POWhTNm9wTk9RaEQrTllqU1RrVUpX?=
+ =?utf-8?B?TTJxTTFycHJ3dEk2Y2pqelZiMHQxR1hQMEdHYzN4NUJwTVRhcWtHaTZHUlFv?=
+ =?utf-8?B?ZEFCS2JMNVVBT2o4d3hlR0o1ZmJKcmUwNEpQckoyTzV2UjFpVXJqNHBiM09M?=
+ =?utf-8?B?a2JsL2cvUXFEekNKTmZvdUJ5TmY1UDdjTldzWGVnRkVmaG5zcWtJZVJoL1Vn?=
+ =?utf-8?B?dmh0UG1CeXRMaWZNREQ4UE9GTFVIRWt5Zk1zUUN3SmIzNDdoRlFPaHdXWExY?=
+ =?utf-8?B?M2U5YXRPUklVMzBTdy8xck9Pem4xOStWQnU4aFVwRTJnc2tKeTRwK3ZnYTdV?=
+ =?utf-8?B?UnRaYUhTRWFKUytybzRKUUlwS1Fab2FQQ3hTODlONGRXUm10bm9xK0lueGNt?=
+ =?utf-8?B?amdaeHRFblc2NzRQLzZOTkttM1c0RnR5Wld3U3AzcGhpbVRrQmdVeXAwNkVL?=
+ =?utf-8?B?bFdkT1hEQXJLZlpRcUpROEpldlZLZUk0NVlCVmNQVThZUEhXZ3ZjLytzeDNN?=
+ =?utf-8?B?ZVhMQnlRcnVkZGloaDErQm1tR0U0ekExdU9XVU80R0xnQzMzdGRkTjdGZzl5?=
+ =?utf-8?B?WUpsdlZTQm5IOE9pUzMxWmtqaG5YMVEzMmowZVduN0k0dklBTGJWSFBDb2JB?=
+ =?utf-8?B?NWx6VFdLQzVCMmxnRzhiQ05pS1NyRlZ3d0hzSFBYZWRWRDVhSnU0STUzT1hX?=
+ =?utf-8?B?dTFud0VGbDV2dVcrTW5ndjEwNENYeGVydUc5TytoNFlLa2dzZ1R2Q2NtMVNu?=
+ =?utf-8?B?QUwrNURPdFhId1hIOEpHMVB5TTcyOEFCN1UzenNvNHhXanlPZ3BUZ0xzRFQ4?=
+ =?utf-8?B?VHJQOVkrRU9RbmhkSDNMa1NJUFFteUxTeFNVRjZTZkk0SDlrRUd1VlM5QWdZ?=
+ =?utf-8?B?NEdXOGJ1NXBTeXpKSjlySlZkazN0RDB3b1RvUUpJUE0zeEoyOE5TaXIwY2l2?=
+ =?utf-8?B?dVJiNkFISjlKVHo2ei84b0IwRjlYa0RRK1I1WEVESDVFakhCeE10NmRxOUZZ?=
+ =?utf-8?B?cFF3TE1DUXlWZWhKUEU4bnlsaTlpREJvcUJEbnJiTUxFOGhxS3FaNDc1UlZB?=
+ =?utf-8?B?cURSZGQ3L1BwTURCb3pVbjFoaFVIcHBTcEtGb29ZWE9IZmdEaVJmRlJwMG9J?=
+ =?utf-8?B?cS9QbHFqVFdpV0ViWkdaZXdIbS9kTWJjTGVkeEFzcGJyQytOOTRzdGlNU1ZJ?=
+ =?utf-8?B?V0NMd0JLaEJjWWdTbWplQXhJcE8vbVllUld4SkZkY0xZMnpTZHVXd3pHbGJ4?=
+ =?utf-8?B?aUtBSVBGQ1RSVzFpaFFObXQvSEFQcVE1RVRacU4ra3ltamVyWjFSYXphRkdN?=
+ =?utf-8?B?am0wL1d2SzkrYW1XaGVERnlFL0xjS2F4TzJjTHNxTmcyZFZvajBkMHZWbHU5?=
+ =?utf-8?B?VjRQOTdUdE1aNXhtb0JvcU1WL25oOHlpNXBPY3NHamsvVks2WjN3SHdyVldr?=
+ =?utf-8?B?Q0NIcHNWS2V2QjJHOXAzODZjemh4Y1VDWVZqTk0wNEZ5cUJyemNCclQ0TWk2?=
+ =?utf-8?B?U2c9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6242392e-edf9-417f-2522-08dd1990843b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5041.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cc12bb0-1b45-4221-b05f-08dd198dfa68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2024 02:46:13.8121
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 03:04:24.1821
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wkSuSnzQsMn3M/SqYCyBV60VGNZOqYU1tiIYkk0ViiTxm7X9TfacNyWMCPD8eJkt5TerV+vyVMf4awKK+n85SP3LvpMGbmLqn0wDJ23EMZw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5072
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ja8v+ud5+jfmUIBOyI3QsSKC4+9QtLcnREDnFYrlX/UByIYSbgXybnPQ9BS8AU8S/K2xrCKSr/iEAHE72c6CPECQiMUHAFFGPrFAMz3ko9U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7887
+X-Proofpoint-GUID: Kix1MKLU01HRQwc481PtgHIgjxpBORK0
+X-Proofpoint-ORIG-GUID: 1ennBgt98nSJR-jR2XdrXnlNrSFRYjEW
+X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=6759013c cx=c_pps a=bqH6H/OQt14Rv/FmpY1ebg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=b5cu9YrTm6L_ACu4Ex0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8 a=EAsFkKYyPTmsdqQjm-4A:9 a=670YboeG2YXutm_w:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-11_02,2024-12-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412110022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 02:46:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208572
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 03:04:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208573
 
-SGkgQWRyaWFuLCBSb3NzDQoNCkkgcmVzZW5kIHY1IHBhdGNoIHNlcmllcyBoZXJlLCBodHRwczov
-L3BhdGNod29yay55b2N0b3Byb2plY3Qub3JnL3Byb2plY3Qvb2UtY29yZS9jb3Zlci8yMDI0MTIx
-MTAyMzUxNS4yMTA4NDE1LTEtamFtaW5fbGluQGFzcGVlZHRlY2guY29tLw0KDQpUaGFua3MtSmFt
-aW4NCg0KPiBTdWJqZWN0OiBSRTogW09FLWNvcmVdIFtQQVRDSCB2NCAwLzNdIHVib290LXNpZ246
-IHN1cHBvcnQgQVRGIGFuZCBURkUgSVRTDQo+IGdlbmVyYXRpb24NCj4gDQoNCg==
+--------------Y3Ozw1bRUfQLVSBu9zZ32VSA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BB2HTJ4003262
+
+On 12/5/24 03:24, Joshua Watt wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> Is there some advantage to this patch over the test_gcc_include_source =
+test?
+
+It could check objset missing or not while SPDX_INCLUDE_SOURCES =3D "1"
+
+//Hongxu
+
+> On Mon, Nov 25, 2024 at 1:15=E2=80=AFAM Hongxu Jia<hongxu.jia@windriver=
+.com>  wrote:
+>> $ oe-selftest -r spdx.SPDX30Check.test_core_image_minimal_include_sour=
+ce
+>> 2024-11-09 09:17:54,600 - oe-selftest - INFO - Adding layer libraries:
+>> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta/lib
+>> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-yoct=
+o-bsp/lib
+>> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-self=
+test/lib
+>> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/meta-openembed=
+ded/meta-oe/lib
+>> 2024-11-09 09:17:54,602 - oe-selftest - INFO - Checking base configura=
+tion is valid/parsable
+>> 2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: "include selfte=
+st.inc" in path-to/build_spdx3-st/conf/local.conf
+>> 2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: "include bblaye=
+rs.inc" in bblayers.conf
+>> 2024-11-09 09:17:56,653 - oe-selftest - INFO - test_core_image_minimal=
+_include_source (spdx.SPDX30Check.test_core_image_minimal_include_source)
+>> 2024-11-09 10:41:16,654 - oe-selftest - INFO - Keepalive message
+>> 2024-11-09 11:37:53,091 - oe-selftest - INFO -  ... ok
+>> 2024-11-09 11:55:18,638 - oe-selftest - INFO - -----------------------=
+-----------------------------------------------
+>> 2024-11-09 11:55:18,638 - oe-selftest - INFO - Ran 1 test in 9442.187s
+>> 2024-11-09 11:55:18,638 - oe-selftest - INFO - OK
+>> 2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS:
+>> 2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS - spdx.SPDX30Ch=
+eck.test_core_image_minimal_include_source: PASSED (8396.65s)
+>> 2024-11-09 11:55:35,490 - oe-selftest - INFO - SUMMARY:
+>> 2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest () - Ran 1 =
+test in 9442.187s
+>> 2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest - OK - All =
+required tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D=
+0)
+>>
+>> Signed-off-by: Hongxu Jia<hongxu.jia@windriver.com>
+>> ---
+>>   meta/lib/oeqa/selftest/cases/spdx.py | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/self=
+test/cases/spdx.py
+>> index 8384070219..c785f5445f 100644
+>> --- a/meta/lib/oeqa/selftest/cases/spdx.py
+>> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
+>> @@ -174,6 +174,20 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestC=
+ase):
+>>           # Document should be fully linked
+>>           self.check_objset_missing_ids(objset)
+>>
+>> +    def test_core_image_minimal_include_source(self):
+>> +        objset =3D self.check_recipe_spdx(
+>> +            "core-image-minimal",
+>> +            "{DEPLOY_DIR_IMAGE}/core-image-minimal-{MACHINE}.rootfs.s=
+pdx.json",
+>> +            extraconf=3Dtextwrap.dedent(
+>> +                """\
+>> +                SPDX_INCLUDE_SOURCES =3D "1"
+>> +                """
+>> +            ),
+>> +        )
+>> +
+>> +        # Document should be fully linked
+>> +        self.check_objset_missing_ids(objset)
+>> +
+>>       def test_core_image_minimal_sdk(self):
+>>           objset =3D self.check_recipe_spdx(
+>>               "core-image-minimal",
+>> --
+>> 2.25.1
+>>
+
+--------------Y3Ozw1bRUfQLVSBu9zZ32VSA
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BB2HTJ4003262
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 12/5/24 03:24, Joshua Watt wrote:<b=
+r>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:CAJdd5GanQHGooSz0V1jV-NuDfKkdqj=
+t1Ms2ZypYqvz5peP1=3DmA@mail.gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">CAUTION: This email comes fr=
+om a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+
+Is there some advantage to this patch over the test_gcc_include_source te=
+st?
+</pre>
+    </blockquote>
+    <p>It could check objset missing or not while <span style=3D"white-sp=
+ace: pre-wrap">SPDX_INCLUDE_SOURCES =3D &quot;1&quot;</span></p>
+    <p>//Hongxu<br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:CAJdd5GanQHGooSz0V1jV-NuDfKkdqj=
+t1Ms2ZypYqvz5peP1=3DmA@mail.gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+On Mon, Nov 25, 2024 at 1:15=E2=80=AFAM Hongxu Jia <a class=3D"moz-txt-li=
+nk-rfc2396E" href=3D"mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@wind=
+river.com&gt;</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+$ oe-selftest -r spdx.SPDX30Check.test_core_image_minimal_include_source
+2024-11-09 09:17:54,600 - oe-selftest - INFO - Adding layer libraries:
+2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta/lib
+2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-yocto-b=
+sp/lib
+2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-selftes=
+t/lib
+2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/meta-openembedded=
+/meta-oe/lib
+2024-11-09 09:17:54,602 - oe-selftest - INFO - Checking base configuratio=
+n is valid/parsable
+2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: &quot;include self=
+test.inc&quot; in path-to/build_spdx3-st/conf/local.conf
+2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: &quot;include bbla=
+yers.inc&quot; in bblayers.conf
+2024-11-09 09:17:56,653 - oe-selftest - INFO - test_core_image_minimal_in=
+clude_source (spdx.SPDX30Check.test_core_image_minimal_include_source)
+2024-11-09 10:41:16,654 - oe-selftest - INFO - Keepalive message
+2024-11-09 11:37:53,091 - oe-selftest - INFO -  ... ok
+2024-11-09 11:55:18,638 - oe-selftest - INFO - --------------------------=
+--------------------------------------------
+2024-11-09 11:55:18,638 - oe-selftest - INFO - Ran 1 test in 9442.187s
+2024-11-09 11:55:18,638 - oe-selftest - INFO - OK
+2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS:
+2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS - spdx.SPDX30Check=
+.test_core_image_minimal_include_source: PASSED (8396.65s)
+2024-11-09 11:55:35,490 - oe-selftest - INFO - SUMMARY:
+2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest () - Ran 1 tes=
+t in 9442.187s
+2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest - OK - All req=
+uired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
+
+Signed-off-by: Hongxu Jia <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
+to:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
+---
+ meta/lib/oeqa/selftest/cases/spdx.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+index 8384070219..c785f5445f 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -174,6 +174,20 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+         # Document should be fully linked
+         self.check_objset_missing_ids(objset)
+
++    def test_core_image_minimal_include_source(self):
++        objset =3D self.check_recipe_spdx(
++            &quot;core-image-minimal&quot;,
++            &quot;{DEPLOY_DIR_IMAGE}/core-image-minimal-{MACHINE}.rootfs=
+.spdx.json&quot;,
++            extraconf=3Dtextwrap.dedent(
++                &quot;&quot;&quot;\
++                SPDX_INCLUDE_SOURCES =3D &quot;1&quot;
++                &quot;&quot;&quot;
++            ),
++        )
++
++        # Document should be fully linked
++        self.check_objset_missing_ids(objset)
++
+     def test_core_image_minimal_sdk(self):
+         objset =3D self.check_recipe_spdx(
+             &quot;core-image-minimal&quot;,
+--
+2.25.1
+
+</pre>
+      </blockquote>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------Y3Ozw1bRUfQLVSBu9zZ32VSA--
 
