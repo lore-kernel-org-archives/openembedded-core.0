@@ -1,111 +1,128 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C3EE7717D
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 12:07:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.9287.1733918852226389595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A6BE77180
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 13:46:45 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.11277.1733924803620598188
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 04:07:32 -0800
+ Wed, 11 Dec 2024 05:46:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=207545b38d=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBB531a001323;
-	Wed, 11 Dec 2024 12:07:31 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cwy3m48g-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 11 Dec 2024 12:07:30 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 11 Dec 2024 04:07:29 -0800
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 11 Dec 2024 04:07:29 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <jpewhacker@gmail.com>
-Subject: [PATCH 3/3] gcc-cross.inc: add var-SSTATE_ARCHS_TUNEPKG to vardeps of do_create_spdx
-Date: Wed, 11 Dec 2024 04:07:28 -0800
-Message-ID: <20241211120728.3737604-3-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241211120728.3737604-1-hongxu.jia@windriver.com>
-References: <20241211120728.3737604-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j/1Eqgb/;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-385eed29d17so4372598f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 05:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733924802; x=1734529602; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3a8pNLaQuCuJIGCEyqj2cxuICIhHBJ03LMSTgEXcB7s=;
+        b=j/1Eqgb/Q5drGdC50dHcdH3JOfqmxHrezUKOVeOz2quzSbLzdoA49uKgXoBmp2Zc1H
+         K7/ekIqY9gRVSJHnFx/vy37NUs6r1tCkcH411AlwmUuDYXsamgxdOkegDiAS0yxwiQA/
+         HMYSvbrYKQF291mIYo/qb1N9XPjYJaVcF/64pEO6BvwWlBwHBE5m46INt4v7T2HTV/3j
+         NuNuVsF8Yv9Qu1anahL76csDrxF46ThmFvOf/rKImD5W2MBh89H4y5zc7pjgPrgI1a0U
+         elNzy/IHPsKkXcXzxLazO3/9Uuxe+z4KhfeVkUvtvdBM1tqAWrwUJH7JFDjC9j7rim7Q
+         nihQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733924802; x=1734529602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3a8pNLaQuCuJIGCEyqj2cxuICIhHBJ03LMSTgEXcB7s=;
+        b=O2XZ839OaN9kQ/Xkuun6bqWZF/nXa3+pTBJV9HuRdJlAZ8U/sw1eBtgtIviDvXNiwq
+         wAOIRqxNlgrtXxBHy9Bj7HmWhGf3O0fwu48Tc7UAIzzovRS4UGmxc0BgspiXpJOcFqdw
+         MULsosmVU8i6jwF9XccOjElEWqKRAUtpPu0Gq+Op+xAxl0dSMAdMCkzeJfkxbUBGEH+2
+         iNdh65BT9rRdVlG8Ye/d+mAxitO6PSHTvhD0m/y3R5rFGsX26PEWS+1MMCmZdLqBQ/ts
+         uyyuPus3QlE0H8qUdW3bnhhxjkajoSMr4gK8cblM0dq6Hyr62pQtFHJAgDJoJs07ZyDz
+         r1Fg==
+X-Gm-Message-State: AOJu0Yyi++A2fsu6JxZogfIQjjIdDXW+r6TiGD6xR3643Uxa6bWb4380
+	InzQx7HNQCirH9jQxHYNoExdYwmok4cfYUeZB/SNYozrVIw0xa4Ny/flJw==
+X-Gm-Gg: ASbGncspLy3Au5Bih4VIIpTubN0h/LsSgM3PrAGVVhgsMvM59t4VyUowwjHSHNDriBR
+	5xnJIGfSj/5L/u+0Jl9BTGAprDEJZY7nchqjp1RwK8Jo6ylzA8Js60XIWNINU0RHxmEdepK+ecT
+	ZSjm7G55C2TYd1YFT8m21x7lxI94SrRhbAdVvU2VonXFZY8gc8jxU7TRzPgK/cDKhYWgDVMKCnH
+	cxS8T+tW1Ujf4BDCus+f0sT8PqSIiQqooxnloy0XHwsJfJtlRcntm7z4d0+G4KzqxZnumtg2OOz
+	EUEsLx8i5DWYAzc=
+X-Google-Smtp-Source: AGHT+IENPlePF9KFjSmmmt0p1Wvimbm6PWd2EzYkLUYNrHDi1xxAUv3WGwUHg/uTb6XySUvRqoSefw==
+X-Received: by 2002:a05:6000:4807:b0:386:2ebe:7ae2 with SMTP id ffacd0b85a97d-3864cea3c1fmr2710080f8f.45.1733924801919;
+        Wed, 11 Dec 2024 05:46:41 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878248f533sm1354045f8f.3.2024.12.11.05.46.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 05:46:40 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/3] bitbake-config-build: add an alias to bitbake-layers intended for managing specific local configs
+Date: Wed, 11 Dec 2024 14:46:28 +0100
+Message-Id: <20241211134630.2685983-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: F3H-ijKh2cnEMmY1gu8-tXE4p1ooOlZB
-X-Proofpoint-ORIG-GUID: F3H-ijKh2cnEMmY1gu8-tXE4p1ooOlZB
-X-Authority-Analysis: v=2.4 cv=D7O9KuRj c=1 sm=1 tr=0 ts=67598082 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=rorgr0BEAAAA:8 a=t7CeM3EgAAAA:8 a=vgRLZewN3jo-IRc2FAwA:9 a=FuUPMLReglAHmohU_o2S:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-11_10,2024-12-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- adultscore=0 priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0
- clxscore=1015 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412110088
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 12:07:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208578
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 13:46:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208579
 
-The recipe gcc-cross inherited cross.bbclass which had class-native
-recipe behavior, but depends on class-target recipe linux-libc-headers.
-It caused the tweaking of ${TUNE_PKGARCH} for 32bit arm did not trigger
-rebuild of do_create_spdx in gcc-cross-arm
+From: Alexander Kanavin <alex@linutronix.de>
 
-Due to commit [meta/lib/oe/spdx30_tasks.py: fix hash link conflict while
-multiconfig enabled] applied, it added ${SSTATE_PKGARCH} to link prefix.
-While tweaking ${TUNE_PKGARCH} for 32bit arm, use do_create_spdx from
-sstate cache will caused ${SSTATE_PKGARCH} did not match
+This was prompted by adding support for config fragments (in a separate
+commit to oe-core); after some deliberation I concluded there should be
+a separate tool, as bitbake-layers is already somewhat over-stuffed,
+and this will give space for more build/conf/* operations in the future
+that anyone can come up with (such as tweaking site-specific items
+in site.conf etc.)
 
-In the following case, the link hash has no change while machine was changed
-$ echo 'MACHINE = "qemuarmv5"' >> conf/local.conf
-$ bitbake gcc-cross-arm
-$ grep linux-libc-headers tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-gcc-cross-arm.spdx.json
-        "http://spdxdocs.org/openembedded-alias/by-doc-hash/09523e44e7b6fe1aed03347e30191c00d93500ce6e1f453e8dfdfae98d325f3e/linux-libc-headers/UNIHASH/build/recipe",
-$ echo 'MACHINE = "qemuarm"' >> conf/local.conf
-$ bitbake gcc-cross-arm
-$ grep linux-libc-headers tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-gcc-cross-arm.spdx.json
-        "http://spdxdocs.org/openembedded-alias/by-doc-hash/09523e44e7b6fe1aed03347e30191c00d93500ce6e1f453e8dfdfae98d325f3e/linux-libc-headers/UNIHASH/build/recipe",
+The alias completely reuses existing code via symlink and
+the difference is in where it looks for plugins.
 
-Explicitly add var-SSTATE_ARCHS_TUNEPKG to vardeps of do_create_spdx to
-trigger rebuild in this situation. Add the code along with adding
-linux-libc-headers to gcc-cross's depends
-
-After applying this commit, the link hash has changed along with machine changed
-
-$ echo 'MACHINE = "qemuarmv5"' >> conf/local.conf
-$ bitbake gcc-cross-arm
-$ grep linux-libc-headers tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-gcc-cross-arm.spdx.json
-        "http://spdxdocs.org/openembedded-alias/by-doc-hash/09523e44e7b6fe1aed03347e30191c00d93500ce6e1f453e8dfdfae98d325f3e/linux-libc-headers/UNIHASH/build/recipe",
-$ echo 'MACHINE = "qemuarm"' >> conf/local.conf
-$ bitbake gcc-cross-arm
-$ grep linux-libc-headers tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-gcc-cross-arm.spdx.json
-        "http://spdxdocs.org/openembedded-alias/by-doc-hash/087e29d3627a06f5377effa627b99907607f5af0fe8f6d116b4490650c404a55/linux-libc-headers/UNIHASH/build/recipe",
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/gcc/gcc-cross.inc | 1 +
- 1 file changed, 1 insertion(+)
+ bitbake/bin/bitbake-config-build | 1 +
+ bitbake/bin/bitbake-layers       | 6 ++++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+ create mode 120000 bitbake/bin/bitbake-config-build
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index f85ccd5c23..d6936d063a 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -7,6 +7,7 @@ PROVIDES = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
- python () {
-     if d.getVar("TARGET_OS").startswith("linux"):
-         d.setVar("EXTRADEPENDS", "linux-libc-headers")
-+        d.appendVarFlag("do_create_spdx", "vardeps", " SSTATE_ARCHS_TUNEPKG")
- }
+diff --git a/bitbake/bin/bitbake-config-build b/bitbake/bin/bitbake-config-build
+new file mode 120000
+index 00000000000..11e6df80c4b
+--- /dev/null
++++ b/bitbake/bin/bitbake-config-build
+@@ -0,0 +1 @@
++bitbake-layers
+\ No newline at end of file
+diff --git a/bitbake/bin/bitbake-layers b/bitbake/bin/bitbake-layers
+index 7bd3ea20e47..341ecbcd971 100755
+--- a/bitbake/bin/bitbake-layers
++++ b/bitbake/bin/bitbake-layers
+@@ -18,13 +18,14 @@ import warnings
+ warnings.simplefilter("default")
  
- PN = "gcc-cross-${TARGET_ARCH}"
+ bindir = os.path.dirname(__file__)
++toolname = os.path.basename(__file__).split(".")[0]
+ topdir = os.path.dirname(bindir)
+ sys.path[0:0] = [os.path.join(topdir, 'lib')]
+ 
+ import bb.tinfoil
+ import bb.msg
+ 
+-logger = bb.msg.logger_create('bitbake-layers', sys.stdout)
++logger = bb.msg.logger_create(toolname, sys.stdout)
+ 
+ def main():
+     parser = argparse.ArgumentParser(
+@@ -67,7 +68,8 @@ def main():
+             bbpaths = tinfoil.config_data.getVar('BBPATH').split(':')
+ 
+         for path in ([topdir] + bbpaths):
+-            pluginpath = os.path.join(path, 'lib', 'bblayers')
++            pluginbasepath = {"bitbake-layers":'bblayers', 'bitbake-config-build':'bbconfigbuild'}[toolname]
++            pluginpath = os.path.join(path, 'lib', pluginbasepath)
+             bb.utils.load_plugins(logger, plugins, pluginpath)
+ 
+         registered = False
 -- 
-2.25.1
+2.39.5
 
 
