@@ -1,97 +1,85 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF13E7717D
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 09:44:33 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.6994.1733910272737508033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6E5E77182
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 11:25:14 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web10.8619.1733916311102205937
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 01:44:33 -0800
+ Wed, 11 Dec 2024 03:25:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kWnjzdli;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4161020002;
-	Wed, 11 Dec 2024 09:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733910271;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fAh35U/sLtDVwgeKBd9e2VsBCU2IM8CIO2TaTeij5U8=;
-	b=kWnjzdliXIFnIuZMXXdulg76kwfgzQfUsdREcIvlIHMhBPT44sm+TLFH/3s0XFiuTcxLmx
-	RpPYai2ZUhmUJiZmfgmy78ddW3N30Ye+sWaF8tUlNb0PWPKMHUFOLjX/nS189hfnqJWJXy
-	AFpqVJjIZWRvcfgy24rlKIGDMi5aWoel7fKG0Nl6lO/UVvbZMwO4i2pCRSkC7WeCBhTryi
-	phZVj2uUpPwzllKw7HFA4fKHLiS9MqpecRmAXzhq0xHtPTXUcaIaYsazrC4py6K6hhINkj
-	+W1tg43JXU12EakuUxmtQ3Les3tZGsfzG5ASotR3uVFU8XLaaD9xTG3BljiXFA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Dec 2024 10:44:30 +0100
-Message-Id: <D68RW5L3YYXZ.1QVI9872WFLMS@bootlin.com>
-To: <bruce.ashfield@gmail.com>, <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 5/6] poky/poky-tiny: update default to v6.12
-Cc: <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <cover.1733864271.git.bruce.ashfield@gmail.com>
- <96fdaf0aab7a75c7dbf9e5bee583ac3c6353f262.1733864271.git.bruce.ashfield@gmail.com>
-In-Reply-To: <96fdaf0aab7a75c7dbf9e5bee583ac3c6353f262.1733864271.git.bruce.ashfield@gmail.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CHjiS1cP;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d8f1505045so35903896d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 03:25:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733916310; x=1734521110; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eaOVrnIX0wjo1wAOGemblZ+cwf8ASpFXzYm5M7CAsyo=;
+        b=CHjiS1cPmwUribBtiSImWc6lk9426CYxI2+69uallnsojc8sBXgeDpcXQbfT1MC5qV
+         co+MKVOIh/nULmYo6SBZcoTTPviXi5H0HnvZCTUmv+XgkLbZCagg2+kwtx3SXuHbXXYr
+         26xk+aUx+feh1e9PM2sZXqQ8DlI31zhDSJ/kUHk1y1gupBoRWDuiOq8beJCFMDYl90p9
+         hz3YW1X7qlVypTIxp+fT7LfErJOQSAT7GbOjd/Rujy0I9nuj7Xr30CugGxhWs5jGvngd
+         H2o8M4Bl22PMZT4uiv1JR3sKWlfh92N6Ye+o+ifizLhR2xnauhL67YCWNqBQlOs7Tc7n
+         uH0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733916310; x=1734521110;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eaOVrnIX0wjo1wAOGemblZ+cwf8ASpFXzYm5M7CAsyo=;
+        b=Ut5fkCXpZgaSBdA3ABQpuPHiKBxrgtmhShRfn1P9ZTnAd/33sWc4Xewtv4oLQ2iTgS
+         uNMtaQawMAPPBb/0DqVeUBFULkxyPSjDS6FuMYjYF42kaJXN01YPJa5S7DJgHM1oBUzn
+         7+NgGK5W9eS9yYFoUlW8OR4LfPl/OMFSeRTWlC8vWss7NNBzwlR/YMy8XkxJw+BA8g/X
+         qtFhgyqEZpHPb10wQJjdMgPPzfQlfwhXWJg/NxDGvLY4n8rFL1XTfsVaPZJXw0y8ZAPd
+         CzMsaOabypD+tZRGmpKHlLBCfJWC/lvSoW6fT/tsRxvbxFL4N9MFa2ZuGB7/Dj8J1dmH
+         o79w==
+X-Gm-Message-State: AOJu0YyH7FqtOG5d8ywhTXx3wQjycdNnfD57hUCz7cA0l4iylQtHRtOb
+	saT+oCg4tcjNK8wcyrdyxRQa/l/vrS7w1dVZNOgtHq9fNsYiq2kZOKWhO1wx+liIzOHF37mrzGb
+	06Zj4WG+it9eUUmskgqWI/b54sBg=
+X-Gm-Gg: ASbGncs395/6jpawZvUIjxpUTjO7BiEZLeejbWOmrOa5YFMdMDyedXlLD5F5tuz4FMm
+	+Qr/BBSU+kI0UjRxmTKyNhcrrKTlt5s5UC4jG+mSBWHQMh2u25PFHp8XlmiKgqBCDNPIbTg==
+X-Google-Smtp-Source: AGHT+IHDMTOOe1wS5SK3mWTR4GwAh0sFxHfgnvQpCju74W/x1/5DY4ue5KUsbEELfFybbNhAcNFGTwgrskEECJXRa58=
+X-Received: by 2002:a05:6214:c8c:b0:6d4:fff:f9cf with SMTP id
+ 6a1803df08f44-6d934bb0addmr49538916d6.35.1733916310179; Wed, 11 Dec 2024
+ 03:25:10 -0800 (PST)
+MIME-Version: 1.0
+References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
+ <20241118162643.1423409-3-alex.kanavin@gmail.com> <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
+ <CANNYZj_ONOGam=9um4qqqAc_D0gQHrQML3a9eXBEgHLCiRtM1A@mail.gmail.com> <4254d23ae9ad100e70f199fa4949ce00bfe7063c.camel@linuxfoundation.org>
+In-Reply-To: <4254d23ae9ad100e70f199fa4949ce00bfe7063c.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 11 Dec 2024 12:24:58 +0100
+Message-ID: <CANNYZj-Ox6t8yV7Bh2NePmseYCW843Z5ozq50y2Tyoa=GeDPyg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
+ config fragments
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 09:44:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208574
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 11:25:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208575
 
-On Tue Dec 10, 2024 at 10:06 PM CET, Bruce Ashfield via lists.openembedded.=
-org wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Tue, 10 Dec 2024 at 16:27, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+
+> > If we start going down this path, we might as well write an
+> > interactive curses UI, and keep the command line output 'flat' like it
+> > is now. I'm also not sure what is the best approach, we'd need to take
+> > fragments into practical use and accumulate a sizable amount of them
+> > perhaps. Such things can be easily tweaked from experience.
 >
-> The 6.12 kernel is a LTS and our next reference kernel, so
-> we bump our default to it.
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
+> Having experimented with curses UIs, they're a pain and don't really do
+> what you hope/think they would.
 
-Hi Bruce,
+We might be thinking of different things: my suggestion is that
+interactive 'kernel menuconfig' type UI is worth exploring for
+fragments (or bitbake-setup, for that matter).
 
-> --- a/meta-poky/conf/distro/poky.conf
-> +++ b/meta-poky/conf/distro/poky.conf
-> @@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS =3D "kernel-module-af-pa=
-cket"
-> =20
->  DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_F=
-EATURES}"
-> =20
-> -PREFERRED_VERSION_linux-yocto ?=3D "6.10%"
-> -PREFERRED_VERSION_linux-yocto-rt ?=3D "6.10%"
-> +PREFERRED_VERSION_linux-yocto ?=3D "6.12"
-> +PREFERRED_VERSION_linux-yocto-rt ?=3D "6.12%"
-> =20
-
-Is removing the '%' match in PREFERRED_VERSION_linux-yocto wanted ? I
-believe this is responsible for a lot of new warnings, such as:
-
-stdio: WARNING: preferred version 6.12 of linux-yocto not available (for it=
-em linux-yocto)
-stdio: WARNING: versions of linux-yocto available: 6.12.3+git 6.6.64+git
-stdio: WARNING: preferred version 6.12 of linux-yocto not available (for it=
-em virtual/kernel)
-stdio: WARNING: versions of linux-yocto available: 6.12.3+git 6.6.64+git
-stdio: WARNING: preferred version 6.12 of linux-yocto not available (for it=
-em kernel-module-tun)
-stdio: WARNING: versions of linux-yocto available: 6.12.3+git 6.6.64+git
-...
-
-https://valkyrie.yoctoproject.org/#/builders/29/builds/623/steps/13/logs/wa=
-rnings
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Alex
 
