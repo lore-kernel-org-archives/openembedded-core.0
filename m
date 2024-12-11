@@ -1,328 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12731E77182
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 13:46:55 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.11280.1733924805690887327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE8BE7717D
+	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 14:02:25 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.11536.1733925734759885896
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 05:46:46 -0800
+ Wed, 11 Dec 2024 06:02:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GKWWgnjT;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso3974158f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 05:46:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733924804; x=1734529604; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hPVEB1frCqxkA1r9QeSahLCVIIa5NZXdOFQ1YMZiR+o=;
-        b=GKWWgnjT0/oCOMIJzOovTJIV6W7Bxxe+3q/r8NhoCXTCMDtte6gTWDOXAPEmV1QiJl
-         gdXpb85NCqOVdkzcPp5qgA73weqeEilQRUD6HxvbQo9m85uIJZZrKANzAHyPZMrJfQuk
-         O9CJd/kF0uHqsVwxD/OPNRxarpumYezYc4Q6Br3Fatotv2NxSTU70SCr80LqN84yFg5B
-         1jE3aCRPjY671ZqbbTtpl8cNS8lYC8U4K8WxClWSsal3PkSnKjGy0EP60b0+5SblEWrP
-         koulDnwTjHan2v8KNl6BccgJxb14TESvV7Is6aVktRVQxaAYEMScGvX2y9323garXpCw
-         /RUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733924804; x=1734529604;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hPVEB1frCqxkA1r9QeSahLCVIIa5NZXdOFQ1YMZiR+o=;
-        b=n+TyMHeN2PSZFERVpoB9rLg7sjdVAxjwHzmaYFyQkAYxNeMoa4/H2rAHvm0Q8LhSH9
-         ykzPvVjiFyXS/rplkda4ffJKbMjIhsbVRg4ZZJbpbzOVR6/u4VIBjq0TYrJ4YQ7XbSJ0
-         2uxx6svhI58jtajRfDQmXui+tIyP3pB+yTvVu85hITbH1/WvufFPYniW9scpMs5flYpI
-         LESYOtRdpOvrAsKxIvmMSkb2ge+bFI+9zWAtgejD0ZO+tz+UOYwPySYSCUEuUt8eSmFz
-         DWNftl0y1yh1PWc6er6+RVJMPVvPkupfDI3ARZMPm4LD+J1IJXL0T3urfZs/UNM+yMhc
-         d/CQ==
-X-Gm-Message-State: AOJu0YwSgYH5QlQK309/ibBk+/9iRzWudRB/pli99Eacz0xERJtrWiqG
-	DV7XAAY0wkGO0fPPV+I2ydP4apbP+Yr7yhVhkxtgVq2qbkBxMlc22RDJDQ==
-X-Gm-Gg: ASbGncvGQKfJrAOEMzQwPqBiEPcy8LUlaVXoVXe6x1zIL6wtJnuycWyvVWA38FiVBFI
-	9WA+nLITt030k7WChNNenY3wqSVwoKrI1+i5pBVXB+7MGAJ6okWOg8gGQurQcYnbw8s4zlO+3HU
-	cHH0IyU5SBe7JvfJo1VpB/SWO7mGOy+GH3tLDjmbWnyDHUVNBUGPsrPPK2Yo/ukxplMzKBBvzKi
-	9dR4Ic5HmBkCB0A+MjtRNGFYZceM7DK0FhG+SRZv2qHBTSwBVmHZkfXUa7BIPTWjI29b/pCqfpG
-	zOGD+OXnVNTfbHk=
-X-Google-Smtp-Source: AGHT+IFUQEn1ZzHTW0E+zkT8nEPM+NcF6RBN7eiUhYDF3h0FEX0DsX0pWQs+c529tu53NIWXyDZbnQ==
-X-Received: by 2002:a5d:6c68:0:b0:386:381b:6690 with SMTP id ffacd0b85a97d-3864cea393dmr2227327f8f.31.1733924803860;
-        Wed, 11 Dec 2024 05:46:43 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878248f533sm1354045f8f.3.2024.12.11.05.46.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 05:46:43 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] bitbake-config-build: add a plugin for config fragments
-Date: Wed, 11 Dec 2024 14:46:30 +0100
-Message-Id: <20241211134630.2685983-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=If9vY4rV;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=R5xl+PJY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010193b60705a5-17e5888c-2a5d-4a8b-9d4d-ada689cae3eb-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1733925733; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=bTxAy/XKA4hOgcIHbnUF5I8J5gZApKr/w3n3cxEMTUw=;
+	b=If9vY4rVJkGEVAzJNN+xUQ6DmaPrOJ8Nc08kAaVufgYOTaJywQix4OD+WaPe0mdR
+	Jfg54WsPpeA0f3Z1e7I4RM4aO/i8n1WhXDry6hJfBwtdKamPNasqnGqnTD2DrZWb+YU
+	7C7uN0OFlZwYiSBF9BAyjOKfbN8XYfWvQ19tZaoU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733925733;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=bTxAy/XKA4hOgcIHbnUF5I8J5gZApKr/w3n3cxEMTUw=;
+	b=R5xl+PJYxTdnMH1wL30BddQPA92sejwFPB9Z/8d9hZUi1bMVfsyht6LEQgmYC1i8
+	+3Sq9S0akxdqixubSGN7EWjoulwQBPGFo9YryoTnAj+C3cXVXcR0JSGb7AkiECNs613
+	sESyhjF5LHObMTFcYLj7qATIOp9Cz3/lDmWfRCMU=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] bitbake-config-build: add an alias to bitbake-layers
+ intended for managing specific local configs
 In-Reply-To: <20241211134630.2685983-1-alex.kanavin@gmail.com>
 References: <20241211134630.2685983-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193b60705a5-17e5888c-2a5d-4a8b-9d4d-ada689cae3eb-000000@us-west-2.amazonses.com>
+Date: Wed, 11 Dec 2024 14:02:13 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.12.11-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 13:46:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208581
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 14:02:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208582
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-This allows fine-tuning local configurations with pre-frabricated
-configuration snippets in a structured, controlled way. It's also
-an important building block for bitbake-setup.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The tool requires that each fragment contains a one-line summary, and one or more
-lines of description, as BB_CONF_FRAGMENT_SUMMARY style metadata.
-
-There are three (and a half) operations (list/enable/disable/disable all), and here's the 'list' output:
-
-alex@Zen2:/srv/storage/alex/yocto/build-64$ bitbake-config-build list-fragments
-NOTE: Starting bitbake server...
-Available fragments in selftest layer located in /srv/work/alex/poky/meta-selftest:
-
-Enabled fragments:
-selftest/test-fragment	This is a configuration fragment intended for testing in oe-selftest context
-
-Unused fragments:
-selftest/more-fragments-here/test-another-fragment	This is a second configuration fragment intended for testing in oe-selftest context
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../test-another-fragment.conf                |   3 +
- .../conf/fragments/test-fragment.conf         |   3 +
- meta/lib/bbconfigbuild/configfragments.py     | 159 ++++++++++++++++++
- meta/lib/oeqa/selftest/cases/bblayers.py      |  31 ++++
- 4 files changed, 196 insertions(+)
- create mode 100644 meta-selftest/conf/fragments/more-fragments-here/test-another-fragment.conf
- create mode 100644 meta-selftest/conf/fragments/test-fragment.conf
- create mode 100644 meta/lib/bbconfigbuild/configfragments.py
+Testing patch /home/patchtest/share/mboxes/1-3-bitbake-config-build-add-an-alias-to-bitbake-layers-intended-for-managing-specific-local-configs.patch
 
-diff --git a/meta-selftest/conf/fragments/more-fragments-here/test-another-fragment.conf b/meta-selftest/conf/fragments/more-fragments-here/test-another-fragment.conf
-new file mode 100644
-index 00000000000..3bf04590472
---- /dev/null
-+++ b/meta-selftest/conf/fragments/more-fragments-here/test-another-fragment.conf
-@@ -0,0 +1,3 @@
-+BB_CONF_FRAGMENT_SUMMARY = "This is a second configuration fragment intended for testing in oe-selftest context"
-+BB_CONF_FRAGMENT_DESCRIPTION = "It defines another variable that can be checked inside the test."
-+SELFTEST_FRAGMENT_ANOTHER_VARIABLE = "someothervalue"
-diff --git a/meta-selftest/conf/fragments/test-fragment.conf b/meta-selftest/conf/fragments/test-fragment.conf
-new file mode 100644
-index 00000000000..4c1d2409453
---- /dev/null
-+++ b/meta-selftest/conf/fragments/test-fragment.conf
-@@ -0,0 +1,3 @@
-+BB_CONF_FRAGMENT_SUMMARY = "This is a configuration fragment intended for testing in oe-selftest context"
-+BB_CONF_FRAGMENT_DESCRIPTION = "It defines a variable that can be checked inside the test."
-+SELFTEST_FRAGMENT_VARIABLE = "somevalue"
-diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
-new file mode 100644
-index 00000000000..30cc5ece079
---- /dev/null
-+++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -0,0 +1,159 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import logging
-+import os
-+import sys
-+import os.path
-+
-+import bb.utils
-+
-+from bblayers.common import LayerPlugin
-+
-+logger = logging.getLogger('bitbake-config-layers')
-+
-+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-+
-+def plugin_init(plugins):
-+    return ConfigFragmentsPlugin()
-+
-+class ConfigFragmentsPlugin(LayerPlugin):
-+    def get_fragment_info(self, path, name):
-+        d = bb.data.init()
-+        bb.parse.handle(path, d, True)
-+        summary = d.getVar('BB_CONF_FRAGMENT_SUMMARY')
-+        description = d.getVar('BB_CONF_FRAGMENT_DESCRIPTION')
-+        if not summary:
-+            raise Exception('Please add a one-line summary as BB_CONF_FRAGMENT_SUMMARY = \"...\" variable at the beginning of {}'.format(path))
-+
-+        if not description:
-+            raise Exception('Please add a description as BB_CONF_FRAGMENT_DESCRIPTION = \"...\" variable at the beginning of {}'.format(path))
-+
-+        return summary, description
-+
-+    def discover_fragments(self):
-+        fragments_path_prefix = self.tinfoil.config_data.getVar('OE_FRAGMENTS_PREFIX')
-+        allfragments = {}
-+        for layername in self.bbfile_collections:
-+             layerdir = self.bbfile_collections[layername]
-+             fragments = []
-+             for topdir, dirs, files in os.walk(os.path.join(layerdir, fragments_path_prefix)):
-+                 fragmentdir = os.path.relpath(topdir, os.path.join(layerdir, fragments_path_prefix))
-+                 for fragmentfile in sorted(files):
-+                     fragmentname = os.path.normpath("/".join((layername, fragmentdir, fragmentfile.split('.')[0])))
-+                     fragmentpath = os.path.join(topdir, fragmentfile)
-+                     fragmentsummary, fragmentdesc = self.get_fragment_info(fragmentpath, fragmentname)
-+                     fragments.append({'path':fragmentpath, 'name':fragmentname, 'summary':fragmentsummary, 'description':fragmentdesc})
-+             if fragments:
-+                 allfragments[layername] = {'layerdir':layerdir,'fragments':fragments}
-+        return allfragments
-+
-+    def do_list_fragments(self, args):
-+        """ List available configuration fragments """
-+        def print_fragment(f, verbose, is_enabled):
-+            if not verbose:
-+                print('{}\t{}'.format(f['name'], f['summary']))
-+            else:
-+                print('Name: {}\nPath: {}\nEnabled: {}\nSummary: {}\nDescription:\n{}\n'.format(f['name'], f['path'], 'yes' if is_enabled else 'no', f['summary'],''.join(f['description'])))
-+
-+        all_enabled_fragments = (self.tinfoil.config_data.getVar('OE_FRAGMENTS') or "").split()
-+
-+        for layername, layerdata in self.discover_fragments().items():
-+            layerdir = layerdata['layerdir']
-+            fragments = layerdata['fragments']
-+            enabled_fragments = [f for f in fragments if f['name'] in all_enabled_fragments]
-+            disabled_fragments = [f for f in fragments if f['name'] not in all_enabled_fragments]
-+
-+            print('Available fragments in {} layer located in {}:\n'.format(layername, layerdir))
-+            if enabled_fragments:
-+                print('Enabled fragments:')
-+                for f in enabled_fragments:
-+                    print_fragment(f, args.verbose, is_enabled=True)
-+                print('')
-+            if disabled_fragments:
-+                print('Unused fragments:')
-+                for f in disabled_fragments:
-+                    print_fragment(f, args.verbose, is_enabled=False)
-+            print('')
-+
-+    def fragment_exists(self, fragmentname):
-+        for layername, layerdata in self.discover_fragments().items():
-+            for f in layerdata['fragments']:
-+              if f['name'] == fragmentname:
-+                  return True
-+        return False
-+
-+    def create_conf(self, confpath):
-+        if not os.path.exists(confpath):
-+            with open(confpath, 'w') as f:
-+                f.write('')
-+        with open(confpath, 'r') as f:
-+            lines = f.read()
-+        if "OE_FRAGMENTS += " not in lines:
-+            lines += "\nOE_FRAGMENTS += \"\"\n"
-+        with open(confpath, 'w') as f:
-+            f.write(lines)
-+
-+    def do_enable_fragment(self, args):
-+        """ Enable a fragment in the local build configuration """
-+        def enable_helper(varname, origvalue, op, newlines):
-+            enabled_fragments = origvalue.split()
-+            if args.fragmentname in enabled_fragments:
-+                print("Fragment {} already included in {}".format(args.fragmentname, args.confpath))
-+            else:
-+                enabled_fragments.append(args.fragmentname)
-+            return " ".join(enabled_fragments), None, 0, True
-+
-+        if not self.fragment_exists(args.fragmentname):
-+            raise Exception("Fragment {} does not exist; use 'list-fragments' to see the full list.".format(args.fragmentname))
-+
-+        self.create_conf(args.confpath)
-+        modified = bb.utils.edit_metadata_file(args.confpath, ["OE_FRAGMENTS"], enable_helper)
-+        if modified:
-+            print("Fragment {} added to {}.".format(args.fragmentname, args.confpath))
-+
-+    def do_disable_fragment(self, args):
-+        """ Disable a fragment in the local build configuration """
-+        def disable_helper(varname, origvalue, op, newlines):
-+            enabled_fragments = origvalue.split()
-+            if args.fragmentname in enabled_fragments:
-+                enabled_fragments.remove(args.fragmentname)
-+            else:
-+                print("Fragment {} not currently enabled in {}".format(args.fragmentname, args.confpath))
-+            return " ".join(enabled_fragments), None, 0, True
-+
-+        self.create_conf(args.confpath)
-+        modified = bb.utils.edit_metadata_file(args.confpath, ["OE_FRAGMENTS"], disable_helper)
-+        if modified:
-+            print("Fragment {} removed from {}.".format(args.fragmentname, args.confpath))
-+
-+    def do_disable_all_fragments(self, args):
-+        """ Disable all fragments in the local build configuration """
-+        def disable_all_helper(varname, origvalue, op, newlines):
-+            return "", None, 0, True
-+
-+        self.create_conf(args.confpath)
-+        modified = bb.utils.edit_metadata_file(args.confpath, ["OE_FRAGMENTS"], disable_all_helper)
-+        if modified:
-+            print("All fragments removed from {}.".format(args.confpath))
-+
-+    def register_commands(self, sp):
-+        default_confpath = os.path.join(os.environ["BBPATH"], "conf/auto.conf")
-+
-+        parser_list_fragments = self.add_command(sp, 'list-fragments', self.do_list_fragments, parserecipes=False)
-+        parser_list_fragments.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
-+        parser_list_fragments.add_argument('--verbose', '-v', action='store_true', help='Print extended descriptions of the fragments')
-+
-+        parser_enable_fragment = self.add_command(sp, 'enable-fragment', self.do_enable_fragment, parserecipes=False)
-+        parser_enable_fragment.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
-+        parser_enable_fragment.add_argument('fragmentname', help='The name of the fragment (use list-fragments to see them)')
-+
-+        parser_disable_fragment = self.add_command(sp, 'disable-fragment', self.do_disable_fragment, parserecipes=False)
-+        parser_disable_fragment.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
-+        parser_disable_fragment.add_argument('fragmentname', help='The name of the fragment')
-+
-+        parser_disable_all = self.add_command(sp, 'disable-all-fragments', self.do_disable_all_fragments, parserecipes=False)
-+        parser_disable_all.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 695d17377d4..68b03777201 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -240,3 +240,34 @@ class BitbakeLayers(OESelftestTestCase):
-         self.assertEqual(first_desc_2, '', "Describe not cleared: '{}'".format(first_desc_2))
-         self.assertEqual(second_rev_2, second_rev_1, "Revision should not be updated: '{}'".format(second_rev_2))
-         self.assertEqual(second_desc_2, second_desc_1, "Describe should not be updated: '{}'".format(second_desc_2))
-+
-+class BitbakeConfigBuild(OESelftestTestCase):
-+    def test_enable_disable_fragments(self):
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), None)
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), None)
-+
-+        runCmd('bitbake-config-build enable-fragment selftest/test-fragment')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), 'somevalue')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), None)
-+
-+        runCmd('bitbake-config-build enable-fragment selftest/more-fragments-here/test-another-fragment')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), 'somevalue')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), 'someothervalue')
-+
-+        fragment_metadata_command = "bitbake-getvar -f {} --value {}"
-+        result = runCmd(fragment_metadata_command.format("selftest/test-fragment", "BB_CONF_FRAGMENT_SUMMARY"))
-+        self.assertIn("This is a configuration fragment intended for testing in oe-selftest context", result.output)
-+        result = runCmd(fragment_metadata_command.format("selftest/test-fragment", "BB_CONF_FRAGMENT_DESCRIPTION"))
-+        self.assertIn("It defines a variable that can be checked inside the test.", result.output)
-+        result = runCmd(fragment_metadata_command.format("selftest/more-fragments-here/test-another-fragment", "BB_CONF_FRAGMENT_SUMMARY"))
-+        self.assertIn("This is a second configuration fragment intended for testing in oe-selftest context", result.output)
-+        result = runCmd(fragment_metadata_command.format("selftest/more-fragments-here/test-another-fragment", "BB_CONF_FRAGMENT_DESCRIPTION"))
-+        self.assertIn("It defines another variable that can be checked inside the test.", result.output)
-+
-+        runCmd('bitbake-config-build disable-fragment selftest/test-fragment')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), None)
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), 'someothervalue')
-+
-+        runCmd('bitbake-config-build disable-fragment selftest/more-fragments-here/test-another-fragment')
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), None)
-+        self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), None)
--- 
-2.39.5
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 97 characters) (test_mbox.TestMbox.test_shortlog_length)
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
