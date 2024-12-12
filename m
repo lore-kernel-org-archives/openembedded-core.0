@@ -1,97 +1,108 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CE6E77180
-	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 15:32:12 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.22185.1734017525363698705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 988E7E7717F
+	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 16:44:22 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.24069.1734021860465814811
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 07:32:06 -0800
+ Thu, 12 Dec 2024 08:44:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DXEbEm7H;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B1F7BFF804;
-	Thu, 12 Dec 2024 15:32:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1734017523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=8W55ll6UI0bfwQurGgtOrV/uCOXg2Vh4Z3ZImRmcLw8=;
-	b=DXEbEm7HGNV7uGuuO+R3i/5wpGiuhjCU29EYjx4FiSVLh4zGtRPESHPu2HoPFrsOEuA4OB
-	9XimmZdyBEE+SiRDlzHy4NILsErA836uGJZ1ssyVQbazWJYG0E3Clra3gjtIaRrDE4kCTk
-	fu6fT5865TAvv9b2B4/U2qOJdCWQfohoS0qLa75/36yP59Ond/t+ImtgkY9LShs0XUYKeq
-	ZrxHhoJtfgTkUjIw+Ly+O9SMIcABmaftzKcRxwrY3D8yTo9M4NVtik8wbOxYULcBEcboCR
-	o4hkf9S3+OyzpYzXzEil7QQAwObkY1GMKuK+ibj0n+xp/8WNgFGiCtNjK0WpGQ==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Thu, 12 Dec 2024 16:31:17 +0100
-Subject: [PATCH] scripts/install-buildtools: Update to 5.1.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241212-intall-buildtools-5-1-1-v1-1-9bdfd09b0518@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAMQBW2cC/x2MQQqEMAwAvyI5GzBREf2KeKg2aqC00rqLIP7dI
- nOaw8wNSaJKgqG4IcpfkwafhcoClt34TVBtduCKG2JiVH8a53D+qbNnCC5hi5Thmhrbm16kWyH
- XR5RVr+88Ts/zAqRR2CZpAAAA
-X-Change-ID: 20241212-intall-buildtools-5-1-1-2314d9a9ee7f
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JtN99MjT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4361ecebc4dso6185895e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 08:44:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734021858; x=1734626658; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4bGxSjcz5OAd10C5THP+4ZJLwbECSLQ5Y5P7eNOZSBk=;
+        b=JtN99MjTfN8HHGV7T63srkAbukrE7UtfsOucFjZKzuiZ/Sv/25kKefytUuxzsN90eX
+         sEC0VAk3HLqe7GSWP8FJADKQ2gOaN63/oVfLSK7XYYVcU/CR43Cuo7MksdQgjWRtIWiJ
+         JBqGu7wTBhqv9ZwCCzPMnafK2BzS6GXunS078epggGKFgdf7NDDSovxRpuT/in4nFOdr
+         yBgffyTZfkhZvi24lbihHI3RRjofurVGWu3A9i3RqTAHBXZiW1vw+nG4f0n3hOvwArrW
+         A72Y1rgCLEkEYRkYoYt5V1s5N37oliISuwGjQ2OgLCJJOEvBnTYYFSEqmrbvRJRj/Yrs
+         9oYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734021858; x=1734626658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4bGxSjcz5OAd10C5THP+4ZJLwbECSLQ5Y5P7eNOZSBk=;
+        b=q6Y28eBd3JPL+2BzZxmtssZ0HOCkO9j9WvqrNUjR9jchGIbpn3+SI725eg9KLeWriL
+         Vpdgn7/pmRDKY9LRMB2JaIShiMgQSsIFjK4MpZQiLThmnQ51h/BJTJa1oMUFzJwKGs6F
+         FEmnf2+6bnTIxUWknEBuoIWhGUl5y3QslqBr+rDj1wgL6oOx6i1crdJOCWvnGvZeP/oH
+         oHLEePxEMNsPoCNqPz5ywOtVcKzH+s13qQQpUu/1ix4WRhXQQqIwM7E/IClNxxnNVGIA
+         LRDKMWFcXlMu2xtDRbkbS1v9xZL0BARFbhRlxfXGR7aFJDN8PRTEBq617jdwT/pCVPJi
+         gn6g==
+X-Gm-Message-State: AOJu0YzLVH83RvQXlOQ5/IlP8IzEi3/DE9mNlVwFLzS8B2+wSQrJ965m
+	vWjqujrVpiddBTn1HAUbcRHoNxBX7C1TkffhPmbVp2IpMYK7pReD3JxvoQ==
+X-Gm-Gg: ASbGncuxffJ6fxGcdtIYylCd2fH18vUjPV29JKQAS79qJRlglBD5l1DW2P0c6ES+3C0
+	9rZgspAsYajsgi1b6OtGu25T8OjYccggc/7gGZTsVnWRphOO60ErrLQe1Psh5XByhTgD6vdP7tR
+	/HePV+5SwYUyNL/kt0t6A96V9UcgBJJdvuzGO9dhAQ1DjhuAD/pfbHGikHZXaTBKJJl8Z9ZzpU+
+	idhUVNaJACJOW5gjh9wfVZmZwysHeq/3Tw+MGPEdlT4AwORlbUHBgjuB4q4Sq9bbtKf82S8R3+/
+X-Google-Smtp-Source: AGHT+IGAp6eA/iFwNVpIz5vi+uCCuHlpwzbVVQDXUH4x6DWf8eViY3G4G8KDAB2xhsnmJZZTWWeoRw==
+X-Received: by 2002:a05:600c:1c84:b0:434:fdf3:2c26 with SMTP id 5b1f17b1804b1-43622845d8emr37469605e9.19.1734021858309;
+        Thu, 12 Dec 2024 08:44:18 -0800 (PST)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824a4815sm4473331f8f.26.2024.12.12.08.44.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2024 08:44:17 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1091;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=VC2L79W9NPp+gLl8ncAEn0S7C+Thbc9orfmtSKlDAXo=;
- b=owEBbQKS/ZANAwAIAdGAQUApo6g2AcsmYgBnWwHyheoT3tS62fvbruiRQ2we4skkIns6R28B3
- Yq9uC3ZJh6JAjMEAAEIAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCZ1sB8gAKCRDRgEFAKaOo
- Nq9MD/wJ6VhhmT3LSkTr3ywQzUozjlOBzAaWpm+ONONNnYsTLXOzRJubLAAXNN1zBWFZ2RMvUJr
- CXL66usDLz+6USYue2OMsS+H70rJ+d0eh0sNlqXzmFer26xv7eXa0dmerZkmbp1Q4SFYm5nwrjF
- qkOCTsKCq5F4P4dLudB4Qs9nGAqZC2RkmWxQY/cWgclanJyhTTlTglL2LUQqpe3YENfqqKVNQR6
- R14kipCxwFQ0cjCwq2jZZfyZjDCdsEhBqxEFD6RZs4CSo3wSivo0Fr7H4MYCZpzJRobfU6vN4W/
- ZOiqRNwSTuxeP/wFDMcGlKO0XGQsahGYBSR8nS57n+KwLkMsRlXnwSO7NiwCn8ZZVLe+ANZPhnV
- 45PFfj/BlA+1WVd2r+xuVv0mnW7dNCr85xB4fnCzVFqDDLfr9QcW7g6BHE++eyHal+Gv4rDSVI0
- JrxWe9z15tKc23IWaTdlKVy7m8rUKAVeO0Zo3RJwJ3+bnpKSq2lKeY/75yTGk79sZmOWedo72Of
- Sje/qqxXmZo3ECW8piDpyDRAmw6MzD2A5nJTT2WN30lmB5FmN+6Q+wS5kipwVBt7WX2SAdQn06F
- ebE/X+2KpPucqriiIeQwAd9kOnN97of0S/qUsjknTNI9E7LlTsimUgqoAk7upmW3aK+RGsolqOY
- +mdgr+LTL8saJnA==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-GND-Sasl: antonin.godard@bootlin.com
+Cc: Adrian Freihofer <adrian.freihofer@gmail.com>
+Subject: [PATCHv2 0/5] systemd split networkd package
+Date: Thu, 12 Dec 2024 16:55:21 +0100
+Message-ID: <20241212164407.2904755-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 15:32:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208652
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 16:44:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208653
 
-Update to the 5.1.1 release of the 5.1 series for buildtools.
+v2 fixes the build warning
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
----
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+First of all, this patch series fixes a bug in systemd.bbclass that
+forces service files with an Also= relationship to be in the same
+package. This may often be the case, but as long as the RDEPENDS
+between the packages are set correctly, it is no problem to distribute
+the service files over several packages.
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 4618d6a3ac6a2cc326251d4f3fca2ffd19514d00..b56910455d3d7d287b73f95418d1ad213a6722ae 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
- 
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.1'
--DEFAULT_INSTALLER_VERSION = '5.1'
-+DEFAULT_RELEASE = 'yocto-5.1.1'
-+DEFAULT_INSTALLER_VERSION = '5.1.1'
- DEFAULT_BUILDDATE = '202110XX'
- 
- # Python version sanity check
+If service files referenced with Also= are no longer automatically added
+to the list of FILES, build errors caused by unpacked files are
+expected. A bitbake world has shown that there are only two recipes in
+oe-core that use automatic packing: busybox and dropbear. There are 2
+patches that fix this.
 
----
-base-commit: 5915e70469fa53600dd8926ddafcb5459df1a32c
-change-id: 20241212-intall-buildtools-5-1-1-2314d9a9ee7f
+Also= relation are probably most often used for sockets. Consequently
+the systemd.bbclass should also allow to split socket files into
+separate packages. However, that's proably practically not used and
+would cause tons of packaging errors. Therefore the automatic packaging
+feature for sockets is not changed.
 
-Best regards,
+The latest patch splits systemd-networkd into its own package. This adds
+a little extra complexity, but splitting systemd into packages is a good
+step towards making Yocto more usable in binary form.
+
+Adrian Freihofer (5):
+  busybox: add klogd service to FILES
+  dropbear: add dropbearkey.service to FILES
+  systemd.bbclass: refactor adding files
+  systemd.bbclass: do not automatically add Also services
+  systemd: split networkd into its own package
+
+ meta/classes-recipe/systemd.bbclass           | 28 ++++++++-----------
+ meta/recipes-core/busybox/busybox.inc         |  9 +++++-
+ .../recipes-core/dropbear/dropbear_2024.86.bb |  2 ++
+ meta/recipes-core/systemd/systemd_256.8.bb    | 28 +++++++++++++++++--
+ 4 files changed, 47 insertions(+), 20 deletions(-)
+
 -- 
-Antonin Godard <antonin.godard@bootlin.com>
+2.47.0
 
 
