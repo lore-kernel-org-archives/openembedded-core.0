@@ -1,113 +1,118 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BCEE7717F
-	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 06:55:18 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.14494.1733986508667471054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7A2E77182
+	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 07:42:29 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.14992.1733989342757038497
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 22:55:08 -0800
+ Wed, 11 Dec 2024 23:42:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZF6QnBUp;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385df53e559so178962f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 22:55:08 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=uEKpDQOe;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-54021daa6cbso304199e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 23:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733986506; x=1734591306; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hB+qUWIh+gedA7JZAjT4U2ezxczkJofQBdcm0CgrESY=;
-        b=ZF6QnBUp81A/UlT67qLQ3PYnf4CfcqX2dTb3841ne/VH8dvvr7Cf4FHCDAWRclvT4p
-         Bs/AJ0AjkfLgjsNev8S3+RjsONsCu/+XwJyIDEZUy+KOmkHR0r4EMyaDVajVv53OwMDW
-         ShusSqN4s7cMnfbw0NSTaXgIiqKF6Y3AGaxEsOn7Js+Ikg/KKIWXzpiqNmuXQQlsP6Z4
-         7aJADX+0StnLVFn57VPjzWcVdrz6NeFjkk4cCrrFj/zu3wOrpGPFxHE3u4Wc+wu6x5rt
-         IJ9q3AgjqchzwvU2/YdT6XFIjpPEhtL395D3516QgP/c8Z8wFFKadxoli6pFMp0uCmGm
-         F3Jw==
+        d=linaro.org; s=google; t=1733989341; x=1734594141; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/hPh4OMx8HXuAGKnD54H7BZyDvQL5VY/DytRkWhExc=;
+        b=uEKpDQOe3i6tER74JaJNr0abNPeI4pY+y48gNorAnFnb807FEePXjeoLqtbZhwqsq0
+         0u1kPXKrdQcB4n9g2ClJvqANQeqoGztV6MnIKDsTjJfKgS/WFnDDalH7aehHLLpRDZUA
+         xUWwT8vgwMRvfAOq/JNiwK8dlm6CRvdeW9fLyHj1wg1Et9MlN/9e6iVRcTOwQlCzyNO6
+         7Lg/iglgnOj4ReDUaBD+UTUnLT7HTKlDQfaslokD0oCpHryh0wF7Vv9DXZF5HrOyI+7N
+         fKJCOuKZJP/cYXt3P3eZc2YkDxJPxMpHeqyFQkaYIJ0d+GfE6oZNHJAtBf+i71bzcvS7
+         8DbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733986506; x=1734591306;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hB+qUWIh+gedA7JZAjT4U2ezxczkJofQBdcm0CgrESY=;
-        b=LvhWklnqqpZ07JEK5LqEdYaZYHeR522oklTaTirlJw4rsl/qh/kngsTzg8Le28ZWWI
-         c7sL1o5EIeVKB6IH0HzQfhlOk96PUTgPe4H+hge/Xi31hAxcd9qx/KnrPWrHHEupr+Qh
-         96gECThO7t3uPr8E7depVUJNCmTynHmdknijPVcbvh7vljj0LfcXMLIUT6E6gp6GcEpE
-         7hD9fjBp2Imnj0afo+zPaRvi6Ey0EET8p0+mvzMYRTDyMOLDCC58iFhJ8QxJ+MXoxDNi
-         hxAuRnJ8tI2G0VySUDQFKtUhN0wLx/DuXgmPUwJ7/51YnqZ+DwWH3SoTMOGqKhXBGGhv
-         qdeg==
-X-Gm-Message-State: AOJu0Yy+PfwNVw6EKJAzXF9IjT3xdbhWduYn4jTpwC4PdeTXngvEF1/+
-	4SZgloRxX2n229FdZaXRGQE8nY2tz87uq9+Dy+vjJ6ldcgu5ji7cCLQmjQ==
-X-Gm-Gg: ASbGncuSquvLl7dTAi9Zj58TszoJiUmN69JZxY29OpEKScOfZ4S6irT75jFwxTsnt46
-	6Ml+VMjFTJHHfruGPO90SccdU7CGJbkzrfta4iv+YOQfnfsGaNRZh09SE0Dg2x9KMWxDgKvJy2/
-	qEzXR2icr1yIUq6F8ssNWU2SYJNy8LN9tg3v8iUU+FcX2SCfgTRJELI6WBnnlSagOqcOtASTps7
-	UyKMpfgQf0fMToHrXMGdvfZOfBNTwgBwmkn8G5pDP/2fvZYLiYvMLSkFOOo0l4ZwF4WqQ==
-X-Google-Smtp-Source: AGHT+IHgx3ADBxiT6DQfJ+LgwjHTPfss95DQHnuSfhdnWDsfS2NhEbnYHiXuEQTOs2MHiw3KJsKNvQ==
-X-Received: by 2002:adf:e181:0:b0:385:edd1:2249 with SMTP id ffacd0b85a97d-387876c4969mr1775979f8f.50.1733986506340;
-        Wed, 11 Dec 2024 22:55:06 -0800 (PST)
-Received: from voyage.lan ([2a0d:3344:23bc:5a10:70e8:c835:72ed:f8f5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782514d35sm3154021f8f.74.2024.12.11.22.55.05
+        d=1e100.net; s=20230601; t=1733989341; x=1734594141;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W/hPh4OMx8HXuAGKnD54H7BZyDvQL5VY/DytRkWhExc=;
+        b=PG4gl1c8T/8Wy6z8jDLuCSVpiDJj4iodZcltuMyXQSxuN5Vc8fIArRR6t9kMVwbZlz
+         FsDPOT5x34vJ3JG3my5p0hXYDWABJlDi3+aMVVwROwNubdhiDynwOgjvxE+ZDaw42lRA
+         qxkRypXlovCthL5vqgQ2QWvUAwE1phDlbO19E9/fOtCrfuUCje3jmSkqbV4IqG8YQVCP
+         V5a9BazKNzHvxsMMjI4Ngmlfg7JSogkoFl4KOK0fyM38v/p938gz/pe65NZUyp7YKQWl
+         h6zoYDF+PsLRVlUTMMgIgSt0usgKnv8J7kkGhzeG8fqgjPMegJrUhaQEAQJkxwuqkwTo
+         N4ug==
+X-Gm-Message-State: AOJu0YyUkOoplIioSNLEsoF2NpTgNL5XS7A8qWX6yYPJc2yCRI+ywudZ
+	7P5KXxqOCuafV85gkC4RMKflll1c0UJ56r6BXf3eaqurm1d4Mw52N+mJzYwA3Nk=
+X-Gm-Gg: ASbGnctulJ3bJOwA/GIoEOTa0ILR07V4fK9xvFv8Uta2uTW0xWvKuEaqXSuH/qbBzxz
+	5t98H6v23bNTtyzUJV4RnUua/ivv2GKiczvCVzcSFfuHY7BmyYuc6qgLCAjTwcpWdDT4/BZW+/q
+	t71Br5Baw42lEnkHnWoqIECu+IWpBW6IqytMFtWZLtnGm+Q1Uty7CNGOjtNiez4zUaqfpBK8vZg
+	meWMTcZWaFV1W3HfBXjRwMDgVbp9Gc8PBTUs/WojGj6oPOozRd+7Qu2sQRHl73ffqbL4QTNejny
+	xXHdBA==
+X-Google-Smtp-Source: AGHT+IFAY1hdKLNYCPXgalsKuNVjOWGEC+zStYkNxDbiywCN7RQ8wGUl6yrW6hBY6n8mSULaM4RdAw==
+X-Received: by 2002:a05:6512:3c9e:b0:540:2549:b5ad with SMTP id 2adb3069b0e04-54032d34779mr118735e87.22.1733989340773;
+        Wed, 11 Dec 2024 23:42:20 -0800 (PST)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5401c344ce5sm1397430e87.224.2024.12.11.23.42.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 22:55:05 -0800 (PST)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
-Subject: [RFC v2 4/4] cve-check: allow feed choice
-Date: Thu, 12 Dec 2024 07:54:22 +0100
-Message-ID: <20241212065435.15582-5-marta.rybczynska@ygreky.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241212065435.15582-1-marta.rybczynska@ygreky.com>
-References: <20241212065435.15582-1-marta.rybczynska@ygreky.com>
+        Wed, 11 Dec 2024 23:42:18 -0800 (PST)
+Date: Thu, 12 Dec 2024 09:42:16 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org,
+	Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: Re: [OE-core] [PATCH v2] systemd-boot: upgrade 256.8 -> 256.9
+Message-ID: <Z1qT2DQ_jGIstNcY@nuoska>
+References: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
+ <1733964540-5537-2-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1733964540-5537-2-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:55:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208625
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 07:42:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208626
 
-Allow choice of one of three feeds and update task dependencies
-accordingly. All feeds contain data from NVD.
+Hi,
 
-Set the NVD_DB_VERSION variable to choose feed:
-NVD2 (default) - the NVD feed with API version 2
-NVD1 - the NVD JSON feed (deprecated)
-FKIE - the FKIE-CAD feed reconstruction
+On Thu, Dec 12, 2024 at 08:49:00AM +0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@cn.fujitsu.com>
+> 
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  ...ystemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} | 0
+>  .../systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb}    | 0
+>  meta/recipes-core/systemd/systemd.inc                           | 2 +-
+>  .../recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} | 0
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/systemd/{systemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} (100%)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.8.bb b/meta/recipes-core/systemd/systemd-boot-native_256.9.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot-native_256.8.bb
+> rename to meta/recipes-core/systemd/systemd-boot-native_256.9.bb
+> diff --git a/meta/recipes-core/systemd/systemd-boot_256.8.bb b/meta/recipes-core/systemd/systemd-boot_256.9.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot_256.8.bb
+> rename to meta/recipes-core/systemd/systemd-boot_256.9.bb
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+> index 989ca667b7..b85d5b187d 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+>  LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>                      file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+>  
+> -SRCREV = "a2240d1cf9f3515728186c2c98a6f4b64a40e4da"
+> +SRCREV = "f15fd96efd5ebdfb18746acb0cbb35a4331b4d8b"
+>  SRCBRANCH = "v256-stable"
+>  SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
----
- meta/classes/cve-check.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+NACK: must also update systemd and systemd-boot-native recipe versions since
+systemd, systemd-boot and systemd-boot-native all use systemd.inc.
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 6e10dd915a..98c5129a62 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -31,7 +31,11 @@
- CVE_PRODUCT ??= "${BPN}"
- CVE_VERSION ??= "${PV}"
- 
--CVE_CHECK_DB_FILENAME ?= "nvdcve_2-2.db"
-+# Possible database sources: NVD1, NVD2, FKIE
-+NVD_DB_VERSION ?= "NVD2"
-+
-+CVE_CHECK_DB_FILENAME ?= "${@'nvdcve_2-2.db' if d.getVar('NVD_DB_VERSION') == 'NVD2' else 'nvdcve_1-3.db'}"
-+CVE_CHECK_DB_FETCHER ?= "${@'cve-update-nvd2-native' if d.getVar('NVD_DB_VERSION') == 'NVD2' else 'cve-update-db-native'}"
- CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
- CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
-@@ -182,7 +186,7 @@ python do_cve_check () {
- }
- 
- addtask cve_check before do_build
--do_cve_check[depends] = "cve-update-nvd2-native:do_unpack"
-+do_cve_check[depends] = "${CVE_CHECK_DB_FETCHER}:do_unpack"
- do_cve_check[nostamp] = "1"
- 
- python cve_check_cleanup () {
--- 
-2.45.2
+If this update is automated, then that automation needs to be fixed to update all
+affected recipes. This same issue has been in a lot of update patches.
 
+Cheers,
+
+-Mikko
 
