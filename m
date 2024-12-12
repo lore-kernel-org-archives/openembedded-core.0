@@ -1,98 +1,169 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AA2E7717F
-	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 08:30:49 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.15486.1733992246056076171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C84E7717F
+	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 10:31:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.17019.1733999465197889872
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 00:30:46 -0800
+ Thu, 12 Dec 2024 02:31:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=NTyJhC5e;
- spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-540218726d5so345592e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 00:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733992244; x=1734597044; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zbl+61awgpx3ns0PRlvC3i0jzxpZpz+kIgiuCaip28Y=;
-        b=NTyJhC5eS19c4IQycWPxG7BUjWox713V7RrPCArFZTpRq4ejp8gE9CIuzhf42NaVNt
-         BS+zwomnd/P47Ory+Xpt3j3qnUFMRYN475WDmckWmVBwJgJYa21PKKBJS2+w+GcKSzT8
-         DqZhXgcodyevZ/UdnMpME7y0hRdsssBUzP0w84pv42BGAoj/qyK7eltxyYymQiehivMg
-         cJn0pyoNDQx6xITlvKDY4Vs3ILRht7kZBHejMk4OC3hllxZKYNPLdQFWEujQ4SSZq4GZ
-         EMrYmd8Pl+wbyi+aN0nbtVGP2663vx8reqpiI5b6vZ1m8w6iVUsGc/Q71NDh0KCMSunL
-         VgGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733992244; x=1734597044;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zbl+61awgpx3ns0PRlvC3i0jzxpZpz+kIgiuCaip28Y=;
-        b=qrFnQWFUeB0Ji+ophOkF9u4STC27L7r0wuF99xJHomPB+pJPZWatrqBQwtyrxitsc6
-         WT8NiaEmnZ+TkUrIqymmgBVCzC9a+wdfEky2HHCynrfBpuFu60A/HWpsRFBMCnjqIN9+
-         upiljbrFHuIZpt9xKs6u9ltQffYDas7waQIbc/Cy03oKPLgO7jPEV5c5lqAjCjy20saL
-         sNQUMcfjrcMVFiftveM1TepxkLQ+lhfi8gJXPrW+VSWbaHc/77+wuxl8wsk0dlda8U7r
-         2qNmgo6CxCczMJQkBgBYlMjlpVAe9sm0q9ukICs7LQhSR8WWxLBGeUx2/IdLMUy3NEgV
-         eYJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXfg0vABrr29qzlIW38UTtJPFeQSmHb2ef8jKW9FKt6HL6FNUPaF7E9MzW5BbL1mMLyFus5H6ydM4NaraKRf8cTUw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywsm1rq5zANXxtKwm/5aEBtTO/bdp7UQ0INjuD14VPS6BAImM65
-	adkBeqUQChrGka2Zf4mKVcSBb8hbuBl2Rk0Bm49vPQmild39CE53+nrENrGP/XQ=
-X-Gm-Gg: ASbGncvsJHYIeMDYf6g6/7G9jwUNbqeD7nKrYy86/jHkApjn1VmneuMWZI68+DckDB0
-	EpzK80bHDxYAePG9W9qvxJR2HOLkj/jW//C8VzZ8JYIA7c6cVLsZmNV2KbhrKYAQXr028wdXz89
-	vASGzPNC+BlbMmL3KQV5aoRqSb887z455BX4RMroeCzpg2WRZS1kfFDE6ujezoEhuAX37DjeEpc
-	3IkIlB2vSFzh0uQHk4+psMb4yCT4qww91uMj2Ykgoof1btSfGu4XtnlzJuxuI9LU0oGfe0RfKJp
-	Jgu1fg==
-X-Google-Smtp-Source: AGHT+IEreX2HYo+8ku5dEau/BFiU5zx6SGh8DdWDxjM33PBMu9r5v662savfUQ2ePF97ZCdO4baRzg==
-X-Received: by 2002:a05:6512:1310:b0:540:1b7e:c900 with SMTP id 2adb3069b0e04-54032d3475fmr190382e87.14.1733992243900;
-        Thu, 12 Dec 2024 00:30:43 -0800 (PST)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5402960b0absm575271e87.102.2024.12.12.00.30.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 00:30:42 -0800 (PST)
-Date: Thu, 12 Dec 2024 10:30:38 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org,
-	Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: Re: [OE-core] [PATCH v2] systemd-boot: upgrade 256.8 -> 256.9
-Message-ID: <Z1qfLjJ7OnXIFAK2@nuoska>
-References: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
- <1733964540-5537-2-git-send-email-wangmy@fujitsu.com>
- <Z1qT2DQ_jGIstNcY@nuoska>
- <CANNYZj86YOBLurL4n774DPS-GQeqSPv8Zzw4DOoGVi_a57pS+Q@mail.gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2076b0823f=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC7ZD1F013049
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 10:31:03 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cwy3ndrq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 10:31:03 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 12 Dec 2024 02:31:00 -0800
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] xserver-xorg: fix CVE-2024-9632
+Date: Thu, 12 Dec 2024 10:30:36 +0000
+Message-ID: <20241212103036.980879-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj86YOBLurL4n774DPS-GQeqSPv8Zzw4DOoGVi_a57pS+Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: SQupVm6gDdi859GZFu6f89TuHMXHofAm
+X-Proofpoint-ORIG-GUID: SQupVm6gDdi859GZFu6f89TuHMXHofAm
+X-Authority-Analysis: v=2.4 cv=D7O9KuRj c=1 sm=1 tr=0 ts=675abb67 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=PYnjg3YJAAAA:8 a=e5mUnYsNAAAA:8 a=t7CeM3EgAAAA:8
+ a=aR16PxjQAAAA:8 a=OCbkGfCjAAAA:8 a=D31QgfloAAAA:8 a=20KFwNOVAAAA:8 a=EJtntYSaRXMlSlE7y8sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22 a=zbFvvTOBjyH4ze5LlUjX:22 a=Q54k6SzI3w2tyUrPwH3r:22
+ a=I6paTPn9_Px6ARgSWtWf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-12_05,2024-12-12_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ adultscore=0 priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412120074
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BC7ZD1F013049
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 08:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208628
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 10:31:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208629
 
-Hi,
+From: Yogita Urade <yogita.urade@windriver.com>
 
-On Thu, Dec 12, 2024 at 08:58:51AM +0100, Alexander Kanavin wrote:
-> On Thu, 12 Dec 2024 at 08:42, Mikko Rapeli via lists.openembedded.org
-> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> > >  ...ystemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} | 0
-> > >  .../systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb}    | 0
-> > >  meta/recipes-core/systemd/systemd.inc                           | 2 +-
-> > >  .../recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} | 0
-> 
-> 
-> > NACK: must also update systemd and systemd-boot-native recipe versions since
-> > systemd, systemd-boot and systemd-boot-native all use systemd.inc.
-> 
-> The patch actually does this. Is something still missing?
+A flaw was found in the X.org server. Due to improperly
+tracked allocation size in _XkbSetCompatMap, a local
+attacker may be able to trigger a buffer overflow condition
+via a specially crafted payload, leading to denial of service
+or local privilege escalation in distributions where the
+X.org server is run with root privileges.
 
-You're right and I was wrong, sorry. I guess v1 of the patch was in current
-master-next which was missing systemd recipe update. Would be nice to
-change patch title prefix from systemd-boot to systemd though.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-9632
 
-Cheers,
+Upstream patch:
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/ba1d14f8eff2a123bd7f=
+f4d48c02e1d5131358e0
 
--Mikko
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../xserver-xorg/CVE-2024-9632.patch          | 58 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2=
+024-9632.patch
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-963=
+2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-9632.p=
+atch
+new file mode 100644
+index 0000000000..387cdaa3c9
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-9632.patch
+@@ -0,0 +1,58 @@
++From ba1d14f8eff2a123bd7ff4d48c02e1d5131358e0 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Thu, 10 Oct 2024 10:37:28 +0200
++Subject: [PATCH] xkb: Fix buffer overflow in _XkbSetCompatMap()
++
++The _XkbSetCompatMap() function attempts to resize the `sym_interpret`
++buffer.
++
++However, It didn't update its size properly. It updated `num_si` only,
++without updating `size_si`.
++
++This may lead to local privilege escalation if the server is run as root
++or remote code execution (e.g. x11 over ssh).
++
++CVE-2024-9632, ZDI-CAN-24756
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Tested-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: Jos=C3=A9 Exp=C3=B3sito <jexposit@redhat.com>
++(cherry picked from commit 85b77657)
++
++Part-of: <!1734>
++
++CVE: CVE-2024-9632
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-=
+/commit/ba1d14f8eff2a123bd7ff4d48c02e1d5131358e0]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ xkb/xkb.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 276dc19..7da00a0 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -2992,13 +2992,13 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr =
+dev,
++         XkbSymInterpretPtr sym;
++         unsigned int skipped =3D 0;
++
++-        if ((unsigned) (req->firstSI + req->nSI) > compat->num_si) {
++-            compat->num_si =3D req->firstSI + req->nSI;
+++        if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
+++            compat->num_si =3D compat->size_si =3D req->firstSI + req->=
+nSI;
++             compat->sym_interpret =3D reallocarray(compat->sym_interpre=
+t,
++-                                                 compat->num_si,
+++                                                 compat->size_si,
++                                                  sizeof(XkbSymInterpret=
+Rec));
++             if (!compat->sym_interpret) {
++-                compat->num_si =3D 0;
+++                compat->num_si =3D compat->size_si =3D 0;
++                 return BadAlloc;
++             }
++         }
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/=
+meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+index fe577050d9..a9cb1b5bde 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+@@ -21,6 +21,7 @@ SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-on=
+ly-for-pre-gen4-hardwar.pat
+            file://CVE-2024-31082.patch \
+            file://CVE-2024-31083-0001.patch \
+            file://CVE-2024-31083-0002.patch \
++           file://CVE-2024-9632.patch \
+            "
+ SRC_URI[sha256sum] =3D "38aadb735650c8024ee25211c190bf8aad844c5f59632761=
+ab1ef4c4d5aeb152"
+=20
+--=20
+2.40.0
+
 
