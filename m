@@ -2,60 +2,60 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DC5E7717F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A7EE77184
 	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 16:44:32 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.23994.1734021865587328514
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.24074.1734021868234631706
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 08:44:25 -0800
+ Thu, 12 Dec 2024 08:44:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kyjs/PGx;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so442257f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 08:44:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ak0+uhm/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso6224665e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 08:44:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734021864; x=1734626664; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1734021866; x=1734626666; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k4rl2mFQyq/4wW6LlLbou5q/REaODnyWSsEkDxQEOnI=;
-        b=kyjs/PGx5XH6jnkOy4SJha9nBngrJ2nA8V7pAa6nX8mmkpFAsVvjJ4/TI3nZOjZYML
-         Ozz/eUPUjEHkx4owEnOT6neegdSjebbpVMlFAZzXNR8xBm5KTBDzS4diTtQo5uDN1t3W
-         Xg/OWN6wJ/yfkGfyRwnukRVDbG+uMe9qXWoltb8M1PTbZ00VbIONhD5DhvFyBXupNR8n
-         qUrZiv3OpGL1BDKtgvTh33ue5wvREhk7cPYV28CSgJshGpHS9FDrqNRNRh7qUpyRxi3Y
-         Xcgq2zeRxGekTbBt9RZvrm3MJQVmqkl9WuxWu3ZagX7Gd8Wu8tesyHeEsyTldq5OITQc
-         tlXQ==
+        bh=Jjh5nCafTZUhI9d3Y54APbXVq79WTV2k004+X6P2lSE=;
+        b=Ak0+uhm/F0COfAy7uVjsb1je1uXmuBoJJT7Ha+wj2Pmp83x0ODF+dDLAwgTCA+TXYj
+         Nuw+lpUuuVAojp1jyqm5oDnth5SkUTWOmBcaVV0djq6OQ/h7nfgbXwoaav5WIDoldA5N
+         mG/J5PkHRvrhS40JR6w3M2qmrIAFvmsJl7Vx4kaMbFH46jE9rCmw3CydpmaINAd7Rbhq
+         xzgezgbdHLfvNVrV/yz247NVhssTiv4CJXgPrMOhym/VSDo0tuL8enQ80VSwQzN0yZzm
+         88JqvA94P/g+vMWBxYgt3vNGDTTXXszgAgbYbJYksCLN88YHqFaAF+r6GqJtyOHh2knZ
+         iRcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734021864; x=1734626664;
+        d=1e100.net; s=20230601; t=1734021866; x=1734626666;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k4rl2mFQyq/4wW6LlLbou5q/REaODnyWSsEkDxQEOnI=;
-        b=rWADGfFIvCYLClDJ4eGk0CWPqP5C+T3rU4XUDjjLZLu8rtYuLch3p5blP+AQFGZb8r
-         RWecydPOG+MHKb1Mtw5sq46ls0vkcODq9+C52w7+2mkRnN+iMmwkUKw7HzXZDbrfnNkK
-         +sv93yYKpHUVLKJ9iJnZLOljxbuMeRoz5AHT5T+F6QzMgtvsYphRS1rk2KMmRQG1j+He
-         ZwVSJRvNMeB7F7ckDXHbUydWxFf7AsOmrvvexGX+7PBEFtbpORv7hq8TMU22EDh6bXDX
-         yAfHC5ad0+mE9wdKgk3WyXxHG3qQzkYeA52ZrAn7lZaclx2u+YzmHdtTylhoBNAcABk4
-         9Cow==
-X-Gm-Message-State: AOJu0Yw22t2mPPgYGU2UfOmeE0dBOLMMJzve3Od1Qm6VxgKMpz/ML98E
-	91EV4alU23jO5zkJgzkXIZxbmZaVO832yEjLPlUhviEZepu9ULl29VWVLg==
-X-Gm-Gg: ASbGnctwtXqXKZI+eodTOASdOBFF3ufBtKbBYVj466FMQ6AbDHmg9Lfxi7l5gMt7YGw
-	nndUH+EOa9t696d7tY3oB/ySCgRffz6c0w83g2lJT80zZZTO3cn8MNoufkZFCtVJoTky1HaxeZL
-	+mxWNd9kQ5tQwhxcFh/xfLLRBHhmW0a6h9V4NunYj5Jgu0Qf8BEQiEIQ2OTstwC0y3SCJ9AgQkg
-	ezAwVYOY4Myx2T159iUN9NdoUWSpIxHxvGH/wIv6oB1fj/UImFyqBcsA5/4xdJ/SkXQ8FIGzEHa
-X-Google-Smtp-Source: AGHT+IHfDZvcg6hj037UmEWkeORs0yvlO8sPc3awTgyzU0aK1+R1FsV+4mRHobhU0QiZl57GlEe4qg==
-X-Received: by 2002:a5d:5f89:0:b0:385:e0ea:d4e7 with SMTP id ffacd0b85a97d-3864ced3a1bmr6863404f8f.55.1734021863459;
-        Thu, 12 Dec 2024 08:44:23 -0800 (PST)
+        bh=Jjh5nCafTZUhI9d3Y54APbXVq79WTV2k004+X6P2lSE=;
+        b=tchaV3yLKEDa3XCTjKLSuv3XjQmcWZbwNb0k3PwZfTMeXrj9A+vegz91IXxNN8rEp1
+         9TNDqRJ0W5iYhaoz7ea6EPBEkSek5OQQpHrssFoTp0ERq+I23O/obI5DY3KQZPwv9Zqr
+         KbmuwI8KjiIKYnvE8Y+9EjCW2kwrDamf6vde5VMkjJZ68w1pMDL6+PLY2NcYttncnWPT
+         nxH4jbDyYGycJBzYhkBcF1kwXbcdUJdZEowsY8g6gRC4duHokgapdbZHtpdyTIDf2X3F
+         efGWLjjTFKfV9pjmymvj4/sJSO/amUAA4M4cAlAgrL68cA4qDMN37pceDt4ZoYxGdvdO
+         QqHg==
+X-Gm-Message-State: AOJu0YxnshKOFgGhYmDJlhB+j3xEy/wH5l0fi0NZRcmrr+AQeYVtFCHW
+	Z8EG6ga+lvkyrnThjfD2epBMyrawUJm9cCDBghaaM6RsxUSgPjpXNQYBsA==
+X-Gm-Gg: ASbGncvt/QizxxPAQlxF2oHD1Wx5lyiLTZYdDEUkwUAGg30u7uUR65xXxSvQ7/mkL8T
+	a0DdzGArZ0a+rjYqqOUzz+4/p+2z0UuKkZvEmzjQWZhshFhZ6siBJWfCCZZtZTgYI6JYr8ONRMq
+	E+RoSnPqPKgvB7Ch+0hsqsrhIRlCJ4YhGNTek1cOVH6CVn4kagKYbNfszT0o5KxLkLyIehPaDWP
+	Le0D8QuyMi9uKe+joSavm2hyOvvGtmUyk0jeSKlfziHl4uMrtaihDVBaF7RDTfWAYytpZ39pQua
+X-Google-Smtp-Source: AGHT+IFzmBQe2QSJ9GnZS4kFCN6d/JEMpudo7BRjjZrYfARq1gxTOqQSgZTNt12prPxgialsQtb+dQ==
+X-Received: by 2002:a5d:64aa:0:b0:385:e0d6:fb48 with SMTP id ffacd0b85a97d-3864ce894b6mr7155634f8f.7.1734021866270;
+        Thu, 12 Dec 2024 08:44:26 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824a4815sm4473331f8f.26.2024.12.12.08.44.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824a4815sm4473331f8f.26.2024.12.12.08.44.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 08:44:22 -0800 (PST)
+        Thu, 12 Dec 2024 08:44:25 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCHv2 3/5] systemd.bbclass: refactor adding files
-Date: Thu, 12 Dec 2024 16:55:24 +0100
-Message-ID: <20241212164407.2904755-4-adrian.freihofer@gmail.com>
+Subject: [PATCHv2 5/5] systemd: split networkd into its own package
+Date: Thu, 12 Dec 2024 16:55:26 +0100
+Message-ID: <20241212164407.2904755-6-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241212164407.2904755-1-adrian.freihofer@gmail.com>
 References: <20241212164407.2904755-1-adrian.freihofer@gmail.com>
@@ -65,84 +65,102 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 16:44:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208656
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208658
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-The keys variable was intended as an array of keys. But it looks like
-this has not been used for more than 10 years now. Adding files
-automatically to packages needs probably anyway very specific code
-rather than a generic loop. Lets simplify this a bit.
-Using python code should also not be slower for these usually small
-files.
+Support of images with different network management implementations
+without having to recompile systemd and other components.
+
+Fedora does this as well since systemd version 246.6-2:
+https://src.fedoraproject.org/rpms/systemd/blob/rawhide/f/systemd.spec#_578
+This proves that it is technically possible and officially supported by
+systemd.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/systemd.bbclass | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ meta/recipes-core/systemd/systemd_256.8.bb | 28 +++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 7324af8555d..be77da48125 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -124,29 +124,26 @@ python systemd_populate_packages() {
-         return appended
+diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
+index c1915d7e941..0710377d32d 100644
+--- a/meta/recipes-core/systemd/systemd_256.8.bb
++++ b/meta/recipes-core/systemd/systemd_256.8.bb
+@@ -412,6 +412,7 @@ PACKAGE_BEFORE_PN = "\
+     ${PN}-journal-remote \
+     ${PN}-kernel-install \
+     ${PN}-mime \
++    ${PN}-networkd \
+     ${PN}-rpm-macros \
+     ${PN}-udev-rules \
+     ${PN}-vconsole-setup \
+@@ -440,6 +441,7 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-networkd', '', d)} \
+ "
+ SYSTEMD_SERVICE:${PN}-binfmt = "systemd-binfmt.service"
  
-     # Add systemd files to FILES:*-systemd, parse for Also= and follow recursive
--    def systemd_add_files_and_parse(pkg_systemd, path, service, keys):
-+    def systemd_add_files_and_parse(pkg_systemd, path, service):
-         # avoid infinite recursion
-         if systemd_append_file(pkg_systemd, oe.path.join(path, service)):
-             fullpath = oe.path.join(d.getVar("D"), path, service)
-             if service.find('.service') != -1:
-                 # for *.service add *@.service
-                 service_base = service.replace('.service', '')
--                systemd_add_files_and_parse(pkg_systemd, path, service_base + '@.service', keys)
-+                systemd_add_files_and_parse(pkg_systemd, path, service_base + '@.service')
-             if service.find('.socket') != -1:
-                 # for *.socket add *.service and *@.service
-                 service_base = service.replace('.socket', '')
--                systemd_add_files_and_parse(pkg_systemd, path, service_base + '.service', keys)
--                systemd_add_files_and_parse(pkg_systemd, path, service_base + '@.service', keys)
--            for key in keys.split():
--                # recurse all dependencies found in keys ('Also';'Conflicts';..) and add to files
--                cmd = "grep %s %s | sed 's,%s=,,g' | tr ',' '\\n'" % (key, shlex.quote(fullpath), key)
--                pipe = os.popen(cmd, 'r')
--                line = pipe.readline()
--                while line:
--                    line = line.replace('\n', '')
--                    systemd_add_files_and_parse(pkg_systemd, path, line, keys)
--                    line = pipe.readline()
--                pipe.close()
-+                systemd_add_files_and_parse(pkg_systemd, path, service_base + '.service')
-+                systemd_add_files_and_parse(pkg_systemd, path, service_base + '@.service')
-+            # Add all units which have an Also= referring a unit in this package to this package as well.
-+            with open(fullpath, 'r') as unit_f:
-+                for line in unit_f:
-+                    if line.startswith('Also'):
-+                        also_unit = line.split('=', 1)[1].strip()
-+                        bb.warn("also: %s" % also_unit)
-+                        systemd_add_files_and_parse(pkg_systemd, path, also_unit)
+@@ -448,12 +450,13 @@ USERADD_PACKAGES = "${PN} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-networkd', '', d)} \
+ "
+ GROUPADD_PARAM:${PN} = "-r systemd-journal;"
+ GROUPADD_PARAM:udev = "-r render"
+ GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
+-USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
++USERADD_PARAM:${PN}-networkd = "--system -d / -M --shell /sbin/nologin systemd-network"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${datadir}/polkit-1 polkitd;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /sbin/nologin systemd-resolve;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /sbin/nologin systemd-timesync;', '', d)}"
+@@ -620,6 +623,27 @@ FILES:${PN}-extra-utils = "\
+ FILES:${PN}-mime = "${MIMEDIR}"
+ RRECOMMENDS:${PN} += "${PN}-mime"
  
-     # Check service-files and call systemd_add_files_and_parse for each entry
-     def systemd_check_services():
-@@ -155,7 +152,6 @@ python systemd_populate_packages() {
-         searchpaths.append(d.getVar("systemd_user_unitdir"))
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES')
- 
--        keys = 'Also'
-         # scan for all in SYSTEMD_SERVICE[]
-         for pkg_systemd in systemd_packages.split():
-             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
-@@ -179,7 +175,7 @@ python systemd_populate_packages() {
-                             break
- 
-                 if path_found != '':
--                    systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
-+                    systemd_add_files_and_parse(pkg_systemd, path_found, service)
-                 else:
-                     bb.fatal("Didn't find service unit '{0}', specified in SYSTEMD_SERVICE:{1}. {2}".format(
-                         service, pkg_systemd, "Also looked for service unit '{0}'.".format(base) if base is not None else ""))
++FILES:${PN}-networkd = "\
++    ${bindir}/networkctl \
++    ${datadir}/dbus-1/system-services/org.freedesktop.network1.service \
++    ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
++    ${datadir}/polkit-1/actions/org.freedesktop.network1.policy \
++    ${nonarch_libdir}/sysusers.d/systemd-network.conf \
++    ${nonarch_libdir}/tmpfiles.d/systemd-network.conf \
++    ${sysconfdir}/systemd/networkd.conf \
++    ${systemd_system_unitdir}/systemd-networkd* \
++    ${systemd_unitdir}/network/*.network \
++    ${systemd_unitdir}/network/*.network.example \
++    ${systemd_unitdir}/networkd.conf \
++    ${systemd_unitdir}/systemd-networkd* \
++"
++# systemd-networkd-persistent-storage.service BindsTo=systemd-networkd.service
++# systemd-networkd.service has Also=systemd-networkd-wait-online.service
++SYSTEMD_SERVICE:${PN}-networkd = "systemd-networkd.service"
++CONFFILES:${PN}-networkd = "${sysconfdir}/systemd/networkd.conf"
++RDEPENDS:${PN}-networkd += "${PN}"
++RRECOMMENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-networkd', '', d)}"
++
+ FILES:${PN}-udev-rules = "\
+                         ${nonarch_libdir}/udev/rules.d/70-uaccess.rules \
+                         ${nonarch_libdir}/udev/rules.d/71-seat.rules \
+@@ -630,7 +654,6 @@ FILES:${PN}-udev-rules = "\
+ CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
+ 	${sysconfdir}/systemd/journald.conf \
+ 	${sysconfdir}/systemd/logind.conf \
+-	${sysconfdir}/systemd/networkd.conf \
+ 	${sysconfdir}/systemd/pstore.conf \
+ 	${sysconfdir}/systemd/resolved.conf \
+ 	${sysconfdir}/systemd/sleep.conf \
+@@ -698,7 +721,6 @@ FILES:${PN} = " ${base_bindir}/* \
+                 ${nonarch_libdir}/modprobe.d/README \
+                 ${datadir}/dbus-1/system.d/org.freedesktop.timedate1.conf \
+                 ${datadir}/dbus-1/system.d/org.freedesktop.locale1.conf \
+-                ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
+                 ${datadir}/dbus-1/system.d/org.freedesktop.resolve1.conf \
+                 ${datadir}/dbus-1/system.d/org.freedesktop.systemd1.conf \
+                 ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '${datadir}/dbus-1/system.d/org.freedesktop.hostname1_no_polkit.conf', '', d)} \
 -- 
 2.47.0
 
