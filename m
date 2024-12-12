@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AF9E77183
-	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 14:08:11 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.20311.1734012486915693924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52397E7717F
+	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 14:08:21 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.20315.1734012493427049553
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 06:08:06 -0800
+ Thu, 12 Dec 2024 06:08:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y+oZQsTg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21670dce0a7so7181915ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AKtZxWZ3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2166f1e589cso6824335ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012486; x=1734617286; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012493; x=1734617293; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lCShGml12r/vyCIX+EJole9G3fqfJvOaatxMOZOPngk=;
-        b=Y+oZQsTgsOxjOSRYyH3LLGgtrzKRqh/vNlpzY1Vuc97agYEgoN84v/hYFTheGZgp9T
-         i7wx2dPVet4kHg2MncMsjY8PfKLELY/wsQjvSUVcU7n2F+oja8+j60JLA+tIefcMt5gY
-         5QRlZG7IIaS3+GDI8aTjUWkDxeXd1gG2zGzUwATQNJruuBiUuwbXAGSlJT/jCPmthT+L
-         awqanBU2fVOSrld0f1qUUntxLq15YP3hu9/R8Eb1n6R1IKbG6+U3xQWgJi+r45KBl/F/
-         fvLoVFspq+6wUHXp23jP2MN+u20AQx+hgfc8nlIZVZcQiHvDonLbZ+xryDs1OkxtIEXu
-         9zeQ==
+        bh=daUEo/BCDDyuQEokHe9a0vehL004fuj+4bkCskERF20=;
+        b=AKtZxWZ3klDUue3oDKdjFIBjp3XAIqmd5hjcdm3QFKRDssmb3HpwzDrWCOY22Pm9ZO
+         IYrSyAS+JHf7dL+3y/ez0p8WLb1ygNvbVaOiAm/MpVjPPUwM8VXSZcxD//36l6shgwgv
+         sjM40O1HmTShFIFbcF5xaxIRSygyXa6wFFYGIK9Tq3keMDGfUrhtOVplX2154Od9+VGR
+         B+7J7gHfF/+knhzt1pbPGXTVslnh41EwD+9Lx1PdRzLpDwjqASrQtq5NSuBB4sr77t73
+         b9XPi63mZAqrknoxFN32GyHr0UvJkeE2EDie7T1732kqjeGYqljLrvM+5e3fHsmvPYIV
+         ZF2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734012486; x=1734617286;
+        d=1e100.net; s=20230601; t=1734012493; x=1734617293;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lCShGml12r/vyCIX+EJole9G3fqfJvOaatxMOZOPngk=;
-        b=F0rJm1ncTB+YnQsHKT5KHJ5Ml8lAb/SUZnSf6tl+B7TVtEyyjD8A3sXcKDmHv4tfjC
-         5bi2hZYRPwOxNznp7XN+nn3hdOwIM8CSbbjX8rH+ZaD0XrNiEe8Z2ysK4BFZWm9FqeTq
-         Dx5q7onAeNB8bn0DncRyKKtx7rjV3/UHgpdq++JTeBeq/QMpFEBRTthMBxLBOxWXrJAO
-         YuNpP38FiPtTAo6hEvRqY92cAoKJN03Es12wLzWScpth8sQ7F5ChJPwUnFjg5U4C/zsk
-         65qtOIoyuHHeq+Nr2NUD4Qy3ZA81o4EyzGDd6hjNM/v01hI7zYdkAopZjpFWgnXMWvRg
-         k99A==
-X-Gm-Message-State: AOJu0YwJZMnYBz3rqhH8FEngSsf7oMwiqLGEPs0zuWvFFSr9RLsJLvfR
-	IU/SYe3MRJI4rzhDdnGgzFtZyaDBAVaecTed3Bl2ostNz6TzPh58jhLzgZChsT5l999kuEQlZvZ
-	G
-X-Gm-Gg: ASbGncuqPghdpLq4l0UL4V0daMiTCFo5Uw7qWQssf4VrjnRd5QqLkY6oNTMPQvifEXf
-	zBitBdBatZXQ/HUtYjT4SO9ivwZPHca2Yps9dFAIO533dkWiFQ/JwAyZ0aDhv+SzQiPzeVBGtaj
-	/hdH5kHhcFTLEYO7OjgvNFNjU9L6b5IvxtOO28eT8Z3WD0J2e+QgzLw0+Xa1HgK30NwHhefR2fk
-	gq2Pcp7lWIuSm7pe6dMpDZXZhlN6EQbsDQhv5wZegs1Ig==
-X-Google-Smtp-Source: AGHT+IGD2dhxVtdwKKma7sTfUUYTqyfnD2xX+VFQbdhxF934hqM4Hwl0yikJ72Wp1MwESJw3CxnvPQ==
-X-Received: by 2002:a17:903:41cf:b0:215:b9a7:526d with SMTP id d9443c01a7336-2177854ac96mr124965195ad.32.1734012486132;
-        Thu, 12 Dec 2024 06:08:06 -0800 (PST)
+        bh=daUEo/BCDDyuQEokHe9a0vehL004fuj+4bkCskERF20=;
+        b=E2bTqxaXnClZpbkdpdiKN3DkjhoS4HvOifTm+feHsL9VsuzNPWLoyj1nHOJCqwOupz
+         PiTycYWs0v90T6Q7zQYbE+tJZOKuFiQZhcuMOtbyQw+WRooB2Dp0LRuP0vGzDKkd+7oO
+         os5/1x2OD9wKHi1RSZ04LSaOzKjjzk3/whY+LYwWs1NHlz2BmAqxiCZTNTCGkvQ+u5xD
+         s+GMK/9sPbvs2BH1lF31MilijvmZUkSI7flpnZg4KYvUoXTtij1GH0bbVQp4pDwkfX0A
+         jIu/UlY9BKxTY6BP/qL/Of3mAYWotTSEr+mDiDsnJPsK7H3cEdraym8Z9FqpJRfVUqlQ
+         HfTA==
+X-Gm-Message-State: AOJu0Yy+0WlfRDPbue8ZU71c6D/ldzx1rnIPM/IFFd7PKSjiIVrmpK9E
+	e2OoPLwqa1fD78F7foiI3HLiruQv+NiO4trbdYkLWp3lPHwgNr5XP/XtXwKSHj/G7BIS3vjLebB
+	l
+X-Gm-Gg: ASbGncvn957p77aVQXT+lDsKjSMShLyq5srr0sOdvOTqXxxp6qN+zMVdBivj6AZwvVZ
+	GOXjuj5j+1cjyyZTc1H0VALOafc/lPI22P0JZa2avdREI92ABA1coOJFIIQjJWg6wIT6EsAD0Gy
+	CclcKbuC+XxJGsxC3YwLopCJOWanykOLHJt5ciVeycR2/1JCUryP7jgR3H93C6O8qh0dxdvzTVV
+	j60ASg4x/AOQV517Nq7qQQHniqsPRqPDUD5yezpLAYvFA==
+X-Google-Smtp-Source: AGHT+IEBWD/mHm7wYSCX0lUdNkKAeBYQFIuWVeyBAgEOXW8wUjjOQ3dt1tN4K61Eq5F0RFrvyFUFEg==
+X-Received: by 2002:a17:902:cf11:b0:216:4cc0:aa4e with SMTP id d9443c01a7336-21778998ca6mr111491955ad.47.1734012492590;
+        Thu, 12 Dec 2024 06:08:12 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 06:08:05 -0800 (PST)
+        Thu, 12 Dec 2024 06:08:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 01/12] builder: set CVE_PRODUCT
-Date: Thu, 12 Dec 2024 06:07:47 -0800
-Message-Id: <18773170492fc01ce7123ba0fac88e58750a3b93.1734012352.git.steve@sakoman.com>
+Subject: [OE-core][styhead 05/12] rust: ignore CVE-2024-43402
+Date: Thu, 12 Dec 2024 06:07:51 -0800
+Message-Id: <10abc451f37be9d7d6b9482dbd5666a2bf8e9736.1734012352.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1734012352.git.steve@sakoman.com>
 References: <cover.1734012352.git.steve@sakoman.com>
@@ -65,37 +65,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 14:08:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208635
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 14:08:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208639
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Builder is a common word and there are many other builder components
-which makes us to ignore CVEs for all of them.
-There is already 1 ignored and currently 3 new ones.
+This CVE was created because fix for CVE-2024-24576 was incomplete.
+Ignore the new CVE in the same way as the old one.
 
-Instead, set product to yocto to filter them.
+See https://nvd.nist.gov/vuln/detail/CVE-2024-43402
 
-(From OE-Core rev: fd4ec5a5318b36af0a9a0a097a5b1f1de44a8edf)
+(From OE-Core rev: 6ed9968bf3e35aca316227ee23294c683f77055d)
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/builder/builder_0.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/rust/rust-source.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-index 7719b783c2..39abaf31ce 100644
---- a/meta/recipes-graphics/builder/builder_0.1.bb
-+++ b/meta/recipes-graphics/builder/builder_0.1.bb
-@@ -29,4 +29,5 @@ do_install () {
- 	chown  builder.builder ${D}${sysconfdir}/mini_x/session.d/builder_session.sh
- }
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index becaf2b8ac..929a4a9b0c 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -18,3 +18,4 @@ UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-metho
+ UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
  
--CVE_STATUS[CVE-2008-4178] = "cpe-incorrect: This CVE is for an unrelated builder"
-+# do not report CVEs for other builder apps
-+CVE_PRODUCT = "yoctoproject:builder"
+ CVE_STATUS[CVE-2024-24576] = "not-applicable-platform: Issue only applies on Windows"
++CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
 -- 
 2.34.1
 
