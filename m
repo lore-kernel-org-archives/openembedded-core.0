@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52397E7717F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC9CE77182
 	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 14:08:21 +0000 (UTC)
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.20315.1734012493427049553
+ by mx.groups.io with SMTP id smtpd.web10.20316.1734012494992999921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 06:08:13 -0800
+ Thu, 12 Dec 2024 06:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AKtZxWZ3;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1LDLJG8o;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2166f1e589cso6824335ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:13 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2161eb95317so5890325ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012493; x=1734617293; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012494; x=1734617294; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=daUEo/BCDDyuQEokHe9a0vehL004fuj+4bkCskERF20=;
-        b=AKtZxWZ3klDUue3oDKdjFIBjp3XAIqmd5hjcdm3QFKRDssmb3HpwzDrWCOY22Pm9ZO
-         IYrSyAS+JHf7dL+3y/ez0p8WLb1ygNvbVaOiAm/MpVjPPUwM8VXSZcxD//36l6shgwgv
-         sjM40O1HmTShFIFbcF5xaxIRSygyXa6wFFYGIK9Tq3keMDGfUrhtOVplX2154Od9+VGR
-         B+7J7gHfF/+knhzt1pbPGXTVslnh41EwD+9Lx1PdRzLpDwjqASrQtq5NSuBB4sr77t73
-         b9XPi63mZAqrknoxFN32GyHr0UvJkeE2EDie7T1732kqjeGYqljLrvM+5e3fHsmvPYIV
-         ZF2g==
+        bh=IJVFHEd4xzi/CI7AMOICg0Ix+TO5iZO5fyR74rOx/N0=;
+        b=1LDLJG8oyiDO2Tam10herpNNm7RcnKhruP35StB7hdL9DPFDaa2uJHgmxjmF5J2CqR
+         ITS1XCKKYUDdnuk7CDmCHY/gEuKYzFILJ942d4mYAcDejD5PxPeprmtGE1q3RehmqQKZ
+         lGo9Zo5mHSPshkc7HNiEIqMhnmC2/EOEmVkk3Kvzqf4tWJNjnjCwEQHwX78p/MGkIiqi
+         SCa+viIoM5BIRCeQ+yx6W1v0MtJSSz7MgOjG6z+1VbtAWThkrxyzcLsmdHN9jfr4h7g5
+         LCi/xX0gl5uUp8RzNLWZkruX2KCU2IShG9vAfH6+G6mdgy2DYfDuPY6I8WCvYV41BUZO
+         FHsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734012493; x=1734617293;
+        d=1e100.net; s=20230601; t=1734012494; x=1734617294;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=daUEo/BCDDyuQEokHe9a0vehL004fuj+4bkCskERF20=;
-        b=E2bTqxaXnClZpbkdpdiKN3DkjhoS4HvOifTm+feHsL9VsuzNPWLoyj1nHOJCqwOupz
-         PiTycYWs0v90T6Q7zQYbE+tJZOKuFiQZhcuMOtbyQw+WRooB2Dp0LRuP0vGzDKkd+7oO
-         os5/1x2OD9wKHi1RSZ04LSaOzKjjzk3/whY+LYwWs1NHlz2BmAqxiCZTNTCGkvQ+u5xD
-         s+GMK/9sPbvs2BH1lF31MilijvmZUkSI7flpnZg4KYvUoXTtij1GH0bbVQp4pDwkfX0A
-         jIu/UlY9BKxTY6BP/qL/Of3mAYWotTSEr+mDiDsnJPsK7H3cEdraym8Z9FqpJRfVUqlQ
-         HfTA==
-X-Gm-Message-State: AOJu0Yy+0WlfRDPbue8ZU71c6D/ldzx1rnIPM/IFFd7PKSjiIVrmpK9E
-	e2OoPLwqa1fD78F7foiI3HLiruQv+NiO4trbdYkLWp3lPHwgNr5XP/XtXwKSHj/G7BIS3vjLebB
-	l
-X-Gm-Gg: ASbGncvn957p77aVQXT+lDsKjSMShLyq5srr0sOdvOTqXxxp6qN+zMVdBivj6AZwvVZ
-	GOXjuj5j+1cjyyZTc1H0VALOafc/lPI22P0JZa2avdREI92ABA1coOJFIIQjJWg6wIT6EsAD0Gy
-	CclcKbuC+XxJGsxC3YwLopCJOWanykOLHJt5ciVeycR2/1JCUryP7jgR3H93C6O8qh0dxdvzTVV
-	j60ASg4x/AOQV517Nq7qQQHniqsPRqPDUD5yezpLAYvFA==
-X-Google-Smtp-Source: AGHT+IEBWD/mHm7wYSCX0lUdNkKAeBYQFIuWVeyBAgEOXW8wUjjOQ3dt1tN4K61Eq5F0RFrvyFUFEg==
-X-Received: by 2002:a17:902:cf11:b0:216:4cc0:aa4e with SMTP id d9443c01a7336-21778998ca6mr111491955ad.47.1734012492590;
-        Thu, 12 Dec 2024 06:08:12 -0800 (PST)
+        bh=IJVFHEd4xzi/CI7AMOICg0Ix+TO5iZO5fyR74rOx/N0=;
+        b=S77dkuuGu6baHVd5K/X8GYp2dpdWrZWhyE2Jh4j5EBsWbxeYw/dnxoSsLfpxJBLSD/
+         KJReINl/sDMLS0WAsZhFjXm0lKBsyhOSA5/kqI3qjEqksMrUvvcOfqMyYmFxDJPsHveB
+         GXLNdB4Ul3Cdix1NDwt9Ms3XkR1m7MO5mCvig6iTK/lYBf8Y4g6GrlysBToi3sw0nw9J
+         ixvPJxH05s1++3qr5fXP5786Qxd7Y93cDFyHuifwrSyNVH88tQfHXZrA+tqrayrKnI2d
+         jk1Et/+RMctDkcMwq9rmOAGPVUgCAmCW/axX2tsLiuVpXf/hhu8yTiLAx1z0lDLQOGea
+         BpXw==
+X-Gm-Message-State: AOJu0YyS+0XqH8+o8UNFFJ0SKnmAonz+obealC6CXDTkTuT+Z9qDJg2P
+	x+kNUG83G3S+nzfWsOOofd9jVILPhK9hIODIjbqXiz2s2yHDOSslNuZvDdX4exxsIg8iLaSea9E
+	M
+X-Gm-Gg: ASbGncuBnRlDhwTt1AQA5oEUZ+rwY6wlqr9RYo7AJBIJDN6qC4SWugKJbEeO9h2VhgM
+	rQHwoNCT58aDMF4grOvYNUVHsTKEnuG917tF6d7O3cdUj2f0PGe5KxFryyvdjFFEd3Quwt77w6I
+	Zz0T9ol8rUADr91/xOtDpcw5m2JFjot168A//D08y6lvDdu64tZ9fQpkN4QvgyCadjL5NHAqowL
+	qmGWrPwpOmQCBO4qRrswyrVfghXVnZ5wMd6n0otPtCXUw==
+X-Google-Smtp-Source: AGHT+IH6NgnuaFOni1bWiiXmznhCMvVnIltCo/2IoLvdkZVgl2e6jezcUAwxYmK2I2VtYOSbSHrXcA==
+X-Received: by 2002:a17:903:1c2:b0:216:1ad2:1d5 with SMTP id d9443c01a7336-21778549cf8mr102363845ad.41.1734012494095;
+        Thu, 12 Dec 2024 06:08:14 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 06:08:12 -0800 (PST)
+        Thu, 12 Dec 2024 06:08:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 05/12] rust: ignore CVE-2024-43402
-Date: Thu, 12 Dec 2024 06:07:51 -0800
-Message-Id: <10abc451f37be9d7d6b9482dbd5666a2bf8e9736.1734012352.git.steve@sakoman.com>
+Subject: [OE-core][styhead 06/12] curl: patch CVE-2024-9681
+Date: Thu, 12 Dec 2024 06:07:52 -0800
+Message-Id: <c8282f5f79a38be0672c68c9e8f11bc072b77b56.1734012352.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1734012352.git.steve@sakoman.com>
 References: <cover.1734012352.git.steve@sakoman.com>
@@ -66,34 +66,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 14:08:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208639
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208640
 
 From: Peter Marko <peter.marko@siemens.com>
 
-This CVE was created because fix for CVE-2024-24576 was incomplete.
-Ignore the new CVE in the same way as the old one.
+Picked commit [1] per solution described in [2].
 
-See https://nvd.nist.gov/vuln/detail/CVE-2024-43402
+[1] https://github.com/curl/curl/commit/a94973805df96269bf
+[2] https://curl.se/docs/CVE-2024-9681.html
 
-(From OE-Core rev: 6ed9968bf3e35aca316227ee23294c683f77055d)
+(From OE-Core rev: 19663c559b72a0d14ddd0792be325284a6e16edc)
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/rust/rust-source.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../curl/curl/CVE-2024-9681.patch             | 85 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.9.1.bb       |  1 +
+ 2 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-9681.patch
 
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index becaf2b8ac..929a4a9b0c 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -18,3 +18,4 @@ UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-metho
- UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
+diff --git a/meta/recipes-support/curl/curl/CVE-2024-9681.patch b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
+new file mode 100644
+index 0000000000..56a631d834
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
+@@ -0,0 +1,85 @@
++From a94973805df96269bf3f3bf0a20ccb9887313316 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 9 Oct 2024 10:04:35 +0200
++Subject: [PATCH] hsts: improve subdomain handling
++
++- on load, only replace existing HSTS entries if there is a full host
++  match
++
++- on matching, prefer a full host match and secondary the longest tail
++  subdomain match
++
++Closes #15210
++
++CVE: CVE-2024-9681
++Upstream-Status: Backport [https://github.com/curl/curl/commit/a94973805df96269bf3f3bf0a20ccb9887313316]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/hsts.c          | 14 ++++++++++----
++ tests/data/test1660 |  2 +-
++ 2 files changed, 11 insertions(+), 5 deletions(-)
++
++diff --git a/lib/hsts.c b/lib/hsts.c
++index d5e883f51ef0f7..12052ce53c1c5a 100644
++--- a/lib/hsts.c
+++++ b/lib/hsts.c
++@@ -249,12 +249,14 @@ CURLcode Curl_hsts_parse(struct hsts *h, const char *hostname,
++ struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,
++                            bool subdomain)
++ {
+++  struct stsentry *bestsub = NULL;
++   if(h) {
++     char buffer[MAX_HSTS_HOSTLEN + 1];
++     time_t now = time(NULL);
++     size_t hlen = strlen(hostname);
++     struct Curl_llist_element *e;
++     struct Curl_llist_element *n;
+++    size_t blen = 0;
++ 
++     if((hlen > MAX_HSTS_HOSTLEN) || !hlen)
++       return NULL;
++@@ -279,15 +281,19 @@ struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,
++         if(ntail < hlen) {
++           size_t offs = hlen - ntail;
++           if((hostname[offs-1] == '.') &&
++-             strncasecompare(&hostname[offs], sts->host, ntail))
++-            return sts;
+++             strncasecompare(&hostname[offs], sts->host, ntail) &&
+++             (ntail > blen)) {
+++            /* save the tail match with the longest tail */
+++            bestsub = sts;
+++            blen = ntail;
+++          }
++         }
++       }
++       if(strcasecompare(hostname, sts->host))
++         return sts;
++     }
++   }
++-  return NULL; /* no match */
+++  return bestsub;
++ }
++ 
++ /*
++@@ -439,7 +445,7 @@ static CURLcode hsts_add(struct hsts *h, char *line)
++     e = Curl_hsts(h, p, subdomain);
++     if(!e)
++       result = hsts_create(h, p, subdomain, expires);
++-    else {
+++    else if(strcasecompare(p, e->host)) {
++       /* the same hostname, use the largest expire time */
++       if(expires > e->expires)
++         e->expires = expires;
++diff --git a/tests/data/test1660 b/tests/data/test1660
++index f86126d19cf269..4b6f9615c9d517 100644
++--- a/tests/data/test1660
+++++ b/tests/data/test1660
++@@ -52,7 +52,7 @@ this.example [this.example]: 1548400797
++ Input 12: error 43
++ Input 13: error 43
++ Input 14: error 43
++-3.example.com [example.com]: 1569905261 includeSubDomains
+++3.example.com [3.example.com]: 1569905261 includeSubDomains
++ 3.example.com [example.com]: 1569905261 includeSubDomains
++ foo.example.com [example.com]: 1569905261 includeSubDomains
++ 'foo.xample.com' is not HSTS
+diff --git a/meta/recipes-support/curl/curl_8.9.1.bb b/meta/recipes-support/curl/curl_8.9.1.bb
+index 745224929b..174608b561 100644
+--- a/meta/recipes-support/curl/curl_8.9.1.bb
++++ b/meta/recipes-support/curl/curl_8.9.1.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+     file://0001-sigpipe-init-the-struct-so-that-first-apply-ignores.patch \
++    file://CVE-2024-9681.patch \
+ "
+ SRC_URI[sha256sum] = "f292f6cc051d5bbabf725ef85d432dfeacc8711dd717ea97612ae590643801e5"
  
- CVE_STATUS[CVE-2024-24576] = "not-applicable-platform: Issue only applies on Windows"
-+CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
 -- 
 2.34.1
 
