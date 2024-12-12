@@ -1,262 +1,113 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD503E77180
-	for <webhook@archiver.kernel.org>; Wed, 11 Dec 2024 23:36:26 +0000 (UTC)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.web10.8466.1733960180123934552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3976AE7717D
+	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 00:49:17 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web10.9654.1733964556180271962
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Dec 2024 15:36:20 -0800
+ Wed, 11 Dec 2024 16:49:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h0MqrNVX;
- spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-29737adb604so3012fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 15:36:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733960179; x=1734564979; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IPw0GIrSOwPDSovuenXNjNPGZjy3pYYxi+gtwYwPtc8=;
-        b=h0MqrNVXtY0bp1gKcCq4tiZeK0d/FDQkEIgEgtxzZeeZ3QagnQyzjoH00IrWtZw/RN
-         FeVGI+zgzukx6dO+EbneSPW/8kNTp0/X9DNj4wf5cRaeauyAInFt+715BxMlMu1s8OiG
-         GuMFTEeNj3FizdJb310yu/TTen5W4uj5OWwPiEJZqb+c0yz0B8oNWmY7ZLruDOpf0fxr
-         PHbqXFyXgFp7CuwJ5tZF67Pwn1brxato8UtnStIgoNsIwDQ9qBNzxhBBFaHr2XY3fKYL
-         tXG8U1gzsEVFnzCqWXI4b4F1iv1FeCrh2bqXkab7C8RPsUzOAZPYEGHZ1ZakCSpJbKWA
-         yFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733960179; x=1734564979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IPw0GIrSOwPDSovuenXNjNPGZjy3pYYxi+gtwYwPtc8=;
-        b=lVOypNge4YNJ/vVHzzF8JHe0LFsbodqmJci10MO+tMJ24mTycSadLlvg5GeGUeuVon
-         DiV5C67D3v1ATJ3V6fUtclstCJC8KTZ0vjM+P0grNfvu0yfT1SI+0oWJ8sl0MQEAcuI2
-         BuymfFdZoTeL7INVFt7oaw40slSwVgRalIgAU77svq/OIDD6kfIWu/giC7W6KSpk81gT
-         wz8iNWCbAWisUGjt7KJDqG5U4MCLeRKljz57jKO/nW9Hf+ss/9ShdHM3cpNgARs4zAwT
-         zOlV1T06BrOEWmnSSpW0rkTBvucbAg4J38Kr/scEr4MDEITIQa2wuogl/IM+C7EPW767
-         sM/w==
-X-Gm-Message-State: AOJu0YypgaMbVpzBGaR+O57KsNFkRO5ZDzJL3WQcKWS+Ey3s+eSSAryt
-	9WR+D3P6mBa31c0jY2/tDtOggWlXFSMA5IbtN0FZlvyVcSEgNBTCyelvR6u+VASQyWxzOItAa1i
-	+1yaEuze+4teOdmMbObbZobQPvADJUw==
-X-Gm-Gg: ASbGncviFW5JSp4shsx/iGKlypPCVv29bgukTGuttefKwDKqcwvo5qsYofhNA9tdvpB
-	jttfpOpHDlJC6uNbiny9YYtMcDPBJgVG9lRtk1ZAxAy09gN9MwA==
-X-Google-Smtp-Source: AGHT+IFjnmfo38nq7Suj5xFBt1mout+GQ8Ndni+S+Sqzojzzsp4YN+tBb93d3edN1nnE0DkzhRwVuEs7T1e+Kh5AkVQ=
-X-Received: by 2002:a05:6871:68e:b0:29d:c624:7cc4 with SMTP id
- 586e51a60fabf-2a38232e72amr1185457fac.6.1733960179318; Wed, 11 Dec 2024
- 15:36:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20241211180036.1710054-1-sunilkumar.dora@windriver.com>
-In-Reply-To: <20241211180036.1710054-1-sunilkumar.dora@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Dec 2024 15:35:53 -0800
-Message-ID: <CAMKF1soxHqg-7KkGtSZKqf6gRgJKrw8GFTZCr9Nt5qUnuPzswA@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] gcc: Fix c++: tweak for Wrange-loop-construct
-To: SunilKumar.Dora@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
-	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=pogNGlZY;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1733964556; x=1765500556;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=xIiq5S0IOxUyUPoYUZKW9+Q8TnFco7vzbJjXDXbQ3UI=;
+  b=pogNGlZYu2Lfc0qve86jv11j4lQVmyzA9MUfSRyAhhxCp6dlg3oysUI9
+   H27WtnDPGB7FaHw5DQijmJYPSkROZ2WTbGT1pRSpHNcimgeOvCkH3I6Cm
+   LR/mafkZgVCS3g4cM8sGrY6yyNg+Rk2mV2M31gtJ3tTb9ZJCCNyW/ZA3Q
+   dyZzzozqOagSDc2kcjcPE0VD1/gQ6vuoDMsFhRKKEYFVHCZRbpOdx4sNG
+   oa3lmBu39h+RBVmRDcW3CqeVVEaujqEKF7Nn11nY7o6JUyrrFX4zyEBhX
+   iuUly5pv9cMoE+qyYKgWiN8XUIT6mojcg6cUWisMdZQTb+ojZFoXPNvcg
+   Q==;
+X-CSE-ConnectionGUID: S5C2r4/pS2254aJ1H0Io1w==
+X-CSE-MsgGUID: cxrte3fEREiahrsojQAW1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="162305587"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728918000"; 
+   d="scan'208";a="162305587"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 09:49:13 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 2ED8D96742
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 09:49:11 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 041F120ACD
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 09:49:11 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 91AD72008B3AD
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 09:49:10 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 3AD7D1A000B;
+	Thu, 12 Dec 2024 08:49:10 +0800 (CST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH v2] systemd-boot: upgrade 256.8 -> 256.9
+Date: Thu, 12 Dec 2024 08:49:00 +0800
+Message-Id: <1733964540-5537-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
+References: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28854.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28854.003
+X-TMASE-Result: 10--0.963600-10.000000
+X-TMASE-MatchedRID: 6e3s/u+cBDSjz0nOeth/yQPZZctd3P4Bqqq9awALpxCysPB8dBBorQec
+	3JTmkn8uJMPD8FR5f58boCivyaDEErVQ6XPWwtdyEXjPIvKd74CYkAyCbA7KVws5GlXF672zo8W
+	MkQWv6iUoTQl7wNH8PuTCMddcL/gjxlblqLlYqXLxnIQJpL9dIUTHqFo8MondbBPRudEoaFnyPd
+	/RmYRrN1WeFPh4KfFahEEpjgeDb4U1glm0P0IWJSRmoG0yJC/mz8+8Dup9c47+v9v52ZIoWjoAf
+	389xF3XFSk9HhUZnw7OGIWnws4LoyHWPYzouJUy
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Dec 2024 23:36:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208617
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 00:49:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208619
 
-seems good to me.
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-On Wed, Dec 11, 2024 at 10:01=E2=80=AFAM SunilKumar.Dora via
-lists.openembedded.org
-<SunilKumar.Dora=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Sunil Dora <sunilkumar.dora@windriver.com>
->
-> This commit updates the warning to use a check for "trivially constructib=
-le" instead of
-> "trivially copyable." The original check was incorrect, as "trivially cop=
-yable" only applies
-> to types that can be copied trivially, whereas "trivially constructible" =
-is the correct check
-> for types that can be trivially default-constructed.
->
-> This change ensures the warning is more accurate and aligns with the prop=
-er type traits.
->
-> LLVM accepted a similar fix:
-> https://github.com/llvm/llvm-project/issues/47355
->
-> PR c++/116731 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D116731]
->
-> Signed-off-by: Marek Polacek <polacek@redhat.com>
-> Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-13.3.inc        |   1 +
->  ...ix-c-tweak-for-Wrange-loop-construct.patch | 113 ++++++++++++++++++
->  2 files changed, 114 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-fo=
-r-Wrange-loop-construct.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-13.3.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-13.3.inc
-> index ffe90c7188..8b6c2a5938 100644
-> --- a/meta/recipes-devtools/gcc/gcc-13.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-13.3.inc
-> @@ -66,6 +66,7 @@ SRC_URI =3D "${BASEURI} \
->             file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
- \
->             file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
->             file://0027-Fix-gcc-vect-module-testcases.patch \
-> +          file://0028-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
->             file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch=
- \
->  "
->  SRC_URI[sha256sum] =3D "0845e9621c9543a13f484e94584a49ffc0129970e9914624=
-235fc1d061a0c083"
-> diff --git a/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-for-Wrang=
-e-loop-construct.patch b/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak=
--for-Wrange-loop-construct.patch
-> new file mode 100644
-> index 0000000000..745b38f7f1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-for-Wrange-loop-=
-construct.patch
-> @@ -0,0 +1,113 @@
-> +From 66aa69e2add2b8641a652768b0eac30f00427145 Mon Sep 17 00:00:00 2001
-> +From: Sunil Dora <sunilkumar.dora@windriver.com>
-> +Date: Wed, 11 Dec 2024 09:48:16 -0800
-> +Subject: [PATCH] gcc: Fix c++: tweak for Wrange-loop-construct
-> +
-> +This commit updates the warning to use a check for "trivially constructi=
-ble" instead of
-> +"trivially copyable." The original check was incorrect, as "trivially co=
-pyable" only applies
-> +to types that can be copied trivially, whereas "trivially constructible"=
- is the correct check
-> +for types that can be trivially default-constructed.
-> +
-> +This change ensures the warning is more accurate and aligns with the pro=
-per type traits.
-> +
-> +LLVM accepted a similar fix:
-> +https://github.com/llvm/llvm-project/issues/47355
-> +
-> +PR c++/116731 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D116731]
-> +
-> +Upstream-Status: Backport [https://gcc.gnu.org/g:179dc0f0fe01012675c1b43=
-0591b9891ce96c26e]
-> +
-> +Signed-off-by: Marek Polacek <polacek@redhat.com>
-> +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-> +---
-> + gcc/cp/parser.cc                              |  7 ++-
-> + .../g++.dg/warn/Wrange-loop-construct3.C      | 57 +++++++++++++++++++
-> + 2 files changed, 61 insertions(+), 3 deletions(-)
-> + create mode 100644 gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C
-> +
-> +diff --git a/gcc/cp/parser.cc b/gcc/cp/parser.cc
-> +index 4e67da6ff..5dd94357d 100644
-> +--- a/gcc/cp/parser.cc
-> ++++ b/gcc/cp/parser.cc
-> +@@ -13854,11 +13854,12 @@ warn_for_range_copy (tree decl, tree expr)
-> +   else if (!CP_TYPE_CONST_P (type))
-> +     return;
-> +
-> +-  /* Since small trivially copyable types are cheap to copy, we suppres=
-s the
-> +-     warning for them.  64B is a common size of a cache line.  */
-> ++  /* Since small trivially constructible types are cheap to construct, =
-we
-> ++     suppress the warning for them.  64B is a common size of a cache li=
-ne.  */
-> ++  tree list =3D build_tree_list (NULL_TREE, TREE_TYPE (expr));
-> +   if (TREE_CODE (TYPE_SIZE_UNIT (type)) !=3D INTEGER_CST
-> +       || (tree_to_uhwi (TYPE_SIZE_UNIT (type)) <=3D 64
-> +-        && trivially_copyable_p (type)))
-> ++        && is_trivially_xible (INIT_EXPR, type, list)))
-> +     return;
-> +
-> +   /* If we can initialize a reference directly, suggest that to avoid t=
-he
-> +diff --git a/gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C b/gcc/te=
-stsuite/g++.dg/warn/Wrange-loop-construct3.C
-> +new file mode 100644
-> +index 000000000..3d9d0c908
-> +--- /dev/null
-> ++++ b/gcc/testsuite/g++.dg/warn/Wrange-loop-construct3.C
-> +@@ -0,0 +1,57 @@
-> ++// PR c++/116731
-> ++// { dg-do compile { target c++11 } }
-> ++// { dg-options "-Wrange-loop-construct" }
-> ++
-> ++void
-> ++f0 ()
-> ++{
-> ++  struct S {
-> ++    char a[64];
-> ++    S& operator=3D(const S&) { return *this; };
-> ++  };
-> ++
-> ++  S arr[8];
-> ++  for (const auto r : arr)
-> ++    (void) r;
-> ++}
-> ++
-> ++void
-> ++f1 ()
-> ++{
-> ++  struct S {
-> ++    char a[65];
-> ++    S& operator=3D(const S&) { return *this; };
-> ++  };
-> ++
-> ++  S arr[8];
-> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
-> ++    (void) r;
-> ++}
-> ++
-> ++void
-> ++f2 ()
-> ++{
-> ++  struct S {
-> ++    char a[64];
-> ++    S& operator=3D(const S&) { return *this; };
-> ++    ~S() { }
-> ++  };
-> ++
-> ++  S arr[8];
-> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
-> ++    (void) r;
-> ++}
-> ++
-> ++void
-> ++f3 ()
-> ++{
-> ++  struct S {
-> ++    char a[65];
-> ++    S& operator=3D(const S&) { return *this; };
-> ++    ~S() { }
-> ++  };
-> ++
-> ++  S arr[8];
-> ++  for (const auto r : arr) // { dg-warning "creates a copy" }
-> ++    (void) r;
-> ++}
-> +--
-> +2.43.0
-> +
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208599): https://lists.openembedded.org/g/openembedde=
-d-core/message/208599
-> Mute This Topic: https://lists.openembedded.org/mt/110066262/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ ...ystemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} | 0
+ .../systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} (100%)
+
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.8.bb b/meta/recipes-core/systemd/systemd-boot-native_256.9.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_256.8.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_256.9.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_256.8.bb b/meta/recipes-core/systemd/systemd-boot_256.9.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_256.8.bb
+rename to meta/recipes-core/systemd/systemd-boot_256.9.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 989ca667b7..b85d5b187d 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "a2240d1cf9f3515728186c2c98a6f4b64a40e4da"
++SRCREV = "f15fd96efd5ebdfb18746acb0cbb35a4331b4d8b"
+ SRCBRANCH = "v256-stable"
+ SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.9.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_256.8.bb
+rename to meta/recipes-core/systemd/systemd_256.9.bb
+-- 
+2.43.0
+
 
