@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 507F9E77182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AF9E77183
 	for <webhook@archiver.kernel.org>; Thu, 12 Dec 2024 14:08:11 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.20314.1734012488463102058
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.20311.1734012486915693924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 06:08:08 -0800
+ Thu, 12 Dec 2024 06:08:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dgV8es1X;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-216401de828so5835425ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y+oZQsTg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21670dce0a7so7181915ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 06:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012488; x=1734617288; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734012486; x=1734617286; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zkeZu1pnsopA7AvMUF6NVOe8rzGv7UbpLRnkQtqCWFg=;
-        b=dgV8es1XqkeY+aAb09WpZqaCQz1wy9BtRzhHFCGjMCL53ef8oWpMt7IweiJZ3cz7Jd
-         5xFuN8w1O3MuNxYSdb4fvNwYtbn1P0XYSUpjgLJb5sEpikw8llI7Qn1gtd7390HpGq2D
-         vToANdij3YV48CfVEKTlNpkMpx+1gCLJ05bzVOAc/b0fJt9aLEiHDKDnA69BC0Jry3PH
-         oTZ+Sse5nvtzrNcRqwWJuZzaTJbNtP2fwYuXtNPz4sI9vbhPDwyUPSs9Dau86EJmEtLL
-         E3d1JH7oTP4QeAD/xbc+hFCUU+V0nv7x69W6paLOILQTyKiRJ2B2WO+chZzMo6Nsoqfz
-         lALg==
+        bh=lCShGml12r/vyCIX+EJole9G3fqfJvOaatxMOZOPngk=;
+        b=Y+oZQsTgsOxjOSRYyH3LLGgtrzKRqh/vNlpzY1Vuc97agYEgoN84v/hYFTheGZgp9T
+         i7wx2dPVet4kHg2MncMsjY8PfKLELY/wsQjvSUVcU7n2F+oja8+j60JLA+tIefcMt5gY
+         5QRlZG7IIaS3+GDI8aTjUWkDxeXd1gG2zGzUwATQNJruuBiUuwbXAGSlJT/jCPmthT+L
+         awqanBU2fVOSrld0f1qUUntxLq15YP3hu9/R8Eb1n6R1IKbG6+U3xQWgJi+r45KBl/F/
+         fvLoVFspq+6wUHXp23jP2MN+u20AQx+hgfc8nlIZVZcQiHvDonLbZ+xryDs1OkxtIEXu
+         9zeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734012488; x=1734617288;
+        d=1e100.net; s=20230601; t=1734012486; x=1734617286;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zkeZu1pnsopA7AvMUF6NVOe8rzGv7UbpLRnkQtqCWFg=;
-        b=kA285fAo/rn97T/EqiiOcL6Dht7CJxnbIjS8Dhuco1i0hicLIxT5JgkCve/bABad+z
-         F56wrr/OgIBnld7TzEMrnhBilu5lojTVE0oXQHcDs5G6awA9eizsIVeD0iEPWUP2B6Ys
-         UJ94wmjIyQ7WZ1CwwWaLhSr9LAWNKYG+F7LEBKKciXgRgwP/C9CpLXc2RfoQbeaBH7gH
-         iCFxG7V3XDLcIkb9KaaoECTB3RauOzZzyDmvkHIMqwBYzCQzCUkpYXU0r52NHsUv+gcY
-         /8IetcZN+ierQzjZzR9LXEk7szA4HFjEhrYo+vKG1o5NC0Yh2d2lFyk9QMW9idTixDoS
-         J+fg==
-X-Gm-Message-State: AOJu0YxwuxP/CruWqgIYfV5LLVemQCj/HpeOAOi5Iv6ROGJ1wOLuPCY7
-	gcgHQ/E3S84GGg+WGNZxN1xr7LQrDj7cuNyMRThmW9kcI/NVSVbopbOLRMoW4VVOwVH3iz0nT0z
-	B
-X-Gm-Gg: ASbGncsiw7CK1RrSYRbpDhLkh8UE2GHxU9i6qM8TWCVLVwIIJAHmWS0QirMt/Ytytko
-	rd1Ovk5pAuiSOOTwc3AmgeotIBORWWgDDJlMkWP2JVigeu1e2n+58AM7rKOW7tPdp1H5/Qi62L5
-	W/BHYjAUKEazik4X8W3E3SOdasnPLF23avQjtVuwBtcyJxlKn05zOoNfHTI3IzSA6xO42YIIHJ5
-	wyoaZWQB3xLmUnl7PCS+nCOuLSO1OYTXoDOpxLPAV+paw==
-X-Google-Smtp-Source: AGHT+IHhatBU7eAomKCGvldi9LQwYNbZ9lwSIcH89sBwzIxWZz2jidbJVWDWOyaQWKPsmZXiwaUeUA==
-X-Received: by 2002:a17:903:987:b0:216:311e:b1ce with SMTP id d9443c01a7336-21778509e8fmr126678015ad.32.1734012487632;
-        Thu, 12 Dec 2024 06:08:07 -0800 (PST)
+        bh=lCShGml12r/vyCIX+EJole9G3fqfJvOaatxMOZOPngk=;
+        b=F0rJm1ncTB+YnQsHKT5KHJ5Ml8lAb/SUZnSf6tl+B7TVtEyyjD8A3sXcKDmHv4tfjC
+         5bi2hZYRPwOxNznp7XN+nn3hdOwIM8CSbbjX8rH+ZaD0XrNiEe8Z2ysK4BFZWm9FqeTq
+         Dx5q7onAeNB8bn0DncRyKKtx7rjV3/UHgpdq++JTeBeq/QMpFEBRTthMBxLBOxWXrJAO
+         YuNpP38FiPtTAo6hEvRqY92cAoKJN03Es12wLzWScpth8sQ7F5ChJPwUnFjg5U4C/zsk
+         65qtOIoyuHHeq+Nr2NUD4Qy3ZA81o4EyzGDd6hjNM/v01hI7zYdkAopZjpFWgnXMWvRg
+         k99A==
+X-Gm-Message-State: AOJu0YwJZMnYBz3rqhH8FEngSsf7oMwiqLGEPs0zuWvFFSr9RLsJLvfR
+	IU/SYe3MRJI4rzhDdnGgzFtZyaDBAVaecTed3Bl2ostNz6TzPh58jhLzgZChsT5l999kuEQlZvZ
+	G
+X-Gm-Gg: ASbGncuqPghdpLq4l0UL4V0daMiTCFo5Uw7qWQssf4VrjnRd5QqLkY6oNTMPQvifEXf
+	zBitBdBatZXQ/HUtYjT4SO9ivwZPHca2Yps9dFAIO533dkWiFQ/JwAyZ0aDhv+SzQiPzeVBGtaj
+	/hdH5kHhcFTLEYO7OjgvNFNjU9L6b5IvxtOO28eT8Z3WD0J2e+QgzLw0+Xa1HgK30NwHhefR2fk
+	gq2Pcp7lWIuSm7pe6dMpDZXZhlN6EQbsDQhv5wZegs1Ig==
+X-Google-Smtp-Source: AGHT+IGD2dhxVtdwKKma7sTfUUYTqyfnD2xX+VFQbdhxF934hqM4Hwl0yikJ72Wp1MwESJw3CxnvPQ==
+X-Received: by 2002:a17:903:41cf:b0:215:b9a7:526d with SMTP id d9443c01a7336-2177854ac96mr124965195ad.32.1734012486132;
+        Thu, 12 Dec 2024 06:08:06 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21630fee27bsm88847705ad.269.2024.12.12.06.08.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 06:08:07 -0800 (PST)
+        Thu, 12 Dec 2024 06:08:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 02/12] qemu: patch CVE-2024-6505
-Date: Thu, 12 Dec 2024 06:07:48 -0800
-Message-Id: <ded62bdb5ce9da62aaaa53ac20203bd87a7b1197.1734012352.git.steve@sakoman.com>
+Subject: [OE-core][styhead 01/12] builder: set CVE_PRODUCT
+Date: Thu, 12 Dec 2024 06:07:47 -0800
+Message-Id: <18773170492fc01ce7123ba0fac88e58750a3b93.1734012352.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1734012352.git.steve@sakoman.com>
 References: <cover.1734012352.git.steve@sakoman.com>
@@ -66,82 +66,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Dec 2024 14:08:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208636
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208635
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Backport patch [3] as linked from [1] via [2].
+Builder is a common word and there are many other builder components
+which makes us to ignore CVEs for all of them.
+There is already 1 ignored and currently 3 new ones.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2024-6505
-[2] https://bugzilla.redhat.com/show_bug.cgi?id=2295760
-[3] https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb
+Instead, set product to yocto to filter them.
+
+(From OE-Core rev: fd4ec5a5318b36af0a9a0a097a5b1f1de44a8edf)
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2024-6505.patch             | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
+ meta/recipes-graphics/builder/builder_0.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 2786eedd42..73e1861b00 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,6 +35,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-+           file://CVE-2024-6505.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index 7719b783c2..39abaf31ce 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -29,4 +29,5 @@ do_install () {
+ 	chown  builder.builder ${D}${sysconfdir}/mini_x/session.d/builder_session.sh
+ }
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
-new file mode 100644
-index 0000000000..67382a2a8e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
-@@ -0,0 +1,40 @@
-+From f1595ceb9aad36a6c1da95bcb77ab9509b38822d Mon Sep 17 00:00:00 2001
-+From: Akihiko Odaki <akihiko.odaki@daynix.com>
-+Date: Mon, 1 Jul 2024 20:58:04 +0900
-+Subject: [PATCH] virtio-net: Ensure queue index fits with RSS
-+
-+Ensure the queue index points to a valid queue when software RSS
-+enabled. The new calculation matches with the behavior of Linux's TAP
-+device with the RSS eBPF program.
-+
-+Fixes: 4474e37a5b3a ("virtio-net: implement RX RSS processing")
-+Reported-by: Zhibin Hu <huzhibin5@huawei.com>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+CVE: CVE-2024-6505
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb9aad36a6c1da95bcb77ab9509b38822d]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ hw/net/virtio-net.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index 8f30972708..5635620a31 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -1949,7 +1949,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+     if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
-+         int index = virtio_net_process_rss(nc, buf, size);
-+         if (index >= 0) {
-+-            NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
-++            NetClientState *nc2 =
-++                qemu_get_subqueue(n->nic, index % n->curr_queue_pairs);
-+             return virtio_net_receive_rcu(nc2, buf, size, true);
-+         }
-+     }
-+-- 
-+2.30.2
-+
+-CVE_STATUS[CVE-2008-4178] = "cpe-incorrect: This CVE is for an unrelated builder"
++# do not report CVEs for other builder apps
++CVE_PRODUCT = "yoctoproject:builder"
 -- 
 2.34.1
 
