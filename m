@@ -1,100 +1,136 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A29E7717F
-	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 09:02:21 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.11553.1734080536382442771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2782AE77180
+	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 10:11:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.12158.1734084691818796620
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Dec 2024 01:02:17 -0800
+ Fri, 13 Dec 2024 02:11:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fdf1+LL/;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3aZPV3bd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010193bf411ad5-f9188c26-e1ec-4336-94ac-3b5f7a175726-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734080535; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=1yZITz/qTfxbsBLe42BBkVQh7ANZ9NvnaedqiB8X1yc=;
-	b=fdf1+LL/YyQjBvbTCEVN8z7Wf5WK01IsqWWmDU7x2Kn1jIBb2xhIv7+OS/BdLrqV
-	rRbWpCp4h85fFi6ouVjr2A7ogX5e4IgWPHvsB6bzZJh35trSiX8X6f/lxfxhISlNq6v
-	iyU3Z5lStEA1Qdyb9rfjENLrF8QU0HY5VoxfSPu8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734080535;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=1yZITz/qTfxbsBLe42BBkVQh7ANZ9NvnaedqiB8X1yc=;
-	b=3aZPV3bdi1hLhCHRTW6nIkSSbDXVkFD2audQJ9ReKV4K8hlHY7kDUgJms/aDFh2B
-	0ZHDZ5MgQS+0EKEZYHA1vyfp2PnnPMfVkZvu18ycOxSWRqJjJ4EMXO/miUiXXp5Ix5+
-	aG4ZNPtjJ+lBxI3yUpRgKPW1ryQ0ueL5jCsp1+Do=
-From: patchtest@automation.yoctoproject.org
-To: archana.polampalli@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][scarthgap][PATCH 1/3] ffmpeg: fix CVE-2024-35366
-In-Reply-To: <20241213085033.3004012-1-archana.polampalli@windriver.com>
-References: <20241213085033.3004012-1-archana.polampalli@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193bf411ad5-f9188c26-e1ec-4336-94ac-3b5f7a175726-000000@us-west-2.amazonses.com>
-Date: Fri, 13 Dec 2024 09:02:15 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.13-54.240.27.31
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=207735f8c4=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD9feTx032621
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:31 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xexj3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:30 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 13 Dec 2024 02:11:28 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 13 Dec 2024 02:11:27 -0800
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][scarthgap][PATCH V2 2/3] ffmpeg: fix CVE-2024-35367
+Date: Fri, 13 Dec 2024 10:11:22 +0000
+Message-ID: <20241213101123.313361-2-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20241213101123.313361-1-archana.polampalli@windriver.com>
+References: <20241213101123.313361-1-archana.polampalli@windriver.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: Vi2l-FowLHjD8NTcciQj6wfJnKKlnaLb
+X-Proofpoint-ORIG-GUID: Vi2l-FowLHjD8NTcciQj6wfJnKKlnaLb
+X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=675c0852 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=emhf11hzAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=UqCG9HQmAAAA:8 a=pGLkceISAAAA:8
+ a=A2EaKv098oJXd_W-EKgA:9 a=HLUCug_QN4oeKp6PugZw:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-13_04,2024-12-12_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412130069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 09:02:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208675
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208677
 
---NextPart
-Content-Type: text/plain
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+FFmpeg n6.1.1 has an Out-of-bounds Read via libavcodec/ppc/vp8dsp_altivec.c,
+static const vec_s8 h_subpel_filters_outer
 
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-1-3-ffmpeg-fix-CVE-2024-35366.patch
+ .../ffmpeg/ffmpeg/CVE-2024-35367.patch        | 47 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
 
-FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
+new file mode 100644
+index 0000000000..a1bec43c66
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
+@@ -0,0 +1,47 @@
++From 09e6840cf7a3ee07a73c3ae88a020bf27ca1a667 Mon Sep 17 00:00:00 2001
++From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
++Date: Wed, 13 Mar 2024 02:10:26 +0100
++Subject: [PATCH] avcodec/ppc/vp8dsp_altivec: Fix out-of-bounds access
++
++h_subpel_filters_inner[i] and h_subpel_filters_outer[i / 2]
++belong together and the former allows the range 0..6,
++so the latter needs to support 0..3. But it has only three
++elements. Add another one.
++The value for the last element has been guesstimated
++from subpel_filters in libavcodec/vp8dsp.c.
++
++This is also intended to fix FATE-failures with UBSan here:
++https://fate.ffmpeg.org/report.cgi?time=20240312011016&slot=ppc-linux-gcc-13.2-ubsan-altivec-qemu
++
++Tested-by: Sean McGovern <gseanmcg@gmail.com>
++Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
++
++CVE: CVE-2024-35367
++
++Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/09e6840cf7a3ee07a73c3ae88a020bf27ca1a667]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavcodec/ppc/vp8dsp_altivec.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/libavcodec/ppc/vp8dsp_altivec.c b/libavcodec/ppc/vp8dsp_altivec.c
++index 12dac8b..061914f 100644
++--- a/libavcodec/ppc/vp8dsp_altivec.c
+++++ b/libavcodec/ppc/vp8dsp_altivec.c
++@@ -50,11 +50,12 @@ static const vec_s8 h_subpel_filters_inner[7] =
++ // for 6tap filters, these are the outer two taps
++ // The zeros mask off pixels 4-7 when filtering 0-3
++ // and vice-versa
++-static const vec_s8 h_subpel_filters_outer[3] =
+++static const vec_s8 h_subpel_filters_outer[4] =
++ {
++     REPT4(0, 0, 2, 1),
++     REPT4(0, 0, 3, 3),
++     REPT4(0, 0, 1, 2),
+++    REPT4(0, 0, 0, 0),
++ };
++
++ #define LOAD_H_SUBPEL_FILTER(i) \
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index f94c75abe6..fdb8d55cc2 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -38,6 +38,7 @@ SRC_URI = " \
+     file://CVE-2023-49528.patch \
+     file://CVE-2024-7055.patch \
+     file://CVE-2024-35366.patch \
++    file://CVE-2024-35367.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
+-- 
+2.40.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
