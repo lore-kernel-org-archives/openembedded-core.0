@@ -2,131 +2,118 @@ Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2782AE77180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DB4E7717D
 	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 10:11:32 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.12158.1734084691818796620
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.12065.1734084688104675304
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Dec 2024 02:11:32 -0800
+ Fri, 13 Dec 2024 02:11:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=207735f8c4=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD9feTx032621
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:31 GMT
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=207735f8c4=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD6SUrr024663
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 02:11:27 -0800
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xexj3-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cwy1xyhh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:30 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 02:11:27 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 13 Dec 2024 02:11:28 -0800
+ 15.1.2507.43; Fri, 13 Dec 2024 02:11:26 -0800
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Fri, 13 Dec 2024 02:11:27 -0800
+ 15.1.2507.43 via Frontend Transport; Fri, 13 Dec 2024 02:11:25 -0800
 From: <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][scarthgap][PATCH V2 2/3] ffmpeg: fix CVE-2024-35367
-Date: Fri, 13 Dec 2024 10:11:22 +0000
-Message-ID: <20241213101123.313361-2-archana.polampalli@windriver.com>
+Subject: [oe-core][scarthgap][PATCH V2 1/3] ffmpeg: fix CVE-2024-35366
+Date: Fri, 13 Dec 2024 10:11:21 +0000
+Message-ID: <20241213101123.313361-1-archana.polampalli@windriver.com>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20241213101123.313361-1-archana.polampalli@windriver.com>
-References: <20241213101123.313361-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: Vi2l-FowLHjD8NTcciQj6wfJnKKlnaLb
-X-Proofpoint-ORIG-GUID: Vi2l-FowLHjD8NTcciQj6wfJnKKlnaLb
-X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=675c0852 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=emhf11hzAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=UqCG9HQmAAAA:8 a=pGLkceISAAAA:8
- a=A2EaKv098oJXd_W-EKgA:9 a=HLUCug_QN4oeKp6PugZw:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: qMUGBqqQEf86SQEIr8CkOmZrFSK8KEM3
+X-Authority-Analysis: v=2.4 cv=eePHf6EH c=1 sm=1 tr=0 ts=675c084f cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=Il8eHo93rIquhJNKyUkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: qMUGBqqQEf86SQEIr8CkOmZrFSK8KEM3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-13_04,2024-12-12_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2412130069
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ spamscore=0 phishscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412130069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 10:11:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208677
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208676
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-FFmpeg n6.1.1 has an Out-of-bounds Read via libavcodec/ppc/vp8dsp_altivec.c,
-static const vec_s8 h_subpel_filters_outer
+FFmpeg n6.1.1 is Integer Overflow. The vulnerability exists in the parse_options
+function of sbgdec.c within the libavformat module. When parsing certain options,
+the software does not adequately validate the input. This allows for negative
+duration values to be accepted without proper bounds checking.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2024-35367.patch        | 47 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2024-35366.patch        | 35 +++++++++++++++++++
  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35366.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35366.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35366.patch
 new file mode 100644
-index 0000000000..a1bec43c66
+index 0000000000..f7f16a5b92
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
-@@ -0,0 +1,47 @@
-+From 09e6840cf7a3ee07a73c3ae88a020bf27ca1a667 Mon Sep 17 00:00:00 2001
-+From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
-+Date: Wed, 13 Mar 2024 02:10:26 +0100
-+Subject: [PATCH] avcodec/ppc/vp8dsp_altivec: Fix out-of-bounds access
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35366.patch
+@@ -0,0 +1,35 @@
++From 0bed22d597b78999151e3bde0768b7fe763fc2a6 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Tue, 26 Mar 2024 00:39:49 +0100
++Subject: [PATCH] avformat/sbgdec: Check for negative duration
 +
-+h_subpel_filters_inner[i] and h_subpel_filters_outer[i / 2]
-+belong together and the former allows the range 0..6,
-+so the latter needs to support 0..3. But it has only three
-+elements. Add another one.
-+The value for the last element has been guesstimated
-+from subpel_filters in libavcodec/vp8dsp.c.
++Fixes: signed integer overflow: 9223372036854775807 - -8000000 cannot be represented in type 'long'
++Fixes: 62276/clusterfuzz-testcase-minimized-ffmpeg_dem_SBG_fuzzer-5133181743136768
 +
-+This is also intended to fix FATE-failures with UBSan here:
-+https://fate.ffmpeg.org/report.cgi?time=20240312011016&slot=ppc-linux-gcc-13.2-ubsan-altivec-qemu
++Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 +
-+Tested-by: Sean McGovern <gseanmcg@gmail.com>
-+Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
++CVE: CVE-2024-35366
 +
-+CVE: CVE-2024-35367
-+
-+Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/09e6840cf7a3ee07a73c3ae88a020bf27ca1a667]
++Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/0bed22d597b78999151e3bde0768b7fe763fc2a6]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ libavcodec/ppc/vp8dsp_altivec.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ libavformat/sbgdec.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavcodec/ppc/vp8dsp_altivec.c b/libavcodec/ppc/vp8dsp_altivec.c
-+index 12dac8b..061914f 100644
-+--- a/libavcodec/ppc/vp8dsp_altivec.c
-++++ b/libavcodec/ppc/vp8dsp_altivec.c
-+@@ -50,11 +50,12 @@ static const vec_s8 h_subpel_filters_inner[7] =
-+ // for 6tap filters, these are the outer two taps
-+ // The zeros mask off pixels 4-7 when filtering 0-3
-+ // and vice-versa
-+-static const vec_s8 h_subpel_filters_outer[3] =
-++static const vec_s8 h_subpel_filters_outer[4] =
-+ {
-+     REPT4(0, 0, 2, 1),
-+     REPT4(0, 0, 3, 3),
-+     REPT4(0, 0, 1, 2),
-++    REPT4(0, 0, 0, 0),
-+ };
-+
-+ #define LOAD_H_SUBPEL_FILTER(i) \
++diff --git a/libavformat/sbgdec.c b/libavformat/sbgdec.c
++index b2662ea..281fe62 100644
++--- a/libavformat/sbgdec.c
+++++ b/libavformat/sbgdec.c
++@@ -386,7 +386,7 @@ static int parse_options(struct sbg_parser *p)
++                 case 'L':
++                     FORWARD_ERROR(parse_optarg(p, opt, &oarg));
++                     r = str_to_time(oarg.s, &p->scs.opt_duration);
++-                    if (oarg.e != oarg.s + r) {
+++                    if (oarg.e != oarg.s + r || p->scs.opt_duration < 0) {
++                         snprintf(p->err_msg, sizeof(p->err_msg),
++                                  "syntax error for option -L");
++                         return AVERROR_INVALIDDATA;
 +--
 +2.40.0
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
-index f94c75abe6..fdb8d55cc2 100644
+index 0c18a4a7af..f94c75abe6 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
-@@ -38,6 +38,7 @@ SRC_URI = " \
+@@ -37,6 +37,7 @@ SRC_URI = " \
+     file://CVE-2023-50007.patch \
      file://CVE-2023-49528.patch \
      file://CVE-2024-7055.patch \
-     file://CVE-2024-35366.patch \
-+    file://CVE-2024-35367.patch \
++    file://CVE-2024-35366.patch \
  "
  
  SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
