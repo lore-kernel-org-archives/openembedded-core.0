@@ -1,110 +1,262 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57958E77180
-	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 00:15:39 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web10.5427.1734048933827062976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CEF4E7717D
+	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 07:20:41 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.10687.1734074440495774005
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Dec 2024 16:15:34 -0800
+ Thu, 12 Dec 2024 23:20:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=MVo8Dt5+;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1734048933; x=1765584933;
-  h=from:to:cc:subject:date:message-id;
-  bh=xIiq5S0IOxUyUPoYUZKW9+Q8TnFco7vzbJjXDXbQ3UI=;
-  b=MVo8Dt5+zEHGmfHJZZQh0WsQrS0qXxfmrps8fX1UKqbc+gJvM62KypQd
-   XAUlx9AryseegVNu2gtv6U+DG5VpaPesaKm4dfIQEOh+/CVxTm23gi2Yh
-   JKodS/y6iRtetxQ23eiwsP1piL0Yr9Oo7b0dcZKtN7ylTKrWcOtet1xWx
-   k87hJTZYcPq2BusoT3X7FCKrk5nxCBjEEDrvB3Mi+yNNa4M3ghGUWidBW
-   PjBSz2hAmrmZN012r1j+tW9VDNyGsmp3GRE34UsxoRhBCNGSH7v/TInPX
-   R6QkW/qmFoncx1qyt4vyPfSA1lCDZk9kR1Ud5KerluRacRBHK1FStdAeZ
-   A==;
-X-CSE-ConnectionGUID: vbxseLbUQnGlXS3p0SW0tw==
-X-CSE-MsgGUID: oUwFIuzSR06iyUc3fuf4QA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="171528191"
-X-IronPort-AV: E=Sophos;i="6.12,230,1728918000"; 
-   d="scan'208";a="171528191"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 09:15:31 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A9D1D4F55
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 09:15:29 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3ACEBD975E
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 09:15:29 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id C06612007C3F5
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 09:15:28 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 45AAC1A000B;
-	Fri, 13 Dec 2024 08:15:28 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH v3] systemd: upgrade 256.8 -> 256.9
-Date: Fri, 13 Dec 2024 08:15:20 +0800
-Message-Id: <1734048920-13943-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28856.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28856.003
-X-TMASE-Result: 10--0.963600-10.000000
-X-TMASE-MatchedRID: 6e3s/u+cBDSjz0nOeth/yQPZZctd3P4Bqqq9awALpxCysPB8dBBorQec
-	3JTmkn8uJMPD8FR5f58boCivyaDEErVQ6XPWwtdyEXjPIvKd74CYkAyCbA7KVws5GlXF672zo8W
-	MkQWv6iUoTQl7wNH8PuTCMddcL/gjxlblqLlYqXLxnIQJpL9dIUTHqFo8MondbBPRudEoaFnyPd
-	/RmYRrN1WeFPh4KfFahEEpjgeDb4U1glm0P0IWJSRmoG0yJC/mz8+8Dup9c47+v9v52ZIoWjoAf
-	389xF3XFSk9HhUZnw7OGIWnws4LoyHWPYzouJUy
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2077a2fd5d=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD6es5G021674
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 07:20:39 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4xestj-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 07:20:39 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 12 Dec 2024 23:20:38 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 12 Dec 2024 23:20:37 -0800
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <changqing.li@windriver.com>
+Subject: [scarthgap][PATCH] subversion: fix CVE-2024-46901
+Date: Fri, 13 Dec 2024 15:20:37 +0800
+Message-ID: <20241213072037.2194638-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: YTNmGA-gmqseQZQqUPJNvyEWz-WKS8-a
+X-Proofpoint-ORIG-GUID: YTNmGA-gmqseQZQqUPJNvyEWz-WKS8-a
+X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=675be047 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=PYnjg3YJAAAA:8 a=mV9VRH-2AAAA:8 a=t7CeM3EgAAAA:8 a=uNPT8g5FifnVF2vmFNIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-13_02,2024-12-12_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412130050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 00:15:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208668
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 07:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208669
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Insufficient validation of filenames against control characters in
+Apache Subversion repositories served via mod_dav_svn allows
+authenticated users with commit access to commit a corrupted revision,
+leading to disruption for users of the repository. All versions of
+Subversion up to and including Subversion 1.14.4 are affected if serving
+repositories via mod_dav_svn. Users are recommended to upgrade to
+version 1.14.5, which fixes this issue. Repositories served via other
+access methods are not affected.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-46901
+
+Upstream patches:
+https://subversion.apache.org/security/CVE-2024-46901-advisory.txt
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 ---
- ...ystemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} | 0
- .../systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb}    | 0
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- .../recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_256.8.bb => systemd-boot-native_256.9.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_256.8.bb => systemd-boot_256.9.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_256.8.bb => systemd_256.9.bb} (100%)
+ .../subversion/CVE-2024-46901.patch           | 161 ++++++++++++++++++
+ .../subversion/subversion_1.14.3.bb           |   3 +-
+ 2 files changed, 163 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2024-46901.patch
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.8.bb b/meta/recipes-core/systemd/systemd-boot-native_256.9.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_256.8.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_256.9.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_256.8.bb b/meta/recipes-core/systemd/systemd-boot_256.9.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_256.8.bb
-rename to meta/recipes-core/systemd/systemd-boot_256.9.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 989ca667b7..b85d5b187d 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-devtools/subversion/subversion/CVE-2024-46901.patch b/meta/recipes-devtools/subversion/subversion/CVE-2024-46901.patch
+new file mode 100644
+index 0000000000..4b28a58507
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion/CVE-2024-46901.patch
+@@ -0,0 +1,161 @@
++From 149e299cd7eaadc8248480300b6e13b097c5b3fa Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Fri, 13 Dec 2024 12:19:43 +0800
++Subject: [PATCH] Fix CVE-2024-46901
++
++It has been discovered that the patch for CVE-2013-1968 was incomplete and unintentionally left mod_dav_svn vulnerable to control characters in filenames.
++
++Upstream-Status: Backport
++[https://subversion.apache.org/security/CVE-2024-46901-advisory.txt]
++
++CVE: CVE-2024-46901
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ .../include/private/svn_repos_private.h       |  8 +++++
++ subversion/libsvn_repos/commit.c              |  3 +-
++ subversion/libsvn_repos/repos.c               | 10 +++++++
++ subversion/mod_dav_svn/lock.c                 |  7 +++++
++ subversion/mod_dav_svn/repos.c                | 29 +++++++++++++++++++
++ 5 files changed, 55 insertions(+), 2 deletions(-)
++
++diff --git a/subversion/include/private/svn_repos_private.h b/subversion/include/private/svn_repos_private.h
++index 1fd34e8..1d5fc9c 100644
++--- a/subversion/include/private/svn_repos_private.h
+++++ b/subversion/include/private/svn_repos_private.h
++@@ -390,6 +390,14 @@ svn_repos__get_dump_editor(const svn_delta_editor_t **editor,
++                            const char *update_anchor_relpath,
++                            apr_pool_t *pool);
++ 
+++/* Validate that the given PATH is a valid pathname that can be stored in
+++ * a Subversion repository, according to the name constraints used by the
+++ * svn_repos_* layer.
+++ */
+++svn_error_t *
+++svn_repos__validate_new_path(const char *path,
+++                             apr_pool_t *scratch_pool);
+++
++ #ifdef __cplusplus
++ }
++ #endif /* __cplusplus */
++diff --git a/subversion/libsvn_repos/commit.c b/subversion/libsvn_repos/commit.c
++index 515600d..aad37ee 100644
++--- a/subversion/libsvn_repos/commit.c
+++++ b/subversion/libsvn_repos/commit.c
++@@ -308,8 +308,7 @@ add_file_or_directory(const char *path,
++   svn_boolean_t was_copied = FALSE;
++   const char *full_path, *canonicalized_path;
++ 
++-  /* Reject paths which contain control characters (related to issue #4340). */
++-  SVN_ERR(svn_path_check_valid(path, pool));
+++  SVN_ERR(svn_repos__validate_new_path(path, pool));
++ 
++   SVN_ERR(svn_relpath_canonicalize_safe(&canonicalized_path, NULL, path,
++                                         pool, pool));
++diff --git a/subversion/libsvn_repos/repos.c b/subversion/libsvn_repos/repos.c
++index 2189de8..119f04b 100644
++--- a/subversion/libsvn_repos/repos.c
+++++ b/subversion/libsvn_repos/repos.c
++@@ -2092,3 +2092,13 @@ svn_repos__fs_type(const char **fs_type,
++                      svn_dirent_join(repos_path, SVN_REPOS__DB_DIR, pool),
++                      pool);
++ }
+++
+++svn_error_t *
+++svn_repos__validate_new_path(const char *path,
+++                             apr_pool_t *scratch_pool)
+++{
+++  /* Reject paths which contain control characters (related to issue #4340). */
+++  SVN_ERR(svn_path_check_valid(path, scratch_pool));
+++
+++  return SVN_NO_ERROR;
+++}
++diff --git a/subversion/mod_dav_svn/lock.c b/subversion/mod_dav_svn/lock.c
++index 7e9c94b..d2a6aa9 100644
++--- a/subversion/mod_dav_svn/lock.c
+++++ b/subversion/mod_dav_svn/lock.c
++@@ -36,6 +36,7 @@
++ #include "svn_pools.h"
++ #include "svn_props.h"
++ #include "private/svn_log.h"
+++#include "private/svn_repos_private.h"
++ 
++ #include "dav_svn.h"
++ 
++@@ -717,6 +718,12 @@ append_locks(dav_lockdb *lockdb,
++ 
++       /* Commit a 0-byte file: */
++ 
+++      if ((serr = svn_repos__validate_new_path(resource->info->repos_path,
+++                                               resource->pool)))
+++        return dav_svn__convert_err(serr, HTTP_BAD_REQUEST,
+++                                    "Request specifies an invalid path.",
+++                                    resource->pool);
+++
++       if ((serr = dav_svn__get_youngest_rev(&rev, repos, resource->pool)))
++         return dav_svn__convert_err(serr, HTTP_INTERNAL_SERVER_ERROR,
++                                     "Could not determine youngest revision",
++diff --git a/subversion/mod_dav_svn/repos.c b/subversion/mod_dav_svn/repos.c
++index 8cbd5e7..778ae9b 100644
++--- a/subversion/mod_dav_svn/repos.c
+++++ b/subversion/mod_dav_svn/repos.c
++@@ -2928,6 +2928,15 @@ open_stream(const dav_resource *resource,
++ 
++   if (kind == svn_node_none) /* No existing file. */
++     {
+++      serr = svn_repos__validate_new_path(resource->info->repos_path,
+++                                          resource->pool);
+++
+++      if (serr != NULL)
+++        {
+++          return dav_svn__convert_err(serr, HTTP_BAD_REQUEST,
+++                                      "Request specifies an invalid path.",
+++                                      resource->pool);
+++        }
++       serr = svn_fs_make_file(resource->info->root.root,
++                               resource->info->repos_path,
++                               resource->pool);
++@@ -4120,6 +4129,14 @@ create_collection(dav_resource *resource)
++         return err;
++     }
++ 
+++  if ((serr = svn_repos__validate_new_path(resource->info->repos_path,
+++                                           resource->pool)) != NULL)
+++    {
+++      return dav_svn__convert_err(serr, HTTP_BAD_REQUEST,
+++                                  "Request specifies an invalid path.",
+++                                  resource->pool);
+++    }
+++
++   if ((serr = svn_fs_make_dir(resource->info->root.root,
++                               resource->info->repos_path,
++                               resource->pool)) != NULL)
++@@ -4193,6 +4210,12 @@ copy_resource(const dav_resource *src,
++       if (err)
++         return err;
++     }
+++  
+++  serr = svn_repos__validate_new_path(dst->info->repos_path, dst->pool);
+++  if (serr)
+++    return dav_svn__convert_err(serr, HTTP_BAD_REQUEST,
+++                                "Request specifies an invalid path.",
+++                                dst->pool);
++ 
++   src_repos_path = svn_repos_path(src->info->repos->repos, src->pool);
++   dst_repos_path = svn_repos_path(dst->info->repos->repos, dst->pool);
++@@ -4430,6 +4453,12 @@ move_resource(dav_resource *src,
++   if (err)
++     return err;
++ 
+++  serr = svn_repos__validate_new_path(dst->info->repos_path, dst->pool);
+++  if (serr)
+++    return dav_svn__convert_err(serr, HTTP_BAD_REQUEST,
+++                                "Request specifies an invalid path.",
+++                                dst->pool);
+++
++   /* Copy the src to the dst. */
++   serr = svn_fs_copy(src->info->root.root,  /* the root object of src rev*/
++                      src->info->repos_path, /* the relative path of src */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/subversion/subversion_1.14.3.bb b/meta/recipes-devtools/subversion/subversion_1.14.3.bb
+index 1cf4e1734b..1ef3d498a5 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.14.3.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.14.3.bb
+@@ -10,7 +10,8 @@ DEPENDS:append:class-native = " file-replacement-native"
  
--SRCREV = "a2240d1cf9f3515728186c2c98a6f4b64a40e4da"
-+SRCREV = "f15fd96efd5ebdfb18746acb0cbb35a4331b4d8b"
- SRCBRANCH = "v256-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://serfmacro.patch \
+-           "
++           file://CVE-2024-46901.patch \
++          "
  
-diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.9.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_256.8.bb
-rename to meta/recipes-core/systemd/systemd_256.9.bb
+ SRC_URI[sha256sum] = "949efd451a09435f7e8573574c71c7b71b194d844890fa49cd61d2262ea1a440"
+ 
 -- 
-2.43.0
+2.25.1
 
 
