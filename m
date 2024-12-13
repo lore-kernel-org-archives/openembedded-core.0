@@ -1,201 +1,152 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A30E7717F
-	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 21:27:29 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.6136.1734125248143814717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7845BE7717F
+	for <webhook@archiver.kernel.org>; Fri, 13 Dec 2024 21:34:59 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.6299.1734125690409115474
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Dec 2024 13:27:28 -0800
+ Fri, 13 Dec 2024 13:34:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Atw+CPh4;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2a3c075ddb6so395052fac.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 13:27:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kdvlksEz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cf3e36a76so21580595ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 13:34:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734125247; x=1734730047; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IUTPDyvZVrK4OIapAaeM1uTxmutnP1bcHpyRbBe3N2I=;
-        b=Atw+CPh4eNu8+r+uY8oxngdL5OltFmupK0ir0h6xC8/c/NLaE3iQ+xhg5ZngqrSS5r
-         AqePOCM8kn0A/8alb/aR6WxnRGe/mjHImaGP4XFp1Ibb8dQLrWwBiP2RrqR9TY44h+QP
-         0xdpT3swZboS28p8Er/Fs+nVAG6J2jSL5dj299v5VP/vuv5Qk7ve+mUVU+gdiKU/E9Sb
-         Eig2srhDXciOwOJXgQSJfRdIQBSkiELPKs0Zmwr0Db2yr5aVCiUpD1gRplTyAU/wDEV7
-         Ox8cdVkz4xkxgN8DYsfvZ7jVz1g4i7fsOMXs7F0zL4SshviTfuqUvzLxGqWPUrPuLzgX
-         K34g==
+        d=gmail.com; s=20230601; t=1734125690; x=1734730490; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=s0PWybQ4WocnxgKmGpP1OvaSUVMakHQDJ1YBm9GXk3U=;
+        b=kdvlksEzIpAJTBMJRwaGpD7WeAJDUMmrW1k//c3VpDSOB6391vTKIzaJo3g11r4DpK
+         sqvnzP+wr0K2zZVYjwlhdfarUKTWVqgEPHP8xCjCMVPwoNMG1nf/AEC1vcwensOtWc3S
+         Lshi+MhJuq0KzojJABi/jR4Llgg5UX8IpJ4fPzrMrkD8VyKOJQ60ILjSMucFt63Rq46Q
+         95lTST1SgFqdsFeMTwjjJBZu++nK6CNo/bRQj5F6XR38NPxK6evKbS8+a43HCom0ECM+
+         UlAyJpZw+LMGvNvdGKdTAgSDSVt5hNHZgTQPFLbOqXsgqdM3gzvwyLoD8Gk3n+2+L9VB
+         sZsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734125247; x=1734730047;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IUTPDyvZVrK4OIapAaeM1uTxmutnP1bcHpyRbBe3N2I=;
-        b=E3GcYi01pT/BYW0kvb793UJpEtXp2qNM2UYEtEiz1wkjsUBQ+PiP5CFo9cbXj/HNz8
-         IRo0eSWlpSaR4xk751NMXzuUUoDD6L1OjwMPE/YJEk+AlmGxq0rSHAmfNNErdbOQtumw
-         O7MyAxm2Xf3PlqJddhNtoqjuKDYmRhBmirtyUqWbEl/uFPH8MKWcwtKz+xLnul4k07Tn
-         GHsDmka9d3l6bjhkkist31G0DAXa/LSQKOqOQGDbIYS4W751/zF3CPCNTHqpL28OGv/p
-         JUvuq4BWaaR8RzC06u6r1tePzwQ6kfJlD1nrt0pHc/eqg9F0UsTAkDMPruv18jyI4cMR
-         bN2Q==
-X-Gm-Message-State: AOJu0Yw/OWsG4ewpkIib6VpxTgt/wzTzxAkPzDEGyQ+a2C4r+lB0irIc
-	YDyu3wwMvaqvp4ZtenQfmUuaRA7ogoL00fLA0cOkpU1E7HoqRyyEsNbamorLObNGesO4LqZUP+9
-	QiMSbz/O9dtSebI8xSmlMxpwnOSI=
-X-Gm-Gg: ASbGncuHkuMlXpXQwVXZtrjcJIfG84To92ht12ja4Pe0SYG2C0CyT0hnoUmozrWjGQa
-	NB7Pq2BTsdyU30GY4QQYUqZ/faawePjuQWPGVM8uL
-X-Google-Smtp-Source: AGHT+IGQqp1/36f25FxIdLh6+fEDnoXliyMLGco/Dxkm+Y67O5gT6lgHm2A2mLJ+5k4y+3gT16fx3/gZVc5O9t0XdfM=
-X-Received: by 2002:a05:6871:460b:b0:29e:76c8:be2e with SMTP id
- 586e51a60fabf-2a3ac8b83b9mr2337643fac.28.1734125247297; Fri, 13 Dec 2024
- 13:27:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734125690; x=1734730490;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s0PWybQ4WocnxgKmGpP1OvaSUVMakHQDJ1YBm9GXk3U=;
+        b=tcrNtNu1PuEIqKbGdJ/Jp9bEL020/KwkUsTu6PCFdSCgpuO+HhwSStAbIe/NFHFGX5
+         s70zoTndFs+7+AShun+ONkxyo/KwAtccSBb7daHmIydyyJb16VlzFaMHwoMsEw6UbLFo
+         XV65JfdjoRkiYIUbUJfuuBwOJ7E3eok2qJQ+YfwSBTplIdi/RZatiMQklmkZ6OKTB9bA
+         0aG27BixjvtqC6dDxDGljVVK5x6zyh5Isk3IDQ3eZkYlt0IU+usht4+FC1g7flf3oj1c
+         Fd1M8KFdD6k9jBQeeek7RU43HkoSwoXTdm9Tgp3+UnrTDe2hfokm6S6UqPNrC2N5zIr0
+         bwQQ==
+X-Gm-Message-State: AOJu0YzWZbbeMkiAyiU5muxu+WebXyeLDQ2icL2iu9juec+kbxeiyEAZ
+	5fZOXkY6Xtrb72uyzHbF2PQdJHd47pZuxCOxefSEx2cSYu9PrNd0
+X-Gm-Gg: ASbGncuT+TCbGt51T3+V3ZYpuT67+Po48WSoFOEH2pqPf2IdC6go8biMFMompo+hWxT
+	7/sgicYDC3JvIutZXh8xm364t7unzgm1hU3oXT881QWj2y84q0B3MLcboP0jN74I4r3CPS7RI/1
+	cCjm1uETkRughGJrywJGVAo84yNNrxoFHvCdi16nhyKbXiHrnhc5DdPNSC3IED/5bXB3fiFdEJH
+	QH7h7SVCPQ/bvlNznAokE/9aBz3ZaFEQsRH3d0/DyyjChgunI44NvJD
+X-Google-Smtp-Source: AGHT+IEETd+fcPP7PgyAIRBx2TSy3MIvQy2PbQ2jRDkhBt4YX505Ij5JOEbrHe9JoYgG0zg8s02Rrg==
+X-Received: by 2002:a17:902:ec91:b0:216:4165:c05e with SMTP id d9443c01a7336-218929d702fmr63678465ad.24.1734125689707;
+        Fri, 13 Dec 2024 13:34:49 -0800 (PST)
+Received: from hiago-nb ([2804:1b3:a7c2:98cb:f0e2:79db:d3f2:453e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db7f50sm2172145ad.39.2024.12.13.13.34.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 13:34:49 -0800 (PST)
+Date: Fri, 13 Dec 2024 18:34:46 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH] weston-init: remove kbd from RDEPENDS
+Message-ID: <20241213213446.c7m4dy4sqiix6h4l@hiago-nb>
+References: <20241212212431.248280-1-hiagofranco@gmail.com>
+ <D6AOJ3VED5U3.3D1CKY2VGA933@bootlin.com>
 MIME-Version: 1.0
-References: <20241212164407.2904755-1-adrian.freihofer@gmail.com> <b44dff5fa418020c37422d849f2a50ee5425e61a.camel@linuxfoundation.org>
-In-Reply-To: <b44dff5fa418020c37422d849f2a50ee5425e61a.camel@linuxfoundation.org>
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-Date: Fri, 13 Dec 2024 22:27:16 +0100
-Message-ID: <CAB3asfgetjAb=5H5k8s6gk1fB+bh879AH8_KUsW3OXqYp+p2hg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv2 0/5] systemd split networkd package
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005c824106292d7f90"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D6AOJ3VED5U3.3D1CKY2VGA933@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 21:27:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208696
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Dec 2024 21:34:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208697
 
---0000000000005c824106292d7f90
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Mathieu,
 
-Am Fr., 13. Dez. 2024 um 12:18 Uhr schrieb Richard Purdie <
-richard.purdie@linuxfoundation.org>:
-
-> On Thu, 2024-12-12 at 16:55 +0100, Adrian Freihofer via
-> lists.openembedded.org wrote:
-> > v2 fixes the build warning
+On Fri, Dec 13, 2024 at 04:31:44PM +0100, Mathieu Dubois-Briand wrote:
+> On Thu Dec 12, 2024 at 10:24 PM CET, Hiago De Franco via lists.openembedded.org wrote:
+> > From: Hiago De Franco <hiago.franco@toradex.com>
 > >
-> > First of all, this patch series fixes a bug in systemd.bbclass that
-> > forces service files with an Also=3D relationship to be in the same
-> > package. This may often be the case, but as long as the RDEPENDS
-> > between the packages are set correctly, it is no problem to distribute
-> > the service files over several packages.
+> > The kbd package is no longer a hard dependency for weston-init, as
+> > weston has replaced weston-launch with libseat and logind as its only
+> > launchers (see [1]). Remove this dependency.
 > >
-> > If service files referenced with Also=3D are no longer automatically ad=
-ded
-> > to the list of FILES, build errors caused by unpacked files are
-> > expected. A bitbake world has shown that there are only two recipes in
-> > oe-core that use automatic packing: busybox and dropbear. There are 2
-> > patches that fix this.
+> > [1] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/663/commits
 > >
-> > Also=3D relation are probably most often used for sockets. Consequently
-> > the systemd.bbclass should also allow to split socket files into
-> > separate packages. However, that's proably practically not used and
-> > would cause tons of packaging errors. Therefore the automatic packaging
-> > feature for sockets is not changed.
+> > Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
+> > ---
+> >  meta/recipes-graphics/wayland/weston-init.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > The latest patch splits systemd-networkd into its own package. This add=
-s
-> > a little extra complexity, but splitting systemd into packages is a goo=
-d
-> > step towards making Yocto more usable in binary form.
->
-> The changes to busybox and dropbear suggests there are some
-> considerations needed here from a migration perspective as people
-> upgrade past this change? Is there some documentation we should be
-> adding to the migration guide along with these changes?
->
+> > diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+> > index 5723655a9bba..0f79a44e48bc 100644
+> > --- a/meta/recipes-graphics/wayland/weston-init.bb
+> > +++ b/meta/recipes-graphics/wayland/weston-init.bb
+> > @@ -84,7 +84,7 @@ USERADD_PACKAGES = "${PN}"
+> >  #
+> >  require ${THISDIR}/required-distro-features.inc
+> >  
+> > -RDEPENDS:${PN} = "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
+> > +RDEPENDS:${PN} = "weston ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
+> >  
+> >  INITSCRIPT_NAME = "weston"
+> >  INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+> 
+> Hi Hiago,
+> 
+> I believe this patch is breaking some oe-selftest:
+> 
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/runtime/cases/weston.py", line 81, in test_weston_can_initialize_new_wayland_compositor
+>     self.assertTrue(new_wl_processes, msg='Could not get new weston-desktop-shell processes (%s, try_cnt:%s) weston log: %s' % (new_wl_processes, try_cnt, weston_log))
+>     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> AssertionError: [] is not true : Could not get new weston-desktop-shell processes ([], try_cnt:5) weston log: cat: can't open '/tmp/weston-2.log': No such file or directory
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/runtime/cases/weston.py", line 89, in test_weston_supports_xwayland
+>     self.assertEqual(status, 0, msg=msg)
+>     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+> AssertionError: 1 != 0 : xwayland does not appear to be running
+> 
+> https://valkyrie.yoctoproject.org/#/builders/48/builds/556/steps/14/logs/stdio
+> https://valkyrie.yoctoproject.org/#/builders/75/builds/581/steps/17/logs/stdio
+> 
+> And another QA error:
+> 
+> NOTE: recipe core-image-full-cmdline-1.0-r0: task do_testimage: Succeeded
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/no-x11/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/no-x11/build/meta/lib/oeqa/runtime/cases/weston.py", line 81, in test_weston_can_initialize_new_wayland_compositor
+>     self.assertTrue(new_wl_processes, msg='Could not get new weston-desktop-shell processes (%s, try_cnt:%s) weston log: %s' % (new_wl_processes, try_cnt, weston_log))
+> AssertionError: [] is not true : Could not get new weston-desktop-shell processes ([], try_cnt:5) weston log: cat: can't open '/tmp/weston-2.log': No such file or directory
+> 
+> https://valkyrie.yoctoproject.org/#/builders/25/builds/638/steps/12/logs/stdio
+> 
+> Can you have a look at these issues ?
 
-Yes, there is a certain risk that some recipes will require adjustments.
-Maybe something like this would be helpful:
+Thanks for letting me know, sure, I will take a look.
 
-If a systemd service file had referred to other service files by =E2=80=9CA=
-lso=E2=80=9D
-starting them, the other service files were automatically added to the
-FILES variable of the same package.
-This prevents such services from being packaged into different packages.
-Therefore, this automatic has been removed for service files (but not for
-socket files).
-Now all service files must be explicitly added to FILES.
+> 
+> -- 
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+> 
 
-Adrian
+Cheers,
 
-
->
-> Cheers,
->
-> Richard
->
->
->
-
---0000000000005c824106292d7f90
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">Am Fr., 13. Dez. 2024 um 12:18=C2=A0Uhr schri=
-eb Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
->richard.purdie@linuxfoundation.org</a>&gt;:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">On Thu, 2024-12-12 at 16:55 +0100, Adrian Frei=
-hofer via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
-et=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; v2 fixes the build warning<br>
-&gt; <br>
-&gt; First of all, this patch series fixes a bug in systemd.bbclass that<br=
->
-&gt; forces service files with an Also=3D relationship to be in the same<br=
->
-&gt; package. This may often be the case, but as long as the RDEPENDS<br>
-&gt; between the packages are set correctly, it is no problem to distribute=
-<br>
-&gt; the service files over several packages.<br>
-&gt; <br>
-&gt; If service files referenced with Also=3D are no longer automatically a=
-dded<br>
-&gt; to the list of FILES, build errors caused by unpacked files are<br>
-&gt; expected. A bitbake world has shown that there are only two recipes in=
-<br>
-&gt; oe-core that use automatic packing: busybox and dropbear. There are 2<=
-br>
-&gt; patches that fix this.<br>
-&gt; <br>
-&gt; Also=3D relation are probably most often used for sockets. Consequentl=
-y<br>
-&gt; the systemd.bbclass should also allow to split socket files into<br>
-&gt; separate packages. However, that&#39;s proably practically not used an=
-d<br>
-&gt; would cause tons of packaging errors. Therefore the automatic packagin=
-g<br>
-&gt; feature for sockets is not changed.<br>
-&gt; <br>
-&gt; The latest patch splits systemd-networkd into its own package. This ad=
-ds<br>
-&gt; a little extra complexity, but splitting systemd into packages is a go=
-od<br>
-&gt; step towards making Yocto more usable in binary form.<br>
-<br>
-The changes to busybox and dropbear suggests there are some<br>
-considerations needed here from a migration perspective as people<br>
-upgrade past this change? Is there some documentation we should be<br>
-adding to the migration guide along with these changes?<br></blockquote><di=
-v><br></div><div>Yes, there is a certain risk that some recipes will requir=
-e adjustments. Maybe something like this would be helpful:</div><div><br></=
-div>If a systemd service file had referred to other service files by =E2=80=
-=9CAlso=E2=80=9D starting them, the other service files were automatically =
-added to the FILES variable of the same package.<br>This prevents such serv=
-ices from being packaged into different packages. Therefore, this automatic=
- has been removed for service files (but not for socket files).<br>Now all =
-service files must be explicitly added to FILES.</div><div class=3D"gmail_q=
-uote gmail_quote_container"><br></div><div class=3D"gmail_quote gmail_quote=
-_container">Adrian<br></div><div class=3D"gmail_quote gmail_quote_container=
-"><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000005c824106292d7f90--
+Hiago.
 
