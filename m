@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5BDE77193
-	for <webhook@archiver.kernel.org>; Sun, 15 Dec 2024 09:29:50 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.33376.1734254975806365801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17518E7719B
+	for <webhook@archiver.kernel.org>; Sun, 15 Dec 2024 09:29:51 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.33383.1734254982758079082
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Dec 2024 01:29:48 -0800
+ Sun, 15 Dec 2024 01:29:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NfMlK/Ts;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=TLAX1JtM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010193c9a709ca-b0803546-a25e-4a9c-99c4-6249a241923b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SpgqUHpQ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=TTG0QziN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010193c9a6f379-ea4e0363-a73a-4de4-9d24-ed21b5086266-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734254987;
+	t=1734254982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kL0YvgWrx6UD8OU10eh+BCniRy0wODuJEfo4hMt1uPc=;
-	b=NfMlK/TshIUg53N5IXIz/GlpYgH6uataOfrLKemC+pb/syStajqjHm+Ym39sKflI
-	vBnun4xGwdnL5qsEsZNVYRsJL8wS5gxfPpqQ5NC3nlDFClmffUdO2y754xo6g9gP82r
-	9CJLve2xXPxbzwZL9mSe2d/6zzzs5HA/5v7vZdSw=
+	bh=+he7+Mhxnx2/yGDJB5Ng/5NSx+NhTiPcdjw+LPgx4MI=;
+	b=SpgqUHpQvzMUhhdlS+mwzCTNs0o4td1168AwMNYYlEW1xvabeCI04GN0EsI7t+yM
+	XK++XzI1+7MHIzH448j+ZYjD4gknJK79GJF+4KscjNwkuDE5V5RMM2Byj2cAlTv5SNZ
+	t8ZMcYGCjiQkQXo6HQy7MCVLdh0K2iy9chn1EucM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734254987;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734254982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kL0YvgWrx6UD8OU10eh+BCniRy0wODuJEfo4hMt1uPc=;
-	b=TLAX1JtMPNqds5XagmWw86/eL/zp5Pzxf4cSrvksYwktz1d9GrFaoX4G5yM9DoUr
-	SVDZKIFQoXc9df66CANwZCpJtKU8vsBUbkT++ulIWLYCQd0OQ0lcaGTx+zpcwzcUB8+
-	DM8OWwvSpumXdnAsva8/YwBRm8B4WPzSsamg/YTg=
-Content-Type: multipart/mixed; boundary="===============7274679401217053626=="
+	bh=+he7+Mhxnx2/yGDJB5Ng/5NSx+NhTiPcdjw+LPgx4MI=;
+	b=TTG0QziNRvMeb+telkGr98D9ehP9vmY1GXML9O76M/3JPDT0no361Ty7Uc7G/VQF
+	pwgxjNaIFte32gPlahpEjq/UK9y5plDM7Me1IQ+Jvft96tDs/S8yNTU6VyHdWZjJqEH
+	pcewDVZv87ZVD/dPSylyHauQgGISwJzWo6a8LkwM=
+Content-Type: multipart/mixed; boundary="===============0282473816315144280=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2024.4 FAILED
-Message-ID: <01010193c9a709ca-b0803546-a25e-4a9c-99c4-6249a241923b-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Dec 2024 09:29:47 +0000
+Subject: [AUH] python3-numpy: upgrading to 2.2.0 SUCCEEDED
+Message-ID: <01010193c9a6f379-ea4e0363-a73a-4de4-9d24-ed21b5086266-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Dec 2024 09:29:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.15-54.240.27.45
+X-SES-Outgoing: 2024.12.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Dec 2024 09:29:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208733
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Dec 2024 09:29:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208717
 
---===============7274679401217053626==
+--===============0282473816315144280==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *shaderc* to *2024.4* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2024.3-2024.4.patch
+    - apply the patch: git am 0001-python3-numpy-upgrade-2.1.3-2.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,307 +72,427 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 857a4cfa4259300422baadbe151df12daec2f5d9 Mon Sep 17 00:00:00 2001
+From 03f31640b58b687a050608d9aa5b468a9e79a95a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Dec 2024 08:26:14 +0000
-Subject: [PATCH] shaderc: upgrade 2024.3 -> 2024.4
+Date: Sun, 15 Dec 2024 07:23:18 +0000
+Subject: [PATCH] python3-numpy: upgrade 2.1.3 -> 2.2.0
 
 ---
- .../0001-cmake-disable-building-external-dependencies.patch   | 2 +-
- ...002-libshaderc_util-fix-glslang-header-file-location.patch | 4 ++--
- .../shaderc/{shaderc_2024.3.bb => shaderc_2024.4.bb}          | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2024.3.bb => shaderc_2024.4.bb} (95%)
+ ...-and-so-on-for-libraries-by-default-.patch |  7 +--
+ ...1-numpy-core-Define-RISCV-32-support.patch | 58 -------------------
+ .../python3-numpy/fix_reproducibility.patch   | 23 +++++---
+ ...-numpy_2.1.3.bb => python3-numpy_2.2.0.bb} |  3 +-
+ 4 files changed, 19 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+ rename meta/recipes-devtools/python/{python3-numpy_2.1.3.bb => python3-numpy_2.2.0.bb} (94%)
 
-diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-index 5c49aa7fd5..300b5bac6b 100644
---- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-+++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+index bbe309c556..b8f2e42a25 100644
+--- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
++++ b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
 @@ -1,4 +1,4 @@
--From 941f5f5831e7a52c26168f81f25d0470860ca6f1 Mon Sep 17 00:00:00 2001
-+From 1676ab837e6c60a31a3bd0701c81005727830d8d Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] cmake: disable building external dependencies
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index 39f982b7f3..bed713dab0 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-@@ -1,4 +1,4 @@
--From ec2442940e1d5338971861bb81537bae3a6c19e2 Mon Sep 17 00:00:00 2001
-+From bea39da5cad3d9c4d01e718a8129b3e815cc3d55 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] libshaderc_util: fix glslang header file location
-@@ -11,7 +11,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 46eea664cf89d0602e7ff16d587c37c045b125b7 Mon Sep 17 00:00:00 2001
++From 0f34943f5c2952fc830eb4f5a1e7aa1f1fa298e3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Dec 2015 13:20:30 +0200
+ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+@@ -8,16 +8,15 @@ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+ Upstream-Status: Inappropriate (As the code stands, this is a hack)
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  numpy/distutils/system_info.py | 42 +++++-----------------------------
+  1 file changed, 6 insertions(+), 36 deletions(-)
  
- diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
--index e5f5d10..5fd6d3c 100644
-+index 9bf9a43..dc0efd2 100644
- --- a/libshaderc_util/src/compiler.cc
- +++ b/libshaderc_util/src/compiler.cc
- @@ -20,7 +20,7 @@
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2024.3.bb b/meta/recipes-graphics/shaderc/shaderc_2024.4.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2024.3.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2024.4.bb
-index 0948ba28d6..0cd408c074 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2024.3.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2024.4.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
+-index feb28f6..a48d6d1 100644
++index 6478548..c0620e7 100644
+ --- a/numpy/distutils/system_info.py
+ +++ b/numpy/distutils/system_info.py
+-@@ -327,44 +327,14 @@ def add_system_root(library_root):
++@@ -326,44 +326,14 @@ def add_system_root(library_root):
+          add_system_root(os.path.join(conda_dir, 'Library'))
+  
+  else:
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+deleted file mode 100644
+index 6da9047ec5..0000000000
+--- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 0e2b652a0eff85798584116c905a2d6ad8f25d5f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 15 Nov 2020 15:32:39 -0800
+-Subject: [PATCH] numpy/core: Define RISCV-32 support
+-
+-Helps compile on riscv32
+-
+-Upstream-Status: Backport
+-(https://github.com/numpy/numpy/pull/17780/commits/0e2b652a0eff85798584116c905a2d6ad8f25d5f)
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- numpy/_core/include/numpy/npy_cpu.h    | 9 +++++++--
+- numpy/_core/include/numpy/npy_endian.h | 1 +
+- 2 files changed, 8 insertions(+), 2 deletions(-)
+-
+-diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
+-index a19f8e6bbd..15f9f12931 100644
+---- a/numpy/_core/include/numpy/npy_cpu.h
+-+++ b/numpy/_core/include/numpy/npy_cpu.h
+-@@ -18,6 +18,7 @@
+-  *              NPY_CPU_ARCEL
+-  *              NPY_CPU_ARCEB
+-  *              NPY_CPU_RISCV64
+-+ *              NPY_CPU_RISCV32
+-  *              NPY_CPU_LOONGARCH
+-  *              NPY_CPU_WASM
+-  */
+-@@ -102,8 +103,12 @@
+-     #define NPY_CPU_ARCEL
+- #elif defined(__arc__) && defined(__BIG_ENDIAN__)
+-     #define NPY_CPU_ARCEB
+--#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
+--    #define NPY_CPU_RISCV64
+-+#elif defined(__riscv)
+-+    #if __riscv_xlen == 64
+-+	#define NPY_CPU_RISCV64
+-+    #elif __riscv_xlen == 32
+-+	#define NPY_CPU_RISCV32
+-+    #endif
+- #elif defined(__loongarch__)
+-     #define NPY_CPU_LOONGARCH
+- #elif defined(__EMSCRIPTEN__)
+-diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
+-index 5e58a7f52c..09262120bf 100644
+---- a/numpy/_core/include/numpy/npy_endian.h
+-+++ b/numpy/_core/include/numpy/npy_endian.h
+-@@ -49,6 +49,7 @@
+-             || defined(NPY_CPU_PPC64LE)       \
+-             || defined(NPY_CPU_ARCEL)         \
+-             || defined(NPY_CPU_RISCV64)       \
+-+            || defined(NPY_CPU_RISCV32)       \
+-             || defined(NPY_CPU_LOONGARCH)     \
+-             || defined(NPY_CPU_WASM)
+-         #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
+--- 
+-2.39.5
+-
+diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+index d952aed00c..6412f5f58c 100644
+--- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
++++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+@@ -1,7 +1,11 @@
+-This regex decides whether to use O3 opimisation on numpy or not.
++From 9e382d90d97846477748dbfc8db0c2144091c2a5 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 29 Sep 2023 22:53:24 +0100
++Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
++ not.
  
--SRCREV = "7223dc3d5e34bbcc44f3150546dbfa8a5da58c4c"
-+SRCREV = "3cd72062f297df05e6a042f2616c42bc8956c326"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+ It includes "od", which happens to be a substring of "reproducible"
+-but not "qemux86-world". 
++but not "qemux86-world".
+ 
+ The regex will run against all compiler options including things like:
+ 
+@@ -17,12 +21,15 @@ reproducible target ran first and won the race to populate sstate.
+ 
+ Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: numpy-1.26.0/numpy/distutils/ccompiler_opt.py
+-===================================================================
+---- numpy-1.26.0.orig/numpy/distutils/ccompiler_opt.py
+-+++ numpy-1.26.0/numpy/distutils/ccompiler_opt.py
+-@@ -990,7 +990,7 @@ class _CCompiler:
++---
++ numpy/distutils/ccompiler_opt.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/numpy/distutils/ccompiler_opt.py b/numpy/distutils/ccompiler_opt.py
++index b1a6fa3..7b0302b 100644
++--- a/numpy/distutils/ccompiler_opt.py
+++++ b/numpy/distutils/ccompiler_opt.py
++@@ -991,7 +991,7 @@ def __init__(self):
+              ("cc_is_nocc",     "", ""),
+          )
+          detect_args = (
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb b/meta/recipes-devtools/python/python3-numpy_2.2.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-numpy_2.1.3.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.2.0.bb
+index 0120bee439..522f9682a5 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.2.0.bb
+@@ -9,11 +9,10 @@ SRCNAME = "numpy"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+-           file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://fix_reproducibility.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f4921fd761"
++SRC_URI[sha256sum] = "140dd80ff8981a583a60980be1a655068f8adebf7a45a06a6858c873fcdcd4a0"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
 -- 
 2.44.1
 
 
---===============7274679401217053626==
+--===============0282473816315144280==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/python3-numpy: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v2.1.3/numpy-2.1.3.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://0001-numpy-core-Define-RISCV-32-support.patch file://fix_reproducibility.patch file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v2.2.0/numpy-2.2.0.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://fix_reproducibility.patch file://run-ptest"
+packages/core2-64-poky-linux/python3-numpy: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 122856960 to 122919424 (+0%)
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 24337188 to 24378762 (+0%)
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/dlpack -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/dlpack, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/_simd -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/_simd, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_common.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_common.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_philox.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_philox.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/multiarray/textreading -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/multiarray/textreading, directory re
+ named /usr/src/debug/python3-numpy/2.1.3/numpy/linalg -> /usr/src/debug/python3-numpy/2.2.0/numpy/linalg, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_mt19937.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_mt19937.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/include -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/include, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/mt19937 -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/mt19937, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/include/numpy/libdivide -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/include/numpy/libdivide, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/bit_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/bit_generator.cpython-313-x86_64-linux-gnu.
+ so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/highway/hwy -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/highway/hwy, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/include/numpy -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/include/numpy, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/sfc64 -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/sfc64, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/pcg64 -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/pcg64, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/fft -> /usr/src/debug/python3-numpy/2.2.0/numpy/fft, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core
+ /src/common/simd/avx512 -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/simd/avx512, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/linalg/lapack_lite -> /usr/src/debug/python3-numpy/2.2.0/numpy/linalg/lapack_lite, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/legacy -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/legacy, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/simd -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/simd, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/include/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/include/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_pcg64.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_pcg64.cpython-313-x86_6
+ 4-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_sfc64.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_sfc64.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/simd/avx2 -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/simd/avx2, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/npysort/x86-simd-sort/src -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/npysort/x86-simd-sort/src, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/philox -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/philox, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/npymath -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/npymath, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/fft/pocketfft -> /usr/src/debug/python3-numpy/2.2.0/numpy/fft/pocke
+ tfft, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/mtrand.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/mtrand.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/highway/hwy/ops -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/highway/hwy/ops, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/_bounded_integers.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/_bounded_integers.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/multiarray -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/multiarray, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/simd/sse -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/simd/sse, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/
+ _core/src/multiarray/stringdtype -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/multiarray/stringdtype, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/npysort -> /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/npysort, directory renamed /usr/src/debug/python3-numpy/2.1.3/numpy/random/src/distributions -> /usr/src/debug/python3-numpy/2.2.0/numpy/random/src/distributions, removed "/usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/ufunc_object.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/utils.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npstd.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops.h.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/float_status.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/ufunc_object.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_unary_fp_le.dispatch.c.src 
+ /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_umath_tests.dispatch.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/wrapping_array_method.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_argparse.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_longdouble.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_longdouble.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_argparse.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/dispatching.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/dispatching.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/half_private.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/string_ufuncs.cpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_minmax.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/matmul.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/umathmodule.c /usr/src/debug/python
+ 3-numpy/2.1.3/numpy/_core/src/common/templ_common.h.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_arithm_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_atomic.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/mem_overlap.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/mem_overlap.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_arithmetic.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/reduction.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/ucsnarrow.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/ucsnarrow.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/reduction.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_unary_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/npy_simd_data.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/binop_override.h /usr/src/debug/python3-numpy/2.1.3/n
+ umpy/_core/src/common/ufunc_override.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_scaled_float_dtype.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/ufunc_override.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_utils.h.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/gil_utils.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_extint128.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/half.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/meta.hpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_hyperbolic.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/gil_utils.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_operand_flag_tests.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/special_integer_comparisons.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_cpu_features.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/sr
+ c/common/lowlevel_strided_loops.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_cpu_features.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_exponent_log.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_comparison.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_svml.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/fast_loop_macros.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/array_assign.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_binsearch.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/array_assign.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/clip.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_hashtable.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_hashtable.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/umathmodule.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/
+ stringdtype_ufuncs.cpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/extobj.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/scalarmath.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_sort.h.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/extobj.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/numpy_tag.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_cpu_dispatch.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/clip.cpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/funcs.inc.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_cpu_dispatch.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_dlpack.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/override.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/override.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_partition.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/um
+ ath/string_buffer.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_umath_tests.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_autovec.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_unary.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_rational_tests.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/get_attr_string.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_ctypes.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_logical.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/stringdtype_ufuncs.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/ufunc_type_resolution.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_trigonometric.dispatch.cpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/ufunc_type_resolution.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/numpyos.c /usr/src/debug/python3-nu
+ mpy/2.1.3/numpy/_core/src/umath/loops_modulo.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/numpyos.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/legacy_array_method.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/legacy_array_method.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_umath_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/matmul.h.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/string_fastsearch.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_import.h /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/special_integer_comparisons.cpp /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/common/npy_import.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/_struct_ufunc_tests.c /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/loops_unary_complex.dispatch.c.src /usr/src/debug/python3-numpy/2.1.3/numpy/_core/src/umath/string_ufuncs.h", 
+ added "/usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/umathmodule.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/stringdtype_ufuncs.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/extobj.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/scalarmath.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_sort.h.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/extobj.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/numpy_tag.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_cpu_dispatch.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/clip.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/funcs.inc.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_cpu_dispatch.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_dlpack.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/override.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/ov
+ erride.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_partition.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/string_buffer.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_umath_tests.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_autovec.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_unary.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_rational_tests.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/get_attr_string.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_ctypes.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_logical.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/stringdtype_ufuncs.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/ufunc_type_resolution.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_trigonometric.dispatch.cpp /usr/src/debug/python3-numpy/2.2.0/num
+ py/_core/src/umath/ufunc_type_resolution.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/numpyos.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_modulo.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/numpyos.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/legacy_array_method.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/legacy_array_method.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_umath_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/matmul.h.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/string_fastsearch.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_import.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/special_integer_comparisons.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_import.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_struct_ufunc_tests.c /usr/src/debug/python3-numpy/2.
+ 2.0/numpy/_core/src/umath/dispatching.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_unary_complex.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/string_ufuncs.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/ufunc_object.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npstd.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/utils.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops.h.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/float_status.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/ufunc_object.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_unary_fp_le.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_umath_tests.dispatch.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/wrapping_array_method.c /usr/src/debug/python3-numpy/2.2.0/numpy/_cor
+ e/src/common/npy_argparse.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_longdouble.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_longdouble.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_argparse.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_hashtable.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/dispatching.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/half_private.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/string_ufuncs.cpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_minmax.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/matmul.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/umathmodule.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/templ_common.h.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_arithm_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/
+ npy_atomic.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/mem_overlap.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/mem_overlap.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_arithmetic.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/reduction.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/ucsnarrow.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/ucsnarrow.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/reduction.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_unary_fp.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/npy_simd_data.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/binop_override.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/ufunc_override.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_scaled_float_dtype.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/ufunc_override.c /usr/src/
+ debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_utils.h.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/gil_utils.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_extint128.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/half.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/meta.hpp /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_hyperbolic.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/gil_utils.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/_operand_flag_tests.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/special_integer_comparisons.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_cpu_features.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/lowlevel_strided_loops.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_cpu_features.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_exponent_log.dispatch.c.src 
+ /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/loops_comparison.dispatch.c.src /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_svml.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/fast_loop_macros.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/array_assign.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_binsearch.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/array_assign.c /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/umath/clip.h /usr/src/debug/python3-numpy/2.2.0/numpy/_core/src/common/npy_hashtable.h"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-src: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "2.1.3" to "2.2.0"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/core2-64-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 42316743 to 42547973 (+1%)
+packages/core2-64-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.13/site-packages/numpy-2.1.3.dist-info -> /usr/lib/python3.13/site-packages/numpy-2.2.0.dist-info, removed "/usr/lib/python3.13/site-packages/numpy/typing/tests/data/fail/false_positives.pyi", added "/usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.f /usr/lib/python3.13/site-packages/numpy/_typing/_ufunc.py /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/datonly.f90 /usr/lib/python3.13/site-packages/numpy/f2py/tests/__pycache__/test_routines.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.f /usr/lib/python3.13/site-packages/numpy/__config__.pyi /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.pyf /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/assignOnlyModule.f90 /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/callback/gh26681.f90 /usr/lib/python3
+ .13/site-packages/numpy/_typing/__pycache__/_nbit_base.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_ufunc.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/crackfortran/gh27697.f90 /usr/lib/python3.13/site-packages/numpy/typing/tests/data/reveal/ndarray_assignability.pyi /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.pyf /usr/lib/python3.13/site-packages/numpy/f2py/tests/test_routines.py /usr/lib/python3.13/site-packages/numpy/_typing/_nbit_base.py"
+packages/core2-64-poky-linux/python3-numpy/python3-numpy: PV changed from "2.1.3" to "2.2.0"
+Changes to packages/core2-64-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.13/site-packages/numpy/f2py/crackfortran.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy/f2py/f2py2e.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy/f2py/rules.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/numpy-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/numpy/__config__.pyi was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/__pycache__/test_routines.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/callback/gh26681.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/crackfortran/gh27697.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/assignOnlyModule.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/datonly.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.f was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.pyf was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.f was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.pyf was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/test_routines.py was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/_nbit_base.py was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_nbit_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_ufunc.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/reveal/ndarray_assignability.pyi was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/_ufunc.py was added
+  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/fail/false_positives.pyi was removed
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d3486a5cbdba2a33db1d1375d032f8061c09ccbd"
+--===============0282473816315144280==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 105 Local 93 Mirrors 0 Missed 12 Current 226 (88% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 849 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_recipe_qa)
-NOTE: recipe shaderc-2024.4-r0: task do_recipe_qa: Started
-NOTE: recipe shaderc-2024.4-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 960 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_fetch)
-NOTE: recipe shaderc-2024.4-r0: task do_fetch: Started
-NOTE: recipe shaderc-2024.4-r0: task do_fetch: Succeeded
-NOTE: Running task 961 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_unpack)
-NOTE: Running task 962 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe shaderc-2024.4-r0: task do_unpack: Started
-NOTE: recipe shaderc-2024.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shaderc-2024.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe shaderc-2024.4-r0: task do_unpack: Succeeded
-NOTE: Running task 963 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_patch)
-NOTE: Running task 964 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_collect_spdx_deps)
-NOTE: recipe shaderc-2024.4-r0: task do_patch: Started
-NOTE: recipe shaderc-2024.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe shaderc-2024.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe shaderc-2024.4-r0: task do_patch: Succeeded
-NOTE: Running task 965 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 966 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_generate_toolchain_file)
-NOTE: Running task 967 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_populate_lic)
-NOTE: recipe shaderc-2024.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shaderc-2024.4-r0: task do_generate_toolchain_file: Started
-NOTE: recipe shaderc-2024.4-r0: task do_populate_lic: Started
-NOTE: recipe shaderc-2024.4-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe shaderc-2024.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 968 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_configure)
-NOTE: recipe shaderc-2024.4-r0: task do_populate_lic: Succeeded
-NOTE: recipe shaderc-2024.4-r0: task do_configure: Started
-NOTE: recipe shaderc-2024.4-r0: task do_configure: Succeeded
-NOTE: Running task 969 of 980 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_compile)
-NOTE: recipe shaderc-2024.4-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build --target all --
-| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build'
-| 
-| Run Build Command(s): ninja -v -j 16 all
-| [1/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o -MF 
- libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/resources.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/resources.cc
-| [2/29] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/python3-native/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/utils/update_build_version.py /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build/build-version.inc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git
-| [3/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh
- /build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -
- fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/file.cc.o -MF glslc/CMakeFiles/glslc.dir/src/file.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/file.cc
-| [4/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/version_profile.cc.
- o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/version_profile.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/version_profile.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/version_profile.cc
-| [5/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/shader_stage.cc.o -
- MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/shader_stage.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/shader_stage.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/shader_stage.cc
-| [6/29] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/CHANGES -DTEMPLATE_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/shaderc.pc.in -DOUT_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build/shaderc.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc_shared -P /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/write_pkg_config.cmake
-| [7/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh
- /build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -
- fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/shader_stage.cc.o -MF glslc/CMakeFiles/glslc.dir/src/shader_stage.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/shader_stage.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/shader_stage.cc
-| [8/29] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/CHANGES -DTEMPLATE_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/shaderc_static.pc.in -DOUT_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build/shaderc_static.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc\ \ -lshaderc_util -P /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/write_pkg_config.cmake
-| [9/29] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/CHANGES -DTEMPLATE_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/shaderc_combined.pc.in -DOUT_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build/shaderc_combined.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DLIBS=-lshaderc_combined -P /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/cmake/write_pkg_config.cmake
-| [10/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/args.cc.o -MF libs
- haderc_util/CMakeFiles/shaderc_util.dir/src/args.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/args.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/args.cc
-| [11/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/file_finder.cc.o -
- MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/file_finder.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/file_finder.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/file_finder.cc
-| [12/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/io_shaderc.cc.o -M
- F libshaderc_util/CMakeFiles/shaderc_util.dir/src/io_shaderc.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/io_shaderc.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/io_shaderc.cc
-| [13/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/message.cc.o -MF l
- ibshaderc_util/CMakeFiles/shaderc_util.dir/src/message.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/message.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/message.cc
-| [14/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrappe
- r.cc.o -MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/spirv_tools_wrapper.cc
-| FAILED: libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-
- map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o -
- MF libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/spirv_tools_wrapper.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/spirv_tools_wrapper.cc
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/spirv_tools_wrapper.cc: In function 'spv_target_env shaderc_util::{anonymous}::GetSpirvToolsTargetEnv(shaderc_util::Compiler::TargetEnv, shaderc_util::Compiler::TargetEnvVersion)':
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/spirv_tools_wrapper.cc:44:18: error: 'SPV_ENV_VULKAN_1_4' was not declared in this scope; did you mean 'SPV_ENV_VULKAN_1_3'?
-|    44 |           return SPV_ENV_VULKAN_1_4;
-|       |                  ^~~~~~~~~~~~~~~~~~
-|       |                  SPV_ENV_VULKAN_1_3
-| [15/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror 
- -fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/dependency_info.cc.o -MF glslc/CMakeFiles/glslc.dir/src/dependency_info.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/dependency_info.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/dependency_info.cc
-| [16/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror 
- -fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/file_includer.cc.o -MF glslc/CMakeFiles/glslc.dir/src/file_includer.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file_includer.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/file_includer.cc
-| [17/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror 
- -fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/resource_parse.cc.o -MF glslc/CMakeFiles/glslc.dir/src/resource_parse.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/resource_parse.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/resource_parse.cc
-| [18/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o -MF 
- libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/compiler.cc
-| FAILED: libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DENABLE_HLSL -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-
- map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o -MF libshade
- rc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o.d -o libshaderc_util/CMakeFiles/shaderc_util.dir/src/compiler.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/compiler.cc
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/compiler.cc: In function 'shaderc_util::GlslangClientInfo shaderc_util::GetGlslangClientInfo(const std::string&, Compiler::TargetEnv, Compiler::TargetEnvVersion, Compiler::SpirvVersion, bool)':
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/src/compiler.cc:762:42: error: 'EShTargetVulkan_1_4' is not a member of 'glslang'; did you mean 'EShTargetVulkan_1_3'?
-|   762 |         result.client_version = glslang::EShTargetVulkan_1_4;
-|       |                                          ^~~~~~~~~~~~~~~~~~~
-|       |                                          EShTargetVulkan_1_3
-| [19/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror 
- -fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc.dir/src/file_compiler.cc.o -MF glslc/CMakeFiles/glslc.dir/src/file_compiler.cc.o.d -o glslc/CMakeFiles/glslc.dir/src/file_compiler.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/file_compiler.cc
-| [20/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot -DSHADERC_IMPLEMENTATION -DSHADERC_SHAREDLIB -Dshaderc_shared_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -I/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=
- /usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines
- -hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -fPIC -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o -MF libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o.d -o libshaderc/CMakeFiles/shaderc_shared.dir/src/shaderc.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/src/shaderc.cc
-| [21/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -I/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yoct
- o-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wa
- ll -Werror -fvisibility=hidden -fPIC -MD -MT libshaderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o -MF libshaderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o.d -o libshaderc/CMakeFiles/shaderc.dir/src/shaderc.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/src/shaderc.cc
-| [22/29] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build/glslc/.. -I/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc_util/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/libshaderc/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cor
- e2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git=/usr/src/debug/shaderc/2024.4  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build=/usr/src/debug/shaderc/2024.4  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/recipe-sysroot
- -native=  -pipe -fvisibility-inlines-hidden -Wimplicit-fallthrough -DNDEBUG -std=gnu++17 -Wextra-semi -Wall -Werror -fvisibility=hidden -fPIC -MD -MT glslc/CMakeFiles/glslc_exe.dir/src/main.cc.o -MF glslc/CMakeFiles/glslc_exe.dir/src/main.cc.o.d -o glslc/CMakeFiles/glslc_exe.dir/src/main.cc.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/git/glslc/src/main.cc
-| ninja: build stopped: subcommand failed.
-| 
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056:159 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056, line 159
-| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056, line 153
-| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056, line 148
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056, line 172
-NOTE: recipe shaderc-2024.4-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 969 tasks of which 958 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241215082559.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241215082559.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/core2-64-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.13/site-packages/numpy-2.1.3.dist-info -> /usr/lib/python3.13/site-packages/numpy-2.2.0.dist-info, removed "/usr/lib/python3.13/site-packages/numpy/typing/tests/data/fail/false_positives.pyi", added "/usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_ufunc.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/assignOnlyModule.f90 /usr/lib/python3.13/site-packages/numpy/__config__.pyi /usr/lib/python3.13/site-packages/numpy/_typing/_ufunc.py /usr/lib/python3.13/site-packages/numpy/f2py/tests/test_routines.py /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.f /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/crackfortran/gh27697.f90 /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/datonly.f90 /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/callback/gh26681.f90 /usr/lib/python3.13/site-pac
+ kages/numpy/f2py/tests/src/routines/funcfortranname.pyf /usr/lib/python3.13/site-packages/numpy/_typing/_nbit_base.py /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.pyf /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.f /usr/lib/python3.13/site-packages/numpy/f2py/tests/__pycache__/test_routines.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/typing/tests/data/reveal/ndarray_assignability.pyi /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_nbit_base.cpython-313.pyc"
+Changes to packages/core2-64-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.13/site-packages/numpy/f2py/crackfortran.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy/f2py/f2py2e.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy/f2py/rules.py changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/lib/python3.13/site-packages/numpy-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/numpy-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/numpy/__config__.pyi was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/__pycache__/test_routines.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/callback/gh26681.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/crackfortran/gh27697.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/assignOnlyModule.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/regression/datonly.f90 was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.f was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/funcfortranname.pyf was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.f was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/src/routines/subrout.pyf was added
+  /usr/lib/python3.13/site-packages/numpy/f2py/tests/test_routines.py was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/_nbit_base.py was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_nbit_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/__pycache__/_ufunc.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/reveal/ndarray_assignability.pyi was added
+  /usr/lib/python3.13/site-packages/numpy/_typing/_ufunc.py was added
+  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/fail/false_positives.pyi was removed
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/log.do_compile.2098056
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: shaderc-2024.4-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/run.do_compile.2098056' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/shaderc/2024.4/temp/log.do_compile.2098056
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.4.bb:do_compile) failed with exit code '1'
-
---===============7274679401217053626==
+--===============0282473816315144280==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2024.3-2024.4.patch"
+ filename="0001-python3-numpy-upgrade-2.1.3-2.2.0.patch"
 
-RnJvbSA4NTdhNGNmYTQyNTkzMDA0MjJiYWFkYmUxNTFkZjEyZGFlYzJmNWQ5IE1vbiBTZXAgMTcg
+RnJvbSAwM2YzMTY0MGI1OGI2ODdhMDUwNjA4ZDlhYTViNDY4YTllNzlhOTVhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgRGVjIDIwMjQgMDg6MjY6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-aGFkZXJjOiB1cGdyYWRlIDIwMjQuMyAtPiAyMDI0LjQKCi0tLQogLi4uLzAwMDEtY21ha2UtZGlz
-YWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2ggICB8IDIgKy0KIC4uLjAw
-Mi1saWJzaGFkZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2gg
-fCA0ICsrLS0KIC4uLi9zaGFkZXJjL3tzaGFkZXJjXzIwMjQuMy5iYiA9PiBzaGFkZXJjXzIwMjQu
-NC5iYn0gICAgICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwg
-NCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy97c2hh
-ZGVyY18yMDI0LjMuYmIgPT4gc2hhZGVyY18yMDI0LjQuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1
-aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9zaGFkZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBl
-bmRlbmNpZXMucGF0Y2gKaW5kZXggNWM0OWFhN2ZkNS4uMzAwYjViYWM2YiAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1
-aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwt
-ZGVwZW5kZW5jaWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5NDFmNWY1ODMxZTdhNTJj
-MjYxNjhmODFmMjVkMDQ3MDg2MGNhNmYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAx
-Njc2YWI4MzdlNmM2MGEzMWEzYmQwNzAxYzgxMDA1NzI3ODMwZDhkIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBE
-YXRlOiBTYXQsIDEzIEZlYiAyMDIxIDAwOjQ1OjU2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNt
-YWtlOiBkaXNhYmxlIGJ1aWxkaW5nIGV4dGVybmFsIGRlcGVuZGVuY2llcwpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJzaGFkZXJjX3V0aWwt
-Zml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFk
-ZXItZmlsZS1sb2NhdGlvbi5wYXRjaAppbmRleCAzOWY5ODJiN2YzLi5iZWQ3MTNkYWIwIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRl
-cmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgt
-Z2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-ZWMyNDQyOTQwZTFkNTMzODk3MTg2MWJiODE1MzdiYWUzYTZjMTllMiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gYmVhMzlkYTVjYWQzZDljNGQwMWU3MThhODEyOWIzZTgxNWNjM2Q1NSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpv
-c2VAZ21haWwuY29tPgogRGF0ZTogU2F0LCAxMyBGZWIgMjAyMSAwMDo0NTo1NiArMDAwMAogU3Vi
-amVjdDogW1BBVENIXSBsaWJzaGFkZXJjX3V0aWw6IGZpeCBnbHNsYW5nIGhlYWRlciBmaWxlIGxv
-Y2F0aW9uCkBAIC0xMSw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6IEpvc2UgUXVhcmVzbWEgPHF1
-YXJlc21hLmpvc2VAZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
-MSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvbGlic2hhZGVyY191dGlsL3NyYy9jb21waWxl
-ci5jYyBiL2xpYnNoYWRlcmNfdXRpbC9zcmMvY29tcGlsZXIuY2MKLWluZGV4IGU1ZjVkMTAuLjVm
-ZDZkM2MgMTAwNjQ0CitpbmRleCA5YmY5YTQzLi5kYzBlZmQyIDEwMDY0NAogLS0tIGEvbGlic2hh
-ZGVyY191dGlsL3NyYy9jb21waWxlci5jYwogKysrIGIvbGlic2hhZGVyY191dGlsL3NyYy9jb21w
-aWxlci5jYwogQEAgLTIwLDcgKzIwLDcgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9zaGFkZXJjL3NoYWRlcmNfMjAyNC4zLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3No
-YWRlcmMvc2hhZGVyY18yMDI0LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20g
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI0LjMuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3NoYWRlcmNfMjAyNC40LmJiCmluZGV4IDA5
-NDhiYTI4ZDYuLjBjZDQwOGMwNzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9z
-aGFkZXJjL3NoYWRlcmNfMjAyNC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFk
-ZXJjL3NoYWRlcmNfMjAyNC40LmJiCkBAIC02LDcgKzYsNyBAQCBIT01FUEFHRSA9ICJodHRwczov
-L2dpdGh1Yi5jb20vZ29vZ2xlL3NoYWRlcmMiCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT04NmQzZjNhOTVjMzI0Yzk0NzliZDg5
-ODY5NjhmNDMyNyIKIAotU1JDUkVWID0gIjcyMjNkYzNkNWUzNGJiY2M0NGYzMTUwNTQ2ZGJmYThh
-NWRhNThjNGMiCitTUkNSRVYgPSAiM2NkNzIwNjJmMjk3ZGYwNWU2YTA0MmYyNjE2YzQyYmM4OTU2
-YzMyNiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9nb29nbGUvc2hhZGVyYy5naXQ7cHJv
-dG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1jbWFrZS1k
-aXNhYmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCBcCiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2Nh
-dGlvbi5wYXRjaCBcCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFN1biwgMTUgRGVjIDIwMjQgMDc6MjM6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW51bXB5OiB1cGdyYWRlIDIuMS4zIC0+IDIuMi4wCgotLS0KIC4uLi1hbmQtc28tb24t
+Zm9yLWxpYnJhcmllcy1ieS1kZWZhdWx0LS5wYXRjaCB8ICA3ICstLQogLi4uMS1udW1weS1jb3Jl
+LURlZmluZS1SSVNDVi0zMi1zdXBwb3J0LnBhdGNoIHwgNTggLS0tLS0tLS0tLS0tLS0tLS0tLQog
+Li4uL3B5dGhvbjMtbnVtcHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRjaCAgIHwgMjMgKysrKyst
+LS0KIC4uLi1udW1weV8yLjEuMy5iYiA9PiBweXRob24zLW51bXB5XzIuMi4wLmJifSB8ICAzICst
+CiA0IGZpbGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDcyIGRlbGV0aW9ucygtKQogZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1w
+eS8wMDAxLW51bXB5LWNvcmUtRGVmaW5lLVJJU0NWLTMyLXN1cHBvcnQucGF0Y2gKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW51bXB5XzIuMS4zLmJiID0+IHB5
+dGhvbjMtbnVtcHlfMi4yLjAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5LzAwMDEtRG9uLXQtc2VhcmNoLXVzci1hbmQtc28t
+b24tZm9yLWxpYnJhcmllcy1ieS1kZWZhdWx0LS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1udW1weS8wMDAxLURvbi10LXNlYXJjaC11c3ItYW5kLXNvLW9uLWZv
+ci1saWJyYXJpZXMtYnktZGVmYXVsdC0ucGF0Y2gKaW5kZXggYmJlMzA5YzU1Ni4uYjhmMmU0MmEy
+NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5
+LzAwMDEtRG9uLXQtc2VhcmNoLXVzci1hbmQtc28tb24tZm9yLWxpYnJhcmllcy1ieS1kZWZhdWx0
+LS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHkv
+MDAwMS1Eb24tdC1zZWFyY2gtdXNyLWFuZC1zby1vbi1mb3ItbGlicmFyaWVzLWJ5LWRlZmF1bHQt
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0NmVlYTY2NGNmODlkMDYwMmU3ZmYxNmQ1ODdj
+MzdjMDQ1YjEyNWI3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwZjM0OTQzZjVjMjk1
+MmZjODMwZWI0ZjVhMWU3YWExZjFmYTI5OGUzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUaHUs
+IDEwIERlYyAyMDE1IDEzOjIwOjMwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvbid0IHNlYXJj
+aCAvdXNyIGFuZCBzbyBvbiBmb3IgbGlicmFyaWVzIGJ5IGRlZmF1bHQgdG8KQEAgLTgsMTYgKzgs
+MTUgQEAgU3ViamVjdDogW1BBVENIXSBEb24ndCBzZWFyY2ggL3VzciBhbmQgc28gb24gZm9yIGxp
+YnJhcmllcyBieSBkZWZhdWx0IHRvCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgKEFz
+IHRoZSBjb2RlIHN0YW5kcywgdGhpcyBpcyBhIGhhY2spCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1
+cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+Ci0KIC0tLQogIG51bXB5L2Rpc3R1dGlscy9z
+eXN0ZW1faW5mby5weSB8IDQyICsrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAx
+IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL251bXB5L2Rpc3R1dGlscy9zeXN0ZW1faW5mby5weSBiL251bXB5L2Rpc3R1dGlscy9z
+eXN0ZW1faW5mby5weQotaW5kZXggZmViMjhmNi4uYTQ4ZDZkMSAxMDA2NDQKK2luZGV4IDY0Nzg1
+NDguLmMwNjIwZTcgMTAwNjQ0CiAtLS0gYS9udW1weS9kaXN0dXRpbHMvc3lzdGVtX2luZm8ucHkK
+ICsrKyBiL251bXB5L2Rpc3R1dGlscy9zeXN0ZW1faW5mby5weQotQEAgLTMyNyw0NCArMzI3LDE0
+IEBAIGRlZiBhZGRfc3lzdGVtX3Jvb3QobGlicmFyeV9yb290KToKK0BAIC0zMjYsNDQgKzMyNiwx
+NCBAQCBkZWYgYWRkX3N5c3RlbV9yb290KGxpYnJhcnlfcm9vdCk6CiAgICAgICAgICBhZGRfc3lz
+dGVtX3Jvb3Qob3MucGF0aC5qb2luKGNvbmRhX2RpciwgJ0xpYnJhcnknKSkKICAKICBlbHNlOgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5LzAw
+MDEtbnVtcHktY29yZS1EZWZpbmUtUklTQ1YtMzItc3VwcG9ydC5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weS8wMDAxLW51bXB5LWNvcmUtRGVmaW5lLVJJ
+U0NWLTMyLXN1cHBvcnQucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDZkYTkw
+NDdlYzUuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLW51bXB5LzAwMDEtbnVtcHktY29yZS1EZWZpbmUtUklTQ1YtMzItc3VwcG9ydC5wYXRjaAor
+KysgL2Rldi9udWxsCkBAIC0xLDU4ICswLDAgQEAKLUZyb20gMGUyYjY1MmEwZWZmODU3OTg1ODQx
+MTZjOTA1YTJkNmFkOGYyNWQ1ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0g
+UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci1EYXRlOiBTdW4sIDE1IE5vdiAyMDIwIDE1OjMyOjM5
+IC0wODAwCi1TdWJqZWN0OiBbUEFUQ0hdIG51bXB5L2NvcmU6IERlZmluZSBSSVNDVi0zMiBzdXBw
+b3J0Ci0KLUhlbHBzIGNvbXBpbGUgb24gcmlzY3YzMgotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2tw
+b3J0Ci0oaHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1bGwvMTc3ODAvY29tbWl0cy8w
+ZTJiNjUyYTBlZmY4NTc5ODU4NDExNmM5MDVhMmQ2YWQ4ZjI1ZDVmKQotCi1TaWduZWQtb2ZmLWJ5
+OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gbnVtcHkvX2NvcmUvaW5jbHVk
+ZS9udW1weS9ucHlfY3B1LmggICAgfCA5ICsrKysrKystLQotIG51bXB5L19jb3JlL2luY2x1ZGUv
+bnVtcHkvbnB5X2VuZGlhbi5oIHwgMSArCi0gMiBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9udW1weS9fY29yZS9pbmNsdWRlL251
+bXB5L25weV9jcHUuaCBiL251bXB5L19jb3JlL2luY2x1ZGUvbnVtcHkvbnB5X2NwdS5oCi1pbmRl
+eCBhMTlmOGU2YmJkLi4xNWY5ZjEyOTMxIDEwMDY0NAotLS0tIGEvbnVtcHkvX2NvcmUvaW5jbHVk
+ZS9udW1weS9ucHlfY3B1LmgKLSsrKyBiL251bXB5L19jb3JlL2luY2x1ZGUvbnVtcHkvbnB5X2Nw
+dS5oCi1AQCAtMTgsNiArMTgsNyBAQAotICAqICAgICAgICAgICAgICBOUFlfQ1BVX0FSQ0VMCi0g
+ICogICAgICAgICAgICAgIE5QWV9DUFVfQVJDRUIKLSAgKiAgICAgICAgICAgICAgTlBZX0NQVV9S
+SVNDVjY0Ci0rICogICAgICAgICAgICAgIE5QWV9DUFVfUklTQ1YzMgotICAqICAgICAgICAgICAg
+ICBOUFlfQ1BVX0xPT05HQVJDSAotICAqICAgICAgICAgICAgICBOUFlfQ1BVX1dBU00KLSAgKi8K
+LUBAIC0xMDIsOCArMTAzLDEyIEBACi0gICAgICNkZWZpbmUgTlBZX0NQVV9BUkNFTAotICNlbGlm
+IGRlZmluZWQoX19hcmNfXykgJiYgZGVmaW5lZChfX0JJR19FTkRJQU5fXykKLSAgICAgI2RlZmlu
+ZSBOUFlfQ1BVX0FSQ0VCCi0tI2VsaWYgZGVmaW5lZChfX3Jpc2N2KSAmJiBkZWZpbmVkKF9fcmlz
+Y3ZfeGxlbikgJiYgX19yaXNjdl94bGVuID09IDY0Ci0tICAgICNkZWZpbmUgTlBZX0NQVV9SSVND
+VjY0Ci0rI2VsaWYgZGVmaW5lZChfX3Jpc2N2KQotKyAgICAjaWYgX19yaXNjdl94bGVuID09IDY0
+Ci0rCSNkZWZpbmUgTlBZX0NQVV9SSVNDVjY0Ci0rICAgICNlbGlmIF9fcmlzY3ZfeGxlbiA9PSAz
+MgotKwkjZGVmaW5lIE5QWV9DUFVfUklTQ1YzMgotKyAgICAjZW5kaWYKLSAjZWxpZiBkZWZpbmVk
+KF9fbG9vbmdhcmNoX18pCi0gICAgICNkZWZpbmUgTlBZX0NQVV9MT09OR0FSQ0gKLSAjZWxpZiBk
+ZWZpbmVkKF9fRU1TQ1JJUFRFTl9fKQotZGlmZiAtLWdpdCBhL251bXB5L19jb3JlL2luY2x1ZGUv
+bnVtcHkvbnB5X2VuZGlhbi5oIGIvbnVtcHkvX2NvcmUvaW5jbHVkZS9udW1weS9ucHlfZW5kaWFu
+LmgKLWluZGV4IDVlNThhN2Y1MmMuLjA5MjYyMTIwYmYgMTAwNjQ0Ci0tLS0gYS9udW1weS9fY29y
+ZS9pbmNsdWRlL251bXB5L25weV9lbmRpYW4uaAotKysrIGIvbnVtcHkvX2NvcmUvaW5jbHVkZS9u
+dW1weS9ucHlfZW5kaWFuLmgKLUBAIC00OSw2ICs0OSw3IEBACi0gICAgICAgICAgICAgfHwgZGVm
+aW5lZChOUFlfQ1BVX1BQQzY0TEUpICAgICAgIFwKLSAgICAgICAgICAgICB8fCBkZWZpbmVkKE5Q
+WV9DUFVfQVJDRUwpICAgICAgICAgXAotICAgICAgICAgICAgIHx8IGRlZmluZWQoTlBZX0NQVV9S
+SVNDVjY0KSAgICAgICBcCi0rICAgICAgICAgICAgfHwgZGVmaW5lZChOUFlfQ1BVX1JJU0NWMzIp
+ICAgICAgIFwKLSAgICAgICAgICAgICB8fCBkZWZpbmVkKE5QWV9DUFVfTE9PTkdBUkNIKSAgICAg
+XAotICAgICAgICAgICAgIHx8IGRlZmluZWQoTlBZX0NQVV9XQVNNKQotICAgICAgICAgI2RlZmlu
+ZSBOUFlfQllURV9PUkRFUiBOUFlfTElUVExFX0VORElBTgotLS0gCi0yLjM5LjUKLQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5L2ZpeF9yZXBy
+b2R1Y2liaWxpdHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+bnVtcHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRjaAppbmRleCBkOTUyYWVkMDBjLi42NDEyZjVm
+NThjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVt
+cHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtbnVtcHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRjaApAQCAtMSw3ICsx
+LDExIEBACi1UaGlzIHJlZ2V4IGRlY2lkZXMgd2hldGhlciB0byB1c2UgTzMgb3BpbWlzYXRpb24g
+b24gbnVtcHkgb3Igbm90LgorRnJvbSA5ZTM4MmQ5MGQ5Nzg0NjQ3Nzc0OGRiZmM4ZGIwYzIxNDQw
+OTFjMmE1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogUmljaGFyZCBQdXJkaWUgPHJp
+Y2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CitEYXRlOiBGcmksIDI5IFNlcCAyMDIz
+IDIyOjUzOjI0ICswMTAwCitTdWJqZWN0OiBbUEFUQ0hdIFRoaXMgcmVnZXggZGVjaWRlcyB3aGV0
+aGVyIHRvIHVzZSBPMyBvcGltaXNhdGlvbiBvbiBudW1weSBvcgorIG5vdC4KIAogSXQgaW5jbHVk
+ZXMgIm9kIiwgd2hpY2ggaGFwcGVucyB0byBiZSBhIHN1YnN0cmluZyBvZiAicmVwcm9kdWNpYmxl
+IgotYnV0IG5vdCAicWVtdXg4Ni13b3JsZCIuIAorYnV0IG5vdCAicWVtdXg4Ni13b3JsZCIuCiAK
+IFRoZSByZWdleCB3aWxsIHJ1biBhZ2FpbnN0IGFsbCBjb21waWxlciBvcHRpb25zIGluY2x1ZGlu
+ZyB0aGluZ3MgbGlrZToKIApAQCAtMTcsMTIgKzIxLDE1IEBAIHJlcHJvZHVjaWJsZSB0YXJnZXQg
+cmFuIGZpcnN0IGFuZCB3b24gdGhlIHJhY2UgdG8gcG9wdWxhdGUgc3N0YXRlLgogCiBVcHN0cmVh
+bS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW3Vwc3RyZWFtIGhhdmUgZHJvcHBlZCBkaXN0dXRpbHMg
+YW5kIHN3aXRjaGVkIHRvIG1lc29uXQogU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJp
+Y2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+Ci0KLUluZGV4OiBudW1weS0xLjI2LjAv
+bnVtcHkvZGlzdHV0aWxzL2Njb21waWxlcl9vcHQucHkKLT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tLSBudW1weS0x
+LjI2LjAub3JpZy9udW1weS9kaXN0dXRpbHMvY2NvbXBpbGVyX29wdC5weQotKysrIG51bXB5LTEu
+MjYuMC9udW1weS9kaXN0dXRpbHMvY2NvbXBpbGVyX29wdC5weQotQEAgLTk5MCw3ICs5OTAsNyBA
+QCBjbGFzcyBfQ0NvbXBpbGVyOgorLS0tCisgbnVtcHkvZGlzdHV0aWxzL2Njb21waWxlcl9vcHQu
+cHkgfCAyICstCisgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CisKK2RpZmYgLS1naXQgYS9udW1weS9kaXN0dXRpbHMvY2NvbXBpbGVyX29wdC5weSBiL251bXB5
+L2Rpc3R1dGlscy9jY29tcGlsZXJfb3B0LnB5CitpbmRleCBiMWE2ZmEzLi43YjAzMDJiIDEwMDY0
+NAorLS0tIGEvbnVtcHkvZGlzdHV0aWxzL2Njb21waWxlcl9vcHQucHkKKysrKyBiL251bXB5L2Rp
+c3R1dGlscy9jY29tcGlsZXJfb3B0LnB5CitAQCAtOTkxLDcgKzk5MSw3IEBAIGRlZiBfX2luaXRf
+XyhzZWxmKToKICAgICAgICAgICAgICAoImNjX2lzX25vY2MiLCAgICAgIiIsICIiKSwKICAgICAg
+ICAgICkKICAgICAgICAgIGRldGVjdF9hcmdzID0gKApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5XzIuMS4zLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5XzIuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weV8y
+LjEuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51
+bXB5XzIuMi4wLmJiCmluZGV4IDAxMjBiZWU0MzkuLjUyMmY5NjgyYTUgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weV8yLjEuMy5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHlfMi4yLjAuYmIKQEAgLTks
+MTEgKzksMTAgQEAgU1JDTkFNRSA9ICJudW1weSIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNF
+X1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7U1JDTkFNRX0tJHtQVn0udGFyLmd6IFwKICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtRG9uLXQtc2VhcmNoLXVzci1hbmQtc28tb24tZm9yLWxpYnJhcmllcy1i
+eS1kZWZhdWx0LS5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLW51bXB5LWNvcmUtRGVm
+aW5lLVJJU0NWLTMyLXN1cHBvcnQucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vZml4X3JlcHJv
+ZHVjaWJpbGl0eS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAg
+ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWEwOGUwNGUwOGFhZjk3NGQ0NDU4ZGVmNTM5
+ZGVjZTBkMjgxNDZkODY2YTM5ZGE1NjM5NTk2ZjQ5MjFmZDc2MSIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIxNDBkZDgwZmY4OTgxYTU4M2E2MDk4MGJlMWE2NTUwNjhmOGFkZWJmN2E0NWEwNmE2ODU4
+Yzg3M2ZjZGNkNGEwIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL251
+bXB5L251bXB5L3JlbGVhc2VzIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFn
+L3Y/KD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIKLS0gCjIuNDQuMQoK
 
---===============7274679401217053626==--
+--===============0282473816315144280==--
 
