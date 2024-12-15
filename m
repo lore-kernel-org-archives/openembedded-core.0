@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF85BE7719A
-	for <webhook@archiver.kernel.org>; Sun, 15 Dec 2024 09:29:50 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.33385.1734254985283714179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 401B1C02184
+	for <webhook@archiver.kernel.org>; Sun, 15 Dec 2024 09:29:51 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.33391.1734254990553492634
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Dec 2024 01:29:45 -0800
+ Sun, 15 Dec 2024 01:29:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Rag0oYHo;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FBWz5TKN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010193c9a6fe22-691b8ba7-2da9-4ef3-bd1b-0547ba2c8df7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fW+RBDfn;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vAXpVCpo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010193c9a711ad-ca037bc6-3603-4d57-b37b-30c2153b3df4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734254984;
+	t=1734254989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=N2/Z/fUIwpjifPSj57Z+q/TW/sJFSfJi0BzqHieOFag=;
-	b=Rag0oYHoEM89X+TADk3XaLLtxOXTgy/o5YED1OrCfyOJsq9/2kielblS7e6wa5H8
-	42WQFChnlEJTMAICFNIoi5UMAC4sGTcOfw8wbRmcaDOvBcAS1cwd4Yqc8ZUH/n6H6m7
-	PNblakmtMuJZqBFB1PmDSBzG42hi0Z+gkT5fBNA4=
+	bh=Lfe7361vZ9zLNr8Kd9FAHym3mBXB5EtzJBu5gQyVhV0=;
+	b=fW+RBDfnoCdpEtcP3WZZGWrAlr3+oIWZvXyMzIw+1Bbe6l4I1E4DHDPzBq0uGKD4
+	w95mZdJ8xf6pXuH4MXaXPPCLIGKkhDa0Tlx45uMZ5MPs9MixCA6ipCoGjWxzVpGcnyv
+	ajd1CVuTjZkI+M4QlTYYxMZHg6emZUAcqSorHl5Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734254984;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734254989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=N2/Z/fUIwpjifPSj57Z+q/TW/sJFSfJi0BzqHieOFag=;
-	b=FBWz5TKNDkz9WYLAUpvH3L1d8VG7zmLYtxbPqjdMyK5NQ0BKOZmfKZX/GJFcAsFo
-	mib2J4g/lMBMkRB4kTppwRp32oc97f3ccvsj0BSouYsGX1raZrNomxsQ3drS1WT4crY
-	CslwBkP2HkLfWXg6yYolq0WaPVV9UjNiGD06Zq20=
-Content-Type: multipart/mixed; boundary="===============5336777451262696475=="
+	bh=Lfe7361vZ9zLNr8Kd9FAHym3mBXB5EtzJBu5gQyVhV0=;
+	b=vAXpVCpoNaWjjhcSWqBywPBeAKGiS4ByuxhRiPfXP9wcDLWxjRtO4/76DGT8O1ok
+	CI31gQOYCCaN5RT+mTqDyn8ZjWVTfzwnwoNQ9tBNPGY77HGLQWcGVn04rlTAxL2akE/
+	M3B5msFk1cGIGMxVnJBl87Rpyb9b715F2zu7Ylvg=
+Content-Type: multipart/mixed; boundary="===============3087646997212846747=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] subversion: upgrading to 1.14.5 SUCCEEDED
-Message-ID: <01010193c9a6fe22-691b8ba7-2da9-4ef3-bd1b-0547ba2c8df7-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Dec 2024 09:29:44 +0000
+Subject: [AUH] libjitterentropy: upgrading to 3.6.1 SUCCEEDED
+Message-ID: <01010193c9a711ad-ca037bc6-3603-4d57-b37b-30c2153b3df4-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Dec 2024 09:29:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.15-54.240.27.30
+X-SES-Outgoing: 2024.12.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Dec 2024 09:29:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208723
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Dec 2024 09:29:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208742
 
---===============5336777451262696475==
+--===============3087646997212846747==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *subversion* to *1.14.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libjitterentropy* to *3.6.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-subversion-upgrade-1.14.4-1.14.5.patch
+    - apply the patch: git am 0001-libjitterentropy-upgrade-3.6.0-3.6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,150 +72,110 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d39146c279f7096a33fe41f02861dbd98f3f56f3 Mon Sep 17 00:00:00 2001
+From 683014f1643bb09e4ecc497f28314eb334ae33a1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Dec 2024 07:34:25 +0000
-Subject: [PATCH] subversion: upgrade 1.14.4 -> 1.14.5
+Date: Sun, 15 Dec 2024 09:19:09 +0000
+Subject: [PATCH] libjitterentropy: upgrade 3.6.0 -> 3.6.1
 
 ---
- .../subversion/subversion/serfmacro.patch                 | 8 +++++---
- .../{subversion_1.14.4.bb => subversion_1.14.5.bb}        | 2 +-
- 2 files changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/subversion/{subversion_1.14.4.bb => subversion_1.14.5.bb} (97%)
+ .../{libjitterentropy_3.6.0.bb => libjitterentropy_3.6.1.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libjitterentropy/{libjitterentropy_3.6.0.bb => libjitterentropy_3.6.1.bb} (95%)
 
-diff --git a/meta/recipes-devtools/subversion/subversion/serfmacro.patch b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
-index 507de0f08b..960862d391 100644
---- a/meta/recipes-devtools/subversion/subversion/serfmacro.patch
-+++ b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
-@@ -1,3 +1,8 @@
-+From e92b9b440b2ceb338d2554247d35c099c22e0976 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 7 Dec 2016 13:54:18 +0000
-+Subject: [PATCH] subversion: Fix issues in LDFLAGS sed manipulation
-+
- The existing sed expression can match expressions like
- --sysroot=/some/path/xxx-linux/ which clearly isn't intended and injects
- incorrect paths into LDFLAGS.
-@@ -26,6 +31,3 @@ index 0a549b3..3a069ac 100644
-            break
-          else
-            AC_MSG_RESULT([no])
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/subversion/subversion_1.14.4.bb b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
-similarity index 97%
-rename from meta/recipes-devtools/subversion/subversion_1.14.4.bb
-rename to meta/recipes-devtools/subversion/subversion_1.14.5.bb
-index 0f453db247..c8a2e12f4f 100644
---- a/meta/recipes-devtools/subversion/subversion_1.14.4.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://serfmacro.patch \
-            "
+diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.0.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.1.bb
+similarity index 95%
+rename from meta/recipes-support/libjitterentropy/libjitterentropy_3.6.0.bb
+rename to meta/recipes-support/libjitterentropy/libjitterentropy_3.6.1.bb
+index e9ff898617..35be1e2e50 100644
+--- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.0.bb
++++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.1.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=18a5cada7ee95e61db4180f0cb4a69cf \
+                     file://LICENSE.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
+                     "
+ SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git;branch=master;protocol=https"
+-SRCREV = "7199c8959347b0e8342df7dc6e0c1fc4b484d2fb"
++SRCREV = "16c9e5c93e614f0df25f1cb30d0730102e6f4e41"
+ S = "${WORKDIR}/git"
  
--SRC_URI[sha256sum] = "44ead116e72e480f10f123c914bb6f9f8c041711c041ed7abff1b8634a199e3c"
-+SRC_URI[sha256sum] = "e78a29e7766b8b7b354497d08f71a55641abc53675ce1875584781aae35644a1"
- 
- inherit autotools pkgconfig gettext python3native
- 
+ do_configure[noexec] = "1"
 -- 
 2.44.1
 
 
---===============5336777451262696475==
+--===============3087646997212846747==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/subversion: SRC_URI changed from "https://archive.apache.org/dist/subversion/subversion-1.14.4.tar.bz2 file://serfmacro.patch" to "https://archive.apache.org/dist/subversion/subversion-1.14.5.tar.bz2 file://serfmacro.patch"
-packages/core2-64-poky-linux/subversion: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-dbg: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-dbg: PKGSIZE changed from 15692760 to 15693096 (+0%)
-packages/core2-64-poky-linux/subversion/subversion-dbg: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-dev: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-dev: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-doc: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-doc: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-de: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-de: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-es: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-es: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-fr: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-fr: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-it: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-it: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-ja: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-ja: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-ko: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-ko: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-nb: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-nb: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-pl: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-pl: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-pt-br: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-pt-br: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-sv: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-sv: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-zh-cn: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-zh-cn: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-locale-zh-tw: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-locale-zh-tw: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-src: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-src: PKGSIZE changed from 19964705 to 19965211 (+0%)
-packages/core2-64-poky-linux/subversion/subversion-src: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion-staticdev: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion-staticdev: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
-packages/core2-64-poky-linux/subversion/subversion: PV changed from "1.14.4" to "1.14.5"
-packages/core2-64-poky-linux/subversion/subversion: PKGV changed from 1.14.4 [default] to 1.14.5 [default]
+packages/core2-64-poky-linux/libjitterentropy: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dbg: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dbg: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dbg: PKGSIZE changed from 53480 to 53640 (+0%)
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dbg: FILELIST: removed "/usr/lib/.debug/libjitterentropy.so.3.6.0", added "/usr/lib/.debug/libjitterentropy.so.3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dev: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dev: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-dev: PKGSIZE changed from 32402 to 33770 (+4%)
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-doc: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-doc: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-locale: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-locale: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-src: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-src: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-src: PKGSIZE changed from 116174 to 118014 (+2%)
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-staticdev: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy-staticdev: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy: PKGV changed from 3.6.0 [default] to 3.6.1 [default]
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy: PV changed from "3.6.0" to "3.6.1"
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy: FILELIST: removed "/usr/lib/libjitterentropy.so.3.6.0", added "/usr/lib/libjitterentropy.so.3.6.1"
+Changes to packages/core2-64-poky-linux/libjitterentropy (sysroot):
+  /usr/lib/libjitterentropy.so.3 changed symlink target from libjitterentropy.so.3.6.0 to libjitterentropy.so.3.6.1
+  /usr/lib/libjitterentropy.so.3.6.0 moved to /usr/lib/libjitterentropy.so.3.6.1
 
---===============5336777451262696475==
+--===============3087646997212846747==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-subversion-upgrade-1.14.4-1.14.5.patch"
+ filename="0001-libjitterentropy-upgrade-3.6.0-3.6.1.patch"
 
-RnJvbSBkMzkxNDZjMjc5ZjcwOTZhMzNmZTQxZjAyODYxZGJkOThmM2Y1NmYzIE1vbiBTZXAgMTcg
+RnJvbSA2ODMwMTRmMTY0M2JiMDllNGVjYzQ5N2YyODMxNGViMzM0YWUzM2ExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgRGVjIDIwMjQgMDc6MzQ6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-dWJ2ZXJzaW9uOiB1cGdyYWRlIDEuMTQuNCAtPiAxLjE0LjUKCi0tLQogLi4uL3N1YnZlcnNpb24v
-c3VidmVyc2lvbi9zZXJmbWFjcm8ucGF0Y2ggICAgICAgICAgICAgICAgIHwgOCArKysrKy0tLQog
-Li4uL3tzdWJ2ZXJzaW9uXzEuMTQuNC5iYiA9PiBzdWJ2ZXJzaW9uXzEuMTQuNS5iYn0gICAgICAg
-IHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N1YnZlcnNpb24ve3N1YnZlcnNpb25fMS4x
-NC40LmJiID0+IHN1YnZlcnNpb25fMS4xNC41LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9zdWJ2ZXJzaW9uL3N1YnZlcnNpb24vc2VyZm1hY3JvLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbi9zZXJmbWFjcm8ucGF0
-Y2gKaW5kZXggNTA3ZGUwZjA4Yi4uOTYwODYyZDM5MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbi9zZXJmbWFjcm8ucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbi9zZXJmbWFjcm8ucGF0Y2gK
-QEAgLTEsMyArMSw4IEBACitGcm9tIGU5MmI5YjQ0MGIyY2ViMzM4ZDI1NTQyNDdkMzVjMDk5YzIy
-ZTA5NzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBIb25neHUgSmlhIDxob25neHUu
-amlhQHdpbmRyaXZlci5jb20+CitEYXRlOiBXZWQsIDcgRGVjIDIwMTYgMTM6NTQ6MTggKzAwMDAK
-K1N1YmplY3Q6IFtQQVRDSF0gc3VidmVyc2lvbjogRml4IGlzc3VlcyBpbiBMREZMQUdTIHNlZCBt
-YW5pcHVsYXRpb24KKwogVGhlIGV4aXN0aW5nIHNlZCBleHByZXNzaW9uIGNhbiBtYXRjaCBleHBy
-ZXNzaW9ucyBsaWtlCiAtLXN5c3Jvb3Q9L3NvbWUvcGF0aC94eHgtbGludXgvIHdoaWNoIGNsZWFy
-bHkgaXNuJ3QgaW50ZW5kZWQgYW5kIGluamVjdHMKIGluY29ycmVjdCBwYXRocyBpbnRvIExERkxB
-R1MuCkBAIC0yNiw2ICszMSwzIEBAIGluZGV4IDBhNTQ5YjMuLjNhMDY5YWMgMTAwNjQ0CiAgICAg
-ICAgICAgIGJyZWFrCiAgICAgICAgICBlbHNlCiAgICAgICAgICAgIEFDX01TR19SRVNVTFQoW25v
-XSkKLS0tIAotMi43LjQKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N1YnZl
-cnNpb24vc3VidmVyc2lvbl8xLjE0LjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3VidmVy
-c2lvbi9zdWJ2ZXJzaW9uXzEuMTQuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3VidmVyc2lvbi9zdWJ2ZXJzaW9uXzEuMTQuNC5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbl8xLjE0
-LjUuYmIKaW5kZXggMGY0NTNkYjI0Ny4uYzhhMmUxMmY0ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbl8xLjE0LjQuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3N1YnZlcnNpb24vc3VidmVyc2lvbl8xLjE0LjUuYmIKQEAgLTEyLDcg
-KzEyLDcgQEAgU1JDX1VSSSA9ICIke0FQQUNIRV9NSVJST1J9LyR7QlBOfS8ke0JQTn0tJHtQVn0u
-dGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly9zZXJmbWFjcm8ucGF0Y2ggXAogICAgICAgICAg
-ICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0NGVhZDExNmU3MmU0ODBmMTBmMTIzYzkxNGJi
-NmY5ZjhjMDQxNzExYzA0MWVkN2FiZmYxYjg2MzRhMTk5ZTNjIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImU3OGEyOWU3NzY2YjhiN2IzNTQ0OTdkMDhmNzFhNTU2NDFhYmM1MzY3NWNlMTg3NTU4NDc4
-MWFhZTM1NjQ0YTEiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBnZXR0ZXh0IHB5dGhv
-bjNuYXRpdmUKIAotLSAKMi40NC4xCgo=
+CkRhdGU6IFN1biwgMTUgRGVjIDIwMjQgMDk6MTk6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJqaXR0ZXJlbnRyb3B5OiB1cGdyYWRlIDMuNi4wIC0+IDMuNi4xCgotLS0KIC4uLi97bGliaml0
+dGVyZW50cm9weV8zLjYuMC5iYiA9PiBsaWJqaXR0ZXJlbnRyb3B5XzMuNi4xLmJifSAgICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmppdHRlcmVudHJvcHkve2xpYmppdHRlcmVudHJvcHlf
+My42LjAuYmIgPT4gbGliaml0dGVyZW50cm9weV8zLjYuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRlcmVudHJvcHlf
+My42LjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRl
+cmVudHJvcHlfMy42LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliaml0dGVyZW50cm9weS9saWJqaXR0ZXJlbnRyb3B5XzMuNi4wLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJqaXR0ZXJlbnRyb3B5L2xpYmppdHRl
+cmVudHJvcHlfMy42LjEuYmIKaW5kZXggZTlmZjg5ODYxNy4uMzViZTFlMmU1MCAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaml0dGVyZW50cm9weS9saWJqaXR0ZXJlbnRyb3B5
+XzMuNi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmppdHRlcmVudHJvcHkvbGli
+aml0dGVyZW50cm9weV8zLjYuMS5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0xOGE1Y2FkYTdlZTk1ZTYxZGI0MTgwZjBjYjRhNjljZiBc
+CiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFLmJzZDttZDU9NjZhNWNlZGFmNjJj
+NGIyNjM3MDI1ZjA0OWY5YjgyNmYgXAogICAgICAgICAgICAgICAgICAgICAiCiBTUkNfVVJJID0g
+ImdpdDovL2dpdGh1Yi5jb20vc211ZWxsZXJERC9qaXR0ZXJlbnRyb3B5LWxpYnJhcnkuZ2l0O2Jy
+YW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMiCi1TUkNSRVYgPSAiNzE5OWM4OTU5MzQ3YjBlODM0
+MmRmN2RjNmUwYzFmYzRiNDg0ZDJmYiIKK1NSQ1JFViA9ICIxNmM5ZTVjOTNlNjE0ZjBkZjI1ZjFj
+YjMwZDA3MzAxMDJlNmY0ZTQxIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogZG9fY29uZmlndXJl
+W25vZXhlY10gPSAiMSIKLS0gCjIuNDQuMQoK
 
---===============5336777451262696475==--
+--===============3087646997212846747==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libjitterentropy/libjitterentropy: FILELIST: removed "/usr/lib/libjitterentropy.so.3.6.0", added "/usr/lib/libjitterentropy.so.3.6.1"
+Changes to packages/core2-64-poky-linux/libjitterentropy (sysroot):
+  /usr/lib/libjitterentropy.so.3 changed symlink target from libjitterentropy.so.3.6.0 to libjitterentropy.so.3.6.1
+  /usr/lib/libjitterentropy.so.3.6.0 moved to /usr/lib/libjitterentropy.so.3.6.1
+
+--===============3087646997212846747==--
 
