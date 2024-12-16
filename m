@@ -2,67 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA8EE7717F
-	for <webhook@archiver.kernel.org>; Mon, 16 Dec 2024 16:58:51 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.61467.1734368327541538512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01367E77180
+	for <webhook@archiver.kernel.org>; Mon, 16 Dec 2024 17:02:21 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.61583.1734368539305952472
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Dec 2024 08:58:47 -0800
+ Mon, 16 Dec 2024 09:02:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aa/hDUr1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so2359221f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 08:58:47 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IFnEqDQW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43618283d48so31373565e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 09:02:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1734368326; x=1734973126; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1734368538; x=1734973338; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=zSqIl3Kkt+1VM8PqEW7QIN4cjQAuKSJiwGoAe6Tjf2E=;
-        b=aa/hDUr1hpMNFm42v4F0pJY1giX/thWDXf78H39SWFq85kkW2bXTeojMgnHT7EcDrv
-         nddgY3wK/iyCzsMdz0LoWpmsqu5aYJ9c+4Vk3eHLj7WBZ20xtBuWYYwZUHOamiRXxMQd
-         tIsvq73Bm4YaEvxXTqdL3AY1S21j4ihgj5LFs=
+        bh=ozG9tnZX7WusVAeJ3QSjQ/bQXz8L4P1oK9RU+V6icVU=;
+        b=IFnEqDQWzK066BWJ+xOuPyXYWBmupefQgcbWXKzDZWMT+wVCZ7bDdRkxvRaIBIdE6g
+         OE8xvzdPV3NMRasOHdEgiTjZQSbGBojhXdMr4yeK/KO3MuiBOukBl/iCk8lfpjJUN8Br
+         +IyDTFtnj+X6pvDPlyA8FvhCwBw4ygxUTLujc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734368326; x=1734973126;
+        d=1e100.net; s=20230601; t=1734368538; x=1734973338;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zSqIl3Kkt+1VM8PqEW7QIN4cjQAuKSJiwGoAe6Tjf2E=;
-        b=ilDCJYxkc+SHCFj7pEhDth8YekNKxJeg0xNXt2fGKj/0JHgn8Lv40dkuVGghUqesTf
-         qXvDm6n/qDvitk/+O54S1MaQeUqrK8Hw9WpKmt40UCpfw/4b4gfD482qNHIW+MrIO231
-         5SCSCwHIr/stxvH2bexe90fli/eLfW/ogcJ2ByZAavRbZoml8oz+Oy68P4+ni2G3iPKC
-         nzaeBdc2bhBefZpijFjAz6QyJey2+73Fjrgg3lACm6y/KKJm/fsvbzc2vN9uIW4y/js9
-         ra+79zEehTFlZr97RgTpXAg91iyoaoPRyDcieGmTkRC5nB9/S7yWr+TXPH2QSGh1ks9I
-         cGsA==
-X-Gm-Message-State: AOJu0YxhbWe2ePQppMRvVkQu1nwNHwUBceSCnl9mbD2ADgoweumKKgRs
-	/yMDE9bKjX7kRTzJf1aAMm2BJHPf0BmOjVQBtfEJHNxMIvCB+wFaTqeG/e2AETg=
-X-Gm-Gg: ASbGncsFw/PyPgv/kqEKGMVMkxHXi7KUj84rN13Oyan9pUuuanX74HFCVsOH4zWoN+M
-	HDvIIllUQKc/9Y4iYIHy9eeoeiUGWmG90WXEMOAfT1+FndvMnnlU7hlkvA4qqF74Ql7yednj/Ms
-	9UVLrUasNdZRlG14dQ6tGmsUYGWkng1WCpvy7lVdpkfWKZjdlN4FVTBj+Am3N6L+8F6llyikpzW
-	q2CebV63+ZJcKjKf85VoRSLyoTUnBQ776uiQyE1HfY2VTsC8CQnW6qIx1ZruT2bwLWTdWgA8sRu
-	E9AWyopNa9pZPVloXJkUwlYmxpdcumwA62DQRmQFwuxk+g==
-X-Google-Smtp-Source: AGHT+IH+V0HwAwHMoYiSLkUYIOtZicGRN0kyBv1meAdfzPexnur9sMp81UDTtSKilAHzgs3oQUFHgg==
-X-Received: by 2002:a5d:59a3:0:b0:385:fb56:fb73 with SMTP id ffacd0b85a97d-388da3942c1mr247703f8f.15.1734368325853;
-        Mon, 16 Dec 2024 08:58:45 -0800 (PST)
+        bh=ozG9tnZX7WusVAeJ3QSjQ/bQXz8L4P1oK9RU+V6icVU=;
+        b=VChJNGHpaFmOOpNBgO7elpmR1QrNPiPqiNxYl4HqV7IuJCPTiLskZkcKruO0EdOD3s
+         ZGIzytMJEUt7rGG89WY/yNcDJ/a0jbJx9TIq3I/NCUObch4oZfUuiD//EVvEVdPBgSX/
+         hODNsoqck3N9dOKQNJzJRCq1VYSF5HVyqYiOamczQ2lA5//InhkGBCAhme3iLEQJKoG3
+         tUGP0ZpJh1QruDLURGKgmUx80C5HFv6gwxbw/Y7AILNZnLSrQFeEkhCNblcAVxN/yfKg
+         jtCmy5vCmoildGCl8CrrTWa8u8cSX0SuTr6EzoshMQTeih4lFQo4Q2a4x505AvP3rCoA
+         kULg==
+X-Gm-Message-State: AOJu0YwA4s7Hbz5RAfOmP9yDDyBbF33fu8LKkmszQfEMHgIE6BahBAxU
+	YD6hLhKboeUNMo8uARnoWWw2jPYkyz+nll7EWjthyay0eqW/nFZIqmLuh5UAOi0=
+X-Gm-Gg: ASbGncvQ7tgn/C46+rTsFom5N4+KoMnQBxTVc+GMkT52NlffiHSIT6rts+uOvXeeo8B
+	SCF6qw7K/ArAetB0cV7F4437AHagnacpGwnhv5UquMd4tz7IS7GMS3nA8JyDCQgGtNCJ6PuPWbt
+	hiCOdm0dS/mz/agkFbueRUH25ZR6Xxree5WYVqyhym5MCen/2jn+FN/N0/knBYD6oOyt7g2wFBw
+	1iIMTuRNCrzhEVYt5MTu4vmW5LgMGwl/FByRCAW1my5KsNkkqevAbSXXKIp9l/yy2jwFoQ58pgO
+	ifCY24Ka0mwajq2SGG3e9sqBG4sl2FWBUy9M8aZCVeix9w==
+X-Google-Smtp-Source: AGHT+IG/D/dNg4fvL7D9mX/1LCwEN4AwEUjKUxlAwt0Me0ABN0YIzLwgMpfA1obciw6o/pAMc0GIPQ==
+X-Received: by 2002:a05:600c:1c0d:b0:434:f871:1b96 with SMTP id 5b1f17b1804b1-436476d18dbmr4284285e9.29.1734368537437;
+        Mon, 16 Dec 2024 09:02:17 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:1ad8:ac77:3170:84a7? ([2001:8b0:aba:5f3c:1ad8:ac77:3170:84a7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c8060566sm8553419f8f.102.2024.12.16.08.58.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436362c8fbasm89813365e9.44.2024.12.16.09.02.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 08:58:45 -0800 (PST)
-Message-ID: <1647f808543a0851f5a1a17e293f1a68970f7c0e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 3/3] bitbake-config-build: add a plugin for
- config fragments
+        Mon, 16 Dec 2024 09:02:16 -0800 (PST)
+Message-ID: <7262a79ef16c1e01a26491d0a6cc1ddc46d969df.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] icecc: fix PN 'no-pn' handling
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Mon, 16 Dec 2024 16:58:44 +0000
-In-Reply-To: <CANNYZj-Ox6t8yV7Bh2NePmseYCW843Z5ozq50y2Tyoa=GeDPyg@mail.gmail.com>
-References: <20241118162643.1423409-1-alex.kanavin@gmail.com>
-	 <20241118162643.1423409-3-alex.kanavin@gmail.com>
-	 <c799588bada27abdf2b412115868c5b84c24a0e2.camel@linuxfoundation.org>
-	 <CANNYZj_ONOGam=9um4qqqAc_D0gQHrQML3a9eXBEgHLCiRtM1A@mail.gmail.com>
-	 <4254d23ae9ad100e70f199fa4949ce00bfe7063c.camel@linuxfoundation.org>
-	 <CANNYZj-Ox6t8yV7Bh2NePmseYCW843Z5ozq50y2Tyoa=GeDPyg@mail.gmail.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
+Date: Mon, 16 Dec 2024 17:02:15 +0000
+In-Reply-To: <20241209173815.lq7fh5nr55mttn6u@pengutronix.de>
+References: <20241209164608.3595821-1-m.felsch@pengutronix.de>
+	 <180F920C983A7BC6.8554@lists.openembedded.org>
+	 <d470ced4a402955d9061201ba33c8b875f0bce63.camel@linuxfoundation.org>
+	 <20241209173815.lq7fh5nr55mttn6u@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.54.0-1 
@@ -70,32 +66,46 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 16:58:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208780
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 17:02:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208781
 
-On Wed, 2024-12-11 at 12:24 +0100, Alexander Kanavin wrote:
-> On Tue, 10 Dec 2024 at 16:27, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->=20
-> > > If we start going down this path, we might as well write an
-> > > interactive curses UI, and keep the command line output 'flat'
-> > > like it
-> > > is now. I'm also not sure what is the best approach, we'd need to
-> > > take
-> > > fragments into practical use and accumulate a sizable amount of
-> > > them
-> > > perhaps. Such things can be easily tweaked from experience.
+On Mon, 2024-12-09 at 18:38 +0100, Marco Felsch wrote:
+> On 24-12-09, Richard Purdie wrote:
+> > On Mon, 2024-12-09 at 17:22 +0000, Richard Purdie via
+> > lists.openembedded.org wrote:
 > >=20
-> > Having experimented with curses UIs, they're a pain and don't
-> > really do
-> > what you hope/think they would.
+> Okay, thanks for the clarification. I'm not very deep into the
+> bitbake
+> core development.
 >=20
-> We might be thinking of different things: my suggestion is that
-> interactive 'kernel menuconfig' type UI is worth exploring for
-> fragments (or bitbake-setup, for that matter).
+> > > If we're hitting the "NULL prefix" code in icecc_version(),
+> > > wouldn't it
+> > > be better to special case pn =3D=3D "no-pn" there, note that it is at
+> > > dependency parse time and return a dummy "parse-time-dummy-
+> > > icetarball.tgz" value?
+>=20
+> I used the current location (use_icecc) since it makes no sense to me
+> to
+> check for recipe names (disabled_recipes, enabled_recipes) if we
+> can't
+> use the PN value.
+>=20
+> > I meant to add, if we rewrite some of these functions in python,
+> > these
+> > issues would go away as we don't expand data in python functions.
+>=20
+> Now with your explanation it makes more sense to me why only
+> set_icecc_env() failed... Thanks a lot!
+>=20
+> > The modern way of doing much of this would be a python prefunc on
+> > the
+> > appropriate tasks. I have to wonder how many people are using icecc
+> > :/.
+>=20
+> Okay, I will give it a try with a python based prefunc.
 
-We were talking about different things. I agree, I think something
-kconfig like for some of this would be much appreciated by some users.
+Just wanted to say thanks for that patch, it looks like a neater way to
+fix this and likely other issues too.
 
 Cheers,
 
