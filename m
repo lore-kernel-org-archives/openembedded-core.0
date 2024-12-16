@@ -1,237 +1,570 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF97E7716A
-	for <webhook@archiver.kernel.org>; Mon, 16 Dec 2024 01:55:06 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by mx.groups.io with SMTP id smtpd.web11.47823.1734314097640992766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A543E7717F
+	for <webhook@archiver.kernel.org>; Mon, 16 Dec 2024 04:41:37 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.49948.1734324088156517599
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Dec 2024 17:54:57 -0800
+ Sun, 15 Dec 2024 20:41:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Hm3HwSyc;
- spf=pass (domain: intel.com, ip: 198.175.65.11, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734314097; x=1765850097;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=QKGUlRmKx0r9iltr92G63XjTyaGBFa9N/NCMQ5dIy+k=;
-  b=Hm3HwSyc1okbzxxo+V6dVrUfvo5LsNDgNuzrBj5c40k+xLSYzaCKpaiY
-   7SzINXbPfLf4xYYmQvk+Obo8lgL1Uclql3Uf/Orkdi2yUPHGDPyZRVufP
-   FrmH4QqeB6qeCQsHCxdHOsdc76Gx7DU/2ZJw8g6V/K3f25p84P7R013lS
-   9sYMQYN8spq+ITCbCbUGG6h3cVw6rxcvEfsTcaXsdXEDKsjHwUlVT9N99
-   U2JyiVU/rpwZ7lUKJvxoiPd40zNKlZ6X5QgvzjNOKn/2cu6WnYPiTBPcP
-   kPK3CVDK8GvvNIxb5QUwF8AqlidrLzlZKXnucoQ8VegxDKEGBkZmLtTvE
-   w==;
-X-CSE-ConnectionGUID: xeiN+ti+QI+YnOq2kOubng==
-X-CSE-MsgGUID: DtbECr9ZQ+KCyYPlZUhFZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45171626"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45171626"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 17:54:56 -0800
-X-CSE-ConnectionGUID: 1Fd8rVRERpenJ5hEy7MXHw==
-X-CSE-MsgGUID: pqRfgeb3T6Wg7GzM5tn8rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97481952"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Dec 2024 17:54:56 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sun, 15 Dec 2024 17:54:56 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sun, 15 Dec 2024 17:54:56 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sun, 15 Dec 2024 17:54:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cJEdznO6iPAwfOABaynGbvdq7YZ8mYREXaq93qKCrALyY2xuKdxisD07MlYwFhmrmcMGUADbrk8XpXe7Snvb/Pe7+Nw2YbDj2cAoPfxZVEtr4ft1Su96fWcwB+F66oFWj0vYuZ5x7fE8YeWdZ/HL/DSFTXrlDT3HHE9HmEGoO36t3B9Od+rk4jlW0ZQDcgkKdhBQAdKvwM2y20bD8VRKoBJPMjJNH2+bucPieR4V/sOTizFpU4dSyJ2uYm4lhjxU4zc7BjHmTPKuIfOseOR9GDyFKzAdUYLuTMRVYZF+Osu25zW7l0o8Wx3fsucUroCKhrwsuiilkbqZrPQa0aEk0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QKGUlRmKx0r9iltr92G63XjTyaGBFa9N/NCMQ5dIy+k=;
- b=Y3SSUjKjISPHpe0zZkyQVw89qzBF9JLM0v4CY7W0wbqrwx32ji8FUFldq0K5mV58ooxVqurMlYuJB6ef5lTH6RhOBMzVsJXi3TBgWSR6s9i93Coq+f/2KiGPb1nNsvJQgyS0l9EEMPclzUX/KD8ga3/3dN5YfshO8BaqZ4kTbmluyRBfXk5u0kdTZ81MmEdebu+93E8hNIyMiPp204JdVOs5WR7PKtVvEbU3TAUdOKmhAwSZU/FFvEyQIUHfkzu1dQPj5YJzPVLa1HFwnEsBAda0yCy9tHxQ+cKpQrsTqM+GYtnuUJtstgoW1/XiZmt3JwTBTzqD5R/kiUJfW1V5AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by IA1PR11MB7754.namprd11.prod.outlook.com (2603:10b6:208:421::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Mon, 16 Dec
- 2024 01:54:54 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a%5]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024
- 01:54:54 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"<yocto@lists.yoctoproject.org>" <yocto@lists.yoctoproject.org>, "Pokybuild
- User" <pokybuild@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-5.0.6.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.0.6.rc1)
-Thread-Index: AQHbTYeweFbKqynR8EeqbgIxtv62zrLoH0hQ
-Date: Mon, 16 Dec 2024 01:54:54 +0000
-Message-ID: <DM4PR11MB77609414BF463D5BB912944BA13B2@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <CAGDS+nkB+EyEg8FOQUbjt+aeAs5DBLEtsMojDjyarvLM=ikT4g@mail.gmail.com>
-In-Reply-To: <CAGDS+nkB+EyEg8FOQUbjt+aeAs5DBLEtsMojDjyarvLM=ikT4g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|IA1PR11MB7754:EE_
-x-ms-office365-filtering-correlation-id: 2fd62e8d-1194-4529-b0f7-08dd1d74a307
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|4022899009|1800799024|376014|7053199007|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?YjhXU0labVRPL1FYcWlnYUlyc2xJbW4zOU83cDREOGI3Y0g2anU0TkJIQ3ZS?=
- =?utf-8?B?bUFHOHh4b1dEdE1YYU5NcmtJS3AwTHRLMXN1ZlRGUmlwQklYcTM1SVFWZU8z?=
- =?utf-8?B?eXlsZ25UeVI0VnJFeUZvNUxRK1N5V0NaNllyazJ3MFBXS1c3OURlb1ZCYXpE?=
- =?utf-8?B?TTJLdDlaQUhtYU1vRlFNVjBkbndNemlyVFpDM0crVkl3OEpUWGpBTU1xZTBl?=
- =?utf-8?B?Q1dEWmZZLzl4ZXVmZlVodVA5QnI2eUpKSzQybkVKNGlIYU9xYkU2NlRuUzVE?=
- =?utf-8?B?L1g0Qy9SN3RWU1JncUt3UFViYkhrOHM4eUVLNkxjd2RDOThXOFhGZGZXS1l2?=
- =?utf-8?B?QmhPVnJpMVppOU95cStyQy93eTRxeHRoc3lUbXpQeldpeWhkWjk0WlhpK1lm?=
- =?utf-8?B?TC9idW1BREJWLzQzdlVXUno5M3BwZkJOUnlpWHFxaDFnSmo4YVVWeWk3WmVS?=
- =?utf-8?B?V3JWM0tlSCtMVzZjSnpzV0lPbHA1UlExNHVoWlNDZUk4S1czSC9kTFJJTllE?=
- =?utf-8?B?cmRXeXp1UHl2Vms2K0JON3NFdFR3d2hwRC82OVRRSDVXWWNKQzNEczc1b0Ns?=
- =?utf-8?B?ZEZiV3RhckhIa0N2dS9kK1B3OG42eUVJNzdTanFybGtjVjdsR3ZXWFB5NExN?=
- =?utf-8?B?YWx1c0NENzNvWUNTMkhBRnFTeHRmM1JMc1paTXMzdTZkVmhEVkJhbGh0N0pQ?=
- =?utf-8?B?MGRaQVI4Z0xReDVQQ09oMFBzZWFwZUZ6YVNSckwxbitOOEFabmdtL1dGd285?=
- =?utf-8?B?QkNwOHc4VWIveW9oUnRyWStWZzlGRTBPTG9uYWp3N096QmEyekt1WTB4RHM1?=
- =?utf-8?B?UU5GM1NtY21KajcvL1hCK2UrdVVpeDBZUjJMTW5OcVRlanBLNDRoaTJKSWFo?=
- =?utf-8?B?ME4yeXltZUlVdTJDQ25DVk5NMTRwNjRDZHlsSVpWK1dnZFRyK2dUQ3AzdDVr?=
- =?utf-8?B?eVlkTGFYNTlUMjZQTTFvK1FBQTNOOUhHM0U3eEg2d1U3YmJmcHg2dDNEa2dL?=
- =?utf-8?B?ckpGdFc5eTJqb0pMaWxZYTFNM01WQXlmUys0b242TXovWjUvWitaNzRXWFRK?=
- =?utf-8?B?VXIwRVZjRmNDbldYQ3JrVWZqemxuT0lpdzRkcXZoUG1nMFhJR2Y2K09xSm01?=
- =?utf-8?B?SXpnSVZvN0JpSW9jQk1XM2lrWWpxWDRQdVk0MERkdHN2dldVL3dFcU1DaWYv?=
- =?utf-8?B?Kzg1V1JNMlRxQS8zSUlXRnJtZmxUekgxem96V3duVTJlMVpRMFNEbmxoSDQr?=
- =?utf-8?B?VHZyV2w0N2V4TnQ5NStEU2JGekVUSm9KYnNrYUJtaEhyRmJXOGNvSGw1NVd5?=
- =?utf-8?B?RWpNNCtmczlaQ3RqR2pGL1lFUnhCVmp6SVpRSmpoMmFUZkhlWjZCZ2t0bFE3?=
- =?utf-8?B?S3krMlZJWGxPemFMUm9ndHhWMU56TGZhZHkwVDJQWHdobXFVY05BUW9yajNW?=
- =?utf-8?B?dGxIcHJvKzg4YkVqUHMvUGlvV0ZEcXVTcGNFMXBlRU94VWR5dlAxUkp3Yjd5?=
- =?utf-8?B?WXAzTGRRU0duNWRvS2FHbFRHZkc5SzQrWWhqSnZSRzNqTTdDbWJOZ3ZMdlhS?=
- =?utf-8?B?ek1oZmVOeU1pVENIaVJkRVFvd2piWEsxYmVyLzF2MXgycmJPeWp1eEVhL2Uw?=
- =?utf-8?B?dThPL3VuNXZxUllxQU44Q2VtWGZzQUJyVFllYlBoeG9oekw3eFdnamF5VXI2?=
- =?utf-8?B?RExxODdsVjh6SlkzUExaaUZiNmFvY09WN1hKM0ZJTmJiWW9rSXV2Y3duT01C?=
- =?utf-8?B?OWZDaC9SM3Z3eWZMcEl3LzNiemNkTmg2OG9oZWZpbmczYkZtSjIxem16eTBr?=
- =?utf-8?B?NUwxWXBtYXp3blpTSmJidFl1R0tKSEtjNGlFZlpEcmZ6bkdGTUgyT20rWlR4?=
- =?utf-8?B?UEd3aFFUTHZoVTVPSHY5dTc5a2xMeTlrNFczMkNsUjlYWmc9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(4022899009)(1800799024)(376014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MitJb3BTMllIMWppcU50ZjM2NTcvYkJ5YnJyMjJPRU5TVi9zc2V3bVc4Zmtq?=
- =?utf-8?B?Yi9NeUF5d0pYZmFBdmR1aTcyZWdnSW1sRUtkUFd5ZjV0eXZsMFl2cUdHYmkv?=
- =?utf-8?B?N24yc3c5cGc2dEx5ZHg2QmszdmIxOWRiRFdzU2pQZklUYndoRU1oNmdJbEhJ?=
- =?utf-8?B?VVFLTjl2L1ZTRUh0UklOb1dEN2p5TFJ1emdxTmFhMlM1bkNvemx5dCtsU2pZ?=
- =?utf-8?B?azc0VXhHVS84NGtNSEVjd05aS2NnaFB3OEFaODVwWVhoOTB2SDUvaVRUUnU4?=
- =?utf-8?B?VGtqaVF1bnhmSFVzRkpUTlBkVlBrNWh6V0JsQmV4TG1DbkxxTG1HTVpLSW1U?=
- =?utf-8?B?WFY3c0tkUUJLbVFyRDJtUEhQOENRSGJsM1ZiamdDUExGaDlGS29oakE1aUR2?=
- =?utf-8?B?ZGZRSHJDU1R3QUw3azVmNGFTNmxIeE1xUDduY3lXcmEwbWExemZQNXdOcXVK?=
- =?utf-8?B?cGJCSkdFZXlZankwVExMZDl4aFY4SlpmNFJTVjZySm5ZZ0JDZ2trSHFmTkVG?=
- =?utf-8?B?ZnhZRkVDblp4Z25sRHF0b1pxUDNpM2Y2OW9rRW9Vc3BCZGg1VjhNQllxTEVx?=
- =?utf-8?B?VE83VDRPSCtoRkE1RUdnZXU2SHVPVG5kMFg0bWtqQVFvTDdXazBtZi9kUVVG?=
- =?utf-8?B?dlVsVHZZUUJYVXNTY3lMMHQvRXU2ZFBrRkYramEwWFJKYmYvWVc2SktYa1J6?=
- =?utf-8?B?VUpmMmtYdWNlSG1PelpvSGZQRWNEcDFmTjlxZG9DMDRYYjN2c0Q3UnZWM2JE?=
- =?utf-8?B?UTJQK3lFSVViYkJEcFdZSHBsOW1OK3BuV25KUVdsRmV1cWlRSjZyb3RRa2k4?=
- =?utf-8?B?YkY3ZlU2ME1rZ3ljTTJVajNVM0YzOHJ2Yk1ka25lWUorbGRUQU5DVzRyWHJO?=
- =?utf-8?B?UVdNWnMyVXpMTVdwdHcwTzJ1TmpxbzBvMkQ1cGtXTHJSb2lGUEg3Mjg0MXNP?=
- =?utf-8?B?bE1rRE4wVW9uTXp2RE9URjhIdVZZYUcvcWxEM2k0aFBoa2NOVHk5ZjdHTm1O?=
- =?utf-8?B?M1o2dTVaM0x5TGxLNnBEZDIrandTQnR1MTVyZzdhZVNBejR5aENSYzNYQ2dN?=
- =?utf-8?B?MWp2TkFtN3cybCtmbVdSMjV1VTUyZWZSdlo0a24xT3pXY3BFV3M4SWF6WndJ?=
- =?utf-8?B?WUsyNUpVQXVOS21UaktKVmlwbU9McW03TFJLYU1FeFQ2dmpnTDY0aTBCNU1Y?=
- =?utf-8?B?QjJISEdya3E4Y1lrNjNOTjJJWkhOMHkxd0o5dzhBLy84cW5rV1VSRUY5Rm1P?=
- =?utf-8?B?SVFGWWF1c01nRjJ2MVdNdGkzTWpsaEhhakFXUVVhL2tnYXdPRTZuTENBMmJG?=
- =?utf-8?B?TXNQTTRnZDVPdDVrOFRvdElrZlZVZ2JLMGtoVkk1dlNIUW9ZNXI2b0JSaGFv?=
- =?utf-8?B?VGhEdmRuNEhWajFEcE9yNndEYjRHN0dENVRDWFhodWIweTBIbSs2cW9KQ2lV?=
- =?utf-8?B?ZDJncWh6Tk9VeThSZHA0YlhGYThwL29ySlVsa2V0SUhDMnBMaFltcG13c0tm?=
- =?utf-8?B?c3BQbkt0eVk4VGR0N0J6SzRDWHA1a3Bpdkw5c0hoY202NWIxenlTWDQvcGlS?=
- =?utf-8?B?bTBjVG5YNmJuVFJXbFg5VlNtVENmRXlVRTV3WHFlRzVSTlMvNnpveXpITVNz?=
- =?utf-8?B?ZWE5R1VXdnpaMmg2bm13NzI1Q0RaVHcwMjZsb3ZoS1JRczlzL1h1dXp6bEhm?=
- =?utf-8?B?cU9xdVVLcVhCREtxQ2JrRWlZUFZwQTBGQ3ZsRlpkSEh6VUM3MzNRVEw3Z2JZ?=
- =?utf-8?B?OGhaUEhnTVBQVzNabkdsYjIwdGwvZjdUaXJsRm5YclhmRFd2c2pxUkEyazlS?=
- =?utf-8?B?cmExMW96ajFmWGlaTStnWm5QZ3g2VFlBZkdxVzR0VkF5dHVGVWhuSGowcTg3?=
- =?utf-8?B?QWM2YlBFMUVkUU4rZElxUlVBL25NS3JOOS9qOGNtcWtYVkpsM1BoRktxd0tS?=
- =?utf-8?B?cEswdzZDZEd6SitnSlJYWjk5VU5kbEZHNnVndlBEQWdha09RVzg1VXdkK2tI?=
- =?utf-8?B?c3ZQSE0ySmUyVVFudXNRaEdDc0c0K1Yxajg5UFZURnNhMEptbVA1TStibU1U?=
- =?utf-8?B?RGp4bWlNRkpvY2Z1ek5qZ3lRdFBMWGl2UUJjbEo3VGtkYUN2bTJDZm16TVdh?=
- =?utf-8?Q?fM+CQeY9S0qMFUR8ihELF8aWs?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cLr0bcUi;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2eeb4d643a5so3190492a91.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Dec 2024 20:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734324087; x=1734928887; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=brj9xkA0UtyJsJZrWoqcO8/cto9ZU/OHhvYdeDoaxrk=;
+        b=cLr0bcUidkSggtYVJCsjpMJfRIgmTz6y928OokD2AiJn3zVXm4KGYojNRUAu4dt6aW
+         sLYrY7cw/OFSniXZOAmf1Zp6AV8agCFg7BGX5Nt3qNvVCAnamFwmZEt/biQt8KctNE9l
+         sRF6FRqsZs97l3CGkC7ksIkDrDI4S4Kt4TWrjTSHbrPjUDKHUbCuEroBT7A8iUVhq8wj
+         3QN0Km/v3eIwrljS/TT+INM6z/ro8qZPAfxTUvR48G+7N5TkyKU3EnGGxWuMh0ixT+Ck
+         t8csksikD3P0m8jQG+RXhKf9KK5iLsGfvn6Wzs/uYdyFqilGshN8UXq35MhHBQXUwwmv
+         7V2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734324087; x=1734928887;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=brj9xkA0UtyJsJZrWoqcO8/cto9ZU/OHhvYdeDoaxrk=;
+        b=IHRqvJTw5b3ugA9JKIx+YPHJtO07rUKQJRyG1yZ8QXKUuEC/m+X8Mms3sfMahmn/lh
+         uNOmx4p8USiQNyVG0xj8elZpU/EtCe2UPgjnrtqxGqDPpcbVeiFeJFszYJFTDfsrqihq
+         uWhL9RiQ7/uP+p7uHemdbE1vUVuuGahdnhGbhRHSsLS3bqumcyHEYg8R9oYDa1ZQKjXA
+         Wiv1tl4GQuMSxmpGVTnDKhKAPIlunv9hB5DAYZ/gvvMee5GMuhmnPOrLv4x04VhH2NNq
+         4RhF3hZeXHXKD/CYwexmZJ+5dzxF9uBSFD+V1f6t8dCANOtadoGtjoaOs0D0jFz17mxO
+         zobg==
+X-Gm-Message-State: AOJu0YxYjfGgmbEQnNaGgOSVmvaMQZfvO0lo6dvf0hNroJxeta54h0G5
+	Vk/HbQL9zlnzUKlPGBoxdI5OVODhIvYi3z339sxEqEPYzEN9pbGYyOs+08i+CutdpXi3QvTAGo1
+	g3JklEVzd6pXi3A7Z4w8mr4rrah8=
+X-Gm-Gg: ASbGncvXPGf65n7CjltJL1Nc08HAeFVX83rb9AHAIRLaBKv7vx7785wGkczF56KmkTs
+	rQIVhEau7MRRv3XQL8gtmGgY9SstDA6UHRK2Hvsk=
+X-Google-Smtp-Source: AGHT+IGOKwIBnkTanynkSFYJ5jvxpJaHhwJlxMlgRch1jK/imdjGix9VOP423TTW1wBJ1WpcWHpE3fpijQmQKETmn1I=
+X-Received: by 2002:a17:90b:3508:b0:2ea:498d:809f with SMTP id
+ 98e67ed59e1d1-2f2901a29dfmr14688709a91.26.1734324087358; Sun, 15 Dec 2024
+ 20:41:27 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fd62e8d-1194-4529-b0f7-08dd1d74a307
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2024 01:54:54.5015
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 65Q/5a5vHxBbHT7yQyKpc88A8m92+S7p8Bc32VxjILO+tpT+XGQBxZgAmscKS956ALbxMqEYXtDY4LyAZLlB/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7754
-X-OriginatorOrg: intel.com
+References: <20241212164407.2904755-1-adrian.freihofer@gmail.com>
+ <20241212164407.2904755-6-adrian.freihofer@gmail.com> <CADkTA4M=j1pJmvxRJ5wap=UgJZTOv=HZ9HNw_VPWqjoSdCi3Rg@mail.gmail.com>
+ <CAB3asfhrR1YgEszaw1QDWHrGKd5sKYVZkXeh18GujmnGFuUnNA@mail.gmail.com>
+In-Reply-To: <CAB3asfhrR1YgEszaw1QDWHrGKd5sKYVZkXeh18GujmnGFuUnNA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 15 Dec 2024 23:41:16 -0500
+Message-ID: <CADkTA4Me3XVW3X3RAEkBrM-GV9mtQhjhAaucXWONyFsOus9yXw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCHv2 5/5] systemd: split networkd into its own package
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Content-Type: multipart/alternative; boundary="000000000000270ce006295bcb51"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 01:55:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208756
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Dec 2024 04:41:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208757
 
-SGkgYWxsLA0KIA0KSW50ZWwgYW5kIFdSIFlQIFFBIGlzIHBsYW5uaW5nIGZvciBRQSBleGVjdXRp
-b24gZm9yIFlQIGJ1aWxkIHlvY3RvLTUuMC42LnJjMS4gV2UgYXJlIHBsYW5uaW5nIHRvIGV4ZWN1
-dGUgZm9sbG93aW5nIHRlc3RzIGZvciB0aGlzIGN5Y2xlOg0KIA0KT0VRQS1tYW51YWwgdGVzdHMg
-Zm9yIGZvbGxvd2luZyBtb2R1bGU6DQoxLiBPRS1Db3JlDQoyLiBCU1AtaHcNCiANClJ1bnRpbWUg
-YXV0byB0ZXN0IGZvciBmb2xsb3dpbmcgcGxhdGZvcm1zOg0KCTEuIE1pbm5vd0JvYXJkIFR1cmJv
-dCAtIDMyYml0DQoJMi4gQWxkZXIgTGFrZS1TICgxMnRoIEdlbmVyYXRpb24gSW50ZWwocikgQ29y
-ZSh0bSkgUHJvY2Vzc29ycykNCgkzLiBSYXB0b3IgTGFrZS1QICgxM3RoIEdlbmVyYXRpb24gSW50
-ZWwocikgQ29yZSh0bSkgUHJvY2Vzc29ycykNCgk0LiBNZXRlb3IgTGFrZS1QICgxNHRoIEdlbmVy
-YXRpb24gSW50ZWwocikgQ29yZSh0bSkgUHJvY2Vzc29ycykNCgk1LiBCZWFnbGVib25lDQogDQog
-DQpFVEEgZm9yIGNvbXBsZXRpb246IFRodXJzZGF5LCAxOSBEZWMgMjAyNC4NCiANCkJlc3QgcmVn
-YXJkcywNCkppbmcgSHVpDQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
-OiBxYS1idWlsZC1ub3RpZmljYXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZyA8cWEtYnVpbGQt
-DQo+IG5vdGlmaWNhdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnPiBPbiBCZWhhbGYgT2YgU3Rl
-dmUgU2Frb21hbiB2aWENCj4gbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiBTZW50OiBTYXR1cmRh
-eSwgRGVjZW1iZXIgMTQsIDIwMjQgMTo1MSBBTQ0KPiBUbzogPHlvY3RvQGxpc3RzLnlvY3RvcHJv
-amVjdC5vcmc+IDx5b2N0b0BsaXN0cy55b2N0b3Byb2plY3Qub3JnPg0KPiBDYzogcWEtYnVpbGQt
-bm90aWZpY2F0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gU3ViamVjdDogW3FhLWJ1aWxk
-LW5vdGlmaWNhdGlvbl0gUUEgbm90aWZpY2F0aW9uIGZvciBjb21wbGV0ZWQgYXV0b2J1aWxkZXIN
-Cj4gYnVpbGQgKHlvY3RvLTUuMC42LnJjMSkNCj4gDQo+IEEgYnVpbGQgZmxhZ2dlZCBmb3IgUUEg
-KHlvY3RvLTUuMC42LnJjMSkgd2FzIGNvbXBsZXRlZCBvbiB0aGUgYXV0b2J1aWxkZXINCj4gYW5k
-IGlzIGF2YWlsYWJsZSBhdDoNCj4gDQo+ICAgICBodHRwczovL3ZhbGt5cmllLnlvY3RvLmlvL3B1
-Yi9yZWxlYXNlcy95b2N0by01LjAuNi5yYzENCj4gDQo+IEJ1aWxkIFVSTDogaHR0cHM6Ly92YWxr
-eXJpZS55b2N0b3Byb2plY3Qub3JnLyMvYnVpbGRlcnMvMjkvYnVpbGRzLzYzOQ0KPiANCj4gQnVp
-bGQgaGFzaCBpbmZvcm1hdGlvbjoNCj4gDQo+IGJpdGJha2U6IGY0MGEzYTQ3N2Q1MjQxYjY5N2Jm
-MmZiMDMwZGQ4MDRjMWZmNTgzOWYNCj4gbWV0YS1hZ2w6IDJlMDYwNzMyNjkxZWQ4ZmNlZTY3MjVj
-ZjhlYmM5MmU4ODdiZmQxODgNCj4gbWV0YS1hcm06IDcwODgyNzljMGFiMDBjN2RhYmVmZGQ0NTQ0
-OTUxYjQ3NDZiNDg0NzYNCj4gbWV0YS1hd3M6IGVlNWJiNTU2OTc3MjNjY2Y2OTI1OTJlMGIzN2Fk
-MjY4ODY5ZTFjMGMNCj4gbWV0YS1jbGFuZzogOWZiZmE5ZGIzMzEzMWFiZGYzODcwYTk0ZjAwMTk5
-ZWI1M2UyNzZlNQ0KPiBtZXRhLWludGVsOiBiNjFkNTMxMGZjYjRlNTA3N2JiNGIxZGUwMjI4ZGM0
-NWJhNjk1MTBmDQo+IG1ldGEtbWluZ3c6IGFjYmJhNDc3ODkzZWY4NzM4OGVmZmM0Njc5YjdmNDBl
-ZTQ5ZmM4NTINCj4gbWV0YS1vcGVuZW1iZWRkZWQ6IGI4ZDFhMTRmN2YzYjc2NDU3YzM2NzUyMjAy
-ZWE3YWU1ODgxYjY2NTQNCj4gbWV0YS12aXJ0dWFsaXphdGlvbjogNDUwOTQxYTFiNmRmOTYyODU2
-OTFlOGMyM2Q0ZjMzMmQzYzg4YTk5NA0KPiBvZWNvcmU6IDMzNmVlYzY4MDg3MTBmMjYwYTUzMzZj
-YThjYTk4MTM5YTgwY2NiMTQNCj4gcG9reTogMjU0MWE4MTcxZjkxODEyYTRiMTZlN2RjNGRhMGQ3
-N2QyMzE4YTI1Ng0KPiANCj4gDQo+IA0KPiBUaGlzIGlzIGFuIGF1dG9tYXRlZCBtZXNzYWdlIGZy
-b20gdGhlIFlvY3RvIFByb2plY3QgQXV0b2J1aWxkZXINCj4gR2l0OiBnaXQ6Ly9naXQueW9jdG9w
-cm9qZWN0Lm9yZy95b2N0by1hdXRvYnVpbGRlcjINCj4gRW1haWw6IHJpY2hhcmQucHVyZGllQGxp
-bnV4Zm91bmRhdGlvbi5vcmcNCj4gDQo+IA0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBM
-aW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmll
-dy9SZXBseSBPbmxpbmUgKCM0ODYpOiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy9x
-YS1idWlsZC0NCj4gbm90aWZpY2F0aW9uL21lc3NhZ2UvNDg2DQo+IE11dGUgVGhpcyBUb3BpYzog
-aHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL210LzExMDEwMTgzNS82NDI0MDQ0DQo+IEdy
-b3VwIE93bmVyOiBxYS1idWlsZC1ub3RpZmljYXRpb24rb3duZXJAbGlzdHMueW9jdG9wcm9qZWN0
-Lm9yZw0KPiBVbnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2cvcWEt
-YnVpbGQtDQo+IG5vdGlmaWNhdGlvbi9sZWF2ZS8xMzU4MTgwMi82NDI0MDQ0LzE3NDY4MTM4OTcv
-eHl6enkNCj4gW2ppbmcuaHVpLnRoYW1AaW50ZWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0t
-PS09LQ0KPiANCg0K
+--000000000000270ce006295bcb51
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Dec 13, 2024 at 4:48=E2=80=AFPM Adrian Freihofer <adrian.freihofer@=
+gmail.com>
+wrote:
+
+> Am Fr., 13. Dez. 2024 um 14:54 Uhr schrieb Bruce Ashfield <
+> bruce.ashfield@gmail.com>:
+>
+>>
+>>
+>> On Thu, Dec 12, 2024 at 11:44=E2=80=AFAM Adrian Freihofer via
+>> lists.openembedded.org <adrian.freihofer=3Dgmail.com@lists.openembedded.=
+org>
+>> wrote:
+>>
+>>> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>>>
+>>> Support of images with different network management implementations
+>>> without having to recompile systemd and other components.
+>>>
+>>> Fedora does this as well since systemd version 246.6-2:
+>>>
+>>> https://src.fedoraproject.org/rpms/systemd/blob/rawhide/f/systemd.spec#=
+_578
+>>> This proves that it is technically possible and officially supported by
+>>> systemd.
+>>>
+>>> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+>>> ---
+>>>  meta/recipes-core/systemd/systemd_256.8.bb | 28 +++++++++++++++++++---
+>>>  1 file changed, 25 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-core/systemd/systemd_256.8.bb
+>>> b/meta/recipes-core/systemd/systemd_256.8.bb
+>>> index c1915d7e941..0710377d32d 100644
+>>> --- a/meta/recipes-core/systemd/systemd_256.8.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_256.8.bb
+>>> @@ -412,6 +412,7 @@ PACKAGE_BEFORE_PN =3D "\
+>>>      ${PN}-journal-remote \
+>>>      ${PN}-kernel-install \
+>>>      ${PN}-mime \
+>>> +    ${PN}-networkd \
+>>>      ${PN}-rpm-macros \
+>>>      ${PN}-udev-rules \
+>>>      ${PN}-vconsole-setup \
+>>> @@ -440,6 +441,7 @@ SYSTEMD_PACKAGES =3D
+>>> "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
+>>>                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd'=
+,
+>>> '${PN}-journal-gatewayd', '', d)} \
+>>>                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd'=
+,
+>>> '${PN}-journal-remote', '', d)} \
+>>>                      ${@bb.utils.contains('PACKAGECONFIG',
+>>> 'journal-upload', '${PN}-journal-upload', '', d)} \
+>>> +                    ${@bb.utils.contains('PACKAGECONFIG', 'networkd',
+>>> '${PN}-networkd', '', d)} \
+>>>  "
+>>>  SYSTEMD_SERVICE:${PN}-binfmt =3D "systemd-binfmt.service"
+>>>
+>>> @@ -448,12 +450,13 @@ USERADD_PACKAGES =3D "${PN} \
+>>>                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd'=
+,
+>>> '${PN}-journal-gatewayd', '', d)} \
+>>>                      ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd'=
+,
+>>> '${PN}-journal-remote', '', d)} \
+>>>                      ${@bb.utils.contains('PACKAGECONFIG',
+>>> 'journal-upload', '${PN}-journal-upload', '', d)} \
+>>> +                    ${@bb.utils.contains('PACKAGECONFIG', 'networkd',
+>>> '${PN}-networkd', '', d)} \
+>>>  "
+>>>
+>>
+>> Possibly an already asked and answered question (I scanned quickly, but =
+I
+>> didn't see it).
+>>
+>> Is there any reason why networkd shouldn't be in the default
+>> PACKAGECONFIG ? This is a change of behaviour, that should be opt-in, no=
+t
+>> opt-out.
+>>
+> I'm not sure what you mean. networkd was and remains part of the default
+> PACKAGECONFIG.
+> My intention is not to change the default behavior. Could you give me a
+> hint where this is mistakenly happening anyway in this case?
+>
+
+I almost always read patches looking at the patch itself, and don't
+do any research or looking outside of the patch itself. If something
+isn't explained in the patch or causes me to wonder, it usually means
+that the patch commit needs some tweaking.
+
+In this case from the context of this patch, I see you packaging
+based on a PACKAGECONFIG, but since the PACKAGECONFIG
+isn't in the patch itself, I have no idea what the default of the recipe
+in question is.
+
+I also only see RRECOMMENDS for the new package on the main
+PN, which means that someone without rrecommends enabled
+will see different behaviour.
+
+So my point would be that the comment that the default isn't
+changed (and then describe what that is so), as well as commenting
+on rrecommends vs rdepends, should be captured in the commit
+log.
+
+Bruce
+
+
+
+>
+>
+
+> Adrian
+>
+>>
+>> Bruce
+>>
+>>
+>>
+>>>  GROUPADD_PARAM:${PN} =3D "-r systemd-journal;"
+>>>  GROUPADD_PARAM:udev =3D "-r render"
+>>>  GROUPADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+>>>  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;',=
+ '',
+>>> d)}"
+>>> -USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', =
+'',
+>>> d)}"
+>>> +USERADD_PARAM:${PN}-networkd =3D "--system -d / -M --shell /sbin/nolog=
+in
+>>> systemd-network"
+>>>  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'polki=
+t',
+>>> '--system --no-create-home --user-group --home-dir ${datadir}/polkit-1
+>>> polkitd;', '', d)}"
+>>>  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'resolved', '--system -d / -M --shell /sbin/nologin systemd-resolve;', =
+'',
+>>> d)}"
+>>>  USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'timesyncd', '--system -d / -M --shell /sbin/nologin systemd-timesync;'=
+,
+>>> '', d)}"
+>>> @@ -620,6 +623,27 @@ FILES:${PN}-extra-utils =3D "\
+>>>  FILES:${PN}-mime =3D "${MIMEDIR}"
+>>>  RRECOMMENDS:${PN} +=3D "${PN}-mime"
+>>>
+>>> +FILES:${PN}-networkd =3D "\
+>>> +    ${bindir}/networkctl \
+>>> +    ${datadir}/dbus-1/system-services/org.freedesktop.network1.service=
+ \
+>>> +    ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
+>>> +    ${datadir}/polkit-1/actions/org.freedesktop.network1.policy \
+>>> +    ${nonarch_libdir}/sysusers.d/systemd-network.conf \
+>>> +    ${nonarch_libdir}/tmpfiles.d/systemd-network.conf \
+>>> +    ${sysconfdir}/systemd/networkd.conf \
+>>> +    ${systemd_system_unitdir}/systemd-networkd* \
+>>> +    ${systemd_unitdir}/network/*.network \
+>>> +    ${systemd_unitdir}/network/*.network.example \
+>>> +    ${systemd_unitdir}/networkd.conf \
+>>> +    ${systemd_unitdir}/systemd-networkd* \
+>>> +"
+>>> +# systemd-networkd-persistent-storage.service
+>>> BindsTo=3Dsystemd-networkd.service
+>>> +# systemd-networkd.service has Also=3Dsystemd-networkd-wait-online.ser=
+vice
+>>> +SYSTEMD_SERVICE:${PN}-networkd =3D "systemd-networkd.service"
+>>> +CONFFILES:${PN}-networkd =3D "${sysconfdir}/systemd/networkd.conf"
+>>> +RDEPENDS:${PN}-networkd +=3D "${PN}"
+>>> +RRECOMMENDS:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'network=
+d',
+>>> '${PN}-networkd', '', d)}"
+>>> +
+>>>  FILES:${PN}-udev-rules =3D "\
+>>>                          ${nonarch_libdir}/udev/rules.d/70-uaccess.rule=
+s
+>>> \
+>>>                          ${nonarch_libdir}/udev/rules.d/71-seat.rules \
+>>> @@ -630,7 +654,6 @@ FILES:${PN}-udev-rules =3D "\
+>>>  CONFFILES:${PN} =3D "${sysconfdir}/systemd/coredump.conf \
+>>>         ${sysconfdir}/systemd/journald.conf \
+>>>         ${sysconfdir}/systemd/logind.conf \
+>>> -       ${sysconfdir}/systemd/networkd.conf \
+>>>         ${sysconfdir}/systemd/pstore.conf \
+>>>         ${sysconfdir}/systemd/resolved.conf \
+>>>         ${sysconfdir}/systemd/sleep.conf \
+>>> @@ -698,7 +721,6 @@ FILES:${PN} =3D " ${base_bindir}/* \
+>>>                  ${nonarch_libdir}/modprobe.d/README \
+>>>
+>>>  ${datadir}/dbus-1/system.d/org.freedesktop.timedate1.conf \
+>>>                  ${datadir}/dbus-1/system.d/org.freedesktop.locale1.con=
+f
+>>> \
+>>> -
+>>> ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
+>>>
+>>>  ${datadir}/dbus-1/system.d/org.freedesktop.resolve1.conf \
+>>>
+>>>  ${datadir}/dbus-1/system.d/org.freedesktop.systemd1.conf \
+>>>                  ${@bb.utils.contains('PACKAGECONFIG',
+>>> 'polkit_hostnamed_fallback',
+>>> '${datadir}/dbus-1/system.d/org.freedesktop.hostname1_no_polkit.conf', =
+'',
+>>> d)} \
+>>> --
+>>> 2.47.0
+>>>
+>>>
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#208658):
+>>> https://lists.openembedded.org/g/openembedded-core/message/208658
+>>> Mute This Topic: https://lists.openembedded.org/mt/110082903/1050810
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>>> bruce.ashfield@gmail.com]
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>
+>>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
+>>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000270ce006295bcb51
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 13, 2024 at 4:48=
+=E2=80=AFPM Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@gmail.c=
+om">adrian.freihofer@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">Am Fr., 13. Dez. 2024 um 14:54=C2=A0Uh=
+r schrieb Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" ta=
+rget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div st=
+yle=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 12, 2024 at 11:44=E2=80=AFAM =
+Adrian Freihofer via <a href=3D"http://lists.openembedded.org" target=3D"_b=
+lank">lists.openembedded.org</a> &lt;adrian.freihofer=3D<a href=3D"mailto:g=
+mail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembe=
+dded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">From: Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@sieme=
+ns.com" target=3D"_blank">adrian.freihofer@siemens.com</a>&gt;<br>
+<br>
+Support of images with different network management implementations<br>
+without having to recompile systemd and other components.<br>
+<br>
+Fedora does this as well since systemd version 246.6-2:<br>
+<a href=3D"https://src.fedoraproject.org/rpms/systemd/blob/rawhide/f/system=
+d.spec#_578" rel=3D"noreferrer" target=3D"_blank">https://src.fedoraproject=
+.org/rpms/systemd/blob/rawhide/f/systemd.spec#_578</a><br>
+This proves that it is technically possible and officially supported by<br>
+systemd.<br>
+<br>
+Signed-off-by: Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@siem=
+ens.com" target=3D"_blank">adrian.freihofer@siemens.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_256.8.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_256.8.bb</a> | 28 +++++++++++++++++++=
+---<br>
+=C2=A01 file changed, 25 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_256.8.bb" =
+rel=3D"noreferrer" target=3D"_blank">systemd_256.8.bb</a> b/meta/recipes-co=
+re/systemd/<a href=3D"http://systemd_256.8.bb" rel=3D"noreferrer" target=3D=
+"_blank">systemd_256.8.bb</a><br>
+index c1915d7e941..0710377d32d 100644<br>
+--- a/meta/recipes-core/systemd/<a href=3D"http://systemd_256.8.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_256.8.bb</a><br>
++++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_256.8.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_256.8.bb</a><br>
+@@ -412,6 +412,7 @@ PACKAGE_BEFORE_PN =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-journal-remote \<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-kernel-install \<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-mime \<br>
++=C2=A0 =C2=A0 ${PN}-networkd \<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-rpm-macros \<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-udev-rules \<br>
+=C2=A0 =C2=A0 =C2=A0${PN}-vconsole-setup \<br>
+@@ -440,6 +441,7 @@ SYSTEMD_PACKAGES =3D &quot;${@bb.utils.contains(&#39;PA=
+CKAGECONFIG&#39;, &#39;binfmt&#39;, &#39;${PN}-binfm<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;microhttpd&#39;, &#39=
+;${PN}-journal-gatewayd&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;microhttpd&#39;, &#39=
+;${PN}-journal-remote&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;journal-upload&#39;, =
+&#39;${PN}-journal-upload&#39;, &#39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@b=
+b.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;networkd&#39;, &#39;${PN}-ne=
+tworkd&#39;, &#39;&#39;, d)} \<br>
+=C2=A0&quot;<br>
+=C2=A0SYSTEMD_SERVICE:${PN}-binfmt =3D &quot;systemd-binfmt.service&quot;<b=
+r>
+<br>
+@@ -448,12 +450,13 @@ USERADD_PACKAGES =3D &quot;${PN} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;microhttpd&#39;, &#39=
+;${PN}-journal-gatewayd&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;microhttpd&#39;, &#39=
+;${PN}-journal-remote&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;journal-upload&#39;, =
+&#39;${PN}-journal-upload&#39;, &#39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@b=
+b.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;networkd&#39;, &#39;${PN}-ne=
+tworkd&#39;, &#39;&#39;, d)} \<br>
+=C2=A0&quot;<br></blockquote><div><br></div><div><div style=3D"font-size:sm=
+all">Possibly an already asked and answered question (I scanned quickly, bu=
+t I didn&#39;t see it).</div><div style=3D"font-size:small"><br></div><div =
+style=3D"font-size:small">Is there any reason why networkd shouldn&#39;t be=
+ in the default PACKAGECONFIG ? This is a change of behaviour, that should =
+be opt-in, not opt-out.</div></div></div></div></blockquote>I&#39;m not sur=
+e what you mean. networkd was and remains part of the default PACKAGECONFIG=
+.<br>My intention is not to change the default behavior. Could you give me =
+a hint where this is mistakenly happening anyway in this case?</div><div cl=
+ass=3D"gmail_quote"><div class=3D"gmail_default" style=3D"font-size:small">=
+</div></div></div></blockquote><div><br></div><div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">I almost always read patches looking at the =
+patch itself, and don&#39;t</div><div class=3D"gmail_default" style=3D"font=
+-size:small">do any research or looking outside of the patch itself. If som=
+ething</div><div class=3D"gmail_default" style=3D"font-size:small">isn&#39;=
+t explained in the patch or causes me to wonder, it usually means</div><div=
+ class=3D"gmail_default" style=3D"font-size:small">that the patch commit ne=
+eds some tweaking.</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll"><br></div><div class=3D"gmail_default" style=3D"font-size:small">In thi=
+s case from the context of this patch, I see you packaging</div><div class=
+=3D"gmail_default" style=3D"font-size:small">based on a PACKAGECONFIG, but =
+since the PACKAGECONFIG</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small">isn&#39;t in the patch itself, I have no idea what the default of =
+the recipe</div><div class=3D"gmail_default" style=3D"font-size:small">in q=
+uestion is.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
+></div><div class=3D"gmail_default" style=3D"font-size:small">I also only s=
+ee RRECOMMENDS for the new package on the main</div><div class=3D"gmail_def=
+ault" style=3D"font-size:small">PN, which means that someone without rrecom=
+mends=C2=A0enabled</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">will see different behaviour.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">So my point would be that the comment that the default isn&#39;t=
+</div><div class=3D"gmail_default" style=3D"font-size:small">changed (and t=
+hen describe what that is so), as well as commenting</div><div class=3D"gma=
+il_default" style=3D"font-size:small">on rrecommends vs rdepends, should be=
+ captured in the commit</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small">log.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div>=
+<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div dir=3D"ltr"><div class=3D"gmail_quote"><div class=3D"gmail_default" =
+style=3D"font-size:small">=C2=A0</div></div></div></blockquote><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_=
+quote"><br></div><div class=3D"gmail_quote">Adrian<br></div><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div class=3D"gmail_quote"><div><div style=3D"font-size:small"><br></di=
+v><div style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0GROUPADD_PARAM:${PN} =3D &quot;-r systemd-journal;&quot;<br>
+=C2=A0GROUPADD_PARAM:udev =3D &quot;-r render&quot;<br>
+=C2=A0GROUPADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONF=
+IG&#39;, &#39;polkit_hostnamed_fallback&#39;, &#39;-r systemd-hostname;&#39=
+;, &#39;&#39;, d)}&quot;<br>
+=C2=A0USERADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFI=
+G&#39;, &#39;coredump&#39;, &#39;--system -d / -M --shell /sbin/nologin sys=
+temd-coredump;&#39;, &#39;&#39;, d)}&quot;<br>
+-USERADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39=
+;, &#39;networkd&#39;, &#39;--system -d / -M --shell /sbin/nologin systemd-=
+network;&#39;, &#39;&#39;, d)}&quot;<br>
++USERADD_PARAM:${PN}-networkd =3D &quot;--system -d / -M --shell /sbin/nolo=
+gin systemd-network&quot;<br>
+=C2=A0USERADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFI=
+G&#39;, &#39;polkit&#39;, &#39;--system --no-create-home --user-group --hom=
+e-dir ${datadir}/polkit-1 polkitd;&#39;, &#39;&#39;, d)}&quot;<br>
+=C2=A0USERADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFI=
+G&#39;, &#39;resolved&#39;, &#39;--system -d / -M --shell /sbin/nologin sys=
+temd-resolve;&#39;, &#39;&#39;, d)}&quot;<br>
+=C2=A0USERADD_PARAM:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFI=
+G&#39;, &#39;timesyncd&#39;, &#39;--system -d / -M --shell /sbin/nologin sy=
+stemd-timesync;&#39;, &#39;&#39;, d)}&quot;<br>
+@@ -620,6 +623,27 @@ FILES:${PN}-extra-utils =3D &quot;\<br>
+=C2=A0FILES:${PN}-mime =3D &quot;${MIMEDIR}&quot;<br>
+=C2=A0RRECOMMENDS:${PN} +=3D &quot;${PN}-mime&quot;<br>
+<br>
++FILES:${PN}-networkd =3D &quot;\<br>
++=C2=A0 =C2=A0 ${bindir}/networkctl \<br>
++=C2=A0 =C2=A0 ${datadir}/dbus-1/system-services/org.freedesktop.network1.s=
+ervice \<br>
++=C2=A0 =C2=A0 ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \<b=
+r>
++=C2=A0 =C2=A0 ${datadir}/polkit-1/actions/org.freedesktop.network1.policy =
+\<br>
++=C2=A0 =C2=A0 ${nonarch_libdir}/sysusers.d/systemd-network.conf \<br>
++=C2=A0 =C2=A0 ${nonarch_libdir}/tmpfiles.d/systemd-network.conf \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/systemd/networkd.conf \<br>
++=C2=A0 =C2=A0 ${systemd_system_unitdir}/systemd-networkd* \<br>
++=C2=A0 =C2=A0 ${systemd_unitdir}/network/*.network \<br>
++=C2=A0 =C2=A0 ${systemd_unitdir}/network/*.network.example \<br>
++=C2=A0 =C2=A0 ${systemd_unitdir}/networkd.conf \<br>
++=C2=A0 =C2=A0 ${systemd_unitdir}/systemd-networkd* \<br>
++&quot;<br>
++# systemd-networkd-persistent-storage.service BindsTo=3Dsystemd-networkd.s=
+ervice<br>
++# systemd-networkd.service has Also=3Dsystemd-networkd-wait-online.service=
+<br>
++SYSTEMD_SERVICE:${PN}-networkd =3D &quot;systemd-networkd.service&quot;<br=
+>
++CONFFILES:${PN}-networkd =3D &quot;${sysconfdir}/systemd/networkd.conf&quo=
+t;<br>
++RDEPENDS:${PN}-networkd +=3D &quot;${PN}&quot;<br>
++RRECOMMENDS:${PN} +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;,=
+ &#39;networkd&#39;, &#39;${PN}-networkd&#39;, &#39;&#39;, d)}&quot;<br>
++<br>
+=C2=A0FILES:${PN}-udev-rules =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0${nonarch_libdir}/udev/rules.d/70-uaccess.rules \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0${nonarch_libdir}/udev/rules.d/71-seat.rules \<br>
+@@ -630,7 +654,6 @@ FILES:${PN}-udev-rules =3D &quot;\<br>
+=C2=A0CONFFILES:${PN} =3D &quot;${sysconfdir}/systemd/coredump.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/systemd/journald.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/systemd/logind.conf \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/systemd/networkd.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/systemd/pstore.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/systemd/resolved.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/systemd/sleep.conf \<br>
+@@ -698,7 +721,6 @@ FILES:${PN} =3D &quot; ${base_bindir}/* \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${nonarch_lib=
+dir}/modprobe.d/README \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir}/db=
+us-1/system.d/org.freedesktop.timedate1.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir}/db=
+us-1/system.d/org.freedesktop.locale1.conf \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/dbus-1/=
+system.d/org.freedesktop.network1.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir}/db=
+us-1/system.d/org.freedesktop.resolve1.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir}/db=
+us-1/system.d/org.freedesktop.systemd1.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.c=
+ontains(&#39;PACKAGECONFIG&#39;, &#39;polkit_hostnamed_fallback&#39;, &#39;=
+${datadir}/dbus-1/system.d/org.freedesktop.hostname1_no_polkit.conf&#39;, &=
+#39;&#39;, d)} \<br>
+-- <br>
+2.47.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#208658): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/208658" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/208658</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110082903/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/110082903/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+</blockquote></div></div>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000270ce006295bcb51--
 
