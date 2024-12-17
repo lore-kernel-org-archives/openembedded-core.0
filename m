@@ -1,170 +1,95 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6AAE77184
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 07:35:45 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.76500.1734420938238985960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4642DE7717F
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 07:37:45 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.76518.1734421062195452178
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Dec 2024 23:35:38 -0800
+ Mon, 16 Dec 2024 23:37:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1tNS7E-0005PL-99; Tue, 17 Dec 2024 08:35:36 +0100
-Message-ID: <a3343457006984c01589114e82839f2941fa7b02.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH v2] barebox: upgrade 2024.10.0 -> 2024.12.0
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>, PTX-Internal Yocto List
-	 <yocto@pengutronix.de>
-Date: Tue, 17 Dec 2024 08:35:34 +0100
-In-Reply-To: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
-References: <1733964540-5537-1-git-send-email-wangmy@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GIVTt6Z3;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AC8D51C0008;
+	Tue, 17 Dec 2024 07:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1734421060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8+ktDCKMNfMegw+PQNrCdAz6mVeTL+n1PUWkT932AKk=;
+	b=GIVTt6Z3gLxYtmqxFvlaYDbu19T0Xdalj3d33GDCHw8Hvio0Y58aWHTS8+0gmMEMabZ4K3
+	l07B1YxRkyqAIyPgyLFjzO5c6JXFZ6pZzOmXeCzO7W8tGKNRLClMnB9zz3GfO30ryVQAo/
+	gcRiltQqYdeuYdxPupu+D+SgColqyU0MFzJ78kYXvu2Ka3VO9rKVSWv+NuhefcnNsQaBZr
+	eeCQL5o9DvKRIJ74OQ218HcAWUJg+qeyQx1ms6lcLJP1HB0fSkvXSgHReYe9KzJlH8RskV
+	ru14C3CT1gYBRZMYcjZ/7A4vwPXELHzBd0BAOszksq8hC4GQYLdhUz3ZPBBcYQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Dec 2024 08:37:40 +0100
+Message-Id: <D6DSYBCD4I4G.2O4ZDW15ZPJ1S@bootlin.com>
+To: <hongxu.jia@eng.windriver.com>,
+ <openembedded-core@lists.openembedded.org>, <jpewhacker@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] meta/lib/oe/sbom30.py: correct alias
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241217034724.2737515-1-hongxu.jia@windriver.com>
+In-Reply-To: <20241217034724.2737515-1-hongxu.jia@windriver.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 07:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208801
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 07:37:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208802
 
-Hi Wang,
-
-Am Donnerstag, dem 12.12.2024 um 08:48 +0800 schrieb wangmy via lists.opene=
-mbedded.org:
-> From: Wang Mingyu <wangmy@cn.fujitsu.com>
->=20
-> 0001-lib-lz4-use-lz4-instead-of-lz4c.patch
-> removed since it's included in 2024.12.0
->=20
-> Changelog:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * ARM: omap: fix NS16550 UART setup in omap_debug_ll_init
-> * Documentation: imd: update information on barebox_update
-> * partitions: efi: Check GPT header size against minimum limit
-> * checkpatch: fix detection of barebox root directory
-> * ARM: omap: add two smaller MLO defconfigs for AM335x
-> * crc: crc-itu-t: generate lookup table on first use
-> * of: fdt: fix possible overflow during parsing of fdt
-> * remoteproc: use I/O memory variants of memcpy/memset
-> * dlmalloc: Fix integer overflow in request2size()
-> * remoteproc: imx: add support for loading ELF data sections into DRAM
-> * remoteproc: elf_loader: skip segment with memsz as zero
-> * of: fdt: fix overflow caused by fdt_prop extending beyond fdt
-> * usb: typec: fix freeing uninitialized memory=C2=A0 Ahmad Fatoum
-> * startup: do not bring up networking if console input disabled
-> * sandbox: noshell_defconfig: set CONFIG_CONSOLE_DISABLE_INPUT=3Dy
-> * ARM: dts: i.MX8MP: disable NPU node if hardware is missing
-> * clk: clk-composite: fix callback guard in clk_composite_round_rate
-> * partitions: efi: fix overflow issues while allocating gpt entries
-> * lib: lz4: use lz4 instead of lz4c
-> * clk: rockchip: make it compile again
-> * ARM: i.MX: ele: fix forward_lifecycle
-> * ARM: i.MX9: tqma93xx: workaround warning in variant detection
-> * partitions: efi: fix GPT header size exceeding allocation size
-> * video: Rockchip: add missing dma_alloc_coherent a device parameter
-> * dma: give dma_alloc_coherent a device parameter
-> * common: buffer access out-of-bounds
-> * include: Include <linux/math.h> to resolve implicit declaration of do_d=
-iv()
-> * i2c: lpi2c: fix potential read of uninitialized variable
-
-thank you for the version bump!
-
-Just a note for maybe the next round, since this patch is already in oe-cor=
-e master:
-This is not the changelog between v2024.10.0 and v2024.12.0. It is only the=
- changelog of the final
-fixes after merging the for-next/-Branches.
-
-The total patch count for 2024.10.0 -> 2024.12.0 is >150 patches.
-Therefore, it might be more practical to include the 'high-level' release n=
-otes from the barebox ML:
-
-> This release brings us some Rockchip updates. We have a new board
-> supported, the OrangePI 5 plus. Also we have VOP2 graphics output on
-> RK356x SoCs. This comes with a few updates to the fbconsole which now
-> supports changing the orientation and fonts with transparent background
-> so that we can nicely put a console on a background image.
->=20
-> Also new in this release is ECDSA support for verifying FIT images.
->=20
-> Ahmad has continued to cleanup include/common.h. It's now nearly empty
-> so everything is moved to more dedicated headers.
-
-https://lore.barebox.org/barebox/Z1LWzzW3pa2ZM8XZ@pengutronix.de/t/
-
-Regards, Enrico
-
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+On Tue Dec 17, 2024 at 4:47 AM CET, hongxu via lists.openembedded.org wrote=
+:
+> After commit [spdx 3.0: Rework how SPDX aliases are linked] applied,
+> it added extra "/" to namespace, which causing the replacement of
+> UNIHASH missing a "/"
+>
+>   http://spdxdocs.org/openembedded-alias/by-doc-hash/0b308e4b9ad979f642d8=
+787c61f76c31bdcad04837eeaaf8bc383f33f99bbeb8/flex-nativeUNIHASH/build/recip=
+e
+>
+> After applying this commit to remove "/" from namespace.
+>
+>   http://spdxdocs.org/openembedded-alias/by-doc-hash/0b308e4b9ad979f642d8=
+787c61f76c31bdcad04837eeaaf8bc383f33f99bbeb8/flex-native/UNIHASH/build/reci=
+pe
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
-> =C2=A0meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
-> =C2=A0meta/recipes-bsp/barebox/barebox.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 2 --
-> =C2=A02 files changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-b=
-sp/barebox/barebox-
-> common.inc
-> index 5dcdb70757..fce3b825ae 100644
-> --- a/meta/recipes-bsp/barebox/barebox-common.inc
-> +++ b/meta/recipes-bsp/barebox/barebox-common.inc
-> @@ -3,6 +3,6 @@ SECTION =3D "bootloaders"
-> =C2=A0
-> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5125d13e000b9ca1f0d3364=
-286c4192"
-> =C2=A0
-> -PV =3D "2024.10.0"
-> +PV =3D "2024.12.0"
-> =C2=A0SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2"
-> -SRC_URI[sha256sum] =3D "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b16d=
-ee7442d71a5af88d"
-> +SRC_URI[sha256sum] =3D "717a2416b37942f584b0bb2eb61ccbf85dc0f1a5c841318f=
-47cd6967b9c4dcab"
-> diff --git a/meta/recipes-bsp/barebox/barebox.bb b/meta/recipes-bsp/bareb=
-ox/barebox.bb
-> index dc9ae669d7..a48d97941c 100644
-> --- a/meta/recipes-bsp/barebox/barebox.bb
-> +++ b/meta/recipes-bsp/barebox/barebox.bb
-> @@ -8,5 +8,3 @@ and a subset of the POSIX C library for writing more comm=
-and-line utilities."
-> =C2=A0require barebox-common.inc
-> =C2=A0inherit barebox
-> =C2=A0
-> -SRC_URI +=3D "file://0001-lib-lz4-use-lz4-instead-of-lz4c.patch=C2=A0\
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208618): https://lists.openembedded.org/g/openembedde=
-d-core/message/208618
-> Mute This Topic: https://lists.openembedded.org/mt/110072594/3616721
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=C2=
-=A0[ejo@pengutronix.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+
+Hi Hongxu,
+
+Sorry, but I still get the SPDX IDs were unable to be resolved warning.
+E.g.:
+
+WARNING: core-image-sato-sdk-1.0-r0 do_create_image_sbom_spdx: The followin=
+g SPDX IDs were unable to be resolved:
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/82b2ddffbd624bcb26b4c9=
+3f8e7bf31e456ea81a1e5720354726d1fc7e433dd0/openssl/UNIHASH/package/openssl-=
+bin
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/882a5d190518b194aea738=
+0573eeee8a79f524131463308e414d0cb51f9a8099/openssl/UNIHASH/package/openssl
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/974e7ddc5b8f9307c77078=
+3e7d96e9e9fc65cd5b3f9cdd5a8578e4ed121dd8d1/initscripts/UNIHASH/build/recipe
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/f63cc948b407d32cfacbfc=
+288d66c3fb64a6a611debfd7989d2cda55d7a957ca/openssh/UNIHASH/package/openssh
+
+https://valkyrie.yoctoproject.org/#/builders/6/builds/668/steps/12/logs/std=
+io
+https://valkyrie.yoctoproject.org/#/builders/8/builds/666/steps/15/logs/std=
+io
+https://valkyrie.yoctoproject.org/#/builders/9/builds/646/steps/12/logs/std=
+io
 
 --=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
