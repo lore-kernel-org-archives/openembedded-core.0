@@ -1,102 +1,135 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <derek@asterius.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A694E77184
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 21:54:51 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.93161.1734472481605886417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7B2E77187
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 22:36:41 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.93610.1734474994119681236
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 13:54:42 -0800
+ Tue, 17 Dec 2024 14:36:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TYxKwqOQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385dece873cso2728260f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 13:54:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1734472480; x=1735077280; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=roH1Ly0X38vs7dUX4xqeMpacxGOEIQewe81NeMukAek=;
-        b=TYxKwqOQWJlLnvMCwAII9rDaz/iyOkVkjfA+SMDGR/xC+YtgS7QEyTiHxYtNOUrYf4
-         zROfhcJfLTn3d8OqgAcYOi1JvnrmF7KhXrzAA3TOVV7UJvSPZ1TTcwUbpJJA/C+4cb1h
-         HD1ongB29ttkl9ZRuR99kwfm1uvbQZPoQ/zHo=
+ dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: straka.derek@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-29e2a50586dso2776684fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 14:36:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734472480; x=1735077280;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=roH1Ly0X38vs7dUX4xqeMpacxGOEIQewe81NeMukAek=;
-        b=jmqo+HLXHX8ZwYue2LaYtk9J2u5mb5ixv+XzAMT7SIa1jbrCODJq2oaW4XUH6TEPyO
-         ymNxhJKQCPazFx7JP+Ux1CShL1GYLZ9gAq8DH96juEuOFkNel1PG4zLtBu0remg+zU6B
-         xJQmfu1QCBdCC70bDS62dp15oNEpgftiz1d8IOIcsfhybdGi5Tod31xl1gVLLmt43AlP
-         pB0902o0IxNXXdnBuyU6rfLQ+N7ghzxS2xjkwhyLn3FU77srYAVdLrP0HhdlH9R0VMaJ
-         EYnjVnxVbTlOkBfXbRFa/nM2k+3O7RWXPKCWATeNp2Rbp+evDeshTND0/Wm9N7A1e9hK
-         nS7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX3Dv+eMNEF0j1luuUhzZnZv/zMHmABSBrS8LS+e/SazKs/LU5I9B8MXNZzIGkaS8yLd7DhB55qo7Hc9TWZVSutww==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxEBe0Oxd28ooGeEfuKBXcPQ0/uUa7s5sEDBZh1kGUihPhA8V0B
-	Qg3uPNd9ddgpsJlBNpvgu9SyB/nAAVum8WarZs0tZ2GG3i/IwRdqQiSkpk3WXFI=
-X-Gm-Gg: ASbGncvrGnS2l+ds7J6Y3ZN5+3vtpCfJbJOHrorHu0dROYfoUOqpcPWpTKwk0z4IdXY
-	5xO3I4vf3y7Y6QniPWMP0TbnJqu4CvOs12VOTkad37dIo8XZDMUUK4JjdvStO6ireKt4k18Zrhe
-	PEeCEj627fpsOHluVeWyA7NNEOLhYWxNXZ7tPdtXmqMQR0Un0KdckwQ75ACHzyTeShdikHnwf8c
-	oJ7rCF3re2IdIdNRLO5yENYvi9srL7Z3T3U/EDTo/D7E0vq42jizWh1I6Wj0bOT00slU7d6AU9k
-	lgymwB4bQSlQBitlALnLvBhk4y29EfLDloRAs5/b5CZtzA==
-X-Google-Smtp-Source: AGHT+IF6/BaGnzW3624iPaZlIHaY5yyXZtshKm3OfGwoefjlGFB1OYOT23/AryxYV+exDacmU6LNnw==
-X-Received: by 2002:a5d:59ad:0:b0:386:3213:5b9d with SMTP id ffacd0b85a97d-388e4d8e7e1mr346423f8f.41.1734472479714;
-        Tue, 17 Dec 2024 13:54:39 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ac68:38dd:218a:1df1? ([2001:8b0:aba:5f3c:ac68:38dd:218a:1df1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801626asm12263821f8f.29.2024.12.17.13.54.38
+        d=1e100.net; s=20230601; t=1734474993; x=1735079793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=np8+fuKY6NfSiGnx2MpEbFfIZqYwPgIW1tjcAyQv0iU=;
+        b=BDGqSbIJqgsaEgRIakC4PgzBzSxtXtxUvGYZJ8TuS03meuc32m/UxVLJDwms8U3hit
+         85ByHPS3LDRSF54QxwyKFKomQw/DT9r7tACZ6fFpOOqRybJWuDE08H543E+3nJeOg55f
+         jXZVyz7h1C8Zx3DVGdwZZhvxyANXZBrtxXvwAEgfTDPrTzdbFQRAcZSf6PSd7cVAbLXI
+         U6lnEr9GOy689oDkRZOQjUU3anCHUU7Raz5byqaFTCKDyNAf9ty6CnoDj1NGixpf9Ak9
+         cyZ73BsVOosaFZDm98W0IKYy0VhRIp11pf/1TgUU0XTimChoGyAJTlc79TnCIgTIaOOe
+         CN6g==
+X-Gm-Message-State: AOJu0YyrrG1l5DmLO2iolaR8OaklbSZCfeqz1ROflqYOqQ5c9SZL8O7m
+	JV/N0FnmrwfZQylIINhRvS8uewD+K38EKSwlg0CKslDarV7HP6gbNBXhAw==
+X-Gm-Gg: ASbGncv2SVh2OVd8iaWt9z6PmRnUnC03wztyYBQGAsA73NXCj/Ym4r/HVqunNUDSe1E
+	pzHvVDvxkEUPoF1T8CEfcjX72V5bYpc4zBgMUpJWFU/VJVVNni3XziwBuWtryWOOoxxTHP+E+no
+	Wq6RYGakeGznEM4FNpozidSbUTtDvy6vsv8MK7lnTzY2SLH6Vfq1/kRljt315azWdV8y3yuiNlC
+	TnhGnR/FIQJQej41clLzdZof8s5GyO7ALOedx1iM9fwzK+iBXzHCXzcq7eFOrDrjZ2ngyLBcxKo
+	y1gGc02xI+LoFQs3U1kjHvpNQQ==
+X-Google-Smtp-Source: AGHT+IF3Ia6rbK6a3APkLKn5IJEVaNBEx+hZle5tIxmbW/pW5qqJ7D28P9PKoC6s3i95QG53JwjyMA==
+X-Received: by 2002:a05:6871:488:b0:2a0:d2d:e60a with SMTP id 586e51a60fabf-2a7b343b353mr269239fac.43.1734474992636;
+        Tue, 17 Dec 2024 14:36:32 -0800 (PST)
+Received: from alpha.lab.asterius.io (c-24-118-24-24.hsd1.mn.comcast.net. [24.118.24.24])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2a3d24aebefsm3155333fac.3.2024.12.17.14.36.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 13:54:39 -0800 (PST)
-Message-ID: <44c02d8227fc53f02b088048ba150db84c5ab86d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 03/21] boost: upgrade 1.86.0 -> 1.87.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
-Date: Tue, 17 Dec 2024 21:54:37 +0000
-In-Reply-To: <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
-References: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
-	 <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Tue, 17 Dec 2024 14:36:31 -0800 (PST)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Derek Straka <derek@asterius.io>
+Subject: [OE-core][PATCH 1/2] classes/ptest-python-pytest: add a new class to consolidate ptest functionality for python pytest based tests
+Date: Tue, 17 Dec 2024 22:36:04 +0000
+Message-Id: <20241217223605.3383795-1-derek@asterius.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 21:54:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208858
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 22:36:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208859
 
-On Tue, 2024-12-17 at 16:57 +0800, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@cn.fujitsu.com>
->=20
-> boost-math-disable-pch-for-gcc.patch
-> refreshed for 1.87.0
->=20
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
-> =C2=A0.../boost/{boost-1.86.0.inc =3D> boost-1.87.0.inc}=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A0...uild-native_1.86.0.bb =3D> boost-build-native_1.87.0.bb} | 0
-> =C2=A0.../boost/boost/boost-math-disable-pch-for-gcc.patch=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 8 ++++----
-> =C2=A0.../boost/{boost_1.86.0.bb =3D> boost_1.87.0.bb}=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
-> =C2=A04 files changed, 5 insertions(+), 5 deletions(-)
-> =C2=A0rename meta/recipes-support/boost/{boost-1.86.0.inc =3D> boost-1.87=
-.0.inc} (90%)
-> =C2=A0rename meta/recipes-support/boost/{boost-build-native_1.86.0.bb =3D=
-> boost-build-native_1.87.0.bb} (100%)
-> =C2=A0rename meta/recipes-support/boost/{boost_1.86.0.bb =3D> boost_1.87.=
-0.bb} (100%)
+A large number of python packages leverage the pytest unit test
+framework for their ptest functionality.  Currently, many of the tests
+have duplicate code for:
+    1. Installing pytest files
+    2. Declaring ptest dependencies
+    3. Script for executing tests (run-ptes)
 
-I think this breaks kea:
+To simplify adding common pytest based ptests, added a new class
+enabling base functionality.  Users can also override the location of
+the pytest files in addition to using their own version of run-ptest
 
-https://valkyrie.yoctoproject.org/#/builders/6/builds/680/steps/12/logs/std=
-io
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ .../ptest-python-pytest.bbclass               | 42 +++++++++++++++++++
+ meta/files/ptest-python-pytest/run-ptest      |  3 ++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/classes-recipe/ptest-python-pytest.bbclass
+ create mode 100755 meta/files/ptest-python-pytest/run-ptest
 
-Cheers,
+diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass b/meta/classes-recipe/ptest-python-pytest.bbclass
+new file mode 100644
+index 0000000000..89ff10c335
+--- /dev/null
++++ b/meta/classes-recipe/ptest-python-pytest.bbclass
+@@ -0,0 +1,42 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++inherit ptest
++
++FILESEXTRAPATHS:prepend := "${COREBASE}/meta/files:"
++
++SRC_URI += "file://ptest-python-pytest/run-ptest"
++
++# Overridable configuration for the directory within the source tree
++# containing the pytest files
++PTEST_PYTEST_DIR ?= "/tests"
++
++do_install_ptest_python_pytest() {
++	if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
++		install -m 0755 ${UNPACKDIR}/ptest-python-pytest/run-ptest ${D}${PTEST_PATH}
++	fi
++    if [ -d "${S}/${PTEST_PYTEST_DIR}" ]; then
++        install -d ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}
++        cp -rf ${S}/${PTEST_PYTEST_DIR}/* ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}/
++    fi
++}
++
++FILES:${PN}-ptest:prepend = "${PTEST_PATH}/tests/* ${PTEST_PATH}/run-ptest "
++
++RDEPENDS:${PN}-ptest:prepend = "python3-pytest python3-unittest-automake-output"
++
++addtask install_ptest_python_pytest after do_install_ptest_base before do_package
++
++python () {
++    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.setVarFlag('do_install_ptest_python_pytest', 'fakeroot', '1')
++        d.setVarFlag('do_install_ptest_python_pytest', 'umask', '022')
++
++    # Remove all '*ptest_python_pytest' tasks when ptest is not enabled
++    if not(d.getVar('PTEST_ENABLED') == "1"):
++        for i in ['do_install_ptest_python_pytest']:
++            bb.build.deltask(i, d)
++}
+diff --git a/meta/files/ptest-python-pytest/run-ptest b/meta/files/ptest-python-pytest/run-ptest
+new file mode 100755
+index 0000000000..8d2017d39c
+--- /dev/null
++++ b/meta/files/ptest-python-pytest/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++pytest --automake
+-- 
+2.34.1
 
-Richard
 
