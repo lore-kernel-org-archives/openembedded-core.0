@@ -2,143 +2,151 @@ Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB59E77184
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 11:12:47 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.79049.1734433966796098195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B018BE77184
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 11:12:57 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.79055.1734433974284228097
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 03:12:47 -0800
+ Tue, 17 Dec 2024 03:12:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=Zat1bAXa;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.48, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e971a2a0so316630f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 03:12:46 -0800 (PST)
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=xCIbDjYu;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.128.48, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43616c12d72so7057795e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 03:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1734433965; x=1735038765; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SKF/lwMq6q6iLFDQdqfKiOQR5H7Rhufh8RRQBjh6ayc=;
-        b=Zat1bAXaLrJ4wXVVxOng85JSQlyFeL1Z9wdl+U0wqB8oHYlzZkGvtmPmmJ/AsyzxOz
-         aYn+aAYlL/xnwr8SXmZp4xMCJkBif/TST//Yqzuaz9qfiFpktrw3Hzo7aDCS9ziM/7nu
-         uq77I8av8j/vkg2a1pB4aFGIVUnzbMdYzbLLh8OXM8QcamD5Y81DqST9Vq4dR8VEGtaX
-         khU/IFiAkyBnfSeV12L8pp/RZ8dQ1wNaX5zs7ZikjohheKSxtYweTMOmiBSUnPZwgrIk
-         qTrsVUFDr93qGCZZrnRcsYKbl5R4B30NZdYRCEWnxUEn6nPm2+zLlFq+hTDCUYxZ9ctO
-         AyPw==
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1734433973; x=1735038773; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i6Nsu1OWiAwQofIMANvJbnaFEonIzuU8e9M+WFUIK78=;
+        b=xCIbDjYuH0MVc89C+qAZLOevOZNBfx44Ag/blrUU5zf7jD8z8HSQ/Qy4FxD0y9hHkP
+         CWJupgyGHwtnt/bYEvyxUANbyr9qCcjSfP92x4aofNgguwxpmbnMTPdCFsdXPrBD+xkF
+         J0rFlFO7FV+LKf4xlWVpr2NRyfGnYigk+AIe915K28OF+czZvzlbX1pfSc8Av+lFCfRD
+         FhgsnWxclvez94ozOgJIqeGMTLuGMtdU5JTQ2gj1UAaIYSrPVDPnvR1xWOmUBAl2chgF
+         KbvXcQPaXShZ+bD6GqJc98P2ksruc3UaoZEbECnCh4cSw/US/FraGL0DRSlGAMRsw/cw
+         Ui7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734433965; x=1735038765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SKF/lwMq6q6iLFDQdqfKiOQR5H7Rhufh8RRQBjh6ayc=;
-        b=PpIoLtNK2uSABDWAV0A4W0H6TmILkvY18F9yO1GXX4RrfZC1ax20hgrGRff87+lu4+
-         pUbg+xZjVFldBCo9efJCL8J8XXRuS6FzRtJQjMADtotUfPNZo11D4Av3WT/I06hMjg9Y
-         svZgQdlhiIw9PRzq0Nrn9g3NbSOg54Cu3Rbo/bMQtnitLPU7bzsPWo2FU0YtCDfMaase
-         m6SRMZ6wxEt1VADzBHuEjxkXL/APw8sNQqjnn6iXLDpFq0l92A603A1uklRh0Hu14Qfb
-         Z0e887o/S7K71kxUI40Y6MXiUcNrhU+XygbkxN6wetIukH9lAbbheyEk5zC2GYMyzssY
-         Ae9Q==
-X-Gm-Message-State: AOJu0YxZLdZxj3a6AGqJ4cBK/JI6LibfonGmPU0juxxs2VIiDtu4C3mK
-	XuzDuP4hv1cJT7A7jf4EWKaNv1nxplsFylkxTkgLYKOx3KS4yXfN8Dkla0gEHpnnP0IkPd0tdKY
-	+3XRRsEYIGKROXPBDCfidV2dfviYJpcfx5MNM9CM2BcUdxtCy0qO+iEf8B0sJDNpbtGmKNM4JG5
-	GInrnWHKVi
-X-Gm-Gg: ASbGnctUSvKL6IWv/V96B+JNR/TX3Yrc2dzt4RupRnC4pOAelkMQ7lXEj4Z1tqw4f8z
-	/uHAcqaF5PJEMqmKCu5trLUzSa3jzxHMg3a1e5VOZNwEHCd+mqifAMwIdrt6NT/noOkF4znCbBR
-	HiFC8CNWgAKGv+z17g2Pxpp8xSmPehBtBgCfDcsatWpZgQqMS+unDdFVdCRlZXqlx1TcMfR20Xp
-	Qsz0nsoarGAKAZyBpwWuid6qiCHEFeEdtJFdpF+o46v0exnUq0SAVmkNsaSC1YtltQD0nH1JYRx
-	HiJz8cf1dCRcBUL+R5H+CIAkkw4RwZV3nQ==
-X-Google-Smtp-Source: AGHT+IEmz1t3dwEORcB17rbmVxndioRRQMmDcls0PVgSjEreFi95pnIO/i/ZPkWb7Wz/lAl7EVLvtw==
-X-Received: by 2002:a05:6000:481c:b0:386:3c21:b1f7 with SMTP id ffacd0b85a97d-3888e0bb65cmr5087156f8f.7.1734433964802;
-        Tue, 17 Dec 2024 03:12:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734433973; x=1735038773;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i6Nsu1OWiAwQofIMANvJbnaFEonIzuU8e9M+WFUIK78=;
+        b=NyaaSkHcWFBFjzQHmzJvBmlofi6sO1wrtbAEpy1YlPC2AmNn8/V4sQ6roKTUfkUM+m
+         MEJT+Y08Eq5A+cMGv/03Y+2mX8+0e+KpuK592dhW9CTzgefibqnJ9k/Mp+CYx2RtmQdt
+         M/5siCW9Z5sLb2CVhRcPId3pkaHQo+IJWICLnpQNP3Ihxk2Q8a4wCzPHdtnU9utnDLfU
+         pMwUeAO3xH2t38lxD4QmJwxUbeB9HUCwqcqKRorpCJwWv/MhRBU1KjS/vm6KWtvDTaCA
+         S5FCW5AENphuThiq9P2DybjGna4X+WKdyHpYbiwtKbfdoC5o4QbMYu2BYJBy8buJH8cz
+         EzYA==
+X-Gm-Message-State: AOJu0Yy82Fl2rmhWkPq9dmh9o8wy2hN2d6P340sKeyZtrQe0Z3U9TO6k
+	E3aLTGe3QiZ9is/1bk5zDxX8mOYEqEpLxNNrdlLIUPOBFfI9wE+4Ozvsc/fvpbzftxGOa+f+/Qe
+	0CTnlUxJulHqti8SzMVM3YxJiIMlcrjcFl2LaxuEtVTJj0jhjEOEbvtPIPtzHQHcObSNjrtMnML
+	kB8ATrILOb
+X-Gm-Gg: ASbGnctldHvh6ihdLnGvq10+3MMsepi45Ak6XYgwhPcPIwKdT/PJDM9WIrjZBqpl4Y2
+	323OLGsRm65CUUA9TTCk1OMePUdLTunLGzgmgT5FcXpdp1fZtbRMM9VCeClnhYqfMaX5YpZU3J6
+	Y/uxjt66JTW8b7ElB7Q39Z1pe/6JDcbLDJHaA9VQYh5YB1QMRZkGsr1EKv1AVfFx8RIu4k/80Fh
+	hjpeQEWVBx8hkRvmw2Ab+yGa2bZd4wA/lNphp4YnkHs5k1idlOK6TC2YP2L5y4CShb9Riw9au67
+	o1vNZf64SxZLu4hagzpCwvLUsBA2OPRmpw==
+X-Google-Smtp-Source: AGHT+IH8z8SzCEXJ4tbC5/mM/5fT4iutqMNjbTeYXujsXabTlmMYkug6xkq+1Ikj3I+LPTQVcln06Q==
+X-Received: by 2002:a05:600c:1c1c:b0:42c:aeee:e603 with SMTP id 5b1f17b1804b1-4362aab2452mr54735745e9.7.1734433972580;
+        Tue, 17 Dec 2024 03:12:52 -0800 (PST)
 Received: from localhost (dslb-084-060-024-069.084.060.pools.vodafone-ip.de. [84.60.24.69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c80120f9sm10856885f8f.15.2024.12.17.03.12.44
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4363606eee9sm115439525e9.24.2024.12.17.03.12.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 03:12:44 -0800 (PST)
+        Tue, 17 Dec 2024 03:12:52 -0800 (PST)
 From: Jonas Gorski <jonas.gorski@bisdn.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH kirkstone 0/6] base-passwd: backport fixes from master
-Date: Tue, 17 Dec 2024 12:12:23 +0100
-Message-ID: <20241217111229.60698-1-jonas.gorski@bisdn.de>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH kirkstone 6/6] base-passwd: Add the sgx group
+Date: Tue, 17 Dec 2024 12:12:29 +0100
+Message-ID: <20241217111229.60698-7-jonas.gorski@bisdn.de>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241217111229.60698-1-jonas.gorski@bisdn.de>
+References: <20241217111229.60698-1-jonas.gorski@bisdn.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="ISO-8859-1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 11:12:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208832
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 11:12:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208838
 
-Backport updates for base-passwd to 3.5.52 and fixes to kirkstone.
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-Adds default wheel and sgx groups instead of letting systemd creating
-them dynamically.
+To avoid errors from eudev/udev we need an sgx group, but if we add it
+via groupadd that causes shadow login to be brought into an image, which
+causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
+Function not implemented` as shadow's login doesn't implement the
+heuristics which busybox has to handle this kernel configuration.
 
-Mostly identical except where patches needed renumbering due to
-targeting base-passwd 3.6.
-
-Backport done as part of [ Yocto #15680 ].
-
-Alex Kiernan (1):
-  base-passwd: Add the sgx group
-
-Alexandre Belloni (1):
-  base-passwd: fix patchreview warning
-
-Louis Rannou (1):
-  base-passwd: add the wheel group
-
-Peter Kjellerstedt (3):
-  base-passwd: Regenerate the patches
-  base-passwd: Update to 3.5.52
-  base-passwd: Update the status for two patches
-
- .../0001-Add-a-shutdown-group.patch           |  26 ++++
- .../0001-base-passwd-Add-the-sgx-group.patch  |  30 ++++
- ...nstead-of-bin-bash-for-the-root-user.patch |  23 ++++
- ...t-since-we-do-not-have-an-etc-shadow.patch |  21 +++
- ...nput-group-for-the-dev-input-devices.patch |  23 ++++
- .../{kvm.patch =3D> 0005-Add-kvm-group.patch}   |   2 +-
- ...ble-to-build-without-debconf-support.patch | 129 ++++++++++++++++++
- ...-to-disable-the-generation-of-the-do.patch |  46 +++++++
- .../base-passwd/0008-Add-wheel-group.patch    |  20 +++
- .../base-passwd/add_shutdown.patch            |  19 ---
- .../base-passwd/disable-docs.patch            |  24 ----
- .../base-passwd/disable-shell.patch           |  57 --------
- .../base-passwd/base-passwd/input.patch       |  22 ---
- .../base-passwd/base-passwd/nobash.patch      |  15 --
- .../base-passwd/base-passwd/noshadow.patch    |  14 --
- ...passwd_3.5.29.bb =3D> base-passwd_3.5.52.bb} |  30 ++--
- 16 files changed, 337 insertions(+), 164 deletions(-)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-Add-a-sh=
-utdown-group.patch
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a1c81ac4a869cc57394071ace2ca086eb8ac47a4)
+Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
+---
+ .../0001-base-passwd-Add-the-sgx-group.patch  | 30 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.5.52.bb         |  1 +
+ 2 files changed, 31 insertions(+)
  create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-base-pas=
 swd-Add-the-sgx-group.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-=
-sh-instead-of-bin-bash-for-the-root-user.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0003-Remove-f=
-or-root-since-we-do-not-have-an-etc-shadow.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0004-Add-an-i=
-nput-group-for-the-dev-input-devices.patch
- rename meta/recipes-core/base-passwd/base-passwd/{kvm.patch =3D> 0005-Add-=
-kvm-group.patch} (88%)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0006-Make-it-=
-possible-to-build-without-debconf-support.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0007-Make-it-=
-possible-to-disable-the-generation-of-the-do.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0008-Add-whee=
-l-group.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/add_shutdown.=
-patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-docs.=
-patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-shell=
-.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/input.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/nobash.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patc=
-h
- rename meta/recipes-core/base-passwd/{base-passwd_3.5.29.bb =3D> base-pass=
-wd_3.5.52.bb} (79%)
 
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add=
+-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-=
+passwd-Add-the-sgx-group.patch
+new file mode 100644
+index 000000000000..e1340e1b70cf
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sg=
+x-group.patch
+@@ -0,0 +1,30 @@
++From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
++From: Alex Kiernan <alexk@zuma.ai>
++Date: Fri, 28 Jul 2023 10:28:57 +0100
++Subject: [PATCH] base-passwd: Add the sgx group
++
++To avoid errors from eudev/udev we need an sgx group, but if we add it
++via groupadd that causes shadow login to be brought into an image, which
++causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
++Function not implemented` as shadow's login doesn't implement the
++heuristics which busybox has to handle this kernel configuration.
++
++Upstream-Status: Inappropriate [oe-specific]
++
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index d34d2b832d43..e54fd1d2c6dc 100644
++--- a/group.master
+++++ b/group.master
++@@ -34,6 +34,7 @@ video:*:44:
++ sasl:*:45:
++ plugdev:*:46:
++ kvm:*:47:
+++sgx:*:48:
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb b/meta/rec=
+ipes-core/base-passwd/base-passwd_3.5.52.bb
+index 66b5a0e7dc6a..9fbba7e9c071 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
+@@ -14,6 +14,7 @@ SRC_URI =3D "https://launchpad.net/debian/+archive/primar=
+y/+files/${BPN}_${PV}.tar
+            file://0006-Make-it-possible-to-build-without-debconf-support.p=
+atch \
+            file://0007-Make-it-possible-to-disable-the-generation-of-the-d=
+o.patch \
+            file://0008-Add-wheel-group.patch \
++           file://0001-base-passwd-Add-the-sgx-group.patch \
+            "
+=20
+ SRC_URI[sha256sum] =3D "5dfec6556b5a16ecf14dd3f7c95b591d929270289268123f31=
+a3d6317f95ccea"
 --=20
 2.47.1
 
