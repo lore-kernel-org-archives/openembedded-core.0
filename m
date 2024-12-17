@@ -1,141 +1,123 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C35EE7717F
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 20:55:40 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.91809.1734468932076599529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA65BE7717F
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 21:14:20 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.91905.1734470053239113961
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 12:55:32 -0800
+ Tue, 17 Dec 2024 13:14:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=l63vqGPR;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7242f559a9fso7367944b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 12:55:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BMlvCMf9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4363dc916ceso702555e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 13:14:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734468931; x=1735073731; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Be1NpRqqfe8CY2xkcJuFYygK0QxoNikft6c5AM0sNjk=;
-        b=l63vqGPRQH9lk3Z4UiTMsClIY8xqSjZ5HWdTvKS9LBOp1sOlixN68/Zp03apTkkMCw
-         EMldf0II8MyYIDtT72gAkF/pik9zCD//xC5K+/2VuEi/hmpu58KshlasXH67ZK1yDGUn
-         D9cytgxfFpcfwiM/F2DGs5B+UPc6f58Jq9Dx53CBhI94occQgqWhaKdqlBKaAJ+T/vvu
-         2rQ8B5sgQAlP4c+145JEz/ME4+asiAYoO3G/bUml8NIqeoS7xINY6nur09YiJUTpumZU
-         +HOKhN5l6pnw+gKnaQCHHvnp/q5716kfyCyE/g0+mLad1/WqAAtfhdDZH9vfcdO7NCaB
-         MU8A==
+        d=linuxfoundation.org; s=google; t=1734470051; x=1735074851; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=M2MZ7UNHioD8JBmTk96iX2qso0/kzIUcJt/kg4OV2TI=;
+        b=BMlvCMf9DVOI38Vj3+4Zf0UEgOMaIERZC9/b1kKOKQlTX+Wby4NB1iJdyAf5zlMHkr
+         6XjJAUemjZEM7VtT1N/m7FtdqZiesHVpvdc3jA04xZqk65k3F+pRVrsIToxxUw7NA7SM
+         bPXHdvrYg3rmRKFuf5H/XGQiKHQGo22B7pCeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734468931; x=1735073731;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Be1NpRqqfe8CY2xkcJuFYygK0QxoNikft6c5AM0sNjk=;
-        b=R+YQ67Bitc3UD4N7wtVqlDyqAS9AnTUI0ZxYBw/jw0j0ILEhD5V/0wWyAf3S7I5pvD
-         qutmcSVCSKcqXFz8zLpJLUXu41mFP0JuVJUQOcLzGjCKK66ioWjsBD2D14uBrCmwSeSV
-         s2I04CP9xrmFCKZELQEv5vlx+Uf5xmChTuWnzzy6Gd0KH89N6nSheQIlUUjPQQHPcHJe
-         v42/xx+k+aept8fYYbIYmoVhm4Qv0hF4fm40aEjmQU6ruSDwBjXAyPChmjP7t6lmcJFQ
-         2c07erKfZOzPnu7zlaHw0kNPoik5UQWGu6bZoq99ehzAYaXe8CUvuZMT43e1FG7zh9Ip
-         DZtw==
-X-Gm-Message-State: AOJu0YwKH/F5yuymjV2tHlcwnrlNbuHSEgndZLaJqy3dRLh2vPIGZTR9
-	QLnSCjR8t3d40udzSCqEgCHwLK9fNUVegM2vR+JvvEqy6Ufpk9MxBj36YW95QnrpmaDa65gDa4y
-	3
-X-Gm-Gg: ASbGncuoqRcGPYWsce42SRoCpGeJPQJA7uN58Akm1eJPR8BCIeZthcpgNArcph/4eCo
-	OjzY4ofwojDsPGk4SN9nPm/14UeIwZlfe+ZrZDAxMcr+xnrg3B4cxYs5Zc5UijwAS/ZZJRDxPa6
-	Z2z9spUnd8K87C+wJc5JYsq/2WBZcEeL+qwM8hA/GE2Sl+I4SN7ij7noBEUy0pIk1sBpnVTe0vj
-	Gk/5DLALj10A0TxwI4UoqlAUMUIAFEp89ReFllrrdX7rg==
-X-Google-Smtp-Source: AGHT+IF7WqLinfx/vS5L4cL90+DE2x1+s8H4f5NTvnDbS07G0tuJUeX8MCvMuqNC6gwr32uhaP7V4g==
-X-Received: by 2002:a05:6a00:3cd0:b0:728:e182:a8b with SMTP id d2e1a72fcca58-72a8d226adbmr656182b3a.9.1734468931401;
-        Tue, 17 Dec 2024 12:55:31 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918ad5bc5sm7353294b3a.69.2024.12.17.12.55.30
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1734470051; x=1735074851;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M2MZ7UNHioD8JBmTk96iX2qso0/kzIUcJt/kg4OV2TI=;
+        b=j7cdn+OYe0222by/1gdCcFTH/LtlFHUylwjiB9t+nLjvha3B4gl+eym2OgYlHMSLLV
+         2WoQXyvm8OpwZvbHQF6S7QS7lncTGRfbzyONkYO2o0/0hdyKq2jITA+VDRqSSW7rfuu/
+         dbLT9Xj4hfTBka5Xjfuwsjmfr515qE40fUqqtJcxplIDLr5DgXQrPC/03IuhvlZzE8Vx
+         1vMuz879Hr1keU89jrydFR+rtq0EXh8FHS+ldOBnWJtjc28/MAkn9JmrTdeXbpPGYPlM
+         w3A8FehiYA+F4Ha5QbqoEd7wh0/EqpR3tpuj52m5C4f9uBdmKYVhRf8jNFF5WpwOUKlq
+         0AlQ==
+X-Gm-Message-State: AOJu0Yx197ZcEDMZ16D4wBDosEAA2QNuS6h3VcA/3C+h+fQ6Vf/BN7vP
+	2s6lO7FeSCAt6By9spdKa+ausJMu7rEyRoBKpFxTsIryZn9OhsiBRFQPA3/acUU=
+X-Gm-Gg: ASbGnctRcvJtFIbZfUXZnSnIJJ7LkKlg8wEhNM+gU3MqM48u2A1WpDEYeljzy5uCOLQ
+	MCrozsFbt7fqCezWQX/rcCTdTeEfmqSU9BBI7p7LkOc8MVtfniKYgQIurMxLpyMWY0qRlnavgOl
+	90nShqmnAw00M/L1B+tknu717hy3mZdRQbwPL9EdLppdMWeceLeRwWKwRvbj9BHP5EGWYQDVYrz
+	Ox//YRq7l2J4FvZOk0vTp24gY7HqEKJXRMdxO5cqWU8BjEus/9INgnVE7ouZZXuQO87hc+WnevV
+	HFiS5qKfNyRiUzTQu2O6Ld1NDFosDLXZ6xxqS9gzU9v1Mg==
+X-Google-Smtp-Source: AGHT+IEvNrVGqhl65LcwBo1TFNQou8NIUR96fTdplnLGDb0t/oYEVgdWTwdfSAovnNLGBmr73RlDdQ==
+X-Received: by 2002:a05:6000:4a09:b0:385:df17:2148 with SMTP id ffacd0b85a97d-388db275330mr4619036f8f.20.1734470051152;
+        Tue, 17 Dec 2024 13:14:11 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ac68:38dd:218a:1df1? ([2001:8b0:aba:5f3c:ac68:38dd:218a:1df1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43625706588sm188030615e9.29.2024.12.17.13.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 12:55:31 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 9/9] base-passwd: Add the sgx group
-Date: Tue, 17 Dec 2024 12:55:00 -0800
-Message-Id: <cd7618319cf14cf1e65320b0eb57ca12028efc0f.1734468756.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1734468756.git.steve@sakoman.com>
-References: <cover.1734468756.git.steve@sakoman.com>
+        Tue, 17 Dec 2024 13:14:09 -0800 (PST)
+Message-ID: <d88044d0365ce088f4d983c83e870803b30697d7.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] gcc: backport patch to fix data relocation to
+ !ENDBR: stpcpy
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, bin.lan.cn@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2024 21:14:07 +0000
+In-Reply-To: <CAMKF1so72XWNdOaF0MFYJrAC7SLrx7TWDHiCO2iSybj6ksc_Yw@mail.gmail.com>
+References: <20241217104729.4115134-1-bin.lan.cn@windriver.com>
+	 <CAMKF1so72XWNdOaF0MFYJrAC7SLrx7TWDHiCO2iSybj6ksc_Yw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 20:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208855
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 21:14:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208856
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+On Tue, 2024-12-17 at 09:20 -0800, Khem Raj via lists.openembedded.org wrot=
+e:
+> On Tue, Dec 17, 2024 at 2:47=E2=80=AFAM Bin Lan via lists.openembedded.or=
+g
+> <bin.lan.cn=3Dwindriver.com@lists.openembedded.org> wrote:
+> >=20
+> > There is the following warning when building linux-yocto with
+> > default configuration on x86-64 with gcc-14.2:
+> > =C2=A0 AR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 built-in.a
+> > =C2=A0 AR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmlinux.a
+> > =C2=A0 LD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmlinux.o
+> > =C2=A0 vmlinux.o: warning: objtool: .export_symbol+0x332a0: data reloca=
+tion to !ENDBR: stpcpy+0x0
+> >=20
+> > This change set removes the warning.
+> >=20
+> > PR target/116174 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D116174=
+]
+> >=20
+> > Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> > ---
+> > =C2=A0meta/recipes-devtools/gcc/gcc-14.2.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0...ch-to-fix-data-relocation-to-ENDBR-s.patch | 447 +++++++++++++=
++++++
+> > =C2=A02 files changed, 448 insertions(+)
+> > =C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc-backpor=
+t-patch-to-fix-data-relocation-to-ENDBR-s.patch
+> >=20
+> > diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devt=
+ools/gcc/gcc-14.2.inc
+> > index 4f505bef68..a25bc019e5 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-14.2.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
+> > @@ -69,6 +69,7 @@ SRC_URI =3D "${BASEURI} \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
+://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=C2=A0\
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
+://0025-gcc-testsuite-tweaks-for-mips-OE.patch=C2=A0\
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://002=
+6-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch=C2=A0\
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://00=
+27-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch=C2=A0\
+>=20
+> tiny nit.
+> is this tab vs spaces ? can you fix this.
 
-To avoid errors from eudev/udev we need an sgx group, but if we add it
-via groupadd that causes shadow login to be brought into an image, which
-causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
-Function not implemented` as shadow's login doesn't implement the
-heuristics which busybox has to handle this kernel configuration.
+Looks to be in the original file rather than an addition by this patch :/.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a1c81ac4a869cc57394071ace2ca086eb8ac47a4)
-Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../0001-base-passwd-Add-the-sgx-group.patch  | 30 +++++++++++++++++++
- .../base-passwd/base-passwd_3.5.52.bb         |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+Cheers,
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-new file mode 100644
-index 0000000000..e1340e1b70
---- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-@@ -0,0 +1,30 @@
-+From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
-+From: Alex Kiernan <alexk@zuma.ai>
-+Date: Fri, 28 Jul 2023 10:28:57 +0100
-+Subject: [PATCH] base-passwd: Add the sgx group
-+
-+To avoid errors from eudev/udev we need an sgx group, but if we add it
-+via groupadd that causes shadow login to be brought into an image, which
-+causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
-+Function not implemented` as shadow's login doesn't implement the
-+heuristics which busybox has to handle this kernel configuration.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ group.master | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/group.master b/group.master
-+index d34d2b832d43..e54fd1d2c6dc 100644
-+--- a/group.master
-++++ b/group.master
-+@@ -34,6 +34,7 @@ video:*:44:
-+ sasl:*:45:
-+ plugdev:*:46:
-+ kvm:*:47:
-++sgx:*:48:
-+ staff:*:50:
-+ games:*:60:
-+ shutdown:*:70:
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-index 66b5a0e7dc..9fbba7e9c0 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
-            file://0006-Make-it-possible-to-build-without-debconf-support.patch \
-            file://0007-Make-it-possible-to-disable-the-generation-of-the-do.patch \
-            file://0008-Add-wheel-group.patch \
-+           file://0001-base-passwd-Add-the-sgx-group.patch \
-            "
- 
- SRC_URI[sha256sum] = "5dfec6556b5a16ecf14dd3f7c95b591d929270289268123f31a3d6317f95ccea"
--- 
-2.34.1
-
+Richard
 
