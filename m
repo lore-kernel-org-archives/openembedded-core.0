@@ -1,130 +1,141 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC25E7716A
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 07:46:55 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.76637.1734421605337138101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1308E7717F
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 08:58:25 +0000 (UTC)
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
+ by mx.groups.io with SMTP id smtpd.web11.77562.1734425903308092721
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Dec 2024 23:46:45 -0800
+ Tue, 17 Dec 2024 00:58:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1tNSHz-0008Fu-Sa; Tue, 17 Dec 2024 08:46:43 +0100
-Received: from dude06.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::5c])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1tNSHy-003pNe-1M;
-	Tue, 17 Dec 2024 08:46:43 +0100
-Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1tNSHz-006ial-0R;
-	Tue, 17 Dec 2024 08:46:43 +0100
-From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=oo/zI1sL;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1734425904; x=1765961904;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=B498YLo6OaQ+rrAOcBxEK05BezCAA3xtlTzj2gS5mIU=;
+  b=oo/zI1sL9aW/YDRvap2j5jrw+/DqGGNcqbDb5xXpiBls839l+PWanbk4
+   ojuhn2LUi8waMWkAI2Yq1fGxSqGzwKSarZGGzV7Onqyn/BDdLhimnuf7+
+   Xwe3UTI6F793jeSgC+sT3qHBoabS/7/9a7m4FAa5QHu/IcmSGJUtVnCq2
+   EKVYeMEgB1H8GtJ31Opj1j78ytMOp4ILzBA/Oh7bxuTIp8sPH7E66GvVC
+   Rps0fTwNta1CLAG0d9SKAEpMAIL9S0B005yvjkM2Dx8TGxQNbk6zhvpNr
+   0f//V60nTTG2hTYjwww643dSvSLSaRO2iKG4GcSgyZi3tefoITQypc3Di
+   g==;
+X-CSE-ConnectionGUID: GOhSyWs6SdOh+Xn5jQROPw==
+X-CSE-MsgGUID: o7tvXOdgTSWSQazP4Ac6HQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="186395087"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728918000"; 
+   d="scan'208";a="186395087"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 17:58:21 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id B7508C2262
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 85959BF4B5
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 214D96B9B4
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id BE7E11A000B;
+	Tue, 17 Dec 2024 16:58:17 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Felix Kloeckner <F.Kloeckner@weinmann-emt.de>
-Subject: [PATCH] kernel-yocto: make kernel commits reproducible
-Date: Tue, 17 Dec 2024 08:45:47 +0100
-Message-Id: <20241217074547.1601328-1-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.39.5
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH 03/21] boost: upgrade 1.86.0 -> 1.87.0
+Date: Tue, 17 Dec 2024 16:57:49 +0800
+Message-Id: <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
+References: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28864.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28864.006
+X-TMASE-Result: 10-5.808300-10.000000
+X-TMASE-MatchedRID: rofoCPeR2CGjz0nOeth/yX84FZpy/6JVkdS3kPlaZyXfUZT83lbkENb2
+	e7N2CFQy+7QcRaVoa8nGKIf6hBf7Vd6KzZKXMR2ETuctSpiuWyWY5v+NllnxQpU0v9mwIFt+2c5
+	16rvzqrtYzJcD0gVKSpu91RWVjlmQtR3ZHtcq+ffvVbHa5Rs8t8TGavmGo0vWNxLN8dnZPdXO/T
+	5SZgJlw9+RhPMsqBuAgDLqnrRlXra/ZOFeDeXHgN0H8LFZNFG7hqz53n/yPnrF6W2KK++iB917T
+	NbiEL8hen72wm/A5wtO1m0/3jXbHXW83xjabA56Dd41uEPSz2dhcukHjdgxy3a2dhfDdwGFz++Z
+	NFENx7M=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 07:46:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208804
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 08:58:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208806
 
-The git commit hashes for the kernel checkout are not reproducible under
-certain conditions:
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-- If the git repository is initialized on an archive (rather than a
-  git), the initial git commit not only has the current user name set,
-  it also uses the current system time as committer and author date.
-  This will affect the initial git hash and thus all subsequent ones.
+boost-math-disable-pch-for-gcc.patch
+refreshed for 1.87.0
 
-- The patches applied by the kern-tools have a valid author and date.
-  However, their committer again depends on the user building the BSP.
-
-This is an issue, for example, if one compiles a kernel with
-CONFIG_LOCALVERSION_AUTO enabled where the commit hash lands into the
-kernel and thus the package version. This not only makes the package
-version non-reproducible, but also leads to version mismatches between
-kernel modules built against a fresh kernel checkout and the kernel
-retrieved from the sstate cache.
-
-The class uses 'check_git_config', but this only sets the git user and
-only if none existed before. Thus it doesn't really help here.
-
-Since in Git the committer information can be set only from the
-environment variables GIT_COMMITTER_NAME, GIT_COMMITTER_EMAIL, and
-GIT_COMMITTER_DATE, we introduce the helper function
-'reproducible_git_committer' here to set those.
-As values simply use PATCH_GIT_USER_NAME, PATCH_GIT_USER_EMAIL (from
-patch.bbclass) and SOURCE_DATE_EPOCH.
-
-Using this helper makes the committer date/name/email for the initial
-reproducible, as well as the committer name/email for the patches
-applied with kern-tools.
-
-What's still missing is the initial commit's date/name/email which we
-just set explicitly via command line arguments.
-
-Suggested-by: Felix Klöckner <F.Kloeckner@weinmann-emt.de>
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/classes-recipe/kernel-yocto.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .../boost/{boost-1.86.0.inc => boost-1.87.0.inc}          | 2 +-
+ ...uild-native_1.86.0.bb => boost-build-native_1.87.0.bb} | 0
+ .../boost/boost/boost-math-disable-pch-for-gcc.patch      | 8 ++++----
+ .../boost/{boost_1.86.0.bb => boost_1.87.0.bb}            | 0
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/boost/{boost-1.86.0.inc => boost-1.87.0.inc} (90%)
+ rename meta/recipes-support/boost/{boost-build-native_1.86.0.bb => boost-build-native_1.87.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost_1.86.0.bb => boost_1.87.0.bb} (100%)
 
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
-index a5d89dc2c8..1ba2f91e62 100644
---- a/meta/classes-recipe/kernel-yocto.bbclass
-+++ b/meta/classes-recipe/kernel-yocto.bbclass
-@@ -9,6 +9,12 @@ SRCTREECOVEREDTASKS += "do_validate_branches do_kernel_configcheck do_kernel_che
- PATCH_GIT_USER_EMAIL ?= "kernel-yocto@oe"
- PATCH_GIT_USER_NAME ?= "OpenEmbedded"
+diff --git a/meta/recipes-support/boost/boost-1.86.0.inc b/meta/recipes-support/boost/boost-1.87.0.inc
+similarity index 90%
+rename from meta/recipes-support/boost/boost-1.86.0.inc
+rename to meta/recipes-support/boost/boost-1.87.0.inc
+index 2378b27575..320ec51e36 100644
+--- a/meta/recipes-support/boost/boost-1.86.0.inc
++++ b/meta/recipes-support/boost/boost-1.87.0.inc
+@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
-+reproducible_git_committer() {
-+	export GIT_COMMITTER_NAME="${PATCH_GIT_USER_NAME}"
-+	export GIT_COMMITTER_EMAIL="${PATCH_GIT_USER_EMAIL}"
-+	export GIT_COMMITTER_DATE="$(date -d @${SOURCE_DATE_EPOCH})"
-+}
-+
- # The distro or local.conf should set this, but if nobody cares...
- LINUX_KERNEL_TYPE ??= "standard"
+ SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
+-SRC_URI[sha256sum] = "1bed88e40401b2cb7a1f76d4bab499e352fa4d0c5f31c0dbae64e24d34d7513b"
++SRC_URI[sha256sum] = "af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a11ef548f4d527d89"
  
-@@ -349,6 +355,7 @@ do_patch() {
- 	cd ${S}
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost-build-native_1.86.0.bb b/meta/recipes-support/boost/boost-build-native_1.87.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/boost-build-native_1.86.0.bb
+rename to meta/recipes-support/boost/boost-build-native_1.87.0.bb
+diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
+index dde21fa076..d658b40187 100644
+--- a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
++++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
+@@ -1,4 +1,4 @@
+-From c6009cdc1fe76db0092443593396e4d5f0eaa86b Mon Sep 17 00:00:00 2001
++From efd23e59dd09c911990ea4a6f48afed1ac56904b Mon Sep 17 00:00:00 2001
+ From: Jackie Huang <jackie.huang@windriver.com>
+ Date: Fri, 23 Sep 2016 01:04:50 -0700
+ Subject: [PATCH] boost-math: disable pch for gcc
+@@ -14,11 +14,11 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- 	check_git_config
-+	reproducible_git_committer
- 	meta_dir=$(kgit --meta)
- 	(cd ${meta_dir}; ln -sf patch.queue series)
- 	if [ -f "${meta_dir}/series" ]; then
-@@ -431,8 +438,9 @@ do_kernel_checkout() {
- 		rm -f .gitignore
- 		git init
- 		check_git_config
-+		reproducible_git_committer
- 		git add .
--		git commit -q -n -m "baseline commit: creating repo for ${PN}-${PV}"
-+		git commit --author="${PATCH_GIT_USER_NAME} <${PATCH_GIT_USER_EMAIL}>" --date=${SOURCE_DATE_EPOCH} -q -n -m "baseline commit: creating repo for ${PN}-${PV}"
- 		git clean -d -f
- 	fi
- 
+ diff --git a/libs/math/build/Jamfile.v2 b/libs/math/build/Jamfile.v2
+-index 6549e06b7..342cbf0b1 100644
++index 500c77363..504d7d8c6 100644
+ --- a/libs/math/build/Jamfile.v2
+ +++ b/libs/math/build/Jamfile.v2
+-@@ -13,7 +13,7 @@ project
+-       <toolset>intel-win:<linkflags>-nologo 
++@@ -15,7 +15,7 @@ project
++       <toolset>intel-win:<linkflags>-nologo
+        #<toolset>intel-linux:<pch>off
+        <toolset>intel-darwin:<pch>off
+ -      <toolset>gcc,<target-os>windows:<pch>off
+diff --git a/meta/recipes-support/boost/boost_1.86.0.bb b/meta/recipes-support/boost/boost_1.87.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/boost_1.86.0.bb
+rename to meta/recipes-support/boost/boost_1.87.0.bb
 -- 
-2.39.5
+2.43.0
 
 
