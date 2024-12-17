@@ -1,126 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D72E7717F
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 21:20:00 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.92319.1734470392534032335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A694E77184
+	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 21:54:51 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.93161.1734472481605886417
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 13:19:52 -0800
+ Tue, 17 Dec 2024 13:54:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FXUX6H2p;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-29fae583cc8so71752fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 13:19:52 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TYxKwqOQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385dece873cso2728260f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 13:54:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734470392; x=1735075192; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MLYm2PqSh2qh54+Ggm1mRuGPQ2qB0s3Vn14cP4yjwFc=;
-        b=FXUX6H2pFxyAM4Lpn/qYSGs4mruTQ2p/1+yK1azQ1g/8G547IMlCVTiHwwLlKYHc3T
-         0Bz9oSZDmj0hkEBDX4NAeor0tQfvp1Cknas2ILmXmhJk12XNyYvjU6FuOnf8j76bf89R
-         oiJA7db+rL/ZF+Plzs3tsZy8JHoYx+PoaVJyLU9RSm+Z+q1TzlazX9UK4fRrABdBbvZ5
-         MjfkuAIZdcm5z+p7Y7Y1pSYKR8m8yfZHUcgUA1dNVwB2EPXsiwiZsjKMuz9del1e/+7K
-         Bq1wX6RqXHeJYSrjRIr+ticyLMGm7n2phmUGIXz+esaRgEmhpXKpxCIR+cG2plTXfaFr
-         KQRQ==
+        d=linuxfoundation.org; s=google; t=1734472480; x=1735077280; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=roH1Ly0X38vs7dUX4xqeMpacxGOEIQewe81NeMukAek=;
+        b=TYxKwqOQWJlLnvMCwAII9rDaz/iyOkVkjfA+SMDGR/xC+YtgS7QEyTiHxYtNOUrYf4
+         zROfhcJfLTn3d8OqgAcYOi1JvnrmF7KhXrzAA3TOVV7UJvSPZ1TTcwUbpJJA/C+4cb1h
+         HD1ongB29ttkl9ZRuR99kwfm1uvbQZPoQ/zHo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734470392; x=1735075192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MLYm2PqSh2qh54+Ggm1mRuGPQ2qB0s3Vn14cP4yjwFc=;
-        b=posnyySVENohgdvqeX5QcfApt6daQcZ7oyUrZjalnu7LeAwP/sO4X8ae0eJ4qoa/+5
-         BORsiC4R8/drT7PCgZgjDJThj99HngKYgQvmohZpPY1RLA1OtVJDQgiOQeeoDHFQTIWz
-         2FwpKynbHRbqFLNDn5QfYrs0UKpSFMTUIN1abhA6aKBG5XZRTZ0Z4apdksdR7x3maP5D
-         lWqXzhRdqNHmyVRMJLpz14VVUzji/CJy0f0kGk0WG2cz/LmnTbK9SUOaF8LQRZU1N5Ru
-         ClsEPVp/5SG/pVYVVbv44rKTAJJgdCntL/dvxtaIoK6EQ0LKCbVDKruVyo6rOMtrDYmV
-         6tXA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0xfoCdmviNzjhu0T4wRzAhl3/FDXBxmtZ7bPZS7GjMghcM8smDivXctOX0wr7C9XV7MObNT4LtBOTdPkmdLWcRA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw1ccQxATW40k/CphcD1bjjRg1QuZgf/5JyZ1NBU8sVSatXV3A0
-	eC+nCE2HoWTF97e7zx06WM4XoVmwXukDUAC1mesiCzz1FgcD+NAxwpzSCz6v43vmal1yZjXnsjr
-	CW9i0q6u8ub3mw7OSwxOJe2DFKIg=
-X-Gm-Gg: ASbGncuMVcizSmRf19QP6P+TWVOSNJjZC8iXdfkSa+MkHc4a/iP30f+O3QpIlylg2p2
-	egbUi7d2D3mAy4zMXNP2EZgIWvxvfVL3yd9lNUD3ZfPQ8OEIOhXmhKuFCS6Emm+CoXg==
-X-Google-Smtp-Source: AGHT+IGHP4zZXJp0ut1vOW5+QDuEZAwvVR90sUTkaubpHFoipCGK8l1Xfb48Qdfqmp02NYACzJe7AIJ94iCJYGXC/q8=
-X-Received: by 2002:a05:6870:3924:b0:297:2955:b009 with SMTP id
- 586e51a60fabf-2a7b34a4956mr193030fac.1.1734470391669; Tue, 17 Dec 2024
- 13:19:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20241217104729.4115134-1-bin.lan.cn@windriver.com>
- <CAMKF1so72XWNdOaF0MFYJrAC7SLrx7TWDHiCO2iSybj6ksc_Yw@mail.gmail.com> <d88044d0365ce088f4d983c83e870803b30697d7.camel@linuxfoundation.org>
-In-Reply-To: <d88044d0365ce088f4d983c83e870803b30697d7.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 Dec 2024 13:19:25 -0800
-Message-ID: <CAMKF1spv5mbu74pM_5jxTCyHLrZb5SefLEJ45ZXiLjhFrSTH6g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] gcc: backport patch to fix data relocation to
- !ENDBR: stpcpy
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: bin.lan.cn@windriver.com, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1734472480; x=1735077280;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=roH1Ly0X38vs7dUX4xqeMpacxGOEIQewe81NeMukAek=;
+        b=jmqo+HLXHX8ZwYue2LaYtk9J2u5mb5ixv+XzAMT7SIa1jbrCODJq2oaW4XUH6TEPyO
+         ymNxhJKQCPazFx7JP+Ux1CShL1GYLZ9gAq8DH96juEuOFkNel1PG4zLtBu0remg+zU6B
+         xJQmfu1QCBdCC70bDS62dp15oNEpgftiz1d8IOIcsfhybdGi5Tod31xl1gVLLmt43AlP
+         pB0902o0IxNXXdnBuyU6rfLQ+N7ghzxS2xjkwhyLn3FU77srYAVdLrP0HhdlH9R0VMaJ
+         EYnjVnxVbTlOkBfXbRFa/nM2k+3O7RWXPKCWATeNp2Rbp+evDeshTND0/Wm9N7A1e9hK
+         nS7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX3Dv+eMNEF0j1luuUhzZnZv/zMHmABSBrS8LS+e/SazKs/LU5I9B8MXNZzIGkaS8yLd7DhB55qo7Hc9TWZVSutww==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxEBe0Oxd28ooGeEfuKBXcPQ0/uUa7s5sEDBZh1kGUihPhA8V0B
+	Qg3uPNd9ddgpsJlBNpvgu9SyB/nAAVum8WarZs0tZ2GG3i/IwRdqQiSkpk3WXFI=
+X-Gm-Gg: ASbGncvrGnS2l+ds7J6Y3ZN5+3vtpCfJbJOHrorHu0dROYfoUOqpcPWpTKwk0z4IdXY
+	5xO3I4vf3y7Y6QniPWMP0TbnJqu4CvOs12VOTkad37dIo8XZDMUUK4JjdvStO6ireKt4k18Zrhe
+	PEeCEj627fpsOHluVeWyA7NNEOLhYWxNXZ7tPdtXmqMQR0Un0KdckwQ75ACHzyTeShdikHnwf8c
+	oJ7rCF3re2IdIdNRLO5yENYvi9srL7Z3T3U/EDTo/D7E0vq42jizWh1I6Wj0bOT00slU7d6AU9k
+	lgymwB4bQSlQBitlALnLvBhk4y29EfLDloRAs5/b5CZtzA==
+X-Google-Smtp-Source: AGHT+IF6/BaGnzW3624iPaZlIHaY5yyXZtshKm3OfGwoefjlGFB1OYOT23/AryxYV+exDacmU6LNnw==
+X-Received: by 2002:a5d:59ad:0:b0:386:3213:5b9d with SMTP id ffacd0b85a97d-388e4d8e7e1mr346423f8f.41.1734472479714;
+        Tue, 17 Dec 2024 13:54:39 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ac68:38dd:218a:1df1? ([2001:8b0:aba:5f3c:ac68:38dd:218a:1df1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801626asm12263821f8f.29.2024.12.17.13.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 13:54:39 -0800 (PST)
+Message-ID: <44c02d8227fc53f02b088048ba150db84c5ab86d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 03/21] boost: upgrade 1.86.0 -> 1.87.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
+Date: Tue, 17 Dec 2024 21:54:37 +0000
+In-Reply-To: <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
+References: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
+	 <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 21:20:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208857
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 21:54:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208858
 
-On Tue, Dec 17, 2024 at 1:14=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2024-12-17 at 09:20 -0800, Khem Raj via lists.openembedded.org wr=
-ote:
-> > On Tue, Dec 17, 2024 at 2:47=E2=80=AFAM Bin Lan via lists.openembedded.=
-org
-> > <bin.lan.cn=3Dwindriver.com@lists.openembedded.org> wrote:
-> > >
-> > > There is the following warning when building linux-yocto with
-> > > default configuration on x86-64 with gcc-14.2:
-> > >   AR      built-in.a
-> > >   AR      vmlinux.a
-> > >   LD      vmlinux.o
-> > >   vmlinux.o: warning: objtool: .export_symbol+0x332a0: data relocatio=
-n to !ENDBR: stpcpy+0x0
-> > >
-> > > This change set removes the warning.
-> > >
-> > > PR target/116174 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D1161=
-74]
-> > >
-> > > Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
-> > > ---
-> > >  meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
-> > >  ...ch-to-fix-data-relocation-to-ENDBR-s.patch | 447 ++++++++++++++++=
-++
-> > >  2 files changed, 448 insertions(+)
-> > >  create mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc-backport-p=
-atch-to-fix-data-relocation-to-ENDBR-s.patch
-> > >
-> > > diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-de=
-vtools/gcc/gcc-14.2.inc
-> > > index 4f505bef68..a25bc019e5 100644
-> > > --- a/meta/recipes-devtools/gcc/gcc-14.2.inc
-> > > +++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
-> > > @@ -69,6 +69,7 @@ SRC_URI =3D "${BASEURI} \
-> > >             file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.p=
-atch \
-> > >             file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-> > >            file://0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patc=
-h \
-> > > +           file://0027-gcc-backport-patch-to-fix-data-relocation-to-=
-ENDBR-s.patch \
-> >
-> > tiny nit.
-> > is this tab vs spaces ? can you fix this.
->
-> Looks to be in the original file rather than an addition by this patch :/=
-.
+On Tue, 2024-12-17 at 16:57 +0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@cn.fujitsu.com>
+>=20
+> boost-math-disable-pch-for-gcc.patch
+> refreshed for 1.87.0
+>=20
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+> =C2=A0.../boost/{boost-1.86.0.inc =3D> boost-1.87.0.inc}=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A0...uild-native_1.86.0.bb =3D> boost-build-native_1.87.0.bb} | 0
+> =C2=A0.../boost/boost/boost-math-disable-pch-for-gcc.patch=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 8 ++++----
+> =C2=A0.../boost/{boost_1.86.0.bb =3D> boost_1.87.0.bb}=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> =C2=A04 files changed, 5 insertions(+), 5 deletions(-)
+> =C2=A0rename meta/recipes-support/boost/{boost-1.86.0.inc =3D> boost-1.87=
+.0.inc} (90%)
+> =C2=A0rename meta/recipes-support/boost/{boost-build-native_1.86.0.bb =3D=
+> boost-build-native_1.87.0.bb} (100%)
+> =C2=A0rename meta/recipes-support/boost/{boost_1.86.0.bb =3D> boost_1.87.=
+0.bb} (100%)
 
-sadly yes.
+I think this breaks kea:
 
->
-> Cheers,
->
-> Richard
+https://valkyrie.yoctoproject.org/#/builders/6/builds/680/steps/12/logs/std=
+io
+
+Cheers,
+
+Richard
 
