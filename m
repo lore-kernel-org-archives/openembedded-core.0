@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8202BE77184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 850F1E77188
 	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 20:55:30 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.91805.1734468927883110204
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.91469.1734468929359035510
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 12:55:27 -0800
+ Tue, 17 Dec 2024 12:55:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vDLRL6uI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-728f28744c5so5364544b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 12:55:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=K1RcZV36;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-728ea1573c0so5045170b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 12:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734468927; x=1735073727; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1734468928; x=1735073728; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zI3+eTbEVDAgCfm5eO4/6Ei6247N9xzFs6dU5gxOS2E=;
-        b=vDLRL6uIi11aMMv20/sFDe1dbKbNwzMBPvERz7P+c9AwfCa9nWojNVmiaWfv1QIGqi
-         emaU/Fk8DakFnBmE4MU4L3X0H5E46XoC4yjCCDSpPiQ2/blApTQDx1oyT/+oGCbFTMj3
-         Wf6bQqCEnPuf1w6hwtx/oH2w+0EhLIVUE73g96SRq06sgnmNBYhBVaBxAEoRZw+409n2
-         4Yy9/HsF9ETC5KTo6aqdFq4iFdw+if8bzIpBHNeqBXvyi8GIwgw+WrJad6X2ljUZD/KP
-         XbSEG5jqbdLOSL/5o147HctbzCW3r8Xv2DehDUDzqmnu9xafzV+M9WkJVVrSZIQMB/2t
-         ipHQ==
+        bh=c4xeq3ZMMGhk/FnEpgO8e6Czls9Wy1A312FsBq9FL0I=;
+        b=K1RcZV36LU7dh0O/ikidUJc5nJC02A6bcnLbq0mCCGhwM4sQa1UfHpwe8BMLvaG7Kq
+         +9YXnsNXUQd55fGWRlaUxpbjR/2R1wCcYD8HM9nZcgd5pziY16w1QpZBeRpr/iiYwsoJ
+         BMC3Oghsq+NzSZyC9l7oLbXYd6Ba0qNeMuWp7ygwrJQLmoAtp4y7Ddhnt0S7zoc0nWNC
+         xzrHLR+iX0R9OQM6qBmQ3qdcJQjprs8mSWt5PgFArZ5VLC0Mmn/a1YlT00lI2sFYPdDR
+         bLgGGbm9EQUN0p5J0KqmdDz7tCXSoPzrrJe0lGvI1mNesygRBaciAHuHVPyey16Iuu/u
+         uB3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734468927; x=1735073727;
+        d=1e100.net; s=20230601; t=1734468928; x=1735073728;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zI3+eTbEVDAgCfm5eO4/6Ei6247N9xzFs6dU5gxOS2E=;
-        b=txg5RV6MbxtOCacQo2vEMZwpdeVjd3TbcYVy/SBj7e2Q7VPqYaFjbcwqne2EUzuIZ0
-         g4YUqRdj7ubqZfpv8uAQrmwFz91E7kdlWQVZ9L9oQPZEKsrELBNUv9DHCiom6kqp8Biw
-         sjxyppMURG/a/ajpxIX7ZuUrsUF+2mZYlTXWLY3aH5A+TmuVIlb8Lz/plSk+2MhPhRwj
-         W3TLwDW0in/lytboTPybV0DmWOFv/Z1puYJrIeYsCwEofHm1/X1/OdDbgbYOWBysyil9
-         xjn7PtyM6jgr7e8dfr1nXo23ZzfZ1h6/48PC3TcI6BoiP4lmWkTIoe8ad2pYOU/Apr8H
-         VWpw==
-X-Gm-Message-State: AOJu0YwaraRFUB6n0JxunbPDSbKg5KRoIJFfmSngPA5HyPGtEY1wQTqQ
-	poa2ruKzguNSmjcbZDgKTBJOfFzGezWYe0g8seroZS9JMcDjwCduRJUeckky3bjiwipTF4xxrDz
-	m
-X-Gm-Gg: ASbGncvbC5+IssGxIby9mtpwGYptxPWB1iEzMQYEZsQpIx1PYSGN1Jwon2i3up7ksmF
-	L7s3EqGhxmEgVeC8JMIRlAZqgHfmHF+Hb/ZxSlpQ5TSzy7742cIJ35BKc9yWNqG1GMQVkiXQdnk
-	cx6BqkEcStx5k/JCccftHckgdMVREvx8VX0bAnvdrH6msnBdhgFoCsXMR2YyaMpSQicYGyuypzF
-	mNnMCjs/6p0bWkALDFLBANcEvbVKY4zXjrGTr602D+TTg==
-X-Google-Smtp-Source: AGHT+IE353cUW/m3woC4CPr3sAXOat7sBZWS9STdr8+whBr3qEvEfS5qwJP9+8oy6BsPgCYnflPilQ==
-X-Received: by 2002:a05:6a00:8008:b0:726:41e:b310 with SMTP id d2e1a72fcca58-72a8d24a875mr567945b3a.12.1734468927130;
-        Tue, 17 Dec 2024 12:55:27 -0800 (PST)
+        bh=c4xeq3ZMMGhk/FnEpgO8e6Czls9Wy1A312FsBq9FL0I=;
+        b=HrmaayqT829fegLScTFzRbySplGiX3xSdf4sbdD4ghr8xkkfj+pJG2/lU86W2bt5EU
+         7KIujlDtHYWmflqFg1BNaV9oBpsJwEcLo+VS+gjR3HrexsHK7MPB9FQ/lsmJLhp3MD5l
+         10ZZAVsvoPBBhp9wxk1CX8zqy3MU6yCpXm4n0+pjX7KGg7J6Z074uTlTNt1OpNCpoxY0
+         9EWoFfcawLe1P5ebVgY1NzewlRzLSD7I7kkbrxmgg2HmztfOM1wm4kQod4FI4Aikg2Bg
+         kju6tEMiuS+38Eq0JZgVw3rj/SBJ87+1AbH9sjdfQlyGfyBO5FybZLZhK6n/I5jtmInp
+         Kvzw==
+X-Gm-Message-State: AOJu0YyqHUe5452AU/tPqlmowTqjgLXq5D2yjrJpdTYMKZyeXxsexGyn
+	Mlg9Eyl5/H0U2WCyKlkWAzLJAHGnkcDJK87y+6OQmZgFLqOGbdbxUl9PTDNbbzpBUD8k1aGN0kw
+	Z
+X-Gm-Gg: ASbGnctXSDJELILbHUvu5Q74TiY8arR4Bi2sTnSKWIdfLIoO9MqlW2dVl9F/TwIm+Wg
+	ZdU9Uu1cZLrfKPiha27EGmzacdlZv0qfl1Q+LE8ohlVdtfWKI4Tn8vp0hqtb5RgY3Y2+PsiPLpr
+	8Zzxaz/1XscBqdJpKW9YZrXIOFELsf+waH7x6XKLv0UHndEW23vf7Iu+ZMIv31jFyotFrgVZGwG
+	J1pwnr1/Prl17hGJZ3XFZxh381h47H8+96n0lMZHjhK+g==
+X-Google-Smtp-Source: AGHT+IF4a0K9IyCLF4NgOcnUIRgz+j3M2mCyd52ZMD9D868Q7mLbh7N1ZfE1LnQEOK6HjZD2f8SneQ==
+X-Received: by 2002:a05:6a00:2405:b0:725:f212:12e5 with SMTP id d2e1a72fcca58-72a8d2ddd0emr670920b3a.24.1734468928576;
+        Tue, 17 Dec 2024 12:55:28 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918ad5bc5sm7353294b3a.69.2024.12.17.12.55.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918ad5bc5sm7353294b3a.69.2024.12.17.12.55.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 12:55:26 -0800 (PST)
+        Tue, 17 Dec 2024 12:55:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/9] base-passwd: Update the status for two patches
-Date: Tue, 17 Dec 2024 12:54:57 -0800
-Message-Id: <d3cb6839a7a6ed32f33af315f36f19d7b10d5da5.1734468756.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/9] base-passwd: add the wheel group
+Date: Tue, 17 Dec 2024 12:54:58 -0800
+Message-Id: <9b0f71dbd5319af98af4554ccd8ca94ff2a2af04.1734468756.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1734468756.git.steve@sakoman.com>
 References: <cover.1734468756.git.steve@sakoman.com>
@@ -66,50 +66,65 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 20:55:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208852
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208853
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Louis Rannou <lrannou@baylibre.com>
 
-The two patches to disable use of debconf and generation of
-documentation have been merged upstream.
+The wheel group is not declared while it can be used to access the systemd
+journal and to configure printers in CUPS. It can also be used for su and sudo
+permissions.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+So far it was created later in the rootfs postcommand systemd_create_users.
+
+Signed-off-by: Louis Rannou <lrannou@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit aca8844d7c05b4ba937625e59275d3f7953d3da7)
+(cherry picked from commit bebe52ae9576393ebb9d7405fc77fba21e84ba5b)
 Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...0006-Make-it-possible-to-build-without-debconf-support.patch | 2 +-
- ...7-Make-it-possible-to-disable-the-generation-of-the-do.patch | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../base-passwd/0008-Add-wheel-group.patch    | 20 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.5.52.bb         |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch b/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
-index 61ed1641a1..6e236993f5 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
-@@ -5,7 +5,7 @@ Subject: [PATCH] Make it possible to build without debconf support
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch
+new file mode 100644
+index 0000000000..00eaec38a2
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch
+@@ -0,0 +1,20 @@
++
++We need to have a wheel group which has some system privileges to consult the
++systemd journal or manage printers with cups.
++
++Upstream status says the group does not exist by default.
++
++Upstream-Status: Inappropriate [enable feature]
++
++Signed-off-by: Louis Rannou <lrannou@baylibre.com>
++Index: base-passwd-3.5.26/group.master
++===================================================================
++--- base-passwd-3.5.29.orig/group.master
+++++ base-passwd-3.5.29/group.master
++@@ -38,5 +38,6 @@
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+++wheel:*:80:
++ users:*:100:
++ nogroup:*:65534:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
+index f89752c077..66b5a0e7dc 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0005-Add-kvm-group.patch \
+            file://0006-Make-it-possible-to-build-without-debconf-support.patch \
+            file://0007-Make-it-possible-to-disable-the-generation-of-the-do.patch \
++           file://0008-Add-wheel-group.patch \
+            "
  
- Not all systems have the debconfclient library available.
- 
--Upstream-Status: Submitted [https://salsa.debian.org/debian/base-passwd/-/merge_requests/11]
-+Upstream-Status: Backport [https://salsa.debian.org/debian/base-passwd/-/commit/c72aa5dd25a952da25e307761f4526db2c8c39ec]
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
- ---
-  Makefile.am     |  1 -
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
-index 2bec065cdb..5c63599143 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Make it possible to disable the generation of the
- 
- Not all systems have docbook and po4a available.
- 
--Upstream-Status: Submitted [https://salsa.debian.org/debian/base-passwd/-/merge_requests/11]
-+Upstream-Status: Backport [https://salsa.debian.org/debian/base-passwd/-/commit/2a6d16e595c93084e279d0dcbef37d960b44fd1a]
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
- ---
-  Makefile.am  | 2 ++
+ SRC_URI[sha256sum] = "5dfec6556b5a16ecf14dd3f7c95b591d929270289268123f31a3d6317f95ccea"
 -- 
 2.34.1
 
