@@ -2,139 +2,184 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1308E7717F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DB3E77187
 	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 08:58:25 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web11.77562.1734425903308092721
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.77339.1734425901590967827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 00:58:23 -0800
+ Tue, 17 Dec 2024 00:58:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=oo/zI1sL;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=mcGI2D6J;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1734425904; x=1765961904;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=B498YLo6OaQ+rrAOcBxEK05BezCAA3xtlTzj2gS5mIU=;
-  b=oo/zI1sL9aW/YDRvap2j5jrw+/DqGGNcqbDb5xXpiBls839l+PWanbk4
-   ojuhn2LUi8waMWkAI2Yq1fGxSqGzwKSarZGGzV7Onqyn/BDdLhimnuf7+
-   Xwe3UTI6F793jeSgC+sT3qHBoabS/7/9a7m4FAa5QHu/IcmSGJUtVnCq2
-   EKVYeMEgB1H8GtJ31Opj1j78ytMOp4ILzBA/Oh7bxuTIp8sPH7E66GvVC
-   Rps0fTwNta1CLAG0d9SKAEpMAIL9S0B005yvjkM2Dx8TGxQNbk6zhvpNr
-   0f//V60nTTG2hTYjwww643dSvSLSaRO2iKG4GcSgyZi3tefoITQypc3Di
-   g==;
-X-CSE-ConnectionGUID: GOhSyWs6SdOh+Xn5jQROPw==
-X-CSE-MsgGUID: o7tvXOdgTSWSQazP4Ac6HQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="186395087"
+  t=1734425902; x=1765961902;
+  h=from:to:cc:subject:date:message-id;
+  bh=XQpt94D3tWssABBGu7QHhO9UPD0Xx98pU1ah6kOnYh8=;
+  b=mcGI2D6JLYc+yAnsyJ/U3GhlC1rJ4KItRzqQ9yDNYFsgPL/pjIuSZCJO
+   fleZYYvfvHfuycd3MM2lJh7xMJRjRX+WYCwCf4yws5OWXBcO+p3+TzSIL
+   POdGowJFDTqt9hhxiNT/RaNNNUkNUnWYOonVTKPsgA5vCfGdUCXes5eE/
+   PRZ66euj0C64mMwSR+1Z6tSLgJ+iazokcp2g8ZEGyWC5k3/uoewKzEO4S
+   7cAc+I8n/oznp8oJ9yhfa7zxm9kdXK/8ddIFpfMZIuH6aCYKrvrkcWImK
+   Z7bBrGIUK6qyAtRTfbs7C7mgDKZ0rxFfsoVr+Wq59+q3XRLtEbu7I49we
+   w==;
+X-CSE-ConnectionGUID: C2qTpU1XTU6eflN2M3V0nA==
+X-CSE-MsgGUID: 6NRafEohSXqu1F7Y9P+OuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="184047844"
 X-IronPort-AV: E=Sophos;i="6.12,241,1728918000"; 
-   d="scan'208";a="186395087"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 17:58:21 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id B7508C2262
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+   d="scan'208";a="184047844"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 17:58:20 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id F403FD4C36
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:16 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 85959BF4B5
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id C6DD0D9004
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:16 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 214D96B9B4
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:18 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 566A76B9B4
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 17:58:16 +0900 (JST)
 Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id BE7E11A000B;
-	Tue, 17 Dec 2024 16:58:17 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id CFB1D1A000B;
+	Tue, 17 Dec 2024 16:58:15 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH 03/21] boost: upgrade 1.86.0 -> 1.87.0
-Date: Tue, 17 Dec 2024 16:57:49 +0800
-Message-Id: <1734425887-18069-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 01/21] appstream: upgrade 1.0.3 -> 1.0.4
+Date: Tue, 17 Dec 2024 16:57:47 +0800
+Message-Id: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
-References: <1734425887-18069-1-git-send-email-wangmy@fujitsu.com>
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28864.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28864.006
-X-TMASE-Result: 10-5.808300-10.000000
-X-TMASE-MatchedRID: rofoCPeR2CGjz0nOeth/yX84FZpy/6JVkdS3kPlaZyXfUZT83lbkENb2
-	e7N2CFQy+7QcRaVoa8nGKIf6hBf7Vd6KzZKXMR2ETuctSpiuWyWY5v+NllnxQpU0v9mwIFt+2c5
-	16rvzqrtYzJcD0gVKSpu91RWVjlmQtR3ZHtcq+ffvVbHa5Rs8t8TGavmGo0vWNxLN8dnZPdXO/T
-	5SZgJlw9+RhPMsqBuAgDLqnrRlXra/ZOFeDeXHgN0H8LFZNFG7hqz53n/yPnrF6W2KK++iB917T
-	NbiEL8hen72wm/A5wtO1m0/3jXbHXW83xjabA56Dd41uEPSz2dhcukHjdgxy3a2dhfDdwGFz++Z
-	NFENx7M=
+X-TMASE-Result: 10--7.641100-10.000000
+X-TMASE-MatchedRID: FBE0XpCroJijz0nOeth/yRIRh9wkXSlFe8hLMDfeeZ5XGTbsQqHbkviP
+	J2xaM62R+BtDYmoqPpZZCpXjPNlq+B5rjfCe1gk2Yrc32n84WHqOVGny5q72hiWxD2S0xfx/B62
+	LwhkqRsXdGrWq1bnu45YOG2yMM8UYAT50DdFZRK/wlvzzUUaf2YlmiVXQNUKc0YwZgVrGvUQ/sz
+	hjnEtJOdN23itRglmPamUJU1gWJBj+SlsNiFQeMyeaCBMY8cEn2+EDPw+8xrc6FHRWx2FGsFYMJ
+	R3dIrh2sd3S4BC9iD4Nyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl37eSx3aBKhlgCoL
+	/+EwnE4gRR2pqoQBmRva04rFI5uqvxG9aQOyePlZNYSHk3Zr0UPeRdiIlVJExhd4pAveWGyjxYy
+	RBa/qJcFwgTvxipFa9xS3mVzWUuA4wHSyGpeEegLk6+a57VXv08TGQQp7CIjs9nb6afX/+p7kHm
+	1Cew4lzxQaw5gTmkA=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 08:58:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208806
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208805
 
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-boost-math-disable-pch-for-gcc.patch
-refreshed for 1.87.0
+0001-remove-hardcoded-path.patch
+0002-Do-not-build-qt-tests.patch
+refreshed for 1.0.4
+
+Changelog:
+===========
+Features:
+ * bundle: Add AS_BUNDLE_KIND_SYSUPDATE
+ * desktop-style-ids: Add dark support for Plasma
+ * desktop-style-ids: add pantheon:dark
+ * qt: Expose branding color
+ * sysinfo: Add memory size detection support for Illumos and Solaris
+ * sysinfo: Add memory size detection support for GNU/Hurd
+ * validator: Don't fail validation if a snapshot release is missing a time
+
+Specification:
+ * docs: Note that support for some legacy path was dropped in 1.0
+ * docs: Update fd.o spec URLs
+ * docs: Better explain desktop applications
+ * Update ESRA website URL
+
+Bugfixes:
+ * validator: Make sure we read an initialised variable
+ * qt: Specify utc as the dates' timezone
+ * tests: Ignore some tests on Windows
+ * sysinfo: make uname() usage POSIX compliant
+ * Only emit legacy compat tag developer_name for catalog data
+ * compose: Allow file discovery even in symlinked directories
+ * Avoid a race condition when loading GResource data
+ * validator: Mention length limit in summary length warning message
+ * utils: Explicitly set permissions on installed metadata files
+ * as-vercmp: Fix gtkdoc to not start with '>'
+
+Miscellaneous:
+ * desktop-style-ids: Remove Endless
+ * ci: Fix FreeBSD build (update 'py-gi-docgen')
+ * ci: Update to Ubuntu 24.04 for Debian Testing builds
+ * utils: Assume 64px as size when installing an icon tarball of unknown size
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../boost/{boost-1.86.0.inc => boost-1.87.0.inc}          | 2 +-
- ...uild-native_1.86.0.bb => boost-build-native_1.87.0.bb} | 0
- .../boost/boost/boost-math-disable-pch-for-gcc.patch      | 8 ++++----
- .../boost/{boost_1.86.0.bb => boost_1.87.0.bb}            | 0
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-support/boost/{boost-1.86.0.inc => boost-1.87.0.inc} (90%)
- rename meta/recipes-support/boost/{boost-build-native_1.86.0.bb => boost-build-native_1.87.0.bb} (100%)
- rename meta/recipes-support/boost/{boost_1.86.0.bb => boost_1.87.0.bb} (100%)
+ .../appstream/appstream/0001-remove-hardcoded-path.patch    | 6 +++---
+ .../appstream/appstream/0002-Do-not-build-qt-tests.patch    | 6 +++---
+ .../appstream/{appstream_1.0.3.bb => appstream_1.0.4.bb}    | 2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/appstream/{appstream_1.0.3.bb => appstream_1.0.4.bb} (94%)
 
-diff --git a/meta/recipes-support/boost/boost-1.86.0.inc b/meta/recipes-support/boost/boost-1.87.0.inc
-similarity index 90%
-rename from meta/recipes-support/boost/boost-1.86.0.inc
-rename to meta/recipes-support/boost/boost-1.87.0.inc
-index 2378b27575..320ec51e36 100644
---- a/meta/recipes-support/boost/boost-1.86.0.inc
-+++ b/meta/recipes-support/boost/boost-1.87.0.inc
-@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
- SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[sha256sum] = "1bed88e40401b2cb7a1f76d4bab499e352fa4d0c5f31c0dbae64e24d34d7513b"
-+SRC_URI[sha256sum] = "af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a11ef548f4d527d89"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost-build-native_1.86.0.bb b/meta/recipes-support/boost/boost-build-native_1.87.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost-build-native_1.86.0.bb
-rename to meta/recipes-support/boost/boost-build-native_1.87.0.bb
-diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-index dde21fa076..d658b40187 100644
---- a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-+++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
+diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+index d4d5517ab1..03ac5eb05b 100644
+--- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
++++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
 @@ -1,4 +1,4 @@
--From c6009cdc1fe76db0092443593396e4d5f0eaa86b Mon Sep 17 00:00:00 2001
-+From efd23e59dd09c911990ea4a6f48afed1ac56904b Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
- Date: Fri, 23 Sep 2016 01:04:50 -0700
- Subject: [PATCH] boost-math: disable pch for gcc
-@@ -14,11 +14,11 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 03f00252c2fc948c0bce1fc0a6ee87adef71d1bb Mon Sep 17 00:00:00 2001
++From 7372848f22d7edc01e40b0533047b34f41f6cf71 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Mon, 12 Dec 2022 15:42:42 +0100
+ Subject: [PATCH] remove hardcoded path
+@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [oe-specific]
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- diff --git a/libs/math/build/Jamfile.v2 b/libs/math/build/Jamfile.v2
--index 6549e06b7..342cbf0b1 100644
-+index 500c77363..504d7d8c6 100644
- --- a/libs/math/build/Jamfile.v2
- +++ b/libs/math/build/Jamfile.v2
--@@ -13,7 +13,7 @@ project
--       <toolset>intel-win:<linkflags>-nologo 
-+@@ -15,7 +15,7 @@ project
-+       <toolset>intel-win:<linkflags>-nologo
-        #<toolset>intel-linux:<pch>off
-        <toolset>intel-darwin:<pch>off
- -      <toolset>gcc,<target-os>windows:<pch>off
-diff --git a/meta/recipes-support/boost/boost_1.86.0.bb b/meta/recipes-support/boost/boost_1.87.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.86.0.bb
-rename to meta/recipes-support/boost/boost_1.87.0.bb
+ diff --git a/meson.build b/meson.build
+-index 5f2eaa22..4a2483a1 100644
++index 7e89ab0..c34ea74 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -191,10 +191,10 @@ endif
++@@ -194,10 +194,10 @@ endif
+  stemmer_inc_dirs = include_directories()
+  if get_option('stemming')
+      stemmer_lib = cc.find_library('stemmer', required: true)
+diff --git a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
+index 9a725ab8e4..71c9aadbc9 100644
+--- a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
++++ b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
+@@ -1,4 +1,4 @@
+-From a7721cf4f412fbe18fe15127bea7b1457b99f684 Mon Sep 17 00:00:00 2001
++From 43afdff090c4cbb2d3b4025a38b25a718c8f16b5 Mon Sep 17 00:00:00 2001
+ From: Marc Ferland <marc.ferland@sonatest.com>
+ Date: Fri, 26 Jul 2024 15:41:00 -0400
+ Subject: [PATCH] Do not build qt/tests
+@@ -23,10 +23,10 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/qt/meson.build b/qt/meson.build
+-index 1909bcf7..c3ca20fb 100644
++index 7d9ed7d..e319425 100644
+ --- a/qt/meson.build
+ +++ b/qt/meson.build
+-@@ -148,5 +148,3 @@ install_data (
++@@ -150,5 +150,3 @@ install_data (
+  
+  # end of Qt version loop
+  endforeach
+diff --git a/meta/recipes-support/appstream/appstream_1.0.3.bb b/meta/recipes-support/appstream/appstream_1.0.4.bb
+similarity index 94%
+rename from meta/recipes-support/appstream/appstream_1.0.3.bb
+rename to meta/recipes-support/appstream/appstream_1.0.4.bb
+index 092d85d1a0..a9c87f7589 100644
+--- a/meta/recipes-support/appstream/appstream_1.0.3.bb
++++ b/meta/recipes-support/appstream/appstream_1.0.4.bb
+@@ -30,7 +30,7 @@ SRC_URI = " \
+ 	file://0002-Do-not-build-qt-tests.patch \
+ 	file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch \
+ "
+-SRC_URI[sha256sum] = "5ab6f6cf644e7875a9508593962e56bb430f4e59ae0bf03be6be7029deb6baa4"
++SRC_URI[sha256sum] = "2d218348067f98c4f34a3ffe2d8219ad9f504b1b2481f1872dec66c77bf37509"
+ 
+ S = "${WORKDIR}/AppStream-${PV}"
+ 
 -- 
 2.43.0
 
