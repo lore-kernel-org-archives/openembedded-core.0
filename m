@@ -2,64 +2,64 @@ Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B14F4E77187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE89CE7718A
 	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 11:12:57 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.79053.1734433973124680120
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.79052.1734433972000569830
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 03:12:53 -0800
+ Tue, 17 Dec 2024 03:12:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=N9QqE43D;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.47, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385e971a2a0so316646f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 03:12:52 -0800 (PST)
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=UZZ7yx8v;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.128.47, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-436230de7a3so6001055e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 03:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1734433971; x=1735038771; darn=lists.openembedded.org;
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1734433970; x=1735038770; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8+7+VR1GiiIuTVze+rcTjuGiHUiUk0AN0+G9ySlb7u4=;
-        b=N9QqE43D0JbxSl9K7+teud5UyqV2vUy+3a0shyGkZ0/GSYytxnBEng68jSOy7NjfJ+
-         24LjcRDmcLIFp4dMpjkm3WhyrRw1YwfRNWDgOEHZayey6O14FKuqwACe6YYHp0FggQsm
-         MYcFWZ8bambiWqSWH8L1mLorUkT4GqpN1Amhcroz9ZXe5ZhO+5cdgPVB3vRwmRF09FaH
-         XgICChRG1jxNxZtTsrnNEztOJfgFhS5XzDAbflwnKFAB4MqZLz93Vj3rc1AE2qteHcMb
-         JZOvTDHGlv2lSGIL9tKfDptQ+yJTClAxm+NAOJ5Z+7EW72IpWKHvSmvOt3++XdWVdjYa
-         9cow==
+        bh=6MCRe266Aw6bhgXJdVLIOt72oGQTnJ+d7cXTnwa4h6w=;
+        b=UZZ7yx8vFqgbRRkC8v0XnFpjX7WB8mxMpEUexOVTD8HtKzfo6gDOo7ggNWH3quSFfQ
+         aOHlkV6QOLST+qaSyCqkoFQHSCZQNy18oFi94W4YrNNUg93LaxeyRYygpFBmxfbnue1i
+         OFXsaYpLj/NtlKKYEcDVn/ZJgnEx0II87cAwsAL7jEImVRutrliIcGlnI9BntWq44+gi
+         dXlfF+vimfs5qxckkXKUtFDGj3l2v1n5Ifmr4+cKCpwF6ypTTPu/exGFc9lVrZ7cdl1l
+         UyrqwxSKSLMSvXl5Mfm8xV4vCi1luQRrevRysetMdvnPm7yWQzs1fw+NGPvRQsa/XNP9
+         GdUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734433971; x=1735038771;
+        d=1e100.net; s=20230601; t=1734433970; x=1735038770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8+7+VR1GiiIuTVze+rcTjuGiHUiUk0AN0+G9ySlb7u4=;
-        b=J/s1UE4wv4+J1kUdJPne0tK52uGAFwEH/8NTIljoIJv7s1gIgC/j3pQsVkDuFIjqXs
-         xYWzcE5ugUP3ZhnA6M6/t423PT/IxB3drr5NxXLiU2MTe04oDZtLkVmgcgbx2+D5BAWT
-         T/On7TxN/EvMMt/swNAPRylB6YDaaD4HGAxHrNMw9OiZFGapmNDGUNNajiJxyEQ7UX71
-         Jh0wCCrQmQzj9WS5cus6YyQN1LBAOYZSZmRLUVHih9k2PCi5DICeemqj40qFN1UMv0hd
-         WQtFmcgZacuRIP2u2e/qM6t4VvuJHLspV4YEaCPxlW5iPR9EJ0OEcKkCX5LtR5RRs4TY
-         GJdw==
-X-Gm-Message-State: AOJu0YyzBfZ4u3oNmdgldtKCQIAFGcgZm3TZyUYh2Oryrse45C87Xypg
-	GeNy4i0huK/3gMIt6qPxJM5vIEO7RSXGWtUfWy6GF3RzUPYhh7Kyvg1AivQUgkAmQopjXhbnTwE
-	2LO4wIzAkRSwE28fSRFecxE+Ffr3yF9sSBy6ymOUwJ1qniaV+6Guk//OgZusJSA54gzFntZhOFh
-	vJTbHd3QWa
-X-Gm-Gg: ASbGnculOx6sPA7KubQ/VEQjIey7Rz/RHKlV0ta6HdV/zyas7xdGqShHcCiUfZwpaKK
-	kuekh6gqIStnPtgasUEklmFr8CszOVycmATEyku5ZWlwcyeeV4geGvsxKrNJMvfQSWpHLDqYtVW
-	EMBreZdiodtmfAF7BgYO3WuwcsxroYaKgULUY/5gP6cOM2cW9+YpPA87kwxO7+VGj/9j5br/eXY
-	kXrzBTcb2LY1bOZtxhqOji+jnbw8SnU2xoHzSfRJPdVJiENixJvCtXdPxAe9NfapPobAy21DMvD
-	jaRAB/CfNBaiB9sfSO0xM589Q2723cc3qw==
-X-Google-Smtp-Source: AGHT+IGC4xK5pKEIyMubVAWZ2I3XtqMcIHaiC7dZAfOP4ugTJqXQAxupcMp6pPoRgo1vVJ2z+xNj0A==
-X-Received: by 2002:a5d:47a6:0:b0:386:3afb:19a with SMTP id ffacd0b85a97d-3888dcd4479mr5407744f8f.4.1734433971463;
-        Tue, 17 Dec 2024 03:12:51 -0800 (PST)
+        bh=6MCRe266Aw6bhgXJdVLIOt72oGQTnJ+d7cXTnwa4h6w=;
+        b=EWlxgw1zooTMBfFnDzT5n3vm/cyMUSfUWal/IXVdmoOFR7cnx2Cmo7MzLYpWX/Ps3u
+         NewyIVkxtgyHQgzNP+bQByselIUEdjyLHMngenAjn+hG25Uc7aayghFuwvQydCCld/no
+         FlN53vx5AnOCs/ZNcYcRuFohzhaeMDGBD4UWtenWBTPZ2ysAPC99XbSdyZbkN09sGMpL
+         1aPhKdmPyoLjqbiS4t2WFECqJGLBrrnjqk1wMHJC/zxmbBY11wICGWTBAAoD1oSAVqev
+         45LgC6PaxsO+KP1wUAqcYg2db5FuBVWBxxVMslkUSG9OYlhYpWY427m35aYJytQTdGQ6
+         PtHA==
+X-Gm-Message-State: AOJu0YzT/gqnLBUL4CCPDk+5ooKMzWZVnC4ieUK/w872bAqOBI5uqH+p
+	6QolZ8fppKdjO5EoygOiSnAoJ+nIXymNb/uJchlehBuRxsQx2MiZojDAhxpWj5ThQXRgZ0xMZil
+	SKnp0fpgKx2dfaCg+SKo+/Ar5ksCLA/uAyGbeOo7554aOyKpIa9upfx5GDE3vqRDnMzRvBrQxIA
+	/beGQE4qc3
+X-Gm-Gg: ASbGncv9Nh80Pk8HPQYILkN9Gdf9NLM6D+MtzIld2noPtincHFe89uN5mCHy97oWmNa
+	Rs2seI6cV438NWHQ5JbNDG0ijzrMQ33CxlUhIWaQZ0fOAAoJm3dlKOKyZBxduBjoBB7VkEgB+iB
+	Un8Je4aVJS68LasQNmfpPVx2aJWYQ7L2UamzxT4Liday56sME9xSzpA4vJBPlurOo9JV/Ak7ham
+	Z04SW2WKLSRLT6pTVCwThrQUEIaFs4tzLoJlxh6y6jSslhMMEhs71JL1JYbkbIoxDKw2q7ZFwtf
+	AbpX3mxcGd8U33yZpDT7WDxp+Gd4m+a5qg==
+X-Google-Smtp-Source: AGHT+IENvpsyrcltmdHwM2uEprrLYslE6prJ2cKeYpo03v4amhF5z4qc8JbnbQzhUR2PbTn1yqkSpA==
+X-Received: by 2002:a05:600c:358f:b0:436:17f4:9b3d with SMTP id 5b1f17b1804b1-4362aaa1c24mr53772795e9.4.1734433970278;
+        Tue, 17 Dec 2024 03:12:50 -0800 (PST)
 Received: from localhost (dslb-084-060-024-069.084.060.pools.vodafone-ip.de. [84.60.24.69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801643fsm10867848f8f.41.2024.12.17.03.12.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c80121d4sm11107512f8f.2.2024.12.17.03.12.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 03:12:51 -0800 (PST)
+        Tue, 17 Dec 2024 03:12:49 -0800 (PST)
 From: Jonas Gorski <jonas.gorski@bisdn.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+Cc: Louis Rannou <lrannou@baylibre.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH kirkstone 5/6] base-passwd: fix patchreview warning
-Date: Tue, 17 Dec 2024 12:12:28 +0100
-Message-ID: <20241217111229.60698-6-jonas.gorski@bisdn.de>
+Subject: [PATCH kirkstone 4/6] base-passwd: add the wheel group
+Date: Tue, 17 Dec 2024 12:12:27 +0100
+Message-ID: <20241217111229.60698-5-jonas.gorski@bisdn.de>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241217111229.60698-1-jonas.gorski@bisdn.de>
 References: <20241217111229.60698-1-jonas.gorski@bisdn.de>
@@ -70,41 +70,76 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 11:12:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208837
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208836
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+From: Louis Rannou <lrannou@baylibre.com>
 
-Fix:
+The wheel group is not declared while it can be used to access the systemd
+journal and to configure printers in CUPS. It can also be used for su and s=
+udo
+permissions.
 
-Malformed Upstream-Status 'Upstream status' (meta/recipes-core/base-passwd/=
-base-passwd/0007-Add-wheel-group.patch)
-Unknown Upstream-Status value 'says' (meta/recipes-core/base-passwd/base-pa=
-sswd/0007-Add-wheel-group.patch)
+So far it was created later in the rootfs postcommand systemd_create_users.
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Louis Rannou <lrannou@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7b62b32fe154ca40a3bf731eaa5994ec351cf507)
+(cherry picked from commit bebe52ae9576393ebb9d7405fc77fba21e84ba5b)
 Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
 ---
- .../base-passwd/base-passwd/0008-Add-wheel-group.patch          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../base-passwd/0008-Add-wheel-group.patch    | 20 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.5.52.bb         |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0008-Add-whee=
+l-group.patch
 
 diff --git a/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group=
 .patch b/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.pat=
 ch
-index 00eaec38a294..d77122789d5e 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch
+new file mode 100644
+index 000000000000..00eaec38a294
+--- /dev/null
 +++ b/meta/recipes-core/base-passwd/base-passwd/0008-Add-wheel-group.patch
-@@ -2,7 +2,7 @@
- We need to have a wheel group which has some system privileges to consult =
+@@ -0,0 +1,20 @@
++
++We need to have a wheel group which has some system privileges to consult =
 the
- systemd journal or manage printers with cups.
++systemd journal or manage printers with cups.
++
++Upstream status says the group does not exist by default.
++
++Upstream-Status: Inappropriate [enable feature]
++
++Signed-off-by: Louis Rannou <lrannou@baylibre.com>
++Index: base-passwd-3.5.26/group.master
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- base-passwd-3.5.29.orig/group.master
+++++ base-passwd-3.5.29/group.master
++@@ -38,5 +38,6 @@
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+++wheel:*:80:
++ users:*:100:
++ nogroup:*:65534:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb b/meta/rec=
+ipes-core/base-passwd/base-passwd_3.5.52.bb
+index f89752c07710..66b5a0e7dc6a 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
+@@ -13,6 +13,7 @@ SRC_URI =3D "https://launchpad.net/debian/+archive/primar=
+y/+files/${BPN}_${PV}.tar
+            file://0005-Add-kvm-group.patch \
+            file://0006-Make-it-possible-to-build-without-debconf-support.p=
+atch \
+            file://0007-Make-it-possible-to-disable-the-generation-of-the-d=
+o.patch \
++           file://0008-Add-wheel-group.patch \
+            "
 =20
--Upstream status says the group does not exist by default.
-+Upstream says the group does not exist by default.
-=20
- Upstream-Status: Inappropriate [enable feature]
-=20
+ SRC_URI[sha256sum] =3D "5dfec6556b5a16ecf14dd3f7c95b591d929270289268123f31=
+a3d6317f95ccea"
 --=20
 2.47.1
 
