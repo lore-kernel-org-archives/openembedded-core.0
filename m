@@ -1,993 +1,639 @@
-Return-Path: <derek@asterius.io>
+Return-Path: <bin.lan.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA5DE77188
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 23:12:21 +0000 (UTC)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web10.94289.1734477137800894225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108A9E77184
+	for <webhook@archiver.kernel.org>; Wed, 18 Dec 2024 01:29:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.96450.1734485383569550720
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Dec 2024 15:12:17 -0800
+ Tue, 17 Dec 2024 17:29:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: straka.derek@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3a8aed87a0dso20171085ab.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 15:12:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734477136; x=1735081936;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x+ohKiwIGkACgdMg/QCEwvHAh0ptLPgzS4IlAA40MFI=;
-        b=XH6aYks3HKwk1m7KPJQKWPpkYPOTFik1B6ahfUZ/XVN+9B/wlxrw925hPuvYbwbcIU
-         Rt+v01xNxbkT/1rNtZrh27Tro1MC3IXi9krxd8VOmQ5IlCr0RjhmD/5YR0WYgC6lT3PO
-         c8/oRnMvjOadthF6/KSaPYSwj3Kv16F8mqZErUvDnZ5XFZkHqoW8MyEOHvrwLgalXnlL
-         FPRaAvbX78g/IlOmxbVwiMCrvFzLISY5oqUiBYA9GllBbeAmO8obMJto7fAVmuwFJNFu
-         pIn6MOxTFpJUgsJPkCrlaR9kyu2sk+t9KE2xEbZ2kKSvO97la4IV/b62S3y744jqMHzt
-         n5DQ==
-X-Gm-Message-State: AOJu0YySbbCt8xB5Fz0yHiItEaZKzVGyV4Ddl3MFp/Gj6NuqiwPA0Cnw
-	FPpBqaTK2TjpB1CSYVDd++uOZhZr73Iw+FjKkfZyazHpgJc1miVNCMp9fw==
-X-Gm-Gg: ASbGnct6km7/S8VWM7f6C+cTCPWwfdXw7H320QGh/E/Kik6EJdf2dYhgwKy/azmFZ2P
-	QHQ9jDKaNDFUs3R1F6EDtCVpvVELqy08q497++AZMbRRqWquKvGG70S7Z5I/NPgeQDwWikb7Iss
-	4XpJ+Xg/fYZC9vgS82BKM7198Gx3WOzMG49cZQDoTBookYUGQLKbmt8Ur8tOIJP0/niNiRtTcIC
-	/HfRn8aILuB2yBIkZy/r5qOmViHUeq+G2WdrcK7dtIG/JfRlUW6PRhyJFTHqucVy/xDDN3U62zs
-	bIoFkq+6KW9TICUqUZdbCloL1w==
-X-Google-Smtp-Source: AGHT+IE7r63ys6cDo30oq3B/uP/cja4dlMou5o1Df9muKG0s+3HHk22hYP1EihAYhR/porcfP1780g==
-X-Received: by 2002:a05:6e02:1b0e:b0:3a7:e286:a56b with SMTP id e9e14a558f8ab-3bdc003e81amr7840755ab.5.1734477135716;
-        Tue, 17 Dec 2024 15:12:15 -0800 (PST)
-Received: from alpha.lab.asterius.io (c-24-118-24-24.hsd1.mn.comcast.net. [24.118.24.24])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e5e0368817sm1867355173.6.2024.12.17.15.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 15:12:14 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Derek Straka <derek@asterius.io>
-Subject: [OE-core][PATCHv2 2/2] python3-*: Update recipes with pytest ptests to use the new ptest-python-pytest class
-Date: Tue, 17 Dec 2024 23:12:02 +0000
-Message-Id: <20241217231202.3384873-2-derek@asterius.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241217231202.3384873-1-derek@asterius.io>
-References: <20241217231202.3384873-1-derek@asterius.io>
-MIME-Version: 1.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2082a9dab6=bin.lan.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHNJiRc002613
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Dec 2024 01:29:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43h1093w8j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Dec 2024 01:29:42 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BI1TfdW030570
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Dec 2024 01:29:41 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43h1093w8g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Dec 2024 01:29:41 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HgDbMPpYMBSTeoMdcYLR0zvY6zmRtCNNgS274xifUCcNQOjdUQ00ZRnOmWFHVJUQJ5PNVXD2kp5/84/v3PRhp4n4yPofN/4cZnFY9CST1feMevTgX84qxyD84FykN5sHbYaupBQ/L67mCbdno6Vm7z0tkKuGQbikEJbOSrSGXQtYvQ+KJPaDjKsfa90r95HaTcnNsAFsatsJC9hWRSocZIvLfY+bTEstH2/pRqugWBmgNp/rwGiS+LJPyoB7bxOazqLYoBJhmKk1X4IRK2wEapFC6mcqH4aJlB0oE9mwo1uw93nlTD37QLuAVOWqlH8QageHK2qkXIkudQCo1J923A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2nhiA0z24/nXve9PqI029FYyTLoGnYfU9maVVM+R40E=;
+ b=gaMAiP2wM7M0I1/i9jnUmWWxDrjd2vIboWI4Acw5/5HCxX1g/3AJenOAvBpVz5pAS73TmBp6Tjm2DqhXpxyGGns+vMU9wUT9xETkqR5cPeERtpPh09M4/nZTsw1hDr1Y+lFVMFbV57h7DSvcgxSTZGNh97K4EKySKvbHKfEOQZsGJHVaT2gGev/Pa0WC9ttNVXywSctzKYsbxBtnVKagFEKoU6vLKWJDTHF6iwxkQSuA78zxow4R8BBgazWOUDDhglhQfvWa2XESMCpWlnagvAwGFsRvO7/o0E+BVHcX6/hbfgyyWaA6JSW8GdDlOnakf92cgLwXOvbaGENsJHrl8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8701.namprd11.prod.outlook.com (2603:10b6:610:1c8::10)
+ by IA1PR11MB6073.namprd11.prod.outlook.com (2603:10b6:208:3d7::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Wed, 18 Dec
+ 2024 01:29:36 +0000
+Received: from CH3PR11MB8701.namprd11.prod.outlook.com
+ ([fe80::5727:1867:fb60:69d0]) by CH3PR11MB8701.namprd11.prod.outlook.com
+ ([fe80::5727:1867:fb60:69d0%6]) with mapi id 15.20.8251.015; Wed, 18 Dec 2024
+ 01:29:36 +0000
+From: Bin Lan <bin.lan.cn@windriver.com>
+To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Subject: [OE-core][PATCH v2] gcc: backport patch to fix data relocation to !ENDBR: stpcpy
+Date: Wed, 18 Dec 2024 09:29:20 +0800
+Message-ID: <20241218012920.1952723-1-bin.lan.cn@windriver.com>
+X-Mailer: git-send-email 2.47.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP301CA0074.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::14) To CH3PR11MB8701.namprd11.prod.outlook.com
+ (2603:10b6:610:1c8::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8701:EE_|IA1PR11MB6073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 052c8ffb-de86-4355-ef54-08dd1f036e90
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ej2KprE6cKjwO6zGUEHaSiElZXyY67knGeXZ4VxPV9tWljaNwVew7spPHyNf?=
+ =?us-ascii?Q?3JuVO1FwJWHRXIiCJ0melIadCue02jRgSpMf5fLJvpPLnBl2UWeLk5ZpTBcm?=
+ =?us-ascii?Q?c4KYe31zyTETdvsgs8SrvGr1mLUGxvHSz2QTCEN4mswb8kSgW8yTsHicSWcc?=
+ =?us-ascii?Q?yd60BE5NuBfMdcmEW/464VQata0VplC+Jzf+QMxc0hVR8pQoFtdB6bfg6A3w?=
+ =?us-ascii?Q?LpUPWxPDbGuBZZ9Vw/w1TsmdL4FQTTaVDKQEYqtou6kglip6ASX7ZXj9YMSm?=
+ =?us-ascii?Q?4rWQCg5OjcVQiotSMUW+Yf2JMIptevYx9cij1EZG9+GA0PCDIFhCMT5WYVoi?=
+ =?us-ascii?Q?7KZWJWyeWIyeY80Z2e6uWwqY1YMHw8/+1K5527RLhyfcnXSW7BFcB0QE2Iq6?=
+ =?us-ascii?Q?tXptpaAJ3q0w7Io6Dg/EejLObOTO/Jpk0d3I1Pb3S58J+P1r+kuVn96AQvfy?=
+ =?us-ascii?Q?G3RV6e7AXxmyeKFbxFCdHUAKW9uASZqb234jlmkwkyrKFP6qf+efYEmFg01g?=
+ =?us-ascii?Q?WRIDe0cCcwJ46kBSGDnxNc2WeCT0qf9bpFXkGbzsUY3Mg/IK1AfpOLKcJQPt?=
+ =?us-ascii?Q?JlGYIsXiCy/6K3tUdav6SVYOVdjxYj+hEP/ZTMyFXQv68QE1eosU3NGRPMUz?=
+ =?us-ascii?Q?aIxau857jLQjf6jHw1aDgIVZDTaMcNMkW9FuZqqAt1YsnVvDNvbUIqSGLLCR?=
+ =?us-ascii?Q?9cRVVjOgkBWpFZBA1xhulbDW6IwWOISFqWnkNd6fCpwgzxXPdstfj5L81aWq?=
+ =?us-ascii?Q?DuW/TdScE/8C76JnsdcKOy6TC+VsII8e9Ti4l/fKCDlBk3mP27QCCpZdijFg?=
+ =?us-ascii?Q?ckzxZMev2p/uQHPxbmQolgdeFZzEEPcbKw+JBK2az6b1YL8Rd1zAlrqj5soD?=
+ =?us-ascii?Q?qJKHDajxeHyiWBtvEFu2r4N48wqt0toKnEY9dYDlyD5z5yVznjt6AdCVFO7S?=
+ =?us-ascii?Q?0LTk9/DRj33iByE0nr/q2VQ0QkgR4nzW+uYjnQ5vzwXJxl9o8hapnyDvu3F/?=
+ =?us-ascii?Q?AnT8qbfIkSjOu6JS6m1uUcoyWzFj8PL1TX1dw8wZFTMmvJyOItAocg7jO9rj?=
+ =?us-ascii?Q?vH03RWA+1dPzXJilNYT2C+ttmOTskWVfRuP/ekB6FtHq7UWjDcO59ZnMT0Is?=
+ =?us-ascii?Q?b+wDroUjU0NFIzfTX/pSuk5BGCYu/br9yy6cWA6kQVSFk968RXRKg0F4F31x?=
+ =?us-ascii?Q?MLQFBwP4Lw3dj2hRBxTKpP5tLy5cPD0P+7NSd199z3/aORfNuVeXcgdv/78Z?=
+ =?us-ascii?Q?lTeesKHtDPN6Ywzurmfb34dgfLBLUwqcVH1HqGhfWgI/PnJ4psASrSV0Nliu?=
+ =?us-ascii?Q?Bxe4ROYbj5sNqLw2r3ewSjliRbNLs++tCp9rydvSS0gnBSbpPMvHTmk6APtv?=
+ =?us-ascii?Q?Ra0TITuAgifSdEPpCXxuhrkBhhxljMoXpByRiBtKz0sRwfZTRg=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8701.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?hPjGrv+m/5aClfONtBDumOQ8zPprXW7AvHTNlOjfk3gI87kwSbEpEV1mmQfF?=
+ =?us-ascii?Q?tOjWkmbjgmfUkQ/KbHaahZ96V63WUZfNW/5GZrAN2MulW+g+Aw52DxPZi3ns?=
+ =?us-ascii?Q?pvJIjCUI9Erq66TeVKK+Md8fBPi9RhvBAdd22xfsOUl/FNDAcoIj/i7Enz+w?=
+ =?us-ascii?Q?QYABMOUcMBcfAR9UAZ5Mn7bCZ3YGyB/0v+HYAeL9ZVu9vBVzqRlKlBu/qB0J?=
+ =?us-ascii?Q?ig6pnrZIAu0bViYpHwru2Z896CnoPcLr0ikZpSIJxxuMxUSDMRjNs93dRbbs?=
+ =?us-ascii?Q?VTr+rkfSRbeQJFRwmA90+hqrIVz/n6pCbZ+Aj7671TNIpm9FIhNsBFO94MYn?=
+ =?us-ascii?Q?78psPEwtDPbvL0zsT2ZMtuTP3qT6fCNnjaqb98ajUXds2f0y0XrFXBz0nEGg?=
+ =?us-ascii?Q?NLPRQQDsCVSSv0C8Q7JMka2jTRdw1jczb0zUsXQ5kHnkY/Xjs2bP1kafBggW?=
+ =?us-ascii?Q?xPifWTPhzqWjIslL0EB3bgGJQfR8CRVgTm58ZFUVxf2yVrHEyi0HjP7mWd+W?=
+ =?us-ascii?Q?H0zk64X8aMd+I5nE2MKRQQopA65wCS0GiWIu9XzSeVU9aUSpo/DYW8z2qMd+?=
+ =?us-ascii?Q?01ULXuVqt6PQHJwjp00YW+Yne8ei/tF1HMLSY58rrtWwLivf+0Va/eg24WmT?=
+ =?us-ascii?Q?ioY6UW5yeqz9Ta8caeMfeNROVsm/kPCx3aYlEcSY8l4XX8NEC5qbYPYtcYez?=
+ =?us-ascii?Q?tDhwyg+H/coKVKanzMXCRIO9idOyWivvbz9hNarHnK4ZwCT3WKJRj3ZX92ra?=
+ =?us-ascii?Q?8NU/p6tpF63viySo3S1wpIZR6WapdOP78CH824kboS7D2RO2W7HQbPP7cngE?=
+ =?us-ascii?Q?dK5TlTSJv2CxWcXjNG782zfNQG18Q+4xcWXzWMjEcJabMkiCIfx5u6xpdILU?=
+ =?us-ascii?Q?eYEw4TjsFnReanuduTqFU7ksiKX50Q7NUIl45lMV/xdsSogO4fOH3N+QpWd9?=
+ =?us-ascii?Q?70plgiSfdqJ5X38HEeCzNaffAGxApO4YCpLYI06Meea7cgf5cOXp0bu4UxL/?=
+ =?us-ascii?Q?PA2IHvKY/QfoqAY7et3rrOm+128qqftG7UvLybtnBV+7GoNcmgys5YX97WuE?=
+ =?us-ascii?Q?QUr5TuePBwN021Yv7NnaxUu3T8PJdn+9O80tS3i8t3cEn9BSkYXewgCa/e/F?=
+ =?us-ascii?Q?o8/S298Lu93AXs08knMJw/4u4HDvqPLH59aT3vHpOj7rqQo+tzhnFu7/dd4m?=
+ =?us-ascii?Q?wJl6brdrtuG6+91QtctXeJv7d5LF/Hjq3HuTJY0N1kkUKexktDgYENWHkVUJ?=
+ =?us-ascii?Q?6SRR0ChbAPpfsutLn9+gomrw+zAr/exdJ0SW3A/e19yYizwrQLdxQkWdSP+A?=
+ =?us-ascii?Q?JYHGI1nOwZnriK/JfsyI7SxzWLFORQXOowSno3bWWH2MXsWXjHWjanmyGFXL?=
+ =?us-ascii?Q?Hvy2Gm7DLahf6lQhdG1XoCu/2gl2FrkB38hFUahmRzg1Q1g+UnR0oGYm+BH7?=
+ =?us-ascii?Q?FmHBZqfcEtGOPhJNcwGi9dfFZWhYkvoq6UFDUWBrC2vgmx/NG3joybKH1WoL?=
+ =?us-ascii?Q?rvpCDzZpcgJyBfoir6E/UmEjZmTF/I7R79r+jFBmPDvdRbSeuMnCXN6OCqrt?=
+ =?us-ascii?Q?ijES4IQ738cotxHMBvzi9m6ynVf/sgr+/C4g22uo001l75HjvSW6n1aAb6hA?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 052c8ffb-de86-4355-ef54-08dd1f036e90
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8701.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2024 01:29:36.0028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wi9bVlGOQ/l7VeKejww2/n4/bSDoc0Ohn6olrQuEKy0MgoZNXk/WxY64LC2Z7+D884lwKdq/erJKWBjB/aC2xHtz9XAZA5V/K9+65LeR1sE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6073
+X-Authority-Analysis: v=2.4 cv=bp62BFai c=1 sm=1 tr=0 ts=67622586 cx=c_pps a=GDxOUaUasxmcDRSC7gC2IA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=mDV3o1hIAAAA:8
+ a=t7CeM3EgAAAA:8 a=QyXUC8HyAAAA:8 a=2TEoGLMWpZZl8GtFneoA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: PGJ7uHULzd2rfCuqSKaE4TOseW7eAhxt
+X-Proofpoint-GUID: NTt4gDM3rJUi2S1IH8m5CJgmvCeDNLrk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-18_01,2024-12-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412180008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Dec 2024 23:12:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208865
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Dec 2024 01:29:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208866
 
-The newly added ptest-python-pytest removes duplication for:
-  1. Copying pytest files to the ptest directory
-  2. Adding standard pytest dependencies
-  3. Adding a common run-ptest script using pytest
+There is the following warning when building linux-yocto with
+default configuration on x86-64 with gcc-14.2:
+  AR      built-in.a
+  AR      vmlinux.a
+  LD      vmlinux.o
+  vmlinux.o: warning: objtool: .export_symbol+0x332a0: data relocation to !ENDBR: stpcpy+0x0
 
-Signed-off-by: Derek Straka <derek@asterius.io>
+This change set removes the warning.
+
+PR target/116174 [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=116174]
+
+Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
 ---
- .../python/python3-atomicwrites/run-ptest        |  3 ---
- .../python/python3-atomicwrites_1.4.1.bb         | 13 +------------
- .../python/python3-attrs/run-ptest               |  3 ---
- .../python/python3-attrs_24.2.0.bb               | 12 ++----------
- .../python/python3-bcrypt/run-ptest              |  3 ---
- .../python/python3-bcrypt_4.2.1.bb               |  6 +-----
- .../python/python3-calver/run-ptest              |  3 ---
- .../python/python3-calver_2022.6.26.bb           | 10 +---------
- .../python/python3-click/run-ptest               |  3 ---
- .../python/python3-click_8.1.7.bb                |  8 ++------
- .../python/python3-idna/run-ptest                |  3 ---
- .../recipes-devtools/python/python3-idna_3.10.bb |  8 +-------
- .../python/python3-jinja2/run-ptest              |  3 ---
- .../python/python3-jinja2_3.1.4.bb               | 10 +---------
- .../python/python3-libarchive-c_5.1.bb           |  8 ++------
- .../python/python3-license-expression/run-ptest  |  3 ---
- .../python/python3-license-expression_30.4.0.bb  | 13 +------------
- .../python/python3-mako/run-ptest                |  3 ---
- .../python/python3-mako_1.3.6.bb                 | 15 ++++-----------
- .../python/python3-markupsafe/run-ptest          |  3 ---
- .../python/python3-markupsafe_3.0.2.bb           | 16 +---------------
- .../python/python3-more-itertools/run-ptest      |  3 ---
- .../python/python3-more-itertools_10.5.0.bb      | 13 +------------
- .../python/python3-pefile_2024.8.26.bb           | 11 +----------
- .../python/python3-pluggy/run-ptest              |  3 ---
- .../python/python3-pluggy_1.5.0.bb               | 16 ++--------------
- .../python/python3-pyasn1/run-ptest              |  3 ---
- .../python/python3-pyasn1_0.6.1.bb               | 16 +---------------
- .../python/python3-pytz/run-ptest                |  3 ---
- .../python/python3-pytz_2024.2.bb                | 14 ++++----------
- .../python/python3-pyyaml/run-ptest              |  3 ---
- .../python/python3-pyyaml_6.0.2.bb               | 13 +------------
- .../python/python3-rpds-py/run-ptest             |  3 ---
- .../python/python3-rpds-py_0.21.0.bb             | 11 +----------
- .../python/python3-trove-classifiers/run-ptest   |  3 ---
- .../python3-trove-classifiers_2024.10.21.16.bb   | 16 +---------------
- .../python/python3-uritools/run-ptest            |  3 ---
- .../python/python3-uritools_4.0.3.bb             | 13 +------------
- .../python/python3-wcwidth/run-ptest             |  3 ---
- .../python/python3-wcwidth_0.2.13.bb             | 15 ++-------------
- .../python/python3-webcolors/run-ptest           |  3 ---
- .../python/python3-webcolors_24.8.0.bb           | 16 +---------------
- .../python/python3-xmltodict/run-ptest           |  3 ---
- .../python/python3-xmltodict_0.14.2.bb           | 14 +-------------
- 44 files changed, 34 insertions(+), 316 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-atomicwrites/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-attrs/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-bcrypt/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-calver/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-click/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-idna/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-jinja2/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-license-expression/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-mako/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-markupsafe/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-more-itertools/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-pluggy/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-pyasn1/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-pytz/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-pyyaml/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-rpds-py/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-uritools/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-wcwidth/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-webcolors/run-ptest
- delete mode 100644 meta/recipes-devtools/python/python3-xmltodict/run-ptest
+ meta/recipes-devtools/gcc/gcc-14.2.inc        |   3 +-
+ ...ch-to-fix-data-relocation-to-ENDBR-s.patch | 447 ++++++++++++++++++
+ 2 files changed, 449 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch
 
-diff --git a/meta/recipes-devtools/python/python3-atomicwrites/run-ptest b/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb b/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb
-index 848f74d612..b14b62ab2f 100644
---- a/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb
-@@ -5,23 +5,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=91cc36cfafeefb7863673bcfcb1d4da4"
- 
- SRC_URI[sha256sum] = "81b2c9071a49367a7f770170e5eec8cb66567cfbbc8c73d20ce5ca4a8d71cf11"
- 
--inherit pypi setuptools3 ptest
--
--SRC_URI += " \
--	file://run-ptest \
--"
-+inherit pypi setuptools3 ptest-python-pytest
- 
- RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
- 	python3-unixadmin \
+diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtools/gcc/gcc-14.2.inc
+index 4f505bef68..1cf079ae75 100644
+--- a/meta/recipes-devtools/gcc/gcc-14.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
+@@ -68,7 +68,8 @@ SRC_URI = "${BASEURI} \
+            file://0023-Fix-install-path-of-linux64.h.patch \
+            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
+            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
+-	   file://0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
++           file://0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
++           file://0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch \
+            file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
  "
  
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- RDEPENDS:${PN} = "python3-misc"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-attrs/run-ptest b/meta/recipes-devtools/python/python3-attrs/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-attrs/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-attrs_24.2.0.bb b/meta/recipes-devtools/python/python3-attrs_24.2.0.bb
-index a6cb60a8c8..97fda386e6 100644
---- a/meta/recipes-devtools/python/python3-attrs_24.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_24.2.0.bb
-@@ -5,11 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
- 
- SRC_URI[sha256sum] = "5cfb1b9148b5b086569baec03f20d7b6bf3bcacc9a42bebf87ffaaca362f6346"
- 
--inherit pypi ptest python_hatchling
--
--SRC_URI += " \
--	file://run-ptest \
--"
-+inherit pypi ptest-python-pytest python_hatchling
- 
- DEPENDS += " \
-     python3-hatch-vcs-native \
-@@ -23,13 +19,9 @@ RDEPENDS:${PN}+= " \
- 
- RDEPENDS:${PN}-ptest += " \
-     python3-hypothesis \
--    python3-pytest \
--    python3-unittest-automake-output \
- "
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+do_install_ptest:append() {
-     install ${S}/conftest.py ${D}${PTEST_PATH}/
- }
- 
-diff --git a/meta/recipes-devtools/python/python3-bcrypt/run-ptest b/meta/recipes-devtools/python/python3-bcrypt/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-bcrypt/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb b/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb
-index 7ca73acc48..ce9237de36 100644
---- a/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb
-+++ b/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb
-@@ -8,11 +8,7 @@ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '-fuse-ld=bfd', '',
- 
- SRC_URI[sha256sum] = "6765386e3ab87f569b276988742039baab087b2cdb01e809d74e74503c2faafe"
- 
--inherit pypi python_setuptools3_rust ptest-cargo cargo-update-recipe-crates
--
--SRC_URI += " \
--	file://run-ptest \
--"
-+inherit pypi python_setuptools3_rust cargo-update-recipe-crates ptest-python-pytest
- 
- CARGO_SRC_DIR = "src/_bcrypt"
- 
-diff --git a/meta/recipes-devtools/python/python3-calver/run-ptest b/meta/recipes-devtools/python/python3-calver/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-calver/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-index 71b5431400..b2e7e0769d 100644
---- a/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-+++ b/meta/recipes-devtools/python/python3-calver_2022.6.26.bb
-@@ -5,24 +5,16 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
- SRC_URI = " \
-     git://github.com/di/calver;branch=master;protocol=https \
--    file://run-ptest \
-     file://0001-setup.py-hard-code-version.patch \
- "
- SRCREV = "3268d8acf2c345f32a1c5f08ba25dc67f76cca81"
- 
--inherit python_setuptools_build_meta ptest
-+inherit python_setuptools_build_meta ptest-python-pytest
- 
- S = "${WORKDIR}/git"
- 
- RDEPENDS:${PN}-ptest += " \
-     python3-pretend \
--    python3-pytest \
--    python3-unittest-automake-output \
- "
- 
--do_install_ptest() {
--        install -d ${D}${PTEST_PATH}/tests
--        cp -rf ${S}/tests ${D}${PTEST_PATH}/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-click/run-ptest b/meta/recipes-devtools/python/python3-click/run-ptest
-deleted file mode 100644
-index b63c4de0d9..0000000000
---- a/meta/recipes-devtools/python/python3-click/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-click_8.1.7.bb b/meta/recipes-devtools/python/python3-click_8.1.7.bb
-index baff4cbd45..e8eeec36e8 100644
---- a/meta/recipes-devtools/python/python3-click_8.1.7.bb
-+++ b/meta/recipes-devtools/python/python3-click_8.1.7.bb
-@@ -10,9 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=1fa98232fd645608937a0fdc82e999b8"
- 
- SRC_URI[sha256sum] = "ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"
- 
--inherit pypi setuptools3 ptest
--
--SRC_URI += "file://run-ptest"
-+inherit pypi setuptools3 ptest-python-pytest
- 
- RDEPENDS:${PN}-ptest += " \
- 	python3-pytest \
-@@ -20,9 +18,7 @@ RDEPENDS:${PN}-ptest += " \
- 	python3-unixadmin \
- "
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+do_install_ptest:append() {
-     cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
-     cp -rf ${S}/docs ${D}${PTEST_PATH}/
- }
-diff --git a/meta/recipes-devtools/python/python3-idna/run-ptest b/meta/recipes-devtools/python/python3-idna/run-ptest
-deleted file mode 100644
-index d9693bb30f..0000000000
---- a/meta/recipes-devtools/python/python3-idna/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--python3 -mputao.unittest discover --top-level-directory . --start-directory tests
-diff --git a/meta/recipes-devtools/python/python3-idna_3.10.bb b/meta/recipes-devtools/python/python3-idna_3.10.bb
-index 854dc35242..bd6529e720 100644
---- a/meta/recipes-devtools/python/python3-idna_3.10.bb
-+++ b/meta/recipes-devtools/python/python3-idna_3.10.bb
-@@ -5,13 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=204c0612e40a4dd46012a78d02c80fb1"
- 
- SRC_URI[sha256sum] = "12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9"
- 
--SRC_URI += "file://run-ptest"
--
--inherit pypi python_flit_core ptest
--
--do_install_ptest() {
--    cp -r ${S}/tests ${D}${PTEST_PATH}/
--}
-+inherit pypi python_flit_core ptest-python-pytest
- 
- RDEPENDS:${PN} += "python3-codecs"
- RDEPENDS:${PN}-ptest += "python3-unittest-automake-output"
-diff --git a/meta/recipes-devtools/python/python3-jinja2/run-ptest b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-jinja2/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb b/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
-index fd0afc1cb1..84c40796c6 100644
---- a/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
-+++ b/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
-@@ -12,21 +12,13 @@ CVE_PRODUCT = "jinja2 jinja"
- 
- CLEANBROKEN = "1"
- 
--inherit pypi python_flit_core ptest
-+inherit pypi python_flit_core ptest-python-pytest
- 
- SRC_URI += " \
--	file://run-ptest \
- 	file://fix-3.13.patch \
- "
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- RDEPENDS:${PN}-ptest += " \
--    python3-pytest \
--    python3-unittest-automake-output \
-     python3-unixadmin \
- "
- 
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-index 333831c4b6..8b5de01b69 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
- 
- PYPI_PACKAGE = "libarchive-c"
- 
--inherit pypi setuptools3 ptest
-+inherit pypi setuptools3 ptest-python-pytest
- 
- SRC_URI[sha256sum] = "7bcce24ea6c0fa3bc62468476c6d2f6264156db2f04878a372027c10615a2721"
- 
-@@ -34,16 +34,12 @@ RDEPENDS:${PN} += "\
- 
- RDEPENDS:${PN}-ptest += " \
-         locale-base-en-us \
--        python3-pytest \
--        python3-unittest-automake-output \
- "
- 
- BBCLASSEXTEND = "native"
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
-+do_install_ptest:append() {
-     install -d ${D}${PTEST_PATH}/libarchive
--    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
-     cp ${S}/libarchive/* ${D}${PTEST_PATH}/libarchive/
-     cp ${S}/README.rst ${D}${PTEST_PATH}/README.rst
- }
-diff --git a/meta/recipes-devtools/python/python3-license-expression/run-ptest b/meta/recipes-devtools/python/python3-license-expression/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-license-expression/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb b/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
-index fc92026c79..3af739bed4 100644
---- a/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
-+++ b/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://apache-2.0.LICENSE;md5=86d3f3a95c324c9479bd8986968f43
- 
- SRC_URI[sha256sum] = "6464397f8ed4353cc778999caec43b099f8d8d5b335f282e26a9eb9435522f05"
- 
--inherit pypi ptest python_setuptools_build_meta
-+inherit pypi ptest-python-pytest python_setuptools_build_meta
- PYPI_PACKAGE = "license_expression"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
- 
-@@ -22,19 +22,8 @@ RDEPENDS:${PN} += "\
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI += " \
--	file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
--
- do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
-     install -d ${D}${PTEST_PATH}/src
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-     cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
-     cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
- }
-diff --git a/meta/recipes-devtools/python/python3-mako/run-ptest b/meta/recipes-devtools/python/python3-mako/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-mako/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-mako_1.3.6.bb b/meta/recipes-devtools/python/python3-mako_1.3.6.bb
-index 27e2082dc0..c10cfa20c8 100644
---- a/meta/recipes-devtools/python/python3-mako_1.3.6.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.3.6.bb
-@@ -6,11 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d0995d6f7ba3f186a03118f244e88f57"
- 
- PYPI_PACKAGE = "mako"
- 
--inherit pypi python_setuptools_build_meta ptest
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
+diff --git a/meta/recipes-devtools/gcc/gcc/0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch b/meta/recipes-devtools/gcc/gcc/0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch
+new file mode 100644
+index 0000000000..5bede60816
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch
+@@ -0,0 +1,447 @@
++From 4e7735a8d87559bbddfe3a985786996e22241f8d Mon Sep 17 00:00:00 2001
++From: liuhongt <hongtao.liu@intel.com>
++Date: Mon, 12 Aug 2024 14:35:31 +0800
++Subject: [PATCH] Move ix86_align_loops into a separate pass and insert the
++ pass after pass_endbr_and_patchable_area.
 +
- 
--SRC_URI:append = " \
--    file://run-ptest \
--"
- 
- SRC_URI[sha256sum] = "9ec3a1583713479fae654f83ed9fa8c9a4c16b7bb0daba0e6bbebff50c0d983d"
- 
-@@ -22,15 +20,10 @@ RDEPENDS:${PN} = "python3-html \
-                   python3-threading \
- "
- 
--RDEPENDS:${PN}-ptest += "\
--    python3-pytest \
--    python3-unittest-automake-output \
--"
-+PTEST_PYTEST_DIR = "test"
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/test
-+do_install_ptest:append() {
-     install -m 0644 ${S}/setup.cfg ${D}${PTEST_PATH}/
--    cp -rf ${S}/test/* ${D}${PTEST_PATH}/test/
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-markupsafe/run-ptest b/meta/recipes-devtools/python/python3-markupsafe/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-markupsafe/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb b/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb
-index e5feb8fe5f..b90dd84f48 100644
---- a/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb
-@@ -6,22 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ffeffa59c90c9c4a033c7574f8f3fb75"
- SRC_URI[sha256sum] = "ee55d3edf80167e48ea11a923c7386f4669df67d7994554387f84e7d8b0a2bf0"
- 
- PYPI_PACKAGE = "markupsafe"
--inherit pypi python_setuptools_build_meta ptest
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
- RDEPENDS:${PN} += "python3-html python3-stringold"
- 
- BBCLASSEXTEND = "native nativesdk"
--
--SRC_URI += " \
--	file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -f ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
-diff --git a/meta/recipes-devtools/python/python3-more-itertools/run-ptest b/meta/recipes-devtools/python/python3-more-itertools/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-more-itertools/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb
-index a98b412b5d..eda9bf1004 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb
-@@ -5,11 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
- 
- SRC_URI[sha256sum] = "5482bfef7849c25dc3c6dd53a6173ae4795da2a41a80faea6700d9f5846c5da6"
- 
--inherit pypi python_flit_core ptest
--
--SRC_URI += " \
--	file://run-ptest \
--"
-+inherit pypi python_flit_core ptest-python-pytest
- 
- RDEPENDS:${PN} += " \
-         python3-asyncio \
-@@ -17,13 +13,6 @@ RDEPENDS:${PN} += " \
- 
- RDEPENDS:${PN}-ptest += " \
- 	python3-statistics \
--	python3-pytest \
--	python3-unittest-automake-output \
-         "
- 
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb b/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb
-index 87e651d9d5..6e72c93741 100644
---- a/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb
-+++ b/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/erocarrera/pefile"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e34c75178086aca0a17551ffbacaca53"
- 
--inherit setuptools3 ptest
-+inherit setuptools3 ptest-python-pytest
- SRCREV = "4b3b1e2e568a88d4f1897d694d684f23d9e270c4"
- SRC_URI = "git://github.com/erocarrera/pefile;branch=master;protocol=https \
-            file://run-ptest"
-@@ -12,17 +12,8 @@ S = "${WORKDIR}/git"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--do_install_ptest() {
--   install -d ${D}${PTEST_PATH}/tests
--   cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- RDEPENDS:${PN} += " \
-     python3-mmap \
-     python3-netclient \
-     python3-stringold \
- "
--RDEPENDS:${PN}-ptest += "\
--    python3-pytest \
--    python3-unittest-automake-output \
--"
-diff --git a/meta/recipes-devtools/python/python3-pluggy/run-ptest b/meta/recipes-devtools/python/python3-pluggy/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-pluggy/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-pluggy_1.5.0.bb b/meta/recipes-devtools/python/python3-pluggy_1.5.0.bb
-index 4f8412d4b3..1f9bb6d1cb 100644
---- a/meta/recipes-devtools/python/python3-pluggy_1.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-pluggy_1.5.0.bb
-@@ -7,20 +7,8 @@ SRC_URI[sha256sum] = "2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f
- 
- DEPENDS += "python3-setuptools-scm-native"
- 
--inherit pypi ptest python_setuptools_build_meta
-+inherit pypi ptest-python-pytest python_setuptools_build_meta
- 
--SRC_URI += " \
--	file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/testing
--	cp -rf ${S}/testing/* ${D}${PTEST_PATH}/testing/
--}
-+PTEST_PYTEST_DIR = "testing"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-pyasn1/run-ptest b/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb b/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
-index 3913cb51d2..820ef27d2b 100644
---- a/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
-+++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=190f79253908c986e6cacf380c3a5f6d"
- 
- SRC_URI[sha256sum] = "6f580d2bdd84365380830acf45550f2511469f673cb4a5ae3857a3170128b034"
- 
--inherit pypi python_setuptools_build_meta ptest
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
- RDEPENDS:${PN}:class-target += " \
-     python3-codecs \
-@@ -14,18 +14,4 @@ RDEPENDS:${PN}:class-target += " \
-     python3-shell \
- "
- 
--SRC_URI += " \
--       file://run-ptest \
--           "
--
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-pytz/run-ptest b/meta/recipes-devtools/python/python3-pytz/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-pytz/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-pytz_2024.2.bb b/meta/recipes-devtools/python/python3-pytz_2024.2.bb
-index 04bd1d632d..a379e19234 100644
---- a/meta/recipes-devtools/python/python3-pytz_2024.2.bb
-+++ b/meta/recipes-devtools/python/python3-pytz_2024.2.bb
-@@ -3,7 +3,9 @@ HOMEPAGE = "http://pythonhosted.org/pytz"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a67fc46c1b596cce5d21209bbe75999"
- 
--inherit pypi setuptools3 ptest
-+inherit pypi setuptools3 ptest-python-pytest
++gcc/ChangeLog:
 +
-+PTEST_PYTEST_DIR = "pytz/tests"
- 
- SRC_URI[sha256sum] = "2aa355083c50a0f93fa581709deac0c9ad65cca8a9e9beac660adcbd493c798a"
- 
-@@ -18,19 +20,11 @@ RDEPENDS:${PN}:class-target += "\
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI += " \
--	file://run-ptest \
--"
--
- RDEPENDS:${PN}-ptest += " \
- 	python3-pytest \
- 	python3-unittest-automake-output \
- "
- 
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/pytz
--	install -d ${D}${PTEST_PATH}/pytz/tests
--	cp -rf ${S}/pytz/tests/* ${D}${PTEST_PATH}/pytz/tests/
-+do_install_ptest:append() {
- 	cp -f ${S}/README.rst ${D}${PTEST_PATH}/
--
- }
-diff --git a/meta/recipes-devtools/python/python3-pyyaml/run-ptest b/meta/recipes-devtools/python/python3-pyyaml/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-pyyaml/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-pyyaml_6.0.2.bb b/meta/recipes-devtools/python/python3-pyyaml_6.0.2.bb
-index 6ea342eae3..7ebe3f7d9f 100644
---- a/meta/recipes-devtools/python/python3-pyyaml_6.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-pyyaml_6.0.2.bb
-@@ -8,28 +8,17 @@ SRC_URI[sha256sum] = "d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff
- 
- SRC_URI += "\
-     https://raw.githubusercontent.com/yaml/pyyaml/a98fd6088e81d7aca571220c966bbfe2ac43c335/tests/test_dump_load.py;name=test \
--    file://run-ptest \
- "
- SRC_URI[test.sha256sum] = "b6a8a2825d89fdc8aee226560f66b8196e872012a0ea7118cbef1a832359434a"
- 
--inherit pypi python_setuptools_build_meta ptest cython
-+inherit pypi python_setuptools_build_meta ptest-python-pytest cython
- 
- PACKAGECONFIG ?= "libyaml"
- PACKAGECONFIG[libyaml] = "--with-libyaml,--without-libyaml,libyaml"
- 
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -rf ${UNPACKDIR}/test_dump_load.py ${D}${PTEST_PATH}/tests/
--}
--
- RDEPENDS:${PN} += "\
-     python3-datetime \
-     python3-netclient \
- "
- 
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-rpds-py/run-ptest b/meta/recipes-devtools/python/python3-rpds-py/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-rpds-py/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.21.0.bb b/meta/recipes-devtools/python/python3-rpds-py_0.21.0.bb
-index 81a8cb79a4..d162f71c19 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.21.0.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.21.0.bb
-@@ -4,13 +4,11 @@ HOMEPAGE = "https://pypi.org/project/rpds-py/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
- 
--SRC_URI += "file://run-ptest"
--
- SRC_URI[sha256sum] = "ed6378c9d66d0de903763e7706383d60c33829581f0adff47b6535f1802fa6db"
- 
- require ${BPN}-crates.inc
- 
--inherit pypi cargo-update-recipe-crates python_maturin ptest
-+inherit pypi cargo-update-recipe-crates python_maturin ptest-python-pytest
- 
- PYPI_PACKAGE = "rpds_py"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
-@@ -19,13 +17,6 @@ RDEPENDS:${PN}-ptest += " \
-     python3-iniconfig \
-     python3-packaging \
-     python3-pluggy \
--    python3-pytest \
--    python3-unittest-automake-output \
-     "
- 
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest b/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-trove-classifiers/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb
-index 8640ee156b..b63d39b784 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb
-@@ -8,22 +8,8 @@ SRC_URI[sha256sum] = "17cbd055d67d5e9d9de63293a8732943fabc21574e4c7b74edf112b492
- PYPI_PACKAGE = "trove_classifiers"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
- 
--inherit pypi python_setuptools_build_meta ptest
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
- DEPENDS += " python3-calver-native"
- 
--SRC_URI += " \
--        file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--       python3-pytest \
--       python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--      install -d ${D}${PTEST_PATH}/tests
--      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-uritools/run-ptest b/meta/recipes-devtools/python/python3-uritools/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-uritools/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-index 640c3f3ab6..4210407e00 100644
---- a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-@@ -6,17 +6,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
- 
- SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
- 
--SRC_URI += "file://run-ptest"
--
--inherit pypi python_setuptools_build_meta ptest
--
--do_install_ptest() {
--	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/
--}
--
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--	python3-unittest-automake-output \
--"
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-wcwidth/run-ptest b/meta/recipes-devtools/python/python3-wcwidth/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-wcwidth/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-index 4a9bf75323..71bb1a2703 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-@@ -6,20 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
- 
- SRC_URI[sha256sum] = "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
- 
--inherit pypi setuptools3 ptest
-+inherit pypi setuptools3 ptest-python-pytest
- 
--SRC_URI += " \
--        file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--       python3-pytest \
--       python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--      install -d ${D}${PTEST_PATH}/tests 
--      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+do_install_ptest:aapend() {
-       install -d ${D}${PTEST_PATH}/bin
-       cp -rf ${S}/bin/* ${D}${PTEST_PATH}/bin/
- }
-diff --git a/meta/recipes-devtools/python/python3-webcolors/run-ptest b/meta/recipes-devtools/python/python3-webcolors/run-ptest
-deleted file mode 100644
-index 8d2017d39c..0000000000
---- a/meta/recipes-devtools/python/python3-webcolors/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb b/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-index 1998cfc4c1..c5ed4bd7d3 100644
---- a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-@@ -5,24 +5,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=cbaebec43b7d199c7fd8f5411b3b0448"
- 
- SRC_URI[sha256sum] = "08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"
- 
--inherit pypi python_setuptools_build_meta ptest
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
- RDEPENDS:${PN}:class-target = "\
-     python3-stringold \
- "
- 
--SRC_URI += " \
--    file://run-ptest \
--"
--
--RDEPENDS:${PN}-ptest += " \
--    python3-pytest \
--    python3-unittest-automake-output \
--"
--
--do_install_ptest() {
--    install -d ${D}${PTEST_PATH}/tests
--    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-xmltodict/run-ptest b/meta/recipes-devtools/python/python3-xmltodict/run-ptest
-deleted file mode 100644
-index 3385d68939..0000000000
---- a/meta/recipes-devtools/python/python3-xmltodict/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-index e99fa3826e..56cdf6ff4a 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-@@ -9,11 +9,7 @@ PYPI_PACKAGE = "xmltodict"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--inherit pypi setuptools3 ptest
--
--SRC_URI += " \
--	file://run-ptest \
--"
-+inherit pypi setuptools3 ptest-python-pytest
- 
- RDEPENDS:${PN} += " \
- 	python3-core \
-@@ -21,11 +17,3 @@ RDEPENDS:${PN} += " \
- 	python3-io \
- "
- 
--RDEPENDS:${PN}-ptest += " \
--	python3-pytest \
--"
--
--do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/tests
--	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
--}
++	PR target/116174
++	* config/i386/i386.cc (ix86_align_loops): Move this to ..
++	* config/i386/i386-features.cc (ix86_align_loops): .. here.
++	(class pass_align_tight_loops): New class.
++	(make_pass_align_tight_loops): New function.
++	* config/i386/i386-passes.def: Insert pass_align_tight_loops
++	after pass_insert_endbr_and_patchable_area.
++	* config/i386/i386-protos.h (make_pass_align_tight_loops): New
++	declare.
++
++gcc/testsuite/ChangeLog:
++
++	* gcc.target/i386/pr116174.c: New test.
++
++(cherry picked from commit c3c83d22d212a35cb1bfb8727477819463f0dcd8)
++
++Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=4e7735a8d87559bbddfe3a985786996e22241f8d]
++
++Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
++---
++ gcc/config/i386/i386-features.cc         | 191 +++++++++++++++++++++++
++ gcc/config/i386/i386-passes.def          |   3 +
++ gcc/config/i386/i386-protos.h            |   1 +
++ gcc/config/i386/i386.cc                  | 146 -----------------
++ gcc/testsuite/gcc.target/i386/pr116174.c |  12 ++
++ 5 files changed, 207 insertions(+), 146 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/i386/pr116174.c
++
++diff --git a/gcc/config/i386/i386-features.cc b/gcc/config/i386/i386-features.cc
++index e3e004d55267..7de19d423637 100644
++--- a/gcc/config/i386/i386-features.cc
+++++ b/gcc/config/i386/i386-features.cc
++@@ -3253,6 +3253,197 @@ make_pass_remove_partial_avx_dependency (gcc::context *ctxt)
++   return new pass_remove_partial_avx_dependency (ctxt);
++ }
++ 
+++/* When a hot loop can be fit into one cacheline,
+++   force align the loop without considering the max skip.  */
+++static void
+++ix86_align_loops ()
+++{
+++  basic_block bb;
+++
+++  /* Don't do this when we don't know cache line size.  */
+++  if (ix86_cost->prefetch_block == 0)
+++    return;
+++
+++  loop_optimizer_init (AVOID_CFG_MODIFICATIONS);
+++  profile_count count_threshold = cfun->cfg->count_max / param_align_threshold;
+++  FOR_EACH_BB_FN (bb, cfun)
+++    {
+++      rtx_insn *label = BB_HEAD (bb);
+++      bool has_fallthru = 0;
+++      edge e;
+++      edge_iterator ei;
+++
+++      if (!LABEL_P (label))
+++	continue;
+++
+++      profile_count fallthru_count = profile_count::zero ();
+++      profile_count branch_count = profile_count::zero ();
+++
+++      FOR_EACH_EDGE (e, ei, bb->preds)
+++	{
+++	  if (e->flags & EDGE_FALLTHRU)
+++	    has_fallthru = 1, fallthru_count += e->count ();
+++	  else
+++	    branch_count += e->count ();
+++	}
+++
+++      if (!fallthru_count.initialized_p () || !branch_count.initialized_p ())
+++	continue;
+++
+++      if (bb->loop_father
+++	  && bb->loop_father->latch != EXIT_BLOCK_PTR_FOR_FN (cfun)
+++	  && (has_fallthru
+++	      ? (!(single_succ_p (bb)
+++		   && single_succ (bb) == EXIT_BLOCK_PTR_FOR_FN (cfun))
+++		 && optimize_bb_for_speed_p (bb)
+++		 && branch_count + fallthru_count > count_threshold
+++		 && (branch_count > fallthru_count * param_align_loop_iterations))
+++	      /* In case there'no fallthru for the loop.
+++		 Nops inserted won't be executed.  */
+++	      : (branch_count > count_threshold
+++		 || (bb->count > bb->prev_bb->count * 10
+++		     && (bb->prev_bb->count
+++			 <= ENTRY_BLOCK_PTR_FOR_FN (cfun)->count / 2)))))
+++	{
+++	  rtx_insn* insn, *end_insn;
+++	  HOST_WIDE_INT size = 0;
+++	  bool padding_p = true;
+++	  basic_block tbb = bb;
+++	  unsigned cond_branch_num = 0;
+++	  bool detect_tight_loop_p = false;
+++
+++	  for (unsigned int i = 0; i != bb->loop_father->num_nodes;
+++	       i++, tbb = tbb->next_bb)
+++	    {
+++	      /* Only handle continuous cfg layout. */
+++	      if (bb->loop_father != tbb->loop_father)
+++		{
+++		  padding_p = false;
+++		  break;
+++		}
+++
+++	      FOR_BB_INSNS (tbb, insn)
+++		{
+++		  if (!NONDEBUG_INSN_P (insn))
+++		    continue;
+++		  size += ix86_min_insn_size (insn);
+++
+++		  /* We don't know size of inline asm.
+++		     Don't align loop for call.  */
+++		  if (asm_noperands (PATTERN (insn)) >= 0
+++		      || CALL_P (insn))
+++		    {
+++		      size = -1;
+++		      break;
+++		    }
+++		}
+++
+++	      if (size == -1 || size > ix86_cost->prefetch_block)
+++		{
+++		  padding_p = false;
+++		  break;
+++		}
+++
+++	      FOR_EACH_EDGE (e, ei, tbb->succs)
+++		{
+++		  /* It could be part of the loop.  */
+++		  if (e->dest == bb)
+++		    {
+++		      detect_tight_loop_p = true;
+++		      break;
+++		    }
+++		}
+++
+++	      if (detect_tight_loop_p)
+++		break;
+++
+++	      end_insn = BB_END (tbb);
+++	      if (JUMP_P (end_insn))
+++		{
+++		  /* For decoded icache:
+++		     1. Up to two branches are allowed per Way.
+++		     2. A non-conditional branch is the last micro-op in a Way.
+++		  */
+++		  if (onlyjump_p (end_insn)
+++		      && (any_uncondjump_p (end_insn)
+++			  || single_succ_p (tbb)))
+++		    {
+++		      padding_p = false;
+++		      break;
+++		    }
+++		  else if (++cond_branch_num >= 2)
+++		    {
+++		      padding_p = false;
+++		      break;
+++		    }
+++		}
+++
+++	    }
+++
+++	  if (padding_p && detect_tight_loop_p)
+++	    {
+++	      emit_insn_before (gen_max_skip_align (GEN_INT (ceil_log2 (size)),
+++						    GEN_INT (0)), label);
+++	      /* End of function.  */
+++	      if (!tbb || tbb == EXIT_BLOCK_PTR_FOR_FN (cfun))
+++		break;
+++	      /* Skip bb which already fits into one cacheline.  */
+++	      bb = tbb;
+++	    }
+++	}
+++    }
+++
+++  loop_optimizer_finalize ();
+++  free_dominance_info (CDI_DOMINATORS);
+++}
+++
+++namespace {
+++
+++const pass_data pass_data_align_tight_loops =
+++{
+++  RTL_PASS, /* type */
+++  "align_tight_loops", /* name */
+++  OPTGROUP_NONE, /* optinfo_flags */
+++  TV_MACH_DEP, /* tv_id */
+++  0, /* properties_required */
+++  0, /* properties_provided */
+++  0, /* properties_destroyed */
+++  0, /* todo_flags_start */
+++  0, /* todo_flags_finish */
+++};
+++
+++class pass_align_tight_loops : public rtl_opt_pass
+++{
+++public:
+++  pass_align_tight_loops (gcc::context *ctxt)
+++    : rtl_opt_pass (pass_data_align_tight_loops, ctxt)
+++  {}
+++
+++  /* opt_pass methods: */
+++  bool gate (function *) final override
+++    {
+++      return optimize && optimize_function_for_speed_p (cfun);
+++    }
+++
+++  unsigned int execute (function *) final override
+++    {
+++      timevar_push (TV_MACH_DEP);
+++#ifdef ASM_OUTPUT_MAX_SKIP_ALIGN
+++      ix86_align_loops ();
+++#endif
+++      timevar_pop (TV_MACH_DEP);
+++      return 0;
+++    }
+++}; // class pass_align_tight_loops
+++
+++} // anon namespace
+++
+++rtl_opt_pass *
+++make_pass_align_tight_loops (gcc::context *ctxt)
+++{
+++  return new pass_align_tight_loops (ctxt);
+++}
+++
++ /* This compares the priority of target features in function DECL1
++    and DECL2.  It returns positive value if DECL1 is higher priority,
++    negative value if DECL2 is higher priority and 0 if they are the
++diff --git a/gcc/config/i386/i386-passes.def b/gcc/config/i386/i386-passes.def
++index 7d96766f7b96..e500f15c9971 100644
++--- a/gcc/config/i386/i386-passes.def
+++++ b/gcc/config/i386/i386-passes.def
++@@ -31,5 +31,8 @@ along with GCC; see the file COPYING3.  If not see
++   INSERT_PASS_BEFORE (pass_cse2, 1, pass_stv, true /* timode_p */);
++ 
++   INSERT_PASS_BEFORE (pass_shorten_branches, 1, pass_insert_endbr_and_patchable_area);
+++  /* pass_align_tight_loops must be after pass_insert_endbr_and_patchable_area.
+++     PR116174.  */
+++  INSERT_PASS_BEFORE (pass_shorten_branches, 1, pass_align_tight_loops);
++ 
++   INSERT_PASS_AFTER (pass_combine, 1, pass_remove_partial_avx_dependency);
++diff --git a/gcc/config/i386/i386-protos.h b/gcc/config/i386/i386-protos.h
++index 46214a63974d..36c7b1aed42b 100644
++--- a/gcc/config/i386/i386-protos.h
+++++ b/gcc/config/i386/i386-protos.h
++@@ -419,6 +419,7 @@ extern rtl_opt_pass *make_pass_insert_endbr_and_patchable_area
++   (gcc::context *);
++ extern rtl_opt_pass *make_pass_remove_partial_avx_dependency
++   (gcc::context *);
+++extern rtl_opt_pass *make_pass_align_tight_loops (gcc::context *);
++ 
++ extern bool ix86_has_no_direct_extern_access;
++ 
++diff --git a/gcc/config/i386/i386.cc b/gcc/config/i386/i386.cc
++index 6f89891d3cb5..288c69467d62 100644
++--- a/gcc/config/i386/i386.cc
+++++ b/gcc/config/i386/i386.cc
++@@ -23444,150 +23444,6 @@ ix86_split_stlf_stall_load ()
++     }
++ }
++ 
++-/* When a hot loop can be fit into one cacheline,
++-   force align the loop without considering the max skip.  */
++-static void
++-ix86_align_loops ()
++-{
++-  basic_block bb;
++-
++-  /* Don't do this when we don't know cache line size.  */
++-  if (ix86_cost->prefetch_block == 0)
++-    return;
++-
++-  loop_optimizer_init (AVOID_CFG_MODIFICATIONS);
++-  profile_count count_threshold = cfun->cfg->count_max / param_align_threshold;
++-  FOR_EACH_BB_FN (bb, cfun)
++-    {
++-      rtx_insn *label = BB_HEAD (bb);
++-      bool has_fallthru = 0;
++-      edge e;
++-      edge_iterator ei;
++-
++-      if (!LABEL_P (label))
++-	continue;
++-
++-      profile_count fallthru_count = profile_count::zero ();
++-      profile_count branch_count = profile_count::zero ();
++-
++-      FOR_EACH_EDGE (e, ei, bb->preds)
++-	{
++-	  if (e->flags & EDGE_FALLTHRU)
++-	    has_fallthru = 1, fallthru_count += e->count ();
++-	  else
++-	    branch_count += e->count ();
++-	}
++-
++-      if (!fallthru_count.initialized_p () || !branch_count.initialized_p ())
++-	continue;
++-
++-      if (bb->loop_father
++-	  && bb->loop_father->latch != EXIT_BLOCK_PTR_FOR_FN (cfun)
++-	  && (has_fallthru
++-	      ? (!(single_succ_p (bb)
++-		   && single_succ (bb) == EXIT_BLOCK_PTR_FOR_FN (cfun))
++-		 && optimize_bb_for_speed_p (bb)
++-		 && branch_count + fallthru_count > count_threshold
++-		 && (branch_count > fallthru_count * param_align_loop_iterations))
++-	      /* In case there'no fallthru for the loop.
++-		 Nops inserted won't be executed.  */
++-	      : (branch_count > count_threshold
++-		 || (bb->count > bb->prev_bb->count * 10
++-		     && (bb->prev_bb->count
++-			 <= ENTRY_BLOCK_PTR_FOR_FN (cfun)->count / 2)))))
++-	{
++-	  rtx_insn* insn, *end_insn;
++-	  HOST_WIDE_INT size = 0;
++-	  bool padding_p = true;
++-	  basic_block tbb = bb;
++-	  unsigned cond_branch_num = 0;
++-	  bool detect_tight_loop_p = false;
++-
++-	  for (unsigned int i = 0; i != bb->loop_father->num_nodes;
++-	       i++, tbb = tbb->next_bb)
++-	    {
++-	      /* Only handle continuous cfg layout. */
++-	      if (bb->loop_father != tbb->loop_father)
++-		{
++-		  padding_p = false;
++-		  break;
++-		}
++-
++-	      FOR_BB_INSNS (tbb, insn)
++-		{
++-		  if (!NONDEBUG_INSN_P (insn))
++-		    continue;
++-		  size += ix86_min_insn_size (insn);
++-
++-		  /* We don't know size of inline asm.
++-		     Don't align loop for call.  */
++-		  if (asm_noperands (PATTERN (insn)) >= 0
++-		      || CALL_P (insn))
++-		    {
++-		      size = -1;
++-		      break;
++-		    }
++-		}
++-
++-	      if (size == -1 || size > ix86_cost->prefetch_block)
++-		{
++-		  padding_p = false;
++-		  break;
++-		}
++-
++-	      FOR_EACH_EDGE (e, ei, tbb->succs)
++-		{
++-		  /* It could be part of the loop.  */
++-		  if (e->dest == bb)
++-		    {
++-		      detect_tight_loop_p = true;
++-		      break;
++-		    }
++-		}
++-
++-	      if (detect_tight_loop_p)
++-		break;
++-
++-	      end_insn = BB_END (tbb);
++-	      if (JUMP_P (end_insn))
++-		{
++-		  /* For decoded icache:
++-		     1. Up to two branches are allowed per Way.
++-		     2. A non-conditional branch is the last micro-op in a Way.
++-		  */
++-		  if (onlyjump_p (end_insn)
++-		      && (any_uncondjump_p (end_insn)
++-			  || single_succ_p (tbb)))
++-		    {
++-		      padding_p = false;
++-		      break;
++-		    }
++-		  else if (++cond_branch_num >= 2)
++-		    {
++-		      padding_p = false;
++-		      break;
++-		    }
++-		}
++-
++-	    }
++-
++-	  if (padding_p && detect_tight_loop_p)
++-	    {
++-	      emit_insn_before (gen_max_skip_align (GEN_INT (ceil_log2 (size)),
++-						    GEN_INT (0)), label);
++-	      /* End of function.  */
++-	      if (!tbb || tbb == EXIT_BLOCK_PTR_FOR_FN (cfun))
++-		break;
++-	      /* Skip bb which already fits into one cacheline.  */
++-	      bb = tbb;
++-	    }
++-	}
++-    }
++-
++-  loop_optimizer_finalize ();
++-  free_dominance_info (CDI_DOMINATORS);
++-}
++-
++ /* Implement machine specific optimizations.  We implement padding of returns
++    for K8 CPUs and pass to avoid 4 jumps in the single 16 byte window.  */
++ static void
++@@ -23611,8 +23467,6 @@ ix86_reorg (void)
++ #ifdef ASM_OUTPUT_MAX_SKIP_ALIGN
++       if (TARGET_FOUR_JUMP_LIMIT)
++ 	ix86_avoid_jump_mispredicts ();
++-
++-      ix86_align_loops ();
++ #endif
++     }
++ }
++diff --git a/gcc/testsuite/gcc.target/i386/pr116174.c b/gcc/testsuite/gcc.target/i386/pr116174.c
++new file mode 100644
++index 000000000000..8877d0b51af1
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/i386/pr116174.c
++@@ -0,0 +1,12 @@
+++/* { dg-do compile { target *-*-linux* } } */
+++/* { dg-options "-O2 -fcf-protection=branch" } */
+++
+++char *
+++foo (char *dest, const char *src)
+++{
+++  while ((*dest++ = *src++) != '\0')
+++    /* nothing */;
+++  return --dest;
+++}
+++
+++/* { dg-final { scan-assembler "\t\.cfi_startproc\n\tendbr(32|64)\n" } } */
++-- 
++2.43.5
 -- 
-2.34.1
+2.47.0
 
 
