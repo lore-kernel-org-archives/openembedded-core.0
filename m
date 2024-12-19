@@ -1,200 +1,263 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A91E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 09:23:52 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.126126.1734600218486846798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D35E77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 10:37:32 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.64])
+ by mx.groups.io with SMTP id smtpd.web11.126797.1734604650231416342
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 01:23:38 -0800
+ Thu, 19 Dec 2024 02:37:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=20834194c1=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJ7ntJE014774
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:37 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2049.outbound.protection.outlook.com [104.47.55.49])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43h1095jy7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:37 +0000 (GMT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=WQWN9ig6;
+ spf=pass (domain: cherry.de, ip: 52.101.69.64, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qo5FmfdS9Tq2CUS0g5MEFAG2MaWatXTKZxLTTkxRLVJ0LFgqsSCktsAhiPo9V70KCaLinX6WtHD3Sef/hwG1NMUX4a+0haGS9aRkxcSvaUmGS2hUQ5UsCOfoIEjyJZDZRs+54EC7S3QLiTs+23HZHBKPfb0ZvKlKBnNOAbhgqtdgXpisotcFk78FrkZwYEFWR2y1jzJFS9H9/xFwlTbIeto15BwIxvuSddzQFBCmmsvzjmkGOLiW94E2wIIK7kHcaZlatUmNmyGdo4arSPPKxawYeuNoodZIVB6UzmRp3xLoifMTAy+hEGZXDHU/Q0UYbkXLPWc7RvMbIh9LnCF0ZA==
+ b=NzgofLjiRcoQmat64M5Gml4BfwYk8SeTTlIDT0uyCM5pU7TXItSNWoC/G+qUaKAysYHepGnyHs3zrlah9wujyDO3O5fVQ9Gt4B42x+uC0tOzTii+hPChtuO8qkCsj2xOhzpr4vAID7DcM/vu8u+9pMP9J+4nSQtlQ3ZR7+D6KjieZUB9rgdpJgQJTFPQx5ADrtca1+KZjSzR1M8eNo7ARgnMoSLWau5j5Mszd9d0R+MBHXe28sW1sJYqErKHID5exrCYYQMJhduyhQiRVqR9iyEIzD1S4Q1N5XQouT2IHDyV5oY7DC6z5bwkxGMT62tilhU3iWTJ8sKu5sS9azVmfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=twwAwLqwaJLgf3Tum3qjL6QAewX9bqBEJl1jeA8+tXo=;
- b=zAVxrLqd3Q1EC9T4Mpk33JHgiJv/n/BNBjYP2F9yTWkWCRAVDoK49niS3F3uyfmTlSgj6oRgqoG63OoH+U4S+VzuWl+sjBQpiEcpCBBqo+KrRgu3I9vetucfunh9uvAUo5dqkfa1s3jraDVoDHpg+uqZWamuNmwDzgtEEfP/AOoPu/YJoyZaijvhkd2nspV2YqXwJ093W0rZ8QqmRrgOKsS1MIIyCvsEnNIM8UhrmOZbootu7mdZOYRHogeMI4Yfvc8GGriu5GflGZBNvgfuGLhk97SG5co9RfajyrAoSSqLgO+rEnNnv6GquQIM7AbwITIRcuN6TRvQ3fSRRX/d8Q==
+ bh=Wq1Ua3E18kBvFfkiPZSEBKmCCY9hciE4fbyppmL9R6k=;
+ b=cAoe0uchdDYc8kwrmnUDlbnasYY9Ow+v+ZxSf2oqu0HqjNiYxAq/TktvrWCX5vnvJGyFYDCPE+Ksrn7otwX9V/AK8uu9JfCmi2UXO3KQHRK4pou0RvP9ia3tChsdLA/kf8Ix6BKVU07+SSuS9gdKDo5wqrqhhpNVoE/E4K4telAgkcsr7yk/mVDY35kDDyKLGPrM9CYHEabxBTN2Ow6JGaa+7ZWLAAlNOU2z2qQ6Yl48jTZaG6CMLThpMs1XH7uWE93hpBC0BoFcQF6uro1Smd1mFT4zS7duD74HvVuLD7SHmn2UAGvrHSDU7Uqy3HKUoOZggtBjcWbT4xPbzRnyEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SA1PR11MB6871.namprd11.prod.outlook.com (2603:10b6:806:2b1::12) with
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wq1Ua3E18kBvFfkiPZSEBKmCCY9hciE4fbyppmL9R6k=;
+ b=WQWN9ig6PSvz0Zct1+E3ryNQfJAKwQylrWBsfgj+y+OAwWxmEmZygQujZfTu4rG+lL3LwjxhSP2fo94e2lQF2Sta6QfbRJDMhrtqAcwt8Q9JZuXSafVIQTSWGJhgaLBjmxgGgXbI+3aztPB3AyjgyCDpSq1oL0KOj7cZRzHPkMY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by VI1PR04MB6894.eurprd04.prod.outlook.com (2603:10a6:803:13a::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.14; Thu, 19 Dec
- 2024 09:23:33 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8272.013; Thu, 19 Dec 2024
- 09:23:32 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] oe-pkgdata-util: avoid glibc-locale being mapped out by glibc packages
-Date: Thu, 19 Dec 2024 01:23:19 -0800
-Message-Id: <20241219092319.3800319-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH8PR20CA0010.namprd20.prod.outlook.com
- (2603:10b6:510:23c::7) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
+ 2024 10:37:25 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%3]) with mapi id 15.20.8272.013; Thu, 19 Dec 2024
+ 10:37:25 +0000
+Message-ID: <e1856b91-8aa9-4e01-a85c-5ba1ba05f18d@cherry.de>
+Date: Thu, 19 Dec 2024 11:37:24 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCHv2 1/2] classes/ptest-python-pytest: add a new
+ class to consolidate pytest ptest functionality
+To: Derek Straka <derek@asterius.io>
+CC: openembedded-core@lists.openembedded.org
+References: <20241217231202.3384873-1-derek@asterius.io>
+ <3edaa887-9925-4503-9126-22fcb0a6175a@cherry.de>
+ <CADNbA1oNnU6mt_D9p+nzNwjEqsOVx4syTXEShuYgHFO4tg7O=Q@mail.gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <CADNbA1oNnU6mt_D9p+nzNwjEqsOVx4syTXEShuYgHFO4tg7O=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: VI1PR08CA0254.eurprd08.prod.outlook.com
+ (2603:10a6:803:dc::27) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SA1PR11MB6871:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fa12338-4bea-4b38-548f-08dd200ecdda
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|VI1PR04MB6894:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e474783-98aa-4654-a5ab-08dd2019209f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?YLDAE/v4oldP9cGKwrrVbwhREwk4WSyvfjywJxjwQzFT0Pkcc4S5/p3Vkn83?=
- =?us-ascii?Q?HoqYHdye+NVSwTmu35rvrYPnu7DeF125tzgIjUplRMY99+b27CwDgl0kD5d/?=
- =?us-ascii?Q?W1+u4GLm7u5qwPGUx1EWXcLQ4+54srBdG0UwBgxA/vXBnZ+6blAYTus7yCHE?=
- =?us-ascii?Q?J7iOPEZEPF3kzJ/oAz4KTNzztHRmmq8BTrNxTT9BEDi2JYaxaUVglHUpj3CP?=
- =?us-ascii?Q?wl2TV2wTqD90M+zRwLUlerqQAVPVqNVuhsOZeOk37cIA6nZ/0CrIj/uB5TlN?=
- =?us-ascii?Q?UTbqRYJqfFKqrITg9BvuSzCuw7HfV0q9bafBxGsncQ48WBYynuFsf+Xlh9vI?=
- =?us-ascii?Q?c20ASiwCBjnSijCLWVMIuIRuvhg3utlr755Ka2/apLnAdibWyEOvy6wlX8LA?=
- =?us-ascii?Q?vdxopixrpYPbEx2KOZviN9G8xZ6vToE3e81V9Y6BmX1CHneNROI2pugdiMzo?=
- =?us-ascii?Q?gZHG6ye0d7t0VosZjwFbYapL3WbJ20uJsI+Y1QSnvUkjWnOuGRGZcBIzv9aU?=
- =?us-ascii?Q?saQRjnwxqQfGCtQ//KXvmV7FxZXwZtiyHEdPkUOJn99H5uEcntOri/7XkBMC?=
- =?us-ascii?Q?+c5MpGjuxkPlY/vEuaqA2GwK5D3/OWyLpdVxMANedOzzsSijdK0oWhtBXRJv?=
- =?us-ascii?Q?a8IQ8Op1aqWRVnlb4aQlw9IfHSpkZzLKMZPRAJmMVvBSo5pn5IZz5dc82AHO?=
- =?us-ascii?Q?XwwxdgnPdvjDxqcAuf58P0FnO2Q7uRNYi1KNEjrGJaI+gS2GvGJIpjGUxmVj?=
- =?us-ascii?Q?uHMo+3yg7zZdWE5fp30riGkCU0zEnJCV13fe4ZyWgO4p/6UfD1RGV1e86RWa?=
- =?us-ascii?Q?B7PJFPGSA4BCVGXuu3hSX1ZLrGHYZ1TGu8XNIGuOFHDQZIK8YUPdft7E6iu+?=
- =?us-ascii?Q?LPQtmBlFU9HsRxFVfjZd80lSlvjdQPf2K7jvR+QWaQJ1vcUD9OeB9NziAoBA?=
- =?us-ascii?Q?v5wJpr4rQEElroaCqI9IjqQ2IcSdfEGv2V29doGWojWE5abzuXU5ZETnr7+e?=
- =?us-ascii?Q?SEDCT7wLyAleh6EJ5aewhgkxRtamNza3YmhmrEuHrBx7tT9sjRsax02Ey7Ep?=
- =?us-ascii?Q?w31g+r05420qe2OYuNfm3+MwLR2Q7sFlqTB9VrzV40gVpkD93SIx65TGoNd/?=
- =?us-ascii?Q?5EJnY06Zj4wSyw66uyDbH2k4cg32jgWWNFDq2Kf8l18XjKwON/AI5OL3UDQV?=
- =?us-ascii?Q?SRo1iRwFNUwzCUfeZIwh2GZVKx6ypELV7BfDa37i9IymscMFPGahY1+VKBsm?=
- =?us-ascii?Q?9xwMvn7hw5ohOZW52jPXGvo2jC8eelGNc9r9ZVZfMuAyvM2UkFCw0xAhw6DX?=
- =?us-ascii?Q?s0dHur1SszHjlj2cnGfGzzkGv0PqjD5AxSreXa3TI8ICNeWz9GSJo3v9PbDT?=
- =?us-ascii?Q?w+8HRCsHPexXB85sgZWs6RcOl2MmYbP7P3GiLGkR9YIZDn+COALkvgSRwS/p?=
- =?us-ascii?Q?AHPElJXbNW/3a4ONDOKvzyMXwo6rpXa8?=
+	=?us-ascii?Q?HaySZ1btg4/jocNHyXD8ikf5sqBwB+eKI8Ijilc+Ln8qIxcDNKimWgWQweA7?=
+ =?us-ascii?Q?x9S/kBAXpQSqvQOkwnzUhDEaF4FrcaqCr3HmbNSoELwPpYJhHivFo8By4Sj6?=
+ =?us-ascii?Q?vGGvXXBIohvPFxi/0dmUwkAV54xo+GyQVqtPrFf2gXa2plFlL2iIZXv/YwmN?=
+ =?us-ascii?Q?vWP9fPpFKV807NL6fQUg8sSEI/z+aUmBnZo26ryvCVu+fnzKCnn1yYRapcN8?=
+ =?us-ascii?Q?x647KrVHtc2TPyhK9zCECS35pDo6TCYWWj8gjbTEQFLEQ8xVyx7vJG8VUbAA?=
+ =?us-ascii?Q?aFXbBDhB9ZaKxxMnyf+LJrQzYc842gXTOSDDxQBEEhR+8M1JBTWkKAxu8bMM?=
+ =?us-ascii?Q?WShLSnC5+ycku9WaTSUxnCu1XBaRcuVxDHHbNTtHXLABvv+3QVuNMfx2vuT6?=
+ =?us-ascii?Q?uZbd9qQ87B5LAzvYT66uGC8jDU5huQiPFAC31lam9l7Ri/CukG2sEF2N8oa5?=
+ =?us-ascii?Q?GcwqfBjHVWoX44b64bceKfYRHcg1xN73Oy0VxIEvrfStnyWEPUEqDAlrxREv?=
+ =?us-ascii?Q?DmPtf0HvKJzhK8SvzBEHrJAu/3M/0dCygCa4JnL9YGD13jHp8CvUyn71jbEa?=
+ =?us-ascii?Q?qFWFeIPzhyrqRcjlmK0DsMEn1josuLWq3WaurnXK6N1VkBmFf3YYOwYeeqd8?=
+ =?us-ascii?Q?UdyVyZuhRYHOIV4cPobwnbHoCqUfakblU8LEvBH/h4vReR1ir2Ef1ET37V49?=
+ =?us-ascii?Q?sSkn1rVLVcrpRtjTuebloCjFsu8VzwsJ6SEQMnaOCuI6lBKKV2dM9TPABBMC?=
+ =?us-ascii?Q?laKMwcvTUv71L3KlsP2UE5VSg8lQeqU1EM+wFA9LdxAL+3dZt2bTBsje+6G0?=
+ =?us-ascii?Q?+5QVR5Ox94Kt/wxelryI2zmb+DqbVo5RsH3H9Wf5OkRQWvz95vzidtoONn3w?=
+ =?us-ascii?Q?qykylNmiD9Z22iv8yHIPofUENFjPb4qr7yVN2uIt2lvdHRuB/nRTpTC6UA+A?=
+ =?us-ascii?Q?XFMk1HSOcz63XjD3Eewq4AfAd9jttbwEZykyeqhER+26F/s5iU+CVst4Yn6T?=
+ =?us-ascii?Q?aXsxK/cHzGbMJOXBW8omvn9wxDwq/DxKBmFFPHgCFqiQCcImM/KXVCr/VM2B?=
+ =?us-ascii?Q?45vGoS0ZO/sBFRtcOhUtIKRd3xXPbsjzihVrI9mYjVHEbXVj5uGUdCXi2vlw?=
+ =?us-ascii?Q?5qyBB+8swxA5VzkpU374R6MWCGZoTbQ9duNFOhJnAWt4HIJQR0GNpuhD2Tz0?=
+ =?us-ascii?Q?wMCkQM5fyQ2OElAPVoBbPhnIoGDolST4lYZBmE5C+jVckx8+1+SowNATWZsG?=
+ =?us-ascii?Q?5BDVSXu+H2TXSbE6Q/8wiuUPPMmvByJWJAZf4dDEyGCok/GaAikowGIfH0dA?=
+ =?us-ascii?Q?uWILx044kxwE9UimsFd6K1VLIFOXsWCeRhoJdy/hl34sX31IIbWVX1nTXGjV?=
+ =?us-ascii?Q?SgpfYdGmF3s+qAuamFTtVe+ZzTSa?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cUfurVYAFJgs4c/TqFg7z/x+6bpmgxPCSmDlCCBZ1vNQUjU7AFVMjmvAB/gm?=
- =?us-ascii?Q?MVtkZXtKdjf5CEjT+SEPy2/nlw2iPwxUerZSyqMqjEqLfn5kUOZ/1TvQTRKf?=
- =?us-ascii?Q?Y/pTsV0/E0afSwVYnWfuLlyNJZKgLgpPXV7KbIDYUSFfWnssaUBz5KGC8s8C?=
- =?us-ascii?Q?ixCMWE07AjWc161m0nA2lwxMLMPztfJvU4NcZaqkiHYV4EMmi/uvhD6n6+nD?=
- =?us-ascii?Q?n/uCb5y+U+6q+LkAkAka+RIEORkKhrmwQevSXd7/N1ohQ4HTXiF/Kf0kOYpi?=
- =?us-ascii?Q?6GnUFF/nmWYmhSxzzvEc5rjOoe0nPgv92iMHqXC4jUuItgjZeLoTU3KX9CNn?=
- =?us-ascii?Q?5I1YQfEo1upKmDxI+McMZiS+7O9Bv8Lyb5/ImLbw2Q8VVLZmMsKR4/fG0d8+?=
- =?us-ascii?Q?GC9Y/JUIxOhUcAl2A3gp2eR3OzvH9oqFGybf0g2K4AZKf7rCDPs6o8roBb7Z?=
- =?us-ascii?Q?Q1vSoQADJbud4NmEfc8tliP0Reh7AbzJTbhysxPU1XD0QUBuMfqZaF+qoJx1?=
- =?us-ascii?Q?ffhy3zQDlEVMV7GZL+4t0lcJIFck9H2V/nRnimwk3vUWWHtIL49YA5xVJHs8?=
- =?us-ascii?Q?A7jaY24O5FIjUAhA8potAC3aqOay7N0pQ9XGxF00q1khoSjBepQTWT7VY7S/?=
- =?us-ascii?Q?/FX8E0k1Zw8C+thKUonv7w1CWNc/8UXq46htkZbvosi/lX5TyBgQc1DeTE5N?=
- =?us-ascii?Q?ISJRNrPIICi3M8rpsBVVB9XIn721MOugzM8VtFiSlo/ehFP4BGJ77Pq/ctf5?=
- =?us-ascii?Q?gv3vqeWlARx9oKbZWIPqdfbT9MolH6K3gK2O3cvdQ6y+FmGHGL6hHZ73nQmQ?=
- =?us-ascii?Q?kDpQKuIyIqvbptNshpCByjGDsEwjatOxUbj39vJxvJzmqEHCJZwzF6gE/5/F?=
- =?us-ascii?Q?blArkEltbaNm+BpDxqWByrjkS21ItB/Be1SNmEZmPIf3QknmEPeEHUY/3hYl?=
- =?us-ascii?Q?HmbCCxYmgyVWLBBitN2Hh/UhbbRmsKTHDHyXNodw6zh0hRXz4O1ggQ17qwLU?=
- =?us-ascii?Q?jEozWcYm9HoAjs6oReU7q3FfrTOeHLRqlT9CB7/yI5eQtxluiaeIzAL1aRL6?=
- =?us-ascii?Q?9AE+TJ+jA5oqtF1y+YL2mQPu5u1qprcJ8omy8lJ9zFJ1V8M+D9VE3eRDq0nu?=
- =?us-ascii?Q?b1HLKtWHHB8c6+TmglQYo30aPkIKuD81VkRFxefTnjcsn1UIlLPKClmb9AVP?=
- =?us-ascii?Q?6hNuCIehDMkS9AvGWAf41BBwT6/uOap/tgUyb+2nFhIUnn67MtOSQbeDt9G2?=
- =?us-ascii?Q?NoLDTLFtzeWFMyQZ9wdQ3lRdHTE9fBpw2OUNTGG4SUF8Ww8XcI8r2V8rsBW+?=
- =?us-ascii?Q?EDSSRGlkgRdY18B9etj5oX7GXfZhdutw0ACfzYFS9YFI0N+vC98oI5H1MMbc?=
- =?us-ascii?Q?LUsemckjaFfgMrubaW3LyZY8ZCNu6X42VHEbotf/fYMNEbVPJNyktvaXXoUg?=
- =?us-ascii?Q?HQ8HPG2nCBvHCX2EFFqXd9G4Z2wWyx7n9Tw0jFVQ7drU8QeKgm0j0FjAwcYK?=
- =?us-ascii?Q?Xosx1GJrPUy8navlDOHXyKLmzrTHWQhl8jf1UhpIUFcfjU5i2IfpKz0Sl2Xf?=
- =?us-ascii?Q?LlcdFAm7KDQAt3JlKxa9EdkWnoGaHO6qE/fIlQvD?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa12338-4bea-4b38-548f-08dd200ecdda
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+	=?us-ascii?Q?83Dcvmk86p/5fQJLgnIlgBo/VS3ywcOQj2ITajFHdiIgek/Z1zZQ9/mWfHC6?=
+ =?us-ascii?Q?kM2K6xuYf/CrqLrYRUDE4+jMYUIkU103lSGWNLTukoC+ocquW0Hud04yzNK7?=
+ =?us-ascii?Q?XEoZ34cZmnCx7/ZAW6SeGWZdQZn3YBZg7BHXARa6R3fgNpts3WpdV9eaCenn?=
+ =?us-ascii?Q?jwLMfaQtojfKG76jyMWeKVFJN0Fdb4cOirh/olCYc10GjDn/mhoL1UJqN/aP?=
+ =?us-ascii?Q?/LwTUd5Mrz7fgPAFX3TOO9g66fweyDU+dqbxZVHmvQSN51t3nKE6g5XRny6d?=
+ =?us-ascii?Q?dCbCd0hGENe2zObtFl05NZQV68nx7psmPK7RAcu3l7i999/zSAc6Z0OdWWb7?=
+ =?us-ascii?Q?PCM1cKZ7hW4G6X2U4a9RL0rkLTW8lZvK5TuDWSyaF6rLRMR0vCqCmMRSKGbC?=
+ =?us-ascii?Q?3nVat2/UBHVWoOaVs4+emaC3BgVU08RnIVc8zyvfA4VNEqm4DAyTV98RZQ7H?=
+ =?us-ascii?Q?SQf2uRZYB/GJv5OXM3COH6wHPn/ALr8i3gdcJH2enUlfUhT4y/f7E4oaIhmC?=
+ =?us-ascii?Q?3pOCDqOZ6pI06Wpp9QN71dYXntO9ey9M4EeWy9CzExTV0gfv+1tt+uaP+7Sw?=
+ =?us-ascii?Q?S4yVVGIzZBXVL6W9HSYBLtJwnFpUNUocKgptgACVQqGisi5jQ7Fh7GmUiytK?=
+ =?us-ascii?Q?ofEA1dUsOVhbNe20vfxtS2M5SccSRMmWixQT9KC+KEX4Y7AMm6xQ6hdV/mGP?=
+ =?us-ascii?Q?06NdcrZfekpHuwl6/DRQgdVYiZ9sBSpT0enNAqYVc3yiRCWAKYu0pGKlJmjW?=
+ =?us-ascii?Q?DnF480io+72ro4CzHOEBk8ov4X6aNUywa/MH7lCwnceH3KTA6vDNGQZoiDXf?=
+ =?us-ascii?Q?gx90llrNL6LLYyNc5znfZo8Jv5BzObOWLiLI0hBkzL4xwX1Qv/KXGcAEjiPG?=
+ =?us-ascii?Q?cPwbgEYh9NlGXHzuuUXsH3Fs0itCiV6nSrraXfGKCTiWeycg56acbSYaF/J8?=
+ =?us-ascii?Q?Wk230Znprl9LYy4r3fKUojtIiwODSF55UsGF0Vr9OQi6X+lfRSvBKIfeuGug?=
+ =?us-ascii?Q?gEgcls2jmT1UIIlJ6YBUKvEjY0hQQUSPlwmGfCB9FcldfUaJcXq9wov8q4WX?=
+ =?us-ascii?Q?WLyC64yaVP/wvLys+y2FuuDNLNRp691a+4EejDZd+5CsWzqSv5z9kyOZM70L?=
+ =?us-ascii?Q?+hzmNDwDcxwKlyyawvxevmJFDu5mSZZ9Qucg8mpSRC9B2Vngkkrb6uzr1fuM?=
+ =?us-ascii?Q?I3FFbsLq5yJPpnLCtgWc965QR7SozRqQCQKRo+bvqq2ulGHCllR4zH7SMEWX?=
+ =?us-ascii?Q?9L1O5DWx2UjICePEQdSg0tJOsoRI/hMz/SiQsyLbO3pu0+fZQld1820AALSK?=
+ =?us-ascii?Q?KvW9yJ9EhCMsiM+s5j8CA/vV/qMe3qF3Lo5vZnpm9mQSQ+DBhJwfu2Qtrj3l?=
+ =?us-ascii?Q?MMq8pGauNaaMkM/XujsrmefQyAzaMKT9Gbr2HdiWnwGGhB6mpsC3Tn2pT3yf?=
+ =?us-ascii?Q?KTEFUgxZS4vGT0xVCgAQoZBfWhNIFb27s0LCpldTZrLLZzj3XEZXSYeAEXmx?=
+ =?us-ascii?Q?KhLR0GPig64wgEf/E2X7xzEI7KLt+1RC9kTIvSp7/N2usLt6vCg7cxNZB3C+?=
+ =?us-ascii?Q?V/vgEpS84EIZsgbkJV/09AXd91VRvxbwoLWI5KoRJb7MHwwxUyZPMqEva3d3?=
+ =?us-ascii?Q?HBHxbQ5ly2PWh+VYR86qYW4=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e474783-98aa-4654-a5ab-08dd2019209f
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 09:23:31.3050
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 10:37:25.2195
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7WbFdiYskpHNYYaevAghFlbB1UuOcZIRu3rOpstxSJhuklOipDlO/dtPvW+Dup0m3zWArY8TZJJdCsxiXAOkvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6871
-X-Authority-Analysis: v=2.4 cv=bp62BFai c=1 sm=1 tr=0 ts=6763e619 cx=c_pps a=OxY2RB2sa7x8oI2LU21LDQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
- a=D82hjbkxm0GsMeQaPhgA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: ojzMXiwFcPdqoz_3jHxD3eATk7ee9H8O
-X-Proofpoint-GUID: ojzMXiwFcPdqoz_3jHxD3eATk7ee9H8O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-19_04,2024-12-18_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 spamscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412190075
+X-MS-Exchange-CrossTenant-UserPrincipalName: fnPRLlxnkn0DVlpP8r7guReGBhePP4aKxxUF39g1APza1nxLEfA86/MwNP7kmHDhZOaSj5MHecGzCen58wM+REpWSIIxmU01uIAKsR8ToW8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6894
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208902
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 10:37:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208903
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Hi Derek,
 
-oe-pkgdata-util's glob command will output different results depending
-on whether glibc-locale is built or not. This in turn results in do_rootfs
-error when multilib is enabled.
+On 12/18/24 7:04 PM, Derek Straka wrote:
+> V3 to be sent shortly based on inputs from you and Alex.
+>=20
+> On Wed, Dec 18, 2024 at 7:32=E2=80=AFAM Quentin Schulz <quentin.schulz@ch=
+erry.de>
+> wrote:
+>=20
+>> Hi Derek,
+>>
+> Hi Quentin,
+>=20
+> Thanks for your note.
+>=20
+>>
+>> On 12/18/24 12:12 AM, Derek Straka via lists.openembedded.org wrote:
+>>> A large number of python packages leverage the pytest unit test
+>>> framework for their ptest functionality.  Currently, many of the tests
+>>> have duplicate code for:
+>>>       1. Installing pytest files
+>>>       2. Declaring ptest dependencies
+>>>       3. Script for executing tests (run-ptes)
+>>>
+>>> To simplify adding common pytest based ptests, added a new class
+>>> enabling base functionality.  Users can also override the location of
+>>> the pytest files in addition to using their own version of run-ptest
+>>>
+>>> Signed-off-by: Derek Straka <derek@asterius.io>
+>>> ---
+>>>    .../ptest-python-pytest.bbclass               | 42 +++++++++++++++++=
+++
+>>>    meta/files/ptest-python-pytest/run-ptest      |  3 ++
+>>>    2 files changed, 45 insertions(+)
+>>>    create mode 100644 meta/classes-recipe/ptest-python-pytest.bbclass
+>>>    create mode 100755 meta/files/ptest-python-pytest/run-ptest
+>>>
+>>> diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass
+>> b/meta/classes-recipe/ptest-python-pytest.bbclass
+>>> new file mode 100644
+>>> index 0000000000..89ff10c335
+>>> --- /dev/null
+>>> +++ b/meta/classes-recipe/ptest-python-pytest.bbclass
+>>> @@ -0,0 +1,42 @@
+>>> +#
+>>> +# Copyright OpenEmbedded Contributors
+>>> +#
+>>> +# SPDX-License-Identifier: MIT
+>>> +#
+>>> +
+>>> +inherit ptest
+>>> +
+>>> +FILESEXTRAPATHS:prepend :=3D "${COREBASE}/meta/files:"
+>>
+>> I think it'd make sense to use :append here as we don't want to override
+>> anything, just provide a fallback in case the
+>> ptest-python-pytest/run-ptest isn't find anywhere else. This would also
+>> allow to easily override this file by just adding the file next to the
+>> recipe, instead of having to add a FILESEXTRAPATHS:prepend :=3D
+>> "${THISDIR}/${PN}:" in the recipe after the inherit for example.
+>>
+> I was able to override in oe-core without adding any prepends in the
+> recipes.  My understanding is the EXTRA paths are searched as a last
+> resort, so recipes having their own run-ptest get theirs included first.
+> Overall, the class was adapted from ptest-perl and ptest-cargo.
+>
 
-The error message is like below:
+FILESEXTRAPATHS:prepend is what we use in bbappends to search in the=20
+directory next to the bbappend **first** and then from the original=20
+recipe second.
 
-  No match for argument: lib32-glibc-locale-en-gb
-  Error: Unable to find a match: lib32-glibc-locale-en-gb
+It's a bit convoluted, but FILESPATH stores a list of paths that is=20
+constructed from FILESEXTRAPATHS + <original-recipe-dir>/${BP} +=20
+<original-recipe-dir>/${BPN} + <original-recipe-dir>/files (c.f.=20
+meta/classes-global/base.bbclass line 59, which calls base_set_filespath=20
+from meta/classes-global/utils.bbclass). FILESPATH is then read from=20
+left to right and the first path to have the listed file "wins".
 
-Here are the steps to reproduce the issue:
-1. Enable multilib and install a lib32 application by adding the following
-   lines to local.conf:
-   require conf/multilib.conf
-   MULTILIBS ?= "multilib:lib32"
-   DEFAULTTUNE:virtclass-multilib-lib32 ?= "core2-32"
-   IMAGE_INSTALL:append = " lib32-sysstat"
-2. bitbake lib32-glibc-locale
-   Note that people usually don't deliberately build lib32-glibc-locale,
-   but they will do world build. And when so do so, the following step fails.
-3. bitbake core-image-full-cmdline
+Can you please provide the code you used to validate overriding=20
+run-ptest from the recipe? If that is the case, then I would like to=20
+understand how that happens and we possibly have hit a corner case we=20
+should fix (or at least be aware of).
 
-The problem happened because do_rootfs will first form its own repo by finding
-dependencies. glibc-locale will be brought in because of IMAGE_LINGUAS. But
-lib32-glibc-locale will not be brought in. And in install_complementary,
-oe-pkgdata-util will use its glob command to find all complememtary packages
-for IMAGE_LINGUAS, such as "*-locale-en-gb". Then we get the above error.
+>>> +
+>>> +SRC_URI +=3D "file://ptest-python-pytest/run-ptest"
+>>> +
+>>
+>> We use append/prepend everywhere but here, should we?
+>>
+>> The code was borrowed from ptest-perl.bbclass.  I'll update the python
+> class as suggested.
+>=20
+>>> +# Overridable configuration for the directory within the source tree
+>>> +# containing the pytest files
+>>> +PTEST_PYTEST_DIR ?=3D "/tests"
+>>> +
+>>> +do_install_ptest_python_pytest() {
+>>> +     if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
+>>> +             install -m 0755 ${UNPACKDIR}/ptest-python-pytest/run-ptes=
+t
+>> ${D}${PTEST_PATH}
+>>> +     fi
+>>
+>> This means if we ever built the recipe and don't clean its WORKDIR, but
+>> update the file, it will never be updated. I don't think that's what we
+>> want. Can you explain what you're trying to prevent here by having a
+>> check for NOT installing the file?
+>>
+>>> +    if [ -d "${S}/${PTEST_PYTEST_DIR}" ]; then
+>>
+>> Shouldn't we use UNPACKDIR for file:// SRC_URI in master?
+>>
+> To my knowledge, the pypi recipes aren't putting the sources into UNPACKD=
+IR
+> for better or worse.  I looked at several packages, and they're using `S =
+=3D
+> "${WORKDIR}/${PYPI_PACKAGE}-${PV}"` (See pypi.bbclass)
+>=20
 
-glibc-locale has its own recipe and which to install into an image is
-determined by IMAGE_LINGUAS. So let's not map any glibc packages out
-to glibc-locale in oe-pkgdata-util.
+I'm not familiar with UNPACKDIR and its use as I'm still on Scarthgap.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/oe-pkgdata-util | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 44ae40549a..9fb7952c58 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -136,6 +136,10 @@ def glob(args):
-                         logger.debug("%s is not a valid package!" % (pkg))
-                         break
- 
-+                # we don't want glibc-locale to be mapped out by any glibc package, filter it out
-+                if "glibc-locale" in mappedpkg:
-+                    mappedpkg = ""
-+
-                 if mappedpkg:
-                     logger.debug("%s (%s) -> %s" % (pkg, g, mappedpkg))
-                     mappedpkgs.add(mappedpkg)
--- 
-2.25.1
-
+Cheers,
+Quentin
 
