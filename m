@@ -1,107 +1,100 @@
-Return-Path: <egyszeregy@freemail.hu>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0675E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 11:17:42 +0000 (UTC)
-Received: from smtp-out.freemail.hu (smtp-out.freemail.hu [46.107.16.225])
- by mx.groups.io with SMTP id smtpd.web10.127086.1734607051752261266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3186DE77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 11:31:23 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.127420.1734607881098554199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 03:17:32 -0800
+ Thu, 19 Dec 2024 03:31:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@freemail.hu header.s=20181004 header.b=zmfZNqw1;
- spf=pass (domain: freemail.hu, ip: 46.107.16.225, mailfrom: egyszeregy@freemail.hu)
-Received: from localhost.localdomain (catv-178-48-208-49.catv.fixed.vodafone.hu [178.48.208.49])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.freemail.hu (Postfix) with ESMTPSA id 4YDSgr3vTqzJTB;
-	Thu, 19 Dec 2024 12:17:28 +0100 (CET)
-From: egyszeregy@freemail.hu
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Benjamin=20Sz=C5=91ke?= <egyszeregy@freemail.hu>
-Subject: [PATCH] systemd: Add WATCHDOG_RUNTIME_SEC optional variable
-Date: Thu, 19 Dec 2024 12:16:15 +0100
-Message-ID: <20241219111615.601-1-egyszeregy@freemail.hu>
-X-Mailer: git-send-email 2.47.1.windows.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1734607049;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OQddCiSk;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rAz8g+Pl;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010193deafc025-f9d21603-5db8-42d1-9da0-69c2b371f8a2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1734607880; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=ogY20Z6GI2j5dnIbir/+H4YD7wqXM8y50GVYug0gMP8=;
+	b=OQddCiSkG8hzXTNPw6+xs73dBjUq1ydHNq4wrn4p0NRmZFCI6/Mydyawx0rAUo9D
+	kuaD2HCSK2kJ+46NU5i91k8LzL4X0/1wesNhC8t12TORIEek9mf84FPlyzeT+p9B/Up
+	FvX9+on9QorGAvhU9IYVgEZPlp+nQpcoZ0nShmNs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734607880;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=ogY20Z6GI2j5dnIbir/+H4YD7wqXM8y50GVYug0gMP8=;
+	b=rAz8g+PlUQ/NFmRZD/LXwlEE1LuJp40vNN3MuSFCjbCwIPNVBTpmTOM9s69DLG3B
+	hoJ6vBGhJnDgsp8y7DhljXRebUgZrjGnDiPKMeAEUvnsj8ALxYd4wtwUIZRDOakxSBx
+	6XZHIoc3sasSU5uNa9R0DOW9RGNSUafDHgZ35r7Y=
+From: patchtest@automation.yoctoproject.org
+To: egyszeregy@freemail.hu
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] systemd: Add WATCHDOG_RUNTIME_SEC optional variable
+In-Reply-To: <20241219111615.601-1-egyszeregy@freemail.hu>
+References: <20241219111615.601-1-egyszeregy@freemail.hu>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193deafc025-f9d21603-5db8-42d1-9da0-69c2b371f8a2-000000@us-west-2.amazonses.com>
+Date: Thu, 19 Dec 2024 11:31:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.12.19-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 11:17:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208905
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 11:31:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208906
 
-	s=20181004; d=freemail.hu;
+--NextPart
+Content-Type: text/plain
 
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-	l=1751; bh=SOtVjpovb8GEQjj/6PhL652jcamo2arPKAPsCBAMAC4=;
-
-	b=zmfZNqw1S+s5YL85QDtiX5EGp84S7r1i8qrxR6Ehp3UIZzqiicCTn4k6qBs8A/fh
-
-	0AUTtZZWyFcBvE9P9NU636rQpR/PQ36AlqughUhps3uc4VtBlrSLS2OohIBGCptREdc
-
-	it9VhTWZgOc3xbKZDb0LEmdwRSzP4wVn9IVvY1GDX1YA0MUvXFeLnVSzybvqLygbTMB
-
-	RhHRAVakbL8+xakvUC+5+bbaZ0Ewn/qx9YIpZ2wUqhxnHDB1Z5pD1UqR77jSybUPNLs
-
-	l9srkJar4ywaEJiMDTzIRAHCXV16F+kyrvQowG+lEWNDt1xhCRY5XY/Dcj/jHt4sDUO
-
-	jyWyaMXngw==
-Content-Transfer-Encoding: quoted-printable
-
-From: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
-
-To make use of the hardware watchdog it is sufficient to set
-the RuntimeWatchdogSec=3D option in /etc/systemd/system.conf.
-It defaults to 0 (i.e. no hardware watchdog use). Set it to
-a value like 20s and the watchdog is enabled.
-
-ref: https://0pointer.de/blog/projects/watchdog.html
-Signed-off-by: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
 ---
- meta/recipes-core/systemd/systemd_256.9.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Testing patch /home/patchtest/share/mboxes/systemd-Add-WATCHDOG_RUNTIME_SEC-optional-variable.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_256.9.bb b/meta/recipes-co=
-re/systemd/systemd_256.9.bb
-index a9224915c6..84888b88f1 100644
---- a/meta/recipes-core/systemd/systemd_256.9.bb
-+++ b/meta/recipes-core/systemd/systemd_256.9.bb
-@@ -266,6 +266,11 @@ EXTRA_OEMESON +=3D "-Dkexec-path=3D${sbindir}/kexec =
-\
- # The 60 seconds is watchdog's default vaule.
- WATCHDOG_TIMEOUT ??=3D "60"
-=20
-+# To make use of the hardware watchdog it is sufficient to set WATCHDOG_=
-RUNTIME_SEC
-+# (RuntimeWatchdogSec=3D option in /etc/systemd/system.conf) to a value =
-like 20s
-+# and the watchdog is enabled. (defaults is no hardware watchdog use)
-+WATCHDOG_RUNTIME_SEC ??=3D ""
-+
- do_install() {
- 	meson_do_install
-=20
-@@ -383,6 +388,11 @@ do_install() {
- 			${D}/${sysconfdir}/systemd/system.conf
- 	fi
-=20
-+	if [ -n "${WATCHDOG_RUNTIME_SEC}" ]; then
-+		sed -i -e 's/#RuntimeWatchdogSec=3Doff/RuntimeWatchdogSec=3D${WATCHDOG=
-_RUNTIME_SEC}/' \
-+			${D}/${sysconfdir}/systemd/system.conf
-+	fi
-+
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', =
-d)}; then
- 		if ! grep -q '^NamePolicy=3D.*mac' ${D}${nonarch_libdir}/systemd/netwo=
-rk/99-default.link; then
- 			sed -i '/^NamePolicy=3D/s/$/ mac/' ${D}${nonarch_libdir}/systemd/netw=
-ork/99-default.link
---=20
-2.47.1.windows.1
+FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: Parse error Unexpected hunk found: @@ -383,6 +388,11 @@ do_install() {
+SKIP: test Signed-off-by presence: Parse error Unexpected hunk found: @@ -383,6 +388,11 @@ do_install() {
+SKIP: test Upstream-Status presence: Parse error Unexpected hunk found: @@ -383,6 +388,11 @@ do_install() {
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
