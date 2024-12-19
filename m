@@ -2,119 +2,191 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83164E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 19:14:35 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.136728.1734635672218316208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F895E77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 19:20:45 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web10.136865.1734636036121408299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 11:14:32 -0800
+ Thu, 19 Dec 2024 11:20:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A74KCm58;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7242f559a9fso1476432b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 11:14:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bjdDElrA;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-71e565708beso628419a34.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 11:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734635671; x=1735240471; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CzNPLfrwaRCpor5ScpN/PNYQLRUHDLblPtHHQXb+334=;
-        b=A74KCm58Xn9FxXlvH9LMmk8/nWSWVWXpgs4Xl6dQ4Ji+hXpBsWrZC3Zv3souWqKeNY
-         q0ePakUNenpS+fK2qr8CyRA+9b6Yra0a22+dYXxg5CZc5/yEhqrNFf/mp6DT17YaBurh
-         hodp9RN9CFNobt0s9kUpOGdrKqHyY1X4VF5F3O8GCz2Z+KG5MRXJSfuaFqADBxVcTAeo
-         YwkwkoJBJQoIJW1vMuumXlDdaj6h286IumD7U+2dLqKd/f91d0FeJ5vwEtDU2XNOfp9S
-         CtviAaKuBovVvtVEcDBXsRLTggKWT6wPImg/8i1Ey8jTnEQCNTOwa/TOtlrUPF5O7GJW
-         4vRA==
+        d=gmail.com; s=20230601; t=1734636035; x=1735240835; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZLNowh6qumyiSXgZr4kJq7st0+eGA2VBc3gLS+jPX1o=;
+        b=bjdDElrAkDJn3W5i7Saig9elYvznpUO21ESJCrVJAb4kJv9ZI9yjrAN8SuqW9zs3Ao
+         JFjd6Mj9EK+jSMcU7zt0vpN4OkoVggbDSc7Heq3UrcQ5Wasmv2MWa7Rop5BRws5X+SgY
+         1hQhBNRPtdU8qnByJynsI2JUWoY7QlBdXjwEjfMekhLif/+Qn25bPvvtpWxh51zm2xlR
+         nIYIYqBiDrA3LAzdnvMGS/84RgZpJGnvLzjcC/NV1i3EBCnqSDwx88n+C66uRzEydEA6
+         e+1N2NZNALluyS7EMIlJYMkvtQdW34Fl2kGATwwY/RYlXnJmYyi0wArVDCCtbs65t2fu
+         BtlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734635671; x=1735240471;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CzNPLfrwaRCpor5ScpN/PNYQLRUHDLblPtHHQXb+334=;
-        b=aQzEdl8sh/WI4/EJZ3mWPVIcXMB3rQnD8ljPEZyugH4KCvGW5/71mdkOTzfHvJrUxZ
-         XCXPi6qmjjWppHjpE2DYvOWQyRxuuUsWuqf51FXE8sxzGBBKAa1wpq0kHA4jsQlOHXO4
-         Jz/b/QK/NmOGxVlogN8CUdgaWee9Ql0i7DEU+svCWMjZyoPqWnSHNoruOkGVuOCUso51
-         d6ZYW/K7/uXEKeVVR12Rd53bfzMb/xEr68JtRQa1y31/KgP+tz8vvfHQ2UGqOFbR5boz
-         tbYo8azfMiWA1Rv+cAiN8dpE1Hgz3qaufzX1GP8Vvw2lQ4kGGfvQ4MnrbN/c3koBJXx+
-         d/LA==
-X-Gm-Message-State: AOJu0YzczZAAy/pBFCa9zgxHJgYe8MG+IG+WmTklDzj1XMhuWEo4VO9y
-	QM0/LPAk7w+XWfzAELvAA/A8ADMpkpqeyDYVRWdyWauOLRUvasrRNAYdiGKC
-X-Gm-Gg: ASbGncvyGKRDdl11pY8ih7OhgLVuKaEZ3MRVpLxB5oaJ8sRlKRhEM6qggpRQbAI/6bs
-	2ME6sb2BTUcMDGxDKWU2/1s56SE0jCAAsS+J70Qlzd01c/I15tXi9duuBBWO8/WxcLym8JrLHXD
-	PYd+UzTzj+wh8clh1uI1ZC/1CsFeEy6+6kKWos/Wepg48HXIyQTtiFHeRuAMVLxyQKURl+wOgsg
-	t3w8yqaHGyIuwEz2NheYNnIaM4I6bTWMPSOxuZbUNgzWO9bTncCWiqdOx8=
-X-Google-Smtp-Source: AGHT+IGCqK95RCW/h+VAucaMsMsoPe4y84GNmIzYI2Ut1bNWm9L028+/H63rMWLMTe40m5l7h50ddg==
-X-Received: by 2002:a05:6a20:7289:b0:1e0:d4f4:5b39 with SMTP id adf61e73a8af0-1e5e04a0ee8mr476784637.24.1734635671317;
-        Thu, 19 Dec 2024 11:14:31 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::5df3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842aba7310bsm1329745a12.1.2024.12.19.11.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 11:14:30 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] nfs-utils: Fix warnings found with clang
-Date: Thu, 19 Dec 2024 11:14:28 -0800
-Message-ID: <20241219191428.531286-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.47.1
+        d=1e100.net; s=20230601; t=1734636035; x=1735240835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZLNowh6qumyiSXgZr4kJq7st0+eGA2VBc3gLS+jPX1o=;
+        b=Fce+7i15XesrLq/TwuWFMLUwCmuFtwKru4DXSIZcizAAQc2kPuc1M3bjUDzaJJjwLn
+         HTfGGiqPhhTooCcxmqyh1/b9YWkJEcHSbKTosOSPxy5rFWG2KrkDaAz46yoS26IsJA5t
+         Uh0SNe4SeKNNIDHXX40ujRZvXC+rhfRJoI5gzpzzTtiPqufL76I1B13P34frCMDikrP2
+         OiPmPesbOGfXRxmj9YShfOp7EbI0380ZGMjF+6Hg8b/DRZgJGCXOzJGbhaA344tWWgag
+         fLonvFdPC8RdciLl/8N/YNVyRFuqao3XfN+0PCiMTigMsk9o5s12bKCmQ5pCtya0wQqT
+         FXiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXhZNTRDLAjBa7f6O43Xm+Ld2paF7e7L3tcM/YlwHJq0U9tTgutAjoJs5k7r9xVdwXVwD70qvDttEr91CIdzEyXiQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwO9xwbj1WvWpQnoP+QMn3KgoDhdJ/OcU2xcwhAcdSfd3ZoshuA
+	MOBKjMraIx0vl0A3syI/ld0XlOoa24zdN/ocIDdxa0nmQ4z2OVd1fF4fTSIAHxG0yTtvHm1mK/W
+	iHB9dUrXVcanIzrJgUNKwvVCHWxy/Dg==
+X-Gm-Gg: ASbGncsFOvU5bRhloVpBTw8xz/0p9sWLEjxtms+0XkWF46DiSi73KwDr678DdFVY18N
+	u0UK8p64oOwfU3x/NkPt7pDbMmTipGZZxZduCkwJfMXFEOttOjO/9
+X-Google-Smtp-Source: AGHT+IF5g9WbUZaHBF68dmkgHGu6ciZb13hreeCWzDqJJRq+L/WEic66svUPDo0SVCBW++IsJrghAmLjT4b3oVHxRro=
+X-Received: by 2002:a05:6871:60d:b0:29e:d36:6e39 with SMTP id
+ 586e51a60fabf-2a7fb0aa30emr82497fac.10.1734636035377; Thu, 19 Dec 2024
+ 11:20:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1734597713-2663-1-git-send-email-wangmy@fujitsu.com>
+ <CANNYZj8w3j0i7qPob-X6H7D201A9rtOLGg_-ZH_Y=Ydyaix2sQ@mail.gmail.com> <CAMKF1sp8p+tfzy8-WDOuY42z5-PiSOYwWwQ1Y29Y9_GZy+rBNw@mail.gmail.com>
+In-Reply-To: <CAMKF1sp8p+tfzy8-WDOuY42z5-PiSOYwWwQ1Y29Y9_GZy+rBNw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 19 Dec 2024 11:20:09 -0800
+Message-ID: <CAMKF1sqdvZKOUiRxbsS7JbVAho4CyUkAmvHX+RLj=5_wiBos=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] nfs-utils: Fix const qualifier error
+To: alex.kanavin@gmail.com
+Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org, 
+	Wang Mingyu <wangmy@cn.fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 19:14:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208930
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 19:20:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208931
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...0001-Fix-typecast-warning-with-clang.patch | 28 +++++++++++++++++++
- .../nfs-utils/nfs-utils_2.8.2.bb              |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
+On Thu, Dec 19, 2024 at 10:05=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
+e:
+>
+> On Thu, Dec 19, 2024 at 1:01=E2=80=AFAM Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > Please do not add new =E2=80=98Penfing=E2=80=99 patches. They should be=
+ submitted upstream first or there should be an explanation of what is pend=
+ing.
+>
+> Yeah, i did another patch which is also not correct sadly. Perhaps we
+> need to address it differently than simply trying
+> type punning.
+>
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
-new file mode 100644
-index 00000000000..3322a0d06f5
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
-@@ -0,0 +1,28 @@
-+From bbed752dfad73738baefe518e5959b5c0f038c75 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 18 Dec 2024 19:20:39 -0800
-+Subject: [PATCH] Fix typecast warning with clang
+looking a bit closer, it seems changing the type of base from char* to
+const char* is enough to get types correct. I have send a v2 patch
+to upstream as well as for oe-core.
+
+> >
+> > Alex
+> >
+> > On Thu 19. Dec 2024 at 9.42, wangmy via lists.openembedded.org <wangmy=
+=3Dfujitsu.com@lists.openembedded.org> wrote:
+> >>
+> >> From: Wang Mingyu <wangmy@cn.fujitsu.com>
+> >>
+> >> error with clang:
+> >> file.c:200:8: error: assigning to 'char *' from 'const char *'
+> >> discards qualifiers
+> >> [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+> >> |   200 |                 base =3D pathname;
+> >> |       |                      ^ ~~~~~~~~
+> >>
+> >> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> >> ---
+> >>  .../0001-Fix-const-qualifier-error.patch      | 35 ++++++++++++++++++=
 +
-+Fixes
-+file.c:200:8: error: assigning to 'char *' from 'const char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-+
-+Upstream-Status: Submitted [https://marc.info/?l=linux-nfs&m=173457863307678&w=2]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Benjamin Coddington <bcodding@redhat.com>
-+Cc: Steve Dickson <steved@redhat.com>
-+---
-+ support/nsm/file.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/support/nsm/file.c
-++++ b/support/nsm/file.c
-+@@ -184,7 +184,8 @@ static char *
-+ nsm_make_temp_pathname(const char *pathname)
-+ {
-+ 	size_t size;
-+-	char *path, *base;
-++	char *path;
-++	const char *base;
-+ 	int len;
-+ 
-+ 	size = strlen(pathname) + sizeof(".new") + 1;
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-index 543c68f7f5b..18c4a249b33 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://clang-warnings.patch \
-            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
-+           file://0001-Fix-typecast-warning-with-clang.patch \
-            "
- 
- SRC_URI[sha256sum] = "a39bbea76ac0ab9e6e8699caf3c308b6b310c20d458e8fa8606196d358e7fb15"
+> >>  .../nfs-utils/nfs-utils_2.8.2.bb              |  1 +
+> >>  2 files changed, 36 insertions(+)
+> >>  create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001=
+-Fix-const-qualifier-error.patch
+> >>
+> >> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-co=
+nst-qualifier-error.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0=
+001-Fix-const-qualifier-error.patch
+> >> new file mode 100644
+> >> index 0000000000..8fc327e7aa
+> >> --- /dev/null
+> >> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qua=
+lifier-error.patch
+> >> @@ -0,0 +1,35 @@
+> >> +From a21344466e4c315d6d7098920819983f2d15573b Mon Sep 17 00:00:00 200=
+1
+> >> +From: Wang Mingyu <wangmy@cn.fujitsu.com>
+> >> +Date: Thu, 19 Dec 2024 06:18:59 +0000
+> >> +Subject: [PATCH] Fix const qualifier error
+> >> +
+> >> +Fixes clang error
+> >> +file.c:200:8: error: assigning to 'char *' from 'const char *'
+> >> +discards qualifiers
+> >> +[-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+> >> +|   200 |                 base =3D pathname;
+> >> +|       |                      ^ ~~~~~~~~
+> >> +
+> >> +Upstream-Status: Pending
+> >> +
+> >> +Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> >> +---
+> >> + support/nsm/file.c | 2 +-
+> >> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> >> +
+> >> +diff --git a/support/nsm/file.c b/support/nsm/file.c
+> >> +index de122b0..2733210 100644
+> >> +--- a/support/nsm/file.c
+> >> ++++ b/support/nsm/file.c
+> >> +@@ -197,7 +197,7 @@ nsm_make_temp_pathname(const char *pathname)
+> >> +
+> >> +       base =3D strrchr(pathname, '/');
+> >> +       if (base =3D=3D NULL)
+> >> +-              base =3D pathname;
+> >> ++              base =3D (char*)(&pathname);
+> >> +       else
+> >> +               base++;
+> >> +
+> >> +--
+> >> +2.43.0
+> >> +
+> >> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb b/=
+meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+> >> index 543c68f7f5..45821b98e8 100644
+> >> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+> >> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+> >> @@ -31,6 +31,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/nfs-uti=
+ls/${PV}/nfs-utils-${PV}.tar.x
+> >>             file://0001-Makefile.am-fix-undefined-function-for-libnsm.=
+a.patch \
+> >>             file://clang-warnings.patch \
+> >>             file://0001-locktest-Makefile.am-Do-not-use-build-flags.pa=
+tch \
+> >> +           file://0001-Fix-const-qualifier-error.patch \
+> >>             "
+> >>
+> >>  SRC_URI[sha256sum] =3D "a39bbea76ac0ab9e6e8699caf3c308b6b310c20d458e8=
+fa8606196d358e7fb15"
+> >> --
+> >> 2.43.0
+> >>
+> >>
+> >>
+> >>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#208899): https://lists.openembedded.org/g/openembed=
+ded-core/message/208899
+> > Mute This Topic: https://lists.openembedded.org/mt/110195053/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
