@@ -1,112 +1,141 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AA9E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 04:24:30 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.122789.1734582266266661145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28FC3E77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 08:42:12 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web11.125768.1734597729120582698
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Dec 2024 20:24:26 -0800
+ Thu, 19 Dec 2024 00:42:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dF2tO8dG;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-728e78c4d7bso291917b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Dec 2024 20:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734582265; x=1735187065; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pNebX7x7qKGnLlhbeg300vHNv7fLJ4HF/Es76UFJOjw=;
-        b=dF2tO8dGVlcrnqzwivWwica5Cblzfs5Uh5KH3/cRj5gdbst4Fiq1PiNr61hjDoM+su
-         4hAL+2ldoJxrgzJvrgV59EfbMm+vaf6kxMor1pfLg45ofwIZHWMOFSEZxADVk/6GoRar
-         asO1cXDNIIWPqxcdz3Azi07gTAlzpE2kXxFy7suOWYHJG28fFjX4LvGvwL6DD59s1+I4
-         Or8X+AFKbVUevvH5Qqjr3br92CivAkPyk8mGd0lnO9Jadw33xKL5JU5txv+MYyckanCs
-         UpzwncUCtaoFc5pLy0iwckgOF2sgsmZMKPy/ITX4av3Q+7Glra62pjmfxVSO9eNyWm6P
-         nW6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734582265; x=1735187065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pNebX7x7qKGnLlhbeg300vHNv7fLJ4HF/Es76UFJOjw=;
-        b=V00pPNSM5+15elsue9XMX7Ib0dQTFQ2Si/VcyXA6ilHXN84U2C/kd/oyl1H2QLEYlF
-         paw0beF7ulEAft8u/lCzUMc1fkOam9m6defLWBoXDKisXiAa9vpl9qBtBGSBV4eRPqUE
-         AuPYEYKTmL2D7Ki15ZLuPFc/yXp9S5UeRKpqA5r8oWHoZTXVX9KH+vCLO5JAZSwgF/2z
-         5smW/+YjEDwIXxtFRSDhG9bB598PH3bXW6DRoX2JeTqkm0Ihrk5dz0+KoddfZkqE4MZi
-         Qx6RqPX48rSZ8dY0qitsZ4Lajs9xJJ10rCkSWHcov8Oz20eKcJuAhbJ4LsnW+tdDg4By
-         6Xaw==
-X-Gm-Message-State: AOJu0YxIqVbpP7LTtdQcpc24mVeVpOFg1TMNewepDQqDaiNOTqSjgZwz
-	uGmaIRnNWLd/SODawL+P6kCiPfbcnq47gJWauyPJFGQJNiuMPt7wM3dsMmSE
-X-Gm-Gg: ASbGnctvDgKYQHtOu37zioJumJyttAMHpNpaElH88ugNWWYIzUhednhaMNBA1lHrB2M
-	HwahO/x3khY2W8TZuxEJHX3v0M2deX2Fiia6H8yaO526KGqti7yLr1tvjVxjA6xyoKV8iRnt+sT
-	b/P6y5+GEcy6nsjCPV60DS4OHxh9tRFhpsGTBXTgED6Zw+extukUf4tWU0Lj7gRATKJ/17hBqQX
-	CjybEh0EYkSZyoZU0u+UNakQXmPJv6oSr8DYXGwy/vwQamY/ziaebDhaA==
-X-Google-Smtp-Source: AGHT+IFDSY8tQr+R1Zuyldf6RQlKB8NgATnIAOjcNRzp7wwwf6LnBWIa3DLKIJ3lzFttenlNTnaCRg==
-X-Received: by 2002:a05:6a00:6103:b0:72a:a9d9:55ff with SMTP id d2e1a72fcca58-72aa9d95688mr2126828b3a.0.1734582265253;
-        Wed, 18 Dec 2024 20:24:25 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::d5a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8fb88asm295819b3a.135.2024.12.18.20.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 20:24:24 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=cdYEZR5I;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1734597729; x=1766133729;
+  h=from:to:cc:subject:date:message-id;
+  bh=qB8Dm+tkao8sHLr60Dl195UudtpBY4kwALJy+H2qzlM=;
+  b=cdYEZR5IQ74mwe6uIMIaJxrNs29SV34n++CP1nPGjBVs8B4VHzgUQ4mT
+   uBLz1ujZsuWElukFRWczdmzQlinqMdd/DRR4d8msgCV0rsEZuT0FYiUF1
+   ozUKXcJP8rhKaG5fCZkiurvMo6sbuLrM+vuKXAp670ZGMm9YMKu0Y8hK9
+   fVTBEOrLs4C3nocCXSlEV5pvZFwslEpJdwNOFOea6L6BjcPB2DQoZF0Dq
+   LF2ttvd7gHsUWSaDnPBxpzXLkdfoBPesvZZ+Uy6dYr7eMotMUADfx8e4j
+   7PfrWfESRWfAN6ybBthyTSawOXxWeJndif916G7mIBpF15vMxtPbSgaCV
+   g==;
+X-CSE-ConnectionGUID: BoG+cT1hSMSzBJyJGN0hhg==
+X-CSE-MsgGUID: KqeFZAgOQZy3LcUDZMGZoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="163186569"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728918000"; 
+   d="scan'208";a="163186569"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 17:42:06 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 852B0E8520
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 17:42:04 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 4DE94CFAAD
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 17:42:04 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D20486AB43
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 17:42:03 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 7ADD01A0071;
+	Thu, 19 Dec 2024 16:42:03 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] webkitgtk: Fix build on 32bit arches with 64bit time_t only
-Date: Wed, 18 Dec 2024 20:24:22 -0800
-Message-ID: <20241219042422.25857-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] nfs-utils: Fix const qualifier error
+Date: Thu, 19 Dec 2024 16:41:53 +0800
+Message-Id: <1734597713-2663-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28868.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28868.006
+X-TMASE-Result: 10-2.222300-10.000000
+X-TMASE-MatchedRID: 5VG9tYkx4U/gy771S93geAPZZctd3P4BTfK5j0EZbytXGTbsQqHbknU3
+	oKSu0J1x28kKXD7bCdnGKIf6hBf7VaGGOyqBK41vCtzGvPCy/m42ZWOmuJUS2bgbJOZ434Bs1as
+	UUCqp+8fnzD9l6LaU3aS6UDs/n0a6vVpRaxGNmveeAiCmPx4NwBnUJ0Ek6yhjxEHRux+uk8hxKp
+	vEGAbTDmJiOIwtqq1XrTrrSD4PjLXvCndDKUiEryPqmGoXOS4COCAeqoSSyuIGL5kvBxRIlCjIC
+	+58Mgf8LCkUqvc5r24HU6HlBchUzIK+pasWyF5Rwt7TMGN5mtsVA4/nYFEFckxOwqPXyr98
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 04:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208897
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 08:42:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208898
 
-This is a fix needed in angle module which is vendored in webkit repo.
-glibc does not define SYS_futex on 32bit arches with 64bit time_t only
-e.g. riscv32
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+error with clang:
+file.c:200:8: error: assigning to 'char *' from 'const char *'
+discards qualifiers
+[-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+|   200 |                 base = pathname;
+|       |                      ^ ~~~~~~~~
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../webkit/webkitgtk/sys_futex.patch             | 16 ++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.46.4.bb     |  1 +
- 2 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
+ .../0001-Fix-const-qualifier-error.patch      | 35 +++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.8.2.bb              |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-error.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-error.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-error.patch
 new file mode 100644
-index 00000000000..19d18dea881
+index 0000000000..8fc327e7aa
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-@@ -0,0 +1,16 @@
-+Fix build on newer 32bit architectures with only 64bit time_t
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-error.patch
+@@ -0,0 +1,35 @@
++From a21344466e4c315d6d7098920819983f2d15573b Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@cn.fujitsu.com>
++Date: Thu, 19 Dec 2024 06:18:59 +0000
++Subject: [PATCH] Fix const qualifier error
 +
-+Upstream-Status: Submitted [https://chromium-review.googlesource.com/c/angle/angle/+/6108397]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
-++++ b/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
-+@@ -17,6 +17,9 @@
-+ #        include <linux/futex.h>
-+ #        include <sys/syscall.h>
-+ #        include <unistd.h>
-++#        if !defined(SYS_futex) && defined(SYS_futex_time64)
-++#           define SYS_futex SYS_futex_time64
-++#        endif
-+ #    endif  // defined(ANGLE_PLATFORM_LINUX) || defined(ANGLE_PLATFORM_ANDROID)
++Fixes clang error
++file.c:200:8: error: assigning to 'char *' from 'const char *'
++discards qualifiers
++[-Werror,-Wincompatible-pointer-types-discards-qualifiers]
++|   200 |                 base = pathname;
++|       |                      ^ ~~~~~~~~
++
++Upstream-Status: Pending
++
++Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
++---
++ support/nsm/file.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/support/nsm/file.c b/support/nsm/file.c
++index de122b0..2733210 100644
++--- a/support/nsm/file.c
+++++ b/support/nsm/file.c
++@@ -197,7 +197,7 @@ nsm_make_temp_pathname(const char *pathname)
 + 
-+ #    if defined(ANGLE_PLATFORM_WINDOWS)
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.4.bb
-index f7d0b5e0505..6e1b7939241 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.46.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.46.4.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://t6-not-declared.patch \
-            file://0001-Support-ICU-76.1-build.patch \
-            file://bmalloc-fix.patch \
-+           file://sys_futex.patch \
++ 	base = strrchr(pathname, '/');
++ 	if (base == NULL)
++-		base = pathname;
+++		base = (char*)(&pathname);
++ 	else
++ 		base++;
++ 
++-- 
++2.43.0
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+index 543c68f7f5..45821b98e8 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://clang-warnings.patch \
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
++           file://0001-Fix-const-qualifier-error.patch \
             "
- SRC_URI[sha256sum] = "0eff5f0ab0a2872ec87df62bc32e3289c8af625716ac71e94b298d74e0374176"
  
+ SRC_URI[sha256sum] = "a39bbea76ac0ab9e6e8699caf3c308b6b310c20d458e8fa8606196d358e7fb15"
+-- 
+2.43.0
+
 
