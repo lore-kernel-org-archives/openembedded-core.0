@@ -1,311 +1,130 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E70CE77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 09:01:12 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web11.125909.1734598865251878908
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D118E77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 09:14:02 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web11.126046.1734599632612721879
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 01:01:05 -0800
+ Thu, 19 Dec 2024 01:13:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EPHu8NTy;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d8ece4937fso3983176d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 01:01:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734598864; x=1735203664; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4QCSgSjvVAL2HItfK0eWarNizK7Bz1/v5qIJ9nxXOvk=;
-        b=EPHu8NTyikXWQ+Tr4UFx6YVHk6Uc0K8xxxLF/swN4AuImFxKA67QlvX/SQAMYO7WCw
-         XNz+fmwXmDE2YCJ5SaO8cyDIkA+N45ZI04T2ApOYvLcZQb78bEYFcjEBGLrn31L0+Q+x
-         UQsTGx9//8TS5u58mrieoCTs8TeQLcI+f7ef5gDeF+PLqVLzoisQovzRiH44rPd4JPfO
-         fWwv5a9/fPyU0NTvcY7UJfl+MqQX8f7k2i41jVdQrMqup2gSV6JxvyFjL8rLXMGpOxFD
-         oXTfQAyMKyH9tgvGN8s7iw9K9Ss0D8bJURE6/+XM/zZ2rwcC7nTTBKBqAVzmU8e1+GLL
-         4myA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734598864; x=1735203664;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4QCSgSjvVAL2HItfK0eWarNizK7Bz1/v5qIJ9nxXOvk=;
-        b=PTDep3+/8Gt25i0E+bJ3IqqtcidClVQeR657Q+xu7ZXOl9P+1TRkdq1JIpjkPHvtFq
-         kLsAhf64/i+GxmeXd131Q6JwKqR+W6FpBZTWwdepIDeae7Qf8prrrIx47FVlipP/GIbs
-         uf8mxZg4cHS1s3UKxZscOmWWXH1HQNXCUcoP2/6o+BZ2pSLF0/stCDfNPUAF8K4nCVLJ
-         9kO9b/UhCQEgOU2O9Sg2BzxKRheaz1eedhj0nMj/iRvAIedtqJfUdOvxO+QKZz2ohrMb
-         5k69rd/ufNLqEROf9EKylC4dslGf3RTqPNcbe9Cp/J6amnirH8j2UhsmauEG1rR3ySF6
-         LirQ==
-X-Gm-Message-State: AOJu0Ywda5/JLG61tj5XBM6v8IEARK0MDaPcYM6699j353pPfX3lveyp
-	hPtuA00Em3fvv2OSkbKXJ8HHbnmgQuapmSXkNEAV3vz0O/2zovQGkKhhORtDUGS0hfYKiuh2o6y
-	tx+JmsR6oLSECRWs8/RfbE1Kn8lo=
-X-Gm-Gg: ASbGncvY5QQBTO9PS6GAowGyF24j2p+Wj+we7+odqEB1nvewQR+OEzQYmf1KdOcBEhg
-	buvE4d/+BGqEjWNROQWuSZ31pM0qm5EnngtFyQXj+Cl3rxLA/l5SLMSrquc7Gjvx5CmNx
-X-Google-Smtp-Source: AGHT+IEHaE1lAcNCmWYKVskK1Z4cWrWDOzfD5sCcxnZ7QHkqsc3at6lEw/NpTEnJ6+3EG/iDiGnEJt3TK5dZ79WL+sk=
-X-Received: by 2002:ad4:4eac:0:b0:6dc:d29a:b18e with SMTP id
- 6a1803df08f44-6dd0925cc7amr114474216d6.47.1734598864121; Thu, 19 Dec 2024
- 01:01:04 -0800 (PST)
-MIME-Version: 1.0
-References: <1734597713-2663-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1734597713-2663-1-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 Dec 2024 10:00:53 +0100
-Message-ID: <CANNYZj8w3j0i7qPob-X6H7D201A9rtOLGg_-ZH_Y=Ydyaix2sQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] nfs-utils: Fix const qualifier error
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Wang Mingyu <wangmy@cn.fujitsu.com>
-Content-Type: multipart/alternative; boundary="0000000000001fb27a06299bc5b0"
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=YjrXRenA;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1734599632; x=1766135632;
+  h=from:to:cc:subject:date:message-id;
+  bh=vBh+CDQjNl1EvXOXVKXrU/Qq77qQ5CW4HtTdIYJcy/A=;
+  b=YjrXRenAJHNZI9flPsGE/x+oVOC6uIfSWmX1lsPFwMqamzzJfYpvpx5H
+   q6u/MPmh6GvGAF6W60Srn8JYyr0EQW15HRaJ5KySGzbgOFBvGHrF9pWmo
+   +Ch6OAifCCg+x/P1kLM3cndhklhZ7aPznrjK0F7YqIJZIbBhPCBuOqQs+
+   Z9vf/UNFkEa3rr8xL547Kp5xp1L/t/wLoTlKf6g65FGORyvJjXM6lXOVC
+   nTfPQ1jCJ8XxNBTiBDy1kG444CqWRBehuQaTs9opQ7oXWGf3/rGArrIWk
+   mrpKRUj4TObDHzKee8a6h12ClMVMg2Boeos0l4RqqdAE22GE8Zw9WMVvK
+   g==;
+X-CSE-ConnectionGUID: 4Hj06/wmReq/YvdrlyzEXw==
+X-CSE-MsgGUID: hM26Ifp1TSuLDIVilHuGcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="184509485"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728918000"; 
+   d="scan'208";a="184509485"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 18:13:50 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id C253B20C92
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 18:13:47 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 93FD2D5044
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 18:13:47 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 2134010206
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 18:13:47 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 9CF0E1A006C;
+	Thu, 19 Dec 2024 17:13:46 +0800 (CST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] bind: upgrade 9.20.3 -> 9.20.4
+Date: Thu, 19 Dec 2024 17:13:37 +0800
+Message-Id: <1734599617-3126-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28868.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28868.006
+X-TMASE-Result: 10-1.158800-10.000000
+X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yTo39wOA02LhTJDl9FKHbrlgDeovr2tertMj
+	jwb9QfV2CC8aAmGeO6lV00+whwxVQy/7QU2czuUNlVHM/F6YkvRNLPQl0QAltGh76/bDpGErCKS
+	ilWnI9vpuf5ur5byPpZbNfgtQUD+knH1+lINchTD9x2Go7sqY31ym+pP6FijCmyiLZetSf8mfop
+	0ytGwvXiq2rl3dzGQ1EXTPZ5hMaJOOQ4MLuL4r5hLaklXqW2Tzs3B9FsFY+Sa1+ch2pNUAcL6ug
+	HvXdPakVzYAFgA3UtqF1mWd2aTqvu5PRul7Sbg6Uu8eo+LTjoVTyZ1y9sjWHZLqPOO5dObQxMzM
+	gJrM/hR6Fi1pV3LGbw==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:01:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208899
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:14:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208900
 
---0000000000001fb27a06299bc5b0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Please do not add new =E2=80=98Penfing=E2=80=99 patches. They should be sub=
-mitted upstream
-first or there should be an explanation of what is pending.
+bind-ensure-searching-for-json-headers-searches-sysr.patch
+refreshed for 9.20.4
 
-Alex
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...d-ensure-searching-for-json-headers-searches-sysr.patch | 7 +++----
+ .../bind/{bind_9.20.3.bb => bind_9.20.4.bb}                | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.3.bb => bind_9.20.4.bb} (97%)
 
-On Thu 19. Dec 2024 at 9.42, wangmy via lists.openembedded.org <wangmy=3D
-fujitsu.com@lists.openembedded.org> wrote:
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 38d07cae39..2fa4ba1952 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -1,4 +1,4 @@
+-From 5ae30329f168c1e8d2e0c3831988a4f3e9096e39 Mon Sep 17 00:00:00 2001
++From 0b3f9331639695300a1ec89e3020765ab1ef5e31 Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Tue, 9 Jun 2015 11:22:00 -0400
+ Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+@@ -27,16 +27,15 @@ to make use of the combination some day.
+ 
+ Upstream-Status: Inappropriate [OE Specific]
+ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+-
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 2ab8ddd..92fe983 100644
++index 865b4d0..a80b6ce 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -761,7 +761,7 @@ AS_CASE([$with_lmdb],
++@@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
+  	[no],[],
+  	[auto|yes], [PKG_CHECK_MODULES([LMDB], [lmdb],
+  				       [ac_lib_lmdb_found=yes],
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.3.bb b/meta/recipes-connectivity/bind/bind_9.20.4.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.3.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.4.bb
+index a77b030427..d9ea440fbd 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.4.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "f90c2da1621299f56a2e6585a6fe459ec3efd6f2fdf84a8fbf31b40be7698a73"
++SRC_URI[sha256sum] = "3a8e1a05e00e3e9bc02bdffded7862faf7726ba76ba997f42ab487777bd8210b"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
+-- 
+2.43.0
 
-> From: Wang Mingyu <wangmy@cn.fujitsu.com>
->
-> error with clang:
-> file.c:200:8: error: assigning to 'char *' from 'const char *'
-> discards qualifiers
-> [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-> |   200 |                 base =3D pathname;
-> |       |                      ^ ~~~~~~~~
->
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../0001-Fix-const-qualifier-error.patch      | 35 +++++++++++++++++++
->  .../nfs-utils/nfs-utils_2.8.2.bb              |  1 +
->  2 files changed, 36 insertions(+)
->  create mode 100644
-> meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-er=
-ror.patch
->
-> diff --git
-> a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-=
-error.patch
-> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-=
-error.patch
-> new file mode 100644
-> index 0000000000..8fc327e7aa
-> --- /dev/null
-> +++
-> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifier-=
-error.patch
-> @@ -0,0 +1,35 @@
-> +From a21344466e4c315d6d7098920819983f2d15573b Mon Sep 17 00:00:00 2001
-> +From: Wang Mingyu <wangmy@cn.fujitsu.com>
-> +Date: Thu, 19 Dec 2024 06:18:59 +0000
-> +Subject: [PATCH] Fix const qualifier error
-> +
-> +Fixes clang error
-> +file.c:200:8: error: assigning to 'char *' from 'const char *'
-> +discards qualifiers
-> +[-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-> +|   200 |                 base =3D pathname;
-> +|       |                      ^ ~~~~~~~~
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> +---
-> + support/nsm/file.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/support/nsm/file.c b/support/nsm/file.c
-> +index de122b0..2733210 100644
-> +--- a/support/nsm/file.c
-> ++++ b/support/nsm/file.c
-> +@@ -197,7 +197,7 @@ nsm_make_temp_pathname(const char *pathname)
-> +
-> +       base =3D strrchr(pathname, '/');
-> +       if (base =3D=3D NULL)
-> +-              base =3D pathname;
-> ++              base =3D (char*)(&pathname);
-> +       else
-> +               base++;
-> +
-> +--
-> +2.43.0
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> index 543c68f7f5..45821b98e8 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> @@ -31,6 +31,7 @@ SRC_URI =3D
-> "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->
-> file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
->             file://clang-warnings.patch \
->             file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch=
- \
-> +           file://0001-Fix-const-qualifier-error.patch \
->             "
->
->  SRC_URI[sha256sum] =3D
-> "a39bbea76ac0ab9e6e8699caf3c308b6b310c20d458e8fa8606196d358e7fb15"
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208898):
-> https://lists.openembedded.org/g/openembedded-core/message/208898
-> Mute This Topic: https://lists.openembedded.org/mt/110195053/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---0000000000001fb27a06299bc5b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Please do not add new =E2=80=98Penfing=E2=80=99 patches. =
-They should be submitted upstream first or there should be an explanation o=
-f what is pending.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex<=
-/div><div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Thu 19. Dec 2024 at 9.42, wangmy via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;wangmy=3D=
-<a href=3D"mailto:fujitsu.com@lists.openembedded.org">fujitsu.com@lists.ope=
-nembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:soli=
-d;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Wang Mingyu &l=
-t;<a href=3D"mailto:wangmy@cn.fujitsu.com" target=3D"_blank">wangmy@cn.fuji=
-tsu.com</a>&gt;<br>
-<br>
-error with clang:<br>
-file.c:200:8: error: assigning to &#39;char *&#39; from &#39;const char *&#=
-39;<br>
-discards qualifiers<br>
-[-Werror,-Wincompatible-pointer-types-discards-qualifiers]<br>
-|=C2=A0 =C2=A0200 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0base =3D pathname;<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^ ~~~~~~~~<br>
-<br>
-Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" tar=
-get=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0.../0001-Fix-const-qualifier-error.patch=C2=A0 =C2=A0 =C2=A0 | 35 +++=
-++++++++++++++++<br>
-=C2=A0.../nfs-utils/<a href=3D"http://nfs-utils_2.8.2.bb" rel=3D"noreferrer=
-" target=3D"_blank">nfs-utils_2.8.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A02 files changed, 36 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001=
--Fix-const-qualifier-error.patch<br>
-<br>
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-q=
-ualifier-error.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-F=
-ix-const-qualifier-error.patch<br>
-new file mode 100644<br>
-index 0000000000..8fc327e7aa<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-const-qualifie=
-r-error.patch<br>
-@@ -0,0 +1,35 @@<br>
-+From a21344466e4c315d6d7098920819983f2d15573b Mon Sep 17 00:00:00 2001<br>
-+From: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" target=3D"_=
-blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-+Date: Thu, 19 Dec 2024 06:18:59 +0000<br>
-+Subject: [PATCH] Fix const qualifier error<br>
-+<br>
-+Fixes clang error<br>
-+file.c:200:8: error: assigning to &#39;char *&#39; from &#39;const char *&=
-#39;<br>
-+discards qualifiers<br>
-+[-Werror,-Wincompatible-pointer-types-discards-qualifiers]<br>
-+|=C2=A0 =C2=A0200 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0base =3D pathname;<br>
-+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^ ~~~~~~~~<br>
-+<br>
-+Upstream-Status: Pending<br>
-+<br>
-+Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" ta=
-rget=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-+---<br>
-+ support/nsm/file.c | 2 +-<br>
-+ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/support/nsm/file.c b/support/nsm/file.c<br>
-+index de122b0..2733210 100644<br>
-+--- a/support/nsm/file.c<br>
-++++ b/support/nsm/file.c<br>
-+@@ -197,7 +197,7 @@ nsm_make_temp_pathname(const char *pathname)<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0base =3D strrchr(pathname, &#39;/&#39;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (base =3D=3D NULL)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base =3D pathname;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base =3D (char*)(&amp;pa=
-thname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base++;<br>
-+ <br>
-+-- <br>
-+2.43.0<br>
-+<br>
-diff --git a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-util=
-s_2.8.2.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.8.2.bb</a> b/m=
-eta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.8.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">nfs-utils_2.8.2.bb</a><br>
-index 543c68f7f5..45821b98e8 100644<br>
---- a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.8.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.8.2.bb</a><br>
-+++ b/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.8.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.8.2.bb</a><br>
-@@ -31,6 +31,7 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/utils/nfs-uti=
-ls/${PV}/nfs-utils-${PV}.tar.x<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Makefile.am-fix-undef=
-ined-function-for-libnsm.a.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://clang-warnings.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-locktest-Makefile.am-=
-Do-not-use-build-flags.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-const-qualifier-e=
-rror.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;a39bbea76ac0ab9e6e8699caf3c308b6b310c20d=
-458e8fa8606196d358e7fb15&quot;<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#208898): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/208898" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/208898</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110195053/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/110195053/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000001fb27a06299bc5b0--
 
