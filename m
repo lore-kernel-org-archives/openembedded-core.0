@@ -1,87 +1,122 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768A7E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 18:57:55 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web10.136392.1734634668982677189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8811FE77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 19:02:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.136495.1734634972715902125
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 10:57:49 -0800
+ Thu, 19 Dec 2024 11:02:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NuVFy9f0;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-467a8d2d7f1so8336341cf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 10:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734634668; x=1735239468; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jHWClRVjIqLQELY0zGfLSV5WmikLJd/F2GoGeQGcwkg=;
-        b=NuVFy9f0UDxqcLI6eXiQ1hDo65n4dLbDzJYXWmCTTpDRINrSE67wlt2feUHx8cH3tC
-         1m3mtT6L7ly7RDs/SmTjQIqmnXohzG1IW3f3I6TNBhGM1xkXrD4sFAujPymEaExR7JQx
-         SlKXf7uolP9gbe1hJ5pBUOaUYoDsa5wJa4He+sQusyGlyehP3UkKLFxja8+ecX3qak85
-         AGmP8mKpOU/kumRo3k8XgbcVDa0cDYFAGqw2urDpJdkryV0DtgriAWgeeAZIRoT1aFSy
-         EQLeihESkQAJ0fcfAtzzkF0HMbVGQh0OTaZIRtpQcejZ/lHRpSLZzgwxNKVFXRBtpoON
-         yYZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734634668; x=1735239468;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jHWClRVjIqLQELY0zGfLSV5WmikLJd/F2GoGeQGcwkg=;
-        b=WIfr+Fh7r5WqI/ZyRsXIXjXelVqkH/sMwtIZPTKAXKUDuKlaJZXEJPtgLk2czoP1a2
-         RgFy265xrcQ1K78FqCvTl+7XxIwXfoQ1qgWnwsLd7Hy7QYKMH3SQOhKDkrcsiyLdNt4u
-         Hyrla7d7aljNkAmt11Da7l30arTY1KNgkHE2MFOMNaWjAFUWWzZIsqQkcRtn3kpFe4cy
-         KynXp6ybM5qRW3tVcIA6nULFAFMcy1oiUEed19lzC/8fpyMmUldEc/04kb/CfvxMZql2
-         HLGtto01kQZNj4P/33t0STCFzein2ocwvyX7GafJfoOBSQ2znU/bXO5JpoE5GwmfX683
-         ozwg==
-X-Gm-Message-State: AOJu0Yx8zKLpzAhMEbFBf4p/j/G/LDHgbM/tmhMqsUkctddPJuGCUPZr
-	smvEGsAXQyYfn8WdPkOvRao55ni6dwHj+ya4lvhCcIO7Ndd45f/c2/P8i0tLQRB42oOokwaJOin
-	CVv8ZyOjX6XfHZuXBNXFjIbFrnaQ=
-X-Gm-Gg: ASbGncv5//3A6ERStFxJR1BKZQbIg4UbIHjeUhdgDgSOeL5COJe0gEWpBetTv8duQ8Z
-	aMIroBIMdjP5z1kI+/7TImwpUMzI1nm7CnWKOcCbzCPTx6srsDKDKPAguz8I9QVpBge8vhATY
-X-Google-Smtp-Source: AGHT+IGD9tiNjVFGvcMWGJbOl+23hAF5mirbXU0R9QazeTQEPoZ4fWAVgmBJx6RtEDpJromWaR3IFaxYMaH/v7iyAME=
-X-Received: by 2002:a05:6214:5786:b0:6d8:b115:76a6 with SMTP id
- 6a1803df08f44-6dd231f1e5emr839506d6.0.1734634668026; Thu, 19 Dec 2024
- 10:57:48 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2083d4188c=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJHAMiS025662
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 19:02:52 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43h1096a4m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 19:02:51 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 19 Dec 2024 11:02:50 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 19 Dec 2024 11:02:49 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][PATCH 1/1] python3-requests: upgrade 2.32.0 -> 2.32.3
+Date: Thu, 19 Dec 2024 19:02:45 +0000
+Message-ID: <20241219190245.2758293-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20241219144255.3366730-1-tgamblin@baylibre.com>
- <CANNYZj_0CBdCpCxcTfUUjRy+AHfN=gn-dxG-PvoFDpTYdnJSQg@mail.gmail.com> <edabfbc7-8c32-4765-b7d8-972b27c38127@baylibre.com>
-In-Reply-To: <edabfbc7-8c32-4765-b7d8-972b27c38127@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 Dec 2024 19:57:36 +0100
-Message-ID: <CANNYZj_U4aOiNQnJwn6N38VahHVbb-e6QN6Rfd6EKku6SsdbXQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] python3: upgrade 3.13.0 -> 3.13.1
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=bp62BFai c=1 sm=1 tr=0 ts=67646ddb cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=UXIAUNObAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=XsSkfP9iAkG48WMwnDcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=a1s67YnXd6TbAZZNj1wK:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: VI3Zg0SYqGZ4XP5B2KcF8T_PPBmxZDsx
+X-Proofpoint-GUID: VI3Zg0SYqGZ4XP5B2KcF8T_PPBmxZDsx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-19_08,2024-12-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412190151
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BJHAMiS025662
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 18:57:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208928
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 19:02:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208929
 
-On Thu, 19 Dec 2024 at 18:57, Trevor Gamblin <tgamblin@baylibre.com> wrote:
-> Hmm, I see it too. Not sure why it's happening. I do see this error in
-> the logs:
->
-> |NOTE: Executing
-> '/home/tgamblin/workspace/yocto/poky/build/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0/recipe-sysroot-native/usr/bin/createrepo_c
-> --update -q
-> /home/tgamblin/workspace/yocto/poky/build/tmp/work/qemux86_64-poky-linux/core-ima
-> ge-full-cmdline/1.0/oe-rootfs-repo' ...
-> |NOTE: error:
-> /home/tgamblin/workspace/yocto/poky/build/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0/recipe-sysroot-native/usr/lib/rpm/macros:
-> line 1183: Macro %__plugindir has empty body
->
-> Unsurprisingly the build finishes OK if I switch to using deb instead of
-> rpm... not the first time I've seen such a problem...
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-That's been there before the update too, so it's not the actual error.
+Changelog:
+https://requests.readthedocs.io/en/latest/community/updates/#release-hist=
+ory
 
-dnf is written in python, and -11 return code indicates that 'dnf
-repoquery' is crashing in the python executable itself.
+2.32.3 (2024-05-29)
+  * Bugfixes - Fixed bug breaking the ability to specify custom SSLContex=
+ts
+    in sub-classes of HTTPAdapter. (#6716)
+  * Fixed issue where Requests started failing to run on Python versions
+    compiled without the ssl module. (#6724)
 
-Alex
+2.32.2 (2024-05-21)
+  * Deprecations - To provide a more stable migration for custom HTTPAdap=
+ters
+    impacted by the CVE changes in 2.32.0, we=E2=80=99ve renamed _get_con=
+nection to a
+        new public API, get_connection_with_tls_context. Existing custom
+        HTTPAdapters will need to migrate their code to use this new API.
+        get_connection is considered deprecated in all versions of
+        Requests>=3D2.32.0.
+  * A minimal (2-line) example has been provided in the linked PR to ease
+    migration, but we strongly urge users to evaluate if their custom ada=
+pter
+        is subject to the same issue described in CVE-2024-35195. (#6710)
+
+2.32.1 (2024-05-20)
+  * Bugfixes - Add missing test certs to the sdist distributed on PyPI.
+
+https://github.com/psf/requests/compare/v2.32.0...v2.32.3
+
+Also transition to using python_setuptools_build_meta.
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ ...{python3-requests_2.32.0.bb =3D> python3-requests_2.32.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-requests_2.32.0.bb =3D> pyt=
+hon3-requests_2.32.3.bb} (78%)
+
+diff --git a/meta/recipes-devtools/python/python3-requests_2.32.0.bb b/me=
+ta/recipes-devtools/python/python3-requests_2.32.3.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-requests_2.32.0.bb
+rename to meta/recipes-devtools/python/python3-requests_2.32.3.bb
+index b4df4c5dc7..4f0638b50c 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.32.0.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.32.3.bb
+@@ -3,9 +3,9 @@ HOMEPAGE =3D "https://requests.readthedocs.io"
+ LICENSE =3D "Apache-2.0"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D34400b68072d710fecd0a2940a0d1=
+658"
+=20
+-SRC_URI[sha256sum] =3D "fa5490319474c82ef1d2c9bc459d3652e3ae4ef4c4ebdd18=
+a21145a47ca4b6b8"
++SRC_URI[sha256sum] =3D "55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402=
+399eaf68af20a760"
+=20
+-inherit pypi setuptools3
++inherit pypi python_setuptools_build_meta
+=20
+ RDEPENDS:${PN} +=3D " \
+     python3-certifi \
+--=20
+2.40.0
+
 
