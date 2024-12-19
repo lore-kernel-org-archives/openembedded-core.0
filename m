@@ -1,359 +1,231 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 561B9E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 14:43:04 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web10.130281.1734619379288170435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FDAE77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 14:43:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by mx.groups.io with SMTP id smtpd.web10.130290.1734619393966700249
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 06:42:59 -0800
+ Thu, 19 Dec 2024 06:43:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=kOt8vope;
- spf=pass (domain: baylibre.com, ip: 209.85.222.180, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7b6e9317a2aso158142385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 06:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734619378; x=1735224178; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKSKxwQyK+lM0m3xXdvm8vE9YrdKvvbmtbK9uQCclP4=;
-        b=kOt8vopeCRGVKftr0zRGNdeCbWmEdTyqBGIsj/zszBHJ8gEisyQucpVJ/JtitJSBnF
-         OvHNd51hpj8NxPLlORHmX+nGIIRfK2NNeeNIKK9RAJYpEvwML+uZ/mizW0mRENnGWpUN
-         OMRr50uoojn8ZYdWjWuwBkRThKxkrG9WWhYAr6vCXzvHOsFNJCkf7kYACx4EoPSvf+Z0
-         kIjt6ol4Wmc6kvY9As9SZ0FYE7RyndvfLOcdfYcYEwh3wxdAIdLj9jfIaUm2ICuahZQ8
-         HXfKwQc/m8fSjmdUBPIHocq/s+jbFOc+PA9S2pIE/z6S0WlNxUPjWxSAdFasMfjJR3St
-         d6KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734619378; x=1735224178;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKSKxwQyK+lM0m3xXdvm8vE9YrdKvvbmtbK9uQCclP4=;
-        b=Yz4XCExl/t0F1NyhWeESBpmEy0KMQohYETQAkEWtpH1v1Dqs0KcRbepeWFgJkNpePU
-         NEoIkd5+/MOmPqiTGjXsj0wdtCymSOYSQCBTyhpDqiQ3rO4DaFkTj/hJO+ibZIxhJmSO
-         DuhSvaFDkM2NLBKs1dV2zTpbOVPtwrCt1iyRiqJ+/6aCszS2xmPW9fr/jgmqo3MU2+rI
-         UMbqOWPreaUtksSBWNwgCmcRPOum5HY1e3zgyqX8lRijl9NqM2Qqs7j9vmw/dH35m6bN
-         GGwSM8bol/UkV9gnMRl9qzugyqGs3T1D9YNEn4u6n6Nx2tpFAMNYubWkgnrrEb5vvKfS
-         XjJg==
-X-Gm-Message-State: AOJu0Yz/AmoyxVa5hTSbeW2UoBlbloNch/NDUNMAumz1gTWF3V440ApJ
-	e0Om/X3699vexAa/QTU1UZ96UoRaBtCT/HWX4U51RBe0YkIC/6t1yrQ51xnWa5I4CKgkEwiln8o
-	u
-X-Gm-Gg: ASbGncujR4a2Wgai68uuvZhZYFaErs2pVDEWaTV+56QB73kg4V6TGe7Lz3vZZukdF3U
-	82QE0ynkSZiezArxOvP47c8P0Mg8XCMdqwtyR1Sn1wjb8H/I/FvNsGTSD7MopF3jxsVyGLoICv/
-	rgknnkP2awr28FPEFLnOpmWcnzA18IR2QnIKoOJYcvbrWBeaXrVKtfp7eQvh/CsgBjc9o1gkpwf
-	tMbqNhlaVaubcUvKBmcswYZocQOVz2KchduGdlNpLLDFnJmIwDR5NKxc3nPTTWDDLH7fN7lbp1d
-	lRF2z37M+U7nnNzr
-X-Google-Smtp-Source: AGHT+IGM5ZkjEmnrdaFPgFwSBj1jyUgMwU3HLVD/qDkRP66SEU68d526fPKB/tpZJKmouc0W0R8SSA==
-X-Received: by 2002:a05:6214:628:b0:6d8:ad76:497d with SMTP id 6a1803df08f44-6dd155741f8mr57907626d6.10.1734619377571;
-        Thu, 19 Dec 2024 06:42:57 -0800 (PST)
-Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd181d82fbsm6916766d6.123.2024.12.19.06.42.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 06:42:57 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: upgrade 3.13.0 -> 3.13.1
-Date: Thu, 19 Dec 2024 09:42:55 -0500
-Message-Id: <20241219144255.3366730-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@intel.com header.s=Intel header.b=aVzOaeFz;
+ spf=pass (domain: intel.com, ip: 198.175.65.21, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734619394; x=1766155394;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=v+i1vg5aWgd3/UldOEnOLkEgVDC4lRL2sjFQXun1XRg=;
+  b=aVzOaeFzhNK31ubeOD3XaawDHtnEjGt6mIpnBlCxDmP1iGKIrZIVM0Vh
+   GmQXQEF4FiUC3YsSQFaiPNOam75J8zxIzXAh1Cg3OeDEUH5GZB1BPyz9Z
+   Dry6vWkgLnoJ6WWuBajvmKo+/gRrOvykw5FTOnnxWeeRHwM0P18vTpq44
+   zELF0dKCcMSTbDNpXoWVjTJTBP+Qbkpq+1jaVoCJa37ndca7YVy/w4QxN
+   0LdKFkPko732xzXwtNGgfgYm5wXk5kuHI3vJXwkC3Q8nOnCtlCUqWpyyz
+   eeAkXfd/jN4SobEaGas49eNyyp+lQ30Cb8cmoLvozypKidJ7Sdg4IRLQP
+   Q==;
+X-CSE-ConnectionGUID: Ilals4DbTDmwwNlWgnUudg==
+X-CSE-MsgGUID: UtH5fBgrTvO7USb3lQrEgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35029181"
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="35029181"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:43:13 -0800
+X-CSE-ConnectionGUID: RW/7enmqSXCBivb6YWMsPQ==
+X-CSE-MsgGUID: X7nobpszTl2G5vhT/qmXEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="98005670"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Dec 2024 06:43:13 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 19 Dec 2024 06:43:12 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 19 Dec 2024 06:43:12 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 19 Dec 2024 06:43:12 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ume1xY5f9Yer2sBUN0D+Oq945OVuBKT7x9uT4l09yKoMzAcHby57hiuhcyEfOAjLW9Oqbcsm7eDrIGxQBiEMQJhIC8G8HKbh/RrLFdtrgxvB0pwLnFO4/v7vqb24GIxAYZFGzt8LtmWngZ8Kg/ZUuCXoWnKCf98PB7D64oErC2jS7xD7vDwtY8DeRSObAIHwmwmLZ/XFX1w3HFj2PBrjSPzFERi8w8Ad75w4ABRJTPu0/7jLFzpPD4riSB0oXzJedq75+wHlpWj6URQOBXk2tL0yxC5dikJu+UinvrmAMPtLsO54R2ET4cng62J3lNhSKEHCUjv458F2UyU3nvUFrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v+i1vg5aWgd3/UldOEnOLkEgVDC4lRL2sjFQXun1XRg=;
+ b=EwK9xKcPeHgGvcYZE6NcRdhgFt+BCVuCab9272FKyLXjyP+iIeUEvBiPHkLSXOArMVXDWIyRR4t4SK795s4mYCRhyRu/NLYJLxRju3jKwjCVKAIiHCOoPztCeuuCI8+fSVvbLSLetjnj1fOzLrh4iTjkhIKd5avbcC0zzJmy/QtJc7NAkxcK1vLOLJwpAyKDMz9k/Npj0+ZZvKyj964FEW4ueK9XqpJ6vYLtA4l/q5+jmgax8quP0+VKlTIezn6YyZZYYKeBbF7vEN/sQWTsEgq5HZEBsDmz63McyiduUrMyCmwy1RmU5qVDcI4NYenVc2aztrloAjevsxWN/GQ5Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by LV8PR11MB8680.namprd11.prod.outlook.com (2603:10b6:408:208::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.14; Thu, 19 Dec
+ 2024 14:43:10 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%5]) with mapi id 15.20.8272.013; Thu, 19 Dec 2024
+ 14:43:10 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"<yocto@lists.yoctoproject.org>" <yocto@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-5.0.6.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-5.0.6.rc1)
+Thread-Index: AQHbTYeweFbKqynR8EeqbgIxtv62zrLtrOYA
+Date: Thu, 19 Dec 2024 14:43:10 +0000
+Message-ID: <DM4PR11MB7760A970BBABE6634C98BEA5A1062@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <CAGDS+nkB+EyEg8FOQUbjt+aeAs5DBLEtsMojDjyarvLM=ikT4g@mail.gmail.com>
+In-Reply-To: <CAGDS+nkB+EyEg8FOQUbjt+aeAs5DBLEtsMojDjyarvLM=ikT4g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|LV8PR11MB8680:EE_
+x-ms-office365-filtering-correlation-id: a8deada0-9e1e-4683-57ec-08dd203b7574
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|4022899009|7053199007|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?bThKaGMyZWhyRkw5aURaZnhjV0xXOG5iMk1VTmVVVWdmaE5pa3ljT0hQSmtv?=
+ =?utf-8?B?UmhyeEcydjYzRkliRWhINmpINElGUHgvZGRzYXpYQnllU2tCRkI2YUxPYzFN?=
+ =?utf-8?B?RC8vUGlLNERvK3g0Z0kyb1ArYkFNbE9YOEhHbDFsbGFWWXBWUVhSbVdBL0lk?=
+ =?utf-8?B?Z3RLcjFBMmVadmswVVRwU3Nkc2JaaDN2S0pkVHJVOGZocTVmWTBvdTFLU2ND?=
+ =?utf-8?B?M0dnQTd6NXlwK2RiRXhYZlZ6bXY2dGRrOUJJY0tNVC8yMUNpbDJXbFdROG5l?=
+ =?utf-8?B?Q0JUMEdOTHdzQTdScUI2eTdwb2o3Wm9VRUIxNHliNHRyYUFGSlFkc25XbmN1?=
+ =?utf-8?B?QUVHb0lpTklGTDErRU02MzFFd1NodzFGa3FVaFJzdG52L3lrTWdoanJXQit0?=
+ =?utf-8?B?elB4Y09WQUJHdzZ5L0d5YmxycWJ6NHJDNHptWFl6cXV1bjlhL0x6VnAwdW9D?=
+ =?utf-8?B?S1JkTVpWeWJXRE9vK0dLY2R0THZUZTFsSmIrYno1TkpBMGdwNXJlcEZJWUVN?=
+ =?utf-8?B?QStMQnZCc09pTExNb29YMzgzcUV2VS9SODgwUERQV3dhTTY1aHBjWEZocXJE?=
+ =?utf-8?B?UmhtQ3lSdXAxSGQ3Sm1lODRodUZBM1RNVWgxUEROTDgxemZyMUxmM2JPaEVE?=
+ =?utf-8?B?dkUxZmFBQ0VEUXcybExxV3JHc2NLaTFZaFE1Sm9aSElFeFM0NlI1Tm5VSE5i?=
+ =?utf-8?B?VXdxWHdkMno3MGZNRVpKMjA3WE1hbW1UaDZjeWpzZ0cvdGt3aXVBNXdMYmpQ?=
+ =?utf-8?B?MUNSaWF0RDJyWVlPaWV6NFNlQVR5OEJhSWg4NjMvbGZrMFhmV1BZb3BjMklN?=
+ =?utf-8?B?UTdMYlN3enYwZ21jZDF1ZUFHTlpCSjJ6L0hzU1BUcGdsSlFoajNFWVpJdmRi?=
+ =?utf-8?B?RGs3cWJaTmJNZzV5aXRnWE9wbUM3SGJwY0lnUTJLS1N3RE50d2NndkN5cUlY?=
+ =?utf-8?B?RllEa2dOK0FxbUdVdHJkWW9oczF0SHZ2QjUrQkJXVVlGQXc2YjJwbndaMDhj?=
+ =?utf-8?B?SnozRThuT2tOSHl0YjZKMWlKWWNaM0pWYkNVVmY2MWtwRVlMa2ZXZ0tIRCth?=
+ =?utf-8?B?YlBhdThyWTJyMGZJaVEvdGFaQ3JmeHRmdE1qeUVENVVYUHBkeDNlUkRtSEpu?=
+ =?utf-8?B?UFliKzBqZ0VXQ3J5dGRaYURMOEVXMzFieStPbmN1Q0RwV0JZVzZsdVNRMmVk?=
+ =?utf-8?B?aHMxTDlZcXZ1ZjF0ejBkbUVBRXB2dDU0ZnBBK3FQNzNZWnYwZFZTQzRCbFB4?=
+ =?utf-8?B?VGpiZjJKajRoLzcrblpUOGVNQzRCTWtIWm54OVg3VjJXWkpoRFFjUkF4a0Uy?=
+ =?utf-8?B?UFlEVEhpWWFPKzZaSDBOc0hBY0xXbXBuU25sU0wyRWdETkQwelFtNTFocStP?=
+ =?utf-8?B?em41SzRuTEk1SUNTaHU5RXVkUVhEam5LV2wvam42dXFLaDdLdkZONDNZeGlQ?=
+ =?utf-8?B?QkI5dm83YTBVdWU2bWEraFJtdUgzVyswdFJZVTc3TVJvemFHK1pNYlhDMFJo?=
+ =?utf-8?B?d0VpNlhodE41UHVtOE5TYWxSdzFPd1V3TitoSCsrZThrV3JnZWkxMzBCZU0x?=
+ =?utf-8?B?YVo1VVo1VmR5ZTA3V29TL0lVdnkzMzVxV1YzdTdRWGRHem5FSjlReTE5MkQz?=
+ =?utf-8?B?REFYVWE4MEI2OWFCcFgwZjcrcjB2clc0dVJuRlRQMVR4Rmp1RUxSbUNJL1BT?=
+ =?utf-8?B?azhxMzkvZG92SC9SMG5TWTB4MXYvUXc1QnlrSXNkT3dGdXVCY3JKMGcxOFYy?=
+ =?utf-8?B?TExCbGd6c2J4MFFTeGlRMzdTbi9nZmhNUDFOR0lBd3NpRjJZOUY0bm5pOWhw?=
+ =?utf-8?B?aEZodTJwNFU3Ny9rMm96a0lWY01GNFFwVk96UHo3c1grOHh3cTdTNHV0NHor?=
+ =?utf-8?B?QzJOMkhtbmVMZGdzV2QxdTF4QkRsaFpzbzByNUxKZGVMRFE9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(4022899009)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VUUwcDVsZjR1RStwaVFWbGlSREo5aDI2eWI0MnR5NHZNd1owRXovb2hoOTNE?=
+ =?utf-8?B?YXpmcWRNVG95WEMvcjY1c1pURTVidlhGMGpPY1BXVFpqczRhS3JzTVFDWm8z?=
+ =?utf-8?B?amJieThaK2tDV0ZtMWJZSWJPSEc1WHpEcmNKWHJHNnB4Qm9UUExDODRsbEhN?=
+ =?utf-8?B?YXR3cHJON3pNWTFMMkUwcHhzckJlcVV4c3BqZytUZUtaV3hvUmFaZ0twYnhT?=
+ =?utf-8?B?T1g5ZGJFbEJEM1I5bE5IME9IV1FyWWZ4RjRxTSsydS9HYXplK1pwRlYzNWRx?=
+ =?utf-8?B?ZkYxVGZmUHd2ZFgyVFNUUFFzdnQyb2RSendmWitFL1ppU0M2dXVUN3dmQUhY?=
+ =?utf-8?B?alRPRFJTbWxEbE83V3gzbEpKNHBpdWhmYkV0aktyeU9yUVArU1NUUVdNeU9Z?=
+ =?utf-8?B?K0wxb3dUNWRjS0taODlVUXl1a3JmMko5OUZESUJZNXNaTkJDYm1qKzliTzBR?=
+ =?utf-8?B?QnA3cEI4ek12RTUwbm8wVE5NZGpnUklneWJTcVRpUmdvUjVNZDh0VHlGNGNZ?=
+ =?utf-8?B?R2Jlb25qbXpsWVRhWFI3d1BVRDV6TndxSklkcWNQUjdraFY1RmMvY2o3SHZU?=
+ =?utf-8?B?akZBYzZTeWtZbnl1NVJ3V0h0Q25Od3NSUXE4K2RSQ2tzWUdjUHZ2LzRsWVcv?=
+ =?utf-8?B?NUNUWlAzQUVzak44OW5rZ3JsbDhZVmhrQm01d3ByUHMrOHY4YmFnL2NoK1Nr?=
+ =?utf-8?B?KzBaMmFhcUFUNWFHRHZKc2ZkWVFtUzBNSDdxNUFXQnpldlp5RTN4VHVEL1Iw?=
+ =?utf-8?B?VzUwOWsrYVo4WktXQ2lZZ2NIckZiWGZvd0gyc2VPcUJXcW9ISmM4dFloWHkw?=
+ =?utf-8?B?ZGwxRlBhYnpzT0thSld2YzJuR1Q2bFZPNndGcHJuUGNpMVUxM0U4RzlDMU1j?=
+ =?utf-8?B?VXJ2a29FRU5BUWk4V3hpbS9OWGpVUlUwem5tUUQrYU1KYUt0M0VtTmErcGhR?=
+ =?utf-8?B?aDcrb056dCt6U25oYkUxblRKNUdKR25DT3pYcTYxQmpGVktLTUVwL0FpcG5i?=
+ =?utf-8?B?dkExWURDajBwSkNXSGt3ZlNydTNnaFVNVkxhQSttbTBzQm1BUjVrME4vTXBU?=
+ =?utf-8?B?c1V4N0V0VmRDWFhodVNtTkE2a1lvcGVWL1l1c2pnZU8rMk9nMFk5SHkwU2tz?=
+ =?utf-8?B?bG5KOU42c3NxQ0llbGQ2ZkI2RUNvazFmc1p5aDZFaktWWXR5WjVQdVYxdVRK?=
+ =?utf-8?B?N2JEUGZCZS96MTA0MEtCZ0c0WFNCVnY2a0VOZUdFR3BWMGEyVCtYNkNQZmVI?=
+ =?utf-8?B?TTN3d29NU3BjTVVCc3F2OFBnUHozeGhIZmJRYkVXYVVwNXRORjJFT0pDeTFv?=
+ =?utf-8?B?WUhhZVVIZVI0cDdqOXVWanI0ZjN4alhQbEhIOU1DTk1NUW9iS2JTbVdEdldP?=
+ =?utf-8?B?Myt3ZzNRT3BobFpVV1dkNG1KWHhCeXlQRXNtOWFua203NW1PZVpuRFJXbGRr?=
+ =?utf-8?B?TEQ1OFhEbytoUWNTaVlrdlhKMVlCR0VYcWdsZ0pNeVovYXdOZEM1VmJBcU9m?=
+ =?utf-8?B?RnhJeCs1akhDenc3bUFCclRPVTVTUE5ta1BmdU9KTGt3NFkrWlpnd3hqQnJV?=
+ =?utf-8?B?THFTQ2dZanZ5NkVaTnBraVFzbGlOVXFNekRtSVErblgxVTZWUFpjV0VkSlov?=
+ =?utf-8?B?OFRRY0lDZ2lwRTFGNE5nM1NuR1F3d1VFU1hYbnZwNG9Vb1F4SGtsa2lNeWh6?=
+ =?utf-8?B?bUdrR25mRkx1Q2tqcHZuWDRVVlFrZWdtZGpnOTAvcXVGYVAxK1JDMnJvOFUy?=
+ =?utf-8?B?SXBpM05kN2ZRRFloYVErQjZNTjl5Z0Q3dVZuVTNDSVdROVo0NjVvVnJFdmdY?=
+ =?utf-8?B?V3hjSUtPQWlkR3p3NlVzaGtVV2J4RHpxd0pEVWdmT2JRbHpRMm9BQjY4SHUw?=
+ =?utf-8?B?bUY0Mlc3WEFnc3ZGMmQwQUgxYnlwbE52cXl4c3hyRmF6NDRPV0hWemt1ay82?=
+ =?utf-8?B?WjBZYWVmU0dienY3d1lNVGd1emtINXlYWlgzNjBmWDdML2ZFMHRUR0t0VFlG?=
+ =?utf-8?B?V3JqdUwvMHpsZUF1UlA3TXpCby92c0VLdjZBbkwvYmxROHlMOEdwS1dxV0RB?=
+ =?utf-8?B?clZ5TnNtMjRQUEdyY2VNaVV6VFI5K2x1V1ZvRVVoRGVmelNOcXR3dlM5UHZ6?=
+ =?utf-8?Q?DF76KZQGE3DIZYyDwKj31HpnN?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8deada0-9e1e-4683-57ec-08dd203b7574
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2024 14:43:10.1695
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0vY5+dcOiq6mf05uk19kdmI6Y88OPeiAJK89wcT2N87YX4QrCQPZsXhdNXDvkRogUWJaNWcnE2dPc9jWRxhZaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8680
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 14:43:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208917
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 14:43:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208918
 
-Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-13-1-final
-
-- Patch 'fix-armv5.patch' is in 3.13.1, so no longer needed:
-
-|tgamblin@megalith ~/workspace/git/pythonsrc/cpython ((HEAD detached from v3.13.1))$ git tag --contains 18b9079ddbc149d6b99c922630c246812e4d8ae7
-|v3.13.1
-
-- While patch 'crosspythonpath.patch' is listed as 'Inappropriate
-  [OE-Core integration specific]' specific in the commit message, it is
-  now breaking the build, while removing it allows python3 to build OK.
-  It appears that there is a similar change in upstream 3.13.1:
-
-  https://github.com/python/cpython/commit/909d5ac2959e
-
-- gcc-symlinks had to be added to ptest RDEPENDS so that 'gcc' could be
-  found on the path for the
-  test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym test.
-
-- Also reformat the DEPENDS and RDEPENDS lists to be alphabetical
-  and one-per-line, since that's easier to read and modify.
-
-- buildall-qemu output:
-
-|BUILDALL-QEMU LOG FOR python3
-|START TIME: 2024-12-18_20:38:01
-|HOSTNAME: megalith
-|HOST OS: Debian GNU/Linux 12 (bookworm)
-|HOST KERNEL: 6.1.0-28-amd64
-|===============
-|BUILD RESULTS:
-|[glibc]
-|FAIL: qemuloongarch64
-|PASS: qemuriscv32
-|PASS: qemuarmv5
-|PASS: qemuppc
-|PASS: qemumips64
-|PASS: qemuriscv64
-|PASS: qemuarm64
-|PASS: qemuarm
-|PASS: qemux86-64
-|PASS: qemuppc64
-|PASS: qemux86
-|PASS: qemumips
-|[musl]
-|FAIL: qemuloongarch64
-|FAIL: qemuriscv32
-|PASS: qemuarmv5
-|PASS: qemuppc
-|PASS: qemumips64
-|PASS: qemuriscv64
-|PASS: qemuarm64
-|PASS: qemuarm
-|PASS: qemux86-64
-|PASS: qemuppc64
-|PASS: qemux86
-|PASS: qemumips
-|===============
-|PASSED: 21
-|FAILED: 3
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- .../python/python3/crosspythonpath.patch      | 33 ----------
- .../python/python3/fix-armv5.patch            | 65 -------------------
- .../{python3_3.13.0.bb => python3_3.13.1.bb}  | 58 +++++++++++++----
- 3 files changed, 45 insertions(+), 111 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/crosspythonpath.patch
- delete mode 100644 meta/recipes-devtools/python/python3/fix-armv5.patch
- rename meta/recipes-devtools/python/{python3_3.13.0.bb => python3_3.13.1.bb} (96%)
-
-diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-deleted file mode 100644
-index f18898e4c4f..00000000000
---- a/meta/recipes-devtools/python/python3/crosspythonpath.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 8840438e73e43b99bc9c83896a5f950e4259738f Mon Sep 17 00:00:00 2001
--From: Ricardo Ribalda <ricardo@ribalda.com>
--Date: Tue, 18 Nov 2014 03:35:33 -0500
--Subject: [PATCH] configure.ac: add CROSSPYTHONPATH into PYTHONPATH for
-- PYTHON_FOR_BUILD
--
--When building x86->x86 the system will try to execute .so and related items
--from the default PYTHONPATH.  This will fail if the target CPU contains
--instructions that the host CPU does not have, add CROSSPYTHONPATH
--into PYTHONPATH so we can prepend the list to find correct libs.
--
--Upstream-Status: Inappropriate [OE-Core integration specific]
--
--Credits-to: Mark Hatle <mark.hatle@windriver.com>
--Credits-to: Jackie Huang <jackie.huang@windriver.com>
--Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 58f5407..5101806 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -164,7 +164,7 @@ AC_ARG_WITH([build-python],
--     dnl Build Python interpreter is used for regeneration and freezing.
--     ac_cv_prog_PYTHON_FOR_REGEN=$with_build_python
--     PYTHON_FOR_FREEZE="$with_build_python"
---    PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$with_build_python
--+    PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$with_build_python
--     AC_MSG_RESULT([$with_build_python])
--   ], [
--     AS_VAR_IF([cross_compiling], [yes],
-diff --git a/meta/recipes-devtools/python/python3/fix-armv5.patch b/meta/recipes-devtools/python/python3/fix-armv5.patch
-deleted file mode 100644
-index 961404b24fc..00000000000
---- a/meta/recipes-devtools/python/python3/fix-armv5.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From 18b9079ddbc149d6b99c922630c246812e4d8ae7 Mon Sep 17 00:00:00 2001
--From: "Miss Islington (bot)"
-- <31488909+miss-islington@users.noreply.github.com>
--Date: Wed, 16 Oct 2024 16:48:40 +0200
--Subject: [PATCH] [3.13] gh-125444: Fix illegal instruction for older Arm
-- architectures (GH-125574) (GH-125595)
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--On Arm v5 it is not possible to get the thread ID via c13 register
--hence the illegal instruction. The c13 register started to provide
--thread ID since Arm v6K architecture variant. Other variants of
--Arm v6 (T2, Z and base) don’t provide the thread ID via c13.
--For the sake of simplicity we group v5 and v6 together and
--consider that instructions for Arm v7 only.
--(cherry picked from commit feda9aa73ab95d17a291db22c416146f8e70edeb)
--
--Co-authored-by: Diego Russo <diego.russo@arm.com>
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/18b9079ddbc149d6b99c922630c246812e4d8ae7]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- Include/internal/mimalloc/mimalloc/prim.h                     | 4 ++--
-- Include/object.h                                              | 2 +-
-- .../2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst            | 1 +
-- 3 files changed, 4 insertions(+), 3 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
--
--diff --git a/Include/internal/mimalloc/mimalloc/prim.h b/Include/internal/mimalloc/mimalloc/prim.h
--index 8a60d528458e6c..322ab29e6b41c2 100644
----- a/Include/internal/mimalloc/mimalloc/prim.h
--+++ b/Include/internal/mimalloc/mimalloc/prim.h
--@@ -151,9 +151,9 @@ static inline mi_threadid_t _mi_prim_thread_id(void) mi_attr_noexcept {
-- // If you test on another platform and it works please send a PR :-)
-- // see also https://akkadia.org/drepper/tls.pdf for more info on the TLS register.
-- #elif defined(__GNUC__) && ( \
---           (defined(__GLIBC__)   && (defined(__x86_64__) || defined(__i386__) || defined(__arm__) || defined(__aarch64__))) \
--+           (defined(__GLIBC__)   && (defined(__x86_64__) || defined(__i386__) || (defined(__arm__) && __ARM_ARCH >= 7) || defined(__aarch64__))) \
--         || (defined(__APPLE__)   && (defined(__x86_64__) || defined(__aarch64__))) \
---        || (defined(__BIONIC__)  && (defined(__x86_64__) || defined(__i386__) || defined(__arm__) || defined(__aarch64__))) \
--+        || (defined(__BIONIC__)  && (defined(__x86_64__) || defined(__i386__) || (defined(__arm__) && __ARM_ARCH >= 7) || defined(__aarch64__))) \
--         || (defined(__FreeBSD__) && (defined(__x86_64__) || defined(__i386__) || defined(__aarch64__))) \
--         || (defined(__OpenBSD__) && (defined(__x86_64__) || defined(__i386__) || defined(__aarch64__))) \
--       )
--diff --git a/Include/object.h b/Include/object.h
--index 78aa7ad0f459ff..b53f9acfebdb0c 100644
----- a/Include/object.h
--+++ b/Include/object.h
--@@ -259,7 +259,7 @@ _Py_ThreadId(void)
--     __asm__("movq %%gs:0, %0" : "=r" (tid));  // x86_64 macOSX uses GS
-- #elif defined(__x86_64__)
--    __asm__("movq %%fs:0, %0" : "=r" (tid));  // x86_64 Linux, BSD uses FS
---#elif defined(__arm__)
--+#elif defined(__arm__) && __ARM_ARCH >= 7
--     __asm__ ("mrc p15, 0, %0, c13, c0, 3\nbic %0, %0, #3" : "=r" (tid));
-- #elif defined(__aarch64__) && defined(__APPLE__)
--     __asm__ ("mrs %0, tpidrro_el0" : "=r" (tid));
--diff --git a/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst b/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
--new file mode 100644
--index 00000000000000..13c1e745edf8d5
----- /dev/null
--+++ b/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
--@@ -0,0 +1 @@
--+Fix illegal instruction for older Arm architectures. Patch by Diego Russo, testing by Ross Burton.
-diff --git a/meta/recipes-devtools/python/python3_3.13.0.bb b/meta/recipes-devtools/python/python3_3.13.1.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3_3.13.0.bb
-rename to meta/recipes-devtools/python/python3_3.13.1.bb
-index b3170879b95..b2eaf9f4396 100644
---- a/meta/recipes-devtools/python/python3_3.13.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.1.bb
-@@ -14,7 +14,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://check_build_completeness.py \
-            file://reformat_sysconfig.py \
-            file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
--           file://crosspythonpath.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
-            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
-            file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
-@@ -30,7 +29,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-test_deadlock-skip-problematic-test.patch \
-            file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
--           file://fix-armv5.patch \
-            file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch \
-            file://0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch \
-            "
-@@ -39,7 +37,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "086de5882e3cb310d4dca48457522e2e48018ecd43da9cdf827f6a0759efb07d"
-+SRC_URI[sha256sum] = "9cf9427bee9e2242e3877dd0f6b641c1853ca461f39d6503ce260a59c80bf0d9"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -69,7 +67,24 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
- ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
- 
- 
--DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
-+DEPENDS = "\
-+    autoconf-archive-native \
-+    bzip2 \
-+    bzip2-replacement-native \
-+    expat \
-+    libffi \
-+    libnsl2 \
-+    libtirpc \
-+    ncurses \
-+    openssl \
-+    sqlite3 \
-+    util-linux-libuuid \
-+    virtual/crypt \
-+    virtual/libintl \
-+    xz \
-+    zlib \
-+"
-+
- DEPENDS:append:class-target = " python3-native"
- DEPENDS:append:class-nativesdk = " python3-native"
- 
-@@ -444,13 +459,13 @@ INSANE_SKIP:${PN}-ptest = "dev-deps"
- # catch all the rest (unsorted)
- PACKAGES += "${PN}-misc"
- RDEPENDS:${PN}-misc += "\
--  ${PN}-audio \
--  ${PN}-codecs \
--  ${PN}-core \
--  ${PN}-email \
--  ${PN}-numbers \
--  ${PN}-pickle \
--  ${PN}-pydoc \
-+    ${PN}-audio \
-+    ${PN}-codecs \
-+    ${PN}-core \
-+    ${PN}-email \
-+    ${PN}-numbers \
-+    ${PN}-pickle \
-+    ${PN}-pydoc \
- "
- RDEPENDS:${PN}-modules:append:class-target = " ${MLPREFIX}python3-misc"
- RDEPENDS:${PN}-modules:append:class-nativesdk = " ${MLPREFIX}python3-misc"
-@@ -466,8 +481,25 @@ RDEPENDS:libpython3:append:libc-glibc = " libgcc"
- RDEPENDS:${PN}-ctypes:append:libc-glibc = "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)} \
- "
--RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils \
--                        locale-base-fr-fr locale-base-en-us locale-base-de-de"
-+RDEPENDS:${PN}-ptest = "\
-+    ${PN}-dev \
-+    ${PN}-modules \
-+    ${PN}-tests \
-+    ${PN}-zipapp \
-+    binutils \
-+    bzip2 \
-+    coreutils \
-+    gcc \
-+    gcc-symlinks \
-+    g++ \
-+    libgcc \
-+    locale-base-fr-fr \
-+    locale-base-en-us \
-+    locale-base-de-de \
-+    sed \
-+    tzdata \
-+    unzip \
-+"
- RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-tr-tr"
- RDEPENDS:${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
- RDEPENDS:${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter ${MLPREFIX}tcl', '', d)}"
--- 
-2.39.5
-
+SGkgQWxsLA0KIA0KUUEgZm9yIHlvY3RvLTUuMC42LnJjMSBpcyBjb21wbGV0ZWQuIFRoaXMgaXMg
+dGhlIGZ1bGwgcmVwb3J0IGZvciB0aGlzIHJlbGVhc2U6ICANCmh0dHBzOi8vZ2l0LnlvY3RvcHJv
+amVjdC5vcmcvY2dpdC9jZ2l0LmNnaS95b2N0by10ZXN0cmVzdWx0cy1jb250cmliL3RyZWUvP2g9
+aW50ZWwteW9jdG8tdGVzdHJlc3VsdHMNCiANCj09PT09PT0gU3VtbWFyeSA9PT09PT09PQ0KTm8g
+aGlnaCBtaWxlc3RvbmUgZGVmZWN0cy4NCiANCk5vIG5ldyBpc3N1ZSBmb3VuZC4gDQogDQpUaGFu
+a3MsDQpKaW5nIEh1aQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IHFh
+LWJ1aWxkLW5vdGlmaWNhdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnIDxxYS1idWlsZC0NCj4g
+bm90aWZpY2F0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+IE9uIEJlaGFsZiBPZiBTdGV2ZSBT
+YWtvbWFuIHZpYQ0KPiBsaXN0cy55b2N0b3Byb2plY3Qub3JnDQo+IFNlbnQ6IFNhdHVyZGF5LCBE
+ZWNlbWJlciAxNCwgMjAyNCAxOjUxIEFNDQo+IFRvOiA8eW9jdG9AbGlzdHMueW9jdG9wcm9qZWN0
+Lm9yZz4gPHlvY3RvQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+DQo+IENjOiBxYS1idWlsZC1ub3Rp
+ZmljYXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiBTdWJqZWN0OiBbcWEtYnVpbGQtbm90
+aWZpY2F0aW9uXSBRQSBub3RpZmljYXRpb24gZm9yIGNvbXBsZXRlZCBhdXRvYnVpbGRlcg0KPiBi
+dWlsZCAoeW9jdG8tNS4wLjYucmMxKQ0KPiANCj4gQSBidWlsZCBmbGFnZ2VkIGZvciBRQSAoeW9j
+dG8tNS4wLjYucmMxKSB3YXMgY29tcGxldGVkIG9uIHRoZSBhdXRvYnVpbGRlcg0KPiBhbmQgaXMg
+YXZhaWxhYmxlIGF0Og0KPiANCj4gICAgIGh0dHBzOi8vdmFsa3lyaWUueW9jdG8uaW8vcHViL3Jl
+bGVhc2VzL3lvY3RvLTUuMC42LnJjMQ0KPiANCj4gQnVpbGQgVVJMOiBodHRwczovL3ZhbGt5cmll
+LnlvY3RvcHJvamVjdC5vcmcvIy9idWlsZGVycy8yOS9idWlsZHMvNjM5DQo+IA0KPiBCdWlsZCBo
+YXNoIGluZm9ybWF0aW9uOg0KPiANCj4gYml0YmFrZTogZjQwYTNhNDc3ZDUyNDFiNjk3YmYyZmIw
+MzBkZDgwNGMxZmY1ODM5Zg0KPiBtZXRhLWFnbDogMmUwNjA3MzI2OTFlZDhmY2VlNjcyNWNmOGVi
+YzkyZTg4N2JmZDE4OA0KPiBtZXRhLWFybTogNzA4ODI3OWMwYWIwMGM3ZGFiZWZkZDQ1NDQ5NTFi
+NDc0NmI0ODQ3Ng0KPiBtZXRhLWF3czogZWU1YmI1NTY5NzcyM2NjZjY5MjU5MmUwYjM3YWQyNjg4
+NjllMWMwYw0KPiBtZXRhLWNsYW5nOiA5ZmJmYTlkYjMzMTMxYWJkZjM4NzBhOTRmMDAxOTllYjUz
+ZTI3NmU1DQo+IG1ldGEtaW50ZWw6IGI2MWQ1MzEwZmNiNGU1MDc3YmI0YjFkZTAyMjhkYzQ1YmE2
+OTUxMGYNCj4gbWV0YS1taW5ndzogYWNiYmE0Nzc4OTNlZjg3Mzg4ZWZmYzQ2NzliN2Y0MGVlNDlm
+Yzg1Mg0KPiBtZXRhLW9wZW5lbWJlZGRlZDogYjhkMWExNGY3ZjNiNzY0NTdjMzY3NTIyMDJlYTdh
+ZTU4ODFiNjY1NA0KPiBtZXRhLXZpcnR1YWxpemF0aW9uOiA0NTA5NDFhMWI2ZGY5NjI4NTY5MWU4
+YzIzZDRmMzMyZDNjODhhOTk0DQo+IG9lY29yZTogMzM2ZWVjNjgwODcxMGYyNjBhNTMzNmNhOGNh
+OTgxMzlhODBjY2IxNA0KPiBwb2t5OiAyNTQxYTgxNzFmOTE4MTJhNGIxNmU3ZGM0ZGEwZDc3ZDIz
+MThhMjU2DQo+IA0KPiANCj4gDQo+IFRoaXMgaXMgYW4gYXV0b21hdGVkIG1lc3NhZ2UgZnJvbSB0
+aGUgWW9jdG8gUHJvamVjdCBBdXRvYnVpbGRlcg0KPiBHaXQ6IGdpdDovL2dpdC55b2N0b3Byb2pl
+Y3Qub3JnL3lvY3RvLWF1dG9idWlsZGVyMg0KPiBFbWFpbDogcmljaGFyZC5wdXJkaWVAbGludXhm
+b3VuZGF0aW9uLm9yZw0KPiANCj4gDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtz
+OiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1Jl
+cGx5IE9ubGluZSAoIzQ4Nik6IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9nL3FhLWJ1
+aWxkLQ0KPiBub3RpZmljYXRpb24vbWVzc2FnZS80ODYNCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRw
+czovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvbXQvMTEwMTAxODM1LzY0MjQwNDQNCj4gR3JvdXAg
+T3duZXI6IHFhLWJ1aWxkLW5vdGlmaWNhdGlvbitvd25lckBsaXN0cy55b2N0b3Byb2plY3Qub3Jn
+DQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy9xYS1idWls
+ZC0NCj4gbm90aWZpY2F0aW9uL2xlYXZlLzEzNTgxODAyLzY0MjQwNDQvMTc0NjgxMzg5Ny94eXp6
+eQ0KPiBbamluZy5odWkudGhhbUBpbnRlbC5jb21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0t
+DQo+IA0KDQo=
 
