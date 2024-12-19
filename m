@@ -2,49 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFEEAE7718C
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 20:36:15 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.138285.1734640569129856844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9E7E7718D
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 20:36:16 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.138286.1734640570769245642
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 12:36:09 -0800
+ Thu, 19 Dec 2024 12:36:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Y1rTeT06;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zAnosZWv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010193e0a28bb3-ea607f72-fddf-4dbc-9ed2-936820de0740-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aGb+XM3O;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=f7zQe1at;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010193e0a28ef0-e5570f56-9b07-4939-878d-6d2d291c5602-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734640569; i=@automation.yoctoproject.org;
+	t=1734640570; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=N0Zo3pnsRHvrxeOEdpZFU+nRZyMP77wU2A9sF5bKzA0=;
-	b=Y1rTeT0686ydzqrGg+nXnHr1gsnVAJvOz3JQG+ovur/8HGzfJk5FiVVe+h04BCCk
-	tTgnwcMEr6uCTfzpfC1W4PmCNnLRq6abKPTbYDfdOudQmscX0Icr2jmUJBRTcuw0K3f
-	uSL/tPUVvFqwCPSCfG/GlY0zYlGQe4Jh6vGc+UHs=
+	bh=Wfpo020YWOa2Z7k61L9LNph5jHEBfW9+BZte4ZTqtHQ=;
+	b=aGb+XM3OsAO7Hq6cGDLuBj6fWoCZDQXjhe9U5wNpi5xOStdwSwJ3vblIuAcnRTPc
+	HMdNNyUmTGpK179r+PPsY0PwNIRraNkIhnJf688TohV62V612lk1hXuCGHmMoy7wgaq
+	Uc4R63t7bpjH93hSBtOj65q1PKUaROkTrhbbdm9Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734640569;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734640570;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=N0Zo3pnsRHvrxeOEdpZFU+nRZyMP77wU2A9sF5bKzA0=;
-	b=zAnosZWvAW2wySFT2n6MCKyC9Hm0kGPXz09AybRDjCY1oAJ1vzNplnEzE3eWFXnz
-	jC9M/WSgH4V3cojfgRyNO3FGYiPSeDDdOcXL/KZnL+mZQzkkXwjoZO5HfX+21TrKI2R
-	S7Exd3bhxTOKTx/dXdlabOeniJK+eqiayH+EC+6c=
+	bh=Wfpo020YWOa2Z7k61L9LNph5jHEBfW9+BZte4ZTqtHQ=;
+	b=f7zQe1atYmGp0lx0GMt6QWGYpqKQDa7nXfYEUHeOyEBxD6Yo4LnmtpPirmfbl8ox
+	yUlSin8p7TqkqZ4PW9tn8YjKQobjngtN492RmGX0DX59cbCotW9jU4bNh3GKa7WxdLO
+	0T0BqBinrFi++FFQFjBP7L+P/4zUUT32weQpX6WY=
 From: patchtest@automation.yoctoproject.org
 To: Peter Marko <peter.marko@siemens.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH 03/12] apache2: remove old version references from
- CVEs
-In-Reply-To: <20241219202423.346033-4-peter.marko@siemens.com>
-References: <20241219202423.346033-4-peter.marko@siemens.com>
+Subject: Patchtest results for [meta-oe][PATCH 04/12] spice: ignore CVE-2016-0749
+In-Reply-To: <20241219202423.346033-5-peter.marko@siemens.com>
+References: <20241219202423.346033-5-peter.marko@siemens.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193e0a28bb3-ea607f72-fddf-4dbc-9ed2-936820de0740-000000@us-west-2.amazonses.com>
-Date: Thu, 19 Dec 2024 20:36:09 +0000
+Message-ID: <01010193e0a28ef0-e5570f56-9b07-4939-878d-6d2d291c5602-000000@us-west-2.amazonses.com>
+Date: Thu, 19 Dec 2024 20:36:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.19-54.240.27.23
+X-SES-Outgoing: 2024.12.19-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 20:36:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208949
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 20:36:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208950
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-03-12-apache2-remove-old-version-references-from-CVEs.patch
+Testing patch /home/patchtest/share/mboxes/meta-oe-04-12-spice-ignore-CVE-2016-0749.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
