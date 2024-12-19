@@ -1,565 +1,184 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9AAFE77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 22:50:47 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.141119.1734648646193446353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9AE3E7718A
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 23:13:47 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.75])
+ by mx.groups.io with SMTP id smtpd.web10.141836.1734650022135909022
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 14:50:46 -0800
+ Thu, 19 Dec 2024 15:13:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=208332c61f=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJLEkWF002122
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 22:50:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43gy80pjwm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 22:50:44 +0000 (GMT)
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BJMoiLF014403;
-	Thu, 19 Dec 2024 22:50:44 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2049.outbound.protection.outlook.com [104.47.70.49])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43gy80pjwk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Dec 2024 22:50:44 +0000 (GMT)
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=J+IciLnN;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.249.75, mailfrom: tom.hochstein@oss.nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u36xYYZAd8sfXYqx6x1YV/kD+xVeqBblwbOeoeczeDfGutAEOhU0Cd5fTDXcgvWrjYxW6qtHnaUXqOLeOT5c0TcxLSCqlQU4MEl8QyvMB5DKJTwrnCoL1fGX4SvvgoG3ly3RkYK7+pVQC9IS+4FZfNlBWrV1u5XJ3dN0zx3+kWR+yXwi+6+2W/tImapAWowKN0hdiFHe71cdJWoaya2NaFMK25Xzmt/OIaqrVVZ3mYX2x2C8pntMsaQY1pA3XrzOK9q1ZhkrG50EpKvLLDJrTqeSF07SwXiPz2SvRYlgoX78/F++KcUhxrHvmCBZWofgKlzQrUp4JkmjY8HoQ1JN4g==
+ b=I3iz4xiQG/wM9XfpIxnPzbtY4Pez+7Eprx5SAKQM4ozVpGKN46TElpWTuZ4fFk15cdTvII3y1abs5IvadY5amtmDMN21OurD4Eq4J9r+vQnLlI668VGWzEevqfBdnddrbLXcire/KPu/4ruFv0mX7qpFvVjKoUuVka3m/LaNKbflFii201/pAaYD0DZCztEzwD6Y7Ue3aUeF3rlMQTCDEDzWyFncL8b5L5YiK31LsKL9BsAIl1m9gbbs/zD8N+YDiELurKgWL8lPr3EL872Nrc+K6hjJgfeitGkWAjvHhHbL/dpv/D/fisVTDrcEI2OaY/4fzXPSgYr6USC4K5bazA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UZqHBZAqq0YQ5+phuU3eLB8lNqwAunKTiPlz1npfQkc=;
- b=cjp8DJShYrHU61I8jV9VXWanZ/88HhBJCZNo39oIzxdKF4EojzKDg0F8ELjWHjU7wmASwReN4Anrjs/IiqSiMDzCHVU5JFXR2WP2BVoRIIRGiA5tPR1Wk1YApljJvHcFgq16wmld0+xqz7VY0fsNHGlwsf1RHkh3jX2d281rov1VeAcydx6/E3WutfgaMFOAScC+DykMwdEOE3imBag0NfX34d5MI+ulUBPncMLMu7DDnUk8kiPptis6M0Pck3o3fNFXUJlvSsXy10c5aih5wt44tC7qfomkUeaLgwi+NDRzZPH4HrRNzSoocjEj4KOdwMDhaJZ97sy5fOYXnRjFNQ==
+ bh=CCBFW+nz7in/cJBPl0gXVk1hJpX5u9p6jhtREtVAX0w=;
+ b=Hkfm4qWxdnNDNUQz9/jOqgMEccN7e4tJILHW8UUXpAsuUimANKv7nSsDSzhxQuuouKX9f+uhvudZQqJQThRz2T83STcZ/lRZF//kaksw2T+aUZMuVdMJjRRXdDslnkzJsJnareZqh/rajenDdUQQM8emVVSsUXcUfySOB2Sz7Z4OicmWtLyII3oXc6VLkn1sV80LnMc4kW240zn0eS06Ln3UX1Pg76zOKX+PD8z0F60QAXKYOpD/g+fXAuKiKeeyZbT0j52itRPei9rtlnRrxzZ9zqYq7//2irsiDl+vJW5YMFgQwILl9tPoJxTA6FVi00CYpm6HCaOBomuSzYFhPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by CH3PR11MB7250.namprd11.prod.outlook.com (2603:10b6:610:149::12) with
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CCBFW+nz7in/cJBPl0gXVk1hJpX5u9p6jhtREtVAX0w=;
+ b=J+IciLnNUO0o1/a/umbf+5b6y4Mt3lnQs76O/OH+TYWC8/X1n8JlDfTA2915xyQZqFJ+2hBVTAr/Fi0NNAsic4c05itZoJpybbsSf9bCar2appJ5GOnteRKh8MWiHseAr3eFHAxOpnj0IMRFVSMKOsg4q4lci1IEDvUtW2ZSPiHNVg3RXHoOfyYCagERV4OA0C1RJr78UXk5c8XnorRLvtFt3K6rj63uK4ixX7JsIsCQDWgjiuQBRj54m0EuS9aA6nS65MSSc+lSemZvFFYC2aZ0sYYI5x64DQndQLV1tYDFQe14POC5GsCL90KKj1tgfGSiR0x4sYJaf5BxyhVGIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by AM9PR04MB8938.eurprd04.prod.outlook.com (2603:10a6:20b:409::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
- 2024 22:50:41 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%3]) with mapi id 15.20.8272.013; Thu, 19 Dec 2024
- 22:50:41 +0000
-Content-Type: multipart/alternative;
- boundary="------------zk9BginY80dLs8uBxPZ38ytZ"
-Message-ID: <94d26371-7e09-423c-bf78-006a5e5d1c9b@windriver.com>
-Date: Thu, 19 Dec 2024 17:50:38 -0500
+ 2024 23:13:39 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%2]) with mapi id 15.20.8272.005; Thu, 19 Dec 2024
+ 23:13:39 +0000
+Message-ID: <f1df3290-445e-4525-a3e5-7d156c5a45a5@oss.nxp.com>
+Date: Thu, 19 Dec 2024 17:12:42 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Patchtest results for [PATCH] Also check that
- 'tools-debug' is not set in IMAGE_FEATURES to determine if gdbserver is
- missing.
-To: "Georgi, Tom" <tom.georgi@karlstorz.com>
+Subject: Re: [OE-core] [PATCH 4/4] weston: Add xcb-util-cursor dependency
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-References: <20241217101607.542503-2-tom.georgi@karlstorz.com>
- <01010193d42c17c6-6e80daa6-d4bb-48d9-bb9c-1d5a0b06b036-000000@us-west-2.amazonses.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <01010193d42c17c6-6e80daa6-d4bb-48d9-bb9c-1d5a0b06b036-000000@us-west-2.amazonses.com>
-X-ClientProxiedBy: SJ0PR03CA0031.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::6) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+References: <20241219222120.1188742-1-tom.hochstein@oss.nxp.com>
+ <20241219222120.1188742-4-tom.hochstein@oss.nxp.com>
+ <CANNYZj-9Jdf6eeW=SdVPnSd8vVq3m+bhO=m9SZF5KKggcfKGvA@mail.gmail.com>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <CANNYZj-9Jdf6eeW=SdVPnSd8vVq3m+bhO=m9SZF5KKggcfKGvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0011.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::16) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|CH3PR11MB7250:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca2fd933-e3d3-49c1-e9cd-08dd207f9068
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AM9PR04MB8938:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b7c3660-6c6f-42bc-cf77-08dd2082c597
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|8096899003;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?KzV4d1VsMDdndllUWVc4dDNTNE1xR0RPYlI2aDJQMDIxSFBzaWZSTkhQY1BP?=
- =?utf-8?B?VXpuUnFQUERPNjYwdzVnQjdjYTQrMDlhRkgwVGtLbEZ4N3JyU1hWNVRFQk9u?=
- =?utf-8?B?UUtsTlp1Z0tscEM5L2tnbXl6bTNzaStGbWs0YW5KTDI4bHROU1VBREtiWVFh?=
- =?utf-8?B?Rjc4YTRZL0VCRjVaSUNyM2JWcXBoTHdvZkRMWHo3SVR0TEZ0N0hHS1h0TXNr?=
- =?utf-8?B?WjA5cGlvZXlQVnl1a3lOQzllTVY3MWs0VEFSYk1ZZkJZTXJ0RW9XV0xBZDU1?=
- =?utf-8?B?Q2xuTVR4M3UrbDVvbjE4bWhxL1lIcTQxWEg2UnBPLzY3RjFZdGxlbHF0SkxG?=
- =?utf-8?B?NUFLM3ZIVUpvcEQwU0NYUUVhNmc3YWtUUFB3NE5UbUpSNHluaS80KzYzK1FR?=
- =?utf-8?B?TWI5ZlNvWTlXenlaVFJZV1phM2VmMGpIMkl5SjBYMmhPOTB4aFpqV2JXa2FC?=
- =?utf-8?B?NGFwbWdKMC9JcHdtR1Ewek5tdERhUlJ1NXR4eW5GV3dodTFuVkdlcVFCY2g5?=
- =?utf-8?B?c215alhTUjVwQzRLbTA4b2FPVDZ1UDJIQUM5V09zRWVUZm54WUtlYWZ5TWRi?=
- =?utf-8?B?a3ZkdUhheHZCa0lmeUN2cWlTQW9Zc25xNFg1MzRLbGVwam52TjgvOUsxYXda?=
- =?utf-8?B?ZytxWDZJNllHSUNwZVdtTU5iVnBtR29DM0RwS1Vlb0k1OURHMjdXWU16NEpw?=
- =?utf-8?B?UWwvWVZIMG1ZelkrNEtQUVJ0Vm1ZOS9Ld09kZmpIYmMwSzJLNEhISzZWSjJS?=
- =?utf-8?B?eWd1ejJ2N3NmMmVMTE9JaHpURnh1NWpDL1ZsQnR6VWtGWjBpTzI3QXNRMFpU?=
- =?utf-8?B?WkNEN0MvTnN0MWMxT3ZnUTVVL2hZVUw4ankzZmJLQlJ1SGZ2M1lDK3VHeWQ4?=
- =?utf-8?B?WWRJeDBqOWlFLy9lZWR5N0ovY2ZYWHVOMG96ZVBqanduNnoxdDR6S3pBZTRS?=
- =?utf-8?B?YWFlNUhmc1FMUGdjdkNNM0tRQ3VyeWpCR2FCSTJwZzhTeVZXRXh2WndXbjRC?=
- =?utf-8?B?Rk1IRk1wVFNEeWIwUTJWeEpZMnl0K3lBUHluMW5VTGJ4RzNwVUlxSmNlTFpv?=
- =?utf-8?B?Q0xJK0ppbnE3ZTFGRWdlZHp5MlpRbEZtNGN3L1orbWlPMkFYeTFGck1nYXRy?=
- =?utf-8?B?clI5a0JERkRyS2dNVE16czBnUVVRdW51RWR1RVNCcmxXcE1xTEhIVDF4NW43?=
- =?utf-8?B?NzJabGxsdzdCRVBXN0dsVnBTcU5iYVNLWWNoaE12Y2NnVC92UHlUYXpQTzVZ?=
- =?utf-8?B?UGoxaWRJbHVPaU5RRG80Q21sZ2RlS2MzaThXbmo3Nkx0ajAzeGxuaS9zblpD?=
- =?utf-8?B?enpaRXgxb3dKc0VmRG1hRFJBWUpBd05FZXpOS0VicFhicjhrWVQ0STd0MXE3?=
- =?utf-8?B?d2Z3OHIvNFlCOU1TcVdTcDhVd2JsZ2tZczN6M0RiOUQyWGRYeWcrSzY3eVEz?=
- =?utf-8?B?Sm5TdmEzTTJTV3V4ejhia3ZrNkp1ZEVTV25WUjZGaWtJOG1sNEkvNEl6bERG?=
- =?utf-8?B?RGp6czk1QWhGK3lYTGhoUVp0RW9ZYnQvVmxQTVBreXROTzNZRVZtZElpRG45?=
- =?utf-8?B?dkNHRWhxSFhRT0VKdTBhWUs0WjRKajJjcSt0UjE2Z0tkT1hJaXloaGJpazEy?=
- =?utf-8?B?L1NsNzVkTkQzRXlNWWZVdGx0VmUycXl3dXVsU0xhTFdKcEZvNmhLM0R5NGFV?=
- =?utf-8?B?MXBOODFNeE53QVJCaUZlN0p5QjR6VEkxQkdOeHZJcklxblBXUWpJSm9FZjVn?=
- =?utf-8?B?cUZQays4VkFkbEJlRW14Z2R4dTdKdmVrM1dlZ2NnTDJyRERhMW5iYmhjbmUv?=
- =?utf-8?B?cVhibW1iT3UzaVpnekk4UT09?=
+	=?utf-8?B?R0pKbHdQLzhoOUZPVktDZHduRHZDT0hWam5HTG9SS2wwb213V3JzbVV3STVo?=
+ =?utf-8?B?TFE2ZXgrUURPQVVQdk53dkhTQ3F0V1phUzB5RmcrLzNpSWloK2oxL0xVTHI4?=
+ =?utf-8?B?Mzl5T1VDTXQ0R0JxR3ExNmpGTG1xcGpkQlpEZ0dTK0FsODlVV3ljZnc1WDhH?=
+ =?utf-8?B?MlArR2FSUllONkJYRXlvV2UwcUMyam1FOGlHcUk5LzVIMEQzcUdNbkw2WHR5?=
+ =?utf-8?B?WUplUWxmNVdiclFVQkErdXdTQmlUMWx0cUhnSW9hNDZ1Z3NZOVdad2craUNP?=
+ =?utf-8?B?T2lDVEJNM3hhWEg1dkJKTDBPUFc2b3o2ODk2UEMvV3Zic1Eva2FGRGY5RzRK?=
+ =?utf-8?B?TytLOG53K09vSURaZTArNWhTRXhWOEZ6TGZIR01nbSswc2dXMnh2akhrdVZy?=
+ =?utf-8?B?RkY4V2tXdTdVS0NVMjZ2b3FNMlBGckZQRWpyN1hXaXo2ZHB5L2Naa0RtQUU5?=
+ =?utf-8?B?ZnlLRjlkTDM5ekRmOEhBSFlWTjRvQ0RUL2tXVmcxTjBNdWhKQUIvK2hJYkto?=
+ =?utf-8?B?bTR6NDNLclliQlRoM3p1TER5dEhMdUdueFFuekRjOW1nQWNSNGZxNU1HTFVr?=
+ =?utf-8?B?dDBXc2o1Y1plTG9tYUF6S2dmVFRLVUJ6UGZZSytlc1BBNTZ0UVpYd3ppam1h?=
+ =?utf-8?B?amtTbVVkd2MxZ3JHMWhsZ3lVaDliNHpHa1BzcXA5c0tWNXNFdE9vbDlOQzk1?=
+ =?utf-8?B?MHdWdjN2Rkt2YTFUMWlnT1RDREtCaXdMcUtLa1dUSjBwVWhac0F1WEhFa3Y5?=
+ =?utf-8?B?MmJkNkJDVktEN21OQ0dJSGdKV1gwMlNzZDRmc3RaL0tFRHFOMWM4elphTnlF?=
+ =?utf-8?B?d05PSkhkcWw3eVBQQ0dWN0dxUGFhY0hYMG1oeVM4dFQwZTljWHUwaE5oUDJK?=
+ =?utf-8?B?MmhlMk12U3ZidFJoaUdCdm03NXM1d0JaQVp1cUZ6ZURRZnI0Z0hwSU1iRWdz?=
+ =?utf-8?B?M1craGJsTEhUNXcyY1VZaDBFeDBkaGZRNTBFbDQwcWF0MEE5QVQxWSs1YU5l?=
+ =?utf-8?B?eHVkbnNoaU8yMXZFMVdhZXFmWjZrMW1RMUFlaytjZi9GREQwWWJTbmZpNzFr?=
+ =?utf-8?B?QUVaN0VLL3JabDZuaFJCK2lSOWptU0xnd3V2Rmg2WTF5NmYvL3UwVXh1aDZa?=
+ =?utf-8?B?ajk4dDZtclVxd2VOQmFOQ2ozcmU0c0xqQzBMc3hURzBFcFdqeitjV3FLRmph?=
+ =?utf-8?B?SDNrb1NraVlsSGpLc3VjQ25lRkhWZE9INHU4QWJBOSthSitDZ2ZsZGxORDE5?=
+ =?utf-8?B?bTlXcjlMSnloajhNaFVqRVJiQ28yOFozM2hSSU5IaEUrWjQwRjlySmwyekgr?=
+ =?utf-8?B?ZFd5OGp4bDU3S1V1ZWdtVDVGNlpSUnZEOFYyK08yYWFsWjlrbXl5Z09ocElB?=
+ =?utf-8?B?TnBQeldVRlZsZEZ0TlJNUm9KcHkzbGZWVVJEdGhLeHJHVWg5Z2krTzV0cHli?=
+ =?utf-8?B?QjFkcmFlRDFtVXV0QURNckltVjMvOUY5bWc1QVNPVVlrbFZOa0pYTktEd3hS?=
+ =?utf-8?B?a2F1VzZWdTkwZDJaUHB3RzNKYk1ZNEhLdFliQVRxWFdQTVp3bURJUFhkcHRt?=
+ =?utf-8?B?TVhkdExCUCsybUtyZGJlTjNKZ0RRNjN4NlVrN0FKamZuSGxvT1YwS3ZlUGZN?=
+ =?utf-8?B?OHl2VkROZWwwUG5uRnVqb3ZGZ3Y2S05vaXdQMlVmSnVOSDcvVG9wSHNuQVJN?=
+ =?utf-8?B?Z2JOMGRzNVFUUFBLaGtwWlBZU1IzVVVxQlAwMld2MFQwVFVycUZmZlNraTJJ?=
+ =?utf-8?B?Nms3WGU4YllEWUViaTE1VWFCU0JrME0zak5RV29Ka0svQUVBRjZReCtFS1RH?=
+ =?utf-8?B?cEhPYmR1NmwwUGtJNmZneEYxZ1JPeDlWN2Z1QVRrYW0xUjllTks4N2UrTVlv?=
+ =?utf-8?Q?X5gcAurS14At4?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dWYyNStiUUdpZU1aelYxejRLYnlXTzFYVDByQjNSby9odnlqTk1OTWVCdE5P?=
- =?utf-8?B?Q0xoVGNOL1NZM3pXREFHVzhHUWtSMzdjdFpWS2RRVUQ2cFFWeTJZWmxjZ25l?=
- =?utf-8?B?YlpHbldNbkROY20vNjdKaXMvaDlwM1hoR3ZFMW5HTGdnQ09aaUFzNDh6c1Rs?=
- =?utf-8?B?V3pqZU5Dd1RNakR4anRHT0l6Z3FxTGJwMWdJdS8rWUIveStvS1NQbWpWeGtP?=
- =?utf-8?B?bTNMUWt1TXl1TlBqb21wOVA4T29RUHJqWmdUMDdPVWlMa0c0NG9rRVV3RkRi?=
- =?utf-8?B?dGZucERrZ2hTU254UW5ONTFJTDlXZ2RBdlZ4RUhwWHRDZHI3ZjdQOHZmNVh6?=
- =?utf-8?B?dzl4N1Ayam9haE04OFl5YWhkMUJvcVMyeHJHSTdkd25FSUp6aElKSWplRnZU?=
- =?utf-8?B?ckoxRGZjdU1VVnBDcE5Qd015ZDc2R09iMXVBbnEyeUNXZDZJWVcySGVOL3lU?=
- =?utf-8?B?OXV2ZytLbGw3VVFTMHB4NnVJZTRuRCsxYTFjTHZXdnZmZS9TenJDSHRDM2dh?=
- =?utf-8?B?eCt4TkxuRUFvMVgrMDRhSWNXbTZHVlNBSjlvSWZYNWt4NWVvVHMrcWR0SWE1?=
- =?utf-8?B?ajJ2MWlsTmF3YjVCSGJBbDRPNjNWL0tCR1RObVZ1VVVvWlQ3bDVIbUg5a0lq?=
- =?utf-8?B?YzBvbExxU3hHN1BmSjk3UnJOS2N5N2wrc2ppdkk5N3I5clo2RHZMdHdKelhN?=
- =?utf-8?B?ck03U0dVSjdDeUtqM0dORFNMYWdReUcySXFWSUY1VVpad25SbUQ1aW91OWVv?=
- =?utf-8?B?ci92elEzeUM1cU1oaFFQTnZjbXdSZWlYVjQxaG9zampOcEp6Wld4dnJ0ZE9p?=
- =?utf-8?B?TFpVdVF4eUNsaWZ6SCtHaC94LzNtS21IeHlpY3FYZnlEYy9VdVR5MFRFNjY5?=
- =?utf-8?B?SGZjbXFTeUY5YXVtZlZDTktkVHY5OGFNa25Db0YzKzZHTmZYd0Z4cGNxNFhy?=
- =?utf-8?B?bUdFNHljYW5iNDhPWjdhcDNTU1N2L0g2T1pld0xsZGhFL1kwQ1A5RVFUZU9w?=
- =?utf-8?B?dUFaTUZHTnRkeU5vZkZXa05udGFNR3l0U0VBMGtBZUhJbXY4TWovVjVrRnNF?=
- =?utf-8?B?d0lMeSsxWjY2NGZDTUY1cEpxRWdyWDl6WmloeWFnd3g2UklNV3V1ejQrSjVT?=
- =?utf-8?B?RzhINHQ3bXBHOWd5VDkwajI4SUlrT2Z4V0dlMVpac1BVUDhoWmFSUGhRVWkx?=
- =?utf-8?B?OWE0MW9vdUJ5YnpuNThKV24vMEUzS3pHSUhQalh2MVJHQmxGTFgxQ1dnWC9r?=
- =?utf-8?B?ZnZzK2p0QmlxakpwMHZxTTJ1YWJVZjJiSjBZdlp1M2I2dllWVUtyVktNYkNZ?=
- =?utf-8?B?UjMyalEwQkdVU0J0T2wreHBCQjVrY0E0QlozaGRST201VHlOSGhUdmx1eVZV?=
- =?utf-8?B?UGVOUUtVMVlVejk3QzRCV1gwOWNSSmVTRUxyWjJRM0xMOElYMXgyUzdDUWZa?=
- =?utf-8?B?V0ZhVGl3RHFGN3ZCL0VsNUdkMmMrbC9seWdxeUhLNGRlY21OR1J1WUQ3MHl2?=
- =?utf-8?B?S0FPWWZoSW1pSFFBSXh5RzNKUW5jbFR0dGtWajd0MFcrM3BoVFhtQnlQL2Rm?=
- =?utf-8?B?OXVQdTBhMmxJT2JKN3FWcS9YUmYxSU9WdVVFV3NuOGN5NHI2VVBKMExNQ2dL?=
- =?utf-8?B?YUY4ODBLWm5SaHRrd3UrU0t6QmE0TnVuNWQrdFJjTDgxd25CRlhOTDlucWJj?=
- =?utf-8?B?L3FGQ3JVakY4SEd0dEJTWHlsNlIvek9XSTNQQ2ZZcDdKRmE1d0lvK1A5TTBI?=
- =?utf-8?B?dUk0UmErSS9xMWd4VXVqdThTWlVINi9NV2g4VmVldEhyUHRYWHZCS0xkRW9G?=
- =?utf-8?B?RXVLZVVjZlZGUlRoVUpBOEozQXRQd3ZJQVJKQUE4dElNRVVjZGRFTGE1VUk0?=
- =?utf-8?B?VW44bFdCSndCeVk1b3h2a3JlSEdzVFFBR1YzM2xWbklxOTh1S0JOYjYya0F6?=
- =?utf-8?B?YTU4OU85bjYvLy9UM0VleGtBLy8vQllNd01qbjJiaXdFTGliU0FheStkVW9x?=
- =?utf-8?B?N0x1KzI5ZDN3YkdLWEtiUVJFQUlOVFVhTTVrWDUzRXlMUENxZ2E5T2R2QlQz?=
- =?utf-8?B?MTNvTnczbUY2aTdrT0lyUHovcktLVzhIajBNNmUrM0sxbzNlNDY3RjMrdVI0?=
- =?utf-8?B?OWpVOGJwNDltTDFSVU9Sd01ZRTVEK3k2Q1RETFRTVVpvS0tIbmtTZTFGK3F3?=
- =?utf-8?B?TEE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca2fd933-e3d3-49c1-e9cd-08dd207f9068
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+	=?utf-8?B?N3hsc2VTSkxwWks5VzlKRGRqWlFUMG93NHJqSWxzb25NS2hRa01OT3J2T0Fl?=
+ =?utf-8?B?LzN2dkN1VXZkVHlMRWpZRDg3Mkx4RjFRNGNFekx5UEV2dkpRT05sajAxYU4x?=
+ =?utf-8?B?aG1qaStsaE5ZMnVVUlNKcWNHVWpxVy9vMDQraTRXbDQzSFdta0pKQmJqUXBx?=
+ =?utf-8?B?VnhXa216MnUvc2ZmYldvQ2Fpbm42amJVRWtDRGZmelpxb3V2ZFlFVWo3OTNG?=
+ =?utf-8?B?TTVabjdlWFJtSGRJMGk0Q1NhOEhSd1ZoRXJlZnRUUUpzRDNYM2h1cTdIcUVz?=
+ =?utf-8?B?SzFsUnkyWlM3R3dlM2F5YWlJNGxodXg1VEY2STNlM1hiUEcvUVhVM254YnlE?=
+ =?utf-8?B?Y3MrTDlxemtIbzY0cnBFQkRXUE9aeXJjQ3ZqUFFXbDljQU4wZTg1OFkrT2hs?=
+ =?utf-8?B?NzZKTEx0Z1VUWVNGdC83d0R0cTdLa1duM3VYL2xEOFBpVVVIOHlCVnUzeTRM?=
+ =?utf-8?B?YXl6anY5WS9QaDkyayt6TWJjMTJrNkhlYVY0RzhkN1ViU0hoTDhycm95TkVv?=
+ =?utf-8?B?UjBGY0pPZXlERGFwK0gyUjRTUlBKMGJYVWtKNVBDSk00b2g4anVUUmJyVk9q?=
+ =?utf-8?B?TFJ6V0Voa0NYeC95d2xBcVQvSjVac1JZSHN0WmNXK3lVdjkvOUtmYThHNHdp?=
+ =?utf-8?B?TWRuYWE4UU5pMmQrN2ZCNVBxSGZucUtQd013TUNldTFMS3NLV05iL2dFN3ps?=
+ =?utf-8?B?Y1FqVUwvdGJldEpnaVFnd1RiK3hxU1VTNXY0MXhCN2hTUERsSDN5T1NyRElE?=
+ =?utf-8?B?YVhaeXRSVkNKMUR2b3VOOG9INkRqTHpMQytkTUJiZGVaL21mZDB1UEhxQ25S?=
+ =?utf-8?B?Q0duc0dETGpWM2pLVTl6ellhcWFMQlRrV1VkTU1BZFJWZjZ4dFg1cUpFNXJp?=
+ =?utf-8?B?dVQxUzdaMURzOGl0dVdhZm1UNEZVd0N6RHJ3RVp6cHFmNjRPTVRoaHdjODdx?=
+ =?utf-8?B?cHVMSU5tanIzQ0JtZEFhQW44ck9odzYrcTNxRHFudjdvUGs4TDl2T1lJdXlC?=
+ =?utf-8?B?UHlCbkJ3a0lnQ0tzcVE3cXExWjU2T082cmVaajYwRDVRZXMrK0VaaEhVeTdU?=
+ =?utf-8?B?aE9hS0N2SGtrYllRYTdrZXdaclFRSTVUQ2pTMytqU3Y4NUxyT1AxYXhxMDdF?=
+ =?utf-8?B?REp5OERkbGZlQTlFWGVZa1hHVGtmalRRZ21yd1JsYkZPb0M5MnBsdkRwNGoy?=
+ =?utf-8?B?RDc0V0g2eW5YU3NoQWs0YjVHK1Z4UnEzSDZEVDZRS25wcTVNSmcxVDhBWGN4?=
+ =?utf-8?B?cFlYdFFlQjc1MHl3ZHdCUy8wazBERTlrL0pDWDVrcTZvRWpoMytTSkVUNU9L?=
+ =?utf-8?B?aW5oRVQzRjI1eWVZYXVHcGFxRjZ2ZUtlR2doRUxjSk1ZcFZuNVNFUWhaa3k3?=
+ =?utf-8?B?b2w2b25mRmkwbVE5UU4rTTB0OGlMRWFQeTIyUE9FdllUUkVZTVV2L2lCTFdG?=
+ =?utf-8?B?cTR5a3VFci8yYWNLa0w5OStYTkN2L01pK29wUGRLVEl0U3EwdCtaZlU5VXlp?=
+ =?utf-8?B?SDJISlV1dEpYOExJWVAxTDdPTXVwNFA1Y3J2M3VTQ2xHeDl6bkxwaDRXUmo1?=
+ =?utf-8?B?VVJ2SGNkVFRDWlRCK1M5Zm1hYnhQTktpK2tZbExzd0E0aTMvTFY5TEpVTGZO?=
+ =?utf-8?B?WmhCWkQ5cTB4L0IyTGRGMHBhY1BpWTVkUDNYWWFnU0p5UG1LQ0xHbmg0UXp6?=
+ =?utf-8?B?Q05JMWxXeldzSlVDZ3pXZE0vV2p5Q1Naak90cUVseTMremtPL2U2ZHltNnF0?=
+ =?utf-8?B?WFNFN0JhYTFGL20rVnZVTkFSd3JQMUF0S2orbHQwUUdNaXkrZlRQOUh5M3BJ?=
+ =?utf-8?B?ckl3S3dkMUZOOTRFU0p4NDhURmt2dXFoOFFTak9rajcvQ2tielZ6cG9JMGpY?=
+ =?utf-8?B?Y1VKRllvL25yWEpXOU5xeW5XRmVBMW9ibnk2aU9nZ3BhSjVBb1Nsc0pIMGl1?=
+ =?utf-8?B?aWVmeHczKzZGaFFpWlBvQUNRSmUxejJIWExJdlpZSnlIVUxhYit4YTFMTi9V?=
+ =?utf-8?B?QXVraDBsUXd0c1gySzhaWW4vWFB1SkI4bG5XTXM0SXFyeDV0bXhJL0g2bEE5?=
+ =?utf-8?B?WENxdzFocHVtUEJkR1JickQ0QWNmYUN4bXIrM05sdGNSdnlSNk5pb0FwTEE2?=
+ =?utf-8?B?WEdRZTN4SjY4RENXcWw1RWNaSVVBd2tOc1orcXFReVQ1bklwVEtyWlhpcGdr?=
+ =?utf-8?B?cHc9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b7c3660-6c6f-42bc-cf77-08dd2082c597
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 22:50:41.3721
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 23:13:39.2991
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JuL2nfHVBxuOrybgH419C89+namyC4qwtaulyk6/9Sv6ZB+RH6v+4XA7/BNfB17daQGEnSAxKUjwK0CuQPjfAYKmh3qAxrQY0cVRDN/xevo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7250
-X-Authority-Analysis: v=2.4 cv=I4ufRMgg c=1 sm=1 tr=0 ts=6764a345 cx=c_pps a=YkRwJB1Lcas13D3J5+BQ6w==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=hymz-D8Ecddct5J_:21 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10
- a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=n9SCklZpAAAA:8 a=t7CeM3EgAAAA:8 a=GKorptp6to1jHw70YYQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=B8ibFTVmAAAA:8 a=ca9WJqIlQOw2rjaFYacA:9 a=7-Jx9xdXsA-m24SM:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=MDYma9B3dblYkEs0OMj2:22 a=FdTzh2GWekK77mhwV6Dw:22 a=xvSgdcfEVHFitugM1GHH:22
-X-Proofpoint-GUID: cwIDJc9v4RvZtmtX9dEtAgy8F8xtFC5j
-X-Proofpoint-ORIG-GUID: oBQ5AL4whSDnRZ620c2wi8EoUys8rjXo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-19_11,2024-12-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2412190180
+X-MS-Exchange-CrossTenant-UserPrincipalName: OgyAyNEL+9nbzJ1p0iIi8VDpsoxemtp/QNVA1rfsc4TzGlRpRIl7lgXwl57K5T0xIIOLJ0E20HG1bMhi+Q/d5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8938
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 22:50:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208964
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 23:13:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208965
 
---------------zk9BginY80dLs8uBxPZ38ytZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BJLEkWF002122
+On 12/19/2024 4:41 PM, Alexander Kanavin wrote:
+> On Thu, 19 Dec 2024 at 23:22, Tom Hochstein via lists.openembedded.org
+> <tom.hochstein=oss.nxp.com@lists.openembedded.org> wrote:
+>>
+>> Building weston with core-image-weston SDK fails:
+>> ```
+>> Run-time dependency xcb-cursor found: NO (tried pkgconfig and cmake)
+>>
+>> tests/meson.build:357:2: ERROR: Problem encountered: xcb and xcb-cursor required for running xwayland tests
+>> ```
+>>
+>> Fixed by adding xcb-util-cursor as runtime dependency.
+>> -PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,libxcb libxcursor xcb-util-cursor xwayland"
+>> +PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,libxcb libxcursor xcb-util-cursor xwayland,xcb-util-cursor"
+> 
+> I'm not sure I understand. If the error happens at build time, how is
+> it addressed with a runtime dependency?
+> 
+> Alex
 
-Hi Georgi,
+Good question, I actually made a guess that xcb-util-cursor is missing 
+from the rootfs because nothing actually links to it, so Yocto doesn't 
+automatically add it to the runtime. Adding it explicitly to the runtime 
+forces it into the SDK as well and fixes the above error.
 
-I think this is your first submission to oe-core - thanks for sending it =
-in.
+Tom
 
-As Patchtest pointed out there are some problems we'd like you to fix up=20
-before resending.
-I haven't been using this feature of devtool but your change looks=20
-sensible to me.
-
-On 2024-12-17 5:31 a.m., Patchtest via lists.openembedded.org wrote:
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/Also-check-that-tools-debug-=
-is-not-set-in-IMAGE_FEATURES-to-determine-if-gdbserver-is-missing..patch
->
-> FAIL: test shortlog format: Commit shortlog (first line of commit messa=
-ge) should follow the format "<target>: <summary>" (test_mbox.TestMbox.te=
-st_shortlog_format)
-> FAIL: test shortlog length: Edit shortlog so that it is 90 characters o=
-r less (currently 96 characters) (test_mbox.TestMbox.test_shortlog_length=
-)
-Do those errors make sense Georgi?
-
-
-For shortlog tips, look at:
-=E2=9D=AF git log --oneline=C2=A0 -11 scripts/lib/devtool/
-65950eb601 devtool: ide-sdk recommend DEBUG_BUILD
-b886c26bf8 devtool: ide-sdk sort cmake preset
-fc17808799 devtool: modify support debug-builds
-d31a7718c1 scripts/devtool: use bb.util.listtasks instead of __BBTASKS
-e6e548170a devtool: ide-sdk: fix help typo
-02b52a2de3 devtool: drop useless variables
-43f0c6beaa devtool: menuconfig remove useless code
-2b799fdf26 devtool: drop S =3D WORKDIR workaround
-94ff1be36a devtool: remove obsolete SRCTREECOVEREDTASKS handling
-b0733c440e devtool: modify kernel adds append twice
-4467aa0661 devtool/upgrade: rename RECIPE_UPDATE_EXTRA_TASKS ->=20
-RECIPE_UPGRADE_EXTRA_TASKS
-
-and as Strunk and White said, omit needless words.=C2=A0 ;-)
-
-
-Also for commits, we want to apply the change directly from email so=20
-please omit any greeting
-unless you write a cover letter. Are you sending your patch with git=20
-send-email?
-Have you seen our Contributor's Guide:
-https://docs.yoctoproject.org/contributor-guide/index.html
-
-Below is what happens if I apply your patch/email.
-Hopefully by running git log and comparing your commit to others you can
-get an idea of what is expected but don't get too hung up on it but=20
-rather just
-CC me on your next version and I'll take a look.
-
-Thanks,
-
-../Randy
-
-
-oe-core.git on master
-=E2=9D=AF git am /tmp/devtool-fix.eml
-Applying: Also check that 'tools-debug' is not set in IMAGE_FEATURES to=20
-determine if gdbserver is missing.
-
-=E2=9D=AF git show
-commit 43d08c7eb1297842fa62df55b66a13f109d6ec2d (HEAD -> master)
-Author: Georgi, Tom via lists.openembedded.org=20
-<tom.georgi=3Dkarlstorz.com@lists.openembedded.org>
-Date:=C2=A0=C2=A0 Tue Dec 17 05:16:08 2024
-
- =C2=A0=C2=A0=C2=A0 Also check that 'tools-debug' is not set in IMAGE_FEA=
-TURES to=20
-determine if gdbserver is missing.
-
- =C2=A0=C2=A0=C2=A0 Hi all,
- =C2=A0=C2=A0=C2=A0 While using the relatively new devtool subcommand 'id=
-e-sdk', I=20
-noticed that the gdbserver is listed as missing because it was not=20
-explicitly listed in IMAGE_INSTALL.
- =C2=A0=C2=A0=C2=A0 According to the documentation, it is also installed =
-by the image=20
-feature 'tools-debug'.
- =C2=A0=C2=A0=C2=A0 Therefore, you should not only check whether 'gdbserv=
-er' is not in=20
-'IMAGE_INSTALL', but also whether 'tools-debug' is not in IMAGE_FEATURES.
-
- =C2=A0=C2=A0=C2=A0 Best regards
- =C2=A0=C2=A0=C2=A0 Tom Georgi
-
- =C2=A0=C2=A0=C2=A0 Signed-off-by: Georgi, Tom <tom.georgi@karlstorz.com>
-
->
-> PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_b=
-y_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_mess=
-age_presence)
-> PASS: test commit message user tags (test_mbox.TestMbox.test_commit_mes=
-sage_user_tags)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_le=
-ngth)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_=
-list)
->
-> SKIP: pretest src uri left files: No modified recipes, skipping pretest=
- (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> SKIP: test CVE check ignore: No modified recipes or older target branch=
-, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.Te=
-stPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_=
-patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (tes=
-t_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.t=
-est_bugzilla_entry_format)
-> SKIP: test lic files chksum modified not mentioned: No modified recipes=
-, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modifie=
-d_not_mentioned)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (=
-test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_meta=
-data.TestMetadata.test_license_presence)
-> SKIP: test series merge on head: Merge test is disabled for now (test_m=
-box.TestMbox.test_series_merge_on_head)
-> SKIP: test src uri left files: No modified recipes, skipping pretest (t=
-est_metadata.TestMetadata.test_src_uri_left_files)
-> SKIP: test summary presence: No added recipes, skipping test (test_meta=
-data.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug athttps://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see:https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208830):https://lists.openembedded.org/g/openembedd=
-ed-core/message/208830
-> Mute This Topic:https://lists.openembedded.org/mt/110160631/3616765
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
-andy.macleod@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------zk9BginY80dLs8uBxPZ38ytZ
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4BJLEkWF002122
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">Hi Georgi,</div>
-    <div class=3D"moz-cite-prefix"><br>
-    </div>
-    <div class=3D"moz-cite-prefix">I think this is your first submission
-      to oe-core - thanks for sending it in.<br>
-    </div>
-    <div class=3D"moz-cite-prefix"><br>
-    </div>
-    <div class=3D"moz-cite-prefix">As Patchtest pointed out there are som=
-e
-      problems we'd like you to fix up before resending. <br>
-      I haven't been using this feature of devtool but your change looks
-      sensible to me.<br>
-    </div>
-    <div class=3D"moz-cite-prefix"><br>
-    </div>
-    <div class=3D"moz-cite-prefix">On 2024-12-17 5:31 a.m., Patchtest via
-      lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:01010193d42c17c6-6e80daa6-d4bb-=
-48d9-bb9c-1d5a0b06b036-000000@us-west-2.amazonses.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">Thank you for your submissio=
-n. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/Also-check-that-tools-debug-is=
--not-set-in-IMAGE_FEATURES-to-determine-if-gdbserver-is-missing..patch
-
-FAIL: test shortlog format: Commit shortlog (first line of commit message=
-) should follow the format &quot;&lt;target&gt;: &lt;summary&gt;&quot; (t=
-est_mbox.TestMbox.test_shortlog_format)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or =
-less (currently 96 characters) (test_mbox.TestMbox.test_shortlog_length)<=
-/pre>
-    </blockquote>
-    Do those errors make sense Georgi?<br>
-    <p><br>
-      For shortlog tips, look at:<br>
-      =E2=9D=AF git log --oneline&nbsp; -11 scripts/lib/devtool/<br>
-      65950eb601 devtool: ide-sdk recommend DEBUG_BUILD<br>
-      b886c26bf8 devtool: ide-sdk sort cmake preset<br>
-      fc17808799 devtool: modify support debug-builds<br>
-      d31a7718c1 scripts/devtool: use bb.util.listtasks instead of
-      __BBTASKS<br>
-      e6e548170a devtool: ide-sdk: fix help typo<br>
-      02b52a2de3 devtool: drop useless variables<br>
-      43f0c6beaa devtool: menuconfig remove useless code<br>
-      2b799fdf26 devtool: drop S =3D WORKDIR workaround<br>
-      94ff1be36a devtool: remove obsolete SRCTREECOVEREDTASKS handling<br=
->
-      b0733c440e devtool: modify kernel adds append twice<br>
-      4467aa0661 devtool/upgrade: rename RECIPE_UPDATE_EXTRA_TASKS -&gt;
-      RECIPE_UPGRADE_EXTRA_TASKS<br>
-    </p>
-    <p>and as Strunk and White said, omit needless words.&nbsp; ;-)</p>
-    <p><br>
-    </p>
-    <p>Also for commits, we want to apply the change directly from email
-      so please omit any greeting<br>
-      unless you write a cover letter. Are you sending your patch with
-      git send-email?<br>
-      Have you seen our Contributor's Guide:<br>
-      &nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" href=3D"https://doc=
-s.yoctoproject.org/contributor-guide/index.html">https://docs.yoctoprojec=
-t.org/contributor-guide/index.html</a><br>
-      <br>
-    </p>
-    <p>Below is what happens if I apply your patch/email.<br>
-      Hopefully by running git log and comparing your commit to others
-      you can<br>
-      get an idea of what is expected but don't get too hung up on it
-      but rather just<br>
-      CC me on your next version and I'll take a look.</p>
-    <p>Thanks,<br>
-    </p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <p>oe-core.git on master<br>
-      =E2=9D=AF git am /tmp/devtool-fix.eml <br>
-      Applying: Also check that 'tools-debug' is not set in
-      IMAGE_FEATURES to determine if gdbserver is missing.<br>
-      <br>
-      =E2=9D=AF git show<br>
-      commit 43d08c7eb1297842fa62df55b66a13f109d6ec2d (HEAD -&gt;
-      master)<br>
-      Author: Georgi, Tom via lists.openembedded.org
-      <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:tom.georgi=3Dkarl=
-storz.com@lists.openembedded.org">&lt;tom.georgi=3Dkarlstorz.com@lists.op=
-enembedded.org&gt;</a><br>
-      Date:&nbsp;&nbsp; Tue Dec 17 05:16:08 2024<br>
-      <br>
-      &nbsp;&nbsp;&nbsp; Also check that 'tools-debug' is not set in IMAG=
-E_FEATURES to
-      determine if gdbserver is missing.<br>
-      &nbsp;&nbsp; &nbsp;<br>
-      &nbsp;&nbsp;&nbsp; Hi all,<br>
-      &nbsp;&nbsp;&nbsp; While using the relatively new devtool subcomman=
-d 'ide-sdk', I
-      noticed that the gdbserver is listed as missing because it was not
-      explicitly listed in IMAGE_INSTALL.<br>
-      &nbsp;&nbsp;&nbsp; According to the documentation, it is also insta=
-lled by the
-      image feature 'tools-debug'.<br>
-      &nbsp;&nbsp;&nbsp; Therefore, you should not only check whether 'gd=
-bserver' is
-      not in 'IMAGE_INSTALL', but also whether 'tools-debug' is not in
-      IMAGE_FEATURES.<br>
-      &nbsp;&nbsp; &nbsp;<br>
-      &nbsp;&nbsp;&nbsp; Best regards<br>
-      &nbsp;&nbsp;&nbsp; Tom Georgi<br>
-      &nbsp;&nbsp; &nbsp;<br>
-      &nbsp;&nbsp;&nbsp; Signed-off-by: Georgi, Tom <a class=3D"moz-txt-l=
-ink-rfc2396E" href=3D"mailto:tom.georgi@karlstorz.com">&lt;tom.georgi@kar=
-lstorz.com&gt;</a><br>
-      <br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:01010193d42c17c6-6e80daa6-d4bb-=
-48d9-bb9c-1d5a0b06b036-000000@us-west-2.amazonses.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_=
-presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_messag=
-e_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_messa=
-ge_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_leng=
-th)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_li=
-st)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (=
-test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, =
-skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.Test=
-Patch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_pa=
-tch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_=
-patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.tes=
-t_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, =
-skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_=
-not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (te=
-st_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metada=
-ta.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbo=
-x.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (tes=
-t_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metada=
-ta.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at <a class=3D"moz-txt-link-freetext" href=3D"https://bugzilla.yoctop=
-roject.org/">https://bugzilla.yoctoproject.org/</a> (use the 'Patchtest' =
-category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: <a class=3D"moz-txt-link-freetext" href=3D"https://wiki.yo=
-ctoproject.org/wiki/Patchtest">https://wiki.yoctoproject.org/wiki/Patchte=
-st</a>. Thank
-you!
-</pre>
-      <br>
-      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
-      <pre wrap=3D"" class=3D"moz-quote-pre">-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
--=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#208830): <a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/208830">https:/=
-/lists.openembedded.org/g/openembedded-core/message/208830</a>
-Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.openembedded.org/mt/110160631/3616765">https://lists.openembedded.org/mt=
-/110160631/3616765</a>
-Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
-edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
-enembedded.org</a>
-Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
-nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
-/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
-"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------zk9BginY80dLs8uBxPZ38ytZ--
 
