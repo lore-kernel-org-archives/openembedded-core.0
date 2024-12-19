@@ -1,248 +1,200 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B71E77184
-	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 09:17:12 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.125833.1734599829382149256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A91E77184
+	for <webhook@archiver.kernel.org>; Thu, 19 Dec 2024 09:23:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.126126.1734600218486846798
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 01:17:09 -0800
+ Thu, 19 Dec 2024 01:23:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FEHAICrQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffd6b7d77aso7386861fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 01:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734599827; x=1735204627; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/fmUZV9uPymiKXu6rCdyfk8+DbQgYEjhznQN2XK0OKg=;
-        b=FEHAICrQEMdOsbXXd9qqrU5vKa6d/o5ZnIwPd7Z8z+srpqV8Pjo2mFlto7rw8zq+LT
-         7jjVDcC9b2kQJTdwfFjefZvRLbXlOxj2zV5gvBL5blDpStuou+I8a22cKEHr7wFtT8tf
-         w5oK7xdpbbePjroqYCsxjjO3RSdBcGq4OHLaT3XpK6DuC/rWwNDT8HjZhXr+oUr4oFxk
-         7oCA7soy0WciUyTIWy36iaonhhruCoOu5BKcfUZRENT05uLaRnwx+MdVDQJPxaMYjOT7
-         VJQOwXawil6WuKmmzSKDAlYXfBQuMajhRjwNVtg1Rxv7tZaeBpsBRgCUYOFW1H9WyZ5y
-         I1kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734599827; x=1735204627;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/fmUZV9uPymiKXu6rCdyfk8+DbQgYEjhznQN2XK0OKg=;
-        b=W67Sk30BHadSan/vNlpSLmce6Tu4xSnkJuL+azH8LtqUtBeCKxDV9tKKJOjhUXrV4P
-         McA9l+B6ISIu0EFJJqmaEWydM5P+Q6Mzhzb/MPLusEMFpFgFOkkjHDJPaNoB/r+71Pu0
-         903xw7N5jwqicvaLGYtqoz3m8Y+Q9r6KfzB9uucdx6i3GYGTSnZ0th74sR0IVIiijfht
-         HxCo4m00AplF8CIL+TNddfzw4/p1QxWgWbr6yeyLpsnu/DQK63TCOrlw4U7XSuirTpXt
-         hYE9XA+AfEYnmFNGkIQWGyxKicFgz9O16gtsQa/NZYx128VxsYv5N9hUqBzAbOfyk0HR
-         2Kiw==
-X-Gm-Message-State: AOJu0YzsU4cvnltxoerWS4csF4kJyF7Z3MiQ5gVUsNQsd/iz7RC9GA+R
-	ae8zAOJeN0CIjw1i1XriN3UXkiA9Cnf3PPPV2J4BX4Tnca3yJGIB1QSIFo3fB5ehyL9q5hsUorl
-	WRbegMQ4EHRysGXfcL4jSzHTwtngoHK6b
-X-Gm-Gg: ASbGncvwZg8dOpXDVvp3toknINAU9l0Srls44mVfqWq4OWwmAXmfYZYls6/W5JU6pKi
-	TF4fA7KCe4IWN4q+yJNdSgt+WvUgcLmfsYk08EaOy
-X-Google-Smtp-Source: AGHT+IEkWbjgJpyahatNFtpRhh/nHr49tSss6ekHGyd0+To4soJrh8RDJClWyzEbSiT74mef3Xc6VTzROoanNYpmNfM=
-X-Received: by 2002:a2e:bc12:0:b0:302:3ff6:c8c6 with SMTP id
- 38308e7fff4ca-3044db68d6dmr21469651fa.33.1734599827118; Thu, 19 Dec 2024
- 01:17:07 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=20834194c1=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJ7ntJE014774
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:37 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2049.outbound.protection.outlook.com [104.47.55.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43h1095jy7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:37 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qo5FmfdS9Tq2CUS0g5MEFAG2MaWatXTKZxLTTkxRLVJ0LFgqsSCktsAhiPo9V70KCaLinX6WtHD3Sef/hwG1NMUX4a+0haGS9aRkxcSvaUmGS2hUQ5UsCOfoIEjyJZDZRs+54EC7S3QLiTs+23HZHBKPfb0ZvKlKBnNOAbhgqtdgXpisotcFk78FrkZwYEFWR2y1jzJFS9H9/xFwlTbIeto15BwIxvuSddzQFBCmmsvzjmkGOLiW94E2wIIK7kHcaZlatUmNmyGdo4arSPPKxawYeuNoodZIVB6UzmRp3xLoifMTAy+hEGZXDHU/Q0UYbkXLPWc7RvMbIh9LnCF0ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=twwAwLqwaJLgf3Tum3qjL6QAewX9bqBEJl1jeA8+tXo=;
+ b=zAVxrLqd3Q1EC9T4Mpk33JHgiJv/n/BNBjYP2F9yTWkWCRAVDoK49niS3F3uyfmTlSgj6oRgqoG63OoH+U4S+VzuWl+sjBQpiEcpCBBqo+KrRgu3I9vetucfunh9uvAUo5dqkfa1s3jraDVoDHpg+uqZWamuNmwDzgtEEfP/AOoPu/YJoyZaijvhkd2nspV2YqXwJ093W0rZ8QqmRrgOKsS1MIIyCvsEnNIM8UhrmOZbootu7mdZOYRHogeMI4Yfvc8GGriu5GflGZBNvgfuGLhk97SG5co9RfajyrAoSSqLgO+rEnNnv6GquQIM7AbwITIRcuN6TRvQ3fSRRX/d8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SA1PR11MB6871.namprd11.prod.outlook.com (2603:10b6:806:2b1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.14; Thu, 19 Dec
+ 2024 09:23:33 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8272.013; Thu, 19 Dec 2024
+ 09:23:32 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] oe-pkgdata-util: avoid glibc-locale being mapped out by glibc packages
+Date: Thu, 19 Dec 2024 01:23:19 -0800
+Message-Id: <20241219092319.3800319-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH8PR20CA0010.namprd20.prod.outlook.com
+ (2603:10b6:510:23c::7) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <cover.1734553652.git.steve@sakoman.com> <d87597ebbafa1ec77c21c72c9d3183e00ad9985b.1734553652.git.steve@sakoman.com>
-In-Reply-To: <d87597ebbafa1ec77c21c72c9d3183e00ad9985b.1734553652.git.steve@sakoman.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 19 Dec 2024 10:16:52 +0100
-Message-ID: <CA+chaQdGJn3tm3Cs_aG0un2HgHOXqEvM7YG5z9pA+HTrAUbb3Q@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 10/10] rust: add reproducibility patch to
- eliminate host leakage
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SA1PR11MB6871:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5fa12338-4bea-4b38-548f-08dd200ecdda
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?YLDAE/v4oldP9cGKwrrVbwhREwk4WSyvfjywJxjwQzFT0Pkcc4S5/p3Vkn83?=
+ =?us-ascii?Q?HoqYHdye+NVSwTmu35rvrYPnu7DeF125tzgIjUplRMY99+b27CwDgl0kD5d/?=
+ =?us-ascii?Q?W1+u4GLm7u5qwPGUx1EWXcLQ4+54srBdG0UwBgxA/vXBnZ+6blAYTus7yCHE?=
+ =?us-ascii?Q?J7iOPEZEPF3kzJ/oAz4KTNzztHRmmq8BTrNxTT9BEDi2JYaxaUVglHUpj3CP?=
+ =?us-ascii?Q?wl2TV2wTqD90M+zRwLUlerqQAVPVqNVuhsOZeOk37cIA6nZ/0CrIj/uB5TlN?=
+ =?us-ascii?Q?UTbqRYJqfFKqrITg9BvuSzCuw7HfV0q9bafBxGsncQ48WBYynuFsf+Xlh9vI?=
+ =?us-ascii?Q?c20ASiwCBjnSijCLWVMIuIRuvhg3utlr755Ka2/apLnAdibWyEOvy6wlX8LA?=
+ =?us-ascii?Q?vdxopixrpYPbEx2KOZviN9G8xZ6vToE3e81V9Y6BmX1CHneNROI2pugdiMzo?=
+ =?us-ascii?Q?gZHG6ye0d7t0VosZjwFbYapL3WbJ20uJsI+Y1QSnvUkjWnOuGRGZcBIzv9aU?=
+ =?us-ascii?Q?saQRjnwxqQfGCtQ//KXvmV7FxZXwZtiyHEdPkUOJn99H5uEcntOri/7XkBMC?=
+ =?us-ascii?Q?+c5MpGjuxkPlY/vEuaqA2GwK5D3/OWyLpdVxMANedOzzsSijdK0oWhtBXRJv?=
+ =?us-ascii?Q?a8IQ8Op1aqWRVnlb4aQlw9IfHSpkZzLKMZPRAJmMVvBSo5pn5IZz5dc82AHO?=
+ =?us-ascii?Q?XwwxdgnPdvjDxqcAuf58P0FnO2Q7uRNYi1KNEjrGJaI+gS2GvGJIpjGUxmVj?=
+ =?us-ascii?Q?uHMo+3yg7zZdWE5fp30riGkCU0zEnJCV13fe4ZyWgO4p/6UfD1RGV1e86RWa?=
+ =?us-ascii?Q?B7PJFPGSA4BCVGXuu3hSX1ZLrGHYZ1TGu8XNIGuOFHDQZIK8YUPdft7E6iu+?=
+ =?us-ascii?Q?LPQtmBlFU9HsRxFVfjZd80lSlvjdQPf2K7jvR+QWaQJ1vcUD9OeB9NziAoBA?=
+ =?us-ascii?Q?v5wJpr4rQEElroaCqI9IjqQ2IcSdfEGv2V29doGWojWE5abzuXU5ZETnr7+e?=
+ =?us-ascii?Q?SEDCT7wLyAleh6EJ5aewhgkxRtamNza3YmhmrEuHrBx7tT9sjRsax02Ey7Ep?=
+ =?us-ascii?Q?w31g+r05420qe2OYuNfm3+MwLR2Q7sFlqTB9VrzV40gVpkD93SIx65TGoNd/?=
+ =?us-ascii?Q?5EJnY06Zj4wSyw66uyDbH2k4cg32jgWWNFDq2Kf8l18XjKwON/AI5OL3UDQV?=
+ =?us-ascii?Q?SRo1iRwFNUwzCUfeZIwh2GZVKx6ypELV7BfDa37i9IymscMFPGahY1+VKBsm?=
+ =?us-ascii?Q?9xwMvn7hw5ohOZW52jPXGvo2jC8eelGNc9r9ZVZfMuAyvM2UkFCw0xAhw6DX?=
+ =?us-ascii?Q?s0dHur1SszHjlj2cnGfGzzkGv0PqjD5AxSreXa3TI8ICNeWz9GSJo3v9PbDT?=
+ =?us-ascii?Q?w+8HRCsHPexXB85sgZWs6RcOl2MmYbP7P3GiLGkR9YIZDn+COALkvgSRwS/p?=
+ =?us-ascii?Q?AHPElJXbNW/3a4ONDOKvzyMXwo6rpXa8?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?cUfurVYAFJgs4c/TqFg7z/x+6bpmgxPCSmDlCCBZ1vNQUjU7AFVMjmvAB/gm?=
+ =?us-ascii?Q?MVtkZXtKdjf5CEjT+SEPy2/nlw2iPwxUerZSyqMqjEqLfn5kUOZ/1TvQTRKf?=
+ =?us-ascii?Q?Y/pTsV0/E0afSwVYnWfuLlyNJZKgLgpPXV7KbIDYUSFfWnssaUBz5KGC8s8C?=
+ =?us-ascii?Q?ixCMWE07AjWc161m0nA2lwxMLMPztfJvU4NcZaqkiHYV4EMmi/uvhD6n6+nD?=
+ =?us-ascii?Q?n/uCb5y+U+6q+LkAkAka+RIEORkKhrmwQevSXd7/N1ohQ4HTXiF/Kf0kOYpi?=
+ =?us-ascii?Q?6GnUFF/nmWYmhSxzzvEc5rjOoe0nPgv92iMHqXC4jUuItgjZeLoTU3KX9CNn?=
+ =?us-ascii?Q?5I1YQfEo1upKmDxI+McMZiS+7O9Bv8Lyb5/ImLbw2Q8VVLZmMsKR4/fG0d8+?=
+ =?us-ascii?Q?GC9Y/JUIxOhUcAl2A3gp2eR3OzvH9oqFGybf0g2K4AZKf7rCDPs6o8roBb7Z?=
+ =?us-ascii?Q?Q1vSoQADJbud4NmEfc8tliP0Reh7AbzJTbhysxPU1XD0QUBuMfqZaF+qoJx1?=
+ =?us-ascii?Q?ffhy3zQDlEVMV7GZL+4t0lcJIFck9H2V/nRnimwk3vUWWHtIL49YA5xVJHs8?=
+ =?us-ascii?Q?A7jaY24O5FIjUAhA8potAC3aqOay7N0pQ9XGxF00q1khoSjBepQTWT7VY7S/?=
+ =?us-ascii?Q?/FX8E0k1Zw8C+thKUonv7w1CWNc/8UXq46htkZbvosi/lX5TyBgQc1DeTE5N?=
+ =?us-ascii?Q?ISJRNrPIICi3M8rpsBVVB9XIn721MOugzM8VtFiSlo/ehFP4BGJ77Pq/ctf5?=
+ =?us-ascii?Q?gv3vqeWlARx9oKbZWIPqdfbT9MolH6K3gK2O3cvdQ6y+FmGHGL6hHZ73nQmQ?=
+ =?us-ascii?Q?kDpQKuIyIqvbptNshpCByjGDsEwjatOxUbj39vJxvJzmqEHCJZwzF6gE/5/F?=
+ =?us-ascii?Q?blArkEltbaNm+BpDxqWByrjkS21ItB/Be1SNmEZmPIf3QknmEPeEHUY/3hYl?=
+ =?us-ascii?Q?HmbCCxYmgyVWLBBitN2Hh/UhbbRmsKTHDHyXNodw6zh0hRXz4O1ggQ17qwLU?=
+ =?us-ascii?Q?jEozWcYm9HoAjs6oReU7q3FfrTOeHLRqlT9CB7/yI5eQtxluiaeIzAL1aRL6?=
+ =?us-ascii?Q?9AE+TJ+jA5oqtF1y+YL2mQPu5u1qprcJ8omy8lJ9zFJ1V8M+D9VE3eRDq0nu?=
+ =?us-ascii?Q?b1HLKtWHHB8c6+TmglQYo30aPkIKuD81VkRFxefTnjcsn1UIlLPKClmb9AVP?=
+ =?us-ascii?Q?6hNuCIehDMkS9AvGWAf41BBwT6/uOap/tgUyb+2nFhIUnn67MtOSQbeDt9G2?=
+ =?us-ascii?Q?NoLDTLFtzeWFMyQZ9wdQ3lRdHTE9fBpw2OUNTGG4SUF8Ww8XcI8r2V8rsBW+?=
+ =?us-ascii?Q?EDSSRGlkgRdY18B9etj5oX7GXfZhdutw0ACfzYFS9YFI0N+vC98oI5H1MMbc?=
+ =?us-ascii?Q?LUsemckjaFfgMrubaW3LyZY8ZCNu6X42VHEbotf/fYMNEbVPJNyktvaXXoUg?=
+ =?us-ascii?Q?HQ8HPG2nCBvHCX2EFFqXd9G4Z2wWyx7n9Tw0jFVQ7drU8QeKgm0j0FjAwcYK?=
+ =?us-ascii?Q?Xosx1GJrPUy8navlDOHXyKLmzrTHWQhl8jf1UhpIUFcfjU5i2IfpKz0Sl2Xf?=
+ =?us-ascii?Q?LlcdFAm7KDQAt3JlKxa9EdkWnoGaHO6qE/fIlQvD?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa12338-4bea-4b38-548f-08dd200ecdda
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 09:23:31.3050
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7WbFdiYskpHNYYaevAghFlbB1UuOcZIRu3rOpstxSJhuklOipDlO/dtPvW+Dup0m3zWArY8TZJJdCsxiXAOkvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6871
+X-Authority-Analysis: v=2.4 cv=bp62BFai c=1 sm=1 tr=0 ts=6763e619 cx=c_pps a=OxY2RB2sa7x8oI2LU21LDQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=D82hjbkxm0GsMeQaPhgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: ojzMXiwFcPdqoz_3jHxD3eATk7ee9H8O
+X-Proofpoint-GUID: ojzMXiwFcPdqoz_3jHxD3eATk7ee9H8O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-19_04,2024-12-18_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412190075
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:17:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208901
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Dec 2024 09:23:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208902
 
-Small reminder for people doing incremental builds and having
-similarly short memory as me.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-This might cause errors like:
+oe-pkgdata-util's glob command will output different results depending
+on whether glibc-locale is built or not. This in turn results in do_rootfs
+error when multilib is enabled.
 
-error[E0464]: multiple candidates for `rmeta` dependency `core` found
-  |
-  =3D note: candidate #1:
-lib32-python3-bcrypt/4.1.2/lib32-recipe-sysroot/usr/lib/rustlib/armv7-webos=
-mllib32-linux-gnueabi/lib/libcore-0efa44efb479c482.rmeta
-  =3D note: candidate #2:
-lib32-python3-bcrypt/4.1.2/lib32-recipe-sysroot/usr/lib/rustlib/armv7-webos=
-mllib32-linux-gnueabi/lib/libcore-6dc2d356d81e0fd8.rmeta
+The error message is like below:
 
-in all recipes using rust.
+  No match for argument: lib32-glibc-locale-en-gb
+  Error: Unable to find a match: lib32-glibc-locale-en-gb
 
-If you see this, then easiest work around is to cleansstate libstd-rs
-(lib32-libstd-rs with multilib) and all failing recipes and start
-again. Ideally help to fix it properly.
+Here are the steps to reproduce the issue:
+1. Enable multilib and install a lib32 application by adding the following
+   lines to local.conf:
+   require conf/multilib.conf
+   MULTILIBS ?= "multilib:lib32"
+   DEFAULTTUNE:virtclass-multilib-lib32 ?= "core2-32"
+   IMAGE_INSTALL:append = " lib32-sysstat"
+2. bitbake lib32-glibc-locale
+   Note that people usually don't deliberately build lib32-glibc-locale,
+   but they will do world build. And when so do so, the following step fails.
+3. bitbake core-image-full-cmdline
 
-From:
-#yocto/2024-05-29.log
+The problem happened because do_rootfs will first form its own repo by finding
+dependencies. glibc-locale will be brought in because of IMAGE_LINGUAS. But
+lib32-glibc-locale will not be brought in. And in install_complementary,
+oe-pkgdata-util will use its glob command to find all complememtary packages
+for IMAGE_LINGUAS, such as "*-locale-en-gb". Then we get the above error.
 
-13:24 < JaMa> anyone seeing "error[E0464]: multiple candidates for
-`rmeta` dependency `core` found" for various dependencies in rust
-recipes (after the update from yesterday), libstd-rs now provides
-multiple versions in incremental build (unless you explicitly rebuild
-from scratch after -c cleansstate) kanavin_ have you seen this before?
-13:24 < JaMa> buildhistory-diff -p buildhistory
-13:24 < JaMa> packages/raspberrypi4_64-webos-linux/libstd-rs/libstd-rs-dev:
-PKGSIZE changed from 304061571 to 160359626 (-47%)
-13:24 < kanavin_> JaMa, incremental builds in rust are broken
-13:25 < JaMa> whole buildhistory-diff after rebuilding with
-cleansstate https://dpaste.com/EZGZ4PAYT
-13:25 < kanavin_> it doesn't clean itself properly
-13:25 < JaMa> ok, haven't seen this one before, so I guess I was lucky, tha=
-nks
-13:36 < RP> kanavin_: do we know what isn't cleaned properly in the rust bu=
-ilds?
-13:42 < kanavin_> RP: I'm not sure. If JaMa can provide a reproducer I
-can take a look.
-14:07 < JaMa> in my case today it was libstd-rs (I had to cleansstate
-all its users as well after rebuilding it, but the culprint was
-duplicated files installed and staged by libstd-rs)
-14:08 < RP> I've seen this kind of issue before but couldn't reproduce it :=
-/
-14:09 < JaMa> I'll try, because I'm pretty sure I've built libstd-rs
-from scratch yesterday and today it was rebuilt because of the last 4
-commits currently in master (so I guess if I checkout HEAD~5, build
-libstd-rs, checkout master, build it again than I might see the issue)
-14:28 < JaMa> hmm this trivial reproducer didn't work
-14:29 < JaMa> libstd-rs-1.75.0-r0 was rebuilt from do_fetch after
-updating oe-core (and cleaning dirs while doing so)
-14:58 < RP> JaMa: sounds like what I ran into last time :/
+glibc-locale has its own recipe and which to install into an image is
+determined by IMAGE_LINGUAS. So let's not map any glibc packages out
+to glibc-locale in oe-pkgdata-util.
 
-Cheers,
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ scripts/oe-pkgdata-util | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On Wed, Dec 18, 2024 at 11:03=E2=80=AFPM Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> [YOCTO #15185]
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 924df18b47e9a69fa295bafe37bdb39d8eaea2bb)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  ...te-host-information-into-compilation.patch | 51 +++++++++++++++++++
->  meta/recipes-devtools/rust/rust-source.inc    |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-devtools/rust/files/0001-cargo-do-not-wr=
-ite-host-information-into-compilation.patch
->
-> diff --git a/meta/recipes-devtools/rust/files/0001-cargo-do-not-write-hos=
-t-information-into-compilation.patch b/meta/recipes-devtools/rust/files/000=
-1-cargo-do-not-write-host-information-into-compilation.patch
-> new file mode 100644
-> index 0000000000..a6ee867605
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rust/files/0001-cargo-do-not-write-host-infor=
-mation-into-compilation.patch
-> @@ -0,0 +1,51 @@
-> +From 065d7c263091118437465d714d8a29dbb6296921 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Mon, 13 May 2024 14:57:54 +0200
-> +Subject: [PATCH] cargo: do not write host information into compilation u=
-nit
-> + hashes
-> +
-> +This breaks reproducibility in cross-builds where the cross-target
-> +can be the same, but build hosts are different, as seen with
-> +"rustc --version -v":
-> +...
-> +host: x86_64-unknown-linux-gnu
-> +
-> +vs.
-> +
-> +host: aarch64-unknown-linux-gnu
-> +
-> +This can possibly be improved by only hashing host info if the build
-> +is a native one (e.g. there's no --target option passed to cargo
-> +invocation) but I'm not sure how.
-> +
-> +Upstream-Status: Inappropriate [reported at https://github.com/rust-lang=
-/cargo/issues/13922]
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +---
-> + .../src/cargo/core/compiler/context/compilation_files.rs      | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/tools/cargo/src/cargo/core/compiler/context/compilation=
-_files.rs b/src/tools/cargo/src/cargo/core/compiler/context/compilation_fil=
-es.rs
-> +index d83dbf10c..b2ad8d9f3 100644
-> +--- a/src/tools/cargo/src/cargo/core/compiler/context/compilation_files.=
-rs
-> ++++ b/src/tools/cargo/src/cargo/core/compiler/context/compilation_files.=
-rs
-> +@@ -652,7 +652,7 @@ fn hash_rustc_version(bcx: &BuildContext<'_, '_>, ha=
-sher: &mut StableHasher) {
-> +     if vers.pre.is_empty() || bcx.config.cli_unstable().separate_nightl=
-ies {
-> +         // For stable, keep the artifacts separate. This helps if someo=
-ne is
-> +         // testing multiple versions, to avoid recompiles.
-> +-        bcx.rustc().verbose_version.hash(hasher);
-> ++        //bcx.rustc().verbose_version.hash(hasher);
-> +         return;
-> +     }
-> +     // On "nightly"/"beta"/"dev"/etc, keep each "channel" separate. Don=
-'t hash
-> +@@ -665,7 +665,7 @@ fn hash_rustc_version(bcx: &BuildContext<'_, '_>, ha=
-sher: &mut StableHasher) {
-> +     // Keep "host" since some people switch hosts to implicitly change
-> +     // targets, (like gnu vs musl or gnu vs msvc). In the future, we ma=
-y want
-> +     // to consider hashing `unit.kind.short_name()` instead.
-> +-    bcx.rustc().host.hash(hasher);
-> ++    //bcx.rustc().host.hash(hasher);
-> +     // None of the other lines are important. Currently they are:
-> +     // binary: rustc  <-- or "rustdoc"
-> +     // commit-hash: 38114ff16e7856f98b2b4be7ab4cd29b38bed59a
-> +--
-> +2.39.2
-> +
-> diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-de=
-vtools/rust/rust-source.inc
-> index 8a8e48b8ca..55ea1b77e6 100644
-> --- a/meta/recipes-devtools/rust/rust-source.inc
-> +++ b/meta/recipes-devtools/rust/rust-source.inc
-> @@ -13,6 +13,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-$=
-{RUST_VERSION}-src.tar.xz;n
->              file://target-build-value.patch;patchdir=3D${RUSTSRC} \
->              file://0001-Handle-vendored-sources-when-remapping-paths.pat=
-ch;patchdir=3D${RUSTSRC} \
->              file://repro-issue-fix-with-v175.patch;patchdir=3D${RUSTSRC}=
- \
-> +            file://0001-cargo-do-not-write-host-information-into-compila=
-tion.patch;patchdir=3D${RUSTSRC} \
->  "
->  SRC_URI[rust.sha256sum] =3D "4526f786d673e4859ff2afa0bab2ba13c918b796519=
-a25c1acce06dba9542340"
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208890): https://lists.openembedded.org/g/openembedde=
-d-core/message/208890
-> Mute This Topic: https://lists.openembedded.org/mt/110188795/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 44ae40549a..9fb7952c58 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -136,6 +136,10 @@ def glob(args):
+                         logger.debug("%s is not a valid package!" % (pkg))
+                         break
+ 
++                # we don't want glibc-locale to be mapped out by any glibc package, filter it out
++                if "glibc-locale" in mappedpkg:
++                    mappedpkg = ""
++
+                 if mappedpkg:
+                     logger.debug("%s (%s) -> %s" % (pkg, g, mappedpkg))
+                     mappedpkgs.add(mappedpkg)
+-- 
+2.25.1
+
 
