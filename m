@@ -1,83 +1,114 @@
-Return-Path: <tom.georgi@karlstorz.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D6CE77188
-	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 11:44:31 +0000 (UTC)
-Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
- by mx.groups.io with SMTP id smtpd.web11.150006.1734695064902241809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE6DE77188
+	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 12:12:02 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.150812.1734696716480536060
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Dec 2024 03:44:25 -0800
+ Fri, 20 Dec 2024 04:11:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=T16Vu969;
- spf=pass (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: tom.georgi@karlstorz.com)
-Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
-	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BK7Xc1i015360;
-	Fri, 20 Dec 2024 11:44:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=0DC7C
-	hh8DD4mGMsNtwfhnHnY12dL8kzUZg/mpj10Cgs=; b=T16Vu9691TgQwUEs8o2Fz
-	gczS7I9ZGI881zPfPuVNoGJLdGo3IvyzyBBSQ01PMpzm1KJLrT4yprLdO1D5ksxa
-	8YqLQ4VkjlnCV7xfXN+dsZ3MC5lPQbuF1g0TzZIiOFI000EvZrmc7Jw5jKEVyP2M
-	ahSwOk92fB4If91b3FPspHW9gn1I0dCW9di/oW/SHrt+JU1hqJvlBo8hHJ9dbODA
-	H1wh8OgivLCtZYDz/NJWC48EqQ/xS4EQaeSCd39+YA2OmfPuLbiSXuSoNfSkMPBR
-	To+VYHpxvIyW6HLmncBml1JQptxxAVKgEJAA2I++iDKp+enTVGJ4dDVra/M2ithC
-	A==
-Received: from tut-ex22-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
-	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 43n496hsb3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 11:44:22 +0000 (GMT)
-Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX22-PV.KSTG.corp
- (10.0.10.226) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 20 Dec
- 2024 12:44:21 +0100
-Received: from schn-8kmdb54.kstg.corp (10.0.10.41) by
- InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 20 Dec 2024 12:44:21 +0100
-From: "Georgi, Tom" <tom.georgi@karlstorz.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <randy.macleod@windriver.com>, "Georgi, Tom" <tom.georgi@karlstorz.com>
-Subject: [PATCH] devtool: ide-sdk: check 'tools-debug' for gdbserver
-Date: Fri, 20 Dec 2024 12:43:39 +0100
-Message-ID: <20241220114337.774784-3-tom.georgi@karlstorz.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: vRy4Pc6PaSCKDfM1KEWteNb6gB_BovI1
-X-Proofpoint-GUID: vRy4Pc6PaSCKDfM1KEWteNb6gB_BovI1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-23_16,2024-08-23_01,2024-05-17_01
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OdxeBvNs;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: antonin.godard@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 61B1C1C0002;
+	Fri, 20 Dec 2024 12:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1734696714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JFhtCH26DfOB51Q0qUopS/JbnUDPFQu3IviKo55zLsI=;
+	b=OdxeBvNsH8FKm5mS3FZ8y7I/PMd0qMGGf9EY6LKbH25jmV5+uyJsbI4OICZ8v51crO0pKR
+	TUts3Khbvg9gQWiNJOANSErnJPk60mxsXqhkXF94MvUb2a++W2TX0G9ykXHHE4TVCauQuz
+	6qXdKBFqca83nEje6tvIBqUrphp2F3ju7Nx5vUjwF0PctZfKP1J0IEcSWIQp7qXVpERV3k
+	CZBCaag9wYXO/wKhYJ3UhnaUnl5hhXdlhWtXomP+knzlrydjyr8COpZ1eWZ85Hus1lVqMF
+	P+8GMBe0eyPG2gz83pjWSb+tjXAQM74X+iguKSCe4aA3/FgvlPRQTc++fXAIFA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Dec 2024 13:11:54 +0100
+Message-Id: <D6GINWZFWIO0.3UBYR0C0B4K91@bootlin.com>
+Cc: <a.fatoum@pengutronix.de>, <alex.kanavin@gmail.com>,
+ <openembedded-core@lists.openembedded.org>,
+ <richard.purdie@linuxfoundation.org>, <yocto@pengutronix.de>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: =?utf-8?q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
+Subject: Re: [PATCH v9 0/7] Add barebox bootloader support (and testing)
+X-Mailer: aerc 0.18.2-100-gc2048ef30452-dirty
+References: <D68XQU2RSZ0C.2V137AIRTE2ZN@bootlin.com>
+ <78b6f77c2eab6007ab888ac973d4997bf144aa46.camel@pengutronix.de>
+In-Reply-To: <78b6f77c2eab6007ab888ac973d4997bf144aa46.camel@pengutronix.de>
+X-GND-Sasl: antonin.godard@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 11:44:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208979
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 12:12:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208980
 
-Also check that 'tools-debug' is not set in
-IMAGE_FEATURES to determine if gdbserver is missing.
+Hi Enrico,
 
-Signed-off-by: Georgi, Tom <tom.georgi@karlstorz.com>
----
- scripts/lib/devtool/ide_sdk.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed Dec 18, 2024 at 2:32 PM CET, Enrico J=C3=B6rns wrote:
+> Hi Antonin,
+>
+> Am Mittwoch, dem 11.12.2024 um 15:19 +0100 schrieb Antonin Godard:
+>> Hello Enrico,
+>>=20
+>> Since this patch series introduces a new class for compiling barebox-bas=
+ed
+>> bootloaders, it would be nice to have some documentation for it.
+>>=20
+>> Openembedded-core classes are documented in yocto-docs[1], and documenta=
+tion
+>> patches are sent to docs@lists.yoctoproject.org.
+>>=20
+>> Could anyone, preferably the author of the class, take some time to docu=
+ment the
+>> usage of the class in yocto-docs/documentation/ref-manual/classes.rst, a=
+nd the
+>> variables the class defines (especially the ones that can be overridden =
+for user
+>> customization) in yocto-docs/documentation/ref-manual/variables.rst?
+>
+> thank you for reaching out regarding the documentation of the barebox.bbc=
+lass.
+>
+> I was on vacation last week and still have some year-end tasks to take ca=
+re of
+> this week, so I'm not sure how soon I'll get to it.
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 2f6eddec2a..7b1cb67bbb 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -167,7 +167,7 @@ class RecipeImage:
-             self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
- 
-         self.gdbserver_missing = 'gdbserver' not in image_d.getVar(
--            'IMAGE_INSTALL')
-+            'IMAGE_INSTALL') and 'tools-debug' not in image_d.getVar('IMAGE_FEATURES')
- 
-     @property
-     def debug_support(self):
--- 
-2.47.1
+Ideally, some time before the next Walnascar release would be great.
 
+I've created a bug to track this:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15702.
+
+> However, I=E2=80=99m happy to contribute the corresponding class document=
+ation.
+>
+>> That would be greatly appreciated. I can help if needed.
+>
+> Thanks a lot! I'll get back to you in case something is unclear (e.g. whe=
+re to put which
+> information). Luckily all the documentation is rst which I am quite famil=
+iar with =F0=9F=99=82.
+>
+> For now I've checked out the repo and added a barebox section header in c=
+lasses.rst --
+> just to give myself the impression of having started already =F0=9F=98=89=
+.
+
+Great! I'm looking forward to your patches. :)
+
+One advice I would give is to read documentation/standards.md. There are so=
+me
+yocto-docs specific terms and formatting rules to follow.
+
+Thanks,
+Antonin
+
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
