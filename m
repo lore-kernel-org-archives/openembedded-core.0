@@ -1,249 +1,123 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A35E77188
-	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 16:25:33 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.155311.1734711924384655148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE6CE7718B
+	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 17:14:53 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.156833.1734714889589237596
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Dec 2024 08:25:24 -0800
+ Fri, 20 Dec 2024 09:14:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L8I8znkR;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2f44353649aso1619670a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 08:25:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AqyDWlfm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-216401de828so20462065ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 09:14:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734711924; x=1735316724; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZJmJT1uRMpnXM3GY+M34RwbRxDmvJOttWM3h2wMIFI=;
-        b=L8I8znkRFrbqgpxMNRyFwaPEIR3Fo9vL8Ptgr9cMco+W8EWOzaeAbRKW6fvZJsiidM
-         yX6Lk+DvWNlku77/zu2AaSzhWiH4ro8ifg9WxIUF6tib9Fo9GEucoS9BNNRRqYYAHb3M
-         g7QRNN+AI140r8C4a8vLpEVJrA0/n35/pMmP6QZPsZHjkIpN24N2kuSijsQmgs2siLAX
-         0whxWl/L4UkaRRVSfI9sYTWEJ8ZsAN3coMohSR7rA7pqKBZ5YhD26EKqVw2krpxNqzc+
-         M4hNrJY1UXrdNrbWrrxB110ePCVDn2MdhDpxAAgB4GqX96ZfO+3SBvaUEkqQH83PYMy9
-         S0VQ==
+        d=gmail.com; s=20230601; t=1734714889; x=1735319689; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/HMYqn+YjHo1Qra5OEgzM/FcgciTZRbGozOejnch5us=;
+        b=AqyDWlfmG8Q4VhB666NlW3LhE5VN4jFa8CAcKrHDAZo9h6b2fe2ggjAC+YGiP09Qpq
+         boidj3UMIbI0yEVv2yoCwx5LtMcx3ctBbpF/IE7MVct/gToRROL+8VUdUZdCFDzC3Tzz
+         9ELT2BrtGovjlXBOBN/QKsRA8SqY6ww0XyZRm6tzS65eFbQaEIX0bbo7EHf+lARdLWQ/
+         +izWu2qES7B5vree+hQcRtOW3hodTmUmd47mQctsEeKdRG+UtzwGJXU00PLJTL/dIEvu
+         mG6ETsl5R69pW59x1hdc4gGE1qEDN2o5gbekPlK5P6ffzGSw2LqsW8afjwEvJkEi1xF0
+         1j2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734711924; x=1735316724;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1734714889; x=1735319689;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uZJmJT1uRMpnXM3GY+M34RwbRxDmvJOttWM3h2wMIFI=;
-        b=PjgZzD3gwbukXUEkg8CZKDBbNAycRo3U9swJreyHUhjjzz+NbaBr2rhwdTowlT+KeJ
-         e4LQfv9CSs78oibSSPjLRG2VbwM+gf5mCfLFkYtnlN7yEDuqk3PRFgm9bFsVCvqv8nQx
-         AZtZez7vDQ32+mazOQ0vIAzCGAX7x9piTuD1zpkeXKqidETbOSJkQNyU8cbZnQDFZoIz
-         G4gDP45lIPpi9HF+vxSzL4u98EX6+gQ1YdIZz1s4O3FcOxZDnkveeFVOhXgXf8QyUQ2Y
-         mUAP7kDPjWSWtZwY+d8MoKA8gdLeIXP6Q+u8Lp2BjCmnPZWK2g+5WqKMVw4umXuDuASt
-         VFsA==
-X-Gm-Message-State: AOJu0YwqxOKAsGqMxm3+DjS7VC5eJEs5O3P77V4ARRloo2UnOSO6sE/t
-	1YvE8LIHFH58vurOUFrzXtbwaDaQf1o0RtatQMWXLdMcRAsBXzNj3WuIpYCXA0dmFgBXtEOVbaF
-	iMr3pzV0f2f29bX/wVFqcxYF8xsCdXZEv
-X-Gm-Gg: ASbGncuJrPJIMcDlUddJMWwyHUINK4cTHROtiLYQP3tKWOpxjKbvBZw/x7R1bhJF/Gs
-	CtBUT88Y4ldqV6ojRKpodyNrtkp3E3dr/vg9kl4s=
-X-Google-Smtp-Source: AGHT+IHQYTXtY0EubHNsr1mGqKHJHr5k009hEcK+u0+b57WGP6c1tJBbNrYo5BOtUuowJwfNvbo51X8icFfC9ka65Ss=
-X-Received: by 2002:a17:90b:3d45:b0:2ee:accf:9685 with SMTP id
- 98e67ed59e1d1-2f452dfd36fmr5248652a91.4.1734711923765; Fri, 20 Dec 2024
- 08:25:23 -0800 (PST)
+        bh=/HMYqn+YjHo1Qra5OEgzM/FcgciTZRbGozOejnch5us=;
+        b=skWxl6pEYQ9R0vPfq/Z433iZGBXa6p3rZBaDvpK8sKKuGRj0ZmYtRDsJ5yb8HPIVaj
+         O2a1ByqAn7UW25QIpi8wygvk9c3hCb/nX9S9j4ZqCKk23Uhsdm32hx8TViuhNmmf5EEo
+         tIyiQXIfhmWSDli7xlqOuikVZI9M5G9OrR3Utq/v6+dabjW8B1zD968PEv+ual72RkJJ
+         0EDkNIbca70iGUubhOl1xpjnWvHN1IwIfzjyG3czsfiU+N0l7dOlz9JThoRiVw9hoVdx
+         In6VODmkF9JtTe+vKXk8i1xYyyJVkafdiEDQ7yeEE8XsVtZNT6oaXaLHd3Lma4ewsfZ5
+         KJiA==
+X-Gm-Message-State: AOJu0YzNxoR5TjsO8jBiWqp1S5IFcY4cFJLZMSj/famODLRwBVlvjTax
+	8wGz0I5m6ybGeZcR+p0/ysleRCvoB8bEwuOtVUB6AeZYfsV1Dq/wxgR8pB3v
+X-Gm-Gg: ASbGncurxsF+YCDoBQbkFqYAtc6IdBjUKpcXpKw6duZcJRJB7hHKRt7cIzI7R9UJBt3
+	7Q82ijXuUBeFPIPt5KvmHT2474PWtJH1A/USWHOFkqC0WCLg2nNrh038RVqrCOtaIXc0nhMYLoJ
+	4M4L9jwjHsTxuqmMtk95Y7kkMzIgaJpqVxicYoeThyE0pUKJ+r5raPx7xcX//3e4Z5FIwKtofz4
+	7tJ8vJfq5LRF0I3tVK7bERs7oeRXQlwpsqYXD96nN0hzcpbQQfKZ6q3t9Y=
+X-Google-Smtp-Source: AGHT+IFrdM2HhhSSyNTUSQdDw1xQTlvEfBe5SzK6FSVPA/wog5ZZG6XFkonTPrKdBuxR7tyuaEw/kw==
+X-Received: by 2002:a17:903:2a8c:b0:216:55a1:369 with SMTP id d9443c01a7336-219e6e9faa0mr45601505ad.18.1734714888710;
+        Fri, 20 Dec 2024 09:14:48 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::ae1b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc96294bsm31514905ad.36.2024.12.20.09.14.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Dec 2024 09:14:48 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] nfs-utils: Use v2 of upstream patch for tpyecast fix
+Date: Fri, 20 Dec 2024 09:14:46 -0800
+Message-ID: <20241220171446.2497798-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20241220153004.2199488-1-christian.taedcke-oss@weidmueller.com>
-In-Reply-To: <20241220153004.2199488-1-christian.taedcke-oss@weidmueller.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 20 Dec 2024 11:25:12 -0500
-Message-ID: <CADkTA4NnL2wKidGd7u9MxjUR2stRRH=rvpCvCe14mUaOAXQzkw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] kernel-yocto: enable fetching kernel metadata
- using file fetcher
-To: christian.taedcke-oss@weidmueller.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Christian Taedcke <christian.taedcke@weidmueller.com>
-Content-Type: multipart/alternative; boundary="00000000000000f9b70629b61804"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 16:25:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208984
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 17:14:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208985
 
---00000000000000f9b70629b61804
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...0001-Fix-typecast-warning-with-clang.patch | 31 ++++++++++---------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-On Fri, Dec 20, 2024 at 10:30=E2=80=AFAM <christian.taedcke-oss@weidmueller=
-.com>
-wrote:
-
-> From: Christian Taedcke <christian.taedcke@weidmueller.com>
->
-> If no destsuffix parameter is supplied and the file fetcher is used,
-> the folder name (i.e. basepath) is added to the kernel-meta search
-> directories.
->
-> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
-> ---
->
-> Changes in v2:
-> - always use destsuffix if available
-> - do not restict fetcher type
->
-
-I was just looking at v1 a few days ago, to see how I could tweak
-it and simplify a bit.
-
-This version looks better to me, so I have no concerns as existing
-user cases shouldn't be impacted.
-
-Bruce
-
-
-
->
->  meta/classes-recipe/kernel-yocto.bbclass | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
-> b/meta/classes-recipe/kernel-yocto.bbclass
-> index a5d89dc2c8..7d80e9aa52 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -62,8 +62,8 @@ def find_sccs(d):
->
->      return sources_list
->
-> -# check the SRC_URI for "kmeta" type'd git repositories. Return the name
-> of
-> -# the repository as it will be found in UNPACKDIR
-> +# check the SRC_URI for "kmeta" type'd git repositories and directories.
-> Return
-> +# the name of the repository or directory as it will be found in UNPACKD=
-IR
->  def find_kernel_feature_dirs(d):
->      feature_dirs=3D[]
->      fetch =3D bb.fetch2.Fetch([], d)
-> @@ -71,13 +71,16 @@ def find_kernel_feature_dirs(d):
->          urldata =3D fetch.ud[url]
->          parm =3D urldata.parm
->          type=3D""
-> +        destdir =3D ""
->          if "type" in parm:
->              type =3D parm["type"]
->          if "destsuffix" in parm:
->              destdir =3D parm["destsuffix"]
-> -            if type =3D=3D "kmeta":
-> -                feature_dirs.append(destdir)
-> -
-> +        elif urldata.type =3D=3D "file":
-> +            destdir =3D urldata.basepath
-> +        if type =3D=3D "kmeta" and destdir:
-> +            feature_dirs.append(destdir)
-> +
->      return feature_dirs
->
->  # find the master/machine source branch. In the same way that the fetche=
-r
-> proceses
-> --
-> 2.34.1
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000000f9b70629b61804
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 20, 2024 at 10:30=
-=E2=80=AFAM &lt;<a href=3D"mailto:christian.taedcke-oss@weidmueller.com">ch=
-ristian.taedcke-oss@weidmueller.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">From: Christian Taedcke &lt;<a href=3D"m=
-ailto:christian.taedcke@weidmueller.com" target=3D"_blank">christian.taedck=
-e@weidmueller.com</a>&gt;<br>
-<br>
-If no destsuffix parameter is supplied and the file fetcher is used,<br>
-the folder name (i.e. basepath) is added to the kernel-meta search<br>
-directories.<br>
-<br>
-Signed-off-by: Christian Taedcke &lt;<a href=3D"mailto:christian.taedcke@we=
-idmueller.com" target=3D"_blank">christian.taedcke@weidmueller.com</a>&gt;<=
-br>
----<br>
-<br>
-Changes in v2:<br>
-- always use destsuffix if available<br>
-- do not restict fetcher type<br></blockquote><div><br></div><div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">I was just looking at v1 a fe=
-w days ago, to see how I could tweak</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">it and simplify a bit.</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">This version looks better to me, so I have no concerns=
- as existing</div><div class=3D"gmail_default" style=3D"font-size:small">us=
-er cases shouldn&#39;t be impacted.</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 13 ++++++++-----<br>
-=C2=A01 file changed, 8 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
-/kernel-yocto.bbclass<br>
-index a5d89dc2c8..7d80e9aa52 100644<br>
---- a/meta/classes-recipe/kernel-yocto.bbclass<br>
-+++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
-@@ -62,8 +62,8 @@ def find_sccs(d):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return sources_list<br>
-<br>
--# check the SRC_URI for &quot;kmeta&quot; type&#39;d git repositories. Ret=
-urn the name of<br>
--# the repository as it will be found in UNPACKDIR<br>
-+# check the SRC_URI for &quot;kmeta&quot; type&#39;d git repositories and =
-directories. Return<br>
-+# the name of the repository or directory as it will be found in UNPACKDIR=
-<br>
-=C2=A0def find_kernel_feature_dirs(d):<br>
-=C2=A0 =C2=A0 =C2=A0feature_dirs=3D[]<br>
-=C2=A0 =C2=A0 =C2=A0fetch =3D bb.fetch2.Fetch([], d)<br>
-@@ -71,13 +71,16 @@ def find_kernel_feature_dirs(d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0urldata =3D fetch.ud[url]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0parm =3D urldata.parm<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0type=3D&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 destdir =3D &quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &quot;type&quot; in parm:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0type =3D parm[&quot;type&qu=
-ot;]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &quot;destsuffix&quot; in parm:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0destdir =3D parm[&quot;dest=
-suffix&quot;]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if type =3D=3D &quot;kmeta&quot;=
-:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feature_dirs.appen=
-d(destdir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif urldata.type =3D=3D &quot;file&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destdir =3D urldata.basepath<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if type =3D=3D &quot;kmeta&quot; and destdir:<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feature_dirs.append(destdir)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0return feature_dirs<br>
-<br>
-=C2=A0# find the master/machine source branch. In the same way that the fet=
-cher proceses<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---00000000000000f9b70629b61804--
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
+index 4b38db1f747..f493a3051ef 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-typecast-warning-with-clang.patch
+@@ -1,29 +1,32 @@
+-From bbed752dfad73738baefe518e5959b5c0f038c75 Mon Sep 17 00:00:00 2001
++From 0a64c5ad17786796d84390e480a38b4f762229ae Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Dec 2024 19:20:39 -0800
+-Subject: [PATCH] Fix typecast warning with clang
++Subject: [PATCH v2] Fix typecast warning with clang
+ 
+ Fixes
+ file.c:200:8: error: assigning to 'char *' from 'const char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+ 
+-Upstream-Status: Submitted [https://marc.info/?l=linux-nfs&m=173457863307678&w=2]
++Upstream-Status: Submitted [https://marc.info/?l=linux-nfs&m=173463533411103&w=2]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Cc: Benjamin Coddington <bcodding@redhat.com>
+ Cc: Steve Dickson <steved@redhat.com>
+ ---
+- support/nsm/file.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
++v2: Make base as const char pointer insread of trying type punning
++
++ support/nsm/file.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/support/nsm/file.c b/support/nsm/file.c
+-index de122b0..0fa6164 100644
++index de122b0f..68f99bf0 100644
+ --- a/support/nsm/file.c
+ +++ b/support/nsm/file.c
+-@@ -197,7 +197,7 @@ nsm_make_temp_pathname(const char *pathname)
+- 
+- 	base = strrchr(pathname, '/');
+- 	if (base == NULL)
+--		base = pathname;
+-+		base = (char*)pathname;
+- 	else
+- 		base++;
++@@ -184,7 +184,8 @@ static char *
++ nsm_make_temp_pathname(const char *pathname)
++ {
++ 	size_t size;
++-	char *path, *base;
+++	char *path;
+++	const char *base;
++ 	int len;
+  
++ 	size = strlen(pathname) + sizeof(".new") + 1;
 
