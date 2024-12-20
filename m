@@ -1,115 +1,101 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A27AE77188
-	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 07:49:50 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web11.147731.1734680983257717373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE1EE77188
+	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 08:01:20 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.147986.1734681679730667481
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Dec 2024 23:49:43 -0800
+ Fri, 20 Dec 2024 00:01:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=QOCJHD1c;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1734680984; x=1766216984;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CRQFZXXKCInFKUStj99QikO0MR4AUwKdxLdhXnUJePw=;
-  b=QOCJHD1c+zIVcvky5UHu17qCOrfz6j67AV+tp6pknyNsMzfxJjINTPj1
-   pvL/kBgKsad8IFkB+DtN0nXMg++LDWrqvcS6aPVlfKorr/HH6xpcnhL6L
-   UL1PJ3Hr0ISf6RSO0asiPMrlzDg70JOwiGW/+f5deHaq0+EEOh6RwvCna
-   lmizKDOWT2lxE5sszWxYhnFRRdymVZEGs56IP02XofEFRJDK9zh4Vffzo
-   LRHqaqwV/BujHVAKESPonosxl4S4Xeev2DVrV1v4kkQkLRieHXg1KPXp8
-   yB3AfQz0HoG9oFQAVpnCxNIyMmgaICzVQQpk9ZwnHExZMd4mqNnDUeG6Y
-   A==;
-X-CSE-ConnectionGUID: d+SzwoC6RnGvJqfVm+Jc7Q==
-X-CSE-MsgGUID: KmCL4JaCQy6BybzEPsTf4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="186833421"
-X-IronPort-AV: E=Sophos;i="6.12,250,1728918000"; 
-   d="scan'208";a="186833421"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 16:49:41 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id D576DD4C2B
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 16:49:38 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id AD2CFD5C2E
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 16:49:38 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 37AC420086EA6
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 16:49:38 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id A81AF1A006C;
-	Fri, 20 Dec 2024 15:49:37 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] debugedit: Fix install conflict when enable multilib.
-Date: Fri, 20 Dec 2024 15:49:27 +0800
-Message-Id: <1734680967-11172-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28870.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28870.006
-X-TMASE-Result: 10--3.686500-10.000000
-X-TMASE-MatchedRID: 9CLtS+2vXX+MPz8Goa6fXdl0i+WyI+91F4r8H5YrEqwZ9O8/hC7KBjBX
-	Xb/qS263jYTdiiDZ8mEjRHi5XR8LVFpCIuRr0RxKTuctSpiuWyVUENBIMyKD0Zsoi2XrUn/JmTD
-	wp0zM3zoqtq5d3cxkNc4FzPgxXCdilPIRCZp8lbtaIUsO3zyEZCJmTY1LcynKFXLGM67C5zhQLk
-	SSBMMPz9mO8epxD5/I6T10zrkRO2zw6NvYWmWbDXRZ9X5qCZfHU/JCITmuhS7oZbNFHtbIdPl43
-	iPWIJMPxwTT797Vag8=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bc1VTJEP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oYcmETsz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010193e315d413-788f1916-92f8-4706-b744-13bc9771b8e0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1734681679; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Kj2JBo7cet+h6rmEuVszglYppVX1t0w4s2ZvtqNX+2I=;
+	b=bc1VTJEPn5JbdyLPlMSkI9NqjgzhL0IYlQvkoYDfZz84A6uc3AXmtKRy3i9my3lM
+	9rlkzc2yvtNGpg8cDNw1J/+iB5IJZKhEPmTOuIKZd7uMZwWwLAhwu6LfMq0EB01rcRL
+	41alvaIsP75aL36OwKUt1ktreNkzIiGdIgI+1PX0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734681679;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Kj2JBo7cet+h6rmEuVszglYppVX1t0w4s2ZvtqNX+2I=;
+	b=oYcmETszfzAYegp6ISV3YR0z5yT5RpNwRONND/DHPUPbQqoVXeet8U1YkTQDVEIH
+	rH76ZAXGx/Ny/sg7AZCfm6cdhDxvdOmiRXl/mqAQ1VMu5GcIo2+oLTcCkPtJ+vXPFnG
+	7/egAooox1Ao+80CeTiL2XR8rFB8yLSwy4yDQPfU=
+From: patchtest@automation.yoctoproject.org
+To: wangmy@fujitsu.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [PATCH] debugedit: Fix install conflict when enable
+ multilib.
+In-Reply-To: <1734680967-11172-1-git-send-email-wangmy@fujitsu.com>
+References: <1734680967-11172-1-git-send-email-wangmy@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193e315d413-788f1916-92f8-4706-b744-13bc9771b8e0-000000@us-west-2.amazonses.com>
+Date: Fri, 20 Dec 2024 08:01:18 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.12.20-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 07:49:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208967
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 08:01:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208968
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+--NextPart
+Content-Type: text/plain
 
-Error: Transaction test error:
-  file /usr/bin/find-debuginfo conflicts between attempted installs of debugedit-5.1-r0.core2_64 and lib32-debugedit-5.1-r0.core2_32
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The differences of find-debuginfo are as follows:
-
-@@ -360,7 +360,7 @@ add_minidebug()
-   # symbol and NOBITS sections so cannot use --keep-only because that is
-   # too aggressive. Field $2 is the section name, $3 is the section type
-   # and $8 are the section flags.
--  local remove_sections=`x86_64-poky-linux-readelf -W -S "$debuginfo" \
-+  local remove_sections=`i686-pokymllib32-linux-readelf -W -S "$debuginfo" \
-        | awk '{ if (index($2,".debug_") != 1 \
-                     && ($3 == "PROGBITS" || $3 == "NOTE" || $3 == "NOBITS") \
-                     && index($8,"A") == 0) \
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/debugedit/debugedit_5.1.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/debugedit-Fix-install-conflict-when-enable-multilib..patch
 
-diff --git a/meta/recipes-devtools/debugedit/debugedit_5.1.bb b/meta/recipes-devtools/debugedit/debugedit_5.1.bb
-index 5dc103f643..00c40473c4 100644
---- a/meta/recipes-devtools/debugedit/debugedit_5.1.bb
-+++ b/meta/recipes-devtools/debugedit/debugedit_5.1.bb
-@@ -21,8 +21,11 @@ SRC_URI[sha256sum] = "ee9b688b2ed8fa62551c54cb5dc31aaa05853e7dedbd9e1237c77894ea
- DEPENDS = "elfutils xxhash"
- DEPENDS:append:libc-musl = " musl-legacy-error"
- 
--inherit pkgconfig autotools
-+inherit pkgconfig autotools multilib_script
- 
- RDEPENDS:${PN} += "bash elfutils-binutils"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/find-debuginfo"
-+
--- 
-2.43.0
+FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: Parse error Unexpected hunk found: @@ -360,7 +360,7 @@ add_minidebug()
+SKIP: test Signed-off-by presence: Parse error Unexpected hunk found: @@ -360,7 +360,7 @@ add_minidebug()
+SKIP: test Upstream-Status presence: Parse error Unexpected hunk found: @@ -360,7 +360,7 @@ add_minidebug()
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
