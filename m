@@ -1,101 +1,86 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <tom.georgi@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC058E7718A
-	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 10:16:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.149034.1734689779506887450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DB9E77188
+	for <webhook@archiver.kernel.org>; Fri, 20 Dec 2024 10:27:50 +0000 (UTC)
+Received: from mx08-0040c702.pphosted.com (mx08-0040c702.pphosted.com [185.183.31.154])
+ by mx.groups.io with SMTP id smtpd.web10.149333.1734690460568477441
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Dec 2024 02:16:19 -0800
+ Fri, 20 Dec 2024 02:27:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Zb/l4r6h;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=B4vyWRp7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010193e3916b90-5b4c6d40-46c0-4418-a9e7-fd2d1e4225c5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734689778; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=yFdAPjhB5b1s5dFaicfx5vVvMKpjTbIXt6+ZqiM+UIc=;
-	b=Zb/l4r6hCW397EPiR5chjo0S6pOuyRyv25ox9TNQN3sg7vh+dPA8jr/sVoLQBv4T
-	vCaBCs7w7o3l17PO39N5uYHeUf4yYGITbo2ee1mcpm3xAKrQpNWFj8ofgijFMEoFiF3
-	lFxv+fWYsIo5IzH5ImtCiRlPPvVtgpzuP5K21bKk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734689778;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=yFdAPjhB5b1s5dFaicfx5vVvMKpjTbIXt6+ZqiM+UIc=;
-	b=B4vyWRp7KL0+RC3pSfx2/olAfc5XUeOkw0kiARkNXtdZbRVJbDXFNWw+ERywFUWw
-	z5dNghk+5w92LYLnjjOqF5qZlCOuWZ7/yMtCdSdeBwQsYY+08FmcLaozvIpBC5Udwfj
-	kcxyMbPW5rHqKMQ1/SMiDNvBlCTWZBXn8xzfhg2w=
-From: patchtest@automation.yoctoproject.org
-To: "Georgi, Tom" <tom.georgi@karlstorz.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] devtool: ide-sdk: Also check that 'tools-debug' is not set in
- IMAGE_FEATURES to determine if gdbserver is missing.
-In-Reply-To: <20241220095936.57808-2-tom.georgi@karlstorz.com>
-References: <20241220095936.57808-2-tom.georgi@karlstorz.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193e3916b90-5b4c6d40-46c0-4418-a9e7-fd2d1e4225c5-000000@us-west-2.amazonses.com>
-Date: Fri, 20 Dec 2024 10:16:18 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.20-54.240.27.191
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=QrsMOQSM;
+ spf=pass (domain: karlstorz.com, ip: 185.183.31.154, mailfrom: tom.georgi@karlstorz.com)
+Received: from pps.filterd (m0267678.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BK9mC5I009058;
+	Fri, 20 Dec 2024 10:27:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=Jxapi
+	4iTOMsuu0jjPmBTG2bZHQp2Qu5T0wutUQ9XIds=; b=QrsMOQSMlDfrxRPtE78de
+	hXecdfDnt9ks5xMuZGAOuTHGOHnOom57TPdBWd1C0tW7IZ+Cxpcl7Qse9DY1PyAF
+	7PP5FnuQ4SSGSFiv6lgF4F6C8bYIfKYtj2KoDntG+8c38VLqprAKuVrgyzuUzczU
+	7RX2JJ7s+vp8jCIEkfQwBy3j+A8Q15Lha4TP3+oDw15QjcM7X9PVu78rzn3QUWJb
+	+IDapB8Jrg6oxt/pCm7CnSJ9zTMfIAzKMdCT+yVNUo+2/Y996TECoxkE9El/ankI
+	ormkyHc5EuYk2lvhStFDUePrGW2JBBzmB2hctFDT/W0lDlZpkteEFtU+bZpU1AMq
+	A==
+Received: from tut-ex22-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 43n69088s2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Dec 2024 10:27:38 +0000 (GMT)
+Received: from TUT-EX20-PV.KSTG.corp (10.0.10.224) by TUT-EX22-PV.KSTG.corp
+ (10.0.10.226) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 20 Dec
+ 2024 11:27:37 +0100
+Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX20-PV.KSTG.corp
+ (10.0.10.224) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 20 Dec
+ 2024 11:27:37 +0100
+Received: from schn-8kmdb54.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Fri, 20 Dec 2024 11:27:37 +0100
+From: "Georgi, Tom" <tom.georgi@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <randy.macleod@windriver.com>, "Georgi, Tom" <tom.georgi@karlstorz.com>
+Subject: [PATCH] devtool: ide-sdk: Also check that 'tools-debug' is not set in IMAGE_FEATURES to determine if gdbserver is missing.
+Date: Fri, 20 Dec 2024 11:27:21 +0100
+Message-ID: <20241220102720.1021268-2-tom.georgi@karlstorz.com>
+X-Mailer: git-send-email 2.47.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: pYyzd90TV7rlf9NejHO7A_snrzlf0ubA
+X-Proofpoint-GUID: pYyzd90TV7rlf9NejHO7A_snrzlf0ubA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-23_16,2024-08-23_01,2024-05-17_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 10:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208976
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Dec 2024 10:27:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208977
 
---NextPart
-Content-Type: text/plain
+Also check that 'tools-debug' is not set in IMAGE_FEATURES to determine if gdbserver is missing.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Georgi, Tom <tom.georgi@karlstorz.com>
 ---
-Testing patch /home/patchtest/share/mboxes/devtool-ide-sdk-Also-check-that-tools-debug-is-not-set-in-IMAGE_FEATURES-to-determine-if-gdbserver-is-missing..patch
+ scripts/lib/devtool/ide_sdk.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 114 characters) (test_mbox.TestMbox.test_shortlog_length)
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 2f6eddec2a..7b1cb67bbb 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -167,7 +167,7 @@ class RecipeImage:
+             self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
+ 
+         self.gdbserver_missing = 'gdbserver' not in image_d.getVar(
+-            'IMAGE_INSTALL')
++            'IMAGE_INSTALL') and 'tools-debug' not in image_d.getVar('IMAGE_FEATURES')
+ 
+     @property
+     def debug_support(self):
+-- 
+2.47.1
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
