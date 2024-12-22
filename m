@@ -2,50 +2,48 @@ Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52963E7718F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6AFE7718D
 	for <webhook@archiver.kernel.org>; Sun, 22 Dec 2024 16:23:08 +0000 (UTC)
 Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.46])
  by mx.groups.io with SMTP id smtpd.web10.27158.1734884579574530729
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Dec 2024 08:23:02 -0800
+ Sun, 22 Dec 2024 08:23:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=f3eapJap;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=YIAetN2p;
  spf=pass (domain: oss.nxp.com, ip: 40.107.20.46, mailfrom: tom.hochstein@oss.nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F/sM5vMp+qfw2c70AvY0+EQEUTIcbztNBGypDUb1icnquZshhJhDz1NLm1TbD16D1p70QH6K9RZwc2VE7BXFmRdVxTzdV6Sg6L51Q+s22z2ywif9nKaTkZpcasJCRmH7eHlpY3p66SOjdokPpEExPX7v4GfWBho0j6ufY5pK7im69jJVvd0fDs6AKnUWn0VxxS4wMY5ysw8JZYcfC+lxvEXXjlEJf5oMywLQqj0ez3JDJSQoJ2HZn9xoaMMygLZzuUxlU5iz6MJ2lwUn71v5sdxjxVfCoijDo/XbtCVacQmaZTK2IRi+cvjj+BMh9urx8rhO0pEsxOBcdVrTdfpJ1g==
+ b=BzBfuvzfg59TH3bGK7k2vsjOv+Xzqu0h2cddfFU7rqMzme+G9TUqLTKcelwNNtCl2QS0K598DZ2eISchYEod2/AHlhL4YGG2i6GP1JC3reY1yh0QJKTz/nYB52F8UdesJP1BbADNkAO9JnGe9z5anrGq1hG0ZTNEZd6yxlK+UH0EZalDXtZ9q5CnnJEyY7W/MigyNYK+zunUWY/blnPaahXD7BxUBlKhS4HBBzIyza5+Ffz0N04M1AoHqXqZ5HyobWII925eWd70srb2KulSo5xs2W0VZqy2dSKPRnNpTVpbEON8NNCmRhuCwAm1bj9Lshoz26D5kP6yd1IYDAzdHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cYJzlWO7mg4AaZRYFLBn9yr6RmYVez/nm5cSEYkAyNY=;
- b=bf1ufKFiZJxLz1tNmxALvqW/Lc8mA+ZmgMdwnDY1Z/zSN+17y6gUXtyKp2mVg7EHOoPYOxMA+D2wtsQf02byCGsLph3rfRqEz/YFgOiZAxHwGosx7rA1/Dv3IKE6Y5iqxULbIuCTR4qJpEdqHieIE5f7IRkIfXeQSEwtwWExk3u2V8/9P9+M/TjZeP8VoRmtAsz2ULxzyUyeESY6XfbDwS0Mbh1z3jI4BVv/eysqJ3jRWK3EyaNXtZ1oIIcAD8y6Xki0G7+WOpEwX4rr5Eef/N8uB/pgHbeXQlKyP4qBRGK1Mni6jpGu60PCB1dHMj4zsClSTnDAnjbJbGDJ1NGD1g==
+ bh=wHV92y8DSYfToHl6jXQa4dt4yHKHiEzMvXmZcYJB6OM=;
+ b=mKK0en+pM+YfL4WZxVlGoz0xYz2UOyvQueQHNlMNAg/yxsjd9sYLhtXJ27g9UaQdbToO8lDxDlKKuG5t6QJPo9lVDaJXaDC1BQb5KBMGnweOicV3zJF9aHp2GcZRubhjST4QbEgWkq7GP91/BiRGdvIFIqwRm4GrrzxSWbtu/HhOoBirgMJgpwDrztm1XOGoL+KWPuYOt/Ez0baoLvsU0lZUNoxWKGkdHJn9npCPW8mKej4ETfgiXEeoz0PzJiTE2E/1t+hrR+HpFENWzlFdWkXIN/LmHZMtklt4EcNakWSn3xcIbNINMwmTQWWKmme1qKo25vxDTTy6+XRho/6VQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cYJzlWO7mg4AaZRYFLBn9yr6RmYVez/nm5cSEYkAyNY=;
- b=f3eapJapUxLV1AThY/O6bMyzFBglGYLTDEcFK9/1ep4ajTxN6nQgIFeNBldwPtbHQtWNeKZScd92cp9JDrPOSUBvsPX3MVfU1+EseiwoO5yo9N/iwBGJ7JWk6En4iUYIWzq/oXemjp7xLgjm39SZREwu2T1m5/0w3pTzDtUzj8ZOHo+aCcq4joydGPYU7rLOlj5rd+tWCFnY88frewvN17+hniRdyPechwaZjtx9ed6unPaPys7LqW6tfclUbvb3IROceStKvZMqPpwNlR2F9ReKPbgZHzmUY+0bMPcpTqzpJCM35gDZNqpQF/nTT46axk0URidDIyGO/zqDIWy54A==
+ bh=wHV92y8DSYfToHl6jXQa4dt4yHKHiEzMvXmZcYJB6OM=;
+ b=YIAetN2phk3g/XPvw2RaU64cF3V1YOtbnbvLajmMcJycxvnuLrqE49oJoeCcRZSWw8a82Yprc2PByNAMbLutK3PBENPPBH4A9p/l2GjsloGafPK5N/XE5YZSJU29yz06pgLbX9m3CJkFGKZEZogW+KNoZyEx3INaWgIPJoj/XE20X9oOGGjuaId0WDVgmoNgT5aihTakIznWLxUq5Ve+WP1tNLMWyw3hQuURc+mwx/V9Qtdcwt0+yXn6qhw4uwW/OEvrNJ/1z6GxFeYcRiPpTld3Xqsi0na5x/8+pMumT3P56BWvVT5VTbQxfth8Z7zLJmL4QZ7C7kY/CatQK2SrGw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
  by AS4PR04MB9483.eurprd04.prod.outlook.com (2603:10a6:20b:4ec::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Sun, 22 Dec
- 2024 16:22:56 +0000
+ 2024 16:22:55 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc%2]) with mapi id 15.20.8272.013; Sun, 22 Dec 2024
- 16:22:56 +0000
+ 16:22:50 +0000
 From: Tom Hochstein <tom.hochstein@oss.nxp.com>
 To: openembedded-core@lists.openembedded.org
 CC: Tom Hochstein <tom.hochstein@oss.nxp.com>
-Subject: [PATCH v3 4/5] weston: Disable unused tests build
-Date: Sun, 22 Dec 2024 10:22:33 -0600
-Message-ID: <20241222162234.2411262-4-tom.hochstein@oss.nxp.com>
+Subject: [PATCH v3 1/5] pkgconfig: Add pkg-config-native to SDK
+Date: Sun, 22 Dec 2024 10:22:30 -0600
+Message-ID: <20241222162234.2411262-1-tom.hochstein@oss.nxp.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241222162234.2411262-1-tom.hochstein@oss.nxp.com>
-References: <20241222162234.2411262-1-tom.hochstein@oss.nxp.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: SN6PR16CA0049.namprd16.prod.outlook.com
@@ -55,140 +53,147 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AS4PR04MB9483:EE_
-X-MS-Office365-Filtering-Correlation-Id: da2a56a6-559c-4b46-13ee-08dd22a4e2ca
+X-MS-Office365-Filtering-Correlation-Id: 92743eef-e678-4319-7517-08dd22a4e0e5
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?IWWsxOp/1D096isfzI2vbhsYVjtpBA+6vPyUpmnEt++iMuL3602qbQTOUUx6?=
- =?us-ascii?Q?8QcS9RRyiynP3WpbxO907dOV0SPXVEL0zcpHlkgwq8VD/EKlWEDu7UBcLBtJ?=
- =?us-ascii?Q?omxzkcAFvcu9F4FRoxntyXXxIheid6nEyZP+UYuIk9Y4/QGI0GzdKBFS5sgh?=
- =?us-ascii?Q?x97SAj8X02FpZGMdkhvEse4iKgfcNrYoCww4bsk5DWg+WeTZlhMlSA4u3G5o?=
- =?us-ascii?Q?QbRuMCL7kGqtfVtKR3cEk06rU/xVpAPXVLE2dSNXMR9MKpk+8aM2BhaoT8QS?=
- =?us-ascii?Q?dm3L/G7jXQQfVtrxqahtlOl6tY7+1dj1DPyxZtGsVHx8DGhqCfJP2mkja24D?=
- =?us-ascii?Q?4TcVHLvfvg2bZwA457tsDVmZQDPWMPFPUKSXPA+7RB6EdaqoKgqz3JDARvZy?=
- =?us-ascii?Q?Sz6TgaD4N8lVF9zeRQ3Nr6WqR+5sET8tmbtc0TEwVCzY+iY5PsmbdkHblTs3?=
- =?us-ascii?Q?YT/471yrMz1Se8gnccbqFzrAfQtW7AbN+lbPVRysLC7CxFlfoH5aFNXB/Usi?=
- =?us-ascii?Q?iLgAZYZ/uYNZWqrA4XFe4TXeuLXO1khn9qsVi+NEUQHPoBUfZQIx9NPAk+2i?=
- =?us-ascii?Q?6Iy9XatMZXH/wb/G0+nshMeYaV+MYgevsAhIZslwhUSn14yQLmGbvj6/JQfu?=
- =?us-ascii?Q?pzsRBKh6fKwgQscI/qr8UY38IuEcNuPONUrc9WKFY4HkRV0kecpu6k40cNhl?=
- =?us-ascii?Q?2DVfVKzEC3i3HtGwvkIn9qKSbY0JRfssnaEiLtmlnzvSTP9dLnV/kActQC78?=
- =?us-ascii?Q?sbEPd4Iz1DX2iY1JzVwN10MNRPl9D2ZJtsqk4UksbgnJW6gFxyGjlLJP7Wz1?=
- =?us-ascii?Q?OeelLjABDoFUsH/pJrn/cH2csoUUZvipcJC2E22mwepiEQxvqu+C1pm2Eeae?=
- =?us-ascii?Q?WyrgN21bNMMXVgU/LBC1rNWPKn8hrwW1PStmIuFTzeFn62Xg6hGDDZKMdonb?=
- =?us-ascii?Q?TPS4/xBMLI20YxCt8hiOQGfwbyM3LsZM6EYbt8j3mgDavve2Jb3WedZ1zyLh?=
- =?us-ascii?Q?rGXd2LS25ZotqWfQlgetGBqxjE3Au7Pw+0LOfCa2rIG8ku3t++b6zMMRIhkp?=
- =?us-ascii?Q?BwDkgnjQuJAsH5a91sL78e1KxTC1mUawAW5JeIWEd96ZO4wv3qkLUZPR+GTt?=
- =?us-ascii?Q?FteTKWCL3HsIiPfBwksBRG+kikxjku4S0Plnkd1SGxCK8VhgpKnUKfEmglcr?=
- =?us-ascii?Q?phfWSQ9eKiU0jKDKMv7c6q8bCsTkeBgoi5BXe3M/tGmXl0IsDxn/Ut219i8W?=
- =?us-ascii?Q?qOeN/S8h/kWfeBKDEwHhXXhCbIuzd5TwbxxPNjJ/ynld5sNTJxIeJh/yVgGQ?=
- =?us-ascii?Q?Hou/ne2BAT5Lz/nSwlo8K9P//12Wosb/xsQdisvbYPakErpvk2IgdVIi8dxU?=
- =?us-ascii?Q?V/WmeHjNWUgGFr86IBpU0VgkHOLlKd17OJEdMA4vC2Qw1WZU/KpJkrZq2v7t?=
- =?us-ascii?Q?4BgW+ZB6ojbxrJaBUF60yS8pd53jOq1/?=
+	=?us-ascii?Q?72i3dfMVQPROoywnntpqfgtO8D9YUNn4NP/COouSOAtQwOAU/yXf1N8MjvdC?=
+ =?us-ascii?Q?xwKysCar8fidS2yjFX8NERhpDWxNo0nFeJr9tYdLjS7C940Yu6szPVMFZIyz?=
+ =?us-ascii?Q?ZSRLoKzLFBztDoB4fd/C94dVHiOJ289tt56ZYdPCdsi4deSAK0b3ZvD4Qph+?=
+ =?us-ascii?Q?cRLHefY52vVpndovXvbvKBwHVWqh/4KZWWMYTXjCq27oMG+LsjRn5fdAnPZN?=
+ =?us-ascii?Q?Zl8SnHbrjbruiOiEqRLo055jo78krTs0xGlIZtFwZvPVoK09Jcor1R7qzMHm?=
+ =?us-ascii?Q?k7tAoN1OqYieXWDP428PTTCB4B1EL2+fVLjGLI0h79EM+BiiiN2IxNkDP2sv?=
+ =?us-ascii?Q?vF3zkBzx++Xuy2maL6UIH195oiy5FBx9LVTv4tXObI6G/VmYdqAa2iUgI06b?=
+ =?us-ascii?Q?pMaQpe5KmTGq6QaSOwJijxkbw+qoAu3CykKrujavRRFhAAzPdZ/ZJJQdl5df?=
+ =?us-ascii?Q?KptEzTXr3d+Lds3G9zyyMnG1FDBGxOtBSJWleWlcy8+QMN+O4zTqUWxhtkUc?=
+ =?us-ascii?Q?kW7kJ4lD00tRHkz74+YFID+FLY2VUMnFG3nl/ITY6Rle1nNnQe/goXKIcb/S?=
+ =?us-ascii?Q?n3rohvkFoCo/vqgOR6JzZ3YNgSS+BcJUe/dQgjwYkm+IrqretYATI7t/RMoJ?=
+ =?us-ascii?Q?BEg2gctJxFj9grFK5RwjpEigGO30tlUshkiEIRmjL1lNnNAou7PT1DklkruE?=
+ =?us-ascii?Q?0sI/pc7gnPvX7g4tStHoXekh6HlSYzX32o61iGOCaW6lsL/nn7Bd19HG0pZz?=
+ =?us-ascii?Q?LHQl3Zh51uCmdyLWVUYJfsIzjmrbenNPF8UvNxW7tEzbXAXX55i0OsZmwtNA?=
+ =?us-ascii?Q?45IYveUnNDEb7ESUd6gNsmZ0wInWIWEW8k2qtivcedljYYItaIqIkmcK4hIu?=
+ =?us-ascii?Q?zx53AQn2YmPJGjTzrja5eoGdrFQRQAOqQnyQGdJWPbU2ZlfLKZUq5UiqawhA?=
+ =?us-ascii?Q?nwJ+akZHkA0/Xz2Y5Y67ogfiTEjtpSJn6Pqm4wBvORjYfpbZW2WFvFnfEY6G?=
+ =?us-ascii?Q?yTR64LXcnzSLlkRmpWer4CYsLq3g5kfZK1o64O2zZsz6UYKxVNAyi82Zbo3M?=
+ =?us-ascii?Q?WG1o+Q4AZSj+7N4Nsaq273/m+UlIUNJ2vOi6PgiR4qL0fgGCKkAbSXcV/ug1?=
+ =?us-ascii?Q?argk+gWtS62NhYwKOHWmVEwlqKPPZ3vKU0Rmyb+A4kaCzFg6yuNGQdOiWpaB?=
+ =?us-ascii?Q?O8ixaMGHpqAUOydGymBjcwlHqRTt1rYvh7lrYsGSJQellYPay+b+sKB1rVXM?=
+ =?us-ascii?Q?O66yEbQYpWZ+C5ktS1H5VT8mq0P3GyBBATcPW2/f1wB148d0uzle7bRUdjRV?=
+ =?us-ascii?Q?s01l/02bMrAdr+qMqJG5zBLaN7k9xWgJDFHTqWcAnXYBU+cMfpoVjLQ/5YUG?=
+ =?us-ascii?Q?9X1FRoxIKPKakx/J8j2NxnxuO+x1gUm+Fhd8/gQFxdjD676Ca1LPEXFeg6/D?=
+ =?us-ascii?Q?RP15ud+7DoyBPcFSfUnsq1T/k2ODFm96?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?dvXskn0QKpqJc7M8jliq2kgsLJG8iNjV24NdLS0edIXtWpmjDJ/Erh9X7qgU?=
- =?us-ascii?Q?KAenALTMOF6VwpH07ry2FwXteyjmyIgvBKRRhCI2u/0PwzHgrtQp6aHLad2q?=
- =?us-ascii?Q?l5/rWiqmv0CwgbKFFJ4ViJroviahLz/Lh5D1gC5cyVvJhgN66TZsHLqYS0pT?=
- =?us-ascii?Q?Ywds3WJiVt6JeUciBcU7cmGlzNImTf64Lrr7hsCeksx7EwNqOQn0ig8YzBDN?=
- =?us-ascii?Q?ruCYe81F2XF2mqHMPRbxBnCWk70TNJyec1rvAjZT7bLBP9sNbcq+XJYwd/M1?=
- =?us-ascii?Q?AaqzTalkGAcvoXCx9Lpd1UoBA2Ll2Z6AMGtgu5J72LfZIlZBVYJrZg9g7ThW?=
- =?us-ascii?Q?/5OhHieGE3pSFTgkSzjNPgjW9RykvDcnDFk9n54PMh40tcRpvJueBnAvIFoR?=
- =?us-ascii?Q?pk6Pe9TDZJr1WNu/hMTDsLywAqVSpMviVKWwvtyMfxC/xn3MVurHmMrUOckK?=
- =?us-ascii?Q?eFbX28CEHHgzJYeieOKkaN6q/gzBFpU/QaFixVCbqIgl3HVyoH7YOxfK9Gn+?=
- =?us-ascii?Q?GCNBceHm6RT051poAWylwjgVRDO9nojAvZq8Fn5hmjFAlHKdYSa69eYGbvky?=
- =?us-ascii?Q?XqCVe0/SNUEdU0vMDnj98OC0I35ruaEErUcQxI4G481yRC/gMkSKhFLxtzOT?=
- =?us-ascii?Q?z7UpNSHY881SMjwPi3agLaoNC4PyL0QOPsJ+6+XraBt1qMAbtYZS1vvNmO39?=
- =?us-ascii?Q?5dEEWhskdfbiktaowIxZNopIBKrxllOYeN2Z9YEsI2RnYV+p8IHfN6f6GFCd?=
- =?us-ascii?Q?zoDpbssD0ZDHLEDw5Ph9jUsIHBz7UoU1EeU2R/cZRxamItsLqRDFnG86ubjN?=
- =?us-ascii?Q?fFMmybJV5c5bClJ+FQa3s7Pb2+IPhSaSxfWOoEWgCWZqUlpURdBWOF5K/wWr?=
- =?us-ascii?Q?m9xqCpMkQqnW4DJgCGnho8vCh95i1X1DJl+CenOfrOUPJzi+WXoJAnBQXyiu?=
- =?us-ascii?Q?0gneyAXAo4SMldmfylc5B4kvKc1qCspgUfdldTACY9/k8qYLQ7npL8TEaU9b?=
- =?us-ascii?Q?Yw52mkGYEZlL8+GF2h6bbusPm7k+/dOYOJe1ymiJ6lor/FGNP0mLLAUjgdtw?=
- =?us-ascii?Q?lX4C4FAX5+rN7baHOgNCvBb3E6Fy7AhdbJZsbKzRTVZWjf4MUtsbZWOpr7L+?=
- =?us-ascii?Q?61wpWALr7EKdRnwy0nBOYkC/knZ4/HrmmFd6p6DO8z2eL2CsxIardnkrSNhA?=
- =?us-ascii?Q?ojt75CP7b0RcOvBGd6WXbUSOfPvO5j+cfOzQ6R/lTkvXBGLLDyXERu6NA5bi?=
- =?us-ascii?Q?qsqeNxF3Qo58/7V/29HCKwh21dAIuBeZuR5USRf1zuFdJN69RepvMvxZBUw+?=
- =?us-ascii?Q?DshUdqPukdVGn8/KzW970XZ8X6VxzhbJAx9E3VjRLwUTzWgH/A7LdzeSgYly?=
- =?us-ascii?Q?8tVfGSauq4t2yVdQw5LzAYJRN2oehoB+cfRq66pNllMDx4F+MUhte2e8+713?=
- =?us-ascii?Q?hV7PHG+UUkUg56wxSAkKnKsd00IShyn+au7H29UZ4TMHNST7bWyLsAj8ly/P?=
- =?us-ascii?Q?Vtf0pmkxUVMUDu6FaYE3sq5MFDOLXMovmK3ORg7CnGaGVTPA56OjakSRTcgL?=
- =?us-ascii?Q?qSFDavpuYKIbUpYE7mqOemtaOvqJw5T6e/HSfDO6?=
+	=?us-ascii?Q?mljgu1UcHuzG8/pHlaDIYhdhaEVeI3sv3TJ1kdCbOu+1Ij1vMk5sTCFADErv?=
+ =?us-ascii?Q?r+oxuvGrLeck9QQB+Bs9hfliEeSn2ptfBXRPo+gQQg0pVDiCPERm2N619//e?=
+ =?us-ascii?Q?aTgVm7jhS5Ok2RXE5tVGAqIp6E/uFtFxZhKRVlTDW+qZLyB5wgMh8GyDsxg6?=
+ =?us-ascii?Q?R0d/VreMSEV+jwlSUkHEQP9DbUMpjbU++LDDiCXF8NGnu2UFEBENeCztFMre?=
+ =?us-ascii?Q?2vncx+ifRXw1V6A5SQ8pBYBlNTRvPnKmcD9haTNe3JBmCxOGEZu7+p+42K4M?=
+ =?us-ascii?Q?sgQ780LSkCOp8ExI+gUd553toeaZYIxZ+fsIHfFquN+i5vOSIhEvjC5nnMGa?=
+ =?us-ascii?Q?kqeRWWmOTGYzVCjQrmtfUjrCRMqxHlKVSN8u9r425dZWsRaLOGn96nZCb4Uv?=
+ =?us-ascii?Q?dllkZVXOqFmR2OMYVGGkN4efqka/8dA4iw4anGwarY14R33HBzl+zlrOkAQ+?=
+ =?us-ascii?Q?ryy6ISgeLCzqIoE0xJgqYNyoq0oB1/CjdFQbuzOw1XZdYlpaLuRYzfgEVY6U?=
+ =?us-ascii?Q?J1Vj/iBvl6An2I6qyzLiSsBEUJ46/s7v16ZbdF+uIH8NTx7LG27AVuRwxshn?=
+ =?us-ascii?Q?z4sGfkb/PvpGtb2fieuIPxvbs9y/g/QpxD7VZm1pyswlL3izf7eySEZPtfTB?=
+ =?us-ascii?Q?vY1GvOFXbyM2LE4TFP3cl9iXuXJuJdd356zp/d9w7T9LD7E5fyOnVnwa4lsy?=
+ =?us-ascii?Q?8oY3FYwTIOOs0GYE+wUZ9gPfYj+3JggGLjgixgkm9oQdrURUFGaUuj8uTxkx?=
+ =?us-ascii?Q?TTTPDeugaQC/4EoD/v/8vhNu6Bcg3K8qiByg0j4lm3XrhIuHkiATt+FZgiLT?=
+ =?us-ascii?Q?CuvQe6x/MKvE6uT9daw/1qfxTE+6kdgWR4LPxoEU+EoJmhVgs1ZGQlOnPhpf?=
+ =?us-ascii?Q?v4EI5oOeM7saGES8FxOxvdijQSmVc1Ee++R89H4TQLpw8AmiF6BGAwAddku9?=
+ =?us-ascii?Q?jnYOwPtZyMfhmKQDdDGdKiQQaROAqdRYb1/g9B1/JmuniNcaQMPmMKvDKe99?=
+ =?us-ascii?Q?BiifglanqhrC07ltOk3RsBKBJcJSK7msqwNzyldSKBY6u4Kc515fMzeEa/qR?=
+ =?us-ascii?Q?UqpUE4nhMFqX/LbTsOO68rCdXiTTsZUe0UbW91ffz2CL8zMoQx2d2Xo2haf/?=
+ =?us-ascii?Q?ySzMgApj0euu7MZlZb9k7bFc3NufWNWPKt0qLGAnXloUahHrOTC/amNEeqEZ?=
+ =?us-ascii?Q?A94/FOxyAgJUzYKI9IBrWXWKYNAT/DVquuVemJ7H6gDYAVZjB0aIOOureglM?=
+ =?us-ascii?Q?Ffaxg8OucbdboW5E14TVyiyQNhY8kxEyknRsVWYohyGo9TxzJ8vChXH8PMpA?=
+ =?us-ascii?Q?g+uofi7whtZJhi23KBSikxW2zgAEESsxwUfirn98YAkguJJHyBdV/5j/Rxmm?=
+ =?us-ascii?Q?/fu+4DpaTpbKOS7nj/H0oKKpLqfxutuwPmdnXKuwDhm+Vz+Lh756DME7eNvd?=
+ =?us-ascii?Q?Ckp7JI0r4JgcxHmXEGIvNwUNYM2tVXBQc0AkDToQ4OEx6Ro0VS8sFQGJ8YBo?=
+ =?us-ascii?Q?xwGM2SAcwm3JiAfgnBT3QKNlenaLbLFBeWtVJhxIHLlJx0+q+my5vHqmBCkz?=
+ =?us-ascii?Q?Dxe8f85FuBo6C9OfenfIE0OMRZM7uSbqeYRmCu0D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da2a56a6-559c-4b46-13ee-08dd22a4e2ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92743eef-e678-4319-7517-08dd22a4e0e5
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2024 16:22:53.2239
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2024 16:22:50.1560
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IxPFiaziekNiByuUKg4eJiZQxpvS5+PgU7nohv1EfXGKK4u39ZmAMFazIkRLgvnySizR70Ls6F+kHbEcfx63Kg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: m6XKu48jp+alEpU6xgcZ+7ykWcKeKwHpvO8RMcdzwSaCxEevk7hUhgasAWfbqCurRIfgbf36eEc72goHSKVciw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9483
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 22 Dec 2024 16:23:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209010
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209007
 
-Building weston with core-image-weston SDK fails for xwayland tests:
+Building weston with an SDK fails to find pkg-config-native:
 ```
-Run-time dependency xcb-cursor found: NO (tried pkgconfig and cmake)
+Did not find pkg-config by name 'pkg-config-native'
+Found pkg-config: NO
+Found CMake: /opt/poky/5.1/sysroots/x86_64-pokysdk-linux/usr/bin/cmake (3.3=
+1.0)
+Build-time dependency wayland-scanner found: NO (tried cmake)
 
-tests/meson.build:357:2: ERROR: Problem encountered: xcb and xcb-cursor req=
-uired for running xwayland tests
+protocol/meson.build:1:14: ERROR: Dependency lookup for wayland-scanner wit=
+h method 'pkgconfig' failed: Pkg-config for machine build machine not found=
+. Giving up.
 ```
 
-The problem is the tests folder is built but not installed. This
-behavior seems to have been introduced with the 12.0.1 upgrade.
-
-https://github.com/openembedded/openembedded-core/commit/be7da75827b4ffee3a=
-243f977faad429dd9fa21c
-
-Disable the build of the unused tests. Also drop the xwayland
-dependency on xcb-util-cursor since it is a specific requirement
-for the xwayland test build.
+Fix the problem by extending the pkg-config-native wrapper install to
+class-nativesdk.
 
 Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
 ---
- meta/recipes-graphics/wayland/weston_14.0.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-=
-graphics/wayland/weston_14.0.1.bb
-index 4cb0ca4d5f..2a0a403d99 100644
---- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_14.0.1.bb
-@@ -31,7 +31,7 @@ LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'lt=
-o', '-Wl,-z,undefs', '',
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipe=
+s-devtools/pkgconfig/pkgconfig_git.bb
+index 6f13d0177e..2b298eb5e8 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -46,9 +46,9 @@ FILES:${PN} +=3D "${datadir}/aclocal/pkg.m4"
+ # specifying an appropriate provide.
+ RPROVIDES:${PN} +=3D "pkgconfig(pkg-config)"
 =20
- WESTON_MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+-# Install a pkg-config-native wrapper that will use the native sysroot ins=
+tead
+-# of the MACHINE sysroot, for using pkg-config when building native tools.
+ do_install:append:class-native () {
++    # Install a pkg-config-native wrapper that will use the native sysroot=
+ instead
++    # of the MACHINE sysroot, for using pkg-config when building native to=
+ols.
+     sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
+         -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
+         < ${UNPACKDIR}/pkg-config-native.in > ${B}/pkg-config-native
+@@ -59,6 +59,15 @@ do_install:append:class-native () {
+     install -m755 ${B}/pkg-config-esdk ${D}${bindir}/pkg-config-esdk
+ }
 =20
--EXTRA_OEMESON +=3D "-Dpipewire=3Dfalse"
-+EXTRA_OEMESON +=3D "-Dpipewire=3Dfalse -Dtests=3Dfalse"
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'k=
-ms wayland egl clients', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', =
-'xwayland', '', d)} \
-@@ -72,7 +72,7 @@ PACKAGECONFIG[webp] =3D "-Dimage-webp=3Dtrue,-Dimage-webp=
-=3Dfalse,libwebp"
- # Weston with systemd support
- PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,systemd dbu=
-s"
- # Weston with Xwayland support (requires X11 and Wayland)
--PACKAGECONFIG[xwayland] =3D "-Dxwayland=3Dtrue,-Dxwayland=3Dfalse,libxcb l=
-ibxcursor xcb-util-cursor xwayland"
-+PACKAGECONFIG[xwayland] =3D "-Dxwayland=3Dtrue,-Dxwayland=3Dfalse,libxcb l=
-ibxcursor xwayland"
- # Clients support
- PACKAGECONFIG[clients] =3D "-Dsimple-clients=3D${SIMPLECLIENTS} -Ddemo-cli=
-ents=3Dtrue,-Dsimple-clients=3D -Ddemo-clients=3Dfalse"
- # Virtual remote output with GStreamer on DRM backend
++do_install:append:class-nativesdk () {
++    # Install a pkg-config-native wrapper that will use the native sysroot=
+ instead
++    # of the MACHINE sysroot, for using pkg-config when building native to=
+ols.
++    sed -e "s|@PATH_NATIVE@|\$OECORE_NATIVE_SYSROOT|" \
++        -e "s|@LIBDIR_NATIVE@|\$OECORE_NATIVE_SYSROOT/usr/lib/pkgconfig|" =
+\
++        < ${UNPACKDIR}/pkg-config-native.in > ${B}/pkg-config-native
++    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
++}
++
+ pkgconfig_sstate_fixup_esdk () {
+ 	if [ "${BB_CURRENTTASK}" =3D "populate_sysroot_setscene" -a "${WITHIN_EXT=
+_SDK}" =3D "1" ] ; then
+ 		pkgconfdir=3D"${SSTATE_INSTDIR}/recipe-sysroot-native/${bindir_native}"
 --=20
 2.34.1
 
