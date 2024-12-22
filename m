@@ -1,145 +1,182 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE69CE7718B
-	for <webhook@archiver.kernel.org>; Sat, 21 Dec 2024 22:33:52 +0000 (UTC)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
- by mx.groups.io with SMTP id smtpd.web10.15570.1734820425698263738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 561D6E7718B
+	for <webhook@archiver.kernel.org>; Sun, 22 Dec 2024 00:13:53 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.78])
+ by mx.groups.io with SMTP id smtpd.web10.16944.1734826426657147209
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Dec 2024 14:33:45 -0800
+ Sat, 21 Dec 2024 16:13:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kX/y8sit;
- spf=pass (domain: gmail.com, ip: 209.85.161.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5f2d8f62290so1481049eaf.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Dec 2024 14:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734820424; x=1735425224; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NwKB7FKkPVb08JtlO9AiFhVclN13yeB0hSB3ILg7olI=;
-        b=kX/y8sit+4XovTaoQh4fuhJG8wa5SbTEgW8/w5uNtJGJqY4aGN0ki+z5t6ZnGlZplQ
-         Jp2O+fdK3wa5/UQ1VRDc7s1VmJTL0NG2At1i66CKEtmxZHY0A2xMu0AoUqXYKnJ9MBt3
-         quAKmoNMiJmI0txqLQArbiDa6oAqvo5i0sViZ034Q1CfX7bonGlRHafn9Z8brVa/xA4K
-         li996zwNxARHDDCuHyIKUh+B62oCsT3SurvVEQBEzZOZEgpHQ0GYsl3+lEa7s8anTeW4
-         C/FwBPvH0k+O96XgSmTkn4ftZXO0J2EW6mfcS3Cvvsy90aoiHq9roMS36ctsbij6L81l
-         BJIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734820424; x=1735425224;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NwKB7FKkPVb08JtlO9AiFhVclN13yeB0hSB3ILg7olI=;
-        b=jxMd/sOlWeQCK3lfwPa3RkbfYWorJ5hLQQ0IVRXKiId+xRvo67KcWMW6lGJUPYpKa8
-         ddSYScfcNfjNWGwjcBZjtu7YPvjBetKnfoWGrBVecfpdUhNNL6Ow0hzd091bnfegtCT6
-         68gGzv63VYY1DfSvh6ikLyvYk74oQVIEtJBrfZTiQ5KOzPhHvgWARC+DcFViG6kXHR9U
-         m8O+obKlET7L3fYIbCj85gmH7ZZqOewYCtz07hsweIO32a0x00V+qDf/y6j5JXv7LR3x
-         49wvy821cVQgxAIaDAXgKuComaib3/0tGib3KEajOdnho0KgpXuLKCKXukbBOyXevV/x
-         YIUw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHZUK5uY+BWxPT3PSrk5exZXRuUCdNLw01OCdKVpoWdn6ONyT5UdpuSBULDlCvbIVHawbzvgyQT6l7/O7Q9eL+Nw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyhvpD1nuWsTqI++sV9GMqTK5Kc83MqKLrJSFh2KAqbrLItQlaq
-	/EcWK94a2LrgCEsVYnjnwff+DXrrm3hbN1SSbidbKDgXRRioWyTYdzWyPlV76qV2gSNl4e8VxEX
-	bJb+KHacoxqNRaJkL2AHsLUOaFGY=
-X-Gm-Gg: ASbGncvAF7EzgFNeNlzf0iVdUeeBdv5SRo1/jDDpi5RsXXQ8nuPQIcSHMeHkssYTKQR
-	2ZWHXF9H4se0el8EYac9GxLpSA0J2Sa0aa9TQoNzqqKr4y+RwWRHeU/yKy7PzsjXnPHFY+OxP
-X-Google-Smtp-Source: AGHT+IFs1Xdj/Ah9O4iorjEd4EG91rdYlLtjkKu2dZkD3F26To5sDwHqTmjIJGal6Hefkt19qcaK5+4qh1Rgk4xTrQ0=
-X-Received: by 2002:a05:6871:8306:b0:29e:6096:c25f with SMTP id
- 586e51a60fabf-2a7fb2e94c5mr4621743fac.23.1734820424555; Sat, 21 Dec 2024
- 14:33:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20241219222120.1188742-1-tom.hochstein@oss.nxp.com>
- <20241219222120.1188742-4-tom.hochstein@oss.nxp.com> <CANNYZj-9Jdf6eeW=SdVPnSd8vVq3m+bhO=m9SZF5KKggcfKGvA@mail.gmail.com>
- <f1df3290-445e-4525-a3e5-7d156c5a45a5@oss.nxp.com> <CANNYZj_V5sxoaN=FpvpaFxfKSRNrrarR1Mcv9nuxKAADtbYXGQ@mail.gmail.com>
- <28220675-1c81-4e19-a935-0b001150ab9a@oss.nxp.com> <CAMKF1soxnjO=PaP92265dSfX7G9zjoeRu2hfrHV0c_8Mg19cfQ@mail.gmail.com>
- <5cd9d111-17f4-4e12-9c3c-91cfbd1454cc@oss.nxp.com>
-In-Reply-To: <5cd9d111-17f4-4e12-9c3c-91cfbd1454cc@oss.nxp.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 21 Dec 2024 14:33:33 -0800
-Message-ID: <CAMKF1sos+HS7jikyMUGwMGoXXyft71dZWTgB0pZma22jOStdPA@mail.gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=SfEb3VZB;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.20.78, mailfrom: tom.hochstein@oss.nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ao1MgmG6a/E26p+QxdkILwIt3eVgYRQb4vh7LCQnvS0eFPwNzcv543MxB0P69mQgsZ6SHJ70bEcgZPHVCcrOwWBaudggIjpjtq7d8Z8F5VaEcOj/aneXDXlCRni+WWJcHP4m9OlPA7MXxawFkCP5E3h3t1sg9iqRFRpVCzE4Ovph/6SU7o3OipHF8PItdXYacQmu1eZTD3pXTwBWzYrfmzdaLRStfnkOVFX87hLZ3PLOxUaVYzoC1Tw4oRKfTMZxH8tP0Io8Bgs4yQCx/iFIubuBAOA6bv1wV1ntIOs9dsOZp7BmO7lglplFZQ9b+ZkxSwF71JO7TBEByHawLkp4Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6yIICtWQIV/xbL7FoEA2I+iGY+KMWmi8Giz8OF41MEA=;
+ b=KL5zP9lAPTxEkuuca5xySDGQGP9epzMhhbY2vgFzEQd80GpT1wi+yAR34cugEu3Qa0ITdX9D2FPjJN7obsfjCFAAzyupTRGiiGWHhV7D+MqbQ0ibxIG6gRBB2tbMG6Rb60SFtmPtliQLlXX1kJXvpsSh8925f06WxVdAFRAeTQQx8YMbjGjRvjkFvZIKLbwCCmXx136rgShGF5mdk2fdQedWdSRiO+QXbgJkVmSl9lyv1kdHNxpaukcByCx80lZ07UzGTfdSTKHm4wTgeCZuy9BwXe8ke1Dk0GLld03qTVmPUjUfwHFeecrOeknT255EoDtBgrod4oAhmZz5ULQjGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6yIICtWQIV/xbL7FoEA2I+iGY+KMWmi8Giz8OF41MEA=;
+ b=SfEb3VZBQ/GdhpeGchMvKNV087RTNCmJDauPwvgZLmvN18HTUxw34CqnsP0EFdKVOV47Xv/jB8tKJUjjxTvtoqbgHAmQ+143AtAuTyJJtjVWMybcAJUSb4MeyZlRSyrmsSkoVzVKXY/QhqvzPlKJ+QHJasr8TSp0GduimiAHJgq4RK+SpxOA4oydh/1jtwR4Hqxvt1YiHODuYNmJoYmDK1xvkggtY4XJ6JxiYwOdGncYM9iFaiPjRlPXYiDcvFahgjay2JXo0OUZ17ThaDryFFSggOC4SWqtavWrvmBfgDbk+wSxs9Ni4j4EdYD+AlCLfjbYFABRSEc3/1NW2jGuIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DU4PR04MB10983.eurprd04.prod.outlook.com (2603:10a6:10:58c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.18; Sun, 22 Dec
+ 2024 00:13:38 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%2]) with mapi id 15.20.8272.013; Sun, 22 Dec 2024
+ 00:13:37 +0000
+Message-ID: <35266fcb-3a20-40b1-8004-433e8489477b@oss.nxp.com>
+Date: Sat, 21 Dec 2024 18:13:31 -0600
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH 4/4] weston: Add xcb-util-cursor dependency
-To: Tom Hochstein <tom.hochstein@oss.nxp.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000027a4350629cf5b03"
+To: openembedded-core@lists.openembedded.org
+References: <20241219222120.1188742-1-tom.hochstein@oss.nxp.com>
+ <20241219222120.1188742-4-tom.hochstein@oss.nxp.com>
+ <CANNYZj-9Jdf6eeW=SdVPnSd8vVq3m+bhO=m9SZF5KKggcfKGvA@mail.gmail.com>
+ <f1df3290-445e-4525-a3e5-7d156c5a45a5@oss.nxp.com>
+ <CANNYZj_V5sxoaN=FpvpaFxfKSRNrrarR1Mcv9nuxKAADtbYXGQ@mail.gmail.com>
+ <28220675-1c81-4e19-a935-0b001150ab9a@oss.nxp.com>
+ <CAMKF1soxnjO=PaP92265dSfX7G9zjoeRu2hfrHV0c_8Mg19cfQ@mail.gmail.com>
+ <5cd9d111-17f4-4e12-9c3c-91cfbd1454cc@oss.nxp.com>
+ <CAMKF1sos+HS7jikyMUGwMGoXXyft71dZWTgB0pZma22jOStdPA@mail.gmail.com>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <CAMKF1sos+HS7jikyMUGwMGoXXyft71dZWTgB0pZma22jOStdPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: SN1PR12CA0063.namprd12.prod.outlook.com
+ (2603:10b6:802:20::34) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU4PR04MB10983:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d697697-7927-40eb-0374-08dd221d7b3a
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?EfWkX6cq1UYP4qx8LPv/p12EOASUy2Z9UadR3OvKLYHQCaFLEYp+sX7SEFqp?=
+ =?us-ascii?Q?lX8VdjEFhtxBwPLSJ65hmJ8jZRb7det/V8fw2sebNfQwAg/ObzFylBQ/6V3+?=
+ =?us-ascii?Q?BiVh9n0anj3TZ8dbHfBq//22wiZEFf0XnjO32J+KR4bemNb2pUKEQAR2f6nB?=
+ =?us-ascii?Q?P+ma0ashq5hYt0hJeDMiXGL73DKFh5aL5Th1e9cCh+GwnvRZQSH4QP3TuX/R?=
+ =?us-ascii?Q?cO/VEFzTuTWRgnpU6ABAkmrzfRRU70A7TXVhgtKZUsiPN+As4Hc95y1rCkZa?=
+ =?us-ascii?Q?H+LM14405mCHq4uyrjlS7WmYefILY7SpOzF9Kc8bFA03MwYq78C3dhuAmL6u?=
+ =?us-ascii?Q?V5GSbnIhzUmaWjxvofHTRJ3wmMr9KYGQqf2Ur7PAx+NVkw97eIPdXTY2C4Sd?=
+ =?us-ascii?Q?xSuyE5vXy0+naKr02bVIBuYglNZs037zYUjkEjF4c6yguAbljEwZbxTnX5ht?=
+ =?us-ascii?Q?k/3Fqi3fbBs/g3GF9xeU3UHoRCyhHl9K4kT7qh41xGvbXJ66LHrLAbYcWEe1?=
+ =?us-ascii?Q?FaLbIxe9g3nIzV4brCnfxyVUpTqjIRY3lcQ5d9AMUk2lfV0swy4+KrFJgmJi?=
+ =?us-ascii?Q?azze+tPWPu0jnOqVuq37zAl5zo3o7WGMJXuQEdn83T8E5/Lo7FW97EkpX1cJ?=
+ =?us-ascii?Q?mfDuVl4Gg2IVv1to81lXrfbcH5S4ixwdiEVWm4ujpGqLoqUwodP7MzLgBamU?=
+ =?us-ascii?Q?g/8RameecWQDy+Sas/eMjC+NeXWmeDgMNT9aho5nvxViEYWxKnceWODDBfbL?=
+ =?us-ascii?Q?C2FvaGAJ4TzqohXjUUR256ZIPBgWLIh0ibfvDfuM5gTMbxyGMKXJ9MDQ5qge?=
+ =?us-ascii?Q?LjuTb4wWzxlZfr1m9WjrqQ8d54ElvQYeAzoD980GGwrexo+C0wsX8J4yiVpv?=
+ =?us-ascii?Q?RTwz/nSWELdFf8VgsyVj6rMDGm2pQ0LiVbz7t8YBl1xIZLiT0wSlzTR8DP53?=
+ =?us-ascii?Q?X6HKlYMGYwnz1uGkm99c3khL7dpR5K8hxvWV0HARxhL/foQg1vtpnaNyejnj?=
+ =?us-ascii?Q?zePAxksn0k6uOj+7fmySgUzsVHYbACQ/Ne8vCjtplwFOT22rs5e7CxcUs7/W?=
+ =?us-ascii?Q?x/aQbIIJRr3oPIQ1ie2V9ylvee0Xh45iVQicLHIX8ofen3d1UrMGrtcifHxC?=
+ =?us-ascii?Q?NY6VAXkwEURD07J0a0BuM3gLo+9l1/jJz/WgTmSAH171Mz1Mx8lOj4O5aIIT?=
+ =?us-ascii?Q?wTgAh5NMC7eS8mxb4D+QLphiGp6fpA0nrsSgGleIQ2+HuNZV/+YaY0UeLxjp?=
+ =?us-ascii?Q?LCXW9KvOMWpbt+y6RT4iv5ptR/OMbo3dibL2Bd5rdGmtm/EJCAowJUn/XR3D?=
+ =?us-ascii?Q?5MlzgmXY5e+rArwGa2AiTn8X5qsIqtGObxYKeTgCi4oNmV+rkJOwr9vBMCRD?=
+ =?us-ascii?Q?d5kSXD+akiqn3VReDdpqFQ+8oq9o?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?8N/iGXdfUUCdmJ9EGMCfeQLIaIZEJskvzRK/Y3YIg8OZ6xHt6hcVn3GRk5/d?=
+ =?us-ascii?Q?XIeqeV0BpqGoB3nT0Qgiv8ZZ5tMvhe6XrkvB1mmVO8p3BnxDmp0Hl5vUwXg9?=
+ =?us-ascii?Q?ig7lW2t2KbeEnenLNbwJesbWkPAHQwgEV7hw1Zhh6/NlGwzzX/1E/NUmzgcT?=
+ =?us-ascii?Q?Dm57QB+Rq06j81/tdJM239OUvM0Gjp2uj1N4vQv39v6eJc1+LDtYuk7vM5Cl?=
+ =?us-ascii?Q?1v9s9xz6mP8kUjDvpt9mkQ3Heblop1teIp9xHIbp590iIfAUNd56G9VLsVT9?=
+ =?us-ascii?Q?3iDhZNvuWTaImvrHDW9lyDxBbRE0F3vB/Kw1hE9N2kmYjjyy7LQRotfF2NJb?=
+ =?us-ascii?Q?Ff5/TFj0idAPSkxX0HYM+Gh1PuROk/DBxywwY/WhGcjbo6qmqMiTL1ZGJAKz?=
+ =?us-ascii?Q?CmlcGyHdckGYmbbxWD83WbywaC8A6+mm5KZaHAPUnqHgUNYFKHM+8ZlXjZ5y?=
+ =?us-ascii?Q?/44vGshxE8uj96Kwfko1Z7wXr8i9ZjK2Z2QGFn4AwqLdAA4vvS/RDrZqwM/D?=
+ =?us-ascii?Q?f4AiPIB3LXhAm+CvrK7WJIG0oEle6r1++Rcb1hVPFFHeoBJP4hqoKhWUKsbe?=
+ =?us-ascii?Q?pe+e5ewrEwEwAHp09umbfIKlXeg6B2bmLmepEaJzs08CrfmtGG8LDbpuwSuQ?=
+ =?us-ascii?Q?BHE1zKdYnvfzFtmAVRIc8Z0M4rBxJeyulVDMyibdg1z6dRQbTd3qthGFBgD9?=
+ =?us-ascii?Q?4dgzqq2l1yzkpO5ByWLpqZZQ+FaQ09+CGy8QbQA5N0MQOmDUw3x4ZDgk6ZR7?=
+ =?us-ascii?Q?M9C9oUQpzrObphl+OF/HQHzAf/rErdmxEWfxf1Xb2b+jVaSZmMGsO6sxdA5X?=
+ =?us-ascii?Q?NIW7fUBr1vlnfvjOtNStj7HW8bxf8HE6nUKuJlyTQt/7Lzsf1t2GQTDO1fBX?=
+ =?us-ascii?Q?HK3ykwFWLjUZkLNtarmnOOx+OVlQevsSMNJFIrPDmZ9k8wDPCwzJ+1C9xSEh?=
+ =?us-ascii?Q?TUFJTQzehrbLq6TPAu1bYsigisxLJgZJZ3IedDA32wFjOKOmy2JmVCdy3PgB?=
+ =?us-ascii?Q?ZvRk5wA3JQUNTYnsYQKQoNQZq3gyvzXo1lwV/cpHDEjSx+pr+pOT4fuwEUfX?=
+ =?us-ascii?Q?E10Ji7uRbhYFn1GlAuphmM6hM7ZewGUI0uURojt37IAU7viXwLd9xhvYsQPd?=
+ =?us-ascii?Q?6umc54eNDjvkmxU1dYRGOaFIrnjPayjmeXadCTrRr4AWIhcU1bfcsD+NY65r?=
+ =?us-ascii?Q?Tk/4SBu2GW8uWOYbPlSwrI6J38C6iXCR5eOGijmuzJgzIwhMe4RM9QLP/jqK?=
+ =?us-ascii?Q?PPhUGsGxCeZ5BsJuzzFTm9gCsW0GkDRCJndzOF8jFn7v+axOj2juvPUZJErS?=
+ =?us-ascii?Q?lOF8NQVklAeqpVeSLogq3DEQFzTagNhepcafufrJeeJ01A9989QGRqiA+pJT?=
+ =?us-ascii?Q?vx+Yie8f4VLugqy0XIQRqr4Y01Hg+9Vrqj4mezBfuvXjdfAbfhKZwFSIPzl/?=
+ =?us-ascii?Q?32km2xz8MvAF0IyD696eeNah78AMCBbNd75Y9UUTXqISTnNS7MV1ouz/gguN?=
+ =?us-ascii?Q?hu6X7Ez/qK6wuyYmY3dIwj1JNZpdJXgCzeTKnD641Pgb0mXGdIVDcC55CDe1?=
+ =?us-ascii?Q?UwIMlsdSTSO4R8rUFkGorKC5wl3jR4e2fNm1X31fzhZvwuiIog3rEPM0EXhg?=
+ =?us-ascii?Q?yQ=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d697697-7927-40eb-0374-08dd221d7b3a
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2024 00:13:37.6772
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qknEe/ap8tzDx8CwxexCeSPnddeiVdfGtrNcki5CNEzO61zyELlP0lT5NyoDcnItVLvDhgKXrnbjGwDGw9mdig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10983
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Dec 2024 22:33:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208993
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Dec 2024 00:13:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208994
 
---00000000000027a4350629cf5b03
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 12/21/2024 4:33 PM, Khem Raj via lists.openembedded.org wrote:
+>=20
+>=20
+> On Sat, Dec 21, 2024 at 1:45=E2=80=AFPM Tom Hochstein <tom.hochstein@oss.=
+nxp.com=20
+> <mailto:tom.hochstein@oss.nxp.com>> wrote:
+>=20
+>     On 12/21/2024 2:10 PM, Khem Raj wrote:
+>      >
+>      > Tests sometimes do require additional packages and at times
+>      > development headers and libs
+>      > on target for different reasons and these dependencies may not be
+>      > needed for normal
+>      > functioning of the package. I would suggest to add them into image=
+ as
+>      > rdeps (if they are needed)
+>      > conditional upon ptests being enabled.
+>      >
+>=20
+>     I don't see that weston references ptests. Is your comment a mistake,
+>     or do I misunderstand?
+>=20
+>=20
+> No you did not misunderstand. I am trying to help you
+>=20
+>=20
+> Hmm. Is there is meson option to disable/enable tests in Weston ? If so=20
+> then you can disable the tests by default. Since the error seems to be=20
+> showing a test configuration failure
+>=20
 
-On Sat, Dec 21, 2024 at 1:45=E2=80=AFPM Tom Hochstein <tom.hochstein@oss.nx=
-p.com>
-wrote:
+Aha, we've gotten to the root now. We're building the tests folder but
+not installing it. Will send a v2 that disables the unused tests build.
 
-> On 12/21/2024 2:10 PM, Khem Raj wrote:
-> >
-> > Tests sometimes do require additional packages and at times
-> > development headers and libs
-> > on target for different reasons and these dependencies may not be
-> > needed for normal
-> > functioning of the package. I would suggest to add them into image as
-> > rdeps (if they are needed)
-> > conditional upon ptests being enabled.
-> >
->
-> I don't see that weston references ptests. Is your comment a mistake,
-> or do I misunderstand?
+Tom
 
 
-No you did not misunderstand. I am trying to help you
-
->
-Hmm. Is there is meson option to disable/enable tests in Weston ? If so
-then you can disable the tests by default. Since the error seems to be
-showing a test configuration failure
-
-
-
->
-> Tom
->
->
-
---00000000000027a4350629cf5b03
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Sat, Dec 21, 2024 at 1:45=E2=80=AFPM=
- Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@oss.nxp.com">tom.hochste=
-in@oss.nxp.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 12=
-/21/2024 2:10 PM, Khem Raj wrote:<br>
-&gt; <br>
-&gt; Tests sometimes do require additional packages and at times<br>
-&gt; development headers and libs<br>
-&gt; on target for different reasons and these dependencies may not be<br>
-&gt; needed for normal<br>
-&gt; functioning of the package. I would suggest to add them into image as<=
-br>
-&gt; rdeps (if they are needed)<br>
-&gt; conditional upon ptests being enabled.<br>
-&gt; <br>
-<br>
-I don&#39;t see that weston references ptests. Is your comment a mistake,<b=
-r>
-or do I misunderstand?</blockquote><div dir=3D"auto"><br></div><div dir=3D"=
-auto">No you did not misunderstand. I am trying to help you=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex" dir=3D"auto"></blockquote><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">Hmm. Is there is meson option to disable/enable tes=
-ts in Weston ? If so then you can disable the tests by default. Since the e=
-rror seems to be showing a test configuration failure=C2=A0</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex" dir=3D"auto"><br>
-<br>
-Tom<br>
-<br>
-</blockquote></div></div>
-
---00000000000027a4350629cf5b03--
 
