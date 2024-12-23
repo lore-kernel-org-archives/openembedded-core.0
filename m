@@ -1,130 +1,171 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCC6E7718B
-	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 16:50:35 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web11.16825.1734972632170480153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACDAE77191
+	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 20:05:26 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.77])
+ by mx.groups.io with SMTP id smtpd.web11.20895.1734984317855565748
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Dec 2024 08:50:32 -0800
+ Mon, 23 Dec 2024 12:05:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W6n+8aeV;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2a8690dcb35so87234fac.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 08:50:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734972631; x=1735577431; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hMzJb9Tn4pE4Hv0o5qoU9C9zZWiWIhVk2MNXiZ2ckUE=;
-        b=W6n+8aeVLHB8ZPL71R+/p2ObBgCPYg9WfRMMKLv767oPJ7gDbsgG0UJP4oQkKIjULK
-         aV2KQCHNLfcZcf73UhQXyY9evMQE9xQtcSNIBN7cdMsVM6ZY1GUJHKTeRMY4GbXsH0s3
-         Ywzk2W4f3JDNvV/CBoff96x7UO5phNQdz0qHVhqtJG76tu2VLnVX3VdQToBbPaJ35L/3
-         nStZOKGYkd7VG5tyK79EBXzz38au02tQYvRvBV6ybR5g4qw4BS0Auyvjr1WT9BREeh5W
-         cLmjR8HJdfOrzY00O1NeMY9K0V3x3BwCGLyEQDALs2/4lfSSZvo8sOmec2iJ1toqXQTQ
-         p5yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734972631; x=1735577431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hMzJb9Tn4pE4Hv0o5qoU9C9zZWiWIhVk2MNXiZ2ckUE=;
-        b=C2lpQSbvr4L6KBv0xi8L+9/UUQWFbAglnqW3jYVt2O76OKh4Y9c2giWQe5K0BEwXs0
-         SYy6TwGF/QUPkRYHxGLQiBabh+nT1eUEEQZZlDVRLMN2ZN2GPdDd8L382dDD4crqnuFx
-         3SA7/lbdCkv09nEZWDiQCKn9+BDSSemX/ri4UnZaayvZp/o3iSgmHCVEQUDDeXEphLWl
-         zoj97QqMMUXjfqATmZuOBCjlI53vBncYF6uzBqEXlviiYUe7HvwoMklIfSpF36tLtiXC
-         ph2RPvZ5H/xN4TTj6mLF6hjRpNfSdd1xvzHFrL24vsgMuI3vHPgMP/aQEwncDSYNJ7lC
-         LjlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXNbkUdCjSiFRm5MlE0TkRpLW6OLivduEK+CVh5v9lzQguM6hW8LRU2Su+NR7OXT7V8D7K9Bn8ls7O3jpW/hgdJ0A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyooLpJic0AQ3V49BiwD1N8FCgms1xu7bvL2egHsr3+6iOELg/e
-	jJ8CAkG++FFMo82aprlBAWbJi2DZ1dstb0UKEVZwFXxk86NWs0snBS2s2Oyd2q/QKiXqPkow1Tw
-	YIjNANaxinIW5f/OfuS69150Zo8gG1A==
-X-Gm-Gg: ASbGnctpNwX80D4ZrvDVYLFxOznTA+MpD32s8EIfuuU56czUepqj3PtxB7WuInCqkM7
-	6x4nRtBe/GR9hSVYsMsInmyu6E7FOwtm28iIvpC2xvaZN4wGPOD3D
-X-Google-Smtp-Source: AGHT+IEqA/Z675rcXkoYnelzDDaxOXU8WJVnfk4WIXxdJW0qoCngacH4J9esZLUgzrRiSNeEOv8Zo6pHJiBvrQc1y/A=
-X-Received: by 2002:a05:6871:5e17:b0:29e:20c4:2217 with SMTP id
- 586e51a60fabf-2a7fb34686amr6700823fac.33.1734972631322; Mon, 23 Dec 2024
- 08:50:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20241223090642.959439-1-jiaying.song.cn@windriver.com> <e47ab30e-725f-4054-9f41-35f0888a8b0f@windriver.com>
-In-Reply-To: <e47ab30e-725f-4054-9f41-35f0888a8b0f@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Dec 2024 08:50:05 -0800
-Message-ID: <CAMKF1socVyXmYUqja5veh=58PXaW4FanrCN5G9dbM7p0UidKBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tcl: Fix issue causing tcl-ptest to fail
-To: liezhi.yang@windriver.com
-Cc: Jiaying.Song.CN@windriver.com, openembedded-core@lists.openembedded.org, 
-	changqing.li@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=rpHFcFvJ;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.247.77, mailfrom: tom.hochstein@oss.nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U+hDxrbs0eklw3ERosTsNz04k3EjUTQtpdkX8R6ShOhtnWXnSi/W6O2ZPirQBJk2P4zHP9UqB6x36G/LWX2huV0p3nm2DwLVXZYO7/Okx69Nj+hcCq1yZDieoSBrLNwOsaUr7Dd+4sDR64VanH+EEgfo8YUEKKlfZzCPxKORaWzEiUgxpoudvUtjyb2yR7ewOlvmQSu5+UwCPclx44TQirIGmaPAjLExML69rSaoDa7xrxIiuvR5RjCtVYLcvqng0mcg4NY13t6vHJAS7Qpqn6+/xHBZV39vMlF6evV9/xGLdx8cnntbcsYD5ukNl3sLvijCOSGIfZOTU5i4Dwzozw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2z+f8XLzADN83aWGHcgsvLSqfiI4ga/IaAZHU7+Oorg=;
+ b=G1MlKOel5VdAhkUSTgvodDw7XDSl9fJZUrXvsddEf7bM4W7McOsMsDzIPJt4JWlVfxKhkon8mORJ5Yeypue0daN8fV2yv1heRK34EL/cv2R8yoa1ZzV65o/MoL/EeiIkdK8dmvTceZeTF5EscPJdBguPytfg2MK0xWSzrly0fEfS6EbarfpvL1iQNtj8rSqViGRZJc++bFs5n9YIGKYfj3+HZfqgQoHBoIg9+8YJijkvshhqHAYmdFnmjf1QEs1tNvwY+CjSk1znOPf4XLeDvVQo/sh+lVDv69CAFfyehhTrT/zsLbfvV4fJUbokgwpVj4ba1Ir1Ye0M3eoergkZZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2z+f8XLzADN83aWGHcgsvLSqfiI4ga/IaAZHU7+Oorg=;
+ b=rpHFcFvJxAy0jT9jd8BXVo7gFvPaL69xLBw0ziVuWgAfFyvHUn4K8+yODdQJgxBvJSjc6N3AlENP8O9wS8GTFz01ZZpa0HpEOYJGnq0paJ7qXT9x+aXsirZZ/D9Hfhh/gZD8nMT6aSCA/ccpf+eiqYp8BoxEUG6blnrIvH7vXtGlP/TeZ64Wm6fP3LPxqB0hM0bI5Az4iPGSOdrcteiZQQLUOo6xTecyTJkN50ejkjZRo8XZuCD2RR8PFguwbUBJMEiVqFLFnmwiaRuTzX0gSRwqqyv/uGTzSq90QAp4ppAS/pawaI6rRgy6ecRmRVCWT72gXbtY2RoVLJdEUk+wYQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by PAXPR04MB8157.eurprd04.prod.outlook.com (2603:10a6:102:1cf::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.19; Mon, 23 Dec
+ 2024 20:05:13 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%2]) with mapi id 15.20.8272.013; Mon, 23 Dec 2024
+ 20:05:13 +0000
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+To: openembedded-core@lists.openembedded.org
+CC: Tom Hochstein <tom.hochstein@oss.nxp.com>
+Subject: [PATCH v4 3/5] weston: Fix wayland-protocols dependency
+Date: Mon, 23 Dec 2024 14:04:54 -0600
+Message-ID: <20241223200456.2504683-3-tom.hochstein@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241223200456.2504683-1-tom.hochstein@oss.nxp.com>
+References: <20241223200456.2504683-1-tom.hochstein@oss.nxp.com>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR01CA0003.prod.exchangelabs.com (2603:10b6:a02:80::16)
+ To PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|PAXPR04MB8157:EE_
+X-MS-Office365-Filtering-Correlation-Id: e763a3db-c87a-4a60-167a-08dd238d1c5a
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?+QyrqEQYxahtW3WEUjXhvGxGnc5qJx72ibKbM5AiGfBFmRE+9d4u2VLGgKqC?=
+ =?us-ascii?Q?Zzd0LB/SIvOY/RxNWK1sKxBzOYN3FBySdwX1zh7PpCuGBaaAlue6jNxe/zSd?=
+ =?us-ascii?Q?/jCsrqV8ted4iKCMltUpQoVsPGojNRveDlWd8OQURfGq6+Ie2jWFrIAZZ76e?=
+ =?us-ascii?Q?nFq9tTYRzBe4irThwAUCOJBolZhEQciMlcLFWqDt2lKf+6Hdc6i+2zCrGwxi?=
+ =?us-ascii?Q?uA9O+DCEIHcYIHio96Mw0vWhYqmmauNvoI7zcudklryZR0u4fQK13bEBhVpn?=
+ =?us-ascii?Q?8/oXUwcstvuHOBsHbxACCYO6w2V+ytSbqfc3u5Z9YvamFVEQVkGGIrAXHArI?=
+ =?us-ascii?Q?BWG7VJb5wTRUAZOI6m1JZn31k2bIC9y1YAoi2rETz32zHopyX7TnJL1pKe8i?=
+ =?us-ascii?Q?0lzkgzo84LAIuHWrMBPFysEl8s5ctiUozd1G753g771JOtCjULl3CpKEWseX?=
+ =?us-ascii?Q?bq4QerrvukOFjo8xdPmmBXLWq30rCbexKxHxi1C7n2e4rOdJHHhLmZ6T/BqG?=
+ =?us-ascii?Q?A3tlbGJp2dhMguKr92wbsPzID9DQUNprGs72DIy1OiW6CXhA/E9rW8MJryhj?=
+ =?us-ascii?Q?Wf/lvWu/T/8Z8ZYN2jsm+4D2LN4sjFMXSUthDo7zu+Q7mUze5XYaucgV+SrZ?=
+ =?us-ascii?Q?GHNCCoHSo1LhmS46JoXXIiLSuGvP6t451SUNzdkEZkvOq9VjvC0PJFqrW5iH?=
+ =?us-ascii?Q?izAQVdQ6OUxu5b74JMvBsr4PXeHhPL2EQSK2TA8h2DkLseIhMJklAIyTH/5E?=
+ =?us-ascii?Q?EFyJFX3ddeIZjz77EJN0FtajOZYZCP+vudt8shFGS+MTLoM9gUWmF7xnMp2I?=
+ =?us-ascii?Q?xI19jF5bAwedB1HAIfcoDAcG19NAbLi27Ya0UDtY1UjQA94orxmOeJfnH5F6?=
+ =?us-ascii?Q?kE+L7T8qHg9agg9nkgrkltHtObHl17buDAaar4xn4zbE+uzva5Pexm1BOUHK?=
+ =?us-ascii?Q?L7+QGv+6DwJZUi+Ppq8oSN40N6INkA8CT0EV1gt1sQ+Kkad8o6g+JCfEjpXX?=
+ =?us-ascii?Q?TfbPdFGdP/l1FI1vfooG235ULb0jKcdSNqda1ge5bhefw2AGg//L0pWvUvii?=
+ =?us-ascii?Q?YNzcRQW5TnzT8VKi0cEOHMjJj77NYt5AMpyu5jLRjMY3ZqboyqsDqZsfDKTf?=
+ =?us-ascii?Q?OPgN7BQdCCZe5cX2pj3kTxI/MzjdiHNcim+Ov6m9P5up+GHpbJpnlL1mvwWu?=
+ =?us-ascii?Q?4Xfbf6YCObuDLWXlvhtCom5D1v1diL3AOqBLYqKhFOKJvzKIqcYhKLB9VIdA?=
+ =?us-ascii?Q?7iiQCX06h1b2r9ekvXHx216vZv4km1A1T5s0P9oclnkMXbIRqfDOKpOKvDPs?=
+ =?us-ascii?Q?ge/BWi4sCpTOib9q6kFJ9jh0ZyWqN0FrlhXVfBlI7rqleh2+j3pWM4SW0ni+?=
+ =?us-ascii?Q?5s1yro99MM0G/U4GTBUlBp381ac2tfAuM+2ZmgXGiEYRTpwyOuxSu3UpX0Qi?=
+ =?us-ascii?Q?lfjUSher7ppSAkmwAnv62Th8LVKGleEG?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?JqLLKeQSuodcemAX0UM4zq1GGE78YA7sOhCf51h8Sopkc8myWwOs191qucRS?=
+ =?us-ascii?Q?5qdtGeiXeAhZQt+mJc5XqtEkCrZhkguNqaezvIa8MVhl8H/wvPd/FwRy/GAY?=
+ =?us-ascii?Q?undbCfq8mioRDhG5Ew0mpwdNRBN5VWgp1AtvSxLifuzLyuYumKAp8xWcro/X?=
+ =?us-ascii?Q?fpd3ZYpf9IdH/yL7Lh6ACNduJLOaN6dr5w02shWTUb5VcmX51+xAQdXD4dUd?=
+ =?us-ascii?Q?DUz5tqmutdy6GGhtvDvygC7gwXbYwikXUSdJ0fs60+GR7UkcN1RbCF0ahVz5?=
+ =?us-ascii?Q?DDi3Thxp+SKxbunP8ptgg3+nVhtN7NWmMojPyHg1/8DMwhIVf97HsZy4x9Sg?=
+ =?us-ascii?Q?cW1sriShaElz+SmeXWJ29Uqlo0mHsew5Wq14lRpiOvMgHGVi2j/W82rshabu?=
+ =?us-ascii?Q?+xWRl3+AFnfyh1FvWMwyjU3zUT0/j1oZYCxkzN1hHvkfuPiSFKHnqZaqETKU?=
+ =?us-ascii?Q?1jp+XuMZbgpYFIJXhIXUKBQUkCe9XDSxypcZXxel/y6KiZsQom6M22H9LsXy?=
+ =?us-ascii?Q?G6atzTgixAY2T+oG+6gvv8Tg8r0IQ+bAMKvvwCEk+k2um3MD0bRYi2bb1jIC?=
+ =?us-ascii?Q?eSgjZUez7F7XrV3neJB4J23u0M/WBH1+xxuJQxUlI2PEbZEEFF6KnrBSN22D?=
+ =?us-ascii?Q?JNoEueJqgWgOdwanAhNErb7pDokg3DzGPeV2HzMAj4n53UhqxFCZyjKYXafm?=
+ =?us-ascii?Q?Y68ubK5PN7ahZxBLFCZrc+fNnBP7UkaWNPU4UchaVlRhuusAb2HZXe1Gms3i?=
+ =?us-ascii?Q?1AtOCm2CCILAIeWqBrttFq+hMDKeU82ZvSNaGcDfbGYS3h//uLODjcyi9B8y?=
+ =?us-ascii?Q?teGoYnTbb0fzhMZs9E31vzgJPB6E+Dd/Rp+Wy7dqO/zZv3lAF4RAFtbNauiy?=
+ =?us-ascii?Q?/hzQmo6uc1AiPBKDJ1z7+erzXJyrUA9K9GwJFVJ+llBBk3yTWXaw2e8+4rqI?=
+ =?us-ascii?Q?9bEWv2ICq/AFBpZnm0zkuxmhsmDFBk4jlEpIYoMkpjFZshLw4H0bjl7j/C7v?=
+ =?us-ascii?Q?QdJireUWdBy4KPKvrVhgJpBMIdjEndcHm5yn/wGXgnRYmF4tDYqhCzJdTCGW?=
+ =?us-ascii?Q?vKhJdEpUelSAnuIWtNkafq3EUBCg7qaupYxS/qlIU382aD6QybRFPv9R6rWI?=
+ =?us-ascii?Q?eWz26F6dviQ6/j/scoLlavgpSzQHEcwFcu/cOullIGBWabWeNYSLqYRBnA5z?=
+ =?us-ascii?Q?uGgUz2HKm2VlHVeSoJTAf7XQoHTekYRulUtP51V4alTHxqk4Q18wfKcrTwgX?=
+ =?us-ascii?Q?IjKXqNbNe2ltXQ0XokfdTsU+ZcGAprEceYCWYk0qZBhj//hfzAftOwQN/x0W?=
+ =?us-ascii?Q?PieZPzERl8rGHCxBg3IrdFMdpR+/ZnZv+rFMJxNQD7lPRokMjmcEn+ZOZ9NH?=
+ =?us-ascii?Q?zilOpgPmW4xPm1W+Qmt70SjicwRG0HzTPlzZKtsE8CsO6GlfPFx7t32jqvSb?=
+ =?us-ascii?Q?yRVin5BAJJ4vMQXPL3JVLCybEanfletyEZzue0uLQH5XXla1Xw1trO+2pFBj?=
+ =?us-ascii?Q?OyGclyhLUm7ZBwseaLafUNcOBSPMWKRUc9LT20bn6ixtME6osQgzvv0povbk?=
+ =?us-ascii?Q?QPmL6AHzlWlQRHxe37+SWy6JWEdYqVs5ylDWq07G?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e763a3db-c87a-4a60-167a-08dd238d1c5a
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 20:05:13.2351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UXxvqfcGEqpcSqJEKNIf5vvau0B6b7tA/ZmaoOdoaCQf241Vfv2tdI6GwpNoUtDS1hfxHxDHii2zRmAYgmOufQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8157
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 16:50:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209047
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 20:05:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209050
 
-On Mon, Dec 23, 2024 at 1:40=E2=80=AFAM Robert Yang via lists.openembedded.=
-org
-<liezhi.yang=3Dwindriver.com@lists.openembedded.org> wrote:
->
->
->
-> On 12/23/24 17:06, Song, Jiaying (CN) via lists.openembedded.org wrote:
-> > From: Jiaying Song <jiaying.song.cn@windriver.com>
-> >
-> > Modify the TCL_LIBRARY to the correct value to resolve the following er=
-ror:
-> >
-> > application-specific initialization failed: Cannot find a usable init.t=
-cl in the following directories:
-> >      /usr/lib/tcl/ptest/library {} /usr/lib64/tcl9.0 /usr/lib64/tcl/lib=
-/tcl9.0 /usr/lib64/lib/tcl9.0 /usr/lib64/tcl/library /usr/lib64/library /us=
-r/lib64/tcl9.0/library /usr/lib64/tcl9.0.0/library /usr/tcl9.0.0/library
-> >
-> > Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-> > ---
-> >   meta/recipes-devtools/tcltk/tcl/run-ptest | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-d=
-evtools/tcltk/tcl/run-ptest
-> > index 8a9f611b0f..0842ca320d 100644
-> > --- a/meta/recipes-devtools/tcltk/tcl/run-ptest
-> > +++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
-> > @@ -1,6 +1,6 @@
-> >   #!/bin/sh
-> >
-> > -export TCL_LIBRARY=3D/usr/lib/tcl/ptest/library
-> > +export TCL_LIBRARY=3D/usr/lib64/tcl/ptest/library
->
-> Please hold on the patch, I guess it doesn't work when multilib is not en=
-abled.
->
+An SDK build of weston fails:
+```
+Run-time dependency wayland-protocols found: NO (tried pkgconfig and cmake)
+```
 
-Right, it needs to substitute with ${libdir} instad of hardcoding the
-path to /usr/lib or /usr/lib64 during install time
+The file wayland-protocols.pc is missing in the SDK. This is traced to
+the upgrade of wayland-protocols to 1.38 [1], which re-enables the dev
+package, which moves wayland-protocols.pc to wayland-protocols-dev.
 
-> // Robert
->
-> >   export ERROR_ON_FAILURES=3D1
-> >   export LANG=3Den-US.UTF-8
-> >
-> >
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#209038): https://lists.openembedded.org/g/openembedde=
-d-core/message/209038
-> Mute This Topic: https://lists.openembedded.org/mt/110254947/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+[1] https://github.com/openembedded/openembedded-core/commit/5de187aee675a7=
+8fe59620a3fb64a5da5ae662aa
+
+Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+---
+ meta/recipes-graphics/wayland/weston_14.0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-=
+graphics/wayland/weston_14.0.1.bb
+index 50749d7d15..4cb0ca4d5f 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.1.bb
+@@ -137,7 +137,7 @@ RDEPENDS:${PN}-xwayland +=3D "xwayland"
+=20
+ RDEPENDS:${PN} +=3D "xkeyboard-config"
+ RRECOMMENDS:${PN} =3D "weston-init liberation-fonts"
+-RRECOMMENDS:${PN}-dev +=3D "wayland-protocols"
++RDEPENDS:${PN}-dev +=3D "wayland-protocols-dev"
+=20
+ USERADD_PACKAGES =3D "${PN}"
+ GROUPADD_PARAM:${PN} =3D "--system weston-launch"
+--=20
+2.34.1
+
 
