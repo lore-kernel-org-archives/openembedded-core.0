@@ -2,61 +2,61 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65350E7718E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65402E7718F
 	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 16:35:55 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.16479.1734971079901590222
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.15176.1734967779962356746
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Dec 2024 08:24:40 -0800
+ Mon, 23 Dec 2024 07:29:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=edHWuyln;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: ribeiro.angelo224@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385ef8b64b3so3397641f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 08:24:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=celfSyyT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: ribeiro.angelo224@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43635796b48so26656555e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 07:29:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734971078; x=1735575878; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1734967778; x=1735572578; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=iKwY2kiSbGoaaVBn0OXBygAFk1cCvIcDHqJK9ArtjLI=;
-        b=edHWuylnZa0zhDhJ1ihqlvnRTdoK+nPgS+o01W3fHHr3l8/wcwOwYsp2UnKBVZ0Ya4
-         YEQ8h38ecPJbsXVSLlJr1g69PmjsGpjMbHFhRde/f9ZdBjN4A9waNrNWt10AkdoSEruZ
-         9A+e1Q+XTg+krBYWOxBbDYmO5JAFZttxMseMfHWjfJUh9q+yJY3cVX8RSQLa3LnggGKr
-         OiVxNyYdpVOne7fd5LFWsPafOwuIYPIE09MU9+ILnO6dPRy0Vas0Jp3ssPQBwvsBOyZ5
-         jwYzmAFpykYxLkF9zCThL6db5IqP+X4OMoowlmwyOyEeJVZPVRcwkLgd1fRycTHIA3uw
-         6OdQ==
+        b=celfSyyTjIKEK0Ui3WaKvU2OAQ05GgMiDOwoVwHT1oB4K722L0zUJmX6NNJ6jtUgNc
+         2/kn2YLkVM5ucj65r3phZCkpBHWs0sDwSRwsfGfM++kC4kh7jPp+QZxwHfEzpPSa09vq
+         vBHgkhBPZ8Eye7SQTK9Myg8pOPzZcmDeJiYHOMCOyaEWKbVqYnRBInWBVey9YGxglGFn
+         al/V8fOZUwrvxmBaAH8HYbX6vbVZeKMdZaHypwRESXEt7q8KBvRUCjJtFOlZWbT/xQov
+         euVlaOQbi3M3aLJWguA9zMvsOQD6ZHzlOdgPyCevKpxflyM72q4XjO8G2+tcOKfHC0Hl
+         2b6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734971078; x=1735575878;
+        d=1e100.net; s=20230601; t=1734967778; x=1735572578;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=iKwY2kiSbGoaaVBn0OXBygAFk1cCvIcDHqJK9ArtjLI=;
-        b=e+Fx0nbOAPVcyoZ45Qb3uQcJXG3GdIvkRGCLsRHGwcsrxajuXP3+5MEoH8qghW1TnH
-         Pyc/b6nszm5Opo2bBjgwZ9ObhFIDz9crUiuqJyoZtQo9ACCh8w8ho2txFOBLN/c/cIHv
-         WunHwjwnAVWr7EfdYSQSUpz+AE5SJjeyITi1vxnnhKAUsoP7LbGZUcSs9HqgG6s3rpcP
-         dj0hj2Cy6eX/ZslrTuZmCBcWHhABcqS5QhGBays/tR/HtCI1y/Cqd4kQtxULoG4hotEz
-         DWcvgnTnu/djH/KEQGbsrd+lF9Cth0q2CezOnP8Ka83+PQ2OrNBRxp0GeA12uMbge3sd
-         Vb/Q==
-X-Gm-Message-State: AOJu0YxP2ZPfiVNv/x8ITVvMavxPjtYcsssA/aJPas3K9es/bCFlZibn
-	3870fhD1bYeKfWRMtWo8b4iXtZ7gJ6+lv7J0/Yk/edDZCtCYbmvNRrfZjrSn
-X-Gm-Gg: ASbGncuV47KVsqeAiaWO19LSO4sKzEz+rkeMd722Io7zVNGL7MnmVmksfe9BhyivFBM
-	s6muvSvKiUkDOIoKN/aumMVDSOhUdJW8FaXI7YBoidPyTGo6vWHx7vuVUcTmHutUBMYNJ+xiUZ/
-	aAGNv1+CNcHj9hBD6zXJWkk3auamUTKy1ZBvxfQ513ko5TJ16yilx3zzH2fv7KkbTW8PgTAedvr
-	6iLbYmqMpVje230hU6L/ph1aC7GsqFKf2uwhOKE4O/F1Rc6e8jKk7/OFpebOcCOVCbKaomzHn6/
-	2XqBaCugPechFYjlhEU=
-X-Google-Smtp-Source: AGHT+IGZ8kaNoQI/GB11/N7ZzVcDbIRzLXTQfC6Gtk4Rd4W2OOzQM0G+TCaQKHMazDmszQzRoY812w==
-X-Received: by 2002:a05:6000:1ac6:b0:386:2ebe:7ac3 with SMTP id ffacd0b85a97d-38a22408fb1mr9422827f8f.56.1734971077970;
-        Mon, 23 Dec 2024 08:24:37 -0800 (PST)
+        b=FYYNx0x/W+RXVjXWgtPayeS7K8qGguBaBAG0M4z4xTgLkBy4jHaJffw7RQo6gDwghx
+         n1bzJxEJXc7S1crFaNSnQljrnUiUCwhsWrdCKOhlndk6YXNZSArmJWNOnBJ/d1D+Wx/H
+         neO45dOl74WVegI4Uqw7WhhReo2d3Es9JQGnoUrLINPIsMy1FTCZNDQQx9ESdvtoFCoI
+         qYY6yCuz78ydoG8i8JOQK4xbAGBf7Z61yt3y9WSv2ZT6gcnKX0DiN9X+vl47k0rlgf5J
+         uhSWVpom9CdQpPFWRgq/Ke0sgf9HCPMAleIw6SNSQWOTomJE0UpgU60OJ1KUSmP4wT/X
+         tH2w==
+X-Gm-Message-State: AOJu0Yyj1ky/ZAVF89wIOCT4imnm05eCMMhUVDzYBcUQSjQjukIzLQbA
+	faSF9ehFDeJJ6upQTZzadLwoeuQCVOrjj4+N0N7/nGVV4uE2dSnOD9Fyapjb
+X-Gm-Gg: ASbGncsKtISRgbRK9YBGGP808M7jb0gv7PAulLq0vK5Yv9/RXDG1+76fWoM8KW80O2l
+	UZs4YkpfxKhq7/XOAyzN5o/Jdg2KG8Zw0+dl/sc+Nb6LCr6/MAEgOMnhqNnpCssSPAkTMhiJwUs
+	M7BNpB+Qgtn6sSb6+6c8UcYNJnLOsIZBdGjizmasEpnHbq0Ay4JzYhxwYsj62QPDzyvO2M4CfE/
+	mnYB4JAOw9FZjoXpZo0oROMYOX/gj2E5aFMRtlCbGrIrXXli9D7rjUzqimAR/nq8yZX8oE6N7ug
+	M+avtA59swQ7C/P7X6U=
+X-Google-Smtp-Source: AGHT+IEad9UsjAI7uf9LXkYKQjTqdtoXjV0DA+M/GD85AxVc6yfh3ouZP3zFmJ/4OjlVOqhi4v5Rbg==
+X-Received: by 2002:a05:600c:450f:b0:434:9f90:2583 with SMTP id 5b1f17b1804b1-4365c79294amr150962305e9.11.1734967778226;
+        Mon, 23 Dec 2024 07:29:38 -0800 (PST)
 Received: from L-PW01ZSFV.criticaltechworks.com ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c829015sm11788138f8f.13.2024.12.23.08.24.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219a7csm138587995e9.24.2024.12.23.07.29.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 08:24:37 -0800 (PST)
+        Mon, 23 Dec 2024 07:29:37 -0800 (PST)
 From: Angelo Ribeiro <ribeiro.angelo224@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: "Angelo.Ribeiro" <Angelo.Ribeiro@criticaltechworks.com>,
 	Angelo Ribeiro <ribeiro.angelo224@gmail.com>
 Subject: [PATCH] report-error: Add PN to error report file
-Date: Mon, 23 Dec 2024 16:24:34 +0000
-Message-Id: <20241223162434.98366-1-ribeiro.angelo224@gmail.com>
+Date: Mon, 23 Dec 2024 15:29:19 +0000
+Message-Id: <20241223152919.84997-1-ribeiro.angelo224@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,7 +64,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 16:35:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209046
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209045
 
 From: "Angelo.Ribeiro" <Angelo.Ribeiro@criticaltechworks.com>
 
