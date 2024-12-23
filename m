@@ -1,126 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 005E1E7718B
-	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 11:29:04 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.11955.1734953336966382322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FF4E7718B
+	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 14:37:14 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web11.14202.1734964627967136983
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Dec 2024 03:28:57 -0800
+ Mon, 23 Dec 2024 06:37:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cP45evKw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361a50e337so27809035e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 03:28:56 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=kUIaAuDz;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.176, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4679eacf25cso21897761cf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 06:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1734953335; x=1735558135; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zo605Pu6jR3TPHE2GefSoQRmljp1kGiwA7VBMhr2uXQ=;
-        b=cP45evKwFIphw3RwGXgHdeF/I8t7Q/4YNZpsVbJTI/GgpWcA4xRsTrEC3+W5B659Wn
-         V0rx4Dg12k8Wz6RQ3np11ccx509OIpBHXkSWcBIHT8dwOvu8BP+UTG9UvikaucTKIH+0
-         sr1MLhgU8mOYGPGWJhZjM66jz1UgljgPWQYF4=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734964627; x=1735569427; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5AMNysWl63HzQ/HNSoYg3cBfeYKAV+40UZ6OOuFdMXI=;
+        b=kUIaAuDzkGn6V4Wyg/NPIbXSDHta7kkgQfdjp5S5BzGWLJtjzXrr4YxKz0/CWL3XED
+         wWWJC1mDxYy+XgzZ7M5nOFiakfCLiM+817DwtOU9i4cMJiEKsDh8eYKOas2lmkoN3i4c
+         lUKPGnyMKkDdd/V5iTOPKTnFRn2X1RtCMwSd9R6sZIJERr2zuULU/OVWs2y18u/aH0xg
+         3oj9Mdd6XpmPAQgOmrJbuhmccTUyFjQaI6ZWXTG5xynIcE1BJ5GjUM43MqmdD2AIvr37
+         h54LJZ75JsNaxRzgSiLkVlYpuZ5GrVUGkNtvPcQwatTPikjb1u7iIm2t5TLgaJAKkI8n
+         r0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734953335; x=1735558135;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zo605Pu6jR3TPHE2GefSoQRmljp1kGiwA7VBMhr2uXQ=;
-        b=gNDrPg5oJcu8qSRrixunXZh5zfHQbV9Vq6Vlxw4euQJvMcD0SmB5K7Isyd/z8z611l
-         a80vh5oK7sa5EA5wsmY22c0//Qe9kqjgUtbIK31RAZTyqP1F9LELG0GCl2Jqq2sGnusI
-         QcoeuohgU1R60uGIzDaZz43zmJ9YNUV9b6QSIT0hlcnWpzeO8D0U0favntyOwvmkx3vK
-         Sovpfkhq30erPCzoJoa06xzYHQJ5tYhiQSK4j/y6n8AOfr1WwLj21Qdh09XkdkYgcLDq
-         2zZShtA1W5R4oA2vT+wCiV3ISTfkEEaPxe0fum59PWgmfh7fStrhlMetdk/FhtPV6ZPa
-         D4eg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsFY9AeI0RKU0nKo3+Fzy3jwDFqR0y2vhCM5zpGeoZJpmsX1B6dN9bz92l+/EQTdLw0DWYHnFoRlDCZ/U4whAFBw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YznitqBDiTe9e2nQifWiwKnzRkQD7ouuZ//mot8edwnpHcFt/uu
-	aIhW+3UW+r3D6/oolyyOGhNOJiBN6SVhLKVCH92k+gzb2NJa6kiogFZp0UDWszs=
-X-Gm-Gg: ASbGncuJMBo4VqmTT/ZREp58bnUKorlTmyK48lCab0pWV+6FDT7Dw9/wQS2h79PQrGj
-	jWClQduSmWOPOddK0QiyfeTwWlP1R18cpGiATi80epvZthhv8pI9yXCHqZ49Nu6Bgd0ExTNQwyE
-	w2BAguaYMqgBcDeWJna2h0Ije9ZMNzQ41bBomAmJIMCFR+s7WoYF+bjUUTeqT1e6K1m+yzlVMwp
-	P0a1GYicsLFJd7vV71/SVTBJFtNRIJJoXmFkx7OSaaiyO+GUuLV6r8DNeCWCCOPdH54nfT7Pyq1
-	DQhuesdFcNGsU5axaCz8GkK0iKyeDh6X4j9U1usNgpDDfQ==
-X-Google-Smtp-Source: AGHT+IE6q8Z4nBHUbQD9FNpF+03x5NbWe2JkruG53u9JawDgmhtyhwGuSC732KYJW+Bba1g90GYnFA==
-X-Received: by 2002:a05:600c:154a:b0:434:a7f1:6545 with SMTP id 5b1f17b1804b1-43668b7851emr103352735e9.27.1734953335171;
-        Mon, 23 Dec 2024 03:28:55 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6ed5:9162:4947:2803? ([2001:8b0:aba:5f3c:6ed5:9162:4947:2803])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b00cf6sm169536715e9.10.2024.12.23.03.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 03:28:54 -0800 (PST)
-Message-ID: <2bd2615ee9d8ba12c0dcc0888057140debfbce4a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 5/5] mesa: Fix missing GLES3 headers in SDK
- sysroot
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: tom.hochstein@oss.nxp.com, openembedded-core@lists.openembedded.org
-Date: Mon, 23 Dec 2024 11:28:52 +0000
-In-Reply-To: <20241222162234.2411262-5-tom.hochstein@oss.nxp.com>
-References: <20241222162234.2411262-1-tom.hochstein@oss.nxp.com>
-	 <20241222162234.2411262-5-tom.hochstein@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1734964627; x=1735569427;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5AMNysWl63HzQ/HNSoYg3cBfeYKAV+40UZ6OOuFdMXI=;
+        b=dhgi0ZErpzF1+e8LSxVnEJ7lqiA/IyPqvGOfDpUgWHi7viVWaeoApnJzeidk+Aa9za
+         HErA48anpzhgfaeLKmrEMg2aY/La8HvRxg/WO0v0QuLd62GyLV4M5/bN821OSgfJW43w
+         zRQJr2ZWFylg+3s89XAEaN3OaKdI+9UTJeTDbsqJHzT/YkjyRaguwyoL8koVw8dGy/sN
+         urLa+2hhXMwjYzumC32kb+XMaTxveE50H+Q6zoi7At4Q1mdiZgQlXJJhT0ZP5mmT/HCa
+         vpzGxlN2RdGpiIEKW8y0erFkbok41frPiFDfQYl/YJSW8DpHDLM6OGG4b9Udljz3e8mT
+         SWSQ==
+X-Gm-Message-State: AOJu0YyeNmsWgQ3UQBxVBme7a5H/74mQIDrIEOGubzQ5fC2NO3zCpy1y
+	xifs3etSIBUath0PW9ALfIcUwM+043YiydyFwrz6NQyJ6+7BgAId+fi9PlifQCU=
+X-Gm-Gg: ASbGncs2QiMpprCdElfm/XAC5D5j2sVme6tt+sLMeldGGaaQkZlwvYGHmX+Qsb8ZQ4z
+	CKQ0HwROa5PRv9EH1KW5AXULwTgCWZyvmPCpq7APRNIhqLTVgf9ed3sqaX1IkQrmW1ym6Zvu6Cv
+	aoAqOs0vYOOvkUfYgvcwDbmVzBYNI0LqNK/I2M+Pqi7vnr35q2JfSM5FVa07b2TsTaYWa1veIhv
+	3rMAbyo+0i4L7CmpQUkd+6ivqahIXOIxLRl6UJkAdBL3k95op1uNYPVPB/8fo2NCtDsw+nlb6FC
+	DCnjmf9HeyKtjMOmVm/QQcRf
+X-Google-Smtp-Source: AGHT+IFrpsVerEzkqUOyeWnn5IWkvpfztPp4JOqddOsQoMG3zAL31y+lbmoV+5Ka16qcewvyCRcMDw==
+X-Received: by 2002:ac8:580a:0:b0:467:6b20:e0b5 with SMTP id d75a77b69052e-46a4a8b63f6mr202472921cf.2.1734964626876;
+        Mon, 23 Dec 2024 06:37:06 -0800 (PST)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46a3e6a9cb6sm44346501cf.51.2024.12.23.06.37.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Dec 2024 06:37:06 -0800 (PST)
+Message-ID: <0fbcd8bd-95ce-4144-9142-c69a263d8201@baylibre.com>
+Date: Mon, 23 Dec 2024 09:37:05 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] python3: upgrade 3.13.0 -> 3.13.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
+ Randy MacLeod <randy.macleod@windriver.com>
+References: <20241219144255.3366730-1-tgamblin@baylibre.com>
+ <CANNYZj_0CBdCpCxcTfUUjRy+AHfN=gn-dxG-PvoFDpTYdnJSQg@mail.gmail.com>
+ <edabfbc7-8c32-4765-b7d8-972b27c38127@baylibre.com>
+ <1812A90A888793D8.26783@lists.openembedded.org>
+ <CANNYZj-Zv8e6n_c2vBKG5VTC8M310YgwgyyY2PNsKmESWBQAJg@mail.gmail.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CANNYZj-Zv8e6n_c2vBKG5VTC8M310YgwgyyY2PNsKmESWBQAJg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 11:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209040
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 14:37:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209041
 
-On Sun, 2024-12-22 at 10:22 -0600, Tom Hochstein via lists.openembedded.org=
- wrote:
-> Building weston with core-image-weston SDK fails:
-> ```
-> ../libweston/renderer-gl/gl-shader-config-color-transformation.c:29:10: f=
-atal error: GLES3/gl3.h: No such file or directory
-> =C2=A0=C2=A0 29 | #include <GLES3/gl3.h>
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~
-> ```
->=20
-> Both GLES2 and GLES3 implementations are contained in libGLESv2.so.2,
-> which is packaged in libgles2-mesa. However, the headers are split
-> between libgles2-mesa-dev and libgles3-mesa-dev, which is why the
-> GLES3 headers end up missing in the SDK sysroot.
->=20
-> Add a dependency so the GLES3 headers are properly associated with
-> the GLES3 implementation.
->=20
-> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
-> ---
-> =C2=A0meta/recipes-graphics/mesa/mesa.inc | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 9fdf496e8b..84490158f1 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -233,6 +233,10 @@ DEV_PKG_DEPENDENCY =3D ""
-> =C2=A0# development package of libgles3.
-> =C2=A0RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
-> =C2=A0
-> +# GLES2 and GLES3 implementations are packaged in a single library in li=
-bgles2-mesa.
-> +# Add a dependency so the GLES3 dev package is associated with its imple=
-mentation.
-> +RDEPENDS:libgles2-mesa-dev +=3D "libgles3-mesa-dev"
-> +
-> =C2=A0RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG',=
- 'opencl', 'libclc spirv-tools', '', d)}"
 
-This doesn't quite make sense to me. The line above that RDEPENDS is
-adding a dependency in the opposite direction and will effectively make
-one package uninstallable without the other.
+On 2024-12-23 06:12, Alexander Kanavin wrote:
+> On Thu, 19 Dec 2024 at 19:57, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+> wrote:
+>> That's been there before the update too, so it's not the actual error.
+>>
+>> dnf is written in python, and -11 return code indicates that 'dnf
+>> repoquery' is crashing in the python executable itself.
+> It was mentioned on irc that the crash is in one of libdnf's
+> libraries, so I went to see if there are any relevant commits, and
+> indeed this should fix the crash:
+> https://github.com/rpm-software-management/libdnf/commit/f3302a865b230e021e9defbcea978ed1290a9b2f
+>
+> Alex
 
-The question is does the libgles2-mesa-dev package need the libgles3-
-mesa-dev package?=C2=A0If not, this is not the right way to solve the
-problem you're seeing.
+Thanks Alex. I looked but missed this when I did (guess I should look 
+more carefully at the issues :) ). Doing some tests now - if everything 
+is OK, then I should have the patch sent this morning.
 
-Cheers,
-
-Richard
-
+Trevor
 
 
