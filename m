@@ -2,182 +2,364 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B1CE7718B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D83CE7718D
 	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 16:21:05 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web10.16407.1734970855438817936
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.16148.1734970857071721943
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Dec 2024 08:20:55 -0800
+ Mon, 23 Dec 2024 08:20:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OSbFCK9k;
- spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b6e8814842so359683485a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 08:20:55 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Ix2h6RKO;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7b70e78351aso341515985a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 08:20:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734970854; x=1735575654; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XRvo7qDkcpNYcIw2WxMDv4ta+nvyltPWRXpA/5pomeg=;
-        b=OSbFCK9ky6bYlQTimwUC9zHGshp0fT/gYjwIU39QaFP97MX//GM+dSUPbUWKyZKqNN
-         gCq5/AiSIYApr+ON9lK82OLvD/3/87LWkPSWSVXWo/gbibOliVhqjn7xrBx16PpMaeJ1
-         7Parsnrh4QQ334nZ22f6MPaxQ0Z31fpBLckttIxj6BX93gAuLsL4FaTE+oW6fuoKLMeW
-         wNt7ywcSJovhKIENdUVxtZypZtHsElmzfx7Ch1Ss7qeQlOFH+USBET+DK2VPce0mgwZo
-         eF7JdFPTTKiRCTe0exWua17PjRmdqTmdNbGezo2ImtLnkzmaifiCqdTBkxjQCxfjgmRO
-         6AEw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734970856; x=1735575656; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l9eeWQc2URcVP+buaxOFIfs0LCN+/a0bpNTgwxQbwxQ=;
+        b=Ix2h6RKOMsD/bqgM4GGq0ZzpzFsgbMQKrXCIyV6k08lwZzPLzxRpNoLOMivPX/hzj0
+         +O1Cq9wl2acJInp5mUpu5QNXcZ3zLGAzAKfwlxXhArq1vYEk2OeU/EZHZBcnM6OOfJLL
+         eqhJ5qxRbJlk5etJFYTPJsqFTCmt4I+2RJFkfIlM8upRyzYJMC3MilVAEyVEnRIPPXIJ
+         +FEhO5btCLeV08zMEUpzM/VcWtD8+8TcT5GQ7dBAUybcKqAX+6+ayLxTC3Ny5lbihav8
+         PdyVnDgKjmP+5YiGJkFVfd41mVI2ZKYKHOifiGGMMP2NtvqY3yTFa23WzVbT0ppq8RMR
+         SChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734970854; x=1735575654;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XRvo7qDkcpNYcIw2WxMDv4ta+nvyltPWRXpA/5pomeg=;
-        b=G+UxbSdjJUrkMLBynsy2bRLHiL3ROuB2dWswv9s6cN4DdgwzEf/srY3YBjzk+FkwZD
-         SWLPK3R6cRI7eTyU69aV/g5UGu8+iEFm1Ikwbivp2VaxKzrmkmYnqio8O9VPiKGHyRGh
-         Q3O/VXHlhQ2pCyfqSrMfuXFCb741W4ziRjzKVY/4T1Z9S/nnhvewubIiGYuWBPUj55Rz
-         M4LOZzOuvJBEp+FLyaTzqa/BXzNtw6u0d+ncFznBxDhGTejOLzp3pk0jrIN5m95H0TUF
-         sLURt+iKejmDAQ4Q7ctuGC3whmVEOwgUOMuiPvEuqYRUQTftiWa3pkIgNw21LyHUCfKd
-         PbUg==
-X-Gm-Message-State: AOJu0Yw34ikQgTpM5nV9Wyw3NMK19aqhdyW+85SqcCcjNCtWyg2Un8hU
-	UPXkqQRsvYO/+udPChzy+t/NO5xn/MFjnLPlEDwIluxnPV+rin96Ip0erDgMiJjoU0m3Mp0kAcd
-	h
-X-Gm-Gg: ASbGncsKB7fWKv6h2+95kvDFONpiok9f+T6eSQWAxLM+HAQySTqYRkG5PoYSfW4lvSh
-	B65QJbdw5awe5jZbWtyZJUugH9KqxkhJjvtYSi2pOOJ2vPI5FnnMXLIzLfEihjmMBP8Kdelyle1
-	GXdF6KaQGJzQ5Qczb46KiQATcA5g0Q2ljmHkp99Y6xux41MEeDFY8hdBftYTb+Bm9cutzVHJS0e
-	SezluWNjAhBheL8rQtRexnZ2yrrc7/8U8z98imUZyFPtjJqSVyUtNE3OA1BQtGJR3xfUGDYGzWX
-	nLxSwfWX19qVy1UX
-X-Google-Smtp-Source: AGHT+IFZvfA8m6sbG80Tg8COrh5gDGxzdXH/nqJyACn377wZEq2HXXAyjhS4eC3l7gcMn7UZLfh3HQ==
-X-Received: by 2002:a05:620a:1727:b0:7b6:edd0:d74d with SMTP id af79cd13be357-7b9ba7f720bmr2206217985a.48.1734970854279;
-        Mon, 23 Dec 2024 08:20:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734970856; x=1735575656;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l9eeWQc2URcVP+buaxOFIfs0LCN+/a0bpNTgwxQbwxQ=;
+        b=wnivBzt2kUxyobrLsmxytFMvUETpPWb8DtSvTltT+3SUijk1k8ocA6w/nR4zCZKC6T
+         wmk1rQ7YNIVLcmfNSwiEXnMMUt8VtelsQCvyVL2q2C8Rwyq7SV04MC9Gz+pHiXp46L6D
+         Gw/1PN7KPm88gMtLmkL8xqKAwEaTuUUfpPoAKdVQyikhL0lcjaadzjqAwFp9uZAgAOvv
+         27VdjHdoEXM2r9mRcKRx8NNyMOKqcb1ADgjSZX0EI5iu+jCIIzTS6ZuuOoRHjddSRP1R
+         /2NxlEUQp6GauyB79/sW6dsiTBmJFoAzEGLcxdM8tuGgNJoQ6XOKxKIgHMfb8Gzcjdw6
+         EVyA==
+X-Gm-Message-State: AOJu0YyJZd1dTOiotgrARgF1zE4NDB+Gtw1z6XluMdSK7yTgzzm0nTOR
+	NbPI8jOwhFORCg3jG2ewEPARc+nOI8M+dCVdTNU6nHZaxo6YkMtezxM5fW800qpxe69s4K4YZ9r
+	U
+X-Gm-Gg: ASbGncuKpCJqFcENsALZsYydN24xkP9m8J5lP9w6fO+B8FGV/VkBO0G6uJRZ/Srip1+
+	7Qa8tb7aAAi1k88K86r/9DCmSaW4WkRgZAHikeKG0Ojn16ljvSKhKYLte9vvcgNPnoMlJZch/V/
+	IRMBS2G2CypMxhft/G0b98gSdm5cFYEk80rw4FGBHi00AIK4H/eVgu8fDxcQwVkW9f+7BGWYxWY
+	3XfMFX0/gdkQxmw+aK7D56TRU0uHaQbQRqS1r7x7yGl8LsSYfeeKhlD5JEytyFCQDp8d5ei5Ucw
+	KL6NtRjePvA+am1a
+X-Google-Smtp-Source: AGHT+IESCVo29i4XWw1Gz5FtywvIdihq/1j80cIHzbuGpnWShCBM6ERosqKt3k2nPWHERbrcLHZrGw==
+X-Received: by 2002:a05:620a:3710:b0:7b6:7970:6522 with SMTP id af79cd13be357-7b9ba7ecabfmr2208357185a.40.1734970855635;
+        Mon, 23 Dec 2024 08:20:55 -0800 (PST)
 Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b9ac4cbd5csm396127685a.108.2024.12.23.08.20.53
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b9ac4cd95fsm395214985a.103.2024.12.23.08.20.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 08:20:54 -0800 (PST)
+        Mon, 23 Dec 2024 08:20:55 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/2] libdnf: backport patch to fix segfault
-Date: Mon, 23 Dec 2024 11:20:51 -0500
-Message-Id: <20241223162052.612087-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/2] python3: upgrade 3.13.0 -> 3.13.1
+Date: Mon, 23 Dec 2024 11:20:52 -0500
+Message-Id: <20241223162052.612087-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241223162052.612087-1-tgamblin@baylibre.com>
+References: <20241223162052.612087-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 16:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209043
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209044
 
-This is needed to allow libdnf to build OK with python 3.13.1. Without
-it, a vague "Could not invoke dnf" error is seen during rootfs (e.g.
-when building core-image-full-cmdline), with a return code of -11.
+Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-13-1-final
+
+- Patch 'fix-armv5.patch' is in 3.13.1, so no longer needed:
+
+|tgamblin@megalith ~/workspace/git/pythonsrc/cpython ((HEAD detached from v3.13.1))$ git tag --contains 18b9079ddbc149d6b99c922630c246812e4d8ae7
+|v3.13.1
+
+- While patch 'crosspythonpath.patch' is listed as 'Inappropriate
+  [OE-Core integration specific]' specific in the commit message, it is
+  now breaking the build, while removing it allows python3 to build OK.
+  It appears that there is a similar change in upstream 3.13.1:
+
+  https://github.com/python/cpython/commit/909d5ac2959e
+
+- gcc-symlinks had to be added to ptest RDEPENDS so that 'gcc' could be
+  found on the path for the
+  test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym test.
+
+- Also reformat the DEPENDS and RDEPENDS lists to be alphabetical
+  and one-per-line, since that's easier to read and modify.
+
+- buildall-qemu output:
+
+|BUILDALL-QEMU LOG FOR python3
+|START TIME: 2024-12-18_20:38:01
+|HOSTNAME: megalith
+|HOST OS: Debian GNU/Linux 12 (bookworm)
+|HOST KERNEL: 6.1.0-28-amd64
+|===============
+|BUILD RESULTS:
+|[glibc]
+|FAIL: qemuloongarch64
+|PASS: qemuriscv32
+|PASS: qemuarmv5
+|PASS: qemuppc
+|PASS: qemumips64
+|PASS: qemuriscv64
+|PASS: qemuarm64
+|PASS: qemuarm
+|PASS: qemux86-64
+|PASS: qemuppc64
+|PASS: qemux86
+|PASS: qemumips
+|[musl]
+|FAIL: qemuloongarch64
+|FAIL: qemuriscv32
+|PASS: qemuarmv5
+|PASS: qemuppc
+|PASS: qemumips64
+|PASS: qemuriscv64
+|PASS: qemuarm64
+|PASS: qemuarm
+|PASS: qemux86-64
+|PASS: qemuppc64
+|PASS: qemux86
+|PASS: qemumips
+|===============
+|PASSED: 21
+|FAILED: 3
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...n-iterator-of-a-ConfigParser-section.patch | 84 +++++++++++++++++++
- meta/recipes-devtools/libdnf/libdnf_0.73.4.bb |  1 +
- 2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Fix-a-segfault-in-iterator-of-a-ConfigParser-section.patch
+This is a resend with the libdnf patch that should allow core-image-full-cmdline
+(and anything else involving libdnf) to build OK.
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Fix-a-segfault-in-iterator-of-a-ConfigParser-section.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Fix-a-segfault-in-iterator-of-a-ConfigParser-section.patch
-new file mode 100644
-index 00000000000..1c62d02455e
---- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Fix-a-segfault-in-iterator-of-a-ConfigParser-section.patch
-@@ -0,0 +1,84 @@
-+From f3302a865b230e021e9defbcea978ed1290a9b2f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
-+Date: Fri, 6 Dec 2024 18:01:16 +0100
-+Subject: [PATCH] Fix a segfault in iterator of a ConfigParser section
-+
-+An iterator should return self on __iter__.
-+
-+So that this works:
-+
-+    >>> it1 = iter(sectObj)
-+    >>> it2 = iter(it1)
-+    >>> it1 is it2
-+    True
-+
-+Previously, this iterator did not return self on __iter__, it was like this:
-+
-+    class PreserveOrderMapStringStringIterator(object):
-+        ...
-+        def __iter__(self):
-+            return _common_types.PreserveOrderMapStringStringIterator___iter__(self)
-+
-+And that returned a new Python object.
-+
-+This fixes https://bugzilla.redhat.com/2330562 by avoiding a second iterator object.
-+
-+My SWIG skills are close to zero,
-+perhaps this is not the best way to return self, but it seems to work.
-+
-+Upstream-Status: Backport
-+(https://github.com/rpm-software-management/libdnf/commit/f3302a865b)
-+
-+Backport so that it works properly with Python 3.13.1.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+
-+---
-+ bindings/swig/common_types.i | 11 +++++++----
-+ bindings/swig/conf.i         |  4 ----
-+ 2 files changed, 7 insertions(+), 8 deletions(-)
-+
-+diff --git a/bindings/swig/common_types.i b/bindings/swig/common_types.i
-+index c9ae798a..a1f90d9e 100644
-+--- a/bindings/swig/common_types.i
-++++ b/bindings/swig/common_types.i
-+@@ -63,10 +63,6 @@ template<class T>
-+ class Iterator {
-+ public:
-+     Iterator(typename T::iterator _cur, typename T::iterator _end) : cur(_cur), end(_end) {}
-+-    Iterator* __iter__()
-+-    {
-+-      return this;
-+-    }
-+ 
-+     typename T::iterator cur;
-+     typename T::iterator end;
-+@@ -165,3 +161,10 @@ EXTEND_TEMPLATE_PreserveOrderMapIterator(std::string, std::string)
-+ EXTEND_TEMPLATE_PreserveOrderMapIterator(std::string, libdnf::PreserveOrderMap<std::string, std::string>)
-+ 
-+ %exception;  // beware this resets all exception handlers if you import this file after defining any
-++
-++%pythoncode %{
-++def PreserveOrderMapStringStringIterator___iter__(self):
-++    return self
-++PreserveOrderMapStringStringIterator.__iter__ = PreserveOrderMapStringStringIterator___iter__
-++del PreserveOrderMapStringStringIterator___iter__
-++%}
-+diff --git a/bindings/swig/conf.i b/bindings/swig/conf.i
-+index b6a0ce88..2f77003f 100644
-+--- a/bindings/swig/conf.i
-++++ b/bindings/swig/conf.i
-+@@ -71,10 +71,6 @@ template<class T>
-+ class Iterator {
-+ public:
-+     Iterator(typename T::iterator _cur, typename T::iterator _end) : cur(_cur), end(_end) {}
-+-    Iterator* __iter__()
-+-    {
-+-        return this;
-+-    }
-+ 
-+     typename T::iterator cur;
-+     typename T::iterator end;
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.73.4.bb b/meta/recipes-devtools/libdnf/libdnf_0.73.4.bb
-index 0817da7ca69..5b9e734e82d 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.73.4.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.73.4.bb
-@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
-            file://enable_test_data_dir_set.patch \
-            file://0001-drop-FindPythonInstDir.cmake.patch \
-            file://armarch.patch \
-+           file://0001-Fix-a-segfault-in-iterator-of-a-ConfigParser-section.patch \
+ .../python/python3/crosspythonpath.patch      | 33 ----------
+ .../python/python3/fix-armv5.patch            | 65 -------------------
+ .../{python3_3.13.0.bb => python3_3.13.1.bb}  | 58 +++++++++++++----
+ 3 files changed, 45 insertions(+), 111 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/crosspythonpath.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/fix-armv5.patch
+ rename meta/recipes-devtools/python/{python3_3.13.0.bb => python3_3.13.1.bb} (96%)
+
+diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
+deleted file mode 100644
+index f18898e4c4f..00000000000
+--- a/meta/recipes-devtools/python/python3/crosspythonpath.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 8840438e73e43b99bc9c83896a5f950e4259738f Mon Sep 17 00:00:00 2001
+-From: Ricardo Ribalda <ricardo@ribalda.com>
+-Date: Tue, 18 Nov 2014 03:35:33 -0500
+-Subject: [PATCH] configure.ac: add CROSSPYTHONPATH into PYTHONPATH for
+- PYTHON_FOR_BUILD
+-
+-When building x86->x86 the system will try to execute .so and related items
+-from the default PYTHONPATH.  This will fail if the target CPU contains
+-instructions that the host CPU does not have, add CROSSPYTHONPATH
+-into PYTHONPATH so we can prepend the list to find correct libs.
+-
+-Upstream-Status: Inappropriate [OE-Core integration specific]
+-
+-Credits-to: Mark Hatle <mark.hatle@windriver.com>
+-Credits-to: Jackie Huang <jackie.huang@windriver.com>
+-Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 58f5407..5101806 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -164,7 +164,7 @@ AC_ARG_WITH([build-python],
+-     dnl Build Python interpreter is used for regeneration and freezing.
+-     ac_cv_prog_PYTHON_FOR_REGEN=$with_build_python
+-     PYTHON_FOR_FREEZE="$with_build_python"
+--    PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$with_build_python
+-+    PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$with_build_python
+-     AC_MSG_RESULT([$with_build_python])
+-   ], [
+-     AS_VAR_IF([cross_compiling], [yes],
+diff --git a/meta/recipes-devtools/python/python3/fix-armv5.patch b/meta/recipes-devtools/python/python3/fix-armv5.patch
+deleted file mode 100644
+index 961404b24fc..00000000000
+--- a/meta/recipes-devtools/python/python3/fix-armv5.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-From 18b9079ddbc149d6b99c922630c246812e4d8ae7 Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Wed, 16 Oct 2024 16:48:40 +0200
+-Subject: [PATCH] [3.13] gh-125444: Fix illegal instruction for older Arm
+- architectures (GH-125574) (GH-125595)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-On Arm v5 it is not possible to get the thread ID via c13 register
+-hence the illegal instruction. The c13 register started to provide
+-thread ID since Arm v6K architecture variant. Other variants of
+-Arm v6 (T2, Z and base) don’t provide the thread ID via c13.
+-For the sake of simplicity we group v5 and v6 together and
+-consider that instructions for Arm v7 only.
+-(cherry picked from commit feda9aa73ab95d17a291db22c416146f8e70edeb)
+-
+-Co-authored-by: Diego Russo <diego.russo@arm.com>
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/18b9079ddbc149d6b99c922630c246812e4d8ae7]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- Include/internal/mimalloc/mimalloc/prim.h                     | 4 ++--
+- Include/object.h                                              | 2 +-
+- .../2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst            | 1 +
+- 3 files changed, 4 insertions(+), 3 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
+-
+-diff --git a/Include/internal/mimalloc/mimalloc/prim.h b/Include/internal/mimalloc/mimalloc/prim.h
+-index 8a60d528458e6c..322ab29e6b41c2 100644
+---- a/Include/internal/mimalloc/mimalloc/prim.h
+-+++ b/Include/internal/mimalloc/mimalloc/prim.h
+-@@ -151,9 +151,9 @@ static inline mi_threadid_t _mi_prim_thread_id(void) mi_attr_noexcept {
+- // If you test on another platform and it works please send a PR :-)
+- // see also https://akkadia.org/drepper/tls.pdf for more info on the TLS register.
+- #elif defined(__GNUC__) && ( \
+--           (defined(__GLIBC__)   && (defined(__x86_64__) || defined(__i386__) || defined(__arm__) || defined(__aarch64__))) \
+-+           (defined(__GLIBC__)   && (defined(__x86_64__) || defined(__i386__) || (defined(__arm__) && __ARM_ARCH >= 7) || defined(__aarch64__))) \
+-         || (defined(__APPLE__)   && (defined(__x86_64__) || defined(__aarch64__))) \
+--        || (defined(__BIONIC__)  && (defined(__x86_64__) || defined(__i386__) || defined(__arm__) || defined(__aarch64__))) \
+-+        || (defined(__BIONIC__)  && (defined(__x86_64__) || defined(__i386__) || (defined(__arm__) && __ARM_ARCH >= 7) || defined(__aarch64__))) \
+-         || (defined(__FreeBSD__) && (defined(__x86_64__) || defined(__i386__) || defined(__aarch64__))) \
+-         || (defined(__OpenBSD__) && (defined(__x86_64__) || defined(__i386__) || defined(__aarch64__))) \
+-       )
+-diff --git a/Include/object.h b/Include/object.h
+-index 78aa7ad0f459ff..b53f9acfebdb0c 100644
+---- a/Include/object.h
+-+++ b/Include/object.h
+-@@ -259,7 +259,7 @@ _Py_ThreadId(void)
+-     __asm__("movq %%gs:0, %0" : "=r" (tid));  // x86_64 macOSX uses GS
+- #elif defined(__x86_64__)
+-    __asm__("movq %%fs:0, %0" : "=r" (tid));  // x86_64 Linux, BSD uses FS
+--#elif defined(__arm__)
+-+#elif defined(__arm__) && __ARM_ARCH >= 7
+-     __asm__ ("mrc p15, 0, %0, c13, c0, 3\nbic %0, %0, #3" : "=r" (tid));
+- #elif defined(__aarch64__) && defined(__APPLE__)
+-     __asm__ ("mrs %0, tpidrro_el0" : "=r" (tid));
+-diff --git a/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst b/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
+-new file mode 100644
+-index 00000000000000..13c1e745edf8d5
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Core_and_Builtins/2024-10-16-12-12-39.gh-issue-125444.9tG2X6.rst
+-@@ -0,0 +1 @@
+-+Fix illegal instruction for older Arm architectures. Patch by Diego Russo, testing by Ross Burton.
+diff --git a/meta/recipes-devtools/python/python3_3.13.0.bb b/meta/recipes-devtools/python/python3_3.13.1.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3_3.13.0.bb
+rename to meta/recipes-devtools/python/python3_3.13.1.bb
+index b3170879b95..b2eaf9f4396 100644
+--- a/meta/recipes-devtools/python/python3_3.13.0.bb
++++ b/meta/recipes-devtools/python/python3_3.13.1.bb
+@@ -14,7 +14,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://check_build_completeness.py \
+            file://reformat_sysconfig.py \
+            file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
+-           file://crosspythonpath.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
+            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
+            file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
+@@ -30,7 +29,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_deadlock-skip-problematic-test.patch \
+            file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
+-           file://fix-armv5.patch \
+            file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch \
+            file://0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch \
+            "
+@@ -39,7 +37,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
             "
  
- SRCREV = "79ed383cd5a822e6d8d9d549835383f5c5106204"
+-SRC_URI[sha256sum] = "086de5882e3cb310d4dca48457522e2e48018ecd43da9cdf827f6a0759efb07d"
++SRC_URI[sha256sum] = "9cf9427bee9e2242e3877dd0f6b641c1853ca461f39d6503ce260a59c80bf0d9"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+@@ -69,7 +67,24 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
+ ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
+ 
+ 
+-DEPENDS = "bzip2-replacement-native expat libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native ncurses"
++DEPENDS = "\
++    autoconf-archive-native \
++    bzip2 \
++    bzip2-replacement-native \
++    expat \
++    libffi \
++    libnsl2 \
++    libtirpc \
++    ncurses \
++    openssl \
++    sqlite3 \
++    util-linux-libuuid \
++    virtual/crypt \
++    virtual/libintl \
++    xz \
++    zlib \
++"
++
+ DEPENDS:append:class-target = " python3-native"
+ DEPENDS:append:class-nativesdk = " python3-native"
+ 
+@@ -444,13 +459,13 @@ INSANE_SKIP:${PN}-ptest = "dev-deps"
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+ RDEPENDS:${PN}-misc += "\
+-  ${PN}-audio \
+-  ${PN}-codecs \
+-  ${PN}-core \
+-  ${PN}-email \
+-  ${PN}-numbers \
+-  ${PN}-pickle \
+-  ${PN}-pydoc \
++    ${PN}-audio \
++    ${PN}-codecs \
++    ${PN}-core \
++    ${PN}-email \
++    ${PN}-numbers \
++    ${PN}-pickle \
++    ${PN}-pydoc \
+ "
+ RDEPENDS:${PN}-modules:append:class-target = " ${MLPREFIX}python3-misc"
+ RDEPENDS:${PN}-modules:append:class-nativesdk = " ${MLPREFIX}python3-misc"
+@@ -466,8 +481,25 @@ RDEPENDS:libpython3:append:libc-glibc = " libgcc"
+ RDEPENDS:${PN}-ctypes:append:libc-glibc = "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)} \
+ "
+-RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils \
+-                        locale-base-fr-fr locale-base-en-us locale-base-de-de"
++RDEPENDS:${PN}-ptest = "\
++    ${PN}-dev \
++    ${PN}-modules \
++    ${PN}-tests \
++    ${PN}-zipapp \
++    binutils \
++    bzip2 \
++    coreutils \
++    gcc \
++    gcc-symlinks \
++    g++ \
++    libgcc \
++    locale-base-fr-fr \
++    locale-base-en-us \
++    locale-base-de-de \
++    sed \
++    tzdata \
++    unzip \
++"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-tr-tr"
+ RDEPENDS:${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
+ RDEPENDS:${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter ${MLPREFIX}tcl', '', d)}"
 -- 
 2.39.5
 
