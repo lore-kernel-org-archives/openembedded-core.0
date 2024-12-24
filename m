@@ -2,62 +2,62 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9BAE77188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9ECE7718D
 	for <webhook@archiver.kernel.org>; Tue, 24 Dec 2024 10:26:32 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.31291.1735035984420554431
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.31293.1735035987670974444
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Dec 2024 02:26:24 -0800
+ Tue, 24 Dec 2024 02:26:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bXJR9xyy;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e87b25f0so3894426f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Dec 2024 02:26:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aaQvKyJb;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-385f06d0c8eso2794193f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Dec 2024 02:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735035982; x=1735640782; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1735035985; x=1735640785; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qPUAHgbmxRJowWnByWQMHPf8LTBKwM52UjbDKXf9zKs=;
-        b=bXJR9xyyg968hlSIONt4fk8xDTXUFv+5msTrUyNncZcAEelRQijIZh8+2oxFT6Hy2T
-         3YuMSANe/XEkBzaiIKKWPsxHNXXSCSuUfB0D3JXeeiIju0JbKqF1ENXTzQZ7pmwuYw74
-         uz0adD4Hr5wF1paC9DlmiGd5zbWiN4XVpqQeknEDll868fGXxc3Cj51MTZpFIBs0yrw2
-         NTmNV6iJHKliqtpAu0KO1Di8xhRkLmVJPEVzm3hsLjsouWzn+c7SXok+bconvC6nGGQK
-         qgm5furBa5wgObKcyb482E6tchHLwtvwq71YXqFHL9RU4Tggv3OQAdywW5BRkHpNSemb
-         oqqQ==
+        bh=WueF30C+PWOTbexapza/hnoThXm3J6jt+zV9/jq2oqU=;
+        b=aaQvKyJbnEC8jnUidcQUb53dYUbRgLrMMBKOZjljLdeYDbfTcS1yLmKFFnWq59L2c4
+         cEzMgqAzd8C1RjNqUrs+dtcrWiwNyJlixrcIY7JjAJYVSlePAuA1R6ewhTWRoasq5u5Z
+         rqX3R77ko3/nTi2A5jVost9YDndyUhj3e+Myj+LaaV17v2j309HLNaf5oq/EoFRr0mi9
+         RaJL2Ko07l85nx6jKgerdvPFyvOa1jThaGYhiGNuzL93YL/zpDFUd0Kcinl+YJ7v29FR
+         MsfXrqj3IPgqkikmCBSE23hDCKMyNA/qOnWk4tT1LP7mEwuX2ClOzh3mC/7HbplaugKC
+         pqJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735035982; x=1735640782;
+        d=1e100.net; s=20230601; t=1735035985; x=1735640785;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qPUAHgbmxRJowWnByWQMHPf8LTBKwM52UjbDKXf9zKs=;
-        b=PN1wnT6feKCRiT27ncIAf93Zrt5JXKHCtz9EXWnmFDRlzXGULUZ/2xmSqPs1oiq1oD
-         wxhTG0fBYtzhXsbkTxym7h0/Mbakm/+M+P7zZWwrXCOXbcJUzZ5Wfww3F1Ir/PEIuht6
-         aLskrTQkvo6uRJo2qWcsL3SFc68HHu7Z9e4petBcQPnn/71T73oVRpJaRdjhm9dA0WIk
-         B2JncTt6Xrgdb8qfCqZcIfRq+m8MatdStaZvU0sr8AwQGDQSVh9rw/Sn0nyIhTrKedEn
-         iu4vn0SVkib30cCYCHvn0s87xOsY2unvaxNSIy/TVjNAYx3bnwWGlmiHbxJUZDHQGyNj
-         bMZg==
-X-Gm-Message-State: AOJu0Yxzfad6cv/xrD7m0XbDHZnZnQ4waIyJ7XyvFkCK1Wh1opEQ0mVj
-	r9YMJFR5kdxpVlAxqtj3LQMPwjjqHHpLGO20N13WPq4JHpnzpTL9QYZ40w==
-X-Gm-Gg: ASbGncuqUExH/3lCvtLNDb9e1+txJTr6ctt0n8b3OnwcYqVi4g5xe0IBSPYI+WkD6PF
-	jfD6YyEWjFqM+n+7hs8i6Vm0CRcn0jfUJIThnjMBK/0DpKhovGrHPS1DsdYy+0tgcmaVU4/q1sQ
-	LZM4aDAUgJhvCebf+11ugNAZja1Y8lWpA2cXWwUzDBcAUxxzc5w1CmbS1YtSWJLtyk+JkERq5wK
-	4C1yKNJlwfeADJ9MueL1n8bzMI1BboIFWnT2fiqkNwn4OP9PgQe9os+v+vD/wu6Fah3swAY54ye
-	nII=
-X-Google-Smtp-Source: AGHT+IFIgGDr8y6OXic4v2x6obsHWF65Dm36gW0itHC2rypTT4Av2z6cH2rro593qFKRACi78FvKVA==
-X-Received: by 2002:a5d:6485:0:b0:386:3711:ffa9 with SMTP id ffacd0b85a97d-38a1a233376mr16080155f8f.16.1735035982354;
-        Tue, 24 Dec 2024 02:26:22 -0800 (PST)
+        bh=WueF30C+PWOTbexapza/hnoThXm3J6jt+zV9/jq2oqU=;
+        b=gJTWa/5ZSU3vT+X6NgTxybBVKxjbI6f0M5R1fjgbuWtOoWVfNBiW36VkbDm1D26loB
+         7VfoXfo1ByH44xiZqXOi5Ft1IXQsygxfobIUcujmA37D79AWXqHHXPy5D6N8CTySAwby
+         2MLip0CXEb5Rl+ChGD1Rq+Umex+8NCNc6AGVytSfqM+numm1CeDGCdEWAscD1lH6vMSt
+         YGt15rw8dvS0X7O/cS4UVZ9dbeoMPKZFUBd6un5geNZSOb/MhYtacgTna7WH6SKntdNW
+         W6aT/1rC5M6whaHXywcw8CnQrxpD4WCFDp6U072Il7LR3Sab4f6VoPxy/nJdBbNCt+x2
+         lfMQ==
+X-Gm-Message-State: AOJu0Yw9TNdWk0BzQwlnUwfqJKq3wrSbAEeSZgOexs0kua9CYZZq372w
+	C/lg6ahAA9CDjJIMdwJRDFUfwGiRB/3+DYa791ETMroONSRIQ94upo/j3g==
+X-Gm-Gg: ASbGncvictpBO5L8CCV4GezjzYYdSi1rC3vyS5oCuCu61qiJMU4nrupGVImeO7WAQ7k
+	gD2FVx6WQyyVnLrL9aU/kyGzV0fyS+r1In0t3ItWnSGqmbJedZv7lDvr0QWfBEa5eCSmh56zRgO
+	U0TR+MFRNMrmpBiSZwejwAA2FnZMEPSAg5IdFjkG275YJSuDSBMB0C2AAAj2pcq4nNukTxlblt9
+	pM81otqFNEze0BvtYN34uBtjNtuuedbVTi4BGAv4wkaLxnaej5sHMTymRWc42dgWmV82FHZc760
+	KJk=
+X-Google-Smtp-Source: AGHT+IHD/G2ygb8ozt7YtC+Gh7weffBjSgrxwbZ+MPidRC2F1wu08ON3tsZdHuA6fMrO3VwhEC1K8w==
+X-Received: by 2002:a05:6000:4010:b0:382:51ae:7569 with SMTP id ffacd0b85a97d-38a221fae45mr13879243f8f.18.1735035985414;
+        Tue, 24 Dec 2024 02:26:25 -0800 (PST)
 Received: from localhost.localdomain ([80.215.86.162])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8334aasm13788030f8f.41.2024.12.24.02.26.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8334aasm13788030f8f.41.2024.12.24.02.26.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2024 02:26:21 -0800 (PST)
+        Tue, 24 Dec 2024 02:26:24 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
-Subject: [PATCH v2][OE-core 2/4] cve-update-db-native: update structure
-Date: Tue, 24 Dec 2024 11:25:37 +0100
-Message-ID: <20241224102557.9300-3-marta.rybczynska@ygreky.com>
+Subject: [PATCH v2][OE-core 3/4] cve-update-db-native: add the fkie source
+Date: Tue, 24 Dec 2024 11:25:38 +0100
+Message-ID: <20241224102557.9300-4-marta.rybczynska@ygreky.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241224102557.9300-1-marta.rybczynska@ygreky.com>
 References: <20241224102557.9300-1-marta.rybczynska@ygreky.com>
@@ -67,110 +67,218 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Dec 2024 10:26:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209063
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209064
 
-Update the database structure and tasks to fit the current YP master.
-This means:
-- add the unpack task
-- update the database structure (CVSS, vector string)
+Add support for FKIE-CAD reconstruction of NVD feed from
+https://github.com/fkie-cad/nvd-json-data-feeds
 
-However, the old feed does not include CVSS4
+We download this feed directly from github releases.
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
 ---
- .../recipes-core/meta/cve-update-db-native.bb | 26 ++++++++++++++-----
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ .../recipes-core/meta/cve-update-db-native.bb | 126 ++++++++++++++++--
+ 1 file changed, 113 insertions(+), 13 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index e042e67b09..f16e79ff58 100644
+index f16e79ff58..b889c9e6a7 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -5,7 +5,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+@@ -12,6 +12,8 @@ deltask do_install
+ deltask do_populate_sysroot
  
- inherit native
- 
--deltask do_unpack
- deltask do_patch
- deltask do_configure
- deltask do_compile
-@@ -21,6 +20,9 @@ CVE_DB_UPDATE_INTERVAL ?= "86400"
- # Timeout for blocking socket operations, such as the connection attempt.
- CVE_SOCKET_TIMEOUT ?= "60"
- 
-+CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK2/${CVE_CHECK_DB_FILENAME}"
-+CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
+ NVDCVE_URL ?= "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
++FKIE_URL ?= "https://github.com/fkie-cad/nvd-json-data-feeds/releases/latest/download/CVE-"
 +
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_1.1.db"
- 
- python () {
-@@ -38,7 +40,7 @@ python do_fetch() {
- 
-     bb.utils.export_proxies(d)
- 
--    db_file = d.getVar("CVE_CHECK_DB_FILE")
-+    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
-     db_dir = os.path.dirname(db_file)
-     db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
- 
-@@ -72,10 +74,16 @@ python do_fetch() {
+ # CVE database update interval, in seconds. By default: once a day (24*60*60).
+ # Use 0 to force the update
+ # Use a negative value to skip the update
+@@ -109,6 +111,30 @@ def cleanup_db_download(db_file, db_tmp_file):
+     if os.path.exists(db_tmp_file):
          os.remove(db_tmp_file)
- }
  
--do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
-+do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
- do_fetch[file-checksums] = ""
- do_fetch[vardeps] = ""
- 
-+python do_unpack() {
-+    import shutil
-+    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
-+}
-+do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
++def db_file_names(d, year, is_nvd):
++    if is_nvd:
++        year_url = d.getVar('NVDCVE_URL') + str(year)
++        meta_url = year_url + ".meta"
++        json_url = year_url + ".json.gz"
++        return json_url, meta_url
++    year_url = d.getVar('FKIE_URL') + str(year)
++    meta_url = year_url + ".meta"
++    json_url = year_url + ".json.xz"
++    return json_url, meta_url
 +
- def cleanup_db_download(db_file, db_tmp_file):
++def host_db_name(d, is_nvd):
++    if is_nvd:
++        return "nvd.nist.gov"
++    return "github.com"
++
++def db_decompress(d, data, is_nvd):
++    import gzip, lzma
++
++    if is_nvd:
++        return gzip.decompress(data).decode('utf-8')
++    # otherwise
++    return lzma.decompress(data)
++
+ def update_db_file(db_tmp_file, d):
      """
-     Cleanup the download space from possible failed downloads
-@@ -183,7 +191,7 @@ def initialize_db(conn):
-         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
+     Update the given database file
+@@ -119,6 +145,7 @@ def update_db_file(db_tmp_file, d):
  
-         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
--            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-+            SCOREV2 TEXT, SCOREV3 TEXT, SCOREV4 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
+     YEAR_START = 2002
+     cve_socket_timeout = int(d.getVar("CVE_SOCKET_TIMEOUT"))
++    is_nvd = d.getVar("NVD_DB_VERSION") == "NVD1"
  
-         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
-             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
-@@ -263,23 +271,29 @@ def update_db(conn, jsondata):
-             continue
+     # Connect to database
+     conn = sqlite3.connect(db_tmp_file)
+@@ -129,9 +156,7 @@ def update_db_file(db_tmp_file, d):
+         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
+             bb.debug(2, "Updating %d" % year)
+             ph.update((float(i + 1) / total_years) * 100)
+-            year_url = (d.getVar('NVDCVE_URL')) + str(year)
+-            meta_url = year_url + ".meta"
+-            json_url = year_url + ".json.gz"
++            json_url, meta_url = db_file_names(d, year, is_nvd)
  
-         accessVector = None
+             # Retrieve meta last modified date
+             try:
+@@ -140,7 +165,7 @@ def update_db_file(db_tmp_file, d):
+                 cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
+                 bb.warn("Failed to fetch CVE data (%s)" % e)
+                 import socket
+-                result = socket.getaddrinfo("nvd.nist.gov", 443, proto=socket.IPPROTO_TCP)
++                result = socket.getaddrinfo(host_db_name(d, is_nvd), 443, proto=socket.IPPROTO_TCP)
+                 bb.warn("Host IPs are %s" % (", ".join(t[4][0] for t in result)))
+                 return False
+ 
+@@ -168,7 +193,7 @@ def update_db_file(db_tmp_file, d):
+                 try:
+                     response = urllib.request.urlopen(json_url, timeout=cve_socket_timeout)
+                     if response:
+-                        update_db(conn, gzip.decompress(response.read()).decode('utf-8'))
++                        update_db(d, conn, db_decompress(d, response.read(), is_nvd))
+                     conn.execute("insert or replace into META values (?, ?)", [year, last_modified]).close()
+                 except urllib.error.URLError as e:
+                     cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+@@ -200,16 +225,22 @@ def initialize_db(conn):
+ 
+         c.close()
+ 
+-def parse_node_and_insert(conn, node, cveId):
++def parse_node_and_insert(conn, node, cveId, is_nvd):
+     # Parse children node if needed
+     for child in node.get('children', ()):
+-        parse_node_and_insert(conn, child, cveId)
++        parse_node_and_insert(conn, child, cveId, is_nvd)
++
++    def cpe_generator(is_nvd):
++        match_string = "cpeMatch"
++        cpe_string = 'criteria'
++        if is_nvd:
++            match_string = "cpe_match"
++            cpe_string = 'cpe23Uri'
+ 
+-    def cpe_generator():
+-        for cpe in node.get('cpe_match', ()):
++        for cpe in node.get(match_string, ()):
+             if not cpe['vulnerable']:
+                 return
+-            cpe23 = cpe.get('cpe23Uri')
++            cpe23 = cpe.get(cpe_string)
+             if not cpe23:
+                 return
+             cpe23 = cpe23.split(':')
+@@ -260,9 +291,9 @@ def parse_node_and_insert(conn, node, cveId):
+                     # Save processing by representing as -.
+                     yield [cveId, vendor, product, '-', '', '', '']
+ 
+-    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator()).close()
++    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator(is_nvd)).close()
+ 
+-def update_db(conn, jsondata):
++def update_db_nvdjson(conn, jsondata):
+     import json
+     root = json.loads(jsondata)
+ 
+@@ -297,8 +328,77 @@ def update_db(conn, jsondata):
+ 
+         configurations = elt['configurations']['nodes']
+         for config in configurations:
+-            parse_node_and_insert(conn, config, cveId)
++            parse_node_and_insert(conn, config, cveId, True)
++
++def update_db_fkie(conn, jsondata):
++    import json
++    root = json.loads(jsondata)
++
++    for elt in root['cve_items']:
++        if not 'vulnStatus' in elt or elt['vulnStatus'] == 'Rejected':
++            continue
++
++        if not 'configurations' in elt:
++            continue
++
++        accessVector = None
 +        vectorString = None
 +        cvssv2 = 0.0
 +        cvssv3 = 0.0
 +        cvssv4 = 0.0
-         cveId = elt['cve']['CVE_data_meta']['ID']
-         cveDesc = elt['cve']['description']['description_data'][0]['value']
-         date = elt['lastModifiedDate']
-         try:
-             accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-+            vectorString = elt['impact']['baseMetricV2']['cvssV2']['vectorString']
-             cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-         except KeyError:
-             cvssv2 = 0.0
-         try:
-             accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
-+            vectorString = vectorString or elt['impact']['baseMetricV3']['cvssV3']['vectorString']
-             cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-         except KeyError:
-             accessVector = accessVector or "UNKNOWN"
-             cvssv3 = 0.0
++        cveId = elt['id']
++        cveDesc = elt['descriptions'][0]['value']
++        date = elt['lastModified']
++        try:
++            for m in elt['metrics']['cvssMetricV2']:
++                if m['type'] == 'Primary':
++                    accessVector = m['cvssData']['accessVector']
++                    vectorString = m['cvssData']['vectorString']
++                    cvssv2 = m['cvssData']['baseScore']
++        except KeyError:
++            cvssv2 = 0.0
++        try:
++            for m in elt['metrics']['cvssMetricV30']:
++                if m['type'] == 'Primary':
++                    accessVector = m['cvssData']['accessVector']
++                    vectorString = m['cvssData']['vectorString']
++                    cvssv3 = m['cvssData']['baseScore']
++        except KeyError:
++            accessVector = accessVector or "UNKNOWN"
++            cvssv3 = 0.0
++        try:
++            for m in elt['metrics']['cvssMetricV31']:
++                if m['type'] == 'Primary':
++                    accessVector = m['cvssData']['accessVector']
++                    vectorString = m['cvssData']['vectorString']
++                    cvssv3 = m['cvssData']['baseScore']
++        except KeyError:
++            accessVector = accessVector or "UNKNOWN"
++            cvssv3 = 0.0
++        try:
++            for m in elt['metrics']['cvssMetricV40']:
++                if m['type'] == 'Primary':
++                    accessVector = m['cvssData']['accessVector']
++                    vectorString = m['cvssData']['vectorString']
++                    cvssv4 = m['cvssData']['baseScore']
++        except KeyError:
++            accessVector = accessVector or "UNKNOWN"
++            cvssv4 = 0.0
  
--        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
--                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
 +        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?, ?)",
 +                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
++
++        for config in elt['configurations']:
++            # This is suboptimal as it doesn't handle AND/OR and negate, but is better than nothing
++            for node in config["nodes"]:
++                parse_node_and_insert(conn, node, cveId, False)
++
++
++def update_db(d, conn, jsondata):
++    if (d.getVar("NVD_DB_VERSION") == "FKIE"):
++        return update_db_fkie(conn, jsondata)
++    else:
++        return update_db_nvdjson(conn, jsondata)
  
-         configurations = elt['configurations']['nodes']
-         for config in configurations:
+ do_fetch[nostamp] = "1"
+ 
 -- 
 2.45.2
 
