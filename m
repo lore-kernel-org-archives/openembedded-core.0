@@ -1,100 +1,95 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1F6E7718B
-	for <webhook@archiver.kernel.org>; Mon, 23 Dec 2024 22:16:27 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.23313.1734992180692737055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF4BE7718B
+	for <webhook@archiver.kernel.org>; Tue, 24 Dec 2024 02:52:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.27093.1735008744966907631
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Dec 2024 14:16:20 -0800
+ Mon, 23 Dec 2024 18:52:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gTBBhXlf;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FgpF+vQ+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010193f597b225-1fb50212-d936-4620-abe2-5f2dcaa1d3da-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1734992179; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=e5YnVSKN5nN6th0Lj8p5zv3y8bjP0rrbuyfUBn+L0Og=;
-	b=gTBBhXlf8hFPR6kLFpk71BuKgAH75GCE9CCPxcXaBrNugKAhjJkYYSG0yqPoR0JU
-	hvUCnvMJ5b+26fDnBYd7dqCmtQGjP5qoyYZmzl7lx6lzyeMmB306cBM8EGGBpKCn55r
-	JpgQ0appMGc/Xjt8E57BNZrIjhZXulutnHSTI1Os=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1734992179;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=e5YnVSKN5nN6th0Lj8p5zv3y8bjP0rrbuyfUBn+L0Og=;
-	b=FgpF+vQ+pxy2WtKg4HUMBaqNMCV7yynjHHEsV4twV3sTJA4pIpTtZ1KuDFLlrci1
-	54y5KVyHMtxRyfEadtB5UirZIfMfoSdNgh0uxS/yFH4p60gbX55AWP6K6APrkIP/xxM
-	q/y3d4GZsIOSv3FXjUVGP9iuLeCAWLBvpX0FeGtM=
-From: patchtest@automation.yoctoproject.org
-To: Marcel Ziswiler <marcel@ziswiler.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gettext: upgrade 0.22.5 -> 0.23
-In-Reply-To: <c461d8b75ed8f72df198d9c95deb44589bff8dc3.camel@ziswiler.com>
-References: <c461d8b75ed8f72df198d9c95deb44589bff8dc3.camel@ziswiler.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193f597b225-1fb50212-d936-4620-abe2-5f2dcaa1d3da-000000@us-west-2.amazonses.com>
-Date: Mon, 23 Dec 2024 22:16:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.23-54.240.27.33
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2088794d16=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BO2A96t000936
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 18:52:24 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nsub26m0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 18:52:24 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Mon, 23 Dec 2024 18:52:23 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Mon, 23 Dec 2024 18:52:22 -0800
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Liezhi.Yang@windriver.com>, <changqing.li@windriver.com>
+Subject: [PATCH v2] tcl: Resolve tcl-ptest run failure
+Date: Tue, 24 Dec 2024 10:52:21 +0800
+Message-ID: <20241224025221.749703-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Ns8rc9dJ c=1 sm=1 tr=0 ts=676a21e8 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=t7CeM3EgAAAA:8 a=o9Yu4ERPxXS5YcBS5nAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: Zfyb3s4ptyivD6y4u0ZaSOoa0yBVtxoQ
+X-Proofpoint-ORIG-GUID: Zfyb3s4ptyivD6y4u0ZaSOoa0yBVtxoQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-23_10,2024-12-23_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015 mlxlogscore=649
+ spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412240021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Dec 2024 22:16:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209054
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Dec 2024 02:52:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209055
 
---NextPart
-Content-Type: text/plain
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Modify the TCL_LIBRARY to the correct value to resolve the following errors caused by multilib:
 
+application-specific initialization failed: Cannot find a usable init.tcl in the following directories:
+    /usr/lib/tcl/ptest/library {} /usr/lib64/tcl9.0 /usr/lib64/tcl/lib/tcl9.0 /usr/lib64/lib/tcl9.0 /usr/lib64/tcl/library /usr/lib64/library /usr/lib64/tcl9.0/library /usr/lib64/tcl9.0.0/library /usr/tcl9.0.0/library
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/gettext-upgrade-0.22.5---0.23.patch
+ meta/recipes-devtools/tcltk/tcl/run-ptest | 2 +-
+ meta/recipes-devtools/tcltk/tcl_9.0.0.bb  | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-devtools/tcltk/tcl/run-ptest
+index 8a9f611b0f..be067f13ea 100644
+--- a/meta/recipes-devtools/tcltk/tcl/run-ptest
++++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ 
+-export TCL_LIBRARY=/usr/lib/tcl/ptest/library
++export TCL_LIBRARY=@libdir@/tcl/ptest/library
+ export ERROR_ON_FAILURES=1
+ export LANG=en-US.UTF-8
+ 
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.0.bb b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+index b67847c526..0d2efa44aa 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+@@ -82,6 +82,8 @@ do_install_ptest() {
+ 	cp ${B}/tcltest ${D}${PTEST_PATH}
+ 	cp -r ${S}/library ${D}${PTEST_PATH}
+ 	cp -r ${S}/tests ${D}${PTEST_PATH}
++        # handle multilib
++        sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ do_install_ptest:append:libc-musl () {
+-- 
+2.25.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: Parse error Target without source: +++ b/meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
-SKIP: test Signed-off-by presence: Parse error Target without source: +++ b/meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
-SKIP: test Upstream-Status presence: Parse error Target without source: +++ b/meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
