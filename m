@@ -1,572 +1,377 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 792BBE7718B
-	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 08:14:13 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.4580.1735114451684537115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 287A4E7718B
+	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 10:32:54 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.194])
+ by mx.groups.io with SMTP id smtpd.web11.5493.1735122772325005459
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Dec 2024 00:14:11 -0800
+ Wed, 25 Dec 2024 02:32:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2089c7a642=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BP7FcB6011528
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 00:14:11 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nsub3e0g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 00:14:10 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 25 Dec 2024 00:14:10 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 25 Dec 2024 00:14:09 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <changqing.li@windriver.com>
-Subject: [PATCH] expect: Replace tclsh with tclsh8 in the scripts used in the Expect
-Date: Wed, 25 Dec 2024 16:14:08 +0800
-Message-ID: <20241225081408.2262171-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=marcel@ziswiler.com header.s=s1-ionos header.b=KIPrhObi;
+ spf=pass (domain: ziswiler.com, ip: 74.208.4.194, mailfrom: marcel@ziswiler.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziswiler.com;
+	s=s1-ionos; t=1735122770; x=1735727570; i=marcel@ziswiler.com;
+	bh=85VbO4Q0YclKpsxfQnOaChkDnA+v9ei688C+xV16FGI=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=KIPrhObi1hT+B/Y78B9SpyOkWFp9upkp+sIkuRh6T3G88W9fZ2A5OT+2OT5BC5Fl
+	 HYi5gtxUnAkSUTGcv6gKT5qC4/z19KJla9QRC3kg08LEmRa5/lGqXWAjY8S2gD8bN
+	 sOf2qPu1QSQ+xQqfTt0px89EGCoxmo8Va/zcOqq0lq8ZVdvwct7y7U0qPxwa1z6xT
+	 N4muMhmSbtNbVjvHOzdBGhHFSvsZgAowAtbGfYFUnazNIYrjui+aIDbNl/wSvY+xC
+	 me/EQmay7EU+IXBkvvioBLbo0565/h/7lItj79lax7N13E5nqUmw3Q4/kXsQIrOqm
+	 DmzGx0gLgdoFIDEPoQ==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from toolbox ([213.55.189.214]) by mrelay.perfora.net (mreueus004
+ [74.208.5.2]) with ESMTPSA (Nemesis) id 1M4aZ0-1tQwOV2rcE-00688N; Wed, 25 Dec
+ 2024 11:32:50 +0100
+From: Marcel Ziswiler <marcel@ziswiler.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Marcel Ziswiler <marcel@ziswiler.com>
+Subject: [PATCH v2] gettext: upgrade 0.22.5 -> 0.23
+Date: Wed, 25 Dec 2024 11:32:18 +0100
+Message-ID: <20241225103244.3514559-1-marcel@ziswiler.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=Ns8rc9dJ c=1 sm=1 tr=0 ts=676bbed2 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=FP58Ms26AAAA:8 a=t7CeM3EgAAAA:8 a=EmWEYMERlOTAVu4iz0UA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: hgb-h6prQqCCv9kZ9jJUGgMayt4dOGtK
-X-Proofpoint-ORIG-GUID: hgb-h6prQqCCv9kZ9jJUGgMayt4dOGtK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-25_03,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999
- spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412250071
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oPnX2hP5LsL8aFpPSziWioJyYqQ4UgLMC6TW1hpUBKT/hxkK5hu
+ +uRDaS+0zk023EuDwtOJ+LYXJMh04jdaPRAXwut8AIYP3WoPwnHhBXzcfYtib5D77lyHuzF
+ thjfQHHJeTqbDjLeD75AM+Sv8Y/NSVaFyFA/s5Sszak0T+D9HfvBodT1bfHrAGsLAHSeSJ6
+ wce/XNRvjwxHUV0VRRB0g==
+UI-OutboundReport: notjunk:1;M01:P0:Nnc0p6hJCQ8=;CvJzLRy+Leip0eJJ7KTxZovN4Ie
+ QcgKfck0qfyTjf+Boi1354DH/GjK4PsFBpi2voiX98kPfX+4SCRiKqObfqPbegX3PkXQW5d08
+ VDAQEYIKjtMCt6ga8a8BFXmLmg7gJHmu9cynmk4A/6xUaNrDNL0pzcJ6U6oNgly5P6XodGErH
+ TDk8A6lZ6j/Sj5J8hCe+2rKyJkANN/FEOjL5ZlhBY14q+0ZY2AHzDrzHzTwaE+cz9dzIBc0ZG
+ aQ8re2LnjAnlF+HH83wJVdvCFLohddBQSTOrhauvVeev2h8ja26YxCPP/WBvjw4Ei5n8loHBM
+ ZG38HJoG8aEFYpYE+DWvYmqJ/q4bUBV9CeOUPkAqnQfGq0nGaiq7PqNT8IIfwnMt7uakCnyY8
+ 54JjNwTrNgpCmwgL7FnmUsNKEbps60AsJhhMEtQWGVaMaKnnNWdahFO0qFQL9A+H8HBOQdQH+
+ GRKDLM/uQPzGtMnbNv098gqd//lOZRp2OJB6p5eRU9QK3AoylkIFoQLfJBMd2UVnI8HkUFS/x
+ lk48+mnyIfJynVQs+AbZHm2lRSXMCQcVU+KPr1p6we4YXq3IG/9ikwvDsANSGXi1frJ1sP9ok
+ v3wSMoug+bqxnYwoWakV3BeF9Uvf/K4kBxdqXRQuCYbGZ35MTl5lmqN67pS4z5Q2U+LnFxguC
+ vorjjZyeLVJjAar4ZBELZBcAk/mjG/HrtBVYG/MizZNWkq2zSlVYQLb2wq1aL94tUUkodo9gy
+ 9vWLojQaBLVPA/H0ktRs2qMwR9VdaZD4SoygYSU5AmZGhfn9e7daV1033mxCjqfaTDcGs+W48
+ sApMifjj0bldtht29X4a/Wky/xm1pLIXLaLmLwB3OG/759cqlw5lF/CGUiuht6l7uPAJCuvS6
+ 7ri5/JOhlfoJ3WvleS5VQENcXTMK8bptwhcgk/r/qwPcSFovF6oLmrNOqEqI2cpPCyli/Uxpt
+ cuI48hWEltteQYHBVUjerwwRvn16eMAxNZHWFmgTxulh3oGakiglMk8pSxtsEO+Sa5T2dF6gt
+ HHFY4uTEEauWcjG1Spo5FnyxW3YWDbtkN59XO5C
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 08:14:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209073
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 10:32:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209074
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Marcel Ziswiler <marcel@ziswiler.com>
+=2D--
 
-Before upgrading to Tcl 9.0.0, running `tclsh` worked successfully, and
-the recipe configuration was as follows: ln -sf ./tclsh${VER}
-${D}${bindir}/tclsh
+Changes in v2:
+- Fix malformed diff lines by reverting to using patman for sending.
+- Do not revert the rename of remove-potcdate.sin to remove-potcdate.sed
+  as suggested by Alex.
 
-After upgrading to Tcl 9.0.0, to ensure compatibility with Expect, Tcl
-8.6.15 was additionally included. To distinguish between the two
-versions, the configuration was set as: ln -sf ./tclsh${VER}
-${D}${bindir}/tclsh8
+ ...22.5.bb =3D> gettext-minimal-native_0.23.bb} |  2 +-
+ meta/recipes-core/gettext/gettext-sources.inc |  2 +-
+ ...t-env.in-do-not-add-C-CXX-parameters.patch |  4 +--
+ ...1-intl-Fix-build-failure-with-make-j.patch | 35 -------------------
+ ...01-tests-autopoint-3-unset-MAKEFLAGS.patch |  4 +--
+ .../gettext/gettext/parallel.patch            | 10 +++---
+ .../gettext/gettext/serial-tests-config.patch |  8 ++---
+ .../gettext/gettext/use-pkgconfig.patch       | 16 ++++-----
+ .../{gettext_0.22.5.bb =3D> gettext_0.23.bb}    |  3 +-
+ 9 files changed, 24 insertions(+), 60 deletions(-)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.22.5.bb =3D> g=
+ettext-minimal-native_0.23.bb} (96%)
+ delete mode 100644 meta/recipes-core/gettext/gettext/0001-intl-Fix-build-=
+failure-with-make-j.patch
+ rename meta/recipes-core/gettext/{gettext_0.22.5.bb =3D> gettext_0.23.bb}=
+ (98%)
 
-Therefore, the input needs to be `tclsh8` to work properly, which means
-the `tclsh` references in the Expect-related scripts need to be changed
-to `tclsh8`.
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- ...th-tclsh8-in-the-scripts-used-in-the.patch | 475 ++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.4.bb |   1 +
- 2 files changed, 476 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-
-diff --git a/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-new file mode 100644
-index 0000000000..4e405e05af
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-@@ -0,0 +1,475 @@
-+From d6118fde9c8a7c49f042bc9dc434f56910c23d9c Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Wed, 25 Dec 2024 13:35:59 +0800
-+Subject: [PATCH] Replace tclsh with tclsh8 in the scripts used in the Expect
-+ package
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+As can be seen from the following, since Expect uses tcl8, it is necessary to
-+change tclsh to tclsh8 in the related scripts, otherwise they will not execute.
-+
-+pkgIndex.tcl :
-+if {![package vsatisfies [package provide Tcl] 8.6]} {return}
-+package ifneeded Expect 5.45.4 \
-+    [list load [file join /usr/lib64 libexpect5.45.4.so]]
-+
-+Upstream-Status: Pending
-+[Since the upstream (https://sourceforge.net/projects/expect/) has not been updated for a long time, the status is set to "pending"]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ example/archie        | 2 +-
-+ example/autoexpect    | 2 +-
-+ example/autopasswd    | 2 +-
-+ example/chess.exp     | 2 +-
-+ example/cryptdir      | 2 +-
-+ example/decryptdir    | 2 +-
-+ example/dislocate     | 2 +-
-+ example/dvorak        | 2 +-
-+ example/ftp-inband    | 2 +-
-+ example/ftp-rfc       | 2 +-
-+ example/gethostbyaddr | 2 +-
-+ example/kibitz        | 2 +-
-+ example/lpunlock      | 2 +-
-+ example/mkpasswd      | 2 +-
-+ example/multixterm    | 2 +-
-+ example/passmass      | 2 +-
-+ example/read1char     | 2 +-
-+ example/rftp          | 2 +-
-+ example/rlogin-cwd    | 2 +-
-+ example/robohunt      | 2 +-
-+ example/rogue.exp     | 2 +-
-+ example/telnet-cwd    | 2 +-
-+ example/timed-read    | 2 +-
-+ example/timed-run     | 2 +-
-+ example/tknewsbiff    | 2 +-
-+ example/tkpasswd      | 2 +-
-+ example/tkterm        | 2 +-
-+ example/unbuffer      | 2 +-
-+ example/virterm       | 2 +-
-+ example/weather       | 2 +-
-+ example/xkibitz       | 2 +-
-+ example/xpstat        | 2 +-
-+ 32 files changed, 32 insertions(+), 32 deletions(-)
-+
-+diff --git a/example/archie b/example/archie
-+index 0d5f43f..0e8d11e 100755
-+--- a/example/archie
-++++ b/example/archie
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/autoexpect b/example/autoexpect
-+index 35e57ce..e5ea626 100755
-+--- a/example/autoexpect
-++++ b/example/autoexpect
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/autopasswd b/example/autopasswd
-+index 1d095e2..b87dcd4 100755
-+--- a/example/autopasswd
-++++ b/example/autopasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/chess.exp b/example/chess.exp
-+index 7cbd8ff..450dd20 100755
-+--- a/example/chess.exp
-++++ b/example/chess.exp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/cryptdir b/example/cryptdir
-+index 84a155b..c7bfc02 100755
-+--- a/example/cryptdir
-++++ b/example/cryptdir
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/decryptdir b/example/decryptdir
-+index 84a155b..c7bfc02 100755
-+--- a/example/decryptdir
-++++ b/example/decryptdir
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/dislocate b/example/dislocate
-+index 9d34180..b366933 100755
-+--- a/example/dislocate
-++++ b/example/dislocate
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/dvorak b/example/dvorak
-+index b5debc3..3789938 100755
-+--- a/example/dvorak
-++++ b/example/dvorak
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/ftp-inband b/example/ftp-inband
-+index 5a28302..d3392f4 100755
-+--- a/example/ftp-inband
-++++ b/example/ftp-inband
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/ftp-rfc b/example/ftp-rfc
-+index 4153b24..f02b3dc 100755
-+--- a/example/ftp-rfc
-++++ b/example/ftp-rfc
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/gethostbyaddr b/example/gethostbyaddr
-+index 513a330..803b667 100755
-+--- a/example/gethostbyaddr
-++++ b/example/gethostbyaddr
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/kibitz b/example/kibitz
-+index eacb139..7c73bf9 100755
-+--- a/example/kibitz
-++++ b/example/kibitz
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/lpunlock b/example/lpunlock
-+index 2b7ea24..e42224b 100755
-+--- a/example/lpunlock
-++++ b/example/lpunlock
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/mkpasswd b/example/mkpasswd
-+index 6016b56..c3e97f4 100755
-+--- a/example/mkpasswd
-++++ b/example/mkpasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/multixterm b/example/multixterm
-+index d0abfe7..82d6651 100755
-+--- a/example/multixterm
-++++ b/example/multixterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/passmass b/example/passmass
-+index e3c18e6..8f396d3 100755
-+--- a/example/passmass
-++++ b/example/passmass
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/read1char b/example/read1char
-+index 43a3df8..5f947fd 100644
-+--- a/example/read1char
-++++ b/example/read1char
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rftp b/example/rftp
-+index c5db679..ebbf4c5 100755
-+--- a/example/rftp
-++++ b/example/rftp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rlogin-cwd b/example/rlogin-cwd
-+index b217373..80863e7 100755
-+--- a/example/rlogin-cwd
-++++ b/example/rlogin-cwd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/robohunt b/example/robohunt
-+index 853ce1e..0d70c87 100755
-+--- a/example/robohunt
-++++ b/example/robohunt
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rogue.exp b/example/rogue.exp
-+index 083acdf..fb6f9ca 100755
-+--- a/example/rogue.exp
-++++ b/example/rogue.exp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/telnet-cwd b/example/telnet-cwd
-+index bd16048..fa520f1 100755
-+--- a/example/telnet-cwd
-++++ b/example/telnet-cwd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/timed-read b/example/timed-read
-+index 8e63f0f..0a4ee7d 100755
-+--- a/example/timed-read
-++++ b/example/timed-read
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/timed-run b/example/timed-run
-+index 80def48..a0a36ba 100755
-+--- a/example/timed-run
-++++ b/example/timed-run
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/tknewsbiff b/example/tknewsbiff
-+index 9a2da4b..8d9db19 100755
-+--- a/example/tknewsbiff
-++++ b/example/tknewsbiff
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/tkpasswd b/example/tkpasswd
-+index 376c56a..cc4d816 100755
-+--- a/example/tkpasswd
-++++ b/example/tkpasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/tkterm b/example/tkterm
-+index 16ee972..6c85c63 100755
-+--- a/example/tkterm
-++++ b/example/tkterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/unbuffer b/example/unbuffer
-+index ad5db7b..f6e42fd 100755
-+--- a/example/unbuffer
-++++ b/example/unbuffer
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/virterm b/example/virterm
-+index bab254b..911c5bc 100755
-+--- a/example/virterm
-++++ b/example/virterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/weather b/example/weather
-+index 4bd0e1b..8146359 100755
-+--- a/example/weather
-++++ b/example/weather
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/xkibitz b/example/xkibitz
-+index b61a22f..5718976 100755
-+--- a/example/xkibitz
-++++ b/example/xkibitz
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/xpstat b/example/xpstat
-+index ebbfbcf..067d57e 100755
-+--- a/example/xpstat
-++++ b/example/xpstat
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index 3d50a8f25a..955d1c463a 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -30,6 +30,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://expect-configure-c99.patch \
-            file://tcl840.patch \
-            file://run-ptest \
-+           file://0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch \
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb b/=
+meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
+similarity index 96%
+rename from meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb
+rename to meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
+index 96acf9bb9fc6..e443b6b34fa0 100644
+=2D-- a/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.23.bb
+@@ -42,5 +42,5 @@ do_install () {
+ 	install -d ${D}${datadir}/gettext/po/
+ 	cp ${S}/build-aux/config.rpath ${D}${datadir}/gettext/
+ 	cp ${S}/gettext-runtime/po/Makefile.in.in ${D}${datadir}/gettext/po/
+-	cp ${S}/gettext-runtime/po/remove-potcdate.sin ${D}${datadir}/gettext/po=
+/
++	cp ${S}/gettext-runtime/po/remove-potcdate.sed ${D}${datadir}/gettext/po=
+/
+ }
+diff --git a/meta/recipes-core/gettext/gettext-sources.inc b/meta/recipes-=
+core/gettext/gettext-sources.inc
+index fd05837528c8..9805b1d9074c 100644
+=2D-- a/meta/recipes-core/gettext/gettext-sources.inc
++++ b/meta/recipes-core/gettext/gettext-sources.inc
+@@ -1,4 +1,4 @@
+ HOMEPAGE =3D "http://www.gnu.org/software/gettext/gettext.html"
+ SRC_URI =3D "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
             "
- SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
- SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
--- 
-2.25.1
+-SRC_URI[sha256sum] =3D "ec1705b1e969b83a9f073144ec806151db88127f5e40fe5a9=
+4cb6c8fa48996a0"
++SRC_URI[sha256sum] =3D "945dd7002a02dd7108ad0510602e13416b41d327898cf8522=
+201bc6af10907a6"
+diff --git a/meta/recipes-core/gettext/gettext/0001-init-env.in-do-not-add=
+-C-CXX-parameters.patch b/meta/recipes-core/gettext/gettext/0001-init-env.=
+in-do-not-add-C-CXX-parameters.patch
+index 33d45a038cff..e7cb93d6e201 100644
+=2D-- a/meta/recipes-core/gettext/gettext/0001-init-env.in-do-not-add-C-CX=
+X-parameters.patch
++++ b/meta/recipes-core/gettext/gettext/0001-init-env.in-do-not-add-C-CXX-=
+parameters.patch
+@@ -24,6 +24,6 @@ index cc84ffd..b69c990 100644
+ -CFLAGS=3D"@CFLAGS@"
+ -CXX=3D"@CXX@"
+ -CXXFLAGS=3D"@CXXFLAGS@"
++ OBJC=3D"@OBJC@"
++ OBJCFLAGS=3D"@OBJCFLAGS@"
+  CPPFLAGS=3D"@CPPFLAGS@"
+- LDFLAGS=3D"@LDFLAGS@"
+- LTLIBINTL=3D"@LTLIBINTL@"
+diff --git a/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure=
+-with-make-j.patch b/meta/recipes-core/gettext/gettext/0001-intl-Fix-build=
+-failure-with-make-j.patch
+deleted file mode 100644
+index 144259dd3f2f..000000000000
+=2D-- a/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with=
+-make-j.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 97a6a63ad61949663283f5fad68c9d5fb9be1f15 Mon Sep 17 00:00:00 2001
+-From: Bruno Haible <bruno@clisp.org>
+-Date: Tue, 12 Sep 2023 11:33:41 +0200
+-Subject: [PATCH] intl: Fix build failure with "make -j".
+-
+-Reported by Christian Weisgerber <naddy@mips.inka.de> at
+-<https://lists.gnu.org/archive/html/bug-gettext/2023-09/msg00005.html>.
+-
+-* gettext-runtime/intl/Makefile.am (langprefs.lo, log.lo): Depend on gett=
+extP.h
+-and its subordinate includes.
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=3Dgette=
+xt.git;a=3Dcommit;h=3D97a6a63ad61949663283f5fad68c9d5fb9be1f15]
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+=2D---
+- gettext-runtime/intl/Makefile.am | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gettext-runtime/intl/Makefile.am b/gettext-runtime/intl/Make=
+file.am
+-index da7abb758..9e56978bc 100644
+=2D--- a/gettext-runtime/intl/Makefile.am
+-+++ b/gettext-runtime/intl/Makefile.am
+-@@ -387,8 +387,8 @@ dngettext.lo:        ../config.h $(srcdir)/gettextP.h=
+ libgnuintl.h $(srcdir)/gmo
+- ngettext.lo:         ../config.h $(srcdir)/gettextP.h libgnuintl.h $(src=
+dir)/gmo.h $(srcdir)/loadinfo.h
+- plural.lo:           ../config.h $(srcdir)/plural-exp.h $(PLURAL_DEPS)
+- plural-exp.lo:       ../config.h $(srcdir)/plural-exp.h
+=2D-langprefs.lo:        ../config.h
+=2D-log.lo:              ../config.h
+-+langprefs.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(src=
+dir)/gmo.h $(srcdir)/loadinfo.h
+-+log.lo:              ../config.h $(srcdir)/gettextP.h libgnuintl.h $(src=
+dir)/gmo.h $(srcdir)/loadinfo.h
+- printf.lo:           ../config.h
+- setlocale.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(src=
+dir)/gmo.h $(srcdir)/loadinfo.h
+- version.lo:          ../config.h libgnuintl.h
+=2D--
+-2.25.1
+-
+diff --git a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unse=
+t-MAKEFLAGS.patch b/meta/recipes-core/gettext/gettext/0001-tests-autopoint=
+-3-unset-MAKEFLAGS.patch
+index 94afb255c385..6aa1b7d8519b 100644
+=2D-- a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAK=
+EFLAGS.patch
++++ b/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEF=
+LAGS.patch
+@@ -16,10 +16,10 @@ diff --git a/gettext-tools/tests/autopoint-3 b/gettext=
+-tools/tests/autopoint-3
+ index bd3fbf3..380eaac 100755
+ --- a/gettext-tools/tests/autopoint-3
+ +++ b/gettext-tools/tests/autopoint-3
+-@@ -131,6 +131,7 @@ test $? =3D 0 || { cat autopoint.err; Exit 1; }
+- ${CONFIG_SHELL} ./configure >/dev/null 2>autpoint.err
++@@ -137,6 +137,7 @@ ${CONFIG_SHELL} ./configure >/dev/null 2>autopoint.er=
+r
+  test $? =3D 0 || { cat autopoint.err; Exit 1; }
+
++ : ${MAKE=3Dmake}
+ +unset MAKEFLAGS
+  ${MAKE} >/dev/null 2>autopoint.err
+  test $? =3D 0 || { cat autopoint.err; Exit 1; }
+diff --git a/meta/recipes-core/gettext/gettext/parallel.patch b/meta/recip=
+es-core/gettext/gettext/parallel.patch
+index 8ecba46fd0ac..22515c24ac4e 100644
+=2D-- a/meta/recipes-core/gettext/gettext/parallel.patch
++++ b/meta/recipes-core/gettext/gettext/parallel.patch
+@@ -1,4 +1,4 @@
+-From 83333bc873c2655ff1de161f6b7db930f22f1cea Mon Sep 17 00:00:00 2001
++From f2455b7ab3826875d09eb3a11fbb830dd856f974 Mon Sep 17 00:00:00 2001
+ From: Joe Slater <jslater@windriver.com>
+ Date: Thu, 7 Jun 2012 16:37:01 -0700
+ Subject: [PATCH] instal libgettextlib.a before removing it
+@@ -15,12 +15,12 @@ Signed-off-by: Joe Slater <jslater@windriver.com>
+  1 file changed, 4 insertions(+)
+
+ diff --git a/gettext-tools/gnulib-lib/Makefile.am b/gettext-tools/gnulib-=
+lib/Makefile.am
+-index ab729cd..a0d713e 100644
++index a7fa494..4d0536a 100644
+ --- a/gettext-tools/gnulib-lib/Makefile.am
+ +++ b/gettext-tools/gnulib-lib/Makefile.am
+-@@ -58,6 +58,10 @@ AM_CFLAGS =3D @WARN_CFLAGS@
+- # Rules generated and collected by gnulib-tool.
+- include Makefile.gnulib
++@@ -88,6 +88,10 @@ endif
++ libgettextlib_la_LIBADD       +=3D $(WOE32_LIBADD)
++ libgettextlib_la_DEPENDENCIES +=3D $(WOE32_LIBADD)
+
+ +# defined in Makefile.gnulib but missing this dependency
+ +#
+diff --git a/meta/recipes-core/gettext/gettext/serial-tests-config.patch b=
+/meta/recipes-core/gettext/gettext/serial-tests-config.patch
+index 7d39d6086abc..3c354c21ff5b 100644
+=2D-- a/meta/recipes-core/gettext/gettext/serial-tests-config.patch
++++ b/meta/recipes-core/gettext/gettext/serial-tests-config.patch
+@@ -1,4 +1,4 @@
+-From aa8dfe0aafd0b53a6c5bac61b356ca92e1430a36 Mon Sep 17 00:00:00 2001
++From 111376001f75209d9342c8f2c6495c99a443da7f Mon Sep 17 00:00:00 2001
+ From: "Hongjun.Yang" <hongjun.yang@windriver.com>
+ Date: Thu, 28 Jul 2016 12:36:15 +0800
+ Subject: [PATCH] fix for ptest
+@@ -15,7 +15,7 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  3 files changed, 3 insertions(+), 3 deletions(-)
+
+ diff --git a/configure.ac b/configure.ac
+-index f4e54ea..a47ff14 100644
++index 5106676..3114998 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -22,7 +22,7 @@ AC_INIT([gettext],
+@@ -28,7 +28,7 @@ index f4e54ea..a47ff14 100644
+  dnl Override automake's tar command used for creating distributions.
+  am__tar=3D'${AMTAR} chf - --format=3Dustar --owner=3Droot --group=3Droot=
+ "$$tardir"'
+ diff --git a/gettext-runtime/configure.ac b/gettext-runtime/configure.ac
+-index 126d069..aa23232 100644
++index e128f5b..9f7447c 100644
+ --- a/gettext-runtime/configure.ac
+ +++ b/gettext-runtime/configure.ac
+ @@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],
+@@ -41,7 +41,7 @@ index 126d069..aa23232 100644
+
+  dnl Installation directories.
+ diff --git a/gettext-tools/configure.ac b/gettext-tools/configure.ac
+-index 3610ee3..6f56a23 100644
++index 034936c..d31decf 100644
+ --- a/gettext-tools/configure.ac
+ +++ b/gettext-tools/configure.ac
+ @@ -22,7 +22,7 @@ AC_INIT([gettext-tools],
+diff --git a/meta/recipes-core/gettext/gettext/use-pkgconfig.patch b/meta/=
+recipes-core/gettext/gettext/use-pkgconfig.patch
+index ceb1856118a5..796b70005672 100644
+=2D-- a/meta/recipes-core/gettext/gettext/use-pkgconfig.patch
++++ b/meta/recipes-core/gettext/gettext/use-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 6aa1338b916fe72c200b6f160b934be15b6ff590 Mon Sep 17 00:00:00 2001
++From 54ae005d0258d1e2041304c5568de768ad8c3248 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 23 Jan 2018 00:54:13 +0000
+ Subject: [PATCH] gettext: beat library detection into shape
+@@ -19,10 +19,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  3 files changed, 31 insertions(+), 286 deletions(-)
+
+ diff --git a/gettext-tools/gnulib-m4/libxml.m4 b/gettext-tools/gnulib-m4/=
+libxml.m4
+-index 0340490..0355388 100644
++index c7160d7..8e46cc7 100644
+ --- a/gettext-tools/gnulib-m4/libxml.m4
+ +++ b/gettext-tools/gnulib-m4/libxml.m4
+-@@ -13,6 +13,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
++@@ -14,6 +14,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
+  dnl   forces the use of the included or an external libxml.
+  AC_DEFUN([gl_LIBXML],
+  [
+@@ -30,7 +30,7 @@ index 0340490..0355388 100644
+    AC_REQUIRE([AM_ICONV_LINK])
+
+    ifelse([$1], , [
+-@@ -30,106 +31,10 @@ AC_DEFUN([gl_LIBXML],
++@@ -31,106 +32,10 @@ AC_DEFUN([gl_LIBXML],
+    INCXML=3D
+    ifelse([$1], [yes], , [
+      if test "$gl_cv_libxml_use_included" !=3D yes; then
+@@ -142,10 +142,10 @@ index 0340490..0355388 100644
+    ])
+    AC_SUBST([LIBXML])
+ diff --git a/libtextstyle/gnulib-local/m4/libglib.m4 b/libtextstyle/gnuli=
+b-local/m4/libglib.m4
+-index dbc9eb8..136e512 100644
++index baa2cf4..b287c5b 100644
+ --- a/libtextstyle/gnulib-local/m4/libglib.m4
+ +++ b/libtextstyle/gnulib-local/m4/libglib.m4
+-@@ -6,106 +6,26 @@ dnl with or without modifications, as long as this not=
+ice is preserved.
++@@ -7,106 +7,26 @@ dnl with or without modifications, as long as this not=
+ice is preserved.
+
+  dnl From Bruno Haible.
+
+@@ -266,10 +266,10 @@ index dbc9eb8..136e512 100644
+    AC_SUBST([LTLIBGLIB])
+    AC_SUBST([INCGLIB])
+ diff --git a/libtextstyle/gnulib-m4/libglib.m4 b/libtextstyle/gnulib-m4/l=
+ibglib.m4
+-index dbc9eb8..136e512 100644
++index baa2cf4..b287c5b 100644
+ --- a/libtextstyle/gnulib-m4/libglib.m4
+ +++ b/libtextstyle/gnulib-m4/libglib.m4
+-@@ -6,106 +6,26 @@ dnl with or without modifications, as long as this not=
+ice is preserved.
++@@ -7,106 +7,26 @@ dnl with or without modifications, as long as this not=
+ice is preserved.
+
+  dnl From Bruno Haible.
+
+diff --git a/meta/recipes-core/gettext/gettext_0.22.5.bb b/meta/recipes-co=
+re/gettext/gettext_0.23.bb
+similarity index 98%
+rename from meta/recipes-core/gettext/gettext_0.22.5.bb
+rename to meta/recipes-core/gettext/gettext_0.23.bb
+index 0bf2a56e5fcf..181457f7716c 100644
+=2D-- a/meta/recipes-core/gettext/gettext_0.22.5.bb
++++ b/meta/recipes-core/gettext/gettext_0.23.bb
+@@ -28,7 +28,6 @@ SRC_URI +=3D " \
+            file://serial-tests-config.patch \
+            file://0001-tests-autopoint-3-unset-MAKEFLAGS.patch \
+            file://0001-init-env.in-do-not-add-C-CXX-parameters.patch \
+-           file://0001-intl-Fix-build-failure-with-make-j.patch \
+            "
+
+ inherit autotools texinfo pkgconfig ptest
+@@ -130,7 +129,7 @@ do_install:append:class-native () {
+ 	rm ${D}${datadir}/aclocal/*
+ 	rm ${D}${datadir}/gettext/config.rpath
+ 	rm ${D}${datadir}/gettext/po/Makefile.in.in
+-	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
++	rm ${D}${datadir}/gettext/po/remove-potcdate.sed
+
+         create_wrapper ${D}${bindir}/msgfmt \
+                 GETTEXTDATADIR=3D"${STAGING_DATADIR_NATIVE}/gettext-${PV}=
+/"
+=2D-
+2.47.1
 
 
