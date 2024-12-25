@@ -1,223 +1,572 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 232C0E77188
-	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 03:10:52 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.2002.1735096243435061164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 792BBE7718B
+	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 08:14:13 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.4580.1735114451684537115
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Dec 2024 19:10:43 -0800
+ Wed, 25 Dec 2024 00:14:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=208980716c=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BP2uADR003286
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 03:10:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nmn8bj3x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 03:10:42 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BP3AfOu023388;
-	Wed, 25 Dec 2024 03:10:41 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nmn8bj3w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Dec 2024 03:10:41 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pKfn4/urqEkOt4/P0QxZg4cV9WGw6DhO+HGy54uMEVkRPUfT/PkYk7Ukmi3/U4zC6ViF83A3S+und9iSNnbhHknALPnN1qEJdQetKbogGa1Q8rNeReOGdEhsceEtYGioxglB71oPSohbN55OjowBJa14m+h7b1K9tUZou/ULRIDojcx7xZD44Q4f52g8xFc9U4VUpz0UHYvdtpeyXHoGoLHmimHETKJh0qLX7ffiFVQJ1x95FDQwj+smF2EJM8bIpbjqCGRPdiQddvnduFWDxv3X0d4NxsSGlK5OO1KxusR71kBXUPmSMiw4Rr61mWorfdnhR/ShOT/cV8Zbo1Pi9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LpVHvBKbJpHLybCBxmhVqj3x+hJLnA3RdA8kmdQgEQw=;
- b=IBt/mNH90YRXsuoLZynEfUI3QmN/HKNdEs7m55UOg/y3uAZoQrQNHHrU19y7iy2c5eDTlTMyue4yqTP6hC1jobSCbtoi06WAffw9UbWihzqXHy4bPwhF95Ns+LqhgOUPuLHt8u8YKlGrvpSN7drTH4UUpowiL7iwggQJL5Vb0aoqTC2yTR59yFUF4OoOQBc1e8PVXepo04xRYJD+2BBwlCUkrq1EJp67EqG5Y7xcQi7sME6g8QG94AEky9/lBf/j+SVppD/v4yPKY9UleBrg8kuu15At9qJWBWaM5CgOYDS6Ta/taZqQINL8ScnQ1gvXZPoznk+AT7jJ2MV6Dcccew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by IA0PR11MB8399.namprd11.prod.outlook.com (2603:10b6:208:48d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.21; Wed, 25 Dec
- 2024 03:10:34 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8272.013; Wed, 25 Dec 2024
- 03:10:34 +0000
-Message-ID: <5f2b9a77-7f3a-4a6a-9481-e1a4c54a1f0e@windriver.com>
-Date: Wed, 25 Dec 2024 11:10:33 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [OE-core][PATCH] lib32-64k-pagesize.inc:
- add conf file for easier building of 32bit binary with 64K alignment
-To: patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-References: <20241224025708.4192067-1-Qi.Chen@windriver.com>
- <01010193f6aa6012-d78373e6-a1b7-4828-a150-9b6fde33cba2-000000@us-west-2.amazonses.com>
-Content-Language: en-US
-From: ChenQi <Qi.Chen@windriver.com>
-In-Reply-To: <01010193f6aa6012-d78373e6-a1b7-4828-a150-9b6fde33cba2-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0257.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::22) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2089c7a642=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BP7FcB6011528
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 00:14:11 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nsub3e0g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 00:14:10 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 25 Dec 2024 00:14:10 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 25 Dec 2024 00:14:09 -0800
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <changqing.li@windriver.com>
+Subject: [PATCH] expect: Replace tclsh with tclsh8 in the scripts used in the Expect
+Date: Wed, 25 Dec 2024 16:14:08 +0800
+Message-ID: <20241225081408.2262171-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA0PR11MB8399:EE_
-X-MS-Office365-Filtering-Correlation-Id: 780347d9-b040-411a-839d-08dd2491b2a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?M1J3Q2NxWFAvVE16R2EreDY2a0J1U081M1JoUzZ5VlNRalZ6TERpZDBkUEtY?=
- =?utf-8?B?YjFUNW16SHNWYk5GcUpOZXZKNnp0V2RYNFUxZEwydTdtYWVYeloxUFRtbkQ4?=
- =?utf-8?B?bUM5WGRka09HNlppRUZ5U0pQazJjL29ZWnpPclNIT0ZwdG96NG56dHp4QXNG?=
- =?utf-8?B?aU1uc3Z3cytOMlpOU1YwbnR3czlQK3ljQzNUcEFaZDVnR1FUTXZSSlR3TUNu?=
- =?utf-8?B?am03V0hXS3lGcjNEM01aZGN3eTJRTVA5QnVqemFpYW96RXU1R3oxNjVRazhw?=
- =?utf-8?B?SXRGeVRGRnd0RytFQmRsYTJEZU8zS2l4djFEN01obWs2ZHNuNlgxRUNWalJs?=
- =?utf-8?B?OU1odFh4cVZjQTZML1B0Rk5XWmMrdytwNkxoTWxpVzRaQVlsaTZjME9vbkFN?=
- =?utf-8?B?YnZ3QnpNNTJhbFdta29NUmNiRTlDblp3UHJxTklVQkxKTTBmc05pQkhuNGFh?=
- =?utf-8?B?YUJyNzdocVRwMjZSdnFJQkc3WURFa0laWHhlUmZPVko1R1BFSzlXcjJTNHNn?=
- =?utf-8?B?aVhESkF4NDJsQlo1MFZpMzdiN04wME5PcUpZOEpJRWZ4bzR2Wi9ud2JzSEdN?=
- =?utf-8?B?UHlZbzA2akplSlhZK1MvSTJvN3ZzSHpKOXNnVWhoenF5R3YraU5vWFl4NUQr?=
- =?utf-8?B?VGFsNjdQYUxTbDh1dUFVVW4xa0NxUEdORk9kS0I5NnJ4MWFaTjgzd2EraStD?=
- =?utf-8?B?Y1hIbDUvdW9GbmxPMFZha3UzMi8yV2I4dkZCNjN6NU1meXMwZG5CVGQ5NnZR?=
- =?utf-8?B?dWRBdVFnRHg2eTcrSDAxckNiMmJBVkhxcnA5M2V5ZkYzb2hHZmdQczNOSWtN?=
- =?utf-8?B?ZjV5eGFFU1VpdDhrMWdqUlE3N3Jub1B3K1RmY3pjVnM5MnEzak9NZWNEWlhQ?=
- =?utf-8?B?Mk9SNCtRZCtZRGwrYUY1OVQyL1pGTlQ0U2c0ZnVtUXduUkt5b3NlQU9vNzRJ?=
- =?utf-8?B?MmkxU24wZ2h3bUxRaU8xRkJuU0dLTDBEKytXUXVxS2toV0l4L1hpck04NlNy?=
- =?utf-8?B?bjFIcmdEMDFVWS9PcEFHczFiWjg2QzIrUjNpaWtNZFVPamh0aE5hTVg0a3N5?=
- =?utf-8?B?c3IwZFBwZUNBbTFqVnFFalVodWlvSlM1QWdEK3ZmNm9RWWRPbXZOUmx3eFBx?=
- =?utf-8?B?S0c2RjR6OEpxU2ZlRlA1dWVoSkN5WjhqWDZYVWxnbDV3VmFWQ0tGay9QZ3Qv?=
- =?utf-8?B?VTZDYXRuZStKVDdDY1NUSHdydGQ0S0NITnBJRk5vaFlFMFBlWjFzLzlPNGdN?=
- =?utf-8?B?MjFKdVVXMndIaFFJVzFtUUVhMHVzN1p0ZnVXUkN6ZDZOL0tnMHNkY3kyUjI0?=
- =?utf-8?B?eTVtcHc4bVp1Rmw2T1JnVkUzcWtvUUtkUGhnVmFSekg2cFVWcUZwcEJKZE5i?=
- =?utf-8?B?TzZ5dmIyTUJzUG1pZ296RThnU2hUVG5RUTZQSmROeS9rUG5oc0NjekFCR3A0?=
- =?utf-8?B?QVg5VDA1VTNBYmZHdGtsNXFVUEE4YVVSMW95aXZoeW1veE9NMEltNGNxZzdl?=
- =?utf-8?B?WEpsdVkxTTljc1ptTkFQRHlsSUpuOERDdmsvLzdKM3JLZ0N4K0FOb3p4bkk2?=
- =?utf-8?B?ZVBOaW5kZkt0dlRtaExrMFF3YUdXZ3ZjMWpYcU5KcEIwR0REenZLYjVFV1JL?=
- =?utf-8?B?NXFLdVFaYXh4MnhmS1o5MjNyUFZxMW1WTDBRRkI5bnJGSCs5Wjg2eVpjalFZ?=
- =?utf-8?B?ZGgvWGE0MDlZaUNReEhBM093V3ozVlBvenphYzBHYmh2Q0FZUURIc1dXakFL?=
- =?utf-8?B?NW5qZ3RES3c2VmZPTEc2emhScjBDa0RSYWExVUFmbW0raEh5Z1lpZEgvVDl1?=
- =?utf-8?B?MjRxaXJYSVRDRHpzMzZYdz09?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SlFTanE4bDU4TjJZajdVQmJVYThLMERjU1hnSnBKRFFheWZ6dmNUZ2pZdjFv?=
- =?utf-8?B?Z2hXV0JMeXJXQlBybWFJSE1nOEIxOEZuZTlBbHlNeXp0UTg0M280VHRUTEJJ?=
- =?utf-8?B?TUJBbkY0dDYvWUtvbk42eldCVEgvOHk3UitiSzkvUnZacXhXWkpoMVNWNmJs?=
- =?utf-8?B?MHpJcllIbk1KbjQyZVN1ajRjMlhSQzNseHJxTU9UZGNWa0FXTkg3OVdqVlhn?=
- =?utf-8?B?dkt2S2FZNy92NmYwQ042R21JanZmZEFFQWV3NVp5UFhnajFuTzYvRS9Vb3hO?=
- =?utf-8?B?UjVqOUVGNDkyZXhmSmtyU2hES3g5TmVCa1JTYUF5OERGaDNlWXVZSlZ6MGdp?=
- =?utf-8?B?ckY2eFFKbkNsUGIvVXAxSTBTQ2pab1pIdkFRM3Jla0dKTDJsQ0M5SFRlaGha?=
- =?utf-8?B?M0szbExIMWd1ekpna2kyaGdRb25IaTMzL0tFY1hUemVKTWRXRTRvakJVRXd5?=
- =?utf-8?B?UVVnYllTcmN5MExmdUUrZ0lLVnRJd3A3dnV5QU5DNi95U1Q5OUpOR2xEc1py?=
- =?utf-8?B?Vy9uTWNtZFdCL3kzdjlXQXFqenVCbExFcXFTSnl0N0g1L1JBRDBZUXlOUklm?=
- =?utf-8?B?WXpmTGxUNTZmWjRNOTVHaDBwNlRTTU1NQk05VlFOTDRLZjc4ZTFIZno5Z050?=
- =?utf-8?B?UExET1R2eS9XUXRVTnZIVGlrWDdSSm0xZ1dFQlR3a2FaSjZvQ2YyWURuR2pO?=
- =?utf-8?B?dE9UTkNsMzZUNk5NWCtNbExaSHNCajRtQlEzM29aeVdhOXYwajV2ZHdhWUd3?=
- =?utf-8?B?RWQxeGVGM29QM1p0dVR5K1VIR2hYVVlIZTVmVEpiVG1scHY3WW1nTVA0TG9v?=
- =?utf-8?B?WXZuNWMwYzVxUVhMR3ZXVFpOWVJodEhVNjZYRFdxK2ZIMjBmOERPeXNFa1dy?=
- =?utf-8?B?YTZmdGg4T1lWeUh6M3gyWjJIblFTOUpoL1k3aU5xc2RSVkJYS3l6aUwxbWIz?=
- =?utf-8?B?ck9GL2VXdlhHSGJRK0owNlpNVjJDM3paOFhoRHJ1VGhMaGVGb1B3cXpuc0hT?=
- =?utf-8?B?SGVRMGs0ZE15YnczbkpBL1RHckZPKzNFNVZVL3FrOVhrODZZaGQzbGJpZVVJ?=
- =?utf-8?B?ZTBPcDc5YnZpRlUrd1FXZmNMSnAvTmZ5d2J6RnhlMitWelpXSFN2YU5naEM5?=
- =?utf-8?B?YXFOL2pLQUxwdWhjOHB4RnZjbjd2dlg0UFY4WVRSMmtTR1Z3VWkyWHp4c0Zy?=
- =?utf-8?B?K3dkZUZuVmdMN0JIM28yRE8zL1ozSmVvaHJwdVp3NGc2Q0tJeVZZVUdhSmo3?=
- =?utf-8?B?ckxtcUJUamg4TURxVmVuR2lROW5GOGlnQzV2dDNHT2ZTWjlOME5jSE9sbDQ1?=
- =?utf-8?B?dmxmak5HcmFSNU5TZVZYK1AzUEVLZUxaVmtQWVZSeEhMQUphaS9HL2dnbVlx?=
- =?utf-8?B?YkxISExtTTMrL081NlhFVjIvdWhtT1VSdVZjUTFndmJqUGkxNGJLZlZhcGxG?=
- =?utf-8?B?Z3h3dGdMUGlKUTdCaHB2bldrU2ViRjhpcFEvZ1ozalRMR2pXYkgxQ2RyVEw4?=
- =?utf-8?B?bkVSMzVxb216Szh1UzNURG52eXpuVlo3K1hIZlZsMm9XNVgxUWFzUSsxUzlj?=
- =?utf-8?B?L25FeFdHTUJoUkJUSjNYM3RhSlhwYWNIN0JrbjhKdnJqcE5YVHI0Z3duYUR4?=
- =?utf-8?B?cEhyUElsWjNZSEhsalBMU1lmSlNiMzhZZUU1cStMMXV5Z0NIL1Y0dGl5c1Q4?=
- =?utf-8?B?ZEdIQU9zVWgyV1ZONUk0R0NrS05sSVYreWxoMjUxbjgwWDRlQlU2dWdJNjc0?=
- =?utf-8?B?cXZSMVY2Z1VDS29DaXhYa2pkay9lbVE4NCswczZsTk1NK3JNWGc5RGYvWkdn?=
- =?utf-8?B?b1kweTdFTFlBSlZkcXZ5b1Q4bXp3R3dQVFRYbGQ4YkhRQUk4YUhsLzM4bzR0?=
- =?utf-8?B?V2FOZzhyYnFqRzJlT2dGcWZVWlZWS2JMTUVrMnJSdXFuOFVZQmQzeUhQOG9q?=
- =?utf-8?B?WXRSdXZuNDZEWGRDdXRxQlhTUGk3ODRvSTMvYW42Sk9CVG9WdlU5bVJ2RnZj?=
- =?utf-8?B?Sm1LUUluemtCT3RVYVNCUENYaTdQcFhac3dhdjR2d2ZKRzVINkt1VnJkZmtM?=
- =?utf-8?B?bmUrYS9NdCttL3dSUk1zMHdKdUcveEs3NXpqVzB1aVIxaDNUOVZIWExUdWRr?=
- =?utf-8?Q?nc/pu/oGHsKE/X6JRj+BacZ5p?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 780347d9-b040-411a-839d-08dd2491b2a7
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2024 03:10:34.3483
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6CZfhlmotl5MjWQv9zrQWCIm3wzGZOBsOtBDYs3LJoxL0Sv4i6B3SVicc6MhO55NMJ2PDHyvaQlCSPTX1/aSog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8399
-X-Proofpoint-GUID: hdEPrx9OpPviMCMV2dTR3kILRLvM3VQs
-X-Proofpoint-ORIG-GUID: zklBypk8wfF2MwWeCcBqtPAnIr9MXscH
-X-Authority-Analysis: v=2.4 cv=CeHy5Krl c=1 sm=1 tr=0 ts=676b77b2 cx=c_pps a=rPWB9DPlu1VaKM/QD/CSBg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=8P_Yl7PHX7KaqECW:21 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10
- a=bRTqI5nwn0kA:10 a=iGHA9ds3AAAA:8 a=OmQg1XK9loyA-OjW1fMA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Ns8rc9dJ c=1 sm=1 tr=0 ts=676bbed2 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=FP58Ms26AAAA:8 a=t7CeM3EgAAAA:8 a=EmWEYMERlOTAVu4iz0UA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: hgb-h6prQqCCv9kZ9jJUGgMayt4dOGtK
+X-Proofpoint-ORIG-GUID: hgb-h6prQqCCv9kZ9jJUGgMayt4dOGtK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-24_09,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 adultscore=0 suspectscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412250025
+ definitions=2024-12-25_03,2024-12-24_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999
+ spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412250071
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 03:10:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209072
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 08:14:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209073
 
-I'll send out V2 with a shorter title.
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Regards,
-Qi
+Before upgrading to Tcl 9.0.0, running `tclsh` worked successfully, and
+the recipe configuration was as follows: ln -sf ./tclsh${VER}
+${D}${bindir}/tclsh
 
-On 12/24/24 11:16, patchtest@automation.yoctoproject.org wrote:
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/lib32-64k-pagesize.inc-add-conf-file-for-easier-building-of-32bit-binary-with-64K-alignment.patch
->
-> FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 92 characters) (test_mbox.TestMbox.test_shortlog_length)
->
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
->
-> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
+After upgrading to Tcl 9.0.0, to ensure compatibility with Expect, Tcl
+8.6.15 was additionally included. To distinguish between the two
+versions, the configuration was set as: ln -sf ./tclsh${VER}
+${D}${bindir}/tclsh8
 
+Therefore, the input needs to be `tclsh8` to work properly, which means
+the `tclsh` references in the Expect-related scripts need to be changed
+to `tclsh8`.
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ ...th-tclsh8-in-the-scripts-used-in-the.patch | 475 ++++++++++++++++++
+ meta/recipes-devtools/expect/expect_5.45.4.bb |   1 +
+ 2 files changed, 476 insertions(+)
+ create mode 100644 meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
+
+diff --git a/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
+new file mode 100644
+index 0000000000..4e405e05af
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
+@@ -0,0 +1,475 @@
++From d6118fde9c8a7c49f042bc9dc434f56910c23d9c Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Wed, 25 Dec 2024 13:35:59 +0800
++Subject: [PATCH] Replace tclsh with tclsh8 in the scripts used in the Expect
++ package
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++As can be seen from the following, since Expect uses tcl8, it is necessary to
++change tclsh to tclsh8 in the related scripts, otherwise they will not execute.
++
++pkgIndex.tcl :
++if {![package vsatisfies [package provide Tcl] 8.6]} {return}
++package ifneeded Expect 5.45.4 \
++    [list load [file join /usr/lib64 libexpect5.45.4.so]]
++
++Upstream-Status: Pending
++[Since the upstream (https://sourceforge.net/projects/expect/) has not been updated for a long time, the status is set to "pending"]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ example/archie        | 2 +-
++ example/autoexpect    | 2 +-
++ example/autopasswd    | 2 +-
++ example/chess.exp     | 2 +-
++ example/cryptdir      | 2 +-
++ example/decryptdir    | 2 +-
++ example/dislocate     | 2 +-
++ example/dvorak        | 2 +-
++ example/ftp-inband    | 2 +-
++ example/ftp-rfc       | 2 +-
++ example/gethostbyaddr | 2 +-
++ example/kibitz        | 2 +-
++ example/lpunlock      | 2 +-
++ example/mkpasswd      | 2 +-
++ example/multixterm    | 2 +-
++ example/passmass      | 2 +-
++ example/read1char     | 2 +-
++ example/rftp          | 2 +-
++ example/rlogin-cwd    | 2 +-
++ example/robohunt      | 2 +-
++ example/rogue.exp     | 2 +-
++ example/telnet-cwd    | 2 +-
++ example/timed-read    | 2 +-
++ example/timed-run     | 2 +-
++ example/tknewsbiff    | 2 +-
++ example/tkpasswd      | 2 +-
++ example/tkterm        | 2 +-
++ example/unbuffer      | 2 +-
++ example/virterm       | 2 +-
++ example/weather       | 2 +-
++ example/xkibitz       | 2 +-
++ example/xpstat        | 2 +-
++ 32 files changed, 32 insertions(+), 32 deletions(-)
++
++diff --git a/example/archie b/example/archie
++index 0d5f43f..0e8d11e 100755
++--- a/example/archie
+++++ b/example/archie
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/autoexpect b/example/autoexpect
++index 35e57ce..e5ea626 100755
++--- a/example/autoexpect
+++++ b/example/autoexpect
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/autopasswd b/example/autopasswd
++index 1d095e2..b87dcd4 100755
++--- a/example/autopasswd
+++++ b/example/autopasswd
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/chess.exp b/example/chess.exp
++index 7cbd8ff..450dd20 100755
++--- a/example/chess.exp
+++++ b/example/chess.exp
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/cryptdir b/example/cryptdir
++index 84a155b..c7bfc02 100755
++--- a/example/cryptdir
+++++ b/example/cryptdir
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/decryptdir b/example/decryptdir
++index 84a155b..c7bfc02 100755
++--- a/example/decryptdir
+++++ b/example/decryptdir
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/dislocate b/example/dislocate
++index 9d34180..b366933 100755
++--- a/example/dislocate
+++++ b/example/dislocate
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/dvorak b/example/dvorak
++index b5debc3..3789938 100755
++--- a/example/dvorak
+++++ b/example/dvorak
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/ftp-inband b/example/ftp-inband
++index 5a28302..d3392f4 100755
++--- a/example/ftp-inband
+++++ b/example/ftp-inband
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/ftp-rfc b/example/ftp-rfc
++index 4153b24..f02b3dc 100755
++--- a/example/ftp-rfc
+++++ b/example/ftp-rfc
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/gethostbyaddr b/example/gethostbyaddr
++index 513a330..803b667 100755
++--- a/example/gethostbyaddr
+++++ b/example/gethostbyaddr
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/kibitz b/example/kibitz
++index eacb139..7c73bf9 100755
++--- a/example/kibitz
+++++ b/example/kibitz
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/lpunlock b/example/lpunlock
++index 2b7ea24..e42224b 100755
++--- a/example/lpunlock
+++++ b/example/lpunlock
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/mkpasswd b/example/mkpasswd
++index 6016b56..c3e97f4 100755
++--- a/example/mkpasswd
+++++ b/example/mkpasswd
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/multixterm b/example/multixterm
++index d0abfe7..82d6651 100755
++--- a/example/multixterm
+++++ b/example/multixterm
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/passmass b/example/passmass
++index e3c18e6..8f396d3 100755
++--- a/example/passmass
+++++ b/example/passmass
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/read1char b/example/read1char
++index 43a3df8..5f947fd 100644
++--- a/example/read1char
+++++ b/example/read1char
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/rftp b/example/rftp
++index c5db679..ebbf4c5 100755
++--- a/example/rftp
+++++ b/example/rftp
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/rlogin-cwd b/example/rlogin-cwd
++index b217373..80863e7 100755
++--- a/example/rlogin-cwd
+++++ b/example/rlogin-cwd
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/robohunt b/example/robohunt
++index 853ce1e..0d70c87 100755
++--- a/example/robohunt
+++++ b/example/robohunt
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/rogue.exp b/example/rogue.exp
++index 083acdf..fb6f9ca 100755
++--- a/example/rogue.exp
+++++ b/example/rogue.exp
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/telnet-cwd b/example/telnet-cwd
++index bd16048..fa520f1 100755
++--- a/example/telnet-cwd
+++++ b/example/telnet-cwd
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/timed-read b/example/timed-read
++index 8e63f0f..0a4ee7d 100755
++--- a/example/timed-read
+++++ b/example/timed-read
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/timed-run b/example/timed-run
++index 80def48..a0a36ba 100755
++--- a/example/timed-run
+++++ b/example/timed-run
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/tknewsbiff b/example/tknewsbiff
++index 9a2da4b..8d9db19 100755
++--- a/example/tknewsbiff
+++++ b/example/tknewsbiff
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ package require Tk
++diff --git a/example/tkpasswd b/example/tkpasswd
++index 376c56a..cc4d816 100755
++--- a/example/tkpasswd
+++++ b/example/tkpasswd
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ package require Tk
++diff --git a/example/tkterm b/example/tkterm
++index 16ee972..6c85c63 100755
++--- a/example/tkterm
+++++ b/example/tkterm
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ package require Tk
++diff --git a/example/unbuffer b/example/unbuffer
++index ad5db7b..f6e42fd 100755
++--- a/example/unbuffer
+++++ b/example/unbuffer
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/virterm b/example/virterm
++index bab254b..911c5bc 100755
++--- a/example/virterm
+++++ b/example/virterm
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/weather b/example/weather
++index 4bd0e1b..8146359 100755
++--- a/example/weather
+++++ b/example/weather
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/xkibitz b/example/xkibitz
++index b61a22f..5718976 100755
++--- a/example/xkibitz
+++++ b/example/xkibitz
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++diff --git a/example/xpstat b/example/xpstat
++index ebbfbcf..067d57e 100755
++--- a/example/xpstat
+++++ b/example/xpstat
++@@ -1,7 +1,7 @@
++ #!/bin/sh
++ # -*- tcl -*-
++ # The next line is executed by /bin/sh, but not tcl \
++-exec tclsh "$0" ${1+"$@"}
+++exec tclsh8 "$0" ${1+"$@"}
++ 
++ package require Expect
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 3d50a8f25a..955d1c463a 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -30,6 +30,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
+            file://expect-configure-c99.patch \
+            file://tcl840.patch \
+            file://run-ptest \
++           file://0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch \
+            "
+ SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+ SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
+-- 
+2.25.1
 
 
