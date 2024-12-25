@@ -1,100 +1,123 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <code@stefan-gloor.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA494E7718B
-	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 12:16:24 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.6344.1735128981261218894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF55E7718B
+	for <webhook@archiver.kernel.org>; Wed, 25 Dec 2024 12:30:04 +0000 (UTC)
+Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [217.26.49.174])
+ by mx.groups.io with SMTP id smtpd.web11.6494.1735129795648791492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Dec 2024 04:16:21 -0800
+ Wed, 25 Dec 2024 04:29:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aVaG1WGg;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0pmfPwdL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010193fdbf1b60-095905b4-d667-4f0d-96eb-69855e06b5d2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1735128980; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ke4dQV98R3tAT9ga2v8/dpJjhv1ONtoS969LPhSSOCw=;
-	b=aVaG1WGg69/KlJpjlHx5DUO6L2HKWQrHiY3uapFAiHuR83V6YwnbgiO7Iyv29mGh
-	i27nyfj1MIAxBsqkM+sLJU3QYOJrjqRIwwYNS3Uep9Px5NxkXsrE77ci0Dyw3L+igZN
-	6SYw58HBOIjDfp+xgPxVd1IDpg1uZEZCTrRrDb9I=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735128980;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ke4dQV98R3tAT9ga2v8/dpJjhv1ONtoS969LPhSSOCw=;
-	b=0pmfPwdLpFEWxND08n3PXgYBre0o8gie/Fjf1/JQ8rQFi0HWe3JMtBhQcy3bdbVo
-	nkEUDjwlL18EYfVaJre7Vck0mbEp0vevmQjX4E3beWjjQyaq4D/9ceaP8FQZQX5+055
-	7LuVqASgWOOeXWORu9ghWBofbbIspbOy1BqCDY2s=
-From: patchtest@automation.yoctoproject.org
-To: Stefan Gloor <code@stefan-gloor.ch>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] wic: add documentation for existing options to help.py
-In-Reply-To: <20241225115547.10187-2-code@stefan-gloor.ch>
-References: <20241225115547.10187-2-code@stefan-gloor.ch>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193fdbf1b60-095905b4-d667-4f0d-96eb-69855e06b5d2-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Dec 2024 12:16:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.25-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: stefan-gloor.ch, ip: 217.26.49.174, mailfrom: code@stefan-gloor.ch)
+Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
+	by mxout014.mail.hostpoint.ch with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1tQQWP-00000000K3v-1lMi;
+	Wed, 25 Dec 2024 13:29:53 +0100
+Received: from [178.197.222.20] (helo=localhost.localdomain)
+	by asmtp013.mail.hostpoint.ch with esmtpa (Exim 4.97.1 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1tQQWP-000000005sI-1DyM;
+	Wed, 25 Dec 2024 13:29:53 +0100
+X-Authenticated-Sender-Id: code@stefan-gloor.ch
+From: Stefan Gloor <code@stefan-gloor.ch>
+To: openembedded-core@lists.openembedded.org
+Cc: Stefan Gloor <code@stefan-gloor.ch>
+Subject: [PATCH v2] wic: add documentation for existing options to help.py
+Date: Wed, 25 Dec 2024 13:29:19 +0100
+Message-ID: <20241225122918.31867-2-code@stefan-gloor.ch>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Vs-State: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 12:16:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209079
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Dec 2024 12:30:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209080
 
---NextPart
-Content-Type: text/plain
+Add wic kickstart help for undocumented options for part/partition and
+bootloader command.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Stefan Gloor <code@stefan-gloor.ch>
 ---
-Testing patch /home/patchtest/share/mboxes/wic-add-documentation-for-existing-options-to-help.py.patch
+ scripts/lib/wic/help.py | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 163535e431..9180d75a92 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -916,6 +916,10 @@ DESCRIPTION
+                    will create empty partition. --size parameter has
+                    to be used to specify size of empty partition.
+ 
++         --sourceparams: This option is specific to wic. Supply additional
++                         parameters to the source plugin in
++                         key1=value1,key2 format.
++
+          --ondisk or --ondrive: Forces the partition to be created on
+                                 a particular disk.
+ 
+@@ -932,6 +936,7 @@ DESCRIPTION
+              squashfs
+              erofs
+              swap
++             none
+ 
+          --fsoptions: Specifies a free-form string of options to be
+                       used when mounting the filesystem. This string
+@@ -965,6 +970,14 @@ DESCRIPTION
+                               to start a partition on an x KBytes
+                               boundary.
+ 
++         --offset: This option is specific to wic that says to place a partition
++                   at exactly the specified offset. If the partition cannot be
++                   placed at the specified offset, the image build will fail.
++                   Specify as an integer value optionally followed by one of the
++                   units s/S for 512 byte sector, k/K for kibibyte, M for
++                   mebibyte and G for gibibyte. The default unit if none is
++                   given is k.
++
+          --no-table: This option is specific to wic. Space will be
+                      reserved for the partition and it will be
+                      populated but it will not be added to the
+@@ -1045,6 +1058,18 @@ DESCRIPTION
+                            not take effect when --mkfs-extraopts is used. This should be taken into
+                            account when using --mkfs-extraopts.
+ 
++         --type: This option is specific to wic. Valid values are 'primary',
++                 'logical'. For msdos partition tables, this option specifies
++                 the partition type.
++
++         --hidden: This option is specific to wic. This option sets the
++                   RequiredPartition bit (bit 0) on GPT partitions.
++
++         --mbr: This option is specific to wic. This option is used with the
++                gpt-hybrid partition type that uses both a GPT partition and
++                an MBR header. Partitions with this flag will be included in
++                this MBR header.
++
+     * bootloader
+ 
+       This command allows the user to specify various bootloader
+@@ -1063,6 +1088,13 @@ DESCRIPTION
+                       file. Using this option will override any other
+                       bootloader option.
+ 
++        --ptable: Specifies the partition table format. Valid values are
++                  'msdos', 'gpt', 'gpt-hybrid'.
++
++        --source: Specifies the source plugin. If not specified, the
++                  --source value will be copied from the partition that has
++                  /boot as mountpoint.
++
+       Note that bootloader functionality and boot partitions are
+       implemented by the various --source plugins that implement
+       bootloader functionality; the bootloader command essentially
+-- 
+2.45.2
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
