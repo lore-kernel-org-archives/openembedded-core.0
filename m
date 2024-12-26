@@ -1,571 +1,67 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75308E77188
-	for <webhook@archiver.kernel.org>; Thu, 26 Dec 2024 08:15:10 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.18723.1735200895951153530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F40E77188
+	for <webhook@archiver.kernel.org>; Thu, 26 Dec 2024 09:42:31 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.19476.1735206145659990934
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Dec 2024 00:14:56 -0800
+ Thu, 26 Dec 2024 01:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2090bc7eb9=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BQ8Es8s014144;
-	Thu, 26 Dec 2024 00:14:54 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nx2pbwju-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 26 Dec 2024 00:14:53 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 26 Dec 2024 00:14:53 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 26 Dec 2024 00:14:51 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>
-CC: <Changqing.Li@windriver.com>
-Subject: [PATCH v2] expect: Replace tclsh with tclsh8 in the scripts used in the Expect
-Date: Thu, 26 Dec 2024 16:14:51 +0800
-Message-ID: <20241226081451.1381129-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 8QHB7PpAYxP_egUdQSw8KGRndUaDPxQD
-X-Authority-Analysis: v=2.4 cv=LtNoymdc c=1 sm=1 tr=0 ts=676d107d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=t7CeM3EgAAAA:8 a=8tizcozFC6eGBg0lQJ0A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 8QHB7PpAYxP_egUdQSw8KGRndUaDPxQD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-26_03,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- phishscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 clxscore=1011
- priorityscore=1501 impostorscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412260072
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XJAqdKFi;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 149C060007;
+	Thu, 26 Dec 2024 09:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1735206143;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7jB/UWWSQ11J44l9R9UVPSqpLWpUW+Qs/5OG+++jOXk=;
+	b=XJAqdKFiRuUfh/Hc6WrdGKGYugRiA0vcMuE7Pgu7eO+4q7M2QqoDr1GCQaSym/66xvpUwM
+	Axo02KggRjnqQdbmOmr8BRYBfcwpeLAtaQrrAQyuSZaJju1hzazKCGwjMUPVoUYRAZlULD
+	jYiEkrvlkwTGnXE+7lGtgv+3jN59amljcVvHnwXjQxOmVMVwXZF3+kQNWDXJ72U0KwnoOd
+	32ayE0DA9czQlk1Dfa81WCkAcHK+hi5FRF6Opmf9H4gSvyOM6t1GTmmasBm0pX9HsUFTZL
+	PVhWXYh0kgZW2R2mVtNUnT9Qw07tPotuIkZScXsy1W8LqobMmm4QHrTlYwnwfg==
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Dec 2024 10:42:22 +0100
+Message-Id: <D6LJ8P97UJIR.2ZV3G9G2APPTE@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] gettext: upgrade 0.22.5 -> 0.23
+Cc: "Alexander Kanavin" <alex.kanavin@gmail.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Marcel Ziswiler" <marcel@ziswiler.com>,
+ <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241225103244.3514559-1-marcel@ziswiler.com>
+In-Reply-To: <20241225103244.3514559-1-marcel@ziswiler.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Dec 2024 08:15:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209086
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Dec 2024 09:42:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209087
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+ On Wed Dec 25, 2024 at 11:32 AM CET, Marcel Ziswiler wrote:
+> Signed-off-by: Marcel Ziswiler <marcel@ziswiler.com>
+> ---
+>
 
-Before upgrading to Tcl 9.0.0, running `tclsh` worked successfully, and
-the recipe configuration was as follows: ln -sf ./tclsh${VER}
-${D}${bindir}/tclsh
+Hi Marcel,
 
-After upgrading to Tcl 9.0.0, to ensure compatibility with Expect, Tcl
-8.6.15 was additionally included. To distinguish between the two
-versions, the configuration was set as: ln -sf ./tclsh${VER}
-${D}${bindir}/tclsh8
+I'm taking this patch in my branch, but just a quick note: it looks like
+you setup is breaking the patch format while sending it, so picking it
+is a bit painful. Particularly, it looks like it drops spaces on line
+ends, which do mess the changes on patches.
 
-Therefore, the input needs to be `tclsh8` to work properly, which means
-the `tclsh` references in the Expect-related scripts need to be changed
-to `tclsh8`.
+Can you fix this for your next patches please ?
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- ...th-tclsh8-in-the-scripts-used-in-the.patch | 474 ++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.4.bb |   1 +
- 2 files changed, 475 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-
-diff --git a/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-new file mode 100644
-index 0000000000..edc511d159
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch
-@@ -0,0 +1,474 @@
-+From d6118fde9c8a7c49f042bc9dc434f56910c23d9c Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Wed, 25 Dec 2024 13:35:59 +0800
-+Subject: [PATCH] Replace tclsh with tclsh8 in the scripts used in the Expect
-+ package
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+As can be seen from the following, since Expect uses tcl8, it is necessary to
-+change tclsh to tclsh8 in the related scripts, otherwise they will not execute.
-+
-+pkgIndex.tcl :
-+if {![package vsatisfies [package provide Tcl] 8.6]} {return}
-+package ifneeded Expect 5.45.4 \
-+    [list load [file join /usr/lib64 libexpect5.45.4.so]]
-+
-+Upstream-Status: Inactive-Upstream
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ example/archie        | 2 +-
-+ example/autoexpect    | 2 +-
-+ example/autopasswd    | 2 +-
-+ example/chess.exp     | 2 +-
-+ example/cryptdir      | 2 +-
-+ example/decryptdir    | 2 +-
-+ example/dislocate     | 2 +-
-+ example/dvorak        | 2 +-
-+ example/ftp-inband    | 2 +-
-+ example/ftp-rfc       | 2 +-
-+ example/gethostbyaddr | 2 +-
-+ example/kibitz        | 2 +-
-+ example/lpunlock      | 2 +-
-+ example/mkpasswd      | 2 +-
-+ example/multixterm    | 2 +-
-+ example/passmass      | 2 +-
-+ example/read1char     | 2 +-
-+ example/rftp          | 2 +-
-+ example/rlogin-cwd    | 2 +-
-+ example/robohunt      | 2 +-
-+ example/rogue.exp     | 2 +-
-+ example/telnet-cwd    | 2 +-
-+ example/timed-read    | 2 +-
-+ example/timed-run     | 2 +-
-+ example/tknewsbiff    | 2 +-
-+ example/tkpasswd      | 2 +-
-+ example/tkterm        | 2 +-
-+ example/unbuffer      | 2 +-
-+ example/virterm       | 2 +-
-+ example/weather       | 2 +-
-+ example/xkibitz       | 2 +-
-+ example/xpstat        | 2 +-
-+ 32 files changed, 32 insertions(+), 32 deletions(-)
-+
-+diff --git a/example/archie b/example/archie
-+index 0d5f43f..0e8d11e 100755
-+--- a/example/archie
-++++ b/example/archie
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/autoexpect b/example/autoexpect
-+index 35e57ce..e5ea626 100755
-+--- a/example/autoexpect
-++++ b/example/autoexpect
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/autopasswd b/example/autopasswd
-+index 1d095e2..b87dcd4 100755
-+--- a/example/autopasswd
-++++ b/example/autopasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/chess.exp b/example/chess.exp
-+index 7cbd8ff..450dd20 100755
-+--- a/example/chess.exp
-++++ b/example/chess.exp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/cryptdir b/example/cryptdir
-+index 84a155b..c7bfc02 100755
-+--- a/example/cryptdir
-++++ b/example/cryptdir
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/decryptdir b/example/decryptdir
-+index 84a155b..c7bfc02 100755
-+--- a/example/decryptdir
-++++ b/example/decryptdir
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/dislocate b/example/dislocate
-+index 9d34180..b366933 100755
-+--- a/example/dislocate
-++++ b/example/dislocate
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/dvorak b/example/dvorak
-+index b5debc3..3789938 100755
-+--- a/example/dvorak
-++++ b/example/dvorak
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/ftp-inband b/example/ftp-inband
-+index 5a28302..d3392f4 100755
-+--- a/example/ftp-inband
-++++ b/example/ftp-inband
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/ftp-rfc b/example/ftp-rfc
-+index 4153b24..f02b3dc 100755
-+--- a/example/ftp-rfc
-++++ b/example/ftp-rfc
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/gethostbyaddr b/example/gethostbyaddr
-+index 513a330..803b667 100755
-+--- a/example/gethostbyaddr
-++++ b/example/gethostbyaddr
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/kibitz b/example/kibitz
-+index eacb139..7c73bf9 100755
-+--- a/example/kibitz
-++++ b/example/kibitz
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/lpunlock b/example/lpunlock
-+index 2b7ea24..e42224b 100755
-+--- a/example/lpunlock
-++++ b/example/lpunlock
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/mkpasswd b/example/mkpasswd
-+index 6016b56..c3e97f4 100755
-+--- a/example/mkpasswd
-++++ b/example/mkpasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/multixterm b/example/multixterm
-+index d0abfe7..82d6651 100755
-+--- a/example/multixterm
-++++ b/example/multixterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/passmass b/example/passmass
-+index e3c18e6..8f396d3 100755
-+--- a/example/passmass
-++++ b/example/passmass
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/read1char b/example/read1char
-+index 43a3df8..5f947fd 100644
-+--- a/example/read1char
-++++ b/example/read1char
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rftp b/example/rftp
-+index c5db679..ebbf4c5 100755
-+--- a/example/rftp
-++++ b/example/rftp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rlogin-cwd b/example/rlogin-cwd
-+index b217373..80863e7 100755
-+--- a/example/rlogin-cwd
-++++ b/example/rlogin-cwd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/robohunt b/example/robohunt
-+index 853ce1e..0d70c87 100755
-+--- a/example/robohunt
-++++ b/example/robohunt
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/rogue.exp b/example/rogue.exp
-+index 083acdf..fb6f9ca 100755
-+--- a/example/rogue.exp
-++++ b/example/rogue.exp
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/telnet-cwd b/example/telnet-cwd
-+index bd16048..fa520f1 100755
-+--- a/example/telnet-cwd
-++++ b/example/telnet-cwd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/timed-read b/example/timed-read
-+index 8e63f0f..0a4ee7d 100755
-+--- a/example/timed-read
-++++ b/example/timed-read
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/timed-run b/example/timed-run
-+index 80def48..a0a36ba 100755
-+--- a/example/timed-run
-++++ b/example/timed-run
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/tknewsbiff b/example/tknewsbiff
-+index 9a2da4b..8d9db19 100755
-+--- a/example/tknewsbiff
-++++ b/example/tknewsbiff
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/tkpasswd b/example/tkpasswd
-+index 376c56a..cc4d816 100755
-+--- a/example/tkpasswd
-++++ b/example/tkpasswd
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/tkterm b/example/tkterm
-+index 16ee972..6c85c63 100755
-+--- a/example/tkterm
-++++ b/example/tkterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ package require Tk
-+diff --git a/example/unbuffer b/example/unbuffer
-+index ad5db7b..f6e42fd 100755
-+--- a/example/unbuffer
-++++ b/example/unbuffer
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/virterm b/example/virterm
-+index bab254b..911c5bc 100755
-+--- a/example/virterm
-++++ b/example/virterm
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/weather b/example/weather
-+index 4bd0e1b..8146359 100755
-+--- a/example/weather
-++++ b/example/weather
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/xkibitz b/example/xkibitz
-+index b61a22f..5718976 100755
-+--- a/example/xkibitz
-++++ b/example/xkibitz
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+diff --git a/example/xpstat b/example/xpstat
-+index ebbfbcf..067d57e 100755
-+--- a/example/xpstat
-++++ b/example/xpstat
-+@@ -1,7 +1,7 @@
-+ #!/bin/sh
-+ # -*- tcl -*-
-+ # The next line is executed by /bin/sh, but not tcl \
-+-exec tclsh "$0" ${1+"$@"}
-++exec tclsh8 "$0" ${1+"$@"}
-+ 
-+ package require Expect
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index 93ecc3f0d6..65f717cc5f 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -30,6 +30,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://expect-configure-c99.patch \
-            file://tcl840.patch \
-            file://run-ptest \
-+           file://0001-Replace-tclsh-with-tclsh8-in-the-scripts-used-in-the.patch \
-            "
- SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
- SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
--- 
-2.25.1
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
