@@ -1,89 +1,100 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B759EE7718B
-	for <webhook@archiver.kernel.org>; Fri, 27 Dec 2024 09:07:19 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.10139.1735290437955316178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C082AE7718B
+	for <webhook@archiver.kernel.org>; Fri, 27 Dec 2024 09:16:29 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.10208.1735290981302914533
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Dec 2024 01:07:18 -0800
+ Fri, 27 Dec 2024 01:16:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=20913da059=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BR8QGww022537
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Dec 2024 09:07:17 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nmn8dcun-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Dec 2024 09:07:17 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 27 Dec 2024 01:07:14 -0800
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] libxml2: Upgrade 2.12.8 -> 2.12.9
-Date: Fri, 27 Dec 2024 09:06:52 +0000
-Message-ID: <20241227090652.2029448-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: 0ropoajRKb_Y4dwfRyqu0yz7IqLwjr9v
-X-Proofpoint-ORIG-GUID: 0ropoajRKb_Y4dwfRyqu0yz7IqLwjr9v
-X-Authority-Analysis: v=2.4 cv=CeHy5Krl c=1 sm=1 tr=0 ts=676e6e45 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=RZcAm9yDv7YA:10 a=GHR8O2WEAAAA:20 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8 a=M7n22lMADqHCcl2buNcA:9
- a=m9p5bXcFLgAA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-27_04,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=991 spamscore=0 adultscore=0 suspectscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412270075
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=apqk0sx9;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MfnwhjD0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019407670842-d2716e68-7d06-4374-8bd6-21550de3aa42-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1735290980; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=i08DyW6g8QKwGs3jAqVsftb/FPbQe3PHPbsS4D3YDIc=;
+	b=apqk0sx9X7T98oV0VvO6Bp+q0BvMWH/kgHVgyrBtxMohV5sAJGYDr0EqpH+Iq3Cu
+	lhbssyNpqCMTfGopmf08KhLQJKKcQ5S8vmcLMmegdzX2Y7nixzpRjJSibu/VXC1Br1g
+	yy8o1dP26SBv77o8XDLtgJvFZt9ziHB+LGckmXRU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735290980;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=i08DyW6g8QKwGs3jAqVsftb/FPbQe3PHPbsS4D3YDIc=;
+	b=MfnwhjD02cKTw5dLFOFcLDk2fusndehObSF8jIZLFMbDMHpM1EyjMZYo5FOMSWZz
+	GhNPWBKfXt+NdiX1kLZx2StOjAZUHC1dM0JFfbJOkwY/EaeSpm3rqya8rHPSdYIUxSl
+	RbfGJsprhQu7oiL0KEeCZpj7Aqi+FrIIBJMieJM4=
+From: patchtest@automation.yoctoproject.org
+To: dchellam <divya.chellam@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][scarthgap][PATCH 1/1] libxml2: Upgrade 2.12.8 -> 2.12.9
+In-Reply-To: <20241227090652.2029448-1-divya.chellam@windriver.com>
+References: <20241227090652.2029448-1-divya.chellam@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019407670842-d2716e68-7d06-4374-8bd6-21550de3aa42-000000@us-west-2.amazonses.com>
+Date: Fri, 27 Dec 2024 09:16:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.12.27-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Dec 2024 09:07:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209101
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Dec 2024 09:16:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209102
 
-From: Divya Chellam <divya.chellam@windriver.com>
+--NextPart
+Content-Type: text/plain
 
-Changes between 2.12.8 -> 2.12.9
-================================
-https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.12.9
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Security
-* [CVE-2024-40896] Fix XXE protection in downstream code
-
-Improvements
-* Undeprecate xmlKeepBlanksDefault.
 ---
- .../libxml/{libxml2_2.12.8.bb => libxml2_2.12.9.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxml/{libxml2_2.12.8.bb => libxml2_2.12.9.bb} (97%)
+Testing patch /home/patchtest/share/mboxes/scarthgap-1-1-libxml2-Upgrade-2.12.8---2.12.9.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.8.bb b/meta/recipes-core/libxml/libxml2_2.12.9.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.12.8.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.9.bb
-index fb103f0273..7777c9f181 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.9.bb
-@@ -20,7 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
- 
--SRC_URI[archive.sha256sum] = "43ad877b018bc63deb2468d71f95219c2fac196876ef36d1bee51d226173ec93"
-+SRC_URI[archive.sha256sum] = "59912db536ab56a3996489ea0299768c7bcffe57169f0235e7f962a91f483590"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
--- 
-2.40.0
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
