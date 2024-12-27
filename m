@@ -1,110 +1,110 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D1AE7718E
-	for <webhook@archiver.kernel.org>; Thu, 26 Dec 2024 13:16:22 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.21253.1735218972203148377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0864E7718B
+	for <webhook@archiver.kernel.org>; Fri, 27 Dec 2024 06:11:18 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.8786.1735279873484193386
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Dec 2024 05:16:12 -0800
+ Thu, 26 Dec 2024 22:11:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fz4W0pW5;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: thomas.perrot@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AD9D91BF204;
-	Thu, 26 Dec 2024 13:16:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735218969;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6opVDl2daASs/LADV7hGPbFM5vkgwY6u+zd8Agt1ytg=;
-	b=fz4W0pW5RLEaal6LwuxVliXBv6lVK+bB6A3ef5vkCA0SbT7r/aanJ9ULWuB9vHjAqZDmnA
-	dy7lUu7IvjpVeBSRNG1eaqWEem6Z/kCD+wAOH8hLrskZ1osmmCfDDSVuNcSnDKPvLcCx6+
-	sBTlwtmT5vtKF6hcKaAsJmzt92+h+MFvytBGC05nkZllHqYcO71doMpypce9VUtug+nIo9
-	EXtx2JJXPrDgeRTTkAqYuKP0UynEGQ1zVwN3WQxKHXMSygEHddlJJ6K7SI2iWLPokzlJ8V
-	Ffdry3SiOpZMshjMJKj/mGEjfslqhs1lhDtZnr+cixXBfxwNveYouVh24R2LGA==
-From: thomas.perrot@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH] opensbi: bump to 1.6
-Date: Thu, 26 Dec 2024 14:16:00 +0100
-Message-ID: <20241226131600.2895883-1-thomas.perrot@bootlin.com>
-X-Mailer: git-send-email 2.47.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=20915da4f3=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BR5sfYg020250;
+	Thu, 26 Dec 2024 22:11:12 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43nsub4xg3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 26 Dec 2024 22:11:12 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 26 Dec 2024 22:11:11 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 26 Dec 2024 22:11:11 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jpewhacker@gmail.com>
+Subject: [PATCH] meta/classes/create-spdx.bbclass: support to inherit SPDX class conditionally
+Date: Thu, 26 Dec 2024 22:11:11 -0800
+Message-ID: <20241227061111.2086879-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: thomas.perrot@bootlin.com
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Ns8rc9dJ c=1 sm=1 tr=0 ts=676e4500 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=t7CeM3EgAAAA:8 a=-6ojaKfNRxLSS2ehq9kA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: GLHsHPZXfB2H62vASXkZzFFWqdJGXoPy
+X-Proofpoint-ORIG-GUID: GLHsHPZXfB2H62vASXkZzFFWqdJGXoPy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-27_02,2024-12-24_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015 mlxlogscore=933
+ spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412270050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Dec 2024 13:16:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209092
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Dec 2024 06:11:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209093
 
-From: Thomas Perrot <thomas.perrot@bootlin.com>
+In order to inherit SPDX class conditionally, using variable ${SPDX_CLASS}
+to inherit SPDX class other than original 'INHERIT:remove = "create-spdx"'
+and INHERIT += "create-spdx-2.2"
 
-This release has:
-- Support for parsing riscv,isa-extensions DT property
-- Setup serial console very early in cold boot path
-- Support for multiple heaps and aligned memory allocation
-- Support for shadow stacks (Zicfiss) ISA extension
-- Support for landing pads (Zicfilp) ISA extension
-- Support for per-domain data
-- Support for double-trap (Smdbltrp/Ssdbltrp) ISA extensions
-- DT-based configurable heap size
-- Common fdt_driver and helpers for driver initialization
-- Support for SBI PMU raw event v2 (Experimental)
-- Simple FDT based mailbox driver framework
-- RPMI shared memory transport driver (Experimental)
-- RPMI system reset driver (Experimental)
-- Simple FDT based system suspend driver framework
-- RPMI system suspend driver (Experimental)
-- Simple FDT based HSM driver framework
-- RPMI HSM driver (Experimental)
-- Simple FDT based CPPC driver framework
-- RPMI CPPC driver (Experimental)
-- SBI Message Proxy (MPXY) extension (Experimental)
-- Simple FDT based MPXY driver framework
-- Common RPMI client driver for MPXY (Experimental)
-- Support for vector misaligned load/store
-
-Overall, this release adds more ISA extensions, drivers, and other improvements.
-
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../opensbi/{opensbi_1.5.1.bb => opensbi_1.6.bb}           | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/opensbi/{opensbi_1.5.1.bb => opensbi_1.6.bb} (91%)
+ meta/classes/create-spdx.bbclass     | 3 ++-
+ meta/lib/oeqa/selftest/cases/spdx.py | 8 ++------
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-bsp/opensbi/opensbi_1.5.1.bb b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
-similarity index 91%
-rename from meta/recipes-bsp/opensbi/opensbi_1.5.1.bb
-rename to meta/recipes-bsp/opensbi/opensbi_1.6.bb
-index 652b81182b80..3c16656b395e 100644
---- a/meta/recipes-bsp/opensbi/opensbi_1.5.1.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
-@@ -8,11 +8,13 @@ require opensbi-payloads.inc
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index b604973ae0..35cd63f31e 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -5,4 +5,5 @@
+ #
+ # Include this class when you don't care what version of SPDX you get; it will
+ # be updated to the latest stable version that is supported
+-inherit create-spdx-3.0
++SPDX_CLASS ??= "create-spdx-3.0"
++inherit ${SPDX_CLASS}
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index f3b955ed2b..4789041a6a 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -24,8 +24,7 @@ class SPDX22Check(OESelftestTestCase):
+     def check_recipe_spdx(self, high_level_dir, spdx_file, target_name):
+         config = textwrap.dedent(
+             """\
+-            INHERIT:remove = "create-spdx"
+-            INHERIT += "create-spdx-2.2"
++            SPDX_CLASS = "create-spdx-2.2"
+             """
+         )
+         self.write_config(config)
+@@ -89,8 +88,7 @@ class SPDX3CheckBase(object):
+         config = (
+             textwrap.dedent(
+                 f"""\
+-                INHERIT:remove = "create-spdx"
+-                INHERIT += "{self.SPDX_CLASS}"
++                SPDX_CLASS = "create-spdx-3.0"
+                 """
+             )
+             + textwrap.dedent(extraconf)
+@@ -138,8 +136,6 @@ class SPDX3CheckBase(object):
  
- inherit autotools-brokensep deploy
  
--SRCREV = "43cace6c3671e5172d0df0a8963e552bb04b7b20"
--SRC_URI = "git://github.com/riscv/opensbi.git;branch=release-1.5.x;protocol=https"
-+SRCREV = "bd613dd92113f683052acfb23d9dc8ba60029e0a"
-+SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
- 
- S = "${WORKDIR}/git"
- 
-+TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
-+
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
- RISCV_SBI_FW_TEXT_START ??= "0x80000000"
-@@ -45,4 +47,3 @@ FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
- FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_dynamic.*"
- 
- COMPATIBLE_HOST = "(riscv64|riscv32).*"
--INHIBIT_PACKAGE_STRIP = "1"
+ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+-    SPDX_CLASS = "create-spdx-3.0"
+-
+     def test_base_files(self):
+         self.check_recipe_spdx(
+             "base-files",
 -- 
-2.47.1
+2.25.1
 
 
