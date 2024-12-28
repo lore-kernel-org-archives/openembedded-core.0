@@ -1,737 +1,474 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50888E77188
-	for <webhook@archiver.kernel.org>; Sat, 28 Dec 2024 18:19:29 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.32785.1735409961038271921
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCE9E77188
+	for <webhook@archiver.kernel.org>; Sat, 28 Dec 2024 18:28:09 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web11.33227.1735410484917819115
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Dec 2024 10:19:21 -0800
+ Sat, 28 Dec 2024 10:28:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kU62Ik4L;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso80979745e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Dec 2024 10:19:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=exo8H4Y2;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: colinmca242@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-844d5444b3dso289429639f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Dec 2024 10:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735409959; x=1736014759; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1735410483; x=1736015283; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzRqd71RTVD1HKIe8kJyZK99tdS4nDxJpEKS0ZEGgIY=;
-        b=kU62Ik4LFo2wdSKL7bNIuCmlDHUQfqBX6jv6PjLUtrEKaR/R7YI2WKRfRqJSYR/6/g
-         tUNQD9d19ArjlxV5NHmgUirxeY7u2+l47UwCNhstjUgFkuUFR4kA9ELsXMINZLIlrwTF
-         uBrBXX8te4pmHEvXxTxreGC+MBd2rE00BXNVfVG4S+x+Bb5SfjTp6/ovf5J+Kp5wJQIc
-         NVrC26a7MAsjtgB0uwpiZ71m3E9tvOpccCPZY3ztg+BB3QQ4NYxEhsgEFB0Ang/7G1fq
-         D9xYcyIzB/P6w6T4ciZKmXckHV50L9EZhnest8vszKXGIFPDhbMxasty6vHrvUIEPd/W
-         UM8A==
+        bh=Nhm80MyvcxT7MX65Q1tZBH+exlYCA/BujfMb2CJnd14=;
+        b=exo8H4Y2d8C4q/GbnmwDY1nKQKJERF7gkncnvdkSasdHzOTzgnK7YlxRj7ZA+ajZPA
+         7T0WUkhvw0jn4vA77Ln5dXFQe4JmmN7kAieIDQ4lUEh8IPjtKRrVqEabf6k0wjudLPxM
+         ks0hnEVIQtRRnfQ11JzV9oUzT7feLs95H8Fjhk+/dh7YYax/5QJ2Hf+Ce5k6d8r16f5U
+         E+1v55skfmctshtVROgyNrh30Ier9olGTtSsynIpv4nLSimxsyoCfG8e5p5CPpeQ8OOb
+         +otClxFvf2zXfJxC5iBv53cEVHVjyz152BtshuK89BiAhZUbBL++XqcmIh3IFTSwjdJW
+         dY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735409959; x=1736014759;
+        d=1e100.net; s=20230601; t=1735410483; x=1736015283;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jzRqd71RTVD1HKIe8kJyZK99tdS4nDxJpEKS0ZEGgIY=;
-        b=oJg0kkFJqeEdaib7AFl7r5T/TGOUviy57mdmNBfnr8ud/sk++ivWXr85dti6PDofkE
-         JcIcHNcEUcERSVO1c4Bz6euYnEWwsbkJVok+We9U9rnyDm7u8FMPcpq8GlOMVdQOH0Qr
-         tRAkwMRnqAHk2E1Lozt08hHlovEC8jkgrCU06qnz4u+UjTXPgnYJe2rBu1m0OphRDj4t
-         Xj8W0m1jZFM1/X80LkjBbANnxrUwSyKvA3y9Cs6K6yFYleNWcQPQs5AUII8xrnxUEF74
-         CrJwYmXCP/oXupnTFCDMiIv5OjYKjLk2ylu9Tm3E8i0SAVrrFI7yRVPr9fUOXfHd2Iz5
-         +NBg==
-X-Gm-Message-State: AOJu0Yxf/53c6ycJ1oZ9XkBfOdbcVFDZ/Jj/UwffsScyvKWujyLzjrqB
-	S1Ov7ldcZrcnv8EMKsbHjVOy0Sht55uqlqNmPBHcVogrRDwn/2jQx1H/bA==
-X-Gm-Gg: ASbGncuKWjrTkhiPzKQkZ+8nuxPjNkuDryOLVVuZA+mluVQuaFv5ztsctm3vWfEPLlH
-	e71ZxJNWFBuply15O/rbkkyJHlnOqBQWrIAP1UJlBpY6oKacFAxrifS1S0PBwzLJHX8IiVvswFv
-	jPh15XFWGAOwCDT+LaoMjow7ApYQsImXj/D6nrWC+BS+7glAT4+6Vs2BVL0yE7/Lfu4aYHzZh7+
-	/XZSU56eD3VcTQEYY7JIkhSjtz5XO0TqWAdjWbqQNR9fLDMs65J9cYJH3zgLB9grTVCNUyhm9N5
-	1Qme1Q==
-X-Google-Smtp-Source: AGHT+IElDf52Shenrj8UEmhnONBY6URxImuEl4R244l68ZmpSpgFPWWozk2h3TGsoqoF0s8QLDIQLQ==
-X-Received: by 2002:a05:600c:68ca:b0:434:ffd7:6fd2 with SMTP id 5b1f17b1804b1-436685471bamr224631245e9.7.1735409958479;
-        Sat, 28 Dec 2024 10:19:18 -0800 (PST)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c4b0sm303330255e9.35.2024.12.28.10.19.16
+        bh=Nhm80MyvcxT7MX65Q1tZBH+exlYCA/BujfMb2CJnd14=;
+        b=OiSkjx1ud69yMok01tvLInAUvRienbEE+weguKkfnx5PpgTBgI3hNqJOPNCPZ46NxW
+         S2coGyzVnBll5Bc0ohnQU0mlxNgEWZ+t4QqfYBWb18tMa3N9wKHZwYGA/lK6+Ypb2uOP
+         ND7Ke4UMzp5FXHNU3LPCtizQDJ6io2uPb4OH6qpp6ioUEhuG2rgzlSgiuoRM3lxW0Rkz
+         GzoZjzgtj5o5rDc7HJpyC258WacI3BQGdlH53neX/7uSwHWwaqNPciE3VbWE4RvahQvM
+         oe51DVhX2CmPRTY9k3/9SlrE4NvlUdtPETtiW13ybt0m2DfZQ/jSNi5Cfir4llbp9YOc
+         I17w==
+X-Gm-Message-State: AOJu0YxKVpIJjoeP0ZIEE4PbddVSh4XFtp1orHj1gscyQv2EN+5Dei3J
+	LSNjheM2Gmvt+Lipf0DNNwaHH52YgY2gVRRGeDHM7v5OqdONVDmSW3mKUg==
+X-Gm-Gg: ASbGncsk4xOY75wxPpiT8rHr/Txhu2424+uP3Eh/Q1S77nmRGoOMgr2reLTyHgnc1S3
+	0Bnk8lzqUd0TKEcvi2oRHvou6TcDhuORtEYMSnVMz7ZQ47Kwlpj8r7OMb7PUQF+0Z3sZ4L/J4dX
+	S6tzTq70GQUNKv9ZCou4drjb8f7FTvXnDVg53cqudqt32huNP8RVH84LVS5IdzxZ+CrwxRcHxAz
+	T0zVw5kNylfLog+s7iX0tfOS3DDZbq0jtGO4pXkm11Y7DdUJ1lCCpJG0QhZXlQ3r/AotBU=
+X-Google-Smtp-Source: AGHT+IEORcMxhVoPaAAEybNrJquaiua7NCCCfacXZHqBgfjYQzVLuIVa4Il43YqU2A2TC72/sLL77Q==
+X-Received: by 2002:a05:6602:6c0a:b0:82a:a4e7:5539 with SMTP id ca18e2360f4ac-8499e7dc0e8mr2456287739f.2.1735410483158;
+        Sat, 28 Dec 2024 10:28:03 -0800 (PST)
+Received: from monolith.localdomain ([136.37.200.217])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8498d8279afsm452766439f.30.2024.12.28.10.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2024 10:19:17 -0800 (PST)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+        Sat, 28 Dec 2024 10:28:01 -0800 (PST)
+From: Colin McAllister <colinmca242@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>,
-	Steve Sakoman <steve@sakoman.com>
-Subject: [scarthgap][PATCH 1/2] python3: upgrade 3.12.6 -> 3.12.7
-Date: Sat, 28 Dec 2024 18:19:10 +0000
-Message-ID: <20241228181911.3342-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Colin McAllister <colinmca242@gmail.com>
+Subject: [PATCH] cve-check: Rework patch parsing
+Date: Sat, 28 Dec 2024 18:27:57 +0000
+Message-Id: <20241228182757.2346256-1-colinmca242@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Dec 2024 18:19:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209120
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Dec 2024 18:28:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209122
 
-Changelog:
-https://docs.python.org/release/3.12.7/whatsnew/changelog.html#python-3-12-7
+The cve_check functionality to parse CVE IDs from the patch filename and
+patch contents have been reworked to improve parsing and also add tests.
+This ensures that the parsing works as intended.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Colin McAllister <colinmca242@gmail.com>
 ---
- ...void-shebang-overflow-on-python-config.py.patch |  6 +++---
- ...handle-stdin-I-O-errors-same-way-as-maste.patch |  3 +--
- ...ig.py-use-prefix-value-from-build-configu.patch |  3 +--
- ...e-use-qemu-wrapper-when-gathering-profile.patch |  6 +++---
- ...ng-tests-due-to-load-variability-on-YP-AB.patch |  8 ++++----
- ...ate-test_sysconfig-for-posix_user-purelib.patch |  7 +++----
- ...arfile-treat-overflow-in-UID-GID-as-failu.patch |  9 +++------
- ...-cc_basename-to-replace-CC-for-checking-c.patch | 14 +++++++-------
- ...tdout_fileno-test-due-to-load-variability.patch |  6 +++---
- ...config.py-use-platlibdir-also-for-purelib.patch |  3 +--
- ...est_active_children-skip-problematic-test.patch |  9 +++------
- ...t_ctypes.test_find-skip-without-tools-sdk.patch |  5 ++---
- .../0001-test_deadlock-skip-problematic-test.patch |  9 +++------
- ..._locale.py-correct-the-test-output-format.patch |  7 +++----
- ...1-test_readline-skip-limited-history-test.patch | 14 +++++++-------
- .../0001-test_shutdown-skip-problematic-test.patch | 11 ++++-------
- ...st_storlines-skip-due-to-load-variability.patch |  5 ++---
- ...c-setup.py-do-not-add-a-curses-include-pa.patch |  6 +++---
- meta/recipes-devtools/python/python3/cgi_py.patch  |  3 +--
- .../python/python3/crosspythonpath.patch           |  5 ++---
- .../python/python3/deterministic_imports.patch     |  5 ++---
- .../recipes-devtools/python/python3/makerace.patch |  6 +++---
- .../{python3_3.12.6.bb => python3_3.12.7.bb}       |  2 +-
- 23 files changed, 65 insertions(+), 87 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.12.6.bb => python3_3.12.7.bb} (99%)
+I noticed that there are some patches, especially in older verisons of
+Yocto, where the "CVE: " tag was used with multiple CVE IDs in different
+formats, like "CVE-YYYY-XXXX & CVE-YYYY-XXXX" or
+"CVE-YYYY-XXXX, CVE-YYYY-XXXX". Currently, only space-delimited CVE
+IDs will be parsed, but documentation doesn't indicate that is the only
+supported format. I figured it'd be nice to update the code to be able
+to support multiple formats, that way this patch could be backported to
+fix those patches. I also wanted to add unit tests to ensure the patch
+parsing behavior is preserved.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index 0d807db39f..4110774193 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -1,4 +1,4 @@
--From 365399f17d35719d828ddd49182dcb401fb7791c Mon Sep 17 00:00:00 2001
-+From 733b46f11d311290e37fcb30f08c47660b888d22 Mon Sep 17 00:00:00 2001
- From: Paulo Neves <ptsneves@gmail.com>
- Date: Tue, 7 Jun 2022 16:16:41 +0200
- Subject: [PATCH] Avoid shebang overflow on python-config.py
-@@ -16,10 +16,10 @@ Upstream-Status: Denied [distribution]
-  1 file changed, 2 insertions(+)
+I'd also like to update the patch filename parsing to parse multiple CVE
+IDs from the filename, but based on the comments, it seems like there
+was a reason why only the last CVE ID is extracted from the filename.
+I'd be happy to submit a V2 patch or an additional patch to update the
+function if that sounds good for the maintainers.
+
+ meta/lib/oe/cve_check.py                  | 141 +++++++++-------
+ meta/lib/oeqa/selftest/cases/cve_check.py | 196 ++++++++++++++++++++++
+ 2 files changed, 278 insertions(+), 59 deletions(-)
+
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index 647a94f5af..af88a65655 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -8,6 +8,7 @@ import collections
+ import re
+ import itertools
+ import functools
++import oe.patch
  
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index 77bf09a..6353c57 100644
-+index b1c5413..e88f301 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2339,6 +2339,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2349,6 +2349,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-index 026150f0e2..0ae6283840 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-@@ -1,4 +1,4 @@
--From f8a664cf1fc73e381d57d6927207286059744837 Mon Sep 17 00:00:00 2001
-+From c6ba19a4cfdb0a5b137b91ef761f654b70776a47 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 16 Sep 2021 16:35:37 +0200
- Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/O
-@@ -24,7 +24,6 @@ So let's treat both channels the same.
+ _Version = collections.namedtuple(
+     "_Version", ["release", "patch_l", "pre_l", "pre_v"]
+@@ -71,77 +72,99 @@ def _cmpkey(release, patch_l, pre_l, pre_v):
+     return _release, _patch, _pre
  
- Upstream-Status: Submitted [https://github.com/python/cpython/pull/28388]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+ 
+-def get_patched_cves(d):
++def parse_cve_from_filename(patch_filename):
+     """
+-    Get patches that solve CVEs using the "CVE: " tag.
++    Parses CVE ID from the filename
++
++    Matches the last "CVE-YYYY-ID" in the file name, also if written
++    in lowercase. Possible to have multiple CVE IDs in a single
++    file name, but only the last one will be detected from the file name.
+     """
++    cve_file_name_match = re.compile(r".*(CVE-\d{4}-\d+)", re.IGNORECASE)
+ 
+-    import re
+-    import oe.patch
++    # Check patch file name for CVE ID
++    fname_match = cve_file_name_match.search(patch_filename)
++    return fname_match.group(1).upper() if fname_match else ""
+ 
+-    cve_match = re.compile(r"CVE:( CVE-\d{4}-\d+)+")
+ 
+-    # Matches the last "CVE-YYYY-ID" in the file name, also if written
+-    # in lowercase. Possible to have multiple CVE IDs in a single
+-    # file name, but only the last one will be detected from the file name.
+-    # However, patch files contents addressing multiple CVE IDs are supported
+-    # (cve_match regular expression)
+-    cve_file_name_match = re.compile(r".*(CVE-\d{4}-\d+)", re.IGNORECASE)
++def parse_cves_from_patch_contents(patch_contents):
++    """
++    Parses CVE IDs from patch contents
++
++    Matches all CVE IDs contained on a line that starts with "CVE: ". Any
++    delimiter (',', '&', "and", etc.) can be used without any issues. Multiple
++    "CVE:" lines can also exist.
++    """
++    patched_cves = set()
++    cve_match = re.compile(r"CVE-\d{4}-\d+")
++    # Search for one or more "CVE: " lines
++    for line in patch_contents.split("\n"):
++        if not line.startswith("CVE:"):
++            continue
++        patched_cves.update(cve_match.findall(line))
++    return patched_cves
++
++
++def parse_cves_from_patch_file(patch_file):
++    """
++    Parses CVE IDs associated with a particular patch file
++    """
++    patched_cves = set()
++    filename_cve = parse_cve_from_filename(patch_file)
++    if filename_cve:
++        bb.debug(2, "Found %s from patch file name %s" % (filename_cve, patch_file))
++        patched_cves.add(parse_cve_from_filename(patch_file))
++
++    # Remote patches won't be present and compressed patches won't be
++    # unpacked, so say we're not scanning them
++    if not os.path.isfile(patch_file):
++        bb.note("%s is remote or compressed, not scanning content" % patch_file)
++        return patched_cves
++
++    with open(patch_file, "r", encoding="utf-8") as f:
++        try:
++            patch_text = f.read()
++        except UnicodeDecodeError:
++            bb.debug(
++                1,
++                "Failed to read patch %s using UTF-8 encoding"
++                " trying with iso8859-1" % patch_file,
++            )
++            f.close()
++            with open(patch_file, "r", encoding="iso8859-1") as f:
++                patch_text = f.read()
+ 
+-    patched_cves = {}
++    patched_cves.update(parse_cves_from_patch_contents(patch_text))
++
++    if not patched_cves:
++        bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
++    else:
++        bb.debug(
++            2, "Patch %s solves %s" % (patch_file, ", ".join(sorted(patched_cves)))
++        )
++
++    return patched_cves
++
++
++def get_patched_cves(d):
++    """
++    Get patches that solve CVEs
++    """
++    patched_cves = set()
+     patches = oe.patch.src_patches(d)
+     bb.debug(2, "Scanning %d patches for CVEs" % len(patches))
++
++    # Check each patch file
+     for url in patches:
+         patch_file = bb.fetch.decodeurl(url)[2]
 -
- ---
-  Lib/pty.py | 5 ++++-
-  1 file changed, 4 insertions(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index 680254fab9..981531139a 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-@@ -1,4 +1,4 @@
--From 71c194077bb907bfe423d3f3275f33a6c8ca0e74 Mon Sep 17 00:00:00 2001
-+From d325a4e1fde5bd817c88f37d5e7b6e93a3bad077 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 17 Nov 2023 14:26:32 +0100
- Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
-@@ -9,7 +9,6 @@ native python.
- 
- Upstream-Status: Inappropriate [oe-core cross builds]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-        # Check patch file name for CVE ID
+-        fname_match = cve_file_name_match.search(patch_file)
+-        if fname_match:
+-            cve = fname_match.group(1).upper()
+-            patched_cves[cve] = {"abbrev-status": "Patched", "status": "fix-file-included", "resource": patch_file}
+-            bb.debug(2, "Found %s from patch file name %s" % (cve, patch_file))
 -
- ---
-  Lib/sysconfig.py | 5 +++++
-  1 file changed, 5 insertions(+)
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index ee33128fa1..881986d322 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-@@ -1,4 +1,4 @@
--From 38278339832a57dbf5fa3ef21accaa03e2c814d7 Mon Sep 17 00:00:00 2001
-+From a727a950023b9384955c912f4975d36a8d7913b4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 30 Jan 2019 12:41:04 +0100
- Subject: [PATCH] Makefile.pre: use qemu wrapper when gathering profile data
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
- 
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index dd5e69f..381feb0 100644
-+index 0e64ccc..23e20e9 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -658,8 +658,7 @@ profile-run-stamp:
-+@@ -660,8 +660,7 @@ profile-run-stamp:
-  	# enabled.
-  	$(MAKE) profile-gen-stamp
-  	# Next, run the profile task to generate the profile information.
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-index 197daa71a5..22c42e37ab 100644
---- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-@@ -1,4 +1,4 @@
--From 3471e3478e0760c42e04f8046cee2367ab5706d2 Mon Sep 17 00:00:00 2001
-+From 6b0088a3d222b7fe5304f6bc0d6b15d3c41e68f3 Mon Sep 17 00:00:00 2001
- From: Yi Fan Yu <yifan.yu@windriver.com>
- Date: Thu, 1 Apr 2021 13:08:37 -0700
- Subject: [PATCH] Skip failing tests due to load variability on YP AB
-@@ -23,7 +23,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  2 files changed, 5 insertions(+)
- 
- diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index e42c7ab..dff5227 100644
-+index aac74ea..3470bc5 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
- @@ -682,6 +682,7 @@ class _TestProcess(BaseTestCase):
-@@ -34,7 +34,7 @@ index e42c7ab..dff5227 100644
-      def test_many_processes(self):
-          if self.TYPE == 'threads':
-              self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2066,6 +2067,7 @@ class _TestBarrier(BaseTestCase):
-+@@ -2083,6 +2084,7 @@ class _TestBarrier(BaseTestCase):
-          except threading.BrokenBarrierError:
-              results.append(True)
-  
-@@ -42,7 +42,7 @@ index e42c7ab..dff5227 100644
-      def test_timeout(self):
-          """
-          Test wait(timeout)
--@@ -5024,6 +5026,7 @@ class TestWait(unittest.TestCase):
-+@@ -5080,6 +5082,7 @@ class TestWait(unittest.TestCase):
-          time.sleep(period)
-  
-      @support.requires_resource('walltime')
-diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-index b6c6ac5a28..9a2634ac9b 100644
---- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-@@ -1,4 +1,4 @@
--From 37d058e841ba3bd89b5746cc5381afb014b11581 Mon Sep 17 00:00:00 2001
-+From f0b18f1b3b3d5b40d65e08a184f4e3463745b891 Mon Sep 17 00:00:00 2001
- From: Wentao Zhang <wentao.zhang@windriver.com>
- Date: Mon, 20 Mar 2023 13:39:52 +0800
- Subject: [PATCH] Update test_sysconfig for posix_user purelib
-@@ -17,16 +17,15 @@ Update test_sysconfig.test_user_similar() for the posix_user scheme:
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
+-        # Remote patches won't be present and compressed patches won't be
+-        # unpacked, so say we're not scanning them
+-        if not os.path.isfile(patch_file):
+-            bb.note("%s is remote or compressed, not scanning content" % patch_file)
+-            continue
 -
- ---
-  Lib/test/test_sysconfig.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
--index b6dbf3d..5672590 100644
-+index 1137c20..f5c8980 100644
- --- a/Lib/test/test_sysconfig.py
- +++ b/Lib/test/test_sysconfig.py
--@@ -372,7 +372,7 @@ class TestSysConfig(unittest.TestCase):
-+@@ -381,7 +381,7 @@ class TestSysConfig(unittest.TestCase):
-                  expected = os.path.normpath(global_path.replace(base, user, 1))
-                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
-                  # whereas posix_prefix does.
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-index 88b84c6024..b4de257d1e 100644
---- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-@@ -1,4 +1,4 @@
--From 999d4e74d34afa233ad8ad0c70b989d77a21957f Mon Sep 17 00:00:00 2001
-+From 73960393a559d0de5edf07b022d182cac54df9dc Mon Sep 17 00:00:00 2001
- From: Petr Viktorin <encukou@gmail.com>
- Date: Wed, 23 Aug 2023 20:00:07 +0200
- Subject: [PATCH] gh-107811: tarfile: treat overflow in UID/GID as failure to
-@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  create mode 100644 Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
- 
- diff --git a/Lib/tarfile.py b/Lib/tarfile.py
--index 3bbbcaa..473167d 100755
-+index 0a0f31e..4dfb67d 100755
- --- a/Lib/tarfile.py
- +++ b/Lib/tarfile.py
--@@ -2557,7 +2557,8 @@ class TarFile(object):
-+@@ -2590,7 +2590,8 @@ class TarFile(object):
-                      os.lchown(targetpath, u, g)
-                  else:
-                      os.chown(targetpath, u, g)
-@@ -35,6 +35,3 @@ index 0000000..ffca413
- +:mod:`tarfile`: extraction of members with overly large UID or GID (e.g. on
- +an OS with 32-bit :c:type:`!id_t`) now fails in the same way as failing to
- +set the ID.
---- 
--2.45.0
+-        with open(patch_file, "r", encoding="utf-8") as f:
+-            try:
+-                patch_text = f.read()
+-            except UnicodeDecodeError:
+-                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
+-                        " trying with iso8859-1" %  patch_file)
+-                f.close()
+-                with open(patch_file, "r", encoding="iso8859-1") as f:
+-                    patch_text = f.read()
 -
-diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-index bbeabe4389..7997811228 100644
---- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-+++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-@@ -1,4 +1,4 @@
--From ababc7b1db8c406910766e11cdd04cbef7a706c9 Mon Sep 17 00:00:00 2001
-+From f834492007487e9e87b3d3f1f3c5cc440e6ec5e2 Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Mon, 22 Oct 2018 15:19:51 +0800
- Subject: [PATCH] python3: use cc_basename to replace CC for checking compiler
-@@ -26,7 +26,7 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
-  1 file changed, 10 insertions(+), 9 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 384718d..5a1d58b 100644
-+index d0d5405..093f8b5 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -137,6 +137,7 @@ AC_CONFIG_HEADERS([pyconfig.h])
-@@ -73,7 +73,7 @@ index 384718d..5a1d58b 100644
-    *clang*)
-      # Any changes made here should be reflected in the GCC+Darwin case below
-      PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
--@@ -2147,7 +2148,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
-+@@ -2155,7 +2156,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
-  # compiler and platform.  BASECFLAGS tweaks need to be made even if the
-  # user set OPT.
-  
-@@ -82,7 +82,7 @@ index 384718d..5a1d58b 100644
-      *clang*)
-          cc_is_clang=1
-          ;;
--@@ -2419,7 +2420,7 @@ yes)
-+@@ -2427,7 +2428,7 @@ yes)
-  
-      # ICC doesn't recognize the option, but only emits a warning
-      ## XXX does it emit an unused result warning and can it be disabled?
-@@ -91,7 +91,7 @@ index 384718d..5a1d58b 100644
-              [*icc*], [ac_cv_disable_unused_result_warning=no]
-              [PY_CHECK_CC_WARNING([disable], [unused-result])])
-      AS_VAR_IF([ac_cv_disable_unused_result_warning], [yes],
--@@ -2665,7 +2666,7 @@ yes)
-+@@ -2673,7 +2674,7 @@ yes)
-      ;;
-  esac
-  
-@@ -100,7 +100,7 @@ index 384718d..5a1d58b 100644
-  *mpicc*)
-      CFLAGS_NODIST="$CFLAGS_NODIST"
-      ;;
--@@ -3482,7 +3483,7 @@ then
-+@@ -3508,7 +3509,7 @@ then
-  		then
-  			LINKFORSHARED="-Wl,--export-dynamic"
-  		fi;;
-@@ -109,7 +109,7 @@ index 384718d..5a1d58b 100644
-  		  *gcc*)
-  		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
-  		    then
--@@ -6803,7 +6804,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
-+@@ -6831,7 +6832,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
-      # Some versions of gcc miscompile inline asm:
-      # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
-      # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-index 2d7bca6a77..94f7744c09 100644
---- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-@@ -1,4 +1,4 @@
--From 217cea231462e7703e8c9ea39c0a6833f799a420 Mon Sep 17 00:00:00 2001
-+From 642205e1f728873b16debc24c2938339d31be6a9 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Fri, 15 Sep 2023 08:48:33 -0400
- Subject: [PATCH] skip no_stdout_fileno test due to load variability
-@@ -16,10 +16,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
--index 4d03c46..b329b7a 100644
-+index c71c568..e41ab5e 100644
- --- a/Lib/test/test_builtin.py
- +++ b/Lib/test/test_builtin.py
--@@ -2326,6 +2326,7 @@ class PtyTests(unittest.TestCase):
-+@@ -2352,6 +2352,7 @@ class PtyTests(unittest.TestCase):
-          # Check stdin/stdout error handler is used when invoking PyOS_Readline()
-          self.check_input_tty("prompté", b"quux\xe9", "ascii")
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-index fc52fdac26..3e8e9648c6 100644
---- a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-@@ -1,4 +1,4 @@
--From a5d429a0e1a4809c1ded7be7e45dcabeb82c53d8 Mon Sep 17 00:00:00 2001
-+From fac0f14fd34386e47bab71c0043ea55b507ae39c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sun, 12 Sep 2021 21:44:36 +0200
- Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
-@@ -8,7 +8,6 @@ is not correct.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-        # Search for one or more "CVE: " lines
+-        text_match = False
+-        for match in cve_match.finditer(patch_text):
+-            # Get only the CVEs without the "CVE: " tag
+-            cves = patch_text[match.start()+5:match.end()]
+-            for cve in cves.split():
+-                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
+-                patched_cves[cve] = {"abbrev-status": "Patched", "status": "fix-file-included", "resource": patch_file}
+-                text_match = True
 -
- ---
-  Lib/sysconfig.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-index 6ebbaf10e0..a27024c42f 100644
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From bf3eb28bba24509a3e1cd40f1f0e26db833779a2 Mon Sep 17 00:00:00 2001
-+From 7f75355e27ee7f25391523294e4c6653edf554f8 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Thu, 13 Jun 2024 10:54:31 -0400
- Subject: [PATCH] test_active_children: skip problematic test
-@@ -14,10 +14,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 1 insertion(+)
+-        if not fname_match and not text_match:
+-            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
++        patched_cves.update(parse_cves_from_patch_file(patch_file))
  
- diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index 3955123455..a1861fa3a0 100644
-+index 3470bc5..0e42ac1 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -579,6 +579,7 @@ def test_cpu_count(self):
-+@@ -579,6 +579,7 @@ class _TestProcess(BaseTestCase):
-          self.assertTrue(type(cpus) is int)
-          self.assertTrue(cpus >= 1)
-  
-@@ -25,6 +25,3 @@ index 3955123455..a1861fa3a0 100644
-      def test_active_children(self):
-          self.assertEqual(type(self.active_children()), list)
-  
---- 
--2.45.2
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-index b4fe946cba..6bf514fca8 100644
---- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-@@ -1,4 +1,4 @@
--From b64c131a576a4b4f821514e711ab91b1394fb4ff Mon Sep 17 00:00:00 2001
-+From 174ef9a40c9f4373fd90b00425fd94a89f96dbf9 Mon Sep 17 00:00:00 2001
- From: Tim Orling <timothy.t.orling@intel.com>
- Date: Fri, 18 Jun 2021 11:56:50 -0700
- Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
-@@ -10,13 +10,12 @@ easiest way to dynamically check for that is looking for
- Upstream-Status: Inappropriate [oe-specific]
+     # Search for additional patched CVEs
+-    for cve in (d.getVarFlags("CVE_STATUS") or {}):
+-        decoded_status = decode_cve_status(d, cve)
+-        products = d.getVar("CVE_PRODUCT")
+-        if has_cve_product_match(decoded_status, products) == True:
+-            patched_cves[cve] = {
+-                "abbrev-status": decoded_status["mapping"],
+-                "status": decoded_status["detail"],
+-                "justification": decoded_status["description"],
+-                "affected-vendor": decoded_status["vendor"],
+-                "affected-product": decoded_status["product"]
+-            }
++    for cve in d.getVarFlags("CVE_STATUS") or {}:
++        decoded_status, _, _ = decode_cve_status(d, cve)
++        if decoded_status == "Patched":
++            bb.debug(2, "CVE %s is additionally patched" % cve)
++            patched_cves.add(cve)
  
- Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
--
- ---
-  Lib/test/test_ctypes/test_find.py | 2 ++
-  1 file changed, 2 insertions(+)
+     return patched_cves
  
- diff --git a/Lib/test/test_ctypes/test_find.py b/Lib/test/test_ctypes/test_find.py
--index 1ff9d01..59def26 100644
-+index a41e949..eb5fe19 100644
- --- a/Lib/test/test_ctypes/test_find.py
- +++ b/Lib/test/test_ctypes/test_find.py
- @@ -113,10 +113,12 @@ class FindLibraryLinux(unittest.TestCase):
-diff --git a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-index f0a7cfd39b..d8ca7f9b79 100644
---- a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From d7e3f26e7094fbe20e2271d75f18ac3b23a67f58 Mon Sep 17 00:00:00 2001
-+From 621ba76ef956708cdaf4fd5bc0e25aa59d427c5b Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Wed, 12 Jun 2024 10:29:03 -0400
- Subject: [PATCH] test_deadlock: skip problematic test
-@@ -14,10 +14,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 1 insertion(+)
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
+index 3dd3e89d3e..7a73681b84 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -121,6 +121,202 @@ class CVECheck(OESelftestTestCase):
+         self.assertEqual(has_cve_product_match(status, "glibca:glibc test"), True)
  
- diff --git a/Lib/test/test_concurrent_futures/test_deadlock.py b/Lib/test/test_concurrent_futures/test_deadlock.py
--index 1db4cd0099..fd07895a17 100644
-+index e8cd8f6..021906b 100644
- --- a/Lib/test/test_concurrent_futures/test_deadlock.py
- +++ b/Lib/test/test_concurrent_futures/test_deadlock.py
--@@ -90,6 +90,7 @@ def __reduce__(self):
-+@@ -90,6 +90,7 @@ class ErrorAtUnpickle(object):
-          return _raise_error_ignore_stderr, (UnpicklingError, )
-  
-  
-@@ -25,6 +25,3 @@ index 1db4cd0099..fd07895a17 100644
-  class ExecutorDeadlockTest:
-      TIMEOUT = support.LONG_TIMEOUT
-  
---- 
--2.45.2
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index 410a9fc7f1..d0f4dc14bc 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -1,4 +1,4 @@
--From ef5728f0af14da5c9f80b0f038fe5bf6d44cb0e9 Mon Sep 17 00:00:00 2001
-+From d74e5f24b574fa4d571a64e647c916a7ebe26b3e Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Mon, 5 Aug 2019 15:57:39 +0800
- Subject: [PATCH] test_locale.py: correct the test output format
-@@ -26,16 +26,15 @@ Upstream-Status: Submitted [https://github.com/python/cpython/pull/15132]
- Rebased for 3.9.4, still not accepted upstream Signed-off-by: Alejandro Hernandez <alejandro@enedino.org>
  
- Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
--
- ---
-  Lib/test/test_locale.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
--index b0d7998..cb12153 100644
-+index cde80a4..e8ffd71 100644
- --- a/Lib/test/test_locale.py
- +++ b/Lib/test/test_locale.py
--@@ -557,7 +557,7 @@ class TestMiscellaneous(unittest.TestCase):
-+@@ -561,7 +561,7 @@ class TestMiscellaneous(unittest.TestCase):
-              self.skipTest('test needs Turkish locale')
-          loc = locale.getlocale(locale.LC_CTYPE)
-          if verbose:
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-index e8d297c721..f4efd1ecff 100644
---- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -1,4 +1,4 @@
--From d9d916d5ea946c945323679d1709de1b87029b96 Mon Sep 17 00:00:00 2001
-+From bc5c70dc2a2fcfe51481de0ad800baa849592222 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Tue, 13 Aug 2024 11:07:05 -0400
- Subject: [PATCH] test_readline: skip limited history test
-@@ -16,11 +16,11 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  Lib/test/test_readline.py | 2 ++
-  1 file changed, 2 insertions(+)
- 
--Index: Python-3.12.6/Lib/test/test_readline.py
--===================================================================
----- Python-3.12.6.orig/Lib/test/test_readline.py
--+++ Python-3.12.6/Lib/test/test_readline.py
--@@ -133,6 +133,7 @@ class TestHistoryManipulation (unittest.
-+diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
-+index fab124a..291dd48 100644
-+--- a/Lib/test/test_readline.py
-++++ b/Lib/test/test_readline.py
-+@@ -133,6 +133,7 @@ class TestHistoryManipulation (unittest.TestCase):
-          self.assertEqual(readline.get_history_item(1), "entrée 1")
-          self.assertEqual(readline.get_history_item(2), "entrée 22")
-  
-@@ -28,7 +28,7 @@ Index: Python-3.12.6/Lib/test/test_readline.py
-      def test_write_read_limited_history(self):
-          previous_length = readline.get_history_length()
-          self.addCleanup(readline.set_history_length, previous_length)
--@@ -371,6 +372,7 @@ readline.write_history_file(history_file
-+@@ -371,6 +372,7 @@ readline.write_history_file(history_file)
-          self.assertIn(b"done", output)
-  
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-index 1d4cda18b1..e8d70cdc1b 100644
---- a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From 9d4cdbde100798ba9fa1cf3f82dbaf18fd10a543 Mon Sep 17 00:00:00 2001
-+From b637ac8f58d17bc8888b2027a572c87531a4539d Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Wed, 8 May 2024 11:58:09 -0400
- Subject: [PATCH] test_shutdown: skip problematic test
-@@ -14,7 +14,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 3 insertions(+)
- 
- diff --git a/Lib/test/test_concurrent_futures/test_shutdown.py b/Lib/test/test_concurrent_futures/test_shutdown.py
--index 7a4065afd4..6b878a48bf 100644
-+index 7a4065a..6b878a4 100644
- --- a/Lib/test/test_concurrent_futures/test_shutdown.py
- +++ b/Lib/test/test_concurrent_futures/test_shutdown.py
- @@ -20,6 +20,7 @@ def sleep_and_print(t, msg):
-@@ -25,7 +25,7 @@ index 7a4065afd4..6b878a48bf 100644
-  class ExecutorShutdownTest:
-      def test_run_after_shutdown(self):
-          self.executor.shutdown()
--@@ -156,6 +157,7 @@ def timeout(_signum, _frame):
-+@@ -156,6 +157,7 @@ class ExecutorShutdownTest:
-              signal.signal(signal.SIGALRM, old_handler)
-  
-  
-@@ -33,7 +33,7 @@ index 7a4065afd4..6b878a48bf 100644
-  class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase):
-      def test_threads_terminate(self):
-          def acquire_lock(lock):
--@@ -252,6 +254,7 @@ def test_cancel_futures_wait_false(self):
-+@@ -252,6 +254,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
-          self.assertIn(out.strip(), [b"apple", b""])
-  
-  
-@@ -41,6 +41,3 @@ index 7a4065afd4..6b878a48bf 100644
-  class ProcessPoolShutdownTest(ExecutorShutdownTest):
-      def test_processes_terminate(self):
-          def acquire_lock(lock):
---- 
--2.45.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-index 0d0eb08459..a4c9abd8b9 100644
---- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-@@ -1,4 +1,4 @@
--From dc69a1afdb3ba619705ff71e14f19ed3142e422f Mon Sep 17 00:00:00 2001
-+From 1a1e5c30021a200b2dc853690dbf1edfba9ca262 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Fri, 6 Oct 2023 10:59:44 -0400
- Subject: [PATCH] test_storlines: skip due to load variability
-@@ -11,13 +11,12 @@ Upstream-Status: Inappropriate [OE-Specific]
- [YOCTO #14933]
- 
- Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--
- ---
-  Lib/test/test_ftplib.py | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
--index 2f191ea..dc29346 100644
-+index 4c4a449..b8c79a4 100644
- --- a/Lib/test/test_ftplib.py
- +++ b/Lib/test/test_ftplib.py
- @@ -626,6 +626,7 @@ class TestFTPClass(TestCase):
-diff --git a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-index 0661249bfd..5c5603c956 100644
---- a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-+++ b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-@@ -1,4 +1,4 @@
--From d0205c60d08f51d84bd8ddc07a57e8c71710fdad Mon Sep 17 00:00:00 2001
-+From 8543ad744a2839acf1f4eec967acd645fd89d1a7 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 17 Nov 2023 14:16:40 +0100
- Subject: [PATCH] configure.ac: do not add a curses include path from the host
-@@ -15,10 +15,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 6 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index c49cd4f..affdedf 100644
-+index cdc54e5..d163c73 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -6508,12 +6508,6 @@ AS_VAR_IF([have_panel], [no], [
-+@@ -6536,12 +6536,6 @@ AS_VAR_IF([have_panel], [no], [
-    AC_MSG_RESULT([$have_panel (CFLAGS: $PANEL_CFLAGS, LIBS: $PANEL_LIBS)])
-  ])
-  
-diff --git a/meta/recipes-devtools/python/python3/cgi_py.patch b/meta/recipes-devtools/python/python3/cgi_py.patch
-index 8262c88e73..b1f2b71c2a 100644
---- a/meta/recipes-devtools/python/python3/cgi_py.patch
-+++ b/meta/recipes-devtools/python/python3/cgi_py.patch
-@@ -1,4 +1,4 @@
--From a56778372fe8dc7c42f5ffd911d89498c22dd064 Mon Sep 17 00:00:00 2001
-+From 8e6dc9fe684b27988b5aca3f760f02343aa95951 Mon Sep 17 00:00:00 2001
- From: Mark Hatle <mark.hatle@windriver.com>
- Date: Wed, 21 Sep 2011 20:55:33 -0500
- Subject: [PATCH] Lib/cgi.py: Update the script as mentioned in the comment
-@@ -6,7 +6,6 @@ Subject: [PATCH] Lib/cgi.py: Update the script as mentioned in the comment
- Upstream-Status: Inappropriate [distribution]
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
- ---
-  Lib/cgi.py | 11 +----------
-  1 file changed, 1 insertion(+), 10 deletions(-)
-diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-index 2c4aef0511..91ef3fe674 100644
---- a/meta/recipes-devtools/python/python3/crosspythonpath.patch
-+++ b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-@@ -1,4 +1,4 @@
--From 5b66463c10fec1440e977d5a21a0167862d6d79c Mon Sep 17 00:00:00 2001
-+From 1bc93167c48876d77ce424415e87573a062b8f2a Mon Sep 17 00:00:00 2001
- From: Ricardo Ribalda <ricardo@ribalda.com>
- Date: Tue, 18 Nov 2014 03:35:33 -0500
- Subject: [PATCH] configure.ac: add CROSSPYTHONPATH into PYTHONPATH for
-@@ -14,13 +14,12 @@ Upstream-Status: Inappropriate [OE-Core integration specific]
- Credits-to: Mark Hatle <mark.hatle@windriver.com>
- Credits-to: Jackie Huang <jackie.huang@windriver.com>
- Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
--
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index cb9e198..d81c19a 100644
-+index 093f8b5..cdc54e5 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -165,7 +165,7 @@ AC_ARG_WITH([build-python],
-diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.patch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-index 2de6ae2e98..9ae4af36ec 100644
---- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-+++ b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-@@ -1,4 +1,4 @@
--From 039d5e652796b55f1132afa568c7432b6ed89afd Mon Sep 17 00:00:00 2001
-+From 38e732371ac234c3f0e6310d6dbc7ddc7f458535 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 27 May 2022 17:05:44 +0100
- Subject: [PATCH] python3: Ensure stale empty python module directories don't
-@@ -13,13 +13,12 @@ As a result, patch this to a behaviour which works for us.
- 
- Upstream-Status: Submitted [https://github.com/python/cpython/issues/120492; need to first talk to upstream to see if they'll take one or both fixes]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
- ---
-  Lib/importlib/metadata/__init__.py | 9 ++++++++-
-  1 file changed, 8 insertions(+), 1 deletion(-)
- 
- diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata/__init__.py
--index 82e0ce1..969cac4 100644
-+index e6ca178..ac5a75b 100644
- --- a/Lib/importlib/metadata/__init__.py
- +++ b/Lib/importlib/metadata/__init__.py
- @@ -710,7 +710,14 @@ class Lookup:
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index c1b20703e6..e9494b555d 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -1,4 +1,4 @@
--From 9f827c29adbe656af3c8fc963fdd8f47aec0c442 Mon Sep 17 00:00:00 2001
-+From 08c7867a02d26aac41764b915dc925343305e7af Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 13 Jul 2021 23:19:29 +0100
- Subject: [PATCH] python3: Fix make race
-@@ -17,10 +17,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index 381feb0..77bf09a 100644
-+index 23e20e9..b1c5413 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2250,7 +2250,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2260,7 +2260,7 @@ COMPILEALL_OPTS=-j0
-  TEST_MODULES=@TEST_MODULES@
-  
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.12.6.bb b/meta/recipes-devtools/python/python3_3.12.7.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.6.bb
-rename to meta/recipes-devtools/python/python3_3.12.7.bb
-index 63a3134b36..e2fdc18112 100644
---- a/meta/recipes-devtools/python/python3_3.12.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.7.bb
-@@ -40,7 +40,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "1999658298cf2fb837dffed8ff3c033ef0c98ef20cf73c5d5f66bed5ab89697c"
-+SRC_URI[sha256sum] = "24887b92e2afd4a2ac602419ad4b596372f67ac9b077190f459aba390faf5550"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
++    def test_parse_cve_from_patch_filename(self):
++        from oe.cve_check import parse_cve_from_filename
++
++        # Patch filename without CVE ID
++        self.assertEqual(parse_cve_from_filename("0001-test.patch"), "")
++
++        # Patch with single CVE ID
++        self.assertEqual(parse_cve_from_filename("CVE-2022-12345.patch"), "CVE-2022-12345")
++
++        # Patch with multiple CVE IDs
++        self.assertEqual(
++            parse_cve_from_filename("CVE-2022-41741-CVE-2022-41742.patch"), "CVE-2022-41742"
++        )
++
++        # Patches with CVE ID and appended text
++        self.assertEqual(
++            parse_cve_from_filename("CVE-2023-3019-0001.patch"), "CVE-2023-3019"
++        )
++        self.assertEqual(
++            parse_cve_from_filename("CVE-2024-21886-1.patch"), "CVE-2024-21886"
++        )
++
++        # Patch with CVE ID and prepended text
++        self.assertEqual(
++            parse_cve_from_filename("grep-CVE-2012-5667.patch"), "CVE-2012-5667"
++        )
++        self.assertEqual(
++            parse_cve_from_filename("0001-CVE-2012-5667.patch"), "CVE-2012-5667"
++        )
++
++        # Patch with CVE ID and both prepended and appended text
++        self.assertEqual(
++            parse_cve_from_filename(
++                "0001-tpm2_import-fix-fixed-AES-key-CVE-2021-3565-0001.patch"
++            ),
++            "CVE-2021-3565",
++        )
++        
++        # Only grab the last CVE ID in the filename
++        self.assertEqual(
++            parse_cve_from_filename(
++                "CVE-2012-5667-CVE-2012-5668.patch"
++            ),
++            "CVE-2012-5668",
++        )
++
++
++    def test_parse_cve_from_patch_contents(self):
++        import textwrap
++        from oe.cve_check import parse_cves_from_patch_contents
++
++        # Standard patch file excerpt without any patches
++        self.assertEqual(
++            parse_cves_from_patch_contents(
++                textwrap.dedent("""\
++            remove "*" for root since we don't have a /etc/shadow so far.
++
++            Upstream-Status: Inappropriate [configuration]
++
++            Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
++            --- base-passwd/passwd.master~nobash
++            +++ base-passwd/passwd.master
++            @@ -1,4 +1,4 @@
++            -root:*:0:0:root:/root:/bin/sh
++            +root::0:0:root:/root:/bin/sh
++            daemon:*:1:1:daemon:/usr/sbin:/bin/sh
++            bin:*:2:2:bin:/bin:/bin/sh
++            sys:*:3:3:sys:/dev:/bin/sh
++            """)
++            ),
++            set(),
++        )
++
++        # Patch file with multiple CVE IDs (space-separated)
++        self.assertEqual(
++            parse_cves_from_patch_contents(
++                textwrap.dedent("""\
++                There is an assertion in function _cairo_arc_in_direction().
++
++                CVE: CVE-2019-6461 CVE-2019-6462
++                Upstream-Status: Pending
++                Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++                index 390397bae..1bde774a4 100644
++                --- a/src/cairo-arc.c
++                +++ b/src/cairo-arc.c
++                @@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t          *cr,
++                    if (cairo_status (cr))
++                        return;
++
++                -    assert (angle_max >= angle_min);
++                +    if (angle_max < angle_min)
++                +       return;
++
++                    if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++                    angle_max = fmod (angle_max - angle_min, 2 * M_PI);
++            """),
++            ),
++            {"CVE-2019-6461", "CVE-2019-6462"},
++        )
++
++        # Patch file with multiple CVE IDs (comma-separated w/ both space and no space)
++        self.assertEqual(
++            parse_cves_from_patch_contents(
++                textwrap.dedent("""\
++                There is an assertion in function _cairo_arc_in_direction().
++
++                CVE: CVE-2019-6461,CVE-2019-6462, CVE-2019-6463
++                Upstream-Status: Pending
++                Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++                index 390397bae..1bde774a4 100644
++                --- a/src/cairo-arc.c
++                +++ b/src/cairo-arc.c
++                @@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t          *cr,
++                    if (cairo_status (cr))
++                        return;
++
++                -    assert (angle_max >= angle_min);
++                +    if (angle_max < angle_min)
++                +       return;
++
++                    if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++                    angle_max = fmod (angle_max - angle_min, 2 * M_PI);
++
++            """),
++            ),
++            {"CVE-2019-6461", "CVE-2019-6462", "CVE-2019-6463"},
++        )
++
++        # Patch file with multiple CVE IDs (&-separated)
++        self.assertEqual(
++            parse_cves_from_patch_contents(
++                textwrap.dedent("""\
++                There is an assertion in function _cairo_arc_in_direction().
++
++                CVE: CVE-2019-6461 & CVE-2019-6462
++                Upstream-Status: Pending
++                Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++                index 390397bae..1bde774a4 100644
++                --- a/src/cairo-arc.c
++                +++ b/src/cairo-arc.c
++                @@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t          *cr,
++                    if (cairo_status (cr))
++                        return;
++
++                -    assert (angle_max >= angle_min);
++                +    if (angle_max < angle_min)
++                +       return;
++
++                    if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++                    angle_max = fmod (angle_max - angle_min, 2 * M_PI);
++            """),
++            ),
++            {"CVE-2019-6461", "CVE-2019-6462"},
++        )
++
++        # Patch file with multiple lines with CVE IDs
++        self.assertEqual(
++            parse_cves_from_patch_contents(
++                textwrap.dedent("""\
++                There is an assertion in function _cairo_arc_in_direction().
++
++                CVE: CVE-2019-6461 & CVE-2019-6462
++
++                CVE: CVE-2019-6463 & CVE-2019-6464
++                Upstream-Status: Pending
++                Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
++                index 390397bae..1bde774a4 100644
++                --- a/src/cairo-arc.c
++                +++ b/src/cairo-arc.c
++                @@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t          *cr,
++                    if (cairo_status (cr))
++                        return;
++
++                -    assert (angle_max >= angle_min);
++                +    if (angle_max < angle_min)
++                +       return;
++
++                    if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++                    angle_max = fmod (angle_max - angle_min, 2 * M_PI);
++
++            """),
++            ),
++            {"CVE-2019-6461", "CVE-2019-6462", "CVE-2019-6463", "CVE-2019-6464"},
++        )
++
++
++
+     def test_recipe_report_json(self):
+         config = """
+ INHERIT += "cve-check"
 -- 
-2.43.0
+2.34.1
 
 
