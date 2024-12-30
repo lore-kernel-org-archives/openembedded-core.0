@@ -1,113 +1,123 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7100AE77188
-	for <webhook@archiver.kernel.org>; Mon, 30 Dec 2024 07:33:30 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.58764.1735544008399469124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 868B8E77188
+	for <webhook@archiver.kernel.org>; Mon, 30 Dec 2024 07:40:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.58819.1735544448307745266
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Dec 2024 23:33:28 -0800
+ Sun, 29 Dec 2024 23:40:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3094d051be=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU7ON68017861;
-	Mon, 30 Dec 2024 07:33:27 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43t8a81e3u-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=30946ffcbd=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU7TP4q015343;
+	Sun, 29 Dec 2024 23:40:46 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43tdg79a3v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 30 Dec 2024 07:33:26 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+	Sun, 29 Dec 2024 23:40:46 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 29 Dec 2024 23:33:25 -0800
-Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 29 Dec 2024 23:33:24 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <raj.khem@gmail.com>
-Subject: [PATCH] systemd: enable create-log-dirs
-Date: Mon, 30 Dec 2024 15:33:23 +0800
-Message-ID: <20241230073323.232792-1-changqing.li@windriver.com>
+ 15.1.2507.43; Sun, 29 Dec 2024 23:40:45 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 29 Dec 2024 23:40:45 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jpewhacker@gmail.com>
+Subject: [PATCH] meta/lib/oe/spdx30_tasks.py: add patched CVE to SPDX 3
+Date: Sun, 29 Dec 2024 23:40:45 -0800
+Message-ID: <20241230074045.213743-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: vCEBXE5EL4aWfzIwOI1BT6Adb_211XoY
-X-Proofpoint-ORIG-GUID: vCEBXE5EL4aWfzIwOI1BT6Adb_211XoY
-X-Authority-Analysis: v=2.4 cv=f8qyBPyM c=1 sm=1 tr=0 ts=67724cc6 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=e5mUnYsNAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8
- a=CqwtNdRY7PFeicUN6rcA:9 a=h7n8ThxqooUA:10 a=Ah1nPfSrf1cA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Vxmtnl_E_bksehYqCbjh:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: WA7Zih0ObTDH2Rv4df9KwnnvCwR1sjBB
+X-Authority-Analysis: v=2.4 cv=AokU3P9P c=1 sm=1 tr=0 ts=67724e7e cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=24AZYWMyAAAA:8 a=Q4-j1AaZAAAA:8 a=rorgr0BEAAAA:8 a=wECf3xPYAAAA:8 a=t7CeM3EgAAAA:8
+ a=Qdx_cvmabgLv2DRu0yAA:9 a=bG88sKzkDEFeXWNnvthB:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FuUPMLReglAHmohU_o2S:22 a=ccNonjl4-tybilS9-zgM:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: WA7Zih0ObTDH2Rv4df9KwnnvCwR1sjBB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-30_03,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- bulkscore=0 clxscore=1015 adultscore=0 phishscore=0 priorityscore=1501
- suspectscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412300063
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412300064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 07:33:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209147
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 07:40:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209148
 
-From: Changqing Li <changqing.li@windriver.com>
+Some CVEs may be patched during the build process without incrementing
+the version number, save the CVEs fixed by patches to cve_by_status
+which was parsed as "Patched" status to add new_vex_patched_relationship
+to pkg_objset
 
-By default, create-log-dirs  is enabled in systemd, and a link
-/var/log/README will be created, point to {{DOC_DIR}}/README.logs, but,
-for oe, there are two problems here, firstly, DOC_DIR is packaged in
-another package systemd-doc, so /var/log/README is a dead link when
-systemd-doc is not installed, secondly, even systemd-doc is installed,
-when volatile log is used, DOC_DIR is a wrong relateive path, Refer [1].
+Take recipe unzip for example, CVE-2015-1315 is patched in oe-core and
+is available in package SPDX
 
-So in commit [2], we disable create-log-dirs for above issue. with this
-change, /var/log/journal is not created, and /run/log is used, this
-makes systemd log always non persistent, refer [3][4]. if user need
-persistent log, they need to disable volatile log, and also  change
-journald.conf, make "Storage" to "persistent". This is a behavoir change.
-Previously, to make systemd log persistent, user only need to disable
-volatile log.
+oe-core$ grep "CVE-2015-1315" -rn meta
+meta/recipes-extended/unzip/unzip_6.0.bb:12:    file://06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch \
+meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch:6:CVE: CVE-2015-1315
 
-This commit reenable create-log-dirs to revert the behavior change, and
-since README is not very userful, just remove it.
+$ bitbake unzip
+$ vim tmp/deploy/spdx/3.0.1/corei7-64/packages/package-unzip.spdx.json [1]
+...
+    {
+      "type": "security_VexFixedVulnAssessmentRelationship",
+      "spdxId": "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/6e57f2cbf8f80a80ee21628b8a35cdddaa8ee800cc9e42367d866eb8daa41bb0/vex-fixed/c8d7748f0d64a2a46a3a2545c891ad39"
+      "creationInfo": "_:CreationInfo1",
+      "extension": [
+        {
+          "type": "https://rdf.openembedded.org/spdx/3.0/id-alias",
+          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/22ab8d6eced4525f57bb861acc0fe983d8af5805dd97e702c22c1ffe04621cb2/unzip/UNIHASH/vex-fixed/c8d7748f0d64a2a46a3a2545c891ad39"
+        }
+      ],
+      "from": "http://spdxdocs.org/openembedded-alias/by-doc-hash/539e1deec075c3a51b8c6975352b0a9ad320a130a4d7d516316b35994a830f93/unzip/UNIHASH/vulnerability/CVE-2015-1315",
+      "relationshipType": "fixedIn",
+      "to": [
+        "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/6e57f2cbf8f80a80ee21628b8a35cdddaa8ee800cc9e42367d866eb8daa41bb0/package/unzip"
+      ],
+      "security_vexVersion": "1.0.0"
+    },
+...
 
-[ YOCTO #15678 ]
+[1] https://spdx.github.io/spdx-spec/v3.0.1/model/Security/Classes/VexFixedVulnAssessmentRelationship/
 
-[1] https://github.com/systemd/systemd/blob/main/tmpfiles.d/legacy.conf.in#L16
-[2] https://git.openembedded.org/openembedded-core/commit/?id=18d46e11d85da1f6feaba5a135931e43060024d6
-[3] https://github.com/systemd/systemd/blob/main/src/journal/meson.build#L189
-[4] https://www.freedesktop.org/software/systemd/man/journald.conf.html
-[5] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15678
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_256.9.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oe/spdx30_tasks.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_256.9.bb b/meta/recipes-core/systemd/systemd_256.9.bb
-index b5e3e85a38..3e3ee89cba 100644
---- a/meta/recipes-core/systemd/systemd_256.9.bb
-+++ b/meta/recipes-core/systemd/systemd_256.9.bb
-@@ -247,7 +247,6 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Dsystem-uid-max=999 \
-                   -Dsystem-alloc-gid-min=101 \
-                   -Dsystem-gid-max=999 \
--                  -Dcreate-log-dirs=false \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', '-Ddefault-mdns=no -Ddefault-llmnr=no', '', d)} \
-                   "
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 036c58bf4b..842962f609 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -515,6 +515,21 @@ def create_spdx(d):
  
-@@ -396,6 +395,10 @@ do_install() {
- 		# Actively disable Predictable Network Interface Names
- 		sed -i 's/^NamePolicy=.*/NamePolicy=/;s/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 	fi
+     cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
+ 
++    # Some CVEs may be patched during the build process without incrementing the version number,
++    # so querying for CVEs based on the CPE id can lead to false positives. To account for this,
++    # save the CVEs fixed by patches to cve_by_status.
++    patched_cves = oe.cve_check.get_patched_cves(d)
++    for cve, patched_cve in patched_cves.items():
++        if patched_cve["abbrev-status"] != "Patched":
++            continue
++        spdx_cve = build_objset.new_cve_vuln(cve)
++        build_objset.set_element_alias(spdx_cve)
++        cve_by_status.setdefault("Patched", {})[cve] = (
++            spdx_cve,
++            None,
++            None,
++        )
 +
-+	if [ -e ${D}${nonarch_libdir}/tmpfiles.d/legacy.conf ];then
-+		sed -i -e '/^L \/var\/log\/README/d' ${D}${nonarch_libdir}/tmpfiles.d/legacy.conf
-+	fi
- }
+     source_files = add_download_files(d, build_objset)
+     build_inputs |= source_files
  
- python populate_packages:prepend (){
 -- 
 2.25.1
 
