@@ -1,78 +1,112 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 292AAE77188
-	for <webhook@archiver.kernel.org>; Mon, 30 Dec 2024 17:29:33 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.66665.1735579767690204810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0007E77188
+	for <webhook@archiver.kernel.org>; Mon, 30 Dec 2024 19:22:43 +0000 (UTC)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+ by mx.groups.io with SMTP id smtpd.web10.68412.1735586557385067882
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Dec 2024 09:29:27 -0800
+ Mon, 30 Dec 2024 11:22:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=D23iU+0u;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202412301729254147038d0f0c3e5f75-cofqyz@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202412301729254147038d0f0c3e5f75
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 30 Dec 2024 18:29:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=mniHIYHBb6ur396x/Enb4wZUhUvYr0tn4owDWL3M3bI=;
- b=D23iU+0uW7UsKc2jcvHphe8dpXLbpBHaVmy7wtHe8lPSr8LR/qECRsBUjz3jyZt2fd0HJ4
- 0GiDoWLqQmB2wkRdjqWH6fNFL7Xoy5GT4viT4c0kymNNGiLOBVQZfIgHRdUGfWWeXlR6B1tN
- u3E5RFvlMBPOzTLUMogn943l5VoQyoAMS/MiUhu8/FB5X7L19aVWLFEsHq+FZlgm/UUdto4E
- aOdcoNV1lhGX3lYBdSqzYR4f2bkr2wN+NyPPYeB+7iX9m4NB7rulhXTorj8rhu0Gdp2cHM7N
- VgUn/ZY2GkC8ucyGpv3cv9cqZzTUbw8efrf873A4lRt4Izl5DDU8oonw==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nSwd3xLr;
+ spf=pass (domain: gmail.com, ip: 209.85.166.170, mailfrom: colinmca242@gmail.com)
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a8180205f3so37363995ab.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 11:22:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735586556; x=1736191356; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gappU3xDlV4ePT37eSn6kXIG7FGYt6FgsmHQZOv98xA=;
+        b=nSwd3xLrekfhfnc9n70gSeQ7kon+NQXzPhrA8NfdCzzhXFcJBfHK95nk2a3D2cHAKq
+         fco/lgFNgDcUA19eUXV9kIkElTqwjVsIMhkdmZh+wOBznwHBZihsQ/Qf27W++RgAvJWx
+         cB0wtH47shQ2pjGiHzGArCcvdlRr1xC7sV7u+ipV/tD6G1ho2+tGswLOtrN5BvtDLttl
+         M2t5rAlDl4JC0y7W9z6kB9MljqRp4rXSh8tFIwlcHTzVl1uBdxOfPog0kLwK0gY6gSxS
+         zqFJItPmayoGtZSmBGxvpoYjyoHGS3LzmGNRgFgA/qVV5d3lgj25PAXuNzfQ0EVKHyDa
+         SD5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735586556; x=1736191356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gappU3xDlV4ePT37eSn6kXIG7FGYt6FgsmHQZOv98xA=;
+        b=J8XctcvGowBT6ksu6kWrzCgrL6D6g18cLLs6ZWWmfFUXm94L+r606UnwXZ80Ul6aSl
+         3wzXyTBqrAINf56UKSFAF+WE4xZg95ebHjT5YUwNG4/AYeirmeCfBgqiClqxc7lkXPDH
+         T/s/pQzZLHb1kujmLZpU9Kpe8fFtw3+czzo4KTGvo/gC0HGZyka5ao4D3yoEn9XYPrdN
+         sgv2ulKcebGz6HR2lfKbuVcLjE+ZkOLL3eHV9gPvxifqUAYv3iT6J7sTMTzfb3DAkn9n
+         DXCDc/PxDr8d/eKrCaUQUZqKEfCe7AJ2CmpYj6YoftRFhsqkAGvTxMiV538K4eHIf1me
+         5zuA==
+X-Gm-Message-State: AOJu0YwrSJ0EcMOpstkdLUrs18mRjPiMS7EvH+5EyKbXiZ3GEWLQIh8j
+	gxCJBAmCpyLUe6LJvNldsLpfCCjEkn23F0qpNPkz1C2QPkcZyY9SL9xcjw==
+X-Gm-Gg: ASbGncvu1wD4E893sYsU6YJJQvNpj2BWXq2YIR0Pq/xp0aNgYcXnVlnoxJlt7Bu2qWV
+	0nx9/I6EaPdZEYL052ctz2v2381SbQM/rc5SYJIyAUJr2BGxW1SdqUhSJmr/h3Gwy2a3H4Lx73V
+	2Cf6JMFqpMhx9Gpkz3ShSy/dGbm2kWZHNDpr1PE19vKH5dH2zskQS0mK6PvGH8gLI5gQmCsMAQA
+	y+rfsMpgny+RdD2+JQNX0m/HbwlxB6pQL+D/P7Laapb2dGF9k5qq5vqaASUVHhQhYoS6TA=
+X-Google-Smtp-Source: AGHT+IGTAKJTKM+V5yf0eC0aSzH6Q0IQsPI3Suo5cEhnixSIzeBpMAuaSQYTLaJS6dF4YEMm4tTs+g==
+X-Received: by 2002:a92:6b03:0:b0:3a8:13d5:bd2c with SMTP id e9e14a558f8ab-3c02c703362mr306669505ab.2.1735586555940;
+        Mon, 30 Dec 2024 11:22:35 -0800 (PST)
+Received: from monolith.localdomain ([136.37.200.217])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0de0532b4sm59686225ab.13.2024.12.30.11.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Dec 2024 11:22:34 -0800 (PST)
+From: Colin McAllister <colinmca242@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH 16/16] gstreamer1.0: ignore CVEs fixed in plugins recipes
-Date: Mon, 30 Dec 2024 18:27:23 +0100
-Message-Id: <20241230172723.3644270-16-peter.marko@siemens.com>
-In-Reply-To: <20241230172723.3644270-1-peter.marko@siemens.com>
-References: <20241230172723.3644270-1-peter.marko@siemens.com>
+Cc: Colin McAllister <colinmca242@gmail.com>
+Subject: [PATCH 1/2] cve-check: Fix errors in log lines
+Date: Mon, 30 Dec 2024 19:22:23 +0000
+Message-Id: <20241230192224.113886-1-colinmca242@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 17:29:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209180
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 19:22:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209181
 
-From: Peter Marko <peter.marko@siemens.com>
+Two warning lines in cve_check.py reference a variable that doesn't
+exist. These would cause a runtime error if the conditions they are
+hidden in were to be entered. The log lines have been updated to no
+longer reference an undefined variable.
 
-These were fixed in previous commits.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Colin McAllister <colinmca242@gmail.com>
 ---
- .../gstreamer/gstreamer1.0_1.22.12.bb               | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/lib/oe/cve_check.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-index e5a820e1adb..3f28459e2d0 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-@@ -74,4 +74,17 @@ CVE_PRODUCT = "gstreamer"
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index 647a94f5af..280f9f613d 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -253,7 +253,10 @@ def decode_cve_status(d, cve):
+         description = status_split[4].strip()
+     elif len(status_split) >= 2 and status_split[1].strip() == "cpe":
+         # Malformed CPE
+-        bb.warn('Invalid CPE information for CVE_STATUS[%s] = "%s", not setting CPE' % (detail, cve, status))
++        bb.warn(
++            'Invalid CPE information for CVE_STATUS[%s] = "%s", not setting CPE'
++            % (cve, status)
++        )
+     else:
+         # Other case: no CPE, the syntax is then:
+         # detail: description
+@@ -263,9 +266,13 @@ def decode_cve_status(d, cve):
+     status_out["product"] = product
+     status_out["description"] = description
  
- CVE_STATUS[CVE-2024-0444] = "cpe-incorrect: this is patched in gstreamer1.0-plugins-bad in 1.22 branch since 1.22.9"
+-    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", status_out['detail'])
++    detail = status_out["detail"]
++    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
+     if status_mapping is None:
+-        bb.warn('Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
++        bb.warn(
++            'Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched'
++            % (detail, cve, status)
++        )
+         status_mapping = "Unpatched"
+     status_out["mapping"] = status_mapping
  
-+CVE_STATUS_GROUPS += "CVE_STATUS_PLUGINS_BASE"
-+CVE_STATUS_PLUGINS_BASE = "CVE-2024-47538 CVE-2024-47541 CVE-2024-47542 CVE-2024-47600 CVE-2024-47607 CVE-2024-47615 CVE-2024-47835"
-+CVE_STATUS_PLUGINS_BASE[status] = "cpe-incorrect: this is patched ic gstreamer1.0-plugins-base"
-+
-+CVE_STATUS_GROUPS += "CVE_STATUS_PLUGINS_GOOD"
-+CVE_STATUS_PLUGINS_GOOD = " \
-+    CVE-2024-47537 CVE-2024-47539 CVE-2024-47540 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 \
-+    CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598 CVE-2024-47599 CVE-2024-47601 \
-+    CVE-2024-47602 CVE-2024-47603 CVE-2024-47613 CVE-2024-47774 CVE-2024-47775 CVE-2024-47776 \
-+    CVE-2024-47777 CVE-2024-47778 CVE-2024-47834 \
-+"
-+CVE_STATUS_PLUGINS_GOOD[status] = "cpe-incorrect: this is patched ic gstreamer1.0-plugins-good"
-+
- PTEST_BUILD_HOST_FILES = ""
 -- 
-2.30.2
+2.34.1
 
 
