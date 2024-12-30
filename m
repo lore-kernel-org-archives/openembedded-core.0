@@ -2,53 +2,53 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EDEE77194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C740FE77196
 	for <webhook@archiver.kernel.org>; Mon, 30 Dec 2024 07:29:39 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web11.58970.1735543769111371244
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web10.58720.1735543772874667718
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Dec 2024 23:29:35 -0800
+ Sun, 29 Dec 2024 23:29:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=XpIB7Jgq;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=X/YE16YA;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1735543775; x=1767079775;
+  t=1735543773; x=1767079773;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=c25h2C1BykSesEIvxfkD2XnU7O4GndVJ6Jty/dKYZUY=;
-  b=XpIB7JgqRYbhIkwlas9rITluoHSCkVWnL82z6KuTqP0w+apfFzUNZK6x
-   QDkoyQXHJ8SUvntlEop2PKLHxrw8dSHN72mjEfalkQauRgQht3xU6pKoG
-   30jsUOJr6A6TiWAIkIMNYh2xncjwKq8Jt/ha9/kYtXO5ujQKskisPwprL
-   cFZPwk/OEMrG682vXSU3WqmK8HOFqDHrhU9l3P9fjhs6Xfiw6R1t0Ro45
-   qWDM8adml5ZyjL9FidXUa2bYdRvSGW9hpRGb0vl2/uQrJSAITclDyEnom
-   VeYZgHBfMPltut9ey5P7SiRH6D1cu2V8FeH7eOC8/0En3lLPyKOAhzvtn
-   A==;
-X-CSE-ConnectionGUID: dGZHBGSEQsaUS4W1mYDUxw==
-X-CSE-MsgGUID: kYbHfzUpQnGbPG6gVR6xbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="173278727"
+  bh=JRsp/tAQzE2rF3EzL0CIWRNJmMswBYRWzhZYTL7DyUA=;
+  b=X/YE16YAhVd+Wb04TDUzS16glPFBNlMX+cTlBUcfLk09vTHGZP2nG/Zq
+   RJetSRfx6CidXj8GligKlraTcNhiEf5bLNWl4b8h8FmVLSmK9j/3eXz0C
+   tkACsTZZsEsxgrVaop2GWFx78+UHx21emi8gXLVk6HSQyx9WFSzMbswwL
+   gGMEtiGlWr5Gf0/vebIgd1rV6MsyBrpDQE7N2ZtgrS63wFHcTrKo+2IH8
+   uCMU+LIExopoM8NXa6oj5xA/JD/6EI+xb2eSDWmWCe3NabGxxwzaWzG1U
+   uIyLnR0ZN26fXLNulL8N7C+Ghh0x8DhA2gwetcmx2e/ijwKTy/Dzed6DE
+   g==;
+X-CSE-ConnectionGUID: 3nU8z6CVSRq8+7x+8R9Z9Q==
+X-CSE-MsgGUID: jMckgVhSQQSdNI/FbrQk9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="185308655"
 X-IronPort-AV: E=Sophos;i="6.12,275,1728918000"; 
-   d="scan'208";a="173278727"
+   d="scan'208";a="185308655"
 Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:29:33 +0900
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2024 16:29:30 +0900
 Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 91041D4C2B
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:31 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 57F4CD748C
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:31 +0900 (JST)
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 23628D4C2B
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:28 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id F0979D753E
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:27 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id E8C2470BE2
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:30 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8D57420074EB1
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 16:29:27 +0900 (JST)
 Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 951091A0003;
-	Mon, 30 Dec 2024 15:29:30 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 379451A0003;
+	Mon, 30 Dec 2024 15:29:27 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 6/6] systemd: upgrade 257 -> 257.1
-Date: Mon, 30 Dec 2024 15:29:20 +0800
-Message-Id: <1735543760-2456-6-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 3/6] cracklib: upgrade 2.10.2 -> 2.10.3
+Date: Mon, 30 Dec 2024 15:29:17 +0800
+Message-Id: <1735543760-2456-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1735543760-2456-1-git-send-email-wangmy@fujitsu.com>
 References: <1735543760-2456-1-git-send-email-wangmy@fujitsu.com>
@@ -56,57 +56,43 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28890.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28890.005
-X-TMASE-Result: 10--0.963600-10.000000
-X-TMASE-MatchedRID: 6e3s/u+cBDSjz0nOeth/yQPZZctd3P4Bqqq9awALpxCysPB8dBBorQec
-	3JTmkn8uJMPD8FR5f58boCivyaDEErVQ6XPWwtdyEXjPIvKd74CYkAyCbA7KVws5GlXF672zo8W
-	MkQWv6iUoTQl7wNH8PuTCMddcL/gjxlblqLlYqXK95DTwWQIYylJJe8adVjbMOhBWzHgCtbxeKX
-	Yed+LZj17r+AWNVyOooQUqMoma7EhvvKO56qWHVo05Jhy3KagAvk0LgK9GfB/+v9v52ZIoWjoAf
-	389xF3XFSk9HhUZnw7OGIWnws4LoyHWPYzouJUy
+X-TMASE-Result: 10-2.520200-10.000000
+X-TMASE-MatchedRID: 7cZymtcOvx2jz0nOeth/yQPZZctd3P4B1cuIRwt/4MiysPB8dBBorXKn
+	6DBj/gsEIvrftAIhWmKVijEpnyRMh6imPM07Al9SaDCzqDR7DPaCjFOVaqYalZsoi2XrUn/J8m+
+	hzBStanvIM9mETCO70ydET58jp62S2pZ+UK1UanacvYmkUxwzrkWj3DAIKf4G7EnQzTF8G8pEkf
+	AdYK3kyOVb+nAwOmkxMo/O3oxYT4V4IW+9CeMjD3yn71r4y5NYS7+RMq/2CK6rA4c7UV2fQpvi2
+	PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 Dec 2024 07:29:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209145
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209142
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...{systemd-boot-native_257.bb => systemd-boot-native_257.1.bb} | 0
- .../systemd/{systemd-boot_257.bb => systemd-boot_257.1.bb}      | 0
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- meta/recipes-core/systemd/{systemd_257.bb => systemd_257.1.bb}  | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_257.bb => systemd-boot-native_257.1.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_257.bb => systemd-boot_257.1.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_257.bb => systemd_257.1.bb} (100%)
+ .../cracklib/{cracklib_2.10.2.bb => cracklib_2.10.3.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/cracklib/{cracklib_2.10.2.bb => cracklib_2.10.3.bb} (93%)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_257.bb b/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_257.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_257.bb b/meta/recipes-core/systemd/systemd-boot_257.1.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_257.bb
-rename to meta/recipes-core/systemd/systemd-boot_257.1.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 67b9e28ce1..65785ac098 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.10.2.bb b/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
+similarity index 93%
+rename from meta/recipes-extended/cracklib/cracklib_2.10.2.bb
+rename to meta/recipes-extended/cracklib/cracklib_2.10.3.bb
+index 2c913da152..c3396521ff 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.10.2.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
+@@ -12,7 +12,7 @@ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
+ SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
+            "
  
--SRCREV = "70bae7648f2c18010187c9cf20093155eaa26029"
-+SRCREV = "47eea9ee9f46537bc18d6a64fa21fd9c50538e13"
- SRCBRANCH = "v257-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+-SRCREV = "e5211fc1d2b435884a2bb77001e107489285296d"
++SRCREV = "e73d5db1789d198b5f9ec44b68b9c775c3e6c042"
+ S = "${WORKDIR}/git/src"
  
-diff --git a/meta/recipes-core/systemd/systemd_257.bb b/meta/recipes-core/systemd/systemd_257.1.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_257.bb
-rename to meta/recipes-core/systemd/systemd_257.1.bb
+ inherit autotools gettext
 -- 
 2.43.0
 
