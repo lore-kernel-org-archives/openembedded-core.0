@@ -1,225 +1,72 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8819AE77188
-	for <webhook@archiver.kernel.org>; Tue, 31 Dec 2024 15:06:19 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.84168.1735657573470284152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF4CE77194
+	for <webhook@archiver.kernel.org>; Tue, 31 Dec 2024 21:26:11 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.3608.1735680362846510236
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Dec 2024 07:06:13 -0800
+ Tue, 31 Dec 2024 13:26:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lsQO32ef;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-29e2a50586dso4815822fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Dec 2024 07:06:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735657572; x=1736262372; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=q9WFeezPAAX151SpXn59Gk5RBSlciTnRdUkxlcp9tYU=;
-        b=lsQO32efXtTmFyCCLyEp6hCFIYt5yisDBTeXP8PypHjsHhACwxdOCj1uW9+QLUBkLs
-         4N/w4t5t3Nl5hmtHumaYKLFRHKzCA4iwyfT6Z3h6ISGUwqwELAxScL74XPVEx0u8JrzY
-         buKUL9qYvdHKnnZtJX+LiEABEhgZaVk8i/QiAvStoZ7YOq71NfE1uAOXJMWDkNOqd8eW
-         zczPOIZY7/xUilN74NFiHEbkwOvXgthkIYqUZ27BT8tIh75aK/iCifIPw+o5bTGLEvQL
-         2K71jAu2/wL3RVg69Qj1EA9CtnKb4Ug7QeMZte/S2nnbJWnWLbg2y+FwRnl0yVPJsSgz
-         x4Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735657572; x=1736262372;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q9WFeezPAAX151SpXn59Gk5RBSlciTnRdUkxlcp9tYU=;
-        b=t8gn/0pEC7XIkkC5w0wPx6ICzs7SO4YNCU23NrC8y5BF9jfohgdB0+rQjvLRY9CLeS
-         Y/fwix7pvfYB+k+nDCRMoAK001G4EmNuu/fwUMpO7mkVxBcxYdkzV5TCxAEQ+5HGis9T
-         R2Z8CaEQShvd4MSKf+RT0n1kAjis1Hj3Uk72rmME+965nJvV5So0UAccxWiKm7sFFsUq
-         aUfDXsT5yiZ5mmaNo1JM11dOgw9B8RJPkZ1NhCQNqDaP9jhAFQRMjbvvn6xXC6Oulakc
-         c40orkjBj9092PyZn7hI2fiK+Q/k37adehWfAXQkGSYkI2zdUDN75uef0Q94XaRBB5sX
-         C0Kw==
-X-Gm-Message-State: AOJu0YyrbWj/ut6xGp4xXuj3rjXwF+zOcIDtYbKbK08vIj2oRhuQQcxS
-	o8WU1LGmmF93ccz59x1iiHhUadweDzGd3Q/IwE6/eL+XIaTiQs+ge+Fa5b5657W7nGMEpyuYTIZ
-	FgXnbUuNX+/0p9nWS8Wvd2fwHnS8=
-X-Gm-Gg: ASbGncsXNQJ8O8xgX2mAGlnfkzI+d1pLuQ9y9gcjYa4ELZGfA3S6kvuWhhF999UFhJb
-	6o0fWHuucMRdulZJYjXszU8jXrS5LMrq/XpI/JYsZ3KAR1ctVWsuh8M/Xk+ZBq4k/3nuWqrc=
-X-Google-Smtp-Source: AGHT+IFviQCyy60a/oAm/fdAyRcj+oXfzl16K3GcoJPuGbpk72D88jqng+WUkZtsPUq2+/RidJd2d4fYxCDejPs4aUU=
-X-Received: by 2002:a05:6870:164a:b0:29d:c832:8402 with SMTP id
- 586e51a60fabf-2a7fb56c0d2mr21997767fac.41.1735657572603; Tue, 31 Dec 2024
- 07:06:12 -0800 (PST)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Lji4uOA9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20241231212559ae8a7479c326801ea6-ciimcy@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20241231212559ae8a7479c326801ea6
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 31 Dec 2024 22:25:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=6rrjpEPSOQ0DlZxx4Ny2xi8cCJUxga1oaZ07hX69ZG0=;
+ b=Lji4uOA9Ieki66UGQLUI/2BkDbQCBenPSH5w2xA3LZp5WjWSj08zpgDHfuMEq2jX7D2dti
+ 74mtg6PuhKaD4Fj4XYYEVK8oFclqhuKqbwOZiXd67ShL5pu5cg3W6H7sFCCIok5CKjZ/ZUYD
+ VyJ6AKuJv0HVLIOBZXyYXadx1bhzzKbFRZ0FJZJENNDSIXHf/6H9bPAfsRpixV/5Jwp+DGNT
+ HAezylzDjw2Z0SHyEhxSyJQ12TFWx3ea+8DZqXIKvYkmLE9uB+li9uBZFn1ht9emT+aGiAO7
+ Q0ZgCgIY8VKgefDw+8glUs42sg4Ur7llpnJLQGMUN4r+nxedWR8AVlAw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 0/5] kirkstone CVE cleanup
+Date: Tue, 31 Dec 2024 22:25:06 +0100
+Message-Id: <20241231212511.3649711-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20241231094418.30840-1-maxin.john@gmail.com>
-In-Reply-To: <20241231094418.30840-1-maxin.john@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 Dec 2024 07:06:01 -0800
-Message-ID: <CAMKF1sqcYU98aN17FCiqXr9dru=iwnN9q+k5rTBUt2z7dJ_1ow@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] formfactor: add support for qemuriscv64 and qemuriscv32
-To: maxin.john@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000111cef062a9245f3"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Dec 2024 15:06:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209184
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Dec 2024 21:26:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209185
 
---000000000000111cef062a9245f3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Handle some CVEs from kirkstone cve metrics
 
-This looks good thanks for fixing it
+Peter Marko (5):
+  ghostscript: ignore CVE-2024-46954
+  tiff: ignore CVE-2023-2731
+  tiff: patch CVE-2023-3164
+  gstreame1.0: ignore CVEs from gstreamer1.0-plugins-bad
+  xwayland: patch CVE-2023-5380 CVE-2024-0229
 
-On Tue, Dec 31, 2024 at 1:44=E2=80=AFAM Maxin B. John via lists.openembedde=
-d.org
-<maxin.john=3Dgmail.com@lists.openembedded.org> wrote:
+ .../ghostscript/ghostscript_9.55.0.bb         |   2 +-
+ .../xwayland/xwayland/CVE-2023-5380.patch     | 103 ++++++++
+ .../xwayland/xwayland/CVE-2024-0229-1.patch   |  88 +++++++
+ .../xwayland/xwayland/CVE-2024-0229-2.patch   | 222 ++++++++++++++++++
+ .../xwayland/xwayland/CVE-2024-0229-3.patch   |  42 ++++
+ .../xwayland/xwayland/CVE-2024-0229-4.patch   |  46 ++++
+ .../xwayland/xwayland_22.1.8.bb               |   5 +
+ .../gstreamer/gstreamer1.0_1.20.7.bb          |   4 +-
+ .../libtiff/tiff/CVE-2023-3164.patch          | 114 +++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   5 +-
+ 10 files changed, 626 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-5380.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0229-1.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0229-2.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0229-3.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0229-4.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3164.patch
 
-> Add machine config files for qemuriscv64 and qemuriscv32.
->
-> Fixes [YOCTO #15427].
->
-> Signed-off-by: Maxin John <maxin.john@gmail.com>
-> ---
->  .../formfactor/files/qemuriscv32/machconfig            | 10 ++++++++++
->  .../formfactor/files/qemuriscv64/machconfig            | 10 ++++++++++
->  2 files changed, 20 insertions(+)
->  create mode 100755
-> meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig
->  create mode 100755
-> meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig
->
-> diff --git a/meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig
-> b/meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig
-> new file mode 100755
-> index 000000000000..2789b5fc2ad5
-> --- /dev/null
-> +++ b/meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig
-> @@ -0,0 +1,10 @@
-> +HAVE_TOUCHSCREEN=3D1
-> +HAVE_KEYBOARD=3D1
-> +
-> +DISPLAY_CAN_ROTATE=3D0
-> +DISPLAY_ORIENTATION=3D0
-> +DISPLAY_WIDTH_PIXELS=3D640
-> +DISPLAY_HEIGHT_PIXELS=3D480
-> +DISPLAY_BPP=3D16
-> +DISPLAY_DPI=3D150
-> +DISPLAY_SUBPIXEL_ORDER=3Dvrgb
-> diff --git a/meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig
-> b/meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig
-> new file mode 100755
-> index 000000000000..2789b5fc2ad5
-> --- /dev/null
-> +++ b/meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig
-> @@ -0,0 +1,10 @@
-> +HAVE_TOUCHSCREEN=3D1
-> +HAVE_KEYBOARD=3D1
-> +
-> +DISPLAY_CAN_ROTATE=3D0
-> +DISPLAY_ORIENTATION=3D0
-> +DISPLAY_WIDTH_PIXELS=3D640
-> +DISPLAY_HEIGHT_PIXELS=3D480
-> +DISPLAY_BPP=3D16
-> +DISPLAY_DPI=3D150
-> +DISPLAY_SUBPIXEL_ORDER=3Dvrgb
-> --
-> 2.39.5
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#209183):
-> https://lists.openembedded.org/g/openembedded-core/message/209183
-> Mute This Topic: https://lists.openembedded.org/mt/110355685/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+-- 
+2.30.2
 
---000000000000111cef062a9245f3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">This looks good thanks for fixing it=C2=A0</div><div><br>=
-<div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Tue, Dec 31, 2024 at 1:44=E2=80=AFAM Maxin B. John via <a hr=
-ef=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;maxin.j=
-ohn=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.o=
-penembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:so=
-lid;padding-left:1ex;border-left-color:rgb(204,204,204)">Add machine config=
- files for qemuriscv64 and qemuriscv32.<br>
-<br>
-Fixes [YOCTO #15427].<br>
-<br>
-Signed-off-by: Maxin John &lt;<a href=3D"mailto:maxin.john@gmail.com" targe=
-t=3D"_blank">maxin.john@gmail.com</a>&gt;<br>
----<br>
-=C2=A0.../formfactor/files/qemuriscv32/machconfig=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 10 ++++++++++<br>
-=C2=A0.../formfactor/files/qemuriscv64/machconfig=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 10 ++++++++++<br>
-=C2=A02 files changed, 20 insertions(+)<br>
-=C2=A0create mode 100755 meta/recipes-bsp/formfactor/files/qemuriscv32/mach=
-config<br>
-=C2=A0create mode 100755 meta/recipes-bsp/formfactor/files/qemuriscv64/mach=
-config<br>
-<br>
-diff --git a/meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig b/met=
-a/recipes-bsp/formfactor/files/qemuriscv32/machconfig<br>
-new file mode 100755<br>
-index 000000000000..2789b5fc2ad5<br>
---- /dev/null<br>
-+++ b/meta/recipes-bsp/formfactor/files/qemuriscv32/machconfig<br>
-@@ -0,0 +1,10 @@<br>
-+HAVE_TOUCHSCREEN=3D1<br>
-+HAVE_KEYBOARD=3D1<br>
-+<br>
-+DISPLAY_CAN_ROTATE=3D0<br>
-+DISPLAY_ORIENTATION=3D0<br>
-+DISPLAY_WIDTH_PIXELS=3D640<br>
-+DISPLAY_HEIGHT_PIXELS=3D480<br>
-+DISPLAY_BPP=3D16<br>
-+DISPLAY_DPI=3D150<br>
-+DISPLAY_SUBPIXEL_ORDER=3Dvrgb<br>
-diff --git a/meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig b/met=
-a/recipes-bsp/formfactor/files/qemuriscv64/machconfig<br>
-new file mode 100755<br>
-index 000000000000..2789b5fc2ad5<br>
---- /dev/null<br>
-+++ b/meta/recipes-bsp/formfactor/files/qemuriscv64/machconfig<br>
-@@ -0,0 +1,10 @@<br>
-+HAVE_TOUCHSCREEN=3D1<br>
-+HAVE_KEYBOARD=3D1<br>
-+<br>
-+DISPLAY_CAN_ROTATE=3D0<br>
-+DISPLAY_ORIENTATION=3D0<br>
-+DISPLAY_WIDTH_PIXELS=3D640<br>
-+DISPLAY_HEIGHT_PIXELS=3D480<br>
-+DISPLAY_BPP=3D16<br>
-+DISPLAY_DPI=3D150<br>
-+DISPLAY_SUBPIXEL_ORDER=3Dvrgb<br>
--- <br>
-2.39.5<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#209183): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/209183" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/209183</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110355685/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/110355685/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000111cef062a9245f3--
 
