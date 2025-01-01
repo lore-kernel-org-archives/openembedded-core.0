@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6C4E7719B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA9FE77194
 	for <webhook@archiver.kernel.org>; Wed,  1 Jan 2025 09:32:47 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.11505.1735723957757443028
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.11333.1735723940986855423
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jan 2025 01:32:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=O6fKI7/V;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nsNN74/3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101942135badf-55bfba00-77be-440c-8483-2162dafbc6a0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G5WF4jSI;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MBCOmLM3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101942135bdc1-2b745563-450c-4bda-b706-4ce848e1d095-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1735723957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EbF0niKcEvIyE9dSPByRfwNPgIdQVaZ/PFj/U+jD+Sc=;
-	b=O6fKI7/VLCj+D+/7/O9nede2Y/oz6qOoQ3gg+5Up9TzrPvaQ6rR+Fo9ZlmX6mQD9
-	jc8xt6GFLmL/SJwZkuNHBvCyEVUBnSz6vOrs1F4y8XP9v1cxlLR4iOKWGn6C5QgtXMa
-	7UDWyZmWmYk1c9Rzyiq9HclJNRGzXWecGpy/3M6E=
+	bh=T40hlLvGnUpUUDDFMvKRXKDf0Py58wyYtGcVPYYI7Ow=;
+	b=G5WF4jSI4PZMauFWP/7d5NCi55/VdiVe7citdLIriZokjzhQlf5KfHKfJ84Nvkzn
+	bRhutLMadVFEKhNGsLjvDGur7/tvrvOGKcNzaQJ2qVh+1QPtyqjwTfAyJulED1gn9wc
+	tSsz1jfseC6Znm63Cy/rT7O1A164JEGNo4RaPae4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735723957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EbF0niKcEvIyE9dSPByRfwNPgIdQVaZ/PFj/U+jD+Sc=;
-	b=nsNN74/3jdWWFTPyan8opFX8dsCDi2m+nxOi/+HBLvD+WB9Vsyts6BDj7uX9ognz
-	CIaCGzN5vzTkENebjEjFekM+jV5jVet5MoaMSR5ZxPf4ioCV8/M6f45rdu4+VTITRI3
-	0i6NPoD7EQ4BEs4jdRfJccBduFNoV0ep3zg8PRf8=
-Content-Type: multipart/mixed; boundary="===============8117409893503492182=="
+	bh=T40hlLvGnUpUUDDFMvKRXKDf0Py58wyYtGcVPYYI7Ow=;
+	b=MBCOmLM37Xl3dfF+DfQwKV8qhLX2Aq+OhJ1AXc+xU0o6SMChy5ec+RKYhC3tw47A
+	SRvn5N9Rwy7pZ0yH5C04Qn5fsS0QMDrGO0tClLIBy7+wyYmFaCRGrJ7OI0iaMAJLn6T
+	LYFpHR9ZpAq0ON03sesbaV3WOGhQwl+fEJHTT5V4=
+Content-Type: multipart/mixed; boundary="===============8076764624756822634=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] xxhash: upgrading to 0.8.3 SUCCEEDED
-Message-ID: <010101942135badf-55bfba00-77be-440c-8483-2162dafbc6a0-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jan 2025 09:32:36 +0000
+Subject: [AUH] nettle: upgrading to 3.10.1 SUCCEEDED
+Message-ID: <010101942135bdc1-2b745563-450c-4bda-b706-4ce848e1d095-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jan 2025 09:32:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.01-54.240.27.191
+X-SES-Outgoing: 2025.01.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jan 2025 09:32:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209246
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jan 2025 09:32:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209248
 
---===============8117409893503492182==
+--===============8076764624756822634==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xxhash* to *0.8.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *nettle* to *3.10.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xxhash-upgrade-0.8.2-0.8.3.patch
+    - apply the patch: git am 0001-nettle-upgrade-3.10-3.10.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,73 +72,189 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 01ff15070188545ebe62b159ae7b28a4d89edc3a Mon Sep 17 00:00:00 2001
+From 58094e7d629e35d25b6131f5955564fc9c2ba896 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jan 2025 09:32:09 +0000
-Subject: [PATCH] xxhash: upgrade 0.8.2 -> 0.8.3
+Date: Wed, 1 Jan 2025 09:29:22 +0000
+Subject: [PATCH] nettle: upgrade 3.10 -> 3.10.1
 
 ---
- .../recipes-support/xxhash/{xxhash_0.8.2.bb => xxhash_0.8.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/xxhash/{xxhash_0.8.2.bb => xxhash_0.8.3.bb} (93%)
+ .../Add-target-to-only-build-tests-not-run-them.patch    | 9 +++------
+ .../check-header-files-of-openssl-only-if-enable_.patch  | 7 ++-----
+ .../nettle/{nettle_3.10.bb => nettle_3.10.1.bb}          | 2 +-
+ 3 files changed, 6 insertions(+), 12 deletions(-)
+ rename meta/recipes-support/nettle/{nettle_3.10.bb => nettle_3.10.1.bb} (96%)
 
-diff --git a/meta/recipes-support/xxhash/xxhash_0.8.2.bb b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
-similarity index 93%
-rename from meta/recipes-support/xxhash/xxhash_0.8.2.bb
-rename to meta/recipes-support/xxhash/xxhash_0.8.3.bb
-index f16b183c95..227649854e 100644
---- a/meta/recipes-support/xxhash/xxhash_0.8.2.bb
-+++ b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=13be6b481ff5616f77dda971191bb29b \
- SRC_URI = "git://github.com/Cyan4973/xxHash.git;branch=release;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-support/nettle/nettle/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle/Add-target-to-only-build-tests-not-run-them.patch
+index 345fc43ebe..ee3e74c43b 100644
+--- a/meta/recipes-support/nettle/nettle/Add-target-to-only-build-tests-not-run-them.patch
++++ b/meta/recipes-support/nettle/nettle/Add-target-to-only-build-tests-not-run-them.patch
+@@ -1,4 +1,4 @@
+-From e9fcb2177fda228ac065d189240e2d992e86e5bf Mon Sep 17 00:00:00 2001
++From 3ea3eaf5bda21529fc8a8da3d8b07ebc3875ba7e Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Fri, 2 Aug 2024 09:48:43 -0400
+ Subject: [PATCH] Makefile.in: Add target to only build tests (not run them)
+@@ -21,7 +21,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  2 files changed, 5 insertions(+)
  
--SRCREV = "bbb27a5efb85b92a0486cf361a8635715a53f6ba"
-+SRCREV = "e626a72bc2321cd320e953a0ccf1584cad60f363"
+ diff --git a/Makefile.in b/Makefile.in
+-index 2bf7f1e8..403a868a 100644
++index 71ad761..0f239f4 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -53,6 +53,9 @@ clean distclean mostlyclean maintainer-clean tags:
+@@ -35,7 +35,7 @@ index 2bf7f1e8..403a868a 100644
+  	true
+  
+ diff --git a/testsuite/Makefile.in b/testsuite/Makefile.in
+-index 0699fa0d..8ac9983c 100644
++index 0699fa0..8ac9983 100644
+ --- a/testsuite/Makefile.in
+ +++ b/testsuite/Makefile.in
+ @@ -137,6 +137,8 @@ $(TARGETS) $(EXTRA_TARGETS): testutils.$(OBJEXT) ../non-nettle.$(OBJEXT) \
+@@ -47,6 +47,3 @@ index 0699fa0d..8ac9983c 100644
+  check: $(TS_ALL) $(TS_ALL:sc-%=%)
+  	TEST_SHLIB_DIR="$(TEST_SHLIB_DIR)" \
+  	  srcdir="$(srcdir)" \
+--- 
+-2.39.2
+-
+diff --git a/meta/recipes-support/nettle/nettle/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle/check-header-files-of-openssl-only-if-enable_.patch
+index 49d633b5f7..89b5c7bec4 100644
+--- a/meta/recipes-support/nettle/nettle/check-header-files-of-openssl-only-if-enable_.patch
++++ b/meta/recipes-support/nettle/nettle/check-header-files-of-openssl-only-if-enable_.patch
+@@ -1,4 +1,4 @@
+-From 5f7cdd2b878298577accade43a38e1a0951d17b4 Mon Sep 17 00:00:00 2001
++From ec2ca7e505e6bfe1fff2a7d6e6bb39b60b93e19a Mon Sep 17 00:00:00 2001
+ From: Haiqing Bai <Haiqing.Bai@windriver.com>
+ Date: Fri, 9 Dec 2016 15:23:17 +0800
+ Subject: [PATCH] nettle: check header files of openssl only if
+@@ -23,7 +23,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  1 file changed, 5 insertions(+), 3 deletions(-)
  
- S = "${WORKDIR}/git"
+ diff --git a/configure.ac b/configure.ac
+-index 4f27e663..673c1492 100644
++index 7c003bb..779f7ff 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -197,9 +197,11 @@ AC_TYPE_SIZE_T
+@@ -41,6 +41,3 @@ index 4f27e663..673c1492 100644
+  
+  # For use by the testsuite
+  AC_CHECK_HEADERS([valgrind/memcheck.h])
+--- 
+-2.39.2
+-
+diff --git a/meta/recipes-support/nettle/nettle_3.10.bb b/meta/recipes-support/nettle/nettle_3.10.1.bb
+similarity index 96%
+rename from meta/recipes-support/nettle/nettle_3.10.bb
+rename to meta/recipes-support/nettle/nettle_3.10.1.bb
+index 92bc78263c..85c470b10d 100644
+--- a/meta/recipes-support/nettle/nettle_3.10.bb
++++ b/meta/recipes-support/nettle/nettle_3.10.1.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+            file://check-header-files-of-openssl-only-if-enable_.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "b4c518adb174e484cb4acea54118f02380c7133771e7e9beb98a0787194ee47c"
++SRC_URI[sha256sum] = "b0fcdd7fc0cdea6e80dcf1dd85ba794af0d5b4a57e26397eee3bc193272d9132"
+ 
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
  
 -- 
 2.44.1
 
 
---===============8117409893503492182==
+--===============8076764624756822634==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xxhash: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash: PV changed from "0.8.2" to "0.8.3"
-Changes to packages/core2-64-poky-linux/xxhash (sysroot):
-  /usr/lib/libxxhash.so.0 changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
-  /usr/lib/libxxhash.so changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
-  /usr/lib/libxxhash.so.0.8.2 moved to /usr/lib/libxxhash.so.0.8.3
-packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-dbg: FILELIST: removed "/usr/lib/.debug/libxxhash.so.0.8.2", added "/usr/lib/.debug/libxxhash.so.0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-dbg: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGSIZE changed from 686896 to 1110680 (+62%)
-packages/core2-64-poky-linux/xxhash/xxhash-dev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-dev: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-dev: PKGSIZE changed from 255922 to 271145 (+6%)
-packages/core2-64-poky-linux/xxhash/xxhash-doc: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-doc: FILELIST: added "/usr/share/man/man1/xxh3sum.1"
-packages/core2-64-poky-linux/xxhash/xxhash-doc: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-doc: PKGSIZE changed from 4854 to 4878 (+0%)
-packages/core2-64-poky-linux/xxhash/xxhash-locale: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-locale: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-src: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-src: FILELIST: removed "/usr/src/debug/xxhash/0.8.2/cli/xsum_bench.h /usr/src/debug/xxhash/0.8.2/cli/xsum_sanity_check.c /usr/src/debug/xxhash/0.8.2/cli/xsum_os_specific.h /usr/src/debug/xxhash/0.8.2/cli/xsum_output.h /usr/src/debug/xxhash/0.8.2/cli/xsum_sanity_check.h /usr/src/debug/xxhash/0.8.2/cli/xsum_bench.c /usr/src/debug/xxhash/0.8.2/cli/xsum_output.c /usr/src/debug/xxhash/0.8.2/cli/xsum_os_specific.c /usr/src/debug/xxhash/0.8.2/cli/xxhsum.c /usr/src/debug/xxhash/0.8.2/xxhash.h /usr/src/debug/xxhash/0.8.2/cli/xsum_config.h", added "/usr/src/debug/xxhash/0.8.3/cli/xsum_bench.h /usr/src/debug/xxhash/0.8.3/cli/xsum_sanity_check.c /usr/src/debug/xxhash/0.8.3/xxh_x86dispatch.h /usr/src/debug/xxhash/0.8.3/cli/xsum_os_specific.h /usr/src/debug/xxhash/0.8.3/cli/xsum_output.h /usr/src/debug/xxhash/0.8.3/cli/xsum_sanity_check.h /usr/src/debug/xxhash/0.8.3/cli/xsum_bench.c /usr/src/debug/xxhash/0.8.3/cli/xsum_output.c /usr/src/debug/xxhash/0.8.3
- /xxh_x86dispatch.c /usr/src/debug/xxhash/0.8.3/cli/xsum_arch.c /usr/src/debug/xxhash/0.8.3/cli/xsum_os_specific.c /usr/src/debug/xxhash/0.8.3/cli/xsum_arch.h /usr/src/debug/xxhash/0.8.3/cli/xxhsum.c /usr/src/debug/xxhash/0.8.3/xxhash.h /usr/src/debug/xxhash/0.8.3/cli/xsum_config.h"
-packages/core2-64-poky-linux/xxhash/xxhash-src: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-src: PKGSIZE changed from 376585 to 449695 (+19%)
-packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PKGSIZE changed from 389152 to 397640 (+2%)
-packages/core2-64-poky-linux/xxhash/xxhash: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
-packages/core2-64-poky-linux/xxhash/xxhash: FILELIST: removed "/usr/lib/libxxhash.so.0.8.2", added "/usr/lib/libxxhash.so.0.8.3 /usr/bin/xxh3sum"
-packages/core2-64-poky-linux/xxhash/xxhash: PV changed from "0.8.2" to "0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash: PKGSIZE changed from 114852 to 147626 (+29%)
+packages/core2-64-poky-linux/nettle: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle: SRC_URI changed from "https://ftp.gnu.org/gnu/nettle/nettle-3.10.tar.gz file://Add-target-to-only-build-tests-not-run-them.patch file://run-ptest file://check-header-files-of-openssl-only-if-enable_.patch" to "https://ftp.gnu.org/gnu/nettle/nettle-3.10.1.tar.gz file://Add-target-to-only-build-tests-not-run-them.patch file://run-ptest file://check-header-files-of-openssl-only-if-enable_.patch"
+packages/core2-64-poky-linux/nettle: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-bin: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-bin: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-dbg: PKGSIZE changed from 34131960 to 34533992 (+1%)
+packages/core2-64-poky-linux/nettle/nettle-dbg: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-dbg: FILELIST: removed "/usr/lib/.debug/libhogweed.so.6.9 /usr/lib/.debug/libnettle.so.8.9", added "/usr/lib/.debug/libhogweed.so.6.10 /usr/lib/.debug/libnettle.so.8.10"
+packages/core2-64-poky-linux/nettle/nettle-dbg: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-dev: PKGSIZE changed from 278697 to 278815 (+0%)
+packages/core2-64-poky-linux/nettle/nettle-dev: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-dev: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-doc: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-doc: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-locale: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-locale: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-ptest: PKGSIZE changed from 10707858 to 10822563 (+1%)
+packages/core2-64-poky-linux/nettle/nettle-ptest: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-ptest: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-src: PKGSIZE changed from 4696575 to 4705207 (+0%)
+packages/core2-64-poky-linux/nettle/nettle-src: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-src: FILELIST: directory renamed /usr/src/debug/nettle/3.10/examples -> /usr/src/debug/nettle/3.10.1/examples, directory renamed /usr/src/debug/nettle/3.10/testsuite -> /usr/src/debug/nettle/3.10.1/testsuite, directory renamed /usr/src/debug/nettle/3.10/tools -> /usr/src/debug/nettle/3.10.1/tools, removed "/usr/src/debug/nettle/3.10/dsa-compat.h /usr/src/debug/nettle/3.10/md5-compat.h /usr/src/debug/nettle/3.10/md5-compat.c /usr/src/debug/nettle/3.10/dsa-compat.c /usr/src/debug/nettle/3.10/rsa-pkcs1-verify.c /usr/src/debug/nettle/3.10/aes192-decrypt.c /usr/src/debug/nettle/3.10/aes192-encrypt.c /usr/src/debug/nettle/3.10/write-be32.c /usr/src/debug/nettle/3.10/drbg-ctr.h /usr/src/debug/nettle/3.10/pbkdf2-hmac-gosthash94.c /usr/src/debug/nettle/3.10/gcm-sm4.c /usr/src/debug/nettle/3.10/dsa-sign.c /usr/src/debug/nettle/3.10/rsa-sign.c /usr/src/debug/nettle/3.10/sha3-224.c /usr/src/debug/nettle/3.10/cbc.h /usr/src/debug/nettle/3.10/cbc.c /usr/s
+ rc/debug/nettle/3.10/ecdsa-verify.c /usr/src/debug/nettle/3.10/eddsa-verify.c /usr/src/debug/nettle/3.10/sha1-compress.s /usr/src/debug/nettle/3.10/rsa-md5-verify.c /usr/src/debug/nettle/3.10/rsa2sexp.c /usr/src/debug/nettle/3.10/dsa2sexp.c /usr/src/debug/nettle/3.10/ripemd160.c /usr/src/debug/nettle/3.10/gost28147-internal.h /usr/src/debug/nettle/3.10/ripemd160.h /usr/src/debug/nettle/3.10/nettle-internal.h /usr/src/debug/nettle/3.10/rsa-sha1-sign-tr.c /usr/src/debug/nettle/3.10/salsa20-set-key.c /usr/src/debug/nettle/3.10/curve448-eh-to-x.c /usr/src/debug/nettle/3.10/dsa-compat-keygen.c /usr/src/debug/nettle/3.10/ecc-mod-arith.c /usr/src/debug/nettle/3.10/ecc-gost-gc256b.c /usr/src/debug/nettle/3.10/ecc-add-ehh.c /usr/src/debug/nettle/3.10/der-iterator.c /usr/src/debug/nettle/3.10/siv-ghash-set-key.c /usr/src/debug/nettle/3.10/ecc-gost-gc256b.h /usr/src/debug/nettle/3.10/camellia128-meta.c /usr/src/debug/nettle/3.10/camellia192-meta.c /usr/src/debug/nettle/3.10/camellia256-meta.c 
+ /usr/src/debug/nettle/3.10/ccm-aes192.c /usr/src/debug/nettle/3.10/gcm-aes192.c /usr/src/debug/nettle/3.10/siv-gcm-aes256.c /usr/src/debug/nettle/3.10/ecc-gostdsa-verify.c /usr/src/debug/nettle/3.10/dsa-verify.c /usr/src/debug/nettle/3.10/rsa-verify.c /usr/src/debug/nettle/3.10/umac-nh-n.s /usr/src/debug/nettle/3.10/aes256-meta.c /usr/src/debug/nettle/3.10/base16-meta.c /usr/src/debug/nettle/3.10/sha256-meta.c /usr/src/debug/nettle/3.10/rsa-sec-decrypt.c /usr/src/debug/nettle/3.10/fat-x86_64.c /usr/src/debug/nettle/3.10/gcm.h /usr/src/debug/nettle/3.10/sm4.c /usr/src/debug/nettle/3.10/gcm.c /usr/src/debug/nettle/3.10/dsa-keygen.c /usr/src/debug/nettle/3.10/ecc-curve25519-modp.s /usr/src/debug/nettle/3.10/aes192-set-decrypt-key.c /usr/src/debug/nettle/3.10/aes192-set-encrypt-key.c /usr/src/debug/nettle/3.10/rsa-keygen.c /usr/src/debug/nettle/3.10/ripemd160-internal.h /usr/src/debug/nettle/3.10/sha3-384.c /usr/src/debug/nettle/3.10/sha3-256-meta.c /usr/src/debug/nettle/3.10/sm4.h /usr
+ /src/debug/nettle/3.10/hmac-sm3.c /usr/src/debug/nettle/3.10/chacha-crypt.c /usr/src/debug/nettle/3.10/ecc-dup-eh.c /usr/src/debug/nettle/3.10/ecc-add-th.c /usr/src/debug/nettle/3.10/nettle-meta-armors.c /usr/src/debug/nettle/3.10/curve448.h /usr/src/debug/nettle/3.10/ecc-size.c /usr/src/debug/nettle/3.10/sha3-shake.c /usr/src/debug/nettle/3.10/hmac-md5-meta.c /usr/src/debug/nettle/3.10/pbkdf2-hmac-sha512.c /usr/src/debug/nettle/3.10/rsa-md5-sign-tr.c /usr/src/debug/nettle/3.10/sha3-512-meta.c /usr/src/debug/nettle/3.10/twofish.c /usr/src/debug/nettle/3.10/poly1305-internal.h /usr/src/debug/nettle/3.10/twofish.h /usr/src/debug/nettle/3.10/umac-l2.c /usr/src/debug/nettle/3.10/ed25519-sha512.c /usr/src/debug/nettle/3.10/eddsa-expand.c /usr/src/debug/nettle/3.10/umac-set-key.c /usr/src/debug/nettle/3.10/poly1305-internal.s /usr/src/debug/nettle/3.10/camellia-absorb.c /usr/src/debug/nettle/3.10/ghash-update.s /usr/src/debug/nettle/3.10/camellia128-set-decrypt-key.c /usr/src/debug/nettle
+ /3.10/camellia128-set-encrypt-key.c /usr/src/debug/nettle/3.10/camellia256-set-decrypt-key.c /usr/src/debug/nettle/3.10/camellia256-set-encrypt-key.c /usr/src/debug/nettle/3.10/sha256-compress-n-2.s /usr/src/debug/nettle/3.10/eddsa-decompress.c /usr/src/debug/nettle/3.10/bignum-random-prime.c /usr/src/debug/nettle/3.10/gostdsa-verify.c /usr/src/debug/nettle/3.10/hogweed-internal.h /usr/src/debug/nettle/3.10/umac-poly128.c /usr/src/debug/nettle/3.10/gosthash94-meta.c /usr/src/debug/nettle/3.10/sha512-compress.s /usr/src/debug/nettle/3.10/gost28147.c /usr/src/debug/nettle/3.10/aes256-decrypt.c /usr/src/debug/nettle/3.10/aes256-encrypt.c /usr/src/debug/nettle/3.10/ed448-shake256-sign.c /usr/src/debug/nettle/3.10/hmac-streebog.c /usr/src/debug/nettle/3.10/base16-decode.c /usr/src/debug/nettle/3.10/base16-encode.c /usr/src/debug/nettle/3.10/pkcs1-rsa-sha512.c /usr/src/debug/nettle/3.10/ecc-curve448.c /usr/src/debug/nettle/3.10/ecc-curve448.h /usr/src/debug/nettle/3.10/base64-decode.c /us
+ r/src/debug/nettle/3.10/base64-encode.c /usr/src/debug/nettle/3.10/memxor-2.s /usr/src/debug/nettle/3.10/serpent-encrypt.s /usr/src/debug/nettle/3.10/serpent-decrypt.s /usr/src/debug/nettle/3.10/salsa20-128-set-key.c /usr/src/debug/nettle/3.10/salsa20-256-set-key.c /usr/src/debug/nettle/3.10/rsa-sha256-sign-tr.c /usr/src/debug/nettle/3.10/rsa-sha512-sign-tr.c /usr/src/debug/nettle/3.10/ghash-set-key.c /usr/src/debug/nettle/3.10/nettle-meta-aeads.c /usr/src/debug/nettle/3.10/rsa.h /usr/src/debug/nettle/3.10/rsa.c /usr/src/debug/nettle/3.10/cmac-des3.c /usr/src/debug/nettle/3.10/ecc-secp256r1-redc.s /usr/src/debug/nettle/3.10/cfb.h /usr/src/debug/nettle/3.10/balloon-sha256.c /usr/src/debug/nettle/3.10/aes256-set-decrypt-key.c /usr/src/debug/nettle/3.10/aes256-set-encrypt-key.c /usr/src/debug/nettle/3.10/cfb.c /usr/src/debug/nettle/3.10/md2-meta.c /usr/src/debug/nettle/3.10/md4-meta.c /usr/src/debug/nettle/3.10/md5-meta.c /usr/src/debug/nettle/3.10/sm3-meta.c /usr/src/debug/nettle/3.10
+ /sm4-meta.c /usr/src/debug/nettle/3.10/aes256-decrypt-2.s /usr/src/debug/nettle/3.10/aes256-encrypt-2.s /usr/src/debug/nettle/3.10/md-internal.h /usr/src/debug/nettle/3.10/salsa20-set-nonce.c /usr/src/debug/nettle/3.10/sm3.h /usr/src/debug/nettle/3.10/sm3.c /usr/src/debug/nettle/3.10/memeql-sec.c /usr/src/debug/nettle/3.10/cmac-aes128.c /usr/src/debug/nettle/3.10/sexp-format.c /usr/src/debug/nettle/3.10/ecc-mul-a.c /usr/src/debug/nettle/3.10/salsa20-core-internal.s /usr/src/debug/nettle/3.10/ed25519-sha512-pubkey.c /usr/src/debug/nettle/3.10/ed25519-sha512-verify.c /usr/src/debug/nettle/3.10/write-le32.c /usr/src/debug/nettle/3.10/ghash-update-2.s /usr/src/debug/nettle/3.10/ecc-gost-gc512a.c /usr/src/debug/nettle/3.10/sha2-internal.h /usr/src/debug/nettle/3.10/ecc-dup-jj.c /usr/src/debug/nettle/3.10/ecc-gost-gc512a.h /usr/src/debug/nettle/3.10/sha3-internal.h /usr/src/debug/nettle/3.10/umac-internal.h /usr/src/debug/nettle/3.10/nettle-lookup-hash.c /usr/src/debug/nettle/3.10/hmac-st
+ reebog-meta.c /usr/src/debug/nettle/3.10/ecc-point-mul-g.c /usr/src/debug/nettle/3.10/salsa20-internal.h /usr/src/debug/nettle/3.10/hmac-sha1-meta.c /usr/src/debug/nettle/3.10/cmac-des3-meta.c /usr/src/debug/nettle/3.10/ed448-shake256-pubkey.c /usr/src/debug/nettle/3.10/ed448-shake256-verify.c /usr/src/debug/nettle/3.10/gostdsa.h /usr/src/debug/nettle/3.10/curve25519-mul-g.c /usr/src/debug/nettle/3.10/aes-decrypt-internal.s /usr/src/debug/nettle/3.10/der2dsa.c /usr/src/debug/nettle/3.10/der2rsa.c /usr/src/debug/nettle/3.10/rsa-sign-tr.c /usr/src/debug/nettle/3.10/poly1305.h /usr/src/debug/nettle/3.10/gmp-glue.c /usr/src/debug/nettle/3.10/camellia-internal.h /usr/src/debug/nettle/3.10/knuth-lfib.c /usr/src/debug/nettle/3.10/sha1-compress-2.s /usr/src/debug/nettle/3.10/curve448-mul.c /usr/src/debug/nettle/3.10/balloon-sha384.c /usr/src/debug/nettle/3.10/sha384-meta.c /usr/src/debug/nettle/3.10/base64-meta.c /usr/src/debug/nettle/3.10/cmac-aes128-meta.c /usr/src/debug/nettle/3.10/cmac-
+ aes256-meta.c /usr/src/debug/nettle/3.10/gmp-glue.h /usr/src/debug/nettle/3.10/knuth-lfib.h /usr/src/debug/nettle/3.10/pbkdf2-hmac-sha256.c /usr/src/debug/nettle/3.10/curve25519-eh-to-x.c /usr/src/debug/nettle/3.10/sha224-meta.c /usr/src/debug/nettle/3.10/balloon-sha512.c /usr/src/debug/nettle/3.10/ecc-mod.c /usr/src/debug/nettle/3.10/aes128-decrypt.c /usr/src/debug/nettle/3.10/aes128-encrypt.c /usr/src/debug/nettle/3.10/write-le64.c /usr/src/debug/nettle/3.10/eax.h /usr/src/debug/nettle/3.10/eax.c /usr/src/debug/nettle/3.10/camellia128-crypt.c /usr/src/debug/nettle/3.10/aes192-meta.c /usr/src/debug/nettle/3.10/camellia256-crypt.c /usr/src/debug/nettle/3.10/sha512-meta.c /usr/src/debug/nettle/3.10/ecc-a-to-j.c /usr/src/debug/nettle/3.10/salsa20.h /usr/src/debug/nettle/3.10/ecc-add-thh.c /usr/src/debug/nettle/3.10/aes.h /usr/src/debug/nettle/3.10/dsa.c /usr/src/debug/nettle/3.10/dsa.h /usr/src/debug/nettle/3.10/chacha-poly1305-meta.c /usr/src/debug/nettle/3.10/cast128.h /usr/src/debu
+ g/nettle/3.10/chacha-poly1305.c /usr/src/debug/nettle/3.10/poly1305-update.c /usr/src/debug/nettle/3.10/nettle-meta-hashes.c /usr/src/debug/nettle/3.10/chacha-poly1305.h /usr/src/debug/nettle/3.10/cast128.c /usr/src/debug/nettle/3.10/umac128.c /usr/src/debug/nettle/3.10/ecc-add-jja.c /usr/src/debug/nettle/3.10/pkcs1-rsa-sha256.c /usr/src/debug/nettle/3.10/sha3-256.c /usr/src/debug/nettle/3.10/aes-decrypt.c /usr/src/debug/nettle/3.10/rsa-decrypt.c /usr/src/debug/nettle/3.10/shake256.c /usr/src/debug/nettle/3.10/ecc-curve25519.c /usr/src/debug/nettle/3.10/ecc-curve25519.h /usr/src/debug/nettle/3.10/ecdsa-keygen.c /usr/src/debug/nettle/3.10/ecc-dup-th.c /usr/src/debug/nettle/3.10/sexp2rsa.c /usr/src/debug/nettle/3.10/desCode.h /usr/src/debug/nettle/3.10/sha3-384-meta.c /usr/src/debug/nettle/3.10/hmac-ripemd160-meta.c /usr/src/debug/nettle/3.10/ctr16.c /usr/src/debug/nettle/3.10/pkcs1.c /usr/src/debug/nettle/3.10/ecdsa.h /usr/src/debug/nettle/3.10/eddsa.h /usr/src/debug/nettle/3.10/pkcs
+ 1.h /usr/src/debug/nettle/3.10/rsa-pss-sha256-verify.c /usr/src/debug/nettle/3.10/ecc-random.c /usr/src/debug/nettle/3.10/cpuid.s /usr/src/debug/nettle/3.10/pkcs1-sec-decrypt.c /usr/src/debug/nettle/3.10/sha3-permute.s /usr/src/debug/nettle/3.10/getopt_int.h /usr/src/debug/nettle/3.10/siv-cmac.c /usr/src/debug/nettle/3.10/asn1.h /usr/src/debug/nettle/3.10/cmac.h /usr/src/debug/nettle/3.10/hkdf.h /usr/src/debug/nettle/3.10/siv-cmac.h /usr/src/debug/nettle/3.10/buffer-init.c /usr/src/debug/nettle/3.10/curve25519-mul.c /usr/src/debug/nettle/3.10/des3.c /usr/src/debug/nettle/3.10/rsa-blind.c /usr/src/debug/nettle/3.10/hkdf.c /usr/src/debug/nettle/3.10/hmac.c /usr/src/debug/nettle/3.10/oaep.c /usr/src/debug/nettle/3.10/gcm-camellia256-meta.c /usr/src/debug/nettle/3.10/gcm-camellia256.c /usr/src/debug/nettle/3.10/siv-gcm-aes128.c /usr/src/debug/nettle/3.10/rsa-pss-sha512-verify.c /usr/src/debug/nettle/3.10/ctr.c /usr/src/debug/nettle/3.10/hmac-sha384.c /usr/src/debug/nettle/3.10/ctr.h /us
+ r/src/debug/nettle/3.10/serpent-internal.h /usr/src/debug/nettle/3.10/salsa20-2core.s /usr/src/debug/nettle/3.10/streebog.c /usr/src/debug/nettle/3.10/pkcs1-encrypt.c /usr/src/debug/nettle/3.10/streebog.h /usr/src/debug/nettle/3.10/hmac-sha256.c /usr/src/debug/nettle/3.10/aes-decrypt-table.c /usr/src/debug/nettle/3.10/pbkdf2.h /usr/src/debug/nettle/3.10/salsa20-crypt.c /usr/src/debug/nettle/3.10/sec-add-1.c /usr/src/debug/nettle/3.10/arctwo-meta.c /usr/src/debug/nettle/3.10/pbkdf2.c /usr/src/debug/nettle/3.10/sha512.c /usr/src/debug/nettle/3.10/umac32.c /usr/src/debug/nettle/3.10/hmac-sha512.c /usr/src/debug/nettle/3.10/yarrow256.c /usr/src/debug/nettle/3.10/ecc-pm1-redc.c /usr/src/debug/nettle/3.10/umac-l3.c /usr/src/debug/nettle/3.10/aes-invert-internal.c /usr/src/debug/nettle/3.10/blowfish-internal.h /usr/src/debug/nettle/3.10/base64url-decode.c /usr/src/debug/nettle/3.10/base64url-encode.c /usr/src/debug/nettle/3.10/ecc-scalar.c /usr/src/debug/nettle/3.10/ecdsa-sign.c /usr/src/d
+ ebug/nettle/3.10/eddsa-sign.c /usr/src/debug/nettle/3.10/sha1-meta.c /usr/src/debug/nettle/3.10/ecc-curve448-modp.s /usr/src/debug/nettle/3.10/cbc-aes128-encrypt.c /usr/src/debug/nettle/3.10/cbc-aes192-encrypt.c /usr/src/debug/nettle/3.10/cbc-aes256-encrypt.c /usr/src/debug/nettle/3.10/cnd-memcpy.c /usr/src/debug/nettle/3.10/ecc-mod-inv.c /usr/src/debug/nettle/3.10/yarrow_key_event.c /usr/src/debug/nettle/3.10/ccm.h /usr/src/debug/nettle/3.10/cast128_sboxes.h /usr/src/debug/nettle/3.10/ccm.c /usr/src/debug/nettle/3.10/hmac-sha1.c /usr/src/debug/nettle/3.10/ecc-j-to-a.c /usr/src/debug/nettle/3.10/curve25519.h /usr/src/debug/nettle/3.10/arctwo.c /usr/src/debug/nettle/3.10/hmac.h /usr/src/debug/nettle/3.10/oaep.h /usr/src/debug/nettle/3.10/sexp.h /usr/src/debug/nettle/3.10/sha1.h /usr/src/debug/nettle/3.10/sha2.h /usr/src/debug/nettle/3.10/sha3.h /usr/src/debug/nettle/3.10/umac.h /usr/src/debug/nettle/3.10/sha3.c /usr/src/debug/nettle/3.10/aes-encrypt-table.c /usr/src/debug/nettle/3.10
+ /arctwo.h /usr/src/debug/nettle/3.10/sexp.c /usr/src/debug/nettle/3.10/chacha-core-internal.s /usr/src/debug/nettle/3.10/sha1.c /usr/src/debug/nettle/3.10/cmac.c /usr/src/debug/nettle/3.10/gcm-aes.c /usr/src/debug/nettle/3.10/blowfish-bcrypt.c /usr/src/debug/nettle/3.10/salsa20-crypt-internal.c /usr/src/debug/nettle/3.10/ecc-secp192r1-modp.s /usr/src/debug/nettle/3.10/ecc-secp224r1-modp.s /usr/src/debug/nettle/3.10/ecc-secp384r1-modp.s /usr/src/debug/nettle/3.10/ecc-secp521r1-modp.s /usr/src/debug/nettle/3.10/gosthash94.h /usr/src/debug/nettle/3.10/block-internal.h /usr/src/debug/nettle/3.10/bswap-internal.h /usr/src/debug/nettle/3.10/eddsa-internal.h /usr/src/debug/nettle/3.10/ghash-internal.h /usr/src/debug/nettle/3.10/gosthash94.c /usr/src/debug/nettle/3.10/pkcs1-internal.h /usr/src/debug/nettle/3.10/cnd-copy.c /usr/src/debug/nettle/3.10/dsa-sha256-verify.c /usr/src/debug/nettle/3.10/rsa-sha256-verify.c /usr/src/debug/nettle/3.10/rsa-sha512-verify.c /usr/src/debug/nettle/3.10/rsa
+ -md5-sign.c /usr/src/debug/nettle/3.10/chacha.h /usr/src/debug/nettle/3.10/sha256.c /usr/src/debug/nettle/3.10/umac96.c /usr/src/debug/nettle/3.10/ecc-add-eh.c /usr/src/debug/nettle/3.10/base16.h /usr/src/debug/nettle/3.10/config.h /usr/src/debug/nettle/3.10/streebog-meta.c /usr/src/debug/nettle/3.10/cmac64.c /usr/src/debug/nettle/3.10/umac64.c /usr/src/debug/nettle/3.10/siv-ghash-update.c /usr/src/debug/nettle/3.10/pbkdf2-hmac-sha384.c /usr/src/debug/nettle/3.10/sexp2dsa.c /usr/src/debug/nettle/3.10/base64.h /usr/src/debug/nettle/3.10/aes128-decrypt-2.s /usr/src/debug/nettle/3.10/aes128-encrypt-2.s /usr/src/debug/nettle/3.10/aes128-set-decrypt-key.c /usr/src/debug/nettle/3.10/aes128-set-encrypt-key.c /usr/src/debug/nettle/3.10/base64url-meta.c /usr/src/debug/nettle/3.10/non-nettle.h /usr/src/debug/nettle/3.10/non-nettle.c /usr/src/debug/nettle/3.10/pkcs1-rsa-md5.c /usr/src/debug/nettle/3.10/aes-encrypt-internal.s /usr/src/debug/nettle/3.10/aes-encrypt.c /usr/src/debug/nettle/3.10/r
+ sa-encrypt.c /usr/src/debug/nettle/3.10/balloon.c /usr/src/debug/nettle/3.10/ocb.h /usr/src/debug/nettle/3.10/version.c /usr/src/debug/nettle/3.10/sec-sub-1.c /usr/src/debug/nettle/3.10/ocb.c /usr/src/debug/nettle/3.10/balloon.h /usr/src/debug/nettle/3.10/version.h /usr/src/debug/nettle/3.10/rsa-decrypt-tr.c /usr/src/debug/nettle/3.10/camellia-invert-key.c /usr/src/debug/nettle/3.10/camellia-crypt-internal.s /usr/src/debug/nettle/3.10/poly1305-blocks.s /usr/src/debug/nettle/3.10/gcm-sm4-meta.c /usr/src/debug/nettle/3.10/salsa20r12-crypt.c /usr/src/debug/nettle/3.10/serpent-set-key.c /usr/src/debug/nettle/3.10/eax-aes128-meta.c /usr/src/debug/nettle/3.10/gcm-aes128-meta.c /usr/src/debug/nettle/3.10/gcm-aes192-meta.c /usr/src/debug/nettle/3.10/gcm-aes256-meta.c /usr/src/debug/nettle/3.10/hmac-md5.c /usr/src/debug/nettle/3.10/bignum.c /usr/src/debug/nettle/3.10/umac-poly64.c /usr/src/debug/nettle/3.10/bignum.h /usr/src/debug/nettle/3.10/sexp-transport-format.c /usr/src/debug/nettle/3.1
+ 0/aes-set-decrypt-key.c /usr/src/debug/nettle/3.10/hmac-sha224.c /usr/src/debug/nettle/3.10/aes-set-encrypt-key.c /usr/src/debug/nettle/3.10/sha3-512.c /usr/src/debug/nettle/3.10/ecc-mul-m.c /usr/src/debug/nettle/3.10/gostdsa-sign.c /usr/src/debug/nettle/3.10/cast128-meta.c /usr/src/debug/nettle/3.10/ripemd160-compress.c /usr/src/debug/nettle/3.10/nettle-meta-macs.c /usr/src/debug/nettle/3.10/yarrow.h /usr/src/debug/nettle/3.10/eddsa-hash.c /usr/src/debug/nettle/3.10/ecc-mul-g.c /usr/src/debug/nettle/3.10/ecc-point-mul.c /usr/src/debug/nettle/3.10/ecc-secp384r1.h /usr/src/debug/nettle/3.10/ecc-secp521r1.h /usr/src/debug/nettle/3.10/ecc-secp192r1.h /usr/src/debug/nettle/3.10/ecc-secp224r1.h /usr/src/debug/nettle/3.10/drbg-ctr-aes256.c /usr/src/debug/nettle/3.10/md5.c /usr/src/debug/nettle/3.10/ghash-set-key-2.s /usr/src/debug/nettle/3.10/md5.h /usr/src/debug/nettle/3.10/macros.h /usr/src/debug/nettle/3.10/memops.h /usr/src/debug/nettle/3.10/rotors.h /usr/src/debug/nettle/3.10/camelli
+ a.h /usr/src/debug/nettle/3.10/getopt1.c /usr/src/debug/nettle/3.10/pkcs1-rsa-sha1.c /usr/src/debug/nettle/3.10/ccm-aes256.c /usr/src/debug/nettle/3.10/gcm-aes256.c /usr/src/debug/nettle/3.10/rsa-pkcs1-sign-tr.c /usr/src/debug/nettle/3.10/xts-aes256.c /usr/src/debug/nettle/3.10/sha256-compress-n.s /usr/src/debug/nettle/3.10/keymap.h /usr/src/debug/nettle/3.10/rsa-pkcs1-sign.c /usr/src/debug/nettle/3.10/dsa-sha1-sign.c /usr/src/debug/nettle/3.10/rsa-sha1-sign.c /usr/src/debug/nettle/3.10/sha3-224-meta.c /usr/src/debug/nettle/3.10/pss-mgf1.c /usr/src/debug/nettle/3.10/nettle-types.h /usr/src/debug/nettle/3.10/nettle-write.h /usr/src/debug/nettle/3.10/pss-mgf1.h /usr/src/debug/nettle/3.10/getopt.c /usr/src/debug/nettle/3.10/nettle-meta.h /usr/src/debug/nettle/3.10/getopt.h /usr/src/debug/nettle/3.10/md4.c /usr/src/debug/nettle/3.10/curve448-mul-g.c /usr/src/debug/nettle/3.10/md4.h /usr/src/debug/nettle/3.10/siv-cmac-aes256.c /usr/src/debug/nettle/3.10/dsa-sha256-sign.c /usr/src/debug/n
+ ettle/3.10/rsa-sha256-sign.c /usr/src/debug/nettle/3.10/rsa-sha512-sign.c /usr/src/debug/nettle/3.10/bignum-random.c /usr/src/debug/nettle/3.10/memxor.s /usr/src/debug/nettle/3.10/buffer.h /usr/src/debug/nettle/3.10/memxor.h /usr/src/debug/nettle/3.10/cmac-aes256.c /usr/src/debug/nettle/3.10/ecc-nonsec-add-jjj.c /usr/src/debug/nettle/3.10/buffer.c /usr/src/debug/nettle/3.10/cbc-aes128-encrypt-2.s /usr/src/debug/nettle/3.10/cbc-aes192-encrypt-2.s /usr/src/debug/nettle/3.10/cbc-aes256-encrypt-2.s /usr/src/debug/nettle/3.10/sexp2bignum.c /usr/src/debug/nettle/3.10/eddsa-pubkey.c /usr/src/debug/nettle/3.10/sexp-transport.c /usr/src/debug/nettle/3.10/twofish-meta.c /usr/src/debug/nettle/3.10/dsa-hash.c /usr/src/debug/nettle/3.10/hmac-gosthash94.c /usr/src/debug/nettle/3.10/fat-setup.h /usr/src/debug/nettle/3.10/realloc.c /usr/src/debug/nettle/3.10/realloc.h /usr/src/debug/nettle/3.10/pss.c /usr/src/debug/nettle/3.10/ecc-gostdsa-sign.c /usr/src/debug/nettle/3.10/pss.h /usr/src/debug/nettl
+ e/3.10/camellia-table.c /usr/src/debug/nettle/3.10/serpent.h /usr/src/debug/nettle/3.10/siv-cmac-aes128.c /usr/src/debug/nettle/3.10/dsa-gen-params.c /usr/src/debug/nettle/3.10/pgp.h /usr/src/debug/nettle/3.10/poly1305-aes.c /usr/src/debug/nettle/3.10/nist-keywrap.h /usr/src/debug/nettle/3.10/ripemd160-meta.c /usr/src/debug/nettle/3.10/eddsa-compress.c /usr/src/debug/nettle/3.10/balloon-sha1.c /usr/src/debug/nettle/3.10/nist-keywrap.c /usr/src/debug/nettle/3.10/chacha-set-key.c /usr/src/debug/nettle/3.10/hmac-sm3-meta.c /usr/src/debug/nettle/3.10/ccm-aes128.c /usr/src/debug/nettle/3.10/eax-aes128.c /usr/src/debug/nettle/3.10/gcm-aes128.c /usr/src/debug/nettle/3.10/ocb-aes128.c /usr/src/debug/nettle/3.10/gcm-camellia128-meta.c /usr/src/debug/nettle/3.10/xts-aes128.c /usr/src/debug/nettle/3.10/ecc-curve.h /usr/src/debug/nettle/3.10/nettle-meta-ciphers.c /usr/src/debug/nettle/3.10/ecc-add-jjj.c /usr/src/debug/nettle/3.10/ecc.h /usr/src/debug/nettle/3.10/pkcs1-decrypt.c /usr/src/debug/n
+ ettle/3.10/pbkdf2-hmac-sha1.c /usr/src/debug/nettle/3.10/ed25519-sha512-sign.c /usr/src/debug/nettle/3.10/rsa-oaep-decrypt.c /usr/src/debug/nettle/3.10/rsa-oaep-encrypt.c /usr/src/debug/nettle/3.10/umac-nh.s /usr/src/debug/nettle/3.10/xts.h /usr/src/debug/nettle/3.10/md2.h /usr/src/debug/nettle/3.10/pkcs1-rsa-digest.c /usr/src/debug/nettle/3.10/xts.c /usr/src/debug/nettle/3.10/md2.c /usr/src/debug/nettle/3.10/dsa-sha1-verify.c /usr/src/debug/nettle/3.10/rsa-sha1-verify.c /usr/src/debug/nettle/3.10/rsa2openpgp.c /usr/src/debug/nettle/3.10/chacha-internal.h /usr/src/debug/nettle/3.10/pgp-encode.c /usr/src/debug/nettle/3.10/aes-internal.h /usr/src/debug/nettle/3.10/ctr-internal.h /usr/src/debug/nettle/3.10/dsa-internal.h /usr/src/debug/nettle/3.10/ecc-internal.h /usr/src/debug/nettle/3.10/gcm-internal.h /usr/src/debug/nettle/3.10/rsa-internal.h /usr/src/debug/nettle/3.10/shake128.c /usr/src/debug/nettle/3.10/serpent-meta.c /usr/src/debug/nettle/3.10/gostdsa-vko.c /usr/src/debug/nettle/
+ 3.10/des.h /usr/src/debug/nettle/3.10/gcm-camellia128.c /usr/src/debug/nettle/3.10/ecc-ecdsa-verify.c /usr/src/debug/nettle/3.10/hmac-sha224-meta.c /usr/src/debug/nettle/3.10/hmac-sha256-meta.c /usr/src/debug/nettle/3.10/hmac-sha384-meta.c /usr/src/debug/nettle/3.10/des.c /usr/src/debug/nettle/3.10/ecc-point.c /usr/src/debug/nettle/3.10/hmac-sha512-meta.c /usr/src/debug/nettle/3.10/rsa-pss-sha256-sign-tr.c /usr/src/debug/nettle/3.10/chacha-set-nonce.c /usr/src/debug/nettle/3.10/memxor3.s /usr/src/debug/nettle/3.10/ecc-pp1-redc.c /usr/src/debug/nettle/3.10/aes-set-key-internal.c /usr/src/debug/nettle/3.10/ed448-shake256.c /usr/src/debug/nettle/3.10/blowfish.h /usr/src/debug/nettle/3.10/blowfish.c /usr/src/debug/nettle/3.10/rsa-pss-sha512-sign-tr.c /usr/src/debug/nettle/3.10/arcfour.h /usr/src/debug/nettle/3.10/aes192-decrypt-2.s /usr/src/debug/nettle/3.10/aes192-encrypt-2.s /usr/src/debug/nettle/3.10/aes128-meta.c /usr/src/debug/nettle/3.10/arcfour.c /usr/src/debug/nettle/3.10/siv-gc
+ m.h /usr/src/debug/nettle/3.10/sha512-224-meta.c /usr/src/debug/nettle/3.10/sha512-256-meta.c /usr/src/debug/nettle/3.10/ecc-mul-a-eh.c /usr/src/debug/nettle/3.10/ecc-mul-g-eh.c /usr/src/debug/nettle/3.10/rsa-sec-compute-root.c /usr/src/debug/nettle/3.10/ecc-ecdsa-sign.c /usr/src/debug/nettle/3.10/siv-gcm.c /usr/src/debug/nettle/3.10/ecc-secp192r1.c /usr/src/debug/nettle/3.10/ecc-secp224r1.c /usr/src/debug/nettle/3.10/ecc-secp256r1.c /usr/src/debug/nettle/3.10/ecc-secp384r1.c /usr/src/debug/nettle/3.10/ecc-secp521r1.c /usr/src/debug/nettle/3.10/ecc-secp256r1.h /usr/src/debug/nettle/3.10/hmac-ripemd160.c /usr/src/debug/nettle/3.10/ecc-eh-to-a.c", added "/usr/src/debug/nettle/3.10.1/sexp2bignum.c /usr/src/debug/nettle/3.10.1/ecc-add-ehh.c /usr/src/debug/nettle/3.10.1/ecc-add-jja.c /usr/src/debug/nettle/3.10.1/ecc-add-jjj.c /usr/src/debug/nettle/3.10.1/ecc-add-thh.c /usr/src/debug/nettle/3.10.1/salsa20-set-key.c /usr/src/debug/nettle/3.10.1/pbkdf2-hmac-sha256.c /usr/src/debug/nettle/3.
+ 10.1/pbkdf2-hmac-sha384.c /usr/src/debug/nettle/3.10.1/pbkdf2-hmac-sha512.c /usr/src/debug/nettle/3.10.1/chacha-poly1305-meta.c /usr/src/debug/nettle/3.10.1/poly1305-blocks.s /usr/src/debug/nettle/3.10.1/eddsa-internal.h /usr/src/debug/nettle/3.10.1/sha1.h /usr/src/debug/nettle/3.10.1/asn1.h /usr/src/debug/nettle/3.10.1/pkcs1-internal.h /usr/src/debug/nettle/3.10.1/sha1.c /usr/src/debug/nettle/3.10.1/aes128-encrypt.c /usr/src/debug/nettle/3.10.1/aes128-decrypt.c /usr/src/debug/nettle/3.10.1/sha3-224.c /usr/src/debug/nettle/3.10.1/getopt.h /usr/src/debug/nettle/3.10.1/non-nettle.h /usr/src/debug/nettle/3.10.1/rsa-md5-sign-tr.c /usr/src/debug/nettle/3.10.1/getopt.c /usr/src/debug/nettle/3.10.1/bignum-random.c /usr/src/debug/nettle/3.10.1/dsa-verify.c /usr/src/debug/nettle/3.10.1/non-nettle.c /usr/src/debug/nettle/3.10.1/rsa-verify.c /usr/src/debug/nettle/3.10.1/pkcs1-rsa-md5.c /usr/src/debug/nettle/3.10.1/curve448-mul-g.c /usr/src/debug/nettle/3.10.1/cnd-copy.c /usr/src/debug/nettle/3
+ .10.1/sexp2rsa.c /usr/src/debug/nettle/3.10.1/ecc-secp256r1.c /usr/src/debug/nettle/3.10.1/ecc-secp384r1.c /usr/src/debug/nettle/3.10.1/ecc-secp521r1.c /usr/src/debug/nettle/3.10.1/ecc-secp192r1.c /usr/src/debug/nettle/3.10.1/ecc-secp224r1.c /usr/src/debug/nettle/3.10.1/ecc-secp192r1.h /usr/src/debug/nettle/3.10.1/ecc-secp224r1.h /usr/src/debug/nettle/3.10.1/ecc-secp256r1.h /usr/src/debug/nettle/3.10.1/ecc-secp384r1.h /usr/src/debug/nettle/3.10.1/ecc-mod.c /usr/src/debug/nettle/3.10.1/ecc-secp521r1.h /usr/src/debug/nettle/3.10.1/gcm-aes192.c /usr/src/debug/nettle/3.10.1/gcm-aes256.c /usr/src/debug/nettle/3.10.1/ccm-aes128.c /usr/src/debug/nettle/3.10.1/ccm-aes192.c /usr/src/debug/nettle/3.10.1/ecc-ecdsa-sign.c /usr/src/debug/nettle/3.10.1/ccm-aes256.c /usr/src/debug/nettle/3.10.1/drbg-ctr-aes256.c /usr/src/debug/nettle/3.10.1/der2dsa.c /usr/src/debug/nettle/3.10.1/sexp-transport.c /usr/src/debug/nettle/3.10.1/sha3-384.c /usr/src/debug/nettle/3.10.1/write-be32.c /usr/src/debug/nettle
+ /3.10.1/write-le32.c /usr/src/debug/nettle/3.10.1/write-le64.c /usr/src/debug/nettle/3.10.1/ed25519-sha512-verify.c /usr/src/debug/nettle/3.10.1/salsa20r12-crypt.c /usr/src/debug/nettle/3.10.1/chacha-set-key.c /usr/src/debug/nettle/3.10.1/hogweed-internal.h /usr/src/debug/nettle/3.10.1/chacha-set-nonce.c /usr/src/debug/nettle/3.10.1/poly1305.h /usr/src/debug/nettle/3.10.1/sha3-internal.h /usr/src/debug/nettle/3.10.1/serpent-decrypt.s /usr/src/debug/nettle/3.10.1/serpent-encrypt.s /usr/src/debug/nettle/3.10.1/hmac-md5.c /usr/src/debug/nettle/3.10.1/nettle-meta-hashes.c /usr/src/debug/nettle/3.10.1/hmac-sha1.c /usr/src/debug/nettle/3.10.1/bswap-internal.h /usr/src/debug/nettle/3.10.1/umac-nh.s /usr/src/debug/nettle/3.10.1/aes256-meta.c /usr/src/debug/nettle/3.10.1/sha256-meta.c /usr/src/debug/nettle/3.10.1/aes192-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/siv-cmac-aes128.c /usr/src/debug/nettle/3.10.1/aes192-meta.c /usr/src/debug/nettle/3.10.1/dsa-sha1-sign.c /usr/src/debug/nettle
+ /3.10.1/rsa-sha1-sign.c /usr/src/debug/nettle/3.10.1/cmac64.c /usr/src/debug/nettle/3.10.1/rsa-sha256-sign-tr.c /usr/src/debug/nettle/3.10.1/rsa-sha512-sign-tr.c /usr/src/debug/nettle/3.10.1/umac64.c /usr/src/debug/nettle/3.10.1/aes128-decrypt-2.s /usr/src/debug/nettle/3.10.1/aes128-encrypt-2.s /usr/src/debug/nettle/3.10.1/aes192-decrypt.c /usr/src/debug/nettle/3.10.1/aes192-encrypt.c /usr/src/debug/nettle/3.10.1/ecc-mul-m.c /usr/src/debug/nettle/3.10.1/sha512-meta.c /usr/src/debug/nettle/3.10.1/rsa-md5-sign.c /usr/src/debug/nettle/3.10.1/hkdf.c /usr/src/debug/nettle/3.10.1/gcm-camellia128-meta.c /usr/src/debug/nettle/3.10.1/hkdf.h /usr/src/debug/nettle/3.10.1/cnd-memcpy.c /usr/src/debug/nettle/3.10.1/pgp-encode.c /usr/src/debug/nettle/3.10.1/arctwo.h /usr/src/debug/nettle/3.10.1/ecc-mul-a-eh.c /usr/src/debug/nettle/3.10.1/ecc-mul-g-eh.c /usr/src/debug/nettle/3.10.1/arctwo.c /usr/src/debug/nettle/3.10.1/curve25519-mul-g.c /usr/src/debug/nettle/3.10.1/rsa-pkcs1-sign-tr.c /usr/src/deb
+ ug/nettle/3.10.1/hmac-md5-meta.c /usr/src/debug/nettle/3.10.1/hmac-sm3-meta.c /usr/src/debug/nettle/3.10.1/eddsa-decompress.c /usr/src/debug/nettle/3.10.1/sha1-compress-2.s /usr/src/debug/nettle/3.10.1/curve25519-eh-to-x.c /usr/src/debug/nettle/3.10.1/ecdsa-verify.c /usr/src/debug/nettle/3.10.1/eddsa-pubkey.c /usr/src/debug/nettle/3.10.1/eddsa-verify.c /usr/src/debug/nettle/3.10.1/rsa-pkcs1-sign.c /usr/src/debug/nettle/3.10.1/siv-gcm-aes128.c /usr/src/debug/nettle/3.10.1/umac-l3.c /usr/src/debug/nettle/3.10.1/gosthash94.c /usr/src/debug/nettle/3.10.1/knuth-lfib.c /usr/src/debug/nettle/3.10.1/memxor.h /usr/src/debug/nettle/3.10.1/dsa-compat-keygen.c /usr/src/debug/nettle/3.10.1/rsa-pss-sha256-verify.c /usr/src/debug/nettle/3.10.1/umac-set-key.c /usr/src/debug/nettle/3.10.1/gosthash94.h /usr/src/debug/nettle/3.10.1/knuth-lfib.h /usr/src/debug/nettle/3.10.1/sha3-shake.c /usr/src/debug/nettle/3.10.1/twofish.c /usr/src/debug/nettle/3.10.1/gost28147.c /usr/src/debug/nettle/3.10.1/twofish.
+ h /usr/src/debug/nettle/3.10.1/memxor.s /usr/src/debug/nettle/3.10.1/poly1305-internal.s /usr/src/debug/nettle/3.10.1/ecc-curve25519.c /usr/src/debug/nettle/3.10.1/poly1305-internal.h /usr/src/debug/nettle/3.10.1/siv-gcm.h /usr/src/debug/nettle/3.10.1/ecc-curve25519.h /usr/src/debug/nettle/3.10.1/siv-gcm.c /usr/src/debug/nettle/3.10.1/ed25519-sha512-sign.c /usr/src/debug/nettle/3.10.1/cast128_sboxes.h /usr/src/debug/nettle/3.10.1/serpent-meta.c /usr/src/debug/nettle/3.10.1/sha3-512.c /usr/src/debug/nettle/3.10.1/rsa-sign-tr.c /usr/src/debug/nettle/3.10.1/hmac-streebog.c /usr/src/debug/nettle/3.10.1/ed448-shake256-pubkey.c /usr/src/debug/nettle/3.10.1/memeql-sec.c /usr/src/debug/nettle/3.10.1/ecc-pm1-redc.c /usr/src/debug/nettle/3.10.1/ecc-pp1-redc.c /usr/src/debug/nettle/3.10.1/ctr16.c /usr/src/debug/nettle/3.10.1/nettle-meta.h /usr/src/debug/nettle/3.10.1/siv-cmac.c /usr/src/debug/nettle/3.10.1/camellia128-meta.c /usr/src/debug/nettle/3.10.1/camellia192-meta.c /usr/src/debug/nettle
+ /3.10.1/camellia256-meta.c /usr/src/debug/nettle/3.10.1/curve448-eh-to-x.c /usr/src/debug/nettle/3.10.1/gostdsa-vko.c /usr/src/debug/nettle/3.10.1/memxor3.s /usr/src/debug/nettle/3.10.1/serpent-internal.h /usr/src/debug/nettle/3.10.1/siv-cmac.h /usr/src/debug/nettle/3.10.1/streebog.h /usr/src/debug/nettle/3.10.1/blowfish-internal.h /usr/src/debug/nettle/3.10.1/streebog.c /usr/src/debug/nettle/3.10.1/yarrow256.c /usr/src/debug/nettle/3.10.1/cast128-meta.c /usr/src/debug/nettle/3.10.1/aes128-meta.c /usr/src/debug/nettle/3.10.1/ecc-mod-arith.c /usr/src/debug/nettle/3.10.1/curve448-mul.c /usr/src/debug/nettle/3.10.1/der2rsa.c /usr/src/debug/nettle/3.10.1/siv-gcm-aes256.c /usr/src/debug/nettle/3.10.1/buffer-init.c /usr/src/debug/nettle/3.10.1/ecc-dup-eh.c /usr/src/debug/nettle/3.10.1/ecc-dup-jj.c /usr/src/debug/nettle/3.10.1/ecc-dup-th.c /usr/src/debug/nettle/3.10.1/sec-sub-1.c /usr/src/debug/nettle/3.10.1/ripemd160.c /usr/src/debug/nettle/3.10.1/ripemd160.h /usr/src/debug/nettle/3.10.1/
+ nettle-meta-ciphers.c /usr/src/debug/nettle/3.10.1/ecc-secp192r1-modp.s /usr/src/debug/nettle/3.10.1/ecc-secp224r1-modp.s /usr/src/debug/nettle/3.10.1/ecc-secp256r1-redc.s /usr/src/debug/nettle/3.10.1/ecc-secp384r1-modp.s /usr/src/debug/nettle/3.10.1/eax-aes128-meta.c /usr/src/debug/nettle/3.10.1/gcm-aes128-meta.c /usr/src/debug/nettle/3.10.1/gcm-aes192-meta.c /usr/src/debug/nettle/3.10.1/gcm-aes256-meta.c /usr/src/debug/nettle/3.10.1/ecc-secp521r1-modp.s /usr/src/debug/nettle/3.10.1/md-internal.h /usr/src/debug/nettle/3.10.1/chacha-internal.h /usr/src/debug/nettle/3.10.1/nist-keywrap.h /usr/src/debug/nettle/3.10.1/nist-keywrap.c /usr/src/debug/nettle/3.10.1/ecc-point-mul.c /usr/src/debug/nettle/3.10.1/sha512-224-meta.c /usr/src/debug/nettle/3.10.1/ecdsa.h /usr/src/debug/nettle/3.10.1/eddsa.h /usr/src/debug/nettle/3.10.1/sha512-256-meta.c /usr/src/debug/nettle/3.10.1/ed448-shake256.c /usr/src/debug/nettle/3.10.1/aes192-set-decrypt-key.c /usr/src/debug/nettle/3.10.1/ghash-set-key-2.s
+  /usr/src/debug/nettle/3.10.1/ghash-update.s /usr/src/debug/nettle/3.10.1/gostdsa-verify.c /usr/src/debug/nettle/3.10.1/ecc-curve.h /usr/src/debug/nettle/3.10.1/salsa20-internal.h /usr/src/debug/nettle/3.10.1/base64-meta.c /usr/src/debug/nettle/3.10.1/sexp-format.c /usr/src/debug/nettle/3.10.1/nettle-types.h /usr/src/debug/nettle/3.10.1/pkcs1-rsa-sha256.c /usr/src/debug/nettle/3.10.1/chacha-crypt.c /usr/src/debug/nettle/3.10.1/ecc-curve25519-modp.s /usr/src/debug/nettle/3.10.1/rsa2openpgp.c /usr/src/debug/nettle/3.10.1/camellia-invert-key.c /usr/src/debug/nettle/3.10.1/salsa20.h /usr/src/debug/nettle/3.10.1/hmac-ripemd160-meta.c /usr/src/debug/nettle/3.10.1/nettle-write.h /usr/src/debug/nettle/3.10.1/pkcs1-rsa-sha512.c /usr/src/debug/nettle/3.10.1/aes-decrypt-internal.s /usr/src/debug/nettle/3.10.1/getopt1.c /usr/src/debug/nettle/3.10.1/camellia-internal.h /usr/src/debug/nettle/3.10.1/sexp2dsa.c /usr/src/debug/nettle/3.10.1/cast128.c /usr/src/debug/nettle/3.10.1/cast128.h /usr/src/d
+ ebug/nettle/3.10.1/sha256.c /usr/src/debug/nettle/3.10.1/dsa-compat.h /usr/src/debug/nettle/3.10.1/md5-compat.h /usr/src/debug/nettle/3.10.1/dsa-compat.c /usr/src/debug/nettle/3.10.1/md5-compat.c /usr/src/debug/nettle/3.10.1/ecc-scalar.c /usr/src/debug/nettle/3.10.1/dsa-keygen.c /usr/src/debug/nettle/3.10.1/rsa-keygen.c /usr/src/debug/nettle/3.10.1/pkcs1-rsa-sha1.c /usr/src/debug/nettle/3.10.1/pbkdf2-hmac-sha1.c /usr/src/debug/nettle/3.10.1/sha3-permute.s /usr/src/debug/nettle/3.10.1/sha3.h /usr/src/debug/nettle/3.10.1/sha384-meta.c /usr/src/debug/nettle/3.10.1/base16.h /usr/src/debug/nettle/3.10.1/sha3.c /usr/src/debug/nettle/3.10.1/cmac-des3.c /usr/src/debug/nettle/3.10.1/dsa.c /usr/src/debug/nettle/3.10.1/eax.c /usr/src/debug/nettle/3.10.1/des3.c /usr/src/debug/nettle/3.10.1/sm3.c /usr/src/debug/nettle/3.10.1/sm4.c /usr/src/debug/nettle/3.10.1/xts.c /usr/src/debug/nettle/3.10.1/dsa-sha256-verify.c /usr/src/debug/nettle/3.10.1/des.c /usr/src/debug/nettle/3.10.1/gcm.c /usr/src/debu
+ g/nettle/3.10.1/rsa.h /usr/src/debug/nettle/3.10.1/sm3.h /usr/src/debug/nettle/3.10.1/sm4.h /usr/src/debug/nettle/3.10.1/xts.h /usr/src/debug/nettle/3.10.1/pss.h /usr/src/debug/nettle/3.10.1/des.h /usr/src/debug/nettle/3.10.1/dsa.h /usr/src/debug/nettle/3.10.1/eax.h /usr/src/debug/nettle/3.10.1/ecc.h /usr/src/debug/nettle/3.10.1/gcm.h /usr/src/debug/nettle/3.10.1/rsa-sec-decrypt.c /usr/src/debug/nettle/3.10.1/sha1-meta.c /usr/src/debug/nettle/3.10.1/poly1305-aes.c /usr/src/debug/nettle/3.10.1/ecc-gost-gc512a.c /usr/src/debug/nettle/3.10.1/ecc-gost-gc512a.h /usr/src/debug/nettle/3.10.1/sha3-256.c /usr/src/debug/nettle/3.10.1/pkcs1-decrypt.c /usr/src/debug/nettle/3.10.1/pkcs1-encrypt.c /usr/src/debug/nettle/3.10.1/salsa20-crypt.c /usr/src/debug/nettle/3.10.1/ecc-size.c /usr/src/debug/nettle/3.10.1/umac-poly128.c /usr/src/debug/nettle/3.10.1/rsa-md5-verify.c /usr/src/debug/nettle/3.10.1/aes-encrypt.c /usr/src/debug/nettle/3.10.1/ecc-eh-to-a.c /usr/src/debug/nettle/3.10.1/balloon-sha512
+ .c /usr/src/debug/nettle/3.10.1/ecc-mod-inv.c /usr/src/debug/nettle/3.10.1/rsa-encrypt.c /usr/src/debug/nettle/3.10.1/umac96.c /usr/src/debug/nettle/3.10.1/sha2.h /usr/src/debug/nettle/3.10.1/ecc-point-mul-g.c /usr/src/debug/nettle/3.10.1/salsa20-set-nonce.c /usr/src/debug/nettle/3.10.1/sha3-224-meta.c /usr/src/debug/nettle/3.10.1/sha3-256-meta.c /usr/src/debug/nettle/3.10.1/sha3-384-meta.c /usr/src/debug/nettle/3.10.1/camellia-crypt-internal.s /usr/src/debug/nettle/3.10.1/sha3-512-meta.c /usr/src/debug/nettle/3.10.1/aes-set-key-internal.c /usr/src/debug/nettle/3.10.1/pkcs1.h /usr/src/debug/nettle/3.10.1/der-iterator.c /usr/src/debug/nettle/3.10.1/curve25519.h /usr/src/debug/nettle/3.10.1/pkcs1.c /usr/src/debug/nettle/3.10.1/aes256-decrypt.c /usr/src/debug/nettle/3.10.1/aes256-encrypt.c /usr/src/debug/nettle/3.10.1/ecc-gost-gc256b.c /usr/src/debug/nettle/3.10.1/ecc-gost-gc256b.h /usr/src/debug/nettle/3.10.1/sha1-compress.s /usr/src/debug/nettle/3.10.1/balloon.c /usr/src/debug/nettle
+ /3.10.1/rotors.h /usr/src/debug/nettle/3.10.1/ed25519-sha512-pubkey.c /usr/src/debug/nettle/3.10.1/balloon.h /usr/src/debug/nettle/3.10.1/base16-decode.c /usr/src/debug/nettle/3.10.1/base16-encode.c /usr/src/debug/nettle/3.10.1/gostdsa-sign.c /usr/src/debug/nettle/3.10.1/pbkdf2.c /usr/src/debug/nettle/3.10.1/ghash-update-2.s /usr/src/debug/nettle/3.10.1/dsa-sign.c /usr/src/debug/nettle/3.10.1/rsa-sign.c /usr/src/debug/nettle/3.10.1/pgp.h /usr/src/debug/nettle/3.10.1/pbkdf2.h /usr/src/debug/nettle/3.10.1/gosthash94-meta.c /usr/src/debug/nettle/3.10.1/poly1305-update.c /usr/src/debug/nettle/3.10.1/ecc-random.c /usr/src/debug/nettle/3.10.1/ecc-j-to-a.c /usr/src/debug/nettle/3.10.1/keymap.h /usr/src/debug/nettle/3.10.1/memops.h /usr/src/debug/nettle/3.10.1/ecdsa-keygen.c /usr/src/debug/nettle/3.10.1/ecc-curve448.c /usr/src/debug/nettle/3.10.1/ecc-curve448.h /usr/src/debug/nettle/3.10.1/ed25519-sha512.c /usr/src/debug/nettle/3.10.1/ripemd160-internal.h /usr/src/debug/nettle/3.10.1/nettle
+ -meta-aeads.c /usr/src/debug/nettle/3.10.1/aes-internal.h /usr/src/debug/nettle/3.10.1/ctr-internal.h /usr/src/debug/nettle/3.10.1/dsa-internal.h /usr/src/debug/nettle/3.10.1/ecc-internal.h /usr/src/debug/nettle/3.10.1/gcm-internal.h /usr/src/debug/nettle/3.10.1/getopt_int.h /usr/src/debug/nettle/3.10.1/hmac-streebog-meta.c /usr/src/debug/nettle/3.10.1/rsa-internal.h /usr/src/debug/nettle/3.10.1/siv-ghash-update.c /usr/src/debug/nettle/3.10.1/rsa-sha1-sign-tr.c /usr/src/debug/nettle/3.10.1/ripemd160-meta.c /usr/src/debug/nettle/3.10.1/rsa-sha256-verify.c /usr/src/debug/nettle/3.10.1/rsa-sha512-verify.c /usr/src/debug/nettle/3.10.1/ghash-set-key.c /usr/src/debug/nettle/3.10.1/salsa20-crypt-internal.c /usr/src/debug/nettle/3.10.1/aes256-decrypt-2.s /usr/src/debug/nettle/3.10.1/aes256-encrypt-2.s /usr/src/debug/nettle/3.10.1/blowfish.h /usr/src/debug/nettle/3.10.1/block-internal.h /usr/src/debug/nettle/3.10.1/umac32.c /usr/src/debug/nettle/3.10.1/blowfish.c /usr/src/debug/nettle/3.10.1
+ /rsa-blind.c /usr/src/debug/nettle/3.10.1/sha256-compress-n-2.s /usr/src/debug/nettle/3.10.1/hmac-gosthash94-meta.c /usr/src/debug/nettle/3.10.1/realloc.h /usr/src/debug/nettle/3.10.1/realloc.c /usr/src/debug/nettle/3.10.1/arctwo-meta.c /usr/src/debug/nettle/3.10.1/aes-set-decrypt-key.c /usr/src/debug/nettle/3.10.1/aes-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/dsa-gen-params.c /usr/src/debug/nettle/3.10.1/umac-nh-n.s /usr/src/debug/nettle/3.10.1/memxor-2.s /usr/src/debug/nettle/3.10.1/ghash-internal.h /usr/src/debug/nettle/3.10.1/balloon-sha384.c /usr/src/debug/nettle/3.10.1/base64-decode.c /usr/src/debug/nettle/3.10.1/base64-encode.c /usr/src/debug/nettle/3.10.1/serpent.h /usr/src/debug/nettle/3.10.1/eddsa-expand.c /usr/src/debug/nettle/3.10.1/siv-cmac-aes256.c /usr/src/debug/nettle/3.10.1/chacha-core-internal.s /usr/src/debug/nettle/3.10.1/umac-internal.h /usr/src/debug/nettle/3.10.1/ecc-gostdsa-sign.c /usr/src/debug/nettle/3.10.1/cmac.h /usr/src/debug/nettle/3.10.1/hmac.h /u
+ sr/src/debug/nettle/3.10.1/umac.h /usr/src/debug/nettle/3.10.1/sha512.c /usr/src/debug/nettle/3.10.1/hmac.c /usr/src/debug/nettle/3.10.1/ocb-aes128.c /usr/src/debug/nettle/3.10.1/xts-aes128.c /usr/src/debug/nettle/3.10.1/xts-aes256.c /usr/src/debug/nettle/3.10.1/cmac.c /usr/src/debug/nettle/3.10.1/eax-aes128.c /usr/src/debug/nettle/3.10.1/ecc-a-to-j.c /usr/src/debug/nettle/3.10.1/ecc-add-eh.c /usr/src/debug/nettle/3.10.1/ecc-add-th.c /usr/src/debug/nettle/3.10.1/gcm-aes128.c /usr/src/debug/nettle/3.10.1/ecdsa-sign.c /usr/src/debug/nettle/3.10.1/eddsa-hash.c /usr/src/debug/nettle/3.10.1/md2-meta.c /usr/src/debug/nettle/3.10.1/md4-meta.c /usr/src/debug/nettle/3.10.1/md5-meta.c /usr/src/debug/nettle/3.10.1/rsa-pss-sha512-verify.c /usr/src/debug/nettle/3.10.1/bignum.c /usr/src/debug/nettle/3.10.1/sm3-meta.c /usr/src/debug/nettle/3.10.1/sm4-meta.c /usr/src/debug/nettle/3.10.1/cmac-des3-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha1-meta.c /usr/src/debug/nettle/3.10.1/aes256-set-decrypt-ke
+ y.c /usr/src/debug/nettle/3.10.1/bignum.h /usr/src/debug/nettle/3.10.1/salsa20-core-internal.s /usr/src/debug/nettle/3.10.1/dsa-hash.c /usr/src/debug/nettle/3.10.1/umac-l2.c /usr/src/debug/nettle/3.10.1/ed448-shake256-sign.c /usr/src/debug/nettle/3.10.1/shake256.c /usr/src/debug/nettle/3.10.1/cpuid.s /usr/src/debug/nettle/3.10.1/base64url-decode.c /usr/src/debug/nettle/3.10.1/config.h /usr/src/debug/nettle/3.10.1/nettle-lookup-hash.c /usr/src/debug/nettle/3.10.1/sha512-compress.s /usr/src/debug/nettle/3.10.1/aes128-set-decrypt-key.c /usr/src/debug/nettle/3.10.1/camellia-absorb.c /usr/src/debug/nettle/3.10.1/balloon-sha1.c /usr/src/debug/nettle/3.10.1/base16-meta.c /usr/src/debug/nettle/3.10.1/chacha.h /usr/src/debug/nettle/3.10.1/nettle-meta-armors.c /usr/src/debug/nettle/3.10.1/base64.h /usr/src/debug/nettle/3.10.1/oaep.h /usr/src/debug/nettle/3.10.1/sexp.h /usr/src/debug/nettle/3.10.1/oaep.c /usr/src/debug/nettle/3.10.1/sexp.c /usr/src/debug/nettle/3.10.1/desCode.h /usr/src/debug/
+ nettle/3.10.1/aes256-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/sha224-meta.c /usr/src/debug/nettle/3.10.1/aes128-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/pss-mgf1.h /usr/src/debug/nettle/3.10.1/pbkdf2-hmac-gosthash94.c /usr/src/debug/nettle/3.10.1/pss-mgf1.c /usr/src/debug/nettle/3.10.1/aes-encrypt-internal.s /usr/src/debug/nettle/3.10.1/ecc-mul-g.c /usr/src/debug/nettle/3.10.1/cbc-aes128-encrypt-2.s /usr/src/debug/nettle/3.10.1/cbc-aes192-encrypt-2.s /usr/src/debug/nettle/3.10.1/cbc-aes256-encrypt-2.s /usr/src/debug/nettle/3.10.1/drbg-ctr.h /usr/src/debug/nettle/3.10.1/ecc-mul-a.c /usr/src/debug/nettle/3.10.1/ed448-shake256-verify.c /usr/src/debug/nettle/3.10.1/sec-add-1.c /usr/src/debug/nettle/3.10.1/ecc-gostdsa-verify.c /usr/src/debug/nettle/3.10.1/aes192-decrypt-2.s /usr/src/debug/nettle/3.10.1/aes192-encrypt-2.s /usr/src/debug/nettle/3.10.1/umac-poly64.c /usr/src/debug/nettle/3.10.1/cmac-aes128.c /usr/src/debug/nettle/3.10.1/cmac-aes256.c /usr/src/debug/nettle/3.10.1
+ /gcm-camellia256-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha224.c /usr/src/debug/nettle/3.10.1/hmac-sha256.c /usr/src/debug/nettle/3.10.1/hmac-sha384.c /usr/src/debug/nettle/3.10.1/hmac-ripemd160.c /usr/src/debug/nettle/3.10.1/hmac-sha512.c /usr/src/debug/nettle/3.10.1/hmac-sm3.c /usr/src/debug/nettle/3.10.1/fat-x86_64.c /usr/src/debug/nettle/3.10.1/ripemd160-compress.c /usr/src/debug/nettle/3.10.1/shake128.c /usr/src/debug/nettle/3.10.1/camellia128-set-decrypt-key.c /usr/src/debug/nettle/3.10.1/camellia128-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/camellia256-set-decrypt-key.c /usr/src/debug/nettle/3.10.1/camellia256-set-encrypt-key.c /usr/src/debug/nettle/3.10.1/ecc-nonsec-add-jjj.c /usr/src/debug/nettle/3.10.1/cbc.c /usr/src/debug/nettle/3.10.1/ccm.c /usr/src/debug/nettle/3.10.1/cfb.c /usr/src/debug/nettle/3.10.1/ctr.c /usr/src/debug/nettle/3.10.1/md2.c /usr/src/debug/nettle/3.10.1/md4.c /usr/src/debug/nettle/3.10.1/md5.c /usr/src/debug/nettle/3.10.1/ocb.c /usr/src/debug/ne
+ ttle/3.10.1/pss.c /usr/src/debug/nettle/3.10.1/rsa.c /usr/src/debug/nettle/3.10.1/camellia128-crypt.c /usr/src/debug/nettle/3.10.1/camellia256-crypt.c /usr/src/debug/nettle/3.10.1/nettle-internal.h /usr/src/debug/nettle/3.10.1/rsa-decrypt-tr.c /usr/src/debug/nettle/3.10.1/aes-decrypt-table.c /usr/src/debug/nettle/3.10.1/bignum-random-prime.c /usr/src/debug/nettle/3.10.1/ecc-ecdsa-verify.c /usr/src/debug/nettle/3.10.1/twofish-meta.c /usr/src/debug/nettle/3.10.1/camellia.h /usr/src/debug/nettle/3.10.1/serpent-set-key.c /usr/src/debug/nettle/3.10.1/cfb.h /usr/src/debug/nettle/3.10.1/ctr.h /usr/src/debug/nettle/3.10.1/aes.h /usr/src/debug/nettle/3.10.1/cbc.h /usr/src/debug/nettle/3.10.1/ccm.h /usr/src/debug/nettle/3.10.1/md2.h /usr/src/debug/nettle/3.10.1/md4.h /usr/src/debug/nettle/3.10.1/md5.h /usr/src/debug/nettle/3.10.1/gcm-aes.c /usr/src/debug/nettle/3.10.1/ocb.h /usr/src/debug/nettle/3.10.1/cbc-aes128-encrypt.c /usr/src/debug/nettle/3.10.1/cbc-aes192-encrypt.c /usr/src/debug/nettl
+ e/3.10.1/cbc-aes256-encrypt.c /usr/src/debug/nettle/3.10.1/curve448.h /usr/src/debug/nettle/3.10.1/sha2-internal.h /usr/src/debug/nettle/3.10.1/eddsa-compress.c /usr/src/debug/nettle/3.10.1/sexp-transport-format.c /usr/src/debug/nettle/3.10.1/fat-setup.h /usr/src/debug/nettle/3.10.1/curve25519-mul.c /usr/src/debug/nettle/3.10.1/gcm-camellia128.c /usr/src/debug/nettle/3.10.1/siv-ghash-set-key.c /usr/src/debug/nettle/3.10.1/gostdsa.h /usr/src/debug/nettle/3.10.1/balloon-sha256.c /usr/src/debug/nettle/3.10.1/blowfish-bcrypt.c /usr/src/debug/nettle/3.10.1/buffer.c /usr/src/debug/nettle/3.10.1/aes-decrypt.c /usr/src/debug/nettle/3.10.1/rsa-decrypt.c /usr/src/debug/nettle/3.10.1/dsa-sha1-verify.c /usr/src/debug/nettle/3.10.1/rsa-sha1-verify.c /usr/src/debug/nettle/3.10.1/buffer.h /usr/src/debug/nettle/3.10.1/gcm-sm4-meta.c /usr/src/debug/nettle/3.10.1/rsa-sec-compute-root.c /usr/src/debug/nettle/3.10.1/rsa-pss-sha512-sign-tr.c /usr/src/debug/nettle/3.10.1/hmac-gosthash94.c /usr/src/debug/
+ nettle/3.10.1/pkcs1-rsa-digest.c /usr/src/debug/nettle/3.10.1/salsa20-2core.s /usr/src/debug/nettle/3.10.1/streebog-meta.c /usr/src/debug/nettle/3.10.1/macros.h /usr/src/debug/nettle/3.10.1/gmp-glue.c /usr/src/debug/nettle/3.10.1/version.c /usr/src/debug/nettle/3.10.1/gmp-glue.h /usr/src/debug/nettle/3.10.1/version.h /usr/src/debug/nettle/3.10.1/dsa-sha256-sign.c /usr/src/debug/nettle/3.10.1/rsa-sha256-sign.c /usr/src/debug/nettle/3.10.1/rsa-sha512-sign.c /usr/src/debug/nettle/3.10.1/yarrow.h /usr/src/debug/nettle/3.10.1/camellia-table.c /usr/src/debug/nettle/3.10.1/ecc-point.c /usr/src/debug/nettle/3.10.1/rsa-oaep-decrypt.c /usr/src/debug/nettle/3.10.1/gcm-camellia256.c /usr/src/debug/nettle/3.10.1/rsa-oaep-encrypt.c /usr/src/debug/nettle/3.10.1/arcfour.h /usr/src/debug/nettle/3.10.1/arcfour.c /usr/src/debug/nettle/3.10.1/chacha-poly1305.h /usr/src/debug/nettle/3.10.1/aes-encrypt-table.c /usr/src/debug/nettle/3.10.1/sha256-compress-n.s /usr/src/debug/nettle/3.10.1/chacha-poly1305.c
+  /usr/src/debug/nettle/3.10.1/rsa-pkcs1-verify.c /usr/src/debug/nettle/3.10.1/nettle-meta-macs.c /usr/src/debug/nettle/3.10.1/yarrow_key_event.c /usr/src/debug/nettle/3.10.1/umac128.c /usr/src/debug/nettle/3.10.1/base64url-meta.c /usr/src/debug/nettle/3.10.1/dsa2sexp.c /usr/src/debug/nettle/3.10.1/rsa2sexp.c /usr/src/debug/nettle/3.10.1/eddsa-sign.c /usr/src/debug/nettle/3.10.1/aes-invert-internal.c /usr/src/debug/nettle/3.10.1/ecc-curve448-modp.s /usr/src/debug/nettle/3.10.1/base64url-encode.c /usr/src/debug/nettle/3.10.1/cmac-aes128-meta.c /usr/src/debug/nettle/3.10.1/cmac-aes256-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha224-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha256-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha384-meta.c /usr/src/debug/nettle/3.10.1/hmac-sha512-meta.c /usr/src/debug/nettle/3.10.1/salsa20-128-set-key.c /usr/src/debug/nettle/3.10.1/rsa-pss-sha256-sign-tr.c /usr/src/debug/nettle/3.10.1/pkcs1-sec-decrypt.c /usr/src/debug/nettle/3.10.1/salsa20-256-set-key.c /usr
+ /src/debug/nettle/3.10.1/gcm-sm4.c /usr/src/debug/nettle/3.10.1/gost28147-internal.h"
+packages/core2-64-poky-linux/nettle/nettle-src: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle-staticdev: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle-staticdev: PKGV changed from 3.10 [default] to 3.10.1 [default]
+packages/core2-64-poky-linux/nettle/nettle: PKGSIZE changed from 651505 to 651507 (+0%)
+packages/core2-64-poky-linux/nettle/nettle: PV changed from "3.10" to "3.10.1"
+packages/core2-64-poky-linux/nettle/nettle: FILELIST: removed "/usr/lib/libhogweed.so.6.9 /usr/lib/libnettle.so.8.9", added "/usr/lib/libhogweed.so.6.10 /usr/lib/libnettle.so.8.10"
+packages/core2-64-poky-linux/nettle/nettle: PKGV changed from 3.10 [default] to 3.10.1 [default]
+Changes to packages/core2-64-poky-linux/nettle (sysroot):
+  /usr/lib/libhogweed.so.6 changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libhogweed.so changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libnettle.so.8 changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libnettle.so changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libhogweed.so.6.10 was added
+  /usr/lib/libnettle.so.8.10 was added
+  /usr/lib/libhogweed.so.6.9 was removed
+  /usr/lib/libnettle.so.8.9 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1979,22 +2095,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/nettle-native (sysroot):
+  /usr/lib/libhogweed.so.6 changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libhogweed.so changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libnettle.so.8 changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libnettle.so changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libhogweed.so.6.10 was added
+  /usr/lib/libnettle.so.8.10 was added
+  /usr/lib/libhogweed.so.6.9 was removed
+  /usr/lib/libnettle.so.8.9 was removed
 
---===============8117409893503492182==
+--===============8076764624756822634==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/xxhash (sysroot):
-  /usr/lib/libxxhash.so.0 changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
-  /usr/lib/libxxhash.so changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
-  /usr/lib/libxxhash.so.0.8.2 moved to /usr/lib/libxxhash.so.0.8.3
-packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGSIZE changed from 686896 to 1110680 (+62%)
-packages/core2-64-poky-linux/xxhash/xxhash-doc: FILELIST: added "/usr/share/man/man1/xxh3sum.1"
-packages/core2-64-poky-linux/xxhash/xxhash-src: PKGSIZE changed from 376585 to 449695 (+19%)
-packages/core2-64-poky-linux/xxhash/xxhash: FILELIST: removed "/usr/lib/libxxhash.so.0.8.2", added "/usr/bin/xxh3sum /usr/lib/libxxhash.so.0.8.3"
-packages/core2-64-poky-linux/xxhash/xxhash: PKGSIZE changed from 114852 to 147626 (+29%)
+packages/core2-64-poky-linux/nettle/nettle: FILELIST: removed "/usr/lib/libnettle.so.8.9 /usr/lib/libhogweed.so.6.9", added "/usr/lib/libhogweed.so.6.10 /usr/lib/libnettle.so.8.10"
+Changes to packages/core2-64-poky-linux/nettle (sysroot):
+  /usr/lib/libhogweed.so.6 changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libhogweed.so changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libnettle.so.8 changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libnettle.so changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libhogweed.so.6.10 was added
+  /usr/lib/libnettle.so.8.10 was added
+  /usr/lib/libhogweed.so.6.9 was removed
+  /usr/lib/libnettle.so.8.9 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3835,35 +3961,94 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/nettle-native (sysroot):
+  /usr/lib/libhogweed.so.6 changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libhogweed.so changed symlink target from libhogweed.so.6.9 to libhogweed.so.6.10
+  /usr/lib/libnettle.so.8 changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libnettle.so changed symlink target from libnettle.so.8.9 to libnettle.so.8.10
+  /usr/lib/libhogweed.so.6.10 was added
+  /usr/lib/libnettle.so.8.10 was added
+  /usr/lib/libhogweed.so.6.9 was removed
+  /usr/lib/libnettle.so.8.9 was removed
 
---===============8117409893503492182==
+--===============8076764624756822634==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-xxhash-upgrade-0.8.2-0.8.3.patch"
+ filename="0001-nettle-upgrade-3.10-3.10.1.patch"
 
-RnJvbSAwMWZmMTUwNzAxODg1NDVlYmU2MmIxNTlhZTdiMjhhNGQ4OWVkYzNhIE1vbiBTZXAgMTcg
+RnJvbSA1ODA5NGU3ZDYyOWUzNWQyNWI2MTMxZjU5NTU1NjRmYzljMmJhODk2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwOTozMjowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh4
-aGFzaDogdXBncmFkZSAwLjguMiAtPiAwLjguMwoKLS0tCiAuLi4vcmVjaXBlcy1zdXBwb3J0L3h4
-aGFzaC97eHhoYXNoXzAuOC4yLmJiID0+IHh4aGFzaF8wLjguMy5iYn0gfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC94eGhhc2gve3h4aGFzaF8wLjguMi5iYiA9PiB4eGhhc2hfMC44LjMuYmJ9ICg5
-MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4aGFzaF8wLjgu
-Mi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3h4aGFzaC94eGhhc2hfMC44LjMuYmIKc2ltaWxh
-cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4
-aGFzaF8wLjguMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4aGFz
-aF8wLjguMy5iYgppbmRleCBmMTZiMTgzYzk1Li4yMjc2NDk4NTRlIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC94eGhhc2gveHhoYXNoXzAuOC4yLmJiCisrKyBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L3h4aGFzaC94eGhhc2hfMC44LjMuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTNiZTZiNDgxZmY1NjE2Zjc3ZGRhOTcx
-MTkxYmIyOWIgXAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0N5YW40OTczL3h4SGFzaC5n
-aXQ7YnJhbmNoPXJlbGVhc2U7cHJvdG9jb2w9aHR0cHMiCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdS
-RUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCi1TUkNSRVYgPSAiYmJiMjdhNWVmYjg1
-YjkyYTA0ODZjZjM2MWE4NjM1NzE1YTUzZjZiYSIKK1NSQ1JFViA9ICJlNjI2YTcyYmMyMzIxY2Qz
-MjBlOTUzYTBjY2YxNTg0Y2FkNjBmMzYzIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoy
-LjQ0LjEKCg==
+CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwOToyOToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5l
+dHRsZTogdXBncmFkZSAzLjEwIC0+IDMuMTAuMQoKLS0tCiAuLi4vQWRkLXRhcmdldC10by1vbmx5
+LWJ1aWxkLXRlc3RzLW5vdC1ydW4tdGhlbS5wYXRjaCAgICB8IDkgKysrLS0tLS0tCiAuLi4vY2hl
+Y2staGVhZGVyLWZpbGVzLW9mLW9wZW5zc2wtb25seS1pZi1lbmFibGVfLnBhdGNoICB8IDcgKyst
+LS0tLQogLi4uL25ldHRsZS97bmV0dGxlXzMuMTAuYmIgPT4gbmV0dGxlXzMuMTAuMS5iYn0gICAg
+ICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRp
+b25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxlL3tuZXR0bGVfMy4xMC5i
+YiA9PiBuZXR0bGVfMy4xMC4xLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L25ldHRsZS9uZXR0bGUvQWRkLXRhcmdldC10by1vbmx5LWJ1aWxkLXRlc3RzLW5vdC1y
+dW4tdGhlbS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25ldHRsZS9uZXR0bGUvQWRkLXRh
+cmdldC10by1vbmx5LWJ1aWxkLXRlc3RzLW5vdC1ydW4tdGhlbS5wYXRjaAppbmRleCAzNDVmYzQz
+ZWJlLi5lZTNlNzRjNDNiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZXR0bGUv
+bmV0dGxlL0FkZC10YXJnZXQtdG8tb25seS1idWlsZC10ZXN0cy1ub3QtcnVuLXRoZW0ucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxlL25ldHRsZS9BZGQtdGFyZ2V0LXRvLW9u
+bHktYnVpbGQtdGVzdHMtbm90LXJ1bi10aGVtLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBl
+OWZjYjIxNzdmZGEyMjhhYzA2NWQxODkyNDBlMmQ5OTJlODZlNWJmIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSAzZWEzZWFmNWJkYTIxNTI5ZmM4YThkYTNkOGIwN2ViYzM4NzViYTdlIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJh
+eWxpYnJlLmNvbT4KIERhdGU6IEZyaSwgMiBBdWcgMjAyNCAwOTo0ODo0MyAtMDQwMAogU3ViamVj
+dDogW1BBVENIXSBNYWtlZmlsZS5pbjogQWRkIHRhcmdldCB0byBvbmx5IGJ1aWxkIHRlc3RzIChu
+b3QgcnVuIHRoZW0pCkBAIC0yMSw3ICsyMSw3IEBAIFNpZ25lZC1vZmYtYnk6IFRyZXZvciBHYW1i
+bGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKykKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlLmluIGIvTWFrZWZpbGUuaW4KLWluZGV4IDJi
+ZjdmMWU4Li40MDNhODY4YSAxMDA2NDQKK2luZGV4IDcxYWQ3NjEuLjBmMjM5ZjQgMTAwNjQ0CiAt
+LS0gYS9NYWtlZmlsZS5pbgogKysrIGIvTWFrZWZpbGUuaW4KIEBAIC01Myw2ICs1Myw5IEBAIGNs
+ZWFuIGRpc3RjbGVhbiBtb3N0bHljbGVhbiBtYWludGFpbmVyLWNsZWFuIHRhZ3M6CkBAIC0zNSw3
+ICszNSw3IEBAIGluZGV4IDJiZjdmMWU4Li40MDNhODY4YSAxMDA2NDQKICAJdHJ1ZQogIAogZGlm
+ZiAtLWdpdCBhL3Rlc3RzdWl0ZS9NYWtlZmlsZS5pbiBiL3Rlc3RzdWl0ZS9NYWtlZmlsZS5pbgot
+aW5kZXggMDY5OWZhMGQuLjhhYzk5ODNjIDEwMDY0NAoraW5kZXggMDY5OWZhMC4uOGFjOTk4MyAx
+MDA2NDQKIC0tLSBhL3Rlc3RzdWl0ZS9NYWtlZmlsZS5pbgogKysrIGIvdGVzdHN1aXRlL01ha2Vm
+aWxlLmluCiBAQCAtMTM3LDYgKzEzNyw4IEBAICQoVEFSR0VUUykgJChFWFRSQV9UQVJHRVRTKTog
+dGVzdHV0aWxzLiQoT0JKRVhUKSAuLi9ub24tbmV0dGxlLiQoT0JKRVhUKSBcCkBAIC00Nyw2ICs0
+NywzIEBAIGluZGV4IDA2OTlmYTBkLi44YWM5OTgzYyAxMDA2NDQKICBjaGVjazogJChUU19BTEwp
+ICQoVFNfQUxMOnNjLSU9JSkKICAJVEVTVF9TSExJQl9ESVI9IiQoVEVTVF9TSExJQl9ESVIpIiBc
+CiAgCSAgc3JjZGlyPSIkKHNyY2RpcikiIFwKLS0tIAotMi4zOS4yCi0KZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L25ldHRsZS9uZXR0bGUvY2hlY2staGVhZGVyLWZpbGVzLW9mLW9w
+ZW5zc2wtb25seS1pZi1lbmFibGVfLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxl
+L25ldHRsZS9jaGVjay1oZWFkZXItZmlsZXMtb2Ytb3BlbnNzbC1vbmx5LWlmLWVuYWJsZV8ucGF0
+Y2gKaW5kZXggNDlkNjMzYjVmNy4uODliNWM3YmVjNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbmV0dGxlL25ldHRsZS9jaGVjay1oZWFkZXItZmlsZXMtb2Ytb3BlbnNzbC1vbmx5
+LWlmLWVuYWJsZV8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxlL25ldHRs
+ZS9jaGVjay1oZWFkZXItZmlsZXMtb2Ytb3BlbnNzbC1vbmx5LWlmLWVuYWJsZV8ucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIDVmN2NkZDJiODc4Mjk4NTc3YWNjYWRlNDNhMzhlMWEwOTUxZDE3
+YjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVjMmNhN2U1MDVlNmJmZTFmZmYyYTdk
+NmU2YmIzOWI2MGI5M2UxOWEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIYWlxaW5n
+IEJhaSA8SGFpcWluZy5CYWlAd2luZHJpdmVyLmNvbT4KIERhdGU6IEZyaSwgOSBEZWMgMjAxNiAx
+NToyMzoxNyArMDgwMAogU3ViamVjdDogW1BBVENIXSBuZXR0bGU6IGNoZWNrIGhlYWRlciBmaWxl
+cyBvZiBvcGVuc3NsIG9ubHkgaWYKQEAgLTIzLDcgKzIzLDcgQEAgU2lnbmVkLW9mZi1ieTogVHJl
+dm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNSBp
+bnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFj
+IGIvY29uZmlndXJlLmFjCi1pbmRleCA0ZjI3ZTY2My4uNjczYzE0OTIgMTAwNjQ0CitpbmRleCA3
+YzAwM2JiLi43NzlmN2ZmIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1
+cmUuYWMKIEBAIC0xOTcsOSArMTk3LDExIEBAIEFDX1RZUEVfU0laRV9UCkBAIC00MSw2ICs0MSwz
+IEBAIGluZGV4IDRmMjdlNjYzLi42NzNjMTQ5MiAxMDA2NDQKICAKICAjIEZvciB1c2UgYnkgdGhl
+IHRlc3RzdWl0ZQogIEFDX0NIRUNLX0hFQURFUlMoW3ZhbGdyaW5kL21lbWNoZWNrLmhdKQotLS0g
+Ci0yLjM5LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxlL25ldHRs
+ZV8zLjEwLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0dGxlL25ldHRsZV8zLjEwLjEuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmV0
+dGxlL25ldHRsZV8zLjEwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9uZXR0bGUv
+bmV0dGxlXzMuMTAuMS5iYgppbmRleCA5MmJjNzgyNjNjLi44NWM0NzBiMTBkIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZXR0bGUvbmV0dGxlXzMuMTAuYmIKKysrIGIvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmV0dGxlL25ldHRsZV8zLjEwLjEuYmIKQEAgLTIwLDcgKzIwLDcgQEAg
+U1JDX1VSSSA9ICIke0dOVV9NSVJST1J9LyR7QlBOfS8ke0JQfS50YXIuZ3ogXAogICAgICAgICAg
+ICBmaWxlOi8vY2hlY2staGVhZGVyLWZpbGVzLW9mLW9wZW5zc2wtb25seS1pZi1lbmFibGVfLnBh
+dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjRjNTE4YWRiMTc0
+ZTQ4NGNiNGFjZWE1NDExOGYwMjM4MGM3MTMzNzcxZTdlOWJlYjk4YTA3ODcxOTRlZTQ3YyIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICJiMGZjZGQ3ZmMwY2RlYTZlODBkY2YxZGQ4NWJhNzk0YWYwZDVi
+NGE1N2UyNjM5N2VlZTNiYzE5MzI3MmQ5MTMyIgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJu
+ZXR0bGUtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKLS0gCjIuNDQuMQoK
 
---===============8117409893503492182==--
+--===============8076764624756822634==--
 
