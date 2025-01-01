@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D271E77197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6C4E7719B
 	for <webhook@archiver.kernel.org>; Wed,  1 Jan 2025 09:32:47 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.11487.1735723937668325027
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.11505.1735723957757443028
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jan 2025 01:32:37 -0800
+ Wed, 01 Jan 2025 01:32:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dL07gmVx;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zSN1jJGV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101942135bb6c-ef985fab-b3f6-487a-a716-9e886fc51fdc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=O6fKI7/V;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nsNN74/3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101942135badf-55bfba00-77be-440c-8483-2162dafbc6a0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1735723957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0n0XPJbhU7bPYjE35XHVZUt0BWFORx4V2K/p0sFB4ac=;
-	b=dL07gmVxtIh1bhnn+mv3WBKwwi3887u1CK2Bv36Aw9GDBwU+5hzOtONAOX8bewCk
-	UuSrFQv9CSMddqWKsakaB3Fq7rqqIgFbVI2NmtGDxpcoOcP6CQOQQHjk2pYf+2bRaFn
-	/1KFynTs3tgTKqMqe7X+uccjBRt0w8xMqQLSc4Ew=
+	bh=EbF0niKcEvIyE9dSPByRfwNPgIdQVaZ/PFj/U+jD+Sc=;
+	b=O6fKI7/VLCj+D+/7/O9nede2Y/oz6qOoQ3gg+5Up9TzrPvaQ6rR+Fo9ZlmX6mQD9
+	jc8xt6GFLmL/SJwZkuNHBvCyEVUBnSz6vOrs1F4y8XP9v1cxlLR4iOKWGn6C5QgtXMa
+	7UDWyZmWmYk1c9Rzyiq9HclJNRGzXWecGpy/3M6E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735723957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0n0XPJbhU7bPYjE35XHVZUt0BWFORx4V2K/p0sFB4ac=;
-	b=zSN1jJGVLOSb3bYdO2LbuVlfHgOdh4baXcK8ubUcMjIaEm93po2Hvpy2CDf9FPzF
-	bcxCojYbiZB0NqV1FG+sVaTZ0Ogoyh0la2DOWSG+VWmMA5+DKTm1dnwWhYKJS04O3rY
-	qkmRm63yq+rM5Gbd661EC+bf2f+3nezY1RAt0DI0=
-Content-Type: multipart/mixed; boundary="===============5829821550181017308=="
+	bh=EbF0niKcEvIyE9dSPByRfwNPgIdQVaZ/PFj/U+jD+Sc=;
+	b=nsNN74/3jdWWFTPyan8opFX8dsCDi2m+nxOi/+HBLvD+WB9Vsyts6BDj7uX9ognz
+	CIaCGzN5vzTkENebjEjFekM+jV5jVet5MoaMSR5ZxPf4ioCV8/M6f45rdu4+VTITRI3
+	0i6NPoD7EQ4BEs4jdRfJccBduFNoV0ep3zg8PRf8=
+Content-Type: multipart/mixed; boundary="===============8117409893503492182=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] bash-completion: upgrading to 2.16.0 SUCCEEDED
-Message-ID: <010101942135bb6c-ef985fab-b3f6-487a-a716-9e886fc51fdc-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jan 2025 09:32:37 +0000
+Subject: [AUH] xxhash: upgrading to 0.8.3 SUCCEEDED
+Message-ID: <010101942135badf-55bfba00-77be-440c-8483-2162dafbc6a0-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jan 2025 09:32:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.01-54.240.27.192
+X-SES-Outgoing: 2025.01.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jan 2025 09:32:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209245
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209246
 
---===============5829821550181017308==
+--===============8117409893503492182==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *bash-completion* to *2.16.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xxhash* to *0.8.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-bash-completion-upgrade-2.15.0-2.16.0.patch
+    - apply the patch: git am 0001-xxhash-upgrade-0.8.2-0.8.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,69 +72,73 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 48ac89f75fbe17a3eefb17bef1936ceb4d64e590 Mon Sep 17 00:00:00 2001
+From 01ff15070188545ebe62b159ae7b28a4d89edc3a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jan 2025 08:53:30 +0000
-Subject: [PATCH] bash-completion: upgrade 2.15.0 -> 2.16.0
+Date: Wed, 1 Jan 2025 09:32:09 +0000
+Subject: [PATCH] xxhash: upgrade 0.8.2 -> 0.8.3
 
 ---
- .../{bash-completion_2.15.0.bb => bash-completion_2.16.0.bb}    | 2 +-
+ .../recipes-support/xxhash/{xxhash_0.8.2.bb => xxhash_0.8.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/bash-completion/{bash-completion_2.15.0.bb => bash-completion_2.16.0.bb} (92%)
+ rename meta/recipes-support/xxhash/{xxhash_0.8.2.bb => xxhash_0.8.3.bb} (93%)
 
-diff --git a/meta/recipes-support/bash-completion/bash-completion_2.15.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb
-similarity index 92%
-rename from meta/recipes-support/bash-completion/bash-completion_2.15.0.bb
-rename to meta/recipes-support/bash-completion/bash-completion_2.16.0.bb
-index 709443c067..d1a8f5e0cc 100644
---- a/meta/recipes-support/bash-completion/bash-completion_2.15.0.bb
-+++ b/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb
-@@ -14,7 +14,7 @@ SECTION = "console/utils"
+diff --git a/meta/recipes-support/xxhash/xxhash_0.8.2.bb b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
+similarity index 93%
+rename from meta/recipes-support/xxhash/xxhash_0.8.2.bb
+rename to meta/recipes-support/xxhash/xxhash_0.8.3.bb
+index f16b183c95..227649854e 100644
+--- a/meta/recipes-support/xxhash/xxhash_0.8.2.bb
++++ b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=13be6b481ff5616f77dda971191bb29b \
+ SRC_URI = "git://github.com/Cyan4973/xxHash.git;branch=release;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRCREV = "bbb27a5efb85b92a0486cf361a8635715a53f6ba"
++SRCREV = "e626a72bc2321cd320e953a0ccf1584cad60f363"
  
--SRC_URI[sha256sum] = "976a62ee6226970283cda85ecb9c7a4a88f62574c0a6f9e856126976decf1a06"
-+SRC_URI[sha256sum] = "3369bd5e418a75fb990863925aed5b420398acebb320ec4c0306b3eae23f107a"
- GITHUB_BASE_URI = "https://github.com/scop/bash-completion/releases"
+ S = "${WORKDIR}/git"
  
- PARALLEL_MAKE = ""
 -- 
 2.44.1
 
 
---===============5829821550181017308==
+--===============8117409893503492182==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/_venom /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/_ctlptl /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/_just /usr/share/bash-completion/completions/_argo /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/_gitsign /usr/share/bash-completion/completions/_oras /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_mockery /usr/share/bash-com
- pletion/completions/_slsa-verifier /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/_dapr /usr/share/bash-completion/completions/_cue /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_atlas /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/_popeye /usr/share/bash-completion/completions/_kubesec /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/_minishift /usr/share/bash-completion/co
- mpletions/_crane /usr/share/bash-completion/completions/_furyctl /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/_depot /usr/share/bash-completion/completions/_glow /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/_colima /usr/share/bash-completion/com
- pletions/_dyff /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/_imgpkg /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/_wasmer-headless /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/_k0sctl 
- /usr/share/bash-completion/completions/_notation /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/_kafkactl /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/_pitchfork /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/_dagger /usr/share/bash-comple
- tion/completions/_crictl /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_jwt /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_conftest /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion/completions/_delta /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/_changie /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/_devspace"
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 884736 to 894224 (+1%)
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-src: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-src: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 145373 to 145588 (+0%)
-packages/core2-64-poky-linux/bash-completion/bash-completion: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion: PV changed from "2.15.0" to "2.16.0"
-packages/core2-64-poky-linux/bash-completion: PKGV changed from 2.15.0 [default] to 2.16.0 [default]
-packages/core2-64-poky-linux/bash-completion: SRC_URI changed from "https://github.com/scop/bash-completion/releases/download/2.15.0/bash-completion-2.15.0.tar.xz" to "https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz"
+packages/core2-64-poky-linux/xxhash: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash: PV changed from "0.8.2" to "0.8.3"
+Changes to packages/core2-64-poky-linux/xxhash (sysroot):
+  /usr/lib/libxxhash.so.0 changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
+  /usr/lib/libxxhash.so changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
+  /usr/lib/libxxhash.so.0.8.2 moved to /usr/lib/libxxhash.so.0.8.3
+packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-dbg: FILELIST: removed "/usr/lib/.debug/libxxhash.so.0.8.2", added "/usr/lib/.debug/libxxhash.so.0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-dbg: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGSIZE changed from 686896 to 1110680 (+62%)
+packages/core2-64-poky-linux/xxhash/xxhash-dev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-dev: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-dev: PKGSIZE changed from 255922 to 271145 (+6%)
+packages/core2-64-poky-linux/xxhash/xxhash-doc: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-doc: FILELIST: added "/usr/share/man/man1/xxh3sum.1"
+packages/core2-64-poky-linux/xxhash/xxhash-doc: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-doc: PKGSIZE changed from 4854 to 4878 (+0%)
+packages/core2-64-poky-linux/xxhash/xxhash-locale: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-locale: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-src: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-src: FILELIST: removed "/usr/src/debug/xxhash/0.8.2/cli/xsum_bench.h /usr/src/debug/xxhash/0.8.2/cli/xsum_sanity_check.c /usr/src/debug/xxhash/0.8.2/cli/xsum_os_specific.h /usr/src/debug/xxhash/0.8.2/cli/xsum_output.h /usr/src/debug/xxhash/0.8.2/cli/xsum_sanity_check.h /usr/src/debug/xxhash/0.8.2/cli/xsum_bench.c /usr/src/debug/xxhash/0.8.2/cli/xsum_output.c /usr/src/debug/xxhash/0.8.2/cli/xsum_os_specific.c /usr/src/debug/xxhash/0.8.2/cli/xxhsum.c /usr/src/debug/xxhash/0.8.2/xxhash.h /usr/src/debug/xxhash/0.8.2/cli/xsum_config.h", added "/usr/src/debug/xxhash/0.8.3/cli/xsum_bench.h /usr/src/debug/xxhash/0.8.3/cli/xsum_sanity_check.c /usr/src/debug/xxhash/0.8.3/xxh_x86dispatch.h /usr/src/debug/xxhash/0.8.3/cli/xsum_os_specific.h /usr/src/debug/xxhash/0.8.3/cli/xsum_output.h /usr/src/debug/xxhash/0.8.3/cli/xsum_sanity_check.h /usr/src/debug/xxhash/0.8.3/cli/xsum_bench.c /usr/src/debug/xxhash/0.8.3/cli/xsum_output.c /usr/src/debug/xxhash/0.8.3
+ /xxh_x86dispatch.c /usr/src/debug/xxhash/0.8.3/cli/xsum_arch.c /usr/src/debug/xxhash/0.8.3/cli/xsum_os_specific.c /usr/src/debug/xxhash/0.8.3/cli/xsum_arch.h /usr/src/debug/xxhash/0.8.3/cli/xxhsum.c /usr/src/debug/xxhash/0.8.3/xxhash.h /usr/src/debug/xxhash/0.8.3/cli/xsum_config.h"
+packages/core2-64-poky-linux/xxhash/xxhash-src: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-src: PKGSIZE changed from 376585 to 449695 (+19%)
+packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash-staticdev: PKGSIZE changed from 389152 to 397640 (+2%)
+packages/core2-64-poky-linux/xxhash/xxhash: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/xxhash/xxhash: FILELIST: removed "/usr/lib/libxxhash.so.0.8.2", added "/usr/lib/libxxhash.so.0.8.3 /usr/bin/xxh3sum"
+packages/core2-64-poky-linux/xxhash/xxhash: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash: PKGSIZE changed from 114852 to 147626 (+29%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1976,50 +1980,21 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5829821550181017308==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-bash-completion-upgrade-2.15.0-2.16.0.patch"
-
-RnJvbSA0OGFjODlmNzVmYmUxN2EzZWVmYjE3YmVmMTkzNmNlYjRkNjRlNTkwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwODo1MzozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
-c2gtY29tcGxldGlvbjogdXBncmFkZSAyLjE1LjAgLT4gMi4xNi4wCgotLS0KIC4uLi97YmFzaC1j
-b21wbGV0aW9uXzIuMTUuMC5iYiA9PiBiYXNoLWNvbXBsZXRpb25fMi4xNi4wLmJifSAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi97YmFzaC1jb21wbGV0aW9uXzIu
-MTUuMC5iYiA9PiBiYXNoLWNvbXBsZXRpb25fMi4xNi4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBsZXRpb25fMi4x
-NS4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxl
-dGlvbl8yLjE2LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE1LjAuYmIKcmVu
-YW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBsZXRp
-b25fMi4xNi4wLmJiCmluZGV4IDcwOTQ0M2MwNjcuLmQxYThmNWUwY2MgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBsZXRpb25fMi4xNS4w
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBs
-ZXRpb25fMi4xNi4wLmJiCkBAIC0xNCw3ICsxNCw3IEBAIFNFQ1RJT04gPSAiY29uc29sZS91dGls
-cyIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUE59
-LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk3NmE2MmVlNjIyNjk3MDI4
-M2NkYTg1ZWNiOWM3YTRhODhmNjI1NzRjMGE2ZjllODU2MTI2OTc2ZGVjZjFhMDYiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMzM2OWJkNWU0MThhNzVmYjk5MDg2MzkyNWFlZDViNDIwMzk4YWNlYmIz
-MjBlYzRjMDMwNmIzZWFlMjNmMTA3YSIKIEdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1
-Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vcmVsZWFzZXMiCiAKIFBBUkFMTEVMX01BS0UgPSAi
-IgotLSAKMi40NC4xCgo=
-
---===============5829821550181017308==
+--===============8117409893503492182==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/_ctlptl /usr/share/bash-completion/completions/_mockery /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/_glow /usr/share/bash-completion/completions/_devspace /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/_argo /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/_oras /usr/share/bash-co
- mpletion/completions/_kafkactl /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/_crictl /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/_pitchfork /usr/share/bash-completion/completions/_venom /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/_imgpkg /usr/shar
- e/bash-completion/completions/_popeye /usr/share/bash-completion/completions/_depot /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/_crane /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_k0sctl /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/_changie /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/_atlas /usr/share
- /bash-completion/completions/_dapr /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/_colima /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/_notation /usr/share/bash-completion/completions/_delta /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/_conftest /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/_furyctl /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_dagger /usr/share/bash-co
- mpletion/completions/_just /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/_dyff /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_slsa-verifier /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/_jwt /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/_kubesec /usr/share/bash-completion/completions/_minishift /usr/share/bash-completion/complet
- ions/_wasmer-headless /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/_gitsign /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/_cue"
+Changes to packages/core2-64-poky-linux/xxhash (sysroot):
+  /usr/lib/libxxhash.so.0 changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
+  /usr/lib/libxxhash.so changed symlink target from libxxhash.so.0.8.2 to libxxhash.so.0.8.3
+  /usr/lib/libxxhash.so.0.8.2 moved to /usr/lib/libxxhash.so.0.8.3
+packages/core2-64-poky-linux/xxhash/xxhash-dbg: PKGSIZE changed from 686896 to 1110680 (+62%)
+packages/core2-64-poky-linux/xxhash/xxhash-doc: FILELIST: added "/usr/share/man/man1/xxh3sum.1"
+packages/core2-64-poky-linux/xxhash/xxhash-src: PKGSIZE changed from 376585 to 449695 (+19%)
+packages/core2-64-poky-linux/xxhash/xxhash: FILELIST: removed "/usr/lib/libxxhash.so.0.8.2", added "/usr/bin/xxh3sum /usr/lib/libxxhash.so.0.8.3"
+packages/core2-64-poky-linux/xxhash/xxhash: PKGSIZE changed from 114852 to 147626 (+29%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3861,5 +3836,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5829821550181017308==--
+--===============8117409893503492182==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xxhash-upgrade-0.8.2-0.8.3.patch"
+
+RnJvbSAwMWZmMTUwNzAxODg1NDVlYmU2MmIxNTlhZTdiMjhhNGQ4OWVkYzNhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwOTozMjowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh4
+aGFzaDogdXBncmFkZSAwLjguMiAtPiAwLjguMwoKLS0tCiAuLi4vcmVjaXBlcy1zdXBwb3J0L3h4
+aGFzaC97eHhoYXNoXzAuOC4yLmJiID0+IHh4aGFzaF8wLjguMy5iYn0gfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC94eGhhc2gve3h4aGFzaF8wLjguMi5iYiA9PiB4eGhhc2hfMC44LjMuYmJ9ICg5
+MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4aGFzaF8wLjgu
+Mi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3h4aGFzaC94eGhhc2hfMC44LjMuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4
+aGFzaF8wLjguMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQveHhoYXNoL3h4aGFz
+aF8wLjguMy5iYgppbmRleCBmMTZiMTgzYzk1Li4yMjc2NDk4NTRlIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC94eGhhc2gveHhoYXNoXzAuOC4yLmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L3h4aGFzaC94eGhhc2hfMC44LjMuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTNiZTZiNDgxZmY1NjE2Zjc3ZGRhOTcx
+MTkxYmIyOWIgXAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0N5YW40OTczL3h4SGFzaC5n
+aXQ7YnJhbmNoPXJlbGVhc2U7cHJvdG9jb2w9aHR0cHMiCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdS
+RUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCi1TUkNSRVYgPSAiYmJiMjdhNWVmYjg1
+YjkyYTA0ODZjZjM2MWE4NjM1NzE1YTUzZjZiYSIKK1NSQ1JFViA9ICJlNjI2YTcyYmMyMzIxY2Qz
+MjBlOTUzYTBjY2YxNTg0Y2FkNjBmMzYzIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoy
+LjQ0LjEKCg==
+
+--===============8117409893503492182==--
 
