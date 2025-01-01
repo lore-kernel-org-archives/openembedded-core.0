@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AAFCE77197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62C7C02186
 	for <webhook@archiver.kernel.org>; Wed,  1 Jan 2025 09:32:35 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.11489.1735723939159868366
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11332.1735723940835334242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jan 2025 01:32:33 -0800
+ Wed, 01 Jan 2025 01:32:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iULT1a1o;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LaerkRkc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101942135ab8a-19ce8446-6bdd-4a1d-a07d-e2898fa81989-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IejJD//K;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2x4D/9wP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019421359cf4-7e272b1f-38b0-4a24-9058-1c70d75491d9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1735723953;
+	t=1735723949;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xM+zzpMilbQsknhCF/x9P9eoDedWCJZSbcYkqdhYAhk=;
-	b=iULT1a1oCUeXu0dPFJ1+1KF6vm8Y5U77uipFyhDBFfcsTei7Jpz07IwdkcoXl0o8
-	xauaz2rvDqtijFDo12gtA4dg2jYCe0klAqtKwRn4A/R3L8GyGS/EcQ5i/qeJUd/GiVj
-	PBNF+h1Pi5BxMqU88Y4q8DH2W+RlmLDHbK0oNSso=
+	bh=PZ45qbM2o89YUYpXvK+gDe3OrRp1Z32QvlWqfaV8IWw=;
+	b=IejJD//K4LuqNElZEQXEFQJYK2EgCYPJ9NnO9vx7Si5Otlv0iBHpA1ikBYO5dsLD
+	JGfenDc5fK1uX3OhR0zaHWkH74fgvOPf6zzA0F93ReL1sAnxnpRgeOlZ4Zfh2CNrBFx
+	Vw/OAzoUV35dQQVtrov3IdGl3VayyV3XE5fb6q1c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735723953;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735723949;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xM+zzpMilbQsknhCF/x9P9eoDedWCJZSbcYkqdhYAhk=;
-	b=LaerkRkcYjajwm5F25p5FXo6IQWKWHFSuJNPiE7lV93kCWukrraC/3JBEGdyVoXn
-	Gz+/1n/g9EumUGBaixkxAi+SJknU7Ob7KiwRTs/JJ/uY82tF7qwR0wu+VYLr1S7nyax
-	N5+ayJDCrrFFQ8ltFmlHBNdv9pJkuRmMa9bLcQBk=
-Content-Type: multipart/mixed; boundary="===============3093649093323073759=="
+	bh=PZ45qbM2o89YUYpXvK+gDe3OrRp1Z32QvlWqfaV8IWw=;
+	b=2x4D/9wP9wM7cwFzhGV8eGcsFzjNMUiIH+iNrYDFZsXWrVbArTwKrU8U098Tv/zx
+	pe87NJYq1TIrGiUL8hyIWSr7EsoEeVnBXnvs60oaLOSRbhzlkasluyjV0tniOvbEVix
+	TwYcW1jrWwjWGVdFJi0WLVO0HuqcSM41jVUAIhus=
+Content-Type: multipart/mixed; boundary="===============6652401400078194559=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] piglit: upgrading to 00affcf3a78a1200cc8fb1e5264c19ac1f8f0fa2
- SUCCEEDED
-Message-ID: <010101942135ab8a-19ce8446-6bdd-4a1d-a07d-e2898fa81989-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jan 2025 09:32:33 +0000
+Subject: [AUH] tcl8: upgrading to 8.6.16 SUCCEEDED
+Message-ID: <0101019421359cf4-7e272b1f-38b0-4a24-9058-1c70d75491d9-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jan 2025 09:32:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.01-54.240.27.33
+X-SES-Outgoing: 2025.01.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jan 2025 09:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209234
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209224
 
---===============3093649093323073759==
+--===============6652401400078194559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *piglit* to *00affcf3a78a1200cc8fb1e5264c19ac1f8f0fa2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *tcl8* to *8.6.16* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-tcl8-upgrade-8.6.15-8.6.16.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,369 +72,389 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 90752880554dc582f4ac5780db28e083e66ca80c Mon Sep 17 00:00:00 2001
+From c2e9b40645bebb74d4a4ba6f75371d667fc6c698 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jan 2025 08:31:14 +0000
-Subject: [PATCH] piglit: upgrade to latest revision
+Date: Wed, 1 Jan 2025 07:44:33 +0000
+Subject: [PATCH] tcl8: upgrade 8.6.15 -> 8.6.16
 
 ---
- ...Lists.txt-do-not-obtain-wayland-scanner-path-fr.patch | 2 +-
- ...0001-tests-Fix-narrowing-errors-seen-with-clang.patch | 2 +-
- ...-egl-spec-make-egl_ext_surface_compression-cond.patch | 9 +++------
- ...-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 2 +-
- ...-util-piglit-shader.c-do-not-hardcode-build-pat.patch | 2 +-
- meta/recipes-graphics/piglit/piglit_git.bb               | 2 +-
- 6 files changed, 8 insertions(+), 11 deletions(-)
+ .../tcltk8/tcl8/alter-includedir.patch                 | 10 +++++-----
+ .../tcltk8/tcl8/fix_non_native_build_issue.patch       |  4 ++--
+ meta/recipes-devtools/tcltk8/tcl8/interp.patch         |  6 +++---
+ meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch |  8 ++++----
+ .../tcl8/tcl-remove-hardcoded-install-path.patch       |  6 +++---
+ .../tcltk8/{tcl8_8.6.15.bb => tcl8_8.6.16.bb}          |  2 +-
+ 6 files changed, 18 insertions(+), 18 deletions(-)
+ rename meta/recipes-devtools/tcltk8/{tcl8_8.6.15.bb => tcl8_8.6.16.bb} (98%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
-index 0c872d3e9b..75c2d2fbfc 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
+index bfc718cfd3..6ceb297cea 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
 @@ -1,4 +1,4 @@
--From 2af98d67e16e083c36e3193aefbda942399a455a Mon Sep 17 00:00:00 2001
-+From db3a33a91ce0a28f297fe270167cf2d0a44354e2 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 23 Aug 2024 15:29:45 +0200
- Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-index cfdfeb683e..22dd6c360a 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-@@ -1,4 +1,4 @@
--From 70f8d56bf9db9d85f3d197ab9de972e3a514514c Mon Sep 17 00:00:00 2001
-+From 6559f5a7d82d411eb035f9d7c5dfb9987182803d Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 3 May 2023 21:59:43 -0700
- Subject: [PATCH] tests: Fix narrowing errors seen with clang
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
-index 69cc302912..c9e7fe1e96 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
-@@ -1,4 +1,4 @@
--From 0c97d5eacae4f584313c9251e585bb0246cceffc Mon Sep 17 00:00:00 2001
-+From 8320c2ff5793a612aa7d7223ae317657744169f1 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 22 Nov 2024 22:52:31 +0100
- Subject: [PATCH] tests/egl/spec: make egl_ext_surface_compression conditional
-@@ -20,7 +20,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  2 files changed, 4 insertions(+), 3 deletions(-)
+-From 3130dca60636dc12d0d12df75b002fd123349e21 Mon Sep 17 00:00:00 2001
++From 8bb8174e13c1c0e3b27fdf96a393f9fb1b7e14be Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Tue, 22 Nov 2022 18:48:27 +0800
+ Subject: [PATCH] tcl: update the header location
+@@ -26,7 +26,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
  
- diff --git a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
--index d9540bcfde27..01a70164f444 100644
-+index d9540bcfd..01a70164f 100644
- --- a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
- +++ b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
- @@ -2,10 +2,12 @@ link_libraries(
-@@ -39,7 +39,7 @@ index d9540bcfde27..01a70164f444 100644
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index a3b7d69..969ddb8 100644
++index c3b75e3..60ed93e 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+ @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
+@@ -39,10 +39,10 @@ index a3b7d69..969ddb8 100644
+  # Path to the private tcl header dir:
+  PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
+ diff --git a/unix/configure.in b/unix/configure.in
+-index 4974fb6..a72934f 100644
++index 8e6726b..2345689 100644
+ --- a/unix/configure.in
+ +++ b/unix/configure.in
+-@@ -776,7 +776,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
++@@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
+  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
   
-  # vim: ft=cmake:
- diff --git a/tests/egl/spec/egl_ext_surface_compression/create_surface.c b/tests/egl/spec/egl_ext_surface_compression/create_surface.c
--index e3d55d4331fb..35f13fd007b4 100644
-+index e3d55d433..35f13fd00 100644
- --- a/tests/egl/spec/egl_ext_surface_compression/create_surface.c
- +++ b/tests/egl/spec/egl_ext_surface_compression/create_surface.c
- @@ -25,7 +25,6 @@
-@@ -50,6 +50,3 @@ index e3d55d4331fb..35f13fd007b4 100644
-  #include "../../egl-wayland.h"
+  test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
+@@ -51,7 +51,7 @@ index 4974fb6..a72934f 100644
+  HTML_DIR='$(DISTDIR)/html'
   
-  static enum piglit_result
---- 
--2.39.5
--
-diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-index 17bcbce190..fd085da220 100644
---- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+  # Note:  in the following variable, it's important to use the absolute
+-@@ -897,7 +897,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
++@@ -898,7 +898,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
+  TCL_STUB_LIB_PATH="${TCL_STUB_LIB_DIR}/${TCL_STUB_LIB_FILE}"
+  
+  # Install time header dir can be set via --includedir
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
+index 7480156ce0..61153878fe 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
 @@ -1,4 +1,4 @@
--From 9b2c2213a2d7aaea350649ee031e227b44343428 Mon Sep 17 00:00:00 2001
-+From 29033f323d870552410c31d1e3721304b8a38e99 Mon Sep 17 00:00:00 2001
- From: Pascal Bach <pascal.bach@siemens.com>
- Date: Thu, 4 Oct 2018 14:43:17 +0200
- Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
-diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-index 767e93c43e..ce1ce12a07 100644
---- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+-From bd512547fc002fdb20808bf5b8b9feeb848b6512 Mon Sep 17 00:00:00 2001
++From 3d11e7fd9aba6251974d990286347c06582e87b9 Mon Sep 17 00:00:00 2001
+ From: Nitin A Kamble <nitin.a.kamble@intel.com>
+ Date: Fri, 13 Aug 2010 12:24:00 -0700
+ Subject: [PATCH] tcl: fix a build issue
+@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 10 insertions(+), 10 deletions(-)
+ 
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index 965f6da..a0bd63f 100644
++index a2f9e21..c3b75e3 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+ @@ -723,7 +723,7 @@ tcltest-real:
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/interp.patch b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
+index 2e0dc94cff..a4fb0c5a9d 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/interp.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
 @@ -1,4 +1,4 @@
--From 3d621cf028acb3b464759abb72a38102844079b2 Mon Sep 17 00:00:00 2001
-+From ddd12c056bf05f80ddd728750a519bc502d55f3e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 10 Nov 2020 17:13:50 +0000
- Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 3e950ff61c..829cb7730f 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+-From 426aa2ff62dda77fd011e8f630b9d4ea17984817 Mon Sep 17 00:00:00 2001
++From 09049beed723243d092ffaa37939dfe0f2ed6828 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 12 Jul 2021 14:50:13 +0100
+ Subject: [PATCH] tcl: fix race in interp.test
+@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 4 insertions(+), 3 deletions(-)
+ 
+ diff --git a/tests/interp.test b/tests/interp.test
+-index d742484..fc90990 100644
++index 24ffb1b..c6460ad 100644
+ --- a/tests/interp.test
+ +++ b/tests/interp.test
+-@@ -3595,17 +3595,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
++@@ -3614,17 +3614,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
+          variable result
+          set result [lindex $args 0]
+      }
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
+index 1cd4d76283..88faf8ac73 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
+@@ -1,4 +1,4 @@
+-From b89fd73daf9b3eb2f889f65baba5f90d8a930c82 Mon Sep 17 00:00:00 2001
++From 0d8e567d132e050c5d4a8d8d9257417e0679483c Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <rpurdie@linux.intel.com>
+ Date: Wed, 9 Dec 2009 23:59:44 +0000
+ Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  2 files changed, 7 insertions(+), 1 deletion(-)
+ 
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index 7619afc..9dd053d 100644
++index bc743b3..a2f9e21 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+-@@ -904,7 +904,10 @@ install-binaries: binaries
++@@ -812,7 +812,10 @@ install-binaries: binaries
+  	done
+  	@echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
+  	@@INSTALL_LIB@
+@@ -27,7 +27,7 @@ index 7619afc..9dd053d 100644
+  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
+ diff --git a/unix/tcl.m4 b/unix/tcl.m4
+-index 0307a06..37c4d67 100644
++index 7f5464e..cd8d929 100644
+ --- a/unix/tcl.m4
+ +++ b/unix/tcl.m4
+ @@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
+index 93e7877256..0a0c1173a2 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
+@@ -1,4 +1,4 @@
+-From 050fc597fbfa4da2c31bd0df58c871892a490470 Mon Sep 17 00:00:00 2001
++From 6e3cbc3600ac474776e92eb9a88abcb74299c321 Mon Sep 17 00:00:00 2001
+ From: "Song.Li" <Song.Li@windriver.com>
+ Date: Wed, 1 Aug 2012 19:05:51 +0800
+ Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit target
+@@ -17,10 +17,10 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/unix/configure.in b/unix/configure.in
+-index 4f62510..4974fb6 100644
++index e88ec3c..8e6726b 100644
+ --- a/unix/configure.in
+ +++ b/unix/configure.in
+-@@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
++@@ -774,7 +774,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
+  
+  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+  
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+similarity index 98%
+rename from meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
+rename to meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+index b13102dd7a..2ee8be56d1 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+@@ -24,7 +24,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://interp.patch \
+            file://run-ptest \
             "
- UPSTREAM_CHECK_COMMITS = "1"
+-SRC_URI[sha256sum] = "844775491e435e34d83d6ccfbadd1342f1855f1705253233a86152df0765e78d"
++SRC_URI[sha256sum] = "3b371386a9a928eecdbf263bcab7d6a531e620ca3fbab4fdeeb3d6a9a56f38e9"
  
--SRCREV = "d04d6fff00849a2a8e29ef3251c6ca04a2f68dc7"
-+SRCREV = "00affcf3a78a1200cc8fb1e5264c19ac1f8f0fa2"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
+ SRC_URI:class-native = "${BASE_SRC_URI}"
  
 -- 
 2.44.1
 
 
---===============3093649093323073759==
+--===============6652401400078194559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-dev: RRECOMMENDS: removed "piglit (['= 1.0+gitr0+d04d6fff00-r0'])", added "piglit (['= 1.0+gitr0+00affcf3a7-r0'])"
-packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-staticdev: RDEPENDS: removed "piglit-dev (['= 1.0+gitr0+d04d6fff00-r0'])", added "piglit-dev (['= 1.0+gitr0+00affcf3a7-r0'])"
-packages/core2-64-poky-linux/piglit/piglit: PKGSIZE changed from 2082641954 to 2082665033 (+0%)
-packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-trivial.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/linker/global-const-initializer.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-one.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage_alpha-to-one.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-overflow.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage_alpha-to-one_write-z.shader_test /usr/lib/piglit/bin/ext_image_dma_buf_import-tex-modifier /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-var-subtraction-2.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-var-subtraction.shader_test"
+packages/core2-64-poky-linux/tcl8: SRC_URI changed from "https://downloads.sourceforge.net/tcl/tcl-core8.6.15-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://interp.patch file://run-ptest" to "https://downloads.sourceforge.net/tcl/tcl-core8.6.16-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://interp.patch file://run-ptest"
+packages/core2-64-poky-linux/tcl8: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+Changes to packages/core2-64-poky-linux/tcl8 (sysroot):
+  /usr/include/tcl8.6.15 moved to /usr/include/tcl8.6.16
+  /usr/lib/tcl8/8.5/tcltest-2.5.8.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.9.tm
+packages/core2-64-poky-linux/tcl8/tcl8-dbg: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-dbg: PKGSIZE changed from 8326656 to 8326152 (-0%)
+packages/core2-64-poky-linux/tcl8/tcl8-dbg: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-dev: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-dev: PKGSIZE changed from 1457996 to 1457968 (-0%)
+packages/core2-64-poky-linux/tcl8/tcl8-dev: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-doc: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-doc: PKGSIZE changed from 3172121 to 3173260 (+0%)
+packages/core2-64-poky-linux/tcl8/tcl8-doc: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-lib: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-lib: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-locale: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-locale: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-ptest: FILELIST: removed "/usr/lib/tcl8/ptest/library/tzdata/SystemV/AST4 /usr/lib/tcl8/ptest/library/tzdata/SystemV/YST9 /usr/lib/tcl8/ptest/library/tzdata/SystemV/MST7MDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/CST6CDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/EST5EDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/AST4ADT /usr/lib/tcl8/ptest/library/tzdata/SystemV/PST8PDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/YST9YDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/HST10 /usr/lib/tcl8/ptest/library/tzdata/SystemV/EST5 /usr/lib/tcl8/ptest/library/tzdata/SystemV/CST6 /usr/lib/tcl8/ptest/library/tzdata/SystemV/MST7 /usr/lib/tcl8/ptest/library/tzdata/SystemV/PST8"
+packages/core2-64-poky-linux/tcl8/tcl8-ptest: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-ptest: PKGSIZE changed from 10085013 to 10111529 (+0%)
+packages/core2-64-poky-linux/tcl8/tcl8-ptest: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-src: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-src: PKGSIZE changed from 7651582 to 7650620 (-0%)
+packages/core2-64-poky-linux/tcl8/tcl8-src: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8-staticdev: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8-staticdev: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+packages/core2-64-poky-linux/tcl8/tcl8: FILELIST: removed "/usr/lib/tcl8/8.5/tcltest-2.5.8.tm /usr/bin/tclsh8.6.15", added "/usr/lib/tcl8/8.5/tcltest-2.5.9.tm /usr/bin/tclsh8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8: FILES: removed "/usr/lib/tcl8.6.15", added "/usr/lib/tcl8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8: PV changed from "8.6.15" to "8.6.16"
+packages/core2-64-poky-linux/tcl8/tcl8: PKGSIZE changed from 2231768 to 2232318 (+0%)
+packages/core2-64-poky-linux/tcl8/tcl8: PKGV changed from 8.6.15 [default] to 8.6.16 [default]
+Changes to packages/x86_64-linux/tcl8-native (sysroot):
+  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.15 to ./tclsh8.6.16
+  /usr/bin/tclsh8.6.15 moved to /usr/bin/tclsh8.6.16
+  /usr/include/tcl8.6.15 moved to /usr/include/tcl8.6.16
+  /usr/lib/tcl8/8.5/tcltest-2.5.8.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.9.tm
 
---===============3093649093323073759==
+--===============6652401400078194559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-dev: RRECOMMENDS: removed "piglit (['= 1.0+gitr0+d04d6fff00-r0'])", added "piglit (['= 1.0+gitr0+00affcf3a7-r0'])"
-packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit-staticdev: RDEPENDS: removed "piglit-dev (['= 1.0+gitr0+d04d6fff00-r0'])", added "piglit-dev (['= 1.0+gitr0+00affcf3a7-r0'])"
-packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
-packages/core2-64-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-trivial.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-var-subtraction-2.shader_test /usr/lib/piglit/bin/ext_image_dma_buf_import-tex-modifier /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage_alpha-to-one_write-z.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage_alpha-to-one.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/linker/global-const-initializer.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-coverage.shader_test /usr/lib/piglit/tests/spec/arb_framebuffer_object/execution/msaa-alpha-to-one.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-var-subtraction.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/vs-loop-uint-induction-overflow.shader_test"
-packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+d04d6fff00 to 1.0+gitr0+00affcf3a7
+Changes to packages/core2-64-poky-linux/tcl8 (sysroot):
+  /usr/include/tcl8.6.15 moved to /usr/include/tcl8.6.16
+  /usr/lib/tcl8/8.5/tcltest-2.5.8.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.9.tm
+packages/core2-64-poky-linux/tcl8/tcl8-ptest: FILELIST: removed "/usr/lib/tcl8/ptest/library/tzdata/SystemV/AST4 /usr/lib/tcl8/ptest/library/tzdata/SystemV/CST6 /usr/lib/tcl8/ptest/library/tzdata/SystemV/PST8 /usr/lib/tcl8/ptest/library/tzdata/SystemV/AST4ADT /usr/lib/tcl8/ptest/library/tzdata/SystemV/CST6CDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/EST5EDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/MST7MDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/PST8PDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/HST10 /usr/lib/tcl8/ptest/library/tzdata/SystemV/YST9YDT /usr/lib/tcl8/ptest/library/tzdata/SystemV/EST5 /usr/lib/tcl8/ptest/library/tzdata/SystemV/MST7 /usr/lib/tcl8/ptest/library/tzdata/SystemV/YST9"
+packages/core2-64-poky-linux/tcl8/tcl8: FILELIST: removed "/usr/bin/tclsh8.6.15 /usr/lib/tcl8/8.5/tcltest-2.5.8.tm", added "/usr/bin/tclsh8.6.16 /usr/lib/tcl8/8.5/tcltest-2.5.9.tm"
+Changes to packages/x86_64-linux/tcl8-native (sysroot):
+  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.15 to ./tclsh8.6.16
+  /usr/bin/tclsh8.6.15 moved to /usr/bin/tclsh8.6.16
+  /usr/include/tcl8.6.15 moved to /usr/include/tcl8.6.16
+  /usr/lib/tcl8/8.5/tcltest-2.5.8.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.9.tm
 
---===============3093649093323073759==
+--===============6652401400078194559==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-piglit-upgrade-to-latest-revision.patch"
+ filename="0001-tcl8-upgrade-8.6.15-8.6.16.patch"
 
-RnJvbSA5MDc1Mjg4MDU1NGRjNTgyZjRhYzU3ODBkYjI4ZTA4M2U2NmNhODBjIE1vbiBTZXAgMTcg
+RnJvbSBjMmU5YjQwNjQ1YmViYjc0ZDRhNGJhNmY3NTM3MWQ2NjdmYzZjNjk4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwODozMToxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBp
-Z2xpdDogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogLi4uTGlzdHMudHh0LWRvLW5v
-dC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggfCAyICstCiAuLi4wMDAxLXRl
-c3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaCB8IDIgKy0KIC4u
-Li1lZ2wtc3BlYy1tYWtlLWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNoIHwg
-OSArKystLS0tLS0KIC4uLi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZh
-cmlhYmxlLnBhdGNoIHwgMiArLQogLi4uLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJk
-Y29kZS1idWlsZC1wYXQucGF0Y2ggfCAyICstCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0
-L3BpZ2xpdF9naXQuYmIgICAgICAgICAgICAgICB8IDIgKy0KIDYgZmlsZXMgY2hhbmdlZCwgOCBp
-bnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4t
-d2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
-bGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2Fu
-bmVyLXBhdGgtZnIucGF0Y2gKaW5kZXggMGM4NzJkM2U5Yi4uNzVjMmQyZmJmYyAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxpc3RzLnR4
-dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VMaXN0cy50eHQtZG8tbm90
-LW9idGFpbi13YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gMmFmOThkNjdlMTZlMDgzYzM2ZTMxOTNhZWZiZGE5NDIzOTlhNDU1YSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gZGIzYTMzYTkxY2UwYTI4ZjI5N2ZlMjcwMTY3Y2YyZDBhNDQzNTRl
-MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBGcmksIDIzIEF1ZyAyMDI0IDE1OjI5OjQ1ICswMjAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkbyBub3Qgb2J0YWluIHdheWxhbmQtc2Nh
-bm5lciBwYXRoIGZyb20KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQv
-cGlnbGl0LzAwMDEtdGVzdHMtRml4LW5hcnJvd2luZy1lcnJvcnMtc2Vlbi13aXRoLWNsYW5nLnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgt
-bmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2gKaW5kZXggY2ZkZmViNjgzZS4u
-MjJkZDZjMzYwYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWds
-aXQvMDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2gK
-KysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgt
-bmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIDcwZjhkNTZiZjlkYjlkODVmM2QxOTdhYjlkZTk3MmUzYTUxNDUxNGMgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIDY1NTlmNWE3ZDgyZDQxMWViMDM1ZjlkN2M1ZGZiOTk4NzE4Mjgw
-M2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogRGF0ZTogV2VkLCAzIE1heSAyMDIzIDIxOjU5OjQzIC0wNzAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIHRlc3RzOiBGaXggbmFycm93aW5nIGVycm9ycyBzZWVuIHdpdGggY2xhbmcKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtZWds
-LXNwZWMtbWFrZS1lZ2xfZXh0X3N1cmZhY2VfY29tcHJlc3Npb24tY29uZC5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtZWdsLXNwZWMtbWFrZS1l
-Z2xfZXh0X3N1cmZhY2VfY29tcHJlc3Npb24tY29uZC5wYXRjaAppbmRleCA2OWNjMzAyOTEyLi5j
-OWU3ZmUxZTk2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xp
-dC8wMDAxLXRlc3RzLWVnbC1zcGVjLW1ha2UtZWdsX2V4dF9zdXJmYWNlX2NvbXByZXNzaW9uLWNv
-bmQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10
-ZXN0cy1lZ2wtc3BlYy1tYWtlLWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwYzk3ZDVlYWNhZTRmNTg0MzEzYzkyNTFlNTg1YmIwMjQ2
-Y2NlZmZjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4MzIwYzJmZjU3OTNhNjEyYWE3
-ZDcyMjNhZTMxNzY1Nzc0NDE2OWYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IEZyaSwgMjIgTm92IDIw
-MjQgMjI6NTI6MzEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHMvZWdsL3NwZWM6IG1ha2Ug
-ZWdsX2V4dF9zdXJmYWNlX2NvbXByZXNzaW9uIGNvbmRpdGlvbmFsCkBAIC0yMCw3ICsyMCw3IEBA
+CkRhdGU6IFdlZCwgMSBKYW4gMjAyNSAwNzo0NDozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRj
+bDg6IHVwZ3JhZGUgOC42LjE1IC0+IDguNi4xNgoKLS0tCiAuLi4vdGNsdGs4L3RjbDgvYWx0ZXIt
+aW5jbHVkZWRpci5wYXRjaCAgICAgICAgICAgICAgICAgfCAxMCArKysrKy0tLS0tCiAuLi4vdGNs
+dGs4L3RjbDgvZml4X25vbl9uYXRpdmVfYnVpbGRfaXNzdWUucGF0Y2ggICAgICAgfCAgNCArKy0t
+CiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvaW50ZXJwLnBhdGNoICAgICAgICAg
+fCAgNiArKystLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC90Y2wtYWRkLXNv
+bmFtZS5wYXRjaCB8ICA4ICsrKystLS0tCiAuLi4vdGNsOC90Y2wtcmVtb3ZlLWhhcmRjb2RlZC1p
+bnN0YWxsLXBhdGgucGF0Y2ggICAgICAgfCAgNiArKystLS0KIC4uLi90Y2x0azgve3RjbDhfOC42
+LjE1LmJiID0+IHRjbDhfOC42LjE2LmJifSAgICAgICAgICB8ICAyICstCiA2IGZpbGVzIGNoYW5n
+ZWQsIDE4IGluc2VydGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy90Y2x0azgve3RjbDhfOC42LjE1LmJiID0+IHRjbDhfOC42LjE2LmJifSAoOTgl
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9hbHRlci1p
+bmNsdWRlZGlyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVy
+LWluY2x1ZGVkaXIucGF0Y2gKaW5kZXggYmZjNzE4Y2ZkMy4uNmNlYjI5N2NlYSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0
+Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVk
+aXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDMxMzBkY2E2MDYzNmRjMTJkMGQxMmRmNzVi
+MDAyZmQxMjMzNDllMjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhiYjgxNzRlMTNj
+MWMwZTNiMjdmZGY5NmEzOTNmOWZiMWI3ZTE0YmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAyMiBO
+b3YgMjAyMiAxODo0ODoyNyArMDgwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6IHVwZGF0ZSB0aGUg
+aGVhZGVyIGxvY2F0aW9uCkBAIC0yNiw3ICsyNiw3IEBAIFNpZ25lZC1vZmYtYnk6IE1pbmdsaSBZ
+dSA8bWluZ2xpLnl1QHdpbmRyaXZlci5jb20+CiAgMyBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKyksIDQgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS91bml4L01ha2VmaWxlLmluIGIv
+dW5peC9NYWtlZmlsZS5pbgotaW5kZXggYTNiN2Q2OS4uOTY5ZGRiOCAxMDA2NDQKK2luZGV4IGMz
+Yjc1ZTMuLjYwZWQ5M2UgMTAwNjQ0CiAtLS0gYS91bml4L01ha2VmaWxlLmluCiArKysgYi91bml4
+L01ha2VmaWxlLmluCiBAQCAtNTcsNyArNTcsNyBAQCBTQ1JJUFRfSU5TVEFMTF9ESVIJPSAkKElO
+U1RBTExfUk9PVCkkKFRDTF9MSUJSQVJZKQpAQCAtMzksMTAgKzM5LDEwIEBAIGluZGV4IGEzYjdk
+NjkuLjk2OWRkYjggMTAwNjQ0CiAgIyBQYXRoIHRvIHRoZSBwcml2YXRlIHRjbCBoZWFkZXIgZGly
+OgogIFBSSVZBVEVfSU5DTFVERV9ESVIJPSBAUFJJVkFURV9JTkNMVURFX0RJUkAKIGRpZmYgLS1n
+aXQgYS91bml4L2NvbmZpZ3VyZS5pbiBiL3VuaXgvY29uZmlndXJlLmluCi1pbmRleCA0OTc0ZmI2
+Li5hNzI5MzRmIDEwMDY0NAoraW5kZXggOGU2NzI2Yi4uMjM0NTY4OSAxMDA2NDQKIC0tLSBhL3Vu
+aXgvY29uZmlndXJlLmluCiArKysgYi91bml4L2NvbmZpZ3VyZS5pbgotQEAgLTc3Niw3ICs3NzYs
+NyBAQCBldmFsICJUQ0xfTElCX0ZJTEU9bGlidGNsJHtMSUJfU1VGRklYfSIKK0BAIC03NzUsNyAr
+Nzc1LDcgQEAgZXZhbCAiVENMX0xJQl9GSUxFPWxpYnRjbCR7TElCX1NVRkZJWH0iCiAgZXZhbCAi
+VENMX0xJQl9GSUxFPSR7VENMX0xJQl9GSUxFfSIKICAKICB0ZXN0IC16ICIkVENMX0xJQlJBUlki
+ICYmIFRDTF9MSUJSQVJZPSckKGxpYmRpcikvdGNsJChWRVJTSU9OKScKQEAgLTUxLDcgKzUxLDcg
+QEAgaW5kZXggNDk3NGZiNi4uYTcyOTM0ZiAxMDA2NDQKICBIVE1MX0RJUj0nJChESVNURElSKS9o
+dG1sJwogIAogICMgTm90ZTogIGluIHRoZSBmb2xsb3dpbmcgdmFyaWFibGUsIGl0J3MgaW1wb3J0
+YW50IHRvIHVzZSB0aGUgYWJzb2x1dGUKLUBAIC04OTcsNyArODk3LDcgQEAgVENMX0JVSUxEX1NU
+VUJfTElCX1BBVEg9ImBwd2RgLyR7VENMX1NUVUJfTElCX0ZJTEV9IgorQEAgLTg5OCw3ICs4OTgs
+NyBAQCBUQ0xfQlVJTERfU1RVQl9MSUJfUEFUSD0iYHB3ZGAvJHtUQ0xfU1RVQl9MSUJfRklMRX0i
+CiAgVENMX1NUVUJfTElCX1BBVEg9IiR7VENMX1NUVUJfTElCX0RJUn0vJHtUQ0xfU1RVQl9MSUJf
+RklMRX0iCiAgCiAgIyBJbnN0YWxsIHRpbWUgaGVhZGVyIGRpciBjYW4gYmUgc2V0IHZpYSAtLWlu
+Y2x1ZGVkaXIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9m
+aXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90
+Y2x0azgvdGNsOC9maXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaAppbmRleCA3NDgwMTU2
+Y2UwLi42MTE1Mzg3OGZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4
+L3RjbDgvZml4X25vbl9uYXRpdmVfYnVpbGRfaXNzdWUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3RjbHRrOC90Y2w4L2ZpeF9ub25fbmF0aXZlX2J1aWxkX2lzc3VlLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSBiZDUxMjU0N2ZjMDAyZmRiMjA4MDhiZjViOGI5ZmVlYjg0OGI2
+NTEyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzZDExZTdmZDlhYmE2MjUxOTc0ZDk5
+MDI4NjM0N2MwNjU4MmU4N2I5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTml0aW4g
+QSBLYW1ibGUgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4KIERhdGU6IEZyaSwgMTMgQXVnIDIw
+MTAgMTI6MjQ6MDAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGNsOiBmaXggYSBidWlsZCBpc3N1
+ZQpAQCAtMTAsNyArMTAsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
+eEBsaW51dHJvbml4LmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAxMCBk
+ZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL3VuaXgvTWFrZWZpbGUuaW4gYi91bml4L01ha2Vm
+aWxlLmluCi1pbmRleCA5NjVmNmRhLi5hMGJkNjNmIDEwMDY0NAoraW5kZXggYTJmOWUyMS4uYzNi
+NzVlMyAxMDA2NDQKIC0tLSBhL3VuaXgvTWFrZWZpbGUuaW4KICsrKyBiL3VuaXgvTWFrZWZpbGUu
+aW4KIEBAIC03MjMsNyArNzIzLDcgQEAgdGNsdGVzdC1yZWFsOgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ludGVycC5wYXRjaCBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy90Y2x0azgvdGNsOC9pbnRlcnAucGF0Y2gKaW5kZXggMmUwZGM5NGNmZi4uYTRmYjBj
+NWE5ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ludGVy
+cC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvaW50ZXJwLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0MjZhYTJmZjYyZGRhNzdmZDAxMWU4ZjYzMGI5ZDRl
+YTE3OTg0ODE3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwOTA0OWJlZWQ3MjMyNDNk
+MDkyZmZhYTM3OTM5ZGZlMGYyZWQ2ODI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiBEYXRlOiBNb24sIDEyIEp1bCAyMDIx
+IDE0OjUwOjEzICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRjbDogZml4IHJhY2UgaW4gaW50ZXJw
+LnRlc3QKQEAgLTEzLDEwICsxMywxMCBAQCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9z
+cy5idXJ0b25AYXJtLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAzIGRl
+bGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvdGVzdHMvaW50ZXJwLnRlc3QgYi90ZXN0cy9pbnRl
+cnAudGVzdAotaW5kZXggZDc0MjQ4NC4uZmM5MDk5MCAxMDA2NDQKK2luZGV4IDI0ZmZiMWIuLmM2
+NDYwYWQgMTAwNjQ0CiAtLS0gYS90ZXN0cy9pbnRlcnAudGVzdAogKysrIGIvdGVzdHMvaW50ZXJw
+LnRlc3QKLUBAIC0zNTk1LDE3ICszNTk1LDE4IEBAIHRlc3QgaW50ZXJwLTM2Ljcge0NoaWxkQmdl
+cnJvciBzZXRzIGVycm9yIGhhbmRsZXIgb2YgY2hpbGQgWzE5OTkwMzVdfSAtc2V0dXAgeworQEAg
+LTM2MTQsMTcgKzM2MTQsMTggQEAgdGVzdCBpbnRlcnAtMzYuNyB7Q2hpbGRCZ2Vycm9yIHNldHMg
+ZXJyb3IgaGFuZGxlciBvZiBjaGlsZCBbMTk5OTAzNV19IC1zZXR1cCB7CiAgICAgICAgICB2YXJp
+YWJsZSByZXN1bHQKICAgICAgICAgIHNldCByZXN1bHQgW2xpbmRleCAkYXJncyAwXQogICAgICB9
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLWFkZC1z
+b25hbWUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLWFkZC1z
+b25hbWUucGF0Y2gKaW5kZXggMWNkNGQ3NjI4My4uODhmYWY4YWM3MyAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1hZGQtc29uYW1lLnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gYjg5ZmQ3M2RhZjliM2ViMmY4ODlmNjViYWJhNWY5MGQ4YTkz
+MGM4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMGQ4ZTU2N2QxMzJlMDUwYzVkNGE4
+ZDhkOTI1NzQxN2UwNjc5NDgzYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hh
+cmQgUHVyZGllIDxycHVyZGllQGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFdlZCwgOSBEZWMgMjAw
+OSAyMzo1OTo0NCArMDAwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6IEFkZCB0Y2x0ayBmcm9tIE9F
+LmRldiBidXQgd2l0aCBsZWdhY3kgc3RhZ2luZyBmdW5jdGlvbgpAQCAtMTEsMTAgKzExLDEwIEBA
 IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiAg
-MiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiAKIGRpZmYg
-LS1naXQgYS90ZXN0cy9lZ2wvc3BlYy9lZ2xfZXh0X3N1cmZhY2VfY29tcHJlc3Npb24vQ01ha2VM
-aXN0cy5nbGVzMy50eHQgYi90ZXN0cy9lZ2wvc3BlYy9lZ2xfZXh0X3N1cmZhY2VfY29tcHJlc3Np
-b24vQ01ha2VMaXN0cy5nbGVzMy50eHQKLWluZGV4IGQ5NTQwYmNmZGUyNy4uMDFhNzAxNjRmNDQ0
-IDEwMDY0NAoraW5kZXggZDk1NDBiY2ZkLi4wMWE3MDE2NGYgMTAwNjQ0CiAtLS0gYS90ZXN0cy9l
-Z2wvc3BlYy9lZ2xfZXh0X3N1cmZhY2VfY29tcHJlc3Npb24vQ01ha2VMaXN0cy5nbGVzMy50eHQK
-ICsrKyBiL3Rlc3RzL2VnbC9zcGVjL2VnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi9DTWFrZUxp
-c3RzLmdsZXMzLnR4dAogQEAgLTIsMTAgKzIsMTIgQEAgbGlua19saWJyYXJpZXMoCkBAIC0zOSw3
-ICszOSw3IEBAIGluZGV4IGQ5NTQwYmNmZGUyNy4uMDFhNzAxNjRmNDQ0IDEwMDY0NAogIAogICMg
-dmltOiBmdD1jbWFrZToKIGRpZmYgLS1naXQgYS90ZXN0cy9lZ2wvc3BlYy9lZ2xfZXh0X3N1cmZh
-Y2VfY29tcHJlc3Npb24vY3JlYXRlX3N1cmZhY2UuYyBiL3Rlc3RzL2VnbC9zcGVjL2VnbF9leHRf
-c3VyZmFjZV9jb21wcmVzc2lvbi9jcmVhdGVfc3VyZmFjZS5jCi1pbmRleCBlM2Q1NWQ0MzMxZmIu
-LjM1ZjEzZmQwMDdiNCAxMDA2NDQKK2luZGV4IGUzZDU1ZDQzMy4uMzVmMTNmZDAwIDEwMDY0NAog
-LS0tIGEvdGVzdHMvZWdsL3NwZWMvZWdsX2V4dF9zdXJmYWNlX2NvbXByZXNzaW9uL2NyZWF0ZV9z
-dXJmYWNlLmMKICsrKyBiL3Rlc3RzL2VnbC9zcGVjL2VnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lv
-bi9jcmVhdGVfc3VyZmFjZS5jCiBAQCAtMjUsNyArMjUsNiBAQApAQCAtNTAsNiArNTAsMyBAQCBp
-bmRleCBlM2Q1NWQ0MzMxZmIuLjM1ZjEzZmQwMDdiNCAxMDA2NDQKICAjaW5jbHVkZSAiLi4vLi4v
-ZWdsLXdheWxhbmQuaCIKICAKICBzdGF0aWMgZW51bSBwaWdsaXRfcmVzdWx0Ci0tLSAKLTIuMzku
-NQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAy
-LWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXIt
-V0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2gKaW5kZXggMTdiY2JjZTE5MC4uZmQw
-ODVkYTIyMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQv
-MDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNl
-LXByb3Blci1XQVlMQU5EX0lOQ0xVREVfRElSUy12YXJpYWJsZS5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gOWIyYzIyMTNhMmQ3YWFlYTM1MDY0OWVlMDMxZTIyN2I0NDM0MzQyOCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjkwMzNmMzIzZDg3MDU1MjQxMGMzMWQxZTM3MjEzMDRi
-OGEzOGU5OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFBhc2NhbCBCYWNoIDxwYXNj
-YWwuYmFjaEBzaWVtZW5zLmNvbT4KIERhdGU6IFRodSwgNCBPY3QgMjAxOCAxNDo0MzoxNyArMDIw
-MAogU3ViamVjdDogW1BBVENIXSBjbWFrZTogdXNlIHByb3BlciBXQVlMQU5EX0lOQ0xVREVfRElS
-UyB2YXJpYWJsZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWds
-aXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xpdC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQt
-cGF0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0
-cy11dGlsLXBpZ2xpdC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCmlu
-ZGV4IDc2N2U5M2M0M2UuLmNlMWNlMTJhMDcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90
-LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
-bGl0L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29k
-ZS1idWlsZC1wYXQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNkNjIxY2YwMjhhY2IzYjQ2
-NDc1OWFiYjcyYTM4MTAyODQ0MDc5YjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGRk
-ZDEyYzA1NmJmMDVmODBkZGQ3Mjg3NTBhNTE5YmM1MDJkNTVmM2UgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4K
-IERhdGU6IFR1ZSwgMTAgTm92IDIwMjAgMTc6MTM6NTAgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-dGVzdHMvdXRpbC9waWdsaXQtc2hhZGVyLmM6IGRvIG5vdCBoYXJkY29kZSBidWlsZCBwYXRoIGlu
-dG8KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5i
-YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgppbmRleCAzZTk1
-MGZmNjFjLi44MjljYjc3MzBmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
-bGl0L3BpZ2xpdF9naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWds
-aXRfZ2l0LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVk
-ZXNrdG9wLm9yZy9tZXNhL3BpZ2xpdC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hCiAgICAg
-ICAgICAgICIKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKIAotU1JDUkVWID0gImQwNGQ2
-ZmZmMDA4NDlhMmE4ZTI5ZWYzMjUxYzZjYTA0YTJmNjhkYzciCitTUkNSRVYgPSAiMDBhZmZjZjNh
-NzhhMTIwMGNjOGZiMWU1MjY0YzE5YWMxZjhmMGZhMiIKICMgKHdoZW4gUFYgZ29lcyBhYm92ZSAx
-LjAgcmVtb3ZlIHRoZSB0cmFpbGluZyByKQogUFYgPSAiMS4wK2dpdHIiCiAKLS0gCjIuNDQuMQoK
+MiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAt
+LWdpdCBhL3VuaXgvTWFrZWZpbGUuaW4gYi91bml4L01ha2VmaWxlLmluCi1pbmRleCA3NjE5YWZj
+Li45ZGQwNTNkIDEwMDY0NAoraW5kZXggYmM3NDNiMy4uYTJmOWUyMSAxMDA2NDQKIC0tLSBhL3Vu
+aXgvTWFrZWZpbGUuaW4KICsrKyBiL3VuaXgvTWFrZWZpbGUuaW4KLUBAIC05MDQsNyArOTA0LDEw
+IEBAIGluc3RhbGwtYmluYXJpZXM6IGJpbmFyaWVzCitAQCAtODEyLDcgKzgxMiwxMCBAQCBpbnN0
+YWxsLWJpbmFyaWVzOiBiaW5hcmllcwogIAlkb25lCiAgCUBlY2hvICJJbnN0YWxsaW5nICQoTElC
+X0ZJTEUpIHRvICQoRExMX0lOU1RBTExfRElSKS8iCiAgCUBASU5TVEFMTF9MSUJACkBAIC0yNyw3
+ICsyNyw3IEBAIGluZGV4IDc2MTlhZmMuLjlkZDA1M2QgMTAwNjQ0CiAgCUAkKElOU1RBTExfUFJP
+R1JBTSkgJHtUQ0xfRVhFfSAiJChCSU5fSU5TVEFMTF9ESVIpL3RjbHNoJChWRVJTSU9OKSR7RVhF
+X1NVRkZJWH0iCiAgCUBlY2hvICJJbnN0YWxsaW5nIHRjbENvbmZpZy5zaCB0byAkKENPTkZJR19J
+TlNUQUxMX0RJUikvIgogZGlmZiAtLWdpdCBhL3VuaXgvdGNsLm00IGIvdW5peC90Y2wubTQKLWlu
+ZGV4IDAzMDdhMDYuLjM3YzRkNjcgMTAwNjQ0CitpbmRleCA3ZjU0NjRlLi5jZDhkOTI5IDEwMDY0
+NAogLS0tIGEvdW5peC90Y2wubTQKICsrKyBiL3VuaXgvdGNsLm00CiBAQCAtMTM3OCw2ICsxMzc4
+LDkgQEAgQUNfREVGVU4oW1NDX0NPTkZJR19DRkxBR1NdLCBbCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLXJlbW92ZS1oYXJkY29kZWQtaW5zdGFsbC1w
+YXRoLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1yZW1vdmUt
+aGFyZGNvZGVkLWluc3RhbGwtcGF0aC5wYXRjaAppbmRleCA5M2U3ODc3MjU2Li4wYTBjMTE3M2Ey
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLXJlbW92
+ZS1oYXJkY29kZWQtaW5zdGFsbC1wYXRoLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy90Y2x0azgvdGNsOC90Y2wtcmVtb3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIDA1MGZjNTk3ZmJmYTRkYTJjMzFiZDBkZjU4Yzg3MTg5MmE0OTA0
+NzAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZlM2NiYzM2MDBhYzQ3NDc3NmU5MmVi
+OWE4OGFiY2I3NDI5OWMzMjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiAiU29uZy5M
+aSIgPFNvbmcuTGlAd2luZHJpdmVyLmNvbT4KIERhdGU6IFdlZCwgMSBBdWcgMjAxMiAxOTowNTo1
+MSArMDgwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6aW5zdGFsbCB0Y2wgdG8gbGliNjQgaW5zdGVh
+ZCBvZiBsaWIgb24gNjRiaXQgdGFyZ2V0CkBAIC0xNywxMCArMTcsMTAgQEAgU2lnbmVkLW9mZi1i
+eTogWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvdW5peC9jb25maWd1cmUu
+aW4gYi91bml4L2NvbmZpZ3VyZS5pbgotaW5kZXggNGY2MjUxMC4uNDk3NGZiNiAxMDA2NDQKK2lu
+ZGV4IGU4OGVjM2MuLjhlNjcyNmIgMTAwNjQ0CiAtLS0gYS91bml4L2NvbmZpZ3VyZS5pbgogKysr
+IGIvdW5peC9jb25maWd1cmUuaW4KLUBAIC03NzUsNyArNzc1LDcgQEAgZXZhbCAiVENMX0xJQl9G
+SUxFPWxpYnRjbCR7TElCX1NVRkZJWH0iCitAQCAtNzc0LDcgKzc3NCw3IEBAIGV2YWwgIlRDTF9M
+SUJfRklMRT1saWJ0Y2wke0xJQl9TVUZGSVh9IgogIAogIGV2YWwgIlRDTF9MSUJfRklMRT0ke1RD
+TF9MSUJfRklMRX0iCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4
+L3RjbDhfOC42LjE1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4XzguNi4x
+Ni5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvdGNsdGs4L3RjbDhfOC42LjE1LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+dGNsdGs4L3RjbDhfOC42LjE2LmJiCmluZGV4IGIxMzEwMmRkN2EuLjJlZThiZTU2ZDEgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTUuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4XzguNi4xNi5iYgpAQCAtMjQsNyArMjQs
+NyBAQCBTUkNfVVJJID0gIiR7QkFTRV9TUkNfVVJJfSBcCiAgICAgICAgICAgIGZpbGU6Ly9pbnRl
+cnAucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjg0NDc3NTQ5MWU0MzVlMzRkODNkNmNjZmJhZGQxMzQyZjE4
+NTVmMTcwNTI1MzIzM2E4NjE1MmRmMDc2NWU3OGQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2Iz
+NzEzODZhOWE5MjhlZWNkYmYyNjNiY2FiN2Q2YTUzMWU2MjBjYTNmYmFiNGZkZWViM2Q2YTlhNTZm
+MzhlOSIKIAogU1JDX1VSSTpjbGFzcy1uYXRpdmUgPSAiJHtCQVNFX1NSQ19VUkl9IgogCi0tIAoy
+LjQ0LjEKCg==
 
---===============3093649093323073759==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:68ccf2aacd0db7e6e9fb3e3307d52814284ef8d6"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 400 Local 389 Mirrors 0 Missed 11 Current 613 (97% match, 98% complete)
-Removing 10 stale sstate objects for arch core2-64...done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2146 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
-NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Succeeded
-NOTE: Running task 2780 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
-NOTE: Running task 2781 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Succeeded
-NOTE: Running task 2782 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
-NOTE: Running task 2783 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_collect_spdx_deps)
-NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Succeeded
-NOTE: Running task 2784 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2785 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
-NOTE: Running task 2786 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
-NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 1e1e200888113b8514d6004d68242ecb4d7375231d369c328dccca02b046218b
-NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch unihash changed to b74c5c1f94f14b90b90db91a0915c0b025724744cfdb3c3624c589608070e33c
-NOTE: Setscene tasks completed
-NOTE: Running task 2787 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
-NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Succeeded
-NOTE: Running task 2788 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
-NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Succeeded
-NOTE: Running task 2789 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
-NOTE: recipe piglit-1.0+gitr-r0: task do_install: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_install: Succeeded
-NOTE: Running task 2790 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
-NOTE: Running task 2791 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
-NOTE: recipe piglit-1.0+gitr-r0: task do_populate_sysroot: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_package: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot unihash changed to f18089f9e9107d80e08a4b927b7eed6fa476de4ccda2a38f328e7ac2049eb6ea
-NOTE: Setscene tasks completed
-NOTE: recipe piglit-1.0+gitr-r0: task do_package: Succeeded
-NOTE: Running task 2792 of 2799 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
-NOTE: recipe piglit-1.0+gitr-r0: task do_packagedata: Started
-NOTE: recipe piglit-1.0+gitr-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 2792 tasks of which 2778 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250101081803.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250101081803.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/log.do_packagedata.2025346
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-src went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-dbg went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-staticdev went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-dev went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-doc went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-locale went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-bash-completion went backwards which would break package feeds (from 0:1.0+gitr0+d04d6fff00-r0 to 0:1.0+gitr0+00affcf3a7-r0) [version-going-backwards]
-ERROR: piglit-1.0+gitr-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/log.do_packagedata.2025346
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata) failed with exit code '1'
-
---===============3093649093323073759==--
+--===============6652401400078194559==--
 
