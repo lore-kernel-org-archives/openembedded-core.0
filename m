@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6F3E7718B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9541E77199
 	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 09:56:37 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.5509.1735811786705782620
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.5510.1735811788255862731
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jan 2025 01:56:27 -0800
+ Thu, 02 Jan 2025 01:56:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=d1vwbJYD;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rz85QkLo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101942671e3e0-2a90fab5-d4ba-45ab-a71b-bfd408e55b55-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BD+v0ZhF;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZpjF7Rqq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101942671ff46-df6fd155-6831-4232-8944-801a4879da05-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1735811785; i=@automation.yoctoproject.org;
+	t=1735811792; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=xTQob5IzIKwdw88T479RuQq/urhm9nrPYCuzuk+shvk=;
-	b=d1vwbJYD4lvRzr/MA0cvTlXCDhdQO12FfnN+SYBKye5FeaVChTZNpAwkootEBC9a
-	dwAxOhyAstK2Cn84Bbuej+2tAEUHC4hKOyaxzTd/mCb5a9V4cSaXluht1phZ5hbbqII
-	fRQiTZFQZuqBHnsH90qgm5g/8Da2B6vxLD0fIYbA=
+	bh=iRbbIzmuH9JyJww1uZQ+LzZLaq5GBYs5Qq+25zuuNCg=;
+	b=BD+v0ZhF2CY7l2ahSeiOIPT4Iqp52P7/SrO7x6Uex2iDc5VdwNL5CFNzSnTmb1jU
+	t+Xn1QyBc8oSTnPVjlp652Dw8JiGctHT7pB5QI4jPpE/kIaR4rdqWyPuupNBhj/KHQG
+	kfSncHeIKnn4sCvrCoSn7mFal+AFmXhfcOZ/XrwI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735811785;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735811792;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=xTQob5IzIKwdw88T479RuQq/urhm9nrPYCuzuk+shvk=;
-	b=rz85QkLocH5fxKwcyfRcKMr4z0dIrVFwyT/Hw4J1DIEwV/OwzWih/PehChjZURRe
-	ztho09JLCuxvLJ6SaOrylLTapmuhvfOx7H0xZxqSAKLdrGFJwEFftgs4zL+Tck1kI/H
-	TjfBNUBdMbm98ca4d6x4HrzheNgTgzzQUEXcyF18=
+	bh=iRbbIzmuH9JyJww1uZQ+LzZLaq5GBYs5Qq+25zuuNCg=;
+	b=ZpjF7RqqDRXZlIhULHXJs0wuftUWZweIJb7wgsW9vkDCMOJEnAsND0FMOm3rCEf6
+	DYtVTW+aldYnme12n5lBGnNCq+srO4FmUOH/6tIkOHZUMxAznf6/GyaclO3rqaBj1BU
+	jSNy1FaufPU00VFHnw3M+vhUIUXcGd/6tApjSE/g=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 01/21] base-passwd: upgrade 3.6.5 -> 3.6.6
-In-Reply-To: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
-References: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 10/21] libical: upgrade 3.0.18 -> 3.0.19
+In-Reply-To: <20250102094059.322187-10-richard.purdie@linuxfoundation.org>
+References: <20250102094059.322187-10-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101942671e3e0-2a90fab5-d4ba-45ab-a71b-bfd408e55b55-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Jan 2025 09:56:25 +0000
+Message-ID: <010101942671ff46-df6fd155-6831-4232-8944-801a4879da05-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Jan 2025 09:56:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.02-54.240.27.193
+X-SES-Outgoing: 2025.01.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 09:56:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209282
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209291
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/01-21-base-passwd-upgrade-3.6.5---3.6.6.patch
+Testing patch /home/patchtest/share/mboxes/10-21-libical-upgrade-3.0.18---3.0.19.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
