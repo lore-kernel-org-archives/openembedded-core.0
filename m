@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 507F2E7719B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32136E77194
 	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 09:41:27 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.5200.1735810882046007294
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.5389.1735810884776184986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jan 2025 01:41:22 -0800
+ Thu, 02 Jan 2025 01:41:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PS01OMHw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361815b96cso73262405e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 01:41:21 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B7iNS+e7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-386329da1d9so5065030f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 01:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1735810880; x=1736415680; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1735810883; x=1736415683; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AD0ctLERvvsDujBnSEntSy8BD/DJSeiH0RsoOf3N8yE=;
-        b=PS01OMHwCtH5A4mt+36mmHjnL2+MmR9BZ5XYU+cyF3I37FjvSvm+3mGuQixzuVCOst
-         tGvPedhjTl06zr121tiVZ1r3yhVaGcB4YgnJP5Pn+5EsDPpHToVhMpI3S8wicDYJ1Rk7
-         BTsgzbT6GVcyJ3a+K21Hyym/drt4V5IX8WEl4=
+        bh=/ZXzbB/xl4R9UqSS9c+wTemFPUWOoxS3w9NxKcc2SW0=;
+        b=B7iNS+e7OcmhMcSLAxX3XLfZ525TnFQZeddQDsL1V3Dl7UOy8zXhioVGKygiH0DoF/
+         /prvDVWJCLBfJ3mLgcbJILPMg+qGf7LgLY5+7eWK/398lD6NbZhq/ZrxnSeYAW6nCO9m
+         iGflezqdTf3gAX79Rv+t6dM72R0xp6oZu/Sic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735810880; x=1736415680;
+        d=1e100.net; s=20230601; t=1735810883; x=1736415683;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AD0ctLERvvsDujBnSEntSy8BD/DJSeiH0RsoOf3N8yE=;
-        b=wN1KGPKhRk5PzX+1QpZt44IWsj9e7ci/f6zZMSVad1CfdJ/7rDMX4JlUbCnR59fxTx
-         gAiefWkxKCfJSLDLdctz8Rd7UZ9phqaaeYxWElZtVKAZJdhlu7zRXvD1dxQix7KEE/aJ
-         k21ng3s/3p/l7bDXVVmjdr+V+cSrlfkbZ0TdH7sqlKS7tmeTwwF3j7JFLsbfUlvEXf6V
-         uh3w2zjGbY+bjDUzXrO3xB9p13G0MfY0nKpn/BDqEekMMmUfyFt8UwSMZbgjBQrHrQMm
-         rL58BI+XQAYs+7LhgQVoOYx2VJCSWUAkZ86KedioTQ133KZkhgrTvll5BRgYarfvZfux
-         eRoQ==
-X-Gm-Message-State: AOJu0Yzo638arklAvxYGiRpPqhicrSPV2YFrPCdokePsLltVfK5XB0g2
-	OFFCCccvowgNiY0kvRxb6bB/g2sqLhIced49X+7I/0u1DgqSJxQ9rSzXzx3sw0nRJV6nrXOjUiE
-	oE4o=
-X-Gm-Gg: ASbGncuxKvyqnqT5Iy2vMBjEnDFsTuhvjDVo2YE78VP23igdQ7bn5i2e0WT6JTmBq6d
-	+Y6UU81FkZ6u9miLaQC1jNORJonzMGBTyHhbFffPGQ3UopLpyryLrMOLMWTJ9qeNnA/bw3n2MWk
-	OaRRi7uc/KBw/e27hn282U/+PmIxVY2R9e7bidnUBF/H9KCpV/+tf2MVLwwad+eEm/vLTchKPRs
-	trsPbLsprF+e5qnEN7a3CWTUD1ooW5Ip8DURPbHnlm5r5mpv3z8K41egkZTgDLwZMc2cTwVjOh8
-	fBfOfbaPVw==
-X-Google-Smtp-Source: AGHT+IEXo62giCWR/7+q/u/7rZ0XEheNlK54vVMuTJzt/XecpMKqqrFCAUUXdDbMEr6TC2hoCk39kg==
-X-Received: by 2002:a05:600c:3b23:b0:434:feb1:adcf with SMTP id 5b1f17b1804b1-43668b5f3b7mr332517045e9.25.1735810879870;
-        Thu, 02 Jan 2025 01:41:19 -0800 (PST)
+        bh=/ZXzbB/xl4R9UqSS9c+wTemFPUWOoxS3w9NxKcc2SW0=;
+        b=BaXwokNTZItk+7ULbg31JdxYeVKY4XpGODZ576105bMaJjWgtbOQW3F6KbwPihh1GX
+         QhZuglagBVUoRqMvhkhh0YaksWJCsZewN5Xq1oXuVxDkolbsENbDcyutbGkaseNkwkiL
+         H46Ukl+zPyJG2ZanWzoE9eL3m+9f7uBNMaB1gVuQlNocZAjM/S1dpItY3IbI/GX2YyAk
+         Bq59MvRTj/w+6sBFJX55j0I3UuLNG5j20o/JqEQ49DdZN0xjVqQf8/tEyjmY2IqKJduG
+         iQ39K0fBKiLgpHIlSUxdPZXwvPQSjA24N6AV0ua0HOgVcbdMtme6G6FcZt+g8+7Ovh0A
+         zm0Q==
+X-Gm-Message-State: AOJu0Yzurf6ojUSA3ElMfvUNQMta6bO6KzrpZWw4anFMh6cZwFlZmkl+
+	vQK0vCv7A9D7gUgjSppRf43rTqMxhqeKEM6yRlKQuEt7yUPFLpcUlWy78taqyEGfvN9MkNJkJ8j
+	jFTI=
+X-Gm-Gg: ASbGncuEOAWDBC4Q2GIBYPCcA7TFKGIa0nf7DC4aIFhITAK1ltLGF6QCkmh0JBD0qUs
+	Nd78bWCInTfTXGErmYiTdtx7B0g/UR8n9hepY6LIgMoZKidtD+zJeh6493mUnl9q7Jg8jnxYhgj
+	dM6Db+HQMsHhzhozAtCeUmM+nctzv3hmnuGBNdRO6AViNkwIQ3MBvsDoSqtfZ4TG34Wn8eFWpqX
+	JjQ7Wir60hD12A/AooN3SB33lEkkzOzBA3KR9Rf+Jcn53C+CMct+Y6RWR27Z+Uj3dwRkOxRprJB
+	tTBopvFJeQ==
+X-Google-Smtp-Source: AGHT+IGAP0lm111hJWggIrxXdCnRF4XYaIUitlAY9LDOjyoUQeSh/CkJgOrCquQnSStZYZlXjkZ1og==
+X-Received: by 2002:a05:6000:1446:b0:385:fae4:424e with SMTP id ffacd0b85a97d-38a22408624mr32967707f8f.52.1735810882831;
+        Thu, 02 Jan 2025 01:41:22 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ae2e:9f02:55c2:739d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119ccsm479785625e9.24.2025.01.02.01.41.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119ccsm479785625e9.24.2025.01.02.01.41.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2025 01:41:18 -0800 (PST)
+        Thu, 02 Jan 2025 01:41:21 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/21] puzzles: upgrade to latest revision
-Date: Thu,  2 Jan 2025 09:40:44 +0000
-Message-ID: <20250102094059.322187-13-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 15/21] python3-hypothesis: upgrade 6.122.6 -> 6.123.2
+Date: Thu,  2 Jan 2025 09:40:46 +0000
+Message-ID: <20250102094059.322187-15-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
 References: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
@@ -64,24 +64,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 09:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209273
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209275
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ ...hon3-hypothesis_6.122.6.bb => python3-hypothesis_6.123.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.122.6.bb => python3-hypothesis_6.123.2.bb} (91%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 17ac1fe7e23..677a9e291e0 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.122.6.bb b/meta/recipes-devtools/python/python3-hypothesis_6.123.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.122.6.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.123.2.bb
+index 37eac3a1a53..5f13a6ca8b8 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.122.6.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.123.2.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "8e83f39eb989d36f10fcf4be7c4dd5eaa0e69f02"
-+SRCREV = "79be403101d055d2fde3611a5f133135d4094ee9"
- PE = "2"
- PV = "0.0+git"
+-SRC_URI[sha256sum] = "2642598dc4426945d62b849a915d0d3e2d53f0fb17090f0cf10d8a545a421dc1"
++SRC_URI[sha256sum] = "02c25552783764146b191c69eef69d8375827b58a75074055705ab8fdbc95fc5"
  
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 
