@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F95E77188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2EBE77194
 	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 09:41:37 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.5207.1735810893200073279
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.5390.1735810889179853810
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jan 2025 01:41:33 -0800
+ Thu, 02 Jan 2025 01:41:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WbJ4dGZH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436202dd7f6so126921855e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 01:41:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VYaLt9Yb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso113517605e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 01:41:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1735810891; x=1736415691; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1735810887; x=1736415687; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sjm7mCtvafGI5/7Aspmiq6XilP0wrxcpTMXOMLb0K1M=;
-        b=WbJ4dGZHDJwkjq8NGKWaNaFwVb9ACTBBTw7mJ/CaCSwP6rDMx7TzbGMrxuk2uBR9Eu
-         d+fwKnBxWyp7SwAUUnFcn95H+aJLqFbXqPH6l953mPOkEeXahcdLrng8JF1ytZULoKaB
-         jgDgoIjfqS3yvatWQeSCWZtZSTSCanbwcJu0g=
+        bh=F0p8osgmtLV/aQCugc6fQ3fLMejfTwfUaBruABxHIcM=;
+        b=VYaLt9YbkxAWRP2KmEvFJF4T9pZo7PrJ+2x50L9kWzcnuBRatdW+dyad8kBC726pGo
+         f39M2SZ8x88HI1umbWKqZMfI4+l7Hhgcoo1sHaWttE787Qu0kfYuHMWN8GgykxGCERu1
+         ZjOwBsSYhde1S352qUccW/hlxjG1XA3blW7G8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735810891; x=1736415691;
+        d=1e100.net; s=20230601; t=1735810887; x=1736415687;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sjm7mCtvafGI5/7Aspmiq6XilP0wrxcpTMXOMLb0K1M=;
-        b=vtcrrHbb8mOsY19JMs7AZjS3LGGkmMJTdhv9EIIEtxL0RDjjRlmA4+f6KtqIgMiTNC
-         WMQOR0Efi/xDfgT3cxID6N8JwwwajnMOJIU2Vsm6Zw9ZKEXZmSlrmaRqNh/chjk/T7eO
-         Oo7usxQdLURVkAi70jvamjydN2murFsi54FyPQslNY0djd8LcFOpT4qx3VT8A8Uswhn0
-         sILU7kGW+Pguw/swR1/CR7wQ9/5L+IS8Es9B7FnLGyFzTKMSBwLV0zGbgacv/qIctt+F
-         SXmDm/XUnJoDFkXGJFTwdCOd6t4SGchCWoPoeYUu4JBvIzXvGQTmCHZO0um0NPejhsP7
-         K1GQ==
-X-Gm-Message-State: AOJu0Yw1f6w1yy9CqtJ23PElireuv7LnXxo36AnAyvTXCoD9TTYE3GrH
-	LMy7py6I4dCgbo0z+mbzaX3VVj9lpgotePOuZN924huJqNY3/JCL41iqO4cHG1WyvU6A+OWxsmQ
-	F9wA=
-X-Gm-Gg: ASbGncujc8MqU3HO63ESyvFH7Icy1ID/HQF4eVTop+L6uhtodYvJgjhRWb4h6W46jA1
-	X3xtSsuzVq3yEGAaDw076RtG45pyBz5EXkiF1hgHIuYH51Tw8y8P7VwzKY8YF9WGyItFzYKUmLH
-	xoWQfg2MPVz5FJtETXpKAQ69SrwyJWeuX0iYyFFhPuGIVRKUz6jnA2JsyyG2eGPtzksfAhO2esb
-	jLJ0gYyvSoumVgOLU8tbaLq8x1FDrPM6kVxzN6PnZ54x2QxbJw3k68rquRK8iEubZ5nF0U/5zgE
-	onCMm+hSPw==
-X-Google-Smtp-Source: AGHT+IEdk4kX3ExaEK2oLYojCuAIgMepIFe/nD1jLnbOQ3iD66AX7kFUOeMqNM5PlX7O8KQpvW81Gw==
-X-Received: by 2002:a5d:6d84:0:b0:386:45e9:fc8a with SMTP id ffacd0b85a97d-38a221e1dfemr39114842f8f.5.1735810891279;
-        Thu, 02 Jan 2025 01:41:31 -0800 (PST)
+        bh=F0p8osgmtLV/aQCugc6fQ3fLMejfTwfUaBruABxHIcM=;
+        b=qKP6F1JtKgjkC6ZYlkBL6gNfojy7dIC95FZ5NG8FweJ5XWvFXpjRE9HsfUr1ocYafa
+         8X1I9KSg4Q88CpdFfhV6AN5UoiCJQTdOtJDFkPYh3OH55yw3MUHp1Fg7R5yBdAO7laqW
+         LJ7DyhSMikeIv4qR6JtmMm6JIIR0SYxSdHxOMUUjQS3HXTpqh7mu6QxKUCIpcbzET9WQ
+         sXY+FfX6N+jaM1TQsTkftaV0AwceJotKVtYPNV+/v8+z7SMwNrO/HFEhxFsJ1EcQky+e
+         YoVckkpTk6Ccffx/CTKpHqVm6Y/i+Vf96jxtPTmSsub6cEG3jYuBM7I2kkk7hkvMFVxK
+         wI+A==
+X-Gm-Message-State: AOJu0YyLCBC/pr4ef1KGAVibSbK8Bd4D1UJXjaG+hL68UKwRfNVCTisL
+	bNfAWJyJj00cewf1Wo3XjrQWDK/vqLhD6J7f7e+Ra906ic+V8Pez/B4M3atO6P1rLzGae4sq8pd
+	eEcY=
+X-Gm-Gg: ASbGncvslLbwO+usbVCbV/faMjboUid0+TEgf+zvK/rliBfG2RH8aoOlySrzFykwC2/
+	BLjAGRLMpCB4+tBGnAMoF1kr/V1RC+ct+6sD2DGkOZVnPGPnaCsVB2mBAYH5OrBu0ZoZ1fPhh+3
+	aODB48BEnB1GFQtGZ31GGeyceErfTKqI2mdU1WsXKb/4LQjGcDm6R/zyEy64dFsf/4nBrHUD862
+	TItMmLXaIApkNu8sV/E7axQKqCUf75YiXROV5s/Qsdkje0+4XBcUFL79tUHMyjFrAW7ybkaGqf5
+	nYH5+fC2CQ==
+X-Google-Smtp-Source: AGHT+IH01RzHscImz6cjAlnJwLK2w41ZAy9jFSvKvHiBL+w4KXTuNTVaUG4qIfogCFN/IMHsa5Rx3w==
+X-Received: by 2002:a05:600c:1c9f:b0:434:f623:a004 with SMTP id 5b1f17b1804b1-43671244708mr370903405e9.16.1735810886792;
+        Thu, 02 Jan 2025 01:41:26 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ae2e:9f02:55c2:739d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119ccsm479785625e9.24.2025.01.02.01.41.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119ccsm479785625e9.24.2025.01.02.01.41.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2025 01:41:30 -0800 (PST)
+        Thu, 02 Jan 2025 01:41:25 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 21/21] python3-attrs: upgrade 24.2.0 -> 24.3.0
-Date: Thu,  2 Jan 2025 09:40:52 +0000
-Message-ID: <20250102094059.322187-21-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 18/21] python3-ruamel-yaml: upgrade 0.18.6 -> 0.18.7
+Date: Thu,  2 Jan 2025 09:40:49 +0000
+Message-ID: <20250102094059.322187-18-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
 References: <20250102094059.322187-1-richard.purdie@linuxfoundation.org>
@@ -64,28 +64,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 09:41:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209281
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209278
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/{python3-attrs_24.2.0.bb => python3-attrs_24.3.0.bb} | 2 +-
+ ...hon3-ruamel-yaml_0.18.6.bb => python3-ruamel-yaml_0.18.7.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-attrs_24.2.0.bb => python3-attrs_24.3.0.bb} (89%)
+ rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.6.bb => python3-ruamel-yaml_0.18.7.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-attrs_24.2.0.bb b/meta/recipes-devtools/python/python3-attrs_24.3.0.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-attrs_24.2.0.bb
-rename to meta/recipes-devtools/python/python3-attrs_24.3.0.bb
-index a6cb60a8c82..fa35e4b6819 100644
---- a/meta/recipes-devtools/python/python3-attrs_24.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_24.3.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.attrs.org/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.7.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
+rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.7.bb
+index 8cdcee9ec26..137b5289137 100644
+--- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.7.bb
+@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
--SRC_URI[sha256sum] = "5cfb1b9148b5b086569baec03f20d7b6bf3bcacc9a42bebf87ffaaca362f6346"
-+SRC_URI[sha256sum] = "8f5c07333d543103541ba7be0e2ce16eeee8130cb0b3f9238ab904ce1e85baff"
+ inherit pypi python_setuptools_build_meta
  
- inherit pypi ptest python_hatchling
+-SRC_URI[sha256sum] = "8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"
++SRC_URI[sha256sum] = "270638acec6659f7bb30f4ea40083c9a0d0d5afdcef5e63d666f11209091531a"
  
+ RDEPENDS:${PN} += "\
+     python3-shell \
 
