@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA396C02182
-	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 09:56:37 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.5510.1735811788255862731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 162B7E77194
+	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 09:56:48 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.5316.1735811799853610492
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jan 2025 01:56:28 -0800
+ Thu, 02 Jan 2025 01:56:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=h4B9HSip;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cAWofjpH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101942671ea07-5a7d94f6-a362-40c1-8a87-f5d682d89d09-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=e/lNv5Fa;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=j6WlhyKy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010194267217be-b098202b-1ba5-43cf-9391-63b434926b30-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1735811787; i=@automation.yoctoproject.org;
+	t=1735811799; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=1I8EgWknGBveDLOWsLmRb4IzNa42nInpEVbJxE94R3Y=;
-	b=h4B9HSip3uH1fTQv6eOq69DuBOtJcBbVJZIm2tlufapsJeL6ZX4G7duaDyk1s3MJ
-	bt4AgejOK7gAz2AFvzB+p0dy0MUk0t5F1mdVsp20LsLKR9wCOx4IwnV6loWxsFBqqUj
-	P2NMVhgekfioKIFHMDGbLd44wAbESoKUB/zbAPNE=
+	bh=fGofhkNydc/Yx/bxZRkRZ2yM/lMmWFl3T2kaAtnsPiQ=;
+	b=e/lNv5FaRKq8y3mIDIIYzQP+eUGTuoozNnpkHluWqezGn2cXza6u6X2+f8QnmV1p
+	s3CgVSGRXP7BZOJZabqy9i+5NklqfXUOATFvMFShc8+SXuDk1OREQ03WiTKY4jny35u
+	lULfvCtHCjVsi8OwW2ZjSQbD82RaT1d0vHnK5zkA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735811787;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735811799;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=1I8EgWknGBveDLOWsLmRb4IzNa42nInpEVbJxE94R3Y=;
-	b=cAWofjpH4hXAx+azUDEShD95h/2PGicZ17+pXy/9ZTvfza4jFglXZ/3wR6jQVvI5
-	1j5A2gMomULCS3gjm4Ewo97JZ32tFu01EuqjbTP6CO+hGJbFjRMlHfwWK4SN7BZwT4R
-	ROZO83rwLGQ26k/kiL6fWG4oT5rkh3PBrLbvhHM8=
+	bh=fGofhkNydc/Yx/bxZRkRZ2yM/lMmWFl3T2kaAtnsPiQ=;
+	b=j6WlhyKyGYerjqqVg4jP3pl+4FyTSFBsjNYj2zLBTNEnGMg3R58aTBQvmPG0clxH
+	poN49ZitpPGD/C8UFeoD4sf9W2mZmWGB+4YxB9bGkDnbyiCiviJSpdxR3IUvNs5c5WM
+	0hefLo9+8we00b3WKijxGQan36oSvyAVUTRi2KnI=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 03/21] ca-certificates: upgrade 20240203 -> 20241223
-In-Reply-To: <20250102094059.322187-3-richard.purdie@linuxfoundation.org>
-References: <20250102094059.322187-3-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 18/21] python3-ruamel-yaml: upgrade 0.18.6 -> 0.18.7
+In-Reply-To: <20250102094059.322187-18-richard.purdie@linuxfoundation.org>
+References: <20250102094059.322187-18-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101942671ea07-5a7d94f6-a362-40c1-8a87-f5d682d89d09-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Jan 2025 09:56:27 +0000
+Message-ID: <01010194267217be-b098202b-1ba5-43cf-9391-63b434926b30-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Jan 2025 09:56:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.02-54.240.27.191
+X-SES-Outgoing: 2025.01.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 09:56:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209284
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 09:56:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209299
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/03-21-ca-certificates-upgrade-20240203---20241223.patch
+Testing patch /home/patchtest/share/mboxes/18-21-python3-ruamel-yaml-upgrade-0.18.6---0.18.7.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
