@@ -2,58 +2,58 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 380F7E77188
-	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 13:34:09 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web10.8095.1735824848538973778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A983E77188
+	for <webhook@archiver.kernel.org>; Thu,  2 Jan 2025 13:34:19 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web10.8098.1735824855957395019
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jan 2025 05:34:08 -0800
+ Thu, 02 Jan 2025 05:34:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=QF1153Uf;
- spf=pass (domain: mvista.com, ip: 209.85.166.52, mailfrom: vanusuri@mvista.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-844e7bc6d84so442606839f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 05:34:08 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=JLW+tV+y;
+ spf=pass (domain: mvista.com, ip: 209.85.166.53, mailfrom: vanusuri@mvista.com)
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-84a012f7232so202491839f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 05:34:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1735824847; x=1736429647; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1735824855; x=1736429655; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JMRYZF9cCQsqVgiDfObYX4B+p7MR5bChBwHXG40zmQM=;
-        b=QF1153UfhkiXsqyinZVFbV5HiLeqbGslQRZN505+JArdfekUqNSQrDf4D4Qh4m8yJr
-         cEGpqBPXLFJ/F2LYA1H7peJaObR6zFdJasohU/CW/0BXb7iBXgrFBlleQkD40u4Vqyjd
-         8vMqxJ/FKba3F5WA3KB03UCP6FTkGCefPyHYQ=
+        bh=odx1qahUPmZ7Q9fDVsG3I/JhOjdVnrZ+tGMHi3Vf++I=;
+        b=JLW+tV+yYmmuopc1GLIqzSCtqPUfVy+n3aX3MGLDxJQha1V54myur6T/bBejIbIDHB
+         OPYpG5aYf9dVI2zsJnBNa/Pmu0BFAVlEwx7BkIHdrEsrkoOBulU8p//onNaile/sOfC7
+         SlLjQP6oHppGYXBeGL+YtbN9ALy/gQB7vzwZ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735824847; x=1736429647;
+        d=1e100.net; s=20230601; t=1735824855; x=1736429655;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JMRYZF9cCQsqVgiDfObYX4B+p7MR5bChBwHXG40zmQM=;
-        b=OC/26A7gFOjvrXl1G9zjZItlPej0gP8Z5yARAlbkD6SOH2isYNuMVk/MtdS7N3i0hn
-         fQClto1FvxqGeAZc3uGkFvGQrBPdPwI/MZgTqe++7qjiSNi/g2PPlqM6svB361B08j2F
-         iKIDio+McHQOfMCVUOWe7keB9K1wx1KYez3tOpu/tX4DKanswcwN+f+n9Op48EJOkFsP
-         gUjgtpjx6oxYhkP73+ZLNbuuDNb89u2dT9zFl1+t7yr5Cvgm4g43SQ/c77COqh8nKhr3
-         npk16o1Z8nD6f+gOfFc1S1wLEnUZ4If55rerLT9QHLuKWuNMxzCP79laX2k9NvV5JzFS
-         pF4w==
-X-Gm-Message-State: AOJu0YwUhHzdima1Btqqgprfar8YkKqMslSr85bnh/ihe6cgbHchFEB8
-	BMmDvFz1A8/cSnO1kXaz3lxPyB84wt6+4yi/0oFaCP4Eiz39B51PJ+vVZ/I90EYN/OHphBpA9Kj
-	sJSA=
-X-Gm-Gg: ASbGncv8D5JSv3aYL/tdIUOWDPcirR1oIs9Yq/4zVTCUwThFUvq7k6pFkedO37wK3G6
-	u7BkguqssD4l86ftG8rLOLdWc7yHrnsodlPppxiFxKDvUJYTjari6sDW/3+GRgvZAiJr2CGsYEI
-	IT/1yGJDN3iya/GNMXTuXGfhHN4lDVFyCNnlgdV5mZ0HqhIz9y3hvAqrAosSJYU5KqJsvj4JTqn
-	zjH4cDKOINfXIExOOMDeyVdCqno03r4sc+i3mRcyzFbV+bVJpfp1rmT1+CnBJ1i6Vf6JF4=
-X-Google-Smtp-Source: AGHT+IGOZXhOp4b5HDR2+R9PwKWJ8Jh0MVb9nBWowCTxOXXr5A37icmAW3H5U1XPwuw82qBOO1ddjQ==
-X-Received: by 2002:a05:6602:3428:b0:7f6:8489:2679 with SMTP id ca18e2360f4ac-8499ec27bbcmr3674642639f.8.1735824847395;
-        Thu, 02 Jan 2025 05:34:07 -0800 (PST)
+        bh=odx1qahUPmZ7Q9fDVsG3I/JhOjdVnrZ+tGMHi3Vf++I=;
+        b=W+70mfLFWqXv3jN27FQuJSQqT8cDFokv9vuotV9s/LvU0ZRlUmLkPEexe/67xPs/YO
+         lenqL7b84UB6Eb/vXcfn6IwmjrhTQkP8imm6WINa5IDvR7rpSVoQMYaDAC4+Y+4lgGPu
+         qLaZTp3+QVOORx00DapaenPf7gwxq1Mu2uQwy5Hw5kLnN4tGOyiPOTaI3fVwZgrUEuO1
+         8cyAhTLYbR+jFURvLaG36DjTJFcRuwSgS5sLrgGFe5RC95itCU72uwZh1HJzE9ROz6XI
+         ZgVJDXwEFKKKAKK9hDZ9TgFL10hLZ+ffCrUcJLXFITzHqsUwFYDYS6JrOxyM+M+iaUrh
+         rT+A==
+X-Gm-Message-State: AOJu0Yx3XyAy/+u+YFEuhrrN9le/zOd1OdqLQ1Xu00QgnTC3n5MOTFKH
+	j8mv5kTMR8tYS3SOa2MGeStSs05rmBXbQCVammItyFK6mcwCS1kbGStGYlRUJJOrYxtcL5I/loa
+	xJ4I=
+X-Gm-Gg: ASbGncsO7pni+D0cKAG/MbLIfKeqka9YAVFjbxAKruluqKcjrYtUqIp9mPb4p84Bp90
+	JmlfM5ZQw9jlMLneTOlg2JmY9JBhvcNu6ps5xJFiqQFJViqIMzBP/XtqVvuiYrSFrTthTl8JjGj
+	cVHo2p2PBorMuLMuYNW45FCZ0y5IV9pF8wG/7pTTLJqUO8Vi3M4OXhV+1kO0c9ceCPKU2b/wiC7
+	C3ihIYTunRsMXpzwTxluPDa53rF345xtStWGtyEmjW2HF1A98qrXIaoghnzLYERClzDmKc=
+X-Google-Smtp-Source: AGHT+IFMHIp908f8wsgwVRq5sYvU1HkP1vymJLDc4VAKhpSf/GzQnd6oBC2UjsRa7vVgjEtZennjPA==
+X-Received: by 2002:a05:6602:3a86:b0:844:2ef3:a95a with SMTP id ca18e2360f4ac-84988d25967mr5117326139f.7.1735824854703;
+        Thu, 02 Jan 2025 05:34:14 -0800 (PST)
 Received: from MVIN00020.mvista.com ([2401:4900:882d:79d6:d2bf:f7c6:a6fe:8968])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8498d8aa81bsm685493139f.36.2025.01.02.05.34.03
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8498d8aa81bsm685493139f.36.2025.01.02.05.34.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2025 05:34:05 -0800 (PST)
+        Thu, 02 Jan 2025 05:34:11 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 6/7] gstreamer1.0-plugins-good: Fix CVE-2024-47774
-Date: Thu,  2 Jan 2025 19:03:17 +0530
-Message-Id: <20250102133318.642859-6-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 7/7] gstreamer1.0-plugins-good: Fix multiple CVEs
+Date: Thu,  2 Jan 2025 19:03:18 +0530
+Message-Id: <20250102133318.642859-7-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250102133318.642859-1-vanusuri@mvista.com>
 References: <20250102133318.642859-1-vanusuri@mvista.com>
@@ -62,81 +62,519 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 13:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209308
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jan 2025 13:34:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209309
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8043
+Fixes below CVEs:
+CVE-2024-47775
+CVE-2024-47776
+CVE-2024-47777
+CVE-2024-47778
+
+Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- ...size-checks-and-avoid-overflows-when.patch | 46 +++++++++++++++++++
- .../gstreamer1.0-plugins-good_1.20.7.bb       |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch
+ ...or-short-reads-when-parsing-headers-.patch | 171 ++++++++++++++++++
+ ...re-enough-data-for-the-tag-list-tag-.patch |  38 ++++
+ ...7-wavparse-Fix-parsing-of-acid-chunk.patch |  62 +++++++
+ ...hat-at-least-4-bytes-are-available-b.patch |  34 ++++
+ ...hat-at-least-32-bytes-are-available-.patch |  37 ++++
+ ...ix-clipping-of-size-to-the-file-size.patch |  44 +++++
+ ...Check-size-before-reading-ds64-chunk.patch |  38 ++++
+ .../gstreamer1.0-plugins-good_1.20.7.bb       |   7 +
+ 8 files changed, 431 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0025-wavparse-Check-for-short-reads-when-parsing-headers-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0026-wavparse-Make-sure-enough-data-for-the-tag-list-tag-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0027-wavparse-Fix-parsing-of-acid-chunk.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0028-wavparse-Check-that-at-least-4-bytes-are-available-b.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0031-wavparse-Check-size-before-reading-ds64-chunk.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0025-wavparse-Check-for-short-reads-when-parsing-headers-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0025-wavparse-Check-for-short-reads-when-parsing-headers-.patch
 new file mode 100644
-index 0000000000..b9624a148c
+index 0000000000..2eaef45f41
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch
-@@ -0,0 +1,46 @@
-+From 0870e87c7c02e28e22a09a7de0c5b1e5bed68c14 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0025-wavparse-Check-for-short-reads-when-parsing-headers-.patch
+@@ -0,0 +1,171 @@
++From 13b48016b3ef1e822c393c2871b0a561ce19ecb3 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 14:04:03 +0300
-+Subject: [PATCH] avisubtitle: Fix size checks and avoid overflows when
-+ checking sizes
++Date: Fri, 4 Oct 2024 13:00:57 +0300
++Subject: [PATCH] wavparse: Check for short reads when parsing headers in pull
++ mode
++
++And also return the actual flow return to the caller instead of always returning
++GST_FLOW_ERROR.
 +
 +Thanks to Antonio Morales for finding and reporting the issue.
 +
-+Fixes GHSL-2024-262
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3890
++Fixes GHSL-2024-258, GHSL-2024-260
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3886
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3888
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8043>
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/0870e87c7c02e28e22a09a7de0c5b1e5bed68c14]
-+CVE: CVE-2024-47774
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/13b48016b3ef1e822c393c2871b0a561ce19ecb3]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ subprojects/gst-plugins-good/gst/avi/gstavisubtitle.c | 5 +++--
++ .../gst/wavparse/gstwavparse.c                | 63 ++++++++++++++-----
++ 1 file changed, 46 insertions(+), 17 deletions(-)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index d074f273c501..97d5591fae8f 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -1097,6 +1097,24 @@ parse_ds64 (GstWavParse * wav, GstBuffer * buf)
++   return TRUE;
++ }
++ 
+++static GstFlowReturn
+++gst_wavparse_pull_range_exact (GstWavParse * wav, guint64 offset, guint size,
+++    GstBuffer ** buffer)
+++{
+++  GstFlowReturn res;
+++
+++  res = gst_pad_pull_range (wav->sinkpad, offset, size, buffer);
+++  if (res != GST_FLOW_OK)
+++    return res;
+++
+++  if (gst_buffer_get_size (*buffer) < size) {
+++    gst_clear_buffer (buffer);
+++    return GST_FLOW_EOS;
+++  }
+++
+++  return res;
+++}
+++
++ static GstFlowReturn
++ gst_wavparse_stream_headers (GstWavParse * wav)
++ {
++@@ -1292,9 +1310,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++ 
++       buf = NULL;
++       if ((res =
++-              gst_pad_pull_range (wav->sinkpad, wav->offset, 8,
+++              gst_wavparse_pull_range_exact (wav, wav->offset, 8,
++                   &buf)) != GST_FLOW_OK)
++-        goto header_read_error;
+++        goto header_pull_error;
++       gst_buffer_map (buf, &map, GST_MAP_READ);
++       tag = GST_READ_UINT32_LE (map.data);
++       size = GST_READ_UINT32_LE (map.data + 4);
++@@ -1397,9 +1415,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++             gst_buffer_unref (buf);
++             buf = NULL;
++             if ((res =
++-                    gst_pad_pull_range (wav->sinkpad, wav->offset + 8,
+++                    gst_wavparse_pull_range_exact (wav, wav->offset + 8,
++                         data_size, &buf)) != GST_FLOW_OK)
++-              goto header_read_error;
+++              goto header_pull_error;
++             gst_buffer_extract (buf, 0, &wav->fact, 4);
++             wav->fact = GUINT32_FROM_LE (wav->fact);
++             gst_buffer_unref (buf);
++@@ -1444,9 +1462,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++           gst_buffer_unref (buf);
++           buf = NULL;
++           if ((res =
++-                  gst_pad_pull_range (wav->sinkpad, wav->offset + 8,
++-                      size, &buf)) != GST_FLOW_OK)
++-            goto header_read_error;
+++                  gst_wavparse_pull_range_exact (wav, wav->offset + 8, size,
+++                      &buf)) != GST_FLOW_OK)
+++            goto header_pull_error;
++           gst_buffer_map (buf, &map, GST_MAP_READ);
++           acid = (const gst_riff_acid *) map.data;
++           tempo = acid->tempo;
++@@ -1484,9 +1502,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++           gst_buffer_unref (buf);
++           buf = NULL;
++           if ((res =
++-                  gst_pad_pull_range (wav->sinkpad, wav->offset, 12,
+++                  gst_wavparse_pull_range_exact (wav, wav->offset, 12,
++                       &buf)) != GST_FLOW_OK)
++-            goto header_read_error;
+++            goto header_pull_error;
++           gst_buffer_extract (buf, 8, &ltag, 4);
++           ltag = GUINT32_FROM_LE (ltag);
++         }
++@@ -1513,9 +1531,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++               buf = NULL;
++               if (data_size > 0) {
++                 if ((res =
++-                        gst_pad_pull_range (wav->sinkpad, wav->offset,
+++                        gst_wavparse_pull_range_exact (wav, wav->offset,
++                             data_size, &buf)) != GST_FLOW_OK)
++-                  goto header_read_error;
+++                  goto header_pull_error;
++               }
++             }
++             if (data_size > 0) {
++@@ -1553,9 +1571,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++               buf = NULL;
++               wav->offset += 12;
++               if ((res =
++-                      gst_pad_pull_range (wav->sinkpad, wav->offset,
+++                      gst_wavparse_pull_range_exact (wav, wav->offset,
++                           data_size, &buf)) != GST_FLOW_OK)
++-                goto header_read_error;
+++                goto header_pull_error;
++               gst_buffer_map (buf, &map, GST_MAP_READ);
++               gst_wavparse_adtl_chunk (wav, (const guint8 *) map.data,
++                   data_size);
++@@ -1599,9 +1617,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++           gst_buffer_unref (buf);
++           buf = NULL;
++           if ((res =
++-                  gst_pad_pull_range (wav->sinkpad, wav->offset,
+++                  gst_wavparse_pull_range_exact (wav, wav->offset,
++                       data_size, &buf)) != GST_FLOW_OK)
++-            goto header_read_error;
+++            goto header_pull_error;
++           gst_buffer_map (buf, &map, GST_MAP_READ);
++           if (!gst_wavparse_cue_chunk (wav, (const guint8 *) map.data,
++                   data_size)) {
++@@ -1643,9 +1661,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++           gst_buffer_unref (buf);
++           buf = NULL;
++           if ((res =
++-                  gst_pad_pull_range (wav->sinkpad, wav->offset,
+++                  gst_wavparse_pull_range_exact (wav, wav->offset,
++                       data_size, &buf)) != GST_FLOW_OK)
++-            goto header_read_error;
+++            goto header_pull_error;
++           gst_buffer_map (buf, &map, GST_MAP_READ);
++           if (!gst_wavparse_smpl_chunk (wav, (const guint8 *) map.data,
++                   data_size)) {
++@@ -1797,6 +1815,17 @@ header_read_error:
++         ("Couldn't read in header %d (%s)", res, gst_flow_get_name (res)));
++     goto fail;
++   }
+++header_pull_error:
+++  {
+++    if (res == GST_FLOW_EOS) {
+++      GST_WARNING_OBJECT (wav, "Couldn't pull header %d (%s)", res,
+++          gst_flow_get_name (res));
+++    } else {
+++      GST_ELEMENT_ERROR (wav, STREAM, DEMUX, (NULL),
+++          ("Couldn't pull header %d (%s)", res, gst_flow_get_name (res)));
+++    }
+++    goto exit;
+++  }
++ }
++ 
++ /*
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0026-wavparse-Make-sure-enough-data-for-the-tag-list-tag-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0026-wavparse-Make-sure-enough-data-for-the-tag-list-tag-.patch
+new file mode 100644
+index 0000000000..3df27b62bc
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0026-wavparse-Make-sure-enough-data-for-the-tag-list-tag-.patch
+@@ -0,0 +1,38 @@
++From 4c198f4891cfabde868944d55ff98925e7beb757 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:09:43 +0300
++Subject: [PATCH] wavparse: Make sure enough data for the tag list tag is
++ available before parsing
++
++Thanks to Antonio Morales for finding and reporting the issue.
++
++Fixes GHSL-2024-258
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3886
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/4c198f4891cfabde868944d55ff98925e7beb757]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 97d5591fae8f..21cb48c07eb3 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -1489,6 +1489,10 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++       case GST_RIFF_TAG_LIST:{
++         guint32 ltag;
++ 
+++        /* Need at least the ltag */
+++        if (size < 4)
+++          goto exit;
+++
++         if (wav->streaming) {
++           const guint8 *data = NULL;
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0027-wavparse-Fix-parsing-of-acid-chunk.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0027-wavparse-Fix-parsing-of-acid-chunk.patch
+new file mode 100644
+index 0000000000..010041aa4e
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0027-wavparse-Fix-parsing-of-acid-chunk.patch
+@@ -0,0 +1,62 @@
++From 296e17b4ea81e5c228bb853f6037b654fdca7d47 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:15:27 +0300
++Subject: [PATCH] wavparse: Fix parsing of acid chunk
++
++Simply casting the bytes to a struct can lead to crashes because of unaligned
++reads, and is also missing the endianness swapping that is necessary on big
++endian architectures.
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/296e17b4ea81e5c228bb853f6037b654fdca7d47]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ .../gst-plugins-good/gst/wavparse/gstwavparse.c      | 12 +++++-------
++ 1 file changed, 5 insertions(+), 7 deletions(-)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 21cb48c07eb3..6a0c44638ea2 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -1434,8 +1434,7 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++         break;
++       }
++       case GST_RIFF_TAG_acid:{
++-        const gst_riff_acid *acid = NULL;
++-        const guint data_size = sizeof (gst_riff_acid);
+++        const guint data_size = 24;
++         gfloat tempo;
++ 
++         GST_INFO_OBJECT (wav, "Have acid chunk");
++@@ -1449,13 +1448,13 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++           break;
++         }
++         if (wav->streaming) {
+++          const guint8 *data;
++           if (!gst_wavparse_peek_chunk (wav, &tag, &size)) {
++             goto exit;
++           }
++           gst_adapter_flush (wav->adapter, 8);
++-          acid = (const gst_riff_acid *) gst_adapter_map (wav->adapter,
++-              data_size);
++-          tempo = acid->tempo;
+++          data = gst_adapter_map (wav->adapter, data_size);
+++          tempo = GST_READ_FLOAT_LE (data + 20);
++           gst_adapter_unmap (wav->adapter);
++         } else {
++           GstMapInfo map;
++@@ -1466,8 +1465,7 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++                       &buf)) != GST_FLOW_OK)
++             goto header_pull_error;
++           gst_buffer_map (buf, &map, GST_MAP_READ);
++-          acid = (const gst_riff_acid *) map.data;
++-          tempo = acid->tempo;
+++          tempo = GST_READ_FLOAT_LE (map.data + 20);
++           gst_buffer_unmap (buf, &map);
++         }
++         /* send data as tags */
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0028-wavparse-Check-that-at-least-4-bytes-are-available-b.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0028-wavparse-Check-that-at-least-4-bytes-are-available-b.patch
+new file mode 100644
+index 0000000000..c7c3dbed46
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0028-wavparse-Check-that-at-least-4-bytes-are-available-b.patch
+@@ -0,0 +1,34 @@
++From c72025cabdfcb2fe30d24eda7bb9d1d01a1b6555 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:21:44 +0300
++Subject: [PATCH] wavparse: Check that at least 4 bytes are available before
++ parsing cue chunks
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c72025cabdfcb2fe30d24eda7bb9d1d01a1b6555]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 6a0c44638ea2..5655ee3825ca 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -790,6 +790,11 @@ gst_wavparse_cue_chunk (GstWavParse * wav, const guint8 * data, guint32 size)
++     return TRUE;
++   }
++ 
+++  if (size < 4) {
+++    GST_WARNING_OBJECT (wav, "broken file %d", size);
+++    return FALSE;
+++  }
+++
++   ncues = GST_READ_UINT32_LE (data);
++ 
++   if (size < 4 + ncues * 24) {
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch
+new file mode 100644
+index 0000000000..89b240998a
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch
+@@ -0,0 +1,37 @@
++From 93d79c22a82604adc5512557c1238f72f41188c4 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:22:02 +0300
++Subject: [PATCH] wavparse: Check that at least 32 bytes are available before
++ parsing smpl chunks
++
++Thanks to Antonio Morales for finding and reporting the issue.
++
++Fixes GHSL-2024-259
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3887
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/93d79c22a82604adc5512557c1238f72f41188c4]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 5655ee3825ca..8a04805ed427 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -894,6 +894,9 @@ gst_wavparse_smpl_chunk (GstWavParse * wav, const guint8 * data, guint32 size)
++ {
++   guint32 note_number;
++ 
+++  if (size < 32)
+++    return FALSE;
+++
++   /*
++      manufacturer_id = GST_READ_UINT32_LE (data);
++      product_id = GST_READ_UINT32_LE (data + 4);
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch
+new file mode 100644
+index 0000000000..0ad2592bc9
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch
+@@ -0,0 +1,44 @@
++From 526d0eef0d850c8f2fa1bf0aef15a836797f1a67 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:27:27 +0300
++Subject: [PATCH] wavparse: Fix clipping of size to the file size
++
++The size does not include the 8 bytes tag and length, so an additional 8 bytes
++must be removed here. 8 bytes are always available at this point because
++otherwise the parsing of the tag and length right above would've failed.
++
++Thanks to Antonio Morales for finding and reporting the issue.
++
++Fixes GHSL-2024-260
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3888
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/526d0eef0d850c8f2fa1bf0aef15a836797f1a67]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++--
 + 1 file changed, 3 insertions(+), 2 deletions(-)
 +
-+diff --git a/subprojects/gst-plugins-good/gst/avi/gstavisubtitle.c b/subprojects/gst-plugins-good/gst/avi/gstavisubtitle.c
-+index efc5f0405186..c816934da61c 100644
-+--- a/gst/avi/gstavisubtitle.c
-++++ b/gst/avi/gstavisubtitle.c
-+@@ -196,7 +196,7 @@ gst_avi_subtitle_parse_gab2_chunk (GstAviSubtitle * sub, GstBuffer * buf)
-+   /* read 'name' of subtitle */
-+   name_length = GST_READ_UINT32_LE (map.data + 5 + 2);
-+   GST_LOG_OBJECT (sub, "length of name: %u", name_length);
-+-  if (map.size <= 17 + name_length)
-++  if (G_MAXUINT32 - 17 < name_length || map.size < 17 + name_length)
-+     goto wrong_name_length;
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 8a04805ed427..998cbb276dbf 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -1338,10 +1338,11 @@ gst_wavparse_stream_headers (GstWavParse * wav)
++     }
 + 
-+   name_utf8 =
-+@@ -216,7 +216,8 @@ gst_avi_subtitle_parse_gab2_chunk (GstAviSubtitle * sub, GstBuffer * buf)
-+   file_length = GST_READ_UINT32_LE (map.data + 13 + name_length);
-+   GST_LOG_OBJECT (sub, "length srt/ssa file: %u", file_length);
++     /* Clip to upstream size if known */
++-    if (upstream_size > 0 && size + wav->offset > upstream_size) {
+++    if (upstream_size > 0 && size + 8 + wav->offset > upstream_size) {
++       GST_WARNING_OBJECT (wav, "Clipping chunk size to file size");
++       g_assert (upstream_size >= wav->offset);
++-      size = upstream_size - wav->offset;
+++      g_assert (upstream_size - wav->offset >= 8);
+++      size = upstream_size - wav->offset - 8;
++     }
 + 
-+-  if (map.size < (17 + name_length + file_length))
-++  if (G_MAXUINT32 - 17 - name_length < file_length
-++      || map.size < 17 + name_length + file_length)
-+     goto wrong_total_length;
++     /* wav is a st00pid format, we don't know for sure where data starts.
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0031-wavparse-Check-size-before-reading-ds64-chunk.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0031-wavparse-Check-size-before-reading-ds64-chunk.patch
+new file mode 100644
+index 0000000000..d73359f375
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0031-wavparse-Check-size-before-reading-ds64-chunk.patch
+@@ -0,0 +1,38 @@
++From 4f381d15014471b026020d0990a5f5a9f420a22b Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 4 Oct 2024 13:51:00 +0300
++Subject: [PATCH] wavparse: Check size before reading ds64 chunk
++
++Thanks to Antonio Morales for finding and reporting the issue.
++
++Fixes GHSL-2024-261
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3889
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/4f381d15014471b026020d0990a5f5a9f420a22b]
++CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
++index 998cbb276dbf..958868de6d9e 100644
++--- a/gst/wavparse/gstwavparse.c
+++++ b/gst/wavparse/gstwavparse.c
++@@ -1088,6 +1088,11 @@ parse_ds64 (GstWavParse * wav, GstBuffer * buf)
++   guint32 sampleCountLow, sampleCountHigh;
 + 
-+   /* store this, so we can send it again after a seek; note that we shouldn't
++   gst_buffer_map (buf, &map, GST_MAP_READ);
+++  if (map.size < 6 * 4) {
+++    GST_WARNING_OBJECT (wav, "Too small ds64 chunk (%" G_GSIZE_FORMAT ")",
+++        map.size);
+++    return FALSE;
+++  }
++   dataSizeLow = GST_READ_UINT32_LE (map.data + 2 * 4);
++   dataSizeHigh = GST_READ_UINT32_LE (map.data + 3 * 4);
++   sampleCountLow = GST_READ_UINT32_LE (map.data + 4 * 4);
 +-- 
 +GitLab
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-index bb85f4d2e9..42c9b86471 100644
+index 42c9b86471..2cdc62cdb2 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://0021-matroskademux-Put-a-copy-of-the-codec-data-into-the-.patch \
+@@ -30,6 +30,13 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
             file://0022-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch \
             file://0023-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch \
-+           file://0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch \
+            file://0024-avisubtitle-Fix-size-checks-and-avoid-overflows-when.patch \
++           file://0025-wavparse-Check-for-short-reads-when-parsing-headers-.patch \
++           file://0026-wavparse-Make-sure-enough-data-for-the-tag-list-tag-.patch \
++           file://0027-wavparse-Fix-parsing-of-acid-chunk.patch \
++           file://0028-wavparse-Check-that-at-least-4-bytes-are-available-b.patch \
++           file://0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch \
++           file://0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch \
++           file://0031-wavparse-Check-size-before-reading-ds64-chunk.patch \
             "
  
  SRC_URI[sha256sum] = "599f093cc833a1e346939ab6e78a3f8046855b6da13520aae80dd385434f4ab2"
