@@ -1,173 +1,205 @@
-Return-Path: <bin.lan.cn@windriver.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7FF0E7718F
-	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 08:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F01E77188
+	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 09:25:15 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.26618.1735894426866268339
+ by mx.groups.io with SMTP id smtpd.web10.27084.1735896308549373395
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jan 2025 00:53:46 -0800
+ Fri, 03 Jan 2025 01:25:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3098435690=bin.lan.cn@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=30983b852f=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5037QZhT020173
-	for <openembedded-core@lists.openembedded.org>; Fri, 3 Jan 2025 00:53:46 -0800
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43thqq4qk7-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5038Xc0m018516
+	for <openembedded-core@lists.openembedded.org>; Fri, 3 Jan 2025 01:25:08 -0800
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43thqq4rf4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 00:53:46 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 01:25:07 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aObJBoHlj+xSv9ccv6TotUI3DV3+AuA2UcFCjy9rDocWXSvTzfgBDk140EbNad5L5OEiUoLFMCrLcvBH2pKTmZbuNVeDd+vS00rRgzFFkdHDYbXwLRfsgoPFa6l8E50agytyouk/7695+lqeJwtJhqKPkKd44rOoWnhGZXOGy5N9typvjOVnhrY4OOWbNCPzntNHOyZY8RgG1e9y7OIh3ygYMd8KOyjjrisMsPyqrgeQQJVFHZkEqsX0J9wAFEEKtgwzjFUu40OJ1L14zxl4px++9gXIluGCEpa9PfW2Yno9aneBJIkb3fcWUeNbSx+Z7m48DVeVfSvH2N4R6eIhog==
+ b=GnYbpNpLhiLqzY68nLjaqx909Un6UwvTW9h2+axwqmjWRlf23bMGOPp6r9J1jMi36X+9HgMYMDYfASyFhk5jQVGdcHQ7hPiqgCA47GsvfwDc3apX/03DkbHmwgF0BxZCxtaHdLdOLVocD0OVLdXcVZ4QDBXNwxmbN6mdoandMsV9jnEF+vc2FpO6A2Z1I9N6nsbUETwcG3th4zaMZ64mC8IW3gvc7K+YBa/U+UrN06IaHt8uf/IqGOr8v3b5E2vGWR7wYXoA5Db3URn/G6y+0fWGttFTjhf8fRkMQlFT1GNqYzny87b5lDxWGDhYxITvnkjl7m4Df0IVd0BDj29+1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dJ16Nwn370oJ4FZWF/4Butrxci7OTgN87p4QQ1B14IQ=;
- b=hTB27fOhtUYQDUZl7MfDDoC8yhxJrZmLrCu4+pNyAOp4hxeU1NaK/Yu29rzhu1/gszJklBbpII+B4O8Tb7uHm4JX3M7cXYJItC/t9HPInmbLHiXuL0lTIIOo/ZJgt9ruo1B73CfM0Pqm7lMunXBaRhBYnqjRapf+VKAFZhlgR8XJFHsezGjlSO/w0HCqTMDzjR33l+Hf+Jn5cnfFIk+wDHyhT+eERfESu/hJUyyr2Q5PLaXSaAeHMSeuuTHUGa8suVGEnK60yUaaOHNWYioldqWEkKWOpXt8B6SWgOOc0hh9/PL+/0TwvZQt1KcDuLo0jr3kXVHUwmhjA5w4N3IEgA==
+ bh=9RMbA2s2WS42YDJLNdilP0a/67PcUUG4coQi8pvtH4A=;
+ b=FW4kvegY6zHrJBwFm/6/UwZMv5ThEUad6xRGZ4LMbQB5zw3B/tNZ4XYHrhYKGpjn4QQDhZE10mFimwwhZi5WZJVfvjvho2/MYeK5+LPHbXasiVwdGvk8UaQWgO6YZp3IQs4FUkbuyPP4hXvN1JcePvARtj3111Pu9bGlMC7BefmGbmskdxiKlh++JwZbi74dZUvHaYC/nZEll2laqiUYjldx0xAKAYHE92ZEwMA49g61nyuwXH8+oHm4pmbTKkC9VYBLNSeH4Nw71bdTqxZArRUU5EVrdCypbLNtmPZL3fcqrZ6y6HMQm0+Ks6L3lXd6kMkndL/tRtKG8ruNDpZfDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8701.namprd11.prod.outlook.com (2603:10b6:610:1c8::10)
- by SN7PR11MB6603.namprd11.prod.outlook.com (2603:10b6:806:271::21) with
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ SJ2PR11MB7520.namprd11.prod.outlook.com (2603:10b6:a03:4c2::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.11; Fri, 3 Jan
- 2025 08:53:39 +0000
-Received: from CH3PR11MB8701.namprd11.prod.outlook.com
- ([fe80::5727:1867:fb60:69d0]) by CH3PR11MB8701.namprd11.prod.outlook.com
- ([fe80::5727:1867:fb60:69d0%4]) with mapi id 15.20.8293.000; Fri, 3 Jan 2025
- 08:53:39 +0000
-From: Bin Lan <bin.lan.cn@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.12; Fri, 3 Jan
+ 2025 09:25:01 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%7]) with mapi id 15.20.8314.011; Fri, 3 Jan 2025
+ 09:25:01 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] package_rpm: set a timestamp handling policy with the new macro %build_mtime_policy
-Date: Fri,  3 Jan 2025 16:53:24 +0800
-Message-Id: <20250103085324.3171320-1-bin.lan.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH 1/3] libpam: set pam module path to ${base_libdir}/security
+Date: Fri,  3 Jan 2025 17:24:43 +0800
+Message-Id: <20250103092445.566172-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0025.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:263::16) To CH3PR11MB8701.namprd11.prod.outlook.com
- (2603:10b6:610:1c8::10)
+X-ClientProxiedBy: TYXPR01CA0049.jpnprd01.prod.outlook.com
+ (2603:1096:403:a::19) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8701:EE_|SN7PR11MB6603:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60a481d3-4848-45e3-aac7-08dd2bd41da8
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|SJ2PR11MB7520:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13ac0c56-7c29-47a6-788d-08dd2bd87fb4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|38350700014;
+	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0WDcb+9+Jn61/3JruMCMqJQ/KinVjE9LwqFZTpQ6dNtUVqvbfjSfIPAlASiU?=
- =?us-ascii?Q?u0I1sex2eTRZ3Gp+K0QG8BPyOoRwowmS8m9y0OQ6zzu8e29g7GFXRdxlYh7O?=
- =?us-ascii?Q?DabZ7w9K7PAkrV3Bz4y/JBbqcFM1KGuj4XxfISyBNUwuoJwsNYEiumBOl07+?=
- =?us-ascii?Q?NndkuZa9T/zlmLtJ18QA6RU/wWpAUTfsRT+K4IgUk0IFytDtBfGKHcKs5xRv?=
- =?us-ascii?Q?fD/l1ue13aDAAc2qFK5faq9xWm8vOELUp4NSqOhYWspRJoxfl4sTP+GmBjlA?=
- =?us-ascii?Q?UnfNPIQ/sDZPsTXWBsqAwY5LUmRIvBBhwj9YFX+crm3Oqx2v35tnpDaN3fYH?=
- =?us-ascii?Q?/mYHcK27MwcA0Y3VSLCfwUzAfoQjJqqsarqrrGEmcmyqcc+Kc1hiVUFtVcW6?=
- =?us-ascii?Q?fEksaj9Atgci2+vW4GsjjcuUIx0XM/oPPYGssITi5nPZBpjtDJ5lvT3YinpF?=
- =?us-ascii?Q?0QdfQR1zw+0pg//jwRd9iPjTTHZs8Ed68/oiAGvJBHG1wIDgficXbKLGlpBl?=
- =?us-ascii?Q?LVLVekFn6wENzy7Dru16YrfFf2n+ELJcECAi0W5QMZ0DLjqqsqdemUrYr72l?=
- =?us-ascii?Q?vkXLsfe1vp4me1SMEExbh7CJkoBAkYAz2dOoOSRCMr1fri6AK2O4uD7SOTDc?=
- =?us-ascii?Q?Q2TuABUdNsaK73TcrUwHOjksgAMREx43eoLEKBFA1kZUyZ6G2J8xq276JNCR?=
- =?us-ascii?Q?yTMwnGsuAODwKVyWKyzzZBcbhPcqGzCGyWemogfc6phsYODxX4ps0mZbGYaA?=
- =?us-ascii?Q?abtlZSuFYhTG9C2d5tJXRJtPc/P9obws6d8o1Z+q97c083BuNZAJ/0xr+UKt?=
- =?us-ascii?Q?bODO90pSCD9NZ8hR/f3zho0mY8aPSMWZbl4dcxbuF5VTaCWF8mjInyaAUvFw?=
- =?us-ascii?Q?EKK9dqZpspaJtZIbJiV3wnVXv4z128r0VaQfmVqVICcKidosJUPr1WXM9AbA?=
- =?us-ascii?Q?D8Y0nSczzcw8ourcsGbDc7EMx1lHLD21UgGQJRmbwP+3G8Lvljr8zp0Z+UC1?=
- =?us-ascii?Q?bj8ic5j+8RdvVEOnKbsniaX6IykFc+psQBWnDFkTwnVWGUoXpzOpNqBrFs4/?=
- =?us-ascii?Q?jn2PMvOixYK5+6TdE0Ru7upulcxRN6HDYfyuGLSt/r3ylJF7C5dn+c5Lb680?=
- =?us-ascii?Q?m66N6E+v3GIEkvcSpwXRnol3LQyMBEYCUqk+mzDlfESbYe6gl2O0geEtQr8N?=
- =?us-ascii?Q?tGqkXRdUHaGX/vchiW15H379nUDHe9AeJdz3767KeEnitXRF3ulnPlI4sve3?=
- =?us-ascii?Q?IZT06aw9LT2ZGQHC0SQGNyExm/G4PkauaczrlMkxCaKwdurh5pnUrwvGDzEb?=
- =?us-ascii?Q?OVlD3u28TLv6OHwiDD8pPby6hGgPGTFxAfu6ASpNzm4bl8o9De9Gc8yIu0GJ?=
- =?us-ascii?Q?WXUpErgWxh4UPGl+is7IZDR6q+Ntsm6SCRBM/+3eeOeSJ7pyhCt7SHpdm6BH?=
- =?us-ascii?Q?JLIoX+5EOAfwA/VHEioG8LidIvkNX5b0?=
+	=?us-ascii?Q?lqMMoW7krMTGwXgxCupLBOat+u9GcvgqjWhQNpUYA975/W00gYRpeivuKnWX?=
+ =?us-ascii?Q?K86W7cVEJPGLyR4+pAdNuxd0ZYXDZKhiom29VSr3y0UGkcvWxkbwhrvqpstB?=
+ =?us-ascii?Q?rLLOD6Lwi7jt63GPedhscl2kovIrSuh6tck9ANswm/VEQe2jUtLV75SsYgjn?=
+ =?us-ascii?Q?oSBd/h9PA/15MDcNWNpifvWKX2UL77ODnsY/fscV8oaQS/wXFTBcYKlYY0Gs?=
+ =?us-ascii?Q?e0Ig6EvTSvvpla8cR9l+9cfYDw/6pdCI6WSvvD2mTUA2bVf4LxaFejB9WEhv?=
+ =?us-ascii?Q?QunQcChOpItZ/rDaEsLcUi2QQsT6NZv5hy/+c7sZITh0sP5hs8c6ChQqjEzA?=
+ =?us-ascii?Q?KmurtlSN3FMsLqihs4pGpnLQxfaBpuOLUtdQlCk8MeKXTsSdvqlT4C89uH+D?=
+ =?us-ascii?Q?zyhOZDGIIJW3e4k1Zp9u/U/ERL3ZIojcsX10AvO932Mp0h3PYduEmqQmkRhx?=
+ =?us-ascii?Q?0ILvCOngfZ/wncRPRsGQeTkLbWFyfH1KZvdD2ER0Ul3tqMz3UP4MB2BGbyJc?=
+ =?us-ascii?Q?uDSboTEPe9aeVE5R4EyHMjT3WwfqiHrtvW/pyEUrP8XrDA5gxgQXtPvf+KJU?=
+ =?us-ascii?Q?E7fdL+FSo1o2jPqilrpTGL4Lc/cNmx99uHu5tKEwEZ1qSpXa/n4wHBpNQ7sm?=
+ =?us-ascii?Q?xr59wFpshLxnv/bQQ+H+0bXF9dLPjCiuZz3bDKF4is2+zuoVYzQRZVvkNPOx?=
+ =?us-ascii?Q?M67Pdp2j2e1J7PRoydVa66tylS32CsvL2OnY0U9DLmfi7DjKi6KwR5OS9/xP?=
+ =?us-ascii?Q?cHhZGeEMaZ1NsPd6Iq/Gk2xzLGCs4H1Mzq34Zqa3cFmA7KUe0/ClCBB1qoY5?=
+ =?us-ascii?Q?McZV+kQdxFiKHigD2vdgdiwlCDoDOhA1fjUAM6hZaQ2+wIn7jxu8XeMbNQpG?=
+ =?us-ascii?Q?xRWqS2tpEWO0eDS8RWuQBKCsne7INiUh2vbh9aucBu+ezbX4uvmFISqsbADN?=
+ =?us-ascii?Q?4lQsgZvaiI+JeX4SXE08fV4mss/u+/R5Kd2zS3Rhg6RmdVtFBHNozpUA91DY?=
+ =?us-ascii?Q?wKmcIMYasw+DsfMXNGCuGhVsI5XEHNDBGlHqg2tLprHlqClramc6+v0KRUsC?=
+ =?us-ascii?Q?a4Etvw0Dn74Ycw0asKYgSHmfkzSyECTlW4fVJMYyuYafmHX1Gq/OHnskmO+G?=
+ =?us-ascii?Q?6FjpDdqQ40lmZUbp3KzOflX60NRIE7jFmr6FiBFkLBheYggR2uwU/dEx7MmT?=
+ =?us-ascii?Q?EjgSDuUQ7nqWZ1Bn8Y79ibeAuLmxRIIW0vPESCpZrrynD4aag7YQKJ3gfF7M?=
+ =?us-ascii?Q?nP6OjqodjFxzGbyEA29pf9xPuQpGGdRJZmgdK3sP+QRZQbOtMOBUyF0Tj22o?=
+ =?us-ascii?Q?BKgTYV5kWVaWVpPKm5Z9fwcO5EIyEfV0U5YQuo4zEL5tc/7J4V+Zfy5dtmgu?=
+ =?us-ascii?Q?IVqZ0H+BHSOxBLihFFeeckk0dbnD?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8701.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?D1Lx1IVwVoWZU2MzMBXTehh3TucAXV2y9k/QF8J6rlKk0Ft6Z+MjpzeBVwOm?=
- =?us-ascii?Q?qKPiNrucoPwSBDZu+s9RxbQJAcCtEHtIjuhge9mjjt01ZW+a4qDHfCAjK5gh?=
- =?us-ascii?Q?KcgE90b1RW0ykXA1/l775bcATLJIZeNM+kRLc3bm4yc4Ha1xqJ3wDYbmRGHx?=
- =?us-ascii?Q?DO/h5nJpajjV+6UyFDMIp+LyEzHB+7GpZOlpj3F9RKNbtD9l8D6h7uchI+2v?=
- =?us-ascii?Q?Ov5BuYE/VNc61TsmLfnZHoJlQSb4rTHnm3+D+HlYi3HdROxnw9wtrqVVzxNU?=
- =?us-ascii?Q?5RCOZXaAAZQBgUHyRYiwK6eod/Tv06fwxmagYZWGEFeVT2JWRPkzDLPtgDmH?=
- =?us-ascii?Q?rmosKFogpp7+XcsZ8RG7WaiakpE74bGFNMrQBC36NtruKb9EX090cdLyj0uH?=
- =?us-ascii?Q?0PF3qTKFpPG4/XTJL46f7A6cFhNLVlFmHd5KR5Ck7IyVPj0gjMKo1MHoIWEr?=
- =?us-ascii?Q?cU6WXzXAPyQPT+JCOpQqkc75pf/d+YG/gR1gTso41bajA9AXcXiyICHaJR3G?=
- =?us-ascii?Q?6nEdVRv1fxGOJXNFpamm7XIJCLmfbj9pUykorSg6cQcjo8CxqhGzumPs+18q?=
- =?us-ascii?Q?l9N/enrO6XyeRoh4TSsCmunJS9Pd4LglPzwqEM3t5alKIkxNGf+uFqLkKbDG?=
- =?us-ascii?Q?WjNSoGxUft2ZoorTBMiX7m2KnNitjDjKZHy/vSyLYTNPjb/Is5kkOQoCFj5C?=
- =?us-ascii?Q?KZ7KRqTLTMbtjhPAdMNbHyeYfxNcMV6a0mairq1V6nM/1uPZu4/izAHY9WvU?=
- =?us-ascii?Q?ktpH5Tn105aAKuaQgRB7VkBBsNxVFcZFqcOl3eHOxlYyyQ3Bz7WIWTIptdz9?=
- =?us-ascii?Q?zg189GsQ6k8sb8gamS+5uwTTn0m+dz1E7+5ZS8kQORty58toXDVqQdL5oa2+?=
- =?us-ascii?Q?sexeDrRY+gVgs0+BcPtb8zEKh0HCwvcMwh/4TU7NfYBaeFbH68Ece+LgqiWj?=
- =?us-ascii?Q?CRUASNEeXgZRWdYb3MiT0ijXfTHpasXzKPUsCH0ZCz6uMxHFmNlevh7uRF1s?=
- =?us-ascii?Q?p/ohEDgeOqvCi6FYAdJ5Rrj+z/VkubBJoWI8E07nMAHDrzIoVLrB1cljh7eQ?=
- =?us-ascii?Q?F7V/Vq03N2urtZ4/wcSOD+clEbWh41mAFTRj7G1h63s1iYUyRXxzfntd3eJV?=
- =?us-ascii?Q?A8RblDfoB9bZ6eW41ONi+RCOQjW6GEuO9KxYIIiR6c2UyRm0+NpYAxcYuDNS?=
- =?us-ascii?Q?j2aGCEhSt58M9RPHCqu8Ix0wryPnnz0Te69uCSuSPcuDG+PLH43RgGmRI3kj?=
- =?us-ascii?Q?3YsVC0torqMOUfRaNgG6V+UFGvymhHyULisWwkWBB6ksnWtWb1WN6hIAAiwk?=
- =?us-ascii?Q?8uBMHc7WOsll6KZZQ/TCXrcZtjmYsURxlYETOY8EVK9QpszEzcMysLHBucsh?=
- =?us-ascii?Q?NzCuQ2D0L+dDiCZxzUXMewTVKpjcyAWCyx/d6+1mrFconvXUDgZJZ58yMQgP?=
- =?us-ascii?Q?1a7qyEZrbc8U5nzV60NdMvt1bZPuHpT/cSgqcXHT9GUOKB7IsBNPDEE8xGg4?=
- =?us-ascii?Q?lSTKd8/gDfgDGRL3IJWX+hwQLD1pa1jJx1PUSc1faftQ9EnRLAcZIxWJO5k9?=
- =?us-ascii?Q?5R2yRrm4G6Px1fFCsdK5CE50smjwo4z8JVqttDZDwVuu5nFSRHbkwoNBGk4x?=
- =?us-ascii?Q?Aw=3D=3D?=
+	=?us-ascii?Q?aJnAmht0OcCE3c2ODDzWjfx2sMBxeEROpC/ZWFEiF1vA+4FhbIT6efjXRevh?=
+ =?us-ascii?Q?jEDg5gDFzG04hucucazQ/3yqIp1SH3u6iB/IZI0VgKBcL07vSdrkRKfw6Bru?=
+ =?us-ascii?Q?wxzdGKHQXhWWl/Fu5W6pzVHI/s1j6LLWl3w2XYDJs0dHYp1ei9ApXoRhfI1b?=
+ =?us-ascii?Q?TcxXJqDbNxLkOLqG+20Pr64mrRtIjPfgMX7Bb9c7QWhLmz+ysPDNdWASCYF/?=
+ =?us-ascii?Q?PAnbY8fMjmLudOWxaFeC98jgB/eLpRGgRnBmGCve5ZxiILRL0thzytnCHFt8?=
+ =?us-ascii?Q?FTPT5P7bNR6d3+AgafJG555KHigHDxLJyUZYXLe5EoTH1apPnicLkGT5PzqF?=
+ =?us-ascii?Q?LPW8mn9lZb9bROM7ppGLQCoDmVvIknBG4xyTPC3PD7vviEAaQIJNMSDrmOJk?=
+ =?us-ascii?Q?8JHNtFKSnYiNyREGUEakbEXMo26Fef0UxFYq4Z09nQpPGUjpSUXp1SzGjRwk?=
+ =?us-ascii?Q?wkGIQ0pVhDwBb6uVICu3IgHDuW3TO0/ZEqRI6grswZBf5na1y1rv6e2JxgrN?=
+ =?us-ascii?Q?IwP99NTP9JqHlON45vC8Ndx7CVj9nQxM5RxfzkohMff0YJUa93ID8wJ76WP5?=
+ =?us-ascii?Q?haRny+2tkTeE+dS/7HJIkOmMQKo4Qw/S/A9DSQ5WdoTxQ7UB5IKrseqKa8Sv?=
+ =?us-ascii?Q?+/Vbr7udT0no0rn7f0ys2RBXn5tEGFdT5IWIiEzj/Cibyobz7sWa2MGn4/jX?=
+ =?us-ascii?Q?dV5ginuYw5GF4+JoljWsfOWjd/B5K8gzSzJO+dfrOyaCiYc3+BbwtOQ2oonc?=
+ =?us-ascii?Q?kAt9PMM1m/xT1WBqi+MVXt4e81a5qQT4Lcmr8Zr4gr4rcIHg8Opnq6FkWCrX?=
+ =?us-ascii?Q?wLquwH/k79BagMYVWzHIIMuIcZ4e/cVLIgbnO+pdkrD52G3tUqckhjcgZXee?=
+ =?us-ascii?Q?ea/8S12nIea3aKL0QYSQEDU/oN7PRiMXqVpuowmYfSoquQtutEj4llvCVW6T?=
+ =?us-ascii?Q?on6GdoQTb1YDrMTRcR9P6IrSSnV0BXWK/xO4yM8A4dqD7ejjOMlQp30klcKK?=
+ =?us-ascii?Q?NXJc83IF7K6UZIFpYe3IkLVkir7wnp4BtUV/Z42N9yZ7Z1iQA4R3CxvoQ2EK?=
+ =?us-ascii?Q?rxRi/UtSIEJ3A5kWBgtJ4hucl9I4hufozCIe4nAGfgfPyDEgPhgIZwiez/dg?=
+ =?us-ascii?Q?g0onZ5ASrp1TrVxSI0fo7vaaTZeFkhfvhc2AylYSrQEajOPgXeHE5/iINYrV?=
+ =?us-ascii?Q?iaiH9qvssrMrEOPGRyYNkv5gk0h+nY5yZYIgeuhodgZhDta9Ney4Q7Pgj41w?=
+ =?us-ascii?Q?OpvrqwdOGp9QaluM8EJOMuVQJbqySg1PWhlfSwZ8PFNwYt1t6d/mcvUJpY8T?=
+ =?us-ascii?Q?NiNCBu4rU2yCBdAgvbAkJjtxbxAMlIzVkBsupJ0FYv8DV23WF98l0MUU/Sa/?=
+ =?us-ascii?Q?5FFCCSYPyjK/2KbgskuFD98qmG4xOuDp8JbzEHBhOf/aKiyQalgFzCWRACds?=
+ =?us-ascii?Q?xRRewU2o8V+PRoUIeXM2ZnDOBjeiMB0PsZCAoH9ngddIdwc6QxYu8j1RTZ/J?=
+ =?us-ascii?Q?J+TeTJqTDi4/KOQXwnVCxyFihNrQ+o6qJzbblpOAN6nY/6MPIM67IR9ihn2w?=
+ =?us-ascii?Q?VvVHWPcF5bfwZqS8oIp8lOjd8tCR9W2CmkPIOZRo?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60a481d3-4848-45e3-aac7-08dd2bd41da8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8701.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13ac0c56-7c29-47a6-788d-08dd2bd87fb4
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 08:53:39.0417
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 09:25:01.3829
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EpYnZUSaJGM1FebeI11+l1pJwPRgySHG1HSLsZPjpQFNImOCuofbRksw1loZZ9z62puB3Y5mU3DU/2rnQUB+xocnLLL4j7VMsYk9vXM9jv0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6603
-X-Authority-Analysis: v=2.4 cv=RoI/LDmK c=1 sm=1 tr=0 ts=6777a59a cx=c_pps a=hHPfuxNGWHHq0fQgDGst2w==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
- a=SmRunaB5Z5MXHyxKQDUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: OTidsUaHpiiDoyROK2k1Xmw88Lwi1kJd
-X-Proofpoint-ORIG-GUID: OTidsUaHpiiDoyROK2k1Xmw88Lwi1kJd
+X-MS-Exchange-CrossTenant-UserPrincipalName: F0Xg5n7jFIbnj9KdOFNmGyaAyPlT5K2pMNVGwe11YMBRRMs3e3HiCVLyye4X5aV7cLB+FL0MMrLteBLN0YoBgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7520
+X-Authority-Analysis: v=2.4 cv=RoI/LDmK c=1 sm=1 tr=0 ts=6777acf3 cx=c_pps a=2bhcDDF4uZIgm5IDeBgkqw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8
+ a=GcyzOjIWAAAA:8 a=t7CeM3EgAAAA:8 a=Tt3KEgD1KPp9yqgMz28A:9 a=Chkcx7g74zAA:10 a=ar1jwvS_AuAA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=hQL3dl6oAZ8NdCsdz28n:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: Lo42uPhZVwPgwbf49lde0AU98FkY5Jyt
+X-Proofpoint-ORIG-GUID: Lo42uPhZVwPgwbf49lde0AU98FkY5Jyt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-02_03,2025-01-02_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  spamscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 suspectscore=0
- clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=805 adultscore=0
+ clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
  bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501030077
+ engine=8.21.0-2411120000 definitions=main-2501030082
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 08:53:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209326
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 09:25:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209327
 
-There is the following warning when the do_package_write_rpm task is executed
-when bitbake linux-yocto:
-  warning: %clamp_mtime_to_source_date_epoch is deprecated, please use %build_mtime_policy
+After upgrading to 1.7.0, the pam module path is set to
+${libdir}/security[1]. But from the pam.conf(5) man page, the default
+location seems to be "Module location: /lib/security/ or
+/lib64/security/, depending on the architecture"[2].
 
-After RPM is upgraded to 4.20.0, the %clamp_mtime_to_source_date_epoch macro is
-now deprecated in favor of %build_mtime_policy set to clamp_to_source_date_epoch.
+Many third-party pam modules still use {base_libdir}/security as the
+default module path, such as pam_lastlog2 (from util-linux), pam_cgroup
+(from libcgroup), pam_cap (from libcap), etc.
+So currently if you don't use the absolute path to these modules in the
+files in /etc/pam.d/, they will not be found:
 
-Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+PAM unable to dlopen(/usr/lib/security/pam_lastlog2.so):
+/usr/lib/security/pam_lastlog2.so: cannot open shared object file: No such file or directory
+
+This change only affects sysvinit without usrmerge feature enabled, and
+has no effect on systems using systemd.
+
+[1] https://git.openembedded.org/openembedded-core/commit/?id=00eb730291f9630eb70480d37ed48fbadecc547a
+[2] https://www.man7.org/linux/man-pages/man5/pam.conf.5.html
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/pam/libpam_1.7.0.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 3579d0d695..f383ed140e 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -699,7 +699,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_smp_ncpus_max 4'"
-     cmd = cmd + " --define '_source_payload %s'" % rpmbuild_compmode
-     cmd = cmd + " --define '_binary_payload %s'" % rpmbuild_compmode
--    cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
-+    cmd = cmd + " --define 'build_mtime_policy clamp_to_source_date_epoch'"
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-     cmd = cmd + " --define '__font_provides %{nil}'"
+diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.0.bb
+index 53839e8cd3..1be3c9e2bb 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.0.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.0.bb
+@@ -29,7 +29,7 @@ SRC_URI[sha256sum] = "57dcd7a6b966ecd5bbd95e1d11173734691e16b68692fa59661cdae9b1
+ 
+ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+ 
+-EXTRA_OEMESON = "-Ddocs=disabled"
++EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
+ 
+ S = "${WORKDIR}/Linux-PAM-${PV}"
+ 
+@@ -45,7 +45,7 @@ FILES:${PN} = " \
+     ${libdir}/lib*${SOLIBS} \
+     ${nonarch_libdir}/tmpfiles.d/*.conf \
+ "
+-FILES:${PN}-dev += "${libdir}/security/*.la ${libdir}/*.la ${libdir}/lib*${SOLIBSDEV}"
++FILES:${PN}-dev += "${base_libdir}/security/*.la ${libdir}/*.la ${libdir}/lib*${SOLIBSDEV}"
+ FILES:${PN}-runtime = "${sysconfdir} ${sbindir} ${nonarch_libdir}/systemd/system"
+ FILES:${PN}-xtests = "${datadir}/Linux-PAM/xtests"
+ 
+@@ -105,9 +105,9 @@ python populate_packages:prepend () {
+ 
+     mlprefix = d.getVar('MLPREFIX') or ''
+     dvar = d.expand('${WORKDIR}/package')
+-    pam_libdir = d.expand('${libdir}/security')
++    pam_libdir = d.expand('${base_libdir}/security')
+     pam_sbindir = d.expand('${sbindir}')
+-    pam_filterdir = d.expand('${libdir}/security/pam_filter')
++    pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
+     pam_pkgname = mlprefix + 'pam-plugin%s'
+ 
+     do_split_packages(d, pam_libdir, r'^pam(.*)\.so$', pam_pkgname,
 -- 
-2.34.1
+2.25.1
 
 
