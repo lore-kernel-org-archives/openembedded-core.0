@@ -2,50 +2,50 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8805E7718F
-	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 14:18:26 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.31327.1735913904366146648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9A0E7718F
+	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 14:18:36 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.31328.1735913912083541485
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jan 2025 06:18:24 -0800
+ Fri, 03 Jan 2025 06:18:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YtZOx3pZ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aMQy1MhN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101942c8813a9-173a946f-ffb9-45b2-9124-f1975316d1d4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jzygVApB;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XdBjxmah;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101942c881086-1b646d2f-6aec-4783-a7f6-a02eaf51ca5e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1735913903; i=@automation.yoctoproject.org;
+	t=1735913902; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=XI2Y0vH2yl1NyQhAI7ThvEpl+tFcBtCMW82NgG3LHt0=;
-	b=YtZOx3pZWOBKiN/v/Spd4vBHMoV4S4K6KCZWl3/Vd/1GRGapY3QvU5/fEBoVia3S
-	xwiU/hGkK6obhD8g+Mvb8pyt2AitUiqPRRTCynASHdTjNdNAi2WQp3IntUVC+nqG2KE
-	FCgy7QhoXUR5yxWB4Zmdlkxe36I3uCMHxyqern/M=
+	bh=cNHaHck+zPcnPGmRWfef5lpJbfZN1znhivuu/LdHMhs=;
+	b=jzygVApBptmqEBOv0t/lLytYdHsw55H3uaZkQbx0kfgZqrVc4eU30ocsY73DdjqP
+	3Si3tGsCd2ug75N0V73aLr5Ny0rxrHpLBEW2hGqIXiEugmbswo45TvLNvyRSG9vBjuo
+	YNw2CRKqQFrF3oiuo4U1m3uc8P4sVQYf8PKwzq+s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735913903;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735913902;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=XI2Y0vH2yl1NyQhAI7ThvEpl+tFcBtCMW82NgG3LHt0=;
-	b=aMQy1MhNrX2azs68qztu6Pc2A3hkZNQAT7kyP2qYTjlXxy/t9OVGIlSngbhMaGSy
-	dU1kgXUx8/2btd3KdlvVifo4BpXQaVl48VrhbcLjbMvGtAq5b64enqjqKIwK86dYzcy
-	p3M+YG5EpKLhAugwgMf4A4fnUgiBLcU7R2s3qEFw=
+	bh=cNHaHck+zPcnPGmRWfef5lpJbfZN1znhivuu/LdHMhs=;
+	b=XdBjxmahGSavW54tX0eLl5aLG+O69rQMoq2Ox+y9RyDPtxuvve84rTQi0vUcQDQ9
+	hpmd+u4o5bkCCPrbEkOaF+9a7DCfSYv95Vvge+403d+N2mvFAPRuSCABFRh526b7CDj
+	KL0WZBLerVBWvHgRqZ+XJnMMO42cfLC0R/2H/rQk=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 5/5] linux-yocto/6.12: update to v6.12.8
+Subject: Patchtest results for [PATCH 4/5] linux-yocto/6.6: update to v6.6.69
 In-Reply-To: 
- <0e2c7abbcd6ddcc8f29e6d6862d718e2e92fad53.1735913191.git.bruce.ashfield@gmail.com>
+ <c45f3f12a6cc302568967c892c1457660d638af9.1735913191.git.bruce.ashfield@gmail.com>
 References: 
- <0e2c7abbcd6ddcc8f29e6d6862d718e2e92fad53.1735913191.git.bruce.ashfield@gmail.com>
+ <c45f3f12a6cc302568967c892c1457660d638af9.1735913191.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101942c8813a9-173a946f-ffb9-45b2-9124-f1975316d1d4-000000@us-west-2.amazonses.com>
-Date: Fri, 3 Jan 2025 14:18:23 +0000
+Message-ID: <010101942c881086-1b646d2f-6aec-4783-a7f6-a02eaf51ca5e-000000@us-west-2.amazonses.com>
+Date: Fri, 3 Jan 2025 14:18:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.03-54.240.27.191
+X-SES-Outgoing: 2025.01.03-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 14:18:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209365
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 14:18:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209366
 
 --NextPart
 Content-Type: text/plain
@@ -55,7 +55,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/5-5-linux-yocto-6.12-update-to-v6.12.8.patch
+Testing patch /home/patchtest/share/mboxes/4-5-linux-yocto-6.6-update-to-v6.6.69.patch
 
 FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
