@@ -1,96 +1,110 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E20CCE77188
-	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 11:12:05 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.28243.1735902721837858473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2328E77188
+	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 14:08:16 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web11.31000.1735913294902111249
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jan 2025 03:12:02 -0800
+ Fri, 03 Jan 2025 06:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DeIVOGSF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso73566845e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 03:12:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zjdm98ny;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6dd43aa1558so82013016d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 06:08:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1735902720; x=1736507520; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Lt7yGqrkq8U1e6ZCI654A+gPhjZnX7w5b+GIoawN19w=;
-        b=DeIVOGSF9j1VqC3sXCEfDGhhzrkU8nzmJE0dxXtKhM8bwUQLVdlyUV1GazaBolKf8w
-         8NQXm/qydKlr2CBKI7hcMrP/kTkj3GrTxTweXhlFxsCiEyguK7+VqNOkgPj9puvn/w4n
-         JSa2rRffyQKmRrnzs+SWYHzgaGaObEDsLxzD0=
+        d=gmail.com; s=20230601; t=1735913294; x=1736518094; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNn6SY7PtxPVyahjftTq0vVZqxCV8b1tR47mojHxz9s=;
+        b=Zjdm98nyqvtrgrmwp39t0ug80MvWsN+U4MKQLYa8ZW9R0GDpbX1YC4YcHKbz4GpPvR
+         M0/MpTkIfuf8mo+Z0SeeqW9NAcHhgUlCG+5G5q+D81d3MmFWO0tA4fIpxDXudJycC+Fq
+         nFBJRgD0SZDlJe9KJ6OgIQLRK1n3UYP13CYWVyXoRvSSHehPwYdloaIarFhkpdwUHh5h
+         bsT/zCm0juOV6VfzplXaQ2d7zrPVGNRFkpLgv69IFf5EWQrrYwfhGjiCWfcx27r77t4m
+         ygZ5+h0zF+/4PZwxQBnrNv5TRbLDq7nhcrRJYZhHtNc3reaFcoUUDurJLqeLWs8V0JLm
+         i8aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735902720; x=1736507520;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Lt7yGqrkq8U1e6ZCI654A+gPhjZnX7w5b+GIoawN19w=;
-        b=ibOymB/mfVmvd/rjZpMm8UnB4qnKBfyRmv9CS+QKMGFNDEqy5OLB+Pqwyru3RoMkhX
-         A6o4MfGz/3Q2JNxVWuDnIWukAaaDzP+GllLPotABpE2i3b7W/hX7W2Wc7okBn1XyU+dP
-         veVCB6EyUKUdn0e37X+kHkH6eV48tdc2NgyYphK+ab+qimGO5tPW++nlrkHbtdUBtF23
-         Ml63In9nsJNGWgtaKtXkjFuXujICnCymmeVhb3NJkJxImXozm87e37HiZ7KTUFuW0pU9
-         30pKOAi0uOZoGwPxxv/Sbgf/sesqHZyu2KRqT2TBEYuhoww3/BHhVaaAYge2lnI3XC0/
-         uVrQ==
-X-Gm-Message-State: AOJu0Yzx1g+3ewWb+wUcEvbI5TLI1MPtUQms+XEfUuL0VdQ0s6YphQi6
-	Xt9ngwIVaDo2DIczU77GxEMEzOW8qDMCe2r+W/v6MwpZKyzw8VFA2MI8VTtFceA=
-X-Gm-Gg: ASbGnctZnt+u36LQJbytgumseu6yWS1UyarCmhQD7P7p04XGYrscqEpAFHzriOlPXKS
-	BYQnITdu9EE13br7/lHNzxHDA2/VNLMI4C6lRSZEnYDILX2bfUurKq5ImWxGZ/20o34EH3ZPx6X
-	pt9HLIItqN/pFTZnNCnshiwLgVr3M5jVz8ddE1bWJRR49Yutdd1q6Mk8L9qfr6PBvCvLn1ynnGF
-	IIayS6kxgROSSgrWFA0IIZzq25RXLpTwV2bGQL+t/IEvGYaP39+hypwPohOYxINFBvkUDB7gz2m
-	DrVqoq58mm2quHCiCWN06hhbQDWc5bZxe+uP6ZScnvfqyQ==
-X-Google-Smtp-Source: AGHT+IFdQmOH0no9I85ppdzV40AYyJGUWID3NnAL4mOYqZ3z4DgbzDDv9mFnYFwMNVSi8/hpD9nq8g==
-X-Received: by 2002:a05:600c:3512:b0:434:f3d8:62db with SMTP id 5b1f17b1804b1-436696feb7fmr373940085e9.2.1735902720222;
-        Fri, 03 Jan 2025 03:12:00 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4279:1195:6db6:fe19? ([2001:8b0:aba:5f3c:4279:1195:6db6:fe19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a6e19sm40238984f8f.100.2025.01.03.03.11.59
+        d=1e100.net; s=20230601; t=1735913294; x=1736518094;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dNn6SY7PtxPVyahjftTq0vVZqxCV8b1tR47mojHxz9s=;
+        b=Y0XzTIMxr36lEwIc86SIKyiLbkvEsWuL1qcodMc0Oi9V9ZOMPM6fWFaHDJ/ihx7E6i
+         yNrjBKQ1wgaZgwGa5xx8W2gYZbtpl3dfnQ78g0ErkJnKZqIP+c0gw6NzTEt9Hey0zczd
+         f1bVxCuOjtS/QnJuixJ43RIR6eIS7DWFIH1SXqNjeSaAgfEwoFMYQ2AUciBCp9ifpxLQ
+         l7TOBqcov4fy0EXVK8NGFCr3qEawWbQZovHPoWPSWj+QtODtmKul8gno7ZeehNNcWjRj
+         oyHeZGfQul+X0gYwWdXRRbOZZSYfeD+hXLctjF6tlMB5BtVkqb0ENmG2G1APsmJ8RuuS
+         1D6A==
+X-Gm-Message-State: AOJu0YywsNTS0N+E1INiOTx6Umse7ONepDlPINIWAGzx7FB0PL2xZ2Dk
+	ZsUaVkPK1wpk+hkVGL6yhI7eVQEcYvp5ROGDK6T0Nefhh08lI0AL
+X-Gm-Gg: ASbGnctIaVTTOloxXEwyo/A8HmtYwrVz7dI79oQDXB67DSmEfvydbHV7b5WFzNCAc10
+	k9IuT/17J1s0FemaN9O7fCjJkXEPHhGipnGVZmLYnwDUo0pizMd1PTSBKxqmlpVQiJCdHS82v4W
+	+JnL9ecjqbuOC4pTTZ3UA5gnskHxpEE9nv/7HnBL5hq7ZFOsF8S38nTlI8Nd20YrGGNpqE186eY
+	aLIQuk+jOl7GX0XvQ5LE9MgwV+qnckpkUi6SnUu+JpAIW2NP6z5yvID83UnQMnO/bBV5ES79/og
+	fUCNd52T3u8BVRgGNBGyuxL06yCbFQ4Rd+8W5A3dYt6nu4bms5n38zjf6A==
+X-Google-Smtp-Source: AGHT+IEThPH/obTVJCdNXhd03uS3QagdXFWrA0O2FPqR91YQc7FjmsAGGj0wvTB2WhwfV39PrdB2jA==
+X-Received: by 2002:a05:6214:e67:b0:6d8:a5a6:f489 with SMTP id 6a1803df08f44-6dd2334dab7mr675536816d6.26.1735913293843;
+        Fri, 03 Jan 2025 06:08:13 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ddbe688b33sm18748286d6.84.2025.01.03.06.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2025 03:11:59 -0800 (PST)
-Message-ID: <c47f231db5bf48abc1cec8a2d26b355a4ef31132.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [AUH] python3-jinja2: upgrading to 3.1.5 SUCCEEDED
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: auh@yoctoproject.org
+        Fri, 03 Jan 2025 06:08:13 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 03 Jan 2025 11:11:58 +0000
-In-Reply-To: <0101019421358da3-d32cbedf-2fb1-45f1-8694-f43e34bb8596-000000@us-west-2.amazonses.com>
-References: 
-	<0101019421358da3-d32cbedf-2fb1-45f1-8694-f43e34bb8596-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+Subject: [PATCH 0/5] linux-yocto: -stable updates
+Date: Fri,  3 Jan 2025 09:08:06 -0500
+Message-Id: <cover.1735913191.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 11:12:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209347
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 14:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209348
 
-On Wed, 2025-01-01 at 09:32 +0000, Auto Upgrade Helper via lists.openembedd=
-ed.org wrote:
-> From c46bb9d47eff5793ce4d4ff9fa244c497e735c8e Mon Sep 17 00:00:00 2001
-> From: Upgrade Helper <auh@yoctoproject.org>
-> Date: Wed, 1 Jan 2025 07:02:12 +0000
-> Subject: [PATCH] python3-jinja2: upgrade 3.1.4 -> 3.1.5
->=20
-> ---
-> =C2=A0.../python/python3-jinja2/fix-3.13.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 87 -------------------
-> =C2=A0...inja2_3.1.4.bb =3D> python3-jinja2_3.1.5.bb} |=C2=A0 7 +-
-> =C2=A02 files changed, 2 insertions(+), 92 deletions(-)
-> =C2=A0delete mode 100644 meta/recipes-devtools/python/python3-jinja2/fix-=
-3.13.patch
-> =C2=A0rename meta/recipes-devtools/python/{python3-jinja2_3.1.4.bb =3D> p=
-ython3-jinja2_3.1.5.bb} (85%)
->=20
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This fails in ptest due to a missing dependency on python3-trio:
+Richard,
 
-https://valkyrie.yocto.io/pub/non-release/20250101-59/testresults/qemux86-6=
-4-ptest/python3-jinja2.log
+Here's the next round of -stable update for the active reference
+kernels.
+
+I'll send pull requests for the LTS branches shortly as well, and
+will also bump the -dev kernel shortly.
 
 Cheers,
 
-Richard
+Bruce
+
+The following changes since commit c09ea097f1f34e2a19dbada6285b30a6b43b11bb:
+
+  bitbake: doc: update releases.rst (2024-12-28 11:04:32 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/6.12: update to v6.12.5
+  linux-yocto/6.6: update to v6.6.66
+  kern-tools: fix python 3.12 warning
+  linux-yocto/6.6: update to v6.6.69
+  linux-yocto/6.12: update to v6.12.8
+
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
+ .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
+ 7 files changed, 41 insertions(+), 41 deletions(-)
+
+-- 
+2.39.2
+
 
