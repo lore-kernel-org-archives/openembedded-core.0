@@ -1,135 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45ABE77188
-	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 11:03:35 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.28113.1735902207376999207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D94E77188
+	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 11:07:25 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.28484.1735902441284904139
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jan 2025 03:03:27 -0800
+ Fri, 03 Jan 2025 03:07:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NY/15Fh6;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6dd049b5428so102030066d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 03:03:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735902206; x=1736507006; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7SuY4tsmSjS/KrzchhQpc10WgKNoLo3jDNj7blft0og=;
-        b=NY/15Fh6I6ELmt7RHVLX7onGm67fpw9ET/QdJFuUayC0M/t1WtG6TEU6yq6s2yggWU
-         OE6HXShXOkXn8uEapySJ7BJbv/PV9EgLLXKwOcildOcfuI7+Bpucx4YopKrMBYPJ0Fty
-         XrcnioDvX7fhau8eB2uc45RWRgInklBUBvahXYxXfkLBxcVMcbEXsUmNHm8mvU7ebHte
-         /cJuRDRUm6wuSByXqQbjxmaSY68bmeekAOlQS+azH93g1pyn+ZrP8l+zYMLlZicttwAB
-         SkDt50092N1FGRH5vXaYwzOb4MUsD1b1znZRMXWn1hnyAvC+3VFJ8TPiFxzO2maCkiZu
-         /AdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735902206; x=1736507006;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7SuY4tsmSjS/KrzchhQpc10WgKNoLo3jDNj7blft0og=;
-        b=r/NL+C606IbEhnLru+3mGnkZuod4PIqey1GuCDjsd2eRORwWSmawXVoVRbufTSOPP6
-         XvUmx2COHeMiVxZOPS7Bo8Amoqb1J5JxvnPwbhe9jzQpr2UJwhSOyhUfcQPfIu3P/TdG
-         4WyX0ixPuSiBOC8Q/BktjI6iNTpwfitiHZTMtE3C50cpl3H5T8nwssr/Nak5EZUv50i3
-         WgvMsEVqHDJeX0XiBnCGpPoZIN2y/Rat+5wcmOxmtGTv6c1L7MJGF6xQMxDlsCKAPgnU
-         Tu7lNxiSfVbQ80nBoWOAqyWM+XVEgnaVyzJal8y8ODlT0KOoPGKD0h4QMILmYUVsVcbD
-         Z50w==
-X-Gm-Message-State: AOJu0YxHl1vWvPyu3vqCBTzBl5b9INJ8oX1W7naZgRWTB3K5W806nu8O
-	ckhkZZapE81ZrSFd5jSZok9SWqPynr8A6JOeJyup60dXONx9CW70+KWa//UvTnGQV9hxM0vcZq/
-	b56VZKLa+8+50M82kzrsFoNahkpk=
-X-Gm-Gg: ASbGncsJq+w3v5ezt9g5M3Na3dKbwpqhVnkAsXb/UY3u2kGRRFwDZprD1rkqd72e/8y
-	47Gy3NjdVJsJWA0NCj4U7HvL1ij/uJu4MoV0r3bnJDL0GrdTPs73/ynhAmav7f6CyT7pUP8jh
-X-Google-Smtp-Source: AGHT+IFqzsELE6IcQvMrgEaKip5E8IYB8KpdtC/7xoIKViRVQSiZKYONCnLkfzP5rqP+YDTNQI9gso5QpZjvtUDzJPc=
-X-Received: by 2002:a05:6214:518c:b0:6d8:a39e:32a4 with SMTP id
- 6a1803df08f44-6dd2334bfd9mr679151996d6.25.1735902206476; Fri, 03 Jan 2025
- 03:03:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20250103104903.2946151-1-sanakazi720@gmail.com>
-In-Reply-To: <20250103104903.2946151-1-sanakazi720@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 3 Jan 2025 12:03:14 +0100
-Message-ID: <CANNYZj943J4+pPGYCee57FszCwT9_otyu1fzAwcqXoHbGBz5uw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] libpng: Add ptest for libpng
-To: sanakazi720@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EZkbaD3F;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tuTIm0j6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101942bd92b8e-46dfa152-600d-4923-8823-5170775f2a2b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1735902440; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=GFzolcGDkmyufEjKK2DZB/95ZG1dqpYc7xwAXHLP4og=;
+	b=EZkbaD3Ff5NGhG4YMnu7qT+yPh2dpUdS0G2zxlTKmoCeL9KwWlPT9aW4o/Tz3BeN
+	KrJxF6v/Uwr7O3ZxIoZDwiUBfBDU9f4chGJDXAx1y3oNFXwwzzHd8dUMGRV/Vh9Hm2S
+	WWJ1UQwWk/pa0NEzV76h45rK6wASZqa2Hoprf/xA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1735902440;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GFzolcGDkmyufEjKK2DZB/95ZG1dqpYc7xwAXHLP4og=;
+	b=tuTIm0j6J96zYkLU/Zho6cX8jDAON+elabhDvmAagHTudHmDyGJnFUXBRWzheXpB
+	yxRq58y4Mwj9iPr9jw2ilJkmh2zOABuOFF5CM9tbzxuwDjc0sGxPg657U4QLnCQCvM0
+	Yuf7hHwKS4BCVrm1Hw7MRQ+8yvI9Y4qWqkjC4NBo=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 09/11] shadow: merge .inc into .bb
+In-Reply-To: <20250103104524.4053846-9-alex.kanavin@gmail.com>
+References: <20250103104524.4053846-9-alex.kanavin@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101942bd92b8e-46dfa152-600d-4923-8823-5170775f2a2b-000000@us-west-2.amazonses.com>
+Date: Fri, 3 Jan 2025 11:07:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.03-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 11:03:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209345
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 11:07:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209346
 
-On Fri, 3 Jan 2025 at 11:49, Sana Kazi via lists.openembedded.org
-<sanakazi720=gmail.com@lists.openembedded.org> wrote:
+--NextPart
+Content-Type: text/plain
 
-> libpng is a platform-independent library which
-> supports all PNG features.
-> This ptest executes the below binaries, parses
-> the png image and prints the image features.
->
-> 1. pngfix - provides information about PNG image
-> copyrights details.
->
-> 2. pngtest - tests, optimizes and optionally fixes
-> the zlib header in PNG files.
->
-> 3. pngstest - verifies the integrity of PNG image by
-> dumping chunk level information.
->
-> 4. timepng - provides details about PNG image chunks.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks for working in this. There are more tests provided by libpng,
-why only these four are picked? E.g. in Makefile.am:
+---
+Testing patch /home/patchtest/share/mboxes/09-11-shadow-merge-.inc-into-.bb.patch
 
-if ENABLE_TESTS
-check_PROGRAMS= pngtest pngunknown pngstest pngvalid pngimage pngcp
-if HAVE_CLOCK_GETTIME
-check_PROGRAMS += timepng
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
-> +#!/bin/sh
-> +
-> +set -eux
-> +
-> +./pngfix pngtest.png &> log.txt  2>&1
-> +
-> +if grep -i "OK" log.txt 2>&1 ; then
-> +   echo "PASS: pngfix passed"
-> +else
-> +   echo "FAIL: pngfix failed"
-> +fi
-> +rm -f log.txt
-> +
-> +./pngtest pngtest.png &> log.txt 2>&1
-> +
-> +if grep -i "PASS" log.txt 2>&1 ; then
-> +   echo "PASS: pngtest passed"
-> +else
-> +   echo "FAIL: pngtest failed"
-> +fi
-> +rm -f log.txt
-> +
-> +for i in pngstest timepng; do
-> +    if "./${i}" pngtest.png 2>&1; then
-> +        echo "PASS: $i"
-> +    else
-> +        echo "FAIL: $i"
-> +    fi
-> +done
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-There are several problems here:
-- hardcoding the list of test executables is prone to getting out of
-date as libpng is updated to newer versions. As pointed above, it is
-already incomplete.
-- checking the logs for things like 'OK' is prone to incorrect test
-results if the test prints OK somewhere unrelated. The correct thing
-to do is to check the return code.
-- removing the logs makes investigating failures more difficult
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-All of the above issues can be addressed by installing Makefile from
-${B} and running 'make check' from run-ptest. We do this in several
-other ptests.
+---
 
-Alex
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
