@@ -2,28 +2,28 @@ Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 082E9E7718F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0BDE77199
 	for <webhook@archiver.kernel.org>; Fri,  3 Jan 2025 09:25:15 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.26894.1735896309139477117
+ by mx.groups.io with SMTP id smtpd.web11.26895.1735896309821693155
  for <openembedded-core@lists.openembedded.org>;
  Fri, 03 Jan 2025 01:25:09 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=30983b852f=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5038Xc0n018516
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5038Xc0o018516
 	for <openembedded-core@lists.openembedded.org>; Fri, 3 Jan 2025 01:25:09 -0800
 Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43thqq4rf4-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43thqq4rf4-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 01:25:08 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 01:25:09 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a4zFrDoXLmqHMC+CtNDNYuAGwda7Qw8Y0J8+np9AC8Ce7fmDyqa+m24Ec/qNliQZFfFmCLBS67+CHlNo4r1GDxquv1P42Mj2Za7MDrvwm8/f2L5zUgXllDgDIHKekdIFp5uOLRG567FW5VOHTIBuIK3a+QtZPdFErX1BDbrFCP913+1+xGxeEPhe78yVF31zWhgZyUdqwJGrndCFeRYTT1yiTOTifXh4Pa4XoQemagHmHMC93vEoKw0IM8UoQgABcVWTZA+xh5B2ll/G9lujaDAj0aIAuSzjkRvbAifUWG6KYe+2jD+Dpxel+j0jK8gpIXJAWz7qXCawbMCigmnYFw==
+ b=X5QFCEC2SqEG5hC/HJKRvboOulYgcSM5iUMOZkY3WhrLqzV+UQlI3Bgv4rwib5MOmDu/AgrVLMvcSlSxDET+gEkr8/IGBl5TbiCHTVT2WUjRSkjZvecaBCOqOYFdYkXf7yyIzPcDjDjAvYb3gl1Y3RY4tzuS01HmC+qCUVqxij86cqXlF4htbmMxla0I3ZGru9z+2k0DkdXsGBijxLXTJDTOsOa4jTlqaFMhd0dIil+uOWuLwbXzfbdoASRQi3qPGQYxIrPzj/D76YOqQ0mQJAzl9Vifx9WEqahhm28QGUnInwdDfRuhyaUtrhu0yhPKVKWDdq0uMC5iQTSZmTTZoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qJAlbO+JyHmudevhGSjDUZZ3t/Uoa1t9evWxXIrNNKA=;
- b=x5ioRCT1MvxWvOvfDedub683Gxfjd8MYVqHuuSOnnoucSLSvdxDYqIYEVbqMYXnjjP6Hz3XRRfLXvsY46iRlTIzYhY1bFLCPNU46BfXmD87NKcHv0jcwt8XCB2sjYVKauZBY5wpPp9/VBd/qx9IcevNqn41cKXZOJ+4e11uQJjoF3ZQNh1/0dzBLmSTeOJJBEpHMESMCZnknrhP2Pp3vBkNCAq4xb1Jp7WINnrXPwuHk4Su4dJ+CBPVJWozX/i+HObrsObbbtgmtyZtnvK9/bcP+wvupkeI9kpPocJLLzd2wXc6NvKHv9zDTuVC12E67WGa25q0bayLb7mPzZ7ixpQ==
+ bh=WrvtQPbK/KBQ9anXjXxK8XZeIvASkMuGhb7yEHqXlGg=;
+ b=wlO/kGJE+gqLQafJzzQ7w+hRiwwz0XQ5dlRzoI6XXl4Cwh+h0J0aC+CzBbDSf/1On2S25mbl/F5YbFftz7FZ1C+kumTV/ySCfBlZXWjw45bxMj9MtWQM4GSgPuSWisFHz7i0Auc2dU5y1Yy3JjHBs3bxjWvD10D5KHLAcyhF3XMsXqgLY32iFbZHaxJgd7DwGoBSKYqTg2moRCR6VFzWsDp102Zn/c7noJhUUSUEN5TUi8kLBuZJGojuCP44iQ1cV6rJckRpVvEkssquaw0OIbC5PBkkgaUNgPg34EAV7xNOKv4ZoaYjchYmNCE3z22ZSXNAlP9nqfxYM1DdXLDc+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,16 +31,16 @@ Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
  SJ2PR11MB7520.namprd11.prod.outlook.com (2603:10b6:a03:4c2::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.12; Fri, 3 Jan
- 2025 09:25:02 +0000
+ 2025 09:25:03 +0000
 Received: from DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad%7]) with mapi id 15.20.8314.011; Fri, 3 Jan 2025
- 09:25:02 +0000
+ 09:25:03 +0000
 From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] util-linux: replace local patch with upstream patch
-Date: Fri,  3 Jan 2025 17:24:44 +0800
-Message-Id: <20250103092445.566172-2-yi.zhao@windriver.com>
+Subject: [PATCH 3/3] util-linux: add volatile file for lastlog2
+Date: Fri,  3 Jan 2025 17:24:45 +0800
+Message-Id: <20250103092445.566172-3-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250103092445.566172-1-yi.zhao@windriver.com>
 References: <20250103092445.566172-1-yi.zhao@windriver.com>
@@ -52,83 +52,83 @@ X-ClientProxiedBy: TYXPR01CA0049.jpnprd01.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|SJ2PR11MB7520:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e14fc66-26a0-497e-c290-08dd2bd88060
+X-MS-Office365-Filtering-Correlation-Id: 06764975-eb4a-4866-de14-08dd2bd8810a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?KiM2xefOQdTNN7FIrdH+HVhlQaeHDcRYZykcAcYYTO2RGDfHIBj0Xc7DcroR?=
- =?us-ascii?Q?b24A06v83a/qf0fk1reJH4U81jyddSmbBjw/aW06a9bfuiLVnXJtHOBT9mCm?=
- =?us-ascii?Q?kUd5AaE5egQQ5YaZMTGf47bPkvtRIx3gDq++iVQSI9NsLSCYmd3PgxR7uw/3?=
- =?us-ascii?Q?Nt7nSK2WBrfuwYiRAvPk63wt3pXaAkrZV3JXJxdyTvuiSmRyXcOucIur25Me?=
- =?us-ascii?Q?Fcjsevvj6OCzCJI9HAv701WEuE3ekNjAf4JGYTmLjMowfLgwYxZE8pZ7vTXI?=
- =?us-ascii?Q?Jid4a9I9ZvWXq/6KEbf/1HOwwy+PbrPxCYTdKl/rRiq9Jy4tgmm2WPDmuozf?=
- =?us-ascii?Q?P2mGw9aa2wGh+oCtvYU8gTrAKMOyePwS3uNEvYXtsxixJkpREYAxtjaNkrIj?=
- =?us-ascii?Q?n+KE2rHl0Hn8+je6hpljNFE8c3/OmC/Ll9HPC912kIwUty65T5URqcxAhJrf?=
- =?us-ascii?Q?ETa1JUd6cd+nzw9vLGehZmCgTJyA+4ILRxK/pBmYEaS+DmuvAFlAkJmyE9G8?=
- =?us-ascii?Q?r17JRpjY4LjLDh7fboz03apR5cMRWPdEr/7CstuceTllprjB5U5KFPR5XgVg?=
- =?us-ascii?Q?wxmSUB1WvlpO/4oIcD5tqjMTJGk3I3uTisKOGbz461dFkDjKiLT0I7rhIaGJ?=
- =?us-ascii?Q?oQI/q1PoVUEDpcKkLc6xarPmWpIU7BEIqRPKkWDTueMC7n1OFXDONIvW4zfC?=
- =?us-ascii?Q?jrVTXD/l1+ayqJPySBJtLMLsbs/8LBrNECL3lwK9+Nh+grj9PC3mxVADBIMO?=
- =?us-ascii?Q?HEvNijA7CxK+XH2cxBCcfFdrD95/xKos/lMY2bYsfsJXNXMNphDmMmj1e9GS?=
- =?us-ascii?Q?l26WDoWH8FlTFL/t+c7F/uuNNMPBGhBGfugsu/wCkgtfEBQ23fI+pV8pmg1G?=
- =?us-ascii?Q?SvQg8iuIG6/wVNk1MINwCjHxb5s0VAtnEABdlP5Ymxq1atjibEUab4McynWc?=
- =?us-ascii?Q?NVFqhGrvlBeSwxO5NfCpM+CWQSojEvz+7pn8pcXMJye7GMLsBS+h3EJW16gM?=
- =?us-ascii?Q?KxHr4SmgEx1sCjatJtSMcKqEFH3KhrZCPwfaLDhQL8lfJwk3fvEIEfcFSeo/?=
- =?us-ascii?Q?JOKUFq3wae1Wmq8AjNwxRA4Ggvcr7EB2sZ0dyZExtfdMcqoYhk+bRUXwFC01?=
- =?us-ascii?Q?h42ulkq7qUb0FJCR35f9bK4uC8nbYUETFJcAuhbu4S3vLbKTEm2MOR5Ft6CP?=
- =?us-ascii?Q?T90qN6M+c45X/JR2iFjNXTpFJkOefxkkaHrtBotzgx8kwuV+X3JnKfjkHT8e?=
- =?us-ascii?Q?hSDzOYrBRPWfigQ1AbhyorRNTFFdV3kjmZPnEWe8EYtJ0Uj/ar0FxnymxQDP?=
- =?us-ascii?Q?0yXdI6upNrrIh7xB0E4vQmWZjkmF90GVtzadt4Iqh7ZxjfdVvsKjP0ESLCHH?=
- =?us-ascii?Q?8s/2fdpZQNlFUYhT9Q6GltB519pjJfsexjn7vdINlW/nbhJYhc34uwHhPEqg?=
- =?us-ascii?Q?CrlVUy8mAA344byodQN2nj3bcfe0NQVmaalqQytKeJtYaWjXOA5g/A=3D=3D?=
+	=?us-ascii?Q?oHhp0hnm707FT46Rqy7ckBqcVZbSWsyshchd0eSjYP6Gt81depdDJ3+OXpIA?=
+ =?us-ascii?Q?oOTyFRrRBNbvsJObRTaYzU+d90uai99u5Ny/cgrZKnpedqDv/WtP1nOLPbL3?=
+ =?us-ascii?Q?rdRcmQFWBCullyKGR+ybT/ZyfYy1gUsEyAkCfIrtPIzORClLhqvg9yCNMTJb?=
+ =?us-ascii?Q?Rdw1xEuvHkHzUonC4anVztiGtPmHYvUGRA3ynnJj8zPpIOmhWc0N7+z/VHLc?=
+ =?us-ascii?Q?e9hIe5sPBU0SEitSBpF4IqLiKIjkIQZ2lFAMAIwSdLU6UUpRmWjb72ut1Za5?=
+ =?us-ascii?Q?19lXG79EgyTj36AAse9K2FPVsmPCewRpHb8o1v8ADukRSLFefgWbZtpFZr4F?=
+ =?us-ascii?Q?xanZjzQkDRuU5OHoCtfkyvM4/4hUjUeV6UobJ+OWflxMMFOShX8k4denJehx?=
+ =?us-ascii?Q?Fh8NnddjPlsmLrurMQO4u26uotyLfD5AyH7JwLjF1Ak+GXEXIbncY16Nu8+Z?=
+ =?us-ascii?Q?81Gd7Zn0wj4kRzg7dmmeiYCZ2DgQVJCd5plBMcIDqIdtZutTS31eB0EVTq8E?=
+ =?us-ascii?Q?4mwjRGdq6kS+lcu1AkIVAi7ArB2w6lUNB+K8Df0hkKjEEIyrdECkn4wKr69j?=
+ =?us-ascii?Q?AVUQuoH8cfkVN5jd+dwlLi7XQBxlLmkSnlmVXv/2VLkOoqbL9ykm2cGor2Ly?=
+ =?us-ascii?Q?96ixTrlX1kSnfqYFmNdM8GznFlX1IAmZsjW9Y7PpQj4xCjMB9Or35tFubtOf?=
+ =?us-ascii?Q?rrYedhQS03zFZUi4gkztZ9fR83dOULUIfgCcVtEPiNUehu0Y0/xfBjZ0lZhJ?=
+ =?us-ascii?Q?3HssywCgya0vB19cHCw2mKMdCkwiCYDFeEENRYyvfo+U8V4LTrilXlKTCCQf?=
+ =?us-ascii?Q?YnX6Kjeu8lhKUauw7pBDvcLbELhI+QPzqqQfiCUXHRhC2aryz4um42yOr4+r?=
+ =?us-ascii?Q?LfG3nX54kOsLn2SXHJl0iKE2ATQTh/5ZlGoc0JOT9V9NiIDmQdT136lXY19H?=
+ =?us-ascii?Q?zTFav/oj1SFU47l2Kw7fDsOi2UDml+UAGh9rltGm2bEkAV7BUtXC5pIjQ9Vi?=
+ =?us-ascii?Q?x/ckik+wDJPubpbvt1kj6itsad+hrbOY7uXkdKyoMEMJefL147uHeIsu57Bq?=
+ =?us-ascii?Q?CoGTrwCo4g1D4nUJntsofLMCY0YhaRf42ShBrulmre6QIAUlLAXkoJcAORif?=
+ =?us-ascii?Q?AqUyDtuMFVN7AIYca0AYKtSlrm5OxrlgSOfsFE+KV9Gs57eOJdX3PiRSAw/9?=
+ =?us-ascii?Q?1tVCaLbV6twsqYZe/h0BJwULS1hCzzn4ATiS8T/16W4QH1Hzu7+HmheEsyJ3?=
+ =?us-ascii?Q?lrgAXNmgezfVxfEo5OGo/WqQWnrS5wJhInM2fu1JGJKt1v2ggxB8Q5tWatoO?=
+ =?us-ascii?Q?wn6SsmPzUx6/uU3zrdSROQ34GBpQjyqMAiC6Fr2YniFuvtXgi/Br/CdbkOgz?=
+ =?us-ascii?Q?M+wQMRHnq1tHxcuRg/yRnVrP2mx2DPxbJhU8xHziN5NMWs/VyGHn0MJc9g7i?=
+ =?us-ascii?Q?V+VsxbNbA5wf5OADcHMGHyUBAt+k4aqf?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?waozyElu0Z6irvF0DOMRwwJGQmMBvDkfUg6Vt9NVE54y5ahEm5zlSvzrCxMb?=
- =?us-ascii?Q?ZYLfuiK4GH9wLhDcAM0nYG83B+k8b872fNWbAZhfD2oUgKrobIJ4X8AY2HRp?=
- =?us-ascii?Q?5SjLLJYYJ3FthB0x8wgTvl4rC8DuYjxSxN6dCrUmRjYIOzg6mbhvOMz6eiJP?=
- =?us-ascii?Q?G3TeYW+7oVx4gkmrvux4pwYHxjyRA0VdaHSjDUjgdMqUgsySkB9NIHzYBO83?=
- =?us-ascii?Q?7ImULBRImZDHSbaxfRKHII/+YhOMwZA8iCtOuNHwsCspWeBFD+s9/5DNo+WX?=
- =?us-ascii?Q?c2g+54vO1JMoTSbQILVucyafZLK4j7KPj9CpZan5qFvKo7NEVdCa2mnDrVtY?=
- =?us-ascii?Q?Uufb191e85S8eNt6M+NPZ7Fxzy1Kap7d/UkB7rwpM2MFd4JOQKEx3XIo3qSy?=
- =?us-ascii?Q?lj738o5X9lXZTjrAWfbeuK9Cn07q32Vx0rEPntXxYWkhDm7/XZh4V/XpRSfQ?=
- =?us-ascii?Q?axXBjL0hid0/vjCY+CdECmMljZFqYFwXPvW3UVzU2F/hc/uYMFMEcGwvCgCP?=
- =?us-ascii?Q?UzJLF87VZcTbKQUEWITpIYXcjnb3dzNQyA8GCn211tl5CD6r2HAS8aF99Vl+?=
- =?us-ascii?Q?LyblhBXcuuxz1h8fmc+8b36BK9esb/aHCwdKhaqR+QCgnQWmNs5XW1V1kmOk?=
- =?us-ascii?Q?UXENdIleqtA09Q9Q3c2VZU2d3H+y4kki+/98FyItvOPJFjguPRuLEW8T4HDW?=
- =?us-ascii?Q?dNlVFhW4K2co+fNLIDfN5xI17M/ErvdPFrolEGOuXG1v6MqM5/4YO4n7bgK7?=
- =?us-ascii?Q?WMkPmhn7A4Snr7bnUZ51S4bIkgA5wEqgjwVkQrfLyDpRtwiQr7Wg2EG9ZBuw?=
- =?us-ascii?Q?+US9GcAb4Gul0TitrXKnm6gFXQCx6JdaASBEULFHTw8gFrmCaGJcqqUn6AnB?=
- =?us-ascii?Q?xb7HdS0dU2p4u2ynKnfhvyYuZY4jlfWeyW1+uZZCQut+pSvnUH1O0LqIbo53?=
- =?us-ascii?Q?QHsJFDysI1SC6PlGMxjyqPw2raQRxKno7akax82Jv5Anp/Al+SRAiUxu5cQL?=
- =?us-ascii?Q?Fo34J1/RwcwuU9Giy3zhkU6AZab8P6tOpYAbmMufG5xavOimxka/7PMPU1uL?=
- =?us-ascii?Q?3+ToUz4i0FVryeDdRJngz84MNM17Oy8R+vyIokFvhX6kEAEuuKl2YILGN7b1?=
- =?us-ascii?Q?TDA32jcUoVi4rOCZCc5+g8HIHLp+LbZ6cGyWWmSeZ3Slvaoli/moJDaHAdJj?=
- =?us-ascii?Q?eh+g2XBz+uuH8OHVTzNouMtxcXjV169ylJ99ubV5AhvekNa9Jd/zFWPZfD0y?=
- =?us-ascii?Q?GzF3EOCr7epkI3k3H4gTUYJ1L49UeMDddeB0h5WJcpOTh4hZPPwntuEpaDUD?=
- =?us-ascii?Q?6nh1tUDccpdQFiXm34+vPAB/PEJKor7AaUqIsNQs/v7XRF4EnOWsvOc93DpF?=
- =?us-ascii?Q?ARlKU2JdC2mWCxJfcUptvLvDm0VBZ10imQcU8KMinltPNPZ9+065Y6MLDHQz?=
- =?us-ascii?Q?nycZ9qMSwc3jGMSERUQzlUPbbe1o00oupKn9ZpAsrXJ8xAosJQtcFQt4/z12?=
- =?us-ascii?Q?t7z276XBdhyYWFnFhOrHxJtxHncfLj1S93EI3UbYA5h56ahQxZNcm3B8cvek?=
- =?us-ascii?Q?FTnZ4pTuZxmz5/oSaedRQP67B7GJQZ7Y7ezv/7yS?=
+	=?us-ascii?Q?ijhXLDcUUdA+gYdfLOsnM/s1pwCFHq0tH0ug9CwF7NRJxbxu6ld7lJOZdLpP?=
+ =?us-ascii?Q?kzjTABZouh12c4FDmwUtnxmlIswq/SfGtI8io974um93UHMLv9bCnvNqpPaQ?=
+ =?us-ascii?Q?jCgavlQdinE68xmhwHmyo51KFzCEWn+39y5owj2TrCJvdVz3hrmrl8YabseM?=
+ =?us-ascii?Q?Ai64wEcJuS+NjdJ7XaVuQE3tC12axnhF69+iiFLtjqcg8mf4lNxP5C1Kz1mk?=
+ =?us-ascii?Q?Wuz1lU3e3Xh4cJ3rwoXbgyyrRcqPecyenD/Oljpu8nmBT3m3ePYFQZmoxO7a?=
+ =?us-ascii?Q?hSi/Eu/7vmm4xAkSdX5SwUCvbYGeVe6DxyOqhM/JJqvFTzH0jYZmpFeNsoFP?=
+ =?us-ascii?Q?mswIBdS9vTU6ogN4qWC+XJsOvjnYNBBoT4rycpMXNaaw1yHx0N9KlI53pD+I?=
+ =?us-ascii?Q?EGBJFzUFLzzAvUY0walzithweTQri8lKK2wIn5uzhILW0/aBnq5RklmsFEvH?=
+ =?us-ascii?Q?nRR1m8LDKj33r0mv54lOp7ZZCDn22SaOFeqGGoTfdsao8gV0RuiVga4O2h8L?=
+ =?us-ascii?Q?YxGEHoqbP3Ch7KSzxY79VfhytcaDu3P36cDwdPeNF/9nO0t8BeaP4zxL4mMW?=
+ =?us-ascii?Q?cu++CBynoHdroX9uQaV6wcFI4l+FsvvKGdZ1mzcp/EkzQDur2Yf9d3lOLwg3?=
+ =?us-ascii?Q?WgnuFDpUJaRpFV7d3rY9Qf5gYBp95ZJEOByO5mDTuAMA58xshdHPaci7eitF?=
+ =?us-ascii?Q?QDPH2PvCP0DLcM8wCWAU6gno/cKstdoItsj7CyBdPAtrlPoHOpVYLaE1NfbD?=
+ =?us-ascii?Q?URi4xXjgWQd8rjnnlpwWJv8dKr2MTlGnxyZ18eTrGC85NQiMSQCRPnIskXbu?=
+ =?us-ascii?Q?vMhujEyakmCPPkgKQGAldppuJ9MnAg3gqoyTvFNSfox/PQ+PRg/OoLEmoKU9?=
+ =?us-ascii?Q?OW56b6KQ4yQR+/m9tpO7wHG7wAzuyOuSpNAyPeYsvZ0kCC8xWbcJ8CBiee1m?=
+ =?us-ascii?Q?OZdpTb6bUV5sekMlyIWAdODHJFwsLcR/9WWs5tGm7mDkWhBdJcczntV4GmPa?=
+ =?us-ascii?Q?LXoMM3GGZIWwUrRwVcRbp72vfyJ9hUIl6+baxNI5I4tiOeDH/p0tvcx7NCUt?=
+ =?us-ascii?Q?trnC58DPTeh5kgnksxuxmJB///VI/BxgwGpGD0NOFQ88m6cD2+ti7im+7GdP?=
+ =?us-ascii?Q?uJbpmIIfji8/XPuWI1pCimZsFfzHRnWIGJVTWdN16KqjWKVVhtyTIVoMJerH?=
+ =?us-ascii?Q?abW9EI5ADGk+y7wNZnJ8AbLEhLPVp7jBav0ezzgqCuuQK5glXqy3u4HAxB4k?=
+ =?us-ascii?Q?IVpclmu+N/rI0fZtL7olaYw2s3n7WYVm9CeUo5jmnf26oZPeca6d3sYbyny/?=
+ =?us-ascii?Q?7F+sGRjFDa7L5BIYz+F+yhz88vWP2uxRaChpx0F1UEylE2kF0EOdOSgg1fC8?=
+ =?us-ascii?Q?4j0NoxwOBnhCd6RvLE+lM7u3kmj681hdKWTcCvuY3p7qz5G2BDe0Uzm9yw3M?=
+ =?us-ascii?Q?35s9x5WmnyvCWYUS+joP//CKrPp7SGY5El6GIouicIabI691KQ3yxZ551uw+?=
+ =?us-ascii?Q?6N4hHdPVsZokStUzrVubIhXLeFaaliZZevas0qku/gWC0E9Hm+2Lzd1pghbf?=
+ =?us-ascii?Q?+V0WW2py0o08+atb1nbs2NAOICKwnCwYCcWbUM3b?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e14fc66-26a0-497e-c290-08dd2bd88060
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06764975-eb4a-4866-de14-08dd2bd8810a
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 09:25:02.5031
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 09:25:03.6061
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jVBQT2PVsoy8JhZZhnllSVHb4puc9oun30vm/r5Q3z+5eRh1XWV1DuQThu98KfVqWZMFk98dqDqTMP/f7gcMyQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WMsk3z/+SpH+73JQEnbam7FRZyNu8kqv7fTaokbXPPxfZqN8BTI0BsdW6EeIRODZfTi2CXGgXpEeP9yW0kziDQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7520
-X-Authority-Analysis: v=2.4 cv=RoI/LDmK c=1 sm=1 tr=0 ts=6777acf4 cx=c_pps a=2bhcDDF4uZIgm5IDeBgkqw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=b_pyp5wphmC0vpvZUIUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 6d7GZ_mBaG-E-SnV6NcB1gwyVl0cJWk7
-X-Proofpoint-ORIG-GUID: 6d7GZ_mBaG-E-SnV6NcB1gwyVl0cJWk7
+X-Authority-Analysis: v=2.4 cv=RoI/LDmK c=1 sm=1 tr=0 ts=6777acf5 cx=c_pps a=2bhcDDF4uZIgm5IDeBgkqw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=kDmmQspSaqKm4nw16goA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: X--VyYLuKhr6r1TlyhuCq4IbbLFgTjsB
+X-Proofpoint-ORIG-GUID: X--VyYLuKhr6r1TlyhuCq4IbbLFgTjsB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-02_03,2025-01-02_01,2024-11-22_01
@@ -141,194 +141,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Jan 2025 09:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209328
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209329
 
-There is a better solution upstream to fix the pam_lastlog2 installation
-issue[1]. Backport this patch to replace the local patch.
-
-[1] https://github.com/util-linux/util-linux/pull/3173
+Add volatile file for lastlog2 to fix runtime error with sysvinit:
+$ lastlog2
+lastlog2: Couldn't read entries for all users
+lastlog2: Cannot open database (/var/lib/lastlog/lastlog2.db): unable to open database file
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |  2 +-
- ...s-make-pam-install-path-configurable.patch | 65 ---------------
- ...x-securedir-and-pam_lastlog2-install.patch | 82 +++++++++++++++++++
- 3 files changed, 83 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-Revert-autotools-make-pam-install-path-configurable.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-autotools-fix-securedir-and-pam_lastlog2-install.patch
+ meta/recipes-core/util-linux/util-linux_2.40.2.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 1c066631f3..1dc30c0535 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -38,7 +38,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://display_testname_for_subtest.patch \
-            file://avoid_parallel_tests.patch \
-            file://fcntl-lock.c \
--           file://0001-Revert-autotools-make-pam-install-path-configurable.patch \
-+           file://0001-autotools-fix-securedir-and-pam_lastlog2-install.patch \
-            file://libfdisk-cfdisk-and-sfdisk-sector-size-improvements.patch \
-            "
- 
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-Revert-autotools-make-pam-install-path-configurable.patch b/meta/recipes-core/util-linux/util-linux/0001-Revert-autotools-make-pam-install-path-configurable.patch
-deleted file mode 100644
-index e9f01fd0be..0000000000
---- a/meta/recipes-core/util-linux/util-linux/0001-Revert-autotools-make-pam-install-path-configurable.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From af5b58cb77fc8e2e2e2f26aadef4b773b950eafc Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Wed, 21 Aug 2024 07:50:57 -0700
--Subject: [PATCH] Revert "autotools: make pam install path configurable"
--
--This reverts commit 0539b1ebd26f6a168b822374d7b167f8ef4a1997.
--
--If people want to use /lib instead of /usr/lib as $(libdir) and want
--lastlog2 pam module installed in /lib/security, there's no way to do so.
--
--Beside, we have:
--pam_lastlog2/meson.build:        pamlibdir = get_option('libdir') / 'security'
--
--So things are not in sync between Makemodule.am and meson.build with
--the original commit.
--
--Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/3173]
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- Makefile.am                    | 1 -
-- configure.ac                   | 3 ---
-- pam_lastlog2/src/Makemodule.am | 3 ++-
-- 3 files changed, 2 insertions(+), 5 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index 54e0fd497..3f801c686 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -56,7 +56,6 @@ usrsbin_exec_PROGRAMS =
-- man_MANS =
-- pkgconfig_DATA =
-- usrlib_exec_LTLIBRARIES =
---usrsecurelib_exec_LTLIBRARIES =
-- bin_PROGRAMS =
-- sbin_PROGRAMS =
-- dist_usrbin_exec_SCRIPTS =
--diff --git a/configure.ac b/configure.ac
--index 82d0e4bf9..35a70aba4 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -120,9 +120,6 @@ AS_CASE([$libdir],
-- )
-- AC_SUBST([usrlib_execdir])
-- 
---usrsecurelib_execdir='${usrlib_execdir}/security'
---AC_SUBST([usrsecurelib_execdir])
---
-- # static configuration maintaned by packages (e.g. /usr/lib)
-- AC_ARG_VAR([SYSCONFSTATICDIR],
-- 	   [Path to static system configuration, default ${prefix}/lib])
--diff --git a/pam_lastlog2/src/Makemodule.am b/pam_lastlog2/src/Makemodule.am
--index 6d2365378..f9a9b6b41 100644
----- a/pam_lastlog2/src/Makemodule.am
--+++ b/pam_lastlog2/src/Makemodule.am
--@@ -1,4 +1,5 @@
---usrsecurelib_exec_LTLIBRARIES += pam_lastlog2.la
--+securelibdir = $(libdir)/security
--+securelib_LTLIBRARIES = pam_lastlog2.la
-- 
-- pam_lastlog2_la_SOURCES = \
-- 	pam_lastlog2/src/pam_lastlog2.c
---- 
--2.25.1
--
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-autotools-fix-securedir-and-pam_lastlog2-install.patch b/meta/recipes-core/util-linux/util-linux/0001-autotools-fix-securedir-and-pam_lastlog2-install.patch
-new file mode 100644
-index 0000000000..272e574a77
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0001-autotools-fix-securedir-and-pam_lastlog2-install.patch
-@@ -0,0 +1,82 @@
-+From f912fb1bbb0ff5af2736d154347a3b9fc40476eb Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Tue, 27 Aug 2024 12:00:21 +0200
-+Subject: [PATCH] autotools: fix securedir and pam_lastlog2 install
+diff --git a/meta/recipes-core/util-linux/util-linux_2.40.2.bb b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+index 646bc05564..2c7dd154e1 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.40.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+@@ -129,7 +129,8 @@ FILES:${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
+ FILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
+ CONFFILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
+ FILES:${PN}-lastlog2 += "${base_libdir}/security/pam_lastlog2.so \
+-                         ${nonarch_libdir}/tmpfiles.d/lastlog2.conf"
++                         ${nonarch_libdir}/tmpfiles.d/lastlog2.conf \
++                         ${sysconfdir}/default/volatiles/99_lastlog2"
+ FILES:${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
+                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
+@@ -222,6 +223,12 @@ do_install:append:class-target () {
+ 			install -m 0644 ${S}/misc-utils/lastlog2-tmpfiles.conf.in \
+ 				${D}${nonarch_libdir}/tmpfiles.d/lastlog2.conf
+ 		fi
 +
-+Addresses: https://github.com/util-linux/util-linux/pull/3173
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/util-linux/util-linux/commit/9c787eaac43f5f01146f792b0239f587e4b81202]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ Makefile.am                    | 6 +++---
-+ configure.ac                   | 6 +++---
-+ pam_lastlog2/src/Makemodule.am | 2 +-
-+ 3 files changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index ee2d553..a5dcaea 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -56,7 +56,7 @@ usrsbin_exec_PROGRAMS =
-+ man_MANS =
-+ pkgconfig_DATA =
-+ usrlib_exec_LTLIBRARIES =
-+-usrsecurelib_exec_LTLIBRARIES =
-++securelib_exec_LTLIBRARIES =
-+ bin_PROGRAMS =
-+ sbin_PROGRAMS =
-+ dist_usrbin_exec_SCRIPTS =
-+@@ -155,11 +155,11 @@ EXTRA_DIST += \
-+ # pylibmountexec module must be installed after usrlib_exec libraries,
-+ # otherwise the libtool relink step will fail to find libmount.la and
-+ # will try -lmount which is possibly not available.
-+-# The same for usrsecurelib_exec and liblastlog2.la
-++# The same for securelib_exec and liblastlog2.la
-+ #
-+ # So introduce this dependency rule:
-+ # install-pylibmountexecLTLIBRARIES: install-usrlib_execLTLIBRARIES
-+-# install-usrsecurelib_execLTLIBRARIES: install-usrlib_execLTLIBRARIES
-++# install-securelib_execLTLIBRARIES: install-usrlib_execLTLIBRARIES
-+ @verbatim_extra_dependency@
-+ 
-+ #
-+diff --git a/configure.ac b/configure.ac
-+index 0375d29..134cf38 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -123,8 +123,8 @@ AS_CASE([$libdir],
-+ )
-+ AC_SUBST([usrlib_execdir])
-+ 
-+-usrsecurelib_execdir='${usrlib_execdir}/security'
-+-AC_SUBST([usrsecurelib_execdir])
-++securelib_execdir='${libdir}/security'
-++AC_SUBST([securelib_execdir])
-+ 
-+ # static configuration maintaned by packages (e.g. /usr/lib)
-+ AC_ARG_VAR([SYSCONFSTATICDIR],
-+@@ -2767,7 +2767,7 @@ verbatim_extra_dependency='
-+ # otherwise the libtool relink step will fail to find libmount.la and
-+ # will try -lmount which is possibly not available.
-+ install-pylibmountexecLTLIBRARIES: install-usrlib_execLTLIBRARIES
-+-install-usrsecurelib_execLTLIBRARIES: install-usrlib_execLTLIBRARIES
-++install-securelib_execLTLIBRARIES: install-usrlib_execLTLIBRARIES
-+ 
-+ '
-+ AC_SUBST([verbatim_extra_dependency])
-+diff --git a/pam_lastlog2/src/Makemodule.am b/pam_lastlog2/src/Makemodule.am
-+index 6d23653..a2becac 100644
-+--- a/pam_lastlog2/src/Makemodule.am
-++++ b/pam_lastlog2/src/Makemodule.am
-+@@ -1,4 +1,4 @@
-+-usrsecurelib_exec_LTLIBRARIES += pam_lastlog2.la
-++securelib_exec_LTLIBRARIES += pam_lastlog2.la
-+ 
-+ pam_lastlog2_la_SOURCES = \
-+ 	pam_lastlog2/src/pam_lastlog2.c
-+-- 
-+2.25.1
-+
++		if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++			install -d ${D}${sysconfdir}/default/volatiles
++			echo "d root root 0755 /var/lib/lastlog none" \
++				> ${D}${sysconfdir}/default/volatiles/99_lastlog2
++		fi
+ 	fi
+ }
+ # nologin causes a conflict with shadow-native
 -- 
 2.25.1
 
