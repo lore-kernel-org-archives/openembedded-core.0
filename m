@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A12DDE77188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A130CE77197
 	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:16 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.18130.1735998126887657503
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.18147.1735998136316793328
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jan 2025 05:42:06 -0800
+ Sat, 04 Jan 2025 05:42:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fM4aUjHl;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2166f1e589cso223692965ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c1IoQFoL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21628b3fe7dso178420695ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998126; x=1736602926; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998135; x=1736602935; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZcVrwhQMqkyw0gRpz3Hr2WFykpARnGeW5m7r7BFUlPo=;
-        b=fM4aUjHlXmuJ6PvzQwBPQRmdTX6qdX1roIlDGaproszDFrgfxcggl19RV2i2tKbetn
-         H7QdQWBC5oQzP+mwndR6LI6K3uQYOoZeNt4+m5qU4bkm+1kN9Xs1XqCEV5xllM+LQKHP
-         8BYjespB28c24ykXtsHNJpkulho89x6j7vP4Hq3zTO08j0YGR2BalwAEUgaGiTJTdTJe
-         DIip59zwJq3vgp4ACeCF103n1ppR0WxQ+HM5I97n2upAg9g37BCKW/QhOCb4J47hpzkS
-         BP9x7BwR/z6of903+8BRXwJIhWln1LGTCyY9hXUEIL120fn5O7sWh9UZ79OIwTdoW9SW
-         79CA==
+        bh=C7G1DfcRIwDJTp9S1ZAkRAE7UHRPUnJe+MbAt2wPNn4=;
+        b=c1IoQFoLZmRI7WPbUGlyK740Hu6DdpptLlZ5MNZPrNULEixsLEU9XuiusPZjrBcyGC
+         U3rdcE0qAze5DeVNdjktNoZ6l63JtqbSHd1ojjCLKdC3P55XkUhnSPJ6y48158lPAwaI
+         hE7h4w8W9uM1fBoLDqZ9d43qASGlYvB8f309x2lXIVvOV0M6eKHEZ3sRhRciMmVbSG41
+         Qc6jzmqxv4QASwYii1127o9pyHX5O3Pyj30hQu6l+Wg44/rQVUWN/7h1VsJrqvZHgKJ8
+         xUB3lerzz2sSo3WxQmxVPmf6LJWRBsj90mDFWgXLI6O2AHZWE06idILGvVRQ41yWyBFs
+         HIKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735998126; x=1736602926;
+        d=1e100.net; s=20230601; t=1735998135; x=1736602935;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZcVrwhQMqkyw0gRpz3Hr2WFykpARnGeW5m7r7BFUlPo=;
-        b=W1FO0XUavt1mCVVbRrC6e4LHzu0bDDoyG1fNZCQsIx4dgwIDGy/54CrJy9PgVjFHrt
-         vCw0LNjR5kI1vFnKkwX/z1LzH9STs/ZyNltliAyp71/SBsGGFWNz4awes+3fM0T3uf+d
-         NTYiyKmWx/Ri6EVVfp+vvoUSPypsehPPRcmIEkMdoSF6X8Sxih0ifZkzbx980urDiTBX
-         Bx+clgUfUslPykenxf6vmG3g3xOaKtkRhgGg7S6rk/CGWFqKTQB8fJPmVaeQ3tzlgw1h
-         uWKcZU1uAd9zkec8znvMrs5wLFt70TbB+BqQqp27OdYyNZlDmiieNYKj2bFdoUZshbeX
-         ycDA==
-X-Gm-Message-State: AOJu0YyzsCpfUbnTnkds0X7SeO/c4yK12HeKNNidStZtJlqFU48qi+fm
-	3MjuHKqi74Tfp8DmplcvcmEeyXNT+DmYjtNYp3dOqQ6xoYWuV+OVQGrSttFSBSnRXVU8jovp0Rs
-	f
-X-Gm-Gg: ASbGncvu7ivE4Uf2mDgkXRX/1h/V9CtSQglBqDrRmKA45eY+JNVmtPiaOpc1YuA1FYA
-	jJPgbvER/nqvxFZwQUWf0oSaoiCJs2a0LUHu+YBxIzqKUjoLCoPH7LHPXaacu85rGmOXkBokLHa
-	gKQo37+aglhJsm52SEH5syNpIG0TuAgCcwV45EK8kpv+/5fwLac8shFXP9r77Q6HJ+EnV/nJrDb
-	EraCVrTxefc0RPXNLD9nBckYrQuGoXvJ2xWR0+vGtAOSQ==
-X-Google-Smtp-Source: AGHT+IFvKDRCPrMclDwXx63NY8M3dOQJQ+UCtisv4VDV4w4OoY1QqMPZivuKGWSssRIcfG081f+1ag==
-X-Received: by 2002:a05:6a00:4098:b0:725:c8ea:b30a with SMTP id d2e1a72fcca58-72abde2ab0emr75754713b3a.14.1735998126007;
-        Sat, 04 Jan 2025 05:42:06 -0800 (PST)
+        bh=C7G1DfcRIwDJTp9S1ZAkRAE7UHRPUnJe+MbAt2wPNn4=;
+        b=LeMqwG9D2BBYA6GuYWH6fmy352oqEEw2Osb4fmmaQcMp6zw2y3z0MLufcE73wb1l/3
+         m/rer/fgAPGbqX6uCXH/4cwFDvP4Cs+MB4bMJ9tq4Z+guEPcRb+HTYzyLFmSPVIHLGmy
+         9bEX9y7o1cnvKHq06OTALKHvrmoH6qbTnOO9mTwjq0Y7O1fpp1jNWRkEnrxbqQVlE4w8
+         7kAC+/Xpvvrf0PtFXmkDXNQ1r8j60qLOp9mKCIsskLl1Z6RcObyc0RN9VVycts3trK1N
+         efEXfagkQNxd8mVNvOrKImYnR3xMLJ6i4stSgAF27hBsq3Q3Uw112z6tihfNB7COJWdg
+         W1PQ==
+X-Gm-Message-State: AOJu0Yxv/sst54ZF/c+ixIG9Ipw4fKeqMdVb0FcmgOREPMqmxAYWHdgD
+	Z1AkyNvUmGnaMuWaFU/LB9khCrTsrL3wQHTH5W/+v5Fv1iNAMquixCcp/ojWcQS7H543CCK/IcU
+	T
+X-Gm-Gg: ASbGncsFY1eQERH0ABcjYeCjTsxu8pCra873RxMknXwbOwcXX1ohv/LV5SqWS7e3HyR
+	ktQQSAXX+D2rTK2d3ZBTWmYX/rFPdx5cc1FtuAs23YOSfzKVrA0L6eVF3TA4pWNTP1ciJholoi3
+	YTvhQDqNgB31tOBYEauJyhxRRbw+Tpfgy2mXKCC/pYMMPX44/3PmZoFUA+ts3esXl7zC1WzITUM
+	JlAbd/MkImJOaWCXVy6tShOJOTAXsyKxucZaoTLb9n7vA==
+X-Google-Smtp-Source: AGHT+IEUEkdUE4jgIsCAYqRrUwNWYWq7AnN8RjlgtPNhN4EFToPL/nO44Zq8ieUEa4KWx4mTQe76jg==
+X-Received: by 2002:a05:6a21:2d07:b0:1e2:5cf:c8d6 with SMTP id adf61e73a8af0-1e5e080ba76mr71399896637.36.1735998135560;
+        Sat, 04 Jan 2025 05:42:15 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 05:42:05 -0800 (PST)
+        Sat, 04 Jan 2025 05:42:15 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/25] gstreamer1.0-plugins-good: patch CVE-2024-47613
-Date: Sat,  4 Jan 2025 05:41:29 -0800
-Message-ID: <6236088fc43f7d2e8a01bb6e3937969ced8a7f6d.1735997984.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/25] gstreamer1.0-plugins-good: patch CVE-2024-47606
+Date: Sat,  4 Jan 2025 05:41:35 -0800
+Message-ID: <30f2b1c6b10e064ce0f0f1910d2740e6ccc86251.1735997984.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1735997984.git.steve@sakoman.com>
 References: <cover.1735997984.git.steve@sakoman.com>
@@ -66,89 +66,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:42:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209374
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209380
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit from:
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8041
+Pick commit related to plugins-good from:
+* https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8032
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ck-if-initializing-the-video-info-ac.patch | 53 +++++++++++++++++++
+ ...teger-overflow-when-parsing-Theora-e.patch | 44 +++++++++++++++++++
  .../gstreamer1.0-plugins-good_1.22.12.bb      |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0014-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0023-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0014-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0014-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0023-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0023-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch
 new file mode 100644
-index 0000000000..502b26f9d5
+index 0000000000..37f133a493
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0014-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch
-@@ -0,0 +1,53 @@
-+From 1d1c9d63be51d85f9b80f0c227d4b3469fee2534 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0023-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch
+@@ -0,0 +1,44 @@
++From f8e398c46fc074f266edb3f20479c0ca31b52448 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Wed, 2 Oct 2024 14:44:21 +0300
-+Subject: [PATCH] gdkpixbufdec: Check if initializing the video info actually
-+ succeeded
-+
-+Otherwise a 0-byte buffer would be allocated, which gives NULL memory when
-+mapped.
++Date: Thu, 26 Sep 2024 22:16:06 +0300
++Subject: [PATCH] qtdemux: Avoid integer overflow when parsing Theora extension
 +
 +Thanks to Antonio Morales for finding and reporting the issue.
 +
-+Fixes GHSL-2024-118
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3876
++Fixes GHSL-2024-166
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3851
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8041>
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8032>
 +
-+CVE: CVE-2024-47613
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1d1c9d63be51d85f9b80f0c227d4b3469fee2534]
++CVE: CVE-2024-47606
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/f8e398c46fc074f266edb3f20479c0ca31b52448]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ ext/gdk_pixbuf/gstgdkpixbufdec.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
++ gst/isomp4/qtdemux.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/ext/gdk_pixbuf/gstgdkpixbufdec.c b/ext/gdk_pixbuf/gstgdkpixbufdec.c
-+index 5482998c0d..de5f054964 100644
-+--- a/ext/gdk_pixbuf/gstgdkpixbufdec.c
-++++ b/ext/gdk_pixbuf/gstgdkpixbufdec.c
-+@@ -322,7 +322,8 @@ gst_gdk_pixbuf_dec_flush (GstGdkPixbufDec * filter)
++diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
++index 5e3cb1b9e6..c2d8b5e0f1 100644
++--- a/gst/isomp4/qtdemux.c
+++++ b/gst/isomp4/qtdemux.c
++@@ -8279,7 +8279,7 @@ qtdemux_parse_theora_extension (GstQTDemux * qtdemux, QtDemuxStream * stream,
++   end -= 8;
 + 
++   while (buf < end) {
++-    gint size;
+++    guint32 size;
++     guint32 type;
 + 
-+     gst_video_info_init (&info);
-+-    gst_video_info_set_format (&info, fmt, width, height);
-++    if (!gst_video_info_set_format (&info, fmt, width, height))
-++      goto format_not_supported;
-+     info.fps_n = filter->in_fps_n;
-+     info.fps_d = filter->in_fps_d;
-+     caps = gst_video_info_to_caps (&info);
-+@@ -384,6 +385,12 @@ channels_not_supported:
-+         ("%d channels not supported", n_channels));
-+     return GST_FLOW_ERROR;
-+   }
-++format_not_supported:
-++  {
-++    GST_ELEMENT_ERROR (filter, STREAM, DECODE, (NULL),
-++        ("%d channels with %dx%d not supported", n_channels, width, height));
-++    return GST_FLOW_ERROR;
-++  }
-+ no_buffer:
-+   {
-+     GST_DEBUG ("Failed to create outbuffer - %s", gst_flow_get_name (ret));
++     size = QT_UINT32 (buf);
++@@ -8287,7 +8287,7 @@ qtdemux_parse_theora_extension (GstQTDemux * qtdemux, QtDemuxStream * stream,
++ 
++     GST_LOG_OBJECT (qtdemux, "%p %p", buf, end);
++ 
++-    if (buf + size > end || size <= 0)
+++    if (end - buf < size || size < 8)
++       break;
++ 
++     buf += 8;
 +-- 
 +2.30.2
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-index 94c34cf908..ca26290340 100644
+index 85c9a20a2d..7f8cd7c96c 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://0011-qtdemux-Actually-handle-errors-returns-from-various-.patch \
-            file://0012-qtdemux-Check-for-invalid-atom-length-when-extractin.patch \
-            file://0013-qtdemux-Add-size-check-for-parsing-SMI-SEQH-atom.patch \
-+           file://0014-gdkpixbufdec-Check-if-initializing-the-video-info-ac.patch \
+@@ -29,6 +29,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0020-matroskademux-Skip-over-zero-sized-Xiph-stream-heade.patch \
+            file://0021-matroskademux-Put-a-copy-of-the-codec-data-into-the-.patch \
+            file://0022-jpegdec-Directly-error-out-on-negotiation-failures.patch \
++           file://0023-qtdemux-Avoid-integer-overflow-when-parsing-Theora-e.patch \
            "
  
  SRC_URI[sha256sum] = "9c1913f981900bd8867182639b20907b28ed78ef7a222cfbf2d8ba9dab992fa7"
