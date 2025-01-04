@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F11DCE77188
-	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AF2E7719A
+	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:47 +0000 (UTC)
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.18142.1735998155896884101
+ by mx.groups.io with SMTP id smtpd.web11.18164.1735998158636088229
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jan 2025 05:42:35 -0800
+ Sat, 04 Jan 2025 05:42:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1ie8rZHx;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LamW73cq;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2166360285dso184809545ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:35 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2156e078563so159542365ad.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998155; x=1736602955; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998158; x=1736602958; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DtUI/FNKC+l5hSUwhEu6Bv+GHTyBQzxNwManfOfRMPU=;
-        b=1ie8rZHxKZabQjoJUyHsfHm5ZzfJSDsKKPl9QNJvfOvVaobbHlnEFh4qSmx93u+9Fx
-         iMjrDB4FBSWc5YSft5fDyJ1hoEliPNFo5X08D7EkPxAgBbNy+dZ5A1CG7IW0y9e3aUoG
-         TUXRdqPtz1qnCd2D7GExH81petbJzUF5kPwmc9uCbW9fRlEwhHTS5zF8jRk0DAzOML+C
-         kTTNYNa7L/6i0HvoBMMgE+CnAvRMAL5GpD+rQPIjFu2S5+XSs8lL48nCqQq3y1Xl075Q
-         6BlKTLbSMD9lMdCgI2XhEsfLjSe9xsLxIYczj2WOGjOh01JIE8Q3LaywpBXrX+hqDKX9
-         F+1w==
+        bh=Bp8iRgI8eQPINX7UPZ28RdcuW0EN8JjJ/c2crJQbHHI=;
+        b=LamW73cqj8dpEskUrmzV355su6FaFgYq7j5av7YUfTau/FttWha0yrzYFndEQElG/2
+         Q+KIFvQfJDzmpIMFtS/fSlWNIDX5rgGMtaGO2Px0p5laU6AwiL0h2sP3hXLqVLwUEX1B
+         +tc975lEXmMH3aQAqvQYu/d8SnqW7nCejWoEJ7bSH+35aEywIvfCuYf8aDj9Vdjw4owk
+         EF/PzM/HViDd3UyYMuL9OCFxJtqxi7LXqup0Sbse2f9ikUUQvmUf0Tb/fSJUwxsDBXOM
+         SjBsSpWCMxSjdP3SfROrrhOrXgzj2QP4dDzHxoeMkTjwrOT+wLMnGNAG+WpbJ9slAqc5
+         lOKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735998155; x=1736602955;
+        d=1e100.net; s=20230601; t=1735998158; x=1736602958;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DtUI/FNKC+l5hSUwhEu6Bv+GHTyBQzxNwManfOfRMPU=;
-        b=jBmX0VV6ECY7P5sGBw98yXANL4Njm1lDK7PW/rwH84JmjYfKhLHWhGZfUWUbIozY41
-         a9ENm8sSYkad7SlpFSFJF3ZUTTX0kwPH/yLsXZwqdFpDD693bLegoR1IbOmKkMnLfvV3
-         R3EiNWDGmb+EjFIdfnObIeP25I87xw6K9xYSBfJAigCkYve42/Y/9ya+yo7KCmzepXcr
-         BlIZQzNPipRY2o2dbfRvEvRfJvI81ocDX/2fsk+G4w0NIbvRHj7uvOVxjDnW6mbnR+wB
-         GFY4Ed8HnXosCpuB8+9nG89X3Y7ottZTurqjvgdRPfZuAfZAwZtwavwYPs1HeEIu5U3V
-         jYww==
-X-Gm-Message-State: AOJu0Yx7xBeO9jtnRJ5fhyc5ZuJE8Eis7WvMECyxDlrYiINqlRVtnBbj
-	P7IiYhVmRuT7iMOgcQUYEurGASO20nkWVvkn7TRuAT/NBS+R5x/3UKSRCnHww1hIGA8XHbQi6Fu
-	Q
-X-Gm-Gg: ASbGncu9FmgYX+QczoX+LsK7MK7/HVS/Y5THCfyejj95lzJp9gJPT+LW+vo05T7hD+1
-	qzVVxRMy0sa4l/udCuzpzLnxquqKQdY3pYIbPHcG9OZ2sSsLHVBkeHPKzTLsmdwjMHIlmuFHLe3
-	lux0AZx2JpIhFE4NNtXnmdoN2gbbqz37hpc3Bx6yUZg+WEu2AlI2/UAZ6xUi9B6/GjA9n2V3eOj
-	Un82tE6mYcYhjvBKXU46KiOPRIYEjzAgsggaK0UXchVNg==
-X-Google-Smtp-Source: AGHT+IHjzT4TrHtbHj18QE+hX7wIAWYFh1TACX0FM1AP9vJLQ4iFLlBkbUHP4vhsEpJ2dnE3urRr7Q==
-X-Received: by 2002:a05:6a21:3991:b0:1db:ed8a:a607 with SMTP id adf61e73a8af0-1e5e047b457mr85365721637.11.1735998155107;
-        Sat, 04 Jan 2025 05:42:35 -0800 (PST)
+        bh=Bp8iRgI8eQPINX7UPZ28RdcuW0EN8JjJ/c2crJQbHHI=;
+        b=BfRWO0AZeAlyRfSU6Aq5y0oy5MIiHko5t0VdF720BgM02wj7UEGbZs2C1lE8r1qPzp
+         dB8CslJF7rX4mBBUvmqSA39Ep8FL4iAwBLBfCwK8Qg0DxE1LX+hl9k5OHJuLh2SEei7p
+         vBOoRRPck26h7QHUsz062vyHVpHBj04XVi+V5Y4GggwHTmJDTEiFRdEf8GV+YPaHaOsw
+         M049G4ACsvcDT6lCYa7REw/uGcGa0zX1QxDSCYBTdmklze6lefvL/vDLJctS4SWY4U2z
+         y4gtNmBG8yiUh8O90UOB6BtlBe2CjLTvOFg66ATXRcHRMX5alWDMuy98rzi3C/SLF4fJ
+         JiZg==
+X-Gm-Message-State: AOJu0YykRfe6c514GdHJ0B0dAjHtC43Vv347Qtv3p/2M++3BKWRoqvXw
+	FkvmZxrO8UMu36ReGDfVaFZxtymy9ytBWlvkQBlgNpcMbwprfjrfFB8Y5g+b6lBUo4ivAObmUt+
+	/
+X-Gm-Gg: ASbGnctGG4q7hKndXpTE3M9bbsSK5+Fh/OT6iRQA0+QeLntpsPu2Zu3WvMnB8ZcvzV5
+	gHmZzEuzyjfeNoSHoflNrIwyuTewVoF0DFIwF/yQJNq6NS33iMwYkL8XKsHob43gZSUl8ImBW/m
+	/DL4vfVuRAM0ZbsOy3nXQZcvQEkG/w0XfAcxF7J3SSQ/o6BKER6zr+0R7HhJdfx/YbcpWJOZuZ4
+	o3sTEcBtW8TlVtpgxRzrv4dbfc0qtOwWNSh9PKt7J7hrw==
+X-Google-Smtp-Source: AGHT+IFBSPRoYVwFRFtHsuo5pjAA+SbNd/imibauDlmuUx3oAxpgk0VQ0fOWWa9rXPBpMYqKYPNOtg==
+X-Received: by 2002:a05:6a00:4ace:b0:728:eb32:356c with SMTP id d2e1a72fcca58-72abde01b08mr62954635b3a.11.1735998157880;
+        Sat, 04 Jan 2025 05:42:37 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 05:42:34 -0800 (PST)
+        Sat, 04 Jan 2025 05:42:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 23/25] lttng-modules: fix sched_stat_runtime changed in Linux 6.6.66
-Date: Sat,  4 Jan 2025 05:41:47 -0800
-Message-ID: <598b2f27d74e08eb6089eadad68f80b2f1ef71de.1735997984.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 25/25] sanity.bbclass: skip check_userns for non-local uid
+Date: Sat,  4 Jan 2025 05:41:49 -0800
+Message-ID: <c3e0666dd2624c20c5f32657846d6f044046205b.1735997984.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1735997984.git.steve@sakoman.com>
 References: <cover.1735997984.git.steve@sakoman.com>
@@ -66,105 +66,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:42:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209392
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209394
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-The following commit has been backported into the 6.6.y branch.
+Bitbake preserve network for non-local uid, refer [1],
+so check_userns is not needed for non-local uid
 
-See upstream commit:
+[1] https://git.openembedded.org/bitbake/commit/?id=4eafae7904bae6e5c6bc50356e8a9077f2e207fa
 
-    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
-    Author: Peter Zijlstra <peterz@infradead.org>
-    Date:   Mon Nov 6 13:41:43 2023 +0100
-
-        sched: Remove vruntime from trace_sched_stat_runtime()
-
-That caused building the lttng-modules report compile error:
-
-       tracepoint-event-impl.h:133:6: error: conflicting types for
-       'trace_sched_stat_runtime';
-
-The fix is still pending on lttng review board, backport it to oe-core to
-de-block the build issue.
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 808d0cece22bcbee15236717e158da247cbedaf1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...stat_runtime-changed-in-Linux-6.6.66.patch | 51 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.12.bb            |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
+ meta/classes-global/sanity.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
-new file mode 100644
-index 0000000000..3c7731ae8f
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
-@@ -0,0 +1,51 @@
-+From a04234d63999f91405574928c80ded870dca157a Mon Sep 17 00:00:00 2001
-+From: Kienan Stewart <kstewart@efficios.com>
-+Date: Sun, 22 Dec 2024 17:39:35 +0800
-+Subject: [PATCH] Fix: sched_stat_runtime changed in Linux 6.6.66
-+
-+The following commit has been backported into the 6.6.y branch.
-+
-+See upstream commit:
-+
-+    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
-+    Author: Peter Zijlstra <peterz@infradead.org>
-+    Date:   Mon Nov 6 13:41:43 2023 +0100
-+
-+        sched: Remove vruntime from trace_sched_stat_runtime()
-+
-+        Tracing the runtime delta makes sense, observer can sum over time.
-+        Tracing the absolute vruntime makes less sense, inconsistent:
-+        absolute-vs-delta, but also vruntime delta can be computed from
-+        runtime delta.
-+
-+        Removing the vruntime thing also makes the two tracepoint sites
-+        identical, allowing to unify the code in a later patch.
-+
-+Change-Id: I74acf0b8340c371e8411116e07e5c97b10f9c756
-+Signed-off-by: Kienan Stewart <kstewart@efficios.com>
-+
-+Upstream-Status: Pending [https://review.lttng.org/c/lttng-modules/+/13813]
-+
-+[Xiangyu: BP to fix compile error on linux 6.6.66, Minor conflict resolution]
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ include/instrumentation/events/sched.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/instrumentation/events/sched.h b/include/instrumentation/events/sched.h
-+index 24cf37c8..637a1e3a 100644
-+--- a/include/instrumentation/events/sched.h
-++++ b/include/instrumentation/events/sched.h
-+@@ -646,7 +646,8 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(sched_stat_template, sched_stat_blocked,
-+ 	     TP_ARGS(tsk, delay))
-+ #endif
-+ 
-+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0))
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0) || \
-++	LTTNG_KERNEL_RANGE(6,6,66, 6,7,0))
-+ /*
-+  * Tracepoint for accounting runtime (time the task is executing
-+  * on a CPU).
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-index 95d5e2d615..34aff1ba8d 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch \
-            file://0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch \
-            file://0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch \
-+           file://0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch \
-         "
- 
- # Use :append here so that the patch is applied also when using devupstream
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 72dab0fea2..a0b2508e11 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -484,6 +484,8 @@ def check_userns():
+     # succeeds (at which point the uid is nobody) but writing to the uid_map
+     # fails (so the uid isn't reset back to the user's uid). We can detect this.
+     parentuid = os.getuid()
++    if not bb.utils.is_local_uid(parentuid):
++        return None
+     pid = os.fork()
+     if not pid:
+         try:
 -- 
 2.43.0
 
