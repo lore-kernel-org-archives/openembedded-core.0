@@ -2,101 +2,201 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AF2E7719A
-	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:47 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.18164.1735998158636088229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1540BE77197
+	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:46:17 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.18196.1735998371828643538
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jan 2025 05:42:38 -0800
+ Sat, 04 Jan 2025 05:46:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LamW73cq;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2156e078563so159542365ad.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=S048vJsI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ef70c7efa5so14841505a91.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998158; x=1736602958; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998371; x=1736603171; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Bp8iRgI8eQPINX7UPZ28RdcuW0EN8JjJ/c2crJQbHHI=;
-        b=LamW73cqj8dpEskUrmzV355su6FaFgYq7j5av7YUfTau/FttWha0yrzYFndEQElG/2
-         Q+KIFvQfJDzmpIMFtS/fSlWNIDX5rgGMtaGO2Px0p5laU6AwiL0h2sP3hXLqVLwUEX1B
-         +tc975lEXmMH3aQAqvQYu/d8SnqW7nCejWoEJ7bSH+35aEywIvfCuYf8aDj9Vdjw4owk
-         EF/PzM/HViDd3UyYMuL9OCFxJtqxi7LXqup0Sbse2f9ikUUQvmUf0Tb/fSJUwxsDBXOM
-         SjBsSpWCMxSjdP3SfROrrhOrXgzj2QP4dDzHxoeMkTjwrOT+wLMnGNAG+WpbJ9slAqc5
-         lOKQ==
+        bh=4exacje6IZjQDbF/WBpyxY/wYEzdubLFJxQpUobFvGg=;
+        b=S048vJsIfKlkPOMexFdcDl751oaZaarVU8LzDTVtcNt1rmyV+SuPNq/ezGTmGQ639t
+         ETKoRI45ryzGx7wwyPfOKMDnQNiix2K7qnpXPdDHN20yivuQhQgpk5oWZvjgpnfNQ60h
+         fsH/39gZkFLFES53GZcrCHaF02ttI2yn8qg2wSCE+jkrLhxOOG4tuNOyEnQiSty4U6hq
+         16AcCfk3T2/wGICVHbaEwdtTr6QUctANelorYp5DjmGYitL8xfK55pSFu+Rw620fss5i
+         YzNFY+Gc3gZfhsroCAm5BocghTnlGvgtrcopf7YBtGy8h+3KXT6WSKZB+VhIm3oLJhYP
+         6o/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735998158; x=1736602958;
+        d=1e100.net; s=20230601; t=1735998371; x=1736603171;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Bp8iRgI8eQPINX7UPZ28RdcuW0EN8JjJ/c2crJQbHHI=;
-        b=BfRWO0AZeAlyRfSU6Aq5y0oy5MIiHko5t0VdF720BgM02wj7UEGbZs2C1lE8r1qPzp
-         dB8CslJF7rX4mBBUvmqSA39Ep8FL4iAwBLBfCwK8Qg0DxE1LX+hl9k5OHJuLh2SEei7p
-         vBOoRRPck26h7QHUsz062vyHVpHBj04XVi+V5Y4GggwHTmJDTEiFRdEf8GV+YPaHaOsw
-         M049G4ACsvcDT6lCYa7REw/uGcGa0zX1QxDSCYBTdmklze6lefvL/vDLJctS4SWY4U2z
-         y4gtNmBG8yiUh8O90UOB6BtlBe2CjLTvOFg66ATXRcHRMX5alWDMuy98rzi3C/SLF4fJ
-         JiZg==
-X-Gm-Message-State: AOJu0YykRfe6c514GdHJ0B0dAjHtC43Vv347Qtv3p/2M++3BKWRoqvXw
-	FkvmZxrO8UMu36ReGDfVaFZxtymy9ytBWlvkQBlgNpcMbwprfjrfFB8Y5g+b6lBUo4ivAObmUt+
-	/
-X-Gm-Gg: ASbGnctGG4q7hKndXpTE3M9bbsSK5+Fh/OT6iRQA0+QeLntpsPu2Zu3WvMnB8ZcvzV5
-	gHmZzEuzyjfeNoSHoflNrIwyuTewVoF0DFIwF/yQJNq6NS33iMwYkL8XKsHob43gZSUl8ImBW/m
-	/DL4vfVuRAM0ZbsOy3nXQZcvQEkG/w0XfAcxF7J3SSQ/o6BKER6zr+0R7HhJdfx/YbcpWJOZuZ4
-	o3sTEcBtW8TlVtpgxRzrv4dbfc0qtOwWNSh9PKt7J7hrw==
-X-Google-Smtp-Source: AGHT+IFBSPRoYVwFRFtHsuo5pjAA+SbNd/imibauDlmuUx3oAxpgk0VQ0fOWWa9rXPBpMYqKYPNOtg==
-X-Received: by 2002:a05:6a00:4ace:b0:728:eb32:356c with SMTP id d2e1a72fcca58-72abde01b08mr62954635b3a.11.1735998157880;
-        Sat, 04 Jan 2025 05:42:37 -0800 (PST)
+        bh=4exacje6IZjQDbF/WBpyxY/wYEzdubLFJxQpUobFvGg=;
+        b=bTrafL3u35G3bqbQ1UZFXfoW0L4pG1QJkUUylYnZEE7cSs5/g1/maMJdYqrklXzSaB
+         3cv6PxPIFagVjYYlbbq1P17U9TrYbgf796gMGZBu3iDxxaLoX2ckWO9/7N2tceY1pyOc
+         TlVN34PelatldMQsxSVD18ItbpKmVmGF0KNzB35DGsGPf1uEdXiWk3kFtcWu6NxKt1mj
+         iBdRH7JMIXg/eNGexj3I/pqOIH4aTF7sMU5+Jch1M4vZJKmqPnIyy0wnhs7n+XN8oiI2
+         4xeySDf53Mgy7ewoQJiEjHJfVMHPpePuX0ymorQ00RMe3TtCdbyMjkzVoEI+Ah6AU2Zv
+         WeuQ==
+X-Gm-Message-State: AOJu0YwCzFXe1Nk6d4OpEUko/Ngt1w6dOwRFeZYBSE1Og/l8vy9MxZsy
+	eNOZgjVjY995DUgsn7Jy6OLn511QalM1wLDrZdnSS2IqRessd/gMQXWYRzwdGcooy9OHD20uBz1
+	p
+X-Gm-Gg: ASbGncs/iB33oufsUoh3Yh3NXflC6l15tnU2yY5tVE4l0JZSurdz3WcNLOV9u9tKhve
+	P58RAU9w9qitKxIoKMbqgQq7QuiLAxfNNd9OL5TQ6mJ2e4PwDxKXdrQKZzSfjKOQByTjuQWprwF
+	/o5S7JQLCdEuWRJK6dWs3xn/kTYQ1kpeJUQYSpAqCKuDcT2pmfCi+PcW4LQQFKhDXy89Fji5n4/
+	9orjzGpS282N3fw+gCaBl/W57yamyF9FPLH+o7cbwjXWw==
+X-Google-Smtp-Source: AGHT+IFZE8fB+43P/kK+Bn5uvKtwqfjcCq7C+XU5QOB6v1dYh0j4fds5pI9/L8WOg+26SFRcOmduxg==
+X-Received: by 2002:a17:90b:3d45:b0:2eb:140d:f6df with SMTP id 98e67ed59e1d1-2f452dfcd01mr75706759a91.1.1735998371029;
+        Sat, 04 Jan 2025 05:46:11 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f447882b09sm33498230a91.41.2025.01.04.05.46.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 05:42:37 -0800 (PST)
+        Sat, 04 Jan 2025 05:46:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 25/25] sanity.bbclass: skip check_userns for non-local uid
-Date: Sat,  4 Jan 2025 05:41:49 -0800
-Message-ID: <c3e0666dd2624c20c5f32657846d6f044046205b.1735997984.git.steve@sakoman.com>
+Subject: [OE-core][styhead 01/10] binutils: Fix CVE-2024-53589
+Date: Sat,  4 Jan 2025 05:45:53 -0800
+Message-ID: <8c3bb13e6dc75bf16c5da4b452206b2b6de2dd9e.1735998221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1735997984.git.steve@sakoman.com>
-References: <cover.1735997984.git.steve@sakoman.com>
+In-Reply-To: <cover.1735998221.git.steve@sakoman.com>
+References: <cover.1735998221.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:42:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209394
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:46:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209396
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Bitbake preserve network for non-local uid, refer [1],
-so check_userns is not needed for non-local uid
+A buffer overflow vulnerability exists in GNU Binutils’ objdump utility
+when processing tekhex format files. The vulnerability occurs in the
+Binary File Descriptor (BFD) library’s tekhex parser during format identification.
+Specifically, the issue manifests when attempting to read 8 bytes at an address
+that precedes the global variable ‘_bfd_std_section’, resulting in an out-of-bounds read.
 
-[1] https://git.openembedded.org/bitbake/commit/?id=4eafae7904bae6e5c6bc50356e8a9077f2e207fa
+Backport a patch from upstream to fix CVE-2024-53589.
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=e0323071916878e0634a6e24d8250e4faff67e88]
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 808d0cece22bcbee15236717e158da247cbedaf1)
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/sanity.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../binutils/binutils-2.43.1.inc              |  1 +
+ .../binutils/0015-CVE-2024-53589.patch        | 92 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2024-53589.patch
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 72dab0fea2..a0b2508e11 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -484,6 +484,8 @@ def check_userns():
-     # succeeds (at which point the uid is nobody) but writing to the uid_map
-     # fails (so the uid isn't reset back to the user's uid). We can detect this.
-     parentuid = os.getuid()
-+    if not bb.utils.is_local_uid(parentuid):
-+        return None
-     pid = os.fork()
-     if not pid:
-         try:
+diff --git a/meta/recipes-devtools/binutils/binutils-2.43.1.inc b/meta/recipes-devtools/binutils/binutils-2.43.1.inc
+index 1ce19fbdc6..94e7d7f7e6 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.43.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.43.1.inc
+@@ -35,5 +35,6 @@ SRC_URI = "\
+      file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
+      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
++     file://0015-CVE-2024-53589.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0015-CVE-2024-53589.patch b/meta/recipes-devtools/binutils/binutils/0015-CVE-2024-53589.patch
+new file mode 100644
+index 0000000000..380112a3ba
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0015-CVE-2024-53589.patch
+@@ -0,0 +1,92 @@
++Author: Alan Modra <amodra@gmail.com>
++Date:   Mon Nov 11 10:24:09 2024 +1030
++
++    Re: tekhex object file output fixes
++
++    Commit 8b5a212495 supported *ABS* symbols by allowing "section" to be
++    bfd_abs_section, but bfd_abs_section needs to be treated specially.
++    In particular, bfd_get_next_section_by_name (.., bfd_abs_section_ptr)
++    is invalid.
++
++            PR 32347
++            * tekhex.c (first_phase): Guard against modification of
++            _bfd_std_section[] entries.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=e0323071916878e0634a6e24d8250e4faff67e88]
++CVE: CVE-2024-53589
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/bfd/tekhex.c b/bfd/tekhex.c
++index aea2ebb23df..b305c1f96f1 100644
++--- a/bfd/tekhex.c
+++++ b/bfd/tekhex.c
++@@ -361,6 +361,7 @@ first_phase (bfd *abfd, int type, char *src, char * src_end)
++ {
++   asection *section, *alt_section;
++   unsigned int len;
+++  bfd_vma addr;
++   bfd_vma val;
++   char sym[17];			/* A symbol can only be 16chars long.  */
++
++@@ -368,20 +369,16 @@ first_phase (bfd *abfd, int type, char *src, char * src_end)
++     {
++     case '6':
++       /* Data record - read it and store it.  */
++-      {
++-	bfd_vma addr;
++-
++-	if (!getvalue (&src, &addr, src_end))
++-	  return false;
++-
++-	while (*src && src < src_end - 1)
++-	  {
++-	    insert_byte (abfd, HEX (src), addr);
++-	    src += 2;
++-	    addr++;
++-	  }
++-	return true;
++-      }
+++      if (!getvalue (&src, &addr, src_end))
+++       return false;
+++
+++      while (*src && src < src_end - 1)
+++       {
+++         insert_byte (abfd, HEX (src), addr);
+++         src += 2;
+++         addr++;
+++       }
+++      return true;
++
++     case '3':
++       /* Symbol record, read the segment.  */
++@@ -406,13 +403,16 @@ first_phase (bfd *abfd, int type, char *src, char * src_end)
++	    {
++	    case '1':		/* Section range.  */
++	      src++;
++-	      if (!getvalue (&src, &section->vma, src_end))
+++             if (!getvalue (&src, &addr, src_end))
++		return false;
++	      if (!getvalue (&src, &val, src_end))
++		return false;
++-	      if (val < section->vma)
++-		val = section->vma;
++-	      section->size = val - section->vma;
+++             if (bfd_is_const_section (section))
+++               break;
+++             section->vma = addr;
+++             if (val < addr)
+++               val = addr;
+++             section->size = val - addr;
++	      /* PR 17512: file: objdump-s-endless-loop.tekhex.
++		 Check for overlarge section sizes.  */
++	      if (section->size & 0x80000000)
++@@ -455,6 +455,8 @@ first_phase (bfd *abfd, int type, char *src, char * src_end)
++		  new_symbol->symbol.flags = BSF_LOCAL;
++		if (stype == '2' || stype == '6')
++		  new_symbol->symbol.section = bfd_abs_section_ptr;
+++               else if (bfd_is_const_section (section))
+++                 ;
++		else if (stype == '3' || stype == '7')
++		  {
++		    if ((section->flags & SEC_DATA) == 0)
 -- 
 2.43.0
 
