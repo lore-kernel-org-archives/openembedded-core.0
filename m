@@ -2,578 +2,126 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F111DE7719B
-	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:36 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.18156.1735998149891006967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F121CE77197
+	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:42:46 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.18162.1735998157098235519
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jan 2025 05:42:29 -0800
+ Sat, 04 Jan 2025 05:42:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MBL6bs9+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21644aca3a0so111015125ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:29 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WB5YZJNO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2166651f752so214008975ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:42:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998149; x=1736602949; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998156; x=1736602956; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V1hmniDOhHcfWjgSzPOke07gDCnjchtBJrnA8AIBqfA=;
-        b=MBL6bs9+H02Je3cJiftKOq9odAclxjYLaQea0OJXt3Gga8fP7M4DPl3V6D0JoIiIvs
-         nsBmp8Vsu3K+sC4F58uHJyDTae0uwq1ghmkah2u6wMUIIUB9Q+9JkQqmBkezLWktWcxA
-         yaD6CYl+kPvCM0VcAf0Jim5CvJjKFlEzJAB+bj5X5yGTCpYIw41jaIsQl7KGoIFScIzz
-         ESGN20rR25rdFPR8wyh2okeH8NtckxzEKhHar1xH8H4G/BXkQdwdnHXYT0H7eJYwYfoG
-         9hTvx1KytL84LE8QEYE6gKuwdR5WWTQAroC3/qVPhKlh94cZaIxx6UbFFMmbFXjBJ48i
-         5DVA==
+        bh=76uiH2OKhGcY85hZFqyv6Theky7vTmmWjEqbCpBfcSw=;
+        b=WB5YZJNOzETU4GFTSt3vePycWSlfVYPf5shk2GVoelQXxWPAHL41liMYf7/iZOMO7Z
+         TgYlfNMyxy9J+taYnu09/OiIV02jOlFcF6wmVazMZyxDO2XTMHFIf1visBmBUbMl2Slm
+         IU6VwlAYpixnlLiQQa+8yx0DpxvY9gD2Vyooaw0INvug8pArJObgoUmCmjMz1gcaX/PR
+         vqmjImujNlScTSCjLgjKnT4luQ+eQdz+2jO8J733xgx2N5EPMHyojT9XFdV5Mx/96CAj
+         sdiYWN7Cm2ubB/cpRB6VBkvzfn5Gox4neIOt0hIonsEOG8thkEGIl3CP7SZgCcgk9HuJ
+         NTBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735998149; x=1736602949;
+        d=1e100.net; s=20230601; t=1735998156; x=1736602956;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V1hmniDOhHcfWjgSzPOke07gDCnjchtBJrnA8AIBqfA=;
-        b=a7qLWLqwnGSLiCBhpO3RJ1010uscBVxoZGCkrHQaMZYg7ZElSTz1NnG0v2GS52JLxM
-         zUjPO5/10Och4JrIoviuG5fX632VmA0uT/D9aRpKUmkjhoaXxEFNGBBSXlF3NGxab/1K
-         /R2sQHCYcb5+UME+16eOhf6C6AkdvcGno5g/PzQSvB0e4w13HJfCBr90SmVJPe46/X+b
-         PehX+WLBhEjjdD1m9zBp7nssf7Kt5KaL1nd/mAVN72N3zzQmYBcAdfkt+IkLgdwWvocQ
-         GNO5MKBBsCnmcMxqxRTSVxGWL0My7Zl2i2UN72xinbSqfXH3dz0aet1OwDJ5EFr0J6kx
-         gPiQ==
-X-Gm-Message-State: AOJu0YxPJbL7Xgym0oNmSdqxmpJDb3C87LzquKWBh06BzSAYd8dVukyt
-	FGj+uSuLbeo9O6lSEZOIOIwf0GjV5UhTrnxRKgDej42qG+yToDc0LvkXtlAh4aLaFs09FsuKZE/
-	I
-X-Gm-Gg: ASbGncuEXbF3NtjaPzY3vmetDkSckV5kWG5QKlIEM7PjhYCQ4xZ6+T4Xh2skpKLKcgd
-	p5Y0Kr3US4irloIGBn8Acele75lFIsTyixP2Ewz+bPQV3lE5CUcFEbfT2pitYCBnx4j8WFSnQ78
-	QZXDsVtrZqAvFtwEw590cJshSoEP25ruqyi8PHakKspkzIWOOqMo6Z9DCu2AM8OIAxQF5OWp407
-	0dFTlex2NPqvmB0WfKhn2xi7atQpxDdpmVha2a5Nw6WpQ==
-X-Google-Smtp-Source: AGHT+IEfTqDFVIvI52/fkZP0548nJa9L/34xb3HF3JLPjhOlHFlcqLzNRuoDG5r54pUC3aR31pN4CA==
-X-Received: by 2002:a05:6a20:4308:b0:1e0:c8d9:3382 with SMTP id adf61e73a8af0-1e5e0847084mr83615736637.45.1735998148938;
-        Sat, 04 Jan 2025 05:42:28 -0800 (PST)
+        bh=76uiH2OKhGcY85hZFqyv6Theky7vTmmWjEqbCpBfcSw=;
+        b=dq4dcZ2DZtjGACFqcMuS2ozUEU18BuEchIJ/biOhf7TCYVRZOnxZbQIMzn9DQTpUzV
+         eWFoPgfVmytcC49vg0ALmhgNS63tTalitfEb6JM2s367t9dUo5J8xmyxZMwC7zIoZHZO
+         U6J+mEiOALep59s1+uf6xhiECVZeTG6Kq+m/KPB5uqxCCvlxDy1gfyVdlf8ChLqUVTSN
+         dT3LEi8FqEr95Ul/C8OjMDE3NVBR32IbL+gbafoXzGDQZqSJuBGFU0sZf8wsivmFS69f
+         uYOmw/DWxtR8Cji0eUE3BeQcPq9oZcsKrE/iLScsHhJDjgS9+xhP2Urfot4TvdQP7nDG
+         O8SA==
+X-Gm-Message-State: AOJu0YwEQJlyi3xms6tceDMCa8OAMYSXuASElr/f5trbrVpR983kUTTB
+	JOIGBdnKbe1Ly8s+pxwrbbTR7gzijGI6tJr37SF66F/9NJLnPtLcAs0OKaFEEJNP0/pQbeT+huH
+	E
+X-Gm-Gg: ASbGncvGsnHVr6sJhzhoUqg3Ffeq5NLXttoj2ZKo1ZBVe4ETBdedx+FpZTnEBTVicIN
+	W7FM/39d4Df0/XQPow699h35YrQDQIY/20lTDMy5GqouGzlRAuWbrZ4hTUDfLOzz+mn63FY3b2U
+	M99Bpiq7JdPY7VgZk3H5Vk4rZ5Jzd4m3if34e96ChPCKFp+NlNfz0JeF1bNJcysNWej3VpPUdIj
+	ltTNb6aHrsEMf+nq1hQQ1/vtdmc8370hQJcKtna4fv/YA==
+X-Google-Smtp-Source: AGHT+IFHQmvKjOA4YWVkatYzsyqtEseSo8QmiT/RjaWTr7miqqDkM0YwxUjC06qfJGNKdysndKWfAg==
+X-Received: by 2002:a05:6a00:3cc1:b0:726:41e:b32e with SMTP id d2e1a72fcca58-72abdd3ced1mr66915385b3a.4.1735998156442;
+        Sat, 04 Jan 2025 05:42:36 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8faf93sm27966257b3a.153.2025.01.04.05.42.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 05:42:28 -0800 (PST)
+        Sat, 04 Jan 2025 05:42:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/25] python3: upgrade 3.12.7 -> 3.12.8
-Date: Sat,  4 Jan 2025 05:41:43 -0800
-Message-ID: <db5081254adacf6c87269fd43af7199267ad535c.1735997984.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 24/25] ovmf-native: remove .pyc files from install
+Date: Sat,  4 Jan 2025 05:41:48 -0800
+Message-ID: <d89f2533f1b394f443117d6c935ee04a3c6741e7.1735997984.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1735997984.git.steve@sakoman.com>
 References: <cover.1735997984.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:42:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209388
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:42:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209393
 
-From: Guðni Már Gilbert <gudni.m.g@gmail.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Changelog:
-https://docs.python.org/release/3.12.8/whatsnew/changelog.html#python-3-12-8
+They break builds which share sstate files on different
+machines and paths:
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+ERROR: ovmf-edk2-stable202408-r0 do_prepare_recipe_sysroot: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:extend_recipe_sysroot(d)
+     0003:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-global/staging.bbclass', lineno: 624, function: extend_recipe_sysroot
+     0620:
+     0621:    # Handle deferred binfiles
+     0622:    for l in binfiles:
+     0623:        (targetdir, dest) = binfiles[l]
+ *** 0624:        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
+     0625:
+     0626:    bb.note("Installed into sysroot: %s" % str(msg_adding))
+     0627:    bb.note("Skipping as already exists in sysroot: %s" % str(msg_exists))
+     0628:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-global/staging.bbclass', lineno: 165, function: staging_copyfile
+     0161:        os.symlink(linkto, dest)
+     0162:        #bb.warn(c)
+     0163:    else:
+     0164:        try:
+ *** 0165:            os.link(c, dest)
+     0166:        except OSError as err:
+     0167:            if err.errno == errno.EXDEV:
+     0168:                bb.utils.copyfile(c, dest)
+     0169:            else:
+Exception: FileExistsError: [Errno 17] File exists: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-667282/tmp/sysroots-components/x86_64/ovmf-native/usr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/__pycache__/WorkspaceAutoGen.cpython-312.pyc' -> '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-667282/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202408/recipe-sysroot-native/usr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/__pycache__/WorkspaceAutoGen.cpython-312.pyc'
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit facd9e17fa53e2fb3a828b3f179cfb659be75d37)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...shebang-overflow-on-python-config.py.patch |  6 +++---
- ...e-stdin-I-O-errors-same-way-as-maste.patch |  2 +-
- ...-use-prefix-value-from-build-configu.patch |  4 ++--
- ...-qemu-wrapper-when-gathering-profile.patch |  4 ++--
- ...sts-due-to-load-variability-on-YP-AB.patch | 16 +++++++--------
- ...est_sysconfig-for-posix_user-purelib.patch |  6 +++---
- ...e-treat-overflow-in-UID-GID-as-failu.patch |  2 +-
- ...asename-to-replace-CC-for-checking-c.patch | 20 +++++++++----------
- ..._fileno-test-due-to-load-variability.patch |  2 +-
- ...g.py-use-platlibdir-also-for-purelib.patch |  4 ++--
- ...ctive_children-skip-problematic-test.patch |  6 +++---
- ...pes.test_find-skip-without-tools-sdk.patch |  2 +-
- ...-test_deadlock-skip-problematic-test.patch |  2 +-
- ...le.py-correct-the-test-output-format.patch |  2 +-
- ...t_readline-skip-limited-history-test.patch |  2 +-
- ...-test_shutdown-skip-problematic-test.patch |  2 +-
- ...orlines-skip-due-to-load-variability.patch |  2 +-
- ...up.py-do-not-add-a-curses-include-pa.patch |  6 +++---
- .../python/python3/cgi_py.patch               |  2 +-
- .../python/python3/crosspythonpath.patch      |  4 ++--
- .../python3/deterministic_imports.patch       |  2 +-
- .../python/python3/makerace.patch             |  6 +++---
- .../{python3_3.12.7.bb => python3_3.12.8.bb}  |  2 +-
- 23 files changed, 53 insertions(+), 53 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.12.7.bb => python3_3.12.8.bb} (99%)
+ meta/recipes-core/ovmf/ovmf_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index 4110774193..3311a90bda 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -1,4 +1,4 @@
--From 733b46f11d311290e37fcb30f08c47660b888d22 Mon Sep 17 00:00:00 2001
-+From e8bd4f8ee56cbb12a61c1dcabf35a1835a863132 Mon Sep 17 00:00:00 2001
- From: Paulo Neves <ptsneves@gmail.com>
- Date: Tue, 7 Jun 2022 16:16:41 +0200
- Subject: [PATCH] Avoid shebang overflow on python-config.py
-@@ -16,10 +16,10 @@ Upstream-Status: Denied [distribution]
-  1 file changed, 2 insertions(+)
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index ada6ee72db..319f03a8d2 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -225,6 +225,7 @@ do_compile:class-target() {
  
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index b1c5413..e88f301 100644
-+index 2d235d2..1ac2263 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2349,6 +2349,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2354,6 +2354,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-index 0ae6283840..5ca09c6f3c 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-@@ -1,4 +1,4 @@
--From c6ba19a4cfdb0a5b137b91ef761f654b70776a47 Mon Sep 17 00:00:00 2001
-+From bbfb7fdf01f0502c7bf3d418f3a912ea76c93f24 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 16 Sep 2021 16:35:37 +0200
- Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/O
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index 981531139a..1b9f3565d3 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-@@ -1,4 +1,4 @@
--From d325a4e1fde5bd817c88f37d5e7b6e93a3bad077 Mon Sep 17 00:00:00 2001
-+From c739bf214b9dd6060db216b79077806fccb582ae Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 17 Nov 2023 14:26:32 +0100
- Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 5 insertions(+)
+ do_install:class-native() {
+     install -d ${D}/${bindir}/edk2_basetools
++    find ${S}/BaseTools -name \*.pyc -exec rm -rf \{\} \;
+     cp -r ${S}/BaseTools ${D}/${bindir}/${EDK_TOOLS_DIR}
+ }
  
- diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
--index 79c0510..91ebcb6 100644
-+index 6258b68..d59ec6e 100644
- --- a/Lib/sysconfig.py
- +++ b/Lib/sysconfig.py
- @@ -668,6 +668,11 @@ def _init_config_vars():
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index 881986d322..b78f619958 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-@@ -1,4 +1,4 @@
--From a727a950023b9384955c912f4975d36a8d7913b4 Mon Sep 17 00:00:00 2001
-+From b9081b2e21983f2a828bc40a47ab278ef69f4dfe Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 30 Jan 2019 12:41:04 +0100
- Subject: [PATCH] Makefile.pre: use qemu wrapper when gathering profile data
-@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
- 
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index 0e64ccc..23e20e9 100644
-+index 083f4c7..dce36a5 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
- @@ -660,8 +660,7 @@ profile-run-stamp:
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-index 22c42e37ab..6779dd515a 100644
---- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-@@ -1,4 +1,4 @@
--From 6b0088a3d222b7fe5304f6bc0d6b15d3c41e68f3 Mon Sep 17 00:00:00 2001
-+From b4014e3d1d9e38b25f2840e65e2acd757f3e5d41 Mon Sep 17 00:00:00 2001
- From: Yi Fan Yu <yifan.yu@windriver.com>
- Date: Thu, 1 Apr 2021 13:08:37 -0700
- Subject: [PATCH] Skip failing tests due to load variability on YP AB
-@@ -23,10 +23,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  2 files changed, 5 insertions(+)
- 
- diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index aac74ea..3470bc5 100644
-+index 3b4415b..1f94dec 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -682,6 +682,7 @@ class _TestProcess(BaseTestCase):
-+@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
-          close_queue(q)
-  
-      @support.requires_resource('walltime')
-@@ -34,7 +34,7 @@ index aac74ea..3470bc5 100644
-      def test_many_processes(self):
-          if self.TYPE == 'threads':
-              self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2083,6 +2084,7 @@ class _TestBarrier(BaseTestCase):
-+@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
-          except threading.BrokenBarrierError:
-              results.append(True)
-  
-@@ -42,7 +42,7 @@ index aac74ea..3470bc5 100644
-      def test_timeout(self):
-          """
-          Test wait(timeout)
--@@ -5080,6 +5082,7 @@ class TestWait(unittest.TestCase):
-+@@ -5208,6 +5210,7 @@ class TestWait(unittest.TestCase):
-          time.sleep(period)
-  
-      @support.requires_resource('walltime')
-@@ -51,10 +51,10 @@ index aac74ea..3470bc5 100644
-          from multiprocessing.connection import wait
-  
- diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
--index 02cc3f4..51a4548 100644
-+index 9463add..4e0f39d 100644
- --- a/Lib/test/test_time.py
- +++ b/Lib/test/test_time.py
--@@ -492,6 +492,7 @@ class TimeTestCase(unittest.TestCase):
-+@@ -527,6 +527,7 @@ class TimeTestCase(unittest.TestCase):
-      @unittest.skipIf(
-          support.is_wasi, "process_time not available on WASI"
-      )
-@@ -62,7 +62,7 @@ index 02cc3f4..51a4548 100644
-      def test_process_time(self):
-          # process_time() should not include time spend during a sleep
-          start = time.process_time()
--@@ -505,6 +506,7 @@ class TimeTestCase(unittest.TestCase):
-+@@ -540,6 +541,7 @@ class TimeTestCase(unittest.TestCase):
-          self.assertTrue(info.monotonic)
-          self.assertFalse(info.adjustable)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-index 9a2634ac9b..08142617c0 100644
---- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-@@ -1,4 +1,4 @@
--From f0b18f1b3b3d5b40d65e08a184f4e3463745b891 Mon Sep 17 00:00:00 2001
-+From 5224cc0ac21f4c2574c24e0fee38b145ca15175b Mon Sep 17 00:00:00 2001
- From: Wentao Zhang <wentao.zhang@windriver.com>
- Date: Mon, 20 Mar 2023 13:39:52 +0800
- Subject: [PATCH] Update test_sysconfig for posix_user purelib
-@@ -22,10 +22,10 @@ Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
--index 1137c20..f5c8980 100644
-+index 3468d0c..9ff174c 100644
- --- a/Lib/test/test_sysconfig.py
- +++ b/Lib/test/test_sysconfig.py
--@@ -381,7 +381,7 @@ class TestSysConfig(unittest.TestCase):
-+@@ -390,7 +390,7 @@ class TestSysConfig(unittest.TestCase):
-                  expected = os.path.normpath(global_path.replace(base, user, 1))
-                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
-                  # whereas posix_prefix does.
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-index b4de257d1e..5c74443e62 100644
---- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-@@ -1,4 +1,4 @@
--From 73960393a559d0de5edf07b022d182cac54df9dc Mon Sep 17 00:00:00 2001
-+From 6e3868c8c330f997bc242a8d51d742baac449ecc Mon Sep 17 00:00:00 2001
- From: Petr Viktorin <encukou@gmail.com>
- Date: Wed, 23 Aug 2023 20:00:07 +0200
- Subject: [PATCH] gh-107811: tarfile: treat overflow in UID/GID as failure to
-diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-index 7997811228..c9ef409018 100644
---- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-+++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-@@ -1,4 +1,4 @@
--From f834492007487e9e87b3d3f1f3c5cc440e6ec5e2 Mon Sep 17 00:00:00 2001
-+From 82576cdb9d6d9736ba122592974b0e7727216a3f Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Mon, 22 Oct 2018 15:19:51 +0800
- Subject: [PATCH] python3: use cc_basename to replace CC for checking compiler
-@@ -26,7 +26,7 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
-  1 file changed, 10 insertions(+), 9 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index d0d5405..093f8b5 100644
-+index 9270b5f..955daad 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -137,6 +137,7 @@ AC_CONFIG_HEADERS([pyconfig.h])
-@@ -46,7 +46,7 @@ index d0d5405..093f8b5 100644
-          gcc)    AC_PATH_TOOL([CXX], [g++], [g++], [notfound]) ;;
-          cc)     AC_PATH_TOOL([CXX], [c++], [c++], [notfound]) ;;
-          clang|*/clang)     AC_PATH_TOOL([CXX], [clang++], [clang++], [notfound]) ;;
--@@ -1328,7 +1329,7 @@ rmdir CaseSensitiveTestDir
-+@@ -1331,7 +1332,7 @@ rmdir CaseSensitiveTestDir
-  
-  case $ac_sys_system in
-  hp*|HP*)
-@@ -55,7 +55,7 @@ index d0d5405..093f8b5 100644
-      cc|*/cc) CC="$CC -Ae";;
-      esac;;
-  esac
--@@ -1854,7 +1855,7 @@ esac
-+@@ -1857,7 +1858,7 @@ esac
-  ],
-  [AC_MSG_RESULT([no])])
-  if test "$Py_LTO" = 'true' ; then
-@@ -64,7 +64,7 @@ index d0d5405..093f8b5 100644
-      *clang*)
-        LDFLAGS_NOLTO="-fno-lto"
-        dnl Clang linker requires -flto in order to link objects with LTO information.
--@@ -1983,7 +1984,7 @@ then
-+@@ -1986,7 +1987,7 @@ then
-    fi
-  fi
-  LLVM_PROF_ERR=no
-@@ -73,7 +73,7 @@ index d0d5405..093f8b5 100644
-    *clang*)
-      # Any changes made here should be reflected in the GCC+Darwin case below
-      PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
--@@ -2155,7 +2156,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
-+@@ -2158,7 +2159,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
-  # compiler and platform.  BASECFLAGS tweaks need to be made even if the
-  # user set OPT.
-  
-@@ -82,7 +82,7 @@ index d0d5405..093f8b5 100644
-      *clang*)
-          cc_is_clang=1
-          ;;
--@@ -2427,7 +2428,7 @@ yes)
-+@@ -2430,7 +2431,7 @@ yes)
-  
-      # ICC doesn't recognize the option, but only emits a warning
-      ## XXX does it emit an unused result warning and can it be disabled?
-@@ -91,7 +91,7 @@ index d0d5405..093f8b5 100644
-              [*icc*], [ac_cv_disable_unused_result_warning=no]
-              [PY_CHECK_CC_WARNING([disable], [unused-result])])
-      AS_VAR_IF([ac_cv_disable_unused_result_warning], [yes],
--@@ -2673,7 +2674,7 @@ yes)
-+@@ -2676,7 +2677,7 @@ yes)
-      ;;
-  esac
-  
-@@ -100,7 +100,7 @@ index d0d5405..093f8b5 100644
-  *mpicc*)
-      CFLAGS_NODIST="$CFLAGS_NODIST"
-      ;;
--@@ -3508,7 +3509,7 @@ then
-+@@ -3511,7 +3512,7 @@ then
-  		then
-  			LINKFORSHARED="-Wl,--export-dynamic"
-  		fi;;
-@@ -109,7 +109,7 @@ index d0d5405..093f8b5 100644
-  		  *gcc*)
-  		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
-  		    then
--@@ -6831,7 +6832,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
-+@@ -6832,7 +6833,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
-      # Some versions of gcc miscompile inline asm:
-      # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
-      # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-index 94f7744c09..e105f36eca 100644
---- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-@@ -1,4 +1,4 @@
--From 642205e1f728873b16debc24c2938339d31be6a9 Mon Sep 17 00:00:00 2001
-+From 5944f707fc04fb65caec3f0e1ce3a42169426c47 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Fri, 15 Sep 2023 08:48:33 -0400
- Subject: [PATCH] skip no_stdout_fileno test due to load variability
-diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-index 3e8e9648c6..c7ac43cc85 100644
---- a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-@@ -1,4 +1,4 @@
--From fac0f14fd34386e47bab71c0043ea55b507ae39c Mon Sep 17 00:00:00 2001
-+From 3aeeddb1325679d5c0471ad86806e92e72187138 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sun, 12 Sep 2021 21:44:36 +0200
- Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
--index 122d441..79c0510 100644
-+index 517b13a..6258b68 100644
- --- a/Lib/sysconfig.py
- +++ b/Lib/sysconfig.py
- @@ -28,7 +28,7 @@ _INSTALL_SCHEMES = {
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-index a27024c42f..164c8b5180 100644
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From 7f75355e27ee7f25391523294e4c6653edf554f8 Mon Sep 17 00:00:00 2001
-+From a83311a1030b816f422dbb4457fc38c1289c224d Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Thu, 13 Jun 2024 10:54:31 -0400
- Subject: [PATCH] test_active_children: skip problematic test
-@@ -14,10 +14,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index 3470bc5..0e42ac1 100644
-+index 1f94dec..3632219 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -579,6 +579,7 @@ class _TestProcess(BaseTestCase):
-+@@ -585,6 +585,7 @@ class _TestProcess(BaseTestCase):
-          self.assertTrue(type(cpus) is int)
-          self.assertTrue(cpus >= 1)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-index 6bf514fca8..307e4bf306 100644
---- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-@@ -1,4 +1,4 @@
--From 174ef9a40c9f4373fd90b00425fd94a89f96dbf9 Mon Sep 17 00:00:00 2001
-+From fbbf04dbeae217b985073263499174960e5fd142 Mon Sep 17 00:00:00 2001
- From: Tim Orling <timothy.t.orling@intel.com>
- Date: Fri, 18 Jun 2021 11:56:50 -0700
- Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
-diff --git a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-index d8ca7f9b79..e07f7392f6 100644
---- a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From 621ba76ef956708cdaf4fd5bc0e25aa59d427c5b Mon Sep 17 00:00:00 2001
-+From 9d658dd20f02edcf878b245d638c474c808ab8d1 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Wed, 12 Jun 2024 10:29:03 -0400
- Subject: [PATCH] test_deadlock: skip problematic test
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index d0f4dc14bc..535c48c769 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -1,4 +1,4 @@
--From d74e5f24b574fa4d571a64e647c916a7ebe26b3e Mon Sep 17 00:00:00 2001
-+From fcd5b7d30d3245ce92ea45dfbab3c7b7da690c20 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Mon, 5 Aug 2019 15:57:39 +0800
- Subject: [PATCH] test_locale.py: correct the test output format
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-index f4efd1ecff..3568d92bda 100644
---- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -1,4 +1,4 @@
--From bc5c70dc2a2fcfe51481de0ad800baa849592222 Mon Sep 17 00:00:00 2001
-+From 34fd0bc8afc67a11eea5d73f9e0edf045c5ce541 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Tue, 13 Aug 2024 11:07:05 -0400
- Subject: [PATCH] test_readline: skip limited history test
-diff --git a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-index e8d70cdc1b..61fe5e9ba1 100644
---- a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-@@ -1,4 +1,4 @@
--From b637ac8f58d17bc8888b2027a572c87531a4539d Mon Sep 17 00:00:00 2001
-+From d09a034acba8922158d38fd16be970b5a454428a Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Wed, 8 May 2024 11:58:09 -0400
- Subject: [PATCH] test_shutdown: skip problematic test
-diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-index a4c9abd8b9..22aabbb2ed 100644
---- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-@@ -1,4 +1,4 @@
--From 1a1e5c30021a200b2dc853690dbf1edfba9ca262 Mon Sep 17 00:00:00 2001
-+From 6715560de4d622c2d72ee7b587c916ac647c54bb Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <tgamblin@baylibre.com>
- Date: Fri, 6 Oct 2023 10:59:44 -0400
- Subject: [PATCH] test_storlines: skip due to load variability
-diff --git a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-index 5c5603c956..f5e500b146 100644
---- a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-+++ b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
-@@ -1,4 +1,4 @@
--From 8543ad744a2839acf1f4eec967acd645fd89d1a7 Mon Sep 17 00:00:00 2001
-+From 011b21dc9b090c0b97eaecbd80a9e0c1cd39b12d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 17 Nov 2023 14:16:40 +0100
- Subject: [PATCH] configure.ac: do not add a curses include path from the host
-@@ -15,10 +15,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 6 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index cdc54e5..d163c73 100644
-+index 6e465a4..13c4835 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -6536,12 +6536,6 @@ AS_VAR_IF([have_panel], [no], [
-+@@ -6537,12 +6537,6 @@ AS_VAR_IF([have_panel], [no], [
-    AC_MSG_RESULT([$have_panel (CFLAGS: $PANEL_CFLAGS, LIBS: $PANEL_LIBS)])
-  ])
-  
-diff --git a/meta/recipes-devtools/python/python3/cgi_py.patch b/meta/recipes-devtools/python/python3/cgi_py.patch
-index b1f2b71c2a..880a463760 100644
---- a/meta/recipes-devtools/python/python3/cgi_py.patch
-+++ b/meta/recipes-devtools/python/python3/cgi_py.patch
-@@ -1,4 +1,4 @@
--From 8e6dc9fe684b27988b5aca3f760f02343aa95951 Mon Sep 17 00:00:00 2001
-+From 6ebd9de3505be0965cfc37e2e4d0d882d75f0ec2 Mon Sep 17 00:00:00 2001
- From: Mark Hatle <mark.hatle@windriver.com>
- Date: Wed, 21 Sep 2011 20:55:33 -0500
- Subject: [PATCH] Lib/cgi.py: Update the script as mentioned in the comment
-diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-index 91ef3fe674..24268fb91a 100644
---- a/meta/recipes-devtools/python/python3/crosspythonpath.patch
-+++ b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-@@ -1,4 +1,4 @@
--From 1bc93167c48876d77ce424415e87573a062b8f2a Mon Sep 17 00:00:00 2001
-+From 0bcdb84db7801507b155a40db2228ba516edeb73 Mon Sep 17 00:00:00 2001
- From: Ricardo Ribalda <ricardo@ribalda.com>
- Date: Tue, 18 Nov 2014 03:35:33 -0500
- Subject: [PATCH] configure.ac: add CROSSPYTHONPATH into PYTHONPATH for
-@@ -19,7 +19,7 @@ Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 093f8b5..cdc54e5 100644
-+index 955daad..6e465a4 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -165,7 +165,7 @@ AC_ARG_WITH([build-python],
-diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.patch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-index 9ae4af36ec..9bfdf5cd47 100644
---- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-+++ b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-@@ -1,4 +1,4 @@
--From 38e732371ac234c3f0e6310d6dbc7ddc7f458535 Mon Sep 17 00:00:00 2001
-+From 1d6f0f5f8a1279fc9bc06266caa3f3b6f234c4cb Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 27 May 2022 17:05:44 +0100
- Subject: [PATCH] python3: Ensure stale empty python module directories don't
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index e9494b555d..f420404f34 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -1,4 +1,4 @@
--From 08c7867a02d26aac41764b915dc925343305e7af Mon Sep 17 00:00:00 2001
-+From be22dd9b091af8f971f924fdbce5b439d9b2e850 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 13 Jul 2021 23:19:29 +0100
- Subject: [PATCH] python3: Fix make race
-@@ -17,10 +17,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Makefile.pre.in b/Makefile.pre.in
--index 23e20e9..b1c5413 100644
-+index dce36a5..2d235d2 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2260,7 +2260,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2265,7 +2265,7 @@ COMPILEALL_OPTS=-j0
-  TEST_MODULES=@TEST_MODULES@
-  
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.12.7.bb b/meta/recipes-devtools/python/python3_3.12.8.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.7.bb
-rename to meta/recipes-devtools/python/python3_3.12.8.bb
-index e2fdc18112..94e0f24f89 100644
---- a/meta/recipes-devtools/python/python3_3.12.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.8.bb
-@@ -40,7 +40,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "24887b92e2afd4a2ac602419ad4b596372f67ac9b077190f459aba390faf5550"
-+SRC_URI[sha256sum] = "c909157bb25ec114e5869124cc2a9c4a4d4c1e957ca4ff553f1edc692101154e"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.43.0
 
