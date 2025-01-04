@@ -2,439 +2,578 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED33E77197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D24E77199
 	for <webhook@archiver.kernel.org>; Sat,  4 Jan 2025 13:46:27 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.18211.1735998381948000467
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.18200.1735998376819386375
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jan 2025 05:46:22 -0800
+ Sat, 04 Jan 2025 05:46:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZaNEXE1V;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2efb17478adso18359547a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:46:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=elvnWSJQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso16484544a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 05:46:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998381; x=1736603181; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1735998376; x=1736603176; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PWaTkCV0edf7+aDhU4gXfCBvD8MF7Wgz7U52QiAJlts=;
-        b=ZaNEXE1VVUGqvYQ6hL8Nb+bcmtxX90s10CFFVQ7pgvL3E8Z+jn8CCP1FyGg5KBay31
-         5lt/4Y5hGHAUpb3tZSRZryPgm2fLk/JvGSHMdCmBTSTJV+qrIY3g53ItAEay6uN2C/oi
-         s9IAL+Hr5NC5zyaf3eZQKO6fDfJBQ2Z3cKgos8ZLwb/fD0YJfZv9a213CHlQcmfdxLNl
-         qQZTfT1Ksf7VBNOJehW72BCYu4QkAM+9Xdlo3syXRjC0SIsBf1bncwHiGfgpnjqN7Qyu
-         XeC1pSqES1vxYhoCbUlX3MHDXrCnu5w//2S4TcZRMbSdMnkKKsZmoZZjUrPf6NgL2Ivf
-         7dHA==
+        bh=B1wfeIKsqGG0blJR83jcX8ltj6zKkmAm0ke+wJ83/3k=;
+        b=elvnWSJQHRphgaCZ3kFF466nlcvDL6DJT8nOODrbXZe40AC6gxG0mP5GbcOQpG2970
+         yzJ7weZ5k6a2hZnB1/cWda+i6ElGj4uCdLlWGKq2kIz/FOTJEXw25rzkk85hh5RxphYo
+         nHRZqaUFgcM8F2V/AAi+iYnUQRUSylZ+g1u4l7Kfg31ojhKsavQU/wPnAioVB9rM8MFr
+         xdkOXspmFB5Du0R7E5bmHC8hVarhXb3ifOlYA7zJREsoVuuRRmUDKYUjzrFrBi6eEMp3
+         oHoaSnXJixKRXsa5qXPSWzkg42kCwyFPKnflQDJJ6mzCMuDpMekbHJNw74y8nxsPucwc
+         xHvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735998381; x=1736603181;
+        d=1e100.net; s=20230601; t=1735998376; x=1736603176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PWaTkCV0edf7+aDhU4gXfCBvD8MF7Wgz7U52QiAJlts=;
-        b=nLUyoR5FA04+vphE2LtHcc6Sya4tVJ1SqEibEb/rFh0YrJymOvkQqFrI9qV5qqi1Bv
-         VxhwPZNAaV+H5q4DPGiOVZBC0ExJ8mkUFpkhNLpWB9jzp/J4PXVOAZq1CCgZjO2Ujz1n
-         /YwAJFVxMZcITQ8OuzNilRLX3V3uO2Eu2LDT7vnim7+tX1TUEwaHYOyOp2w0UZlxBjTv
-         3VapWZRbx9Vsyg3ku+dckBH7SclPBsgGtqsmZUB+ZEGc5p82m3bxHtA30VSZbRuhXMGR
-         N4h1soy/vI3jJjXi+mSIM5d/qFQ9VaSYRMRHNxRv1ASi/pUk7ddP76SK4Y7tpowdGb3+
-         F7cA==
-X-Gm-Message-State: AOJu0YzlgLSJfKbs/a6ylbvCbaurAYeRWoR0TuaA26/4JfNpR0dcvtP5
-	aWzG+qnrN7YBy2rL/7DbZB4wxz6uOsNr7IEzU/Rq+RsjgDAu3n8pN4pufA9bXYpJyi7MixccpNu
-	B
-X-Gm-Gg: ASbGncv0FMlCCTs/2MJCVJN+BXZvDjcjz6XVsCURcQ7yQzgiMrN9lOaa5dDLAxmuvNM
-	pNPdBYeqIW5NM7nMVFl+NLlTvzENhNVkiS7sWB6lilDilhszqbYvbWhFrrCxJkOe+j2QwK14HM5
-	BA68caMGYNxmpFRnAwzqTI8p+wMRgt5Ap58rdvKCWMA+4EVJWuJfBzUjETwMNrCas9ltLRe0YqP
-	yRDEBd1ozEd7IHn4FXq3Dnrw4+I/rZXDkG8+TwBamH+RQ==
-X-Google-Smtp-Source: AGHT+IEyTThsZT9+iT7wnMf5kzcoEDcAWJwR1L5sty7BR0QG40iNTsRYSougznvq5J1KfTKpkQI2eg==
-X-Received: by 2002:a17:90b:540f:b0:2ee:6db1:21d3 with SMTP id 98e67ed59e1d1-2f452ec922bmr72883303a91.25.1735998381009;
-        Sat, 04 Jan 2025 05:46:21 -0800 (PST)
+        bh=B1wfeIKsqGG0blJR83jcX8ltj6zKkmAm0ke+wJ83/3k=;
+        b=Y24O2QAKSL/YmTfflOd6iNk/tP8iZQDnMARLQybUSkPOXaIrMt88ydDIrpTbVV6x3t
+         0i5AcrA+zKghEMQQWYB2HkJvsn0mzryTaCOR1+0JqcorwalmU0PsM43OyMqMlwlZYw3X
+         zAN6Bf7ccvPcyFHDHTcJcrYxK6c9soI2lqOHAUAxOnmg4Yfd7EtREHRTFMSmeZMvvIAW
+         t4DYBk3hiJ9VEyQPbwoPKa/ruII8wQLddS9kB3hY7yju/kMNK+0wtDuQ/hkmME6edDhJ
+         D84pMILW7jW54x8HIm/Nwf57wma4I+cpiUJSt7z4dMsgNmdEeEqORXn5/xoFxzia1aF7
+         QkNw==
+X-Gm-Message-State: AOJu0Yx6F+RtWukxqAkI2B5ucPGrfwI4jR5qluzi+EG86QFjZtmU1aJG
+	OECTqUfTB0lxIme+0Bxeb9NIn3UmgIDCzJtBaVzJAGCv34yS+jkOv5pYnT0s0QKxeRqM72eOfzg
+	5
+X-Gm-Gg: ASbGnct0idty6iTLoigcMkPAfxSAmpRkJSA9qjGjxcaI7+ExtA1PBtDJPFY8YuLjWPo
+	uPee0oCz3112Xn17mjz3yhPBeat3eyRBiTASRIjTDUvxKUGBcGtyaFqF0TXd5KylwCaoKEtzE3q
+	ldzO5LLN6+QbEnXBRr/EuYhjpZ6PtUhqkuWiACaQPJQXfPPbvGviupFXvZe8xgUqYjRYxCFTlU4
+	kE0V7JNo89j4EwMWVuCm+NAPDdHM05kOR3tLO3atO8G1Q==
+X-Google-Smtp-Source: AGHT+IGGlgsfZKm+PvZLHINgDw6Rg98Tk2SqRWSeNIcgiOJXfgdfhydabJJhvXgJQIBtjzKt5AyEDA==
+X-Received: by 2002:a17:90a:d502:b0:2ef:ad48:7175 with SMTP id 98e67ed59e1d1-2f4438e4b30mr80466418a91.15.1735998375797;
+        Sat, 04 Jan 2025 05:46:15 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f447882b09sm33498230a91.41.2025.01.04.05.46.19
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f447882b09sm33498230a91.41.2025.01.04.05.46.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 05:46:20 -0800 (PST)
+        Sat, 04 Jan 2025 05:46:15 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 06/10] gstreamer1.0: upgrade 1.24.6 -> 1.24.9
-Date: Sat,  4 Jan 2025 05:45:58 -0800
-Message-ID: <7052eada55951aece87cf09ed803bb900046c5ec.1735998221.git.steve@sakoman.com>
+Subject: [OE-core][styhead 03/10] python3: upgrade 3.12.7 -> 3.12.8
+Date: Sat,  4 Jan 2025 05:45:55 -0800
+Message-ID: <63f499e75de8e9e5a634fdf1ee9c65c222129fa4.1735998221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1735998221.git.steve@sakoman.com>
 References: <cover.1735998221.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 04 Jan 2025 13:46:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209401
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209398
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Guðni Már Gilbert <gudni.m.g@gmail.com>
 
-(From OE-Core rev: e01f9c79725388437d52096701416b61d9a0aa7d)
+Changelog:
+https://docs.python.org/release/3.12.8/whatsnew/changelog.html#python-3-12-8
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ct-has-a-different-signature-on-musl.patch |  2 +-
- ...tools_1.24.6.bb => gst-devtools_1.24.9.bb} |  2 +-
- ...1.24.6.bb => gstreamer1.0-libav_1.24.9.bb} |  2 +-
- ...ialized-warnings-when-compiling-with.patch |  2 +-
- ...-avoid-including-sys-poll.h-directly.patch |  2 +-
- ...issing-opencv-data-dir-in-yocto-buil.patch |  2 +-
- ....bb => gstreamer1.0-plugins-bad_1.24.9.bb} |  2 +-
- ...et-caps-from-src-pad-when-query-caps.patch |  2 +-
- ...parse-enhance-SSA-text-lines-parsing.patch |  2 +-
- ...iv-fb-Make-sure-config.h-is-included.patch |  2 +-
- ...bb => gstreamer1.0-plugins-base_1.24.9.bb} |  2 +-
- ...bb => gstreamer1.0-plugins-good_1.24.9.bb} |  2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.24.9.bb} |  2 +-
- ....24.6.bb => gstreamer1.0-python_1.24.9.bb} |  2 +-
- ....bb => gstreamer1.0-rtsp-server_1.24.9.bb} |  2 +-
- ...-required-lines-accidentally-removed.patch | 33 +++++++++++++++++++
- ...1.24.6.bb => gstreamer1.0-vaapi_1.24.9.bb} |  6 ++--
- ...spect-the-idententaion-used-in-meson.patch |  2 +-
- ...ts-add-support-for-install-the-tests.patch |  4 +--
- ...s-use-a-dictionaries-for-environment.patch |  2 +-
- ...er-script-to-run-the-installed_tests.patch |  2 +-
- ...er1.0_1.24.6.bb => gstreamer1.0_1.24.9.bb} |  2 +-
- 22 files changed, 58 insertions(+), 23 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.6.bb => gst-devtools_1.24.9.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.6.bb => gstreamer1.0-libav_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.24.6.bb => gstreamer1.0-plugins-bad_1.24.9.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.6.bb => gstreamer1.0-plugins-base_1.24.9.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.24.6.bb => gstreamer1.0-plugins-good_1.24.9.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.6.bb => gstreamer1.0-plugins-ugly_1.24.9.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.6.bb => gstreamer1.0-rtsp-server_1.24.9.bb} (90%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.24.6.bb => gstreamer1.0-vaapi_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.24.6.bb => gstreamer1.0_1.24.9.bb} (97%)
+ ...shebang-overflow-on-python-config.py.patch |  6 +++---
+ ...e-stdin-I-O-errors-same-way-as-maste.patch |  2 +-
+ ...-use-prefix-value-from-build-configu.patch |  4 ++--
+ ...-qemu-wrapper-when-gathering-profile.patch |  4 ++--
+ ...sts-due-to-load-variability-on-YP-AB.patch | 16 +++++++--------
+ ...est_sysconfig-for-posix_user-purelib.patch |  6 +++---
+ ...e-treat-overflow-in-UID-GID-as-failu.patch |  2 +-
+ ...asename-to-replace-CC-for-checking-c.patch | 20 +++++++++----------
+ ..._fileno-test-due-to-load-variability.patch |  2 +-
+ ...g.py-use-platlibdir-also-for-purelib.patch |  4 ++--
+ ...ctive_children-skip-problematic-test.patch |  6 +++---
+ ...pes.test_find-skip-without-tools-sdk.patch |  2 +-
+ ...-test_deadlock-skip-problematic-test.patch |  2 +-
+ ...le.py-correct-the-test-output-format.patch |  2 +-
+ ...t_readline-skip-limited-history-test.patch |  2 +-
+ ...-test_shutdown-skip-problematic-test.patch |  2 +-
+ ...orlines-skip-due-to-load-variability.patch |  2 +-
+ ...up.py-do-not-add-a-curses-include-pa.patch |  6 +++---
+ .../python/python3/cgi_py.patch               |  2 +-
+ .../python/python3/crosspythonpath.patch      |  4 ++--
+ .../python3/deterministic_imports.patch       |  2 +-
+ .../python/python3/makerace.patch             |  6 +++---
+ .../{python3_3.12.7.bb => python3_3.12.8.bb}  |  2 +-
+ 23 files changed, 53 insertions(+), 53 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.12.7.bb => python3_3.12.8.bb} (99%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index f2bb664140..7423cebc39 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index 4110774193..3311a90bda 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
 @@ -1,4 +1,4 @@
--From d0e3b04007d60755cf1c092c1cac29e832290b86 Mon Sep 17 00:00:00 2001
-+From 9749abecad3ffcd497e216f813f935f0937e6453 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-index 1b448f7c55..63779b5aff 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
+-From 733b46f11d311290e37fcb30f08c47660b888d22 Mon Sep 17 00:00:00 2001
++From e8bd4f8ee56cbb12a61c1dcabf35a1835a863132 Mon Sep 17 00:00:00 2001
+ From: Paulo Neves <ptsneves@gmail.com>
+ Date: Tue, 7 Jun 2022 16:16:41 +0200
+ Subject: [PATCH] Avoid shebang overflow on python-config.py
+@@ -16,10 +16,10 @@ Upstream-Status: Denied [distribution]
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index b1c5413..e88f301 100644
++index 2d235d2..1ac2263 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2349,6 +2349,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2354,6 +2354,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
+index 0ae6283840..5ca09c6f3c 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
+@@ -1,4 +1,4 @@
+-From c6ba19a4cfdb0a5b137b91ef761f654b70776a47 Mon Sep 17 00:00:00 2001
++From bbfb7fdf01f0502c7bf3d418f3a912ea76c93f24 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 16 Sep 2021 16:35:37 +0200
+ Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/O
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+index 981531139a..1b9f3565d3 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+@@ -1,4 +1,4 @@
+-From d325a4e1fde5bd817c88f37d5e7b6e93a3bad077 Mon Sep 17 00:00:00 2001
++From c739bf214b9dd6060db216b79077806fccb582ae Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 17 Nov 2023 14:26:32 +0100
+ Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
+@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+-index 79c0510..91ebcb6 100644
++index 6258b68..d59ec6e 100644
+ --- a/Lib/sysconfig.py
+ +++ b/Lib/sysconfig.py
+ @@ -668,6 +668,11 @@ def _init_config_vars():
+diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+index 881986d322..b78f619958 100644
+--- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
++++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+@@ -1,4 +1,4 @@
+-From a727a950023b9384955c912f4975d36a8d7913b4 Mon Sep 17 00:00:00 2001
++From b9081b2e21983f2a828bc40a47ab278ef69f4dfe Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 30 Jan 2019 12:41:04 +0100
+ Subject: [PATCH] Makefile.pre: use qemu wrapper when gathering profile data
+@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 2 deletions(-)
+ 
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index 0e64ccc..23e20e9 100644
++index 083f4c7..dce36a5 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+ @@ -660,8 +660,7 @@ profile-run-stamp:
+diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+index 22c42e37ab..6779dd515a 100644
+--- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
++++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+@@ -1,4 +1,4 @@
+-From 6b0088a3d222b7fe5304f6bc0d6b15d3c41e68f3 Mon Sep 17 00:00:00 2001
++From b4014e3d1d9e38b25f2840e65e2acd757f3e5d41 Mon Sep 17 00:00:00 2001
+ From: Yi Fan Yu <yifan.yu@windriver.com>
+ Date: Thu, 1 Apr 2021 13:08:37 -0700
+ Subject: [PATCH] Skip failing tests due to load variability on YP AB
+@@ -23,10 +23,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  2 files changed, 5 insertions(+)
+ 
+ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
+-index aac74ea..3470bc5 100644
++index 3b4415b..1f94dec 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -682,6 +682,7 @@ class _TestProcess(BaseTestCase):
++@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
+          close_queue(q)
+  
+      @support.requires_resource('walltime')
+@@ -34,7 +34,7 @@ index aac74ea..3470bc5 100644
+      def test_many_processes(self):
+          if self.TYPE == 'threads':
+              self.skipTest('test not appropriate for {}'.format(self.TYPE))
+-@@ -2083,6 +2084,7 @@ class _TestBarrier(BaseTestCase):
++@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
+          except threading.BrokenBarrierError:
+              results.append(True)
+  
+@@ -42,7 +42,7 @@ index aac74ea..3470bc5 100644
+      def test_timeout(self):
+          """
+          Test wait(timeout)
+-@@ -5080,6 +5082,7 @@ class TestWait(unittest.TestCase):
++@@ -5208,6 +5210,7 @@ class TestWait(unittest.TestCase):
+          time.sleep(period)
+  
+      @support.requires_resource('walltime')
+@@ -51,10 +51,10 @@ index aac74ea..3470bc5 100644
+          from multiprocessing.connection import wait
+  
+ diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
+-index 02cc3f4..51a4548 100644
++index 9463add..4e0f39d 100644
+ --- a/Lib/test/test_time.py
+ +++ b/Lib/test/test_time.py
+-@@ -492,6 +492,7 @@ class TimeTestCase(unittest.TestCase):
++@@ -527,6 +527,7 @@ class TimeTestCase(unittest.TestCase):
+      @unittest.skipIf(
+          support.is_wasi, "process_time not available on WASI"
+      )
+@@ -62,7 +62,7 @@ index 02cc3f4..51a4548 100644
+      def test_process_time(self):
+          # process_time() should not include time spend during a sleep
+          start = time.process_time()
+-@@ -505,6 +506,7 @@ class TimeTestCase(unittest.TestCase):
++@@ -540,6 +541,7 @@ class TimeTestCase(unittest.TestCase):
+          self.assertTrue(info.monotonic)
+          self.assertFalse(info.adjustable)
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+index 9a2634ac9b..08142617c0 100644
+--- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
++++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+@@ -1,4 +1,4 @@
+-From f0b18f1b3b3d5b40d65e08a184f4e3463745b891 Mon Sep 17 00:00:00 2001
++From 5224cc0ac21f4c2574c24e0fee38b145ca15175b Mon Sep 17 00:00:00 2001
+ From: Wentao Zhang <wentao.zhang@windriver.com>
+ Date: Mon, 20 Mar 2023 13:39:52 +0800
+ Subject: [PATCH] Update test_sysconfig for posix_user purelib
+@@ -22,10 +22,10 @@ Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
+-index 1137c20..f5c8980 100644
++index 3468d0c..9ff174c 100644
+ --- a/Lib/test/test_sysconfig.py
+ +++ b/Lib/test/test_sysconfig.py
+-@@ -381,7 +381,7 @@ class TestSysConfig(unittest.TestCase):
++@@ -390,7 +390,7 @@ class TestSysConfig(unittest.TestCase):
+                  expected = os.path.normpath(global_path.replace(base, user, 1))
+                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
+                  # whereas posix_prefix does.
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+index b4de257d1e..5c74443e62 100644
+--- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -1,4 +1,4 @@
+-From 73960393a559d0de5edf07b022d182cac54df9dc Mon Sep 17 00:00:00 2001
++From 6e3868c8c330f997bc242a8d51d742baac449ecc Mon Sep 17 00:00:00 2001
+ From: Petr Viktorin <encukou@gmail.com>
+ Date: Wed, 23 Aug 2023 20:00:07 +0200
+ Subject: [PATCH] gh-107811: tarfile: treat overflow in UID/GID as failure to
+diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+index 7997811228..c9ef409018 100644
+--- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
++++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+@@ -1,4 +1,4 @@
+-From f834492007487e9e87b3d3f1f3c5cc440e6ec5e2 Mon Sep 17 00:00:00 2001
++From 82576cdb9d6d9736ba122592974b0e7727216a3f Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Mon, 22 Oct 2018 15:19:51 +0800
+ Subject: [PATCH] python3: use cc_basename to replace CC for checking compiler
+@@ -26,7 +26,7 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  1 file changed, 10 insertions(+), 9 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index d0d5405..093f8b5 100644
++index 9270b5f..955daad 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -137,6 +137,7 @@ AC_CONFIG_HEADERS([pyconfig.h])
+@@ -46,7 +46,7 @@ index d0d5405..093f8b5 100644
+          gcc)    AC_PATH_TOOL([CXX], [g++], [g++], [notfound]) ;;
+          cc)     AC_PATH_TOOL([CXX], [c++], [c++], [notfound]) ;;
+          clang|*/clang)     AC_PATH_TOOL([CXX], [clang++], [clang++], [notfound]) ;;
+-@@ -1328,7 +1329,7 @@ rmdir CaseSensitiveTestDir
++@@ -1331,7 +1332,7 @@ rmdir CaseSensitiveTestDir
+  
+  case $ac_sys_system in
+  hp*|HP*)
+@@ -55,7 +55,7 @@ index d0d5405..093f8b5 100644
+      cc|*/cc) CC="$CC -Ae";;
+      esac;;
+  esac
+-@@ -1854,7 +1855,7 @@ esac
++@@ -1857,7 +1858,7 @@ esac
+  ],
+  [AC_MSG_RESULT([no])])
+  if test "$Py_LTO" = 'true' ; then
+@@ -64,7 +64,7 @@ index d0d5405..093f8b5 100644
+      *clang*)
+        LDFLAGS_NOLTO="-fno-lto"
+        dnl Clang linker requires -flto in order to link objects with LTO information.
+-@@ -1983,7 +1984,7 @@ then
++@@ -1986,7 +1987,7 @@ then
+    fi
+  fi
+  LLVM_PROF_ERR=no
+@@ -73,7 +73,7 @@ index d0d5405..093f8b5 100644
+    *clang*)
+      # Any changes made here should be reflected in the GCC+Darwin case below
+      PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
+-@@ -2155,7 +2156,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
++@@ -2158,7 +2159,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
+  # compiler and platform.  BASECFLAGS tweaks need to be made even if the
+  # user set OPT.
+  
+@@ -82,7 +82,7 @@ index d0d5405..093f8b5 100644
+      *clang*)
+          cc_is_clang=1
+          ;;
+-@@ -2427,7 +2428,7 @@ yes)
++@@ -2430,7 +2431,7 @@ yes)
+  
+      # ICC doesn't recognize the option, but only emits a warning
+      ## XXX does it emit an unused result warning and can it be disabled?
+@@ -91,7 +91,7 @@ index d0d5405..093f8b5 100644
+              [*icc*], [ac_cv_disable_unused_result_warning=no]
+              [PY_CHECK_CC_WARNING([disable], [unused-result])])
+      AS_VAR_IF([ac_cv_disable_unused_result_warning], [yes],
+-@@ -2673,7 +2674,7 @@ yes)
++@@ -2676,7 +2677,7 @@ yes)
+      ;;
+  esac
+  
+@@ -100,7 +100,7 @@ index d0d5405..093f8b5 100644
+  *mpicc*)
+      CFLAGS_NODIST="$CFLAGS_NODIST"
+      ;;
+-@@ -3508,7 +3509,7 @@ then
++@@ -3511,7 +3512,7 @@ then
+  		then
+  			LINKFORSHARED="-Wl,--export-dynamic"
+  		fi;;
+@@ -109,7 +109,7 @@ index d0d5405..093f8b5 100644
+  		  *gcc*)
+  		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
+  		    then
+-@@ -6831,7 +6832,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
++@@ -6832,7 +6833,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
+      # Some versions of gcc miscompile inline asm:
+      # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
+      # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
+diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+index 94f7744c09..e105f36eca 100644
+--- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+@@ -1,4 +1,4 @@
+-From 642205e1f728873b16debc24c2938339d31be6a9 Mon Sep 17 00:00:00 2001
++From 5944f707fc04fb65caec3f0e1ce3a42169426c47 Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Fri, 15 Sep 2023 08:48:33 -0400
+ Subject: [PATCH] skip no_stdout_fileno test due to load variability
+diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
+index 3e8e9648c6..c7ac43cc85 100644
+--- a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
++++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
+@@ -1,4 +1,4 @@
+-From fac0f14fd34386e47bab71c0043ea55b507ae39c Mon Sep 17 00:00:00 2001
++From 3aeeddb1325679d5c0471ad86806e92e72187138 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sun, 12 Sep 2021 21:44:36 +0200
+ Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+-index 122d441..79c0510 100644
++index 517b13a..6258b68 100644
+ --- a/Lib/sysconfig.py
+ +++ b/Lib/sysconfig.py
+ @@ -28,7 +28,7 @@ _INSTALL_SCHEMES = {
+diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
+index a27024c42f..164c8b5180 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
+@@ -1,4 +1,4 @@
+-From 7f75355e27ee7f25391523294e4c6653edf554f8 Mon Sep 17 00:00:00 2001
++From a83311a1030b816f422dbb4457fc38c1289c224d Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Thu, 13 Jun 2024 10:54:31 -0400
+ Subject: [PATCH] test_active_children: skip problematic test
+@@ -14,10 +14,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
+-index 3470bc5..0e42ac1 100644
++index 1f94dec..3632219 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -579,6 +579,7 @@ class _TestProcess(BaseTestCase):
++@@ -585,6 +585,7 @@ class _TestProcess(BaseTestCase):
+          self.assertTrue(type(cpus) is int)
+          self.assertTrue(cpus >= 1)
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+index 6bf514fca8..307e4bf306 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+@@ -1,4 +1,4 @@
+-From 174ef9a40c9f4373fd90b00425fd94a89f96dbf9 Mon Sep 17 00:00:00 2001
++From fbbf04dbeae217b985073263499174960e5fd142 Mon Sep 17 00:00:00 2001
+ From: Tim Orling <timothy.t.orling@intel.com>
+ Date: Fri, 18 Jun 2021 11:56:50 -0700
+ Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
+diff --git a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
+index d8ca7f9b79..e07f7392f6 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
+@@ -1,4 +1,4 @@
+-From 621ba76ef956708cdaf4fd5bc0e25aa59d427c5b Mon Sep 17 00:00:00 2001
++From 9d658dd20f02edcf878b245d638c474c808ab8d1 Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Wed, 12 Jun 2024 10:29:03 -0400
+ Subject: [PATCH] test_deadlock: skip problematic test
+diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+index d0f4dc14bc..535c48c769 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+@@ -1,4 +1,4 @@
+-From d74e5f24b574fa4d571a64e647c916a7ebe26b3e Mon Sep 17 00:00:00 2001
++From fcd5b7d30d3245ce92ea45dfbab3c7b7da690c20 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Mon, 5 Aug 2019 15:57:39 +0800
+ Subject: [PATCH] test_locale.py: correct the test output format
+diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+index f4efd1ecff..3568d92bda 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+@@ -1,4 +1,4 @@
+-From bc5c70dc2a2fcfe51481de0ad800baa849592222 Mon Sep 17 00:00:00 2001
++From 34fd0bc8afc67a11eea5d73f9e0edf045c5ce541 Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Tue, 13 Aug 2024 11:07:05 -0400
+ Subject: [PATCH] test_readline: skip limited history test
+diff --git a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
+index e8d70cdc1b..61fe5e9ba1 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
+@@ -1,4 +1,4 @@
+-From b637ac8f58d17bc8888b2027a572c87531a4539d Mon Sep 17 00:00:00 2001
++From d09a034acba8922158d38fd16be970b5a454428a Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Wed, 8 May 2024 11:58:09 -0400
+ Subject: [PATCH] test_shutdown: skip problematic test
+diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+index a4c9abd8b9..22aabbb2ed 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+@@ -1,4 +1,4 @@
+-From 1a1e5c30021a200b2dc853690dbf1edfba9ca262 Mon Sep 17 00:00:00 2001
++From 6715560de4d622c2d72ee7b587c916ac647c54bb Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <tgamblin@baylibre.com>
+ Date: Fri, 6 Oct 2023 10:59:44 -0400
+ Subject: [PATCH] test_storlines: skip due to load variability
+diff --git a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
+index 5c5603c956..f5e500b146 100644
+--- a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
++++ b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
+@@ -1,4 +1,4 @@
+-From 8543ad744a2839acf1f4eec967acd645fd89d1a7 Mon Sep 17 00:00:00 2001
++From 011b21dc9b090c0b97eaecbd80a9e0c1cd39b12d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 17 Nov 2023 14:16:40 +0100
+ Subject: [PATCH] configure.ac: do not add a curses include path from the host
+@@ -15,10 +15,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index cdc54e5..d163c73 100644
++index 6e465a4..13c4835 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -6536,12 +6536,6 @@ AS_VAR_IF([have_panel], [no], [
++@@ -6537,12 +6537,6 @@ AS_VAR_IF([have_panel], [no], [
+    AC_MSG_RESULT([$have_panel (CFLAGS: $PANEL_CFLAGS, LIBS: $PANEL_LIBS)])
+  ])
+  
+diff --git a/meta/recipes-devtools/python/python3/cgi_py.patch b/meta/recipes-devtools/python/python3/cgi_py.patch
+index b1f2b71c2a..880a463760 100644
+--- a/meta/recipes-devtools/python/python3/cgi_py.patch
++++ b/meta/recipes-devtools/python/python3/cgi_py.patch
+@@ -1,4 +1,4 @@
+-From 8e6dc9fe684b27988b5aca3f760f02343aa95951 Mon Sep 17 00:00:00 2001
++From 6ebd9de3505be0965cfc37e2e4d0d882d75f0ec2 Mon Sep 17 00:00:00 2001
+ From: Mark Hatle <mark.hatle@windriver.com>
+ Date: Wed, 21 Sep 2011 20:55:33 -0500
+ Subject: [PATCH] Lib/cgi.py: Update the script as mentioned in the comment
+diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
+index 91ef3fe674..24268fb91a 100644
+--- a/meta/recipes-devtools/python/python3/crosspythonpath.patch
++++ b/meta/recipes-devtools/python/python3/crosspythonpath.patch
+@@ -1,4 +1,4 @@
+-From 1bc93167c48876d77ce424415e87573a062b8f2a Mon Sep 17 00:00:00 2001
++From 0bcdb84db7801507b155a40db2228ba516edeb73 Mon Sep 17 00:00:00 2001
+ From: Ricardo Ribalda <ricardo@ribalda.com>
+ Date: Tue, 18 Nov 2014 03:35:33 -0500
+ Subject: [PATCH] configure.ac: add CROSSPYTHONPATH into PYTHONPATH for
+@@ -19,7 +19,7 @@ Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 093f8b5..cdc54e5 100644
++index 955daad..6e465a4 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -165,7 +165,7 @@ AC_ARG_WITH([build-python],
+diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.patch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+index 9ae4af36ec..9bfdf5cd47 100644
+--- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
++++ b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+@@ -1,4 +1,4 @@
+-From 38e732371ac234c3f0e6310d6dbc7ddc7f458535 Mon Sep 17 00:00:00 2001
++From 1d6f0f5f8a1279fc9bc06266caa3f3b6f234c4cb Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 27 May 2022 17:05:44 +0100
+ Subject: [PATCH] python3: Ensure stale empty python module directories don't
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index e9494b555d..f420404f34 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -1,4 +1,4 @@
+-From 08c7867a02d26aac41764b915dc925343305e7af Mon Sep 17 00:00:00 2001
++From be22dd9b091af8f971f924fdbce5b439d9b2e850 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 13 Jul 2021 23:19:29 +0100
+ Subject: [PATCH] python3: Fix make race
+@@ -17,10 +17,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index 23e20e9..b1c5413 100644
++index dce36a5..2d235d2 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2260,7 +2260,7 @@ COMPILEALL_OPTS=-j0
++@@ -2265,7 +2265,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3_3.12.7.bb b/meta/recipes-devtools/python/python3_3.12.8.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.7.bb
+rename to meta/recipes-devtools/python/python3_3.12.8.bb
+index d2f0ea3fde..fddb29b271 100644
+--- a/meta/recipes-devtools/python/python3_3.12.7.bb
++++ b/meta/recipes-devtools/python/python3_3.12.8.bb
+@@ -40,7 +40,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
             "
  
--SRC_URI[sha256sum] = "8beb9e98ed136c29f4ec10396dd6c8708a5645cdacda90af1b7196057de17672"
-+SRC_URI[sha256sum] = "cf1de1aafa6eb4fd0365932b251528e2340b88697541e021628c5f7259970fb8"
+-SRC_URI[sha256sum] = "24887b92e2afd4a2ac602419ad4b596372f67ac9b077190f459aba390faf5550"
++SRC_URI[sha256sum] = "c909157bb25ec114e5869124cc2a9c4a4d4c1e957ca4ff553f1edc692101154e"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-index 4036006551..a5cfc8632a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4bbd08481a390f907e342aa3f25ab885c80ec0a53f3b14244cf733cc8622f2bf"
-+SRC_URI[sha256sum] = "32682e9ae508ee01f4fb134b3a520081e2ac007220997577624b1d16171d456c"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-index da455c8b20..f721103229 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-@@ -1,4 +1,4 @@
--From 653f194c2ce141bbb7a7440f65ea279cf4fe3f78 Mon Sep 17 00:00:00 2001
-+From fce75512714cc21bd02fa1df95da4cea34bc3118 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 26 Jan 2016 15:16:01 -0800
- Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-index 9b77bfeb48..28d834dbd4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-@@ -1,4 +1,4 @@
--From 441b90195aff1ececa9ea6dd228546fa3c16bf84 Mon Sep 17 00:00:00 2001
-+From 48b7c48d484096f44ef5f6ac9df35c1e8c1aceff Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Wed, 3 Feb 2016 18:05:41 -0800
- Subject: [PATCH] avoid including <sys/poll.h> directly
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-index 0214ce3eec..5143009657 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-@@ -1,4 +1,4 @@
--From d3121e8febdb5cb00511624983c24e50441b64e8 Mon Sep 17 00:00:00 2001
-+From 21bf2b1bb9f98d83c7257b0492a0dc70f5d0b9d9 Mon Sep 17 00:00:00 2001
- From: Andrey Zhizhikin <andrey.z@gmail.com>
- Date: Mon, 27 Jan 2020 10:22:35 +0000
- Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-index 48e6955039..be2628d14a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "8f4d965513e7827c1f547c1e749e4ef2812b371974fe64857fe5029a19c5b64c"
-+SRC_URI[sha256sum] = "36fcf7a9af0a753b43bb03b9835246f74d72f7124369e66a1e2dc7b04f5a5cab"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 0c2c34aa0d..cec68bd1f4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From ffe65c3e4998042b030b91c09a706a03768a1e40 Mon Sep 17 00:00:00 2001
-+From 87865e7c96e40553bc39f7697fbc2ef68451725c Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index abca62a491..9e2e9a702c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 1cd4da7d4739dcfa2b66899ef8a49e5ed88d41b8 Mon Sep 17 00:00:00 2001
-+From 2dee5ae9ad92a06c73dd72f2ff2f731ce85a8baa Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 40c91c9df6..032be93692 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 48652bcf057b74460eadf8cb943b6381fca4423f Mon Sep 17 00:00:00 2001
-+From 170070d4e7c653c68cdc6401eebfa94fa7d58838 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-index 7c3390d52d..996a06500e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "cf52b535a0ce7ec974756891818f34f06317c2e136abb24149e18c23ecc229b5"
-+SRC_URI[sha256sum] = "5bb3b946907d3ce04dd842b610c8111c2b0611351b25a1fa22af5efa897857cb"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-index 9d93ca0967..95f03b1da2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "996b9c8d1d246ed43be304718b6086e5a17d4ae8114d1920aed9ea75b920ba2d"
-+SRC_URI[sha256sum] = "897de50bff337e3ca2f86f1eaa28e0828d83024156162a50c4ea0af86e29799f"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-index 7b7de75dac..45abe68659 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5dfdbb2978ab282e637255cd875cf5b7b93fc83db62f8a0b1af02c85c84a75c4"
-+SRC_URI[sha256sum] = "4b6b30110f38cd05eb67422297142b75a55fe00003105f48b13603e6761cc3b6"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-index cf38c2b876..25c9179bfd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
-+SRC_URI[sha256sum] = "80e61d587c34cbac79e46c927b71cf32c4bf9bb0868ce5aa4b7444bdad83f42e"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-index cdb74afbfc..776e177b9f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "b0bdda26173f13f5521c829367963824a74fd0ce8f52bcab674d7e727f74e93c"
-+SRC_URI[sha256sum] = "299c9aafac3c91bbebe4cd481ed4e4ade8cb2b0677097bc4a8dcf6d4364c9804"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
-new file mode 100644
-index 0000000000..404ee5fb78
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
-@@ -0,0 +1,33 @@
-+From 75730490d2c0416ae8ad4d3e2a47ccb66d260d9f Mon Sep 17 00:00:00 2001
-+From: Nirbheek Chauhan <nirbheek@centricular.com>
-+Date: Fri, 13 Sep 2024 14:37:10 +0530
-+Subject: [PATCH] meson: Re-added required: lines accidentally removed
-+
-+Broke in e3f086c648171c3c993f5dd73e2d025480c3729e
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3801
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7512>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/577df3a02f7f26283b2749c58ae7738bbdf4be4c]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ meson.build | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 1a8301f..6c61773 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -80,9 +80,9 @@ else
-+ endif
-+ 
-+ libva_dep = dependency('libva', version: libva_req)
-+-libva_drm_dep = dependency('libva-drm', version: libva_req)
-+-libva_wayland_dep = dependency('libva-wayland', version: libva_req)
-+-libva_x11_dep = dependency('libva-x11', version: libva_req)
-++libva_drm_dep = dependency('libva-drm', required: get_option('drm'), version: libva_req)
-++libva_wayland_dep = dependency('libva-wayland', required: get_option('wayland'), version: libva_req)
-++libva_x11_dep = dependency('libva-x11', required: get_option('x11'), version: libva_req)
-+ 
-+ libdrm_dep = dependency('libdrm', version: libdrm_req, required: get_option('drm'))
-+ libudev_dep = dependency('libudev', required: get_option('drm'))
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-index 015eb86316..0cc62e345e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-@@ -9,9 +9,11 @@ REALPN = "gstreamer-vaapi"
- LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
-+           file://0001-meson-Re-added-required-lines-accidentally-removed.patch \
-+           "
- 
--SRC_URI[sha256sum] = "b5caa057e7efc51cd70504a59e5d9c7a5406d8268723c8283dd61be27fd8cacc"
-+SRC_URI[sha256sum] = "c2373e9b4d6655535d355207f60084b0fb3b28566fe9bb4ca1da714439da4ae1"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-index 80e6ca3f99..e696eaaaff 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-@@ -1,4 +1,4 @@
--From 9c932b1c17d62a3e54c2dc55b1f75dc48d73134c Mon Sep 17 00:00:00 2001
-+From bcf818265ae8b2eb668fffbbedb19c1162032c2a Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: respect the idententaion used in meson
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 4d88706a4a..32e1e85b77 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -1,4 +1,4 @@
--From 32707203ac17cd7130224445aa760f36d4cec579 Mon Sep 17 00:00:00 2001
-+From 0efdfdf9e5055944a463eea43e5539aa7ea7206a Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: add support for install the tests
-@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 tests/check/template.test.in
- 
- diff --git a/meson.build b/meson.build
--index 1d87075..6aaf23c 100644
-+index 830a601..3f9fdce 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -645,6 +645,10 @@ if bashcomp_dep.found()
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-index 8d0c6dbf34..f40969042b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-@@ -1,4 +1,4 @@
--From fca19b2f5db1be4daef4ea00c60a64120fa08178 Mon Sep 17 00:00:00 2001
-+From 21b89d16e2ca79db212587bfea4aa18470984c90 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 24 Apr 2021 10:34:47 +0100
- Subject: [PATCH] tests: use a dictionaries for environment
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-index cd795fe0ec..24f336c105 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-@@ -1,4 +1,4 @@
--From 5f80e65b73fee2d081ff4ffb442f71eb5b0ccfc4 Mon Sep 17 00:00:00 2001
-+From 9bffd7eb9113f6535d8b82ca316e6f133241bd8d Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 2 May 2021 01:58:01 +0100
- Subject: [PATCH] tests: add helper script to run the installed_tests
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-index 71ff327675..a756f9e3a2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "64342060d7c6f9e36a35e3be38a4f5ac3b41ed93b0853619be45141ef3cc1b9d"
-+SRC_URI[sha256sum] = "ebf47b6beef508a00c8557d4c1f1713e5c7ef9ba70dac45deed80e182bcf260f"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.43.0
 
