@@ -1,98 +1,92 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 485E4E77197
-	for <webhook@archiver.kernel.org>; Sun,  5 Jan 2025 11:20:33 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.36505.1736076026934581048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9168EE77197
+	for <webhook@archiver.kernel.org>; Sun,  5 Jan 2025 11:47:33 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.36753.1736077644775240140
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jan 2025 03:20:27 -0800
+ Sun, 05 Jan 2025 03:47:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VX0lWcIa;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.41, mailfrom: steve@sakoman.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6dd16e1cfa1so117579786d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jan 2025 03:20:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SVga1Yic;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3022c6155edso77335101fa.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jan 2025 03:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736076026; x=1736680826; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c3PHGTHnMTYtC8j/6RMczlrL9TpZYi+H/TFKMWdRV4c=;
-        b=VX0lWcIaO37999aTfHeZ3islHnfSVHuHzX+tSKkd9o3TLjtjSscTXoU7dt2HtDuniw
-         1sheqvaJrpy4RVFi342kvoDkCq/5OCkmsurhGyDfl09kTUWVWpRp2MUvy/ScIyz50Ked
-         J1j883JaIf1KAGcraK7B1+2FmJ3n1s5hfLQuz0YEHeBBELQ4Sp8+ix8Ph+h6mkJMcYO/
-         0IFBYv6gEVGKt4NSBo3QaOzmx4aLxg8lID173o9GDzysg9yDol4QOfLPyuM0iDHXpMUn
-         AYRXiViQwYhWAxSroYMFwSVeXYeLaMdNfCcJaEn65RG+jbgEXOYGsRMuNuscjJNWZDq0
-         AvdQ==
+        d=gmail.com; s=20230601; t=1736077642; x=1736682442; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ztXHlcJSQMWkrVqRgm4erP0BCf76p0M3Hgl2RkMo8dk=;
+        b=SVga1YicQeSEDzwJ9zx48qDV35AMeAV5wn+k5D/T2a0LTgyD4HQ8kpEiecREbEhNLH
+         eTzFhnvRKxfE9TjLq8yInjNOd0qEXZJD+sVxGlw9ux7xEVdJBco1r4vH/Rpgqie49ZTK
+         Ga4vlefSq1tVQ1Jdg+lDgDUTwco2TM959O2bh82eTfl50GeA4FgDnfBtQ4m2+8xTEhP5
+         1/in2nCWPs4iHOWFkvL9X4BTaGes0Dtz9vwajdQEkFLtxla2HbNpjRIH1NXp7fr2c1SJ
+         YHnIZmSp8x3LdmcTvSZsTbcvZ7ssl/5/zL+e3myH8CBwWRUlv/dEYGG+E4bz/EPgw5nH
+         R/yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736076026; x=1736680826;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c3PHGTHnMTYtC8j/6RMczlrL9TpZYi+H/TFKMWdRV4c=;
-        b=SWjOVM7tv11GN4VA7ZErfmr7hhp/n51jtbV/M/GLIACHxV7RSZESUv0nrG117BxWaj
-         +t4io5f/IP0WYn1/q5pvPWq012fTfmtk13z4Jx3NE+EpXYAJ1l2WRF7oC/bQBBdTUIwi
-         esKyKruKH0o7x6DoagfoBRpHEVClCWOEKG8yyRx7z89Gyxmd1sugvJtWTsMB/F7TiXfA
-         cHysfh0FwHQlfvaMpt6maIKruAx2ycleJL1CpvvRwi6OwgmGXa72uvSPI9hnvH2cbzRh
-         tUCySG9IhjV12gYit+1hlfWmmP4ceG9PwRql0UI6hIWL07LpZt9vNziKKECFbcDPUJ/K
-         us1g==
-X-Gm-Message-State: AOJu0YzH+faY/6zY3esww1dSc17t4ekt20tXJRt13ZBMK/YlxnCCBiSG
-	jEM58lt0FGr64hyep4qClo1vcQocweOujxjtvKQ/MHxJIhJLCjOl9UKm4W1haqQKFhBiQn8adl1
-	b
-X-Gm-Gg: ASbGncs0uSQWQ3vZOQvLIMGcmnCsu7vmqwgg4mHcneYN7tRxde4M2E8iLa6HuUTGJmJ
-	pDzh/xOc8HPbU5HgAF0zjojTdZ9iQSv4quIQ9rjvMrBJWfpOupvNM5RntNALrkV/oT0EKi+gF7E
-	0O/vk97kUdqmL1tuU6PhedA8dkiM9VV99Q2B8tkMb3m6YSHdGRXjmfbjv0ZODdZ0M3xTVsPsvRx
-	oVZFMAZnPKD9CwKXhwthxtNh8gg6I6IPsESfky226w09ECYdJ4eEOqtUAECdw==
-X-Google-Smtp-Source: AGHT+IG62FxNS6UVdhOGp63wxG/xG5rjVpAy7CXxX3Io4NsbewhcajczZOtxDgxbiPUcXpha1p24ZA==
-X-Received: by 2002:a05:6214:1316:b0:6d8:8ca0:a7 with SMTP id 6a1803df08f44-6dd23397e65mr883217506d6.30.1736076025764;
-        Sun, 05 Jan 2025 03:20:25 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ddc5b6049bsm26875066d6.79.2025.01.05.03.20.25
+        d=1e100.net; s=20230601; t=1736077642; x=1736682442;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ztXHlcJSQMWkrVqRgm4erP0BCf76p0M3Hgl2RkMo8dk=;
+        b=V/eyxddrl7jjYuzFLn67QAgZ6qhcducAQmad2r0zOMUFY47XJKBQBo5llRR+OroM8f
+         6R5LKc9kvVfkLeY7hsRzZP7y9fUthAzqdPzhA53PTPHUQ+18moF5j7rGkTrrv+wYC4Sy
+         mwUscbZv1MaS6j+kCz7DqDTNvKu6wis9HBgaEB5pQRekQYDw+pMaXotUAB8JQxgrksxU
+         QVv8oRUDtQzb3A5kNczixH7ONaty/soGhtaGfopDAM85sxCzQwAbRc7QOi7k1+IceDEK
+         kDrwrU8jv+r50mzncoxsG8RpbzOsynovLYx9i/OdRXOmqE5DhoancH9GevJS+18DiBqi
+         tkJQ==
+X-Gm-Message-State: AOJu0YxNg4KJrfwDTIT3h1uT1qBrhzOg16zeYd920tdfrboA47F1EHMZ
+	2pZ+0TKEKT+99VnWwSi687wfNw+FexCg3sVRXlpoHvYohGI5v10+5WhqXw==
+X-Gm-Gg: ASbGncu3V+FCUJhqIg/VRql3MTeqjmUN8n6zHeEMmr7vQJTDpHV5n4+Ce7iW1b49odB
+	s8Q3BKZUUz7TVB8DujobeoHppqOF9MuYnbv8TXTJuFKjfHjYgIwBsXwaS6ddzes0gelONuLvmJ4
+	BCzyYVE9/bIqJe0QsamYxNRo7Qj0Q1QQM3j/nhiBd49S7X9DQQ20JTzesraGzS3dx/voX1ZRAlh
+	9YRz4AgZtLhB6vL+WE15ZJS/1TM44dxY3DKl76dqQGJvH7H1NGqh+LGOncNKMXX3nrlGv2C0MB/
+	myPSeP67xDkEWQ/VAx7pqmmGBpdDxu0EPf5IqF8=
+X-Google-Smtp-Source: AGHT+IFgjHsPWo3NkRvR5GG4FNdaPCvFvrzkXBWZ0Bvheemh5U+u4AOInsN+PBsh21/3wUEHX3rH5A==
+X-Received: by 2002:a05:6512:1044:b0:542:218a:71a with SMTP id 2adb3069b0e04-5422953ac6bmr14866786e87.26.1736077641855;
+        Sun, 05 Jan 2025 03:47:21 -0800 (PST)
+Received: from peterliu-Precision-5680.. (customer-212-100-112-191.stosn.net. [212.100.112.191])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223821665sm4612817e87.177.2025.01.05.03.47.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 03:20:25 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 389671003FB; Sun,  5 Jan 2025 01:20:24 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 05 Jan 2025 01:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  5 Jan 2025 01:20:24 -1000
-Message-Id: <20250105112024.389671003FB@builder.sakoman.com>
+        Sun, 05 Jan 2025 03:47:20 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [kirkstone] [PATCH] create-spdx.bbclass: fix patch error for recipes that inherit dos2unix
+Date: Sun,  5 Jan 2025 12:47:16 +0100
+Message-ID: <20250105114716.7188-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jan 2025 11:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209415
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jan 2025 11:47:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209416
 
-Branch: master
+For the recipes inheriting dos2unix, do_patch will fail if
+do_convert_crlf_to_lf not run before it.
 
-New this week: 0 CVEs
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/create-spdx.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Removed this week: 0 CVEs
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 349ecfe6ab..26d586744e 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -810,6 +810,8 @@ def spdx_get_src(d):
+ 
+         # Make sure gcc and kernel sources are patched only once
+         if not (d.getVar('SRC_URI') == "" or is_work_shared_spdx(d)):
++            if bb.data.inherits_class('dos2unix', d):
++                bb.build.exec_func('do_convert_crlf_to_lf', d)
+             bb.build.exec_func('do_patch', d)
+ 
+         # Some userland has no source.
+-- 
+2.43.0
 
-Full list:  Found 18 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
-CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
-CVE-2024-50613 (CVSS3: 6.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 15
-  qemu:qemu-native:qemu-system-native: 2
-  libsndfile1: 1
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
