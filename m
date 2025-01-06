@@ -1,157 +1,88 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F40E77188
-	for <webhook@archiver.kernel.org>; Mon,  6 Jan 2025 10:22:31 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.56468.1736158947406253628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6301FE77188
+	for <webhook@archiver.kernel.org>; Mon,  6 Jan 2025 10:39:31 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web11.56646.1736159968631879617
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jan 2025 02:22:27 -0800
+ Mon, 06 Jan 2025 02:39:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g301g6qy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43621d27adeso98000315e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 02:22:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HXjSwuj8;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6d8f65ef5abso120571616d6.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 02:39:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736158946; x=1736763746; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uPKy5OwcsU07BzRZE8a0YA5qfHrtWqaODCfdTghSHrs=;
-        b=g301g6qyN5TWZ+mLJZAlNZc/RK9HLz3u6kKeQi/Pi/Nnt2RzSFySqkQYCWaVIujaSd
-         KWUDTqkf96iDmLOISfaz7CH+C551c6cTKumUYr2/EPgMZcvcalfT8ceX8lsVTJGnOduX
-         LrIXk8Z1vIu9jCZixBLWfNQYQbZNn6Yzi/0SI=
+        d=gmail.com; s=20230601; t=1736159967; x=1736764767; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HoahYEfknN4xVDWawtTjCtYDrw5sYsJHhDVp0Czyz0=;
+        b=HXjSwuj8xfeHB6652YY4ZxK9Vumzkp+qxjx9lHMX44PE7EcnfnAao7xsRkCzRoeUf+
+         UNiIUFMjDh4E2R0wKPkU9OZnFV530U4mbjiLp8zgShNuplSRdaIvmWkhoQhwVEdFwKVg
+         s7/tnwDrkmnJ4V3tzwPnvMGmTneOIzUQq1uC8uZ6AC9YnFSEtPHcMFytPV3BASPRDaHd
+         NNUzAGqJ/todONd4dSBJFgjDlGKH2npT/lrkp0brU8I6DlGMv5DYwPrCIUx1DSqBMIbQ
+         TY07RDcnWmMctqlu6zPM0utab2yZ+Iei0z8u/k5GDj+S5hvOoZQ74aaTgQUpW+l6fA/P
+         I7dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736158946; x=1736763746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uPKy5OwcsU07BzRZE8a0YA5qfHrtWqaODCfdTghSHrs=;
-        b=VOHHKg2s1voHmHxIB2NgITdztk7bMKrjoElcZ2BvAZznRsP7bD5KJ1PicHjpcS1IU5
-         18pgc1jmQzlAVvU8LAM3W8BJVlETRBT79Mv17J2MAPfDJkrZLxZPPGJ7VxeXRppcfVWG
-         iySj2O+yRwJB1HdW25+bh25hmyQIE/iLHZS9fABYxZHiJDpVOZNl8J070PtHisMg41ZR
-         3K8gc3mSJAso/gXhNfNgzdny1PbHb0Fr/KAcF2pZQpPFGps3zpYVjqQiMepZiznYzqvb
-         Ek/qcOxxMHco7ta/vFo7vDMZeTWGqeVWkkjk7yBGI+T6ISA/Dc19pHKLoBZbMmyUp68L
-         8C/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWDd4MK/LYB+79cMuAIVtAas09uehlQA/hunLA/cMMI5F/XqIaGHDdrlx3gf75J5cweL4/iOWnVgWUktfS+ukrv5g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxP9bkXy2dx5ziHrN94zTKOI03cwhl2rODAhMhlf1gtOO0YLz3v
-	MNUyTGGYI+FC6ruEMxQVEjA7ouByVql1e8tEFCnZjD6xgIucWp5kOYke16XkKCY=
-X-Gm-Gg: ASbGncsr0JihRwiCwH+N6Nq5NFN3n43u2diiDzQ4cglvD6AgM3i826uRTPwRgrllYS5
-	Mu+1ktLVZEcyJnDZT+f1G3oEiXDI7QprHu7suZLPhfu/wMb+0ofV9bnl6nBrkLV3k9Xd9TahCy5
-	gSBlqyD+BNd0uMtD2Tsd6DMbmInzqdAr66QcmJLfxzoAlUZH1wJG/7GaCfp/dZX3FZl1eyvz8oO
-	UH0Oehp/26K/JkrmYnYpb1Ky2UtgLELZVtWunQYNsKjOltuvsfbpFjb+ICOwT+z7Dz9ILR7fWUt
-	T28k7AbfNgxfv3PF2kdNigFY6wliBJ9pNTvG2DWVlX0xCQ==
-X-Google-Smtp-Source: AGHT+IFjGaqNweeeFRL0/DM89z+I02skubpgPtPtcPYhCllCg6x5eon4YRvFYvCD8mbJI6lQHA5SDA==
-X-Received: by 2002:a05:600c:3b23:b0:434:a525:7257 with SMTP id 5b1f17b1804b1-43668b49a05mr427959205e9.21.1736158945651;
-        Mon, 06 Jan 2025 02:22:25 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3607:7267:e27a:36e4? ([2001:8b0:aba:5f3c:3607:7267:e27a:36e4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4364b1516bbsm436061135e9.1.2025.01.06.02.22.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 02:22:24 -0800 (PST)
-Message-ID: <afaadd6dc85a15c95a6ed3b5302800abaa0dd527.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta][kirkstone][PATCH] pseudo: Fix compile error on
- centos7
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: guocai.he.cn@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 06 Jan 2025 10:22:24 +0000
-In-Reply-To: <20250102054451.500564-1-guocai.he.cn@windriver.com>
-References: <20250102054451.500564-1-guocai.he.cn@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1736159968; x=1736764768;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5HoahYEfknN4xVDWawtTjCtYDrw5sYsJHhDVp0Czyz0=;
+        b=VFOltVXG3AVkTpjZWDYkAML49oAd/EDbUUkcV/U2B8TRri9FK9PkjE58U4oRsC9qtJ
+         VYNgreuoF0EstV3DXEW654WjYz/CmtM7AEzZdrobolT7qwhHOL2Hoz0MFM0l8WRuR4GC
+         SmZ6I8nPotKOarsUcjSsr2q5ydQM6nB3w3fdUoT0JeA2k41EO8TfJihEEk/0DzmRav9f
+         TXKH2tnW/ypre4cHkgvffydO0NWCJmGiiFIVRpDvN98MD6+VulvLc1DwXUedI/0HPQEc
+         BhDlie73xSfMX1PCwdjghtK5R+egCseReYowbw7d/LewnGAl/Ds4a4GDk0biFwW5r0pO
+         2W0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVYMz5lWIjidqnavkvY90gg1trXK+XmSy4O5W7wWNk/3p25m88GUR7xkBqALgKnb8TbmeiaTIPv2sO2ijeCKaZNsQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyC4FJawOpApAxpcL3fV6cSvqiasTj5TKZylUN0F5xrnnWoBceA
+	KbU1wpls4Jz7pE5zZZQlRISjTADW8OCNK01qNcawX2NgW6pcni3/moa89JUXz2SzUn73Ha5hE9g
+	WoS1Pb+5sPW5/PM/Of8qF1lEkwEc=
+X-Gm-Gg: ASbGncusIjPjr46K2Z4B8acHeUGBmLYx8gcjoDQ3XgawMz8oJcipdMDVtuN2FhdlIFX
+	r3hvckTyNnuGp2X68/bcL7X4nqrKZs65YRpTaURtT7EjCmePGagkyFbB7+VMv6zKaRtBN55AS
+X-Google-Smtp-Source: AGHT+IG+ppucKOGzwkjKl7KngjdowXzdxsBQTBGdA70ViuIBDcc4fVd5SHjI7ERzZWCOuEz2lb2NqEnHuizPJdN4iEs=
+X-Received: by 2002:a05:6214:1d0d:b0:6d8:9be9:7d54 with SMTP id
+ 6a1803df08f44-6dd233a0237mr916172086d6.35.1736159967677; Mon, 06 Jan 2025
+ 02:39:27 -0800 (PST)
 MIME-Version: 1.0
+References: <17206ef3-ac44-4b07-b881-a639fb94f6fc@beims.me>
+ <CANNYZj_V66Nzntuxx7jKgBjRxBKXJKkN_hgsFYTSRJ36j+030A@mail.gmail.com> <20250106103416.GA15108@francesco-nb>
+In-Reply-To: <20250106103416.GA15108@francesco-nb>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 6 Jan 2025 11:39:16 +0100
+Message-ID: <CANNYZj-qYGebbQWn1AXf6tVkLTg8fVWJPpFi8J2onHdk7-KDBA@mail.gmail.com>
+Subject: Re: [OE-core] Possible upgrade of Bluez in Scarthgap branch
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: rafael@beims.me, openembedded-core@lists.openembedded.org, 
+	anuj.mittal@intel.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 10:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209424
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 10:39:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209425
 
-On Thu, 2025-01-02 at 13:44 +0800, guocai he via lists.openembedded.org wro=
-te:
-> From: Guocai He <guocai.he.cn@windriver.com>
->=20
-> When host is centos7, fix the following build errors:
->=20
-> In file included from pseudolog.c:21:
-> /usr/include/sys/stat.h:366:31: error: array type has incomlete element t=
-ype
->=20
-> In file included from pseudolog.c:21:
-> /usr/include/sys/stat.h:366:31: error: array type has incomplete element =
-type "struct timespec"
-> =C2=A0 366 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct=
- timespec __times[2],
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~
-> pseudolog.c: In function "parse_file_type":
-> pseudolog.c:214:10: error: "S_IFSOCK" undeclared (first use in this funct=
-ion)
-> =C2=A0 214 |=C2=A0=C2=A0 return S_IFSOCK;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 ^~~~~~~~
-> pseudolog.c: In function "format_one":
-> pseudolog.c:754:43: error: "ALLPERM"=C2=A0 undeclared (first use in this =
-function)
-> =C2=A0 754 |=C2=A0=C2=A0 printf(fmtbuf, (unsigned int) e->mode & ALLPERMS=
-);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~
->=20
-> upstream commit:
-> https://git.yoctoproject.org/pseudo/commit/?id=3D15b4f4ca25593f684e6517d0=
-b809605b443d1953
-> When the host is older system,such as centos7, this upstream commit will =
-introduce=20
-> the build errors. To add "#define _BSD_SOURCE" is mainly to avoid issues =
-on older=20
-> systems that do not recognize _DEFAULT_SOURCE.
->=20
-> Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
-> ---
-> =C2=A0meta/recipes-devtools/pseudo/files/glibc238.patch | 14 ++++++++++++=
-++
-> =C2=A01 file changed, 14 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/pseudo/files/glibc238.patch b/meta/rec=
-ipes-devtools/pseudo/files/glibc238.patch
-> index dfb5c283f6..9a7cd3744d 100644
-> --- a/meta/recipes-devtools/pseudo/files/glibc238.patch
-> +++ b/meta/recipes-devtools/pseudo/files/glibc238.patch
-> @@ -28,6 +28,20 @@ Index: git/pseudo_wrappers.c
-> =C2=A0 #include <assert.h>
-> =C2=A0 #include <stdlib.h>
-> =C2=A0 #include <limits.h>
-> +Index: git/pseudolog.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- git.orig/pseudolog.c
-> ++++ git/pseudolog.c
-> +@@ -10,6 +10,9 @@
-> +=C2=A0 * we then don't get S_IFSOCK... _GNU_SOURCE turns on everything. =
-*/
-> + #define _DEFAULT_SOURCE
-> + #define _XOPEN_SOURCE
-> ++/* This is mainly to avoid issues on older systems that do not
-> ++ * recognize _DEFAULT_SOURCE. */
-> ++#define _BSD_SOURCE
-> +
-> + #include <ctype.h>
-> + #include <limits.h>
-> =C2=A0Index: git/pseudo_util.c
-> =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =C2=A0--- git.orig/pseudo_util.c
+On Mon, 6 Jan 2025 at 11:34, Francesco Dolcini <francesco@dolcini.it> wrote:
+> > > We found a problem related to key exchange that affects Bluez 5.72. This
+> > > problem was already resolved on Bluez 5.79
+> > > (https://github.com/bluez/bluez/commit/366a8c522b648f47147de4852c5c030d69b916b3),
+> > > and now we're wondering whether it would be acceptable to update the
+> > > Bluez recipe to the newer version on the Scarthgap branch since we don't
+> > > know the version policy regarding this recipe.
+> > >
+> > > We can prepare a patch if this kind of change can be made on the
+> > > released version.
+> >
+> > The LTS version policy is bug and security fixes only, for all
+> > components.
+>
+> I would say that what Rafael pointed out should qualify as a bug fix, in
+> such a case would you bump the whole bluez package or just add a
+> specific patch?
 
-Whilst this may fix centos 7 I suspect it may break other newer distros :(
+You can send a backport for the specific patch, without bumping the version.
 
-Cheers,
-
-Richard
-
+Alex
 
