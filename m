@@ -1,109 +1,178 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F050E77188
-	for <webhook@archiver.kernel.org>; Mon,  6 Jan 2025 16:10:03 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.63413.1736179795019599277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DA1E77188
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 01:38:03 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.11413.1736213879181811813
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jan 2025 08:09:55 -0800
+ Mon, 06 Jan 2025 17:37:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IMzanGEI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43622267b2eso152633355e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 08:09:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KHhSNEnD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: festevam@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2ee46851b5eso17749967a91.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 17:37:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736179793; x=1736784593; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cgmTIzYvc0My6zqa+W0uL6qgcwSnxOCwiIAWOHIZoLU=;
-        b=IMzanGEIfyMXaWPlJVn8vxJRBeaX+CpKEn4siY5FMMOmAqZSm2jiSxbA82C3/gnoXV
-         sBB9Nr/CoRJj6EtBKH0X8ptjRihGVpls0+ObuJqojczJUPZEVhy85kW4O3nIoluFCC8Q
-         kxksX2G+vnbB1DhhUKADrmZGb1kU8JIkcjAH0=
+        d=gmail.com; s=20230601; t=1736213878; x=1736818678; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AL/mcYPMdz2q6wLF6fK71FQ221MxYO0T2oun87MbgXs=;
+        b=KHhSNEnDHm74zsZzrzIOWgy0qZ8czTlAtuUb+UZ4Kje1W2RSjctrh5dbZ7Tdjlqh4b
+         T6ILhr3ARiEhumSKubK7HSwRJICGUZ1lLfJHX5lbv2CZPc/2yWQqPdo7DqpGdzT0s5MV
+         r1mfuIumMzyqbVdyYioyCdLJdWGSKdEs0VlGrgP/+DeTEKYBdUdtTWaBcITdhRutE02q
+         H6ifeKcTWkJ1i10XvevbzCnoFRaOKODCDL0xL0sPJlwXu0THMJdvmMNqguqNFK2+3WYg
+         n/nHNqJAd2/isg4tOLqTp0N70lp51t/6XRYQ6wdcn0cZZnX1pbi/ue60NyuBYwA89RbF
+         bJng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736179793; x=1736784593;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cgmTIzYvc0My6zqa+W0uL6qgcwSnxOCwiIAWOHIZoLU=;
-        b=Jpl3Yc9rBqLQTs8Vxco78IsJf6Nz4g6p+Q013f2d56E5VAzpf0qzGGoKUcCllFyH1w
-         UQd5ruOTG1dTnMkXsPFkcAv8PS0RONj74prVdxfPplbOVq03SqSp+sf4H3S+wVfjmI2A
-         ckub+mx9wBcinlBjGSapVKDL+pdvGyUnF1XwQfwyoVejk4zVLe8DsvPNZy9qtjbCQj8d
-         lHEeqBaq5uJh/ciMriPdo6lkO/bR2cobUSznrmGMojpRGGp1ATJ5ajgEYXqwyLjo45JF
-         TNZNzALAnM+hH5+mBjayoDYy12jXimhyIxRyNBVAi5AbAE/d6bjHtlF9ssBTIc0NJu++
-         2d5w==
-X-Gm-Message-State: AOJu0YzvuhELEte0wdPZEvYiA5gTK+x1GqigMFnnmLxrNWLQ7xVD9QCz
-	PCNqwZJ9yj1a5FpAvp/DcUNkgSquRTLc8d6QJAp1HVRgjirSciecObZZF7I8mOceusHwDYREdoi
-	ct/I=
-X-Gm-Gg: ASbGncu+7VbJzHXyVSaik/DdaxBN7REqqWI6ezzn5hFdyK2/WVA7yi9mVavw0QWAxY5
-	w/mfk3eS4LaE167rqEAu+9BJ0QxneowWoycHDShJhBat1b2aVPLLqfOESOGuXbVe6vXpTNJYtVe
-	+Q8nWQWTwY9J+fcSVqLi5/z6J6lFq/Boz+h9tW2acwsynBZu+wD1+ouAmakUG4M1euGcz2gHT9K
-	gzEshjmZ5IogsfK35GsgGrTV8cNQkKZ4fCKLLKxQnstK3osZa6j6yna5mD3iQGCuxgNEhl8nU2Y
-	C/zlPm1l1w==
-X-Google-Smtp-Source: AGHT+IGUdH5XTt06LYACiEyvFL/vx1aXpIRDroaFRora5eokPkbSEE5mXiA7RWOKgWkXrz/9SHNi8A==
-X-Received: by 2002:a05:600c:1547:b0:434:fd15:3ac9 with SMTP id 5b1f17b1804b1-4366b2fa09amr469193415e9.22.1736179793042;
-        Mon, 06 Jan 2025 08:09:53 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3607:7267:e27a:36e4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b013e1sm600024525e9.12.2025.01.06.08.09.52
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1736213878; x=1736818678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AL/mcYPMdz2q6wLF6fK71FQ221MxYO0T2oun87MbgXs=;
+        b=CPts9KxiDIOeqI6FUFQx7AmPxlc8LJIJB4nWkEbx6+O0udiGyIhQtrqHlkLN+x6FXG
+         uJatmmucu6OZxeN9ROMvZ4KX0GO97y1CSrcl6iteoVC66WmlTEDKV6Dz6u1UIxirYaJl
+         2hY6BMumhPldoe2a+D+ugsBEzAdtSTYUEDWOP3r2AAkbupq4ShIpiOfoBSiDNYcvCO3K
+         F+rWEH10p/C3PyuWWC1C51A7FRZ87OK0M0O5ig0+CzwdHq2hdndl7PgfWy9w6UB8YUvO
+         aJk5uyUjcWQ7sobBws7CuhY0I9RbwPdDGalI0QIok+2exOLMCbPxMFv9lcZndkjNOgZ8
+         2DEw==
+X-Gm-Message-State: AOJu0YxnO/UjH4Gcjtr00QK4TVQ6jqr0SHCaXAtQlVojR/tixY1cPoBZ
+	WNIayKGTGS+xv2vJmxadMYO5gL2MwkNbGJRDxomTVn2etcydNFHN0vXN6Q==
+X-Gm-Gg: ASbGncvNBSrrNFOmgL4hnpv4Q8wCavBotYNUCySFANAGHUodKgE1AsYXzrsAcCcM756
+	C9gYNWNkx6d05yCCVgLzG0TK/yrssuCV27nuwG2g2WCTo/UNobLO6tm6LvyVjvpUvatsfluDnyG
+	/qboy/Deydmdegtr0JtAq+ESpr42vTgvaHp5vA64x5tWApoqiPDRAX4UoId2gJatQ31pYKWMnL/
+	TbBH7w0XvX4QNHm8tClubG7vE+ZayqdOsIgcUZKvPJcEvkHjIY7ZO8q52+EZzUdAk4LzBI=
+X-Google-Smtp-Source: AGHT+IH4RRrSy/FU5VRrXt9A4PGKimBcWDT48UXC7vIAMlmmvo3zuGfZAOhGD6f8qqBplBs9GGmm7g==
+X-Received: by 2002:a17:90b:134d:b0:2ea:4c4f:bd20 with SMTP id 98e67ed59e1d1-2f452eed773mr80476200a91.32.1736213878116;
+        Mon, 06 Jan 2025 17:37:58 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:d4cb:2a53:2696:85ea])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f44779990csm34793718a91.6.2025.01.06.17.37.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 08:09:52 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 06 Jan 2025 17:37:57 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] native: Improve ${PN}-XXX package name handling
-Date: Mon,  6 Jan 2025 16:09:48 +0000
-Message-ID: <20250106160948.803305-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250106160948.803305-1-richard.purdie@linuxfoundation.org>
-References: <20250106160948.803305-1-richard.purdie@linuxfoundation.org>
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] u-boot: upgrade 2024.10 -> 2025.01
+Date: Mon,  6 Jan 2025 22:37:49 -0300
+Message-Id: <20250107013749.2176391-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jan 2025 16:10:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209431
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 01:38:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209432
 
-If a recipe has something like:
+From: Fabio Estevam <festevam@denx.de>
 
-RPROVIDES:${PN}-xxx = "yyy"
+Upgrade to U-Boot 2025.01.
 
-then the current code will turn this into:
+Remove the patch as it has been upstreamed.
 
-RPROVIDES:${BPN}-native-xxx = "yyy-native"
-
-which can lead to errors. Add in some handling for this special case in the class
-extension code.
-
-The corresponding entry in PACAGES is correctly remapped, the variables aren't
-remapped to match though.
-
-Note that merging this does trigger new dependencies to be exposed, some of which
-can't be met or are incorrect. These need to be fixed on a case by case basis.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- meta/classes-recipe/native.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ ...bfdt-libfdt.i_shipped-Use-SWIG_Appen.patch | 60 -------------------
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  3 +-
+ ...ols_2024.10.bb => u-boot-tools_2025.01.bb} |  0
+ .../{u-boot_2024.10.bb => u-boot_2025.01.bb}  |  0
+ 4 files changed, 1 insertion(+), 62 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2024.10.bb => u-boot-tools_2025.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2024.10.bb => u-boot_2025.01.bb} (100%)
 
-diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/native.bbclass
-index d9651a7f22d..0fad42a5a45 100644
---- a/meta/classes-recipe/native.bbclass
-+++ b/meta/classes-recipe/native.bbclass
-@@ -158,7 +158,12 @@ python native_virtclass_handler () {
-                 newdeps.append(dep.replace(pn, bpn) + "-native")
-             else:
-                 newdeps.append(dep)
--        d.setVar(varname, " ".join(newdeps))
-+        output_varname = varname
-+        # Handle ${PN}-xxx -> ${BPN}-xxx-native
-+        if suffix != "${PN}" and "${PN}" in suffix:
-+            output_varname = varname.replace("${PN}", "${BPN}") + "-native"
-+            d.renameVar(varname, output_varname)
-+        d.setVar(output_varname, " ".join(newdeps))
+diff --git a/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch b/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
+deleted file mode 100644
+index 2eeef99b21..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From e093607e9a08e9c29b7bbaa6aeb137036db798a6 Mon Sep 17 00:00:00 2001
+-From: Markus Volk <f_l_k@t-online.de>
+-Date: Wed, 30 Oct 2024 05:46:00 +0100
+-Subject: [PATCH] scripts/dtc/pylibfdt/libfdt.i_shipped: Use SWIG_AppendOutput
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Swig has changed language specific AppendOutput functions. The helper
+-macro SWIG_AppendOutput remains unchanged. Use that instead
+-of SWIG_Python_AppendOutput, which would require an extra parameter
+-since swig 4.3.0.
+-
+-/home/flk/poky/build-test/tmp/work/qemux86_64-poky-linux/u-boot/2024.10/git/arch/x86/cpu/u-boot-64.lds
+-| scripts/dtc/pylibfdt/libfdt_wrap.c: In function ‘_wrap_fdt_next_node’:
+-| scripts/dtc/pylibfdt/libfdt_wrap.c:5581:17: error: too few arguments to function ‘SWIG_Python_AppendOutput’
+-|  5581 |     resultobj = SWIG_Python_AppendOutput(resultobj, val);
+-|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+-
+-Upstream-Status: Backport [https://github.com/u-boot/u-boot/commit/a63456b9191fae2fe49f4b121e025792022e3950]
+-
+-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+----
+- scripts/dtc/pylibfdt/libfdt.i_shipped | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/scripts/dtc/pylibfdt/libfdt.i_shipped b/scripts/dtc/pylibfdt/libfdt.i_shipped
+-index 56cc5d48f4..e4659489a9 100644
+---- a/scripts/dtc/pylibfdt/libfdt.i_shipped
+-+++ b/scripts/dtc/pylibfdt/libfdt.i_shipped
+-@@ -1037,7 +1037,7 @@ typedef uint32_t fdt32_t;
+- 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
+- 		buff = PyByteArray_FromStringAndSize(
+- 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
+--		resultobj = SWIG_Python_AppendOutput(resultobj, buff);
+-+		resultobj = SWIG_AppendOutput(resultobj, buff);
+- 	}
+- }
+- 
+-@@ -1076,7 +1076,7 @@ typedef uint32_t fdt32_t;
+- 
+- %typemap(argout) int *depth {
+-         PyObject *val = Py_BuildValue("i", *arg$argnum);
+--        resultobj = SWIG_Python_AppendOutput(resultobj, val);
+-+        resultobj = SWIG_AppendOutput(resultobj, val);
+- }
+- 
+- %apply int *depth { int *depth };
+-@@ -1092,7 +1092,7 @@ typedef uint32_t fdt32_t;
+-            if (PyTuple_GET_SIZE(resultobj) == 0)
+-               resultobj = val;
+-            else
+--              resultobj = SWIG_Python_AppendOutput(resultobj, val);
+-+              resultobj = SWIG_AppendOutput(resultobj, val);
+-         }
+- }
+- 
+--- 
+-2.47.0
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index fe3afb33b5..fc860248ed 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,10 +12,9 @@ PE = "1"
  
-     map_dependencies("DEPENDS", e.data, selfref=False)
-     for pkg in e.data.getVar("PACKAGES", False).split():
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "f919c3a889f0ec7d63a48b5d0ed064386b0980bd"
++SRCREV = "6d41f0a39d6423c8e57e92ebbe9f8c0333a63f72"
+ 
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
+-SRC_URI += "file://0001-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch"
+ 
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2024.10.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2024.10.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2024.10.bb b/meta/recipes-bsp/u-boot/u-boot_2025.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2024.10.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2025.01.bb
+-- 
+2.37.3
+
 
