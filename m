@@ -1,139 +1,257 @@
-Return-Path: <jonas.gorski@bisdn.de>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6B5E77197
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 09:35:07 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.16750.1736242500031534011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A266E7719A
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 11:35:47 +0000 (UTC)
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.web11.15163.1736233082056556082
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 01:35:01 -0800
+ Mon, 06 Jan 2025 22:58:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=Ktm4+I1S;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.48, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3862f11a13dso1825905f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 01:34:59 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=EjFUDEyS;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: spushpka@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1736242498; x=1736847298; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+eUmCMg/Evfw/4qqEBesmBHvOqeQo8/7dJx8Z4zyb1s=;
-        b=Ktm4+I1SdqirqjeAJUvcEnbRlEGNkHYWhp8QMbvijW6j4xea82Px78XnAtFkFnSVqY
-         Yhy/oiX92lTvFkMtnuvs+TUB7u798tfC6S9nIVm+HQzmM+z/i1o1nZwqO4HsS8qPVZ8Q
-         P8udhlpLNiFjcVZfVY1/GbIydhRBQFz0FhvmYYDBAJmQG5pYLV2FSvZCeNSI7UCvqxD9
-         BRA4tbHEq31DQkhqEsAIJqRiol8VDizcI40J1rAWenyv43SE0vzK7ec/CqE3DHuM+IAF
-         fgXVwgIIlhpjmFjUchpyYgwYhpm8t7u2VU99zAdjEpaBpUAqhDn8JQbW6R6qSKzCr7Ts
-         606g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736242498; x=1736847298;
-        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+eUmCMg/Evfw/4qqEBesmBHvOqeQo8/7dJx8Z4zyb1s=;
-        b=dxpX5lwZwUVM4GeScUFnPpnTb9nHMnTx/TRabPOsxMN4ni0vRQ/SebgP0SuGYKJmg6
-         +BA2e1KX+sa5PJduR2T9pFjF1/3Prht9UVSTtvkaM3i/nrAV2vYYWc5prNEwn2ZQzFBP
-         Jnl5LvyadAoRnb11YO2Y6/lv0/TtZjRzNjmdFS4xElqAAEYB8G0TDu9xDd/7xhTEoWac
-         gS6S+MIK3Ru7gNRVnPpxgvpNCAVu7el640MOZGbu13xuJp0dlx7LhKqeSeHXL1yh4+Kp
-         EK//y1Kn8HwClZg+ygio6os6Z/uRXT7cBDC8pFpE9faou3tLDkyuwp3BrgNL3m5ZbJGp
-         iEIw==
-X-Gm-Message-State: AOJu0YzdenW5cPTJfj8Pj/GjQrU3CkUKqhrhj59mWuW8UBFSPZHBiXGR
-	kUS2LUbiCwJcqObVF8qRVBAzCPMlL5DCNHj5pFbyKb4fuLNhxxaottDsrBmYoABzOi/1jALUFZG
-	pi4yYk/JvWcDq3mNsyhPpNfGpOA3O3Cphk5/ZbsVz7P7CgbN33ahxrIHBv1qqZYIIbFU+poQ=
-X-Gm-Gg: ASbGnct6D9eNLReZEiZqWmNJSEs82NJNUz2lQk5dZpscCm4G1SQ0NPhBNImwX3/2URv
-	rVUkRYkuRN9ujMrgRxS3IY8A9s4vihYmEL+px8a+MB7XR1JexmeZuynK+3w7H9z9t7cFtuxXcPc
-	zrzxLUNsPu+/T/cyljdEtTeaIkwrCj6MkKY06OtWL1y8ACEnnsYHkQ9i9M2nkc1agb4oriI6e7G
-	vBggHvCDZFAyNyc4StwU+LkyhYOyaRuFm+jQCXE/9qM9yS8msPm8pmw+dDZ01Y=
-X-Google-Smtp-Source: AGHT+IHgZGg9zqUlYbOMW0cPVzdlVkOt+hSuaRG8llHCnBqQzNlAoZgteocYa8BQ+3XMEmchbtFXjA==
-X-Received: by 2002:a05:6000:1a89:b0:385:fc70:829 with SMTP id ffacd0b85a97d-38a221f7726mr21129820f8f.6.1736242498020;
-        Tue, 07 Jan 2025 01:34:58 -0800 (PST)
-Received: from [172.16.103.202] ([62.80.99.152])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a2432e587sm46094793f8f.95.2025.01.07.01.34.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2025 01:34:57 -0800 (PST)
-Message-ID: <e1827189-ee59-4230-9cf4-8c33728219ff@bisdn.de>
-Date: Tue, 7 Jan 2025 10:34:56 +0100
+  d=cisco.com; i=@cisco.com; l=6241; q=dns/txt; s=iport;
+  t=1736233082; x=1737442682;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Yk7g7RbacYs/NkrupHuKzzqH92vRMteSTbWY4/4bFEw=;
+  b=EjFUDEyS3yt12OtLTLTExKkvvyuoBhyo1pZ9QpgE3f/GiHABtpDBuyws
+   kau/ChvoLWzg7DdQ/WN3Uqwn2c14UcpdEsoI07q6oTx/m84hZ93qeH4tv
+   03lay8OimehDaqqmuWg4G6rLgHPTLDLsDYJhGv+SGPuiB2ZGhDH2arAp4
+   M=;
+X-CSE-ConnectionGUID: veLa2zEoSWqIET9nx03fSA==
+X-CSE-MsgGUID: wWwWWyRDSi+gJaKWb2K+SQ==
+X-IPAS-Result: =?us-ascii?q?A0AcAABgz3xnj5P/Ja1aHQEBAQEJARIBBQUBgX8IAQsBA?=
+ =?us-ascii?q?YM/WUNIjHKJUYt2kiWBJQNWDwEBAQ85CwQBAYUHinYCJjQJDgECBAEBAQEDA?=
+ =?us-ascii?q?gMBAQEBAQEBAQEBAQsBAQUBAQECAQcFFAEBAQEBATkFDjuFew1JAQwBhgMBA?=
+ =?us-ascii?q?gEqCwEYARsSLAMBAlojIYMBAYJkAxEGsDSBeTOBAYMoATEFCQJDTtk4gW2BS?=
+ =?us-ascii?q?AGNSW8BhHcnG4FJRIEVgTuCLYEFgVwBiCUEhC2DP4FsiwYdL4IujghIgSEDW?=
+ =?us-ascii?q?SwBVRMNCgsHBYFzAzgMCzAVgVtEOYJGaUk3Ag0CNYIefIIrhFyER2EvAwMDA?=
+ =?us-ascii?q?4M6hWaCF4IWgm5AAwsYDUgRLDcUGwY+bgeaZQE8gnxygQ4BK4F9BSoREZJ9G?=
+ =?us-ascii?q?hOSDKEDhCWMGJUuGjOqU5h8jgSKBYw+hGaBZzqBSQsHTSMVgyIJSRkPji0LA?=
+ =?us-ascii?q?gmDWIF/gxWvSCUyAgE5AgcLAQEDCY1AhBUBAQ?=
+IronPort-Data: A9a23:FoC356p/9noK/RMIrRjO8k/rhXdeBmITZRIvgKrLsJaIsI4StFCzt
+ garIBmFOvqKZGKgeNAgatznoUhVvMWAn4AyGgBuqn8zHyMTo+PIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9T8kiPngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYQXNNwJcaDpOtvra8E0355wehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vh6JWgU5
+ 9EfEw8UTz2/1uSmmOm1ccA506zPLOGzVG8ekmtrwTecCbMtRorOBvySo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LV/rSn8/w7pX7WyZAtUmVvak+y2PS1wd2lrPqNbI5f/TWHZQKxxjG+
+ z2uE2LRHS4FC+OO8xa+8zGjpObsoimhe8EpLejtnhJtqAbOnjNIUkJ+uUGAif6hh0izXthSJ
+ 0AZ9m8lqrI/3EiqVcXmGRqgrXiJuxQRV9ZdH6s98g7l90bPyxySCm5BSntKb8Yr8ZZuAzcrz
+ VSO2djuAFSDrYF5V1qD+5Od9yGfPhMqNE4vWX4CXVNe7eLK9dRbYg30cv5vF6u8j9vQED72w
+ iyXoCVWu1n1pZBSv0lc1Q6b6w9AtqT0ohgJChI7t19JDz+Vhqb4PORECnCCsZ6sybp1qHHa4
+ RDofODFs4gz4WmlznDlfQn0NOjBCwy5GDPdm0VzOJIq6i6g/XWuFagJv2ogfRc5aZ5cJm+1C
+ KM2he+3zMINVJdNRfImC79d9+xwlsAM6Py8DKmNMIYeCnSPXFDXpH00DaJv44wduBNxyf5kY
+ 8jznTeEBncBAqMv1yutW+oYyvcqwCt4rV4/trilpylLJYG2PSbPIZ9caQPmRrlgsMus/l6Pm
+ /4BbJTi9vmqeLGlCsUh2dJIdQhSRZX6bLiqw/FqmhmreVY3STx7VaSPnNvMueVNxsxoqwsBx
+ VnlMmcw9bY1rSevxdmiApy7VI7SYA==
+IronPort-HdrOrdr: A9a23:geOfRaqF3NF+qGZSC0zv0hoaV5ogeYIsimQD101hICG9vPb2qy
+ nIpoV/6faaslcssR0b9OxoW5PwI080i6QU3WB5B97LN2PbUQCTQr2Kg7GP/9SZIVycygaYvp
+ 0QFJSXz7bLfDxHsfo=
+X-Talos-CUID: 9a23:YmgFw24bmEvFjqW+H9ss6kMwE5o3X3rm827xDnPpD3YxE7OuYArF
+X-Talos-MUID: 9a23:/raXOQbe/MQcFOBTqADzuw5zDutT4uehKkkurp9cmIq/DHkl
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.12,294,1728950400"; 
+   d="scan'208";a="409716657"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 Jan 2025 06:58:01 +0000
+Received: from sjc-ads-5718.cisco.com (sjc-ads-5718.cisco.com [10.28.88.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 1E57F1800026B;
+	Tue,  7 Jan 2025 06:58:01 +0000 (GMT)
+Received: by sjc-ads-5718.cisco.com (Postfix, from userid 1839047)
+	id A62EDCC1280; Mon,  6 Jan 2025 22:58:00 -0800 (PST)
+From: Shubham Pushpkar <spushpka@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	spushpka@cisco.com
+Subject: [meta-openembedded] [scarthgap] [PATCH] wireshark 4.2.7: Fix CVE-2024-9781
+Date: Mon,  6 Jan 2025 22:57:56 -0800
+Message-Id: <20250107065756.642432-1-spushpka@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH kirkstone 6/6] base-passwd: Add the sgx group
-To: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
-Cc: openembedded-core@lists.openembedded.org,
- Alex Kiernan <alex.kiernan@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20241217111229.60698-1-jonas.gorski@bisdn.de>
- <20241217111229.60698-7-jonas.gorski@bisdn.de>
- <obkmgyinjqp2pxooemqfisqsuumlmj6nulyz7sgg4re5nt5ijg@ocixo3sk3skk>
-From: Jonas Gorski <jonas.gorski@bisdn.de>
-Autocrypt: addr=jonas.gorski@bisdn.de; keydata=
- xjMEZxdk5BYJKwYBBAHaRw8BAQdAPu67BaIt3vpOuFNykN1bTGnMCt3SfaTAdTgdx7x3aM3N
- JEpvbmFzIEdvcnNraSA8am9uYXMuZ29yc2tpQGJpc2RuLmRlPsKPBBMWCAA3FiEEFDg1Kr+u
- iVjQpdfy5Kt7/8+fcMYFAmcXZOQFCQWjmoACGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDkq3v/
- z59wxkUZAP4uDlkfv1WhuDjPUaeL9uL33RUo4mUwIYQLAR8gKQk5lgEAiQvKbFvrB2Zz8Tbs
- anWvhWddIu1L9D4KMdoayMpCqQrOOARnF2TkEgorBgEEAZdVAQUBAQdAQSvRRbcsAY5GLbFn
- qnD2JZ3hGcjOviBjgQpPQV48MSMDAQgHwn4EGBYIACYWIQQUODUqv66JWNCl1/Lkq3v/z59w
- xgUCZxdk5AUJBaOagAIbDAAKCRDkq3v/z59wxuVgAP9D6DwrhASXLN8c5uy/BYuaMznIfqf5
- 6R95DltdAG2xigD/TCGATSNdLFd253kU+qiZPLWwcqNouB2cTa1ItM1N/AU=
-In-Reply-To: <obkmgyinjqp2pxooemqfisqsuumlmj6nulyz7sgg4re5nt5ijg@ocixo3sk3skk>
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-Outbound-SMTP-Client: 10.28.88.232, sjc-ads-5718.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 09:35:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209449
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 11:35:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209452
 
-Hi J=C3=B6rg,
+Upstream Repository: https://gitlab.com/wireshark/wireshark.git
 
-sorry for the late response, I was on vacation.
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-9781
+Type: Security Fix
+CVE: CVE-2024-9781
+Score: 7.8
+Patch: https://gitlab.com/wireshark/wireshark/-/commit/cad248ce3bf5
 
-On 02.01.25 22:14, J=C3=B6rg Sommer wrote:
-> Jonas Gorski via lists.openembedded.org schrieb am Di 17. Dez, 12:12 (+01=
-00):
->> From: Alex Kiernan <alex.kiernan@gmail.com>
->>
->> To avoid errors from eudev/udev we need an sgx group, but if we add it
->> via groupadd that causes shadow login to be brought into an image,
->=20
-> Does this work for useradd-staticids.bbclass? I still have to provide an
-> entry for sgx in my group list:
->=20
-> ERROR: Nothing RPROVIDES 'systemd-analyze' (but /build/../repo/meta-distr=
-o/recipes-core/images/image.bb, /build/../repo/meta-distro/recipes-core/sys=
--tools/sys-tools_10.0.bb RDEPENDS on or otherwise requires it)
-> systemd RPROVIDES systemd-analyze but was skipped: Recipe systemd, packag=
-e udev: system groupname "sgx" does not have a static ID defined. Add sgx t=
-o one of these files: /build/../repo/meta-distro/files/groups
-> ERROR: Required build target image' has no buildable providers.
+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+---
+ .../wireshark/files/CVE-2024-9781.patch       | 133 ++++++++++++++++++
+ .../wireshark/wireshark_4.2.7.bb              |   1 +
+ 2 files changed, 134 insertions(+)
+ create mode 100644 meta-networking/recipes-support/wireshark/files/CVE-2024-9781.patch
 
-AFAIU, useradd-staticids does not currently have any insight in the=20
-base-passwd provided groups and users or vice versa, so you will still=20
-need to define them in your files/users and files/groups (with identical=20
-UID/GID).
-
-Best Regards,
-Jonas
-
---=20
-BISDN GmbH
-K=C3=B6rnerstra=C3=9Fe 7-10
-10785 Berlin
-Germany
-
-
-Phone:=20
-+49-30-6108-1-6100
-
-
-Managing Directors:=C2=A0
-Dr.-Ing. Hagen Woesner, Andreas=20
-K=C3=B6psel
-
-
-Commercial register:=C2=A0
-Amtsgericht Berlin-Charlottenburg HRB 141569=20
-B
-VAT ID No:=C2=A0DE283257294
+diff --git a/meta-networking/recipes-support/wireshark/files/CVE-2024-9781.patch b/meta-networking/recipes-support/wireshark/files/CVE-2024-9781.patch
+new file mode 100644
+index 000000000..eb8c733da
+--- /dev/null
++++ b/meta-networking/recipes-support/wireshark/files/CVE-2024-9781.patch
+@@ -0,0 +1,133 @@
++From f32965be7c80ca6eb330d0e9b34f0c563db7d869 Mon Sep 17 00:00:00 2001
++From: Gerald Combs <gerald@wireshark.org>
++Date: Tue, 8 Oct 2024 11:56:28 -0700
++Subject: [PATCH] AppleTalk: Make sure we have valid addresses
++
++Make sure ATP, ZIP, and ASP have valid addresses. Use sizeof instead of
++a hard-coded value in a few places.
++
++Fixes #20114
++
++(cherry picked from commit 3de741321f85c205c0a8266c40f33cb0013bd1d2)
++
++Conflicts:
++	epan/dissectors/packet-atalk.c
++
++CVE: CVE-2024-9781
++Upstream-Status: Backport [https://gitlab.com/wireshark/wireshark/-/commit/cad248ce3bf5]
++
++(cherry picked from commit cad248ce3bf53026cc837fedeaca65d0f20ea3b5)
++Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
++---
++ epan/dissectors/packet-atalk.c | 44 ++++++++++++++++++++++++----------
++ 1 file changed, 32 insertions(+), 12 deletions(-)
++
++diff --git a/epan/dissectors/packet-atalk.c b/epan/dissectors/packet-atalk.c
++index 396e7af519..065d6aedb6 100644
++--- a/epan/dissectors/packet-atalk.c
+++++ b/epan/dissectors/packet-atalk.c
++@@ -232,9 +232,18 @@ static int hf_asp_attn_code     = -1;
++ static int hf_asp_seq           = -1;
++ static int hf_asp_size          = -1;
++ 
+++/*
+++ * Structure used to represent a DDP address; gives the layout of the
+++ * data pointed to by an Appletalk "address" structure.
+++ */
+++struct atalk_ddp_addr {
+++  guint16 net;
+++  guint8 node;
+++};
+++
++ typedef struct {
++   guint32 conversation;
++-  guint8  src[4];
+++  guint8  src[sizeof(struct atalk_ddp_addr)];
++   guint16 tid;
++ } asp_request_key;
++ 
++@@ -502,6 +511,10 @@ static const value_string asp_error_vals[] = {
++   {0,                   NULL } };
++ value_string_ext asp_error_vals_ext = VALUE_STRING_EXT_INIT(asp_error_vals);
++ 
+++static bool is_ddp_address(address *addr) {
+++  return addr->type == atalk_address_type && addr->len == sizeof(struct atalk_ddp_addr);
+++}
+++
++ /*
++  * hf_index must be a FT_UINT_STRING type
++  * Are these always in a Mac extended character set?  Should we have a
++@@ -744,6 +757,12 @@ dissect_atp(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
++   conversation_t  *conversation;
++   asp_request_val *request_val   = NULL;
++ 
+++  // ATP is carried over DDP
+++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+++    return 0;
+++  }
+++
+++
++   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ATP");
++ 
++   ctrlinfo = tvb_get_guint8(tvb, offset);
++@@ -770,7 +789,7 @@ dissect_atp(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data _U_)
++     asp_request_key request_key;
++ 
++     request_key.conversation = conversation->conv_index;
++-    memcpy(request_key.src, (!atp_asp_dsi_info.reply)?pinfo->src.data:pinfo->dst.data, 4);
+++    memcpy(request_key.src, (!atp_asp_dsi_info.reply)?pinfo->src.data:pinfo->dst.data, sizeof(struct atalk_ddp_addr));
++     request_key.tid = atp_asp_dsi_info.tid;
++ 
++     request_val = (asp_request_val *) wmem_map_lookup(atp_request_hash, &request_key);
++@@ -1018,7 +1037,7 @@ get_transaction(tvbuff_t *tvb, packet_info *pinfo, struct atp_asp_dsi_info *atp_
++   conversation = find_or_create_conversation(pinfo);
++ 
++   request_key.conversation = conversation->conv_index;
++-  memcpy(request_key.src, (!atp_asp_dsi_info->reply)?pinfo->src.data:pinfo->dst.data, 4);
+++  memcpy(request_key.src, (!atp_asp_dsi_info->reply)?pinfo->src.data:pinfo->dst.data, sizeof(struct atalk_ddp_addr));
++   request_key.tid = atp_asp_dsi_info->tid;
++ 
++   request_val = (asp_request_val *) wmem_map_lookup(asp_request_hash, &request_key);
++@@ -1051,6 +1070,11 @@ dissect_asp(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data)
++   if (data == NULL)
++     return 0;
++ 
+++  // ASP is carried over ATP/DDP
+++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+++    return 0;
+++  }
+++
++   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ASP");
++   col_clear(pinfo->cinfo, COL_INFO);
++ 
++@@ -1183,15 +1207,6 @@ dissect_asp(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data)
++ /* -----------------------------
++    ZIP protocol cf. inside appletalk chap. 8
++ */
++-/*
++- * Structure used to represent a DDP address; gives the layout of the
++- * data pointed to by an Appletalk "address" structure.
++- */
++-struct atalk_ddp_addr {
++-    guint16 net;
++-    guint8  node;
++-};
++-
++ 
++ static int atalk_str_len(const address* addr _U_)
++ {
++@@ -1241,6 +1256,11 @@ dissect_atp_zip(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void* data)
++   if (data == NULL)
++     return 0;
++ 
+++  // ATP ZIP is carried over DDP
+++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+++    return 0;
+++  }
+++
++   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ZIP");
++   col_clear(pinfo->cinfo, COL_INFO);
++ 
++-- 
++2.44.1
++
+diff --git a/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb b/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
+index b80710683..d68b082bb 100644
+--- a/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
++++ b/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://1.eu.dl.wireshark.org/src/wireshark-${PV}.tar.xz \
+            file://0002-flex-Remove-line-directives.patch \
+            file://0004-lemon-Remove-line-directives.patch \
+            file://0001-UseLemon.cmake-do-not-use-lemon-data-from-the-host.patch \
++           file://CVE-2024-9781.patch \
+            "
+ 
+ UPSTREAM_CHECK_URI = "https://1.as.dl.wireshark.org/src"
+-- 
+2.35.6
 
 
