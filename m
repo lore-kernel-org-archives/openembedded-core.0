@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB39E7719C
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 18:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E847E77199
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 18:09:03 +0000 (UTC)
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.97.1736273331159006929
+ by mx.groups.io with SMTP id smtpd.web11.112.1736273342288338808
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 10:08:51 -0800
+ Tue, 07 Jan 2025 10:09:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Z+8r04Tq;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u1qy7XCR;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21680814d42so198578645ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:08:51 -0800 (PST)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2163b0c09afso232370485ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273330; x=1736878130; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273341; x=1736878141; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pfbf2OoH6CxGS5dASm310v5MJEoKsNdBaCjm8vYsG68=;
-        b=Z+8r04TqeJ4uVP/tvXIi+HYDq860AS8ZYcsRYd52F2LvGmXKk0gCz5TFJ2724hYzf3
-         2lp8AI5/hMLX9e1JMGPZKpTsq7AajhQ/CIoXLDqB6zC994B80VanQXoqbmqCy/Vzum/i
-         0KhngTlk6j8+FFeLM+HEUWTmhA5RNciOEJOv9sNLL67PWadft1lmIQi5qDO4qQmZjDfE
-         XigoXaVDEHBEpNmRYHPqH7U9WzGL0nlzVNI9/NOy1PL0/kvQgbls0GG4iscpzIzCwM9E
-         CHtX3+Xu8ker5uDYhtbmb5hHyjwwnoEIZpYROAAGHAROn6jIC8k22TRAJWHCrToqZjuc
-         Pftw==
+        bh=LRWM4tVEIl9oAclRTawlgWTBP0pJjVXD8d2BQ//0ua0=;
+        b=u1qy7XCR6Cl7ZSHRqD8/aBo8+b5hAQPNk7mt/SHtXYAJHksyra4SMx2ZXsMN5HBehz
+         JMnSSS9f0AChDcQbybdCydcEwMoWkw64mDX/LtR5os6llEBmtbuCv7ofzAlceeGdH30J
+         Wcad0K8jq+C9sqRrhAMgyA9qSdrO5afkBw9MHyifd8jo5seIvRTMyht81jx7spszLgpW
+         L4xNxraNC16/40fllo0t8MRm/JHdi56twkadLn96rbGypbEYFPb/2gfV18qUs0cFQumS
+         jveFf0WKeq9VhA5pEEaoDnMxs/D+jUs85a8gIVJVDpYR7ho19ArxNBjUC7va0SS3cubG
+         URUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736273330; x=1736878130;
+        d=1e100.net; s=20230601; t=1736273341; x=1736878141;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pfbf2OoH6CxGS5dASm310v5MJEoKsNdBaCjm8vYsG68=;
-        b=U2PM0oOVTiR+/CQKvQj6mRLoGXK2evOaZQWrYm+oLLnFkcwZZ+5zS86Lcu6nqXSoXj
-         1ZD5Itv0USgSwDajR16/hBFZpjpvlHwwJTuj0Hz9V6+sXRHzXfWqiir8nFD9STEB5JPN
-         20qs375UjNC9qi4KxVnVU8lCjppqbiGONyMiDYd1KhcXVzoLn6SZBgNsvNYLbY0Mk1G+
-         To2CEm8XVdOBpHJlhvifrrcv3af/F2z1f3+ioo5Zbz+tNfQhjhOUyiBtHJRTsU33vN9u
-         1zOEOlIMWZskPEH0OB2pRzVVOpACnRSLOFI8hYrsllKfNLACNwY9E8KisVL3kGmQwze0
-         06UQ==
-X-Gm-Message-State: AOJu0Ywu+BJq4wJQwfvpp8HCAfNDM3hbcTflhbjssHvTzzo9qCIbvvlt
-	rqfHybFiwh5XvDiB4Fn7IdkNSfgPvynmSssPMtXtCoVJ2KG+sSHVP7dbyCZSyjFy/v8sAgTfs/+
-	Mvnw=
-X-Gm-Gg: ASbGncszhr5oj0QqUYWBtL+Yc4l53OYsVhNPrf0ohMmfHDiNlxzIuhBXprDFq4hkKrW
-	8RhhVTT8fM05FrR3M/H7sOpWY7LzhSqHDu+LCI4ydnAXvQTboTNfpUKPyJdyHpkLiF5yzDbUF8D
-	zZ+bd/MPpFZyN7ogyfK9X4ndl0EyG9fp+S+I54/F3QaQS/87LBH+iY7CsooOoOwz+Pnl2pvMs/q
-	NAEFR9zYFbp63dZofRZnipzzmM9+rANaB6/uxqwSLpFxA==
-X-Google-Smtp-Source: AGHT+IGkDrOPJX/xbBPaVSl+WkhJskUcinE8ruV1hihAZUksx1Xye3EUdV1whklmP6v88vJuY11SQA==
-X-Received: by 2002:a17:903:11c9:b0:216:2426:767b with SMTP id d9443c01a7336-21a83f4250cmr172675ad.10.1736273329491;
-        Tue, 07 Jan 2025 10:08:49 -0800 (PST)
+        bh=LRWM4tVEIl9oAclRTawlgWTBP0pJjVXD8d2BQ//0ua0=;
+        b=ljfYsg0gugTB/62uccPo0xWtXSef10c+vdjY70iRdGzB0OyCI0GChwQHkM76W52D7f
+         FWWtjbHWRgkxQvCrtbq+Uy1ilcuJz/5CXWNy9otFpZezJr2axUqcq27KSw/noJ3QSzgn
+         pTDBMY32bYCsPyhLW5bQtTDqT2aL+cdz6FzWa84lcp8sR3VYePUKZodeGjrbWM/alubo
+         c/crhwpNySCwEfr5urhr9YJtnONgxZQJyBDwGFJ9PrpthdppWF8453ab2952pjgECPcx
+         MGeKxDDNk69eZyV7UzeGnOm/wvM2+SHjG2xt2hz3M/2XVZbwhsAQfha4AMhLC/f+T9Nh
+         RP7g==
+X-Gm-Message-State: AOJu0YzllpFfrkNidV8m3KE8oaQine7zpHrIAnHu1hYU+wOIE8OmxYFU
+	0iuQqCDrlmqsULTU3mR1cwN6U6hdcCpF2BueyCzI/cgfK+N0rmPzTGUmxiqoSPRuFPtT7ChcD0c
+	m+q0=
+X-Gm-Gg: ASbGncv5b4UQpg3n2+uB7lfClfSwmmFFeLB/PuGoBSg3L2aPxnKUK0Vm0xVwlZybH86
+	DGgQtjL4gBPgSQJpxbVHKOzj5z0uG8EcNzj9oQud6awxwWifelGub7Led2oDy/ToW3YQL+Y1BdN
+	ItPG54e/wmONJC2yKpt47WUfq1K9diaHphxQekQW8Q7J+EOzoylT6njhnnuei15KIx22hQLrXjx
+	OQgtXs7S4Ybqsw4jvI0yxrSvLNaCOBqOQLr86/Bd/9xHQ==
+X-Google-Smtp-Source: AGHT+IGiU8K8lEPUBXEJ024ofqM1KDMNc6y1vJ/02mKnjd8zGG/bh5OIifdtMrI9VO1dGNYWgQwGUw==
+X-Received: by 2002:a17:902:d2cc:b0:216:70b6:8723 with SMTP id d9443c01a7336-219e6f1090dmr865281685ad.44.1736273340817;
+        Tue, 07 Jan 2025 10:09:00 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.08.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.08.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 10:08:49 -0800 (PST)
+        Tue, 07 Jan 2025 10:09:00 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/19] gstreamer1.0-plugins-good: fix several CVE's
-Date: Tue,  7 Jan 2025 10:08:21 -0800
-Message-ID: <ca47d7609a831d4e1919f44c2808f6d99db35ea6.1736273200.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/19] linux-yocto/5.15: update to v5.15.167
+Date: Tue,  7 Jan 2025 10:08:28 -0800
+Message-ID: <69ec31c3eb83c4e0bdea1f748366c4ad2746f28d.1736273200.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1736273200.git.steve@sakoman.com>
 References: <cover.1736273200.git.steve@sakoman.com>
@@ -65,1409 +65,524 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 18:08:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209484
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 18:09:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209491
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fixes for below CVEs:
-CVE-2024-47537
-CVE-2024-47539
-CVE-2024-47543
-CVE-2024-47544
-CVE-2024-47545
-CVE-2024-47546
-CVE-2024-47596
-CVE-2024-47597
-CVE-2024-47598
+Updating linux-yocto/5.15 to the latest korg -stable release that comprises
+the following commits:
 
-Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8059
+    3a5928702e71 Linux 5.15.167
+    d7037dc85112 udp: fix receiving fraglist GSO packets
+    e6cc9ff2ac0b memcg: protect concurrent access to mem_cgroup_idr
+    d116a0b0e02f btrfs: fix race between direct IO write and fsync when using same fd
+    5d8254e01299 net, sunrpc: Remap EPERM in case of connection failure in xs_tcp_setup_socket
+    ba2af6448fd1 x86/mm: Fix PTI for i386 some more
+    413e785a89f8 net: drop bad gso csum_start and offset in virtio_net_hdr
+    c60a555f4949 gso: fix dodgy bit handling for GSO_UDP_L4
+    5c3e0ed81058 net: change maximum number of UDP segments to 128
+    ed3f2af02268 net: more strict VIRTIO_NET_HDR_GSO_UDP_L4 validation
+    fdc567c05fce gpio: rockchip: fix OF node leak in probe()
+    ae9363987319 drm/i915/fence: Mark debug_fence_free() with __maybe_unused
+    fb1104bb2ae3 drm/i915/fence: Mark debug_fence_init_onstack() with __maybe_unused
+    6958e0df8c9c ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s mode
+    91dad30c5607 nvmet-tcp: fix kernel crash if commands allocation fails
+    945be49f4e83 arm64: acpi: Harden get_cpu_for_acpi_id() against missing CPU entry
+    1f12c0e470c8 arm64: acpi: Move get_cpu_for_acpi_id() to a header
+    f44c27d12485 ACPI: processor: Fix memory leaks in error paths of processor_add()
+    b77a7a5ac6bc ACPI: processor: Return an error if acpi_processor_get_info() fails in processor_add()
+    9d08fce64dd7 workqueue: Improve scalability of workqueue watchdog touch
+    f67401f3857f workqueue: wq_watchdog_touch is always called with valid CPU
+    b14e7260bb69 nilfs2: protect references to superblock parameters exposed in sysfs
+    dbcc19de2d83 nilfs2: replace snprintf in show functions with sysfs_emit
+    3fd8473d73fd ksmbd: Unlock on in ksmbd_tcp_set_interfaces()
+    9914f1bd61d5 ksmbd: unset the binding mark of a reused connection
+    52d13d224fdf perf/aux: Fix AUX buffer serialization
+    9fadd335df31 uprobes: Use kzalloc to allocate xol area
+    2c78dd75dd0a clocksource/drivers/timer-of: Remove percpu irq related code
+    a5f2703f7550 clocksource/drivers/imx-tpm: Fix next event not taking effect sometime
+    0746401d759a clocksource/drivers/imx-tpm: Fix return -ETIME when delta exceeds INT_MAX
+    ef5f4d0c5ee2 VMCI: Fix use-after-free when removing resource in vmci_resource_remove()
+    c36c826ad3e6 Drivers: hv: vmbus: Fix rescind handling in uio_hv_generic
+    3005091cd537 uio_hv_generic: Fix kernel NULL pointer dereference in hv_uio_rescind
+    7d1d48eb100a nvmem: Fix return type of devm_nvmem_device_get() in kerneldoc
+    eef79854a04f binder: fix UAF caused by offsets overwrite
+    9b9651f70856 usb: dwc3: core: update LC timer as per USB Spec V3.2
+    0fd0ef7cf09b iio: adc: ad7124: fix chip ID mismatch
+    4dcc19009b40 iio: adc: ad7124: fix config comparison
+    3be69c24936f iio: fix scale application in iio_convert_raw_to_processed_unlocked
+    3d2d5c74004e iio: buffer-dmaengine: fix releasing dma channel on error
+    d8b09a5edc4a staging: iio: frequency: ad9834: Validate frequency parameter value
+    d990692bea3d cifs: Check the lease context if we actually got a lease
+    b5c7121ec14d NFSv4: Add missing rescheduling points in nfs_client_return_marked_delegations
+    802c7eb7e52b ata: pata_macio: Use WARN instead of BUG
+    e6cd871627ab MIPS: cevt-r4k: Don't call get_c0_compare_int if timer irq is installed
+    ad5ee9feebc2 lib/generic-radix-tree.c: Fix rare race in __genradix_ptr_alloc()
+    baaf26723bea of/irq: Prevent device address out-of-bounds read in interrupt map walk
+    087f25b2d36a Squashfs: sanity check symbolic link size
+    0914c26262f4 usbnet: ipheth: race between ipheth_close and error handling
+    9719687398de Input: uinput - reject requests with unreasonable number of slots
+    86b4f5cf91ca HID: amd_sfh: free driver_data after destroying hid device
+    890dde6001b6 HID: cougar: fix slab-out-of-bounds Read in cougar_report_fixup
+    945b12960fe6 s390/vmlinux.lds.S: Move ro_after_init section behind rodata section
+    f1757142c50a btrfs: initialize location to fix -Wmaybe-uninitialized in btrfs_lookup_dentry()
+    18e65173fe99 kselftests: dmabuf-heaps: Ensure the driver name is null-terminated
+    cacb76df247a i3c: mipi-i3c-hci: Error out instead on BUG_ON() in IBI DMA setup
+    289d0822be95 net: dpaa: avoid on-stack arrays of NR_CPUS elements
+    04e85a3285b0 PCI: Add missing bridge lock to pci_bus_lock()
+    197f7a2e24a5 riscv: set trap vector earlier
+    b50857b96429 btrfs: replace BUG_ON() with error handling at update_ref_for_cow()
+    728d4d045b62 btrfs: clean up our handling of refs == 0 in snapshot delete
+    3cf21d00d3ee btrfs: replace BUG_ON with ASSERT in walk_down_proc()
+    b7b1be372155 fs/ntfs3: Check more cases when directory is corrupted
+    e8665ac40072 smp: Add missing destroy_work_on_stack() call in smp_call_on_cpu()
+    cb67b2e51b75 wifi: mwifiex: Do not return unused priv in mwifiex_get_priv_by_id()
+    68a04c30cb63 dma-mapping: benchmark: Don't starve others when doing the test
+    4ac7b43e4e84 ext4: fix possible tid_t sequence overflows
+    15101f16dec9 drm/amdgpu: Set no_hw_access when VF request full GPU fails
+    bc152bd3c9c0 libbpf: Add NULL checks to bpf_object__{prev_map,next_map}
+    cc4be794c8d8 hwmon: (w83627ehf) Fix underflows seen when writing limit attributes
+    02bb3b4c7d56 hwmon: (nct6775-core) Fix underflows seen when writing limit attributes
+    0fc27747633a hwmon: (lm95234) Fix underflows seen when writing limit attributes
+    019ef2d39636 hwmon: (adc128d818) Fix underflows seen when writing limit attributes
+    c0d8094dc740 pci/hotplug/pnv_php: Fix hotplug driver crash on Powernv
+    0977a0a3ba65 devres: Initialize an uninitialized struct member
+    43f782c27907 um: line: always fill *error_out in setup_one_line()
+    f386359d1b32 cgroup: Protect css->cgroup write under css_set_lock
+    df6e78ba22ed iommu/vt-d: Handle volatile descriptor status read
+    8ab1d1fed7f0 dm init: Handle minors larger than 255
+    2aa4bacbff44 ASoC: topology: Properly initialize soc_enum values
+    ebe29eedb1b5 net: dsa: vsc73xx: fix possible subblocks range of CAPT block
+    4e777199c057 net: bridge: br_fdb_external_learn_add(): always set EXT_LEARN
+    4494bccb52ff fou: Fix null-ptr-deref in GRO.
+    3bcdbf9002a8 gro: remove rcu_read_lock/rcu_read_unlock from gro_complete handlers
+    8d84e1a87a32 gro: remove rcu_read_lock/rcu_read_unlock from gro_receive handlers
+    5ccc2e5d074b bareudp: Fix device stats updates.
+    f12886ff7b5d usbnet: modern method to get random MAC
+    010038823be2 net: usb: don't write directly to netdev->dev_addr
+    fa797f4e30b2 ice: check ICE_VSI_DOWN under rtnl_lock when preparing for reset
+    84508c370337 igc: Unlock on error in igc_io_resume()
+    78bb38d9c5a3 tcp_bpf: fix return value of tcp_bpf_sendmsg()
+    cff3cbba73d5 platform/x86: dell-smbios: Fix error path in dell_smbios_init()
+    a4792648475f igb: Fix not clearing TimeSync interrupts for 82580
+    508b52aa958e can: m_can: Release irq on error in m_can_open
+    10bfacbd5e8d can: bcm: Remove proc entry when dev is unregistered.
+    51d57093340a drm/amdgpu: check for LINEAR_ALIGNED correctly in check_tiling_flags_gfx6
+    8decfd84e67d pcmcia: Use resource_size function on resource object
+    0e5a3d5fdff5 media: qcom: camss: Add check for v4l2_fwnode_endpoint_parse
+    135843c351c0 PCI: keystone: Add workaround for Errata #i2037 (AM65x SR 1.0)
+    a1659ed3f966 media: vivid: don't set HDMI TX controls if there are no HDMI outputs
+    32fca3bb5fc1 drm/amd/display: Check HDCP returned status
+    dc74386c67aa usb: uas: set host status byte on data completion error
+    0186d0d1af80 wifi: brcmsmac: advertise MFP_CAPABLE to enable WPA3
+    36e2bc79af36 leds: spi-byte: Call of_node_put() on error path
+    5a884b46324e media: vivid: fix wrong sizeimage value for mplane
+    2ddf83145135 udf: Avoid excessive partition lengths
+    8d63b70d2f25 netfilter: nf_conncount: fix wrong variable type
+    3e2ea7d682a0 iommu: sun50i: clear bypass register
+    683c0b103934 af_unix: Remove put_pid()/put_cred() in copy_peercred().
+    3f56c976b047 irqchip/armada-370-xp: Do not allow mapping IRQ 0 and 1
+    09e89a5e1173 smack: unix sockets: fix accept()ed socket label
+    22d3b037ddc5 ALSA: hda: Add input value sanity checks to HDMI channel map controls
+    c6877abcdb25 mptcp: pm: send ACK on an active subflow
+    fd5364b22fc1 mptcp: pr_debug: add missing \n at the end
+    c743fd11891a mptcp: pm: skip connecting to already established sf
+    058f8d980e4d mptcp: pm: do not remove already closed subflows
+    592dd6f8b658 mptcp: pm: ADD_ADDR 0 is not a new address
+    38cdf2f1b33e mptcp: close subflow when receiving TCP+FIN
+    01264bdde5f7 mptcp: avoid duplicated SUB_CLOSED events
+    f2c865e9e3ca mptcp: pm: avoid possible UaF when selecting endp
+    8e73f8d6a455 mptcp: constify a bunch of of helpers
+    aef351c58a9b mptcp: pm: fullmesh: select the right ID later
+    4d4e3a29e701 mptcp: pm: check add_addr_accept_max before accepting new ADD_ADDR
+    35b31f5549ed mptcp: pm: only decrement add_addr_accepted for MPJ req
+    32ba711800a3 mptcp: pm: re-using ID of unused flushed subflows
+    3e349d7191f0 nilfs2: fix state management in error path of log writing function
+    8e2d1e9d93c4 nilfs2: fix missing cleanup on rollforward recovery error
+    cde71a567797 sched: sch_cake: fix bulk flow accounting logic for host fairness
+    bda4d84ac0d5 ila: call nf_unregister_net_hooks() sooner
+    3816867d2fc4 tracing: Avoid possible softlockup in tracing_iter_reset()
+    513c8fc189b5 can: mcp251x: fix deadlock if an interrupt occurs during mcp251x_open
+    3172376d26e4 clk: qcom: clk-alpha-pll: Fix the trion pll postdiv set rate API
+    5dd47383ceaf clk: qcom: clk-alpha-pll: Fix the pll post div mask
+    e24c19c6e3c6 fuse: use unsigned type for getxattr/listxattr size truncation
+    811016d5a390 fuse: update stats for pages in dropped aux writeback list
+    c0f43b1f1f7d mmc: cqhci: Fix checking of CQHCI_HALT state
+    e89943fc4cbe mmc: sdhci-of-aspeed: fix module autoloading
+    9d715a234dd8 mmc: dw_mmc: Fix IDMAC operation with pages bigger than 4K
+    57b6ead5719e Bluetooth: MGMT: Ignore keys being loaded with invalid type
+    d98304eaacc6 Revert "Bluetooth: MGMT/SMP: Fix address type when using SMP over BREDR/LE"
+    0bfa0fa207b4 nvme-pci: Add sleep quirk for Samsung 990 Evo
+    93f44655472d rtmutex: Drop rt_mutex::wait_lock before scheduling
+    b322a385c09a irqchip/gic-v2m: Fix refcount leak in gicv2m_of_init()
+    9bbc71fa3d56 ata: libata: Fix memory leak for error path in ata_host_alloc()
+    c03d9115c5ca ALSA: hda/realtek: Support mute LED on HP Laptop 14-dq2xxx
+    326303f886a9 ALSA: hda/realtek: add patch for internal mic in Lenovo V145
+    172359315301 ALSA: hda/conexant: Add pincfg quirk to enable top speakers on Sirius devices
+    d1f7a12c2b2e KVM: SVM: Don't advertise Bus Lock Detect to guest if SVM support is missing
+    e3e0cb027173 KVM: SVM: fix emulation of msr reads/writes of MSR_FS_BASE and MSR_GS_BASE
+    3033ed903b4f ASoC: dapm: Fix UAF for snd_soc_pcm_runtime object
+    14f91ab8d391 sch/netem: fix use after free in netem_dequeue
+    366a1e578201 i2c: Use IS_REACHABLE() for substituting empty ACPI functions
+    be1443518365 ext4: handle redirtying in ext4_bio_write_page()
+    64022ce8e99d udf: Limit file size to 4TB
+    1464cb82a489 ext4: reject casefold inode flag without casefold feature
+    af7b560c88fb rcu-tasks: Fix show_rcu_tasks_trace_gp_kthread buffer overflow
+    cc7340f18e45 virtio_net: Fix napi_skb_cache_put warning
+    0fa11f9df962 drm/amd/pm: Fix the null pointer dereference for vega10_hwmgr
+    68a772884b83 media: uvcvideo: Enforce alignment of frame and interval
+    6d94c05a13fa drm/amd/display: Skip wbscl_set_scaler_filter if filter is null
+    6980861e039d block: remove the blk_flush_integrity call in blk_integrity_unregister
+    1339615aca2c wifi: cfg80211: make hash table duplicates more survivable
+    adc5674c23b8 drm/bridge: tc358767: Check if fully initialized before signalling HPD event via IRQ
+    c9431980407b drm/meson: plane: Add error handling
+    0aea09e82eaf smack: tcp: ipv4, fix incorrect labeling
+    f9a48bc3dd90 fsnotify: clear PARENT_WATCHED flags lazily
+    3aa56313b0de usb: typec: ucsi: Fix null pointer dereference in trace
+    e1c92f66f62d usbip: Don't submit special requests twice
+    34255103ff75 rcu/nocb: Remove buggy bypass lock contention mitigation
+    f8b96d4e8257 ionic: fix potential irq name truncation
+    b8105982c286 RDMA/efa: Properly handle unexpected AQ completions
+    2da121e397ba hwspinlock: Introduce hwspin_lock_bust()
+    56af1b0f07e5 PCI: al: Check IORESOURCE_BUS existence during probe
+    29f45f2588ed cpufreq: scmi: Avoid overflow of target_freq in fast switch
+    ec4cb72a9b95 wifi: iwlwifi: remove fw_running op
+    36a77159b43a drm/amdgpu: update type of buf size to u32 for eeprom functions
+    2700dbd10aaa drm/amd/pm: check negtive return for table entries
+    d04ded1e73f1 drm/amdgpu: the warning dereferencing obj for nbio_v7_4
+    acff7a94720a drm/amd/pm: check specific index for aldebaran
+    f20d1d5cbb39 drm/amdgpu: fix the waring dereferencing hive
+    bda7de66a9de drm/amdgpu/pm: Check input value for CUSTOM profile mode setting on legacy SOCs
+    e3c7d23f7a5c apparmor: fix possible NULL pointer dereference
+    6cc5011865dd drm/amdkfd: Reconcile the definition and use of oem_id in struct kfd_topology_device
+    345bd3ad387f drm/amdgpu: fix mc_data out-of-bounds read warning
+    0bef65e069d8 drm/amdgpu: fix ucode out-of-bounds read warning
+    45f7b02afc46 drm/amdgpu: Fix out-of-bounds read of df_v1_7_channel_number
+    919f9bf9997b drm/amdgpu: Fix out-of-bounds write warning
+    0fcc24121423 drm/amdgpu/pm: Fix uninitialized variable agc_btc_response
+    80ce7edcd45d drm/amdgpu/pm: Fix uninitialized variable warning for smu10
+    e55e3904ffea drm/amd/amdgpu: Check tbo resource pointer
+    f37d6aa3df5f drm/amd/display: Fix Coverity INTEGER_OVERFLOW within dal_gpio_service_create
+    fe63daf7b102 drm/amd/display: Check msg_id before processing transcation
+    c4a7f7c0062f drm/amd/display: Check num_valid_sets before accessing reader_wm_sets[]
+    0ee4387c5a4b drm/amd/display: Add array index check for hdcp ddc access
+    21bbb39863f1 drm/amd/display: Stop amdgpu_dm initialize when stream nums greater than 6
+    0184cca30cad drm/amd/display: Check gpio_id before used as array index
+    0c445d98ef98 drm/amdgpu: avoid reading vf2pf info size from FB
+    c5635fe6dca4 drm/amd/pm: fix uninitialized variable warnings for vega10_hwmgr
+    f801292764be drm/amdgpu: fix uninitialized scalar variable warning
+    3317966efcdc drm/amd/pm: fix the Out-of-bounds read warning
+    bcd00d0dbf00 drm/amd/pm: fix warning using uninitialized value of max_vid_step
+    6277aa2965de drm/amd/pm: fix uninitialized variable warning for smu8_hwmgr
+    d16713773b65 drm/amdgpu/pm: Check the return value of smum_send_msg_to_smc
+    54528b614398 drm/amdgpu: fix overflowed array index read warning
+    4bd7710f2fec drm/amd/display: Assign linear_pitch_alignment even for VM
+    a42ba93641bf drm/amdgpu: Fix uninitialized variable warning in amdgpu_afmt_acr
+    3ea66eddf54d net: usb: qmi_wwan: add MeiG Smart SRM825L
+    488702d1be32 dma-debug: avoid deadlock between dma debug vs printk and netconsole
+    8da2de41e66d i2c: Fix conditional for substituting empty ACPI functions
+    7abc0b4409aa ALSA: hda/conexant: Mute speakers at suspend / shutdown
+    2fd3143b2588 ALSA: hda/generic: Add a helper to mute speakers at suspend/shutdown
+    24a63d85bd49 drm: panel-orientation-quirks: Add quirk for OrangePi Neo
+    6f0605db50e2 clk: imx: Add check for kcalloc
+    5b837b9e1543 bpf: Fix the indention issue in grow_stack_state()
+    42b62697634d cifs: Fix the calling of smb_version_operations::calc_smb_size()
+    b14acf729e9d f2fs: Add inline to f2fs_build_fault_attr() stub
+    7c317bec311f f2fs: check validation of fault attrs in f2fs_build_fault_attr()
+    81c12119c23f bpf: Fix accesses to uninit stack slots [ Upstream commit 6b4a64bafd107e521c01eec3453ce94a3fb38529 ]
+    c4fa05422d87 smb: client: fix potential OOB in smb2_dump_detail()
+    299ef3b5b00b of: module: add buffer overflow check in of_modalias()
+    b8086c3c1548 reiserfs: Avoid touching renamed directory if parent does not change
+    ea091017ef62 ipv6: Fix data races around sk->sk_prot.
+    ff8710da80ee ipv6: annotate some data-races around sk->sk_prot
+    e8c2eafaaa6a tcp: Fix data races around icsk->icsk_af_ops.
+    8d1bab770956 locking/rwsem: Disable preemption while trying for rwsem lock
+    7c82dac02886 block, loop: support partitions without scanning
+    45f504f301d4 bpftool: Fix pretty print dump for maps without BTF loaded
+    1f24338cb789 jbd2: Drop the merge conflicted hunk
+    e1d0e3c51bde tpm: tis_i2c: Limit write bursts to I2C_SMBUS_BLOCK_MAX (32) bytes
+    1abe841fe331 tpm: tis_i2c: Limit read bursts to I2C_SMBUS_BLOCK_MAX (32) bytes
+    6224acfc1d56 tpm: Add flag to use default cancellation policy
+    1cd19d48fb90 tpm: tis_i2c: Fix sanity check interrupt enable mask
+    a883da132fa8 tpm: Add tpm_tis_i2c backend for tpm_tis_core
+    a742ac8a1c51 tpm: Add tpm_tis_verify_crc to the tpm_tis_phy_ops protocol layer
+    ef495c5f45f2 tpm: Remove read16/read32/write32 calls from tpm_tis_phy_ops
+    1f3be2e23aa6 gcc-plugins: Reorganize gimple includes for GCC 13
+    24615a3b932a ata: ahci: fix enum constants for gcc-13
+    5d6cb145541a net: stmmac: Enable mac_managed_pm phylink config
+    fd93aabb4287 tools/resolve_btfids: Use pkg-config to locate libelf
+    130f9da78406 tools/resolve_btfids: Build with host flags
+    00f2f1a782f9 tools/resolve_btfids: Support cross-building the kernel with clang
+    17776a4ba9c2 tools/resolve_btfids: Install libbpf headers when building
+    7c9808380d70 libbpf: Make libbpf_version.h non-auto-generated
+    37ae1ba791ac libbpf: Add LIBBPF_DEPRECATED_SINCE macro for scheduling API deprecations
+    a2667e6d7314 drm/radeon: free iio for atombios when driver shutdown
+    f100c753aa1f powerpc: Fix reschedule bug in KUAP-unlocked user copy
+    da5513f30187 libbpf: Fix build warning on ref_ctr_off
+    4c5a089621a8 perf python: Account for multiple words in CC
+    1c5699ee85d4 fs: move S_ISGID stripping into the vfs_*() helpers
+    838f5d0701d8 fs: add mode_strip_sgid() helper
+    d97172683641 squashfs: provide backing_dev_info in order to disable read-ahead
+    ed037d7be40c irq_work: use kasan_record_aux_stack_noalloc() record callstack
+    1363bd7dbde3 ixgbevf: add disable link state
+    e5601ae2bd24 ixgbe: add improvement for MDD response functionality
+    caa57cd80575 ixgbe: add the ability for the PF to disable VF link state
+    16a77bfcc7df Check /dev/console using init_stat()
+    04574fd5579a tracing/arm: Have max stack tracer handle the case of return address after data
+    0e51e5717018 gpiolib: cdev: Set lineevent_state::irq after IRQ register successfully
+    1e6b7da6ddba drivers/base: Fix unsigned comparison to -1 in CPUMAP_FILE_MAX_BYTES
+    493160901320 mtd_blkdevs: add mtd_table_mutex lock back to blktrans_{open, release} to avoid race condition
+    04224f725aa3 irqchip/gic-v3-its: Skip HP notifier when no ITS is registered
+    6f6c2996a81c irqchip/gic-v3-its: Postpone LPI pending table freeing and memreserve
+    1fa94473423f irqchip/gic-v3-its: Give the percpu rdist struct its own flags field
+    6013d1ae5feb cert host tools: Stop complaining about deprecated OpenSSL functions
+    efe20512212b init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test with dash
+    a40d2daf2795 pnmtologo: use relocatable file name
+    3b40d5b41155 of: configfs: remove unused variable overlay_lock
+    6c085baf1838 tools: use basename to identify file in gen-mach-types
+    2fca0fd71981 lib/build_OID_registry: fix reproducibility issues
+    0f586f4ee8ad vt/conmakehash: improve reproducibility
+    a75774679f28 OF: DT-Overlay configfs interface (v8)
+    d179c639b30b x86/boot: Wrap literal addresses in absolute_pointer()
+    856ec356cf91 ACPI: thermal: drop an always true check
+    7614af249993 xfs: Fix -Werror=dangling-pointer work-around for older GCC
+    41470215f97e xfs: Work around GCC 12 -Werror=dangling-pointer for xfs_attr_remote.o
+    44a445c1922d virtio-pci: Remove wrong address verification in vp_del_vqs()
+    77aa9e489eaf bpf: Disallow unprivileged bpf by default
+    ebfb1822e9f9 fs/aufs: fixup 5.15.36 fixups
+    4eba9348d3e2 Revert "Revert "fbdev: Hot-unplug firmware fb devices on forced removal""
+    5df6d1b00f95 jbd2: fix use-after-free of transaction_t race
+    2d83e8196487 jbd2: refactor wait logic for transaction updates into a common function
+    07a63f760793 netfilter: conntrack: avoid useless indirection during conntrack destruction
+    4e7122625996 Revert "fbdev: Hot-unplug firmware fb devices on forced removal"
+    7ba4cb36fd4f rcu: Avoid alloc_pages() when recording stack
+    f78574dee71e kasan: test: silence intentional read overflow warnings
+    d313cb89b6b1 kasan: arm64: fix pcpu_page_first_chunk crash with KASAN_VMALLOC
+    5e279d5647cc arm64: support page mapping percpu first chunk allocator
+    e5bf16752dca vmalloc: choose a better start address in vm_area_register_early()
+    660b3d21b46f kasan: test: bypass __alloc_size checks
+    00aa7573e53a kasan: test: add memcpy test that avoids out-of-bounds write
+    67becf0b1bd4 kasan: fix tag for large allocations when using CONFIG_SLAB
+    bedf1e033213 workqueue, kasan: avoid alloc_pages() when recording stack
+    7195b67ce69b kasan: generic: introduce kasan_record_aux_stack_noalloc()
+    bdff763f0e29 kasan: common: provide can_alloc in kasan_save_stack()
+    51423ebb36ad lib/stackdepot: introduce __stack_depot_save()
+    85373e66d847 lib/stackdepot: remove unused function argument
+    5b6cc9b251f3 lib/stackdepot: include gfp.h
+    c9f3902d8069 aufs: reduce overhead for "code present but disabled" use case.
+    b98d189df02c aufs: bugfix, umount passes NULL to ->parse_monolithic()
+    13b883cbbbd9 aufs standalone: cosmetic, missing copyright sentence
+    21f8b0d81898 aufs: 5.15.5-20220117 ---> 5.15.5-20220221
+    6199fd896645 aufs: tiny, headers after fs_context
+    8ddb40e31c29 aufs: fs_context 7/7, finally remount
+    69035f71c6fd aufs: fs_context 6/7, now mount
+    bc841b970697 aufs: fs_context 5/7, parse all other mount options
+    435188053da2 aufs: fs_context 4/7, parse xino options
+    9af1f1825cbd aufs: fs_context 3/7, parse the branch-management options
+    1c05eb767f8c aufs: fs_context 2/7, parse "br" mount option
+    a8488f603134 aufs: fs_context 1/7, skelton of the new shceme
+    8e32e0015564 aufs: pre fs_context, convert a static flag to a macro
+    f90cb4144aec aufs: pre fs_context, support the incomplete sb and sbinfo case
+    948762ef859c aufs: pre fs_context, convert the type of alloc_sbinfo()
+    77151a08776b aufs: 5.15.5-20211129 ---> 5.15.5-20220117
+    2539adbbbe1e aufs: 5.14-20211018 ---> 5.15.5-20211129
+    7d32b25193c4 aufs: for v5.15-rc1, sync_inode() is gone
+    66ec0c509225 aufs: for v5.15-rc1, new param 'rcu' for ->get_acl()
+    69709dc518cd aufs: for v5.15-rc1, no mand-lock anymore
+    ada8fe9543e5 aufs: 5.14-20210906  ---> 5.14-20211018
+    b77f7f3f394a Revert "aufs: adjust to v5.15 fs changes"
+    81bdce5b5876 tick/nohz: WARN_ON --> WARN_ON_ONCE to prevent console saturation
+    97c963889222 sched/isolation: really align nohz_full with rcu_nocbs
+    871f23ad3627 Revert "ARM: defconfig: Enable ax88796c driver for Exynos boards"
+    ffad0783dd5b ARM: config: multi v7: Regenerate defconifg
+    5c1e1a1ff2d3 ARM: config: multi v7: Add renamed symbols
+    badaf96564fe ARM: config: multi v7: Clean up enabled by default options
+    34996040fc9b ARM: config: multi v7: Drop unavailable options
+    7f685244afb3 powerpc/mm: Switch obsolete dssall to .long
+    20301aeb1a64 riscv: fix build with binutils 2.38
+    9df58d070506 powerpc/lib/sstep: fix 'ptesync' build error
+    720b61fc400b x86_64_defconfig: Fix warnings
+    02bf23d26bc4 arm64: defconfig: cleanup config options
+    05914e2c87e5 arm: defconfig: drop unused POWER_AVS option
+    ffb532fa19b9 aufs5: fix build against v5.15.3+
+    a4b3abf4d96d qemux86: add configuration symbol to select values
+    fee94ee09154 clear_warn_once: add a clear_warn_once= boot parameter
+    3d8762d900d9 clear_warn_once: bind a timer to written reset value
+    95faacac47e8 clear_warn_once: expand debugfs to include read support
+    de20c4240018 perf: perf can not parser the backtrace of app in the 32bit system and 64bit kernel.
+    0e4aacead9c1 perf: x86-32: explicitly include <errno.h>
+    9ad92c11468e perf: mips64: Convert __u64 to unsigned long long
+    09e7efe3e68a perf: fix bench numa compilation
+    e79becc44fa6 perf: add SLANG_INC for slang.h
+    b1033b588681 perf: add sgidefs.h to for mips builds
+    cf9db484ac0b perf: change --root to --prefix for python install
+    7fd052c2c562 perf: add 'libperl not found' warning
+    27a437cdd469 perf: force include of <stdbool.h>
+    3b99d21bec2f fat: don't use obsolete random32 call in namei_vfat
+    a7e9293b506b FAT: Added FAT_NO_83NAME
+    6fd0e71d9e5c FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
+    c379b0d324ae FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
+    538be0fdb124 aufs: adjust to v5.15 fs changes
+    f45da75c8759 aufs5: core
+    047f57e07e01 aufs5: standalone
+    029fc15574c8 aufs5: mmap
+    610d0192ee94 aufs5: base
+    d4e428d0ec5f aufs5: kbuild
+    eb067eca251a yaffs: replace IS_ERR with IS_ERR_OR_NULL to check both ERR and NULL
+    286af18d0875 yaffs: fix -Wstringop-overread compile warning in yaffs_fix_null_name
+    24d59a4e26a6 yaffs2: v5.12+ build fixups (not runtime tested)
+    22c73536d5d7 yaffs: include blkdev.h
+    506b7251bfb8 yaffs: fix misplaced variable declaration
+    a0e26ff364dc yaffs2: v5.6 build fixups
+    b10b1b2d169e yaffs2: fix memory leak when /proc/yaffs is read
+    ad9adccbb214 yaffs: add strict check when call yaffs_internal_read_super
+    2e3c3aec8279 yaffs: repair yaffs_get_mtd_device
+    d662538516a7 yaffs: Fix build failure by handling inode i_version with proper atomic API
+    70a6113ee2c7 yaffs2: fix memory leak in mount/umount
+    3378e4a9e404 yaffs: Avoid setting any ACL releated xattr
+    ec2284edddef Yaffs:check oob size before auto selecting Yaffs1
+    c2a49874051c fs: yaffs2: replace CURRENT_TIME by other appropriate apis
+    e9a5105a3e73 yaffs2: adjust to proper location of MS_RDONLY
+    608807406f13 yaffs2: import git revision b4ce1bb (jan, 2020)
+    89e660ece42c initramfs: allow an optional wrapper script around initramfs generation
+    b179dbc9aa10 iwlwifi: select MAC80211_LEDS conditionally
+    3fd5ca3673d0 net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-16119)
+    d1f6edbf0188 arm64/perf: Fix wrong cast that may cause wrong truncation
+    d202fb2caf33 defconfigs: drop obselete options
+    9a27e3b5f4e7 arm64/perf: fix backtrace for AAPCS with FP enabled
+    e20d8cf019b4 linux-yocto: Handle /bin/awk issues
+    b6d2a3dbbd3a uvesafb: provide option to specify timeout for task completion
+    adb40f1e6a1a uvesafb: print error message when task timeout occurs
+    f280a1ed0962 compiler.h: Undef before redefining __attribute_const__
+    4352732f268c vmware: include jiffies.h
+    7954a677968d Resolve jiffies wrapping about arp
+    5f28a1035d95 nfs: Allow default io size to be configured.
+    0d7260ad7106 check console device file on fs when booting
+    900a12e37e0a mount_root: clarify error messages for when no rootfs found
+    7b878cbea726 menuconfig,mconf-cfg: Allow specification of ncurses location
+    6604fc1763b3 modpost: mask trivial warnings
+    0d294adb09cb kbuild: exclude meta directory from distclean processing
+    a097cdd95a9e powerpc: serialize image targets
+    5db6ec39a0a3 arm: serialize build targets
+    cbabca27905e crtsavres: fixups for 5.4+
+    7fc7656ed403 powerpc/ptrace: Disable array-bounds warning with gcc8
+    a5faac5a19a2 powerpc: Disable attribute-alias warnings from gcc8
+    186c54665b67 powerpc: add crtsavres.o to archprepare for kbuild
+    d1ea862964ca powerpc: kexec fix for powerpc64
+    2ac35b89a0f9 powerpc: Add unwind information for SPE registers of E500 core
+    2e1c348a28bb mips: vdso: fix 'jalr $t9' crash in vdso code
+    ec57870b303a mips: Kconfig: add QEMUMIPS64 option
+    6a81b3c08107 4kc cache tlb hazard: tlbp cache coherency
+    74e3b2a21e54 malta uhci quirks: make allowance for slow 4k(e)c
+    22e65b63d3b4 arm/Makefile: Fix systemtap
+    b7f1ab59f19e vexpress: Pass LOADADDR to Makefile
+    ce2800c73bf7 arm: ARM EABI socketcall
+    019d142fd956 ARM: LPAE: Invalidate the TLB for module addresses during translation fault
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...7544_47545_47546_47596_47597_47598-1.patch |  64 +++
- ...544_47545_47546_47596_47597_47598-10.patch |  97 ++++
- ...544_47545_47546_47596_47597_47598-11.patch |  36 ++
- ...544_47545_47546_47596_47597_47598-12.patch |  37 ++
- ...7544_47545_47546_47596_47597_47598-2.patch |  73 +++
- ...7544_47545_47546_47596_47597_47598-3.patch |  36 ++
- ...7544_47545_47546_47596_47597_47598-4.patch |  63 +++
- ...7544_47545_47546_47596_47597_47598-5.patch |  44 ++
- ...7544_47545_47546_47596_47597_47598-6.patch | 120 +++++
- ...7544_47545_47546_47596_47597_47598-7.patch | 449 ++++++++++++++++++
- ...7544_47545_47546_47596_47597_47598-8.patch |  56 +++
- ...7544_47545_47546_47596_47597_47598-9.patch |  49 ++
- ...4_47545_47546_47596_47597_47598-pre1.patch | 127 +++++
- .../gstreamer1.0-plugins-good_1.20.7.bb       |  13 +
- 14 files changed, 1264 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-1.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-10.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-2.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-3.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-4.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-5.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-6.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-7.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-8.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-9.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-pre1.patch
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-1.patch
-new file mode 100644
-index 0000000000..ded7e1b1c5
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-1.patch
-@@ -0,0 +1,64 @@
-+From c3a2af94c652513ac1b1858295688ac88c5cc737 Mon Sep 17 00:00:00 2001
-+From: Antonio Morales <antonio-morales@github.com>
-+Date: Thu, 26 Sep 2024 18:39:37 +0300
-+Subject: [PATCH] qtdemux: Fix integer overflow when allocating the samples
-+ table for fragmented MP4
-+
-+This can lead to out of bounds writes and NULL pointer dereferences.
-+
-+Fixes GHSL-2024-094, GHSL-2024-237, GHSL-2024-241
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3839
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c3a2af94c652513ac1b1858295688ac88c5cc737]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544
-+CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index de8fae8b02ee..2fb5b2b014db 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -3364,6 +3364,7 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+   gint i;
-+   guint8 *data;
-+   guint entry_size, dur_offset, size_offset, flags_offset = 0, ct_offset = 0;
-++  guint new_n_samples;
-+   QtDemuxSample *sample;
-+   gboolean ismv = FALSE;
-+   gint64 initial_offset;
-+@@ -3475,14 +3476,13 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+     goto fail;
-+   data = (guint8 *) gst_byte_reader_peek_data_unchecked (trun);
-+ 
-+-  if (stream->n_samples + samples_count >=
-+-      QTDEMUX_MAX_SAMPLE_INDEX_SIZE / sizeof (QtDemuxSample))
-++  if (!g_uint_checked_add (&new_n_samples, stream->n_samples, samples_count) ||
-++      new_n_samples >= QTDEMUX_MAX_SAMPLE_INDEX_SIZE / sizeof (QtDemuxSample))
-+     goto index_too_big;
-+ 
-+   GST_DEBUG_OBJECT (qtdemux, "allocating n_samples %u * %u (%.2f MB)",
-+-      stream->n_samples + samples_count, (guint) sizeof (QtDemuxSample),
-+-      (stream->n_samples + samples_count) *
-+-      sizeof (QtDemuxSample) / (1024.0 * 1024.0));
-++      new_n_samples, (guint) sizeof (QtDemuxSample),
-++      (new_n_samples) * sizeof (QtDemuxSample) / (1024.0 * 1024.0));
-+ 
-+   /* create a new array of samples if it's the first sample parsed */
-+   if (stream->n_samples == 0) {
-+@@ -3491,7 +3491,7 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+     /* or try to reallocate it with space enough to insert the new samples */
-+   } else
-+     stream->samples = g_try_renew (QtDemuxSample, stream->samples,
-+-        stream->n_samples + samples_count);
-++        new_n_samples);
-+   if (stream->samples == NULL)
-+     goto out_of_memory;
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-10.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-10.patch
-new file mode 100644
-index 0000000000..c864deb635
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-10.patch
-@@ -0,0 +1,97 @@
-+From ed254790331a3fba2f68255a8f072552d622aac1 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 10:39:30 +0300
-+Subject: [PATCH] qtdemux: Actually handle errors returns from various
-+ functions instead of ignoring them
-+
-+Ignoring them might cause the element to continue as if all is fine despite the
-+internal state being inconsistent. This can lead to all kinds of follow-up
-+issues, including memory safety issues.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-245
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3847
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8109>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/ed254790331a3fba2f68255a8f072552d622aac1]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/isomp4/qtdemux.c     | 29 +++++++++++++++----
-+ 1 file changed, 23 insertions(+), 6 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 5277952c5ea5..1de70f184f50 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -4853,10 +4853,15 @@ gst_qtdemux_loop_state_header (GstQTDemux * qtdemux)
-+ beach:
-+   if (ret == GST_FLOW_EOS && (qtdemux->got_moov || qtdemux->media_caps)) {
-+     /* digested all data, show what we have */
-+-    qtdemux_prepare_streams (qtdemux);
-++    ret = qtdemux_prepare_streams (qtdemux);
-++    if (ret != GST_FLOW_OK)
-++      return ret;
-++
-+     QTDEMUX_EXPOSE_LOCK (qtdemux);
-+     ret = qtdemux_expose_streams (qtdemux);
-+     QTDEMUX_EXPOSE_UNLOCK (qtdemux);
-++    if (ret != GST_FLOW_OK)
-++      return ret;
-+ 
-+     qtdemux->state = QTDEMUX_STATE_MOVIE;
-+     GST_DEBUG_OBJECT (qtdemux, "switching state to STATE_MOVIE (%d)",
-+@@ -7552,13 +7557,21 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
-+             gst_qtdemux_stream_concat (demux,
-+                 demux->old_streams, demux->active_streams);
-+ 
-+-            qtdemux_parse_moov (demux, data, demux->neededbytes);
-++            if (!qtdemux_parse_moov (demux, data, demux->neededbytes)) {
-++              ret = GST_FLOW_ERROR;
-++              break;
-++            }
-+             qtdemux_node_dump (demux, demux->moov_node);
-+             qtdemux_parse_tree (demux);
-+-            qtdemux_prepare_streams (demux);
-++            ret = qtdemux_prepare_streams (demux);
-++            if (ret != GST_FLOW_OK)
-++              break;
-++
-+             QTDEMUX_EXPOSE_LOCK (demux);
-+-            qtdemux_expose_streams (demux);
-++            ret = qtdemux_expose_streams (demux);
-+             QTDEMUX_EXPOSE_UNLOCK (demux);
-++            if (ret != GST_FLOW_OK)
-++              break;
-+ 
-+             demux->got_moov = TRUE;
-+ 
-+@@ -7649,8 +7662,10 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
-+             /* in MSS we need to expose the pads after the first moof as we won't get a moov */
-+             if (demux->variant == VARIANT_MSS_FRAGMENTED && !demux->exposed) {
-+               QTDEMUX_EXPOSE_LOCK (demux);
-+-              qtdemux_expose_streams (demux);
-++              ret = qtdemux_expose_streams (demux);
-+               QTDEMUX_EXPOSE_UNLOCK (demux);
-++              if (ret != GST_FLOW_OK)
-++                goto done;
-+             }
-+ 
-+             gst_qtdemux_check_send_pending_segment (demux);
-+@@ -13764,8 +13779,10 @@ qtdemux_prepare_streams (GstQTDemux * qtdemux)
-+ 
-+     /* parse the initial sample for use in setting the frame rate cap */
-+     while (sample_num == 0 && sample_num < stream->n_samples) {
-+-      if (!qtdemux_parse_samples (qtdemux, stream, sample_num))
-++      if (!qtdemux_parse_samples (qtdemux, stream, sample_num)) {
-++        ret = GST_FLOW_ERROR;
-+         break;
-++      }
-+       ++sample_num;
-+     }
-+   }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch
-new file mode 100644
-index 0000000000..7096a75a71
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch
-@@ -0,0 +1,36 @@
-+From 3153fda823cb91b1031dae69738c6c5d526fb6e1 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 26 Sep 2024 19:16:19 +0300
-+Subject: [PATCH] qtdemux: Check for invalid atom length when extracting Closed
-+ Caption data
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-243
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3849
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8109>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/3153fda823cb91b1031dae69738c6c5d526fb6e1]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 1de70f184f50..8850d09321e8 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -5827,7 +5827,7 @@ extract_cc_from_data (QtDemuxStream * stream, const guint8 * data, gsize size,
-+     goto invalid_cdat;
-+   atom_length = QT_UINT32 (data);
-+   fourcc = QT_FOURCC (data + 4);
-+-  if (G_UNLIKELY (atom_length > size || atom_length == 8))
-++  if (G_UNLIKELY (atom_length > size || atom_length <= 8))
-+     goto invalid_cdat;
-+ 
-+   GST_DEBUG_OBJECT (stream->pad, "here");
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch
-new file mode 100644
-index 0000000000..b379c2f88c
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch
-@@ -0,0 +1,37 @@
-+From 3ce1b812a9531611288af286b5dc6631a11e3f4a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 00:31:36 +0300
-+Subject: [PATCH] qtdemux: Add size check for parsing SMI / SEQH atom
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-244
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3853
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8109>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/3ce1b812a9531611288af286b5dc6631a11e3f4a]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 8850d09321e8..dc70287a8a9b 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -10633,8 +10633,9 @@ qtdemux_parse_svq3_stsd_data (GstQTDemux * qtdemux,
-+                 GST_WARNING_OBJECT (qtdemux, "Unexpected second SEQH SMI atom "
-+                     " found, ignoring");
-+               } else {
-++                /* Note: The size does *not* include the fourcc and the size field itself */
-+                 seqh_size = QT_UINT32 (data + 4);
-+-                if (seqh_size > 0) {
-++                if (seqh_size > 0 && seqh_size <= size - 8) {
-+                   _seqh = gst_buffer_new_and_alloc (seqh_size);
-+                   gst_buffer_fill (_seqh, 0, data + 8, seqh_size);
-+                 }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-2.patch
-new file mode 100644
-index 0000000000..8c17c548df
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-2.patch
-@@ -0,0 +1,73 @@
-+From 812f175c580a2e702581859fd481c8f51d633508 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 26 Sep 2024 18:40:56 +0300
-+Subject: [PATCH] qtdemux: Fix debug output during trun parsing
-+
-+Various integers are unsigned so print them as such. Also print the actual
-+allocation size if allocation fails, not only parts of it.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/812f175c580a2e702581859fd481c8f51d633508]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ gst/isomp4/qtdemux.c | 17 +++++++++--------
-+ 1 file changed, 9 insertions(+), 8 deletions(-)
-+
-+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-+index e012ce1..0111912 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -3228,8 +3228,8 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+   gint64 initial_offset;
-+   gint32 min_ct = 0;
-+ 
-+-  GST_LOG_OBJECT (qtdemux, "parsing trun track-id %d; "
-+-      "default dur %d, size %d, flags 0x%x, base offset %" G_GINT64_FORMAT ", "
-++  GST_LOG_OBJECT (qtdemux, "parsing trun track-id %u; "
-++      "default dur %u, size %u, flags 0x%x, base offset %" G_GINT64_FORMAT ", "
-+       "decode ts %" G_GINT64_FORMAT, stream->track_id, d_sample_duration,
-+       d_sample_size, d_sample_flags, *base_offset, decode_ts);
-+ 
-+@@ -3257,7 +3257,7 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+     /* note this is really signed */
-+     if (!gst_byte_reader_get_int32_be (trun, &data_offset))
-+       goto fail;
-+-    GST_LOG_OBJECT (qtdemux, "trun data offset %d", data_offset);
-++    GST_LOG_OBJECT (qtdemux, "trun data offset %u", data_offset);
-+     /* default base offset = first byte of moof */
-+     if (*base_offset == -1) {
-+       GST_LOG_OBJECT (qtdemux, "base_offset at moof");
-+@@ -3279,7 +3279,7 @@ qtdemux_parse_trun (GstQTDemux * qtdemux, GstByteReader * trun,
-+ 
-+   GST_LOG_OBJECT (qtdemux, "running offset now %" G_GINT64_FORMAT,
-+       *running_offset);
-+-  GST_LOG_OBJECT (qtdemux, "trun offset %d, flags 0x%x, entries %d",
-++  GST_LOG_OBJECT (qtdemux, "trun offset %u, flags 0x%x, entries %u",
-+       data_offset, flags, samples_count);
-+ 
-+   if (flags & TR_FIRST_SAMPLE_FLAGS) {
-+@@ -3499,14 +3499,15 @@ fail:
-+   }
-+ out_of_memory:
-+   {
-+-    GST_WARNING_OBJECT (qtdemux, "failed to allocate %d samples",
-+-        stream->n_samples);
-++    GST_WARNING_OBJECT (qtdemux, "failed to allocate %u + %u samples",
-++        stream->n_samples, samples_count);
-+     return FALSE;
-+   }
-+ index_too_big:
-+   {
-+-    GST_WARNING_OBJECT (qtdemux, "not allocating index of %d samples, would "
-+-        "be larger than %uMB (broken file?)", stream->n_samples,
-++    GST_WARNING_OBJECT (qtdemux,
-++	"not allocating index of %u + %u samples, would "
-++        "be larger than %uMB (broken file?)", stream->n_samples, samples_count,
-+         QTDEMUX_MAX_SAMPLE_INDEX_SIZE >> 20);
-+     return FALSE;
-+   }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-3.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-3.patch
-new file mode 100644
-index 0000000000..217387a4cd
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-3.patch
-@@ -0,0 +1,36 @@
-+From eb7f9331c2294bc28a549b79c9f931c3e6c6bc44 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 26 Sep 2024 18:41:39 +0300
-+Subject: [PATCH] qtdemux: Don't iterate over all trun entries if none of the
-+ flags are set
-+
-+Nothing would be printed anyway.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/eb7f9331c2294bc28a549b79c9f931c3e6c6bc44]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux_dump.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux_dump.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux_dump.c
-+index 22da35e9e7ad..297b580ef038 100644
-+--- a/gst/isomp4/qtdemux_dump.c
-++++ b/gst/isomp4/qtdemux_dump.c
-+@@ -836,6 +836,11 @@ qtdemux_dump_trun (GstQTDemux * qtdemux, GstByteReader * data, int depth)
-+     GST_LOG ("%*s    first-sample-flags: %u", depth, "", first_sample_flags);
-+   }
-+ 
-++  /* Nothing to print below */
-++  if ((flags & (TR_SAMPLE_DURATION | TR_SAMPLE_SIZE | TR_SAMPLE_FLAGS |
-++              TR_COMPOSITION_TIME_OFFSETS)) == 0)
-++    return TRUE;
-++
-+   for (i = 0; i < samples_count; i++) {
-+     if (flags & TR_SAMPLE_DURATION) {
-+       if (!gst_byte_reader_get_uint32_be (data, &sample_duration))
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-4.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-4.patch
-new file mode 100644
-index 0000000000..8b5bddbf5b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-4.patch
-@@ -0,0 +1,63 @@
-+From 1def2965d8da8cc74ab0036d7f8d59e81e676cad Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 15:50:54 +0300
-+Subject: [PATCH] qtdemux: Check sizes of stsc/stco/stts before trying to merge
-+ entries
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-246
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3854
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1def2965d8da8cc74ab0036d7f8d59e81e676cad]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/isomp4/qtdemux.c     | 22 +++++++++++++++++++
-+ 1 file changed, 22 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 0996292d0789..c14d939ee3c9 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -10033,6 +10033,21 @@ qtdemux_merge_sample_table (GstQTDemux * qtdemux, QtDemuxStream * stream)
-+     return;
-+   }
-+ 
-++  if (gst_byte_reader_get_remaining (&stream->stts) < 8) {
-++    GST_DEBUG_OBJECT (qtdemux, "Too small stts");
-++    return;
-++  }
-++
-++  if (stream->stco.size < 8) {
-++    GST_DEBUG_OBJECT (qtdemux, "Too small stco");
-++    return;
-++  }
-++
-++  if (stream->n_samples_per_chunk == 0) {
-++    GST_DEBUG_OBJECT (qtdemux, "No samples per chunk");
-++    return;
-++  }
-++
-+   /* Parse the stts to get the sample duration and number of samples */
-+   gst_byte_reader_skip_unchecked (&stream->stts, 4);
-+   stts_duration = gst_byte_reader_get_uint32_be_unchecked (&stream->stts);
-+@@ -10044,6 +10059,13 @@ qtdemux_merge_sample_table (GstQTDemux * qtdemux, QtDemuxStream * stream)
-+   GST_DEBUG_OBJECT (qtdemux, "sample_duration %d, num_chunks %u", stts_duration,
-+       num_chunks);
-+ 
-++  if (gst_byte_reader_get_remaining (&stream->stsc) <
-++      stream->n_samples_per_chunk * 3 * 4 +
-++      (stream->n_samples_per_chunk - 1) * 4) {
-++    GST_DEBUG_OBJECT (qtdemux, "Too small stsc");
-++    return;
-++  }
-++
-+   /* Now parse stsc, convert chunks into single samples and generate a
-+    * new stsc, stts and stsz from this information */
-+   gst_byte_writer_init (&stsc);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-5.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-5.patch
-new file mode 100644
-index 0000000000..02d9cb278c
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-5.patch
-@@ -0,0 +1,44 @@
-+From 314945426c7105ad90f44a188037bc43bb3b0300 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 26 Sep 2024 09:20:28 +0300
-+Subject: [PATCH] qtdemux: Make sure only an even number of bytes is processed
-+ when handling CEA608 data
-+
-+An odd number of bytes would lead to out of bound reads and writes, and doesn't
-+make any sense as CEA608 comes in byte pairs.
-+
-+Strip off any leftover bytes and assume everything before that is valid.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-195
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3841
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/314945426c7105ad90f44a188037bc43bb3b0300]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index c14d939ee3c9..b9f466991adf 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -6145,6 +6145,11 @@ convert_to_s334_1a (const guint8 * ccpair, guint8 ccpair_size, guint field,
-+   guint8 *storage;
-+   gsize i;
-+ 
-++  /* Strip off any leftover odd bytes and assume everything before is valid */
-++  if (ccpair_size % 2 != 0) {
-++    ccpair_size -= 1;
-++  }
-++
-+   /* We are converting from pairs to triplets */
-+   *res = ccpair_size / 2 * 3;
-+   storage = g_malloc (*res);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-6.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-6.patch
-new file mode 100644
-index 0000000000..5ff18baa7e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-6.patch
-@@ -0,0 +1,120 @@
-+From 8ef08a7a41da987aa630082df355ea651aa09132 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 26 Sep 2024 14:17:02 +0300
-+Subject: [PATCH] qtdemux: Make sure enough data is available before reading
-+ wave header node
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-236
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3843
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/8ef08a7a41da987aa630082df355ea651aa09132]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/isomp4/qtdemux.c     | 84 ++++++++++---------
-+ 1 file changed, 45 insertions(+), 39 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index b9f466991adf..55ba59152c7a 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -13697,47 +13697,53 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+         } else {
-+           guint32 datalen = QT_UINT32 (stsd_entry_data + offset + 16);
-+           const guint8 *data = stsd_entry_data + offset + 16;
-+-          GNode *wavenode;
-+-          GNode *waveheadernode;
-+-
-+-          wavenode = g_node_new ((guint8 *) data);
-+-          if (qtdemux_parse_node (qtdemux, wavenode, data, datalen)) {
-+-            const guint8 *waveheader;
-+-            guint32 headerlen;
-+-
-+-            waveheadernode = qtdemux_tree_get_child_by_type (wavenode, fourcc);
-+-            if (waveheadernode) {
-+-              waveheader = (const guint8 *) waveheadernode->data;
-+-              headerlen = QT_UINT32 (waveheader);
-+-
-+-              if (headerlen > 8) {
-+-                gst_riff_strf_auds *header = NULL;
-+-                GstBuffer *headerbuf;
-+-                GstBuffer *extra;
-+-
-+-                waveheader += 8;
-+-                headerlen -= 8;
-+-
-+-                headerbuf = gst_buffer_new_and_alloc (headerlen);
-+-                gst_buffer_fill (headerbuf, 0, waveheader, headerlen);
-+-
-+-                if (gst_riff_parse_strf_auds (GST_ELEMENT_CAST (qtdemux),
-+-                        headerbuf, &header, &extra)) {
-+-                  gst_caps_unref (entry->caps);
-+-                  /* FIXME: Need to do something with the channel reorder map */
-+-                  entry->caps =
-+-                      gst_riff_create_audio_caps (header->format, NULL, header,
-+-                      extra, NULL, NULL, NULL);
-+-
-+-                  if (extra)
-+-                    gst_buffer_unref (extra);
-+-                  g_free (header);
-++
-++          if (len < datalen || len - datalen < offset + 16) {
-++            GST_WARNING_OBJECT (qtdemux, "Not enough data for waveheadernode");
-++          } else {
-++            GNode *wavenode;
-++            GNode *waveheadernode;
-++
-++            wavenode = g_node_new ((guint8 *) data);
-++            if (qtdemux_parse_node (qtdemux, wavenode, data, datalen)) {
-++              const guint8 *waveheader;
-++              guint32 headerlen;
-++
-++              waveheadernode =
-++                  qtdemux_tree_get_child_by_type (wavenode, fourcc);
-++              if (waveheadernode) {
-++                waveheader = (const guint8 *) waveheadernode->data;
-++                headerlen = QT_UINT32 (waveheader);
-++
-++                if (headerlen > 8) {
-++                  gst_riff_strf_auds *header = NULL;
-++                  GstBuffer *headerbuf;
-++                  GstBuffer *extra;
-++
-++                  waveheader += 8;
-++                  headerlen -= 8;
-++
-++                  headerbuf = gst_buffer_new_and_alloc (headerlen);
-++                  gst_buffer_fill (headerbuf, 0, waveheader, headerlen);
-++
-++                  if (gst_riff_parse_strf_auds (GST_ELEMENT_CAST (qtdemux),
-++                          headerbuf, &header, &extra)) {
-++                    gst_caps_unref (entry->caps);
-++                    /* FIXME: Need to do something with the channel reorder map */
-++                    entry->caps =
-++                        gst_riff_create_audio_caps (header->format, NULL,
-++                        header, extra, NULL, NULL, NULL);
-++
-++                    if (extra)
-++                      gst_buffer_unref (extra);
-++                    g_free (header);
-++                  }
-+                 }
-+-              }
-+-            } else
-+-              GST_DEBUG ("Didn't find waveheadernode for this codec");
-++              } else
-++                GST_DEBUG ("Didn't find waveheadernode for this codec");
-++            }
-++            g_node_destroy (wavenode);
-+           }
-+-          g_node_destroy (wavenode);
-+         }
-+       } else if (esds) {
-+         gst_qtdemux_handle_esds (qtdemux, stream, entry, esds,
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-7.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-7.patch
-new file mode 100644
-index 0000000000..41cf4c7d00
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-7.patch
-@@ -0,0 +1,449 @@
-+From fe9d5d37234aca04fef7248184177168905a7a69 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 00:12:57 +0300
-+Subject: [PATCH] qtdemux: Fix length checks and offsets in stsd entry parsing
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-242
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3845
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8060>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/fe9d5d37234aca04fef7248184177168905a7a69]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/isomp4/qtdemux.c     | 218 +++++++-----------
-+ 1 file changed, 79 insertions(+), 139 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 55ba59152c7a..fb157552eb75 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -12237,43 +12237,35 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+           case FOURCC_avc1:
-+           case FOURCC_avc3:
-+           {
-+-            guint len = QT_UINT32 (stsd_entry_data);
-++            guint32 len = QT_UINT32 (stsd_entry_data);
-+             len = len <= 0x56 ? 0 : len - 0x56;
-+             const guint8 *avc_data = stsd_entry_data + 0x56;
-+ 
-+             /* find avcC */
-+-            while (len >= 0x8) {
-+-              guint size;
-+-
-+-              if (QT_UINT32 (avc_data) <= 0x8)
-+-                size = 0;
-+-              else if (QT_UINT32 (avc_data) <= len)
-+-                size = QT_UINT32 (avc_data) - 0x8;
-+-              else
-+-                size = len - 0x8;
-++            while (len >= 8) {
-++              guint32 size = QT_UINT32 (avc_data);
-+ 
-+-              /* No real data, so skip */
-+-              if (size < 1) {
-+-                len -= 8;
-+-                avc_data += 8;
-+-                continue;
-+-              }
-++              if (size < 8 || size > len)
-++                break;
-+ 
-+-              switch (QT_FOURCC (avc_data + 0x4)) {
-++              switch (QT_FOURCC (avc_data + 4)) {
-+                 case FOURCC_avcC:
-+                 {
-+                   /* parse, if found */
-+                   GstBuffer *buf;
-+ 
-++                  if (size < 8 + 1)
-++                    break;
-++
-+                   GST_DEBUG_OBJECT (qtdemux, "found avcC codec_data in stsd");
-+ 
-+                   /* First 4 bytes are the length of the atom, the next 4 bytes
-+                    * are the fourcc, the next 1 byte is the version, and the
-+                    * subsequent bytes are profile_tier_level structure like data. */
-+                   gst_codec_utils_h264_caps_set_level_and_profile (entry->caps,
-+-                      avc_data + 8 + 1, size - 1);
-+-                  buf = gst_buffer_new_and_alloc (size);
-+-                  gst_buffer_fill (buf, 0, avc_data + 0x8, size);
-++                      avc_data + 8 + 1, size - 8 - 1);
-++                  buf = gst_buffer_new_and_alloc (size - 8);
-++                  gst_buffer_fill (buf, 0, avc_data + 8, size - 8);
-+                   gst_caps_set_simple (entry->caps,
-+                       "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+                   gst_buffer_unref (buf);
-+@@ -12284,6 +12276,9 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                 {
-+                   GstBuffer *buf;
-+ 
-++                  if (size < 8 + 40 + 1)
-++                    break;
-++
-+                   GST_DEBUG_OBJECT (qtdemux, "found strf codec_data in stsd");
-+ 
-+                   /* First 4 bytes are the length of the atom, the next 4 bytes
-+@@ -12291,17 +12286,14 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                    * next 1 byte is the version, and the
-+                    * subsequent bytes are sequence parameter set like data. */
-+ 
-+-                  size -= 40;   /* we'll be skipping BITMAPINFOHEADER */
-+-                  if (size > 1) {
-+-                    gst_codec_utils_h264_caps_set_level_and_profile
-+-                        (entry->caps, avc_data + 8 + 40 + 1, size - 1);
-++                  gst_codec_utils_h264_caps_set_level_and_profile
-++                      (entry->caps, avc_data + 8 + 40 + 1, size - 8 - 40 - 1);
-+ 
-+-                    buf = gst_buffer_new_and_alloc (size);
-+-                    gst_buffer_fill (buf, 0, avc_data + 8 + 40, size);
-+-                    gst_caps_set_simple (entry->caps,
-+-                        "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+-                    gst_buffer_unref (buf);
-+-                  }
-++                  buf = gst_buffer_new_and_alloc (size - 8 - 40);
-++                  gst_buffer_fill (buf, 0, avc_data + 8 + 40, size - 8 - 40);
-++                  gst_caps_set_simple (entry->caps,
-++                      "codec_data", GST_TYPE_BUFFER, buf, NULL);
-++                  gst_buffer_unref (buf);
-+                   break;
-+                 }
-+                 case FOURCC_btrt:
-+@@ -12309,11 +12301,11 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                   guint avg_bitrate, max_bitrate;
-+ 
-+                   /* bufferSizeDB, maxBitrate and avgBitrate - 4 bytes each */
-+-                  if (size < 12)
-++                  if (size < 8 + 12)
-+                     break;
-+ 
-+-                  max_bitrate = QT_UINT32 (avc_data + 0xc);
-+-                  avg_bitrate = QT_UINT32 (avc_data + 0x10);
-++                  max_bitrate = QT_UINT32 (avc_data + 8 + 4);
-++                  avg_bitrate = QT_UINT32 (avc_data + 8 + 8);
-+ 
-+                   if (!max_bitrate && !avg_bitrate)
-+                     break;
-+@@ -12345,8 +12337,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                   break;
-+               }
-+ 
-+-              len -= size + 8;
-+-              avc_data += size + 8;
-++              len -= size;
-++              avc_data += size;
-+             }
-+ 
-+             break;
-+@@ -12357,44 +12349,36 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+           case FOURCC_dvh1:
-+           case FOURCC_dvhe:
-+           {
-+-            guint len = QT_UINT32 (stsd_entry_data);
-++            guint32 len = QT_UINT32 (stsd_entry_data);
-+             len = len <= 0x56 ? 0 : len - 0x56;
-+             const guint8 *hevc_data = stsd_entry_data + 0x56;
-+ 
-+             /* find hevc */
-+-            while (len >= 0x8) {
-+-              guint size;
-+-
-+-              if (QT_UINT32 (hevc_data) <= 0x8)
-+-                size = 0;
-+-              else if (QT_UINT32 (hevc_data) <= len)
-+-                size = QT_UINT32 (hevc_data) - 0x8;
-+-              else
-+-                size = len - 0x8;
-++            while (len >= 8) {
-++              guint32 size = QT_UINT32 (hevc_data);
-+ 
-+-              /* No real data, so skip */
-+-              if (size < 1) {
-+-                len -= 8;
-+-                hevc_data += 8;
-+-                continue;
-+-              }
-++              if (size < 8 || size > len)
-++                break;
-+ 
-+-              switch (QT_FOURCC (hevc_data + 0x4)) {
-++              switch (QT_FOURCC (hevc_data + 4)) {
-+                 case FOURCC_hvcC:
-+                 {
-+                   /* parse, if found */
-+                   GstBuffer *buf;
-+ 
-++                  if (size < 8 + 1)
-++                    break;
-++
-+                   GST_DEBUG_OBJECT (qtdemux, "found hvcC codec_data in stsd");
-+ 
-+                   /* First 4 bytes are the length of the atom, the next 4 bytes
-+                    * are the fourcc, the next 1 byte is the version, and the
-+                    * subsequent bytes are sequence parameter set like data. */
-+                   gst_codec_utils_h265_caps_set_level_tier_and_profile
-+-                      (entry->caps, hevc_data + 8 + 1, size - 1);
-++                      (entry->caps, hevc_data + 8 + 1, size - 8 - 1);
-+ 
-+-                  buf = gst_buffer_new_and_alloc (size);
-+-                  gst_buffer_fill (buf, 0, hevc_data + 0x8, size);
-++                  buf = gst_buffer_new_and_alloc (size - 8);
-++                  gst_buffer_fill (buf, 0, hevc_data + 8, size - 8);
-+                   gst_caps_set_simple (entry->caps,
-+                       "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+                   gst_buffer_unref (buf);
-+@@ -12403,8 +12387,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                 default:
-+                   break;
-+               }
-+-              len -= size + 8;
-+-              hevc_data += size + 8;
-++              len -= size;
-++              hevc_data += size;
-+             }
-+             break;
-+           }
-+@@ -12784,36 +12768,25 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+           }
-+           case FOURCC_vc_1:
-+           {
-+-            guint len = QT_UINT32 (stsd_entry_data);
-++            guint32 len = QT_UINT32 (stsd_entry_data);
-+             len = len <= 0x56 ? 0 : len - 0x56;
-+             const guint8 *vc1_data = stsd_entry_data + 0x56;
-+ 
-+             /* find dvc1 */
-+             while (len >= 8) {
-+-              guint size;
-+-
-+-              if (QT_UINT32 (vc1_data) <= 8)
-+-                size = 0;
-+-              else if (QT_UINT32 (vc1_data) <= len)
-+-                size = QT_UINT32 (vc1_data) - 8;
-+-              else
-+-                size = len - 8;
-++              guint32 size = QT_UINT32 (vc1_data);
-+ 
-+-              /* No real data, so skip */
-+-              if (size < 1) {
-+-                len -= 8;
-+-                vc1_data += 8;
-+-                continue;
-+-              }
-++              if (size < 8 || size > len)
-++                break;
-+ 
-+-              switch (QT_FOURCC (vc1_data + 0x4)) {
-++              switch (QT_FOURCC (vc1_data + 4)) {
-+                 case GST_MAKE_FOURCC ('d', 'v', 'c', '1'):
-+                 {
-+                   GstBuffer *buf;
-+ 
-+                   GST_DEBUG_OBJECT (qtdemux, "found dvc1 codec_data in stsd");
-+-                  buf = gst_buffer_new_and_alloc (size);
-+-                  gst_buffer_fill (buf, 0, vc1_data + 8, size);
-++                  buf = gst_buffer_new_and_alloc (size - 8);
-++                  gst_buffer_fill (buf, 0, vc1_data + 8, size - 8);
-+                   gst_caps_set_simple (entry->caps,
-+                       "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+                   gst_buffer_unref (buf);
-+@@ -12822,36 +12795,25 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                 default:
-+                   break;
-+               }
-+-              len -= size + 8;
-+-              vc1_data += size + 8;
-++              len -= size;
-++              vc1_data += size;
-+             }
-+             break;
-+           }
-+           case FOURCC_av01:
-+           {
-+-            guint len = QT_UINT32 (stsd_entry_data);
-++            guint32 len = QT_UINT32 (stsd_entry_data);
-+             len = len <= 0x56 ? 0 : len - 0x56;
-+             const guint8 *av1_data = stsd_entry_data + 0x56;
-+ 
-+             /* find av1C */
-+-            while (len >= 0x8) {
-+-              guint size;
-+-
-+-              if (QT_UINT32 (av1_data) <= 0x8)
-+-                size = 0;
-+-              else if (QT_UINT32 (av1_data) <= len)
-+-                size = QT_UINT32 (av1_data) - 0x8;
-+-              else
-+-                size = len - 0x8;
-++            while (len >= 8) {
-++              guint32 size = QT_UINT32 (av1_data);
-+ 
-+-              /* No real data, so skip */
-+-              if (size < 1) {
-+-                len -= 8;
-+-                av1_data += 8;
-+-                continue;
-+-              }
-++              if (size < 8 || size > len)
-++                break;
-+ 
-+-              switch (QT_FOURCC (av1_data + 0x4)) {
-++              switch (QT_FOURCC (av1_data + 4)) {
-+                 case FOURCC_av1C:
-+                 {
-+                   /* parse, if found */
-+@@ -12861,7 +12823,7 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                       "found av1C codec_data in stsd of size %d", size);
-+ 
-+                   /* not enough data, just ignore and hope for the best */
-+-                  if (size < 4)
-++                  if (size < 8 + 4)
-+                     break;
-+ 
-+                   /* Content is:
-+@@ -12910,9 +12872,9 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                             (gint) (pres_delay_field & 0x0F) + 1, NULL);
-+                       }
-+ 
-+-                      buf = gst_buffer_new_and_alloc (size);
-++                      buf = gst_buffer_new_and_alloc (size - 8);
-+                       GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_HEADER);
-+-                      gst_buffer_fill (buf, 0, av1_data + 8, size);
-++                      gst_buffer_fill (buf, 0, av1_data + 8, size - 8);
-+                       gst_caps_set_simple (entry->caps,
-+                           "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+                       gst_buffer_unref (buf);
-+@@ -12930,8 +12892,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                   break;
-+               }
-+ 
-+-              len -= size + 8;
-+-              av1_data += size + 8;
-++              len -= size;
-++              av1_data += size;
-+             }
-+ 
-+             break;
-+@@ -12942,29 +12904,18 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+              * vp08, vp09, and vp10 fourcc. */
-+           case FOURCC_vp09:
-+           {
-+-            guint len = QT_UINT32 (stsd_entry_data);
-++            guint32 len = QT_UINT32 (stsd_entry_data);
-+             len = len <= 0x56 ? 0 : len - 0x56;
-+             const guint8 *vpcc_data = stsd_entry_data + 0x56;
-+ 
-+             /* find vpcC */
-+-            while (len >= 0x8) {
-+-              guint size;
-+-
-+-              if (QT_UINT32 (vpcc_data) <= 0x8)
-+-                size = 0;
-+-              else if (QT_UINT32 (vpcc_data) <= len)
-+-                size = QT_UINT32 (vpcc_data) - 0x8;
-+-              else
-+-                size = len - 0x8;
-++            while (len >= 8) {
-++              guint32 size = QT_UINT32 (vpcc_data);
-+ 
-+-              /* No real data, so skip */
-+-              if (size < 1) {
-+-                len -= 8;
-+-                vpcc_data += 8;
-+-                continue;
-+-              }
-++              if (size < 8 || size > len)
-++                break;
-+ 
-+-              switch (QT_FOURCC (vpcc_data + 0x4)) {
-++              switch (QT_FOURCC (vpcc_data + 4)) {
-+                 case FOURCC_vpcC:
-+                 {
-+                   const gchar *profile_str = NULL;
-+@@ -12980,7 +12931,7 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+ 
-+                   /* the meaning of "size" is length of the atom body, excluding
-+                    * atom length and fourcc fields */
-+-                  if (size < 12)
-++                  if (size < 8 + 12)
-+                     break;
-+ 
-+                   /* Content is:
-+@@ -13086,8 +13037,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                   break;
-+               }
-+ 
-+-              len -= size + 8;
-+-              vpcc_data += size + 8;
-++              len -= size;
-++              vpcc_data += size;
-+             }
-+ 
-+             break;
-+@@ -13428,7 +13379,7 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+         }
-+         case FOURCC_wma_:
-+         {
-+-          guint len = QT_UINT32 (stsd_entry_data);
-++          guint32 len = QT_UINT32 (stsd_entry_data);
-+           len = len <= offset ? 0 : len - offset;
-+           const guint8 *wfex_data = stsd_entry_data + offset;
-+           const gchar *codec_name = NULL;
-+@@ -13453,21 +13404,10 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+ 
-+           /* find wfex */
-+           while (len >= 8) {
-+-            guint size;
-++            guint32 size = QT_UINT32 (wfex_data);
-+ 
-+-            if (QT_UINT32 (wfex_data) <= 0x8)
-+-              size = 0;
-+-            else if (QT_UINT32 (wfex_data) <= len)
-+-              size = QT_UINT32 (wfex_data) - 8;
-+-            else
-+-              size = len - 8;
-+-
-+-            /* No real data, so skip */
-+-            if (size < 1) {
-+-              len -= 8;
-+-              wfex_data += 8;
-+-              continue;
-+-            }
-++            if (size < 8 || size > len)
-++              break;
-+ 
-+             switch (QT_FOURCC (wfex_data + 4)) {
-+               case GST_MAKE_FOURCC ('w', 'f', 'e', 'x'):
-+@@ -13512,12 +13452,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+                     "width", G_TYPE_INT, wfex.wBitsPerSample,
-+                     "depth", G_TYPE_INT, wfex.wBitsPerSample, NULL);
-+ 
-+-                if (size > wfex.cbSize) {
-++                if (size > 8 + wfex.cbSize) {
-+                   GstBuffer *buf;
-+ 
-+-                  buf = gst_buffer_new_and_alloc (size - wfex.cbSize);
-++                  buf = gst_buffer_new_and_alloc (size - 8 - wfex.cbSize);
-+                   gst_buffer_fill (buf, 0, wfex_data + 8 + wfex.cbSize,
-+-                      size - wfex.cbSize);
-++                      size - 8 - wfex.cbSize);
-+                   gst_caps_set_simple (entry->caps,
-+                       "codec_data", GST_TYPE_BUFFER, buf, NULL);
-+                   gst_buffer_unref (buf);
-+@@ -13534,8 +13474,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               default:
-+                 break;
-+             }
-+-            len -= size + 8;
-+-            wfex_data += size + 8;
-++            len -= size;
-++            wfex_data += size;
-+           }
-+           break;
-+         }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-8.patch
-new file mode 100644
-index 0000000000..a84575199e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-8.patch
-@@ -0,0 +1,56 @@
-+From da3b4e903ae990193988a873368bdd1865350521 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 09:47:50 +0300
-+Subject: [PATCH] qtdemux: Fix error handling when parsing cenc sample groups
-+ fails
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-238, GHSL-2024-239, GHSL-2024-240
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3846
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8109>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/da3b4e903ae990193988a873368bdd1865350521]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 94ce75b2d42d..e7a79be45b29 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -11404,12 +11404,15 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+       if (stream->subtype != FOURCC_soun) {
-+         GST_ERROR_OBJECT (qtdemux,
-+             "Unexpeced stsd type 'aavd' outside 'soun' track");
-++        goto corrupt_file;
-+       } else {
-+         /* encrypted audio with sound sample description v0 */
-+         GNode *enc = qtdemux_tree_get_child_by_type (stsd, fourcc);
-+         stream->protected = TRUE;
-+-        if (!qtdemux_parse_protection_aavd (qtdemux, stream, enc, &fourcc))
-++        if (!qtdemux_parse_protection_aavd (qtdemux, stream, enc, &fourcc)) {
-+           GST_ERROR_OBJECT (qtdemux, "Failed to parse protection scheme info");
-++          goto corrupt_file;
-++        }
-+       }
-+     }
-+ 
-+@@ -11418,8 +11421,10 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+        * with the same type */
-+       GNode *enc = qtdemux_tree_get_child_by_type (stsd, fourcc);
-+       stream->protected = TRUE;
-+-      if (!qtdemux_parse_protection_scheme_info (qtdemux, stream, enc, &fourcc))
-++      if (!qtdemux_parse_protection_scheme_info (qtdemux, stream, enc, &fourcc)) {
-+         GST_ERROR_OBJECT (qtdemux, "Failed to parse protection scheme info");
-++        goto corrupt_file;
-++      }
-+     }
-+ 
-+     if (stream->subtype == FOURCC_vide) {
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-9.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-9.patch
-new file mode 100644
-index 0000000000..af0d1ed633
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-9.patch
-@@ -0,0 +1,49 @@
-+From 20503e5dd90e21ef170488b2a8b8529ae8a4cab9 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 27 Sep 2024 10:38:50 +0300
-+Subject: [PATCH] qtdemux: Make sure there are enough offsets to read when
-+ parsing samples
-+
-+While this specific case is also caught when initializing co_chunk, the error
-+is ignored in various places and calling into the function would lead to out of
-+bounds reads if the error message doesn't cause the pipeline to be shut down
-+fast enough.
-+
-+To avoid this, no matter what, make sure enough offsets are available when
-+parsing them. While this is potentially slower, the same is already done in the
-+non-chunks_are_samples case.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-245
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3847
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8109>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/20503e5dd90e21ef170488b2a8b8529ae8a4cab9]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544 CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597 CVE-2024-47598
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index e7a79be45b29..5277952c5ea5 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -10070,9 +10070,9 @@ qtdemux_parse_samples (GstQTDemux * qtdemux, QtDemuxStream * stream, guint32 n)
-+           goto done;
-+         }
-+ 
-+-        cur->offset =
-+-            qt_atom_parser_get_offset_unchecked (&stream->co_chunk,
-+-            stream->co_size);
-++        if (!qt_atom_parser_get_offset (&stream->co_chunk,
-++                stream->co_size, &cur->offset))
-++          goto corrupt_file;
-+ 
-+         GST_LOG_OBJECT (qtdemux, "Created entry %d with offset "
-+             "%" G_GUINT64_FORMAT, j, cur->offset);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-pre1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-pre1.patch
-new file mode 100644
-index 0000000000..8238498d38
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-pre1.patch
-@@ -0,0 +1,127 @@
-+From d4bab55077c6a77bd80cb12a8b0d28020ef412a9 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 24 Sep 2024 09:50:34 +0300
-+Subject: [PATCH] qtdemux: Skip zero-sized boxes instead of stopping to look at
-+ further boxes
-+
-+A zero-sized box is not really a problem and can be skipped to look at any
-+possibly following ones.
-+
-+BMD ATEM devices specifically write a zero-sized bmdc box in the sample
-+description, followed by the avcC box in case of h264. Previously the avcC box
-+would simply not be read at all and the file would be unplayable.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7564>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d4bab55077c6a77bd80cb12a8b0d28020ef412a9]
-+CVE: CVE-2024-47537 CVE-2024-47539 CVE-2024-47543 CVE-2024-47544
-+CVE-2024-47545 CVE-2024-47546 CVE-2024-47596 CVE-2024-47597
-+CVE-2024-47598 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/isomp4/qtdemux.c     | 54 ++++++++++++-------
-+ 1 file changed, 36 insertions(+), 18 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
-+index 32df6eeb85c1..5e5c21758058 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -12226,9 +12226,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               else
-+                 size = len - 0x8;
-+ 
-+-              if (size < 1)
-+-                /* No real data, so break out */
-+-                break;
-++              /* No real data, so skip */
-++              if (size < 1) {
-++                len -= 8;
-++                avc_data += 8;
-++                continue;
-++              }
-+ 
-+               switch (QT_FOURCC (avc_data + 0x4)) {
-+                 case FOURCC_avcC:
-+@@ -12343,9 +12346,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               else
-+                 size = len - 0x8;
-+ 
-+-              if (size < 1)
-+-                /* No real data, so break out */
-+-                break;
-++              /* No real data, so skip */
-++              if (size < 1) {
-++                len -= 8;
-++                hevc_data += 8;
-++                continue;
-++              }
-+ 
-+               switch (QT_FOURCC (hevc_data + 0x4)) {
-+                 case FOURCC_hvcC:
-+@@ -12767,9 +12773,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               else
-+                 size = len - 8;
-+ 
-+-              if (size < 1)
-+-                /* No real data, so break out */
-+-                break;
-++              /* No real data, so skip */
-++              if (size < 1) {
-++                len -= 8;
-++                vc1_data += 8;
-++                continue;
-++              }
-+ 
-+               switch (QT_FOURCC (vc1_data + 0x4)) {
-+                 case GST_MAKE_FOURCC ('d', 'v', 'c', '1'):
-+@@ -12809,9 +12818,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               else
-+                 size = len - 0x8;
-+ 
-+-              if (size < 1)
-+-                /* No real data, so break out */
-+-                break;
-++              /* No real data, so skip */
-++              if (size < 1) {
-++                len -= 8;
-++                av1_data += 8;
-++                continue;
-++              }
-+ 
-+               switch (QT_FOURCC (av1_data + 0x4)) {
-+                 case FOURCC_av1C:
-+@@ -12919,9 +12931,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+               else
-+                 size = len - 0x8;
-+ 
-+-              if (size < 1)
-+-                /* No real data, so break out */
-+-                break;
-++              /* No real data, so skip */
-++              if (size < 1) {
-++                len -= 8;
-++                vpcc_data += 8;
-++                continue;
-++              }
-+ 
-+               switch (QT_FOURCC (vpcc_data + 0x4)) {
-+                 case FOURCC_vpcC:
-+@@ -13421,9 +13436,12 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+             else
-+               size = len - 8;
-+ 
-+-            if (size < 1)
-+-              /* No real data, so break out */
-+-              break;
-++            /* No real data, so skip */
-++            if (size < 1) {
-++              len -= 8;
-++              wfex_data += 8;
-++              continue;
-++            }
-+ 
-+             switch (QT_FOURCC (wfex_data + 4)) {
-+               case GST_MAKE_FOURCC ('w', 'f', 'e', 'x'):
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-index dfb0c0f342..98cef84081 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-@@ -6,6 +6,19 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 9a616c6580..ee39aabbac 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-pre1.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-1.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-2.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-3.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-4.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-5.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-6.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-7.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-8.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-9.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-10.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch \
-+           file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch \
-            "
+-SRCREV_machine ?= "66fb50de38a98582ec630efde6e48779cf1ad8a9"
+-SRCREV_meta ?= "567f0adb9d6462279d2e024153d0a8c3a3ff0551"
++SRCREV_machine ?= "282f09eae637932615463274dd0c76a862a7c3d8"
++SRCREV_meta ?= "150b4c5d88b91e848d757c8cad9d841b91163b75"
  
- SRC_URI[sha256sum] = "599f093cc833a1e346939ab6e78a3f8046855b6da13520aae80dd385434f4ab2"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.15.166"
++LINUX_VERSION ?= "5.15.167"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index bb64fc455d..7d3a73d109 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.15.166"
++LINUX_VERSION ?= "5.15.167"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "38da3ed27e665b67bab0063860ee41eb65d77a37"
+-SRCREV_meta ?= "567f0adb9d6462279d2e024153d0a8c3a3ff0551"
++SRCREV_machine ?= "f280216b8c5a4795f402e24a31689a6d492d078e"
++SRCREV_meta ?= "150b4c5d88b91e848d757c8cad9d841b91163b75"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 377ae22e80..9ac3e8368d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "b289f21c7b9243734e00379101f3c95ebb141a5b"
+-SRCREV_machine:qemuarm64 ?= "37bacb1a9110a39a0e993b74136209f78706a803"
+-SRCREV_machine:qemumips ?= "c94b9753f5b0c765642d735b691247d2c1fb839d"
+-SRCREV_machine:qemuppc ?= "c8834e0bad0de37a2d70a07fdc52e7460d685611"
+-SRCREV_machine:qemuriscv64 ?= "a78a1043113066981d74825afce38bca3063664f"
+-SRCREV_machine:qemuriscv32 ?= "a78a1043113066981d74825afce38bca3063664f"
+-SRCREV_machine:qemux86 ?= "a78a1043113066981d74825afce38bca3063664f"
+-SRCREV_machine:qemux86-64 ?= "a78a1043113066981d74825afce38bca3063664f"
+-SRCREV_machine:qemumips64 ?= "28da2017909cb5a715a71c53654cc098e61821cd"
+-SRCREV_machine ?= "a78a1043113066981d74825afce38bca3063664f"
+-SRCREV_meta ?= "567f0adb9d6462279d2e024153d0a8c3a3ff0551"
++SRCREV_machine:qemuarm ?= "6eac800fa7a11f4de7a74b578efa0bba47360ded"
++SRCREV_machine:qemuarm64 ?= "866724b5bb6c32f16adb648e4b251227b711ea07"
++SRCREV_machine:qemumips ?= "bbb3f06bae8f8954e6725a75fd693512d91c5f29"
++SRCREV_machine:qemuppc ?= "3e7fae8f2bf9a92ae8c0f7036a070c1e6c5da47c"
++SRCREV_machine:qemuriscv64 ?= "52f5ff9f0af8d552aa6307143e74659e1e21fe6d"
++SRCREV_machine:qemuriscv32 ?= "52f5ff9f0af8d552aa6307143e74659e1e21fe6d"
++SRCREV_machine:qemux86 ?= "52f5ff9f0af8d552aa6307143e74659e1e21fe6d"
++SRCREV_machine:qemux86-64 ?= "52f5ff9f0af8d552aa6307143e74659e1e21fe6d"
++SRCREV_machine:qemumips64 ?= "b8b0a5ddb82108f0cf62676b91a757d233f6fec8"
++SRCREV_machine ?= "52f5ff9f0af8d552aa6307143e74659e1e21fe6d"
++SRCREV_meta ?= "150b4c5d88b91e848d757c8cad9d841b91163b75"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "14e468424d3edcf23167133d6ee2f3e3c6c5a022"
++SRCREV_machine:class-devupstream ?= "3a5928702e7120f83f703fd566082bfb59f1a57e"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.15.166"
++LINUX_VERSION ?= "5.15.167"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.43.0
 
