@@ -2,59 +2,59 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A32F6E77197
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 16:44:29 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.25426.1736268265872283621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50BBE77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 16:44:59 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.25431.1736268296741646914
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 08:44:26 -0800
+ Tue, 07 Jan 2025 08:44:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UDOA+6/H;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffd6af012eso212515431fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 08:44:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QcSAgJQc;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5401bd6ccadso15608491e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 08:44:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736268264; x=1736873064; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1736268295; x=1736873095; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9/8hI/QMOpI4iCzUC38DyUyDqQdV6mFg3xTPafev33M=;
-        b=UDOA+6/HrK1h3ovA8Ybu+4Gc88cJBv6MXf+ERWBT4YxH9JCoqMOfFXFhiOUaG7J+Zq
-         NkB963LMABw80Ul75rxmcbebf4MGn2gYpwlQSac0tF8KhRPHZrwp/xkSpNAA1/AjcALQ
-         EvRjbrd7epewXHrcY6C66V/82tq+9/VMcf4+HjHZzlrSPDd+BH0D7Wyf2yPszYV4qg9I
-         5LxQ2Mf+LMHzHEE3OWCJUcaZgSL47tHryhpALB3WmZYf3lBCUD8Ix+K+VqsX2F3lFAmj
-         SPL8zc3VyuKuGvJC24UfGwZyx8T+QckendpPNUn7x0c2ufcU0rVvU/xjcMfwr+3LH5Pc
-         r1ig==
+        bh=D/h3spwq8r3lprQ1i/iVgd+3e8KlLtSPG6kHbzVMv34=;
+        b=QcSAgJQcw4gUbyCvAggT57yTFBmhm/g526+HV0fPQ844dl+JBrWOZyCnIkSwXpkqli
+         TBIMNYj0+gGICd6bPQWGKL6doH9CmfAChvZ8+eVLZKrvdIFoWAWz5Vaf7rZONC/10bsj
+         8opm9yWKRJmiv3nrdbbIeeuSsaBiudvwEvlKHSwgMeqeN4cmP30BhcFpYmZl24qYqPfo
+         LjDUm1kWYmGAtpmcBjflM9StZn+DzAwixHDN5GYETb8l9lpu3muJyNVAEQx9tzxbZLQl
+         /OnZm5imzWzrnARYX+/N2woJ78pggmFb46rUXX4KrcjkM6OMVbWrG6/QKiuxbzafr3Dz
+         DHJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736268264; x=1736873064;
+        d=1e100.net; s=20230601; t=1736268295; x=1736873095;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9/8hI/QMOpI4iCzUC38DyUyDqQdV6mFg3xTPafev33M=;
-        b=prHH902t3qN4uA8aWUnomS4mTK2jMpl/NvNMYVjvVTeZxxQ35X9+d101LRm/L9zg4P
-         EoS/R48KNtjiDo0YAq7yH/xoy6IEx8kfgXeHloRnYbFfyCzgOheDuWcqqXCaf56GS/fT
-         25dBVvXrAn2Fj8Mrr+Mh4/2C1qkcwHy7d68/MLiGH3ffdUudu1Y3zd8kVBdnLfl9lk/d
-         dKyqUc4eqjdWB8p58K5UUzd8yF0lhW/wWnwq23OATBZGUcM1BEcWUEBjx9YZc1Pr+pK/
-         GSfOQ0bycnAWmjFwMp6+f4KR3RfQL4/AiB3ggigZJU3EfQj7llceHaQ3E6lGGsZHUN6U
-         KpDw==
-X-Gm-Message-State: AOJu0YwZWiMpcTY9pqoqyWssXJa8AJa/F2sOWx/QZukEqbDdFS1tlP7x
-	M3Hp1ns4osrXEn5c8eVCNFy9QQpEJFyLIYnMPkDeYJcLkPVGlov+VAcFNgigZU24u7//EnMnWK9
-	2sbXl8JpzAIDfkmcUl6iR505SHEx5hg==
-X-Gm-Gg: ASbGncsUsYRsb5/gF845JOALOj8H48Ns05F2SIEl8FyT8AtEQJD+xm3Ua8O+uY3TR4u
-	LlZWaEUxmsHMyF4rIkmYsOOqiFKduurbYNi0U5+vbt8Jn726lGBm7
-X-Google-Smtp-Source: AGHT+IERLLUWblVlgmDLYrVibClk5AVyjLeED0mFIoM7vfAYYSDgNVpPjsWkA0R6Vrsw0b9477tEo7uGbXp70p8BgmQ=
-X-Received: by 2002:a2e:a98a:0:b0:300:15d9:c625 with SMTP id
- 38308e7fff4ca-30468575296mr156286061fa.14.1736268263729; Tue, 07 Jan 2025
- 08:44:23 -0800 (PST)
+        bh=D/h3spwq8r3lprQ1i/iVgd+3e8KlLtSPG6kHbzVMv34=;
+        b=diFlIO56rsQSk1HY7W261Kn0kNvvGb6HatHF/3bRsXu4OeM6GVkIXoGxAoZ8CNrRRE
+         QidBajejmezW0OHpGoXXQHg1zMVIN99QzwREj1BNaoFGNbxcNLicxC5BxI+k0UBv9pDY
+         Q75A/ID08hZi/yyFe/mTivPHr0xqBaWrek3yhwcTbXF9uVBvClh6+NywmsDuE1mSRFs3
+         VKrGDhsda9gHpJwOmWT514A2ZKaq682onRpJHz9G8FEjsJnEVvBkjTMJIzJNIdXIL1Yn
+         FAwVzSDn9yO46SraA2+vDis7SKRDIB19SH/zKukRuMOfoQPJjip6usizj3jSr42IxqzA
+         tSnw==
+X-Gm-Message-State: AOJu0Yxmp1HJQVIXchH9rCnBINZDkNlidBC8F5q/n6L/J3Px4tur1U2L
+	vRNo+0NR6miaq7w3D0d85SpR1wRtgu0JPFtttDPXM7v8ekZl6X1FB6cx64NRPJB5eSLUiNLKH0t
+	vv9IuuKTcTxe6ayivapqxQuIgBbsDTw==
+X-Gm-Gg: ASbGncvMrCieuaaM4c2Us9/p0aFmgjeMtQ9GO22cRbE7IAEJr+mlb98Zx7YBnXptcue
+	xyPDsbmZkdtFuiNXHDG78cE1RCHabj94cfX7s/V9I8iAWxziWha35
+X-Google-Smtp-Source: AGHT+IHt4BO77yYjDZo8S+2Qe0k2rgqbwaThithdDavbJJWo3Md8WIpkZII/Zz2GaAN4bBBuBCp1o7oRu1CP0GivJ6o=
+X-Received: by 2002:a05:6512:118a:b0:542:28e3:2141 with SMTP id
+ 2adb3069b0e04-5422956be9fmr20808866e87.54.1736268294641; Tue, 07 Jan 2025
+ 08:44:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20241227061111.2086879-1-hongxu.jia@windriver.com>
-In-Reply-To: <20241227061111.2086879-1-hongxu.jia@windriver.com>
+References: <20241226054321.143382-1-hongxu.jia@windriver.com>
+In-Reply-To: <20241226054321.143382-1-hongxu.jia@windriver.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 7 Jan 2025 09:44:10 -0700
-X-Gm-Features: AbW1kva3mfkqB5sDxdJZRO9vgzF0_7hoCU8mxzt7tqm1nxDH4Mq8piZFc_sPV-c
-Message-ID: <CAJdd5Gaz6WaRzm3ikZ33xXy_53O1trq4FvHz7fHBV4jB5-Qnrg@mail.gmail.com>
-Subject: Re: [PATCH] meta/classes/create-spdx.bbclass: support to inherit SPDX
- class conditionally
+Date: Tue, 7 Jan 2025 09:44:41 -0700
+X-Gm-Features: AbW1kvY9t3Kee9yw40hpBRmblmYpw7Hq7oV7x9dmxUUIxUYq77nZhFkBOc8fy5Y
+Message-ID: <CAJdd5GZup=MyB6wHpOWeGbvWMXbn=w044mZ5KRRkx83oCMHRfA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] meta/lib/oe/spdx30_tasks.py: set license alias to
+ hasConcludedLicense relationship
 To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
@@ -62,74 +62,72 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 16:44:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209478
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 16:44:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209479
 
 Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-On Thu, Dec 26, 2024 at 11:11=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.c=
+On Wed, Dec 25, 2024 at 10:43=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.c=
 om> wrote:
 >
-> In order to inherit SPDX class conditionally, using variable ${SPDX_CLASS=
-}
-> to inherit SPDX class other than original 'INHERIT:remove =3D "create-spd=
-x"'
-> and INHERIT +=3D "create-spdx-2.2"
+> Set license alias other than spdxId to hasConcludedLicense relationship
+>
+> $ echo 'MACHINE =3D "qemux86-64"' >> conf/local.conf
+> $ bitbake shadow
+> $ In tmp/deploy/spdx/3.0.1/corei7-64/recipes/recipe-shadow.spdx.json
+> Before this commit
+> ...
+>     {
+>       "type": "Relationship",
+>       ...
+>       "from": "http://spdx.org/spdxdocs/shadow-10e66933-65cf-5a2d-9a1d-99=
+b12a405441/c34a0920c2f689375e786a80ab3176b844997d543b73dd5f99e6ffa8fcc72fee=
+/source/8",
+>       "relationshipType": "hasConcludedLicense",
+>       "to": [
+>         "http://spdx.org/spdxdocs/shadow-10e66933-65cf-5a2d-9a1d-99b12a40=
+5441/c34a0920c2f689375e786a80ab3176b844997d543b73dd5f99e6ffa8fcc72fee/licen=
+se/3_24_0/BSD-3-Clause"
+>       ]
+>     },
+> ...
+>
+> After this commit
+> ...
+>     {
+>       "type": "Relationship",
+>       ...
+>       "from": "http://spdx.org/spdxdocs/shadow-10e66933-65cf-5a2d-9a1d-99=
+b12a405441/c34a0920c2f689375e786a80ab3176b844997d543b73dd5f99e6ffa8fcc72fee=
+/source/8",
+>       "relationshipType": "hasConcludedLicense",
+>       "to": [
+>         "http://spdxdocs.org/openembedded-alias/by-doc-hash/cc72db638e3f8=
+e283e722af0ecc77d19f93cc6736700ee76477e3773b6b07b05/shadow/UNIHASH/license/=
+3_24_0/BSD-3-Clause"
+>       ]
+>     },
+> ...
 >
 > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  meta/classes/create-spdx.bbclass     | 3 ++-
->  meta/lib/oeqa/selftest/cases/spdx.py | 8 ++------
->  2 files changed, 4 insertions(+), 7 deletions(-)
+>  meta/lib/oe/spdx30_tasks.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.=
-bbclass
-> index b604973ae0..35cd63f31e 100644
-> --- a/meta/classes/create-spdx.bbclass
-> +++ b/meta/classes/create-spdx.bbclass
-> @@ -5,4 +5,5 @@
->  #
->  # Include this class when you don't care what version of SPDX you get; i=
-t will
->  # be updated to the latest stable version that is supported
-> -inherit create-spdx-3.0
-> +SPDX_CLASS ??=3D "create-spdx-3.0"
-> +inherit ${SPDX_CLASS}
-> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
-t/cases/spdx.py
-> index f3b955ed2b..4789041a6a 100644
-> --- a/meta/lib/oeqa/selftest/cases/spdx.py
-> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
-> @@ -24,8 +24,7 @@ class SPDX22Check(OESelftestTestCase):
->      def check_recipe_spdx(self, high_level_dir, spdx_file, target_name):
->          config =3D textwrap.dedent(
->              """\
-> -            INHERIT:remove =3D "create-spdx"
-> -            INHERIT +=3D "create-spdx-2.2"
-> +            SPDX_CLASS =3D "create-spdx-2.2"
->              """
->          )
->          self.write_config(config)
-> @@ -89,8 +88,7 @@ class SPDX3CheckBase(object):
->          config =3D (
->              textwrap.dedent(
->                  f"""\
-> -                INHERIT:remove =3D "create-spdx"
-> -                INHERIT +=3D "{self.SPDX_CLASS}"
-> +                SPDX_CLASS =3D "create-spdx-3.0"
->                  """
->              )
->              + textwrap.dedent(extraconf)
-> @@ -138,8 +136,6 @@ class SPDX3CheckBase(object):
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index ae75311ed1..12588b3949 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -524,7 +524,7 @@ def create_spdx(d):
+>      build_objset.new_relationship(
+>          source_files,
+>          oe.spdx30.RelationshipType.hasConcludedLicense,
+> -        [recipe_spdx_license],
+> +        [oe.sbom30.get_element_link_id(recipe_spdx_license)],
+>      )
 >
->
->  class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-> -    SPDX_CLASS =3D "create-spdx-3.0"
-> -
->      def test_base_files(self):
->          self.check_recipe_spdx(
->              "base-files",
+>      dep_sources =3D {}
 > --
-> 2.25.1
+> 2.34.1
 >
 
