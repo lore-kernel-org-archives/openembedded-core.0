@@ -2,87 +2,121 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1096E77197
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 22:27:46 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.5329.1736288863362000796
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A57B0E77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 22:35:46 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.5519.1736289338994213947
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 14:27:44 -0800
+ Tue, 07 Jan 2025 14:35:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E8d7Vtjs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385ef8b64b3so12482525f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 14:27:43 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NX0Ct8Mk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so6081374f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 14:35:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736288861; x=1736893661; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0vvg8VDx+1CbEmxhVgmqrg1mpiWle/O3UCOfBl1qUO8=;
-        b=E8d7Vtjs2isM+Vw/pwo0DK+cvLfRBGb4VjW+DCP920Z+NsfFW+JjvQvMW7kQBEg+Qd
-         cwCFLKRgNGNzT3h7P+sfhi3JKBtcmFkO2QgGOgpJEzajmUoF5lqNaRa5MaJZPvnu8uGi
-         s3KwRMbeI9gUnljS0jri4CzbKCzW2Z5xsT3eo=
+        d=linuxfoundation.org; s=google; t=1736289337; x=1736894137; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EwKUiUAt/64uxa0p02B11J+PZEd51W1yUid4afDoZqU=;
+        b=NX0Ct8Mk3LuK8cvJSfBaiNbfLhGDQSqD9fjZrlnvc1AsXYbBTvABGc9P33q1LvG17/
+         eMbktmMQq1DAnec0GY9ZKaJLPKPtxzxyxrwL64gsyaq7mt2/o/Fpmtiop0kayJX+LP8J
+         JBOrPtqXXly80Iq2TWfpPoZDn2pb+LuhOxuR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736288861; x=1736893661;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0vvg8VDx+1CbEmxhVgmqrg1mpiWle/O3UCOfBl1qUO8=;
-        b=vqfIERZ5jNV01Y3D2RrGRbgvECi4K0bNgfIzpHi1Y4XYRUuV/Z9NUU2txnBuQ8gFtp
-         kjU7jLfNsGEBKCrRebMkXa7wxIRf9YyT2SJK4W/tLc5ryFjYJKtz9i10uMHFmMfusCyr
-         JlY7gHVn8MIO/2wRwspW61bFGRMm60/Ti/ib7A/2gfoh/ByJXQbcDqdpARIhjdtZsgOB
-         RE0sUKMCdqTKzbCCv4Lv3hSrwnfeSCXYg1c6rlqxeL+YGbVUzJ4KEPyMpeDk2SLpI9m3
-         NO2+QDYhNTWn5Me5xs+BUd4LrP4SpGTeIMOg5nxEMoGtKDUEFUoG9lCjD86BKb+6+PV4
-         AeoQ==
-X-Gm-Message-State: AOJu0YybqYI40ne4Wkzl9GfVG9DTy2S4eUvUwvqh9NTv27Wjc/C/CSqp
-	XsAAB0nGnarA144BdESjF521DQelqKn9L2ftD8D446p4Nu+mbajV7pqM90kXbYxiXfvKBePbmWh
-	Hrbk=
-X-Gm-Gg: ASbGncvaxhrNcGQlNRobLA5xK+LSNyYClTruaghZp2a+aQqGFTOeYo97pkoSVNOzYPT
-	LfOtl0bPMFMO8DjmhxjtFqrwti0N0vdpQ/xvF+TBpeqhM6GapG+HamXc1rOqj1iU4CnILQxuFlI
-	n67UrFVkwU3Ho1rpUtg286GkprL7/vVNgEOnj87sPQ5SwN7cUMJma59uKQ7xMDEctEEtNq3SFtu
-	4X1GFcM0G+tfs2IKI8UvivdOlTEn7l/l4D9661yG4J7JyO7ZI55qwxufLCrOe7WWep/bt/uGOhO
-	xlZdLPkXZg==
-X-Google-Smtp-Source: AGHT+IGdsG681TrJHMTfkR4S8x+FVnJhMurtYkJz/lQYltroGb0cpxt7QdBHAtv44xVVOpP0wkpRew==
-X-Received: by 2002:a5d:5847:0:b0:386:407c:40b9 with SMTP id ffacd0b85a97d-38a872eb4b9mr208415f8f.28.1736288861397;
-        Tue, 07 Jan 2025 14:27:41 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4b64:f113:f9ed:a6de])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a47c9b2efsm31808269f8f.91.2025.01.07.14.27.40
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1736289337; x=1736894137;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EwKUiUAt/64uxa0p02B11J+PZEd51W1yUid4afDoZqU=;
+        b=U0zft+6MKvhEiAyVrwDeSG1B5Bv/w6PvDUmM0Mm+8yhEm4RB2HrY1RwAKoKTYAKDOy
+         urjXZRov4rr2PDOAR5ilQpDCL9Bu93YcgSmLeERJgpOiD3Xe5MudJTOgA1+nK6woG0QA
+         RD2jGg9+ELX2Ti7NDtlv1BFYx3iTf8H8GMtOr8e+O3zvDXrKcjtg1u2gSl+rujG6yNod
+         JHSDVPYTzOhaZxPLdAOJWpWIXb8mD6g9PRMF4SrRR7RMW3li9ijMUldLDnCjmGjsA7pP
+         WAbxY1ptJNNS2Hn+GAtBEhiDsEOT7xYkxkWRhrWJBX4JuASEk5x19zH+khuceheJTBBK
+         pWfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxtWD+HWAGyze1mKcs5X2qkyJpugPhPXiYuESScFuqsnL1tx8FnXoWv3kdiITIHwPinKFVITqTAD1raFO3Jrg3Hw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwN3LebBLehZcRDwoMtReGFuPqOyGODttes1Jz33fC4GjUMQpjM
+	CPaEDlRh55OKTDC82Cd5E+MfI4ZU5Vg79Ssf3L2tFcYK/wWHPLpFkIxyBG78Mq8=
+X-Gm-Gg: ASbGncvaJHE9DGH1G1ebYKufCfb0oXrQsNiuE52VMgb9SEgM+t2psoZv32nvDeoBCo6
+	LBjdjVj1Xf2G6MFlorRa9JbVKLQZvYtDLFeoZhjz26FXwLCoMzEaM30UYQpMmjhPDKjdXzxtF3U
+	4gynAJR4MFqno9qTupPJg7TRP7OObjBt3mtA5kkn161uWIXMhNwnb+s5Ogs5Wj/PNQ5k3+w9DCL
+	wJlprlYK4dIwCoJNmtIAPgMvc0eFf2lVL5XO6y1B7rdFpsCVqDrRAmu0/Mk2Y/Gc5U04a6x+d3+
+	mXqjHf7RDBSXPRZUrAbGM0LV4p6pVFMZFUh2XIZwK09HZA==
+X-Google-Smtp-Source: AGHT+IHH9/QJq+4YKqQTs89T39VHCKq6MBfI4ulRjVTGO2w7apZXrXjTR9WFJdihhoCSPZ6PDMEK7A==
+X-Received: by 2002:a5d:598b:0:b0:385:ee40:2d75 with SMTP id ffacd0b85a97d-38a872da8b6mr229926f8f.20.1736289337359;
+        Tue, 07 Jan 2025 14:35:37 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4b64:f113:f9ed:a6de? ([2001:8b0:aba:5f3c:4b64:f113:f9ed:a6de])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e8a326sm770445e9.35.2025.01.07.14.35.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 14:27:40 -0800 (PST)
+        Tue, 07 Jan 2025 14:35:35 -0800 (PST)
+Message-ID: <5f83f87b91961f4c1ba449029b4f904f288c3a6c.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] classes/ptest-python-pytest: simplify python
+ ptest file overriding
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Drop obsolete and misleading comment
-Date: Tue,  7 Jan 2025 22:27:39 +0000
-Message-ID: <20250107222740.3520980-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
+To: derek@asterius.io, openembedded-core@lists.openembedded.org
+Date: Tue, 07 Jan 2025 22:35:34 +0000
+In-Reply-To: <20250107203009.3251029-1-derek@asterius.io>
+References: <20250107203009.3251029-1-derek@asterius.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 22:27:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209505
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 22:35:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209506
 
-"packaged staging" is obsolete and now we have sstate. Multimachine is just
-the norm now, I doubt people remember how things used to be!
+On Tue, 2025-01-07 at 20:30 +0000, Derek Straka via lists.openembedded.org =
+wrote:
+> The complexity of overriding files from the bbclass made the behavior at
+> times hard to follow. This change replaces the default file with a
+> heredoc equivalent that creates a default file if the user does not provi=
+de their
+> own version of run-ptest.
+>=20
+> Signed-off-by: Derek Straka <derek@asterius.io>
+> ---
+> =C2=A0meta/classes-recipe/ptest-python-pytest.bbclass | 12 +++++-------
+> =C2=A0meta/files/ptest-python-pytest/run-ptest=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 3 ---
+> =C2=A02 files changed, 5 insertions(+), 10 deletions(-)
+> =C2=A0delete mode 100755 meta/files/ptest-python-pytest/run-ptest
+>=20
+> diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass b/meta/class=
+es-recipe/ptest-python-pytest.bbclass
+> index 801079e6ab..7ed84584b7 100644
+> --- a/meta/classes-recipe/ptest-python-pytest.bbclass
+> +++ b/meta/classes-recipe/ptest-python-pytest.bbclass
+> @@ -6,19 +6,17 @@
+> =C2=A0
+> =C2=A0inherit ptest
+> =C2=A0
+> -FILESEXTRAPATHS:prepend :=3D "${COREBASE}/meta/files:"
+> -
+> -SRC_URI:append =3D "\
+> -=C2=A0=C2=A0=C2=A0 file://ptest-python-pytest/run-ptest=C2=A0\
+> -"
+> -
+> =C2=A0# Overridable configuration for the directory within the source tre=
+e
+> =C2=A0# containing the pytest files
+> =C2=A0PTEST_PYTEST_DIR ?=3D "tests"
+> =C2=A0
+> =C2=A0do_install_ptest() {
+> =C2=A0	if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
+> -		install -m 0755 ${UNPACKDIR}/ptest-python-pytest/run-ptest ${D}${PTEST=
+_PATH}
+> +		cat > ${D}${PTEST_PATH}/run-ptest << EOF
+> +#!/bin/sh
+> +pytest --automake
+> +EOF
+> +
 
-Drop the comment as it is misleading and obsolete.
+Do you need to set the exec bit on that file having created it?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 2 --
- 1 file changed, 2 deletions(-)
+Cheers,
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2dfb9ce94cd..6123bcd123d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -443,8 +443,6 @@ STAGING_FIRMWARE_DIR = "${STAGING_DIR_HOST}/firmware"
- 
- STAGING_DIR_TARGET = "${RECIPE_SYSROOT}"
- 
--# Setting DEPLOY_DIR outside of TMPDIR is helpful, when you are using
--# packaged staging and/or multimachine.
- DEPLOY_DIR ?= "${TMPDIR}/deploy"
- DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
- DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+Richard
+
 
