@@ -1,93 +1,280 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF39E77198
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 13:55:28 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.20597.1736258126266825380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C482BE77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 14:04:08 +0000 (UTC)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+ by mx.groups.io with SMTP id smtpd.web11.20834.1736258642362745139
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 05:55:26 -0800
+ Tue, 07 Jan 2025 06:04:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AVxEhaLZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso93997855e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 05:55:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=s2USVCHD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.180, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e3c8ae3a3b2so18673927276.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 06:04:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736258125; x=1736862925; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736258641; x=1736863441; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+tkTtzQa+AarTp0CeFfncF55k28hBZca6Zmd9gfEafI=;
-        b=AVxEhaLZv1ec1X3izbWnL01V2+PcrRjmuubN7uqiWS1+8HOvszzd5EtPAEiDlbvnLb
-         Isni6Q2Y8MoDEIzXd00fP5R4osez3chnJN92bsdQ6E6jolvNKG8CteA+C3sVbWxXMYFL
-         CqEWq0hoIh6KfZZ93Dr0bsul15yAXliQhTTlA=
+        bh=DCLFHN2ZXSU2KNrz3lfpRnIXTNNv0SN04HhU5tDxG8E=;
+        b=s2USVCHDOm5/okJ665Eete269EOul4s6xEQlnHpNgJzPFGm39Cwu3hir8AXnvazg3I
+         IVW7Nnck85nk7fbE3XE7vdG/hglrQZf8lGoahW93eF1izaN/vMbVRTdfLWE7KVjeLFnY
+         VULxipRFbqK1JRliSCDbJCMj9A+vNr/s2iCbGSYWjD40cKD7N+fAOyE+miKWNv2RGYLO
+         6tZ+rvw4OIVvDnBF5LX9yKyQrCIjBvDbDFgwjQxznsRsUB353B+8JEYsA9aEsqFkNQt3
+         ZKQZYPNyWBCudXCjsiHh81/3DRMRsUy6QaLQuSYo1Y2yzOAe8/vyi0tP7I+ndwA1OPK5
+         w/LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736258125; x=1736862925;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+tkTtzQa+AarTp0CeFfncF55k28hBZca6Zmd9gfEafI=;
-        b=ljcnYCtTAyOi93YxLRLOGE/t1DwgEr7mj5rinb8XYT7YTWyts3VX4wQ++s7DCJohs4
-         UFRU+3rNMRNP4aYVR2QH9On6cC9MWSisV09j02c0rGDg8o1Qo0izjVAuQw9nHKpCkkRM
-         PQZlG9xCPQ0lWAqcWwWc/KSPRYqFLt6y3ClAw3g/JGOC/tFVfiZt6u9PbE9toDidkSGV
-         9FWSZ+xLElHb3tvzWcCiMUsUkYXi2lt1tiIAEQgFvsA7sPZ+xOMqTlCui+hD/fUjWvar
-         9FWspYv0NT7eVxgJ9s88h7OdX59fgvV2ryfiVvekEFEitx1hbe3VFJl5YYwDDPMd5yuI
-         lLgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEEVd5cDlRumlHWzB1f0L4jLlb7C20FRark/k98EUVVw1rSZmdaOqLbiWB/+QcjS4FQEPSUwyBWw437LgJzk1ITQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzm9/6MSk230ElLrwK+BQmUd4v8roFORNCQ2IgnHo4hAFYua9AM
-	NNdUffaVg+TPWf+i3L+rrxhkl2g5KNcOj9PTNzvr5xIxpRQ0fCsrDzvaQ6ZYIo/BKn2K5wnfTDR
-	vshI=
-X-Gm-Gg: ASbGncsJRTcMl+aezkYcXPn66ZTre1o5cADg6xs82Ujs3e2oUS6eB1oEboJqoKa7uWV
-	rVlBFbTX7AE107R8ulNxozMp78qjSvVqwGqPjULnrpmTLcASkb7pypVokYzM6pD+YePGSk7mToG
-	hatYvWIxZx6FEiSEeMK6k/hkZEeMr28syS+WwP8VskRU5nkSOEOya+iyYKOtMRDljF1/o3cCcNl
-	mV9sYA74DMmzRdHpvX6VA4ow/5rXBUlHnNF25O59w28i3250S4t3QIffvaf1KXctYecxDpasrau
-	nSU833AKqKFgmqFiJOkIOfZEeGVR2KSnBlxGP2aTMBozPQ==
-X-Google-Smtp-Source: AGHT+IGntXQuCG5RfMukvB48ptEfBlJYWulznYMxdMNbkx7LUyYvq5taVOoNJfLuxkwPISNtWbeEaw==
-X-Received: by 2002:a05:600c:3504:b0:42c:baf1:4c7 with SMTP id 5b1f17b1804b1-436dc1c1674mr21361725e9.4.1736258124673;
-        Tue, 07 Jan 2025 05:55:24 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a621:21b2:eb2a:5bdb? ([2001:8b0:aba:5f3c:a621:21b2:eb2a:5bdb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c515sm600896725e9.30.2025.01.07.05.55.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 05:55:24 -0800 (PST)
-Message-ID: <51162d376801104d5d961bf9d7ddb06dd711cc09.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 08/19] clang/recipes: Add missing SUMMARY field
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 07 Jan 2025 13:55:23 +0000
-In-Reply-To: <20241105184540.3450302-8-raj.khem@gmail.com>
-References: <20241105184540.3450302-1-raj.khem@gmail.com>
-	 <20241105184540.3450302-8-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1736258641; x=1736863441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DCLFHN2ZXSU2KNrz3lfpRnIXTNNv0SN04HhU5tDxG8E=;
+        b=sDNJ3x41rFTBlXcYUHLghEqL4gPbGiC/lNHYFLY1NNAPFEUPsr8uUTgqGKIPPsNR+k
+         MpnY6Lgi9yNOmcigTIPakdF/42J1ep+aQech65tZBYknWDK0g7GwqbVoeple+hen3D0R
+         2s1j1nB27jQFb0YEZmlHEX29FLFMdCbFepvmQm27OmS5c+JW9F/8POhESocC5sT9Wop+
+         azwYL8dfHqdbsT95Z7iUO7KCG2FY23spiRbuZbUzJ4BafLXtSFafkTZe42BoK9R01HTz
+         ZUuQN2OCGz8nL3EfKLZTv1w7DYjEZynNS1z+19xY91nU5lgS7JotFWs+bjwD8Qy12Ocn
+         pjVA==
+X-Gm-Message-State: AOJu0Yw2oyBYNCxGasREu59HpJXXHJH/1bBdC1GiuSufDsWYx65QC3VK
+	BRzla+EpTlPNCW01EohzpzZII3j6jBKg1JjgAOpEhX43+sek7PhHNsk9LuQwefFq8qq327BgDvF
+	hiZ9sVUoYVDJ4eRy/WrpAAvXUtx1p/FYipfDIa0UOSp/NidpgkCXfsQ==
+X-Gm-Gg: ASbGnctb6wXsHlFPIHX33CNsdTaz0CTEjFkbRnb51y2EoIABbNHC6fvNfGOxzPkMi34
+	cfLZ7ufMJ32CbmEjkI9SUqHHrbKyjcugmTzi1XQ==
+X-Google-Smtp-Source: AGHT+IGhJSgsYyLudY+S9Fnx2hClqMGMLt8gBR19g5DhFmXbtQVFe1Jyuj86FtTi2bhUJAbx35GbRoU9tb33zFjbN+Y=
+X-Received: by 2002:a05:690c:4d01:b0:6ef:77e3:efe3 with SMTP id
+ 00721157ae682-6f3f811506cmr474288817b3.13.1736258641492; Tue, 07 Jan 2025
+ 06:04:01 -0800 (PST)
 MIME-Version: 1.0
+References: <20250107065756.642432-1-spushpka@cisco.com>
+In-Reply-To: <20250107065756.642432-1-spushpka@cisco.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 7 Jan 2025 06:03:50 -0800
+Message-ID: <CAOSpxdbNu+ydoeZrcJ-jf58eE2wYeHUm-rg5PJqetvGfJOJgjQ@mail.gmail.com>
+Subject: Re: [OE-core] [meta-openembedded] [scarthgap] [PATCH] wireshark
+ 4.2.7: Fix CVE-2024-9781
+To: spushpka@cisco.com
+Cc: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 13:55:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209471
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 14:04:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209473
 
-T24gVHVlLCAyMDI0LTExLTA1IGF0IDEwOjQ1IC0wODAwLCBLaGVtIFJhaiB2aWEgbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyB3cm90ZToKPiBFbmhhbmNlIGRlc2NyaXB0aW9uIHdoaWxlIGhlcmUKPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgo+IC0tLQo+IMKg
-Li4uL2NsYW5nL2NsYW5nLWNyb3NzLWNhbmFkaWFuX2dpdC5iYsKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIHzCoCAyICstCj4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2xhbmcvY2xh
-bmctY3Jvc3NfZ2l0LmJiwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbGFuZy9jbGFuZy1jcm9zc3Nka19naXQuYmLCoMKgwqDCoCB8wqAgMiArLQo+IMKg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NsYW5nL2NsYW5nX2dpdC5iYsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHwgMTEgKysrKysrKysrKy0KPiDCoC4uLi9jbGFuZy9jb21waWxlci1ydC1zYW5p
-dGl6ZXJzX2dpdC5iYsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQgKysrLQo+IMKg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NsYW5nL2NvbXBpbGVyLXJ0X2dpdC5iYsKgwqDCoMKgwqDC
-oMKgIHzCoCA2ICsrKysrLQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NsYW5nL2xpYmNsY19n
-aXQuYmLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbGFuZy9saWJjeHhfZ2l0LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAy
-ICstCj4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2xhbmcvbmF0aXZlc2RrLWNsYW5nLWdsdWUu
-YmLCoMKgIHzCoCAyICstCj4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2xhbmcvb3Blbm1wX2dp
-dC5iYsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMiArLQo+IMKgMTAgZmlsZXMgY2hhbmdl
-ZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCgpUaGlzIGNhbiBwcm9iYWJseSBi
-ZSBtZXJnZWQgaW50byB0aGUgcmVjaXBlcyBpbiBtZXRhLWNsYW5nIHNvIGl0IHdvdWxkCmp1c3Qg
-YmUgcGFydCBvZiB0aGUgcmVjaXBlIG1lcmdlIGluIGZ1dHVyZT8KCkNoZWVycywKClJpY2hhcmQK
+Wrong mailing list!  Please send to openembedded-devel@lists.openembedded.o=
+rg
 
+Thanks,
 
+Steve
+
+On Tue, Jan 7, 2025 at 3:35=E2=80=AFAM Shubham Pushpkar via
+lists.openembedded.org <spushpka=3Dcisco.com@lists.openembedded.org>
+wrote:
+>
+> Upstream Repository: https://gitlab.com/wireshark/wireshark.git
+>
+> Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-9781
+> Type: Security Fix
+> CVE: CVE-2024-9781
+> Score: 7.8
+> Patch: https://gitlab.com/wireshark/wireshark/-/commit/cad248ce3bf5
+>
+> Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+> ---
+>  .../wireshark/files/CVE-2024-9781.patch       | 133 ++++++++++++++++++
+>  .../wireshark/wireshark_4.2.7.bb              |   1 +
+>  2 files changed, 134 insertions(+)
+>  create mode 100644 meta-networking/recipes-support/wireshark/files/CVE-2=
+024-9781.patch
+>
+> diff --git a/meta-networking/recipes-support/wireshark/files/CVE-2024-978=
+1.patch b/meta-networking/recipes-support/wireshark/files/CVE-2024-9781.pat=
+ch
+> new file mode 100644
+> index 000000000..eb8c733da
+> --- /dev/null
+> +++ b/meta-networking/recipes-support/wireshark/files/CVE-2024-9781.patch
+> @@ -0,0 +1,133 @@
+> +From f32965be7c80ca6eb330d0e9b34f0c563db7d869 Mon Sep 17 00:00:00 2001
+> +From: Gerald Combs <gerald@wireshark.org>
+> +Date: Tue, 8 Oct 2024 11:56:28 -0700
+> +Subject: [PATCH] AppleTalk: Make sure we have valid addresses
+> +
+> +Make sure ATP, ZIP, and ASP have valid addresses. Use sizeof instead of
+> +a hard-coded value in a few places.
+> +
+> +Fixes #20114
+> +
+> +(cherry picked from commit 3de741321f85c205c0a8266c40f33cb0013bd1d2)
+> +
+> +Conflicts:
+> +       epan/dissectors/packet-atalk.c
+> +
+> +CVE: CVE-2024-9781
+> +Upstream-Status: Backport [https://gitlab.com/wireshark/wireshark/-/comm=
+it/cad248ce3bf5]
+> +
+> +(cherry picked from commit cad248ce3bf53026cc837fedeaca65d0f20ea3b5)
+> +Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+> +---
+> + epan/dissectors/packet-atalk.c | 44 ++++++++++++++++++++++++----------
+> + 1 file changed, 32 insertions(+), 12 deletions(-)
+> +
+> +diff --git a/epan/dissectors/packet-atalk.c b/epan/dissectors/packet-ata=
+lk.c
+> +index 396e7af519..065d6aedb6 100644
+> +--- a/epan/dissectors/packet-atalk.c
+> ++++ b/epan/dissectors/packet-atalk.c
+> +@@ -232,9 +232,18 @@ static int hf_asp_attn_code     =3D -1;
+> + static int hf_asp_seq           =3D -1;
+> + static int hf_asp_size          =3D -1;
+> +
+> ++/*
+> ++ * Structure used to represent a DDP address; gives the layout of the
+> ++ * data pointed to by an Appletalk "address" structure.
+> ++ */
+> ++struct atalk_ddp_addr {
+> ++  guint16 net;
+> ++  guint8 node;
+> ++};
+> ++
+> + typedef struct {
+> +   guint32 conversation;
+> +-  guint8  src[4];
+> ++  guint8  src[sizeof(struct atalk_ddp_addr)];
+> +   guint16 tid;
+> + } asp_request_key;
+> +
+> +@@ -502,6 +511,10 @@ static const value_string asp_error_vals[] =3D {
+> +   {0,                   NULL } };
+> + value_string_ext asp_error_vals_ext =3D VALUE_STRING_EXT_INIT(asp_error=
+_vals);
+> +
+> ++static bool is_ddp_address(address *addr) {
+> ++  return addr->type =3D=3D atalk_address_type && addr->len =3D=3D sizeo=
+f(struct atalk_ddp_addr);
+> ++}
+> ++
+> + /*
+> +  * hf_index must be a FT_UINT_STRING type
+> +  * Are these always in a Mac extended character set?  Should we have a
+> +@@ -744,6 +757,12 @@ dissect_atp(tvbuff_t *tvb, packet_info *pinfo, prot=
+o_tree *tree, void* data _U_)
+> +   conversation_t  *conversation;
+> +   asp_request_val *request_val   =3D NULL;
+> +
+> ++  // ATP is carried over DDP
+> ++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+> ++    return 0;
+> ++  }
+> ++
+> ++
+> +   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ATP");
+> +
+> +   ctrlinfo =3D tvb_get_guint8(tvb, offset);
+> +@@ -770,7 +789,7 @@ dissect_atp(tvbuff_t *tvb, packet_info *pinfo, proto=
+_tree *tree, void* data _U_)
+> +     asp_request_key request_key;
+> +
+> +     request_key.conversation =3D conversation->conv_index;
+> +-    memcpy(request_key.src, (!atp_asp_dsi_info.reply)?pinfo->src.data:p=
+info->dst.data, 4);
+> ++    memcpy(request_key.src, (!atp_asp_dsi_info.reply)?pinfo->src.data:p=
+info->dst.data, sizeof(struct atalk_ddp_addr));
+> +     request_key.tid =3D atp_asp_dsi_info.tid;
+> +
+> +     request_val =3D (asp_request_val *) wmem_map_lookup(atp_request_has=
+h, &request_key);
+> +@@ -1018,7 +1037,7 @@ get_transaction(tvbuff_t *tvb, packet_info *pinfo,=
+ struct atp_asp_dsi_info *atp_
+> +   conversation =3D find_or_create_conversation(pinfo);
+> +
+> +   request_key.conversation =3D conversation->conv_index;
+> +-  memcpy(request_key.src, (!atp_asp_dsi_info->reply)?pinfo->src.data:pi=
+nfo->dst.data, 4);
+> ++  memcpy(request_key.src, (!atp_asp_dsi_info->reply)?pinfo->src.data:pi=
+nfo->dst.data, sizeof(struct atalk_ddp_addr));
+> +   request_key.tid =3D atp_asp_dsi_info->tid;
+> +
+> +   request_val =3D (asp_request_val *) wmem_map_lookup(asp_request_hash,=
+ &request_key);
+> +@@ -1051,6 +1070,11 @@ dissect_asp(tvbuff_t *tvb, packet_info *pinfo, pr=
+oto_tree *tree, void *data)
+> +   if (data =3D=3D NULL)
+> +     return 0;
+> +
+> ++  // ASP is carried over ATP/DDP
+> ++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+> ++    return 0;
+> ++  }
+> ++
+> +   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ASP");
+> +   col_clear(pinfo->cinfo, COL_INFO);
+> +
+> +@@ -1183,15 +1207,6 @@ dissect_asp(tvbuff_t *tvb, packet_info *pinfo, pr=
+oto_tree *tree, void *data)
+> + /* -----------------------------
+> +    ZIP protocol cf. inside appletalk chap. 8
+> + */
+> +-/*
+> +- * Structure used to represent a DDP address; gives the layout of the
+> +- * data pointed to by an Appletalk "address" structure.
+> +- */
+> +-struct atalk_ddp_addr {
+> +-    guint16 net;
+> +-    guint8  node;
+> +-};
+> +-
+> +
+> + static int atalk_str_len(const address* addr _U_)
+> + {
+> +@@ -1241,6 +1256,11 @@ dissect_atp_zip(tvbuff_t *tvb, packet_info *pinfo=
+, proto_tree *tree, void* data)
+> +   if (data =3D=3D NULL)
+> +     return 0;
+> +
+> ++  // ATP ZIP is carried over DDP
+> ++  if (!(is_ddp_address(&pinfo->src) && is_ddp_address(&pinfo->dst))) {
+> ++    return 0;
+> ++  }
+> ++
+> +   col_set_str(pinfo->cinfo, COL_PROTOCOL, "ZIP");
+> +   col_clear(pinfo->cinfo, COL_INFO);
+> +
+> +--
+> +2.44.1
+> +
+> diff --git a/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb=
+ b/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
+> index b80710683..d68b082bb 100644
+> --- a/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
+> +++ b/meta-networking/recipes-support/wireshark/wireshark_4.2.7.bb
+> @@ -13,6 +13,7 @@ SRC_URI =3D "https://1.eu.dl.wireshark.org/src/wireshar=
+k-${PV}.tar.xz \
+>             file://0002-flex-Remove-line-directives.patch \
+>             file://0004-lemon-Remove-line-directives.patch \
+>             file://0001-UseLemon.cmake-do-not-use-lemon-data-from-the-hos=
+t.patch \
+> +           file://CVE-2024-9781.patch \
+>             "
+>
+>  UPSTREAM_CHECK_URI =3D "https://1.as.dl.wireshark.org/src"
+> --
+> 2.35.6
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#209452): https://lists.openembedded.org/g/openembedde=
+d-core/message/209452
+> Mute This Topic: https://lists.openembedded.org/mt/110475405/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
