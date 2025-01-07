@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD36E77197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D6CE77198
 	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 18:09:03 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.100.1736273334173479746
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.91.1736273335438336843
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 10:08:54 -0800
+ Tue, 07 Jan 2025 10:08:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GI+20rF6;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21649a7bcdcso226266575ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:08:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kHfg6Xiq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ee8aa26415so23236230a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273333; x=1736878133; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273335; x=1736878135; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+sMd6YPSebHpsizVsi+N4gjXcQM7puB0zSLpyEWAdmI=;
-        b=GI+20rF6pv/aWWg251Pr6TuQvFEA4G1Yxqdaw3bkaPs7cPpsJS3bhdi/Dak30Y2yu2
-         tFtnzXpDzGrnsvyuIiJGPujvD2zeoE+2vCcDXDktHEGPUN714l2kjjvvgYS4e1tMjPYg
-         v/fKHU7Xu+axrtEXb5+UWr4h+y2XMn0WinrXxvKpbj04Km8IpZPlLBGTT8mpAJEWXqGj
-         DQxaqM4NzHpYS8I73KQ9ao3IiCKIZibKG8YWGjL9/cbhmBkJK3QWllrfWZottPgykZ1X
-         zO4DpWVinmryM+zkt0WdBD6o/bynvSP+Rv1glo20e+PykL8gQgjheFOrRY/oOb2KS02m
-         0vkg==
+        bh=Ses48oObRa/xC0inmVs0sVNcKOLmiM/3m76WwOoKMec=;
+        b=kHfg6XiqkD7AJ3SeXnsMHHrlj4q/cNfOMYsAhMaIWV/IXXt2EDScHPpLNcPXmMpU5R
+         uB9yQ/pUGC5pnoq9VvxrrMfNzQlfsqyq7yZs502K1g75mZjXLBiXHcqbSK8eS0DnNkGC
+         yznFPVSHeHA+TNHA6SIYUqwQ3Op8BHl/jtg3i017HCI07jaO4zHwVYsPI9rqoCkeQVJK
+         w+7Ph+l08i2aaLGU3fJOpnsIumnmHj7y58WT3oh9GM8dpf/gHaNoqSCjTEr6n7MohZPu
+         atyPGRQMNMvkS8o+SsJe5LAMHX86T7qFxk1iZrDX1MrKAUVcMPX07BxK8ZGtTuISm5qo
+         3kMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736273333; x=1736878133;
+        d=1e100.net; s=20230601; t=1736273335; x=1736878135;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+sMd6YPSebHpsizVsi+N4gjXcQM7puB0zSLpyEWAdmI=;
-        b=mQsm2p3PIfyyD+/BGeCDhQHy/vI8AiHoQOyEuzYwhsU0wBULrGJfszAY4Q+hfox+N+
-         bwkrOVN2Xuo0f3xabAa3VYQYoxAqOdbBscWk5QjjLt4s263BjyO2rz5r6CmWFWf8demj
-         jsKt7+RBE4PNSZ4URg1nSQm85eZ7HjgOvEtfuxQXbJWzhUYhvmp8vNgeIHYfWx0rnsTY
-         2W5Iiuk17OjY3Qj7wyJrmQp5Na8TAvSmWJ2ZI/sJtu9VHiyZCYzBELxduYshHfzrsGpq
-         Ftta0qqSEJy+IxOrgJFPc7jTlnZZygcArtbERL5ElEPfHOCjOP6FoVFQOKduOWSMHp/c
-         INkQ==
-X-Gm-Message-State: AOJu0YyMXg6lLNPxEys27fsgfA7X2GSpPrT2/C6VFc1rLlt1dVsVYW6h
-	sqlPShNvG0urcWsZmKTLJgXCwb9VhCpAkUh4l57NMeY1UpsvuHrlzecRy4XOlNorgz6Hegx5HqT
-	gaps=
-X-Gm-Gg: ASbGncuUf10yLbiEZse3A+A1vzTuf6sOgO+/nUYi7UB//KLX+usLewIoRu8YIUjuaA+
-	MSRJTHa1lHTdf1Z4BmDjld4phWjCIfyZD3/qcDS64uqdLje5GjQJhjY0yQc5WGqU9mHJ84h36Bt
-	71S75duXdENs5ZSnRvbuaG+E8vuKrV7DRDpnFE0TdHjXCn7qbPqYAD1moWZvoCQW8X6B/jsAGA/
-	uLVcPqLJGyXP3EXGsJ/vkL/bBtpU+Y3fFdz3bg0ZAWVPw==
-X-Google-Smtp-Source: AGHT+IEuSnaHubLDHJon6Z5mBDU8gBPxNn5dluK7J2viX6uMffV//pgnvJR/89+qeFWVJSOn7IVQoA==
-X-Received: by 2002:a17:903:2b10:b0:216:325f:6f2b with SMTP id d9443c01a7336-21a83f54ef1mr110275ad.21.1736273333294;
-        Tue, 07 Jan 2025 10:08:53 -0800 (PST)
+        bh=Ses48oObRa/xC0inmVs0sVNcKOLmiM/3m76WwOoKMec=;
+        b=U4kyIuSmtraiIL+RJjbKSorXTkbjOHRXQfKHETKGgRB2zugQ+2g2AnMPHZs/F+DSV0
+         mdqGgyvWK3njLElElJB+OsQgvwHjVdHusXfE1ZqFfJw/xMPay3L/aHW5uvaxkgyk3egd
+         iZNNkXU6SqOxMKzvILZiKkhxp4bQCzI1cWC9A8mOEXdnbEk1M4G0nuM+Mmw4lltYU6KJ
+         wWh0YsI2P83yDd1I1tSdVbaFQVTufhZearYOtnv/se4fgsoAr6uT+x76KalDUhS/lO6q
+         6NZaAgIl7g5lyyRt3paxmnYJk7ywd8Q7YiDXjYh2CMDs3tv99JCPM8MIthobgkSTKIv1
+         7w0Q==
+X-Gm-Message-State: AOJu0Yy3bzjG0gMIpI0AdrDe5mfuQ1hmja7/jxJOls8yzCAvjUy71e2v
+	X5m3UcuKNq/CHPYKGh9w0a+mBk34nolpgG+K2f3IWwPWwWrabqaLxp4p9+w8/k1oi6KMLASzlUZ
+	LGvo=
+X-Gm-Gg: ASbGncuyl8iNnv+EIdMDB6r11T9QZ3sPH4R4sBg2dTrShl55hKmnBbJZdLDNmA+4l6r
+	2VU6EIhMcfnDQeL8mW+64o92z1nE+BlJ+vXeCBT6NeUGS2c5xsTUqXUMfCXO0X1fwhhzkFbFyI5
+	uORjfOl6bmz1h2WH/o1/Lsrm/F0nzI52wSQv5fbbG4Y9xEyNbKz4R/HBbv/WqGkBakg1DJhKHiA
+	FuVGd08ysg9Uhx5NVQBlfcO47NnaILH/8OnD5NX4qdmOw==
+X-Google-Smtp-Source: AGHT+IF3zjp7mBcq8BzdsAo4BN7b1e8EWWhFfhx7M+nJULDym+CeP4d9hB6IPPWZay+SbOh+2GO/5g==
+X-Received: by 2002:a17:90b:5208:b0:2ee:dcf6:1c8f with SMTP id 98e67ed59e1d1-2f452e1814bmr99016954a91.16.1736273334716;
+        Tue, 07 Jan 2025 10:08:54 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.08.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.08.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 10:08:52 -0800 (PST)
+        Tue, 07 Jan 2025 10:08:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/19] gstreamer1.0-plugins-good: Fix multiple CVEs
-Date: Tue,  7 Jan 2025 10:08:23 -0800
-Message-ID: <867db6984551f5026034fddd11421e76a844ebc5.1736273200.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/19] gstreamer1.0-plugins-good: Fix CVE-2024-47606
+Date: Tue,  7 Jan 2025 10:08:24 -0800
+Message-ID: <4c138c3c04f856b100ce2c8e8e96025edde4c841.1736273200.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1736273200.git.steve@sakoman.com>
 References: <cover.1736273200.git.steve@sakoman.com>
@@ -66,396 +66,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 18:09:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209486
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209487
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Fixes for below CVEs:
-CVE-2024-47540
-CVE-2024-47601
-CVE-2024-47602
-CVE-2024-47603
-CVE-2024-47834
-
-Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8057
+Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8032
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...2024-47540_47601_47602_47603_47834-1.patch | 56 +++++++++++++++++++
- ...2024-47540_47601_47602_47603_47834-2.patch | 31 ++++++++++
- ...2024-47540_47601_47602_47603_47834-3.patch | 39 +++++++++++++
- ...2024-47540_47601_47602_47603_47834-4.patch | 47 ++++++++++++++++
- ...2024-47540_47601_47602_47603_47834-5.patch | 48 ++++++++++++++++
- ...2024-47540_47601_47602_47603_47834-6.patch | 39 +++++++++++++
- ...2024-47540_47601_47602_47603_47834-7.patch | 40 +++++++++++++
- .../gstreamer1.0-plugins-good_1.20.7.bb       |  7 +++
- 8 files changed, 307 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-1.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-2.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-3.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-4.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-5.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-6.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-7.patch
+ .../CVE-2024-47606.patch                      | 44 +++++++++++++++++++
+ .../gstreamer1.0-plugins-good_1.20.7.bb       |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47606.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-1.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47606.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47606.patch
 new file mode 100644
-index 0000000000..865759916f
+index 0000000000..fe4bdc8802
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-1.patch
-@@ -0,0 +1,56 @@
-+From 008f0d52408f57f0704d5639b72db2f330b8f003 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47606.patch
+@@ -0,0 +1,44 @@
++From f8e398c46fc074f266edb3f20479c0ca31b52448 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 16:32:48 +0300
-+Subject: [PATCH] matroskademux: Only unmap GstMapInfo in WavPack header
-+ extraction error paths if previously mapped
++Date: Thu, 26 Sep 2024 22:16:06 +0300
++Subject: [PATCH] qtdemux: Avoid integer overflow when parsing Theora extension
 +
 +Thanks to Antonio Morales for finding and reporting the issue.
 +
-+Fixes GHSL-2024-197
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3863
++Fixes GHSL-2024-166
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3851
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8032>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/008f0d52408f57f0704d5639b72db2f330b8f003]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/f8e398c46fc074f266edb3f20479c0ca31b52448]
++CVE: CVE-2024-47606
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ subprojects/gst-plugins-good/gst/matroska/matroska-demux.c | 4 ++--
++ subprojects/gst-plugins-good/gst/isomp4/qtdemux.c | 4 ++--
 + 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index 9b3cf83adb87..35e60b71470d 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -3885,7 +3885,6 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+   GstMatroskaTrackAudioContext *audiocontext =
-+       (GstMatroskaTrackAudioContext *) stream;
-+   GstBuffer *newbuf = NULL;
-+-  GstMapInfo map, outmap;
-+   guint8 *buf_data, *data;
-+   Wavpack4Header wvh;
++diff --git a/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c b/subprojects/gst-plugins-good/gst/isomp4/qtdemux.c
++index 5e3cb1b9e699..c2d8b5e0f134 100644
++--- a/gst/isomp4/qtdemux.c
+++++ b/gst/isomp4/qtdemux.c
++@@ -8822,7 +8822,7 @@ qtdemux_parse_theora_extension (GstQTDemux * qtdemux, QtDemuxStream * stream,
++   end -= 8;
 + 
-+@@ -3902,11 +3901,11 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
++   while (buf < end) {
++-    gint size;
+++    guint32 size;
++     guint32 type;
 + 
-+   if (audiocontext->channels <= 2) {
-+     guint32 block_samples, tmp;
-++    GstMapInfo outmap;
-+     gsize size = gst_buffer_get_size (*buf);
++     size = QT_UINT32 (buf);
++@@ -8830,7 +8830,7 @@ qtdemux_parse_theora_extension (GstQTDemux * qtdemux, QtDemuxStream * stream,
 + 
-+     if (size < 4) {
-+       GST_ERROR_OBJECT (element, "Too small wavpack buffer");
-+-      gst_buffer_unmap (*buf, &map);
-+       return GST_FLOW_ERROR;
-+     }
++     GST_LOG_OBJECT (qtdemux, "%p %p", buf, end);
 + 
-+@@ -3944,6 +3943,7 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     *buf = newbuf;
-+     audiocontext->wvpk_block_index += block_samples;
-+   } else {
-++    GstMapInfo map, outmap;
-+     guint8 *outdata = NULL;
-+     gsize buf_size, size;
-+     guint32 block_samples, flags, crc;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-2.patch
-new file mode 100644
-index 0000000000..04e3a9168a
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-2.patch
-@@ -0,0 +1,31 @@
-+From b7e1b13af70b7c042f29674f5482b502af82d829 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 16:33:39 +0300
-+Subject: [PATCH] matroskademux: Fix off-by-one when parsing multi-channel
-+ WavPack
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/b7e1b13af70b7c042f29674f5482b502af82d829]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/matroska/matroska-demux.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index 35e60b71470d..583fbbe6e695 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -3970,7 +3970,7 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     data += 4;
-+     size -= 4;
++-    if (buf + size > end || size <= 0)
+++    if (end - buf < size || size < 8)
++       break;
 + 
-+-    while (size > 12) {
-++    while (size >= 12) {
-+       flags = GST_READ_UINT32_LE (data);
-+       data += 4;
-+       size -= 4;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-3.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-3.patch
-new file mode 100644
-index 0000000000..de2bdc13cb
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-3.patch
-@@ -0,0 +1,39 @@
-+From 455393ef0f2bb0a49c5bf32ef208af914c44e806 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 18:25:53 +0300
-+Subject: [PATCH] matroskademux: Check for big enough WavPack codec private
-+ data before accessing it
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-250
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3866
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/455393ef0f2bb0a49c5bf32ef208af914c44e806]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/matroska/matroska-demux.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index 583fbbe6e695..91e66fefc36a 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -3888,6 +3888,11 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+   guint8 *buf_data, *data;
-+   Wavpack4Header wvh;
-+ 
-++  if (!stream->codec_priv || stream->codec_priv_size < 2) {
-++    GST_ERROR_OBJECT (element, "No or too small wavpack codec private data");
-++    return GST_FLOW_ERROR;
-++  }
-++
-+   wvh.ck_id[0] = 'w';
-+   wvh.ck_id[1] = 'v';
-+   wvh.ck_id[2] = 'p';
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-4.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-4.patch
-new file mode 100644
-index 0000000000..9bfbd07e1b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-4.patch
-@@ -0,0 +1,47 @@
-+From be0ac3f40949cb951d5f0761f4a3bd597a94947f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 19:04:51 +0300
-+Subject: [PATCH] matroskademux: Don't take data out of an empty adapter when
-+ processing WavPack frames
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-249
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3865
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/be0ac3f40949cb951d5f0761f4a3bd597a94947f]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/matroska/matroska-demux.c    | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index 91e66fefc36a..98ed51e86a58 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -4036,11 +4036,16 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     }
-+     gst_buffer_unmap (*buf, &map);
-+ 
-+-    newbuf = gst_adapter_take_buffer (adapter, gst_adapter_available (adapter));
-++    size = gst_adapter_available (adapter);
-++    if (size > 0) {
-++      newbuf = gst_adapter_take_buffer (adapter, size);
-++      gst_buffer_copy_into (newbuf, *buf,
-++          GST_BUFFER_COPY_TIMESTAMPS | GST_BUFFER_COPY_FLAGS, 0, -1);
-++    } else {
-++      newbuf = NULL;
-++    }
-+     g_object_unref (adapter);
-+ 
-+-    gst_buffer_copy_into (newbuf, *buf,
-+-        GST_BUFFER_COPY_TIMESTAMPS | GST_BUFFER_COPY_FLAGS, 0, -1);
-+     gst_buffer_unref (*buf);
-+     *buf = newbuf;
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-5.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-5.patch
-new file mode 100644
-index 0000000000..0e13b8a1ca
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-5.patch
-@@ -0,0 +1,48 @@
-+From effbbfd771487cc06c79d5a7e447a849884cc6cf Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 19:06:03 +0300
-+Subject: [PATCH] matroskademux: Skip over laces directly when postprocessing
-+ the frame fails
-+
-+Otherwise NULL buffers might be handled afterwards.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-249
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3865
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/effbbfd771487cc06c79d5a7e447a849884cc6cf]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/matroska/matroska-demux.c   | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index 98ed51e86a58..e0a4405dcefa 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -4982,6 +4982,18 @@ gst_matroska_demux_parse_blockgroup_or_simpleblock (GstMatroskaDemux * demux,
-+       if (stream->postprocess_frame) {
-+         GST_LOG_OBJECT (demux, "running post process");
-+         ret = stream->postprocess_frame (GST_ELEMENT (demux), stream, &sub);
-++        if (ret != GST_FLOW_OK) {
-++          gst_clear_buffer (&sub);
-++          goto next_lace;
-++        }
-++
-++        if (sub == NULL) {
-++          GST_WARNING_OBJECT (demux,
-++              "Postprocessing buffer with timestamp %" GST_TIME_FORMAT
-++              " for stream %d failed", GST_TIME_ARGS (buffer_timestamp),
-++              stream_num);
-++          goto next_lace;
-++        }
-+       }
-+ 
-+       /* At this point, we have a sub-buffer pointing at data within a larger
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-6.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-6.patch
-new file mode 100644
-index 0000000000..3c661e92f7
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-6.patch
-@@ -0,0 +1,39 @@
-+From ed7b46bac3fa14f95422cc4bb4655d041df51454 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Mon, 30 Sep 2024 19:19:42 +0300
-+Subject: [PATCH] matroskademux: Skip over zero-sized Xiph stream headers
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-251
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3867
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/ed7b46bac3fa14f95422cc4bb4655d041df51454]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/matroska/matroska-ids.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-ids.c b/subprojects/gst-plugins-good/gst/matroska/matroska-ids.c
-+index f11b7c2ce31f..ba645f7306d9 100644
-+--- a/gst/matroska/matroska-ids.c
-++++ b/gst/matroska/matroska-ids.c
-+@@ -189,8 +189,10 @@ gst_matroska_parse_xiph_stream_headers (gpointer codec_data,
-+     if (offset + length[i] > codec_data_size)
-+       goto error;
-+ 
-+-    hdr = gst_buffer_new_memdup (p + offset, length[i]);
-+-    gst_buffer_list_add (list, hdr);
-++    if (length[i] > 0) {
-++      hdr = gst_buffer_new_memdup (p + offset, length[i]);
-++      gst_buffer_list_add (list, hdr);
-++    }
-+ 
-+     offset += length[i];
-+   }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-7.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-7.patch
-new file mode 100644
-index 0000000000..1341491873
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47540_47601_47602_47603_47834-7.patch
-@@ -0,0 +1,40 @@
-+From 98e4356be7afa869373f96b4e8ca792c5f9707ee Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Wed, 9 Oct 2024 11:52:52 -0400
-+Subject: [PATCH] matroskademux: Put a copy of the codec data into the A_MS/ACM
-+ caps
-+
-+The original codec data buffer is owned by matroskademux and does not
-+necessarily live as long as the caps.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-280
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3894
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8108>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/98e4356be7afa869373f96b4e8ca792c5f9707ee]
-+CVE: CVE-2024-47540 CVE-2024-47601 CVE-2024-47602 CVE-2024-47603 CVE-2024-47834
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/matroska/matroska-demux.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c b/subprojects/gst-plugins-good/gst/matroska/matroska-demux.c
-+index e0a4405dcefa..80da30673120 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -7165,8 +7165,7 @@ gst_matroska_demux_audio_caps (GstMatroskaTrackAudioContext *
-+ 
-+       /* 18 is the waveformatex size */
-+       if (size > 18) {
-+-        codec_data = gst_buffer_new_wrapped_full (GST_MEMORY_FLAG_READONLY,
-+-            data + 18, size - 18, 0, size - 18, NULL, NULL);
-++        codec_data = gst_buffer_new_memdup (data + 18, size - 18);
-+       }
-+ 
-+       if (riff_audio_fmt)
++     buf += 8;
 +-- 
 +GitLab
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-index 0daae0b519..f57797d236 100644
+index f57797d236..ab14dea58d 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-@@ -20,6 +20,13 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-11.patch \
-            file://CVE-2024-47537_47539_47543_47544_47545_47546_47596_47597_47598-12.patch \
-            file://CVE-2024-47599.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-1.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-2.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-3.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-4.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-5.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-6.patch \
-+           file://CVE-2024-47540_47601_47602_47603_47834-7.patch \
+@@ -27,6 +27,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://CVE-2024-47540_47601_47602_47603_47834-5.patch \
+            file://CVE-2024-47540_47601_47602_47603_47834-6.patch \
+            file://CVE-2024-47540_47601_47602_47603_47834-7.patch \
++           file://CVE-2024-47606.patch \
             "
  
  SRC_URI[sha256sum] = "599f093cc833a1e346939ab6e78a3f8046855b6da13520aae80dd385434f4ab2"
