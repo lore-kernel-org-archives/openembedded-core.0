@@ -1,100 +1,139 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F36F0E77197
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 09:21:56 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.16734.1736241711923321743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6B5E77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 09:35:07 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.16750.1736242500031534011
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 01:21:52 -0800
+ Tue, 07 Jan 2025 01:35:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VRnMYcZY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=QpENi/Un;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019440120761-2318072b-bc94-4ecd-98cc-55bb1519fb57-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736241711; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=KVGPZ0I1wKU+aX4LjIoOZoAtmFYGPZTfExuwp4oBZk4=;
-	b=VRnMYcZYywR/lV+jCzpcJe7CKj6H+WAk1Yb6mMK+2yI2zO4kvnzsLwKctW69Td1u
-	OIiOeSmi8AGblreV9hwRzKWWbW4JtGF9OHc878O3imXNlInJ9XcXb/bnvazZrSU7J8P
-	A0teec+BONCIEAYH6gEA9bNROqNCGGLO9kF2XJks=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736241711;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=KVGPZ0I1wKU+aX4LjIoOZoAtmFYGPZTfExuwp4oBZk4=;
-	b=QpENi/Un87wePrgA9by2vQ5Msty+vE5Yo05KMr74OH7gQDUhpGh5Oh2bJTmxSLu6
-	yZk2WkmoxbiUDzIo2oZkWnrBODSgPbeOtZuAQj/wg6MAxY9rSN6xhwna0+FH3RL2vmc
-	6nPQH9XF/9a/YvsEjHdLKHJosiL8sL9N6LhH4QK0=
-From: patchtest@automation.yoctoproject.org
-To: wangmy@fujitsu.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH 10/13] python3-ruamel-yaml: upgrade 0.18.7 -> 0.18.9
-In-Reply-To: <1736240482-5243-10-git-send-email-wangmy@fujitsu.com>
-References: <1736240482-5243-10-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019440120761-2318072b-bc94-4ecd-98cc-55bb1519fb57-000000@us-west-2.amazonses.com>
-Date: Tue, 7 Jan 2025 09:21:50 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.07-54.240.27.33
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=Ktm4+I1S;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.48, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3862f11a13dso1825905f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 01:34:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1736242498; x=1736847298; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=+eUmCMg/Evfw/4qqEBesmBHvOqeQo8/7dJx8Z4zyb1s=;
+        b=Ktm4+I1SdqirqjeAJUvcEnbRlEGNkHYWhp8QMbvijW6j4xea82Px78XnAtFkFnSVqY
+         Yhy/oiX92lTvFkMtnuvs+TUB7u798tfC6S9nIVm+HQzmM+z/i1o1nZwqO4HsS8qPVZ8Q
+         P8udhlpLNiFjcVZfVY1/GbIydhRBQFz0FhvmYYDBAJmQG5pYLV2FSvZCeNSI7UCvqxD9
+         BRA4tbHEq31DQkhqEsAIJqRiol8VDizcI40J1rAWenyv43SE0vzK7ec/CqE3DHuM+IAF
+         fgXVwgIIlhpjmFjUchpyYgwYhpm8t7u2VU99zAdjEpaBpUAqhDn8JQbW6R6qSKzCr7Ts
+         606g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736242498; x=1736847298;
+        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+eUmCMg/Evfw/4qqEBesmBHvOqeQo8/7dJx8Z4zyb1s=;
+        b=dxpX5lwZwUVM4GeScUFnPpnTb9nHMnTx/TRabPOsxMN4ni0vRQ/SebgP0SuGYKJmg6
+         +BA2e1KX+sa5PJduR2T9pFjF1/3Prht9UVSTtvkaM3i/nrAV2vYYWc5prNEwn2ZQzFBP
+         Jnl5LvyadAoRnb11YO2Y6/lv0/TtZjRzNjmdFS4xElqAAEYB8G0TDu9xDd/7xhTEoWac
+         gS6S+MIK3Ru7gNRVnPpxgvpNCAVu7el640MOZGbu13xuJp0dlx7LhKqeSeHXL1yh4+Kp
+         EK//y1Kn8HwClZg+ygio6os6Z/uRXT7cBDC8pFpE9faou3tLDkyuwp3BrgNL3m5ZbJGp
+         iEIw==
+X-Gm-Message-State: AOJu0YzdenW5cPTJfj8Pj/GjQrU3CkUKqhrhj59mWuW8UBFSPZHBiXGR
+	kUS2LUbiCwJcqObVF8qRVBAzCPMlL5DCNHj5pFbyKb4fuLNhxxaottDsrBmYoABzOi/1jALUFZG
+	pi4yYk/JvWcDq3mNsyhPpNfGpOA3O3Cphk5/ZbsVz7P7CgbN33ahxrIHBv1qqZYIIbFU+poQ=
+X-Gm-Gg: ASbGnct6D9eNLReZEiZqWmNJSEs82NJNUz2lQk5dZpscCm4G1SQ0NPhBNImwX3/2URv
+	rVUkRYkuRN9ujMrgRxS3IY8A9s4vihYmEL+px8a+MB7XR1JexmeZuynK+3w7H9z9t7cFtuxXcPc
+	zrzxLUNsPu+/T/cyljdEtTeaIkwrCj6MkKY06OtWL1y8ACEnnsYHkQ9i9M2nkc1agb4oriI6e7G
+	vBggHvCDZFAyNyc4StwU+LkyhYOyaRuFm+jQCXE/9qM9yS8msPm8pmw+dDZ01Y=
+X-Google-Smtp-Source: AGHT+IHgZGg9zqUlYbOMW0cPVzdlVkOt+hSuaRG8llHCnBqQzNlAoZgteocYa8BQ+3XMEmchbtFXjA==
+X-Received: by 2002:a05:6000:1a89:b0:385:fc70:829 with SMTP id ffacd0b85a97d-38a221f7726mr21129820f8f.6.1736242498020;
+        Tue, 07 Jan 2025 01:34:58 -0800 (PST)
+Received: from [172.16.103.202] ([62.80.99.152])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a2432e587sm46094793f8f.95.2025.01.07.01.34.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2025 01:34:57 -0800 (PST)
+Message-ID: <e1827189-ee59-4230-9cf4-8c33728219ff@bisdn.de>
+Date: Tue, 7 Jan 2025 10:34:56 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH kirkstone 6/6] base-passwd: Add the sgx group
+To: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+Cc: openembedded-core@lists.openembedded.org,
+ Alex Kiernan <alex.kiernan@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20241217111229.60698-1-jonas.gorski@bisdn.de>
+ <20241217111229.60698-7-jonas.gorski@bisdn.de>
+ <obkmgyinjqp2pxooemqfisqsuumlmj6nulyz7sgg4re5nt5ijg@ocixo3sk3skk>
+From: Jonas Gorski <jonas.gorski@bisdn.de>
+Autocrypt: addr=jonas.gorski@bisdn.de; keydata=
+ xjMEZxdk5BYJKwYBBAHaRw8BAQdAPu67BaIt3vpOuFNykN1bTGnMCt3SfaTAdTgdx7x3aM3N
+ JEpvbmFzIEdvcnNraSA8am9uYXMuZ29yc2tpQGJpc2RuLmRlPsKPBBMWCAA3FiEEFDg1Kr+u
+ iVjQpdfy5Kt7/8+fcMYFAmcXZOQFCQWjmoACGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDkq3v/
+ z59wxkUZAP4uDlkfv1WhuDjPUaeL9uL33RUo4mUwIYQLAR8gKQk5lgEAiQvKbFvrB2Zz8Tbs
+ anWvhWddIu1L9D4KMdoayMpCqQrOOARnF2TkEgorBgEEAZdVAQUBAQdAQSvRRbcsAY5GLbFn
+ qnD2JZ3hGcjOviBjgQpPQV48MSMDAQgHwn4EGBYIACYWIQQUODUqv66JWNCl1/Lkq3v/z59w
+ xgUCZxdk5AUJBaOagAIbDAAKCRDkq3v/z59wxuVgAP9D6DwrhASXLN8c5uy/BYuaMznIfqf5
+ 6R95DltdAG2xigD/TCGATSNdLFd253kU+qiZPLWwcqNouB2cTa1ItM1N/AU=
+In-Reply-To: <obkmgyinjqp2pxooemqfisqsuumlmj6nulyz7sgg4re5nt5ijg@ocixo3sk3skk>
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 09:21:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209448
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 09:35:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209449
 
---NextPart
-Content-Type: text/plain
+Hi J=C3=B6rg,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+sorry for the late response, I was on vacation.
 
----
-Testing patch /home/patchtest/share/mboxes/10-13-python3-ruamel-yaml-upgrade-0.18.7---0.18.9.patch
+On 02.01.25 22:14, J=C3=B6rg Sommer wrote:
+> Jonas Gorski via lists.openembedded.org schrieb am Di 17. Dez, 12:12 (+01=
+00):
+>> From: Alex Kiernan <alex.kiernan@gmail.com>
+>>
+>> To avoid errors from eudev/udev we need an sgx group, but if we add it
+>> via groupadd that causes shadow login to be brought into an image,
+>=20
+> Does this work for useradd-staticids.bbclass? I still have to provide an
+> entry for sgx in my group list:
+>=20
+> ERROR: Nothing RPROVIDES 'systemd-analyze' (but /build/../repo/meta-distr=
+o/recipes-core/images/image.bb, /build/../repo/meta-distro/recipes-core/sys=
+-tools/sys-tools_10.0.bb RDEPENDS on or otherwise requires it)
+> systemd RPROVIDES systemd-analyze but was skipped: Recipe systemd, packag=
+e udev: system groupname "sgx" does not have a static ID defined. Add sgx t=
+o one of these files: /build/../repo/meta-distro/files/groups
+> ERROR: Required build target image' has no buildable providers.
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+AFAIU, useradd-staticids does not currently have any insight in the=20
+base-passwd provided groups and users or vice versa, so you will still=20
+need to define them in your files/users and files/groups (with identical=20
+UID/GID).
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Best Regards,
+Jonas
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+--=20
+BISDN GmbH
+K=C3=B6rnerstra=C3=9Fe 7-10
+10785 Berlin
+Germany
 
 
---NextPart--
+Phone:=20
++49-30-6108-1-6100
+
+
+Managing Directors:=C2=A0
+Dr.-Ing. Hagen Woesner, Andreas=20
+K=C3=B6psel
+
+
+Commercial register:=C2=A0
+Amtsgericht Berlin-Charlottenburg HRB 141569=20
+B
+VAT ID No:=C2=A0DE283257294
+
 
