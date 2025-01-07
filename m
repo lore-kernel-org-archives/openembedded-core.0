@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F6FC3DA4A
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 18:09:03 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.106.1736273339969905101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9276E77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 18:09:13 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.119.1736273352136330594
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 10:09:00 -0800
+ Tue, 07 Jan 2025 10:09:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=THQGGQaW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21669fd5c7cso237585875ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:08:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KIXOSEe9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216426b0865so228637615ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 10:09:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273339; x=1736878139; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736273351; x=1736878151; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+JImGOG54ajpW94OTXSQOFxmK5lW/EuQFVnEgHzbV34=;
-        b=THQGGQaWHFFMf6i3FiKkbRYUsnw9pU7ouR++bwYWc4WfeiYBQK1xtzABHFBO86oxhe
-         DEizGwccwFMHiRDL8Ez13dYlLuH706Ba+yYULmuNwQkMMa1tTLyXGtUy69D3eT4rHbmm
-         SmG5sXsjmh3EPW3IjCSo9ZRYcG4TFK/q1nw9mu1O2jPNUPY96sFv+tKBHPVQnQ8qFsIH
-         ii86ZVFgOzSvfaPmE62DZaJV/zMkiI+YsEucpqBR5mqP2GRs58S4b9udxpOoQ5eVSADH
-         g82cuprMG3ZVj6+jTuoPM6fz4QkFIIdk6VWzTIGhESsHCITYh0r8rDWTmQOmWZamgxG3
-         sAvw==
+        bh=l8eVNPtj+4r1Zr6Ph95VI5v2QkS8+LAn6dh2mPd18Q8=;
+        b=KIXOSEe99S0nzpEFoZ9s1SxRZV7A5vOwJj1+Cmp6vxjHU0fRFzfdqCCeGmw4+4toUt
+         a5eHZ9SAVnWAKqhhxD9JhY5qge7sGOvE4+q+gcXZBcwbusNTGEe3djZIuPzLCJ7+itEd
+         W0ny+0cQwKp2oxruCkB5PrsB+lz2DVOk8owGqFGTmQdZk6QRIlvPsbYI8s2eY9nn4YDz
+         CYycgNy89LUM+ECeBAhPyxH2VXfqTXgEV2TxTofukEgChmSW5z5w4ZPKZYQ+IPmdZhO8
+         8JUBmKnEn6HRet9m+pVk1njLqdyLtuwqoBmMiPdCzo+getqxqlTnOHnbJHcGlkJAinJe
+         5seA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736273339; x=1736878139;
+        d=1e100.net; s=20230601; t=1736273351; x=1736878151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+JImGOG54ajpW94OTXSQOFxmK5lW/EuQFVnEgHzbV34=;
-        b=hSn7qMEE2fICJnN4ZJjsGQEdB9eE8p81TDvglt6fTQpCvGOfhoacppDaEC7sOc0C+y
-         /4vHcgz75BZAnRTrgWc1Qof15gk1RsLVc57yEj6hvAUotf8dNsZ0985OXiptSrP2e6XV
-         zEoAqpJ7euAjSXeTj73sr6mwMI4JMf/yioEQW86nc7/Lto2D53A5pZc9Nfyo56cLNpWN
-         SIJjqV0S1mYH9+QBD/MxocZJsv2rBEgVp6JhlRyrJFdF5uZbCIehmaiCgkEqkpxqLhPq
-         aFaRPypdaHAOQZwo3j14PMjz9CNQiqxGQXEQaFyHLctjQdw0bwKauJhgSckE7b+Wa6j6
-         O8fg==
-X-Gm-Message-State: AOJu0YyctXqwR5PWouvfMU1c0lfUX0Kyv6205R3kaczFKhsrNe3jiAvS
-	eNV90iKCVtLBrkEWETfU4CK90cB7m+j48aVYiAMQIU+uBDVE+Tn1Q2TN3FTGXOggUOcMZFhhRpl
-	MXgM=
-X-Gm-Gg: ASbGncvFS/td6D5vgm5Bp97dltGcvqRXT72hOtPwzoqGaEfji8d44bXWzASa8x3hjaA
-	gc1NIuyOzjcReSmYBMk5Y9BFKUZC00q9RxOOvUGZnkJtwebHa5U43XWb7gi+WKQ/cwXoitMTtsk
-	nxTLFuZkEMA3NjuH84TnjFQnSR6FkihIlZDGBQyJlm3Fcf3bkoU7IfTcwdPv22hF6oCiIoWgxJt
-	RDHLqGeMvnbiIn3dxtrMSKERdHLBg3zvVAwviAo7nUSww==
-X-Google-Smtp-Source: AGHT+IFZp87qMSMvP7ZYDPxEk3HvhOtfQZ/4foCBqZU95QXAoOAyr7EoIIOyWmceEtT8FokHH4n5AA==
-X-Received: by 2002:a17:902:e5c2:b0:215:b33b:e26d with SMTP id d9443c01a7336-21a83f55103mr113395ad.21.1736273338902;
-        Tue, 07 Jan 2025 10:08:58 -0800 (PST)
+        bh=l8eVNPtj+4r1Zr6Ph95VI5v2QkS8+LAn6dh2mPd18Q8=;
+        b=fbjMCiE7nuU9VIJ3aKE1uHd/tfpxjTskaYwtRjTvLipdd6vANnbt1+sFJQLvEdIDP9
+         tq6/534ccAG0f9ZfKsL5zsDP0c++NwX+3nawnTbIfMWpDGMOv05KytK2rKYeZfeISp/O
+         79XRksMAtrYS8VGklhPgMbTcecdKASxAy+KOJxExPmFkjjgdv337G7by9LKqtSXsGkOs
+         l0ukiZEGk86AaWZLzWMNqa7Bi0wTSURtBGDmo+E3xW5/moSLKhSgZ/va/Enikh2YecQl
+         Jknw3J8iUuScs4yVdOnekNi/U5hJnOKMsqsxZfGeBt3PJpg57Pm3LE59k2R4qV3SFU85
+         oofA==
+X-Gm-Message-State: AOJu0YyOoXw1eSYoj/1NzhvjzLqkCT9pBwNyKf3ndFJ4iXurK55R3u+i
+	rhHKuooESAYF/6bUY9ekFeTmNfzWY4LNzkIYB6sZq48MT0A57UEQyNWKEVEfi2kWE/0YOC8oKkY
+	6tYM=
+X-Gm-Gg: ASbGncvSmLwAL+WuzAAqfvJajngS6nuWvedqMCqO+pKUan6zOkgPk6zqGquHY6xqTSC
+	7C4VdMPMj0M1NEMx/4WeolxdDHNNBunynwIBqYxgQFLpI3ptE67Yu39A893s/9rnQSw0dwFwuyD
+	DufaI1m8cI5SMP1Z/mpIZT2uUPP5b1MJ+ifcR89RR6D3fqdey+mjfBSerXkROTTlYW+rbu+zQGp
+	s1C7WcdIJ3FgY5j4hKc+FzVS1LIMwsDtwmL0UwUTWvdPA==
+X-Google-Smtp-Source: AGHT+IFPsHN37wCQxtTfTcCPNKxUIvsygK8pYnBfQ6QOMB4JlohqwTpl+M9+fNQLJi1IilsX8Rb9Hw==
+X-Received: by 2002:a17:903:2287:b0:215:5240:bb3d with SMTP id d9443c01a7336-219e6f144a4mr1008921045ad.42.1736273350949;
+        Tue, 07 Jan 2025 10:09:10 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.08.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4413sm314166335ad.172.2025.01.07.10.09.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 10:08:58 -0800 (PST)
+        Tue, 07 Jan 2025 10:09:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/19] gstreamer1.0-plugins-good: Fix multiple CVE's
-Date: Tue,  7 Jan 2025 10:08:27 -0800
-Message-ID: <9c228198644da3ebed0a25051633676158161f26.1736273200.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 15/19] linux-yocto/5.15: update to v5.15.170
+Date: Tue,  7 Jan 2025 10:08:33 -0800
+Message-ID: <e2161b9afd3795f0b0ab03fa968ee659609476c1.1736273200.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1736273200.git.steve@sakoman.com>
 References: <cover.1736273200.git.steve@sakoman.com>
@@ -65,522 +65,394 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 18:09:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209490
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 18:09:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209496
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fixes for below CVEs:
-CVE-2024-47775
-CVE-2024-47776
-CVE-2024-47777
-CVE-2024-47778
+Updating linux-yocto/5.15 to the latest korg -stable release that comprises
+the following commits:
 
-Upstream: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+    72244eab0dad8 Linux 5.15.170
+    2d08a6c31c65f xfrm: validate new SA's prefixlen using SA family when sel.family is unset
+    a8e691fe1894c ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
+    b5cd035ebb9b7 net: phy: dp83822: Fix reset pin definitions
+    399927f0f875b serial: protect uart_port_dtr_rts() in uart_shutdown() too
+    fcfc61f63fbe9 selinux: improve error checking in sel_write_load()
+    b7a396f76ada2 hv_netvsc: Fix VF namespace also in synthetic NIC NETDEV_REGISTER event
+    610d4cea9b442 xfrm: fix one more kernel-infoleak in algo dumping
+    385e2f3e0d83d ALSA: hda/realtek: Add subwoofer quirk for Acer Predator G9-593
+    58cb697d80e66 KVM: nSVM: Ignore nCR3[4:0] when loading PDPTEs from memory
+    dc39799f0cc2f openat2: explicitly return -E2BIG for (usize > PAGE_SIZE)
+    822203f6355f4 nilfs2: fix kernel bug due to missing clearing of buffer delay flag
+    681c99175bb87 ACPI: button: Add DMI quirk for Samsung Galaxy Book2 to fix initial lid detection issue
+    c5a3aaa377134 ACPI: resource: Add LG 16T90SP to irq1_level_low_skip_override[]
+    6032287747f87 drm/amd: Guard against bad data for ATIF ACPI method
+    df75b21af7920 btrfs: zoned: fix zone unusable accounting for freed reserved extent
+    6c6774cd760df ALSA: hda/realtek: Update default depop procedure
+    7d4eb9e22131e ALSA: firewire-lib: Avoid division by zero in apply_constraint_to_size()
+    b4007d5fe3862 bpf,perf: Fix perf_event_detach_bpf_prog error handling
+    e56e0ec1b79f5 posix-clock: posix-clock: Fix unbalanced locking in pc_clock_settime()
+    b96eff3d83408 r8169: avoid unsolicited interrupts
+    999612996df28 net: sched: fix use-after-free in taprio_change()
+    cc1c98da1338d net: usb: usbnet: fix name regression
+    c9a0aed519771 net: wwan: fix global oob in wwan_rtnl_policy
+    90baa455aa7e0 netfilter: xtables: fix typo causing some targets not to load on IPv6
+    7dbd5b9ff0676 net: dsa: mv88e6xxx: Fix error when setting port policy on mv88e6393x
+    38eb596656434 net: plip: fix break; causing plip to never transmit
+    919ab6e237028 be2net: fix potential memory leak in be_xmit()
+    9c6ce55e6f0bd net/sun3_82586: fix potential memory leak in sun3_82586_send_packet()
+    45cb99c5b95eb xfrm: respect ip protocols rules criteria when performing dst lookups
+    253843ec0c0a4 xfrm: extract dst lookup parameters into a struct
+    b86b0d6eea204 tracing: Consider the NULL character when validating the event length
+    cdf3ab1cf811c jfs: Fix sanity check in dbMount
+    f9e6e1f00fcd1 platform/x86: dell-sysman: add support for alienware products
+    4b520c11d0f3d ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
+    0e13fe4298a35 arm64/uprobes: change the uprobe_opcode_t typedef to fix the sparse warning
+    e1ce098ea047c platform/x86: dell-wmi: Ignore suspend notifications
+    4fc0d8660e391 udf: fix uninit-value use in udf_get_fileshortad
+    f952a33478b7e arm64: Force position-independent veneers
+    11db74f6a293a ASoC: fsl_sai: Enable 'FIFO continue on error' FCONT bit
+    0bb2cb789349b ASoC: codecs: lpass-rx-macro: add missing CDC_RX_BCL_VBAT_RF_PROC2 to default regs values
+    34a422274b693 drm/vboxvideo: Replace fake VLA at end of vbva_mouse_pointer_shape with real VLA
+    b723f96407a0a exec: don't WARN for racy path_noexec check
+    dd5db4078d120 block, bfq: fix procress reference leakage for bfqq in merge chain
+    073530898ebf4 usb: dwc3: core: Fix system suspend on TI AM62 platforms
+    81213d2058ec8 XHCI: Separate PORT and CAPs macros into dedicated file
+    c3f3926854b12 usb: gadget: Add function wakeup support
+    6a5de8753c70d KVM: s390: gaccess: Check if guest address is in memslot
+    cbb31278711d5 KVM: s390: gaccess: Cleanup access to guest pages
+    567e7bcb10ccc KVM: s390: gaccess: Refactor access address range check
+    1f1c1ccdcb50e KVM: s390: gaccess: Refactor gpa and length calculation
+    cf60d19d40184 arm64: probes: Fix uprobes for big-endian kernels
+    acfb32d42a31d arm64:uprobe fix the uprobe SWBP_INSN in big-endian
+    fa58e23ea1359 Bluetooth: bnep: fix wild-memory-access in proto_unregister
+    42d83e5fed3e1 s390: Initialize psw mask in perf_arch_fetch_caller_regs()
+    8747440605689 usb: typec: altmode should keep reference to parent
+    e07d05b7f5ad9 smb: client: fix OOBs when building SMB2_IOCTL request
+    39e02fa903232 scsi: target: core: Fix null-ptr-deref in target_alloc_device()
+    03ca631c07f34 genetlink: hold RCU in genlmsg_mcast()
+    8459d61fbf249 tcp/dccp: Don't use timer_pending() in reqsk_queue_unlink().
+    5febfc5453898 net: systemport: fix potential memory leak in bcm_sysport_xmit()
+    9e006c176f84f net: xilinx: axienet: fix potential memory leak in axienet_start_xmit()
+    2311451931755 net/smc: Fix searching in list of known pnetids in smc_pnet_add_pnetid
+    1eaa58198c646 net: ethernet: aeroflex: fix potential memory leak in greth_start_xmit_gbit()
+    09839c24769fe macsec: don't increment counters for an unrelated SA
+    75df8b53800ce octeontx2-af: Fix potential integer overflows on integer shifts
+    213d1ff6c4917 net: usb: usbnet: fix race in probe failure
+    b340df7458673 drm/msm: Allocate memory for disp snapshot with kvzalloc()
+    42cf045086fea drm/msm: Avoid NULL dereference in msm_disp_state_print_regs()
+    d125fbf1e128d drm/msm/dsi: fix 32-bit signed integer extension in pclk_rate calculation
+    de5857fa7bcc9 RDMA/bnxt_re: Fix a bug while setting up Level-2 PBL pages
+    e810e6d464039 RDMA/bnxt_re: Return more meaningful error
+    ca83bc311ab04 ipv4: give an IPv4 dev to blackhole_netdev
+    6a0c627cd76ea RDMA/irdma: Fix misspelling of "accept*"
+    2e78ecb1220a0 RDMA/cxgb4: Fix RDMA_CM_EVENT_UNREACHABLE error for iWARP
+    4e19aca8db696 ALSA: hda/cs8409: Fix possible NULL dereference
+    208d3edea1106 ARM: dts: bcm2837-rpi-cm3-io3: Fix HDMI hpd-gpio pin
+    e8143c0699320 x86/resctrl: Avoid overflow in MB settings in bw_validate()
+    322a19baaaa25 RDMA/bnxt_re: Add a check for memory allocation
+    0a2430b146d67 RDMA/bnxt_re: Fix incorrect AVID type in WQE structure
+    fe068afb86866 bpf: devmap: provide rxq after redirect
+    4e1e428533845 bpf: Make sure internal and UAPI bpf_redirect flags don't overlap
+    6f0605db50e2c clk: imx: Add check for kcalloc
+    5b837b9e1543e bpf: Fix the indention issue in grow_stack_state()
+    42b62697634d1 cifs: Fix the calling of smb_version_operations::calc_smb_size()
+    b14acf729e9dc f2fs: Add inline to f2fs_build_fault_attr() stub
+    7c317bec311f8 f2fs: check validation of fault attrs in f2fs_build_fault_attr()
+    81c12119c23f8 bpf: Fix accesses to uninit stack slots [ Upstream commit 6b4a64bafd107e521c01eec3453ce94a3fb38529 ]
+    c4fa05422d87c smb: client: fix potential OOB in smb2_dump_detail()
+    299ef3b5b00bf of: module: add buffer overflow check in of_modalias()
+    b8086c3c1548b reiserfs: Avoid touching renamed directory if parent does not change
+    ea091017ef62c ipv6: Fix data races around sk->sk_prot.
+    ff8710da80ee6 ipv6: annotate some data-races around sk->sk_prot
+    e8c2eafaaa6ac tcp: Fix data races around icsk->icsk_af_ops.
+    8d1bab7709564 locking/rwsem: Disable preemption while trying for rwsem lock
+    7c82dac028864 block, loop: support partitions without scanning
+    45f504f301d41 bpftool: Fix pretty print dump for maps without BTF loaded
+    1f24338cb789e jbd2: Drop the merge conflicted hunk
+    e1d0e3c51bde6 tpm: tis_i2c: Limit write bursts to I2C_SMBUS_BLOCK_MAX (32) bytes
+    1abe841fe331a tpm: tis_i2c: Limit read bursts to I2C_SMBUS_BLOCK_MAX (32) bytes
+    6224acfc1d56b tpm: Add flag to use default cancellation policy
+    1cd19d48fb909 tpm: tis_i2c: Fix sanity check interrupt enable mask
+    a883da132fa82 tpm: Add tpm_tis_i2c backend for tpm_tis_core
+    a742ac8a1c511 tpm: Add tpm_tis_verify_crc to the tpm_tis_phy_ops protocol layer
+    ef495c5f45f2e tpm: Remove read16/read32/write32 calls from tpm_tis_phy_ops
+    1f3be2e23aa6d gcc-plugins: Reorganize gimple includes for GCC 13
+    24615a3b932aa ata: ahci: fix enum constants for gcc-13
+    5d6cb145541aa net: stmmac: Enable mac_managed_pm phylink config
+    fd93aabb42872 tools/resolve_btfids: Use pkg-config to locate libelf
+    130f9da784063 tools/resolve_btfids: Build with host flags
+    00f2f1a782f9b tools/resolve_btfids: Support cross-building the kernel with clang
+    17776a4ba9c20 tools/resolve_btfids: Install libbpf headers when building
+    7c9808380d70c libbpf: Make libbpf_version.h non-auto-generated
+    37ae1ba791ac7 libbpf: Add LIBBPF_DEPRECATED_SINCE macro for scheduling API deprecations
+    a2667e6d7314d drm/radeon: free iio for atombios when driver shutdown
+    f100c753aa1f9 powerpc: Fix reschedule bug in KUAP-unlocked user copy
+    da5513f301871 libbpf: Fix build warning on ref_ctr_off
+    4c5a089621a8f perf python: Account for multiple words in CC
+    1c5699ee85d4f fs: move S_ISGID stripping into the vfs_*() helpers
+    838f5d0701d89 fs: add mode_strip_sgid() helper
+    d971726836412 squashfs: provide backing_dev_info in order to disable read-ahead
+    ed037d7be40c3 irq_work: use kasan_record_aux_stack_noalloc() record callstack
+    1363bd7dbde39 ixgbevf: add disable link state
+    e5601ae2bd249 ixgbe: add improvement for MDD response functionality
+    caa57cd80575d ixgbe: add the ability for the PF to disable VF link state
+    16a77bfcc7df1 Check /dev/console using init_stat()
+    04574fd5579a4 tracing/arm: Have max stack tracer handle the case of return address after data
+    0e51e57170184 gpiolib: cdev: Set lineevent_state::irq after IRQ register successfully
+    1e6b7da6ddba7 drivers/base: Fix unsigned comparison to -1 in CPUMAP_FILE_MAX_BYTES
+    4931609013207 mtd_blkdevs: add mtd_table_mutex lock back to blktrans_{open, release} to avoid race condition
+    04224f725aa36 irqchip/gic-v3-its: Skip HP notifier when no ITS is registered
+    6f6c2996a81c1 irqchip/gic-v3-its: Postpone LPI pending table freeing and memreserve
+    1fa94473423ff irqchip/gic-v3-its: Give the percpu rdist struct its own flags field
+    6013d1ae5feb1 cert host tools: Stop complaining about deprecated OpenSSL functions
+    efe20512212b0 init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test with dash
+    a40d2daf2795d pnmtologo: use relocatable file name
+    3b40d5b41155f of: configfs: remove unused variable overlay_lock
+    6c085baf18386 tools: use basename to identify file in gen-mach-types
+    2fca0fd719812 lib/build_OID_registry: fix reproducibility issues
+    0f586f4ee8ada vt/conmakehash: improve reproducibility
+    a75774679f28c OF: DT-Overlay configfs interface (v8)
+    d179c639b30ba x86/boot: Wrap literal addresses in absolute_pointer()
+    856ec356cf91e ACPI: thermal: drop an always true check
+    7614af249993e xfs: Fix -Werror=dangling-pointer work-around for older GCC
+    41470215f97ee xfs: Work around GCC 12 -Werror=dangling-pointer for xfs_attr_remote.o
+    44a445c1922dc virtio-pci: Remove wrong address verification in vp_del_vqs()
+    77aa9e489eafd bpf: Disallow unprivileged bpf by default
+    ebfb1822e9f97 fs/aufs: fixup 5.15.36 fixups
+    4eba9348d3e2e Revert "Revert "fbdev: Hot-unplug firmware fb devices on forced removal""
+    5df6d1b00f95b jbd2: fix use-after-free of transaction_t race
+    2d83e8196487f jbd2: refactor wait logic for transaction updates into a common function
+    07a63f760793c netfilter: conntrack: avoid useless indirection during conntrack destruction
+    4e71226259962 Revert "fbdev: Hot-unplug firmware fb devices on forced removal"
+    7ba4cb36fd4f3 rcu: Avoid alloc_pages() when recording stack
+    f78574dee71e4 kasan: test: silence intentional read overflow warnings
+    d313cb89b6b1f kasan: arm64: fix pcpu_page_first_chunk crash with KASAN_VMALLOC
+    5e279d5647ccf arm64: support page mapping percpu first chunk allocator
+    e5bf16752dcac vmalloc: choose a better start address in vm_area_register_early()
+    660b3d21b46f3 kasan: test: bypass __alloc_size checks
+    00aa7573e53a2 kasan: test: add memcpy test that avoids out-of-bounds write
+    67becf0b1bd44 kasan: fix tag for large allocations when using CONFIG_SLAB
+    bedf1e033213c workqueue, kasan: avoid alloc_pages() when recording stack
+    7195b67ce69b3 kasan: generic: introduce kasan_record_aux_stack_noalloc()
+    bdff763f0e295 kasan: common: provide can_alloc in kasan_save_stack()
+    51423ebb36adb lib/stackdepot: introduce __stack_depot_save()
+    85373e66d8474 lib/stackdepot: remove unused function argument
+    5b6cc9b251f32 lib/stackdepot: include gfp.h
+    c9f3902d8069e aufs: reduce overhead for "code present but disabled" use case.
+    b98d189df02cc aufs: bugfix, umount passes NULL to ->parse_monolithic()
+    13b883cbbbd9f aufs standalone: cosmetic, missing copyright sentence
+    21f8b0d81898e aufs: 5.15.5-20220117 ---> 5.15.5-20220221
+    6199fd8966450 aufs: tiny, headers after fs_context
+    8ddb40e31c29b aufs: fs_context 7/7, finally remount
+    69035f71c6fd1 aufs: fs_context 6/7, now mount
+    bc841b9706977 aufs: fs_context 5/7, parse all other mount options
+    435188053da29 aufs: fs_context 4/7, parse xino options
+    9af1f1825cbd7 aufs: fs_context 3/7, parse the branch-management options
+    1c05eb767f8c3 aufs: fs_context 2/7, parse "br" mount option
+    a8488f603134a aufs: fs_context 1/7, skelton of the new shceme
+    8e32e0015564e aufs: pre fs_context, convert a static flag to a macro
+    f90cb4144aec4 aufs: pre fs_context, support the incomplete sb and sbinfo case
+    948762ef859c2 aufs: pre fs_context, convert the type of alloc_sbinfo()
+    77151a08776b1 aufs: 5.15.5-20211129 ---> 5.15.5-20220117
+    2539adbbbe1e4 aufs: 5.14-20211018 ---> 5.15.5-20211129
+    7d32b25193c4c aufs: for v5.15-rc1, sync_inode() is gone
+    66ec0c509225d aufs: for v5.15-rc1, new param 'rcu' for ->get_acl()
+    69709dc518cd8 aufs: for v5.15-rc1, no mand-lock anymore
+    ada8fe9543e50 aufs: 5.14-20210906  ---> 5.14-20211018
+    b77f7f3f394ad Revert "aufs: adjust to v5.15 fs changes"
+    81bdce5b58765 tick/nohz: WARN_ON --> WARN_ON_ONCE to prevent console saturation
+    97c9638892228 sched/isolation: really align nohz_full with rcu_nocbs
+    871f23ad36271 Revert "ARM: defconfig: Enable ax88796c driver for Exynos boards"
+    ffad0783dd5b2 ARM: config: multi v7: Regenerate defconifg
+    5c1e1a1ff2d39 ARM: config: multi v7: Add renamed symbols
+    badaf96564fe1 ARM: config: multi v7: Clean up enabled by default options
+    34996040fc9bd ARM: config: multi v7: Drop unavailable options
+    7f685244afb3a powerpc/mm: Switch obsolete dssall to .long
+    20301aeb1a641 riscv: fix build with binutils 2.38
+    9df58d0705069 powerpc/lib/sstep: fix 'ptesync' build error
+    720b61fc400b5 x86_64_defconfig: Fix warnings
+    02bf23d26bc4c arm64: defconfig: cleanup config options
+    05914e2c87e51 arm: defconfig: drop unused POWER_AVS option
+    ffb532fa19b90 aufs5: fix build against v5.15.3+
+    a4b3abf4d96d7 qemux86: add configuration symbol to select values
+    fee94ee091541 clear_warn_once: add a clear_warn_once= boot parameter
+    3d8762d900d93 clear_warn_once: bind a timer to written reset value
+    95faacac47e8d clear_warn_once: expand debugfs to include read support
+    de20c4240018c perf: perf can not parser the backtrace of app in the 32bit system and 64bit kernel.
+    0e4aacead9c15 perf: x86-32: explicitly include <errno.h>
+    9ad92c11468e2 perf: mips64: Convert __u64 to unsigned long long
+    09e7efe3e68a0 perf: fix bench numa compilation
+    e79becc44fa6b perf: add SLANG_INC for slang.h
+    b1033b5886819 perf: add sgidefs.h to for mips builds
+    cf9db484ac0b4 perf: change --root to --prefix for python install
+    7fd052c2c5624 perf: add 'libperl not found' warning
+    27a437cdd4691 perf: force include of <stdbool.h>
+    3b99d21bec2f6 fat: don't use obsolete random32 call in namei_vfat
+    a7e9293b506bb FAT: Added FAT_NO_83NAME
+    6fd0e71d9e5c1 FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
+    c379b0d324aeb FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
+    538be0fdb124f aufs: adjust to v5.15 fs changes
+    f45da75c8759b aufs5: core
+    047f57e07e01b aufs5: standalone
+    029fc15574c88 aufs5: mmap
+    610d0192ee94d aufs5: base
+    d4e428d0ec5f4 aufs5: kbuild
+    eb067eca251ab yaffs: replace IS_ERR with IS_ERR_OR_NULL to check both ERR and NULL
+    286af18d0875e yaffs: fix -Wstringop-overread compile warning in yaffs_fix_null_name
+    24d59a4e26a67 yaffs2: v5.12+ build fixups (not runtime tested)
+    22c73536d5d7e yaffs: include blkdev.h
+    506b7251bfb81 yaffs: fix misplaced variable declaration
+    a0e26ff364dcc yaffs2: v5.6 build fixups
+    b10b1b2d169ef yaffs2: fix memory leak when /proc/yaffs is read
+    ad9adccbb2147 yaffs: add strict check when call yaffs_internal_read_super
+    2e3c3aec8279b yaffs: repair yaffs_get_mtd_device
+    d662538516a7c yaffs: Fix build failure by handling inode i_version with proper atomic API
+    70a6113ee2c7c yaffs2: fix memory leak in mount/umount
+    3378e4a9e4043 yaffs: Avoid setting any ACL releated xattr
+    ec2284edddef1 Yaffs:check oob size before auto selecting Yaffs1
+    c2a49874051cd fs: yaffs2: replace CURRENT_TIME by other appropriate apis
+    e9a5105a3e735 yaffs2: adjust to proper location of MS_RDONLY
+    608807406f138 yaffs2: import git revision b4ce1bb (jan, 2020)
+    89e660ece42c8 initramfs: allow an optional wrapper script around initramfs generation
+    b179dbc9aa109 iwlwifi: select MAC80211_LEDS conditionally
+    3fd5ca3673d03 net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-16119)
+    d1f6edbf01883 arm64/perf: Fix wrong cast that may cause wrong truncation
+    d202fb2caf337 defconfigs: drop obselete options
+    9a27e3b5f4e73 arm64/perf: fix backtrace for AAPCS with FP enabled
+    e20d8cf019b42 linux-yocto: Handle /bin/awk issues
+    b6d2a3dbbd3a3 uvesafb: provide option to specify timeout for task completion
+    adb40f1e6a1a5 uvesafb: print error message when task timeout occurs
+    f280a1ed09626 compiler.h: Undef before redefining __attribute_const__
+    4352732f268c1 vmware: include jiffies.h
+    7954a677968dc Resolve jiffies wrapping about arp
+    5f28a1035d950 nfs: Allow default io size to be configured.
+    0d7260ad71066 check console device file on fs when booting
+    900a12e37e0a2 mount_root: clarify error messages for when no rootfs found
+    7b878cbea7261 menuconfig,mconf-cfg: Allow specification of ncurses location
+    6604fc1763b3d modpost: mask trivial warnings
+    0d294adb09cbc kbuild: exclude meta directory from distclean processing
+    a097cdd95a9ef powerpc: serialize image targets
+    5db6ec39a0a3e arm: serialize build targets
+    cbabca27905e2 crtsavres: fixups for 5.4+
+    7fc7656ed403e powerpc/ptrace: Disable array-bounds warning with gcc8
+    a5faac5a19a2e powerpc: Disable attribute-alias warnings from gcc8
+    186c54665b676 powerpc: add crtsavres.o to archprepare for kbuild
+    d1ea862964cae powerpc: kexec fix for powerpc64
+    2ac35b89a0f90 powerpc: Add unwind information for SPE registers of E500 core
+    2e1c348a28bbc mips: vdso: fix 'jalr $t9' crash in vdso code
+    ec57870b303a8 mips: Kconfig: add QEMUMIPS64 option
+    6a81b3c081078 4kc cache tlb hazard: tlbp cache coherency
+    74e3b2a21e542 malta uhci quirks: make allowance for slow 4k(e)c
+    22e65b63d3b4c arm/Makefile: Fix systemtap
+    b7f1ab59f19e5 vexpress: Pass LOADADDR to Makefile
+    ce2800c73bf7e arm: ARM EABI socketcall
+    019d142fd956a ARM: LPAE: Invalidate the TLB for module addresses during translation fault
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2024-47775_47776_47777_47778-1.patch  | 171 ++++++++++++++++++
- .../CVE-2024-47775_47776_47777_47778-2.patch  |  38 ++++
- .../CVE-2024-47775_47776_47777_47778-3.patch  |  62 +++++++
- .../CVE-2024-47775_47776_47777_47778-4.patch  |  34 ++++
- .../CVE-2024-47775_47776_47777_47778-5.patch  |  37 ++++
- .../CVE-2024-47775_47776_47777_47778-6.patch  |  44 +++++
- .../CVE-2024-47775_47776_47777_47778-7.patch  |  38 ++++
- .../gstreamer1.0-plugins-good_1.20.7.bb       |   7 +
- 8 files changed, 431 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-1.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-2.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-3.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-4.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-5.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-6.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-7.patch
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-1.patch
-new file mode 100644
-index 0000000000..2eaef45f41
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-1.patch
-@@ -0,0 +1,171 @@
-+From 13b48016b3ef1e822c393c2871b0a561ce19ecb3 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:00:57 +0300
-+Subject: [PATCH] wavparse: Check for short reads when parsing headers in pull
-+ mode
-+
-+And also return the actual flow return to the caller instead of always returning
-+GST_FLOW_ERROR.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-258, GHSL-2024-260
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3886
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3888
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/13b48016b3ef1e822c393c2871b0a561ce19ecb3]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst/wavparse/gstwavparse.c                | 63 ++++++++++++++-----
-+ 1 file changed, 46 insertions(+), 17 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index d074f273c501..97d5591fae8f 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -1097,6 +1097,24 @@ parse_ds64 (GstWavParse * wav, GstBuffer * buf)
-+   return TRUE;
-+ }
-+ 
-++static GstFlowReturn
-++gst_wavparse_pull_range_exact (GstWavParse * wav, guint64 offset, guint size,
-++    GstBuffer ** buffer)
-++{
-++  GstFlowReturn res;
-++
-++  res = gst_pad_pull_range (wav->sinkpad, offset, size, buffer);
-++  if (res != GST_FLOW_OK)
-++    return res;
-++
-++  if (gst_buffer_get_size (*buffer) < size) {
-++    gst_clear_buffer (buffer);
-++    return GST_FLOW_EOS;
-++  }
-++
-++  return res;
-++}
-++
-+ static GstFlowReturn
-+ gst_wavparse_stream_headers (GstWavParse * wav)
-+ {
-+@@ -1292,9 +1310,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+ 
-+       buf = NULL;
-+       if ((res =
-+-              gst_pad_pull_range (wav->sinkpad, wav->offset, 8,
-++              gst_wavparse_pull_range_exact (wav, wav->offset, 8,
-+                   &buf)) != GST_FLOW_OK)
-+-        goto header_read_error;
-++        goto header_pull_error;
-+       gst_buffer_map (buf, &map, GST_MAP_READ);
-+       tag = GST_READ_UINT32_LE (map.data);
-+       size = GST_READ_UINT32_LE (map.data + 4);
-+@@ -1397,9 +1415,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+             gst_buffer_unref (buf);
-+             buf = NULL;
-+             if ((res =
-+-                    gst_pad_pull_range (wav->sinkpad, wav->offset + 8,
-++                    gst_wavparse_pull_range_exact (wav, wav->offset + 8,
-+                         data_size, &buf)) != GST_FLOW_OK)
-+-              goto header_read_error;
-++              goto header_pull_error;
-+             gst_buffer_extract (buf, 0, &wav->fact, 4);
-+             wav->fact = GUINT32_FROM_LE (wav->fact);
-+             gst_buffer_unref (buf);
-+@@ -1444,9 +1462,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+           gst_buffer_unref (buf);
-+           buf = NULL;
-+           if ((res =
-+-                  gst_pad_pull_range (wav->sinkpad, wav->offset + 8,
-+-                      size, &buf)) != GST_FLOW_OK)
-+-            goto header_read_error;
-++                  gst_wavparse_pull_range_exact (wav, wav->offset + 8, size,
-++                      &buf)) != GST_FLOW_OK)
-++            goto header_pull_error;
-+           gst_buffer_map (buf, &map, GST_MAP_READ);
-+           acid = (const gst_riff_acid *) map.data;
-+           tempo = acid->tempo;
-+@@ -1484,9 +1502,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+           gst_buffer_unref (buf);
-+           buf = NULL;
-+           if ((res =
-+-                  gst_pad_pull_range (wav->sinkpad, wav->offset, 12,
-++                  gst_wavparse_pull_range_exact (wav, wav->offset, 12,
-+                       &buf)) != GST_FLOW_OK)
-+-            goto header_read_error;
-++            goto header_pull_error;
-+           gst_buffer_extract (buf, 8, &ltag, 4);
-+           ltag = GUINT32_FROM_LE (ltag);
-+         }
-+@@ -1513,9 +1531,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+               buf = NULL;
-+               if (data_size > 0) {
-+                 if ((res =
-+-                        gst_pad_pull_range (wav->sinkpad, wav->offset,
-++                        gst_wavparse_pull_range_exact (wav, wav->offset,
-+                             data_size, &buf)) != GST_FLOW_OK)
-+-                  goto header_read_error;
-++                  goto header_pull_error;
-+               }
-+             }
-+             if (data_size > 0) {
-+@@ -1553,9 +1571,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+               buf = NULL;
-+               wav->offset += 12;
-+               if ((res =
-+-                      gst_pad_pull_range (wav->sinkpad, wav->offset,
-++                      gst_wavparse_pull_range_exact (wav, wav->offset,
-+                           data_size, &buf)) != GST_FLOW_OK)
-+-                goto header_read_error;
-++                goto header_pull_error;
-+               gst_buffer_map (buf, &map, GST_MAP_READ);
-+               gst_wavparse_adtl_chunk (wav, (const guint8 *) map.data,
-+                   data_size);
-+@@ -1599,9 +1617,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+           gst_buffer_unref (buf);
-+           buf = NULL;
-+           if ((res =
-+-                  gst_pad_pull_range (wav->sinkpad, wav->offset,
-++                  gst_wavparse_pull_range_exact (wav, wav->offset,
-+                       data_size, &buf)) != GST_FLOW_OK)
-+-            goto header_read_error;
-++            goto header_pull_error;
-+           gst_buffer_map (buf, &map, GST_MAP_READ);
-+           if (!gst_wavparse_cue_chunk (wav, (const guint8 *) map.data,
-+                   data_size)) {
-+@@ -1643,9 +1661,9 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+           gst_buffer_unref (buf);
-+           buf = NULL;
-+           if ((res =
-+-                  gst_pad_pull_range (wav->sinkpad, wav->offset,
-++                  gst_wavparse_pull_range_exact (wav, wav->offset,
-+                       data_size, &buf)) != GST_FLOW_OK)
-+-            goto header_read_error;
-++            goto header_pull_error;
-+           gst_buffer_map (buf, &map, GST_MAP_READ);
-+           if (!gst_wavparse_smpl_chunk (wav, (const guint8 *) map.data,
-+                   data_size)) {
-+@@ -1797,6 +1815,17 @@ header_read_error:
-+         ("Couldn't read in header %d (%s)", res, gst_flow_get_name (res)));
-+     goto fail;
-+   }
-++header_pull_error:
-++  {
-++    if (res == GST_FLOW_EOS) {
-++      GST_WARNING_OBJECT (wav, "Couldn't pull header %d (%s)", res,
-++          gst_flow_get_name (res));
-++    } else {
-++      GST_ELEMENT_ERROR (wav, STREAM, DEMUX, (NULL),
-++          ("Couldn't pull header %d (%s)", res, gst_flow_get_name (res)));
-++    }
-++    goto exit;
-++  }
-+ }
-+ 
-+ /*
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-2.patch
-new file mode 100644
-index 0000000000..3df27b62bc
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-2.patch
-@@ -0,0 +1,38 @@
-+From 4c198f4891cfabde868944d55ff98925e7beb757 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:09:43 +0300
-+Subject: [PATCH] wavparse: Make sure enough data for the tag list tag is
-+ available before parsing
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-258
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3886
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/4c198f4891cfabde868944d55ff98925e7beb757]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 97d5591fae8f..21cb48c07eb3 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -1489,6 +1489,10 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+       case GST_RIFF_TAG_LIST:{
-+         guint32 ltag;
-+ 
-++        /* Need at least the ltag */
-++        if (size < 4)
-++          goto exit;
-++
-+         if (wav->streaming) {
-+           const guint8 *data = NULL;
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-3.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-3.patch
-new file mode 100644
-index 0000000000..010041aa4e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-3.patch
-@@ -0,0 +1,62 @@
-+From 296e17b4ea81e5c228bb853f6037b654fdca7d47 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:15:27 +0300
-+Subject: [PATCH] wavparse: Fix parsing of acid chunk
-+
-+Simply casting the bytes to a struct can lead to crashes because of unaligned
-+reads, and is also missing the endianness swapping that is necessary on big
-+endian architectures.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/296e17b4ea81e5c228bb853f6037b654fdca7d47]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../gst-plugins-good/gst/wavparse/gstwavparse.c      | 12 +++++-------
-+ 1 file changed, 5 insertions(+), 7 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 21cb48c07eb3..6a0c44638ea2 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -1434,8 +1434,7 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+         break;
-+       }
-+       case GST_RIFF_TAG_acid:{
-+-        const gst_riff_acid *acid = NULL;
-+-        const guint data_size = sizeof (gst_riff_acid);
-++        const guint data_size = 24;
-+         gfloat tempo;
-+ 
-+         GST_INFO_OBJECT (wav, "Have acid chunk");
-+@@ -1449,13 +1448,13 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+           break;
-+         }
-+         if (wav->streaming) {
-++          const guint8 *data;
-+           if (!gst_wavparse_peek_chunk (wav, &tag, &size)) {
-+             goto exit;
-+           }
-+           gst_adapter_flush (wav->adapter, 8);
-+-          acid = (const gst_riff_acid *) gst_adapter_map (wav->adapter,
-+-              data_size);
-+-          tempo = acid->tempo;
-++          data = gst_adapter_map (wav->adapter, data_size);
-++          tempo = GST_READ_FLOAT_LE (data + 20);
-+           gst_adapter_unmap (wav->adapter);
-+         } else {
-+           GstMapInfo map;
-+@@ -1466,8 +1465,7 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+                       &buf)) != GST_FLOW_OK)
-+             goto header_pull_error;
-+           gst_buffer_map (buf, &map, GST_MAP_READ);
-+-          acid = (const gst_riff_acid *) map.data;
-+-          tempo = acid->tempo;
-++          tempo = GST_READ_FLOAT_LE (map.data + 20);
-+           gst_buffer_unmap (buf, &map);
-+         }
-+         /* send data as tags */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-4.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-4.patch
-new file mode 100644
-index 0000000000..c7c3dbed46
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-4.patch
-@@ -0,0 +1,34 @@
-+From c72025cabdfcb2fe30d24eda7bb9d1d01a1b6555 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:21:44 +0300
-+Subject: [PATCH] wavparse: Check that at least 4 bytes are available before
-+ parsing cue chunks
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c72025cabdfcb2fe30d24eda7bb9d1d01a1b6555]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 6a0c44638ea2..5655ee3825ca 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -790,6 +790,11 @@ gst_wavparse_cue_chunk (GstWavParse * wav, const guint8 * data, guint32 size)
-+     return TRUE;
-+   }
-+ 
-++  if (size < 4) {
-++    GST_WARNING_OBJECT (wav, "broken file %d", size);
-++    return FALSE;
-++  }
-++
-+   ncues = GST_READ_UINT32_LE (data);
-+ 
-+   if (size < 4 + ncues * 24) {
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-5.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-5.patch
-new file mode 100644
-index 0000000000..89b240998a
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-5.patch
-@@ -0,0 +1,37 @@
-+From 93d79c22a82604adc5512557c1238f72f41188c4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:22:02 +0300
-+Subject: [PATCH] wavparse: Check that at least 32 bytes are available before
-+ parsing smpl chunks
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-259
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3887
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/93d79c22a82604adc5512557c1238f72f41188c4]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 5655ee3825ca..8a04805ed427 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -894,6 +894,9 @@ gst_wavparse_smpl_chunk (GstWavParse * wav, const guint8 * data, guint32 size)
-+ {
-+   guint32 note_number;
-+ 
-++  if (size < 32)
-++    return FALSE;
-++
-+   /*
-+      manufacturer_id = GST_READ_UINT32_LE (data);
-+      product_id = GST_READ_UINT32_LE (data + 4);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-6.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-6.patch
-new file mode 100644
-index 0000000000..0ad2592bc9
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-6.patch
-@@ -0,0 +1,44 @@
-+From 526d0eef0d850c8f2fa1bf0aef15a836797f1a67 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:27:27 +0300
-+Subject: [PATCH] wavparse: Fix clipping of size to the file size
-+
-+The size does not include the 8 bytes tag and length, so an additional 8 bytes
-+must be removed here. 8 bytes are always available at this point because
-+otherwise the parsing of the tag and length right above would've failed.
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-260
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3888
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/526d0eef0d850c8f2fa1bf0aef15a836797f1a67]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 8a04805ed427..998cbb276dbf 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -1338,10 +1338,11 @@ gst_wavparse_stream_headers (GstWavParse * wav)
-+     }
-+ 
-+     /* Clip to upstream size if known */
-+-    if (upstream_size > 0 && size + wav->offset > upstream_size) {
-++    if (upstream_size > 0 && size + 8 + wav->offset > upstream_size) {
-+       GST_WARNING_OBJECT (wav, "Clipping chunk size to file size");
-+       g_assert (upstream_size >= wav->offset);
-+-      size = upstream_size - wav->offset;
-++      g_assert (upstream_size - wav->offset >= 8);
-++      size = upstream_size - wav->offset - 8;
-+     }
-+ 
-+     /* wav is a st00pid format, we don't know for sure where data starts.
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-7.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-7.patch
-new file mode 100644
-index 0000000000..d73359f375
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2024-47775_47776_47777_47778-7.patch
-@@ -0,0 +1,38 @@
-+From 4f381d15014471b026020d0990a5f5a9f420a22b Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 4 Oct 2024 13:51:00 +0300
-+Subject: [PATCH] wavparse: Check size before reading ds64 chunk
-+
-+Thanks to Antonio Morales for finding and reporting the issue.
-+
-+Fixes GHSL-2024-261
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3889
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8042>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/4f381d15014471b026020d0990a5f5a9f420a22b]
-+CVE: CVE-2024-47775 CVE-2024-47776 CVE-2024-47777 CVE-2024-47778
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c b/subprojects/gst-plugins-good/gst/wavparse/gstwavparse.c
-+index 998cbb276dbf..958868de6d9e 100644
-+--- a/gst/wavparse/gstwavparse.c
-++++ b/gst/wavparse/gstwavparse.c
-+@@ -1088,6 +1088,11 @@ parse_ds64 (GstWavParse * wav, GstBuffer * buf)
-+   guint32 sampleCountLow, sampleCountHigh;
-+ 
-+   gst_buffer_map (buf, &map, GST_MAP_READ);
-++  if (map.size < 6 * 4) {
-++    GST_WARNING_OBJECT (wav, "Too small ds64 chunk (%" G_GSIZE_FORMAT ")",
-++        map.size);
-++    return FALSE;
-++  }
-+   dataSizeLow = GST_READ_UINT32_LE (map.data + 2 * 4);
-+   dataSizeHigh = GST_READ_UINT32_LE (map.data + 3 * 4);
-+   sampleCountLow = GST_READ_UINT32_LE (map.data + 4 * 4);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-index 8cf08c5088..e82473086e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
-@@ -30,6 +30,13 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://CVE-2024-47606.patch \
-            file://CVE-2024-47613.patch \
-            file://CVE-2024-47774.patch \
-+           file://CVE-2024-47775_47776_47777_47778-1.patch \
-+           file://CVE-2024-47775_47776_47777_47778-2.patch \
-+           file://CVE-2024-47775_47776_47777_47778-3.patch \
-+           file://CVE-2024-47775_47776_47777_47778-4.patch \
-+           file://CVE-2024-47775_47776_47777_47778-5.patch \
-+           file://CVE-2024-47775_47776_47777_47778-6.patch \
-+           file://CVE-2024-47775_47776_47777_47778-7.patch \
-            "
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 33c0f370b8..77d4da1177 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- SRC_URI[sha256sum] = "599f093cc833a1e346939ab6e78a3f8046855b6da13520aae80dd385434f4ab2"
+-SRCREV_machine ?= "dd3566c7afbdb325c7ba6e56c0eb525fcc7bc15c"
+-SRCREV_meta ?= "b4c09f5abf1e9649877da3f82eeb4bde6185fe3a"
++SRCREV_machine ?= "09550c3a9a6b51fe9dd73e9b90e9d85959f1fb91"
++SRCREV_meta ?= "39edeb3fefcf8e3b5c20240e92bfd5167c9da7aa"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.15.169"
++LINUX_VERSION ?= "5.15.170"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index b0e2166303..9f51a99034 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.15.169"
++LINUX_VERSION ?= "5.15.170"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "10a43570e7f45db6a1b55e2fd27eaab50311b5de"
+-SRCREV_meta ?= "b4c09f5abf1e9649877da3f82eeb4bde6185fe3a"
++SRCREV_machine ?= "5d9057298bcdc677c2d2a46a88663fb335322944"
++SRCREV_meta ?= "39edeb3fefcf8e3b5c20240e92bfd5167c9da7aa"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 5d65cc54d5..9657690710 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "a472fcdac80b8eb15a87a9d712117fe2f04869f7"
+-SRCREV_machine:qemuarm64 ?= "b83b88fa0e5648e98e16a831391445d6bdd01f0d"
+-SRCREV_machine:qemumips ?= "d4729075919ae27ec8e67d770419a1fb944a02dd"
+-SRCREV_machine:qemuppc ?= "65d972cfcaa4e97be8ab1a0895a0f72865bb57b7"
+-SRCREV_machine:qemuriscv64 ?= "46b573689f8e5146ae5e17702497b8e6e43950c7"
+-SRCREV_machine:qemuriscv32 ?= "46b573689f8e5146ae5e17702497b8e6e43950c7"
+-SRCREV_machine:qemux86 ?= "46b573689f8e5146ae5e17702497b8e6e43950c7"
+-SRCREV_machine:qemux86-64 ?= "46b573689f8e5146ae5e17702497b8e6e43950c7"
+-SRCREV_machine:qemumips64 ?= "9e2f401868a1af4f4e8d6bd8feb9e49e6405dec1"
+-SRCREV_machine ?= "46b573689f8e5146ae5e17702497b8e6e43950c7"
+-SRCREV_meta ?= "b4c09f5abf1e9649877da3f82eeb4bde6185fe3a"
++SRCREV_machine:qemuarm ?= "6d182fb48883e5f487a1b1a9d918cfe329c72bd6"
++SRCREV_machine:qemuarm64 ?= "ecf807800df1e4838974f3d63b16ef31b32e839f"
++SRCREV_machine:qemumips ?= "058d1c05bb16832886391922e078657d433a87e7"
++SRCREV_machine:qemuppc ?= "4cbe8a9197f047838e67af6b6b6b8f339b5883c2"
++SRCREV_machine:qemuriscv64 ?= "66794a3919629bf7e842cf506aca8a6be34b31e2"
++SRCREV_machine:qemuriscv32 ?= "66794a3919629bf7e842cf506aca8a6be34b31e2"
++SRCREV_machine:qemux86 ?= "66794a3919629bf7e842cf506aca8a6be34b31e2"
++SRCREV_machine:qemux86-64 ?= "66794a3919629bf7e842cf506aca8a6be34b31e2"
++SRCREV_machine:qemumips64 ?= "e17660fecfd0ada315d045f4478ba455f8f3f627"
++SRCREV_machine ?= "66794a3919629bf7e842cf506aca8a6be34b31e2"
++SRCREV_meta ?= "39edeb3fefcf8e3b5c20240e92bfd5167c9da7aa"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "74cdd62cb4706515b454ce5bacb73b566c1d1bcf"
++SRCREV_machine:class-devupstream ?= "72244eab0dad81e1553d4f5e105ffadc412885cb"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.15.169"
++LINUX_VERSION ?= "5.15.170"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.43.0
 
