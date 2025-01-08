@@ -1,101 +1,142 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DAAE77199
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:04:32 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.23510.1736352271687756707
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 889F1E77188
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:05:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.23044.1736352324082211348
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 08:04:32 -0800
+ Wed, 08 Jan 2025 08:05:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BWnG+p1D;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=a5ZvuJgK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019446a9091e-8656dea7-4560-4365-b446-a2904e784b71-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736352270; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=1RYP0XHWDK0ctf5wbRc7UHvXfFZVlk40LdbsRdPIdXI=;
-	b=BWnG+p1DTXrIBUP9RMmgMgzD3S4vO9mZvIuI3on/snbIvOaOmt3l5fXpe1O0NExF
-	6tMRi0hx1QbYgA/6BBVpGR/0Ck4pRCDTgnufXmrHC3YBk4o8gxz7B8al2fLZjW+K76u
-	3gyXk4b2djmAPNbC7kIwGwFF52Qek5sCis1ZanI0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736352270;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=1RYP0XHWDK0ctf5wbRc7UHvXfFZVlk40LdbsRdPIdXI=;
-	b=a5ZvuJgKiycG3DHdISfDQZSA224ulxlgHcyyk9t66RmF59PNM40EdNDL91l1xJVY
-	2OcINdbXMv6q1ypXQH/fle2GjHuk/Su64HY1qZi4/lUTtFUQpG5LXIWgKPZK3uS3DJ5
-	UFXBVRz1RiiUoqo0XfYIckLAa4sW8uT3gRxJCrto=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/4] autotools: remove aclocal --automake-acdir,
- relocated so knows the right path
-In-Reply-To: <20250108154636.1431857-4-ross.burton@arm.com>
-References: <20250108154636.1431857-4-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019446a9091e-8656dea7-4560-4365-b446-a2904e784b71-000000@us-west-2.amazonses.com>
-Date: Wed, 8 Jan 2025 16:04:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.08-54.240.27.30
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=310345b2cc=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5085YucN023558;
+	Wed, 8 Jan 2025 16:05:21 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 441fnkgqmb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 08 Jan 2025 16:05:21 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 8 Jan 2025 08:05:20 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 8 Jan 2025 08:05:20 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <colinmca242@gmail.com>,
+        <JPEWhacker@gmail.com>
+Subject: [PATCH V3 2/3] meta/lib/oe/spdx30_tasks.py: add patched CVE to SPDX 3
+Date: Wed, 8 Jan 2025 08:05:20 -0800
+Message-ID: <20250108160520.3159757-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250108154718.3031653-2-hongxu.jia@windriver.com>
+References: <20250108154718.3031653-2-hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: qWkyaI7Qk5aqiJe-vMyIscldBnuv3ASr
+X-Authority-Analysis: v=2.4 cv=bJjsIO+Z c=1 sm=1 tr=0 ts=677ea241 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=24AZYWMyAAAA:8 a=Q4-j1AaZAAAA:8 a=rorgr0BEAAAA:8 a=wECf3xPYAAAA:8 a=t7CeM3EgAAAA:8
+ a=Y2Y933mBZx8stCiJLtwA:9 a=bG88sKzkDEFeXWNnvthB:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FuUPMLReglAHmohU_o2S:22 a=ccNonjl4-tybilS9-zgM:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: qWkyaI7Qk5aqiJe-vMyIscldBnuv3ASr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-08_04,2025-01-08_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
+ adultscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501080133
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:04:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209577
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:05:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209578
 
---NextPart
-Content-Type: text/plain
+Due to commit [cve-check: annotate CVEs during analysis][1] improved
+get_patched_cves to search for additional CVEs from CVE_STATUS which
+means the funciton get_patched_cves contains both of patched CVE and
+decoded_status
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This commit add function get_cves to use get_patched_cves in one place
+to add CVEs, and convert patched_cve to decoded_status:
 
+  patched_cve["abbrev-status"] --> decoded_status["mapping"]
+  patched_cve["status"] --> decoded_status["detail"]
+  patched_cve["justification"] --> decoded_status["description"]
+
+Take recipe unzip for example, CVE-2015-1315 is patched in oe-core and
+is available in package SPDX
+
+oe-core$ grep "CVE-2015-1315" -rn meta
+meta/recipes-extended/unzip/unzip_6.0.bb:12:    file://06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch \
+meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch:6:CVE: CVE-2015-1315
+
+$ bitbake unzip
+$ vim tmp/deploy/spdx/3.0.1/core2-64/packages/package-unzip.spdx.json [2]
+...
+    {
+      "type": "security_VexFixedVulnAssessmentRelationship",
+      "spdxId": "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/47a621ef0550c7a6a1ed0507b0b8a7b7822447c2ff0995acc4b688eed1e1f1d0/vex-fixed/1aeb76ce6ca8dd91b12c18a11eeb964b",
+      "creationInfo": "_:CreationInfo1",
+      "extension": [
+        {
+          "type": "https://rdf.openembedded.org/spdx/3.0/id-alias",
+          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/22ab8d6eced4525f57bb861acc0fe983d8af5805dd97e702c22c1ffe04621cb2/unzip/UNIHASH/vex-fixed/1aeb76ce6ca8dd91b12c18a11eeb964b"
+        }
+      ],
+      "from": "http://spdxdocs.org/openembedded-alias/by-doc-hash/539e1deec075c3a51b8c6975352b0a9ad320a130a4d7d516316b35994a830f93/unzip/UNIHASH/vulnerability/CVE-2015-1315",
+      "relationshipType": "fixedIn",
+      "to": [
+        "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/47a621ef0550c7a6a1ed0507b0b8a7b7822447c2ff0995acc4b688eed1e1f1d0/package/unzip"
+      ],
+      "security_vexVersion": "1.0.0"
+    },
+...
+
+[1] https://git.openembedded.org/openembedded-core/commit/?id=452e605b55ad61c08f4af7089a5a9c576ca28f7d
+[2] https://spdx.github.io/spdx-spec/v3.0.1/model/Security/Classes/VexFixedVulnAssessmentRelationship/
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/4-4-autotools-remove-aclocal---automake-acdir-relocated-so-knows-the-right-path.patch
+ meta/lib/oe/spdx30_tasks.py | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index c60c97896c..9baa40887b 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -437,6 +437,17 @@ def set_purposes(d, element, *var_names, force_purposes=[]):
+         getattr(oe.spdx30.software_SoftwarePurpose, p) for p in purposes[1:]
+     ]
+ 
++def get_cves(d):
++    cve_status = {}
++    patched_cves = oe.cve_check.get_patched_cves(d)
++    for cve, patched_cve in patched_cves.items():
++        cve_status[cve] = {
++            "mapping": patched_cve["abbrev-status"],
++            "detail": patched_cve["status"],
++            "description": patched_cve.get("justification", None)
++        }
++
++    return cve_status
+ 
+ def create_spdx(d):
+     def set_var_field(var, obj, name, package=None):
+@@ -487,8 +498,8 @@ def create_spdx(d):
+     # Add CVEs
+     cve_by_status = {}
+     if include_vex != "none":
+-        for cve in d.getVarFlags("CVE_STATUS") or {}:
+-            decoded_status = oe.cve_check.decode_cve_status(d, cve)
++        cve_data = get_cves(d)
++        for cve, decoded_status in cve_data.items():
+ 
+             # If this CVE is fixed upstream, skip it unless all CVEs are
+             # specified.
+-- 
+2.25.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
