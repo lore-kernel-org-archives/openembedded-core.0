@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 002F2E7719C
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 08:42:50 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.14223.1736325762810952429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB18DE7719B
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 08:42:49 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.14226.1736325765154997671
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 00:42:43 -0800
+ Wed, 08 Jan 2025 00:42:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XW3d3dJe;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaf8f0ea963so220670966b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:42:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OTltezuT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d122cf8dd1so28751059a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736325761; x=1736930561; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1736325763; x=1736930563; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z1s1BvdSyA5ZxTDrlqjED6+TL2HQWqOBxGVp0dKNjKs=;
-        b=XW3d3dJeOWo2EkjaHNyE0NDDSjrngPHGpawYGnN/Sr0PuklJWCopgx0mu3UEi+dD85
-         7PE+KwPI6Jz+ZOgDSjBP6Fd1jJjB3/bVf2vvwLcu4+uP6xJb6pXt3WIbw0EemJRT+NeT
-         nAHbqc9rj/vaZ/3tOMMab1fG4yV6b07tA2XB3JAOCj/N14zi25HWgGRYwB9Ci7IJuGQq
-         mr4Hxd/N1n/O8S5nQbba1miZ8v2O76Q/RfB5ZLtCXq8ccYZVm1c0E0nKXTSM70upVhlD
-         la7h7OVCx38HHL/1dHcT24nMf/CwVYv45QXqmGdAvSnVA1Q8Ha4PZU4xScmfPoXDM5E3
-         SEng==
+        bh=sHrzH0lZ55Ccfqbw/psQigbnfitEWMl6ifNmtzmZNnk=;
+        b=OTltezuTwPNAios8iq0ccZUiJAh7EZgHvGvDFs00KrlaIsD2pWfvbPYooWTLUG3cTz
+         ZUBTGmwxrQaEMiRgHZqwyJLvTe3xzfW+i3NTrAm4qvi6/n/QXkY9/TKtf44xYDzYoHV6
+         v96q8gy1j4DhNP4nZfTy1VIMWGR90K0Cc/YDNY6VXm4Iq3s/UTuuVwJgGDOIlfJ+U32k
+         MqNxBj1IxtUOGzntzsT3kelIFGMQlkOLYPGtbGosAQYnt2XxvO1GRXwp56joBUXC7l2A
+         aL69r/Pdr4rCgw7hyCbhGZlmXx9sdk2geJ0K0rtOF7WssXIY27ZbaKDJDYTywyEHbpw1
+         14Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736325761; x=1736930561;
+        d=1e100.net; s=20230601; t=1736325763; x=1736930563;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z1s1BvdSyA5ZxTDrlqjED6+TL2HQWqOBxGVp0dKNjKs=;
-        b=OoJA1ADed+oTEYespOcAiGmnb4vzQuZdYE/wTtltMiwiK5RDuJwWKhNZ0rd5PecfyT
-         ynjGISDmxzJM1g+yqRBsoBu93X5R4KrPxrMTS11rtgcbGCAhBCoyIMcvKVf0YEApRvUT
-         nO7Pk2jSQZ/U7Zkgux9w32FGUy8Rj7Wc/M5+UY0dcwsxLrWUnA6IiTNSBkCEJSGDNoLA
-         5oIeq4Qu+XDjYbWkPX9hDZr/Rr5aR3YL5BfLsGzy9GLexQCmIVJ7tCLRiwKe0lzAeT36
-         GhiSItbpvuQmTQYUuTqOirNQU7Amtf1aNSm1n1ucYQ7Uuc+6xR8dNqvs/ykCMa3y2XMX
-         zniQ==
-X-Gm-Message-State: AOJu0Ywel+TAPytL51zV8ucw6/zg64jC2GisRy+KlIwNZX/qTGDpfZmv
-	XxdpG/Er0GtSXp9/HHrMb2XXlUbK8vy9V8dootv/NnFp7u69qIvtII5HAQ==
-X-Gm-Gg: ASbGncshlAORzXcWhTRGlhqBLos1eeSN6GGwf/dUZlq+9FHAAFFYiZKEGscod2p8/vS
-	VTnODdg29QzPHGRqZQL+n+TP8NPt+DvUevGOLi9FQhwQGbm2w/q7kow++x8oVLNzhh8W3nwGlTo
-	hXFIYeB+juRFNn04egu7Zp3Zhsr00xh+/RwMd2dc+5/srCkdw+0pTB8AWLFBndJGH6f+BPAc/nR
-	I/dxI1BBtogsIzgBLNhPxpGWy36weSwZmmv3OLx8nDE6cshX8avifvBZZzpKW+Z/Qf0LVEnAVM4
-	q0kyEQwwsdLia19E1Q==
-X-Google-Smtp-Source: AGHT+IEP16jjmnloqTpKzK5vssnB2DgLz1BT8ZM5B7eiPAeMDC38Td0eBrFeQAABJwXGWftRyBEjYg==
-X-Received: by 2002:a17:907:944a:b0:aab:c78c:a705 with SMTP id a640c23a62f3a-ab2abc8f081mr156730666b.52.1736325761030;
-        Wed, 08 Jan 2025 00:42:41 -0800 (PST)
+        bh=sHrzH0lZ55Ccfqbw/psQigbnfitEWMl6ifNmtzmZNnk=;
+        b=urgWfTTUW2horAIAdbwptUrTLCGFmAYTSsZJYZiQVnAWxZAdG9BU4iLYh4dQ66hF6M
+         BDdYiZxyoICyPWGK/75RV6F5Q5bq6pgfm0QPh/fPnsokTByH6hUQY+0+CQTrauMebU66
+         TRg+ZEQ074gS0tAbyBliBDJOW+HkKdQwTYacoPNeQ5v+mtJh17GjEhInv3cSyZnzdYOT
+         aEGwxZil8IFrJ7wqNC3uDYXzYwMAM8PjhBrGHZikjwdYDVDkuR5smTXepHYDIllWdxRF
+         SPuU06BWG/4fWsDGwBsHfdeglvqQJydNhAIm4F/RTp+9HF5cHSkMZIIypsZqOxpuOPf6
+         DKTw==
+X-Gm-Message-State: AOJu0YyQKVlAzaPbQCGAfgcOblXygFLyRiLQ4Lq6ang3/85KeaDGeSxS
+	R+wBlBaPooaWQuSmAEp+6YxZdStDa6PqMZ6RE+jIIXzOtsN90nwC8eWiww==
+X-Gm-Gg: ASbGncvsoDgWCuMeEpjOkBSdoQJiuu1AD77Sq9CI+BA23WCFFDPuBnM2lCW0B19UCKi
+	teITZ5BCJmLGhI0BRusERwQV3HB60lEnWHeUsm7ZkKrNEfXGHdR6j8nujQN8NnPs7+NcE4eixhL
+	5Zx/X8DxRDALuoOsDT32ADh61gmaiJHVI8BNuy/SOCo3e+XWA9810LxFvC2CBeazLTbEXkMVgaN
+	NyS5ZllRPC3LR7e9rIRO94M8IdjWRTIlFHvCygXOsYEYzl6uolye+bLtz2sHzGSZo5BPZ3uIXER
+	bXTKZejzsfT/UKHYyg==
+X-Google-Smtp-Source: AGHT+IHj7cW5se22d6K7pGL3MDo3vKaCi2BrplNw0izT12bkhOj84mB+Mx81V0xJcPV9U6cfPcnqEQ==
+X-Received: by 2002:a17:906:7956:b0:aa6:707a:af59 with SMTP id a640c23a62f3a-ab2abdc36c5mr121690766b.50.1736325762379;
+        Wed, 08 Jan 2025 00:42:42 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f06c7c2sm2499661766b.188.2025.01.08.00.42.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f06c7c2sm2499661766b.188.2025.01.08.00.42.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 00:42:40 -0800 (PST)
+        Wed, 08 Jan 2025 00:42:42 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/20] shadow: update 4.16.0 -> 4.17.1
-Date: Wed,  8 Jan 2025 09:42:22 +0100
-Message-Id: <20250108084226.117178-16-alex.kanavin@gmail.com>
+Subject: [PATCH 18/20] python3-numpy: upgrade 2.1.3 -> 2.2.1
+Date: Wed,  8 Jan 2025 09:42:24 +0100
+Message-Id: <20250108084226.117178-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250108084226.117178-1-alex.kanavin@gmail.com>
 References: <20250108084226.117178-1-alex.kanavin@gmail.com>
@@ -66,141 +66,187 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 08:42:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209538
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209541
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Remove groups entries, as that has been removed in favor of the coreutils implementation.
-
-Add a patch to support older host compilers.
+Add a svml option, disabled by default
+(it's avx-512 only, and uses randomly generated
+intermediate .o file names, which makes the installed
+library non-reproducible).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-use-C23-attributes-only-with-gcc-10.patch | 29 +++++++++++++++++++
- ...nexpected-open-failure-in-chroot-env.patch |  6 ++--
- .../shadow/files/shadow-update-pam-conf.patch |  2 +-
- .../{shadow_4.16.0.bb => shadow_4.17.1.bb}    |  9 +++---
- 4 files changed, 37 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-extended/shadow/files/0001-lib-attr.h-use-C23-attributes-only-with-gcc-10.patch
- rename meta/recipes-extended/shadow/{shadow_4.16.0.bb => shadow_4.17.1.bb} (96%)
+ ...-and-so-on-for-libraries-by-default-.patch |  7 +--
+ ...1-numpy-core-Define-RISCV-32-support.patch | 58 -------------------
+ .../python3-numpy/fix_reproducibility.patch   | 23 +++++---
+ ...-numpy_2.1.3.bb => python3-numpy_2.2.1.bb} |  5 +-
+ 4 files changed, 21 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+ rename meta/recipes-devtools/python/{python3-numpy_2.1.3.bb => python3-numpy_2.2.1.bb} (94%)
 
-diff --git a/meta/recipes-extended/shadow/files/0001-lib-attr.h-use-C23-attributes-only-with-gcc-10.patch b/meta/recipes-extended/shadow/files/0001-lib-attr.h-use-C23-attributes-only-with-gcc-10.patch
-new file mode 100644
-index 00000000000..4e2d3a89c34
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-lib-attr.h-use-C23-attributes-only-with-gcc-10.patch
-@@ -0,0 +1,29 @@
-+From f2d8d96e8586772becd68593a5bd9e14632841af Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 7 Jan 2025 17:03:32 +0100
-+Subject: [PATCH] lib/attr.h: use C23 attributes only with gcc >= 10
-+
-+These are not available on earlier versions and builds break there.
-+
-+Upstream-Status: Submitted [https://github.com/shadow-maint/shadow/pull/1172]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+index bbe309c5568..4a673081062 100644
+--- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
++++ b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+@@ -1,4 +1,4 @@
+-From 46eea664cf89d0602e7ff16d587c37c045b125b7 Mon Sep 17 00:00:00 2001
++From 16a973c118989674afeeda2c2ccc24c9c366210e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Dec 2015 13:20:30 +0200
+ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+@@ -8,16 +8,15 @@ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+ Upstream-Status: Inappropriate (As the code stands, this is a hack)
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  numpy/distutils/system_info.py | 42 +++++-----------------------------
+  1 file changed, 6 insertions(+), 36 deletions(-)
+ 
+ diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
+-index feb28f6..a48d6d1 100644
++index 6478548..c0620e7 100644
+ --- a/numpy/distutils/system_info.py
+ +++ b/numpy/distutils/system_info.py
+-@@ -327,44 +327,14 @@ def add_system_root(library_root):
++@@ -326,44 +326,14 @@ def add_system_root(library_root):
+          add_system_root(os.path.join(conda_dir, 'Library'))
+  
+  else:
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+deleted file mode 100644
+index 6da9047ec57..00000000000
+--- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 0e2b652a0eff85798584116c905a2d6ad8f25d5f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 15 Nov 2020 15:32:39 -0800
+-Subject: [PATCH] numpy/core: Define RISCV-32 support
+-
+-Helps compile on riscv32
+-
+-Upstream-Status: Backport
+-(https://github.com/numpy/numpy/pull/17780/commits/0e2b652a0eff85798584116c905a2d6ad8f25d5f)
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- numpy/_core/include/numpy/npy_cpu.h    | 9 +++++++--
+- numpy/_core/include/numpy/npy_endian.h | 1 +
+- 2 files changed, 8 insertions(+), 2 deletions(-)
+-
+-diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
+-index a19f8e6bbd..15f9f12931 100644
+---- a/numpy/_core/include/numpy/npy_cpu.h
+-+++ b/numpy/_core/include/numpy/npy_cpu.h
+-@@ -18,6 +18,7 @@
+-  *              NPY_CPU_ARCEL
+-  *              NPY_CPU_ARCEB
+-  *              NPY_CPU_RISCV64
+-+ *              NPY_CPU_RISCV32
+-  *              NPY_CPU_LOONGARCH
+-  *              NPY_CPU_WASM
+-  */
+-@@ -102,8 +103,12 @@
+-     #define NPY_CPU_ARCEL
+- #elif defined(__arc__) && defined(__BIG_ENDIAN__)
+-     #define NPY_CPU_ARCEB
+--#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
+--    #define NPY_CPU_RISCV64
+-+#elif defined(__riscv)
+-+    #if __riscv_xlen == 64
+-+	#define NPY_CPU_RISCV64
+-+    #elif __riscv_xlen == 32
+-+	#define NPY_CPU_RISCV32
+-+    #endif
+- #elif defined(__loongarch__)
+-     #define NPY_CPU_LOONGARCH
+- #elif defined(__EMSCRIPTEN__)
+-diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
+-index 5e58a7f52c..09262120bf 100644
+---- a/numpy/_core/include/numpy/npy_endian.h
+-+++ b/numpy/_core/include/numpy/npy_endian.h
+-@@ -49,6 +49,7 @@
+-             || defined(NPY_CPU_PPC64LE)       \
+-             || defined(NPY_CPU_ARCEL)         \
+-             || defined(NPY_CPU_RISCV64)       \
+-+            || defined(NPY_CPU_RISCV32)       \
+-             || defined(NPY_CPU_LOONGARCH)     \
+-             || defined(NPY_CPU_WASM)
+-         #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
+--- 
+-2.39.5
+-
+diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+index d952aed00c6..18d7f3f84e4 100644
+--- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
++++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+@@ -1,7 +1,11 @@
+-This regex decides whether to use O3 opimisation on numpy or not.
++From cde931f4380745b9818b55d7b06a43d347518967 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 29 Sep 2023 22:53:24 +0100
++Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
++ not.
+ 
+ It includes "od", which happens to be a substring of "reproducible"
+-but not "qemux86-world". 
++but not "qemux86-world".
+ 
+ The regex will run against all compiler options including things like:
+ 
+@@ -17,12 +21,15 @@ reproducible target ran first and won the race to populate sstate.
+ 
+ Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: numpy-1.26.0/numpy/distutils/ccompiler_opt.py
+-===================================================================
+---- numpy-1.26.0.orig/numpy/distutils/ccompiler_opt.py
+-+++ numpy-1.26.0/numpy/distutils/ccompiler_opt.py
+-@@ -990,7 +990,7 @@ class _CCompiler:
 +---
-+ lib/attr.h | 2 +-
++ numpy/distutils/ccompiler_opt.py | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/attr.h b/lib/attr.h
-+index 02c7e252..290514d8 100644
-+--- a/lib/attr.h
-++++ b/lib/attr.h
-+@@ -5,7 +5,7 @@
-+ #include "config.h"
-+ 
-+ 
-+-#if defined(__GNUC__)
-++#if defined(__GNUC__) && (__GNUC__ >= 10)
-+ # define MAYBE_UNUSED                [[gnu::unused]]
-+ # define NORETURN                    [[gnu::__noreturn__]]
-+ # define format_attr(type, fmt, va)  [[gnu::format(type, fmt, va)]]
-+-- 
-+2.45.2
-+
-diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-index cd99aad135c..699269ed643 100644
---- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-+++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-@@ -1,4 +1,4 @@
--From f512071dd3a4c29d4bf048c5a89c4ba9160e37b1 Mon Sep 17 00:00:00 2001
-+From f7b765c022e4cad9140ac44712885c66e149abdc Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 17 Jul 2014 15:53:34 +0800
- Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
-@@ -20,10 +20,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 12 insertions(+), 4 deletions(-)
++diff --git a/numpy/distutils/ccompiler_opt.py b/numpy/distutils/ccompiler_opt.py
++index b1a6fa3..7b0302b 100644
++--- a/numpy/distutils/ccompiler_opt.py
+++++ b/numpy/distutils/ccompiler_opt.py
++@@ -991,7 +991,7 @@ def __init__(self):
+              ("cc_is_nocc",     "", ""),
+          )
+          detect_args = (
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb b/meta/recipes-devtools/python/python3-numpy_2.2.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-numpy_2.1.3.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.2.1.bb
+index 0120bee4390..251e7b0c64d 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.2.1.bb
+@@ -9,11 +9,10 @@ SRCNAME = "numpy"
  
- diff --git a/lib/commonio.c b/lib/commonio.c
--index 01a26c9..82b2868 100644
-+index 4d83e83..9ee0e13 100644
- --- a/lib/commonio.c
- +++ b/lib/commonio.c
--@@ -601,10 +601,18 @@ int commonio_open (struct commonio_db *db, int mode)
-+@@ -604,10 +604,18 @@ int commonio_open (struct commonio_db *db, int mode)
-  	db->cursor = NULL;
-  	db->changed = false;
-  
-diff --git a/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-index 1eacb8a53fe..cb3baf450c4 100644
---- a/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-+++ b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-@@ -1,4 +1,4 @@
--From 38882ab288fd4d2cc2e45dff222ae3412c8fe357 Mon Sep 17 00:00:00 2001
-+From eb17cd91d8e4d76ee95de9c0c9f4938ba2e3e82a Mon Sep 17 00:00:00 2001
- From: Kang Kai <kai.kang@windriver.com>
- Date: Wed, 20 Jul 2011 19:18:14 +0800
- Subject: [PATCH] shadow: update pam related configure files
-diff --git a/meta/recipes-extended/shadow/shadow_4.16.0.bb b/meta/recipes-extended/shadow/shadow_4.17.1.bb
-similarity index 96%
-rename from meta/recipes-extended/shadow/shadow_4.16.0.bb
-rename to meta/recipes-extended/shadow/shadow_4.17.1.bb
-index b7282d7933f..a70ecea1f2e 100644
---- a/meta/recipes-extended/shadow/shadow_4.16.0.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.17.1.bb
-@@ -14,6 +14,7 @@ GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://useradd \
-+           file://0001-lib-attr.h-use-C23-attributes-only-with-gcc-10.patch \
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+-           file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://fix_reproducibility.patch \
+            file://run-ptest \
             "
+-SRC_URI[sha256sum] = "aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f4921fd761"
++SRC_URI[sha256sum] = "45681fd7128c8ad1c379f0ca0776a8b0c6583d2f69889ddac01559dfe4390918"
  
- SRC_URI:append:class-target = " \
-@@ -24,7 +25,7 @@ SRC_URI:append:class-target = " \
- SRC_URI:append:class-native = " \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
-            "
--SRC_URI[sha256sum] = "1744f339e07a2b41056347ddd612839762ff565d7e9494fb049428002fa2e7e0"
-+SRC_URI[sha256sum] = "51a946bbce141c5de14b6d47cab167206cd685d2307e917611dbc1be46c84a18"
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
  UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+@@ -22,6 +21,8 @@ inherit pkgconfig ptest python_mesonpy github-releases cython
  
- # Additional Policy files for PAM
-@@ -182,7 +183,6 @@ FILES:${PN}-base = "\
-     ${base_bindir}/su.shadow \
-     ${bindir}/sg \
-     ${bindir}/newgrp.shadow \
--    ${bindir}/groups.shadow \
-     ${sysconfdir}/pam.d/login \
-     ${sysconfdir}/pam.d/su \
-     ${sysconfdir}/login.defs \
-@@ -201,14 +201,13 @@ ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
- ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ S = "${WORKDIR}/numpy-${PV}"
  
--ALTERNATIVE:${PN}-doc = "chfn.1 chsh.1 groups.1 su.1 nologin.8"
-+ALTERNATIVE:${PN}-doc = "chfn.1 chsh.1 su.1 nologin.8"
- ALTERNATIVE_LINK_NAME[chfn.1] = "${mandir}/man1/chfn.1"
- ALTERNATIVE_LINK_NAME[chsh.1] = "${mandir}/man1/chsh.1"
--ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
- ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
- ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
- 
--ALTERNATIVE:${PN}-base = "newgrp groups login su"
-+ALTERNATIVE:${PN}-base = "newgrp login su"
- ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
- ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
- 
++PACKAGECONFIG[svml] = "-Ddisable-svml=false,-Ddisable-svml=true"
++
+ # Remove references to buildpaths from numpy's __config__.py
+ do_install:append() {
+     sed -i \
 -- 
 2.39.5
 
