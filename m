@@ -1,100 +1,110 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B87E77188
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 11:19:01 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.16685.1736335132607037872
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C13E77188
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 11:25:21 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.16783.1736335514031482758
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 03:18:52 -0800
+ Wed, 08 Jan 2025 03:25:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OsvXhgPh;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FghN7414;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019445a383b4-46c058ff-3679-4c1d-8c19-e0f24b812659-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736335131; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tWM0UFUavAmhAF/r8jGa0JAc8k9WHD+jyuuRt5Z4IGM=;
-	b=OsvXhgPh4bG4/SSdfdMYORX2FKljT9tkSaeMYFAiE8If5OdA6elYZ7XVy7X3Gk6u
-	CeBSnw2P/LWvAlcVZklGPAaiF6TO6yi9rW97MeBxMZeKlQ/k5vTgaDw+HW4LaIVkDS3
-	ET8tohuZL9Bd9kvjVhQc58u665QbbM+LK9Z+ad9U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736335131;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tWM0UFUavAmhAF/r8jGa0JAc8k9WHD+jyuuRt5Z4IGM=;
-	b=FghN7414ow+ZvGlBg26jMHnjC8lDsncsH+RZKsDzJncrHF2GNmKf9j6Y2Sk045IG
-	ZS9/QPRwv2mY1UdFs/jycuLs+kf4VkLgIjGMPwRQy7FzgftfuQt0Gj+lyhnTu0YsSEz
-	Vk/i0MkAxyBCEmDeAeH9vF/799Q+SwYmIrcf6GW4=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] sstate: Ensure errors cause task failure
-In-Reply-To: <20250108105859.3561400-2-richard.purdie@linuxfoundation.org>
-References: <20250108105859.3561400-2-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019445a383b4-46c058ff-3679-4c1d-8c19-e0f24b812659-000000@us-west-2.amazonses.com>
-Date: Wed, 8 Jan 2025 11:18:51 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.08-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mmaWOHi0;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436202dd7f6so187765765e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 03:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736335512; x=1736940312; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9tfbSQ9Xob3G9MEzBRmASjeWvkRxgCFpE1bLjkByvo=;
+        b=mmaWOHi0WQ6zbe3mC/O/fGETamJzfK2GWHukbfvaGkcbM9Rc+UwPzRceibOUL3I4b8
+         /yCxWk0y32u5tlrAxulHES9ZHGPHvjukrZkNbpK4/R/d9oTe+WVzfiSnG5KqNE6caiOG
+         eyAHeY25AdNcIPhk7JzCLbbnZHejXNzfq9xOw8W+mwTNfMzhh/KS2qI8gf+umvW2OmmC
+         GdCNEqVwG7eqPt/HggoXxKZs3EmwBxLAo/BT5f/ZbFSHeP7rW3VruSRn6fOFNLsw0z2k
+         04m4j5gFxOrxwAo6+75Y6ETTS56aJl7jgnBHuG8TfAsBwZQAo169lC50YR0tl4UeM8zp
+         M61w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736335512; x=1736940312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P9tfbSQ9Xob3G9MEzBRmASjeWvkRxgCFpE1bLjkByvo=;
+        b=scFzwZP2HjM18UaJXpg5QzG09wnpea2K29vFtA3FhbbsaVNn3VX8JPzO4NoP66gBCr
+         pNlgYRGa/F/yn+7nhoMJ9UbgJGiZLW4sdMwA5+rJiB5Y8c31NRIyjtonmrzzgO72/HZE
+         sP5TUb2q66mDpaYM2yPnodFVwzl9E09gMlmu9guHsu581oJuplYrAqgYSVvKkqMgSVSn
+         9VnM9TdGD+wHEcBQUkABcUTAHRPMlD0PTi33vmGl1j3OlmTF451OazjH/m9MPHVhzu1C
+         BcNTp/RPTKA9xAoB6Sk4v76iwWc1mb8ykudhZMPLWCXBNqtLanw1a/gUlDbg0zPw4Uzy
+         iEgA==
+X-Gm-Message-State: AOJu0Yx2tx9qsTAAkHnCoG3IzH6npJBcNkYwVccTmaC5+lImPt4Shs+t
+	KnFBqa89LMcL9Oi3xdb568UgLgK000Vcxlyco0zCCjrQ5gfBNfisThiItg==
+X-Gm-Gg: ASbGncuYYDb59kt5SuSZTrAgXSeKRVXRu2X7OLnF/57ZUjCA5yzbHaPeLCgf4Iz8KJ1
+	mzdOyzb0bgCxQp3wsGQOkxQ8j9jlJn3dIXo4I6riJQnXT25sjPS8X9ke/aRnWnfAsQf8FzJcp4W
+	PUdJryWMHYaudJqfwalZYmyi1Nn1WkdBy2pfe/vmIUQeoY9B7KnyE+AuJDcrjb8YYeTwthMuFt1
+	59fbrGMn4pPcSI3imEdpYASt2K3JWg8t7eylU62OFWZrEjWH8yw7KXVgPbF52pfdzSlDp2p/e/5
+	kRDnzJjO1dAFRx9F6g==
+X-Google-Smtp-Source: AGHT+IE7h+sGZlJOixbu7BFUGz/XvfU8BDV7sYKePIXjDrKxiD1JHWUVTAlkOJln2OFKU4Rw+M+XmA==
+X-Received: by 2002:a05:6000:4712:b0:387:8604:5023 with SMTP id ffacd0b85a97d-38a8732c06amr1897371f8f.44.1736335511839;
+        Wed, 08 Jan 2025 03:25:11 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a7f1c26a6sm4049227f8f.53.2025.01.08.03.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 03:25:11 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] bbconfigbuild/configfragments.py: set BBPATH in standalone datastore
+Date: Wed,  8 Jan 2025 12:25:00 +0100
+Message-Id: <20250108112500.971115-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 11:19:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209553
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 11:25:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209554
 
---NextPart
-Content-Type: text/plain
+From: Alexander Kanavin <alex@linutronix.de>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Otherwise fragments with 'require' statements will not parse,
+as the parser will not be able to find files referred to by
+those statements.
 
+Add such a statement to the test fragment so that the scenario
+is tested.
+
+[YOCTO #15707]
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
-Testing patch /home/patchtest/share/mboxes/2-3-sstate-Ensure-errors-cause-task-failure.patch
+ meta-selftest/conf/fragments/test-fragment.conf | 2 ++
+ meta/lib/bbconfigbuild/configfragments.py       | 1 +
+ 2 files changed, 3 insertions(+)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta-selftest/conf/fragments/test-fragment.conf b/meta-selftest/conf/fragments/test-fragment.conf
+index 4c1d2409453..82dd3537676 100644
+--- a/meta-selftest/conf/fragments/test-fragment.conf
++++ b/meta-selftest/conf/fragments/test-fragment.conf
+@@ -1,3 +1,5 @@
+ BB_CONF_FRAGMENT_SUMMARY = "This is a configuration fragment intended for testing in oe-selftest context"
+ BB_CONF_FRAGMENT_DESCRIPTION = "It defines a variable that can be checked inside the test."
++
+ SELFTEST_FRAGMENT_VARIABLE = "somevalue"
++require conf/multilib.conf
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index 30cc5ece079..c515a0151a4 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -23,6 +23,7 @@ def plugin_init(plugins):
+ class ConfigFragmentsPlugin(LayerPlugin):
+     def get_fragment_info(self, path, name):
+         d = bb.data.init()
++        d.setVar('BBPATH', self.tinfoil.config_data.getVar('BBPATH'))
+         bb.parse.handle(path, d, True)
+         summary = d.getVar('BB_CONF_FRAGMENT_SUMMARY')
+         description = d.getVar('BB_CONF_FRAGMENT_DESCRIPTION')
+-- 
+2.39.5
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
