@@ -1,193 +1,88 @@
-Return-Path: <derek@asterius.io>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B263E77197
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 00:15:57 +0000 (UTC)
-Received: from m43-12.mailgun.net (m43-12.mailgun.net [69.72.43.12])
- by mx.groups.io with SMTP id smtpd.web11.7700.1736295354444926724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9A0E77198
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 03:36:38 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.11128.1736307391698643208
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jan 2025 16:15:54 -0800
+ Tue, 07 Jan 2025 19:36:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@asterius.io header.s=mailo header.b=WA3SNO7n;
- spf=pass (domain: asterius.io, ip: 69.72.43.12, mailfrom: bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt; s=mailo; t=1736295353; x=1736302553;
- h=Content-Type: Cc: To: To: Subject: Subject: Message-ID: Date: From: From: In-Reply-To: References: MIME-Version: Sender: Sender;
- bh=6e6qXhe/lPVhLi9Yondc4MDdiAjPcjviIVXsgnT/M8w=;
- b=WA3SNO7nABZLysfA6uf4tMfjmT93doNWdb4/+PH3bG0WsrpbNmLMHRmGinZpwqHtH7OttML7KSS8Lg6hwuUVTatvzpS9ESJzXG4EQIX3IgjibYAWVRleRs71pfYS9FifdYbL0nAPXoNJnLnbxGetE/5uhrR7eFuLV+IE/SR4dHU=
-X-Mailgun-Sending-Ip: 69.72.43.12
-X-Mailgun-Sending-Ip-Pool-Name: 
-X-Mailgun-Sending-Ip-Pool: 
-X-Mailgun-Sid: WyJiMTQwMSIsIm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciLCIzYTU2ODUiXQ==
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53]) by
- 627e50130b53 with SMTP id 677dc3b947629dd9947a8e54 (version=TLS1.3,
- cipher=TLS_AES_128_GCM_SHA256); Wed, 08 Jan 2025 00:15:53 GMT
-Sender: derek@asterius.io
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d3f28a4fccso25668828a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 16:15:53 -0800 (PST)
-X-Gm-Message-State: AOJu0YyC9hHkWlwJ+EGJ1YJSUtYSvBZTgPFPlfnVQMFYwLe56NIDWdDE
-	SJOJTRSt+VFwLqX3cXZ2jFaQ0M5SZpSi4pkeRZE8jxEFNISxDyGqbDuoBeueiamLupitQLloT++
-	3POSXXV3YhieWMS4tW+JIAoTkis4=
-X-Google-Smtp-Source: AGHT+IFg87thv8y2D0mUD8+5GRfb56TQJ77qC4rjxyFpw31YR13UXN2mQSS6ZgwDz3BMhtSEHitY/7VWYqVwsxvGQKQ=
-X-Received: by 2002:a17:907:9622:b0:aa6:af66:7c89 with SMTP id
- a640c23a62f3a-ab2ab670587mr58078566b.5.1736295352558; Tue, 07 Jan 2025
- 16:15:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZYL7Xxko;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2165cb60719so244803985ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jan 2025 19:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736307391; x=1736912191; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vbD4k7+YUCCEjS0IB3FeiFZS0Mm+4vuCVDSPGaMJK5E=;
+        b=ZYL7XxkoTC5y9dWndl+lwnDrw2wIgWPW3fhETINXu8e1kfny6qd6AHVHtAxxLRKmtv
+         Sr3oGU3BJV1k6pzid2CFv65ForglYE/HIJK2s+x22xeBPyY4Tgzj+bWOh0zQGTwoNsKJ
+         Ri+0mm/yOtBpThFcL68FI1x3MMYx4igQqq0SFxtNuj/WmD8n9hLybnwdlstpjXPoQWkw
+         NiGFl38PUwRsSn4OkOkfYQyO1OcpT2BImJeRlf2wFJPxVZPjDE+AaWW4m6WV7EImRpul
+         9i2WDT/4IczNeXQrE3IwVIJijtzbslUASQltR+Qt3gQ3IzHhoW5oJDTmEZW8Enm6uOaH
+         knIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736307391; x=1736912191;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vbD4k7+YUCCEjS0IB3FeiFZS0Mm+4vuCVDSPGaMJK5E=;
+        b=PQYDnc8oCDM1cTKu1i1qH7XTcM42RUcbJRhaQMWfKQgwMvIss/Aof7vjgAb2HkjrtN
+         BjSVmTDPxB3U4lC/8VL0xLs9RvSm5ZocAIm4/2W/yRUTKEeDfl8xS/kwF/TzjjQfyfoc
+         ewwPbPFqlq8dkqzDUPBPij3rd3/2tIZP8GxgWLXchsOJXG1iRxIBXblOcGhl137ofi2q
+         HdIarKUheYvNw9rpfd22z/C8zNqY/vvprNEQMUpoFGaBKrsYPbTZGI911CwaIbOxKILN
+         WOBjNLrVfCHzqtFu7LNKcak6mI6y2tyX4u40HiKZpw3CuiIvCmi21d8rieMvI7g+ui8A
+         VcCQ==
+X-Gm-Message-State: AOJu0Yzt2Z2Pd5Fn/HUlsDakQs8fb4sle4NVLBlkdaFgWGaSXObkf7W6
+	qHOUjPYfDmenhOSQJjCLF77m00nUr2NpXWzVdnsgSrBXdHUZf4K0kupunw==
+X-Gm-Gg: ASbGncvM2GqbXmlNgIcKnpliegWDfhOKHNIX37sI35pldV4bhAscFJlzBhE9XxnQVAr
+	SRxSifRSVOVPIEaWk83egSpIbAU5m4IvshmiomKVBlt/tkzbTAQJO3Y2akAMb1EzWTAxqrvQ445
+	0cZeisp3HJnSYqRsvqoXksr1BuGH782JekmLK20DTpqGlTqrskoQ24ze6+dHRmfCYijlFMNgJRD
+	f5YaTiQWx3nCCJr4xOHRtSxKJW8z4RJ/38NTNuUlDiH8l1i
+X-Google-Smtp-Source: AGHT+IElj7SLrrDQWRv9kyvt/cRaX9ZxE98OUpfpLieJKmOGsyOoknMV7AxjQbDaZhVS4ukn7+aBnw==
+X-Received: by 2002:a17:903:124f:b0:215:83e1:99ff with SMTP id d9443c01a7336-21a83f63f68mr17136935ad.27.1736307390785;
+        Tue, 07 Jan 2025 19:36:30 -0800 (PST)
+Received: from apollo.localdomain ([2601:646:8201:fd20::5bc2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842aba7325csm31792116a12.7.2025.01.07.19.36.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2025 19:36:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] webkitgtk: Fix a typo OFFF -> OFF
+Date: Tue,  7 Jan 2025 19:36:26 -0800
+Message-ID: <20250108033627.2889555-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250108033627.2889555-1-raj.khem@gmail.com>
+References: <20250108033627.2889555-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <20250107203009.3251029-1-derek@asterius.io> <5f83f87b91961f4c1ba449029b4f904f288c3a6c.camel@linuxfoundation.org>
-In-Reply-To: <5f83f87b91961f4c1ba449029b4f904f288c3a6c.camel@linuxfoundation.org>
-From: Derek Straka <derek@asterius.io>
-Date: Tue, 7 Jan 2025 18:15:41 -0600
-X-Gmail-Original-Message-ID: <CADNbA1ojY=For_swJjC5SFRY3uRyayx2JAwNz=uBJ4GD=nhNyw@mail.gmail.com>
-X-Gm-Features: AbW1kva-baK_Eb3Xr1vkkURSGT9Env6CbVykxpKhsItwbsWmU6sG-hjjhjxZ8bc
-Message-ID: <CADNbA1ojY=For_swJjC5SFRY3uRyayx2JAwNz=uBJ4GD=nhNyw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/ptest-python-pytest: simplify python
- ptest file overriding
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000b6f267062b26c357"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:15:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209507
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 03:36:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209509
 
---000000000000b6f267062b26c357
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.46.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for the review!  Yes, I shouldn't make an assumption about the
-execute bit.  I will send a v2 with that and an update to look at S
-or UNPACKDIR as the key to create the default run-ptest in the morning.
-
-On Tue, Jan 7, 2025 at 4:35=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Tue, 2025-01-07 at 20:30 +0000, Derek Straka via lists.openembedded.or=
-g
-> wrote:
-> > The complexity of overriding files from the bbclass made the behavior a=
-t
-> > times hard to follow. This change replaces the default file with a
-> > heredoc equivalent that creates a default file if the user does not
-> provide their
-> > own version of run-ptest.
-> >
-> > Signed-off-by: Derek Straka <derek@asterius.io>
-> > ---
-> >  meta/classes-recipe/ptest-python-pytest.bbclass | 12 +++++-------
-> >  meta/files/ptest-python-pytest/run-ptest        |  3 ---
-> >  2 files changed, 5 insertions(+), 10 deletions(-)
-> >  delete mode 100755 meta/files/ptest-python-pytest/run-ptest
-> >
-> > diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass
-> b/meta/classes-recipe/ptest-python-pytest.bbclass
-> > index 801079e6ab..7ed84584b7 100644
-> > --- a/meta/classes-recipe/ptest-python-pytest.bbclass
-> > +++ b/meta/classes-recipe/ptest-python-pytest.bbclass
-> > @@ -6,19 +6,17 @@
-> >
-> >  inherit ptest
-> >
-> > -FILESEXTRAPATHS:prepend :=3D "${COREBASE}/meta/files:"
-> > -
-> > -SRC_URI:append =3D "\
-> > -    file://ptest-python-pytest/run-ptest \
-> > -"
-> > -
-> >  # Overridable configuration for the directory within the source tree
-> >  # containing the pytest files
-> >  PTEST_PYTEST_DIR ?=3D "tests"
-> >
-> >  do_install_ptest() {
-> >       if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
-> > -             install -m 0755 ${UNPACKDIR}/ptest-python-pytest/run-ptes=
-t
-> ${D}${PTEST_PATH}
-> > +             cat > ${D}${PTEST_PATH}/run-ptest << EOF
-> > +#!/bin/sh
-> > +pytest --automake
-> > +EOF
-> > +
->
-> Do you need to set the exec bit on that file having created it?
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000b6f267062b26c357
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks for the review!=C2=A0 Yes, I shouldn&#39;t make an =
-assumption about the execute=C2=A0bit.=C2=A0 I will send a v2 with that and=
- an update to look at S or=C2=A0UNPACKDIR=C2=A0as the key to create the def=
-ault run-ptest in the morning.</div><br><div class=3D"gmail_quote gmail_quo=
-te_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 7, 2025 at =
-4:35=E2=80=AFPM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2025-01-07 at 20:30=
- +0000, Derek Straka via <a href=3D"http://lists.openembedded.org" rel=3D"n=
-oreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; The complexity of overriding files from the bbclass made the behavior =
-at<br>
-&gt; times hard to follow. This change replaces the default file with a<br>
-&gt; heredoc equivalent that creates a default file if the user does not pr=
-ovide their<br>
-&gt; own version of run-ptest.<br>
-&gt; <br>
-&gt; Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io" t=
-arget=3D"_blank">derek@asterius.io</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/classes-recipe/ptest-python-pytest.bbclass | 12 +++++------=
--<br>
-&gt; =C2=A0meta/files/ptest-python-pytest/run-ptest=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ---<br>
-&gt; =C2=A02 files changed, 5 insertions(+), 10 deletions(-)<br>
-&gt; =C2=A0delete mode 100755 meta/files/ptest-python-pytest/run-ptest<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass b/meta/cl=
-asses-recipe/ptest-python-pytest.bbclass<br>
-&gt; index 801079e6ab..7ed84584b7 100644<br>
-&gt; --- a/meta/classes-recipe/ptest-python-pytest.bbclass<br>
-&gt; +++ b/meta/classes-recipe/ptest-python-pytest.bbclass<br>
-&gt; @@ -6,19 +6,17 @@<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0inherit ptest<br>
-&gt; =C2=A0<br>
-&gt; -FILESEXTRAPATHS:prepend :=3D &quot;${COREBASE}/meta/files:&quot;<br>
-&gt; -<br>
-&gt; -SRC_URI:append =3D &quot;\<br>
-&gt; -=C2=A0=C2=A0=C2=A0 file://ptest-python-pytest/run-ptest=C2=A0\<br>
-&gt; -&quot;<br>
-&gt; -<br>
-&gt; =C2=A0# Overridable configuration for the directory within the source =
-tree<br>
-&gt; =C2=A0# containing the pytest files<br>
-&gt; =C2=A0PTEST_PYTEST_DIR ?=3D &quot;tests&quot;<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0do_install_ptest() {<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; the=
-n<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755 ${UNP=
-ACKDIR}/ptest-python-pytest/run-ptest ${D}${PTEST_PATH}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cat &gt; ${D}${PTEST_=
-PATH}/run-ptest &lt;&lt; EOF<br>
-&gt; +#!/bin/sh<br>
-&gt; +pytest --automake<br>
-&gt; +EOF<br>
-&gt; +<br>
-<br>
-Do you need to set the exec bit on that file having created it?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---000000000000b6f267062b26c357--
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
+index abbf84ccbe2..ed5055962a9 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
+@@ -87,7 +87,7 @@ EXTRA_OECMAKE = " \
+                  -DPORT=GTK \
+                  ${@oe.utils.vartrue('GI_DATA_ENABLED', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+                  ${@oe.utils.vartrue('GIDOCGEN_ENABLED', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
+-                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFFF', d)} \
++                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFF', d)} \
+                  -DENABLE_MINIBROWSER=ON \
+                  -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+                  -DUSE_GTK4=ON \
 
