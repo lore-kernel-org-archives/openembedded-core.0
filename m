@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADC6E77188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADF9E77199
 	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 21:17:54 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.32456.1736371065795207868
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.32458.1736371067440879211
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 13:17:45 -0800
+ Wed, 08 Jan 2025 13:17:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aTG2pqmr;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21636268e43so3415185ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 13:17:45 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AbFNCA2x;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-216401de828so2796235ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 13:17:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736371065; x=1736975865; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736371067; x=1736975867; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jfs/N+6F4a7dNHT2I819hLLdDGaqtBqBaQUgusTsdac=;
-        b=aTG2pqmrDZruaLj/mJD6xjXa32D1E2JmbbiEyvRIXVZEBFM5Jrb/xDGIg2ytJlwaVI
-         QgKOAFa1Aaa2DtGTujIq0N+1ZU8CCrEKguY2nva70WCSD/9Y3nWBIscB5n5qaqPfaeQz
-         u6zXij5lIICOguuw3FHAfkbqbylzLFta3Zc1Yhdwgehkfgy/I3lBK39cfs26q1Xd7aVH
-         5oPTDh4b6evTp5jx0hGGq6ox98E7SBW/DK/Nlom1k7RdjHBqIuaxxUIp5wRhRWiZTwck
-         gpfWW5Vc1i0ejvkhipZ5fgnDqiqVB1L/+UoTIuvUEpimUVDlwQHX3eKC8o4YiZbBDrgD
-         dflQ==
+        bh=jGVmvR4HUnKLpEe3BhE7ka++jHl2GdfcsVYa/33Z82Q=;
+        b=AbFNCA2xvk3fIUSKlJyPoCBlaE2NuLD7Icf4frDq/HiC4+3bz+H4Ah8zP30/H+W78Y
+         T7kjSkDy+vcTtNMtBbFaXvJBnXNMZKEP4cIAbQJ7MTSgohoqattnoSoSjNUNQNQrl7in
+         D2kwCqOJuLqYE7QrF0VaUSV8DxLa7fFelBb9XKiaQ3BETCzunZdH5NL0tz0Hjwt11IYN
+         jCgy1iZRPTToeYWPkp7BediRds3k+DCp8ElPeVLFgd++Yyfx0mVT7qTI80+JM8tdpptx
+         OF14z84Mv8e7XJ+hAcMrpuvmbeoMXVMQM9EUDpN2n0iHrPV/kN3OZlNu9EjsZK/44ZFV
+         4Dcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736371065; x=1736975865;
+        d=1e100.net; s=20230601; t=1736371067; x=1736975867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jfs/N+6F4a7dNHT2I819hLLdDGaqtBqBaQUgusTsdac=;
-        b=MrP9+FuOSSQOqXuwe0TUt3q52QIN7Ly7T7EuPBXtzsJNhnaWHnxhQF+sn5TiUsPQaG
-         isHGtbnpXOuxnuAf/S286eCdSO+GATWxRJ5X+FJ3NS4kOyr7P+hG+OYeMB8ZvKsrwWcW
-         C4kBcTQBBtmBvx5MkDkPkDhQlPsnjJKkNMzpNJoCJOslKR/sjvMh5+vJv36aHNVBhmMt
-         YvouVTfZqCqiTMOtWL7XYNqY6B1kp6LNg4TjwJRKWsn0jSYVAHbYYt6Ewv1ITbw0sxIt
-         obkutuXW88HZM2EfASSBNYzVudf4YBuJDxCtJFsIJ/j9kyu8RMRZYjreq/ugu0n3Tuyl
-         yXDw==
-X-Gm-Message-State: AOJu0YzHseY3Nj9snp56TsH9zb2AbJOEuAsKtldZAm0r52oYk1MqCR/N
-	vdgyeKIIMJLewy5f2J5OMidrxQ7mRpf5PrSoazAHJz2Dr/ahinXTRBkxiRLCfA1KS4FQ1+oGidj
-	+HaQ=
-X-Gm-Gg: ASbGncvqfrPQUZZHeZvhYuIR6XtnlBmpGSbVe4KlJpxaEABT5+iLygOlFCDk3+yj367
-	nvWQ//uDsYkQD5JGSJB5rv0FozzPSUwgYXfpLPvUN2JvZMvMFC0d9jt0hqzqtfhW1fcUBDgmXpl
-	4SCeL697QU6LDvM1qSXpRvYBR0vU+6nyU9pda2pAPdYWxHS33es9Sqp5Jn/lkr3y/41yFL+i3GX
-	n5jbGROthDcDd3H6kELnWZzGVtLc69I0TL6UothsafAdw==
-X-Google-Smtp-Source: AGHT+IH/9mkOeU/bT4Zmdnl0RUzTZo9wkDrB393E3/A6kVSJcfY1Iv+nV7WwJqHP10BoUSS8tIk1Zw==
-X-Received: by 2002:a17:902:cccc:b0:216:6769:9eea with SMTP id d9443c01a7336-21a83ffc47dmr75621345ad.37.1736371065014;
-        Wed, 08 Jan 2025 13:17:45 -0800 (PST)
+        bh=jGVmvR4HUnKLpEe3BhE7ka++jHl2GdfcsVYa/33Z82Q=;
+        b=iuBfq9brSVUhjUsIhkG+a6t6YSzaoz3zTkBiCf0abE/8HsMn9bxBb+aP2+PPeChPxw
+         aBIK61YNZRp2bA+shH3mt3lYe7mQDI76VS4uwOg1VPwNlQteto09i2A1K5E5zAdsvEyZ
+         lIWCB4e28mSj4+jeb4Vs2r47gFTT6HfyhYroBgK/iBVIC1Rh/o5dRiUl2VRJJttvEsdL
+         uPj5o42MFBwNK1jEDv4fAi89ZPNTZJtGu6bj/RZ9vCx0u27DpGswtri7zIxOnTnjHG7n
+         vRWeA+htrrM/gt7m1zc7ImIws4fc0jNPD3Ks/Qlk3Bdjj51bCU+OPEnNHR1VWWpLQijp
+         oA2w==
+X-Gm-Message-State: AOJu0YzPGa7hjKPDC5ueHdq5OScA8S0+4gv2rvQINZT8GRoxdJz/F/tE
+	Vn9Bw+SsV+tX7U5zMIBmZ+F4NdYsKWfX+fNnzAHs3S/ZDoK9VvO7rgH065I3Mtnymz6GrE9hdSJ
+	MyTQ=
+X-Gm-Gg: ASbGncvx5DJWYnWVtxml9uf3nR6oys/CBtydMnlKUG2P1VgTqevjojobPy6EYygHDxo
+	hRkLaYjqiwa90JQznJepCRwKYUEZ7BXf5Wi0A0aPdgF3uLrSno00VOQcHhTfmePw8YFioiuwBG0
+	erstKo4r4p3KlqREihRa3BXdeosL4m/hB8qIY6+bf/5v8dCjvdvusGwgjXo6vBqyjET4K0+bbmr
+	ukVIB83BzQmwNbh6L8iYUSMW7uiKh6zQ+wPh/xeoq6t5A==
+X-Google-Smtp-Source: AGHT+IHZfh2KBoroP4R//EECN6dFKoFdEmWRF+oqn8PuPI7XVzTzLc6zzm1Q7h1jz0x1FtFJKh4c2g==
+X-Received: by 2002:a17:902:f54d:b0:216:1543:1962 with SMTP id d9443c01a7336-21a83f5fbd5mr54462985ad.23.1736371066609;
+        Wed, 08 Jan 2025 13:17:46 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cdd9bsm331403495ad.132.2025.01.08.13.17.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cdd9bsm331403495ad.132.2025.01.08.13.17.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 13:17:44 -0800 (PST)
+        Wed, 08 Jan 2025 13:17:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 17/18] oeqa/ssh: Improve performance and log sizes
-Date: Wed,  8 Jan 2025 13:17:07 -0800
-Message-ID: <f762f4278fb05f3cee9762028aac412931c968f6.1736370890.git.steve@sakoman.com>
+Subject: [OE-core][styhead 18/18] lttng-modules: fix sched_stat_runtime changed in Linux 6.6.66
+Date: Wed,  8 Jan 2025 13:17:08 -0800
+Message-ID: <1ba1dfeb8f47722551a62255e7f0575bc29f37f0.1736370890.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1736370890.git.steve@sakoman.com>
 References: <cover.1736370890.git.steve@sakoman.com>
@@ -66,126 +66,111 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 21:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209607
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209608
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-The current code is not fit for purpose when handling large files via ssh. In the strace
-ptest case, we can end up with a 1.4GB archive being transferred for which every
-byte is printed into the task logfile twice over. This is then sent over bitbake IPC
-which compounds the problems.
+The following commit has been backported into the 6.6.y branch.
 
-Make the following improvements:
-  * when the output is large (over 64kb), don't print it
-  * use a bytearray for better concat performance since strings are slow for this
-  * when there is no ssh output, say that
-  * print periodic size status output rather than the data itself since this could be binary and/or large
-  * fix the killed process message logic which appeared broken
+See upstream commit:
 
+    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
+    Author: Peter Zijlstra <peterz@infradead.org>
+    Date:   Mon Nov 6 13:41:43 2023 +0100
+
+        sched: Remove vruntime from trace_sched_stat_runtime()
+
+That caused building the lttng-modules report compile error:
+
+       tracepoint-event-impl.h:133:6: error: conflicting types for
+       'trace_sched_stat_runtime';
+
+The fix is still pending on lttng review board, backport it to oe-core to
+de-block the build issue.
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e7dd009a17dc902852983a82bce41bf78bb1e242)
+(cherry picked from commit 5b973be9a7fbb2694d162ac06b76513525f3deed)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/core/target/ssh.py | 44 +++++++++++++++++++++++---------
- 1 file changed, 32 insertions(+), 12 deletions(-)
+ ...stat_runtime-changed-in-Linux-6.6.66.patch | 51 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.14.bb            |  4 +-
+ 2 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index d473469384..8b5c450a05 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -92,7 +92,10 @@ class OESSHTarget(OETarget):
-             processTimeout = self.timeout
- 
-         status, output = self._run(sshCmd, processTimeout, ignore_status, raw)
--        self.logger.debug('Command: %s\nStatus: %d Output:  %s\n' % (command, status, output))
-+        if len(output) > (64 * 1024):
-+            self.logger.debug('Command: %s\nStatus: %d Output length:  %s\n' % (command, status, len(output)))
-+        else:
-+            self.logger.debug('Command: %s\nStatus: %d Output:  %s\n' % (command, status, output))
- 
-         return (status, output)
- 
-@@ -211,17 +214,18 @@ def SSHCall(command, logger, timeout=None, raw=False, **opts):
-     def run():
-         nonlocal output
-         nonlocal process
--        output_raw = b''
-+        output_raw = bytearray()
-         starttime = time.time()
-+        progress = time.time()
-         process = subprocess.Popen(command, **options)
-         has_timeout = False
-+        appendline = None
-         if timeout:
-             endtime = starttime + timeout
-             eof = False
-             os.set_blocking(process.stdout.fileno(), False)
-             while not has_timeout and not eof:
-                 try:
--                    logger.debug('Waiting for process output: time: %s, endtime: %s' % (time.time(), endtime))
-                     if select.select([process.stdout], [], [], 5)[0] != []:
-                         # wait a bit for more data, tries to avoid reading single characters
-                         time.sleep(0.2)
-@@ -229,9 +233,9 @@ def SSHCall(command, logger, timeout=None, raw=False, **opts):
-                         if not data:
-                             eof = True
-                         else:
--                            output_raw += data
-+                            output_raw.extend(data)
-                             # ignore errors to capture as much as possible
--                            logger.debug('Partial data from SSH call:\n%s' % data.decode('utf-8', errors='ignore'))
-+                            #logger.debug('Partial data from SSH call:\n%s' % data.decode('utf-8', errors='ignore'))
-                             endtime = time.time() + timeout
-                 except InterruptedError:
-                     logger.debug('InterruptedError')
-@@ -244,6 +248,10 @@ def SSHCall(command, logger, timeout=None, raw=False, **opts):
-                     logger.debug('SSHCall has timeout! Time: %s, endtime: %s' % (time.time(), endtime))
-                     has_timeout = True
- 
-+                if time.time() >= (progress + 60):
-+                    logger.debug('Waiting for process output at time: %s with datasize: %s' % (time.time(), len(output_raw)))
-+                    progress = time.time()
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
+new file mode 100644
+index 0000000000..bb40ff7243
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
+@@ -0,0 +1,51 @@
++From 74cdd186fdd540b98ecded94d506b812d7d2bae5 Mon Sep 17 00:00:00 2001
++From: Kienan Stewart <kstewart@efficios.com>
++Date: Sun, 22 Dec 2024 17:39:35 +0800
++Subject: [PATCH] Fix: sched_stat_runtime changed in Linux 6.6.66
 +
-             process.stdout.close()
- 
-             # process hasn't returned yet
-@@ -256,17 +264,29 @@ def SSHCall(command, logger, timeout=None, raw=False, **opts):
-                     logger.debug('OSError when killing process')
-                     pass
-                 endtime = time.time() - starttime
--                lastline = ("\nProcess killed - no output for %d seconds. Total"
-+                appendline = ("\nProcess killed - no output for %d seconds. Total"
-                             " running time: %d seconds." % (timeout, endtime))
--                logger.debug('Received data from SSH call:\n%s ' % lastline)
--                output += lastline
-+                logger.debug('Received data from SSH call:\n%s ' % appendline)
-                 process.wait()
- 
-+            if raw:
-+                output = bytes(output_raw)
-+                if appendline:
-+                    output += bytes(appendline, "utf-8")
-+            else:
-+                output = output_raw.decode('utf-8', errors='ignore')
-+                if appendline:
-+                    output += appendline
-         else:
--            output_raw = process.communicate()[0]
--
--        output = output_raw if raw else output_raw.decode('utf-8', errors='ignore')
--        logger.debug('Data from SSH call:\n%s' % output.rstrip())
-+            output = output_raw = process.communicate()[0]
-+            if not raw:
-+                output = output_raw.decode('utf-8', errors='ignore')
++The following commit has been backported into the 6.6.y branch.
 +
-+        if len(output) < (64 * 1024):
-+            if output.rstrip():
-+                logger.debug('Data from SSH call:\n%s' % output.rstrip())
-+            else:
-+                logger.debug('No output from SSH call')
++See upstream commit:
++
++    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
++    Author: Peter Zijlstra <peterz@infradead.org>
++    Date:   Mon Nov 6 13:41:43 2023 +0100
++
++        sched: Remove vruntime from trace_sched_stat_runtime()
++
++        Tracing the runtime delta makes sense, observer can sum over time.
++        Tracing the absolute vruntime makes less sense, inconsistent:
++        absolute-vs-delta, but also vruntime delta can be computed from
++        runtime delta.
++
++        Removing the vruntime thing also makes the two tracepoint sites
++        identical, allowing to unify the code in a later patch.
++
++Change-Id: I74acf0b8340c371e8411116e07e5c97b10f9c756
++Signed-off-by: Kienan Stewart <kstewart@efficios.com>
++
++Upstream-Status: Pending [https://review.lttng.org/c/lttng-modules/+/13813]
++
++[Xiangyu: BP to fix compile error on linux 6.6.66, Minor conflict resolution]
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++---
++ include/instrumentation/events/sched.h | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/include/instrumentation/events/sched.h b/include/instrumentation/events/sched.h
++index 32d18133..0c62f2e6 100644
++--- a/include/instrumentation/events/sched.h
+++++ b/include/instrumentation/events/sched.h
++@@ -647,7 +647,8 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(sched_stat_template, sched_stat_blocked,
++ #endif
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0) || \
++-	LTTNG_RHEL_KERNEL_RANGE(5,14,0,452,0,0, 5,15,0,0,0,0))
+++	LTTNG_RHEL_KERNEL_RANGE(5,14,0,452,0,0, 5,15,0,0,0,0) || \
+++	LTTNG_KERNEL_RANGE(6,6,66, 6,7,0))
++ /*
++  * Tracepoint for accounting runtime (time the task is executing
++  * on a CPU).
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+index 5b1e61f3be..f6e86c4430 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+@@ -19,7 +19,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            "
  
-         # timout or not, make sure process exits and is not hanging
-         if process.returncode == None:
+ # Use :append here so that the patch is applied also when using devupstream
+-SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
++SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
++                   file://0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch \
++                "
+ 
+ SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
+ 
 -- 
 2.43.0
 
