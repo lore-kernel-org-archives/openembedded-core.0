@@ -1,93 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC6BE77188
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:03:42 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.23478.1736352215759536249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DAAE77199
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:04:32 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.23510.1736352271687756707
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 08:03:36 -0800
+ Wed, 08 Jan 2025 08:04:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fOYGERRo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385de59c1a0so10089389f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 08:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736352214; x=1736957014; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bAQW7F4bvh3eD+vUeCUs2juy+DxedQ25/dGqbNJKrBU=;
-        b=fOYGERRoPhneBDkwrbpNxQs4IJ9lhF2CSgxA3xhHTBR8lLYFnWC3++s6N1XUsqutcR
-         A/vAsuKqU/l4P+RQwjTl5BLcsTMD2Y+1/+23Zarh+mRZn7X6z0np4oNk95qUh0Ew+TDW
-         xGOQc+oN8asAz497s99rrX93LtQOmR3dDiw/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736352214; x=1736957014;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bAQW7F4bvh3eD+vUeCUs2juy+DxedQ25/dGqbNJKrBU=;
-        b=V4j/4zHzcx6JCXDrweRqULWRCV3SoyFxqYTuXM7DzMbW8LKRnrgrPmd9yOC7AODRnU
-         GqCNYPkBphwoT/jXBlGAEWQXnAgaveUsK/Di0VFsOTa4wmgM+6mNzxpmGBc/NAtqGNnN
-         53QfDFCRY0N/80yNoE61oGxOmuYCLDfk+LxfFSDHM8j/vOgrm55jD1B8OaI+XiLXc4UM
-         /GrNlohXCoyr1k9B+g03kses8kI0VOHGigoYA98GTpdy7T+hnpek3y9t8xm3y2XY1pDK
-         IpKNIxOD5UEtv0kJ1w3AVVNb00BshydA3EyOPJuyFHzd6NkHN4Q2B5puBcprUs0hsZvl
-         w2hA==
-X-Gm-Message-State: AOJu0YwouEEeC0ZT1zw1sE7ogYHCkIA52faOFfMI/Fm608PErsoOcR5w
-	svJ6boXAs83mQtPnE0wbEqFV0sD9KmCCOq+tavYVmHpx5NTCfemdEpo3k5bJOJYixKLsw/kiB9E
-	DvVg=
-X-Gm-Gg: ASbGnct3Y46rgPA4xpKOpGAF1Dv9CKlv0EY2DHJCrQQQTB1DFJnaxVjeqX3t2Ckd4hE
-	1uKaEIY0x75pA1eQnoJHSFE8MaOAJSm0+gi9ATi8pzhTtPVwv5gg24f+wQqMaxQHxJw3Oh0mi7l
-	CWQ7ygF2rzvVEWIJ39q4ExoZ7qCAEjfevcnLzgwe6x/FM+ioWsMUDHuTMUsknNqOXtSyJRqrHOa
-	YcybP/W9IIrQo1R0zh3ZBefAJCU7D+EmBCEQW3OmLQKl+ohK5U5fViJBvvXKevbY1fiSuW8nXHo
-	g/BNcmuAMQ==
-X-Google-Smtp-Source: AGHT+IGEHmOyp6Og4cm54CFmRXSVJetddNPkzI/pDZshNKZW+GrPfdvhEHqr9BSg+ifV1W754ICrBg==
-X-Received: by 2002:a5d:6da2:0:b0:385:fc70:7f6 with SMTP id ffacd0b85a97d-38a872fadf3mr3088872f8f.7.1736352213604;
-        Wed, 08 Jan 2025 08:03:33 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:906a:f5af:b180:de5a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e92794sm24882405e9.37.2025.01.08.08.03.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 08:03:32 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] util-linux: Improve PACKAGES_DYNAMIC handling for util-linux-native
-Date: Wed,  8 Jan 2025 16:03:31 +0000
-Message-ID: <20250108160331.4137310-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BWnG+p1D;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=a5ZvuJgK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019446a9091e-8656dea7-4560-4365-b446-a2904e784b71-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1736352270; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=1RYP0XHWDK0ctf5wbRc7UHvXfFZVlk40LdbsRdPIdXI=;
+	b=BWnG+p1DTXrIBUP9RMmgMgzD3S4vO9mZvIuI3on/snbIvOaOmt3l5fXpe1O0NExF
+	6tMRi0hx1QbYgA/6BBVpGR/0Ck4pRCDTgnufXmrHC3YBk4o8gxz7B8al2fLZjW+K76u
+	3gyXk4b2djmAPNbC7kIwGwFF52Qek5sCis1ZanI0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736352270;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=1RYP0XHWDK0ctf5wbRc7UHvXfFZVlk40LdbsRdPIdXI=;
+	b=a5ZvuJgKiycG3DHdISfDQZSA224ulxlgHcyyk9t66RmF59PNM40EdNDL91l1xJVY
+	2OcINdbXMv6q1ypXQH/fle2GjHuk/Su64HY1qZi4/lUTtFUQpG5LXIWgKPZK3uS3DJ5
+	UFXBVRz1RiiUoqo0XfYIckLAa4sW8uT3gRxJCrto=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 4/4] autotools: remove aclocal --automake-acdir,
+ relocated so knows the right path
+In-Reply-To: <20250108154636.1431857-4-ross.burton@arm.com>
+References: <20250108154636.1431857-4-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019446a9091e-8656dea7-4560-4365-b446-a2904e784b71-000000@us-west-2.amazonses.com>
+Date: Wed, 8 Jan 2025 16:04:30 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.08-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:03:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209576
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:04:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209577
 
-DEBUG: Assuming util-linux-swapon-native is a dynamic package, but it may not exist
-DEBUG: Assuming util-linux-swapon-native is a dynamic package, but it may not exist
-DEBUG: providers for util-linux-swapon-native are: ['util-linux', 'util-linux-native']
-DEBUG: sorted runtime providers for util-linux-swapon-native are: ['recipes-core/util-linux/util-linux_2.40.2.bb', 'virtual:native:recipes-core/util-linux/util-linux_2.40.2.bb']
-NOTE: Multiple providers are available for runtime util-linux-swapon-native (util-linux, util-linux-native)
+--NextPart
+Content-Type: text/plain
 
-The PACKAGES_DYANMIC line could match native and non-native packages so
-tweak to improve -native handling and avoid the above warnings in world builds.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/util-linux/util-linux_2.40.2.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/4-4-autotools-remove-aclocal---automake-acdir-relocated-so-knows-the-right-path.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.40.2.bb b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
-index 2c7dd154e19..fb4b4f59a74 100644
---- a/meta/recipes-core/util-linux/util-linux_2.40.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
-@@ -59,7 +59,8 @@ python util_linux_libpackages() {
- 
- PACKAGESPLITFUNCS =+ "util_linux_libpackages"
- 
--PACKAGES_DYNAMIC = "^${PN}-.*"
-+PACKAGES_DYNAMIC = "^${PN}(?!.*-native)-.*"
-+PACKAGES_DYNAMIC = "^${BPN}-.*-native"
- 
- UTIL_LINUX_LIBDIR = "${libdir}"
- UTIL_LINUX_LIBDIR:class-target = "${base_libdir}"
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
