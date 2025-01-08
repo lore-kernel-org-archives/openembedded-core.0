@@ -1,177 +1,102 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADF9E77199
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 21:17:54 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.32458.1736371067440879211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2428E77188
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 21:39:04 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.32980.1736372341926526456
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 13:17:47 -0800
+ Wed, 08 Jan 2025 13:39:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AbFNCA2x;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-216401de828so2796235ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 13:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736371067; x=1736975867; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jGVmvR4HUnKLpEe3BhE7ka++jHl2GdfcsVYa/33Z82Q=;
-        b=AbFNCA2xvk3fIUSKlJyPoCBlaE2NuLD7Icf4frDq/HiC4+3bz+H4Ah8zP30/H+W78Y
-         T7kjSkDy+vcTtNMtBbFaXvJBnXNMZKEP4cIAbQJ7MTSgohoqattnoSoSjNUNQNQrl7in
-         D2kwCqOJuLqYE7QrF0VaUSV8DxLa7fFelBb9XKiaQ3BETCzunZdH5NL0tz0Hjwt11IYN
-         jCgy1iZRPTToeYWPkp7BediRds3k+DCp8ElPeVLFgd++Yyfx0mVT7qTI80+JM8tdpptx
-         OF14z84Mv8e7XJ+hAcMrpuvmbeoMXVMQM9EUDpN2n0iHrPV/kN3OZlNu9EjsZK/44ZFV
-         4Dcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736371067; x=1736975867;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jGVmvR4HUnKLpEe3BhE7ka++jHl2GdfcsVYa/33Z82Q=;
-        b=iuBfq9brSVUhjUsIhkG+a6t6YSzaoz3zTkBiCf0abE/8HsMn9bxBb+aP2+PPeChPxw
-         aBIK61YNZRp2bA+shH3mt3lYe7mQDI76VS4uwOg1VPwNlQteto09i2A1K5E5zAdsvEyZ
-         lIWCB4e28mSj4+jeb4Vs2r47gFTT6HfyhYroBgK/iBVIC1Rh/o5dRiUl2VRJJttvEsdL
-         uPj5o42MFBwNK1jEDv4fAi89ZPNTZJtGu6bj/RZ9vCx0u27DpGswtri7zIxOnTnjHG7n
-         vRWeA+htrrM/gt7m1zc7ImIws4fc0jNPD3Ks/Qlk3Bdjj51bCU+OPEnNHR1VWWpLQijp
-         oA2w==
-X-Gm-Message-State: AOJu0YzPGa7hjKPDC5ueHdq5OScA8S0+4gv2rvQINZT8GRoxdJz/F/tE
-	Vn9Bw+SsV+tX7U5zMIBmZ+F4NdYsKWfX+fNnzAHs3S/ZDoK9VvO7rgH065I3Mtnymz6GrE9hdSJ
-	MyTQ=
-X-Gm-Gg: ASbGncvx5DJWYnWVtxml9uf3nR6oys/CBtydMnlKUG2P1VgTqevjojobPy6EYygHDxo
-	hRkLaYjqiwa90JQznJepCRwKYUEZ7BXf5Wi0A0aPdgF3uLrSno00VOQcHhTfmePw8YFioiuwBG0
-	erstKo4r4p3KlqREihRa3BXdeosL4m/hB8qIY6+bf/5v8dCjvdvusGwgjXo6vBqyjET4K0+bbmr
-	ukVIB83BzQmwNbh6L8iYUSMW7uiKh6zQ+wPh/xeoq6t5A==
-X-Google-Smtp-Source: AGHT+IHZfh2KBoroP4R//EECN6dFKoFdEmWRF+oqn8PuPI7XVzTzLc6zzm1Q7h1jz0x1FtFJKh4c2g==
-X-Received: by 2002:a17:902:f54d:b0:216:1543:1962 with SMTP id d9443c01a7336-21a83f5fbd5mr54462985ad.23.1736371066609;
-        Wed, 08 Jan 2025 13:17:46 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cdd9bsm331403495ad.132.2025.01.08.13.17.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 13:17:46 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 18/18] lttng-modules: fix sched_stat_runtime changed in Linux 6.6.66
-Date: Wed,  8 Jan 2025 13:17:08 -0800
-Message-ID: <1ba1dfeb8f47722551a62255e7f0575bc29f37f0.1736370890.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1736370890.git.steve@sakoman.com>
-References: <cover.1736370890.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SQy7sxSm;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tZ6NUdpO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019447db48cb-099ff1d1-1e11-4b74-81ab-ec9091fefe25-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1736372341; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=NmHMEoyb/RBg2Di5EzEC9qq92KVJ31OA9OIQ2Ipnfkw=;
+	b=SQy7sxSmHpwAFhCelv9vWqFmdiYy4/cfqVVW2jvWKHW8VMj4n6LwzFPlGgr0mAcF
+	GOkBVgt7yPhl8PYYCihiU77IbG4ihSEqVxBDmVtBfKkuI0udAzrt90xiq/0FsvaMU/i
+	uE4fHqc2q4dficHvgHoAKlSqU9fC0WZIat+EqK/c=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736372341;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=NmHMEoyb/RBg2Di5EzEC9qq92KVJ31OA9OIQ2Ipnfkw=;
+	b=tZ6NUdpOoTyRCgLw60x621A8hb+TGzXyjdxsuqADlNIQ56oPqhsKLhkJgkGGiW92
+	hR4WfYccIr1zEMkZxs+UvTx+sVd25Zvdoy1aSxN7vOEi/OmwOqvl9/cTcdSFTKItFpb
+	ZqhIjVbMTjJXQK3FdeKNYqKMnPPWBG1Ew1Ie305U=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][styhead 14/18] linux-yocto/6.6: update to v6.6.69
+In-Reply-To: 
+ <0225b9c03d3e7804e5d00eb17176743245eae5a6.1736370890.git.steve@sakoman.com>
+References: 
+ <0225b9c03d3e7804e5d00eb17176743245eae5a6.1736370890.git.steve@sakoman.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019447db48cb-099ff1d1-1e11-4b74-81ab-ec9091fefe25-000000@us-west-2.amazonses.com>
+Date: Wed, 8 Jan 2025 21:39:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.08-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 21:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209608
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 21:39:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209609
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+--NextPart
+Content-Type: text/plain
 
-The following commit has been backported into the 6.6.y branch.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-See upstream commit:
-
-    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
-    Author: Peter Zijlstra <peterz@infradead.org>
-    Date:   Mon Nov 6 13:41:43 2023 +0100
-
-        sched: Remove vruntime from trace_sched_stat_runtime()
-
-That caused building the lttng-modules report compile error:
-
-       tracepoint-event-impl.h:133:6: error: conflicting types for
-       'trace_sched_stat_runtime';
-
-The fix is still pending on lttng review board, backport it to oe-core to
-de-block the build issue.
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5b973be9a7fbb2694d162ac06b76513525f3deed)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...stat_runtime-changed-in-Linux-6.6.66.patch | 51 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.14.bb            |  4 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
+Testing patch /home/patchtest/share/mboxes/styhead-14-18-linux-yocto-6.6-update-to-v6.6.69.patch
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
-new file mode 100644
-index 0000000000..bb40ff7243
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch
-@@ -0,0 +1,51 @@
-+From 74cdd186fdd540b98ecded94d506b812d7d2bae5 Mon Sep 17 00:00:00 2001
-+From: Kienan Stewart <kstewart@efficios.com>
-+Date: Sun, 22 Dec 2024 17:39:35 +0800
-+Subject: [PATCH] Fix: sched_stat_runtime changed in Linux 6.6.66
-+
-+The following commit has been backported into the 6.6.y branch.
-+
-+See upstream commit:
-+
-+    commit 5fe6ec8f6ab549b6422e41551abb51802bd48bc7
-+    Author: Peter Zijlstra <peterz@infradead.org>
-+    Date:   Mon Nov 6 13:41:43 2023 +0100
-+
-+        sched: Remove vruntime from trace_sched_stat_runtime()
-+
-+        Tracing the runtime delta makes sense, observer can sum over time.
-+        Tracing the absolute vruntime makes less sense, inconsistent:
-+        absolute-vs-delta, but also vruntime delta can be computed from
-+        runtime delta.
-+
-+        Removing the vruntime thing also makes the two tracepoint sites
-+        identical, allowing to unify the code in a later patch.
-+
-+Change-Id: I74acf0b8340c371e8411116e07e5c97b10f9c756
-+Signed-off-by: Kienan Stewart <kstewart@efficios.com>
-+
-+Upstream-Status: Pending [https://review.lttng.org/c/lttng-modules/+/13813]
-+
-+[Xiangyu: BP to fix compile error on linux 6.6.66, Minor conflict resolution]
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ include/instrumentation/events/sched.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/instrumentation/events/sched.h b/include/instrumentation/events/sched.h
-+index 32d18133..0c62f2e6 100644
-+--- a/include/instrumentation/events/sched.h
-++++ b/include/instrumentation/events/sched.h
-+@@ -647,7 +647,8 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(sched_stat_template, sched_stat_blocked,
-+ #endif
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0) || \
-+-	LTTNG_RHEL_KERNEL_RANGE(5,14,0,452,0,0, 5,15,0,0,0,0))
-++	LTTNG_RHEL_KERNEL_RANGE(5,14,0,452,0,0, 5,15,0,0,0,0) || \
-++	LTTNG_KERNEL_RANGE(6,6,66, 6,7,0))
-+ /*
-+  * Tracepoint for accounting runtime (time the task is executing
-+  * on a CPU).
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-index 5b1e61f3be..f6e86c4430 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-@@ -19,7 +19,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            "
- 
- # Use :append here so that the patch is applied also when using devupstream
--SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
-+SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-+                   file://0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch \
-+                "
- 
- SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
- 
--- 
-2.43.0
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
