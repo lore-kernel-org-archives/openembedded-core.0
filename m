@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB18DE7719B
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 08:42:49 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.14226.1736325765154997671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FB9C3DA4A
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 08:42:50 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.14686.1736325765010691093
  for <openembedded-core@lists.openembedded.org>;
  Wed, 08 Jan 2025 00:42:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OTltezuT;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d122cf8dd1so28751059a12.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=drKz746u;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa68b513abcso3043028766b.0
         for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1736325763; x=1736930563; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sHrzH0lZ55Ccfqbw/psQigbnfitEWMl6ifNmtzmZNnk=;
-        b=OTltezuTwPNAios8iq0ccZUiJAh7EZgHvGvDFs00KrlaIsD2pWfvbPYooWTLUG3cTz
-         ZUBTGmwxrQaEMiRgHZqwyJLvTe3xzfW+i3NTrAm4qvi6/n/QXkY9/TKtf44xYDzYoHV6
-         v96q8gy1j4DhNP4nZfTy1VIMWGR90K0Cc/YDNY6VXm4Iq3s/UTuuVwJgGDOIlfJ+U32k
-         MqNxBj1IxtUOGzntzsT3kelIFGMQlkOLYPGtbGosAQYnt2XxvO1GRXwp56joBUXC7l2A
-         aL69r/Pdr4rCgw7hyCbhGZlmXx9sdk2geJ0K0rtOF7WssXIY27ZbaKDJDYTywyEHbpw1
-         14Zw==
+        bh=+cUZ8FtS/Wcj4OtFZ7Bf9FWZWajO8c8IWrNVgRVXLF0=;
+        b=drKz746u2FqxGTHAogh1Fy8LQxk0z7qiR8NGUyb8ek3l5i8ZG5CDGZ+ARvOFkDDrUS
+         vb3f1a1CWLeAWNZK++HXcGkj8qh17uu5IveJ42QURBFTaaXdPoJaLoYjhZ7povYbSkJj
+         5V6l94lHVDGwl50/g8l1S8fRVrlKaUHxpO1VVdg3ROw7Bo/+yaVtIsq3CDQPQgEWkVCF
+         w3IfI5FYceIth85zpoAGUZ93RlDoWSIjQWNM/0QU0HMLV55Oy4cswfbXNhPbXK9d00hQ
+         dMzUYlGLinsMAOM/A4iMlfgP0cA/aPUa1pQTKxGXRZY1EENp/OedySS6Okfl5IhMiifZ
+         ALmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1736325763; x=1736930563;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sHrzH0lZ55Ccfqbw/psQigbnfitEWMl6ifNmtzmZNnk=;
-        b=urgWfTTUW2horAIAdbwptUrTLCGFmAYTSsZJYZiQVnAWxZAdG9BU4iLYh4dQ66hF6M
-         BDdYiZxyoICyPWGK/75RV6F5Q5bq6pgfm0QPh/fPnsokTByH6hUQY+0+CQTrauMebU66
-         TRg+ZEQ074gS0tAbyBliBDJOW+HkKdQwTYacoPNeQ5v+mtJh17GjEhInv3cSyZnzdYOT
-         aEGwxZil8IFrJ7wqNC3uDYXzYwMAM8PjhBrGHZikjwdYDVDkuR5smTXepHYDIllWdxRF
-         SPuU06BWG/4fWsDGwBsHfdeglvqQJydNhAIm4F/RTp+9HF5cHSkMZIIypsZqOxpuOPf6
-         DKTw==
-X-Gm-Message-State: AOJu0YyQKVlAzaPbQCGAfgcOblXygFLyRiLQ4Lq6ang3/85KeaDGeSxS
-	R+wBlBaPooaWQuSmAEp+6YxZdStDa6PqMZ6RE+jIIXzOtsN90nwC8eWiww==
-X-Gm-Gg: ASbGncvsoDgWCuMeEpjOkBSdoQJiuu1AD77Sq9CI+BA23WCFFDPuBnM2lCW0B19UCKi
-	teITZ5BCJmLGhI0BRusERwQV3HB60lEnWHeUsm7ZkKrNEfXGHdR6j8nujQN8NnPs7+NcE4eixhL
-	5Zx/X8DxRDALuoOsDT32ADh61gmaiJHVI8BNuy/SOCo3e+XWA9810LxFvC2CBeazLTbEXkMVgaN
-	NyS5ZllRPC3LR7e9rIRO94M8IdjWRTIlFHvCygXOsYEYzl6uolye+bLtz2sHzGSZo5BPZ3uIXER
-	bXTKZejzsfT/UKHYyg==
-X-Google-Smtp-Source: AGHT+IHj7cW5se22d6K7pGL3MDo3vKaCi2BrplNw0izT12bkhOj84mB+Mx81V0xJcPV9U6cfPcnqEQ==
-X-Received: by 2002:a17:906:7956:b0:aa6:707a:af59 with SMTP id a640c23a62f3a-ab2abdc36c5mr121690766b.50.1736325762379;
-        Wed, 08 Jan 2025 00:42:42 -0800 (PST)
+        bh=+cUZ8FtS/Wcj4OtFZ7Bf9FWZWajO8c8IWrNVgRVXLF0=;
+        b=ZV6X7Crus3jryTF6bF2cpPadb3YwxTXwGV/BiRwolqmPgwK3+Z/QU0RMTsMGegs4gc
+         jWzXBof6cUNsRwicLEz6Ry8EXBRoMLt4M/lXe2bZSMboy/pPmtI3jFiVOygXWHLJMiGY
+         5dqgUByEpky2BtdT22f+Nr96wsc1YaVCYXlJrMm/6LpdeRIx8Hzn3RFIUualP1lJlQyC
+         CDFaCUzwR3PONZ/ByYQp/DW3ysEtJRM6XCANTwJFI/oQ+2ZYVNp898IgFHvmBI5StRIf
+         NKvFg3vg0ts+AKxOlsdTxHbTJwJjbh8Ti9Zf+5bCc+4A852Lua9U5FWIJZ5N9DYWa6jP
+         3osg==
+X-Gm-Message-State: AOJu0YxU7qP1IIQKpQSUGqBHSr2l7UZHD0fNj3tJHlOl61120PcvLYqu
+	KzDpGoxwsMHvEnkCbGJxgNTYf7oiabQ1S2BtHpGPEeu6/eo3ZCA64rRTAA==
+X-Gm-Gg: ASbGncttjkWVwcgP7oTorG5kCQcXB8YDy0GtqU/WmmpU3a8MKdCZaDJZ+HrbA5nFZWS
+	tqlFHSl2R1XTlZV49lkWDjI3IRkBFTKvtaZZbQix7gQt/snN1U69Wp15z1FbuB4z/QYFADfaUQe
+	BolyDXnkkR61qaUj8XJE4hdnrgEBuJi1NwQheyf78CaTL+vOfWlpwh2K52was3baIVzBedTsYki
+	KYhBgkAWWu2mf6zFhtkp1KVIWlTBLuKdfVlp73fxD8CMapoHk16jnFh8W4CsQ71fiIW8Gkox4H8
+	4HkzU0040mcw36yNpw==
+X-Google-Smtp-Source: AGHT+IHkWZcBfaT73RNp1G1UXBO0BoqOkjr7NeONmZKIZG68gG8xlOVeSOtlgQkJh3K5KAcoJLoL8A==
+X-Received: by 2002:a17:907:1c22:b0:aa5:43c4:da78 with SMTP id a640c23a62f3a-ab2abdbfe39mr154629466b.51.1736325763063;
+        Wed, 08 Jan 2025 00:42:43 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f06c7c2sm2499661766b.188.2025.01.08.00.42.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f06c7c2sm2499661766b.188.2025.01.08.00.42.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Jan 2025 00:42:42 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 18/20] python3-numpy: upgrade 2.1.3 -> 2.2.1
-Date: Wed,  8 Jan 2025 09:42:24 +0100
-Message-Id: <20250108084226.117178-18-alex.kanavin@gmail.com>
+Subject: [PATCH 19/20] tcl8: upgrade 8.6.15 -> 8.6.16
+Date: Wed,  8 Jan 2025 09:42:25 +0100
+Message-Id: <20250108084226.117178-19-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250108084226.117178-1-alex.kanavin@gmail.com>
 References: <20250108084226.117178-1-alex.kanavin@gmail.com>
@@ -66,187 +66,200 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 08:42:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209541
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209540
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Add a svml option, disabled by default
-(it's avx-512 only, and uses randomly generated
-intermediate .o file names, which makes the installed
-library non-reproducible).
+Adjust run-ptest to use the absolute ptest library location
+(tcl 9.x already does this) to avoid clock.test failures.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-and-so-on-for-libraries-by-default-.patch |  7 +--
- ...1-numpy-core-Define-RISCV-32-support.patch | 58 -------------------
- .../python3-numpy/fix_reproducibility.patch   | 23 +++++---
- ...-numpy_2.1.3.bb => python3-numpy_2.2.1.bb} |  5 +-
- 4 files changed, 21 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
- rename meta/recipes-devtools/python/{python3-numpy_2.1.3.bb => python3-numpy_2.2.1.bb} (94%)
+ .../tcltk8/tcl8/alter-includedir.patch                 | 10 +++++-----
+ .../tcltk8/tcl8/fix_non_native_build_issue.patch       |  4 ++--
+ meta/recipes-devtools/tcltk8/tcl8/interp.patch         |  6 +++---
+ meta/recipes-devtools/tcltk8/tcl8/run-ptest            |  2 +-
+ meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch |  8 ++++----
+ .../tcl8/tcl-remove-hardcoded-install-path.patch       |  6 +++---
+ .../tcltk8/{tcl8_8.6.15.bb => tcl8_8.6.16.bb}          |  3 ++-
+ 7 files changed, 20 insertions(+), 19 deletions(-)
+ rename meta/recipes-devtools/tcltk8/{tcl8_8.6.15.bb => tcl8_8.6.16.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-index bbe309c5568..4a673081062 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
+index bfc718cfd3c..6ceb297cea8 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
 @@ -1,4 +1,4 @@
--From 46eea664cf89d0602e7ff16d587c37c045b125b7 Mon Sep 17 00:00:00 2001
-+From 16a973c118989674afeeda2c2ccc24c9c366210e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 10 Dec 2015 13:20:30 +0200
- Subject: [PATCH] Don't search /usr and so on for libraries by default to
-@@ -8,16 +8,15 @@ Subject: [PATCH] Don't search /usr and so on for libraries by default to
- Upstream-Status: Inappropriate (As the code stands, this is a hack)
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  numpy/distutils/system_info.py | 42 +++++-----------------------------
-  1 file changed, 6 insertions(+), 36 deletions(-)
+-From 3130dca60636dc12d0d12df75b002fd123349e21 Mon Sep 17 00:00:00 2001
++From 8bb8174e13c1c0e3b27fdf96a393f9fb1b7e14be Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Tue, 22 Nov 2022 18:48:27 +0800
+ Subject: [PATCH] tcl: update the header location
+@@ -26,7 +26,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
  
- diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
--index feb28f6..a48d6d1 100644
-+index 6478548..c0620e7 100644
- --- a/numpy/distutils/system_info.py
- +++ b/numpy/distutils/system_info.py
--@@ -327,44 +327,14 @@ def add_system_root(library_root):
-+@@ -326,44 +326,14 @@ def add_system_root(library_root):
-          add_system_root(os.path.join(conda_dir, 'Library'))
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index a3b7d69..969ddb8 100644
++index c3b75e3..60ed93e 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+ @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
+@@ -39,10 +39,10 @@ index a3b7d69..969ddb8 100644
+  # Path to the private tcl header dir:
+  PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
+ diff --git a/unix/configure.in b/unix/configure.in
+-index 4974fb6..a72934f 100644
++index 8e6726b..2345689 100644
+ --- a/unix/configure.in
+ +++ b/unix/configure.in
+-@@ -776,7 +776,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
++@@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
+  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
   
-  else:
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-deleted file mode 100644
-index 6da9047ec57..00000000000
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From 0e2b652a0eff85798584116c905a2d6ad8f25d5f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 15 Nov 2020 15:32:39 -0800
--Subject: [PATCH] numpy/core: Define RISCV-32 support
--
--Helps compile on riscv32
--
--Upstream-Status: Backport
--(https://github.com/numpy/numpy/pull/17780/commits/0e2b652a0eff85798584116c905a2d6ad8f25d5f)
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- numpy/_core/include/numpy/npy_cpu.h    | 9 +++++++--
-- numpy/_core/include/numpy/npy_endian.h | 1 +
-- 2 files changed, 8 insertions(+), 2 deletions(-)
--
--diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
--index a19f8e6bbd..15f9f12931 100644
----- a/numpy/_core/include/numpy/npy_cpu.h
--+++ b/numpy/_core/include/numpy/npy_cpu.h
--@@ -18,6 +18,7 @@
--  *              NPY_CPU_ARCEL
--  *              NPY_CPU_ARCEB
--  *              NPY_CPU_RISCV64
--+ *              NPY_CPU_RISCV32
--  *              NPY_CPU_LOONGARCH
--  *              NPY_CPU_WASM
--  */
--@@ -102,8 +103,12 @@
--     #define NPY_CPU_ARCEL
-- #elif defined(__arc__) && defined(__BIG_ENDIAN__)
--     #define NPY_CPU_ARCEB
---#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
---    #define NPY_CPU_RISCV64
--+#elif defined(__riscv)
--+    #if __riscv_xlen == 64
--+	#define NPY_CPU_RISCV64
--+    #elif __riscv_xlen == 32
--+	#define NPY_CPU_RISCV32
--+    #endif
-- #elif defined(__loongarch__)
--     #define NPY_CPU_LOONGARCH
-- #elif defined(__EMSCRIPTEN__)
--diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
--index 5e58a7f52c..09262120bf 100644
----- a/numpy/_core/include/numpy/npy_endian.h
--+++ b/numpy/_core/include/numpy/npy_endian.h
--@@ -49,6 +49,7 @@
--             || defined(NPY_CPU_PPC64LE)       \
--             || defined(NPY_CPU_ARCEL)         \
--             || defined(NPY_CPU_RISCV64)       \
--+            || defined(NPY_CPU_RISCV32)       \
--             || defined(NPY_CPU_LOONGARCH)     \
--             || defined(NPY_CPU_WASM)
--         #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
---- 
--2.39.5
--
-diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-index d952aed00c6..18d7f3f84e4 100644
---- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-@@ -1,7 +1,11 @@
--This regex decides whether to use O3 opimisation on numpy or not.
-+From cde931f4380745b9818b55d7b06a43d347518967 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Fri, 29 Sep 2023 22:53:24 +0100
-+Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
-+ not.
+  test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
+@@ -51,7 +51,7 @@ index 4974fb6..a72934f 100644
+  HTML_DIR='$(DISTDIR)/html'
+  
+  # Note:  in the following variable, it's important to use the absolute
+-@@ -897,7 +897,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
++@@ -898,7 +898,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
+  TCL_STUB_LIB_PATH="${TCL_STUB_LIB_DIR}/${TCL_STUB_LIB_FILE}"
+  
+  # Install time header dir can be set via --includedir
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
+index 7480156ce01..61153878fef 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
+@@ -1,4 +1,4 @@
+-From bd512547fc002fdb20808bf5b8b9feeb848b6512 Mon Sep 17 00:00:00 2001
++From 3d11e7fd9aba6251974d990286347c06582e87b9 Mon Sep 17 00:00:00 2001
+ From: Nitin A Kamble <nitin.a.kamble@intel.com>
+ Date: Fri, 13 Aug 2010 12:24:00 -0700
+ Subject: [PATCH] tcl: fix a build issue
+@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 10 insertions(+), 10 deletions(-)
  
- It includes "od", which happens to be a substring of "reproducible"
--but not "qemux86-world". 
-+but not "qemux86-world".
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index 965f6da..a0bd63f 100644
++index a2f9e21..c3b75e3 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+ @@ -723,7 +723,7 @@ tcltest-real:
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/interp.patch b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
+index 2e0dc94cff1..a4fb0c5a9d4 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/interp.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
+@@ -1,4 +1,4 @@
+-From 426aa2ff62dda77fd011e8f630b9d4ea17984817 Mon Sep 17 00:00:00 2001
++From 09049beed723243d092ffaa37939dfe0f2ed6828 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 12 Jul 2021 14:50:13 +0100
+ Subject: [PATCH] tcl: fix race in interp.test
+@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 4 insertions(+), 3 deletions(-)
  
- The regex will run against all compiler options including things like:
+ diff --git a/tests/interp.test b/tests/interp.test
+-index d742484..fc90990 100644
++index 24ffb1b..c6460ad 100644
+ --- a/tests/interp.test
+ +++ b/tests/interp.test
+-@@ -3595,17 +3595,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
++@@ -3614,17 +3614,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
+          variable result
+          set result [lindex $args 0]
+      }
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/run-ptest b/meta/recipes-devtools/tcltk8/tcl8/run-ptest
+index c485e535c71..bea9d9ccfd0 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/run-ptest
++++ b/meta/recipes-devtools/tcltk8/tcl8/run-ptest
+@@ -2,7 +2,7 @@
  
-@@ -17,12 +21,15 @@ reproducible target ran first and won the race to populate sstate.
+ # clock.test needs a timezone to be set
+ export TZ="Europe/London"
+-export TCL_LIBRARY=library
++export TCL_LIBRARY=@libdir@/tcl8/ptest/library
+ export ERROR_ON_FAILURES=1
  
- Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: numpy-1.26.0/numpy/distutils/ccompiler_opt.py
--===================================================================
----- numpy-1.26.0.orig/numpy/distutils/ccompiler_opt.py
--+++ numpy-1.26.0/numpy/distutils/ccompiler_opt.py
--@@ -990,7 +990,7 @@ class _CCompiler:
-+---
-+ numpy/distutils/ccompiler_opt.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/numpy/distutils/ccompiler_opt.py b/numpy/distutils/ccompiler_opt.py
-+index b1a6fa3..7b0302b 100644
-+--- a/numpy/distutils/ccompiler_opt.py
-++++ b/numpy/distutils/ccompiler_opt.py
-+@@ -991,7 +991,7 @@ def __init__(self):
-              ("cc_is_nocc",     "", ""),
-          )
-          detect_args = (
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb b/meta/recipes-devtools/python/python3-numpy_2.2.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.2.1.bb
-index 0120bee4390..251e7b0c64d 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.2.1.bb
-@@ -9,11 +9,10 @@ SRCNAME = "numpy"
+ # Some tests are overly strict with timings and fail on loaded systems.
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
+index 1cd4d76283f..88faf8ac730 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
+@@ -1,4 +1,4 @@
+-From b89fd73daf9b3eb2f889f65baba5f90d8a930c82 Mon Sep 17 00:00:00 2001
++From 0d8e567d132e050c5d4a8d8d9257417e0679483c Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <rpurdie@linux.intel.com>
+ Date: Wed, 9 Dec 2009 23:59:44 +0000
+ Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  2 files changed, 7 insertions(+), 1 deletion(-)
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
--           file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://fix_reproducibility.patch \
+ diff --git a/unix/Makefile.in b/unix/Makefile.in
+-index 7619afc..9dd053d 100644
++index bc743b3..a2f9e21 100644
+ --- a/unix/Makefile.in
+ +++ b/unix/Makefile.in
+-@@ -904,7 +904,10 @@ install-binaries: binaries
++@@ -812,7 +812,10 @@ install-binaries: binaries
+  	done
+  	@echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
+  	@@INSTALL_LIB@
+@@ -27,7 +27,7 @@ index 7619afc..9dd053d 100644
+  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
+ diff --git a/unix/tcl.m4 b/unix/tcl.m4
+-index 0307a06..37c4d67 100644
++index 7f5464e..cd8d929 100644
+ --- a/unix/tcl.m4
+ +++ b/unix/tcl.m4
+ @@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
+index 93e7877256b..0a0c1173a22 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
++++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
+@@ -1,4 +1,4 @@
+-From 050fc597fbfa4da2c31bd0df58c871892a490470 Mon Sep 17 00:00:00 2001
++From 6e3cbc3600ac474776e92eb9a88abcb74299c321 Mon Sep 17 00:00:00 2001
+ From: "Song.Li" <Song.Li@windriver.com>
+ Date: Wed, 1 Aug 2012 19:05:51 +0800
+ Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit target
+@@ -17,10 +17,10 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/unix/configure.in b/unix/configure.in
+-index 4f62510..4974fb6 100644
++index e88ec3c..8e6726b 100644
+ --- a/unix/configure.in
+ +++ b/unix/configure.in
+-@@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
++@@ -774,7 +774,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
+  
+  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+  
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+similarity index 96%
+rename from meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
+rename to meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+index b13102dd7af..c8f4b5df2aa 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+@@ -24,7 +24,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://interp.patch \
             file://run-ptest \
             "
--SRC_URI[sha256sum] = "aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f4921fd761"
-+SRC_URI[sha256sum] = "45681fd7128c8ad1c379f0ca0776a8b0c6583d2f69889ddac01559dfe4390918"
+-SRC_URI[sha256sum] = "844775491e435e34d83d6ccfbadd1342f1855f1705253233a86152df0765e78d"
++SRC_URI[sha256sum] = "3b371386a9a928eecdbf263bcab7d6a531e620ca3fbab4fdeeb3d6a9a56f38e9"
  
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
-@@ -22,6 +21,8 @@ inherit pkgconfig ptest python_mesonpy github-releases cython
+ SRC_URI:class-native = "${BASE_SRC_URI}"
  
- S = "${WORKDIR}/numpy-${PV}"
+@@ -85,6 +85,7 @@ do_install_ptest() {
+ 	cp ${B}/tcltest ${D}${PTEST_PATH}
+ 	cp -r ${S}/library ${D}${PTEST_PATH}
+ 	cp -r ${S}/tests ${D}${PTEST_PATH}
++	sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
  
-+PACKAGECONFIG[svml] = "-Ddisable-svml=false,-Ddisable-svml=true"
-+
- # Remove references to buildpaths from numpy's __config__.py
- do_install:append() {
-     sed -i \
+ do_install_ptest:append:libc-musl () {
 -- 
 2.39.5
 
