@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1C29C02181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D40D5E7719F
 	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 08:42:39 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.14676.1736325752650772356
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.14677.1736325754167788598
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 00:42:32 -0800
+ Wed, 08 Jan 2025 00:42:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GJ+C9vDA;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d437235769so9570812a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:42:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hThyhsIF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aa69107179cso2742304066b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 00:42:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736325751; x=1736930551; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1736325752; x=1736930552; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ed8aY29KxnSvadn9u2HIINO+vTItfQ1qfJ65aHFX6rg=;
-        b=GJ+C9vDA248CB7z3HvZi5GM+IQwynX2VxtwCck25HnxQIKRZAG4XiUdly5mPiIl4EQ
-         1zZR3cTQwrRYOIA5cha3jHQYx9b8cC27ZFee8EgoZi4j/rMRWpzdSBz4JTgoKUtjT8ru
-         nFD37MUOv7hVeed88tNIAFIe/YhMIN200XjF1lubfWOQ+MYX1gRrU8OSBroCEPa0ELG3
-         vYtHj7eff9zEb5ot6EUo7LdaAvKuSgr8CktLWutZ0u1M7tOIXUTSsGkuB1gw6GN6BFzT
-         W24ekRXzpe4i0bRV3tVfuF3z0Y5naCcIG1ZrLADcUniFitOy5+0QcOxWnTKyP9uLLzIV
-         vG7w==
+        bh=wbF3j3hVSgiB9kSGfLL1+//t7Y4vDl9BzIEN/hN2aUs=;
+        b=hThyhsIF69vkRkw/AD22pELJ57iuGUqv3kIaW9+siqBmRLdCAuQ5+wm/P4AUK2qc8R
+         TbiTMpOUY3GxWhDRlDLFnzEA8Piil5UmVLVJSjuCGtfPJKHSa9/ksgCjM/2IcGEkChhH
+         2JLC138ZYC4G4g4IqWgUAzjhfuuTLrN82WMTl3gXTT0/M5yyapDdA0zzydRygDGvEBZ1
+         Qt+Fi8A2Mzgu9yy/hqNRZuA0iETgpZHefzZbEoWr1gVENM8uCUXaFmaTYT4vwrDJAkog
+         ckAo/2nV9bwPIe2Bno2uj5nUQNCCWeSiQcM3MZCKjeHn39HhiJEKzTY+M11dQEhFyMrB
+         3P+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736325751; x=1736930551;
+        d=1e100.net; s=20230601; t=1736325752; x=1736930552;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ed8aY29KxnSvadn9u2HIINO+vTItfQ1qfJ65aHFX6rg=;
-        b=Z68ZENdAkLaOg6S4L0gdHpaotfRxIy4vUWlb0yYs7hgAFDbpI/+4Rv5BJHrGzBm1So
-         CaekfbibDRvnbq8OUhOqMifiUc8/xr03C0NPG5SX7O+SzaXQ2mJ1JCMxmjWom3klHtTH
-         AOU47+65nd2v/7s/xG6gbmk754XqlpKsj4E6+4kSXVN6hH7U9gqUj3r9q+Pyjz/r3BZZ
-         qzeK6WSZvZw2rBiYzXVp4KU6X3TTm4jXV2BAM0fs4aKpIsoKlPHf3k79IsrKMNFQjtCa
-         YeZEigUHJA5LoWAfKNJ1wLEheywJ5Og1WasqJj1AespOZdjH7/zlK15ckCr6bks3+eRb
-         6h7Q==
-X-Gm-Message-State: AOJu0Yy8rKTeh2eUzdsu1nw9uZ3liVkGCODbteu8X7lMH0SqmxMxLpDW
-	D5C/g1THzgw7XpwDP/+KrgU9n1CXqcjkmJtyjf24KL8aBU/JFnz7zHZY+g==
-X-Gm-Gg: ASbGncuCMIkWhQZzIxkuswfgf9t0W3b7UO3M3TUTGZdcfNsmAXVTkV1OLlBkc1QDARG
-	xrbotGRa5NLEE/6w9T8sUr+tXwoaANq/9s9uPrKKDvKWprr9RoZ6yBA/skh044/WegG9HZUIX6Y
-	qthE7OGIHCL30K9r3vmhwywTTpjDgR8deLTBwPx6PtqHwUTlTeOwvZAVrMSMRhlQ3gsxq320jM9
-	7Dy7Qr6Il8qWo1ltNSdljwj+iZgQR8lb2f+7U3AcTXgtBKdQwuN1UmvNHarIcyss4R9Z2TZp0vB
-	Ar0fP1uOwvGGLco2Mg==
-X-Google-Smtp-Source: AGHT+IFb71or/rK4e/G0A+ULA3myXIKB99YJrNyGlU+Ud8WM/IKIpb4pCoL3jj/0c3w47UJ7TMVWnw==
-X-Received: by 2002:a17:907:60cf:b0:aa6:8b38:52a3 with SMTP id a640c23a62f3a-ab2abcb07e9mr124477066b.50.1736325750694;
-        Wed, 08 Jan 2025 00:42:30 -0800 (PST)
+        bh=wbF3j3hVSgiB9kSGfLL1+//t7Y4vDl9BzIEN/hN2aUs=;
+        b=rMepRKgIqhirBuhmQfDiJgDvK8tRR7hkjmGWCX4we4BpJX7xIoniRHPIgrcBHmaXmf
+         QWZ+agtr/sL9CnCne+zs3SGxe98MCkN/hKAO+lDOGURkekbV8omXioE+EYGovIL1FNGj
+         e7NZ9P1HI8yRyYCwK7Prilus+KXDl2Xji1G4x9wrUdvEmGM+ccjQeto2racpL4QdQnB8
+         FqhOR/ohwHrZtIHBnTbGAZ7KHfoy0qrBFLPFNOSHo70Kj5C4rlGv3sL4UL8Wlyt2FPpv
+         olVw0eo9FWFI7vyemSNaVfSBn/ps/6RzYZ1NPvmPctOoGoFWI3ErgXIIsPHKoqLWH4U/
+         IhIA==
+X-Gm-Message-State: AOJu0YwIrgxjKFIiYaXpCrr5OtW7eeeyxII1YUWleomzsdxeJOWeDqkH
+	6CPaNppbBOq8anc9rjgz6q7/Apzk2iigR2en6geE3LDK0ZXNZLvA7KO4Kg==
+X-Gm-Gg: ASbGnctotLscAp4bCE1ASFuOxgOu3sUajuKWs4I1IOCJ0ESqth6CTF30XiW3UdE3pZA
+	5FbdqwN+3fcHL7fMfFDQnCxIqPX/dCTWtV5VrMeFLuGtujPUX3r8d3IJtUkpZQAODPxu0Oecf85
+	eKPJEm+YcrfqQ3y0jqwwgCOKZ+eW72Rv5f0W+Hiq/rKkN8PRmRiFcj3otigjB4RTBWwAHqubMKK
+	5fDU3UNSkKbP2hIFdzfMpKPr7ldnM7BHUXuotKu9HdO56UM8VX9FQuc6wdP8nwUl9M+Y4Oq9Pk1
+	5ulQ7fzWIyZ1Zuq4Tg==
+X-Google-Smtp-Source: AGHT+IGFcN+nOYTqxVn79UPZKwJGah2MuDivNxXkJb+BrjqSPt8a5vQ5EqWHJ2stvTXU0VYV1J+zCA==
+X-Received: by 2002:a17:907:2d08:b0:aac:278:98fd with SMTP id a640c23a62f3a-ab2ab6a3f9dmr139670166b.17.1736325751529;
+        Wed, 08 Jan 2025 00:42:31 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f06c7c2sm2499661766b.188.2025.01.08.00.42.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 00:42:30 -0800 (PST)
+        Wed, 08 Jan 2025 00:42:31 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/20] dbus: update 1.14.10 -> 1.16.0
-Date: Wed,  8 Jan 2025 09:42:08 +0100
-Message-Id: <20250108084226.117178-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/20] sysvinit: update 3.11 -> 3.13
+Date: Wed,  8 Jan 2025 09:42:09 +0100
+Message-Id: <20250108084226.117178-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250108084226.117178-1-alex.kanavin@gmail.com>
 References: <20250108084226.117178-1-alex.kanavin@gmail.com>
@@ -66,189 +66,526 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 08:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209524
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209526
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Convert from autotools to meson.
+Remove patches:
+install.patch
+(merged upstream)
 
-Drop tmpdir.patch (replaced by -Dtest_socket_dir=/tmp --Dsession_socket_dir=/tmp).
+realpath.patch
+0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+(musl fixes, no longer needed)
 
-License-Update: license texts split into separate files, SPDX ids added.
+pidof-add-m-option.patch
+(not a backport, not used in core, and isn't carried by either debian or fedora)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/dbus/dbus/tmpdir.patch      | 44 --------------
- .../dbus/{dbus_1.14.10.bb => dbus_1.16.0.bb}  | 59 +++++++++----------
- 2 files changed, 27 insertions(+), 76 deletions(-)
- delete mode 100644 meta/recipes-core/dbus/dbus/tmpdir.patch
- rename meta/recipes-core/dbus/{dbus_1.14.10.bb => dbus_1.16.0.bb} (77%)
+ ...acros.h-for-major-minor-defines-in-g.patch |  50 -----
+ .../sysvinit/sysvinit/crypt-lib.patch         |  27 ++-
+ .../sysvinit/sysvinit/install.patch           |  79 -------
+ .../sysvinit/pidof-add-m-option.patch         | 193 ------------------
+ .../sysvinit/sysvinit/realpath.patch          |  61 ------
+ .../{sysvinit_3.11.bb => sysvinit_3.13.bb}    |   6 +-
+ 6 files changed, 13 insertions(+), 403 deletions(-)
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/install.patch
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/realpath.patch
+ rename meta/recipes-core/sysvinit/{sysvinit_3.11.bb => sysvinit_3.13.bb} (93%)
 
-diff --git a/meta/recipes-core/dbus/dbus/tmpdir.patch b/meta/recipes-core/dbus/dbus/tmpdir.patch
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch b/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
 deleted file mode 100644
-index bf086e17887..00000000000
---- a/meta/recipes-core/dbus/dbus/tmpdir.patch
+index 60fbd87534b..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
 +++ /dev/null
-@@ -1,44 +0,0 @@
--From 5105fedd7fa13dadd2d0d864fb77873b83b79a4b Mon Sep 17 00:00:00 2001
--From: Koen Kooi <koen@dominion.thruhere.net>
--Date: Thu, 23 Jun 2011 13:52:09 +0200
--Subject: [PATCH] buildsys: hardcode socketdir to /tmp
+@@ -1,50 +0,0 @@
+-From c710a3accd1fabdb671274e1a458405282d51e0c Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 6 Aug 2018 15:38:58 -0700
+-Subject: [PATCH] include sys/sysmacros.h for major/minor definitions
 -
--the TMPDIR env var isn't always pointing to the right target path
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
 -
--Upstream-Status: Inappropriate [embedded]
--
--Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
--
--Original comment:
--
--	avoid to check tmp dir at build time. instead uses hard coded /tmp here
--	comment added by Kevin Tian <kevin.tian@intel.com>
 ----
-- configure.ac |   11 +----------
-- 1 files changed, 1 insertions(+), 10 deletions(-)
+- src/bootlogd.c   | 1 +
+- src/mountpoint.c | 1 +
+- src/shutdown.c   | 1 +
+- 3 files changed, 3 insertions(+)
 -
--diff --git a/configure.ac b/configure.ac
--index 408054b..6d26180 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1483,16 +1483,7 @@ AC_SUBST(TEST_LAUNCH_HELPER_BINARY)
-- AC_DEFINE_UNQUOTED(DBUS_TEST_LAUNCH_HELPER_BINARY, "$TEST_LAUNCH_HELPER_BINARY",
--                    [Full path to the launch helper test program in the builddir])
+-diff --git a/src/bootlogd.c b/src/bootlogd.c
+-index 787db87..8b07903 100644
+---- a/src/bootlogd.c
+-+++ b/src/bootlogd.c
+-@@ -29,6 +29,7 @@
+- #include <sys/types.h>
+- #include <sys/time.h>
+- #include <sys/stat.h>
+-+#include <sys/sysmacros.h>
+- #include <sys/ioctl.h>
+- #include <sys/utsname.h>
+- #include <time.h>
+-diff --git a/src/mountpoint.c b/src/mountpoint.c
+-index 5f20522..94df7a1 100644
+---- a/src/mountpoint.c
+-+++ b/src/mountpoint.c
+-@@ -25,6 +25,7 @@
 - 
---#### Find socket directories
---if ! test -z "$TMPDIR" ; then
---   DEFAULT_SOCKET_DIR=$TMPDIR
---elif ! test -z "$TEMP" ; then
---   DEFAULT_SOCKET_DIR=$TEMP
---elif ! test -z "$TMP" ; then
---   DEFAULT_SOCKET_DIR=$TMP
---else
---   DEFAULT_SOCKET_DIR=/tmp
---fi
--+DEFAULT_SOCKET_DIR=/tmp
+- #include <sys/types.h>
+- #include <sys/stat.h>
+-+#include <sys/sysmacros.h>
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <string.h>
+-diff --git a/src/shutdown.c b/src/shutdown.c
+-index b744a2c..40b7faf 100644
+---- a/src/shutdown.c
+-+++ b/src/shutdown.c
+-@@ -40,6 +40,7 @@
+- #endif
+- #include <sys/types.h>
+- #include <sys/stat.h>
+-+#include <sys/sysmacros.h>
+- #include <sys/wait.h>
+- #ifdef __linux__
+- #include <sys/sysmacros.h>   /* brought in my LFS patch */
+diff --git a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+index 24c81822187..ece870c2693 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+@@ -1,33 +1,33 @@
+-From 49250c8e0ef563aafd5bbea62612f3d15fdee3af Mon Sep 17 00:00:00 2001
++From 19a8777c81bc451d65a4071528e4715e19941e0a Mon Sep 17 00:00:00 2001
+ From: Jeff Dike <jdike@x86_64.user-mode-linux.org>
+ Date: Wed, 14 Jul 2010 14:35:52 -0400
+ Subject: [PATCH] sysvinit - Remove sulogin dependency on /usr/lib*/libcrypt.a
+ 
+-Upstream-Status: Inappropriate [configuration]
++The src Makefile was checking for libcrypt.a on the host, not in the
++build environment.  This patch checks for $LCRYPT in the environment
++and uses it if it's there.
++jdike@linux.intel.com
+ 
+-# The src Makefile was checking for libcrypt.a on the host, not in the
+-# build environment.  This patch checks for $LCRYPT in the environment
+-# and uses it if it's there.
+-# - jdike@linux.intel.com
++Upstream-Status: Inappropriate [configuration]
+ ---
+  src/Makefile | 12 ++----------
+  1 file changed, 2 insertions(+), 10 deletions(-)
+ 
+ diff --git a/src/Makefile b/src/Makefile
+-index 0210171..f696247 100644
++index 4ce4889..1611c1c 100644
+ --- a/src/Makefile
+ +++ b/src/Makefile
+-@@ -101,16 +101,8 @@ endif
 - 
-- DEFAULT_SOCKET_DIR=`echo $DEFAULT_SOCKET_DIR | sed 's/+/%2B/g'`
+- ROOT	?= $(DESTDIR)
++@@ -97,16 +97,8 @@ else
++   SULOGINLIBS	=
++ endif
+  
+ -# Additional libs for GNU libc.
+--ifneq ($(wildcard $(ROOT)/usr/lib*/libcrypt.*),)
++-ifneq ($(wildcard $(ROOT)/$(usrdir)/lib*/libcrypt.*),)
+ -  SULOGINLIBS	+= -lcrypt
+ -endif
+ -
+ -# Additional libs for GNU libc / multiarch on Debian based systems.
+--ifneq ($(wildcard $(ROOT)/usr/lib/*/libcrypt.*),)
++-ifneq ($(wildcard $(ROOT)/$(usrdir)/lib/*/libcrypt.*),)
+ -ifneq ($(findstring -lcrypt, $(SULOGINLIBS)), -lcrypt)
+ -  SULOGINLIBS	+= -lcrypt
+ -endif
+@@ -36,6 +36,3 @@ index 0210171..f696247 100644
+  endif
+  
+  all:		$(BIN) $(SBIN) $(USRBIN)
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/sysvinit/sysvinit/install.patch b/meta/recipes-core/sysvinit/sysvinit/install.patch
+deleted file mode 100644
+index 4289c4eddc7..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/install.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From f73a2c768687f3fed0ab570f47fa2157e5d4e586 Mon Sep 17 00:00:00 2001
+-From: Qing He <qing.he@intel.com>
+-Date: Fri, 18 Jun 2010 09:40:30 +0800
+-Subject: [PATCH] sysvinit: upgrade to version 2.88dsf
+-
+-Upstream-Status: Submitted [https://github.com/slicer69/sysvinit/pull/13]
+----
+- src/Makefile | 37 ++++++++++++++++++++++---------------
+- 1 file changed, 22 insertions(+), 15 deletions(-)
+-
+-diff --git a/src/Makefile b/src/Makefile
+-index 21cbb2e..0210171 100644
+---- a/src/Makefile
+-+++ b/src/Makefile
+-@@ -80,7 +80,14 @@ else
+-   INSTALL_DATA	= install -m 644
+- endif
+- INSTALL_DIR	= install -m 755 -d
+--MANDIR		= /usr/share/man
+-+
+-+ROOT         ?=
+-+base_bindir  ?= /bin
+-+base_sbindir ?= /sbin
+-+bindir       ?= /usr/bin
+-+sysconfdir   ?= /etc
+-+includedir   ?= /usr/include
+-+mandir       ?= /usr/share/man
+- 
+- ifeq ($(WITH_SELINUX),yes)
+-   SELINUX_DEF	=  -DWITH_SELINUX
+-@@ -196,31 +203,31 @@ clobber:	cleanobjs
+- distclean:	clobber
+- 
+- install:	all
+--		$(INSTALL_DIR) $(ROOT)/bin/ $(ROOT)/sbin/
+--		$(INSTALL_DIR) $(ROOT)/usr/bin/
+-+		$(INSTALL_DIR) $(ROOT)$(base_bindir)/ $(ROOT)$(base_sbindir)/
+-+		$(INSTALL_DIR) $(ROOT)$(bindir)/
+- 		for i in $(BIN); do \
+--			$(INSTALL_EXEC) $$i $(ROOT)/bin/ ; \
+-+			$(INSTALL_EXEC) $$i $(ROOT)$(base_bindir)/ ; \
+- 		done
+- 		for i in $(SBIN); do \
+--			$(INSTALL_EXEC) $$i $(ROOT)/sbin/ ; \
+-+			$(INSTALL_EXEC) $$i $(ROOT)$(base_sbindir)/ ; \
+- 		done
+- 		for i in $(USRBIN); do \
+--			$(INSTALL_EXEC) $$i $(ROOT)/usr/bin/ ; \
+-+			$(INSTALL_EXEC) $$i $(ROOT)$(bindir)/ ; \
+- 		done
+- 		# $(INSTALL_DIR) $(ROOT)/etc/
+- 		$(INSTALL_DIR) $(ROOT)/etc/inittab.d
+- 		# $(INSTALL_EXEC) ../doc/initscript.sample $(ROOT)/etc/
+--		ln -sf halt $(ROOT)/sbin/reboot
+--		ln -sf halt $(ROOT)/sbin/poweroff
+--		ln -sf init $(ROOT)/sbin/telinit
+--		ln -sf ../sbin/killall5 $(ROOT)/bin/pidof
+--		if [ ! -f $(ROOT)/usr/bin/lastb ]; then \
+--			ln -sf last $(ROOT)/usr/bin/lastb; \
+-+		ln -sf halt $(ROOT)$(base_sbindir)/reboot
+-+		ln -sf halt $(ROOT)$(base_sbindir)/poweroff
+-+		ln -sf init $(ROOT)$(base_sbindir)/telinit
+-+		ln -sf $(base_sbindir)/killall5 $(ROOT)$(base_bindir)/pidof
+-+		if [ ! -f $(ROOT)$(bindir)/lastb ]; then \
+-+			ln -sf last $(ROOT)$(bindir)/lastb; \
+- 		fi
+--		$(INSTALL_DIR) $(ROOT)/usr/include/
+--		$(INSTALL_DATA) initreq.h $(ROOT)/usr/include/
+-+		$(INSTALL_DIR) $(ROOT)$(includedir)/
+-+		$(INSTALL_DATA) initreq.h $(ROOT)$(includedir)/
+- 		for man in $(MANPAGES) ; do \
+--		    targetdir=$(ROOT)$(MANDIR)/$$(dirname $$man)/man$${man##*.}; \
+-+		    targetdir=$(ROOT)$(mandir)/$$(dirname $$man)/man$${man##*.}; \
+- 		    $(INSTALL_DIR) $$targetdir; \
+- 		    $(INSTALL_DATA) ../man/$$man $$targetdir/$$(basename $$man); \
+- 		    sed -i "1{ $(MANDB); }" $$targetdir/$$(basename $$man); \
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch b/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+deleted file mode 100644
+index 66da6fb4032..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
++++ /dev/null
+@@ -1,193 +0,0 @@
+-From 2b19b36409b8de0621b9aeb0d13748e947a5bbfb Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Wed, 24 Jul 2013 17:07:22 +0800
+-Subject: [PATCH] pidof: add -m option
+-
+-When used with -o, will also omit any processes that have the same
+-argv[0] and argv[1] as any explicitly omitted process ids. This can be
+-used to avoid multiple shell scripts concurrently calling pidof returning
+-each other's pids.
+-
+-https://bugzilla.redhat.com/show_bug.cgi?id=883856
+-
+-Upstream-Status: Backport
+-Imported patch from: https://bugzilla.redhat.com/attachment.cgi?id=658166
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- man/pidof.8    |  6 +++++
+- src/killall5.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++---
+- 2 files changed, 65 insertions(+), 3 deletions(-)
+-
+-diff --git a/man/pidof.8 b/man/pidof.8
+-index 6866cb3..a87d878 100644
+---- a/man/pidof.8
+-+++ b/man/pidof.8
+-@@ -25,6 +25,7 @@ pidof - find the process ID of a running program
+- .RB [ \-n ]
+- .RB [ \-x ]
+- .RB [ \-z ]
+-+.RB [ \-m ]
+- .RB [ \-o
+- .IR omitpid[,omitpid...] ]
+- .RB [ \-o
+-@@ -77,6 +78,11 @@ is shown. The default separator is a space.
+- Tells \fIpidof\fP to omit processes with that process id. The special
+- pid \fB%PPID\fP can be used to name the parent process of the \fBpidof\fP
+- program, in other words the calling shell or shell script.
+-+.IP -m
+-+When used with -o, will also omit any processes that have the same
+-+argv[0] and argv[1] as any explicitly omitted process ids. This can be
+-+used to avoid multiple shell scripts concurrently calling pidof returning
+-+each other's pids.
+- .SH "EXIT STATUS"
+- .TP
+- .B 0
+-diff --git a/src/killall5.c b/src/killall5.c
+-index 6f7528a..34d656b 100644
+---- a/src/killall5.c
+-+++ b/src/killall5.c
+-@@ -121,6 +121,7 @@ typedef struct _s_nfs
+- 
+- /* List of processes. */
+- PROC *plist = NULL;
+-+PROC *olist = NULL;
+- 
+- /* List of processes to omit. */
+- OMIT *omit = NULL;
+-@@ -356,6 +357,20 @@ static void clear_mnt(void)
+- 	}
+- }
+- 
+-+static void clear_omit(void)
+-+{
+-+	OMIT *o;
+-+	PROC *p;
+-+	for (o = omit; o; o = omit) {
+-+		omit = omit->next;
+-+		free(o);
+-+	}
+-+	for (p = olist; p; p = olist) {
+-+		olist = olist->next;
+-+		free(p);
+-+	}
+-+}
+-+
+- /*
+-  *     Check if path is a shadow off a NFS partition.
+-  */
+-@@ -481,6 +496,7 @@ int readproc()
+- 	DIR		*dir;
+- 	FILE		*fp;
+- 	PROC		*p, *n;
+-+	OMIT		*o, *m;
+- 	struct dirent	*d;
+- 	char		path[PATH_MAX+1];
+- 	char		buf[PATH_MAX+1];
+-@@ -671,6 +687,17 @@ int readproc()
+- 		p->next = plist;
+- 		plist = p;
+- 		p->pid = pid;
+-+		/* Could be smarter, but it's a small list. */
+-+		m = omit;
+-+		for (o = omit; m; o = m) {
+-+			m = o->next;
+-+			if (o->pid == p->pid) {
+-+				n = (PROC*)xmalloc(sizeof(PROC));
+-+				*n = *p;
+-+				n->next = olist;
+-+				olist = n;
+-+			}
+-+		}
+- 	}
+- 	closedir(dir);
+- 
+-@@ -877,6 +904,26 @@ PIDQ_HEAD *pidof(char *prog)
+- 	return q;
+- }
+- 
+-+int matches(PROC *o, PROC *p)
+-+{
+-+	int ret = 0;
+-+	char *oargv1, *pargv1;
+-+	if ((o->argv0 && p->argv0 && !strcmp(o->argv0,p->argv0))) {
+-+		if (o->argv1 && p->argv1) {
+-+			if ((oargv1 = canonicalize_file_name(o->argv1)) == NULL)
+-+				oargv1 = strdup(o->argv1);
+-+			if ((pargv1 = canonicalize_file_name(p->argv1)) == NULL)
+-+				pargv1 = strdup(p->argv1);
+-+			if (! strcmp(oargv1, pargv1)) {
+-+				ret = 1;
+-+			}
+-+			free(oargv1);
+-+			free(pargv1);
+-+		}
+-+	}
+-+	return ret;
+-+}
+-+
+- /* Give usage message and exit. */
+- void usage(void)
+- {
+-@@ -927,6 +974,7 @@ void nsyslog(int pri, char *fmt, ...)
+- #define PIDOF_OMIT	0x02
+- #define PIDOF_NETFS	0x04
+- #define PIDOF_QUIET     0x08
+-+#define PIDOF_OMIT_OMIT_MATCHES	0x08
+- 
+- /*
+-  *	Pidof functionality.
+-@@ -944,6 +992,7 @@ int main_pidof(int argc, char **argv)
+- 	char		tmp[512];
+-         char            sep = ' ';
+- 
+-+	olist = (PROC*)0;
+- 	omit = (OMIT*)0;
+- 	nlist = (NFS*)0;
+- 	opterr = 0;
+-@@ -951,7 +1000,7 @@ int main_pidof(int argc, char **argv)
+- 	if ((token = getenv("PIDOF_NETFS")) && (strcmp(token,"no") != 0))
+- 		flags |= PIDOF_NETFS;
+- 
+--	while ((opt = getopt(argc,argv,"qhco:d:sxzn")) != EOF) switch (opt) {
+-+	while ((opt = getopt(argc,argv,"qhcmo:d:sxzn")) != EOF) switch (opt) {
+- 		case '?':
+- 			nsyslog(LOG_ERR,"invalid options on command line!\n");
+- 			closelog();
+-@@ -1002,6 +1051,9 @@ int main_pidof(int argc, char **argv)
+-                 case 'z':
+-                         list_dz_processes = TRUE;
+-                         break;
+-+		case 'm':
+-+			flags |= PIDOF_OMIT_OMIT_MATCHES;
+-+			break;
+- 		case 'n':
+- 			flags |= PIDOF_NETFS;
+- 			break;
+-@@ -1033,10 +1085,13 @@ int main_pidof(int argc, char **argv)
+- 			pid_t spid = 0;
+- 			while ((p = get_next_from_pid_q(q))) {
+- 				if ((flags & PIDOF_OMIT) && omit) {
+--					OMIT * optr;
+--					for (optr = omit; optr; optr = optr->next) {
+-+					PROC * optr;
+-+					for (optr = olist; optr; optr = optr->next) {
+- 						if (optr->pid == p->pid)
+- 							break;
+-+						if (flags & PIDOF_OMIT_OMIT_MATCHES)
+-+							if (matches(optr, p))
+-+								break;
+- 					}
+- 
+- 					/*
+-@@ -1078,6 +1133,7 @@ int main_pidof(int argc, char **argv)
+- 		printf("\n");
+-         }
+- 
+-+	clear_omit();
+- 	clear_mnt();
+- 
+- 	closelog();
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/sysvinit/sysvinit/realpath.patch b/meta/recipes-core/sysvinit/sysvinit/realpath.patch
+deleted file mode 100644
+index 7a669d01111..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/realpath.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From 50e6b3a0fc7c083e6514a55ac93e5591aaeb787d Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 19 Nov 2015 00:10:03 +0000
+-Subject: [PATCH] Fix build on musl use realpath() API its available on all
+- libcs
+-
+-realpath() API doesnt work on systems with PATH_MAX set to be unlimited e.g. GNU/Hurd
+-However for Linux it should always work
+-
+-Upstream-Status: Inappropriate [Linux specific]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/killall5.c   | 4 ++--
+- src/mountpoint.c | 1 +
+- src/wall.c       | 1 +
+- 3 files changed, 4 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/killall5.c b/src/killall5.c
+-index 34d656b..bc19d7f 100644
+---- a/src/killall5.c
+-+++ b/src/killall5.c
+-@@ -910,9 +910,9 @@ int matches(PROC *o, PROC *p)
+- 	char *oargv1, *pargv1;
+- 	if ((o->argv0 && p->argv0 && !strcmp(o->argv0,p->argv0))) {
+- 		if (o->argv1 && p->argv1) {
+--			if ((oargv1 = canonicalize_file_name(o->argv1)) == NULL)
+-+			if ((oargv1 = realpath(o->argv1, NULL)) == NULL)
+- 				oargv1 = strdup(o->argv1);
+--			if ((pargv1 = canonicalize_file_name(p->argv1)) == NULL)
+-+			if ((pargv1 = realpath(p->argv1, NULL)) == NULL)
+- 				pargv1 = strdup(p->argv1);
+- 			if (! strcmp(oargv1, pargv1)) {
+- 				ret = 1;
+-diff --git a/src/mountpoint.c b/src/mountpoint.c
+-index 184b1f6..c55b0df 100644
+---- a/src/mountpoint.c
+-+++ b/src/mountpoint.c
+-@@ -23,6 +23,7 @@
+-  *		Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-  */
+- 
+-+#include <sys/types.h>
+- #include <sys/stat.h>
+- #include <unistd.h>
+- #include <stdlib.h>
+-diff --git a/src/wall.c b/src/wall.c
+-index e527613..1d363ca 100644
+---- a/src/wall.c
+-+++ b/src/wall.c
+-@@ -30,6 +30,7 @@
+- #include <pwd.h>
+- #include <syslog.h>
+- #include <sys/types.h>
+-+#include <time.h>
+- #include "init.h"
+- 
 - 
 --- 
--1.6.6.1
+-2.25.1
 -
-diff --git a/meta/recipes-core/dbus/dbus_1.14.10.bb b/meta/recipes-core/dbus/dbus_1.16.0.bb
-similarity index 77%
-rename from meta/recipes-core/dbus/dbus_1.14.10.bb
-rename to meta/recipes-core/dbus/dbus_1.16.0.bb
-index 6a08f6984e2..f516273cc77 100644
---- a/meta/recipes-core/dbus/dbus_1.14.10.bb
-+++ b/meta/recipes-core/dbus/dbus_1.16.0.bb
-@@ -3,43 +3,44 @@ DESCRIPTION = "D-Bus is a message bus system, a simple way for applications to t
- HOMEPAGE = "https://dbus.freedesktop.org"
- SECTION = "base"
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.11.bb b/meta/recipes-core/sysvinit/sysvinit_3.13.bb
+similarity index 93%
+rename from meta/recipes-core/sysvinit/sysvinit_3.11.bb
+rename to meta/recipes-core/sysvinit/sysvinit_3.13.bb
+index e8eab275644..d935b0edfd4 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.11.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.13.bb
+@@ -11,18 +11,14 @@ RDEPENDS:${PN} = "${PN}-inittab"
  
--inherit autotools pkgconfig gettext upstream-version-is-even ptest-gnome
-+inherit meson pkgconfig gettext upstream-version-is-even ptest-gnome
- 
- LICENSE = "AFL-2.1 | GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=6423dcd74d7be9715b0db247fd889da3 \
--                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=eb0ffc69a965797a3d6686baa153ef05 \
-+                    file://dbus/dbus.h;beginline=6;endline=22;md5=df4251a6c6e15e6a9e3c77b2ac30065d \
-                     "
- 
- SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://run-ptest \
--           file://tmpdir.patch \
-            file://dbus-1.init \
+ GITHUB_BASE_URI = "https://github.com/slicer69/${BPN}/releases/"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
+-           file://install.patch \
+            file://crypt-lib.patch \
+-           file://pidof-add-m-option.patch \
+-           file://realpath.patch \
+-           file://0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+            file://bootlogd.init \
+            file://01_bootlogd \
             "
+-SRC_URI[sha256sum] = "04f1b7d67413af1c09c41acc1e3ce946f2d0f7a1e47c9978744bc542864e13d4"
++SRC_URI[sha256sum] = "cbaeabddc35a6511b87c87452ee5e87c678a26329c7d7d17fb69a2b42a314d86"
  
--SRC_URI[sha256sum] = "ba1f21d2bd9d339da2d4aa8780c09df32fea87998b73da24f49ab9df1e36a50f"
-+SRC_URI[sha256sum] = "9f8ca5eb51cbe09951aec8624b86c292990ae2428b41b856e2bed17ec65c8849"
- 
--EXTRA_OECONF = "--disable-xml-docs \
--                --disable-doxygen-docs \
--                --enable-largefile \
--                --with-system-socket=/run/dbus/system_bus_socket \
--                --enable-modular-tests \
--                --enable-checks \
--                --runstatedir=/run \
-+EXTRA_OEMESON = "-Dxml_docs=disabled \
-+                 -Ddoxygen_docs=disabled \
-+                 -Dsystem_socket=/run/dbus/system_bus_socket \
-+                 -Dmodular_tests=enabled \
-+                 -Dchecks=true \
-+                 -Druntime_dir=${runtimedir} \
-+                 -Dtest_socket_dir=/tmp \
-+                 -Dsession_socket_dir=/tmp \
-                 "
--EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
-                    user-session \
-+                  ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                   "
- PACKAGECONFIG:class-native = ""
- PACKAGECONFIG:class-nativesdk = ""
- 
--PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
--PACKAGECONFIG[x11] = "--enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
--PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
--PACKAGECONFIG[verbose-mode] = "--enable-verbose-mode,,,"
--PACKAGECONFIG[audit] = "--enable-libaudit,--disable-libaudit,audit"
--PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
-+PACKAGECONFIG[systemd] = "-Dsystemd=enabled -Dsystemd_system_unitdir=${systemd_system_unitdir},-Dsystemd=disabled,systemd"
-+PACKAGECONFIG[x11] = "-Dx11_autolaunch=enabled,-Dx11_autolaunch=disabled, virtual/libx11 libsm"
-+PACKAGECONFIG[user-session] = "-Duser_session=true -Dsystemd_user_unitdir=${systemd_user_unitdir},-Duser_session=false"
-+PACKAGECONFIG[verbose-mode] = "-Dverbose_mode=true,-Dverbose_mode=false,,"
-+PACKAGECONFIG[audit] = "-Dlibaudit=enabled,-Dlibaudit=disabled,audit"
-+PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux"
-+PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
- 
- DEPENDS = "expat virtual/libintl autoconf-archive-native glib-2.0"
- RDEPENDS:${PN} += "${PN}-common ${PN}-tools"
-@@ -124,9 +125,7 @@ pkg_postinst:dbus() {
- }
- 
- 
--do_install() {
--	autotools_do_install
--
-+do_install:append:class-target() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
- 		install -d ${D}${sysconfdir}/init.d
- 		sed 's:@bindir@:${bindir}:' < ${UNPACKDIR}/dbus-1.init > ${S}/dbus-1.init.sh
-@@ -159,27 +158,23 @@ do_install() {
- 	# Remove empty testexec directory as we don't build tests
- 	rm -rf ${D}${libdir}/dbus-1.0/test
- 
--	# Remove /var/run as it is created on startup
--	rm -rf ${D}${localstatedir}/run
-+	# Remove /run as it is created on startup
-+	rm -rf ${D}${runtimedir}
- }
- 
--do_install:class-native() {
--	autotools_do_install
--
-+do_install:append:class-native() {
- 	# dbus-launch has no X support so lets not install it in case the host
- 	# has a more featured and useful version
- 	rm -f ${D}${bindir}/dbus-launch
- }
- 
--do_install:class-nativesdk() {
--	autotools_do_install
--
-+do_install:append:class-nativesdk() {
- 	# dbus-launch has no X support so lets not install it in case the host
- 	# has a more featured and useful version
- 	rm -f ${D}${bindir}/dbus-launch
- 
--	# Remove /var/run to avoid QA error
--	rm -rf ${D}${localstatedir}/run
-+	# Remove /run to avoid QA error
-+	rm -rf ${D}${runtimedir}
- }
- BBCLASSEXTEND = "native nativesdk"
+ S = "${WORKDIR}/sysvinit-${PV}"
  
 -- 
 2.39.5
