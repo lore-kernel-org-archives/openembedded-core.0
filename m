@@ -1,89 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5C8E77199
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 10:59:11 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.16735.1736333945250712470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ECCEE77188
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 11:01:41 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.16317.1736334099838667544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 02:59:05 -0800
+ Wed, 08 Jan 2025 03:01:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=frNov0yA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-386329da1d9so7796591f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 02:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736333943; x=1736938743; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z0gGtCyAypqg3glP8fCKex5UG0j1T9X4A7eh3dK1djg=;
-        b=frNov0yAzQ/l9Z/v//129SZgKGB8Awde78P/mcWEDtQnUqrJo1hPjVyDhBF49TwE8z
-         LaYcn+ylCVfI1fzK+XXfQ3bDr1bHmOqnJDiEHSIEZx92mTsXMxRrIxAhE68wM1kjyIOj
-         Qwljxnx7c0QYkpP79rKpWUm0jkV9Dnqdu6BDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736333943; x=1736938743;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z0gGtCyAypqg3glP8fCKex5UG0j1T9X4A7eh3dK1djg=;
-        b=SFkBBVmOAmEHu0ypSRsYB9qjDRWQnNvc6upsP7+4DbyoAdf2B6QEGIVysSQguzIfvX
-         bvGeBJj7eS5/31ko95mxEkgusvMuAM/Lq05ETRFw1QES/kKkBywTJpbfHDOr9gu5fkEH
-         9dRjdxl1Fy/ADzQwwVXjeFTTT7Uv9P3iwkAeChldGu48wXNb1ilhdxyi3u57e5jr2Tfb
-         VsptgK7K2WceX+jaFMJCwWn8fLXWCJTR9zpU9z30dyqaW0Bmh85IbexNdPULPx7NUvf7
-         IIsN43k8KrgQ2AoLtvgAkvZW9D2VMznW2T1OBlX9/Ns5lg1bPBN955sKHvqDh/FDWFs1
-         PCug==
-X-Gm-Message-State: AOJu0YzSZXFG4B0odv/30/mx3jWg6L1zNEvcSFJfEUp53nO7wWw64iY3
-	KTybi5BQxqOorLkBHF8AnQMjvw4Q+FAxFuWlCtLAJhetyzuXSIRhEjoTLvGEbmAForGA5DyDmWZ
-	yFE0=
-X-Gm-Gg: ASbGnctmhwJg+lB+UhNv4koaAZkERakKdWsZ85GaXigtDCYKfUw2z4+B+w72KTiSSVx
-	skJguHKsTdrawwc4i5ZmdHTObH620dpA6f6QP+uYb9CVXwIFqyrLVYh3qkecKb4eRUMw4l+vN6S
-	WPFhSG9HPRWMOqlkw5WT2PdcHHb58+MXgeuBz+wH0sSIKIK/SEoFkZP6geE7XaG87NybWuLt6At
-	rZq4535925sm5HAlu4TZQz43PVawXDI/Be4SMNcQX6qscmDAXyTANcYKxDTHAuqsLl/4E+Futfl
-	oencUJ0STw==
-X-Google-Smtp-Source: AGHT+IEIbMjH3p1eJly77zmEDshAZLN0u4gHQyeL+P/oqe1EW9K32vmsWIDJeZ4XU9mNhpcBDgt2bg==
-X-Received: by 2002:adf:b1dc:0:b0:38a:88bc:ace1 with SMTP id ffacd0b85a97d-38a88bcadc9mr922765f8f.34.1736333943244;
-        Wed, 08 Jan 2025 02:59:03 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:906a:f5af:b180:de5a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8288b8sm52186033f8f.11.2025.01.08.02.59.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 02:59:02 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] bitbake.conf: Add libstdc++-native to ASSUME_PROVIDED
-Date: Wed,  8 Jan 2025 10:58:59 +0000
-Message-ID: <20250108105859.3561400-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250108105859.3561400-1-richard.purdie@linuxfoundation.org>
-References: <20250108105859.3561400-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fPqsPcF/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vDZWwf6a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101944593c1d3-1883d72e-f6bf-40a7-88fc-a89457a4b664-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1736334099; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=L21zsXPwzLzp9+vk2K5CkAI66yAMy1tfb6/MXA+TKu8=;
+	b=fPqsPcF/McLgSITyudmyjKhcLwtNfm/KJyNtg3I8PvhJhfOe8AUjEFH3m3YRedNl
+	hC1P547iaGxxQLC8XIGiSkyGGfZ5Gw8xtKY3AkyZEhQDAl6fBS9UtWT3tOxVKAYu7GM
+	cRn2JdLV0IWrn5oxBHY2Sjcz+7q3FkQyB+DzdzQw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736334099;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=L21zsXPwzLzp9+vk2K5CkAI66yAMy1tfb6/MXA+TKu8=;
+	b=vDZWwf6av2f2lqCp9pbZNtujFIrVxMiWRfcEc997jx3TOIUYV0jHxKBG6VqHm+Qy
+	HIzyok6b8boBKaH8+1Y+pPCJ7aQ6midXPZ/KtIFYHB0WiQYKSyiz32Vj4E/R9Bpm9M6
+	+gW/rohpUoXrRGAnJgKVQOvVNzNcXjYG+++r+rv4=
+From: patchtest@automation.yoctoproject.org
+To: Catalin Popescu <catalin.popescu@leica-geosystems.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] bluez5: backport configuration file shipping from 5.73 to
+ 5.72
+In-Reply-To: <20250108104529.3701964-1-catalin.popescu@leica-geosystems.com>
+References: <20250108104529.3701964-1-catalin.popescu@leica-geosystems.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101944593c1d3-1883d72e-f6bf-40a7-88fc-a89457a4b664-000000@us-west-2.amazonses.com>
+Date: Wed, 8 Jan 2025 11:01:38 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.08-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 10:59:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209550
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 11:01:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209551
 
-Fixing native class extension code highlighted this was missing, we do assume
-the system has a working libstdc++ compiler/runtime.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/bluez5-backport-configuration-file-shipping-from-5.73-to-5.72.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e3cf8a09582..6123bcd123d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -217,6 +217,7 @@ ASSUME_PROVIDED = "\
-     hostperl-runtime-native \
-     hostpython-runtime-native \
-     libgcc-native \
-+    libstdc++-native \
-     patch-native \
-     sed-native \
-     tar-native \
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-build-ship-all-config-files-with-enable-datafiles.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
