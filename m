@@ -1,102 +1,193 @@
-Return-Path: <esben@geanix.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E06E77188
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 14:13:01 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.20380.1736345571453919562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA09E77188
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 14:50:02 +0000 (UTC)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web10.20798.1736347798031986487
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 06:12:52 -0800
+ Wed, 08 Jan 2025 06:49:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=VU0bOTeR;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: esben@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References; bh=YOE7Tkv7ptbPVjLVkhd8MNqmQ5UDh9CUS82uJ5LGRkw=; b=VU
-	0bOTeRQxQBV9+jo3xTZVQmrl0dDWWQ8zvQSOaMLHs+J9/5yeDqaQGTGCaOrrK+3DgxirUwv8s6+Tv
-	jd4cUsc0jdAMGh6o+PwEUrGQLV9Dqbw7oZ+hAqQyscvL5yTsSuP0TN4+RMa695pb6L/6SGtL9HJLq
-	Qv+AHX7Ydm/5utU+uZ5x3GpsCSw4nB/52rHCrf3GHJIASQuHdHsHnd+uzfKrRx7mCLgSv23PxceVg
-	guyEW3jrDU29zvHkkmDz8yt1kaorRoaULU88x2HY5Rn4TVaKtdsEy01Csq3A65jytX6lon3uQK84D
-	jTsK7vMrDXqzK1m5k8fYEIH23xuL3PJA==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <esben@geanix.com>)
-	id 1tVWnh-000PAq-2U;
-	Wed, 08 Jan 2025 15:12:49 +0100
-Received: from [185.17.218.86] (helo=localhost)
-	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <esben@geanix.com>)
-	id 1tVWnh-0008Jx-1l;
-	Wed, 08 Jan 2025 15:12:49 +0100
-From: Esben Haabendal <esben@geanix.com>
-Date: Wed, 08 Jan 2025 15:12:31 +0100
-Subject: [PATCH] pulseaudio: fix webrtc audio depdency
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=e5XQmwGg;
+ spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-71e157a79c8so3259875a34.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 06:49:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736347797; x=1736952597; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GQWP4ivCPMrBumCzDc/hjQuyj2jXKg2iV/Bi/EOtAGk=;
+        b=e5XQmwGg/LE7EP8nQ1oinWb1AlkThOu+TP4q6Ocgjv5uQYg647uvwuiO59kLR1VllF
+         PxSxL5QqhQC8iqEKJks1gDrlfPBpDiaYiiVs1wcbAnewTVqclhrVquzNPGALMWqcSJvE
+         jevkAP7UFEeDEe2kWGuYO99+RWAiPjmaKcXOFusv8El9as5isGZ95STMdK2ydgFT4SLW
+         gph3B7RcoDzOjMgHtwyGT0jPU87s9K3bS02vyXMV9uHS0SYIDC5xyBXo5Whiz92wxgEg
+         E/OGyZUgsN4k7vaOSjzuGCIBOVQiEHbu+tLmTbxbBog/yZ7a+7D2u+r3OZdre08fVhYa
+         y2uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736347797; x=1736952597;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GQWP4ivCPMrBumCzDc/hjQuyj2jXKg2iV/Bi/EOtAGk=;
+        b=UVuKwwmBFJwF4JR+lAVzGm8mYs2QrwN33OjSOrleVhgHBMB85hZcZU0PwZ0dnnAs4j
+         /f/LCJVg5cqYuJGdHc6tOAYlTemT/ZHzYARy8PrlD3dgZdhCqMyeERP+jnKLj/XADv/j
+         snjrrOAiqCma2o+wahikTJPmy/jGgLULYadUdGsqKIuvsUnaNFomGY3mRS502YcDAhwv
+         +8jIGh4lsFD3GLqP4bttj329ZP0ReI7MQGzRaLq7X8sB0HO7uYgcXX94GymXU7ifPNSx
+         zO0zDzN5ODhWqHXV/JlQh4rbg7eEoaoD8Rn3QAeiwD88n9SGDfS8QEQIIz5MGvGnvC3y
+         J7YA==
+X-Gm-Message-State: AOJu0YzYZyXIx1rLGJLiaPAiVflwtCRVHpIES6oTPeyV1WxrGZCsB3u2
+	6DOTpb2jtdW1oc9ddf1Y/zsAeuoWh1ulEkgaPKZ3eVgv6Dg7zTNGTb+s8EFxrUtQGufRgQ93wVL
+	0CRoTfX+JgHjqsC4Z+m5Y1A2DT34=
+X-Gm-Gg: ASbGncu9hdS91EXHJo8+a9w5y2iB550ap8NcokWiA0dZkMyvlo2dhiCm6Ow8TMozIjq
+	GovEnat6nOumAcxV/n/JdGOyCe68jJKPtiUUz6771JCJ6Vh+DQjjbz4fXYY5cF4+pVq+B5vc=
+X-Google-Smtp-Source: AGHT+IE3LfonbWoc3xjk0WRaW7UOvEL7VNb9nrV/mUy+JG4ml7zeZv3w6iPraAWGsikyj1PCHhM+zUixHPCGCqiFE8M=
+X-Received: by 2002:a05:6870:9f11:b0:297:c04:9191 with SMTP id
+ 586e51a60fabf-2aa06647043mr1498783fac.3.1736347797041; Wed, 08 Jan 2025
+ 06:49:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250108-pulseaudio-webrtc-v1-1-48a702fca2fc@geanix.com>
-X-B4-Tracking: v=1; b=H4sIAM6HfmcC/x3MTQ5AMBBA4avIrDWp8RtXEQvMYBJBWkXS9O4ay
- 2/xngfLRthCm3gwfIuVY4/I0gSmddgXVkLRgBpLnelGnW6zPDiSQz08mmtSWKOmGqmocoLYnYZ
- nef9n14fwAUjCZvVjAAAA
-X-Change-ID: 20250108-pulseaudio-webrtc-2720d72d463d
-To: openembedded-core@lists.openembedded.org
-Cc: Esben Haabendal <esben@geanix.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736345569; l=1709;
- i=esben@geanix.com; s=20240523; h=from:subject:message-id;
- bh=531RpOi7HIE7Y1AOBRkV907lYqN+2FOQ1rT3rUYshbU=;
- b=qME0dHBQ/PZYXYXM/rxPVStJ/qdcpo11eIjq75mxW49Cvj6NTpVQ4sjEFDKwToPy0xAEi4SFm
- GsRCp/tt+ZQDj8ybjAth/39y7kaLvbER9PqpxQ4wh/w/ThZscYJ3ENr
-X-Developer-Key: i=esben@geanix.com; a=ed25519;
- pk=PbXoezm+CERhtgVeF/QAgXtEzSkDIahcWfC7RIXNdEk=
-X-Authenticated-Sender: esben@geanix.com
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27512/Wed Jan  8 10:41:20 2025)
+References: <20250108033627.2889555-1-raj.khem@gmail.com> <a1862f6aa78a3b74025451f3d5872cdd2859200f.camel@linuxfoundation.org>
+In-Reply-To: <a1862f6aa78a3b74025451f3d5872cdd2859200f.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 8 Jan 2025 06:49:46 -0800
+X-Gm-Features: AbW1kvbrGi0rIrX1sLNyxSHKPO61XpNQ6HV73457B6nCYtFRMQZztAALHKBzRjM
+Message-ID: <CAMKF1so+dvpPme0B77vVEO_x5cLsAaU_7rt5ogwK-PLqxpO0Fg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Revert clang float128 patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a63a5f062b32f916"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 14:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209561
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 14:50:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209562
 
-Since pulseaudio v16.99.1, the library needed is webrtc-audio-processing-1.
-This fixes
+--000000000000a63a5f062b32f916
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Run-time dependency webrtc-audio-processing-1 found: NO (tried pkgconfig and cmake)
-Looking for a fallback subproject for the dependency webrtc-audio-processing-1
+On Wed, Jan 8, 2025 at 5:23=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-../pulseaudio-17.0/meson.build:730:15: ERROR: Automatic wrap-based subproject downloading is disabled
+> On Tue, 2025-01-07 at 19:36 -0800, Khem Raj via lists.openembedded.org
+> wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  ...e-__HAVE_FLOAT128-for-Clang-and-use-.patch | 87 +++++++++++++++++++
+> >  meta/recipes-core/glibc/glibc_2.41.bb         |  1 +
+> >  2 files changed, 88 insertions(+)
+> >  create mode 100644
+> meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HAVE_FLOAT128-for-=
+Clang-and-use-.patch
+> >
+> > diff --git
+> a/meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HAVE_FLOAT128-fo=
+r-Clang-and-use-.patch
+> b/meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HAVE_FLOAT128-fo=
+r-Clang-and-use-.patch
+> > new file mode 100644
+> > index 00000000000..88823cb95bc
+> > --- /dev/null
+> > +++
+> b/meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HAVE_FLOAT128-fo=
+r-Clang-and-use-.patch
+> > @@ -0,0 +1,87 @@
+> > +From b662179d7c679e423b8595e0509253688544a4fd Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Thu, 26 Dec 2024 18:59:26 -0800
+> > +Subject: [PATCH] Revert "x86: Define __HAVE_FLOAT128 for Clang and use
+> > + __builtin_*f128 code path"
+> > +
+> > +This reverts commit d773aff467840f5ed305e40c180466e90bd88183.
+> > +
+> > +Upstream-Status: Pending
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +---
+> > + sysdeps/x86/bits/floatn.h | 24 ++++++++----------------
+> > + 1 file changed, 8 insertions(+), 16 deletions(-)
+> > +
+>
+> Why?
+>
+> Neither the commit message or the patch header have any information
+> about why we need to do this...
 
-The library is available in meta-openembedded/meta-multimedia.
 
-Signed-off-by: Esben Haabendal <esben@geanix.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I sent it by mistake local workaround for fixing mpfr with glibc 2.41
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index bfd57c8e21f0911abdc7c85d5f2bafba11a3b508..18c12ede630766bb9204bb1d5efb7cea8695dd1e 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -121,7 +121,7 @@ PACKAGECONFIG[jack] = "-Djack=enabled,-Djack=disabled,jack"
- # able to use pulseaudio autospawn for root as well.
- PACKAGECONFIG[autospawn-for-root] = ",,,"
- PACKAGECONFIG[lirc] = "-Dlirc=enabled,-Dlirc=disabled,lirc"
--PACKAGECONFIG[webrtc] = "-Dwebrtc-aec=enabled,-Dwebrtc-aec=disabled,webrtc-audio-processing"
-+PACKAGECONFIG[webrtc] = "-Dwebrtc-aec=enabled,-Dwebrtc-aec=disabled,webrtc-audio-processing-1"
- PACKAGECONFIG[ipv6] = "-Dipv6=true,-Dipv6=false,"
- PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,"
- PACKAGECONFIG[oss-output] = "-Doss-output=enabled,-Doss-output=disabled,"
+>
+>
+> Cheers,
+>
+> Richard
+>
 
----
-base-commit: 06f72780010ea628ade2c3838a05c5966750cc2e
-change-id: 20250108-pulseaudio-webrtc-2720d72d463d
+--000000000000a63a5f062b32f916
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
--- 
-Esben Haabendal <esben@geanix.com>
+<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 8, 2025 at 5:23=E2=80=AFAM =
+Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">=
+On Tue, 2025-01-07 at 19:36 -0800, Khem Raj via <a href=3D"http://lists.ope=
+nembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org<=
+/a> wrote:<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0...e-__HAVE_FLOAT128-for-Clang-and-use-.patch | 87 +++++++++++++=
+++++++<br>
+&gt; =C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.41.bb" rel=3D"=
+noreferrer" target=3D"_blank">glibc_2.41.bb</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +<br>
+&gt; =C2=A02 files changed, 88 insertions(+)<br>
+&gt; =C2=A0create mode 100644 meta/recipes-core/glibc/glibc/0001-Revert-x86=
+-Define-__HAVE_FLOAT128-for-Clang-and-use-.patch<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HA=
+VE_FLOAT128-for-Clang-and-use-.patch b/meta/recipes-core/glibc/glibc/0001-R=
+evert-x86-Define-__HAVE_FLOAT128-for-Clang-and-use-.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 00000000000..88823cb95bc<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-core/glibc/glibc/0001-Revert-x86-Define-__HAVE_FLOA=
+T128-for-Clang-and-use-.patch<br>
+&gt; @@ -0,0 +1,87 @@<br>
+&gt; +From b662179d7c679e423b8595e0509253688544a4fd Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_b=
+lank">raj.khem@gmail.com</a>&gt;<br>
+&gt; +Date: Thu, 26 Dec 2024 18:59:26 -0800<br>
+&gt; +Subject: [PATCH] Revert &quot;x86: Define __HAVE_FLOAT128 for Clang a=
+nd use<br>
+&gt; + __builtin_*f128 code path&quot;<br>
+&gt; +<br>
+&gt; +This reverts commit d773aff467840f5ed305e40c180466e90bd88183.<br>
+&gt; +<br>
+&gt; +Upstream-Status: Pending<br>
+&gt; +Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
+get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + sysdeps/x86/bits/floatn.h | 24 ++++++++----------------<br>
+&gt; + 1 file changed, 8 insertions(+), 16 deletions(-)<br>
+&gt; +<br>
+<br>
+Why?<br>
+<br>
+Neither the commit message or the patch header have any information<br>
+about why we need to do this...</blockquote><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">I sent it by mistake local workaround for fixing mpfr with g=
+libc 2.41=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1e=
+x;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div></div>
 
+--000000000000a63a5f062b32f916--
 
