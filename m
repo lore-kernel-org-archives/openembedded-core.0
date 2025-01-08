@@ -1,142 +1,93 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889F1E77188
-	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:05:32 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.23044.1736352324082211348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB87E77199
+	for <webhook@archiver.kernel.org>; Wed,  8 Jan 2025 16:12:22 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.23769.1736352740915884789
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jan 2025 08:05:24 -0800
+ Wed, 08 Jan 2025 08:12:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=310345b2cc=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5085YucN023558;
-	Wed, 8 Jan 2025 16:05:21 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 441fnkgqmb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 08 Jan 2025 16:05:21 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 8 Jan 2025 08:05:20 -0800
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 8 Jan 2025 08:05:20 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <colinmca242@gmail.com>,
-        <JPEWhacker@gmail.com>
-Subject: [PATCH V3 2/3] meta/lib/oe/spdx30_tasks.py: add patched CVE to SPDX 3
-Date: Wed, 8 Jan 2025 08:05:20 -0800
-Message-ID: <20250108160520.3159757-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250108154718.3031653-2-hongxu.jia@windriver.com>
-References: <20250108154718.3031653-2-hongxu.jia@windriver.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U5yEMO3a;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436202dd730so121935225e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 08:12:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1736352739; x=1736957539; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xcpXxXXmdot8FnTtBYUwHS97qglu0+l30yQDA1XqAY=;
+        b=U5yEMO3a0bxfX4uQ0mEsDGFuko5KVXjFbGgpfoRvk1seRuHhE3bSp1VNFvZ70wv01/
+         W7RjTnWcixcoWF4xQm5C5c7+Jb+hRjA7F/WGtSTAMx2o+L70oigXTvlPKGJxrLZoFq7U
+         1IX1VWiCdNcPf69cbSSk2UwjfKc81ltS7kApo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736352739; x=1736957539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xcpXxXXmdot8FnTtBYUwHS97qglu0+l30yQDA1XqAY=;
+        b=bOyb000IBfEhfDJnReKyyqk43e+iRhFIYud6tzKnXirFDxxCc9NWA4mkd97Zk99fuZ
+         1rO9WKShPOJFpcYWVEFtW1Y+ctue0KKmlu0HRJ9vzwa2O2viSAVv9VkS/PANMGsuTwS0
+         /OK5jooh5ewq9W8y3hzyTjDPIFPA48kNpo3xfjxLHFwuHO0nQbWnkPbscDs7WugzJqbd
+         Hjqb7jAc/TVC3Q/18iCMpY2iS2zefH7/enzAcnbf7I+Fq4lVn0vxhIjpyINbPkdZky6M
+         UdmoER9Y1Zk08iQNCiUY/mGolZlVle8vGqvWJU30fkWAnK20OrGyPe1FrqrBrhlYeIPb
+         U5sg==
+X-Gm-Message-State: AOJu0YyO7YmRJk1pNXML/SAZV7W4tJMcsDlvRGX7lZhLL0OzmfZo3gQQ
+	qhpSDcDFRGqtmgblkYWfzkUEq8QCR2vkkgpWovhMhwSDTdIYiCz/xQfiy4PNGEfAOFrA9Z3dGyn
+	fGp0=
+X-Gm-Gg: ASbGnctgmkUp/JvmGzdgSrOt8Q4vE5E7NOA1PqpSeFffTCvxfKIzFSYffu6JymgfhOi
+	P4PhRQ+oIcMUjapJJ7gSXUveIISsB3rZ+ZSViVXdt40M9H24bE3dXmkpYGFi0PuxuDOmlzlRva4
+	C1GGPGW2wnMvZBWAmuoymbow/WF9flZG+/8LgmYEnTe1KiOUQYyXYZA7cgeaElHEXHqUOdf6Qes
+	NBsjAlTQUVqsbhOfB/AdPj+qay8dP/73pa3ZfTkxQWbQKhM1NpBvnaJ7GVCAxTljssUb3ODjTM9
+	F/NaWfDtcw==
+X-Google-Smtp-Source: AGHT+IE9XPSXhMp51iIzrfDQBnEEcP8bdFQidEycKAI0vUHcoMwe7f/anUyWwlLP87xM+A3rZIRb/A==
+X-Received: by 2002:a5d:47ae:0:b0:38a:88f8:aad7 with SMTP id ffacd0b85a97d-38a88f8ad45mr2260535f8f.54.1736352738642;
+        Wed, 08 Jan 2025 08:12:18 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:906a:f5af:b180:de5a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8289a0sm54731682f8f.7.2025.01.08.08.12.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 08:12:17 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3] util-linux: Improve PACKAGES_DYNAMIC handling for util-linux-native
+Date: Wed,  8 Jan 2025 16:12:17 +0000
+Message-ID: <20250108161217.4142396-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: qWkyaI7Qk5aqiJe-vMyIscldBnuv3ASr
-X-Authority-Analysis: v=2.4 cv=bJjsIO+Z c=1 sm=1 tr=0 ts=677ea241 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=24AZYWMyAAAA:8 a=Q4-j1AaZAAAA:8 a=rorgr0BEAAAA:8 a=wECf3xPYAAAA:8 a=t7CeM3EgAAAA:8
- a=Y2Y933mBZx8stCiJLtwA:9 a=bG88sKzkDEFeXWNnvthB:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FuUPMLReglAHmohU_o2S:22 a=ccNonjl4-tybilS9-zgM:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: qWkyaI7Qk5aqiJe-vMyIscldBnuv3ASr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-08_04,2025-01-08_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
- suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501080133
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:05:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209578
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jan 2025 16:12:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209579
 
-Due to commit [cve-check: annotate CVEs during analysis][1] improved
-get_patched_cves to search for additional CVEs from CVE_STATUS which
-means the funciton get_patched_cves contains both of patched CVE and
-decoded_status
+DEBUG: Assuming util-linux-swapon-native is a dynamic package, but it may not exist
+DEBUG: Assuming util-linux-swapon-native is a dynamic package, but it may not exist
+DEBUG: providers for util-linux-swapon-native are: ['util-linux', 'util-linux-native']
+DEBUG: sorted runtime providers for util-linux-swapon-native are: ['recipes-core/util-linux/util-linux_2.40.2.bb', 'virtual:native:recipes-core/util-linux/util-linux_2.40.2.bb']
+NOTE: Multiple providers are available for runtime util-linux-swapon-native (util-linux, util-linux-native)
 
-This commit add function get_cves to use get_patched_cves in one place
-to add CVEs, and convert patched_cve to decoded_status:
+The PACKAGES_DYANMIC line could match native and non-native packages so
+tweak to improve -native handling and avoid the above warnings in world builds.
 
-  patched_cve["abbrev-status"] --> decoded_status["mapping"]
-  patched_cve["status"] --> decoded_status["detail"]
-  patched_cve["justification"] --> decoded_status["description"]
-
-Take recipe unzip for example, CVE-2015-1315 is patched in oe-core and
-is available in package SPDX
-
-oe-core$ grep "CVE-2015-1315" -rn meta
-meta/recipes-extended/unzip/unzip_6.0.bb:12:    file://06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch \
-meta/recipes-extended/unzip/unzip/06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch:6:CVE: CVE-2015-1315
-
-$ bitbake unzip
-$ vim tmp/deploy/spdx/3.0.1/core2-64/packages/package-unzip.spdx.json [2]
-...
-    {
-      "type": "security_VexFixedVulnAssessmentRelationship",
-      "spdxId": "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/47a621ef0550c7a6a1ed0507b0b8a7b7822447c2ff0995acc4b688eed1e1f1d0/vex-fixed/1aeb76ce6ca8dd91b12c18a11eeb964b",
-      "creationInfo": "_:CreationInfo1",
-      "extension": [
-        {
-          "type": "https://rdf.openembedded.org/spdx/3.0/id-alias",
-          "https://rdf.openembedded.org/spdx/3.0/alias": "http://spdxdocs.org/openembedded-alias/by-doc-hash/22ab8d6eced4525f57bb861acc0fe983d8af5805dd97e702c22c1ffe04621cb2/unzip/UNIHASH/vex-fixed/1aeb76ce6ca8dd91b12c18a11eeb964b"
-        }
-      ],
-      "from": "http://spdxdocs.org/openembedded-alias/by-doc-hash/539e1deec075c3a51b8c6975352b0a9ad320a130a4d7d516316b35994a830f93/unzip/UNIHASH/vulnerability/CVE-2015-1315",
-      "relationshipType": "fixedIn",
-      "to": [
-        "http://spdx.org/spdxdocs/unzip-d5d383ad-de07-5ac4-8814-3c95ed6bdaaa/47a621ef0550c7a6a1ed0507b0b8a7b7822447c2ff0995acc4b688eed1e1f1d0/package/unzip"
-      ],
-      "security_vexVersion": "1.0.0"
-    },
-...
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=452e605b55ad61c08f4af7089a5a9c576ca28f7d
-[2] https://spdx.github.io/spdx-spec/v3.0.1/model/Security/Classes/VexFixedVulnAssessmentRelationship/
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/spdx30_tasks.py | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ meta/recipes-core/util-linux/util-linux_2.40.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index c60c97896c..9baa40887b 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -437,6 +437,17 @@ def set_purposes(d, element, *var_names, force_purposes=[]):
-         getattr(oe.spdx30.software_SoftwarePurpose, p) for p in purposes[1:]
-     ]
+diff --git a/meta/recipes-core/util-linux/util-linux_2.40.2.bb b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+index 2c7dd154e19..81bd298dd9d 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.40.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+@@ -59,7 +59,8 @@ python util_linux_libpackages() {
  
-+def get_cves(d):
-+    cve_status = {}
-+    patched_cves = oe.cve_check.get_patched_cves(d)
-+    for cve, patched_cve in patched_cves.items():
-+        cve_status[cve] = {
-+            "mapping": patched_cve["abbrev-status"],
-+            "detail": patched_cve["status"],
-+            "description": patched_cve.get("justification", None)
-+        }
-+
-+    return cve_status
+ PACKAGESPLITFUNCS =+ "util_linux_libpackages"
  
- def create_spdx(d):
-     def set_var_field(var, obj, name, package=None):
-@@ -487,8 +498,8 @@ def create_spdx(d):
-     # Add CVEs
-     cve_by_status = {}
-     if include_vex != "none":
--        for cve in d.getVarFlags("CVE_STATUS") or {}:
--            decoded_status = oe.cve_check.decode_cve_status(d, cve)
-+        cve_data = get_cves(d)
-+        for cve, decoded_status in cve_data.items():
+-PACKAGES_DYNAMIC = "^${PN}-.*"
++PACKAGES_DYNAMIC = "^${PN}(?!.*-native)-.*"
++PACKAGES_DYNAMIC:class-native = "^${BPN}-.*-native"
  
-             # If this CVE is fixed upstream, skip it unless all CVEs are
-             # specified.
--- 
-2.25.1
-
+ UTIL_LINUX_LIBDIR = "${libdir}"
+ UTIL_LINUX_LIBDIR:class-target = "${base_libdir}"
 
