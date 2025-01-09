@@ -1,107 +1,101 @@
-Return-Path: <madmarri@cisco.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 182F6E77199
-	for <webhook@archiver.kernel.org>; Thu,  9 Jan 2025 10:21:08 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.web11.44954.1736418065985275646
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16555E77197
+	for <webhook@archiver.kernel.org>; Thu,  9 Jan 2025 13:41:09 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.47788.1736430067311967225
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jan 2025 02:21:06 -0800
+ Thu, 09 Jan 2025 05:41:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=acooruax;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: madmarri@cisco.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YlusiW+B;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4362f61757fso9795975e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jan 2025 05:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=823; q=dns/txt; s=iport;
-  t=1736418066; x=1737627666;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Z0RaR05zvow00TuvwFwVH2ZHGR2W/vBVfGN/SEGfPKk=;
-  b=acooruax/3linqWc6YFpOxRqXzF/fjKsNfg6DpKS0PsvnsAf98Lj+ZiG
-   h3cA1+fMgyhDWCbqb+Y/7uY8EtZmX2EKzQqcOx1Mv9AaXqyWL6a0MC+0v
-   se8TV490+4Xz8nKdB02GkKR1NNxS/dJmZb/hgC3QywiuVwNCrz40rWLLy
-   0=;
-X-CSE-ConnectionGUID: 1LPkj0ciSyeipHVv2LYrsg==
-X-CSE-MsgGUID: seWNpHxGRqqokiR8JKVpGg==
-X-IPAS-Result: =?us-ascii?q?A0A3AADPoX9n/4v/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?wcBAQsBAYJJdllDSIxyp2yBJQNWDwEBAQ8xEwQBAYUHinYCJjQJDgECBAEBA?=
- =?us-ascii?q?QEDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4ThghJAQwBhgY2AUaBDESDA?=
- =?us-ascii?q?QGCZAOyboIsgQGEe9k4gW2BSAGNSYVnJxuBSUSEfYUQhXcEh2meMEiBIQNZL?=
- =?us-ascii?q?AFVEw0KCwcFgXMDOAwLMBU1gRt7gkZpSTcCDQI1gh58giuEXoRHhFiFZ4IXg?=
- =?us-ascii?q?hSDQ0ADCxgNSBEsNxQbBj5uB5sJATyDbwGBDoFHgUOSWWuRYqEDhCWEb4cpl?=
- =?us-ascii?q?S4aM6pTLphOpEeEZoFnPIFZMxoIGxWDIglJGQ+OWbsdJTI8AgcLAQEDCY1Ag?=
- =?us-ascii?q?2MBAQ?=
-IronPort-Data: A9a23:5sIdWqtfHeahafpq6T8brkzcK+fnVAdfMUV32f8akzHdYApBsoF/q
- tZmKTjVb6mIa2enKdAga9/k80IGsZLVz4drSgNrr3s8F3wagMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav656yEhjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuGYjdJ5xYuajhJs/vb+Us11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwo8JPAmMW/
- v0jOT0MdjC9mbiS8aigRbw57igjBJGD0II3oHpsy3TdSP0hW52GG/+M7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwxGYH49tL/Aan3XdjRUrVuPv6sf6GnIxws327/oWDbQUofSGZkPwhfD+
- goq+UziDy48LPyP5gCc63Wvh9WfvwDFQK0dQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:IJJrQq/1uYXNk8I6y0luk+DTI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HKoB11737JYVoqNU3I+urwWpVoI0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WKb+UyCJ8U7ndQtsp
- uJtMNFebnNMWQ=
-X-Talos-CUID: 9a23:FsypXGFHJM6ZO7+yqmI+0HYXGJguc0bMwXbIA3GmU0JYUqaaHAo=
-X-Talos-MUID: 9a23:8a6oqwqoOiHibcJPon4ezypvC+Fww7SBMlkUlpYHgZmmFhJoFDjI2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.12,301,1728950400"; 
-   d="scan'208";a="304424934"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Jan 2025 10:21:04 +0000
-Received: from sjc-ads-7373.cisco.com (sjc-ads-7373.cisco.com [10.30.220.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id C441E18000344;
-	Thu,  9 Jan 2025 10:21:04 +0000 (GMT)
-Received: by sjc-ads-7373.cisco.com (Postfix, from userid 1839049)
-	id 4A0A8CC12B5; Thu,  9 Jan 2025 02:21:04 -0800 (PST)
-From: Madhu Marri <madmarri@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	spushpka@cisco.com,
-	Madhu Marri <madmarri@cisco.com>
-Subject: [OE-core] [scarthgap] [PATCH] strace: add vendor to CVE_PRODUCT to exclude false positives
-Date: Thu,  9 Jan 2025 02:20:51 -0800
-Message-ID: <20250109102051.3685800-1-madmarri@cisco.com>
-X-Mailer: git-send-email 2.44.1
+        d=linuxfoundation.org; s=google; t=1736430066; x=1737034866; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qBL82LMeZ215/TwlCmQ+CXgeOOCLCKXAk+Mui+He1Ic=;
+        b=YlusiW+BhjbSbZBNe8bGl19PX+HKRXAidPXKy2HG2rPkNO6O/l6s24AqE5g9Zk88LN
+         hSmPEZiD3LKaiebTnYW7ZMCea/sm/UwSVlF1vZ3Ey4Nx0FaOY5/fQhceq/a3Sei3QSsI
+         X60fpXDWXP0Dv7JOUY6bIhCRjgNpXNyrv0qK8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736430066; x=1737034866;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qBL82LMeZ215/TwlCmQ+CXgeOOCLCKXAk+Mui+He1Ic=;
+        b=MBA5vCnAQmW0JqIizZ5Q5uX4VtmTeGzqKzwazMEeEmYT+6C/F53/Un42C2t6kEZ05i
+         +NZaptT/C3dmJWMy017Y32esZe8FMDbQVCYCc1FzkU5NSeYhBjRt7AmBOVMlsZhdzdQW
+         5qd6V3yx7zC7JqRT7i9LMbYtC8jY1W0EwFu86+oOX+4lSNrcsGJD2/ELGGh+gSC/xYPV
+         eA1ajU1v2FU0xAJGq7n5phX+cSEvZn66Hipukz3O6x92V9TfRb5e/SFxVj8kcd1ivtwk
+         WO+ANDgt/qQyZVINHch9z2jdR4IvptbLstKTN0sxY4Cs0evRiRmx/woj3OOp39xmvjWl
+         3Zmw==
+X-Forwarded-Encrypted: i=1; AJvYcCVI5E4cx8SK5Eeq4sKeBmv/4zP1/AYMSdd3QlP8PG8GQRgWf0+6azuTWZMexSholi2994Am3vo16Wa6YVjc77ootQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwPs99hnXlygpcOUowGWnr+UtwLyfEvnpYyrrYjJmbvrQZcZ7YG
+	xlN2YBbASaWG5wW6M1hHDq6iKDLhhygZyqq6rgIXtC7OS+5yTacsMFysT3ugWghSTmy69lyXQa8
+	mC4w=
+X-Gm-Gg: ASbGncth5Uu0Calyl4CPK+6gMvkKZ0ICaS7aq0l4zHyHclZ8wDrMKmn+9c0+VDqhHoy
+	Ma0syivCOOdK9Ro7/jMW+j+xG3o3vbXdHYG0V6O5B7IZNo88CJd2ulSp5Fk+WaOg/OkZxel2cpK
+	ae8WLke9Rq9f0ROdARcILvzGS+b9B1w2BuVlrUrAkiz5+H3q+k5PvoLkvkOiDpjPqNybt2guWKq
+	KSaGYdaOQhfQIfULMIFVkk0cBV4tnYLJJe2DkKm/BO2VxMzqhi+pA+Bs1Pi/H8BN6mgijDXzvhU
+	dayyzAlDtiJuDLrhDxzwrm/qvczT5YAra1TeqR4wkDoVgw==
+X-Google-Smtp-Source: AGHT+IEPnQSE7NyvOkrqlQ7YTeC9S5gycBkNY8xNzOBfDHXurhNVMM+jQ6YMmnitTSh0gH7fd4jjGQ==
+X-Received: by 2002:a05:600c:3544:b0:42c:b9c8:2bb0 with SMTP id 5b1f17b1804b1-436e26ae55bmr60326305e9.4.1736430065618;
+        Thu, 09 Jan 2025 05:41:05 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6dd3:3af3:9d4c:53d4? ([2001:8b0:aba:5f3c:6dd3:3af3:9d4c:53d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9d8fb99sm21676275e9.3.2025.01.09.05.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2025 05:41:05 -0800 (PST)
+Message-ID: <6d0d537cdd4f22156612f8928be0348f6047747b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V2 3/3] rust: Upgrade 1.80.1->1.81.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: deepesh.varatharajan@windriver.com, 
+	openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+Date: Thu, 09 Jan 2025 13:41:04 +0000
+In-Reply-To: <20250109092521.3921275-3-Deepesh.Varatharajan@windriver.com>
+References: <20250109092521.3921275-1-Deepesh.Varatharajan@windriver.com>
+	 <20250109092521.3921275-3-Deepesh.Varatharajan@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.220.158, sjc-ads-7373.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jan 2025 10:21:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209625
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jan 2025 13:41:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209626
 
-- To avoid false positives such as CVE-2000-0006, add the CVE_PRODUCT
-value with the vendor.
-- The CVE-2000-0006 has the vendor paul_kranenburg:strace.
-- This change has been verified by running do_cve_check task for
-strace package.
+On Thu, 2025-01-09 at 01:25 -0800, Varatharajan, Deepesh via
+lists.openembedded.org wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>=20
+> https://blog.rust-lang.org/2024/09/05/Rust-1.81.0.html
+>=20
+> Drop the following backported patches which is addressed
+> with rust v1.81.0 upgrade.
+>=20
+> 0001-cargo-do-not-write-host-information-into-compilation.patch
+> https://github.com/rust-lang/cargo/commit/2db0bab16139d094f689587b73539aa=
+e386a1919
+>=20
+> hardcodepaths.patch
+> https://github.com/rust-lang/rust/commit/28503d69ac204ff208d115aea30dc09d=
+6fca8728
 
-Signed-off-by: Madhu Marri <madmarri@cisco.com>
----
- meta/recipes-devtools/strace/strace_6.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+I put this into a build for testing. Unfortunately there was one
+failure so far, on x32:
 
-diff --git a/meta/recipes-devtools/strace/strace_6.7.bb b/meta/recipes-devtools/strace/strace_6.7.bb
-index c8c83cdf7c..30ac31ee69 100644
---- a/meta/recipes-devtools/strace/strace_6.7.bb
-+++ b/meta/recipes-devtools/strace/strace_6.7.bb
-@@ -54,3 +54,6 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
- "
- 
- BBCLASSEXTEND = "native"
-+
-+# adding 'CVE_PRODUCT' to avoid false detection of CVEs
-+CVE_PRODUCT = "strace:strace"
--- 
-2.44.1
+https://valkyrie.yoctoproject.org/#/builders/11/builds/761/steps/11/logs/st=
+dio
 
+:(
+
+Cheers,
+
+Richard
 
