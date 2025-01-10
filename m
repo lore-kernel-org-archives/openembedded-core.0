@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3E9E77188
-	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 13:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E623E7719C
+	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 13:13:49 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.18255.1736514806989923206
+ by mx.groups.io with SMTP id smtpd.web10.18263.1736514824129756260
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 05:13:27 -0800
+ Fri, 10 Jan 2025 05:13:44 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E52DE1477
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:54 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CC681477
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:14:12 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 430603F66E
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:26 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 68C773F66E
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:43 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH styhead] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
-Date: Fri, 10 Jan 2025 13:13:24 +0000
-Message-ID: <20250110131324.924092-1-ross.burton@arm.com>
+Subject: [PATCH kirkstone] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
+Date: Fri, 10 Jan 2025 13:13:39 +0000
+Message-ID: <20250110131339.924678-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 13:13:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209652
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 13:13:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209653
 
 Using the package architecture to select the right qemu options to pass
 to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
@@ -49,16 +49,15 @@ update the list of architectures.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/qemu.bbclass            | 8 ++------
- meta/recipes-devtools/gcc/gcc-testsuite.inc | 4 ++--
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ meta/classes/qemu.bbclass                   | 8 ++------
+ meta/recipes-devtools/gcc/gcc-testsuite.inc | 6 ++++--
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes-recipe/qemu.=
-bbclass
-index dbb5ee0b666..8d7c82668b4 100644
---- a/meta/classes-recipe/qemu.bbclass
-+++ b/meta/classes-recipe/qemu.bbclass
-@@ -60,8 +60,8 @@ def qemu_run_binary(data, rootfs_path, binary):
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 7493ac34d4b..1b888f46999 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -54,8 +54,8 @@ def qemu_run_binary(data, rootfs_path, binary):
  # this dance). For others (e.g. arm) a -cpu option is not necessary, sin=
 ce the
  # qemu-arm default CPU supports all required architecture levels.
@@ -72,7 +71,7 @@ ce the
 =20
  QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
  QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
-@@ -71,7 +71,3 @@ QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
+@@ -65,7 +65,3 @@ QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
  QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
  QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
  QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
@@ -83,23 +82,26 @@ eson which
 -QEMU_EXTRAOPTIONS_qemuppc64 =3D " -cpu POWER9"
 diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-d=
 evtools/gcc/gcc-testsuite.inc
-index 0a950b6c9e6..af6c7ad5a98 100644
+index 64f60c730fe..eaac98f9ba0 100644
 --- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
 +++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
-@@ -53,8 +53,8 @@ python check_prepare() {
+@@ -53,8 +53,10 @@ python check_prepare() {
          #   - valid for x86*, powerpc, arm, arm64
-         if qemu_binary.endswith(("x86_64", "i386", "arm", "aarch64")):
+         if qemu_binary.lstrip("qemu-") in ["x86_64", "i386", "arm", "aar=
+ch64"]:
              args +=3D ["-cpu", "max"]
--        elif qemu_binary.endswith(("ppc", "mips", "mips64")):
--            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAG=
-E_ARCH'))
+-        elif qemu_binary.lstrip("qemu-") in ["ppc"]:
+-            args +=3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAG=
+E_ARCH')).split()
 +        else:
 +            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE_P=
 KGARCH'))
-             if extra:
-                 args +=3D extra.split()
-         # For mips64 we could set a maximal CPU (e.g. Loongson-3A4000) h=
-owever they either have MSA
++            if extra:
++                args +=3D extra.split()
+         sysroot =3D d.getVar("RECIPE_SYSROOT")
+         args +=3D ["-L", sysroot]
+         # lib paths are static here instead of using $libdir since this =
+is used by a -cross recipe
 --=20
 2.43.0
 
