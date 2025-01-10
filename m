@@ -1,172 +1,162 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C428E7719C
-	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 17:52:21 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.25697.1736531539100047937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5C8E7719D
+	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 18:03:41 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.26011.1736532216609016841
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 09:52:19 -0800
+ Fri, 10 Jan 2025 10:03:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RIU/svym;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-304d760f0dfso17793011fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 09:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736531537; x=1737136337; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NfwK+S3ZsIdRFWm1AHGw8YmKCFLFIbrzG8n1Zl/CpPc=;
-        b=RIU/svymFIzxZnas0rFfdMopKJLuPgsGQmE+XxI5FZHRbwmhZWaW4Z1LIm5EsrSsWD
-         /nyVKKSQVh5oV14eytoqfmfXpMUWTrbUBT2qcS+GPjxpZ9siR0MlvJtoas4MW9pl8Pfa
-         aE8n/9id6fpNmewHlDtxfjvWdmX7xTTv9eKAgsK3s9BRtd7q29fsebc/TulMXeaujbmm
-         3dLuukztdFj1n+tXNDYGwzv0BHrnVp0wmMx5nHXW8pjoCHSj1KMfGEPIDuqmdVSJybNF
-         MYQxckYTt0mSPlUZ46uD7Xp08OTL4+C61yv+xHCeeBaH9yItYsxTT5IqR0JU1TN8dzSn
-         tNKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736531537; x=1737136337;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NfwK+S3ZsIdRFWm1AHGw8YmKCFLFIbrzG8n1Zl/CpPc=;
-        b=qKDSQhK22BlOMB7OAwCqFidfgMYyIzzEhw2s7Jqw0n94W4Abu7LPtRlnFOKzL+IvJZ
-         R/ADlKIs3AAFy+cM5FDSUwQ0hfdWzSfyFCJQ+sAocC0AySsFWjO26Kl0Bx7L5fwZ9W3D
-         CmLqu6qQyijhwIHejuEpHSH38hHkc1zNSJTINFAaV392vijS7zBYIuNjWL8nYRbHn1Lu
-         foxU+EblJBIE4UlrAm6rlTw/D2Mey3C7aP55QUzbANJ2bPIDEXoY9yAp5DSXSFF0Cl9p
-         cAW7oaOHq+8nmVbRLDp8bMT5wPrJEaHAG+W8v3zHcJWFch5KVW1VuD/g4stkfAcLoYDj
-         eLtg==
-X-Gm-Message-State: AOJu0YxAxSoMHRFfwQVGSUVJlAE77nMSvE5FjlXsIR72w7Ru+qcFdMcn
-	NPE0TGy/zVDg6Oo5sjSypICAiLKHeJCPxEbz1xlPyKMfVtK7bOfUqN0MFdx26OBZYhb9t+DtA9F
-	Al5bOOqnqztTv6XdjwE7UU5cRJsU=
-X-Gm-Gg: ASbGncsnItxYmURPGtamFNrYTCzUX/RwBmgWYdy3Sd5FoNQISIOZ1ebTHuXzdiFL7Xz
-	/+YRm3ubQpUomoJynTF3VodQ2H/H2eAmBeSLgLMB9
-X-Google-Smtp-Source: AGHT+IGQltFiOILuJmK41z7fUZbu6Ebu2SioYY6nRsq4x7bJossuwgDgRFeKuLhgf1wtejGa9gNg5wnMnFDAk9xkEYk=
-X-Received: by 2002:a05:651c:f0c:b0:302:1d8e:f4fd with SMTP id
- 38308e7fff4ca-305f45f42bdmr24140791fa.35.1736531536904; Fri, 10 Jan 2025
- 09:52:16 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 968E31477
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:04:04 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 075BB3F59E
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:03:35 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 3/4] classes/qemu: move QEMU_EXTRAOPTIONS for PPC to the relevant tunes
+Date: Fri, 10 Jan 2025 18:03:30 +0000
+Message-ID: <20250110180331.2537602-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250110180331.2537602-1-ross.burton@arm.com>
+References: <20250110180331.2537602-1-ross.burton@arm.com>
 MIME-Version: 1.0
-References: <20250110130116.894607-1-ross.burton@arm.com> <29D20DF1-96A7-4A24-B3EA-8252C23D15AC@arm.com>
-In-Reply-To: <29D20DF1-96A7-4A24-B3EA-8252C23D15AC@arm.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 10 Jan 2025 18:52:03 +0100
-X-Gm-Features: AbW1kvaTFbeTQlnbhbbNpiq8KQYhRaolmMcLJgTh4m0FxEOf0eD7i97wpB0cZno
-Message-ID: <CA+chaQckoaDTGVik=PW4FtnK1_qjdVLJhd+2AR6_az3vphAtEw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] classes/qemu: use tune to select
- QEMU_EXTRAOPTIONS, not package architecture
-To: ross.burton@arm.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 17:52:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209659
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 18:03:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209662
 
-Too late to easily ignore as it seems already in master, e.g.:
-https://git.openembedded.org/openembedded-core/commit/?id=3D5e14a1b26cc77b3=
-5c3e36869021afae9455bb1a8
-or do you mean some other changes?
+Every other architecture has the QEMU_EXTRAOPTIONS assignments in the
+tune files, so move the PPC ones too.
 
-On Fri, Jan 10, 2025 at 6:36=E2=80=AFPM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> This series breaks under nativesdk, please ignore for now.
->
-> Ross
->
-> > On 10 Jan 2025, at 13:01, Ross Burton via lists.openembedded.org <ross.=
-burton=3Darm.com@lists.openembedded.org> wrote:
-> >
-> > Using the package architecture to select the right qemu options to pass
-> > to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
-> > to MACHINE_ARCH (as the qemuppc workarounds suggest) because there are
-> > not typically any options set for the machine name.
-> >
-> > Solve this by using TUNE_PKGARCH instead: for the majority of recipes
-> > this is the same value, but for machine-specific recipes it remains the
-> > same instead of changing to the machine name.
-> >
-> > This means we can remove the qemuppc workarounds, as they're obsolete.
-> >
-> > Also update the gcc-testsuite recipe which uses the same pattern to use
-> > TUNE_PKGARCH, and generalise the else codepath to avoid needing to
-> > update the list of architectures.
-> >
-> > [ YOCTO #15647 ]
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> > meta/classes-recipe/qemu.bbclass            | 8 ++------
-> > meta/recipes-devtools/gcc/gcc-testsuite.inc | 4 ++--
-> > 2 files changed, 4 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes-recipe/qem=
-u.bbclass
-> > index dbb5ee0b666..8d7c82668b4 100644
-> > --- a/meta/classes-recipe/qemu.bbclass
-> > +++ b/meta/classes-recipe/qemu.bbclass
-> > @@ -60,8 +60,8 @@ def qemu_run_binary(data, rootfs_path, binary):
-> > # this dance). For others (e.g. arm) a -cpu option is not necessary, si=
-nce the
-> > # qemu-arm default CPU supports all required architecture levels.
-> >
-> > -QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%=
-s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> > -QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
-> > +QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%=
-s" % d.getVar('TUNE_PKGARCH')) or ""}"
-> > +QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${TUNE_PKGARCH}"
-> >
-> > QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
-> > QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
-> > @@ -71,7 +71,3 @@ QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
-> > QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
-> > QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
-> > QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
-> > -# Some packages e.g. fwupd sets PACKAGE_ARCH =3D MACHINE_ARCH and uses=
- meson which
-> > -# needs right options to usermode qemu
-> > -QEMU_EXTRAOPTIONS_qemuppc =3D " -cpu 7400"
-> > -QEMU_EXTRAOPTIONS_qemuppc64 =3D " -cpu POWER9"
-> > diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes=
--devtools/gcc/gcc-testsuite.inc
-> > index 0a950b6c9e6..af6c7ad5a98 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
-> > @@ -53,8 +53,8 @@ python check_prepare() {
-> >         #   - valid for x86*, powerpc, arm, arm64
-> >         if qemu_binary.endswith(("x86_64", "i386", "arm", "aarch64")):
-> >             args +=3D ["-cpu", "max"]
-> > -        elif qemu_binary.endswith(("ppc", "mips", "mips64")):
-> > -            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACK=
-AGE_ARCH'))
-> > +        else:
-> > +            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE=
-_PKGARCH'))
-> >             if extra:
-> >                 args +=3D extra.split()
-> >         # For mips64 we could set a maximal CPU (e.g. Loongson-3A4000) =
-however they either have MSA
-> > --
-> > 2.43.0
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#209658): https://lists.openembedded.org/g/openembedde=
-d-core/message/209658
-> Mute This Topic: https://lists.openembedded.org/mt/110533939/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-recipe/qemu.bbclass                     | 9 ---------
+ meta/conf/machine/include/powerpc/arch-powerpc64.inc | 1 +
+ meta/conf/machine/include/powerpc/tune-ppc7400.inc   | 1 +
+ meta/conf/machine/include/powerpc/tune-ppce500mc.inc | 1 +
+ meta/conf/machine/include/powerpc/tune-ppce500v2.inc | 1 +
+ meta/conf/machine/include/powerpc/tune-ppce5500.inc  | 2 ++
+ meta/conf/machine/include/powerpc/tune-ppce6500.inc  | 2 ++
+ 7 files changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes-recipe/qemu.=
+bbclass
+index 8d7c82668b4..42a39dd0599 100644
+--- a/meta/classes-recipe/qemu.bbclass
++++ b/meta/classes-recipe/qemu.bbclass
+@@ -62,12 +62,3 @@ def qemu_run_binary(data, rootfs_path, binary):
+=20
+ QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s"=
+ % d.getVar('TUNE_PKGARCH')) or ""}"
+ QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${TUNE_PKGARCH}"
+-
+-QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
+-QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
+-QEMU_EXTRAOPTIONS_ppce5500 =3D " -cpu e500mc"
+-QEMU_EXTRAOPTIONS_ppc64e5500 =3D " -cpu e500mc"
+-QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
+-QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
+-QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
+-QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/=
+conf/machine/include/powerpc/arch-powerpc64.inc
+index 2533151869b..af0635a641f 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+@@ -21,3 +21,4 @@ TUNE_FEATURES:tune-powerpc64le =3D "m64 fpu-hard"
+ BASE_LIB:tune-powerpc64le =3D "lib64"
+ TUNE_PKGARCH:tune-powerpc64le =3D "powerpc64le"
+ PACKAGE_EXTRA_ARCHS:tune-powerpc64le =3D "powerpc64le"
++QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppc7400.inc b/meta/co=
+nf/machine/include/powerpc/tune-ppc7400.inc
+index 49b94f5ee1c..6d3c158bbb5 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppc7400.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppc7400.inc
+@@ -9,3 +9,4 @@ AVAILTUNES +=3D "ppc7400"
+ TUNE_FEATURES:tune-ppc7400 =3D "m32 fpu-hard ppc7400 altivec bigendian"
+ TUNE_PKGARCH:tune-ppc7400 =3D "ppc7400"
+ PACKAGE_EXTRA_ARCHS:tune-ppc7400 =3D "${PACKAGE_EXTRA_ARCHS:tune-powerpc=
+} ppc7400"
++QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce500mc.inc b/meta/=
+conf/machine/include/powerpc/tune-ppce500mc.inc
+index 036f8b26315..8c4630b368c 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce500mc.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce500mc.inc
+@@ -9,6 +9,7 @@ AVAILTUNES +=3D "ppce500mc"
+ TUNE_FEATURES:tune-ppce500mc =3D "m32 fpu-hard ppce500mc bigendian"
+ TUNE_PKGARCH:tune-ppce500mc =3D "ppce500mc"
+ PACKAGE_EXTRA_ARCHS:tune-ppce500mc =3D "${PACKAGE_EXTRA_ARCHS:tune-power=
+pc} ppce500mc"
++QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
+=20
+ # pass -mcpu=3De500mc for ppce500mc kernel cross compile
+ TARGET_CC_KERNEL_ARCH =3D "-mcpu=3De500mc"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce500v2.inc b/meta/=
+conf/machine/include/powerpc/tune-ppce500v2.inc
+index 461164d818f..204580ee15a 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce500v2.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce500v2.inc
+@@ -18,3 +18,4 @@ AVAILTUNES +=3D "ppce500v2"
+ TUNE_FEATURES:tune-ppce500v2 =3D "m32 ppce500v2 bigendian"
+ TUNE_PKGARCH:tune-ppce500v2 =3D "ppce500v2"
+ PACKAGE_EXTRA_ARCHS:tune-ppce500v2 =3D "ppce500v2"
++QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce5500.inc b/meta/c=
+onf/machine/include/powerpc/tune-ppce5500.inc
+index 4915b81ee4d..8976c1612fd 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce5500.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
+@@ -10,11 +10,13 @@ TUNE_FEATURES:tune-ppce5500 =3D "m32 fpu-hard e5500 b=
+igendian"
+ BASE_LIB:tune-ppce5500 =3D "lib"
+ TUNE_PKGARCH:tune-ppce5500 =3D "ppce5500"
+ PACKAGE_EXTRA_ARCHS:tune-ppce5500 =3D "${PACKAGE_EXTRA_ARCHS:tune-powerp=
+c} ppce5500"
++QEMU_EXTRAOPTIONS_ppce5500 =3D " -cpu e500mc"
+=20
+ TUNE_FEATURES:tune-ppc64e5500 =3D "m64 fpu-hard e5500 bigendian"
+ BASE_LIB:tune-ppc64e5500 =3D "lib64"
+ TUNE_PKGARCH:tune-ppc64e5500 =3D "ppc64e5500"
+ PACKAGE_EXTRA_ARCHS:tune-ppc64e5500 =3D "${PACKAGE_EXTRA_ARCHS:tune-powe=
+rpc64} ppc64e5500"
++QEMU_EXTRAOPTIONS_ppc64e5500 =3D " -cpu e500mc"
+=20
+ # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED:append =3D "${@bb.utils.contains('T=
+UNE_FEATURES', 'e5500', ' qemu-usermode', '', d)}"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce6500.inc b/meta/c=
+onf/machine/include/powerpc/tune-ppce6500.inc
+index f6310ab4c44..b0efe1924c5 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce6500.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
+@@ -10,11 +10,13 @@ TUNE_FEATURES:tune-ppce6500 =3D "m32 fpu-hard e6500 a=
+ltivec bigendian"
+ BASE_LIB:tune-ppce6500 =3D "lib"
+ TUNE_PKGARCH:tune-ppce6500 =3D "ppce6500"
+ PACKAGE_EXTRA_ARCHS:tune-ppce6500 =3D "${PACKAGE_EXTRA_ARCHS:tune-powerp=
+c} ppce6500"
++QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
+=20
+ TUNE_FEATURES:tune-ppc64e6500 =3D "m64 fpu-hard e6500 altivec bigendian"
+ BASE_LIB:tune-ppc64e6500 =3D "lib64"
+ TUNE_PKGARCH:tune-ppc64e6500 =3D "ppc64e6500"
+ PACKAGE_EXTRA_ARCHS:tune-ppc64e6500 =3D "${PACKAGE_EXTRA_ARCHS:tune-powe=
+rpc64} ppc64e6500"
++QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
+=20
+ # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED:append =3D "${@bb.utils.contains('T=
+UNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
+--=20
+2.43.0
+
 
