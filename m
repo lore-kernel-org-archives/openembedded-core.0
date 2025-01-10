@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF2AE77188
-	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 13:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3E9E77188
+	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 13:13:29 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.18250.1736514791343335455
+ by mx.groups.io with SMTP id smtpd.web10.18255.1736514806989923206
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 05:13:11 -0800
+ Fri, 10 Jan 2025 05:13:27 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D2291063
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:39 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E52DE1477
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:54 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 911173F66E
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:10 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 430603F66E
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:26 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH scarthgap] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
-Date: Fri, 10 Jan 2025 13:13:04 +0000
-Message-ID: <20250110131304.923187-1-ross.burton@arm.com>
+Subject: [PATCH styhead] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
+Date: Fri, 10 Jan 2025 13:13:24 +0000
+Message-ID: <20250110131324.924092-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 13:13:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209651
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 13:13:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209652
 
 Using the package architecture to select the right qemu options to pass
 to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
@@ -83,7 +83,7 @@ eson which
 -QEMU_EXTRAOPTIONS_qemuppc64 =3D " -cpu POWER9"
 diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-d=
 evtools/gcc/gcc-testsuite.inc
-index f16d471478c..eb9ddead08f 100644
+index 0a950b6c9e6..af6c7ad5a98 100644
 --- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
 +++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
 @@ -53,8 +53,8 @@ python check_prepare() {
