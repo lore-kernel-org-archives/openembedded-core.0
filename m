@@ -2,59 +2,106 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D6B7E77188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E971E7719C
 	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 18:03:41 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.26009.1736532215876720170
+ by mx.groups.io with SMTP id smtpd.web11.26031.1736532216070676016
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Jan 2025 10:03:36 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83B641477
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:04:03 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 131781516
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:04:04 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DEE743F59E
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:03:34 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 77D653F59E
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 10:03:35 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/4] classes/nativesdk: also override TUNE_PKGARCH
-Date: Fri, 10 Jan 2025 18:03:28 +0000
-Message-ID: <20250110180331.2537602-1-ross.burton@arm.com>
+Subject: [PATCH v2 2/4] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
+Date: Fri, 10 Jan 2025 18:03:29 +0000
+Message-ID: <20250110180331.2537602-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250110180331.2537602-1-ross.burton@arm.com>
+References: <20250110180331.2537602-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 18:03:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209661
 
-The nativesdk class overrides PACKAGE_ARCH and unsets TUNE_FEATURES, but
-as recipes might want to look at TUNE_PKGARCH too (for example, when
-setting QEMU_EXTRAOPTIONS) we should also override that variable.
+Using the package architecture to select the right qemu options to pass
+to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
+to MACHINE_ARCH (as the qemuppc workarounds suggest) because there are
+not typically any options set for the machine name.
 
-Otherwise, a nativesdk recipe will have the TUNE_PKGARCH of the target,
-which leads to errors (eg passing mips arguments to an arm qemu).
+Solve this by using TUNE_PKGARCH instead: for the majority of recipes
+this is the same value, but for machine-specific recipes it remains the
+same instead of changing to the machine name.
+
+This means we can remove the qemuppc workarounds, as they're obsolete.
+
+Also update the gcc-testsuite recipe which uses the same pattern to use
+TUNE_PKGARCH, and generalise the else codepath to avoid needing to
+update the list of architectures.
+
+[ YOCTO #15647 ]
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/nativesdk.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-recipe/qemu.bbclass            | 8 ++------
+ meta/recipes-devtools/gcc/gcc-testsuite.inc | 4 ++--
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/=
-nativesdk.bbclass
-index b0634de5829..4e57349aa08 100644
---- a/meta/classes-recipe/nativesdk.bbclass
-+++ b/meta/classes-recipe/nativesdk.bbclass
-@@ -32,6 +32,7 @@ RECIPE_SYSROOT =3D "${WORKDIR}/recipe-sysroot"
- #
- PACKAGE_ARCH =3D "${SDK_ARCH}-${SDKPKGSUFFIX}"
- PACKAGE_ARCHS =3D "${SDK_PACKAGE_ARCHS}"
-+TUNE_PKGARCH =3D "${SDK_ARCH}"
+diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes-recipe/qemu.=
+bbclass
+index dbb5ee0b666..8d7c82668b4 100644
+--- a/meta/classes-recipe/qemu.bbclass
++++ b/meta/classes-recipe/qemu.bbclass
+@@ -60,8 +60,8 @@ def qemu_run_binary(data, rootfs_path, binary):
+ # this dance). For others (e.g. arm) a -cpu option is not necessary, sin=
+ce the
+ # qemu-arm default CPU supports all required architecture levels.
 =20
- #
- # We need chrpath >=3D 0.14 to ensure we can deal with 32 and 64 bit
+-QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s"=
+ % d.getVar('PACKAGE_ARCH')) or ""}"
+-QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
++QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s"=
+ % d.getVar('TUNE_PKGARCH')) or ""}"
++QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${TUNE_PKGARCH}"
+=20
+ QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
+ QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
+@@ -71,7 +71,3 @@ QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
+ QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
+-# Some packages e.g. fwupd sets PACKAGE_ARCH =3D MACHINE_ARCH and uses m=
+eson which
+-# needs right options to usermode qemu
+-QEMU_EXTRAOPTIONS_qemuppc =3D " -cpu 7400"
+-QEMU_EXTRAOPTIONS_qemuppc64 =3D " -cpu POWER9"
+diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-d=
+evtools/gcc/gcc-testsuite.inc
+index 0a950b6c9e6..af6c7ad5a98 100644
+--- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
++++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
+@@ -53,8 +53,8 @@ python check_prepare() {
+         #   - valid for x86*, powerpc, arm, arm64
+         if qemu_binary.endswith(("x86_64", "i386", "arm", "aarch64")):
+             args +=3D ["-cpu", "max"]
+-        elif qemu_binary.endswith(("ppc", "mips", "mips64")):
+-            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAG=
+E_ARCH'))
++        else:
++            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE_P=
+KGARCH'))
+             if extra:
+                 args +=3D extra.split()
+         # For mips64 we could set a maximal CPU (e.g. Loongson-3A4000) h=
+owever they either have MSA
 --=20
 2.43.0
 
