@@ -1,127 +1,146 @@
-Return-Path: <derek@asterius.io>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E63E77188
-	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 15:59:50 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web11.22249.1736524789496044798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8ADDE77188
+	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 16:01:10 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.22343.1736524868358959997
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 07:59:49 -0800
+ Fri, 10 Jan 2025 08:01:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: straka.derek@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f2e13cb359so635994eaf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 07:59:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T0Dtx7WI;
+ spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5f2e13cb359so636434eaf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 08:01:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736524867; x=1737129667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zHlxSl2D5npdlNMDxREqRdAhoyGS7onhMIi9J79DWE=;
+        b=T0Dtx7WIQwepPmVxIlY/qnawfIWuwYTDM3CqwyRLLCUdhGHaujH3rL01vzbMBI9q6k
+         BAtthA0XI7UHc+IMSH6g0/QVUVO+OXmoOptP6Xt74h9p589HVJX2UhYUya6KFei4eCSl
+         JpKjuYgFjAb0uCi6Hn7vPj2+JVM2X9ikpwqohQpqxKvIuVAU25rh7g3/1YsNADtXhcuU
+         TpUetAVn2gjwOnQMT0//uGUvx8y5mHStn3tr+bDJhM6Gp7hAj3K81g0D23/nRV24S/eu
+         jjv8I/MsOPWAajqPi3MmOXSnB4CVXRRavC0VS/fomSF9O2AAptha7FQaFC54Cy2V0y7v
+         e41w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736524788; x=1737129588;
+        d=1e100.net; s=20230601; t=1736524867; x=1737129667;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TxQS0H9Gj69QxnNBolnhcAVFOlxU1Cmtw6rplEVlkRk=;
-        b=oYa1RVjuB+2Dd7T0Os1D9VxbNBKdGiSgyipYzqVLcSITCIAtzG0qRypAwlGpKszSoa
-         GJxPlpzXZgcNHPhojL3l8Wm6f7cYsaSfgfYvbBf/mCuwsJ+kMIubt0XtQrn9PzdZ4oKB
-         nrnWrIBe+LcMRN31KinVglOsr5/Y0cEla73kJ5aWEWxNSJ5abnHLavhzlS+U5qykgm2z
-         goXZlI8vk4Gqt2CP/OtKitUIkPa5Cmjx6eOrLk91+8Ahbpj0TTGRONCmRJiL8kt5Xqb/
-         WFq4uHahQ6VBDGUG1tAlXfu5zKQglqhYtmkxPNTD/sC51wicv2jcoETTGV3mPyqCr615
-         PbHA==
-X-Gm-Message-State: AOJu0YzKK4g9OWJPpO1Jxwno7de5jdaUOsBeKwjv8Lu2e9MIhSuczaIq
-	MuBnjyylXxp2VU8YTmtWl5is8acuG/9HoILaNGoPrGAzXkMpJANUOHX7fg==
-X-Gm-Gg: ASbGncvRfKlFio9E0M8i55v7Bdq7W3uUxhNLgurATFindpkjtr6deFEOaf2Fy0MhXT3
-	SeMhPM54dxAH8U6v65tVtCea3yy6T+HfZsnCHGTb2gbZs0iw+dgarob0WWqTxgOqbTxezKTp95u
-	rilwVNUSel9XdV21FkuIZywPMPiQe18C7CTLW7ijDdu/ye+VH74Twkt5d7w3kpSJBcX9YCmmDCx
-	qTJ9T6cME2hZMKQ5A7QN1v9o2ZtZ5n8rFF3ISHwJe0glNHR+ViICLB0e14BDo3sQAipQ22g9VC1
-	nG1299dZJoZYkkDOja4gihJNKw==
-X-Google-Smtp-Source: AGHT+IFPcaEeD9AUQr8JS8jdqpZvXc6SZjRTyjYm4ce6zscQ8ow16RPW3exIGWXR5laRRg1EvVZHmQ==
-X-Received: by 2002:a05:6820:c86:b0:5f7:246c:2240 with SMTP id 006d021491bc7-5f73092b617mr6406256eaf.4.1736524787802;
-        Fri, 10 Jan 2025 07:59:47 -0800 (PST)
-Received: from alpha.lab.asterius.io (c-24-118-24-24.hsd1.mn.comcast.net. [24.118.24.24])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7231861bf71sm888108a34.52.2025.01.10.07.59.46
+        bh=1zHlxSl2D5npdlNMDxREqRdAhoyGS7onhMIi9J79DWE=;
+        b=wNL1365wwp7LRifrB5pMHtrIUSUGc/S5fyGpCPw0eY4m2OvsIiriSVQMmFKTZTq7rl
+         /OjNRZWkF/UqIzg9Q+vxCkGFkzAYOm8EOkZHPOiDj6hfbNkWV+tofl+2xjn+jQ0IgdyI
+         rCDwbf+uXHMZyoPlFon2NAA2/JNDI0Hj5GMqJoYsowqsvKgsoOrD3KT3LmiQT7y9YFsp
+         kTIqI7YGUhmZAbzhnuRB+P/N5/QeJQFx28n70ThcQfCLLCy0UyCtEc57cENhduYF+enr
+         R8YjzY61Tjqo0t4wfwAQmehHbHXln9QUFbnm9HcxAUyADLxKs4JW2cLs25yLcREocs4E
+         p6mQ==
+X-Gm-Message-State: AOJu0YxD11et/A7nwycuQRk/fxloHtmraCCQyrFe/+/ltnRCpQS7/2OB
+	dpH21QVJlOb8HqkYWeBwnGHCyZnbqkcBsA5LJFwkVmMQwJs9/2HvgbXurg==
+X-Gm-Gg: ASbGnct+lDwojgxs1dkEcan2orHcNYrYMFex2dV2ycpHOWqxT0xRKKgQDCUDn0mjR1G
+	370rs2R/r/y8aD38M8b5R4TWodpLaoF+GFFIGxZNVR8HZ+QZ5UUtec0StXWJqHz61NWkZFP8yIg
+	ArBGhk3CC/2cbidgbHb4IBCrtVPtQoMXPVeKwv2x5Rvmwrs2Hjb3PCKsRcrHle+caWWesGTxPgR
+	oeFh64BeDWxVnJweZcv9nq6KGddc9Jfe4EEg9XNmLpUFb1mam4SAv8=
+X-Google-Smtp-Source: AGHT+IEcw9SP5NWHIzPpUF8qIS/lZ2WE+gKmw9wnWlhoTVWZJmDUaDVlkRoFdTt5h+YqwENzy96rng==
+X-Received: by 2002:a05:6870:7008:b0:29e:14ff:2f9c with SMTP id 586e51a60fabf-2aa06719715mr6005696fac.18.1736524865469;
+        Fri, 10 Jan 2025 08:01:05 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::22a5])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ad809a759dsm991184fac.33.2025.01.10.08.01.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 07:59:47 -0800 (PST)
-From: Derek Straka <derek@asterius.io>
+        Fri, 10 Jan 2025 08:01:03 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Derek Straka <derek@asterius.io>
-Subject: [OE-core][PATCHv3] classes/ptest-python-pytest: simplify python ptest file overriding
-Date: Fri, 10 Jan 2025 15:59:29 +0000
-Message-Id: <20250110155929.3547418-1-derek@asterius.io>
-X-Mailer: git-send-email 2.34.1
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] udev-extraconf: Allow FAT mount group to be specified
+Date: Fri, 10 Jan 2025 09:00:55 -0700
+Message-ID: <20250110160055.3527577-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 15:59:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209655
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 16:01:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209656
 
-The complexity of overriding files from the bbclass made the behavior at
-times hard to follow and predict. This change replaces the default file with a
-heredoc equivalent that creates a default file if the user does not provide their
-own version of run-ptest in the SRC_URI.
+Adds a variable that allows the group given permissions to access FAT
+mounted file systems to be specified, instead of being hardcoded to
+'disk'.
 
-Signed-off-by: Derek Straka <derek@asterius.io>
+As a note, the usage of 'disk' as the mount group is not a very secure
+default, since the disk user usually has read/write access to all block
+devices in /dev/, meaning that adding a user to this group for the
+purpose of accessing FAT file systems effectively gives the write access
+to all block devices.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../ptest-python-pytest.bbclass               | 30 +++++++++++--------
- meta/files/ptest-python-pytest/run-ptest      |  3 --
- 2 files changed, 18 insertions(+), 15 deletions(-)
- delete mode 100755 meta/files/ptest-python-pytest/run-ptest
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 8 ++++----
+ meta/recipes-core/udev/udev-extraconf_1.1.bb   | 9 ++++++---
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes-recipe/ptest-python-pytest.bbclass b/meta/classes-recipe/ptest-python-pytest.bbclass
-index 801079e6ab..0ece83dfc8 100644
---- a/meta/classes-recipe/ptest-python-pytest.bbclass
-+++ b/meta/classes-recipe/ptest-python-pytest.bbclass
-@@ -6,24 +6,30 @@
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index eb84a468be..0cbae48729 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -83,11 +83,11 @@ automount_systemd() {
  
- inherit ptest
+     MOUNT="$MOUNT -o silent"
  
--FILESEXTRAPATHS:prepend := "${COREBASE}/meta/files:"
--
--SRC_URI:append = "\
--    file://ptest-python-pytest/run-ptest \
--"
--
- # Overridable configuration for the directory within the source tree
- # containing the pytest files
- PTEST_PYTEST_DIR ?= "tests"
- 
- do_install_ptest() {
--	if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
--		install -m 0755 ${UNPACKDIR}/ptest-python-pytest/run-ptest ${D}${PTEST_PATH}
-+    # Check if the recipe provides its own version of run-ptest
-+    # If nothing exists in the SRC_URI, dynamically create a 
-+    # run-test script of "last resort" that has the default
-+    # pytest behavior.
-+    # 
-+    # Users can override this behavior by simply including a
-+    # custom script (run-ptest) in the source file list
-+	if [ ! -f "${UNPACKDIR}/run-ptest" ]; then
-+		cat > ${D}${PTEST_PATH}/run-ptest << EOF
-+#!/bin/sh
-+pytest --automake
-+EOF
-+		# Ensure the newly created script has the execute bit set
-+		chmod 755 ${D}${PTEST_PATH}/run-ptest
-+	fi
-+	if [ -d "${S}/${PTEST_PYTEST_DIR}" ]; then
-+		install -d ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}
-+		cp -rf ${S}/${PTEST_PYTEST_DIR}/* ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}/
+-    # If filesystemtype is vfat, change the ownership group to 'disk', and
++    # If filesystemtype is vfat, change the ownership group to mount group, and
+     # grant it with  w/r/x permissions.
+     case $ID_FS_TYPE in
+     vfat|fat)
+-        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^@MOUNT_GROUP@:/{print $3}' /etc/group`"
+         ;;
+     swap)
+         return ;;
+@@ -138,11 +138,11 @@ automount() {
+ 		MOUNT="$MOUNT -o silent"
  	fi
--    if [ -d "${S}/${PTEST_PYTEST_DIR}" ]; then
--        install -d ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}
--        cp -rf ${S}/${PTEST_PYTEST_DIR}/* ${D}${PTEST_PATH}/${PTEST_PYTEST_DIR}/
--    fi
- }
  
- FILES:${PN}-ptest:prepend = "${PTEST_PATH}/*"
-diff --git a/meta/files/ptest-python-pytest/run-ptest b/meta/files/ptest-python-pytest/run-ptest
-deleted file mode 100755
-index 8d2017d39c..0000000000
---- a/meta/files/ptest-python-pytest/run-ptest
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
--
--pytest --automake
+-	# If filesystem type is vfat, change the ownership group to 'disk', and
++	# If filesystem type is vfat, change the ownership group to mount group, and
+ 	# grant it with  w/r/x permissions.
+ 	case $ID_FS_TYPE in
+ 	vfat|fat)
+-		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^@MOUNT_GROUP@:/{print $3}' /etc/group`"
+ 		;;
+ 	swap)
+ 		return ;;
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 0e2abcd424..0d7e4f4f36 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -17,6 +17,7 @@ S = "${WORKDIR}/sources"
+ UNPACKDIR = "${S}"
+ 
+ MOUNT_BASE = "/run/media"
++MOUNT_GROUP ?= "disk"
+ 
+ do_install() {
+     install -d ${D}${sysconfdir}/udev/rules.d
+@@ -31,9 +32,11 @@ do_install() {
+     install -d ${D}${sysconfdir}/udev/scripts/
+ 
+     install -m 0755 ${S}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
+-    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+-    sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+-    sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
++    sed -e 's|@systemd_unitdir@|${systemd_unitdir}|g' \
++        -e 's|@base_sbindir@|${base_sbindir}|g' \
++        -e 's|@MOUNT_BASE@|${MOUNT_BASE}|g' \
++        -e 's|@MOUNT_GROUP@|${MOUNT_GROUP}|g' \
++        -i ${D}${sysconfdir}/udev/scripts/mount.sh
+ 
+     install -m 0755 ${S}/network.sh ${D}${sysconfdir}/udev/scripts
+ }
 -- 
-2.34.1
+2.47.1
 
 
