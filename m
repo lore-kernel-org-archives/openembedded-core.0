@@ -1,108 +1,119 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E623E7719C
-	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 13:13:49 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.18263.1736514824129756260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00257E77188
+	for <webhook@archiver.kernel.org>; Fri, 10 Jan 2025 14:05:59 +0000 (UTC)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+ by mx.groups.io with SMTP id smtpd.web11.19199.1736517954839686643
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 05:13:44 -0800
+ Fri, 10 Jan 2025 06:05:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CC681477
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:14:12 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 68C773F66E
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 05:13:43 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH kirkstone] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
-Date: Fri, 10 Jan 2025 13:13:39 +0000
-Message-ID: <20250110131339.924678-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MLJkeAGF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.170, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e399e904940so3154707276.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 06:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736517954; x=1737122754; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ezjDpvwgCjpnvnly1hDCCuH3Z+nIPLVzZfzXru+s+Yc=;
+        b=MLJkeAGFo6F0fhQOPMXNNn8mk4zBqRjzDDhx32AilymxLBphmWzp69ogYdxvWBc+zq
+         JCsZqsKSq3qqI8e2QYlRbwAFuPUtlEuoSRSA01/yc4WT24YCph5AP8Tue1gUWcqXnKj2
+         NI6Yc+jcEZ/wgMZrWiMgSwupkE4iCy4+JxTMpAgc7fMEfme2AMRhFdP1rgGoE392K74F
+         05RMl/tudMz+mlSZV+Atz9ZwwueZKYPRoaDUPxB2wp3IQEf2S5y0ynLDPvYA+bXIttmM
+         lFN3JUcONArzQEkAq+ZcB2MDKu7mPxuT/gVFF8QhmJcSwduirbD8fsYieDfBY54t7Mcu
+         GOfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736517954; x=1737122754;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ezjDpvwgCjpnvnly1hDCCuH3Z+nIPLVzZfzXru+s+Yc=;
+        b=MjgClgULomHG7x72hgx2f1L++x6z3SXvjXdWxX1fC2v7pq4y9ouJl9DxRGqw6mMIks
+         xLVt/aMN27t3JWfEbSHJ3K52Isr5GCRY3BvQt34/H+QJHARbepqGyyFeicg88J8SItJM
+         CYw2UviMDFN8rNI51JuJH8fEHCfdNjE63uLmu5cXrok82Z/LeyhKn/7ZI+HUI+EJrMMW
+         PR89ClrBK8LJtXyzGWrrNk5LZnwWGEgpnQU4TNOj7s/EpcTEPpBDZVGg+wCRtzSbZdHo
+         yz3+5ZeNHqSZuNAMuiUT6NO6BqpaFVKSHXVJCktVu0AjKDvLJP1SszpznQNeqiOugsL/
+         aNjQ==
+X-Gm-Message-State: AOJu0YzvY9L/uN0O5miP/TQRSPXX1/XtymVMZsRZGJRAAmLH/wk1Vv75
+	SoKxVM24Rq1Rz/pgp7cHcnid2wopyJRI1yPtQOQrAwmnUOATEEoMRUNhYzebn7MUsUYiSGCQEQy
+	38xdpP+6B0Dh5aTYkYfkq+rXAFZ0A7Ul23LohSQ==
+X-Gm-Gg: ASbGncvB3M8o25g5p90PGeMD9/WjxuceI8MNP5AwhVfy4fBI5KRNKnp0skUfj0zzoqF
+	PwLlN5D3ZLREknX9yITIKHPAPlebCgO9hpVA7nw==
+X-Google-Smtp-Source: AGHT+IG0vycMYyAL9NLAhtBOEnRn6EFlb10O9aN8pwDWijp5nlPPzbsc3O88EIvgp7lXq3YyOSHOLiGQ6N1kNvMGu+M=
+X-Received: by 2002:a05:690c:62ca:b0:6ef:a187:f3a3 with SMTP id
+ 00721157ae682-6f5312a2e85mr81209597b3.27.1736517954006; Fri, 10 Jan 2025
+ 06:05:54 -0800 (PST)
 MIME-Version: 1.0
+References: <20250109102051.3685800-1-madmarri@cisco.com>
+In-Reply-To: <20250109102051.3685800-1-madmarri@cisco.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 10 Jan 2025 06:05:43 -0800
+X-Gm-Features: AbW1kvYZ0uwLNa2yMvNvEovd6v5Zaw9-Uf7ScA1ltiUFmO3YkITHHYrXWSwSx5s
+Message-ID: <CAOSpxdYD-bFJ+PApvgH=wfQbLDGc-JckArXvA2M2AyBPQ4JqZg@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap] [PATCH] strace: add vendor to CVE_PRODUCT
+ to exclude false positives
+To: madmarri@cisco.com
+Cc: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com, 
+	spushpka@cisco.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 13:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209653
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 14:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209654
 
-Using the package architecture to select the right qemu options to pass
-to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
-to MACHINE_ARCH (as the qemuppc workarounds suggest) because there are
-not typically any options set for the machine name.
+Hi Madhu,
 
-Solve this by using TUNE_PKGARCH instead: for the majority of recipes
-this is the same value, but for machine-specific recipes it remains the
-same instead of changing to the machine name.
+This patch should be submitted and merged to the master branch before
+I can take it for the stable branches.\
 
-This means we can remove the qemuppc workarounds, as they're obsolete.
+Thanks,
 
-Also update the gcc-testsuite recipe which uses the same pattern to use
-TUNE_PKGARCH, and generalise the else codepath to avoid needing to
-update the list of architectures.
+Steve
 
-[ YOCTO #15647 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/qemu.bbclass                   | 8 ++------
- meta/recipes-devtools/gcc/gcc-testsuite.inc | 6 ++++--
- 2 files changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index 7493ac34d4b..1b888f46999 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -54,8 +54,8 @@ def qemu_run_binary(data, rootfs_path, binary):
- # this dance). For others (e.g. arm) a -cpu option is not necessary, sin=
-ce the
- # qemu-arm default CPU supports all required architecture levels.
-=20
--QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s"=
- % d.getVar('PACKAGE_ARCH')) or ""}"
--QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
-+QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s"=
- % d.getVar('TUNE_PKGARCH')) or ""}"
-+QEMU_OPTIONS[vardeps] +=3D "QEMU_EXTRAOPTIONS_${TUNE_PKGARCH}"
-=20
- QEMU_EXTRAOPTIONS_ppce500v2 =3D " -cpu e500v2"
- QEMU_EXTRAOPTIONS_ppce500mc =3D " -cpu e500mc"
-@@ -65,7 +65,3 @@ QEMU_EXTRAOPTIONS_ppce6500 =3D " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc64e6500 =3D " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc7400 =3D " -cpu 7400"
- QEMU_EXTRAOPTIONS_powerpc64le =3D " -cpu POWER9"
--# Some packages e.g. fwupd sets PACKAGE_ARCH =3D MACHINE_ARCH and uses m=
-eson which
--# needs right options to usermode qemu
--QEMU_EXTRAOPTIONS_qemuppc =3D " -cpu 7400"
--QEMU_EXTRAOPTIONS_qemuppc64 =3D " -cpu POWER9"
-diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-d=
-evtools/gcc/gcc-testsuite.inc
-index 64f60c730fe..eaac98f9ba0 100644
---- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
-+++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
-@@ -53,8 +53,10 @@ python check_prepare() {
-         #   - valid for x86*, powerpc, arm, arm64
-         if qemu_binary.lstrip("qemu-") in ["x86_64", "i386", "arm", "aar=
-ch64"]:
-             args +=3D ["-cpu", "max"]
--        elif qemu_binary.lstrip("qemu-") in ["ppc"]:
--            args +=3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAG=
-E_ARCH')).split()
-+        else:
-+            extra =3D d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE_P=
-KGARCH'))
-+            if extra:
-+                args +=3D extra.split()
-         sysroot =3D d.getVar("RECIPE_SYSROOT")
-         args +=3D ["-L", sysroot]
-         # lib paths are static here instead of using $libdir since this =
-is used by a -cross recipe
---=20
-2.43.0
-
+On Thu, Jan 9, 2025 at 2:21=E2=80=AFAM Madhu Marri via lists.openembedded.o=
+rg
+<madmarri=3Dcisco.com@lists.openembedded.org> wrote:
+>
+> - To avoid false positives such as CVE-2000-0006, add the CVE_PRODUCT
+> value with the vendor.
+> - The CVE-2000-0006 has the vendor paul_kranenburg:strace.
+> - This change has been verified by running do_cve_check task for
+> strace package.
+>
+> Signed-off-by: Madhu Marri <madmarri@cisco.com>
+> ---
+>  meta/recipes-devtools/strace/strace_6.7.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/strace/strace_6.7.bb b/meta/recipes-de=
+vtools/strace/strace_6.7.bb
+> index c8c83cdf7c..30ac31ee69 100644
+> --- a/meta/recipes-devtools/strace/strace_6.7.bb
+> +++ b/meta/recipes-devtools/strace/strace_6.7.bb
+> @@ -54,3 +54,6 @@ RDEPENDS:${PN}-ptest:append:libc-glibc =3D "\
+>  "
+>
+>  BBCLASSEXTEND =3D "native"
+> +
+> +# adding 'CVE_PRODUCT' to avoid false detection of CVEs
+> +CVE_PRODUCT =3D "strace:strace"
+> --
+> 2.44.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#209625): https://lists.openembedded.org/g/openembedde=
+d-core/message/209625
+> Mute This Topic: https://lists.openembedded.org/mt/110513535/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
