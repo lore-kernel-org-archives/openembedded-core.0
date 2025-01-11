@@ -1,458 +1,1721 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DECE77188
-	for <webhook@archiver.kernel.org>; Sat, 11 Jan 2025 01:10:23 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.7008.1736557818086310949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E115E7719A
+	for <webhook@archiver.kernel.org>; Sat, 11 Jan 2025 15:26:07 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.17254.1736609165919519447
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jan 2025 17:10:18 -0800
+ Sat, 11 Jan 2025 07:26:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DSckjSNR;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2a01bcd0143so1631640fac.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jan 2025 17:10:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cnu1H28K;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: colinmca242@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5d0ac27b412so3728196a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jan 2025 07:26:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736557817; x=1737162617; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pr68Ca6SCx7mtQGg1a0Aqrd+qbF1u0ufWVMHoIyUBtE=;
-        b=DSckjSNRGIjeGTx1asHBqJ7s7tOZlx3auZhuuPlvL7zMsmIIdThrJyzHaIUUJil0+0
-         UKgSiGRZbIHWRz6NqsY1IwQ0buEh0XJeOinfe12N+IAMQKjO7NhFEmV/AVf+s09SE2EF
-         jb3vsmZYzbsGtTGcmJTiPT3WbdP3T7nZk9v8CN+WEjcb6axiM5fgraKeT/0VUn93eDCN
-         xWrarHU3bz2bgKrdZ+gmXMl3PwN5z8RlRYey0UtfT1LIAg7hRQ6YSwdxbDzMM3gSpkZ+
-         hFoE51aiDnTda5D6GG2YszO2EtoImo7JNUM4JD4AzYBUUqH4hQh98RaS2/HFJ+7z454N
-         F6gg==
+        d=gmail.com; s=20230601; t=1736609164; x=1737213964; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6QrtxHSWGV/b6kiPjgMn4jltsH+cQ9cyGYxcytc0lEs=;
+        b=Cnu1H28Kc0ZHDiX2P5R/qMMr+pZEJDU0kRbcJPKG6S7IGvia4V2rsag/oY3/SdGH2o
+         qghFYhnLIMusCgU3E82E0tjmoAiOdlxItznZPfWGWg2EJGQEIlvgcWMsMW/fOJXXkBzI
+         HhfXDML+R1dy/bR/6wdTayOP36JmPz0HAtm3GpbOweLDPIP0WvaG6nTbMKG0bJlmCyDi
+         4lOVgpM8zQ5XmpunfwufM/Qxb7YW5C7K+iMY9SZg5RXv1LjzqPID6xLn6KkUFZr+ikrm
+         ExsnisLsK2cI49mjkMn1pcm8LCQGDEVZCqi9S0BX+QRrFMHEK1prVqh+IKyjo0EFsjh6
+         wtpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736557817; x=1737162617;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pr68Ca6SCx7mtQGg1a0Aqrd+qbF1u0ufWVMHoIyUBtE=;
-        b=c2sEwxUO1GMWhs/jaEweK8Jb6sOIh/DRTxbVbVsrleqENz+S/YAINuwbR1o7sPI3+i
-         gqZ6Nup8UofrrY0OT6I8D85bQtw9HdZ/8fLJk+ZqFbXMwCmdl4PR7cDglGvHl7FwsUqx
-         fmMVDT67J9BRTpjarxcTsYC77eDIU44XW1d6A7w55HlueZTubGPefSq12sJi5GJb4D0Z
-         ShqfyuUti7eOeSAF6Z21NGHDKJXugiXM/dgqBVqTn2+wzBJvLzPLzPtDGV8lF1p6i3eZ
-         6oU0hj3nUJA4TW99k4w8uCoqjL7XyiUSqpb4ZgHcdzw3DS6ZsU8IAGqzrb39FaTGJO9k
-         J46A==
-X-Gm-Message-State: AOJu0YzeeJGo+3vEB+OMLdfcN8JGnfeudE7FmGu8POv3B+l/c9l6qDBL
-	3nGV8m0SGFLPOOfWRQc7m8V5aUXOmdXQ+O+hI+rKGx9MHmr70cBZ1J/EQ2ZDQtvwPpqDxmQEbOp
-	IZummuQ6FWaDSwEBmMbtQT0/BXv8=
-X-Gm-Gg: ASbGncvke1pb7X1523iPx5m0hs7BHLJwJx3b3wgvWF04Hm8v/0RKZ8IXT2o4Yn81nBi
-	mRVmNXRjYNa3lu72HmwHeLCfxAwaYCmZ+QQAvjw==
-X-Google-Smtp-Source: AGHT+IHfJhLmBM+AfG2Owxif0koKVh0eOUXhaWkVXa0+c5AYzfnY0Lk7LPxXBZQwDDaISXIhVmiP8kmDVYtj185jfvs=
-X-Received: by 2002:a05:6870:1712:b0:2a3:d9b3:3d01 with SMTP id
- 586e51a60fabf-2aa06919ff4mr7472419fac.29.1736557817117; Fri, 10 Jan 2025
- 17:10:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736609164; x=1737213964;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6QrtxHSWGV/b6kiPjgMn4jltsH+cQ9cyGYxcytc0lEs=;
+        b=p7G4CzPbJPk0MYkllFuaVqko3qi7Ms36NUiBtNp/dEV9h4KxsfO9+nauGQ5dRtnZ/n
+         XRbOFMw+c+0/SvAnQz2HS3PJN8BZnsjkjicAztr2GUQ1fhFrMEWohvGdhe2z6ZpLqerX
+         ODX6rhy/Zd+MhT9lHA6yN+Na4qtsmM64V7o7Q+LuP8P45xLGLGHRWd2OUus4wrHDRD85
+         sMZM7P/EvbevIu3C6mK6jLXEYzTES/YT/kDXbZrPZl3araSGqjDGptn/i99e5DXk+r3O
+         1dwDunKIHR3VZv7HG1DWfzdCCz0S5DhzZD0x1LMjdGXxqTAYU7WZ2jkzggNZyS3a/UoG
+         QXFA==
+X-Gm-Message-State: AOJu0Yz41N6XU/sQzn0cDhewAka9j0bVeS7gXP5nHkqTSdpCxuD1pNdm
+	9l/lA/CddPTgP+rGE62LVrGUcdVsoEdaPZYVqvzMFkI6BelkkE/dIw/ji2WibB1kYMvFIR7pjwa
+	EJPOolj2S8vq/FavL5dZ5qVqjfFs=
+X-Gm-Gg: ASbGnctEyu4pc70siiRHnbBtMtSupElwDfP5wJtnNOjN+hJhV9Ia8EOiWcH+YxFkPY0
+	30BL/+6hvbFmRq7x5qdvI3a//1QeBWkatV+k1XHs=
+X-Google-Smtp-Source: AGHT+IGuOJxP599yiitAZf8syhdUo7PhHstHCgOBSifmQUu2sqz4CtRvkpTvu5kgiJf/8y5jNBBescP9PbARUcVaPy0=
+X-Received: by 2002:a05:6402:358a:b0:5d9:a62:33e with SMTP id
+ 4fb4d7f45d1cf-5d972e162b0mr13156434a12.15.1736609163728; Sat, 11 Jan 2025
+ 07:26:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20250108084226.117178-1-alex.kanavin@gmail.com> <20250108084226.117178-11-alex.kanavin@gmail.com>
-In-Reply-To: <20250108084226.117178-11-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 10 Jan 2025 17:09:51 -0800
-X-Gm-Features: AbW1kvasrL8ZVcqbB8_RVOGYDlkmgF_D-pfHatwtG8GLLvApfkia-xXCHdJBkec
-Message-ID: <CAMKF1spQ9Wf0n21VGN5HoBwfx1194o9QwXEwXLzbsuLFUEOAMg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 11/20] boost: update 1.86.0 -> 1.87.0
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20241230192224.113886-1-colinmca242@gmail.com>
+ <20241230192224.113886-2-colinmca242@gmail.com> <181947C8BF47FE99.17938@lists.openembedded.org>
+ <18194A5A622A45B9.23974@lists.openembedded.org> <AS1PR10MB569731535FEEA9F688D90067FD1C2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB569731535FEEA9F688D90067FD1C2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Colin <colinmca242@gmail.com>
+Date: Sat, 11 Jan 2025 09:25:52 -0600
+X-Gm-Features: AbW1kvaTC0TTqXWTHZoSOGDVuehaqHCb1tpiqp2pFH5xlzwQOm-5iZYqiMj918A
+Message-ID: <CAAyLwgT543RzpjtAEQr0rYRH6G=EUE49Mvj-N0-z8EoEJVPSww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/1] cve-check: Rework patch parsing
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000516292062b6fd468"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Jan 2025 01:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209667
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Jan 2025 15:26:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209668
 
-This breaks several recipes in meta-openembedded. here is subset from
-meta-oe layer
-https://valkyrie.yoctoproject.org/#/builders/81/builds/276
+--000000000000516292062b6fd468
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 8, 2025 at 12:42=E2=80=AFAM Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Backport a kea patch to address 1.87.0 compatibility.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../0001-Update-asiolink-for-boost-1.87.patch | 190 ++++++++++++++++++
->  meta/recipes-connectivity/kea/kea_2.6.1.bb    |   1 +
->  .../{boost-1.86.0.inc =3D> boost-1.87.0.inc}    |   2 +-
->  ...1.86.0.bb =3D> boost-build-native_1.87.0.bb} |   0
->  ...h-instruction-set-flags-we-do-that-o.patch |   2 +-
->  ...01-dont-setup-compiler-flags-m32-m64.patch |   2 +-
->  .../boost-math-disable-pch-for-gcc.patch      |   8 +-
->  .../{boost_1.86.0.bb =3D> boost_1.87.0.bb}      |   0
->  8 files changed, 198 insertions(+), 7 deletions(-)
->  create mode 100644 meta/recipes-connectivity/kea/files/0001-Update-asiol=
-ink-for-boost-1.87.patch
->  rename meta/recipes-support/boost/{boost-1.86.0.inc =3D> boost-1.87.0.in=
-c} (90%)
->  rename meta/recipes-support/boost/{boost-build-native_1.86.0.bb =3D> boo=
-st-build-native_1.87.0.bb} (100%)
->  rename meta/recipes-support/boost/{boost_1.86.0.bb =3D> boost_1.87.0.bb}=
- (100%)
->
-> diff --git a/meta/recipes-connectivity/kea/files/0001-Update-asiolink-for=
--boost-1.87.patch b/meta/recipes-connectivity/kea/files/0001-Update-asiolin=
-k-for-boost-1.87.patch
-> new file mode 100644
-> index 00000000000..794726f1f10
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/kea/files/0001-Update-asiolink-for-boost-=
-1.87.patch
-> @@ -0,0 +1,190 @@
-> +From dab0f3daafb760ace0d4091f74ff90edb225ca02 Mon Sep 17 00:00:00 2001
-> +From: q66 <q66@chimera-linux.org>
-> +Date: Sun, 15 Dec 2024 03:04:53 +0100
-> +Subject: [PATCH] Update asiolink for boost 1.87
-> +
-> +Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/me=
-rge_requests/2523]
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +---
-> + src/lib/asiolink/io_address.cc         |  4 ++--
-> + src/lib/asiolink/io_service.cc         |  8 ++++----
-> + src/lib/asiolink/tcp_endpoint.h        |  2 +-
-> + src/lib/asiolink/udp_endpoint.h        |  2 +-
-> + src/lib/asiolink/unix_domain_socket.cc | 16 ++++++++--------
-> + src/lib/dhcp/iface_mgr.cc              |  2 +-
-> + 6 files changed, 17 insertions(+), 17 deletions(-)
-> +
-> +diff --git a/src/lib/asiolink/io_address.cc b/src/lib/asiolink/io_addres=
-s.cc
-> +index 43459bf..06b7d3d 100644
-> +--- a/src/lib/asiolink/io_address.cc
-> ++++ b/src/lib/asiolink/io_address.cc
-> +@@ -37,7 +37,7 @@ IOAddress::Hash::operator()(const IOAddress &io_addres=
-s) const {
-> + // because we'd like to throw our own exception on failure.
-> + IOAddress::IOAddress(const std::string& address_str) {
-> +     boost::system::error_code err;
-> +-    asio_address_ =3D ip::address::from_string(address_str, err);
-> ++    asio_address_ =3D ip::make_address(address_str, err);
-> +     if (err) {
-> +         isc_throw(IOError, "Failed to convert string to address '"
-> +                   << address_str << "': " << err.message());
-> +@@ -116,7 +116,7 @@ IOAddress::isV6Multicast() const {
-> + uint32_t
-> + IOAddress::toUint32() const {
-> +     if (asio_address_.is_v4()) {
-> +-        return (asio_address_.to_v4().to_ulong());
-> ++        return (asio_address_.to_v4().to_uint());
-> +     } else {
-> +         isc_throw(BadValue, "Can't convert " << toText()
-> +                   << " address to IPv4.");
-> +diff --git a/src/lib/asiolink/io_service.cc b/src/lib/asiolink/io_servic=
-e.cc
-> +index 411de64..cc28d24 100644
-> +--- a/src/lib/asiolink/io_service.cc
-> ++++ b/src/lib/asiolink/io_service.cc
-> +@@ -30,7 +30,7 @@ public:
-> +     /// @brief The constructor.
-> +     IOServiceImpl() :
-> +         io_service_(),
-> +-        work_(new boost::asio::io_service::work(io_service_)) {
-> ++        work_(boost::asio::make_work_guard(io_service_)) {
-> +     };
-> +
-> +     /// @brief The destructor.
-> +@@ -92,7 +92,7 @@ public:
-> +
-> +     /// @brief Restarts the IOService in preparation for a subsequent @=
-ref run() invocation.
-> +     void restart() {
-> +-        io_service_.reset();
-> ++        io_service_.restart();
-> +     }
-> +
-> +     /// @brief Removes IO service work object to let it finish running
-> +@@ -115,12 +115,12 @@ public:
-> +     ///
-> +     /// @param callback The callback to be run on the IO service.
-> +     void post(const std::function<void ()>& callback) {
-> +-        io_service_.post(callback);
-> ++        boost::asio::post(io_service_, callback);
-> +     }
-> +
-> + private:
-> +     boost::asio::io_service io_service_;
-> +-    boost::shared_ptr<boost::asio::io_service::work> work_;
-> ++    boost::asio::executor_work_guard<boost::asio::io_service::executor_=
-type> work_;
-> + };
-> +
-> + IOService::IOService() : io_impl_(new IOServiceImpl()) {
-> +diff --git a/src/lib/asiolink/tcp_endpoint.h b/src/lib/asiolink/tcp_endp=
-oint.h
-> +index 8ebd575..7c8cb35 100644
-> +--- a/src/lib/asiolink/tcp_endpoint.h
-> ++++ b/src/lib/asiolink/tcp_endpoint.h
-> +@@ -42,7 +42,7 @@ public:
-> +     /// \param port The TCP port number of the endpoint.
-> +     TCPEndpoint(const IOAddress& address, const unsigned short port) :
-> +         asio_endpoint_placeholder_(
-> +-            new boost::asio::ip::tcp::endpoint(boost::asio::ip::address=
-::from_string(address.toText()),
-> ++            new boost::asio::ip::tcp::endpoint(boost::asio::ip::make_ad=
-dress(address.toText()),
-> +                               port)),
-> +         asio_endpoint_(*asio_endpoint_placeholder_)
-> +     {}
-> +diff --git a/src/lib/asiolink/udp_endpoint.h b/src/lib/asiolink/udp_endp=
-oint.h
-> +index f960bf3..2a3da9f 100644
-> +--- a/src/lib/asiolink/udp_endpoint.h
-> ++++ b/src/lib/asiolink/udp_endpoint.h
-> +@@ -42,7 +42,7 @@ public:
-> +     /// \param port The UDP port number of the endpoint.
-> +     UDPEndpoint(const IOAddress& address, const unsigned short port) :
-> +         asio_endpoint_placeholder_(
-> +-            new boost::asio::ip::udp::endpoint(boost::asio::ip::address=
-::from_string(address.toText()),
-> ++            new boost::asio::ip::udp::endpoint(boost::asio::ip::make_ad=
-dress(address.toText()),
-> +                               port)),
-> +         asio_endpoint_(*asio_endpoint_placeholder_)
-> +     {}
-> +diff --git a/src/lib/asiolink/unix_domain_socket.cc b/src/lib/asiolink/u=
-nix_domain_socket.cc
-> +index f43e1c9..43ff3c8 100644
-> +--- a/src/lib/asiolink/unix_domain_socket.cc
-> ++++ b/src/lib/asiolink/unix_domain_socket.cc
-> +@@ -83,7 +83,7 @@ public:
-> +     /// @param buffer Buffers holding the data to be sent.
-> +     /// @param handler User supplied callback to be invoked when data h=
-ave
-> +     /// been sent or sending error is signalled.
-> +-    void doSend(const boost::asio::const_buffers_1& buffer,
-> ++    void doSend(const boost::asio::const_buffer& buffer,
-> +                 const UnixDomainSocket::Handler& handler);
-> +
-> +
-> +@@ -103,7 +103,7 @@ public:
-> +     /// @param ec Error code returned as a result of sending the data.
-> +     /// @param length Length of the data sent.
-> +     void sendHandler(const UnixDomainSocket::Handler& remote_handler,
-> +-                     const boost::asio::const_buffers_1& buffer,
-> ++                     const boost::asio::const_buffer& buffer,
-> +                      const boost::system::error_code& ec,
-> +                      size_t length);
-> +
-> +@@ -127,7 +127,7 @@ public:
-> +     /// @param buffer A buffer into which the data should be received.
-> +     /// @param handler User supplied callback invoked when data have be=
-en
-> +     /// received on an error is signalled.
-> +-    void doReceive(const boost::asio::mutable_buffers_1& buffer,
-> ++    void doReceive(const boost::asio::mutable_buffer& buffer,
-> +                    const UnixDomainSocket::Handler& handler);
-> +
-> +     /// @brief Local handler invoked as a result of asynchronous receiv=
-e.
-> +@@ -146,7 +146,7 @@ public:
-> +     /// @param ec Error code returned as a result of asynchronous recei=
-ve.
-> +     /// @param length Size of the received data.
-> +     void receiveHandler(const UnixDomainSocket::Handler& remote_handler=
-,
-> +-                        const boost::asio::mutable_buffers_1& buffer,
-> ++                        const boost::asio::mutable_buffer& buffer,
-> +                         const boost::system::error_code& ec,
-> +                         size_t length);
-> +
-> +@@ -197,7 +197,7 @@ UnixDomainSocketImpl::asyncSend(const void* data, co=
-nst size_t length,
-> + }
-> +
-> + void
-> +-UnixDomainSocketImpl::doSend(const boost::asio::const_buffers_1& buffer=
-,
-> ++UnixDomainSocketImpl::doSend(const boost::asio::const_buffer& buffer,
-> +                              const UnixDomainSocket::Handler& handler) =
-{
-> +     auto local_handler =3D std::bind(&UnixDomainSocketImpl::sendHandler=
-,
-> +                                    shared_from_this(),
-> +@@ -207,7 +207,7 @@ UnixDomainSocketImpl::doSend(const boost::asio::cons=
-t_buffers_1& buffer,
-> +
-> + void
-> + UnixDomainSocketImpl::sendHandler(const UnixDomainSocket::Handler& remo=
-te_handler,
-> +-                                  const boost::asio::const_buffers_1& b=
-uffer,
-> ++                                  const boost::asio::const_buffer& buff=
-er,
-> +                                   const boost::system::error_code& ec,
-> +                                   size_t length) {
-> +     // The asynchronous send may return EWOULDBLOCK or EAGAIN on some
-> +@@ -230,7 +230,7 @@ UnixDomainSocketImpl::asyncReceive(void* data, const=
- size_t length,
-> + }
-> +
-> + void
-> +-UnixDomainSocketImpl::doReceive(const boost::asio::mutable_buffers_1& b=
-uffer,
-> ++UnixDomainSocketImpl::doReceive(const boost::asio::mutable_buffer& buff=
-er,
-> +                                 const UnixDomainSocket::Handler& handle=
-r) {
-> +     auto local_handler =3D std::bind(&UnixDomainSocketImpl::receiveHand=
-ler,
-> +                                    shared_from_this(),
-> +@@ -240,7 +240,7 @@ UnixDomainSocketImpl::doReceive(const boost::asio::m=
-utable_buffers_1& buffer,
-> +
-> + void
-> + UnixDomainSocketImpl::receiveHandler(const UnixDomainSocket::Handler& r=
-emote_handler,
-> +-                                     const boost::asio::mutable_buffers=
-_1& buffer,
-> ++                                     const boost::asio::mutable_buffer&=
- buffer,
-> +                                      const boost::system::error_code& e=
-c,
-> +                                      size_t length) {
-> +     // The asynchronous receive may return EWOULDBLOCK or EAGAIN on som=
-e
-> +diff --git a/src/lib/dhcp/iface_mgr.cc b/src/lib/dhcp/iface_mgr.cc
-> +index 01a1d63..419268b 100644
-> +--- a/src/lib/dhcp/iface_mgr.cc
-> ++++ b/src/lib/dhcp/iface_mgr.cc
-> +@@ -1034,7 +1034,7 @@ IfaceMgr::getLocalAddress(const IOAddress& remote_=
-addr, const uint16_t port) {
-> +     }
-> +
-> +     // Create socket that will be used to connect to remote endpoint.
-> +-    boost::asio::io_service io_service;
-> ++    boost::asio::io_context io_service;
-> +     boost::asio::ip::udp::socket sock(io_service);
-> +
-> +     boost::system::error_code err_code;
-> diff --git a/meta/recipes-connectivity/kea/kea_2.6.1.bb b/meta/recipes-co=
-nnectivity/kea/kea_2.6.1.bb
-> index 4f8c4124cb4..19e07f5da39 100644
-> --- a/meta/recipes-connectivity/kea/kea_2.6.1.bb
-> +++ b/meta/recipes-connectivity/kea/kea_2.6.1.bb
-> @@ -19,6 +19,7 @@ SRC_URI =3D "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar=
-.gz \
->             file://0001-src-lib-log-logger_unittest_support.cc-do-not-wri=
-te-.patch \
->             file://0001-Replace-Name-NameString-with-vector-of-uint8_t.pa=
-tch \
->             file://0002-Fix-unittests-Typo-in-Name-Name-append-to-ndata_-=
-not.patch \
-> +           file://0001-Update-asiolink-for-boost-1.87.patch \
->             "
->  SRC_URI[sha256sum] =3D "d2ce14a91c2e248ad2876e29152d647bcc5e433bc68dafad=
-0ee96ec166fcfad1"
->
-> diff --git a/meta/recipes-support/boost/boost-1.86.0.inc b/meta/recipes-s=
-upport/boost/boost-1.87.0.inc
-> similarity index 90%
-> rename from meta/recipes-support/boost/boost-1.86.0.inc
-> rename to meta/recipes-support/boost/boost-1.87.0.inc
-> index 7113a500491..c6e55b239eb 100644
-> --- a/meta/recipes-support/boost/boost-1.86.0.inc
-> +++ b/meta/recipes-support/boost/boost-1.87.0.inc
-> @@ -12,7 +12,7 @@ BOOST_MAJ =3D "${@"_".join(d.getVar("PV").split(".")[0:=
-2])}"
->  BOOST_P =3D "boost_${BOOST_VER}"
->
->  SRC_URI =3D "https://archives.boost.io/release/${PV}/source/${BOOST_P}.t=
-ar.bz2"
-> -SRC_URI[sha256sum] =3D "1bed88e40401b2cb7a1f76d4bab499e352fa4d0c5f31c0db=
-ae64e24d34d7513b"
-> +SRC_URI[sha256sum] =3D "af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a=
-11ef548f4d527d89"
->
->  UPSTREAM_CHECK_URI =3D "http://www.boost.org/users/download/"
->  UPSTREAM_CHECK_REGEX =3D "release/(?P<pver>.*)/source/"
-> diff --git a/meta/recipes-support/boost/boost-build-native_1.86.0.bb b/me=
-ta/recipes-support/boost/boost-build-native_1.87.0.bb
-> similarity index 100%
-> rename from meta/recipes-support/boost/boost-build-native_1.86.0.bb
-> rename to meta/recipes-support/boost/boost-build-native_1.87.0.bb
-> diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-inst=
-ruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/000=
-1-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-> index 78f652f619c..04bede45787 100644
-> --- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction=
--set-flags-we-do-that-o.patch
-> +++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction=
--set-flags-we-do-that-o.patch
-> @@ -1,4 +1,4 @@
-> -From f88354966fe3af33fd6d9ec889a8e3926b886a8a Mon Sep 17 00:00:00 2001
-> +From e2cc24d6d8b7b24a6d0a30c52c7ad69a001a0ad5 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Tue, 18 Dec 2018 15:42:57 +0100
->  Subject: [PATCH] Don't set up arch/instruction-set flags, we do that
-> diff --git a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-fl=
-ags-m32-m64.patch b/meta/recipes-support/boost/boost/0001-dont-setup-compil=
-er-flags-m32-m64.patch
-> index 8f130348b0a..db1ee038987 100644
-> --- a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32=
--m64.patch
-> +++ b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32=
--m64.patch
-> @@ -1,4 +1,4 @@
-> -From 7130850d74863d1e9a0ae3e85462f1466bdf6d88 Mon Sep 17 00:00:00 2001
-> +From b0728812241c048907e6f1ba168292cd9948347d Mon Sep 17 00:00:00 2001
->  From: Anuj Mittal <anuj.mittal@intel.com>
->  Date: Thu, 14 Nov 2019 10:13:53 +0800
->  Subject: [PATCH] dont setup compiler flags -m32/-m64
-> diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-=
-gcc.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc=
-.patch
-> index dde21fa0763..ad90d96dddf 100644
-> --- a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.pat=
-ch
-> +++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.pat=
-ch
-> @@ -1,4 +1,4 @@
-> -From c6009cdc1fe76db0092443593396e4d5f0eaa86b Mon Sep 17 00:00:00 2001
-> +From e7491f9874411fd9855957812ba9bac948a61356 Mon Sep 17 00:00:00 2001
->  From: Jackie Huang <jackie.huang@windriver.com>
->  Date: Fri, 23 Sep 2016 01:04:50 -0700
->  Subject: [PATCH] boost-math: disable pch for gcc
-> @@ -14,11 +14,11 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.c=
+Hi Peter,
+
+I'm currently looking at this. I added CVE-2023-33460.patch to
+test_parse_cve_from_patch_contents and ran oe-selftest. I see the issue why
+these patches are no longer being marked as solved.
+
+2025-01-11 15:17:33,396 - oe-selftest - INFO -
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+2025-01-11 15:17:33,396 - oe-selftest - INFO - FAIL:
+test_parse_cve_from_patch_contents (cve_check.CVECheck)
+2025-01-11 15:17:33,397 - oe-selftest - INFO -
+----------------------------------------------------------------------
+2025-01-11 15:17:33,397 - oe-selftest - INFO - Traceback (most recent call
+last):
+  File
+"/home/colin/development/yocto/poky/meta/lib/oeqa/selftest/cases/cve_check.=
+py",
+line 209, in test_parse_cve_from_patch_contents
+    self.assertEqual(
+AssertionError: Items in the first set but not the second:
+'CVE-2023-33460'
+Items in the second set but not the first:
+'E'
+'2'
+'V'
+'C'
+'-'
+'0'
+'4'
+'3'
+'6'
+
+2025-01-11 15:17:33,397 - oe-selftest - INFO -
+----------------------------------------------------------------------
+2025-01-11 15:17:33,397 - oe-selftest - INFO - Ran 1 test in 0.247s
+2025-01-11 15:17:33,398 - oe-selftest - INFO - FAILED
+2025-01-11 15:17:33,398 - oe-selftest - INFO -  (failures=3D1)
+2025-01-11 15:17:46,988 - oe-selftest - INFO - RESULTS:
+2025-01-11 15:17:46,988 - oe-selftest - INFO - RESULTS -
+cve_check.CVECheck.test_parse_cve_from_patch_contents: FAILED (0.02s)
+2025-01-11 15:17:46,996 - oe-selftest - INFO - SUMMARY:
+2025-01-11 15:17:46,996 - oe-selftest - INFO - oe-selftest () - Ran 1 test
+in 0.249s
+2025-01-11 15:17:46,996 - oe-selftest - INFO - oe-selftest - FAIL -
+Required tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=3D0=
+)
+
+For some reason the CVE string itself is getting put into a set, instead of
+the full string being placed into a set. I'll track down where this is
+happening and push up a fix, including adding this update to the test.
+
+Not sure why I didn't add a test case with a single CVE ID in the patch
+contents...This was my mistake and I apologize. Sorry for any
+inconveniences I caused.
+
+Best,
+Colin
+
+On Fri, Jan 10, 2025 at 3:26=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.c=
 om>
->   1 file changed, 1 insertion(+), 1 deletion(-)
+wrote:
+
+> Looking at the reopened CVEs in meta-oe, I can't understand why are some
+> reported.
 >
->  diff --git a/libs/math/build/Jamfile.v2 b/libs/math/build/Jamfile.v2
-> -index 6549e06b7..342cbf0b1 100644
-> +index 500c77363..504d7d8c6 100644
->  --- a/libs/math/build/Jamfile.v2
->  +++ b/libs/math/build/Jamfile.v2
-> -@@ -13,7 +13,7 @@ project
-> -       <toolset>intel-win:<linkflags>-nologo
-> +@@ -15,7 +15,7 @@ project
-> +       <toolset>intel-win:<linkflags>-nologo
->         #<toolset>intel-linux:<pch>off
->         <toolset>intel-darwin:<pch>off
->  -      <toolset>gcc,<target-os>windows:<pch>off
-> diff --git a/meta/recipes-support/boost/boost_1.86.0.bb b/meta/recipes-su=
-pport/boost/boost_1.87.0.bb
-> similarity index 100%
-> rename from meta/recipes-support/boost/boost_1.86.0.bb
-> rename to meta/recipes-support/boost/boost_1.87.0.bb
-> --
-> 2.39.5
+> $ grep -rI CVE-2023-33460 ./
+> ./meta-oe/recipes-devtools/yajl/yajl/CVE-2023-33460.patch:CVE:
+> CVE-2023-33460
+> ./meta-oe/recipes-devtools/yajl/yajl_2.1.0.bb:
+>  file://CVE-2023-33460.patch \
+> $ grep -rI CVE-2020-29074 ./
+> ./meta-oe/recipes-graphics/x11vnc/files/CVE-2020-29074.patch:CVE:
+> CVE-2020-29074
+> ./meta-oe/recipes-graphics/x11vnc/x11vnc_0.9.16.bb:
+>  file://CVE-2020-29074.patch \
+>
+> These look good to me, but they are not matched anymore and show as open.
+>
+> Peter
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Peter Marko via
+> > lists.openembedded.org
+> > Sent: Friday, January 10, 2025 10:21
+> > To: colinmca242@gmail.com; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH v2 1/1] cve-check: Rework patch parsing
+> >
+> > Or should we rather rename all those patches which violate current code=
+?
+> > What is then the meaning of CVE: tag within the patch if it's not used
+> but it's
+> > enforced?
+> > We should probably remove cve_payload_tag handling from
+> > test_cve_tag_format...
+> >
+> > Peter
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > core@lists.openembedded.org> On Behalf Of Peter Marko via
+> > > lists.openembedded.org
+> > > Sent: Friday, January 10, 2025 9:34
+> > > To: colinmca242@gmail.com; openembedded-
+> > core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH v2 1/1] cve-check: Rework patch parsing
+> > >
+> > > Hello,
+> > >
+> > > This patch has caused a regression in detecting cve patches.
+> > > Master jumped by 32 CVEs after merging this commit.
+> > > These are for sure patched but it's not detected anymore.
+> > > See https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+> > > (master should be identical to scarthgap/styhead except for kernel
+> CVEs)
+> > >
+> > > Reports cannot be used anymore for picking CVEs for TODO list.
+> > > So this patch should be reverted or fixed.
+> > >
+> > > Peter
+> > >
+> > > > -----Original Message-----
+> > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > core@lists.openembedded.org> On Behalf Of Colin McAllister via
+> > > > lists.openembedded.org
+> > > > Sent: Monday, December 30, 2024 20:22
+> > > > To: openembedded-core@lists.openembedded.org
+> > > > Cc: Colin McAllister <colinmca242@gmail.com>
+> > > > Subject: [OE-core] [PATCH v2 1/1] cve-check: Rework patch parsing
+> > > >
+> > > > The cve_check functionality to parse CVE IDs from the patch filenam=
+e
+> and
+> > > > patch contents have been reworked to improve parsing and also utili=
+ze
+> > > > tests. This ensures that the parsing works as intended.
+> > > >
+> > > > Additionally, the new patched_cves dict has a few issues I tried to
+> fix
+> > > > as well. If multiple patch files exist for a single CVE ID, only th=
+e
+> > > > last one will show up with the "resource" key. The value for the
+> > > > "resource" key has been updated to hold a list and return all patch
+> > > > files associated with a given CVE ID. Also, at the end of
+> > > > get_patch_cves, CVE_STATUS can overwrite an existing entry in the
+> dict.
+> > > > This could cause an issue, for example, if a CVE has been addressed
+> via
+> > > > a patch, but a CVE_STATUS line also exists that ignores the given C=
+VE
+> > > > ID. A warning has been added if this ever happens.
+> > > >
+> > > > Signed-off-by: Colin McAllister <colinmca242@gmail.com>
+> > > > ---
+> > > >
+> > > > I noticed that there are some patches, especially in older verisons
+> of
+> > > > Yocto, where the "CVE: " tag was used with multiple CVE IDs in
+> different
+> > > > formats, like "CVE-YYYY-XXXX & CVE-YYYY-XXXX" or
+> > > > "CVE-YYYY-XXXX, CVE-YYYY-XXXX". Currently, only space-delimited CVE
+> > > > IDs will be parsed, but documentation doesn't indicate that is the
+> only
+> > > > supported format. I figured it'd be nice to update the code to be
+> able
+> > > > to support multiple formats, that way this patch could be backporte=
+d
+> to
+> > > > fix those patches. I also wanted to add unit tests to ensure the
+> patch
+> > > > parsing behavior is preserved.
+> > > >
+> > > > I'd also like to update the patch filename parsing to parse multipl=
+e
+> CVE
+> > > > IDs from the filename, but based on the comments, it seems like the=
+re
+> > > > was a reason why only the last CVE ID is extracted from the filenam=
+e.
+> > > > I'd be happy to submit a V2 patch or an additional patch to update
+> the
+> > > > function if that sounds good for the maintainers.
+> > > >
+> > > > V2 Changes:
+> > > > I mistakenly created this patch without fb3f440 applied. I updated
+> > > > get_patched_cves to return a dict instead of a set.
+> > > >
+> > > > I also improved the docstrings for these new functions to be more
+> > > > descriptive and also specify the return types.
+> > > >
+> > > > I also found a few issues with the dictionary object created by
+> > > > get_patched_cves that have now been addressed in this commit.
+> > > >
+> > > >  meta/lib/oe/cve_check.py                  | 166 ++++++++++++------
+> > > >  meta/lib/oeqa/selftest/cases/cve_check.py | 205
+> > > > ++++++++++++++++++++++
+> > > >  2 files changed, 317 insertions(+), 54 deletions(-)
+> > > >
+> > > > diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+> > > > index 280f9f613d..85a899a880 100644
+> > > > --- a/meta/lib/oe/cve_check.py
+> > > > +++ b/meta/lib/oe/cve_check.py
+> > > > @@ -5,9 +5,11 @@
+> > > >  #
+> > > >
+> > > >  import collections
+> > > > -import re
+> > > > -import itertools
+> > > >  import functools
+> > > > +import itertools
+> > > > +import os.path
+> > > > +import re
+> > > > +import oe.patch
+> > > >
+> > > >  _Version =3D collections.namedtuple(
+> > > >      "_Version", ["release", "patch_l", "pre_l", "pre_v"]
+> > > > @@ -71,76 +73,132 @@ def _cmpkey(release, patch_l, pre_l, pre_v):
+> > > >      return _release, _patch, _pre
+> > > >
+> > > >
+> > > > -def get_patched_cves(d):
+> > > > +def parse_cve_from_filename(patch_filename):
+> > > >      """
+> > > > -    Get patches that solve CVEs using the "CVE: " tag.
+> > > > +    Parses CVE ID from the filename
+> > > > +
+> > > > +    Matches the last "CVE-YYYY-ID" in the file name, also if writt=
+en
+> > > > +    in lowercase. Possible to have multiple CVE IDs in a single
+> > > > +    file name, but only the last one will be detected from the fil=
+e
+> name.
+> > > > +
+> > > > +    Returns the last CVE ID foudn in the filename. If no CVE ID is
+> found
+> > > > +    an empty string is returned.
+> > > >      """
+> > > > +    cve_file_name_match =3D re.compile(r".*(CVE-\d{4}-\d{4,})",
+> > > > re.IGNORECASE)
+> > > >
+> > > > -    import re
+> > > > -    import oe.patch
+> > > > +    # Check patch file name for CVE ID
+> > > > +    fname_match =3D cve_file_name_match.search(patch_filename)
+> > > > +    return fname_match.group(1).upper() if fname_match else ""
+> > > >
+> > > > -    cve_match =3D re.compile(r"CVE:( CVE-\d{4}-\d+)+")
+> > > >
+> > > > -    # Matches the last "CVE-YYYY-ID" in the file name, also if
+> written
+> > > > -    # in lowercase. Possible to have multiple CVE IDs in a single
+> > > > -    # file name, but only the last one will be detected from the
+> file name.
+> > > > -    # However, patch files contents addressing multiple CVE IDs ar=
+e
+> > > supported
+> > > > -    # (cve_match regular expression)
+> > > > -    cve_file_name_match =3D re.compile(r".*(CVE-\d{4}-\d+)",
+> > > re.IGNORECASE)
+> > > > +def parse_cves_from_patch_contents(patch_contents):
+> > > > +    """
+> > > > +    Parses CVE IDs from patch contents
+> > > >
+> > > > +    Matches all CVE IDs contained on a line that starts with "CVE:
+> ". Any
+> > > > +    delimiter (',', '&', "and", etc.) can be used without any
+> issues. Multiple
+> > > > +    "CVE:" lines can also exist.
+> > > > +
+> > > > +    Returns a set of all CVE IDs found in the patch contents.
+> > > > +    """
+> > > > +    cve_ids =3D set()
+> > > > +    cve_match =3D re.compile(r"CVE-\d{4}-\d{4,}")
+> > > > +    # Search for one or more "CVE: " lines
+> > > > +    for line in patch_contents.split("\n"):
+> > > > +        if not line.startswith("CVE:"):
+> > > > +            continue
+> > > > +        cve_ids.update(cve_match.findall(line))
+> > > > +    return cve_ids
+> > > > +
+> > > > +
+> > > > +def parse_cves_from_patch_file(patch_file):
+> > > > +    """
+> > > > +    Parses CVE IDs associated with a particular patch file, using
+> both the
+> > > > filename
+> > > > +    and patch contents.
+> > > > +
+> > > > +    Returns a set of all CVE IDs found in the patch filename and
+> contents.
+> > > > +    """
+> > > > +    cve_ids =3D set()
+> > > > +    filename_cve =3D parse_cve_from_filename(patch_file)
+> > > > +    if filename_cve:
+> > > > +        bb.debug(2, "Found %s from patch file name %s" %
+> (filename_cve,
+> > > > patch_file))
+> > > > +        cve_ids.add(parse_cve_from_filename(patch_file))
+> > > > +
+> > > > +    # Remote patches won't be present and compressed patches won't
+> be
+> > > > +    # unpacked, so say we're not scanning them
+> > > > +    if not os.path.isfile(patch_file):
+> > > > +        bb.note("%s is remote or compressed, not scanning content"=
+ %
+> > > > patch_file)
+> > > > +        return cve_ids
+> > > > +
+> > > > +    with open(patch_file, "r", encoding=3D"utf-8") as f:
+> > > > +        try:
+> > > > +            patch_text =3D f.read()
+> > > > +        except UnicodeDecodeError:
+> > > > +            bb.debug(
+> > > > +                1,
+> > > > +                "Failed to read patch %s using UTF-8 encoding"
+> > > > +                " trying with iso8859-1" % patch_file,
+> > > > +            )
+> > > > +            f.close()
+> > > > +            with open(patch_file, "r", encoding=3D"iso8859-1") as =
+f:
+> > > > +                patch_text =3D f.read()
+> > > > +
+> > > > +    cve_ids.update(parse_cves_from_patch_contents(patch_text))
+> > > > +
+> > > > +    if not cve_ids:
+> > > > +        bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
+> > > > +    else:
+> > > > +        bb.debug(2, "Patch %s solves %s" % (patch_file, ",
+> > > > ".join(sorted(cve_ids))))
+> > > > +
+> > > > +    return cve_ids
+> > > > +
+> > > > +
+> > > > +def get_patched_cves(d):
+> > > > +    """
+> > > > +    Determines the CVE IDs that have been solved by either patches
+> > incuded
+> > > > within
+> > > > +    SRC_URI or by setting CVE_STATUS.
+> > > > +
+> > > > +    Returns a dictionary with the CVE IDs as keys and an associate=
+d
+> > dictonary
+> > > > of
+> > > > +    relevant metadata as the value.
+> > > > +    """
+> > > >      patched_cves =3D {}
+> > > >      patches =3D oe.patch.src_patches(d)
+> > > >      bb.debug(2, "Scanning %d patches for CVEs" % len(patches))
+> > > > +
+> > > > +    # Check each patch file
+> > > >      for url in patches:
+> > > >          patch_file =3D bb.fetch.decodeurl(url)[2]
+> > > > -
+> > > > -        # Check patch file name for CVE ID
+> > > > -        fname_match =3D cve_file_name_match.search(patch_file)
+> > > > -        if fname_match:
+> > > > -            cve =3D fname_match.group(1).upper()
+> > > > -            patched_cves[cve] =3D {"abbrev-status": "Patched",
+> "status": "fix-file-
+> > > > included", "resource": patch_file}
+> > > > -            bb.debug(2, "Found %s from patch file name %s" % (cve,
+> > patch_file))
+> > > > -
+> > > > -        # Remote patches won't be present and compressed patches
+> won't be
+> > > > -        # unpacked, so say we're not scanning them
+> > > > -        if not os.path.isfile(patch_file):
+> > > > -            bb.note("%s is remote or compressed, not scanning
+> content" %
+> > > > patch_file)
+> > > > -            continue
+> > > > -
+> > > > -        with open(patch_file, "r", encoding=3D"utf-8") as f:
+> > > > -            try:
+> > > > -                patch_text =3D f.read()
+> > > > -            except UnicodeDecodeError:
+> > > > -                bb.debug(1, "Failed to read patch %s using UTF-8
+> encoding"
+> > > > -                        " trying with iso8859-1" %  patch_file)
+> > > > -                f.close()
+> > > > -                with open(patch_file, "r", encoding=3D"iso8859-1")=
+ as
+> f:
+> > > > -                    patch_text =3D f.read()
+> > > > -
+> > > > -        # Search for one or more "CVE: " lines
+> > > > -        text_match =3D False
+> > > > -        for match in cve_match.finditer(patch_text):
+> > > > -            # Get only the CVEs without the "CVE: " tag
+> > > > -            cves =3D patch_text[match.start()+5:match.end()]
+> > > > -            for cve in cves.split():
+> > > > -                bb.debug(2, "Patch %s solves %s" % (patch_file,
+> cve))
+> > > > -                patched_cves[cve] =3D {"abbrev-status": "Patched",
+> "status": "fix-
+> > file-
+> > > > included", "resource": patch_file}
+> > > > -                text_match =3D True
+> > > > -
+> > > > -        if not fname_match and not text_match:
+> > > > -            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file=
+)
+> > > > +        for cve_id in parse_cves_from_patch_file(patch_file):
+> > > > +            if cve_id not in patched_cves:
+> > > > +                {
+> > > > +                    "abbrev-status": "Patched",
+> > > > +                    "status": "fix-file-included",
+> > > > +                    "resource": [patch_file],
+> > > > +                }
+> > > > +            else:
+> > > > +                patched_cves[cve_id]["resource"].append(patch_file=
+)
+> > > >
+> > > >      # Search for additional patched CVEs
+> > > > -    for cve in (d.getVarFlags("CVE_STATUS") or {}):
+> > > > -        decoded_status =3D decode_cve_status(d, cve)
+> > > > +    for cve_id in d.getVarFlags("CVE_STATUS") or {}:
+> > > > +        decoded_status =3D decode_cve_status(d, cve_id)
+> > > >          products =3D d.getVar("CVE_PRODUCT")
+> > > > -        if has_cve_product_match(decoded_status, products) =3D=3D =
+True:
+> > > > -            patched_cves[cve] =3D {
+> > > > +        if has_cve_product_match(decoded_status, products):
+> > > > +            if cve_id in patched_cves:
+> > > > +                bb.warn(
+> > > > +                    'CVE_STATUS[%s] =3D "%s" is overwriting previo=
+us
+> status of "%s:
+> > > %s"'
+> > > > +                    % (
+> > > > +                        cve_id,
+> > > > +                        d.getVarFlag("CVE_STATUS", cve_id),
+> > > > +                        patched_cves[cve_id]["abbrev-status"],
+> > > > +                        patched_cves[cve_id]["status"],
+> > > > +                    )
+> > > > +                )
+> > > > +            patched_cves[cve_id] =3D {
+> > > >                  "abbrev-status": decoded_status["mapping"],
+> > > >                  "status": decoded_status["detail"],
+> > > >                  "justification": decoded_status["description"],
+> > > >                  "affected-vendor": decoded_status["vendor"],
+> > > > -                "affected-product": decoded_status["product"]
+> > > > +                "affected-product": decoded_status["product"],
+> > > >              }
+> > > >
+> > > >      return patched_cves
+> > > > diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py
+> > > > b/meta/lib/oeqa/selftest/cases/cve_check.py
+> > > > index 3dd3e89d3e..511e4b81b4 100644
+> > > > --- a/meta/lib/oeqa/selftest/cases/cve_check.py
+> > > > +++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+> > > > @@ -120,6 +120,211 @@ class CVECheck(OESelftestTestCase):
+> > > >          self.assertEqual(has_cve_product_match(status, "test
+> glibca:glibc"),
+> > > True)
+> > > >          self.assertEqual(has_cve_product_match(status,
+> "glibca:glibc test"),
+> > > True)
+> > > >
+> > > > +    def test_parse_cve_from_patch_filename(self):
+> > > > +        from oe.cve_check import parse_cve_from_filename
+> > > > +
+> > > > +        # Patch filename without CVE ID
+> > > > +
+> self.assertEqual(parse_cve_from_filename("0001-test.patch"), "")
+> > > > +
+> > > > +        # Patch with single CVE ID
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2022-12345.patch"),
+> "CVE-2022-
+> > > > 12345"
+> > > > +        )
+> > > > +
+> > > > +        # Patch with multiple CVE IDs
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2022-41741-CVE-2022-
+> > > > 41742.patch"),
+> > > > +            "CVE-2022-41742",
+> > > > +        )
+> > > > +
+> > > > +        # Patches with CVE ID and appended text
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2023-3019-0001.patch"),
+> "CVE-
+> > > > 2023-3019"
+> > > > +        )
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2024-21886-1.patch"), "CV=
+E-
+> > 2024-
+> > > > 21886"
+> > > > +        )
+> > > > +
+> > > > +        # Patch with CVE ID and prepended text
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("grep-CVE-2012-5667.patch"),
+> "CVE-
+> > > 2012-
+> > > > 5667"
+> > > > +        )
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("0001-CVE-2012-5667.patch"),
+> "CVE-
+> > > > 2012-5667"
+> > > > +        )
+> > > > +
+> > > > +        # Patch with CVE ID and both prepended and appended text
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename(
+> > > > +                "0001-tpm2_import-fix-fixed-AES-key-CVE-2021-3565-
+> > > 0001.patch"
+> > > > +            ),
+> > > > +            "CVE-2021-3565",
+> > > > +        )
+> > > > +
+> > > > +        # Only grab the last CVE ID in the filename
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2012-5667-CVE-2012-
+> > > 5668.patch"),
+> > > > +            "CVE-2012-5668",
+> > > > +        )
+> > > > +
+> > > > +        # Test invalid CVE ID with incorrect length (must be at
+> least 4 digits)
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2024-001.patch"),
+> > > > +            "",
+> > > > +        )
+> > > > +
+> > > > +        # Test valid CVE ID with very long length
+> > > > +        self.assertEqual(
+> > > > +            parse_cve_from_filename("CVE-2024-
+> > > > 0000000000000000000000001.patch"),
+> > > > +            "CVE-2024-0000000000000000000000001",
+> > > > +        )
+> > > > +
+> > > > +    def test_parse_cve_from_patch_contents(self):
+> > > > +        import textwrap
+> > > > +        from oe.cve_check import parse_cves_from_patch_contents
+> > > > +
+> > > > +        # Standard patch file excerpt without any patches
+> > > > +        self.assertEqual(
+> > > > +            parse_cves_from_patch_contents(
+> > > > +                textwrap.dedent("""\
+> > > > +            remove "*" for root since we don't have a /etc/shadow
+> so far.
+> > > > +
+> > > > +            Upstream-Status: Inappropriate [configuration]
+> > > > +
+> > > > +            Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> > > > +
+> > > > +            --- base-passwd/passwd.master~nobash
+> > > > +            +++ base-passwd/passwd.master
+> > > > +            @@ -1,4 +1,4 @@
+> > > > +            -root:*:0:0:root:/root:/bin/sh
+> > > > +            +root::0:0:root:/root:/bin/sh
+> > > > +            daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+> > > > +            bin:*:2:2:bin:/bin:/bin/sh
+> > > > +            sys:*:3:3:sys:/dev:/bin/sh
+> > > > +            """)
+> > > > +            ),
+> > > > +            set(),
+> > > > +        )
+> > > > +
+> > > > +        # Patch file with multiple CVE IDs (space-separated)
+> > > > +        self.assertEqual(
+> > > > +            parse_cves_from_patch_contents(
+> > > > +                textwrap.dedent("""\
+> > > > +                There is an assertion in function
+> _cairo_arc_in_direction().
+> > > > +
+> > > > +                CVE: CVE-2019-6461 CVE-2019-6462
+> > > > +                Upstream-Status: Pending
+> > > > +                Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > > +
+> > > > +                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> > > > +                index 390397bae..1bde774a4 100644
+> > > > +                --- a/src/cairo-arc.c
+> > > > +                +++ b/src/cairo-arc.c
+> > > > +                @@ -186,7 +186,8 @@ _cairo_arc_in_direction
+> (cairo_t          *cr,
+> > > > +                    if (cairo_status (cr))
+> > > > +                        return;
+> > > > +
+> > > > +                -    assert (angle_max >=3D angle_min);
+> > > > +                +    if (angle_max < angle_min)
+> > > > +                +       return;
+> > > > +
+> > > > +                    if (angle_max - angle_min > 2 * M_PI *
+> MAX_FULL_CIRCLES) {
+> > > > +                    angle_max =3D fmod (angle_max - angle_min, 2 *
+> M_PI);
+> > > > +            """),
+> > > > +            ),
+> > > > +            {"CVE-2019-6461", "CVE-2019-6462"},
+> > > > +        )
+> > > > +
+> > > > +        # Patch file with multiple CVE IDs (comma-separated w/ bot=
+h
+> space
+> > and
+> > > > no space)
+> > > > +        self.assertEqual(
+> > > > +            parse_cves_from_patch_contents(
+> > > > +                textwrap.dedent("""\
+> > > > +                There is an assertion in function
+> _cairo_arc_in_direction().
+> > > > +
+> > > > +                CVE: CVE-2019-6461,CVE-2019-6462, CVE-2019-6463
+> > > > +                Upstream-Status: Pending
+> > > > +                Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > > +
+> > > > +                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> > > > +                index 390397bae..1bde774a4 100644
+> > > > +                --- a/src/cairo-arc.c
+> > > > +                +++ b/src/cairo-arc.c
+> > > > +                @@ -186,7 +186,8 @@ _cairo_arc_in_direction
+> (cairo_t          *cr,
+> > > > +                    if (cairo_status (cr))
+> > > > +                        return;
+> > > > +
+> > > > +                -    assert (angle_max >=3D angle_min);
+> > > > +                +    if (angle_max < angle_min)
+> > > > +                +       return;
+> > > > +
+> > > > +                    if (angle_max - angle_min > 2 * M_PI *
+> MAX_FULL_CIRCLES) {
+> > > > +                    angle_max =3D fmod (angle_max - angle_min, 2 *
+> M_PI);
+> > > > +
+> > > > +            """),
+> > > > +            ),
+> > > > +            {"CVE-2019-6461", "CVE-2019-6462", "CVE-2019-6463"},
+> > > > +        )
+> > > > +
+> > > > +        # Patch file with multiple CVE IDs (&-separated)
+> > > > +        self.assertEqual(
+> > > > +            parse_cves_from_patch_contents(
+> > > > +                textwrap.dedent("""\
+> > > > +                There is an assertion in function
+> _cairo_arc_in_direction().
+> > > > +
+> > > > +                CVE: CVE-2019-6461 & CVE-2019-6462
+> > > > +                Upstream-Status: Pending
+> > > > +                Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > > +
+> > > > +                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> > > > +                index 390397bae..1bde774a4 100644
+> > > > +                --- a/src/cairo-arc.c
+> > > > +                +++ b/src/cairo-arc.c
+> > > > +                @@ -186,7 +186,8 @@ _cairo_arc_in_direction
+> (cairo_t          *cr,
+> > > > +                    if (cairo_status (cr))
+> > > > +                        return;
+> > > > +
+> > > > +                -    assert (angle_max >=3D angle_min);
+> > > > +                +    if (angle_max < angle_min)
+> > > > +                +       return;
+> > > > +
+> > > > +                    if (angle_max - angle_min > 2 * M_PI *
+> MAX_FULL_CIRCLES) {
+> > > > +                    angle_max =3D fmod (angle_max - angle_min, 2 *
+> M_PI);
+> > > > +            """),
+> > > > +            ),
+> > > > +            {"CVE-2019-6461", "CVE-2019-6462"},
+> > > > +        )
+> > > > +
+> > > > +        # Patch file with multiple lines with CVE IDs
+> > > > +        self.assertEqual(
+> > > > +            parse_cves_from_patch_contents(
+> > > > +                textwrap.dedent("""\
+> > > > +                There is an assertion in function
+> _cairo_arc_in_direction().
+> > > > +
+> > > > +                CVE: CVE-2019-6461 & CVE-2019-6462
+> > > > +
+> > > > +                CVE: CVE-2019-6463 & CVE-2019-6464
+> > > > +                Upstream-Status: Pending
+> > > > +                Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > > +
+> > > > +                diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> > > > +                index 390397bae..1bde774a4 100644
+> > > > +                --- a/src/cairo-arc.c
+> > > > +                +++ b/src/cairo-arc.c
+> > > > +                @@ -186,7 +186,8 @@ _cairo_arc_in_direction
+> (cairo_t          *cr,
+> > > > +                    if (cairo_status (cr))
+> > > > +                        return;
+> > > > +
+> > > > +                -    assert (angle_max >=3D angle_min);
+> > > > +                +    if (angle_max < angle_min)
+> > > > +                +       return;
+> > > > +
+> > > > +                    if (angle_max - angle_min > 2 * M_PI *
+> MAX_FULL_CIRCLES) {
+> > > > +                    angle_max =3D fmod (angle_max - angle_min, 2 *
+> M_PI);
+> > > > +
+> > > > +            """),
+> > > > +            ),
+> > > > +            {"CVE-2019-6461", "CVE-2019-6462", "CVE-2019-6463",
+> "CVE-
+> > > > 2019-6464"},
+> > > > +        )
+> > > >
+> > > >      def test_recipe_report_json(self):
+> > > >          config =3D """
+> > > > --
+> > > > 2.34.1
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#209533): https://lists.openembedded.org/g/openembedde=
-d-core/message/209533
-> Mute This Topic: https://lists.openembedded.org/mt/110493599/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+--000000000000516292062b6fd468
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Peter,</div><div><br>I&#39;m currently looking at =
+this. I added CVE-2023-33460.patch to test_parse_cve_from_patch_contents an=
+d ran oe-selftest. I see the issue why these patches are no longer being ma=
+rked as solved.</div><div><br></div><div>2025-01-11 15:17:33,396 - oe-selft=
+est - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+<br>2025-01-11 15:17:33,396 - oe-selftest - INFO - FAIL: test_parse_cve_fro=
+m_patch_contents (cve_check.CVECheck)<br>2025-01-11 15:17:33,397 - oe-selft=
+est - INFO - --------------------------------------------------------------=
+--------<br>2025-01-11 15:17:33,397 - oe-selftest - INFO - Traceback (most =
+recent call last):<br>=C2=A0 File &quot;/home/colin/development/yocto/poky/=
+meta/lib/oeqa/selftest/cases/cve_check.py&quot;, line 209, in test_parse_cv=
+e_from_patch_contents<br>=C2=A0 =C2=A0 self.assertEqual(<br>AssertionError:=
+ Items in the first set but not the second:<br>&#39;CVE-2023-33460&#39;<br>=
+Items in the second set but not the first:<br>&#39;E&#39;<br>&#39;2&#39;<br=
+>&#39;V&#39;<br>&#39;C&#39;<br>&#39;-&#39;<br>&#39;0&#39;<br>&#39;4&#39;<br=
+>&#39;3&#39;<br>&#39;6&#39;<br><br>2025-01-11 15:17:33,397 - oe-selftest - =
+INFO - --------------------------------------------------------------------=
+--<br>2025-01-11 15:17:33,397 - oe-selftest - INFO - Ran 1 test in 0.247s<b=
+r>2025-01-11 15:17:33,398 - oe-selftest - INFO - FAILED<br>2025-01-11 15:17=
+:33,398 - oe-selftest - INFO - =C2=A0(failures=3D1)<br>2025-01-11 15:17:46,=
+988 - oe-selftest - INFO - RESULTS:<br>2025-01-11 15:17:46,988 - oe-selftes=
+t - INFO - RESULTS - cve_check.CVECheck.test_parse_cve_from_patch_contents:=
+ FAILED (0.02s)<br>2025-01-11 15:17:46,996 - oe-selftest - INFO - SUMMARY:<=
+br>2025-01-11 15:17:46,996 - oe-selftest - INFO - oe-selftest () - Ran 1 te=
+st in 0.249s<br>2025-01-11 15:17:46,996 - oe-selftest - INFO - oe-selftest =
+- FAIL - Required tests failed (successes=3D0, skipped=3D0, failures=3D1, e=
+rrors=3D0)</div><div><br></div>For some reason the CVE string itself is get=
+ting put into a set, instead of the full string being placed into a set. I&=
+#39;ll track down where this is happening and push up a fix, including addi=
+ng this update to the test.<div><br></div><div>Not sure why I didn&#39;t ad=
+d a test case with a single CVE ID in the patch contents...This was my mist=
+ake and I apologize. Sorry for any inconveniences I caused.</div><div><br><=
+/div><div>Best,</div><div>Colin</div></div><br><div class=3D"gmail_quote gm=
+ail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 10, =
+2025 at 3:26=E2=80=AFAM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siem=
+ens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Looking at the reopened CVEs in meta-oe, I=
+ can&#39;t understand why are some reported.<br>
+<br>
+$ grep -rI CVE-2023-33460 ./<br>
+./meta-oe/recipes-devtools/yajl/yajl/CVE-2023-33460.patch:CVE: CVE-2023-334=
+60<br>
+./meta-oe/recipes-devtools/yajl/<a href=3D"http://yajl_2.1.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">yajl_2.1.0.bb</a>:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0file://CVE-2023-33460.patch \<br>
+$ grep -rI CVE-2020-29074 ./<br>
+./meta-oe/recipes-graphics/x11vnc/files/CVE-2020-29074.patch:CVE: CVE-2020-=
+29074<br>
+./meta-oe/recipes-graphics/x11vnc/<a href=3D"http://x11vnc_0.9.16.bb" rel=
+=3D"noreferrer" target=3D"_blank">x11vnc_0.9.16.bb</a>:=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0file://CVE-2020-29074.patch \<br>
+<br>
+These look good to me, but they are not matched anymore and show as open.<b=
+r>
+<br>
+Peter<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Peter Marko via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; Sent: Friday, January 10, 2025 10:21<br>
+&gt; To: <a href=3D"mailto:colinmca242@gmail.com" target=3D"_blank">colinmc=
+a242@gmail.com</a>; <a href=3D"mailto:openembedded-core@lists.openembedded.=
+org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core] [PATCH v2 1/1] cve-check: Rework patch parsing<=
+br>
+&gt; <br>
+&gt; Or should we rather rename all those patches which violate current cod=
+e?<br>
+&gt; What is then the meaning of CVE: tag within the patch if it&#39;s not =
+used but it&#39;s<br>
+&gt; enforced?<br>
+&gt; We should probably remove cve_payload_tag handling from<br>
+&gt; test_cve_tag_format...<br>
+&gt; <br>
+&gt; Peter<br>
+&gt; <br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org"=
+ target=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openemb=
+edded-<br>
+&gt; &gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">=
+core@lists.openembedded.org</a>&gt; On Behalf Of Peter Marko via<br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
+et=3D"_blank">lists.openembedded.org</a><br>
+&gt; &gt; Sent: Friday, January 10, 2025 9:34<br>
+&gt; &gt; To: <a href=3D"mailto:colinmca242@gmail.com" target=3D"_blank">co=
+linmca242@gmail.com</a>; openembedded-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a><br>
+&gt; &gt; Subject: Re: [OE-core] [PATCH v2 1/1] cve-check: Rework patch par=
+sing<br>
+&gt; &gt;<br>
+&gt; &gt; Hello,<br>
+&gt; &gt;<br>
+&gt; &gt; This patch has caused a regression in detecting cve patches.<br>
+&gt; &gt; Master jumped by 32 CVEs after merging this commit.<br>
+&gt; &gt; These are for sure patched but it&#39;s not detected anymore.<br>
+&gt; &gt; See <a href=3D"https://valkyrie.yocto.io/pub/non-release/patchmet=
+rics/" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto.io/pub/n=
+on-release/patchmetrics/</a><br>
+&gt; &gt; (master should be identical to scarthgap/styhead except for kerne=
+l CVEs)<br>
+&gt; &gt;<br>
+&gt; &gt; Reports cannot be used anymore for picking CVEs for TODO list.<br=
 >
+&gt; &gt; So this patch should be reverted or fixed.<br>
+&gt; &gt;<br>
+&gt; &gt; Peter<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; -----Original Message-----<br>
+&gt; &gt; &gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded=
+.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;op=
+enembedded-<br>
+&gt; &gt; &gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_bl=
+ank">core@lists.openembedded.org</a>&gt; On Behalf Of Colin McAllister via<=
+br>
+&gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
+ target=3D"_blank">lists.openembedded.org</a><br>
+&gt; &gt; &gt; Sent: Monday, December 30, 2024 20:22<br>
+&gt; &gt; &gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.o=
+rg" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; &gt; Cc: Colin McAllister &lt;<a href=3D"mailto:colinmca242@gmail=
+.com" target=3D"_blank">colinmca242@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; Subject: [OE-core] [PATCH v2 1/1] cve-check: Rework patch pa=
+rsing<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; The cve_check functionality to parse CVE IDs from the patch =
+filename and<br>
+&gt; &gt; &gt; patch contents have been reworked to improve parsing and als=
+o utilize<br>
+&gt; &gt; &gt; tests. This ensures that the parsing works as intended.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Additionally, the new patched_cves dict has a few issues I t=
+ried to fix<br>
+&gt; &gt; &gt; as well. If multiple patch files exist for a single CVE ID, =
+only the<br>
+&gt; &gt; &gt; last one will show up with the &quot;resource&quot; key. The=
+ value for the<br>
+&gt; &gt; &gt; &quot;resource&quot; key has been updated to hold a list and=
+ return all patch<br>
+&gt; &gt; &gt; files associated with a given CVE ID. Also, at the end of<br=
+>
+&gt; &gt; &gt; get_patch_cves, CVE_STATUS can overwrite an existing entry i=
+n the dict.<br>
+&gt; &gt; &gt; This could cause an issue, for example, if a CVE has been ad=
+dressed via<br>
+&gt; &gt; &gt; a patch, but a CVE_STATUS line also exists that ignores the =
+given CVE<br>
+&gt; &gt; &gt; ID. A warning has been added if this ever happens.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Colin McAllister &lt;<a href=3D"mailto:colinm=
+ca242@gmail.com" target=3D"_blank">colinmca242@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I noticed that there are some patches, especially in older v=
+erisons of<br>
+&gt; &gt; &gt; Yocto, where the &quot;CVE: &quot; tag was used with multipl=
+e CVE IDs in different<br>
+&gt; &gt; &gt; formats, like &quot;CVE-YYYY-XXXX &amp; CVE-YYYY-XXXX&quot; =
+or<br>
+&gt; &gt; &gt; &quot;CVE-YYYY-XXXX, CVE-YYYY-XXXX&quot;. Currently, only sp=
+ace-delimited CVE<br>
+&gt; &gt; &gt; IDs will be parsed, but documentation doesn&#39;t indicate t=
+hat is the only<br>
+&gt; &gt; &gt; supported format. I figured it&#39;d be nice to update the c=
+ode to be able<br>
+&gt; &gt; &gt; to support multiple formats, that way this patch could be ba=
+ckported to<br>
+&gt; &gt; &gt; fix those patches. I also wanted to add unit tests to ensure=
+ the patch<br>
+&gt; &gt; &gt; parsing behavior is preserved.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I&#39;d also like to update the patch filename parsing to pa=
+rse multiple CVE<br>
+&gt; &gt; &gt; IDs from the filename, but based on the comments, it seems l=
+ike there<br>
+&gt; &gt; &gt; was a reason why only the last CVE ID is extracted from the =
+filename.<br>
+&gt; &gt; &gt; I&#39;d be happy to submit a V2 patch or an additional patch=
+ to update the<br>
+&gt; &gt; &gt; function if that sounds good for the maintainers.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; V2 Changes:<br>
+&gt; &gt; &gt; I mistakenly created this patch without fb3f440 applied. I u=
+pdated<br>
+&gt; &gt; &gt; get_patched_cves to return a dict instead of a set.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I also improved the docstrings for these new functions to be=
+ more<br>
+&gt; &gt; &gt; descriptive and also specify the return types.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I also found a few issues with the dictionary object created=
+ by<br>
+&gt; &gt; &gt; get_patched_cves that have now been addressed in this commit=
+.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 meta/lib/oe/cve_check.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 166 ++++++++++++------<br>
+&gt; &gt; &gt;=C2=A0 meta/lib/oeqa/selftest/cases/cve_check.py | 205<br>
+&gt; &gt; &gt; ++++++++++++++++++++++<br>
+&gt; &gt; &gt;=C2=A0 2 files changed, 317 insertions(+), 54 deletions(-)<br=
+>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_chec=
+k.py<br>
+&gt; &gt; &gt; index 280f9f613d..85a899a880 100644<br>
+&gt; &gt; &gt; --- a/meta/lib/oe/cve_check.py<br>
+&gt; &gt; &gt; +++ b/meta/lib/oe/cve_check.py<br>
+&gt; &gt; &gt; @@ -5,9 +5,11 @@<br>
+&gt; &gt; &gt;=C2=A0 #<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 import collections<br>
+&gt; &gt; &gt; -import re<br>
+&gt; &gt; &gt; -import itertools<br>
+&gt; &gt; &gt;=C2=A0 import functools<br>
+&gt; &gt; &gt; +import itertools<br>
+&gt; &gt; &gt; +import os.path<br>
+&gt; &gt; &gt; +import re<br>
+&gt; &gt; &gt; +import oe.patch<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 _Version =3D collections.namedtuple(<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &quot;_Version&quot;, [&quot;release&quo=
+t;, &quot;patch_l&quot;, &quot;pre_l&quot;, &quot;pre_v&quot;]<br>
+&gt; &gt; &gt; @@ -71,76 +73,132 @@ def _cmpkey(release, patch_l, pre_l, pr=
+e_v):<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return _release, _patch, _pre<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -def get_patched_cves(d):<br>
+&gt; &gt; &gt; +def parse_cve_from_filename(patch_filename):<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 Get patches that solve CVEs using the &quot;C=
+VE: &quot; tag.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Parses CVE ID from the filename<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Matches the last &quot;CVE-YYYY-ID&quot; in t=
+he file name, also if written<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 in lowercase. Possible to have multiple CVE I=
+Ds in a single<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 file name, but only the last one will be dete=
+cted from the file name.<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Returns the last CVE ID foudn in the filename=
+. If no CVE ID is found<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 an empty string is returned.<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 cve_file_name_match =3D re.compile(r&quot;.*(=
+CVE-\d{4}-\d{4,})&quot;,<br>
+&gt; &gt; &gt; re.IGNORECASE)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 import re<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 import oe.patch<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # Check patch file name for CVE ID<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 fname_match =3D cve_file_name_match.search(pa=
+tch_filename)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 return fname_match.group(1).upper() if fname_=
+match else &quot;&quot;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 cve_match =3D re.compile(r&quot;CVE:( CVE-\d{=
+4}-\d+)+&quot;)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # Matches the last &quot;CVE-YYYY-ID&quot; in=
+ the file name, also if written<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # in lowercase. Possible to have multiple CVE=
+ IDs in a single<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # file name, but only the last one will be de=
+tected from the file name.<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # However, patch files contents addressing mu=
+ltiple CVE IDs are<br>
+&gt; &gt; supported<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # (cve_match regular expression)<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 cve_file_name_match =3D re.compile(r&quot;.*(=
+CVE-\d{4}-\d+)&quot;,<br>
+&gt; &gt; re.IGNORECASE)<br>
+&gt; &gt; &gt; +def parse_cves_from_patch_contents(patch_contents):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Parses CVE IDs from patch contents<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Matches all CVE IDs contained on a line that =
+starts with &quot;CVE: &quot;. Any<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 delimiter (&#39;,&#39;, &#39;&amp;&#39;, &quo=
+t;and&quot;, etc.) can be used without any issues. Multiple<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;CVE:&quot; lines can also exist.<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Returns a set of all CVE IDs found in the pat=
+ch contents.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 cve_ids =3D set()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 cve_match =3D re.compile(r&quot;CVE-\d{4}-\d{=
+4,}&quot;)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # Search for one or more &quot;CVE: &quot; li=
+nes<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 for line in patch_contents.split(&quot;\n&quo=
+t;):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not line.startswith(&quot;CV=
+E:&quot;):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cve_ids.update(cve_match.findal=
+l(line))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 return cve_ids<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +def parse_cves_from_patch_file(patch_file):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Parses CVE IDs associated with a particular p=
+atch file, using both the<br>
+&gt; &gt; &gt; filename<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 and patch contents.<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Returns a set of all CVE IDs found in the pat=
+ch filename and contents.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 cve_ids =3D set()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 filename_cve =3D parse_cve_from_filename(patc=
+h_file)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 if filename_cve:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Found %s from=
+ patch file name %s&quot; % (filename_cve,<br>
+&gt; &gt; &gt; patch_file))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cve_ids.add(parse_cve_from_file=
+name(patch_file))<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # Remote patches won&#39;t be present and com=
+pressed patches won&#39;t be<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # unpacked, so say we&#39;re not scanning the=
+m<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 if not os.path.isfile(patch_file):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;%s is remote or c=
+ompressed, not scanning content&quot; %<br>
+&gt; &gt; &gt; patch_file)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return cve_ids<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 with open(patch_file, &quot;r&quot;, encoding=
+=3D&quot;utf-8&quot;) as f:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patch_text =3D f.=
+read()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except UnicodeDecodeError:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1,<=
+br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot;Failed to read patch %s using UTF-8 encoding&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot; trying with iso8859-1&quot; % patch_file,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.close()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(patch_f=
+ile, &quot;r&quot;, encoding=3D&quot;iso8859-1&quot;) as f:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pat=
+ch_text =3D f.read()<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 cve_ids.update(parse_cves_from_patch_contents=
+(patch_text))<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 if not cve_ids:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Patch %s does=
+n&#39;t solve CVEs&quot; % patch_file)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 else:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Patch %s solv=
+es %s&quot; % (patch_file, &quot;,<br>
+&gt; &gt; &gt; &quot;.join(sorted(cve_ids))))<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 return cve_ids<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +def get_patched_cves(d):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Determines the CVE IDs that have been solved =
+by either patches<br>
+&gt; incuded<br>
+&gt; &gt; &gt; within<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 SRC_URI or by setting CVE_STATUS.<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 Returns a dictionary with the CVE IDs as keys=
+ and an associated<br>
+&gt; dictonary<br>
+&gt; &gt; &gt; of<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 relevant metadata as the value.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 patched_cves =3D {}<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 patches =3D oe.patch.src_patches(d)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Scanning %d patches fo=
+r CVEs&quot; % len(patches))<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # Check each patch file<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 for url in patches:<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patch_file =3D bb.fetch.de=
+codeurl(url)[2]<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Check patch file name for CVE=
+ ID<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 fname_match =3D cve_file_name_m=
+atch.search(patch_file)<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if fname_match:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cve =3D fname_mat=
+ch.group(1).upper()<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves[cve]=
+ =3D {&quot;abbrev-status&quot;: &quot;Patched&quot;, &quot;status&quot;: &=
+quot;fix-file-<br>
+&gt; &gt; &gt; included&quot;, &quot;resource&quot;: patch_file}<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot=
+;Found %s from patch file name %s&quot; % (cve,<br>
+&gt; patch_file))<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remote patches won&#39;t be p=
+resent and compressed patches won&#39;t be<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # unpacked, so say we&#39;re no=
+t scanning them<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.isfile(patch_fil=
+e):<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;%s =
+is remote or compressed, not scanning content&quot; %<br>
+&gt; &gt; &gt; patch_file)<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(patch_file, &quot;r&q=
+uot;, encoding=3D&quot;utf-8&quot;) as f:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pat=
+ch_text =3D f.read()<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except UnicodeDec=
+odeError:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.=
+debug(1, &quot;Failed to read patch %s using UTF-8 encoding&quot;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot; trying with iso8859-1&quot; %=C2=A0 patch_f=
+ile)<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.c=
+lose()<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
+h open(patch_file, &quot;r&quot;, encoding=3D&quot;iso8859-1&quot;) as f:<b=
+r>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 patch_text =3D f.read()<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Search for one or more &quot;=
+CVE: &quot; lines<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 text_match =3D False<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 for match in cve_match.finditer=
+(patch_text):<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Get only the CV=
+Es without the &quot;CVE: &quot; tag<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cves =3D patch_te=
+xt[match.start()+5:match.end()]<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for cve in cves.s=
+plit():<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.=
+debug(2, &quot;Patch %s solves %s&quot; % (patch_file, cve))<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pat=
+ched_cves[cve] =3D {&quot;abbrev-status&quot;: &quot;Patched&quot;, &quot;s=
+tatus&quot;: &quot;fix-<br>
+&gt; file-<br>
+&gt; &gt; &gt; included&quot;, &quot;resource&quot;: patch_file}<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+t_match =3D True<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not fname_match and not text=
+_match:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot=
+;Patch %s doesn&#39;t solve CVEs&quot; % patch_file)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for cve_id in parse_cves_from_p=
+atch_file(patch_file):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if cve_id not in =
+patched_cves:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot;abbrev-status&quot;: &quot;Patched&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot;status&quot;: &quot;fix-file-included&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot;resource&quot;: [patch_file],<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pat=
+ched_cves[cve_id][&quot;resource&quot;].append(patch_file)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 # Search for additional patched CVEs<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 for cve in (d.getVarFlags(&quot;CVE_STATUS&qu=
+ot;) or {}):<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 decoded_status =3D decode_cve_s=
+tatus(d, cve)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 for cve_id in d.getVarFlags(&quot;CVE_STATUS&=
+quot;) or {}:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 decoded_status =3D decode_cve_s=
+tatus(d, cve_id)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 products =3D d.getVar(&quo=
+t;CVE_PRODUCT&quot;)<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if has_cve_product_match(decode=
+d_status, products) =3D=3D True:<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves[cve]=
+ =3D {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if has_cve_product_match(decode=
+d_status, products):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if cve_id in patc=
+hed_cves:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.=
+warn(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &#39;CVE_STATUS[%s] =3D &quot;%s&quot; is overwriting previous s=
+tatus of &quot;%s:<br>
+&gt; &gt; %s&quot;&#39;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 % (<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 cve_id,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 d.getVarFlag(&quot;CVE_STATUS&quot;, cve_id),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves[cve_id][&quot;abbrev-status&quot;],<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves[cve_id][&quot;status&quot;],<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patched_cves[cve_=
+id] =3D {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;abbrev-status&quot;: decoded_status[&quot;mapping&quot;],<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;status&quot;: decoded_status[&quot;detail&quot;],<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;justification&quot;: decoded_status[&quot;description&quot;],<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;affected-vendor&quot;: decoded_status[&quot;vendor&quot;],<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot;affected-product&quot;: decoded_status[&quot;product&quot;]<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot;affected-product&quot;: decoded_status[&quot;product&quot;],<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return patched_cves<br>
+&gt; &gt; &gt; diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py<br>
+&gt; &gt; &gt; b/meta/lib/oeqa/selftest/cases/cve_check.py<br>
+&gt; &gt; &gt; index 3dd3e89d3e..511e4b81b4 100644<br>
+&gt; &gt; &gt; --- a/meta/lib/oeqa/selftest/cases/cve_check.py<br>
+&gt; &gt; &gt; +++ b/meta/lib/oeqa/selftest/cases/cve_check.py<br>
+&gt; &gt; &gt; @@ -120,6 +120,211 @@ class CVECheck(OESelftestTestCase):<br=
+>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(has_cve_p=
+roduct_match(status, &quot;test glibca:glibc&quot;),<br>
+&gt; &gt; True)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(has_cve_p=
+roduct_match(status, &quot;glibca:glibc test&quot;),<br>
+&gt; &gt; True)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 def test_parse_cve_from_patch_filename(self):=
+<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 from oe.cve_check import parse_=
+cve_from_filename<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch filename without CVE ID=
+<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(parse_cve_from=
+_filename(&quot;0001-test.patch&quot;), &quot;&quot;)<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch with single CVE ID<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2022-12345.patch&quot;), &quot;CVE-2022-<br>
+&gt; &gt; &gt; 12345&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch with multiple CVE IDs<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2022-41741-CVE-2022-<br>
+&gt; &gt; &gt; 41742.patch&quot;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;CVE-2022-41=
+742&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patches with CVE ID and appen=
+ded text<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2023-3019-0001.patch&quot;), &quot;CVE-<br>
+&gt; &gt; &gt; 2023-3019&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2024-21886-1.patch&quot;), &quot;CVE-<br>
+&gt; 2024-<br>
+&gt; &gt; &gt; 21886&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch with CVE ID and prepend=
+ed text<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;grep-CVE-2012-5667.patch&quot;), &quot;CVE-<br>
+&gt; &gt; 2012-<br>
+&gt; &gt; &gt; 5667&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;0001-CVE-2012-5667.patch&quot;), &quot;CVE-<br>
+&gt; &gt; &gt; 2012-5667&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch with CVE ID and both pr=
+epended and appended text<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot;0001-tpm2_import-fix-fixed-AES-key-CVE-2021-3565-<br>
+&gt; &gt; 0001.patch&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;CVE-2021-35=
+65&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Only grab the last CVE ID in =
+the filename<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2012-5667-CVE-2012-<br>
+&gt; &gt; 5668.patch&quot;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;CVE-2012-56=
+68&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Test invalid CVE ID with inco=
+rrect length (must be at least 4 digits)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2024-001.patch&quot;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Test valid CVE ID with very l=
+ong length<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cve_from_fi=
+lename(&quot;CVE-2024-<br>
+&gt; &gt; &gt; 0000000000000000000000001.patch&quot;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;CVE-2024-00=
+00000000000000000000001&quot;,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 def test_parse_cve_from_patch_contents(self):=
+<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 import textwrap<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 from oe.cve_check import parse_=
+cves_from_patch_contents<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Standard patch file excerpt w=
+ithout any patches<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cves_from_p=
+atch_contents(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+twrap.dedent(&quot;&quot;&quot;\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remove &quot;*&qu=
+ot; for root since we don&#39;t have a /etc/shadow so far.<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Upstream-Status: =
+Inappropriate [configuration]<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Signed-off-by: Sc=
+ott Garman &lt;<a href=3D"mailto:scott.a.garman@intel.com" target=3D"_blank=
+">scott.a.garman@intel.com</a>&gt;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --- base-passwd/p=
+asswd.master~nobash<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +++ base-passwd/p=
+asswd.master<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ -1,4 +1,4 @@<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -root:*:0:0:root:=
+/root:/bin/sh<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +root::0:0:root:/=
+root:/bin/sh<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 daemon:*:1:1:daem=
+on:/usr/sbin:/bin/sh<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bin:*:2:2:bin:/bi=
+n:/bin/sh<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys:*:3:3:sys:/de=
+v:/bin/sh<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot=
+;)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set(),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch file with multiple CVE =
+IDs (space-separated)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cves_from_p=
+atch_contents(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+twrap.dedent(&quot;&quot;&quot;\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The=
+re is an assertion in function _cairo_arc_in_direction().<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CVE=
+: CVE-2019-6461 CVE-2019-6462<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Ups=
+tream-Status: Pending<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sig=
+ned-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dif=
+f --git a/src/cairo-arc.c b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ind=
+ex 390397bae..1bde774a4 100644<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ---=
+ a/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +++=
+ b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ =
+-186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 *cr,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (cairo_status (cr))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -=
+=C2=A0 =C2=A0 assert (angle_max &gt;=3D angle_min);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 if (angle_max &lt; angle_min)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (angle_max - angle_min &gt; 2 * M_PI * MAX_FULL_CIRCLES) {<br=
+>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 angle_max =3D fmod (angle_max - angle_min, 2 * M_PI);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot=
+;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;CVE-2019-6=
+461&quot;, &quot;CVE-2019-6462&quot;},<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch file with multiple CVE =
+IDs (comma-separated w/ both space<br>
+&gt; and<br>
+&gt; &gt; &gt; no space)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cves_from_p=
+atch_contents(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+twrap.dedent(&quot;&quot;&quot;\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The=
+re is an assertion in function _cairo_arc_in_direction().<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CVE=
+: CVE-2019-6461,CVE-2019-6462, CVE-2019-6463<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Ups=
+tream-Status: Pending<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sig=
+ned-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dif=
+f --git a/src/cairo-arc.c b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ind=
+ex 390397bae..1bde774a4 100644<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ---=
+ a/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +++=
+ b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ =
+-186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 *cr,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (cairo_status (cr))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -=
+=C2=A0 =C2=A0 assert (angle_max &gt;=3D angle_min);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 if (angle_max &lt; angle_min)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (angle_max - angle_min &gt; 2 * M_PI * MAX_FULL_CIRCLES) {<br=
+>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 angle_max =3D fmod (angle_max - angle_min, 2 * M_PI);<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot=
+;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;CVE-2019-6=
+461&quot;, &quot;CVE-2019-6462&quot;, &quot;CVE-2019-6463&quot;},<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch file with multiple CVE =
+IDs (&amp;-separated)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cves_from_p=
+atch_contents(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+twrap.dedent(&quot;&quot;&quot;\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The=
+re is an assertion in function _cairo_arc_in_direction().<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CVE=
+: CVE-2019-6461 &amp; CVE-2019-6462<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Ups=
+tream-Status: Pending<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sig=
+ned-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dif=
+f --git a/src/cairo-arc.c b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ind=
+ex 390397bae..1bde774a4 100644<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ---=
+ a/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +++=
+ b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ =
+-186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 *cr,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (cairo_status (cr))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -=
+=C2=A0 =C2=A0 assert (angle_max &gt;=3D angle_min);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 if (angle_max &lt; angle_min)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (angle_max - angle_min &gt; 2 * M_PI * MAX_FULL_CIRCLES) {<br=
+>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 angle_max =3D fmod (angle_max - angle_min, 2 * M_PI);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot=
+;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;CVE-2019-6=
+461&quot;, &quot;CVE-2019-6462&quot;},<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Patch file with multiple line=
+s with CVE IDs<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_cves_from_p=
+atch_contents(<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tex=
+twrap.dedent(&quot;&quot;&quot;\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The=
+re is an assertion in function _cairo_arc_in_direction().<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CVE=
+: CVE-2019-6461 &amp; CVE-2019-6462<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CVE=
+: CVE-2019-6463 &amp; CVE-2019-6464<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Ups=
+tream-Status: Pending<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sig=
+ned-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dif=
+f --git a/src/cairo-arc.c b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ind=
+ex 390397bae..1bde774a4 100644<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ---=
+ a/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +++=
+ b/src/cairo-arc.c<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ =
+-186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 *cr,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (cairo_status (cr))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -=
+=C2=A0 =C2=A0 assert (angle_max &gt;=3D angle_min);<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 if (angle_max &lt; angle_min)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (angle_max - angle_min &gt; 2 * M_PI * MAX_FULL_CIRCLES) {<br=
+>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 angle_max =3D fmod (angle_max - angle_min, 2 * M_PI);<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot=
+;),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ),<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;CVE-2019-6=
+461&quot;, &quot;CVE-2019-6462&quot;, &quot;CVE-2019-6463&quot;, &quot;CVE-=
+<br>
+&gt; &gt; &gt; 2019-6464&quot;},<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def test_recipe_report_json(self):<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config =3D &quot;&quot;&qu=
+ot;<br>
+&gt; &gt; &gt; --<br>
+&gt; &gt; &gt; 2.34.1<br>
+<br>
+</blockquote></div>
+
+--000000000000516292062b6fd468--
 
