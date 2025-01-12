@@ -1,242 +1,167 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C00E77188
-	for <webhook@archiver.kernel.org>; Sun, 12 Jan 2025 09:46:22 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.33510.1736675179674570477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BC6E77188
+	for <webhook@archiver.kernel.org>; Sun, 12 Jan 2025 11:21:53 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web11.34507.1736680907962143538
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jan 2025 01:46:20 -0800
+ Sun, 12 Jan 2025 03:21:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JLg2lyWs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so32916865e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jan 2025 01:46:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YdujsnKC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.179, mailfrom: steve@sakoman.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4678cd314b6so32274351cf.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jan 2025 03:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736675178; x=1737279978; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736680907; x=1737285707; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EzpHE8eKZqOxW+xKWp6Rk1hu5gEXwSC602V5fsXFvAo=;
-        b=JLg2lyWscsUuMzjOKpKG1WZOf/5zDwN88DopzkGc41DOt6xGf7ntuJUEl8YldhsgZU
-         ImVmOdQFV6lg4Fkcz037NNmbxVfjQy7VPRKkupSai4oPgio/K3jOPw09+kbqocQmyMU6
-         bo397gsiO8nOynxxTuyIKmkJDNhafXSLNWNxY=
+        bh=CCJP+G1PnnZ5IcREMNSx+ygNaxZte1yGUpoCAk7WmlM=;
+        b=YdujsnKCAbwHSLa6Z9J0QaWGEoSD1z1OAJeMRVmx3LdHZLoK5d0quB3B/WDy+VuOBV
+         LmtAXStvbEKMWWG0TvNMEqw3CfpLbg1AqVZH1Hj+L7xIW3ZBpkT4WKakBprMtERAWIvx
+         YTxcxJGEbV58cBgoL+YApOZsud+SPVQVNxa8MZ+7FaB7q16JkNnseKpRjZ4wU5tXBsdH
+         qRHyFGywXeIsSbe4/tIHoNaQTDOrAjk0Porumly7gC92zE9cq0F8Q+DQdY6QS+arQ2h5
+         OxQDez1TPY6IDRgXiYXExNb7OnJRnafclaUWJE870TnM/+SYgSxjQYqGk4KOtZx0Xvi+
+         7Jpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736675178; x=1737279978;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1736680907; x=1737285707;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EzpHE8eKZqOxW+xKWp6Rk1hu5gEXwSC602V5fsXFvAo=;
-        b=wjD4PJaNkbPN8XzXTw13/7lKmQ2fdmQ0+iV+T1SmjircETJR41DRPmd9a7zTheDN4o
-         lg4MwT+c3h8GDTt6HHFi1FTCBfYhXvyH/8gPLN/gN2IDlQS6SGqJ5PCM1itOeCSd/YrY
-         xSYd+LtCXHjVaTepjTDKQpYe1KtfYzr8FTkgBsSfwo5HruxU2dsXeMHB3IlWossArlsx
-         yIWOiMKCVq4Yh+Vnn+n6Jr0OKd/G0fekSw+cqAZIOiW1NT6ghADDpZLBE1hQG1V59EjF
-         /YlZ3omRtn40zyShusjk7ascaF/U/oO6gyWNgU9pr07rrlAvOVJom6v07FAX7HnKCbCZ
-         f8bA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtvDPx2IrgT1YaQerjCtjr6GHBDdBbKdTH9sba3g4neBEPpRZrj2uMV6KpbI6lCbz4hxh7/L8oiVJGMfGUY4ykow==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwWkM8QbQ7iuYpoF4ZKt1cJZXpr3MYAO+0nXdNEfvMR0Alez4lJ
-	39zSXvsmMshf3PV30LgS+LpoWodLaa3I2QPW6pCjncDU8lEFA03uK8EwBp8LrlI=
-X-Gm-Gg: ASbGncvZWGBY2lBU6AsUhbrQjNMXdu3YPu2rFg+o8QwFRXZS1pm7eP86ok4Uhtc7e1A
-	CvYsNBzpw9vHAsDxZYn4ictUHQjYYn1vuoIN/YVfA7VpFZ9VTLPw0q9VJbgFoiLrOZF6rNFic6p
-	MeP3JvSex5d06RKDe9D7L6izoiVEwKfjdN+LUhjGFgXxfZRd/BeA1mYuWKdOs8drvfsUGk1ABwJ
-	p68ftBBDI8AJfX7XOp1wp9tvJPbdCAJEXOl6jkcYUzVbKt2DoTZOFbJKjn/HsuNGaNPwF/4LGBl
-	XCHbFfzKKxKG3pq0wziik63qkpGPHgFc26+yBFMWc+M=
-X-Google-Smtp-Source: AGHT+IGq+pPx3gbqFKSBfA0g9G6bPCAvgJfGgczxlHoKFX2zA253ywF8JA73Y1fe0wAFCF6z8DrJug==
-X-Received: by 2002:a05:600c:5246:b0:434:feb1:adbb with SMTP id 5b1f17b1804b1-436e271d5d6mr157041045e9.31.1736675177918;
-        Sun, 12 Jan 2025 01:46:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ce7f:c82:f2ea:4999? ([2001:8b0:aba:5f3c:ce7f:c82:f2ea:4999])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38ef6asm9454377f8f.60.2025.01.12.01.46.16
+        bh=CCJP+G1PnnZ5IcREMNSx+ygNaxZte1yGUpoCAk7WmlM=;
+        b=O6x6BJv0km3sSOGOgIaRTk/mNfMSFAufmviVSXB7LXDyB1IdqlUZsaurTkbxGipHlY
+         ol8DDrw78G9NWiQF55Sqh00I/u8BDspAclhhjQYVtnsOFLZJqK5oQGsbIQ0g4dXzalIR
+         gjkpCtfk4spgyc6kvJmExJWvSdprgC2MpTAHRMUM0ItvbGVqNtreuhEjBQyRIUPEiUHi
+         7FNi4BqOYe2hwJOUNcgvAglfOI0P0cz+ztGfuUubTm8IamtBgPnCa0oQB33KUPvvYrl+
+         oLfj3VkycoBs6hesglwDXkAV2El4k6O0dkJi8VhKwhgaIN/wJD+RetTJDoEl+KdDuq06
+         CCdw==
+X-Gm-Message-State: AOJu0Ywq6NPIFWx77mIBBv2JRa3PDDBD+kjNNUupoPzm6PZ9HjRNjj0r
+	ZGkPjPwtPlXGagon4FEW7FolEGCugZmkYUHC8JljW5ss13BNBrDpxmLJKRnmFb7yht0eGTjr7LK
+	IsrY=
+X-Gm-Gg: ASbGncvM8GJoYTI/M7xHLEFm4tP0D0VLnj5IWAtEAPWlx8lixOHcpWWAiHtcwl+RAhi
+	9CNYvI3VS5eQThmXprDANrlfqNRyUTIIXHXUczyIKng0dixs4YGafeo2xzjT3Nh4jz6ymSyDD42
+	FQj9BmDQy9LNlvwDFWoIQvzs11wB8MODaZibQYQfpHrrVhnDbgvB1rPdYwKYNXJV8OjHcj3KMri
+	SplBDJMibnmpBv1mr4OW7XM+d5yR5hL5XK2JYNLZLaq2VgAPz3/iXqdielQhg==
+X-Google-Smtp-Source: AGHT+IHuENl8DrWvklgIlpbFYEnUWssvEO4xT9sL9cCCeusO4K33jnZwAn9bZQuzwljCSj+X5ibRPw==
+X-Received: by 2002:a05:6214:ac1:b0:6d8:a84b:b508 with SMTP id 6a1803df08f44-6df9b1d9e12mr240276766d6.12.1736680906587;
+        Sun, 12 Jan 2025 03:21:46 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dfad9b4f0bsm29215966d6.66.2025.01.12.03.21.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jan 2025 01:46:17 -0800 (PST)
-Message-ID: <b17876f669978bdde2f1d0b843f35780f86a0bb2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 2/2] selftest/reproducible: Print error
- context on failure
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jan 2025 09:46:16 +0000
-In-Reply-To: <20250112002310.4045706-2-yoann.congal@smile.fr>
-References: <20250112002310.4045706-1-yoann.congal@smile.fr>
-	 <20250112002310.4045706-2-yoann.congal@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
-MIME-Version: 1.0
+        Sun, 12 Jan 2025 03:21:46 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id C88E310043B; Sun, 12 Jan 2025 01:21:44 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 12 Jan 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 12 Jan 2025 01:21:44 -1000
+Message-Id: <20250112112144.C88E310043B@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Jan 2025 09:46:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209676
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jan 2025 11:21:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209677
 
-On Sun, 2025-01-12 at 01:23 +0100, Yoann Congal via lists.openembedded.org =
-wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
->=20
-> Printed logs during the reproducible test look like this in case of
-> failure:
-> 2025-01-12 00:39:00,807 - oe-selftest - INFO - Building reproducibleA (ss=
-tate allowed)...
-> 2025-01-12 00:40:08,323 - oe-selftest - ERROR - Bitbake failed! but keep =
-going... Log:
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO - Found ERROR (line 126):
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe opkg-utils-native-0.7.0-r0: task do_populate_sysroot=
-_setscene: Succeeded
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 74 of 333 (virtual:native:.../poky/me=
-ta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe bash-5.2.37-r0: task do_populate_sysroot_setscene: S=
-ucceeded
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe cve-update-nvd2-native-1.0-r0: task do_unpack: Succe=
-eded
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running task 4 of 974 (.../poky/meta/recipes-core/hello-sin=
-gle/hello-fail_1.0.bb:do_cve_check)
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Succee=
-ded
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_packagedata_setscene: Sta=
-rted
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 77 of 333 (.../poky/meta/recipes-exte=
-nded/bash/bash_5.2.37.bb:do_recipe_qa_setscene)
-> 2025-01-12 00:40:08,323 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 78 of 333 (.../poky/meta/recipes-core=
-/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_populate_sysroot_setscene=
-: Started
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ERROR: hello-fail-1.0-r0 do_populate_sysroot_setscene: this is an=
- error
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ERROR: hello-fail-1.0-r0 do_populate_sysroot_setscene: Error exec=
-uting a python function in exec_func_python() autogenerated:
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 The stack trace of python calls that resulted in this exception/f=
-ailure was:
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 File: 'exec_func_python() autogenerated', lineno: 2, function: <m=
-odule>
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0001:
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 *** 0002:do_populate_sysroot_setscene(d)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0003:
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 File: '.../poky/meta/recipes-core/hello-single/hello-fail_1.0.bb'=
-, lineno: 17, function: do_populate_sysroot_setscene
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0013:}
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO - Found ERROR (line 127):
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 74 of 333 (virtual:native:.../poky/me=
-ta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe bash-5.2.37-r0: task do_populate_sysroot_setscene: S=
-ucceeded
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe cve-update-nvd2-native-1.0-r0: task do_unpack: Succe=
-eded
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running task 4 of 974 (.../poky/meta/recipes-core/hello-sin=
-gle/hello-fail_1.0.bb:do_cve_check)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe bash-5.2.37-r0: task do_packagedata_setscene: Succee=
-ded
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_packagedata_setscene: Sta=
-rted
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 77 of 333 (.../poky/meta/recipes-exte=
-nded/bash/bash_5.2.37.bb:do_recipe_qa_setscene)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running setscene task 78 of 333 (.../poky/meta/recipes-core=
-/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_populate_sysroot_setscene=
-: Started
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ERROR: hello-fail-1.0-r0 do_populate_sysroot_setscene: this is an=
- error
-> 2025-01-12 00:40:08,324 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ERROR: hello-fail-1.0-r0 do_populate_sysroot_setscene: Error exec=
-uting a python function in exec_func_python() autogenerated:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 The stack trace of python calls that resulted in this exception/f=
-ailure was:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 File: 'exec_func_python() autogenerated', lineno: 2, function: <m=
-odule>
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0001:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 *** 0002:do_populate_sysroot_setscene(d)
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0003:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 File: '.../poky/meta/recipes-core/hello-single/hello-fail_1.0.bb'=
-, lineno: 17, function: do_populate_sysroot_setscene
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0013:}
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0014:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO - End of log:
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running task 955 of 974 (.../poky/meta/recipes-core/hello-s=
-ingle/hello-fail_1.0.bb:do_populate_sysroot)
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_populate_sysroot: Started
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: recipe hello-fail-1.0-r0: task do_populate_sysroot: Succeed=
-ed
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running noexec task 973 of 974 (.../poky/meta/recipes-core/=
-hello-single/hello-fail_1.0.bb:do_build)
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Running noexec task 974 of 974 (.../poky/meta/recipes-core/=
-hello-single/hello-norepro_1.0.bb:do_build)
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Tasks Summary: Attempted 974 tasks of which 958 didn't need=
- to be rerun and all succeeded.
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NOTE: Generating JSON CVE summary
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 Complete CVE JSON report summary created at: .../poky/build-maste=
-r-st/reproducibleA/tmp/log/cve/cve-summary.json
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -
-> 2025-01-12 00:40:08,325 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 Summary: There were 2 ERROR messages, returning a non-zero exit c=
-ode.
-> 2025-01-12 00:40:08,326 - oe-selftest - ERROR - reproducibleA build faile=
-d. Trying to compute built packages differences but the test will fail.
->=20
-> Fixes [YOCTO #15655] (second half).
->=20
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
-> RFC: As you can see, some lines are displayed multiple times if they are
-> in multiple errors contexts. I started implementing merging contexts
-> blocks but the code I wrote is really not good. If someone has a clever
-> idea on how to do this, I'll take it.
-> In the meantime, I think this simpler patch can be merged and the
-> print_condensed_error_log function improved later if that is worth it.
+Branch: master
 
-Thanks for working on this. I think the multiple lines is fine. As
-someone who spends a lot of time looking at failures, I'm fine with too
-much information rather than the current situation where it isn't
-clear.
+New this week: 32 CVEs
+CVE-2014-8139 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8139 *
+CVE-2014-8140 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8140 *
+CVE-2014-8141 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8141 *
+CVE-2014-9636 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9636 *
+CVE-2014-9913 (CVSS3: 4.0 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9913 *
+CVE-2015-7696 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7696 *
+CVE-2015-7697 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7697 *
+CVE-2016-9844 (CVSS3: 4.0 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9844 *
+CVE-2018-1000035 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000035 *
+CVE-2018-1000156 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000156 *
+CVE-2018-10195 (CVSS3: 7.1 HIGH): lrzsz https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10195 *
+CVE-2018-18384 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18384 *
+CVE-2018-20969 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-20969 *
+CVE-2018-6951 (CVSS3: 7.5 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6951 *
+CVE-2018-6952 (CVSS3: 7.5 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6952 *
+CVE-2019-13232 (CVSS3: 3.3 LOW): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13232 *
+CVE-2019-13636 (CVSS3: 5.9 MEDIUM): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13636 *
+CVE-2019-13638 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13638 *
+CVE-2019-20633 (CVSS3: 5.5 MEDIUM): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+CVE-2020-27748 (CVSS3: 6.5 MEDIUM): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2021-3468 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3468 *
+CVE-2021-4217 (CVSS3: 3.3 LOW): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4217 *
+CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2023-38469 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38469 *
+CVE-2023-38470 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38470 *
+CVE-2023-38471 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38471 *
+CVE-2023-38472 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38472 *
+CVE-2023-38473 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38473 *
+CVE-2024-50612 (CVSS3: 5.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50612 *
 
-Obviously it is nice to make it really concise but that is a nice to
-have.
+Removed this week: 0 CVEs
 
-Cheers,
+Full list:  Found 50 unpatched CVEs
+CVE-2014-8139 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8139 *
+CVE-2014-8140 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8140 *
+CVE-2014-8141 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8141 *
+CVE-2014-9636 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9636 *
+CVE-2014-9913 (CVSS3: 4.0 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9913 *
+CVE-2015-7696 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7696 *
+CVE-2015-7697 (CVSS3: N/A): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7697 *
+CVE-2016-9844 (CVSS3: 4.0 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9844 *
+CVE-2018-1000035 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000035 *
+CVE-2018-1000156 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000156 *
+CVE-2018-10195 (CVSS3: 7.1 HIGH): lrzsz https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10195 *
+CVE-2018-18384 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18384 *
+CVE-2018-20969 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-20969 *
+CVE-2018-6951 (CVSS3: 7.5 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6951 *
+CVE-2018-6952 (CVSS3: 7.5 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6952 *
+CVE-2019-13232 (CVSS3: 3.3 LOW): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13232 *
+CVE-2019-13636 (CVSS3: 5.9 MEDIUM): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13636 *
+CVE-2019-13638 (CVSS3: 7.8 HIGH): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-13638 *
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2019-20633 (CVSS3: 5.5 MEDIUM): patch:patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+CVE-2020-27748 (CVSS3: 6.5 MEDIUM): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2021-3468 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3468 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2021-4217 (CVSS3: 3.3 LOW): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4217 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-38469 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38469 *
+CVE-2023-38470 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38470 *
+CVE-2023-38471 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38471 *
+CVE-2023-38472 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38472 *
+CVE-2023-38473 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38473 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-50612 (CVSS3: 5.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50612 *
+CVE-2024-50613 (CVSS3: 6.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
 
-Richard
+Summary of CVE counts by recipe:
+  linux-yocto: 15
+  unzip:unzip-native: 14
+  patch:patch-native: 7
+  avahi: 6
+  libsndfile1: 3
+  qemu:qemu-native:qemu-system-native: 2
+  xdg-utils: 2
+  lrzsz: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
