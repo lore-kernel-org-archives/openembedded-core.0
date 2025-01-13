@@ -2,48 +2,50 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 367FFC02184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C45C02180
 	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 21:08:19 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.29200.1736802495119910519
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.29272.1736802497036216171
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 13:08:15 -0800
+ Mon, 13 Jan 2025 13:08:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IARkGcUz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BnWd3JJD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194617ee78d-033f79d4-4b95-4e27-8767-24f8aa2c0f2c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BAibuQNi;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uAKPyEL7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010194617eee6f-1dde1773-f66a-4058-af94-1543ca6ab196-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736802494; i=@automation.yoctoproject.org;
+	t=1736802496; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=hW1Eal/HIluRtKHI9i6NA7ZfVdsOyqdWurjT2h4lwdE=;
-	b=IARkGcUzLPN3Epb2awtwPjg7AgbaZ3LTtMl/O3iCaz4C6ml9Yq9gAxaNCb5ECVPl
-	3IJ/936qDeZ4z3GXrQjH4g7c+hZwVpfIgvYGTZXME38FmLxvAaqXPLKcP4Ztlbj8FPO
-	AfW+6+pxwguh/ECDc/GVsSsYbOUMhuUiD5W5NKX4=
+	bh=0FCxFQ1j5FJoRaTuxCjtTitzHDZ8MBrJCelbELjv6ZM=;
+	b=BAibuQNiGJv6bYcAXdqHCoa50FF2kzl7+YJsMJX4ebpVqC/HbV86K3XxwR9cf6uR
+	6q/LWJ0aTSks5Yu1UYqat9Get/mfn+P+rQEQZtS0iiAD2GprvVbu4lBmZBhDAxht++m
+	dSkGnFgHgVep4ZhAdwWxiThLlH6/cfoqa6Ez2I/s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736802494;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736802496;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=hW1Eal/HIluRtKHI9i6NA7ZfVdsOyqdWurjT2h4lwdE=;
-	b=BnWd3JJDQgBTuc03mZqwZngSVkLSrH3GcFcAcbfapm6XWMe+EiyxKjcHjsNurGqd
-	ktsKDfR5rg9sjoowYFZwIICeOTMXTqOgW3AV9ZKwDB1y2Y98oqZFdEOSxphPKzkyW3f
-	0Nb/ArFdIvAZFE2zWNdfPZ48Ujmh7Yhv08yH7Gz0=
+	bh=0FCxFQ1j5FJoRaTuxCjtTitzHDZ8MBrJCelbELjv6ZM=;
+	b=uAKPyEL7y5ycq6W+WNK8/aMN0yiXNBLJSOBO7mkm8nhgrtT+O9hkdb9n6Q3HLP20
+	n3a0Qb/kHaU0i7PriYuMJlQZ39jwYKSBP8jeYkI6AdJvZfaivzRJz0p4RRMfHn9FlEG
+	8iJF707ll+xlGW3W0hduLMHvNDBLN17hoybWeBRU=
 From: patchtest@automation.yoctoproject.org
-To: Christos Gavros <gavrosc@yahoo.com>
+To: Steve Sakoman <steve@sakoman.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH] Sanity test for cpp toolchain
-In-Reply-To: <20250113204447.14948-1-gavrosc@yahoo.com>
-References: <20250113204447.14948-1-gavrosc@yahoo.com>
+Subject: Patchtest results for [OE-core][scarthgap 12/15] linux-yocto/6.6: update to v6.6.69
+In-Reply-To: 
+ <73c7ebc06e9599406c9bccc7431dce74c7a117bc.1736801113.git.steve@sakoman.com>
+References: 
+ <73c7ebc06e9599406c9bccc7431dce74c7a117bc.1736801113.git.steve@sakoman.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194617ee78d-033f79d4-4b95-4e27-8767-24f8aa2c0f2c-000000@us-west-2.amazonses.com>
-Date: Mon, 13 Jan 2025 21:08:14 +0000
+Message-ID: <01010194617eee6f-1dde1773-f66a-4058-af94-1543ca6ab196-000000@us-west-2.amazonses.com>
+Date: Mon, 13 Jan 2025 21:08:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.13-54.240.27.191
+X-SES-Outgoing: 2025.01.13-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 21:08:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209761
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209762
 
 --NextPart
 Content-Type: text/plain
@@ -53,33 +55,33 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-Sanity-test-for-cpp-toolchain.patch
+Testing patch /home/patchtest/share/mboxes/scarthgap-12-15-linux-yocto-6.6-update-to-v6.6.69.patch
 
-FAIL: test bugzilla entry format: Bugzilla issue ID is not correctly formatted - specify it with format: "[YOCTO #<bugzilla ID>]" (test_mbox.TestMbox.test_bugzilla_entry_format)
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
 SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
 ---
