@@ -1,220 +1,156 @@
-Return-Path: <igor.opaniuk@foundries.io>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8010EC02180
-	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 16:15:37 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.21035.1736784928554408551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1056C02184
+	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 16:45:47 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.56])
+ by mx.groups.io with SMTP id smtpd.web10.22048.1736786744538078878
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 08:15:28 -0800
+ Mon, 13 Jan 2025 08:45:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=FGhDyUfS;
- spf=pass (domain: foundries.io, ip: 209.85.167.50, mailfrom: igor.opaniuk@foundries.io)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53e3a37ae07so4481208e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 08:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google; t=1736784926; x=1737389726; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kt9XzCpStkmbcYr78zUoJN/QJb0GNFX8jxw7ohQe76o=;
-        b=FGhDyUfST2dUccjM0a3UWCuG7qGAMnNWIAKT7nDUZvh4m2GZFxVHPdgXfCWtWmpSAz
-         ttDWxQ9RX5tnlUQMtHqEjcIRQfJTwfXR/buk1je55ZAJSMe13b/J69k6yOKxCqJ8xvcW
-         Qx4foyzQFPTFbwhrT85R5XbtMO1DhSain57qQzDfQYLE5+koTEIlqHR84XVebLmwKKwP
-         evlt/v0emSqpzM31Tks1E2VLfMJD2LjLLlAazzpKuM2oK+Q0tkrFoT5VL9R0KCRSCaqm
-         zqIvCGvEEKjK0XIEfbRO3zXILHh5ZCNPbW8CxNZqUgamtdiSg1FEYOrQCcQrz5U4n93h
-         6R7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736784926; x=1737389726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kt9XzCpStkmbcYr78zUoJN/QJb0GNFX8jxw7ohQe76o=;
-        b=l+wagzKGi4ww6vMoVQVkSbq0+hUSbxrbVVd74EowwxCcDkxdb+ObV6z4W08YOjo9+c
-         6cMCTbZaxa/hNxS87ZoT33K04AdePN4p+u+7RfPGVW1G+JGL1vuaC7e6hhmf0Cel/e+M
-         UIvdbSfDwhKyj76nKg5aIVYG3DpcW5ydso17IThrn3Cn6WtCa/2Y8dIixJq5r/oLSJaH
-         RucoQXdf4g1UItRwLd2FvIujGM7SdiEIMlTo+SrzLX6TN9MMmnf5aPpTaKg1kihCkrPe
-         VW5yjiOpEtDQNC0p/bfONdFALW5FxhzlhUQRcVgRo3uSjHtVpYRXjwcLhPYIxdsPjKGt
-         CDWA==
-X-Gm-Message-State: AOJu0YwoJqce+FRHCM9ShSIEVRcakt7RoOF13ozYbVKnBPpgOZuma8w6
-	SaVq+YU/GRUWWewEIC0Y1NPGlLnvWlGzNy61ytkdzHCX2v0JhiP+HLh53Xn3QGT31DqTj9Nastd
-	msu470kTCDSmfTcd5pbV85fNbyCKS6f4ziZNtOw==
-X-Gm-Gg: ASbGnctPWIB8yLkVI3e0n5Y+4j1/X7JePMD0PgUdaMUE36eLI+1qssTAdAV5dcoIRGd
-	cSYo1jsAoHRtsaKLHJbT65hnk0tfMnDnCSSA2dZGE
-X-Google-Smtp-Source: AGHT+IGd9a4CZRR9sPxLfI8PFGl026OXOHnHWIFn8WgfEIrlf7B+drq8WnHtNM4MTw2EQT7qPr47a5uTOdh2S2UVOag=
-X-Received: by 2002:a05:6512:220e:b0:542:1b63:141b with SMTP id
- 2adb3069b0e04-542845d9e07mr7188869e87.32.1736784926428; Mon, 13 Jan 2025
- 08:15:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20250113123432.649645-1-igor.opaniuk@foundries.io> <CAJdd5GbCGLNmZT7jsN3x72Mw2gk4Q8Kafm=u=b7L3s_6-7GxTA@mail.gmail.com>
-In-Reply-To: <CAJdd5GbCGLNmZT7jsN3x72Mw2gk4Q8Kafm=u=b7L3s_6-7GxTA@mail.gmail.com>
-From: Igor Opaniuk <igor.opaniuk@foundries.io>
-Date: Mon, 13 Jan 2025 17:15:15 +0100
-X-Gm-Features: AbW1kvbLJ8plSSIMGt7du-SfTyx8SX7xJoLwQVV03D3_ZRW2XnjheQjTu9jKe6I
-Message-ID: <CAL6CDMHkrq+fEjxZkXOUzoJjvHuNoUvF9zXeUhZ7Xq3kRkrQ3w@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] lib/spdx30_tasks: support directories
- deployed by image recipes
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=mO95f+4k;
+ spf=pass (domain: arm.com, ip: 40.107.247.56, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rNu+BqDtUifeviQBaP2rDfw0x4eLJCzaCfce3GFC/89Q+c7A5mRO1U2X8+iRBC43PFGMCWlz1GA4B/dGUR1xyjoIqJt8PWoC8QRJzozFl7w7C9WGMtY9NZ8bodnFiEFTjdLg/QFAiz0NvpNjl+7ILLrGXJ9YoIpOl2m3ZQIyG7FT1OHKAlg2bfc8YhyX2ytHkpQ9Woobmka65x34vVPIkpZeizX7ZmxYyw6sj7t0sXBz4KzmKeUDzP6c8W9iLGIDf9RtJTqJz7o0jcA2pHMaIr5Rs3kB4SG5UJsmQ6mwG0hgp3qJ4/G9wSew4YUmlHZxoTT+Xsfdl3G4nnl5RZgm7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GkytS6ZkzhaKW1cDYUuOwYxJRd7N6qsdChTDMnP9DKg=;
+ b=O8jL+Km04YHnW3ypvijm0/Wnu2nqex87b5uJlLq0rThGD/r5zzA49EDgo6nFaa+03M4gwUIJoRTaW9iISQfA0zv4TTK0HHniDWuzm+j/aIZRznO3g2X3ZSGglWHip7Nu5XRQSepoYx2GdShUCk5EunY81ND76pyLywRCwEk7eIMcpdMe0uT/46VxLKNdbguAOXga57gmJYC6sX0z5e1yv4FwyJII15zy3Z3rk5ABLVOxtq92oW7UYaDkGHmorpPOwuNkd4ZDqk3nzNQiy0xgf3S0G+0R5Gx/MvmW6ErzpDM2j2u5F9Kc+kogB5nfww+f/XpQSd5kuucpMpZiR5V4gA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GkytS6ZkzhaKW1cDYUuOwYxJRd7N6qsdChTDMnP9DKg=;
+ b=mO95f+4kkUNgW2eIVqi2lteHHuBPo9M7aFBVdMJX25kcuOB5skT9BPcvCxqfqSBhUgYKpaTawK1FmX8h6ihbdSjYtoICRtI2DrOofoCqbthJGaC+K58Qvw6+OZzLRD1AKlwPguvHmdy2tdjUbkqrQRlgpmpRa+DgIiigeUObeOc=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by FRZPR08MB11192.eurprd08.prod.outlook.com (2603:10a6:d10:13c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
+ 2025 16:45:38 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%6]) with mapi id 15.20.8335.017; Mon, 13 Jan 2025
+ 16:45:38 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "hiagofranco@gmail.com" <hiagofranco@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Hiago De Franco
+	<hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH] libxkbcommon: remove locale dependecy
+Thread-Topic: [OE-core] [PATCH] libxkbcommon: remove locale dependecy
+Thread-Index: AQHbTN2sQ+3wL/mIw0G2hERuYrRaf7MVG14A
+Date: Mon, 13 Jan 2025 16:45:38 +0000
+Message-ID: <A468A018-CE0F-4C18-8189-4190498A8051@arm.com>
+References: <20241212213429.250224-1-hiagofranco@gmail.com>
+In-Reply-To: <20241212213429.250224-1-hiagofranco@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.200.121)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR08MB7411:EE_|FRZPR08MB11192:EE_
+x-ms-office365-filtering-correlation-id: 95dd67e4-d52a-459b-6edf-08dd33f1b5b0
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?qcfuue7oJntcV4Pwdc57Q8M/VMoD5S7YKzvb0/897XMPm4Gv2aCFyv31nKgy?=
+ =?us-ascii?Q?xxyyvb7aOH7XyWKWxzaprZEvqiRXfIos//e8/u853KjNWTm9EjzGVx0KkaqS?=
+ =?us-ascii?Q?tSjng2SwTPfjgidQZC8a2Z6XH+5nx1rGPF4XCN08q62a9fEaHsyXO8NwXbkc?=
+ =?us-ascii?Q?H6avBdQ1vimiLroBPyqDm+OBa+5zBoZkBSq13ImcLjbXlTE5VL2GSWLsuTG5?=
+ =?us-ascii?Q?Rcrp3CSF7lp0C9Sxyrv3sLNVwVNlgRDhZnLSFIN8V+k32aBaj/w0qqrSh7yA?=
+ =?us-ascii?Q?NGVjg7fHPH8049ojdAOiV41gEcICdfknTQEjI5iI1353kLr5MMPvC8Ys/hmh?=
+ =?us-ascii?Q?ciC4fKW11eOoMXtCkTK+sVuP8aB7Hx9v2XE+6IklstTObtkzz5OurMq02c0Y?=
+ =?us-ascii?Q?fIF1bsSNg8akkU8JQwvzRSA4/u/I0LXdqvKDvKAF201fgysr54wJGhoF2EQq?=
+ =?us-ascii?Q?woMM4WXH9iHbInJIR2JDqGr8x4/+JXGYSdFLPyc9ZrjK9stNetIYrVHgK0y3?=
+ =?us-ascii?Q?LfznUw+jqSpMC7j86sFaioHnzLkslGE0HOXWJipEn1kjrzlw5t7UwcHsGpSO?=
+ =?us-ascii?Q?lkeJw1UKAVh9PQSvKHECgCpXiUFsc8SXJh/SpFWXtwKF+HtLAQU3yGaX+GZs?=
+ =?us-ascii?Q?JGnvIEN/aN6sM7GlwsmzRdVygZME4cPM4qeMNXWG6WwPeFYIMxND2wpQd+yS?=
+ =?us-ascii?Q?OM1n+BiUfsZknkn1iCuNnKDqprFkrg00KqqAMwgyqT66JJHo9DTq49uShqYx?=
+ =?us-ascii?Q?JWWCZA1rphbW9nUPPgCRKxrPM/GSfa9+9i0tr6NQl1GaNZzXXF3jGxytGX+q?=
+ =?us-ascii?Q?j0l27ttbliabkdUD9gMB3Q1EvBiFFdHFgBTF/pz1gd29yJB0T0gcHBle/eLF?=
+ =?us-ascii?Q?MnYuehYAPUo/f36sz3CVilMUe5Grqhqmb6hYeifDyEfldJ6uPH2IXNdiMuQ3?=
+ =?us-ascii?Q?bGV3cCogG4UUCPYvpFgCRgeGypmPlCygdthSorjHtxLCslt9CisNJsRWraDx?=
+ =?us-ascii?Q?TyQQJ7bvwL35MvkiJDyi0wDxevwWJEhjcPsGEsWvqP0eH0dUX1988HEw+/l/?=
+ =?us-ascii?Q?7BnKLwn1BZGCwijIhJYCdoEW6evFv8/RhLc0aeMc97ybkbXJVY0ikxy9RLqq?=
+ =?us-ascii?Q?DaQJ76h0KhjYesPdOhoyHM8ih0endClBIvw8nq/iN0TQfRpODZtYbR5eD2Vm?=
+ =?us-ascii?Q?Me3W9Rznnc0K2kTmGNVrgKckyIBuW+1pknoH6Tns1GMyLR6FOsaeCm/nuKh9?=
+ =?us-ascii?Q?e4f0xEJTjlavqg0kbv3TduktudXFeNND4f/f4yho/nHbUGkDQ/n3bhGe5Czd?=
+ =?us-ascii?Q?secWtaj0ufX9Ew0VXnnhmf/QBrn8nIXElo6RqEihV61K+lvYQsXEedU/vpPt?=
+ =?us-ascii?Q?pyyb3o+y+hvjA7GZ15K5nq89b0TNQZ+fsqenenqL/BvkR2TlSzXGrkpzDviI?=
+ =?us-ascii?Q?OpOFo2a4LJkP5XIiKDu7P/SFM0Ei8p3f?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?ggLsPzQ/VuewQ79/VjOHJlL7g7pPmIz3rgbF+sKZQ7wYaY+TpUp5iSdtKTDp?=
+ =?us-ascii?Q?TXbm8LeE0JfuzXMKZwbKQ4PmCrRCoHYZORqxTKR5tOEbuDsaq1CXOcCYzhgw?=
+ =?us-ascii?Q?nEjX8qKGruV/qXMSgo5K2x9SM61G72Q54llorkLSQSj8C0hTMLaLcAsDq4Dv?=
+ =?us-ascii?Q?VRtQjRIO9cWmur1AZXgapbujuzpw0fUI+O7tXwz7pGeC+PIR7KJlX6MBiNEb?=
+ =?us-ascii?Q?KXANR+6wa4wPUVryh+LUJZTdS5jdS1pXPwMl+zhHhlUe8AK76jDeFybwMmz5?=
+ =?us-ascii?Q?h4486yA0cVnwU8XeyCDifkv1NYeu46/iCrRCGykGJn36r2iNrYhW0sw541DJ?=
+ =?us-ascii?Q?alkDHIqGQ01EEotK+EwCOKS5cOptfeXtGjJUBm/XjvsPCGTg+gRI0UDIEGb8?=
+ =?us-ascii?Q?bj3yr8hp6Pl7f1H3LoFoPUpWeAZCIABzwsjdGaQDg+Hay+AEHZdF4Qojs+Ce?=
+ =?us-ascii?Q?H8oVJmZ3J6iaTeDocKM6XWa8O3S/x7wiogPXEzt93wtFF/hcb8lNCFozFH+q?=
+ =?us-ascii?Q?XISnpi2ln7uqSuzJcJ9yisMaXBtza9R1ykVrILagMCd5QI8OijCfGkSgiWCS?=
+ =?us-ascii?Q?rgKtIz5VQIWGSFOZkqSDZ1hxNix1E2Hwa+fBVAzBOQdsuQ6tKBD/FKVS2poO?=
+ =?us-ascii?Q?f3ihBIoHIOvg+3n/vSYN+RvMu5vodBt0N3q8KRua90f7jHmgj/m7qUeBD/P4?=
+ =?us-ascii?Q?FHzsXhWmT987XGuHI5uTNOVvkpIFQc4Ij7VYkNxWXH2j9m1vZopRxR08dEl2?=
+ =?us-ascii?Q?WRzHg8ilVg8RqvkFUTe+SMz5diZAwGzMZxrwngT3xqWdUmamfWCYOAjzYJOk?=
+ =?us-ascii?Q?wokdQzaI/QkCSq5bVaEo7cwH25spCH/NIziAYk7IAZd5mFZJKT+HnAlGPRXi?=
+ =?us-ascii?Q?ik7utOZjftsykCGOeub7UtU1wZlj/7hTJJ32CL2WcG6mIbGH2RBezA8qafEC?=
+ =?us-ascii?Q?1XDf5TWYZAXSkvkB3bAzxSbnaf2M6L9PrvJydJoLUSEvFApoDKxSpI9dc16a?=
+ =?us-ascii?Q?sGgpaIA07qRnd/0dlP/MMV3JaJmeJ2tuZf/b2+3NP9f/JxcVdEAn/333h6kL?=
+ =?us-ascii?Q?JuWqtGj7PsLgMywxOEwiW1S8EixSTJtUD8YkDLy5xI6j4FBlFY5wUj8Y6J3R?=
+ =?us-ascii?Q?oVYGPLbWrSHaeiUR2hQ9cSZlIFiWcX7+A9r3ajdpJGulYqm+VqYbwscFyBOy?=
+ =?us-ascii?Q?KnAYpLtAi+RRLM1ogQfPgy8VfYWLZtezpRo+NizYo4DFw7Np6bMZXqLmKG97?=
+ =?us-ascii?Q?9hh0HWhSJuiYaVYrdQtcIvAS+nhk8U1hLg2uemrOQu4h3EK0ZdZw29ohLVHN?=
+ =?us-ascii?Q?Ga5ognCboAcNd6bNpzNr7JKPpxfjEz2mXXNhwwtN6r+SbKJ7VScmsJzvl3h5?=
+ =?us-ascii?Q?7BoaaOv/M+RbACImeetb4QK1V9iUJEuoeL0wQIMO2XTRpxkaFiwQ1kMZ8bD7?=
+ =?us-ascii?Q?LPU05xaU/4qqVvlKnGZjoKj2r54UkgX2VHmb582/TXwdhPQbgW6Iujnea6Zx?=
+ =?us-ascii?Q?LitsaaTgu6Omn0kXwazBkrhVaD6fSwZ49JDfrQAZ6gbhz3AyudzYsreB2BD6?=
+ =?us-ascii?Q?3mErEvk+ZUTI3lsxTT1I8hq8ZlHzKh27MHxCsBaN?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <46934240BB81B44FA53CE8660A593D48@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95dd67e4-d52a-459b-6edf-08dd33f1b5b0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2025 16:45:38.4358
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vmSdDaB8P2kuNOsyanei0Nn4JSCebqYRb6yHEtgyCrH/bkTiOxwPUdHCeNXo6DSkazk8yl71h9CexuNXLidNlw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB11192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 16:15:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209736
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 16:45:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209737
 
-Hello Joshua,
+On 12 Dec 2024, at 21:34, Hiago De Franco via lists.openembedded.org <hiago=
+franco=3Dgmail.com@lists.openembedded.org> wrote:
+>=20
+> From: Hiago De Franco <hiago.franco@toradex.com>
+>=20
+> The error described does not occur in all cases where libxkbcommon is
+> used. As example, a Qt application that depends on libxkbcommon might
+> not require any locales to be installed.
 
-On Mon, Jan 13, 2025 at 3:58=E2=80=AFPM Joshua Watt <jpewhacker@gmail.com> =
-wrote:
->
-> On Mon, Jan 13, 2025 at 5:34=E2=80=AFAM Igor Opaniuk via
-> lists.openembedded.org
-> <igor.opaniuk=3Dfoundries.io@lists.openembedded.org> wrote:
-> >
-> > From: Igor Opaniuk <igor.opaniuk@foundries.io>
-> >
-> > create_image_spdx() implementation assumes that image is indeed a file.
-> > If image recipe deploys a directory (for example, which contains an
-> > hierarchy of flash artifacts, that is used by SoC vendor-specific
-> > flashing tool) which follows ${IMAGE_NAME}.${IMAGE_TYPE} naming scheme,
-> > create_image_spdx() function will fail after trying to hash a directory=
-:
-> >
-> > *** 0002:do_create_image_spdx(d)
-> >      0003:
-> > File: '.../meta/classes-recipe/create-spdx-image-3.0.bbclass', lineno: =
-48, function: do_create_image_spdx
-> >      0044:addtask do_create_rootfs_spdx_setscene
-> >      0045:
-> >      0046:python do_create_image_spdx() {
-> >      0047:    import oe.spdx30_tasks
-> >  *** 0048:    oe.spdx30_tasks.create_image_spdx(d)
-> >      0049:}
-> >      0050:addtask do_create_image_spdx after do_image_complete do_creat=
-e_rootfs_spdx before do_build
-> >      0051:SSTATETASKS +=3D "do_create_image_spdx"
-> > ...
-> > File: '.../bitbake/lib/bb/utils.py', lineno: 536, function: _hasher
-> >      0532:
-> >      0533:def _hasher(method, filename):
-> >      0534:    import mmap
-> >      0535:
-> >  *** 0536:    with open(filename, "rb") as f:
-> >      0537:        try:
-> >      0538:            with mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCES=
-S_READ) as mm:
-> >      0539:                for chunk in iter(lambda: mm.read(8192), b'')=
-:
-> >      0540:                    method.update(chunk)
-> > Exception: IsADirectoryError: [Errno 21] Is a directory: '...'
-> >
-> > Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
-> > ---
-> >  meta/lib/oe/spdx30_tasks.py | 33 +++++++++++++++++++++------------
-> >  1 file changed, 21 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> > index c60c97896c..20fb5644e3 100644
-> > --- a/meta/lib/oe/spdx30_tasks.py
-> > +++ b/meta/lib/oe/spdx30_tasks.py
-> > @@ -1072,19 +1072,28 @@ def create_image_spdx(d):
-> >          for image in task["images"]:
-> >              image_filename =3D image["filename"]
-> >              image_path =3D image_deploy_dir / image_filename
-> > -            a =3D objset.add_root(
-> > -                oe.spdx30.software_File(
-> > -                    _id=3Dobjset.new_spdxid("image", image_filename),
-> > -                    creationInfo=3Dobjset.doc.creationInfo,
-> > -                    name=3Dimage_filename,
-> > -                    verifiedUsing=3D[
-> > -                        oe.spdx30.Hash(
-> > -                            algorithm=3Doe.spdx30.HashAlgorithm.sha256=
-,
-> > -                            hashValue=3Dbb.utils.sha256_file(image_pat=
-h),
-> > -                        )
-> > -                    ],
-> > +            if os.path.isdir(image_path):
-> > +                a =3D objset.add_root(
-> > +                    oe.spdx30.software_Package(
-> > +                        _id=3Dobjset.new_spdxid("image-files", image_f=
-ilename),
-> > +                        creationInfo=3Dobjset.doc.creationInfo,
-> > +                        name=3Dimage_filename,
-> > +                    )
->
-> A "package" is not the correct thing to use here. It should
-> recursively add all the files (with their checksums). I think reusing
-> add_package_files() would be best, do you have an example of a recipe
-> that does this?
-Thanks for looking into this. Will rework with add_package_files() and send=
- v2.
+This breaks the use of the Compose key, as this needs the data in the local=
+e files.  I suggest making this a recommends instead, which you can then no=
+t install.
 
-I stumbled upon this issue when I was reworking custom fstype implementatio=
-n
-in [1] meta-qcom-hwe layer, which creates a tarball with all boot
-artifacts that are
-"consumed" by QDL tool [2] for flashing a target board.
-
-The idea was to create folder with all ready-to-flash
-artifacts besides a tarball, so we can test local builds right away
-avoiding the additional "unpack the tarball" step. I'm still not sure
-if it's the right approach, as
-the fundamental question is if image recipe output can be a directory
-(is it even legit?).
-
-[1] https://github.com/qualcomm-linux/meta-qcom-hwe/pull/122
-[2] https://github.com/linux-msm/qdl
-
->
-> > +                )
-> > +            else:
-> > +                a =3D objset.add_root(
-> > +                    oe.spdx30.software_File(
-> > +                        _id=3Dobjset.new_spdxid("image", image_filenam=
-e),
-> > +                        creationInfo=3Dobjset.doc.creationInfo,
-> > +                        name=3Dimage_filename,
-> > +                        verifiedUsing=3D[
-> > +                            oe.spdx30.Hash(
-> > +                                algorithm=3Doe.spdx30.HashAlgorithm.sh=
-a256,
-> > +                                hashValue=3Dbb.utils.sha256_file(image=
-_path),
-> > +                            )
-> > +                        ],
-> > +                    )
-> >                  )
-> > -            )
-> >              set_purposes(
-> >                  d, a, "SPDX_IMAGE_PURPOSE:%s" % imagetype, "SPDX_IMAGE=
-_PURPOSE"
-> >              )
-> > --
-> > 2.43.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#209717): https://lists.openembedded.org/g/openembed=
-ded-core/message/209717
-> > Mute This Topic: https://lists.openembedded.org/mt/110585648/3616693
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-JPEWhacker@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
-
-
-
---=20
-Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
-
-Igor Opaniuk
-Senior Software Engineer, Embedded & Security
-E: igor.opaniuk@foundries.io
-W: www.foundries.io
+Ross=
 
