@@ -2,48 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE85E7719E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFC5E7719F
 	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 09:33:25 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.13350.1736760800729234549
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.13577.1736760801046878386
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 01:33:20 -0800
+ Mon, 13 Jan 2025 01:33:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VZGN0Epp;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oR4VgGDw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101945f02b02d-e4e80313-b77b-4574-9372-752c52238ee2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VxpFq4jn;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=QuYF8ArM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101945f02b369-75f08582-ee64-44ca-a515-aceec56fc964-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736760799; i=@automation.yoctoproject.org;
+	t=1736760800; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=0J0eRIB2YhRxelFjmKlnyhNtL31XU33mFihpnuQ1fQM=;
-	b=VZGN0EppFV+DAD30fwrG55A6EQuPhky2LeBYCmueuP5VeKdQrbbu1h2MXbi4s1YY
-	sjYkoeitXoMYzT1BGuYBPQWE/4OW8ZOHf1e95cgXUyFoMomWmmwOkqrcSZztvUXQlYE
-	tXUt5kaRtGNt9pLFjbcGXhyJjd96WPXKLNRUTeWE=
+	bh=EFsEAyThHCficken+ZfQzgt7JeMl+w/IQAPeH1BLt2I=;
+	b=VxpFq4jnwALhnmMQSnembVjMQbM1jjSDX0IGhiYdUUgUHrFCUper/lKas/nb3w73
+	FlRTNb14LE2NTJdM36teysjDohWTHWndO6otJz3DYj3eJ/tsXTF8lDDlXOWiNUeE3pI
+	bWSto5lKRNTn5kLZqWvV/e0BWqgMHlAnvZ9+JSbM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736760799;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736760800;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=0J0eRIB2YhRxelFjmKlnyhNtL31XU33mFihpnuQ1fQM=;
-	b=oR4VgGDwNfVxmlTAn6nUGbQ9sdEGnoh8DQIPhpxK6DiziVdpYvyi1BNlgVaQygqG
-	Ajs5O1ipUVFRP3lW7kTa7zxjMKxMpafUUHGnn71byEyRGwoOEAH/jmDWTBRLp5XYoi6
-	pDZQJpSJJN/IcQ080Mb2VioYqJ+yuAr0lprq9Lko=
+	bh=EFsEAyThHCficken+ZfQzgt7JeMl+w/IQAPeH1BLt2I=;
+	b=QuYF8ArMsCuClHfH2zXOcR7NwJit6Hf3rCMWPitJuQKtG1rBBR17GbyZRVdnFpFW
+	uezq6Io003BbwtdcVN9SsxMJufwO6lGZfd4hHwyNYsP0U3D2p/qF9EetCqIkceymYjY
+	sQUXVKFlrjbYVynuPkNrGExevb7neLHuqXVkw6P0=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][kirkstone][PATCH] poky: Remove True option to getVar calls
-In-Reply-To: <20250113091832.82071-1-akash.hadke27@gmail.com>
-References: <20250113091832.82071-1-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH] poky-sanity.bbclass: Remove True option to
+ getVar calls
+In-Reply-To: <20250113091553.81130-1-akash.hadke27@gmail.com>
+References: <20250113091553.81130-1-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101945f02b02d-e4e80313-b77b-4574-9372-752c52238ee2-000000@us-west-2.amazonses.com>
-Date: Mon, 13 Jan 2025 09:33:19 +0000
+Message-ID: <010101945f02b369-75f08582-ee64-44ca-a515-aceec56fc964-000000@us-west-2.amazonses.com>
+Date: Mon, 13 Jan 2025 09:33:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.13-54.240.27.191
+X-SES-Outgoing: 2025.01.13-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 09:33:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209704
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209705
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-kirkstone-poky-Remove-True-option-to-getVar-calls.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-poky-sanity.bbclass-Remove-True-option-to-getVar-calls.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
