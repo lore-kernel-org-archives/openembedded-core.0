@@ -2,244 +2,89 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F01BAC02180
-	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:32:29 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web10.32686.1736811139563179283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0CA6C02180
+	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:37:19 +0000 (UTC)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+ by mx.groups.io with SMTP id smtpd.web10.32762.1736811432064197426
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 15:32:19 -0800
+ Mon, 13 Jan 2025 15:37:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bZuzsaGR;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: hiagofranco@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3eb98b3b63dso1222462b6e.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:32:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NNGxb9py;
+ spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: hiagofranco@gmail.com)
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5f2d7868ef0so1193702eaf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736811138; x=1737415938; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mUgCphra+zLuHlVtXyU1tbBkK2jqBjkFR8uMaONLAI8=;
-        b=bZuzsaGReDaQzMhcezMjau6TRGFcqTQvJZrQZVuk9c+ulEJHaRefqT5Ajc5Aaoq800
-         xFdh/caTwvrREFrf4I79OL9jOynjb5UqEkM+CoOmMbNNSl9X36EyqTBzNykvugfEW8TJ
-         gGtSttTumZ0GZw8PajwcvmjclhF3SF6/iKy+K9x9/WPLr2+DtB4xhNFvNh8PmN1njOaV
-         akgBRsZBQgM45JMGY3LmBnTlZAL2ZUZLp82O2Z8kGFhUmSFX+6FPNd8Igp2XXf8dkIGN
-         +7XTbv6zvOcuPM/uu1AN23gcRDX84MKU24xHPW72PAHT6T8kupMRUKHQ3f+iD1GIkPee
-         NqRQ==
+        d=gmail.com; s=20230601; t=1736811431; x=1737416231; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0BGPNWGW7K+lkRl2Plp5XXYMCpqtP2DZjKfnTZRezQ8=;
+        b=NNGxb9pyO2KC+8uy1mGrtUUOhgOlJ+NCQfEHZytIvod0tlYedm1uNNYz1JMEIn7vOq
+         ned3zgit/C4u36Lnlq0z/Ex4UtJS/4t+pC2LSeKnSbjgZ0oxSavvDjxiAUR4JIt6xmN9
+         vLjdsUW3S/BhUp6Re8z+W7Ykk0BTnR/XJQ93gcj33+qOLX8/ac5tytKTiycFnLGhB9PO
+         nbRdme7XUJXxWlxtI8hcxMkef3GqRZr9l4IsLBzY6FrT97QCPdYXJ420KILjp0saEfMN
+         S0tLJS0maWqs61VBUGlEYKwqYjhldFdi2t9NxcNz9wSdoPk91UZDhCzpvkTQThTQ3Q16
+         3WAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736811138; x=1737415938;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mUgCphra+zLuHlVtXyU1tbBkK2jqBjkFR8uMaONLAI8=;
-        b=YWyLDeYzc/bhDNY5KmVuAm4YUxD7auwhmrTEyR74VZ3UucSUt2z++U0ZZqmoTNzCeB
-         cHZRs4PbbHwcaDSViTJNmYLTlhkhE/YnI+UtqPBnAnzJ955hcN8x6i+LXkkn8RbjTZ5d
-         oWuu5FYXiTB29Nvj1jY0JWyv4xUFE38je9z1zrt5kez1CdWmL7YAeT/kZzH6eiC+PNw9
-         FtkLkMVZm9OvmtfWMSdgkJnR9YLlbMdAfXxbycFyMhKZgwQqR6nXxgkHre16DKdIUvHu
-         uCCTwmoX7mOZT+fkC/aE+6GdKi+VsmpGsbssNz5WTFDHHCZhpILLrF/zbbCoujAJqfG0
-         k0cQ==
-X-Gm-Message-State: AOJu0Yx7hSLw+6maZHLGEZOjSz5S8TqjH+NF3HWQE+wEDLR5YR1LaBDD
-	U+6rQgCc4Y1UMstJpYbtjJY2vKobIQdim04WAn5xj62MVLghrLmqG8XDHA==
-X-Gm-Gg: ASbGnctAuArj0a0TaMBoOPoEO2KXXlwdJlpUZAP2QdQA+/gNdgOF45v1jWcn0mPlk6K
-	oW9mM+VOMCIydMvRA2TDt6XYTT8Demut8otcq0ty359qjp0HiLiroWygfDqcV/BeoaVm16t6iJY
-	nMxlLTTKhNAxUPFz0dLx9ltdIm/PxGKpZDOxvZbE9fSmyLJjEgTT4AUJKW05DcRvYpf7A79vrRI
-	N2adx1EoC4MNg3T1ErDWhiAKUdXC7sqI+DGjL8KmPHNZuDGEqrrVJZ4ZXvYjkB/xULoamAcIQ==
-X-Google-Smtp-Source: AGHT+IEQoqRbpieUVv+11Tdn3ZtVFax0dddlHFd/q8wdXu5Ii6FZDNtF51OiK8vxQ9JuNr+XknAPwA==
-X-Received: by 2002:a05:6808:1301:b0:3ea:5880:fe1f with SMTP id 5614622812f47-3ef2ebd4035mr12807244b6e.5.1736811138274;
-        Mon, 13 Jan 2025 15:32:18 -0800 (PST)
-Received: from localhost.localdomain ([2804:1b3:a7c0:f217:8a6e:d86d:fdd8:a559])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f0379eff5dsm3613689b6e.35.2025.01.13.15.32.15
+        d=1e100.net; s=20230601; t=1736811431; x=1737416231;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0BGPNWGW7K+lkRl2Plp5XXYMCpqtP2DZjKfnTZRezQ8=;
+        b=QVHIJCJk2ul54NNr+Lqer44lP9dfMvAkrDPnL2wO8Hi5Hlx3TH4DELxp/8KDt6rRfd
+         ujnhS5uOXma4rI6Xv1guborggJtgg9lWyTgQKl9xqLUJJn/qik6BzC4QeIepL7o71VjH
+         NhvPN2wfP2noiir5OcUVqHJv63EMHEuRjQdzCuEz2Aw/ewhArTKvJAqwxJax8ASr5MaM
+         ef/rAQhch8cBcH//9BT9HZyFbXBRZ+yw/K+VRMEmgcg06wsNdPQe/N6I+Jl9yc4rqjf4
+         /UDqP9Y0098uz1rsVUQtlE0orT5wCzF1pYU0bEiIKEjWkoHD/xngMaLcbYdjUpNXXPn0
+         TVJg==
+X-Gm-Message-State: AOJu0YzSXHzy3yGBRJH/Q0AKjy1S7VqbByAPKEXnbMAYlMRTg2ESCsEr
+	HlXpYt0Nhb7GJHSgYqiYMn3OKXuk0yaKlAt+9LZaxmhPa06d5hLHI04brQ==
+X-Gm-Gg: ASbGncuh+8BzmfXuKIoRbwsBNbEJWEzZug9WT6LioLjHaL08iy5dwQH6i9uQ/7S7O44
+	DFXjwIfYKXrfW1tycS3dPodYn4I1Ue1TWYtRr8XiJFTKlAYIuH6W4tZySUo5knBmm0FzlfQSQDs
+	jthgIyQBRmUovxPe5fmWBVHTV1q5Mso/BgfOJY94Bbl+yvpni+qUK64RVJV2Kk7XoUe/nv7rIyT
+	DoSsSlMU5lfqzaQ0n7kMSJBVyMY3MYVTCbtzsbLY/01fysMUmu6ysw7
+X-Google-Smtp-Source: AGHT+IHx8UfzFmyCIn76K4kGDIhWYWxsVPuqDRdAGZS3hWqjKUJgO2dMXMJ64WyfpEcssqXv3gnm2g==
+X-Received: by 2002:a05:6871:6103:b0:29e:1b72:7586 with SMTP id 586e51a60fabf-2aa066d6831mr13029472fac.18.1736811431227;
+        Mon, 13 Jan 2025 15:37:11 -0800 (PST)
+Received: from hiago-nb ([2804:1b3:a7c0:f217:8a6e:d86d:fdd8:a559])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ad809ad7ccsm4454849fac.40.2025.01.13.15.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 15:32:17 -0800 (PST)
+        Mon, 13 Jan 2025 15:37:10 -0800 (PST)
+Date: Mon, 13 Jan 2025 20:37:06 -0300
 From: Hiago De Franco <hiagofranco@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Anuj Mittal <anuj.mittal@intel.com>,
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
 	Hiago De Franco <hiago.franco@toradex.com>
-Subject: [PATCH] eudev: backport patch to fix udevd hanging while trying to access /dev/urandom
-Date: Mon, 13 Jan 2025 20:31:40 -0300
-Message-Id: <20250113233140.40499-1-hiagofranco@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [OE-core] [PATCH] libxkbcommon: remove locale dependecy
+Message-ID: <20250113233706.3jxpqlqqvghgr62e@hiago-nb>
+References: <20241212213429.250224-1-hiagofranco@gmail.com>
+ <A468A018-CE0F-4C18-8189-4190498A8051@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A468A018-CE0F-4C18-8189-4190498A8051@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:32:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209767
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:37:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209768
 
-From: Hiago De Franco <hiago.franco@toradex.com>
+On Mon, Jan 13, 2025 at 04:45:38PM +0000, Ross Burton wrote:
+> On 12 Dec 2024, at 21:34, Hiago De Franco via lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org> wrote:
+> > 
+> > From: Hiago De Franco <hiago.franco@toradex.com>
+> > 
+> > The error described does not occur in all cases where libxkbcommon is
+> > used. As example, a Qt application that depends on libxkbcommon might
+> > not require any locales to be installed.
+> 
+> This breaks the use of the Compose key, as this needs the data in the locale files.  I suggest making this a recommends instead, which you can then not install.
 
-Linux kernel commit 48bff1053c17 ("random: opportunistically initialize
-on /dev/urandom reads") introduced a change where /dev/urandom blocks if
-the random pool is insufficiently initialized during hardware boot. This
-behavior causes /dev/urandom reads to hang for approximately 5 seconds,
-delaying the boot process with eudev init script (when it calls udevd).
+Sure, I will prepare a v2.
 
-This issue has already been solved upstream, therefore backport the
-upstream patch to fix this.
+> 
+> Ross
 
-Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
----
- ...nc-dev_urandom-implementation-to-sys.patch | 138 ++++++++++++++++++
- meta/recipes-core/udev/eudev_3.2.14.bb        |   1 +
- 2 files changed, 139 insertions(+)
- create mode 100644 meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
+Cheers,
 
-diff --git a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch b/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
-new file mode 100644
-index 000000000000..668aa731aca1
---- /dev/null
-+++ b/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
-@@ -0,0 +1,138 @@
-+From 95c871b7b912f39539777ac222ef7f8798bb0225 Mon Sep 17 00:00:00 2001
-+From: Masahisa Kojima <kojima.masahisa@socionext.com>
-+Date: Thu, 25 Apr 2024 17:23:10 +0900
-+Subject: [PATCH] random-util.c: sync dev_urandom implementation to
-+ systemd-udev
-+
-+Current dev_urandom() assumes that reading /dev/urandom
-+will never block regardless if the random pool is fully
-+initialized or not.
-+This assumption is no longer applicable since linux kerrnel
-+enforces the /dev/urandom entropy initialization from
-+v5.18-rc2 with the commit:
-+48bff1053c17 ("random: opportunistically initialize on /dev/urandom reads").
-+
-+With this, when we use the linux v5.18-rc2 or later,
-+dev_urandom() will block if enough random pool is not supplied.
-+It causes the boot delay, typically 1024msec(4msec * 256 = 1024msec)
-+delay to fill the 256 bits entropy for the case CONFIG_HZ=250.
-+
-+To prevent this boot delay, this commit syncs dev_urandom()
-+implementation to the systemd-udev.
-+The systemd-udev implementation of reading /dev/urandom is as follows.
-+ - Try to get random with calling getrandom(GRND_INSECURE)
-+ - If kernel does not support GRND_INSECURE, fallback to GRND_NONBLOCK
-+ - If enough entropy is not supplied, fallback to reading /dev/urandom,
-+   this will block when the kernel version is v5.18-rc2 or later
-+
-+With this modification, dev_urandom() tries not to block
-+as much as possible.
-+
-+This modification still keeps the backword compatibility,
-+dev_random() will never block if the commit(48bff1053c17) is not
-+applied to the linux kernel, the behavior is same as before
-+in this case.
-+
-+Upstream-Status: Backport [a49a3aaa460add6ae7ea208b4cac630e56fe1180]
-+Signed-off-by: Masahisa Kojima <kojima.masahisa@socionext.com>
-+---
-+ src/shared/missing.h     |  4 +++
-+ src/shared/random-util.c | 70 ++++++++++++++++++----------------------
-+ 2 files changed, 35 insertions(+), 39 deletions(-)
-+
-+diff --git a/src/shared/missing.h b/src/shared/missing.h
-+index 1967840cdbf3..1caec0f9207c 100644
-+--- a/src/shared/missing.h
-++++ b/src/shared/missing.h
-+@@ -79,6 +79,10 @@ static inline int getrandom(void *buffer, size_t count, unsigned flags) {
-+ #define GRND_RANDOM 0x0002
-+ #endif
-+ 
-++#ifndef GRND_INSECURE
-++#define GRND_INSECURE 0x0004
-++#endif
-++
-+ #ifndef BTRFS_IOCTL_MAGIC
-+ #define BTRFS_IOCTL_MAGIC 0x94
-+ #endif
-+diff --git a/src/shared/random-util.c b/src/shared/random-util.c
-+index 01a28c8ef4e9..852b00e4ce2b 100644
-+--- a/src/shared/random-util.c
-++++ b/src/shared/random-util.c
-+@@ -31,45 +31,37 @@
-+ #include "util.h"
-+ 
-+ int dev_urandom(void *p, size_t n) {
-+-        static int have_syscall = -1;
-+-
-+-        _cleanup_close_ int fd = -1;
-+-        int r;
-+-
-+-        /* Gathers some randomness from the kernel. This call will
-+-         * never block, and will always return some data from the
-+-         * kernel, regardless if the random pool is fully initialized
-+-         * or not. It thus makes no guarantee for the quality of the
-+-         * returned entropy, but is good enough for or usual usecases
-+-         * of seeding the hash functions for hashtable */
-+-
-+-        /* Use the getrandom() syscall unless we know we don't have
-+-         * it, or when the requested size is too large for it. */
-+-        if (have_syscall != 0 || (size_t) (int) n != n) {
-+-                r = getrandom(p, n, GRND_NONBLOCK);
-+-                if (r == (int) n) {
-+-                        have_syscall = true;
-+-                        return 0;
-+-                }
-+-
-+-                if (r < 0) {
-+-                        if (errno == ENOSYS)
-+-                                /* we lack the syscall, continue with
-+-                                 * reading from /dev/urandom */
-+-                                have_syscall = false;
-+-                        else if (errno == EAGAIN)
-+-                                /* not enough entropy for now. Let's
-+-                                 * remember to use the syscall the
-+-                                 * next time, again, but also read
-+-                                 * from /dev/urandom for now, which
-+-                                 * doesn't care about the current
-+-                                 * amount of entropy.  */
-+-                                have_syscall = true;
-+-                        else
-+-                                return -errno;
-+-                } else
-+-                        /* too short read? */
-+-                        return -ENODATA;
-++        static bool have_getrandom = true, have_grndinsecure = true;
-++        _cleanup_close_ int fd = -EBADF;
-++
-++        if (n == 0)
-++                return 0;
-++
-++        for (;;) {
-++                ssize_t l;
-++
-++                if (!have_getrandom)
-++                        break;
-++
-++                l = getrandom(p, n, have_grndinsecure ? GRND_INSECURE : GRND_NONBLOCK);
-++                if (l > 0) {
-++                        if ((size_t) l == n)
-++                                return 0; /* Done reading, success. */
-++                        p = (uint8_t *) p + l;
-++                        n -= l;
-++                        continue; /* Interrupted by a signal; keep going. */
-++                } else if (l == 0)
-++                        break; /* Weird, so fallback to /dev/urandom. */
-++                else if (errno == ENOSYS) {
-++                        have_getrandom = false;
-++                        break; /* No syscall, so fallback to /dev/urandom. */
-++                } else if (errno == EINVAL && have_grndinsecure) {
-++                        have_grndinsecure = false;
-++                        continue; /* No GRND_INSECURE; fallback to GRND_NONBLOCK. */
-++                } else if (errno == EAGAIN && !have_grndinsecure)
-++                        break; /* Will block, but no GRND_INSECURE, so fallback to /dev/urandom. */
-++
-++                break; /* Unexpected, so just give up and fallback to /dev/urandom. */
-+         }
-+ 
-+         fd = open("/dev/urandom", O_RDONLY|O_CLOEXEC|O_NOCTTY);
-diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
-index 0e5610f77c2d..b3e7d092c58d 100644
---- a/meta/recipes-core/udev/eudev_3.2.14.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.14.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://netifnames.patch \
-            file://init \
-            file://local.rules \
-+           file://0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch \
-            "
- 
- SRC_URI[sha256sum] = "8da4319102f24abbf7fff5ce9c416af848df163b29590e666d334cc1927f006f"
--- 
-2.39.5
-
+Hiago.
 
