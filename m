@@ -1,90 +1,98 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0CA6C02180
-	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:37:19 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web10.32762.1736811432064197426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBED9C02180
+	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:39:19 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.32802.1736811556290021920
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 15:37:12 -0800
+ Mon, 13 Jan 2025 15:39:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NNGxb9py;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: hiagofranco@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5f2d7868ef0so1193702eaf.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:37:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XcMkPUFC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436249df846so33846595e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736811431; x=1737416231; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0BGPNWGW7K+lkRl2Plp5XXYMCpqtP2DZjKfnTZRezQ8=;
-        b=NNGxb9pyO2KC+8uy1mGrtUUOhgOlJ+NCQfEHZytIvod0tlYedm1uNNYz1JMEIn7vOq
-         ned3zgit/C4u36Lnlq0z/Ex4UtJS/4t+pC2LSeKnSbjgZ0oxSavvDjxiAUR4JIt6xmN9
-         vLjdsUW3S/BhUp6Re8z+W7Ykk0BTnR/XJQ93gcj33+qOLX8/ac5tytKTiycFnLGhB9PO
-         nbRdme7XUJXxWlxtI8hcxMkef3GqRZr9l4IsLBzY6FrT97QCPdYXJ420KILjp0saEfMN
-         S0tLJS0maWqs61VBUGlEYKwqYjhldFdi2t9NxcNz9wSdoPk91UZDhCzpvkTQThTQ3Q16
-         3WAw==
+        d=gmail.com; s=20230601; t=1736811554; x=1737416354; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZcfvNt2gSgftEQfq+3xAxbZwOWoZ7uzLNBNzIZ2CNx4=;
+        b=XcMkPUFC94M33/dzQUxr5HTTUgxPrSpRLf0x8anYU5IB5i/+IBSc6hpgJp0ualqrq8
+         UyNze6IQ5eU+RcSArt9Nd1OkYKgaRtqXDTK3x1E4VnPU0M8JXElnCdthv907EKXc/kke
+         F42wDAUGrjOM5IMlF53bdmWSaiaMRLq+II0DwWVPqdv9r94yBS6cUNai5wChiM17gyo+
+         gyXr/8znCfB5y5iuNI9bDMd5Y4hpZB60m4m5AQh6RbGqV5dn/ZE2+57QAE8V1aHGkjuA
+         ZaCt3irM8gSKu7ZKFvLOMN1G2pWeYYfxcWWPzcmrqLJncvXvBIx5G/yBEhbJf2ml7dqY
+         VR3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736811431; x=1737416231;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0BGPNWGW7K+lkRl2Plp5XXYMCpqtP2DZjKfnTZRezQ8=;
-        b=QVHIJCJk2ul54NNr+Lqer44lP9dfMvAkrDPnL2wO8Hi5Hlx3TH4DELxp/8KDt6rRfd
-         ujnhS5uOXma4rI6Xv1guborggJtgg9lWyTgQKl9xqLUJJn/qik6BzC4QeIepL7o71VjH
-         NhvPN2wfP2noiir5OcUVqHJv63EMHEuRjQdzCuEz2Aw/ewhArTKvJAqwxJax8ASr5MaM
-         ef/rAQhch8cBcH//9BT9HZyFbXBRZ+yw/K+VRMEmgcg06wsNdPQe/N6I+Jl9yc4rqjf4
-         /UDqP9Y0098uz1rsVUQtlE0orT5wCzF1pYU0bEiIKEjWkoHD/xngMaLcbYdjUpNXXPn0
-         TVJg==
-X-Gm-Message-State: AOJu0YzSXHzy3yGBRJH/Q0AKjy1S7VqbByAPKEXnbMAYlMRTg2ESCsEr
-	HlXpYt0Nhb7GJHSgYqiYMn3OKXuk0yaKlAt+9LZaxmhPa06d5hLHI04brQ==
-X-Gm-Gg: ASbGncuh+8BzmfXuKIoRbwsBNbEJWEzZug9WT6LioLjHaL08iy5dwQH6i9uQ/7S7O44
-	DFXjwIfYKXrfW1tycS3dPodYn4I1Ue1TWYtRr8XiJFTKlAYIuH6W4tZySUo5knBmm0FzlfQSQDs
-	jthgIyQBRmUovxPe5fmWBVHTV1q5Mso/BgfOJY94Bbl+yvpni+qUK64RVJV2Kk7XoUe/nv7rIyT
-	DoSsSlMU5lfqzaQ0n7kMSJBVyMY3MYVTCbtzsbLY/01fysMUmu6ysw7
-X-Google-Smtp-Source: AGHT+IHx8UfzFmyCIn76K4kGDIhWYWxsVPuqDRdAGZS3hWqjKUJgO2dMXMJ64WyfpEcssqXv3gnm2g==
-X-Received: by 2002:a05:6871:6103:b0:29e:1b72:7586 with SMTP id 586e51a60fabf-2aa066d6831mr13029472fac.18.1736811431227;
-        Mon, 13 Jan 2025 15:37:11 -0800 (PST)
-Received: from hiago-nb ([2804:1b3:a7c0:f217:8a6e:d86d:fdd8:a559])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ad809ad7ccsm4454849fac.40.2025.01.13.15.37.08
+        d=1e100.net; s=20230601; t=1736811554; x=1737416354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZcfvNt2gSgftEQfq+3xAxbZwOWoZ7uzLNBNzIZ2CNx4=;
+        b=vYEseDbPaTeYnUH42jBg9JFWn0Bd90fzzBa2ZsoWXfryAvWgNBNLIDprrGNmngJMlK
+         pNrBUN9t9gAhqPObS7P1mq6euYTrviunjy9jfK6r9P/MHOY1nNKHc9eegRm128JCL1jq
+         FSANTLE5w61NTfSPMRY/WLolwAR8QVq9ydbtyrtUkC5QqmR6LqyS/84k3s3upiKkzp/c
+         WBl9vTvy9d2ye2uP0xnJ07FlZ2i/GquDPAIZxd+ZxqmtM5PmtPRK5DTozh+hpuEYnmu5
+         DfaHJEuzHo4U5HBM62HRZqcR+Urb5ukHtr9bslMlrRQ0f0q/f7InWWZsv6TYeSSJLIGB
+         G/2A==
+X-Gm-Message-State: AOJu0YxPaBSJBR3Zl0F1pEiZqvaYincjguZfibBmz1HKEa+Havnc5ffg
+	OGjFnOHpYc6W6uKfwSCVc3ZnsiA7UjW7o6OVHNO/zipP7tPaxE8DeBcy1VYY
+X-Gm-Gg: ASbGncutU6HpD0jHfMTZql+lkjGhHSkYWHMbI1th6ny1DxeRfN97uy4u4K2XCRtRUyb
+	334Fxrr2F2UNVUUYXjSalDqpzA7yc763c8xw/nfGzsBSskto2TdVnqQduZb3BsWx2p8fUmogE8c
+	ytDIz8vRKvB6HomIo57SanLyI0qXOplF9xGfHVyWQP4N1IUHm7AptFAE3t0fuQgi7Sg8WrDcwlH
+	6xPArtDPxk2hf8ec8YffU98s+FW73NSM+JINqd33cmIeIi+gmwHOnlNbIjywzDxCfY/QBBWypLF
+	thE=
+X-Google-Smtp-Source: AGHT+IECP2O7oPclw0sOHl+a9sMQcZlDSBtjmjD4h/DPv0dbejv6jmlliag8dFnc/NP2PLivy7aVDA==
+X-Received: by 2002:a05:600c:3b0c:b0:434:fa24:b84a with SMTP id 5b1f17b1804b1-436e26d96d8mr179990795e9.25.1736811554387;
+        Mon, 13 Jan 2025 15:39:14 -0800 (PST)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da7768sm194596605e9.5.2025.01.13.15.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 15:37:10 -0800 (PST)
-Date: Mon, 13 Jan 2025 20:37:06 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [PATCH] libxkbcommon: remove locale dependecy
-Message-ID: <20250113233706.3jxpqlqqvghgr62e@hiago-nb>
-References: <20241212213429.250224-1-hiagofranco@gmail.com>
- <A468A018-CE0F-4C18-8189-4190498A8051@arm.com>
+        Mon, 13 Jan 2025 15:39:13 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 1/2] devtool: build-sdk remove unused imports
+Date: Tue, 14 Jan 2025 00:39:08 +0100
+Message-ID: <20250113233909.4182045-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <A468A018-CE0F-4C18-8189-4190498A8051@arm.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:37:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209768
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:39:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209769
 
-On Mon, Jan 13, 2025 at 04:45:38PM +0000, Ross Burton wrote:
-> On 12 Dec 2024, at 21:34, Hiago De Franco via lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org> wrote:
-> > 
-> > From: Hiago De Franco <hiago.franco@toradex.com>
-> > 
-> > The error described does not occur in all cases where libxkbcommon is
-> > used. As example, a Qt application that depends on libxkbcommon might
-> > not require any locales to be installed.
-> 
-> This breaks the use of the Compose key, as this needs the data in the locale files.  I suggest making this a recommends instead, which you can then not install.
+These imports are not needed.
 
-Sure, I will prepare a v2.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/lib/devtool/build_sdk.py | 7 -------
+ 1 file changed, 7 deletions(-)
 
-> 
-> Ross
+diff --git a/scripts/lib/devtool/build_sdk.py b/scripts/lib/devtool/build_sdk.py
+index 1cd4831d2b8..990303982c1 100644
+--- a/scripts/lib/devtool/build_sdk.py
++++ b/scripts/lib/devtool/build_sdk.py
+@@ -5,14 +5,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
+-import os
+-import subprocess
+ import logging
+-import glob
+-import shutil
+-import errno
+-import sys
+-import tempfile
+ from devtool import DevtoolError
+ from devtool import build_image
+ 
+-- 
+2.47.1
 
-Cheers,
-
-Hiago.
 
