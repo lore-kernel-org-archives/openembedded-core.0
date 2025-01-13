@@ -1,179 +1,245 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9766AC02180
-	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 22:49:09 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.31712.1736808544083643898
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F01BAC02180
+	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:32:29 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web10.32686.1736811139563179283
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 14:49:04 -0800
+ Mon, 13 Jan 2025 15:32:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=LXGNSqxb;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-436345cc17bso35046995e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 14:49:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bZuzsaGR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: hiagofranco@gmail.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3eb98b3b63dso1222462b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:32:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1736808542; x=1737413342; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+hZJsDjCDGEhtV4O+LdLQCT5o+Blw4xCMYR3F9k1w4=;
-        b=LXGNSqxb1VQeDCmO44+5KlivMadkCxe/L3n6/tDEz1PBmtMLAZyqxG3fqnUEq99E0V
-         Z7w6qEorCkcc+2PqWrWP0tS4ZrBdLemrKXQGgyXiGeMKeDaChhNb5q0b4SL5ZFSF0yzO
-         uvjwZJY/igxrhZ3aIoqpdMH7eBjxLRNmXNO7g=
+        d=gmail.com; s=20230601; t=1736811138; x=1737415938; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mUgCphra+zLuHlVtXyU1tbBkK2jqBjkFR8uMaONLAI8=;
+        b=bZuzsaGReDaQzMhcezMjau6TRGFcqTQvJZrQZVuk9c+ulEJHaRefqT5Ajc5Aaoq800
+         xFdh/caTwvrREFrf4I79OL9jOynjb5UqEkM+CoOmMbNNSl9X36EyqTBzNykvugfEW8TJ
+         gGtSttTumZ0GZw8PajwcvmjclhF3SF6/iKy+K9x9/WPLr2+DtB4xhNFvNh8PmN1njOaV
+         akgBRsZBQgM45JMGY3LmBnTlZAL2ZUZLp82O2Z8kGFhUmSFX+6FPNd8Igp2XXf8dkIGN
+         +7XTbv6zvOcuPM/uu1AN23gcRDX84MKU24xHPW72PAHT6T8kupMRUKHQ3f+iD1GIkPee
+         NqRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736808542; x=1737413342;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1736811138; x=1737415938;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q+hZJsDjCDGEhtV4O+LdLQCT5o+Blw4xCMYR3F9k1w4=;
-        b=DseCQw5GpCXOHomih1fzpI/XK9m1t/ToRjEXnsJZrbY6HUN46Rk5UdsVCyFTFBEaxa
-         SuWWq5SQ/143zfER7OpNiGWqyOZ5gISMpleUWdHVSDdQaM6YoTQwx4AU4hxE5c7UQiL6
-         GMFS4S5VxDoOMmud03tBAazj15SRLXFnYlXdJfmxSSFH8yzRANJ/JVou9VRloqp2X2Xx
-         t7+3Mqg39ndlfwCJUv7k539bmQFDrUUSVF5LAZr7ktet9Z4BtLp8Hgwpcn5sHI+kcQWX
-         hbve04dMUnVfu7OdSqvedyXHzBvEIW6UKH4uycSQU3etLuXadsayAljxygGy1snYN9rf
-         gk4w==
-X-Gm-Message-State: AOJu0Yy5kHA3h5M3ZETqYhpB40JhPsByo9mY7jVieU95+gkZweA4Qk4p
-	yJdz1pYWe1FbDSFjBTAxs/I3XV+KL1LCamelQXM1zaVVxNN8VwNFiXun6adns+wgMZvWgJgAYgQ
-	U4mkEvA==
-X-Gm-Gg: ASbGncsAp6ipxTBFKPxohBHiSZDDi+VrRsJsJlTuUvpXiVx0JBloSVuaLlje3AyVptw
-	OG1bTskpZF9hczdJZ7nAKYdZaeswgHhpT+UHOLDyvyaRgkhoqT1MdiUoMCaK3hVeF594RcVMMC7
-	eklRe5VJTpgNCZvGzJWgWQ5d2sgJ3DZ2sBNwjy2Oc1oSIP/uAb1UPzERDpZR3267DL1+1YAG43U
-	iPaTrVJ8xsWIzSUMpr9l9qHARCQ2yD/4Y95GkE1QA/k3cI5yqHl89KHtUfJuYtdf1Uhy2ZiwXSN
-	qZexVXz1nAsUF7pJ
-X-Google-Smtp-Source: AGHT+IFxzAGGAW75+t8sptgSQcISTnVJSR2gXTsRYRTQtLgpEqXXU0CacgfVudtzuGSEP77Nl98XVw==
-X-Received: by 2002:a05:600c:3143:b0:434:a929:42bb with SMTP id 5b1f17b1804b1-436e26b9d45mr227629815e9.18.1736808541822;
-        Mon, 13 Jan 2025 14:49:01 -0800 (PST)
-Received: from [192.168.0.27] (53.1.159.89.rev.sfr.net. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9dc895esm154664645e9.13.2025.01.13.14.49.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jan 2025 14:49:01 -0800 (PST)
-Message-ID: <2cd31e17-b72a-4535-8454-c8568e362ec4@smile.fr>
-Date: Mon, 13 Jan 2025 23:49:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [meta-oe][PATCH] Sanity test for cpp toolchain
+        bh=mUgCphra+zLuHlVtXyU1tbBkK2jqBjkFR8uMaONLAI8=;
+        b=YWyLDeYzc/bhDNY5KmVuAm4YUxD7auwhmrTEyR74VZ3UucSUt2z++U0ZZqmoTNzCeB
+         cHZRs4PbbHwcaDSViTJNmYLTlhkhE/YnI+UtqPBnAnzJ955hcN8x6i+LXkkn8RbjTZ5d
+         oWuu5FYXiTB29Nvj1jY0JWyv4xUFE38je9z1zrt5kez1CdWmL7YAeT/kZzH6eiC+PNw9
+         FtkLkMVZm9OvmtfWMSdgkJnR9YLlbMdAfXxbycFyMhKZgwQqR6nXxgkHre16DKdIUvHu
+         uCCTwmoX7mOZT+fkC/aE+6GdKi+VsmpGsbssNz5WTFDHHCZhpILLrF/zbbCoujAJqfG0
+         k0cQ==
+X-Gm-Message-State: AOJu0Yx7hSLw+6maZHLGEZOjSz5S8TqjH+NF3HWQE+wEDLR5YR1LaBDD
+	U+6rQgCc4Y1UMstJpYbtjJY2vKobIQdim04WAn5xj62MVLghrLmqG8XDHA==
+X-Gm-Gg: ASbGnctAuArj0a0TaMBoOPoEO2KXXlwdJlpUZAP2QdQA+/gNdgOF45v1jWcn0mPlk6K
+	oW9mM+VOMCIydMvRA2TDt6XYTT8Demut8otcq0ty359qjp0HiLiroWygfDqcV/BeoaVm16t6iJY
+	nMxlLTTKhNAxUPFz0dLx9ltdIm/PxGKpZDOxvZbE9fSmyLJjEgTT4AUJKW05DcRvYpf7A79vrRI
+	N2adx1EoC4MNg3T1ErDWhiAKUdXC7sqI+DGjL8KmPHNZuDGEqrrVJZ4ZXvYjkB/xULoamAcIQ==
+X-Google-Smtp-Source: AGHT+IEQoqRbpieUVv+11Tdn3ZtVFax0dddlHFd/q8wdXu5Ii6FZDNtF51OiK8vxQ9JuNr+XknAPwA==
+X-Received: by 2002:a05:6808:1301:b0:3ea:5880:fe1f with SMTP id 5614622812f47-3ef2ebd4035mr12807244b6e.5.1736811138274;
+        Mon, 13 Jan 2025 15:32:18 -0800 (PST)
+Received: from localhost.localdomain ([2804:1b3:a7c0:f217:8a6e:d86d:fdd8:a559])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f0379eff5dsm3613689b6e.35.2025.01.13.15.32.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2025 15:32:17 -0800 (PST)
+From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <20250113204447.14948-1-gavrosc.ref@yahoo.com>
- <20250113204447.14948-1-gavrosc@yahoo.com>
-Content-Language: en-US
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <20250113204447.14948-1-gavrosc@yahoo.com>
-Content-Type: text/plain; charset=UTF-8
+Cc: Anuj Mittal <anuj.mittal@intel.com>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: [PATCH] eudev: backport patch to fix udevd hanging while trying to access /dev/urandom
+Date: Mon, 13 Jan 2025 20:31:40 -0300
+Message-Id: <20250113233140.40499-1-hiagofranco@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 22:49:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209766
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:32:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209767
 
-Hello Christos!
+From: Hiago De Franco <hiago.franco@toradex.com>
 
-I agree with Randy, this is a good start :)
+Linux kernel commit 48bff1053c17 ("random: opportunistically initialize
+on /dev/urandom reads") introduced a change where /dev/urandom blocks if
+the random pool is insufficiently initialized during hardware boot. This
+behavior causes /dev/urandom reads to hang for approximately 5 seconds,
+delaying the boot process with eudev init script (when it calls udevd).
 
-Le 13/01/2025 à 21:44, Christos Gavros via lists.openembedded.org a écrit :
-> Some users have reported issues which were caused because they were missing the right libstdc++-version-dev in their system.
-> A new function with the name 'check_cpp_toolchain'  was added in sanity.bbclass in order to verify that the host system can compile and link successfully a 'hello world' c++ code.
-> In case the test fails , the build will abort
-> Fixes [YOCTO #bug-15712]
+This issue has already been solved upstream, therefore backport the
+upstream patch to fix this.
 
-Patch messages are usually wrapped at 75 characters
-Like in
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
-but we did not document this rule...
+Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
+---
+ ...nc-dev_urandom-implementation-to-sys.patch | 138 ++++++++++++++++++
+ meta/recipes-core/udev/eudev_3.2.14.bb        |   1 +
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
 
-(This is loosely enforced by patchtest that starts complaining at 200
-character lines)
-
-> Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
-> ---
->  meta/classes-global/sanity.bbclass | 40 ++++++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-> index 7b8a497d5a..ca7f8117d6 100644
-> --- a/meta/classes-global/sanity.bbclass
-> +++ b/meta/classes-global/sanity.bbclass
-> @@ -780,6 +780,44 @@ def sanity_check_locale(d):
->      except locale.Error:
->          raise_sanity_error("Your system needs to support the en_US.UTF-8 locale.", d)
->  
-> +def check_cpp_toolchain():
-> +    # it checks if the c++ compiling and linking works properly in the native system
-> +    import os
-> +    import subprocess
-> +    from tempfile import NamedTemporaryFile
-> +
-> +    try:
-> +        with NamedTemporaryFile(delete=False, suffix=".cpp") as cpp_file:
-> +            cpp_code = """
-> +            #include <iostream>
-> +            int main() {
-> +                std::cout << "Hello, World!" << std::endl;
-> +                return 0;
-> +            }
-> +            """
-> +            cpp_file.write(cpp_code.encode('utf-8'))
-> +            cpp_file_name = cpp_file.name
-> +
-> +        output_binary = cpp_file_name + ".out"
-> +        compile_command = ['g++', '-std=c++17', cpp_file_name, '-o', output_binary]
-> +        result = subprocess.run(compile_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-> +
-> +        if result.returncode == 0:
-> +            #os.remove(cpp_file_name)  
-> +            #os.remove(output_binary)
-> +            return False
-> +        else:
-> +            bb.fatal(f"C++ toolchain check failed during compilation or linking. Error:\n{result.stderr.decode()}")
-
-If I understood correctly bb.fatal() here will prevent other sanity
-checks to run. The idea is to do as much of those checks as possible.
-
-You can reuse the pattern seen in other checks:
-the function either return an error message as a string or None. And
-then, calling the function like this:
-  status.addresult(check_cpp_toolchain())
-
-> +            return True
-> +    except Exception as e:
-> +        bb.fatal(f"An unexpected issue occured during the C++ toolchain check {str(e)}")
-
-s/occured/occurred/
-
-> +        return True
-> +    finally:
-> +        if cpp_file_name and os.path.exists(cpp_file_name):
-> +            os.remove(cpp_file_name)
-> +        if output_binary and os.path.exists(output_binary):
-> +            os.remove(output_binary)
-> +
->  def check_sanity_everybuild(status, d):
->      import os, stat
->      # Sanity tests which test the users environment so need to run at each build (or are so cheap
-> @@ -975,6 +1013,8 @@ def check_sanity_everybuild(status, d):
->          # forms, such as /bin/dash, bin/bash, /bin/bash.bash ...
->          if '/dash' not in real_sh and '/bash' not in real_sh:
->              status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
-> +    
-> +    check_cpp_toolchain()
-
-See above comment about calling status.addresult()
-
->  
->  def check_sanity(sanity_data):
->      class SanityStatus(object):
-
-If you need help implementing the recommended changes, don't hesitate to
-ask here or on IRC :)
-
-Regards,
+diff --git a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch b/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
+new file mode 100644
+index 000000000000..668aa731aca1
+--- /dev/null
++++ b/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
+@@ -0,0 +1,138 @@
++From 95c871b7b912f39539777ac222ef7f8798bb0225 Mon Sep 17 00:00:00 2001
++From: Masahisa Kojima <kojima.masahisa@socionext.com>
++Date: Thu, 25 Apr 2024 17:23:10 +0900
++Subject: [PATCH] random-util.c: sync dev_urandom implementation to
++ systemd-udev
++
++Current dev_urandom() assumes that reading /dev/urandom
++will never block regardless if the random pool is fully
++initialized or not.
++This assumption is no longer applicable since linux kerrnel
++enforces the /dev/urandom entropy initialization from
++v5.18-rc2 with the commit:
++48bff1053c17 ("random: opportunistically initialize on /dev/urandom reads").
++
++With this, when we use the linux v5.18-rc2 or later,
++dev_urandom() will block if enough random pool is not supplied.
++It causes the boot delay, typically 1024msec(4msec * 256 = 1024msec)
++delay to fill the 256 bits entropy for the case CONFIG_HZ=250.
++
++To prevent this boot delay, this commit syncs dev_urandom()
++implementation to the systemd-udev.
++The systemd-udev implementation of reading /dev/urandom is as follows.
++ - Try to get random with calling getrandom(GRND_INSECURE)
++ - If kernel does not support GRND_INSECURE, fallback to GRND_NONBLOCK
++ - If enough entropy is not supplied, fallback to reading /dev/urandom,
++   this will block when the kernel version is v5.18-rc2 or later
++
++With this modification, dev_urandom() tries not to block
++as much as possible.
++
++This modification still keeps the backword compatibility,
++dev_random() will never block if the commit(48bff1053c17) is not
++applied to the linux kernel, the behavior is same as before
++in this case.
++
++Upstream-Status: Backport [a49a3aaa460add6ae7ea208b4cac630e56fe1180]
++Signed-off-by: Masahisa Kojima <kojima.masahisa@socionext.com>
++---
++ src/shared/missing.h     |  4 +++
++ src/shared/random-util.c | 70 ++++++++++++++++++----------------------
++ 2 files changed, 35 insertions(+), 39 deletions(-)
++
++diff --git a/src/shared/missing.h b/src/shared/missing.h
++index 1967840cdbf3..1caec0f9207c 100644
++--- a/src/shared/missing.h
+++++ b/src/shared/missing.h
++@@ -79,6 +79,10 @@ static inline int getrandom(void *buffer, size_t count, unsigned flags) {
++ #define GRND_RANDOM 0x0002
++ #endif
++ 
+++#ifndef GRND_INSECURE
+++#define GRND_INSECURE 0x0004
+++#endif
+++
++ #ifndef BTRFS_IOCTL_MAGIC
++ #define BTRFS_IOCTL_MAGIC 0x94
++ #endif
++diff --git a/src/shared/random-util.c b/src/shared/random-util.c
++index 01a28c8ef4e9..852b00e4ce2b 100644
++--- a/src/shared/random-util.c
+++++ b/src/shared/random-util.c
++@@ -31,45 +31,37 @@
++ #include "util.h"
++ 
++ int dev_urandom(void *p, size_t n) {
++-        static int have_syscall = -1;
++-
++-        _cleanup_close_ int fd = -1;
++-        int r;
++-
++-        /* Gathers some randomness from the kernel. This call will
++-         * never block, and will always return some data from the
++-         * kernel, regardless if the random pool is fully initialized
++-         * or not. It thus makes no guarantee for the quality of the
++-         * returned entropy, but is good enough for or usual usecases
++-         * of seeding the hash functions for hashtable */
++-
++-        /* Use the getrandom() syscall unless we know we don't have
++-         * it, or when the requested size is too large for it. */
++-        if (have_syscall != 0 || (size_t) (int) n != n) {
++-                r = getrandom(p, n, GRND_NONBLOCK);
++-                if (r == (int) n) {
++-                        have_syscall = true;
++-                        return 0;
++-                }
++-
++-                if (r < 0) {
++-                        if (errno == ENOSYS)
++-                                /* we lack the syscall, continue with
++-                                 * reading from /dev/urandom */
++-                                have_syscall = false;
++-                        else if (errno == EAGAIN)
++-                                /* not enough entropy for now. Let's
++-                                 * remember to use the syscall the
++-                                 * next time, again, but also read
++-                                 * from /dev/urandom for now, which
++-                                 * doesn't care about the current
++-                                 * amount of entropy.  */
++-                                have_syscall = true;
++-                        else
++-                                return -errno;
++-                } else
++-                        /* too short read? */
++-                        return -ENODATA;
+++        static bool have_getrandom = true, have_grndinsecure = true;
+++        _cleanup_close_ int fd = -EBADF;
+++
+++        if (n == 0)
+++                return 0;
+++
+++        for (;;) {
+++                ssize_t l;
+++
+++                if (!have_getrandom)
+++                        break;
+++
+++                l = getrandom(p, n, have_grndinsecure ? GRND_INSECURE : GRND_NONBLOCK);
+++                if (l > 0) {
+++                        if ((size_t) l == n)
+++                                return 0; /* Done reading, success. */
+++                        p = (uint8_t *) p + l;
+++                        n -= l;
+++                        continue; /* Interrupted by a signal; keep going. */
+++                } else if (l == 0)
+++                        break; /* Weird, so fallback to /dev/urandom. */
+++                else if (errno == ENOSYS) {
+++                        have_getrandom = false;
+++                        break; /* No syscall, so fallback to /dev/urandom. */
+++                } else if (errno == EINVAL && have_grndinsecure) {
+++                        have_grndinsecure = false;
+++                        continue; /* No GRND_INSECURE; fallback to GRND_NONBLOCK. */
+++                } else if (errno == EAGAIN && !have_grndinsecure)
+++                        break; /* Will block, but no GRND_INSECURE, so fallback to /dev/urandom. */
+++
+++                break; /* Unexpected, so just give up and fallback to /dev/urandom. */
++         }
++ 
++         fd = open("/dev/urandom", O_RDONLY|O_CLOEXEC|O_NOCTTY);
+diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
+index 0e5610f77c2d..b3e7d092c58d 100644
+--- a/meta/recipes-core/udev/eudev_3.2.14.bb
++++ b/meta/recipes-core/udev/eudev_3.2.14.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://netifnames.patch \
+            file://init \
+            file://local.rules \
++           file://0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "8da4319102f24abbf7fff5ce9c416af848df163b29590e666d334cc1927f006f"
 -- 
-Yoann Congal
-Smile ECS - Tech Expert
+2.39.5
 
 
