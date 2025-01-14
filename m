@@ -1,98 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8E4E77188
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 11:00:14 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.42099.1736852409809277343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B89C02184
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 11:12:34 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.41852.1736853151508016994
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 03:00:09 -0800
+ Tue, 14 Jan 2025 03:12:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AP7vCvJl;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6d8f75b31bfso45663136d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 03:00:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c8dKrMPi;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso945018366b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 03:12:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736852409; x=1737457209; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JCUK29XlITJq0rT017E3xPmB4IEFRVxEbovnwiJnkvQ=;
-        b=AP7vCvJltDeFHPu5HradOI3lGlMP7fWb708HYqPPP8ZA1srS/rDBogzCSvMLM8lZj/
-         T45uKmzKu0Z4jwismdI+VsGjlIRmk6EGVzbGaBAZTNFqHtmuMMnOL1DRy4/I4NlDn2gi
-         8z10VRsTRFkxN133WsmxmbyCRT+5Ngsm9uqbvpPll2MeuApIQ2ksDxDTKnLo88KeUnNx
-         carLbw5Hl/GGPEeKVekSq81H9SaCM0HCY8E3Iy2CxCfXOr6VitbUjr1jd0h0/EM852Ak
-         59Alo9EvdAppT64i1pObWLfaZXJSFgpGrjio8uG40a7zCTJec71p2Nt6CHsGbR822o2l
-         oZCQ==
+        d=gmail.com; s=20230601; t=1736853150; x=1737457950; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F0jF46tPTKPuabEG0SXnVCqIfXzFlgzlIPup+8k5pvw=;
+        b=c8dKrMPi36mNJXDDkMKhOPrMfptoBkbJq/kHfmM97NaCUGk3obg1yvUCQQ+I7Zi184
+         SeBEF60jnp6oowbep5qdwtdKjWJLeF3uudFtkz4FA4YGmw3UsgSA7AybEIEiZdb2xLoU
+         7VUOQtvYgP4VJfblMfsdng7W4R9UKLJ2f/NWLp8SFJPEZsm7+b4BwT+9tuGJi094j6Hd
+         7wcEXGcQ1x1f9tD9bFovXiV+B98ZtZHqtHHbJCoav6TVy2lxCmiIRyu3+2Hgw2DugFDo
+         kYhUCXMPtr1yPAOTBwp8kQWChX/4kFuLG9NPwnhF9LzTm3ENX6stPzCBayEXoSWoDBJs
+         vTIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736852409; x=1737457209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JCUK29XlITJq0rT017E3xPmB4IEFRVxEbovnwiJnkvQ=;
-        b=kmssMVtl75xCzFY8jTDIGQ2sx3kNoduHNLbHN5ViCPfXeXc94nKP5gs4TULc3o0RWK
-         AngStY/thWmkREEMnilgM2iXH8yI++nPSpKzjz8YMLvqOGCRy5q67e+Yzs2eXdvt6wJM
-         eqxJpGOVkftD8SwWEsR8CtvDAbaZCiW+6TyPkFMF+fPNfJWe6HEbRwpn1TIr2JVxmKjk
-         /ynxH6qFjyXMnn/BIBEa1V7sM/Mh12x0m/gdYafXjRJp8YNQm2OcYxFlEplMj6ybeKdU
-         mrSeeb5nI0jpMp6rfgZX6NeTv6ocX8gd+WbjBGVQEQyP6p+mAlh82a5PlBa4BS7EaaD9
-         bPoA==
-X-Gm-Message-State: AOJu0YzHeluYumAdHQIUGZXiZhBlnipqkEsgefw7mYOShSotK9RlbyfZ
-	I7SXjt5IE2B3lWkaQQ28iKoZb3H4bVyZ8RRXkN+3KhiXqoEKDQ1No5/gkm4hkMq8agb8Q8vAlf3
-	mBOn3+Fo63+0jrB+n7XYzohau8L4=
-X-Gm-Gg: ASbGncuQRY9PbEIjEeT+t7GJTYknc9ppbmo/hASZ5fRAEx22cC7Dn6NZOh//s8kEyzG
-	n4GHpMjlYQpiXVnxNosSHU5doEbJOuuW2OzOP
-X-Google-Smtp-Source: AGHT+IFXao0wR1cY3IjTIluXBH5uf/hstmQ4TrtvdqUL357Lb9KJRuTfw2Yx+GOECAen0mlEtvxLg6mYriEobwvnuUk=
-X-Received: by 2002:a05:6214:1d0a:b0:6d8:9e9d:c223 with SMTP id
- 6a1803df08f44-6df9b1cee68mr444772276d6.7.1736852408891; Tue, 14 Jan 2025
- 03:00:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736853150; x=1737457950;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F0jF46tPTKPuabEG0SXnVCqIfXzFlgzlIPup+8k5pvw=;
+        b=NtKkmcr/RsEhGkn/gNKk47GpQXqk6wtjEbz3WEu6RoHGs0wyXuc/3KywQwC1uO9Hz4
+         PAuLgKsRRmZaPrZCia8NhY8abjCslPwy/Ld1E6QhnugZqb+7PaF6BQ7ICr5RbH+Porg+
+         wuKfSn4rocW3dUi9pXieNiq8HGdZRp14HeIFoKKcuC7Tig5Xe/1atZPVJzYLhPew81g1
+         i4dQjr/XmCMxRAK1y/31TGK8oiDXAQElUqt23SfAR2C06IW8wkZwYSKF6CaMqbj1lf8b
+         snkhijxTvDYXeBuDsqVm1mUSvQB5l+NG5L9VVCaWGldgZzOpO5cwtTjfFTUCQwJgGIm3
+         POrg==
+X-Gm-Message-State: AOJu0YzBvsW/mhkqPsd9XPkpaIOHwc1gQv9huo6iKaz8Cxk3NVP4+Ck7
+	s62z1u/OFMxu42fdLO61IV2Y1iCGTuW1wWl6bc/bX4i5By0qtI8d/8tTbw==
+X-Gm-Gg: ASbGncuhI46P6t0HV26WXuiHLUo1/pqotuqK0yPBCz4U3h7qN7n0qoAIAp5GRTHfNPB
+	ObLM3pV5FRTgsAzyCkNNvO9DG39az8yq8o9UeShbiMNgQKrUwN5CwNS4+kshYLUToeefEk3Mivf
+	xQacmUY267AmpsQKDjbtoesXyHHER2PKH/5Ms5mRev6k6ri3A2DBsUUE8nXosrpAtaFEkQlfKX3
+	xK5ZifIvUodM9ohYktmiNcMKf2hwNrI/UQMU1COnlU6yocU/i/bUMwu
+X-Google-Smtp-Source: AGHT+IExPsjeDl5Xmk4CLS6K+6YCGQePQ/SgtdT8WlaYxoBEdV7Za2vhe5vw/af9+8wk+20RRGZZ5A==
+X-Received: by 2002:a17:906:dc8d:b0:aaf:4008:5e2c with SMTP id a640c23a62f3a-ab2ab66fea4mr1942368266b.2.1736853149427;
+        Tue, 14 Jan 2025 03:12:29 -0800 (PST)
+Received: from acert-swift3.. ([2a02:810d:600:25f4:7e14:2af5:7625:b631])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d9903c4400sm6091068a12.52.2025.01.14.03.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 03:12:29 -0800 (PST)
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
+X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Subject: [PATCH] scripts/install-buildtools: Update to 5.0.6
+Date: Tue, 14 Jan 2025 12:12:24 +0100
+Message-ID: <20250114111224.22466-2-an010@live.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250114111224.22466-1-an010@live.com>
+References: <20250114111224.22466-1-an010@live.com>
 MIME-Version: 1.0
-References: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 Jan 2025 11:59:58 +0100
-X-Gm-Features: AbW1kvZuk_GBcpf7Mj8qvQmtdjIM_PBAh2WD_QbtVuJiqgLb_Q6LGQ5cDAF0Hjk
-Message-ID: <CANNYZj_=sCFxY83eCUzSVu5e7HXwB-pk1r4RS26LovYT=i6q8A@mail.gmail.com>
-Subject: Re: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when
- enable multilib.
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Lei Maohui <leimaohui@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 11:00:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209787
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 11:12:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209789
 
-On Tue, 14 Jan 2025 at 09:28, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
-> After consulting with the upstream of ncurses, it is possible to specify kbs by setting --with-xterm-kbs=XXX.
-> Based on the instructions in https://github.com/ThomasDickey/ncurses-snapshots/blob/master/configure#L9810,
-> it is appropriate to add --with-xterm-kbs=del.
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-I'd like to dig a little bit deeper into this, because I'm not sure
-how the mismatch could happen. The configure script does this
-autodetection:
+Update to the 5.0.6 release of the 5.0 series for buildtools.
 
-case $host_os in
-(*linux-gnu|*cygwin|*mingw32|*msys)
-    want_xterm_kbs=DEL
-    ;;
-(*)
-    want_xterm_kbs=BS
-    ;;
-esac
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+---
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Presumably it chooses BS option in one of your multilib
-configurations, but I do not understand why would that be. Can you
-share log.do_configure for both of them, particularly interesting
-would be the part where it sets host_os:
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index ee6bfb89eb..972671d50f 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-5.0.5'
+-DEFAULT_INSTALLER_VERSION = '5.0.5'
++DEFAULT_RELEASE = 'yocto-5.0.6'
++DEFAULT_INSTALLER_VERSION = '5.0.6'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
+-- 
+2.25.1
 
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-poky-linux-gnu
-checking target system type... x86_64-poky-linux-gnu
-Configuring for linux-gnu
-
-Thanks,
-Alex
 
