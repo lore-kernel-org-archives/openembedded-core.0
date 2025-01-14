@@ -1,84 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 685FFE77188
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 10:35:24 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.41828.1736850922335758504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8E4E77188
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 11:00:14 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web11.42099.1736852409809277343
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 02:35:22 -0800
+ Tue, 14 Jan 2025 03:00:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T1bSntuD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso37805335e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 02:35:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AP7vCvJl;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6d8f75b31bfso45663136d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 03:00:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1736850921; x=1737455721; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xVu2Tr+h42qtbFcyrXBB38bFPhqXWNpAoEgHPvsiLss=;
-        b=T1bSntuDVWk+Cx1PjjZWzKrDa11wJZusi1SwFCEZ9x4oEqQ0Wq2cJK+zRfXH844Qor
-         l+2PbistZzdIoszXB9+u5DD49TVbCFRsdWldM+XIuKb2pddvVDteibZ818Z5WMegyAVi
-         3wHXrGgkOgJ8SdCDW1OWhumkQ4WM1Z9Yl6uKc=
+        d=gmail.com; s=20230601; t=1736852409; x=1737457209; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JCUK29XlITJq0rT017E3xPmB4IEFRVxEbovnwiJnkvQ=;
+        b=AP7vCvJltDeFHPu5HradOI3lGlMP7fWb708HYqPPP8ZA1srS/rDBogzCSvMLM8lZj/
+         T45uKmzKu0Z4jwismdI+VsGjlIRmk6EGVzbGaBAZTNFqHtmuMMnOL1DRy4/I4NlDn2gi
+         8z10VRsTRFkxN133WsmxmbyCRT+5Ngsm9uqbvpPll2MeuApIQ2ksDxDTKnLo88KeUnNx
+         carLbw5Hl/GGPEeKVekSq81H9SaCM0HCY8E3Iy2CxCfXOr6VitbUjr1jd0h0/EM852Ak
+         59Alo9EvdAppT64i1pObWLfaZXJSFgpGrjio8uG40a7zCTJec71p2Nt6CHsGbR822o2l
+         oZCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736850921; x=1737455721;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xVu2Tr+h42qtbFcyrXBB38bFPhqXWNpAoEgHPvsiLss=;
-        b=E9Okhe9G9eXtzCorIymNjRoJx5LNNRA7w13tR1IDXoDPKIYWVrjZUfyLBny+MDMMds
-         MItwR2SDhA6hKzq/YgAY8i/koB1Pl4/MajC2sQEz9irJWfH8qWTzBtLalC/GONXyD7kq
-         PkqWFn2POb2eiy6gBB8adeopKup1qjdslUkYterm2jzAuGSaPz128UP1ZBc3nV40UrDl
-         LtyvakxrzfmLvnt6O5oroPBOakkCNQUAGx8wSem9TitpAHKa8xh0WMOuS4yq22Ts9tIQ
-         twVwJ64VJ/PHWA+XG253nzaP/xLNkwXWkvzwddrf6WXyfV+no28iTjTm/UPUXy8jd85k
-         43tQ==
-X-Gm-Message-State: AOJu0YySIjiGKSRmSxpJaWnJj+pcY1yfRoi7tLVL9odqRAjNsuFooFpt
-	pJmkhz7eDyQTpg9lHQOYCGZk54IVANfzMCUeOqDHEQE6j6sgbT0cP6fvcCLnSDw=
-X-Gm-Gg: ASbGncuxFzJ1BpwULyxissJf69WShbw3Quh7f4faNnDK2jNW8w58Lc2cxNq49hcaTfk
-	MOJjYyXd0vHmv5EQw+56rLuJIC2j7xFDhIc2twiqNVD+4mZjmmkNqe6+KK+t5Piz1RbMduAGKGx
-	BBmZQ9Vatse+O8spc7h2irmj6UAX+PuLliN+xnYWdIEpv5aV+Sa9YxvnlyudgTDcwm3HjTashCq
-	z/15DCs3phUfusIitmTSNF24n1gSpH05CTJ4RH5M+hXcNZ9nIfcA5FbhEL18wroCNyxAa1hxHCg
-	r6dlY/MpTLiAbmr5a0Vp4h3vOujTYFLfAscWPqEdq2dMMA==
-X-Google-Smtp-Source: AGHT+IEw2KyHQ4egvctFwsLcSAb3aoDK/fv+/ePBTIQsndS6MJD889ZB/4uozyFRZWMRjalf/J0sIA==
-X-Received: by 2002:a05:600c:3b94:b0:434:e2ea:fc94 with SMTP id 5b1f17b1804b1-436e2696cb8mr241546065e9.11.1736850920715;
-        Tue, 14 Jan 2025 02:35:20 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:682b:98f8:ba86:ec04? ([2001:8b0:aba:5f3c:682b:98f8:ba86:ec04])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddc5f5sm204934965e9.18.2025.01.14.02.35.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 02:35:20 -0800 (PST)
-Message-ID: <f389aa26db3303d50bcc88fe31c5434163394719.camel@linuxfoundation.org>
-Subject: Re: [yocto] [yocto-status] Yocto Project Status 7 Jan. 2025 (WW02)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yocto@lists.yoctoproject.org, wminer@linuxfoundation.org, 
-	yocto-status@lists.yoctoproject.org
-Cc: ",openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2025 10:35:19 +0000
-In-Reply-To: <CAC_dYdrbwJPe8YQqvFpnpDU+Wq6NxMcj5sj2SSWRqao0zcZc0A@mail.gmail.com>
-References: 
-	<CAK5yBb8dbPpVqDweeU0xsWAZ07k1x29MMtzvWWDtJesqinKE-g@mail.gmail.com>
-	 <CAC_dYdrbwJPe8YQqvFpnpDU+Wq6NxMcj5sj2SSWRqao0zcZc0A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1736852409; x=1737457209;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JCUK29XlITJq0rT017E3xPmB4IEFRVxEbovnwiJnkvQ=;
+        b=kmssMVtl75xCzFY8jTDIGQ2sx3kNoduHNLbHN5ViCPfXeXc94nKP5gs4TULc3o0RWK
+         AngStY/thWmkREEMnilgM2iXH8yI++nPSpKzjz8YMLvqOGCRy5q67e+Yzs2eXdvt6wJM
+         eqxJpGOVkftD8SwWEsR8CtvDAbaZCiW+6TyPkFMF+fPNfJWe6HEbRwpn1TIr2JVxmKjk
+         /ynxH6qFjyXMnn/BIBEa1V7sM/Mh12x0m/gdYafXjRJp8YNQm2OcYxFlEplMj6ybeKdU
+         mrSeeb5nI0jpMp6rfgZX6NeTv6ocX8gd+WbjBGVQEQyP6p+mAlh82a5PlBa4BS7EaaD9
+         bPoA==
+X-Gm-Message-State: AOJu0YzHeluYumAdHQIUGZXiZhBlnipqkEsgefw7mYOShSotK9RlbyfZ
+	I7SXjt5IE2B3lWkaQQ28iKoZb3H4bVyZ8RRXkN+3KhiXqoEKDQ1No5/gkm4hkMq8agb8Q8vAlf3
+	mBOn3+Fo63+0jrB+n7XYzohau8L4=
+X-Gm-Gg: ASbGncuQRY9PbEIjEeT+t7GJTYknc9ppbmo/hASZ5fRAEx22cC7Dn6NZOh//s8kEyzG
+	n4GHpMjlYQpiXVnxNosSHU5doEbJOuuW2OzOP
+X-Google-Smtp-Source: AGHT+IFXao0wR1cY3IjTIluXBH5uf/hstmQ4TrtvdqUL357Lb9KJRuTfw2Yx+GOECAen0mlEtvxLg6mYriEobwvnuUk=
+X-Received: by 2002:a05:6214:1d0a:b0:6d8:9e9d:c223 with SMTP id
+ 6a1803df08f44-6df9b1cee68mr444772276d6.7.1736852408891; Tue, 14 Jan 2025
+ 03:00:08 -0800 (PST)
 MIME-Version: 1.0
+References: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2025 11:59:58 +0100
+X-Gm-Features: AbW1kvZuk_GBcpf7Mj8qvQmtdjIM_PBAh2WD_QbtVuJiqgLb_Q6LGQ5cDAF0Hjk
+Message-ID: <CANNYZj_=sCFxY83eCUzSVu5e7HXwB-pk1r4RS26LovYT=i6q8A@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when
+ enable multilib.
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Lei Maohui <leimaohui@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 10:35:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209786
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 11:00:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209787
 
-On Mon, 2025-01-13 at 10:32 -0500, Walt Miner via lists.yoctoproject.org wr=
-ote:
-> What is happening with the 5.0.6 release? =C2=A0
+On Tue, 14 Jan 2025 at 09:28, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
+> After consulting with the upstream of ncurses, it is possible to specify kbs by setting --with-xterm-kbs=XXX.
+> Based on the instructions in https://github.com/ThomasDickey/ncurses-snapshots/blob/master/configure#L9810,
+> it is appropriate to add --with-xterm-kbs=del.
 
-The TSC met and approved it last week, I sent the email to the release
-people on Thursday. It should therefore be in the process of being
-released.
+I'd like to dig a little bit deeper into this, because I'm not sure
+how the mismatch could happen. The configure script does this
+autodetection:
 
-Cheers,
+case $host_os in
+(*linux-gnu|*cygwin|*mingw32|*msys)
+    want_xterm_kbs=DEL
+    ;;
+(*)
+    want_xterm_kbs=BS
+    ;;
+esac
 
-Richard
+Presumably it chooses BS option in one of your multilib
+configurations, but I do not understand why would that be. Can you
+share log.do_configure for both of them, particularly interesting
+would be the part where it sets host_os:
+
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-poky-linux-gnu
+checking target system type... x86_64-poky-linux-gnu
+Configuring for linux-gnu
+
+Thanks,
+Alex
 
