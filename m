@@ -1,140 +1,190 @@
-Return-Path: <philip@balister.org>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ECCAC02189
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 12:50:45 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.43086.1736858060489111405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0DEC02184
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 12:51:55 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.43831.1736859109860351931
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 04:34:20 -0800
+ Tue, 14 Jan 2025 04:51:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NlsBGBtI;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: arturkow2000@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30227c56b11so48995501fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 04:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736858058; x=1737462858; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pcJRygFYCbzJG2rQ1n3UEsxd1nm965Vj9vkbXqgqnsE=;
-        b=NlsBGBtI5I3gmzsDrOy3OwsF6ib77tEvLN5SgS9RVRL+6Q7JPT+GPx1LnrrYA8UaWC
-         wJfm3IsAp9+lN1Ai6b3KI0aZD52/iTOhAbLT/o+wCCJhKIcX7Ta0JQpr/wXX4cmw5Yrd
-         n8okFPhav3e9MGvkZ1Xz3Hyhytsn0Nn+kESQshbB+oExQKubgKZAgnqdMLiqVZtDAL9T
-         ryAKFbxEH8+7Yxs31vWJIr1m6n8XB2xhmZNz4WQBkaueMraBa1SHgs+UJTU+8uJP8fU6
-         OUWYG1xq1ZRaq5e45niyvcchWMLzhB7vfSPukD9xkuuSqk2cKtxvQLIU5xI7kD7M7NdH
-         ub9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736858058; x=1737462858;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pcJRygFYCbzJG2rQ1n3UEsxd1nm965Vj9vkbXqgqnsE=;
-        b=RjuMj2COaHU+EN/RjH0Z8XFgtYqu1tF8dm+PurXZMXibsYa9ScuQXBFbKprPpCtHsn
-         w8ZO8tL6AGoKGQ1PUDhw7nGEAz6xaTp8SWdxZRy7F+pnDNCLj1Oz8mahWXuQvhkZAi/R
-         0b4la//BYzgOUG5zpcA/bzeLbw9xexEcLR1CdSCfjNgOCZXylnDPz4siAZG8/x0GEsYM
-         AmRT8E+puV0CfO0PNGIu3XjBbmxe2hPdKyj19p81SDJHFDbIatVEplrMvMLrELaOs2mc
-         A75jJurEThKSPXCyFJMxCqtCbuO6R3JGFXQRPXKDgDfUFRZxOPwnkmROLaIMyO/goZkI
-         280w==
-X-Gm-Message-State: AOJu0YzqPFnahcv7HSs8TCZyLNVFNO2yJey4smJKVCEUOAr+gcEK97y6
-	YXDHUo84rTAHJ+Hkm7jfZP7ysnFlgq4C8fRm4Jt5g7v5K1BuYBG4ZJP5AQ==
-X-Gm-Gg: ASbGncsF/DZwICOh+TKN6biFxOKwz52K1YfTTAYdpzp8N7ZadGivlO19faNtajTRj0N
-	x+YILgDk/D+/Bti+TWQYpLodu7jciiq0CeJGjF107ljt0skRV6zp5pVQCIJvfkn2P76nfxxGsqT
-	UUUJ+2ajyefOfJ5WGQU6jqWzChqUkdB4Ks0jQyFQvSuoj/G2V/HIlYcgGwyhv+MYSNmUZ6wBidI
-	r+EvaeAqiK1W/0qpTl14WZmTmarjz0qzntkYkx19ChSxQocVzrukemPicq8ll8d
-X-Google-Smtp-Source: AGHT+IFU1Hhw0RMPYWe49f7Ez9mEinF+qOTNRV9AONEkdXTq46ryXG3iwoGcrT5sDQgiz7XcR3Y7Yw==
-X-Received: by 2002:a05:651c:2223:b0:302:4115:b69 with SMTP id 38308e7fff4ca-305f452fde1mr81509261fa.8.1736858058093;
-        Tue, 14 Jan 2025 04:34:18 -0800 (PST)
-Received: from eta.play.pl ([2a02:a312:c49b:a180:86d6:2e13:1a85:5192])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec4d6sm17230521fa.111.2025.01.14.04.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 04:34:17 -0800 (PST)
-From: "Artur Kowalski" <arturkow2000@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Artur Kowalski <arturkow2000@gmail.com>
-Subject: [PATCH v2 3/8] systemd.bbclass: factor out service lookup logic into separate function
-Date: Tue, 14 Jan 2025 13:26:11 +0100
-Message-ID: <20250114122613.3046925-7-arturkow2000@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250114122613.3046925-4-arturkow2000@gmail.com>
-References: <20250114122613.3046925-4-arturkow2000@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3109dc8df7=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EBQMGY021322
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 04:51:49 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443s1pjm72-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 04:51:49 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 14 Jan 2025 04:51:45 -0800
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] ofono: fix CVE-2024-7539
+Date: Tue, 14 Jan 2025 12:51:27 +0000
+Message-ID: <20250114125127.2002412-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Authority-Analysis: v=2.4 cv=DdLtqutW c=1 sm=1 tr=0 ts=67865de5 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=VdSt8ZQiCzkA:10 a=xNf9USuDAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=eYCCJDtN_mypVY28GlcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: h-pxHqRf53Al8TdW2c--wqsNfZjdpiU4
+X-Proofpoint-ORIG-GUID: h-pxHqRf53Al8TdW2c--wqsNfZjdpiU4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-14_03,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2501140107
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 12:50:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209795
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 12:51:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209801
 
-Factor out the logic into systemd_service_path(). This will be needed by
-following commits to avoid code duplication.
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
+oFono CUSD Stack-based Buffer Overflow Code Execution Vulnerability.
+This vulnerability allows local attackers to execute arbitrary code
+on affected installations of oFono. An attacker must first obtain
+the ability to execute code on the target modem in order to exploit
+this vulnerability.
+
+The specific flaw exists within the parsing of responses from AT+CUSD
+commands. The issue results from the lack of proper validation of the
+length of user-supplied data prior to copying it to a stack-based buffer.
+An attacker can leverage this vulnerability to execute code in the
+context of root. Was ZDI-CAN-23195.
+
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2024-7539
+
+Upstream patch:
+https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=389e2344f86319265fb72ae590b470716e038fdc
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- meta/classes-recipe/systemd.bbclass | 41 ++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 18 deletions(-)
+ .../ofono/ofono/CVE-2024-7539.patch           | 88 +++++++++++++++++++
+ meta/recipes-connectivity/ofono/ofono_2.14.bb |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index c167689d2a..14fef2d7a6 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -68,6 +68,28 @@ systemd_populate_packages[vardeps] += "systemd_prerm systemd_postinst"
- systemd_populate_packages[vardepsexclude] += "OVERRIDES"
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
+new file mode 100644
+index 0000000000..e41596959b
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
+@@ -0,0 +1,88 @@
++From 389e2344f86319265fb72ae590b470716e038fdc Mon Sep 17 00:00:00 2001
++From: Sicelo A. Mhlongo <absicsz@gmail.com>
++Date: Tue, 17 Dec 2024 11:31:29 +0200
++Subject: [PATCH] ussd: ensure ussd content fits in buffers
++
++Fixes: CVE-2024-7539
++
++CVE: CVE-2024-7539
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=389e2344f86319265fb72ae590b470716e038fdc]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ drivers/atmodem/ussd.c      | 5 ++++-
++ drivers/huaweimodem/ussd.c  | 5 ++++-
++ drivers/speedupmodem/ussd.c | 5 ++++-
++ 3 files changed, 12 insertions(+), 3 deletions(-)
++
++diff --git a/drivers/atmodem/ussd.c b/drivers/atmodem/ussd.c
++index 32a9fe9..99da559 100644
++--- a/drivers/atmodem/ussd.c
+++++ b/drivers/atmodem/ussd.c
++@@ -93,7 +93,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++	const char *content;
++	int dcs;
++	enum sms_charset charset;
++-	unsigned char msg[160];
+++	unsigned char msg[160] = {0};
++	const unsigned char *msg_ptr = NULL;
++	long msg_len;
++
++@@ -113,6 +113,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++	if (!g_at_result_iter_next_number(&iter, &dcs))
++		dcs = 0;
++
+++	if (strlen(content) > sizeof(msg) * 2)
+++		goto out;
+++
++	if (!cbs_dcs_decode(dcs, NULL, NULL, &charset, NULL, NULL, NULL)) {
++		ofono_error("Unsupported USSD data coding scheme (%02x)", dcs);
++		status = 4; /* Not supported */
++diff --git a/drivers/huaweimodem/ussd.c b/drivers/huaweimodem/ussd.c
++index 5e1c907..3d165c8 100644
++--- a/drivers/huaweimodem/ussd.c
+++++ b/drivers/huaweimodem/ussd.c
++@@ -38,7 +38,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++	int status;
++	int dcs = 0;
++	const char *content;
++-	unsigned char msg[160];
+++	unsigned char msg[160] = {0};
++	const unsigned char *msg_ptr = NULL;
++	long msg_len;
++
++@@ -55,6 +55,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++
++	g_at_result_iter_next_number(&iter, &dcs);
++
+++	if (strlen(content) > sizeof(msg) * 2)
+++		goto out;
+++
++	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
++
++ out:
++diff --git a/drivers/speedupmodem/ussd.c b/drivers/speedupmodem/ussd.c
++index aafa4bc..a5efde0 100644
++--- a/drivers/speedupmodem/ussd.c
+++++ b/drivers/speedupmodem/ussd.c
++@@ -37,7 +37,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++	int status;
++	int dcs = 0;
++	const char *content;
++-	unsigned char msg[160];
+++	unsigned char msg[160] = {0};
++	const unsigned char *msg_ptr = NULL;
++	long msg_len;
++
++@@ -54,6 +54,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++
++	g_at_result_iter_next_number(&iter, &dcs);
++
+++	if (strlen(content) > sizeof(msg) * 2)
+++		goto out;
+++
++	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
++
++ out:
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.14.bb b/meta/recipes-connectivity/ofono/ofono_2.14.bb
+index 5d11d6cb45..34e919ef5a 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.14.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.14.bb
+@@ -11,6 +11,7 @@ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+     file://rmnet.patch \
+     file://ofono \
++    file://CVE-2024-7539.patch \
+ "
+ SRC_URI[sha256sum] = "983cbfd5e1e1a410ba7ad2db7f50fadc91e50b29f1ede40cdc73f941da7ba95f"
  
- 
-+def systemd_service_path(service, searchpaths, d):
-+    path_found = ''
-+
-+    # Deal with adding, for example, 'ifplugd@eth0.service' from
-+    # 'ifplugd@.service'
-+    base = None
-+    at = service.find('@')
-+    if at != -1:
-+        ext = service.rfind('.')
-+        base = service[:at] + '@' + service[ext:]
-+
-+    for path in searchpaths:
-+        if os.path.lexists(oe.path.join(d.getVar("D"), path, service)):
-+            path_found = path
-+            break
-+        elif base is not None:
-+            if os.path.exists(oe.path.join(d.getVar("D"), path, base)):
-+                path_found = path
-+                break
-+
-+    return path_found, base
-+
- python systemd_populate_packages() {
-     import re
-     import shlex
-@@ -158,24 +180,7 @@ python systemd_populate_packages() {
-         # scan for all in SYSTEMD_SERVICE[]
-         for pkg_systemd in systemd_packages.split():
-             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
--                path_found = ''
--
--                # Deal with adding, for example, 'ifplugd@eth0.service' from
--                # 'ifplugd@.service'
--                base = None
--                at = service.find('@')
--                if at != -1:
--                    ext = service.rfind('.')
--                    base = service[:at] + '@' + service[ext:]
--
--                for path in searchpaths:
--                    if os.path.lexists(oe.path.join(d.getVar("D"), path, service)):
--                        path_found = path
--                        break
--                    elif base is not None:
--                        if os.path.exists(oe.path.join(d.getVar("D"), path, base)):
--                            path_found = path
--                            break
-+                path_found, base = systemd_service_path(service, searchpaths, d)
- 
-                 if path_found != '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, service)
 -- 
-2.47.0
+2.40.0
 
 
