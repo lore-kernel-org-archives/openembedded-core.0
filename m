@@ -1,108 +1,159 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABF9C02184
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 08:29:02 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.40580.1736843332539817542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2595E77188
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 08:52:13 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.40268.1736844731698028969
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 00:28:53 -0800
+ Tue, 14 Jan 2025 00:52:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Vue/OuCK;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1736843333; x=1768379333;
-  h=from:to:cc:subject:date:message-id;
-  bh=uD8hmAtdGz9JtT/IXm5Bdr4pyYb+jC/gLHIJZmWdoNk=;
-  b=Vue/OuCKIHmGRmiYXn+3f4EmcEt9dMWhO7G3y7JtTmYhdQVJjHdGb1hJ
-   +nP8So2YkOe47syrdxhZ2MfRzOxxQJEH+vCdxeGbUigykCrtOPHz+CwuG
-   s27U03L5yixstxTdhmCOMkVKwxPGUneAPF20wUi9/n5cA3dwKeQxZJ5GT
-   mqxh5pYSRCyhUquduwAXrIuqU6nY5NdJ619wdqu3rd3SsML3iweiFluhU
-   93etMF7RTNOSQkzAFiKYmaoYKXUeIp613n03g1YwJa+xAqZOZ+UsyIv3U
-   Ypu6gMrVM12nPvD/50Ls7bjOnXLvyGXORy1wVSoKKAUQZRb+VzSISdqhF
-   w==;
-X-CSE-ConnectionGUID: Cc0XimTOTeOrVgs8icmvKg==
-X-CSE-MsgGUID: O2fBwNkJTn2SJVWTurG25w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="186435816"
-X-IronPort-AV: E=Sophos;i="6.12,313,1728918000"; 
-   d="scan'208";a="186435816"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 17:28:36 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5F31AD4808
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:34 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3912EBF4BA
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:34 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id A942B20071A35
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:33 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 1ECE91A000B;
-	Tue, 14 Jan 2025 16:28:33 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>,
-	Lei Maohui <leimaohui@fujitsu.com>
-Subject: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when enable multilib.
-Date: Tue, 14 Jan 2025 16:28:28 +0800
-Message-Id: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28922.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28922.006
-X-TMASE-Result: 10-0.410800-10.000000
-X-TMASE-MatchedRID: BoYRaA2j95xxFlVx+W7c0AkbCeJRcz4zuw1VED4royYIzRqIBWkBLO4F
-	rhD6LAW/0S0M0e/x7cvj2hhsFJdmFSNvqM5/miSs8t4fUUGeErTBOVz0Jwcxl6vCrG0TnfVUvqn
-	FtM6Nq/LQGlxIVvV/XoAy6p60ZV62G2i4y8P2xXmtIWznhjjBtfoLR4+zsDTtnlVv2XS+do943G
-	jC+656DJZQR5Y9FP6TuvPyk72FB0SDCDXRLCAhHd6SsuG1aIheo4OJu3oM0ltyelx/6jLLOFz3n
-	duBolfQ0mw48P9E/mjyDBYNCJzj6s+YAJ5mo7zlOKgonZY9TFMtLgAQ4uO3AA==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=F97si8ch;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6B4BE24000F;
+	Tue, 14 Jan 2025 08:52:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736844729;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lSOYxOWz/HeSiOf+L9GoTzcWbnLx2qV1VPaXLCO8PKo=;
+	b=F97si8chxjiasNvhSK1GRsLur/2xatzjeuk09nAqzXN0UBz6fIJl0WISrjVSmyVmhRbwfj
+	npK5dSIbCgtFB69DE3MxVRCN/7H6cSVWJjgJPgWiWrI1vRV1Ahx1ErOPxmVQd6T6NH4Ofd
+	G6+VY7+lX1L5HLdQl3hyS5uagr4Lz0lRVX/cyQp5cV+yZaPSEFNUIwKkkEJBQGVQ5y7r10
+	lh5am8dlDWA9YSrALD7K6FbxGxNnsXKC2TLwx7f70NDcywcu4DrxLSxlGrqp+8jun31SJj
+	yl20WMo72A5cTXThjxDyG0TRWn2NVhPlLih8JKY4dcNT5aXIfA/F87gjqmxeAQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jan 2025 09:52:09 +0100
+Message-Id: <D71O2LIHDS5O.VUCRVWWZYSFN@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] u-boot: kernel-fitimage: Fix dependency
+ loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+Cc: "Adrian Freihofer" <adrian.freihofer@siemens.com>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>, "Sean Anderson"
+ <sean.anderson@seco.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <marex@denx.de>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250114010202.95843-1-marex@denx.de>
+In-Reply-To: <20250114010202.95843-1-marex@denx.de>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 08:29:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209783
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 08:52:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209784
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Tue Jan 14, 2025 at 2:01 AM CET, Marek Vasut via lists.openembedded.org =
+wrote:
+> In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+> kernel-fitimage.bbclass is in use to generate signed kernel
+> fitImage, there is a circular dependency between uboot-sign
+> and kernel-fitimage bbclasses . The loop looks like this:
+>
+> kernel-fitimage.bbclass:
+> - do_populate_sysroot depends on do_assemble_fitimage
+>   - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroo=
+t
+>     - virtual/bootloader:do_populate_sysroot depends on virtual/bootloade=
+r:do_install
+>       =3D> The virtual/bootloader:do_install installs and the
+>          virtual/bootloader:do_populate_sysroot places into
+>          sysroot an U-Boot environment script embedded into
+>          kernel fitImage during do_assemble_fitimage run .
+>
+> uboot-sign.bbclass:
+> - DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+>   - do_deploy depends on do_uboot_assemble_fitimage
+>   - do_install depends on do_uboot_assemble_fitimage
+>   - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysr=
+oot
+>     =3D> do_install depends on virtual/kernel:do_populate_sysroot
+>
+> =3D> virtual/bootloader:do_install depends on virtual/kernel:do_populate_=
+sysroot
+>    virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_in=
+stall
+>
+> Attempt to resolve the loop. Pull fitimage_assemble() into separate new b=
+bclass
+> kernel-fitimage-its.bbclass and split fitimage_assemble() into two functi=
+ons,
+> fitimage_assemble_its() to generate the fit-image.its and fitimage_assemb=
+le_itb()
+> to run mkimage on fit-image.its and produce the final fitImage-none fitIm=
+age.
+>
+> Inherit kernel-fitimage-its.bbclass in uboot-sign.bbclass and use these t=
+wo
+> new functions to generate a dummy signed fitImage which, instead of conta=
+ining
+> any meaningful blobs as payloads contains a dummy u-boot.dtb as payload f=
+or
+> every single blob included in the fitImage. The placement of signature {}
+> nodes in this dummy signed fitImage exactly matches the final signed kern=
+el
+> fitImage, which is very important.
+>
+> The follow up mkimage invocation which inserts public key material into
+> u-boot.dtb /signature {} node does not care about the content of the dumm=
+y
+> signed fitImage blobs, that mkimage invocation only cares about the place=
+ment
+> of signature {} nodes in that dummy signed fitImage. That mkimage invocat=
+ion
+> uses the placement of these signature {} nodes to construct u-boot.dtb
+> /signature/<key> 'required' property content, which is used by U-Boot
+> when authenticating blobs in the fitImage using the public <key> that
+> was currently inserted into the u-boot.dtb by mkimage .
+>
+> Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
+)
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
 
-After enable multilib in armv8, there are differences in the terminfo files between lib32 and lib64 packages.
+Hi Marek,
 
-The differences of kbs between ncurses-terminfo nad lib32-ncurses-terminfo are as follows:
---- armv7ahf-neon-pokymllib32-linux-gnueabi/lib32-ncurses/6.5/image/usr/share/terminfo/x/xterm+kbs2025-01-14 03:45:45.669478283 +0000
-+++ cortexa57-poky-linux/ncurses/6.5/image/usr/share/terminfo/x/xterm+kbs2025-01-14 01:18:20.497366368 +0000
-@@ -1 +1 @@
--%8xterm+kbs|fragment for backspace key??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-\ No newline at end of file
-+%8xterm+kbs|fragment for backspace key??????????????????????????????????????????????????????????????????????????????????????????????????????????????
-\ No newline at end of file
+I believe this patch is breaking the oe-selftests on the autobuilder,
+with the following error:
 
-After consulting with the upstream of ncurses, it is possible to specify kbs by setting --with-xterm-kbs=XXX.
-Based on the instructions in https://github.com/ThomasDickey/ncurses-snapshots/blob/master/configure#L9810,
-it is appropriate to add --with-xterm-kbs=del.
+ERROR: linux-yocto-6.12.9+git-r0 do_assemble_fitimage: Execution of '/srv/p=
+okybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qem=
+ux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.195=
+0022' failed with exit code 127
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/oe-selftes=
+t-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6=
+.12.9+git/temp/log.do_assemble_fitimage.1950022
+Log data follows:
+| DEBUG: Executing shell function do_assemble_fitimage
+| /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/=
+work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fiti=
+mage.1950022: line 150: fitimage_assemble: command not found
+| WARNING: /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-84=
+4261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_asse=
+mble_fitimage.1950022:150 exit 127 from 'fitimage_assemble fit-image.its fi=
+tImage-none ""'
+| WARNING: Backtrace (BB generated script):
+| 	#1: do_assemble_fitimage, /srv/pokybuild/yocto-worker/oe-selftest-fedora=
+/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+gi=
+t/temp/run.do_assemble_fitimage.1950022, line 150
+| 	#2: main, /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-=
+844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_as=
+semble_fitimage.1950022, line 157
+NOTE: recipe linux-yocto-6.12.9+git-r0: task do_assemble_fitimage: Failed
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- meta/recipes-core/ncurses/ncurses.inc | 1 +
- 1 file changed, 1 insertion(+)
+https://valkyrie.yoctoproject.org/#/builders/48/builds/726/steps/14/logs/st=
+dio
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index e96ee075bd..3f93550cf9 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -70,6 +70,7 @@ ncurses_configure() {
- 	        --without-debug \
- 	        --without-ada \
- 	        --without-gpm \
-+		--with-xterm-kbs=del \
- 	        --enable-hard-tabs \
- 	        --enable-xmc-glitch \
- 	        --enable-colorfgbg \
--- 
-2.43.0
+Can you have a look at this issue please ?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
