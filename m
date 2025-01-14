@@ -1,133 +1,108 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFAFC02183
-	for <webhook@archiver.kernel.org>; Mon, 13 Jan 2025 23:39:19 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.32971.1736811558426345474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 292D4C02180
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 00:26:40 +0000 (UTC)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+ by mx.groups.io with SMTP id smtpd.web10.33747.1736814391943364361
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jan 2025 15:39:18 -0800
+ Mon, 13 Jan 2025 16:26:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZQcZqeqJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4368a293339so55842905e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 15:39:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IxcXhqzf;
+ spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: hiagofranco@gmail.com)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5f2dee7d218so2279525eaf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 16:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736811556; x=1737416356; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1bP1LM+ckcsRvcik0eTZ2CBHyHrq8jsqTbnD4Ze//4s=;
-        b=ZQcZqeqJezmUsOIbM80UZ2g1pQip5saa5MFOWgO+Q+fdQS2efa1mUDl68Dkjic8Xgh
-         b8bSMqZtPDKIYpqF14g8wUGph0Xqve5kI1REHmug8Y2FKvnh9ONUX5p9nUXCUC31Q3eO
-         ARUFZicUIHEXxbT2wb62Vrham9VG3GL2WoFEJYwv7bUtKGgjEhdb31JQR3vXQhAzaV3o
-         OT/earUof8idAg1dxjji3nWfKkNHW7QCWFEwUFv1DU/K2dTU29tmaTOi8StRw/yTkLsR
-         j4peAQLZtoT2ZKJYLyw1Cc7PNQG/dDLb66kqi/nxDmN8W4Cn8B0SpyOgGm+hyGaN871g
-         vSQg==
+        d=gmail.com; s=20230601; t=1736814391; x=1737419191; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Kp/e5rQdk+H8oYlWj5jsdaU8pTeImFJ4zVHSnbdUH4=;
+        b=IxcXhqzfsYxEb3yTxY6wP/yJ13fNc9fdryC6vqPyzPu9MavZL5PglwK+oFGORwuu2D
+         b8alphWtEw5g86kuLukm8DoIeYQkEeuK7DzWJrV8BGp2nqJlvQtZTe9kaLfEeMMk5UyZ
+         IWJjy4VJwzqj60SapoVTS/sdrA+TIvVZZGQE7yAB383ttZ59B1GMRiHOJ+Ff4ZV/DyO+
+         gOEk8gafCVKFucHOHP/LyYHlSQDb4KZv79ZiYGfAOFiZrJPEYOeeYGbn+VGMjQctNh4k
+         3z+M4+aS+sH9+n6fGYERWh1P/pA4FU9T68yclKui6EKHqC+DdO3uI0Ua9dTEfFkyg3mP
+         7m8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736811556; x=1737416356;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1bP1LM+ckcsRvcik0eTZ2CBHyHrq8jsqTbnD4Ze//4s=;
-        b=pCab9vkp/EHnbl2q1d5X0mkDmryXebOWQjeAjZB/kC2V2I0nyX++8vtpaSCXb/kVmY
-         xEhZpbRr+ouNySjmMUvaO9tRsEkO75hZlyRA6/avvmAuCuRCMGXhbBlLk3DHFRD+MjP7
-         HIJoCOaRgpKwoCW2XrvPoCgE/jk6Zx8LlCVMADqgLlFKr0UyrB2wajX4hhdlnDzb9c4D
-         sAucNxZUp4j9Bl/ABU+qPK65eQuGXQVKQB/okwJb/8LWSUYL9sE9kxsZkSZXQF+DHteZ
-         nwrS4IvcPeP8EWOO1VM2/ElACwIVv1JVq7pG5kGuxnpgJ3GbyExCPfurnf1tja6jS6pg
-         huOA==
-X-Gm-Message-State: AOJu0YygBb2d/fMnYvH6UNuKv7MyK5Z5UVriOelhDLOgyqJiiAs0++Kz
-	Y0L+ahLRSx1yVjy1xrO3Ruvf5VjSTWDk0pNXc0u6RhjvRpnLgBon1CDMuttu
-X-Gm-Gg: ASbGncs2CcFfrHQl0DXWroIuIHOOfYfGmrVqcire8LN5SJNMdSf5Tx530bxXGSTm1Aq
-	/nRt9J7Fj+xzhpIgWh6PfazBQlo+xNenCe0s2QRpD16FxA3iMlrAqcVJy+gFgnHGcoizFJDdPB8
-	zYuBLDBzfdbMvG3rNjTmPb1Y91sPTwVo6LPYjvKBc1pLusIkjgPF03QZHZswapV6lMR1fuvl3Al
-	O+LUcCKl6QrLLpKPQ4s4vt4C9Ll8Lybr/iorRLqWuuppF0kbWKslew4+JdZ1g0xP8nGmXtVE7AN
-	74g=
-X-Google-Smtp-Source: AGHT+IFpQXbI/ZPLVKhDRc/duoLUcFmP4iP9dcKRP8cgKm6+rW6u7JQMhtbCvRCB7f1iu2M0hYQDUA==
-X-Received: by 2002:a5d:6484:0:b0:385:fd07:85f4 with SMTP id ffacd0b85a97d-38a87312c8dmr20570658f8f.31.1736811556478;
-        Mon, 13 Jan 2025 15:39:16 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da7768sm194596605e9.5.2025.01.13.15.39.14
+        d=1e100.net; s=20230601; t=1736814391; x=1737419191;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Kp/e5rQdk+H8oYlWj5jsdaU8pTeImFJ4zVHSnbdUH4=;
+        b=au6tcsWjGZtUXfSEg87l0sJNMaRJd6MtxT2AGRcrxLnjeTXPzfGq3b4Gbgx9vx83CV
+         TlebOozjOxQoCzpTe1LWn9uaDM9lR+qMcC1ANbTy8QgfMoYTQAcbskHk2hJ2nafwv2ZM
+         +lqQXzo27RcmLV2ab27HqJHG3ZGgh/rQSzVj0V0SyfYlUa2b4L27bULy442ySOcvVmLU
+         e+I/8YvvR7lONNqkRccBpokWAD7GuSIhcpiNi9JfCdtwvtnlj431ALtSGvS66GCA32O+
+         cKzZ66gF5rcEemeyeK3KyleE3vBOM/Wdvpxs1okd79DNfO/mqZ1XMt5spnMiKwrsUn0d
+         Wbng==
+X-Gm-Message-State: AOJu0YyEloD2VtGjAO8Db6MiPEp9wbsJFzrWxUEVobMDhwR98zq4MqHH
+	NRQcV4+nNoezy9nUbgBx3QHxBKRzNSAgw1T8kL7bGt1eoOqRvv8SL3c3eA==
+X-Gm-Gg: ASbGncvBnyu5GY8sphGFvun2txSLh9DrynJ1Tgz+OnNmBDHIDjD1hBJ0LFnpyZ6KJ56
+	TqN0f0PiDOkYfQeVUC5xXDT0A+e2ySTaYk82kWBxdZMpexfuq4ncEnJzCbL0gZlpsIqKBGrI0AL
+	9KUa7WLoCiU/A0E4M0foYBsVjqv3FiXHA22PNQIZui4MQtUeiTQojCi4c5rY/FnEctgHvDRoRy6
+	3MYP+JkArAJKkiiJakPmNrA/jbjQZ4RrZEkLtcTEYHMjMMKKEkujdWsXPMstC/fAfy2iUr5aA==
+X-Google-Smtp-Source: AGHT+IHe9KJeQZUZEu3i4Mw11kAEALMgPIGGi1HO/NDTkI5seIAx+t/FK9pow/z3QGRGNu6005NO4g==
+X-Received: by 2002:a05:6820:1747:b0:5f8:a470:f562 with SMTP id 006d021491bc7-5f8a470f9a9mr5562393eaf.0.1736814390881;
+        Mon, 13 Jan 2025 16:26:30 -0800 (PST)
+Received: from localhost.localdomain ([2804:1b3:a7c0:f217:987f:63ab:3af7:fe70])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72318538401sm4121843a34.7.2025.01.13.16.26.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 15:39:15 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+        Mon, 13 Jan 2025 16:26:29 -0800 (PST)
+From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/2] devtool: ide-sdk remove the plugin from eSDK installer
-Date: Tue, 14 Jan 2025 00:39:09 +0100
-Message-ID: <20250113233909.4182045-2-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250113233909.4182045-1-adrian.freihofer@siemens.com>
-References: <20250113233909.4182045-1-adrian.freihofer@siemens.com>
+Cc: Hiago De Franco <hiago.franco@toradex.com>,
+	Ross Burton <Ross.Burton@arm.com>
+Subject: [PATCH] libxkbcommon: replace locale dependecy from RDEPENDS to RRECOMMENDS
+Date: Mon, 13 Jan 2025 21:25:03 -0300
+Message-Id: <20250114002503.7321-1-hiagofranco@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jan 2025 23:39:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209770
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 00:26:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209771
 
-The ide-sdk command bootstraps the SDK from the bitbake environment
-before the IDE configuration is generated. In the case of the eSDK
-installer, the bootstrapping is performed during the installation of
-the eSDK installer. Running the ide-sdk plugin from an eSDK installer
-based setup would require skipping the bootstrapping and probably taking
-some other differences into account when generating the IDE
-configurations.
+From: Hiago De Franco <hiago.franco@toradex.com>
 
-This would be possible. But it will probably never be implemented, as
-running devtool ide-sdk directly from the bitbake environment is much
-more flexible.
-Also, some of the recent improvements that have made it into the core
-have the potential to make the eSDK installer obsolete at some point in
-the future:
-- bitbake-layers create-layers-setup replicates the layers
-- bitbake-config-build replicates the build configuration
-- The new sstate mirror features replicate the sstate
-- bblock locks the sstate more flexible than the eSDK installer
-- devtool ide-sdk bootstraps the SDK directly from the bitbake
-  environment. The same environment-setup... file is provided with
-  --mode=shared.
-  The devtool modify based workflow is supported since always by devtool
-  and also the default --mode of devtool ide-sdk.
-These functions essentially cover what the eSDK installer does without
-a need for the current implementation of the eSDK installer and the
-populate_sdk_ext, which is hard to maintain and takes a lot of time to
-build.
-This means that instead of making the ide-sdk plugin compatible with the
-eSDK installer, we should rather replace the current implementation of
-the eSDK installer and populate_sdk_ext with an implementation that can
-replicate a normal bitbake environment in a convenient way where the
-ide-sdk plugin also just works without additional complexity.
+The error described does not occur in all cases where libxkbcommon is
+used. As example, a Qt application that depends on libxkbcommon might
+not require any locales to be installed.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Add it to RRECOMMENDS, as libxkbcommon does not seen to have any hard
+dependency on libx11-compose-data or libx11-locale. This change can help
+users decide to disable it and save some space on the rootfs.
+
+Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+The first version of this patch is at [1], now this patch is different
+and changes the RDEPENDS to RRECOMMENDS (the subject is also different),
+that is why I did not mark it as V2 on the subject.
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 42ac20c6547..f8cf65f4a84 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -927,6 +927,15 @@ def ide_setup(args, config, basepath, workspace):
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
+[1] https://lore.kernel.org/all/20241212213429.250224-1-hiagofranco@gmail.com/
+---
+ meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb
+index 40cf616f0bd2..d87ff661d9f6 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb
+@@ -31,9 +31,9 @@ python populate_packages:prepend () {
+     do_split_packages(d, d.expand('${libdir}'), r'^(lib.*)\.so\.*', '%s', '%s library', extra_depends='', allow_links=True)
+ }
  
-+    # The ide-sdk command bootstraps the SDK from the bitbake environment before the IDE
-+    # configuration is generated. In the case of the eSDK, the bootstrapping is performed
-+    # during the installation of the eSDK installer. Running the ide-sdk plugin from an
-+    # eSDK installer-based setup would require skipping the bootstrapping and probably
-+    # taking some other differences into account when generating the IDE configurations.
-+    # This would be possible. But it is not implemented.
-+    if context.fixed_setup:
-+        return
-+
-     global ide_plugins
+-# Fix a following runtime error:
++# Recommended to fix a possible runtime error:
+ # xkbcommon: ERROR: couldn't find a Compose file for locale "C"
+-RDEPENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx11-locale', 'libx11-compose-data', d)}"
++RRECOMMENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx11-locale', 'libx11-compose-data', d)}"
  
-     # Search for IDE plugins in all sub-folders named ide_plugins where devtool seraches for plugins.
+ BBCLASSEXTEND += "native"
+ 
 -- 
-2.47.1
+2.39.5
 
 
