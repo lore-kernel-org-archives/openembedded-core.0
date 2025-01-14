@@ -2,132 +2,94 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E40FC02185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D39DC02184
 	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 12:50:45 +0000 (UTC)
 Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.43089.1736858067366709510
+ by mx.groups.io with SMTP id smtpd.web10.43085.1736858057536956005
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 04:34:27 -0800
+ Tue, 14 Jan 2025 04:34:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EsY80Gsb;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cEXID60G;
  spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: arturkow2000@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3003d7ca01cso49862991fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 04:34:27 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30225b2586cso59076931fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 04:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736858064; x=1737462864; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dVxtP3mEg1zvLOnnyXlnjDGOSyoXCT1n08lG2cN8FfQ=;
-        b=EsY80Gsb3K/vWI67ZNBNBkCzAZkNa5WYnM5kWOkoewZITl+Zm4b+KgxBSlnV0lOfyk
-         k/gWhfdwtj5FZRDvf99lackExNXiaMhNE0AVi/ikn3zZyXroGiMlcb8lijuZnyRHN/YP
-         CaHAj7/CWC8UbzsqAsshTHsh8NmXrQqZzfi5nRQyuOlq/60z9Y6F9L8SezgdDLdRi78c
-         uLNYEUGAj+xQqjjSPsaWvug+D8qo/iNHjCvf+bIhX7mUkDUfvZ3UvIakBiHsySCurbDh
-         qfxXG9iW9NnjO4BGpu9wApN/u8V4+KXvutq2UgYk819uCMjaCs85Wa+XSZCmm30EKrWg
-         jaVA==
+        d=gmail.com; s=20230601; t=1736858055; x=1737462855; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4d/670Xa/ksEYnbmS0FoNYmN4sZlP/3TgC7Z6rbW1xY=;
+        b=cEXID60Ga4BSjK4wmpKnOHamc03Q1l6akM/kNlHTU3S3/oB9PZpejknqGetpGzcsJm
+         QchSw1EoQZ+JMNtzlbU9VPojYngNA2UbknSGudis6dVTYKCnQYc58h91jNtU1BU3IOcg
+         GAmpSk+3YDxMYq89AqGRVwzsjICHzE6VGVS6ZYT01n0rxn3xw3EUvWYoPuI0wsOYCu14
+         QC92aQcj3QSu0CeEOJ43JUjQ/PzjlKj1T3ybUk2j4wJ3jRCD2ptXpdfyy4A91k0Wy5Jj
+         Z3opyyvHZ7s3Q8vnjM5I+OqTW2s1unmONjpI4xf5kgnT6jWFFqNLVojk5m/mSMKSzMWb
+         3VTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736858064; x=1737462864;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dVxtP3mEg1zvLOnnyXlnjDGOSyoXCT1n08lG2cN8FfQ=;
-        b=KMgbUfxXaaW7uBYwDx2DTi3zmOeADUpZyYn8fp25YAz4sPr3nv0uS5BZpfJ4R4IJNK
-         vCGn3d1AzGEd+b4AUZK1a7ut5w55pGfw7tU7YSSpSI1KLAqdV1rBznJMPPgge93LsJXW
-         QR+52wQE64Wu18z4TB3Kf7fBKFJEcfOJTpCyECyYp4g1y55fLfN4YOo5eU1d4XsILHYr
-         z+rhHBWm+M6GD1vD67m4iLZVZtQ+0+/qAJnERxiSGNjw2GUkA0GyNVpeaXLLEEZ++7ki
-         n/NZDF8N3H7oj7fACHDfkfZyFiNyGS3DLuYGDt9WE22206wI+LOJTvGCvWuv3RSGteK/
-         MrOg==
-X-Gm-Message-State: AOJu0YxTnSvSWn2A7Dtgec3S6cHjljJsxkvaV8HZ5t8WJ3c1gmGLI3eo
-	iV8uyfz/mOL5manFv0QJjwM3/0UuPa5YNrL6VLP/Y6fRuZuOrorcEJEFnA==
-X-Gm-Gg: ASbGncvSg7ROj8Ypio5q9WxNDJ+/zBSDkPYwCBenFmOGISi8//BXJC2TTCYKk5GiFow
-	psLYCv9xf846QbIUrDjZeQRP36/B4fbVZ2smsGeVilO8Kxf9qwjgdNn6sE3BjRXgf3S9LA1EKk8
-	p3Xqbs9nbyH9XJzN+Fsj0p/O29Eq0zRYDMx0Ye73usHGEmnDkzuQzYh33iMlz7BzHtJ93C75d5M
-	ZtYUHHE6Hnkq/fK5baDedfYqIu62kKOOSesHyHPkrUZVDCOqnNlRt4jpT51CjFT
-X-Google-Smtp-Source: AGHT+IHUTE4uJbwJ1AgxHkjR7VLmgpWkAKboV3bjjxO8tMhj3DH62zrQWFuNnNS1BTeydaKUymmChw==
-X-Received: by 2002:a05:651c:a0b:b0:302:40ec:a1b3 with SMTP id 38308e7fff4ca-305f45a0a29mr79469851fa.21.1736858064287;
-        Tue, 14 Jan 2025 04:34:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736858055; x=1737462855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4d/670Xa/ksEYnbmS0FoNYmN4sZlP/3TgC7Z6rbW1xY=;
+        b=CDd/ogPZ4XwsfUsPwjLfw8Zh7xNq56LVlbRKJ9+CuChr6xLk+e98O0CVcpcUG3ctdR
+         nHl7RW3zZhGv7lDsIQHjI63fvXKLxzN9gkMLsZbTjv9qRLNFyuwgaXg6eTQq8rQOJtpr
+         Ei1gdmqu+dKjHxMBpmDo3h0ShLIa1L1c+AvJULwqOjyvWfTcSesFND3lJNHPMWghAcWm
+         XZrc9XeXzn8nMbbhEGIIwSm598HgLWn9KzGTKpBH5RszE/BQpFOB/29f4gDAECyOQH4Q
+         ClGa2knqCrPvHT6sxRM0qgCWkY3E5med5uDL16lUzyRGub1/aazTIJK8YdXumCh8XD7y
+         mjpw==
+X-Gm-Message-State: AOJu0YxqmSwtCBzJiPG7JK91+iYnNwr77f4r60rLU0BNVpTVcwjARVLk
+	1eR8e+W8Ed3EdnnLaNtNtza6t/iglIbdaJFd7m+6NEhD2j3Nj9sZva7sCRIx
+X-Gm-Gg: ASbGncsbabRVsbA25ZCPSQ4rieyV+oZ4kLGHxMddqtVRyXapWyTE9U42rSaG4UpxLkZ
+	BFPZQ1LUDzC6QDiwq0rIhZfSbVEgDZIYH/ZJA9g2CwukQyGlTHjvuGVRYhkPqGjhS/uOVCsJGV6
+	9SWz54xa20s4jeL2ztO4UldPFhNbj23cy9y546c+K4rxDeXwEXYnuyPwfz44bb4WpSg1z+1M/UR
+	cO+y4bMD0HfTG4G9rCe2CsjBrIMo2CwFyG6dBTB11FVNMKOqY2ArEWYDrDKQgly
+X-Google-Smtp-Source: AGHT+IHoNaZWixG/5zR3EVbDP3Mz6H/TE2V5Xq3xEiB+DtoMOF0FQbIn+QZRDVJXTgEw8u759tkxFA==
+X-Received: by 2002:a05:651c:542:b0:306:5c3:b4d0 with SMTP id 38308e7fff4ca-30605c3b65fmr59891061fa.2.1736858054725;
+        Tue, 14 Jan 2025 04:34:14 -0800 (PST)
 Received: from eta.play.pl ([2a02:a312:c49b:a180:86d6:2e13:1a85:5192])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec4d6sm17230521fa.111.2025.01.14.04.34.23
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1ec4d6sm17230521fa.111.2025.01.14.04.34.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 04:34:23 -0800 (PST)
+        Tue, 14 Jan 2025 04:34:14 -0800 (PST)
 From: "Artur Kowalski" <arturkow2000@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Artur Kowalski <arturkow2000@gmail.com>
-Subject: [PATCH v2 7/8] systemd.bbclass: support user units in postinst and prerm hooks
-Date: Tue, 14 Jan 2025 13:26:15 +0100
-Message-ID: <20250114122613.3046925-11-arturkow2000@gmail.com>
+Cc: Artur Kowalski <arturkow2000@gmail.com>,
+	Alex Kiernan <alex.kiernan@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH v2 0/8] Systemd user presets support
+Date: Tue, 14 Jan 2025 13:26:08 +0100
+Message-ID: <20250114122613.3046925-4-arturkow2000@gmail.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250114122613.3046925-4-arturkow2000@gmail.com>
-References: <20250114122613.3046925-4-arturkow2000@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 12:50:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209799
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209792
 
-Handle user units in a manner similar to system units where possible.
-Not everything is supported by systemd, but systemd limitations only
-affect runtime package management - during update user services are not
-reloaded/restart and each user must re-login or manually restart
-services.
+This is v2 of systemd user preset support. I split systemd.bbclass
+changes into multiple commits as requested and done some minor cosmetic
+improvements in the code itself.
 
-Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
----
- meta/classes-recipe/systemd.bbclass | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+v2 isn't fully ready as I haven't made adjustments to first commit yet.
+I will do that when we agree on variable name for --global option, but
+I'm sending this anyway now so you can review remaining commits.
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 177ee5d974..4c9f51d33d 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -40,14 +40,24 @@ if systemctl >/dev/null 2>/dev/null; then
- 		for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}; do
- 			systemctl ${OPTS} enable "$service"
- 		done
-+
-+		for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}; do
-+			systemctl --global ${OPTS} enable "$service"
-+		done
- 	fi
- 
- 	if [ -z "$D" ]; then
-+		# Reload only system service manager
-+		# --global for daemon-reload is not supported: https://github.com/systemd/systemd/issues/19284
- 		systemctl daemon-reload
- 		[ -n "${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}" ] && \
- 			systemctl preset ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}
- 
-+		[ -n "${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}" ] && \
-+			systemctl --global preset ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}
-+
- 		if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+			# --global flag for restart is not supported by systemd (see above)
- 			[ -n "${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}" ] && \
- 				systemctl --no-block restart ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}
- 		fi
-@@ -62,6 +72,10 @@ if systemctl >/dev/null 2>/dev/null; then
- 			systemctl stop ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}
- 			systemctl disable ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}
- 		fi
-+
-+		# same as above, --global flag is not supported for stop so do disable only
-+		[ -n "${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}" ] && \
-+			systemctl --global disable ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}
- 	fi
- fi
- }
-@@ -111,6 +125,9 @@ def systemd_service_exists(service, user, d):
- 
-     return path != ''
- 
-+def systemd_filter_services(services, user, d):
-+    return ' '.join(service for service in services.split() if systemd_service_exists(service, user, d))
-+
- python systemd_populate_packages() {
-     import re
-     import shlex
+Artur Kowalski (8):
+  systemd-systemctl: add support for --global flag
+  systemd.bbclass: add ${sysconfdir}/systemd/user to search path
+  systemd.bbclass: factor out service lookup logic into separate
+    function
+  systemd.bbclass: introduce systemd_service_searchpaths()
+  systemd.bbclass: properly handle user units in systemd_create_presets
+  systemd.bbclass: update postinst and prerm hooks
+  systemd.bbclass: support user units in postinst and prerm hooks
+  image.bbclass: enable systemd user services
+
+ meta/classes-recipe/image.bbclass             |   1 +
+ meta/classes-recipe/systemd.bbclass           | 118 +++++++++++++-----
+ .../systemd/systemd-systemctl/systemctl       |  42 ++++---
+ 3 files changed, 112 insertions(+), 49 deletions(-)
+
 -- 
 2.47.0
 
