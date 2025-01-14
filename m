@@ -1,221 +1,174 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F58CC02183
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 16:32:06 +0000 (UTC)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
- by mx.groups.io with SMTP id smtpd.web11.50497.1736872325344007160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57BE7E77188
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 17:54:52 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.62])
+ by mx.groups.io with SMTP id smtpd.web11.462.1736877290017691881
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 08:32:05 -0800
+ Tue, 14 Jan 2025 09:54:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e/jAeTTZ;
- spf=pass (domain: gmail.com, ip: 209.85.161.46, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5f2ed0b70d6so2191674eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 08:32:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736872324; x=1737477124; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Juh+Jd997X72BbvpfiTamhvWFxwGa6Gv38o1FYIIYsY=;
-        b=e/jAeTTZfokOlAuZAeCbYC94d0a+tHfZVtjvU0NkZ5p+2OwmZRt1BGrDfzCXJ+YUZL
-         8my1DrO0drxsDGF+85CfA8cKMzGclO7a2cxmL17n9T4fVkA4DegaY5GzXW5LF4DKaolc
-         uKyua4jFrWBXcpdO70+CmqKff1YPdFUKZQPqd8R2cG9QIaac+cmZd6vZlYAxeTKj/lQ3
-         wjNKDmHN/jCpKQPriIFcOXQMGwMmqLbIzqrsl8nGcgqpTxytbrbQktmy2CPKl5IKBcpM
-         bnq41qr/4cIOM1u34QKETTl54Ob3te8zAeXZnGis0usiIL1sBhgesrrMMF6HK9V70iqp
-         J+vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736872324; x=1737477124;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Juh+Jd997X72BbvpfiTamhvWFxwGa6Gv38o1FYIIYsY=;
-        b=a91mAfTmfIuYIHLB/H/F+j0YpIxRU0fnM/wvcP3V/Mz0MUcMXohWxIKoIw+E450DWb
-         M3/lQ6/nbIg+T/SELgHCB3Bq6xqaDmtKTBss9PRM+oeXwwPoiPBaXtiFAZqtjIgmGNSQ
-         n3bVgM6KfOgYLGaSucOF2X538jw8pBXRT99YYeeorNaWUBM+wj7qFm1hbMTqbgmaCJy8
-         zMUV86RvEsLaEAJs7oJPWKL0km22mmGnvUH1Zyob1e+oKh3izlogUn16XFZs4a0/h2Oj
-         04seaLRKxk9z/0fkfP/3okggIxk1QrhiMDClJFl8T/SrsKIWPtC44A2PehyabWSBCQlf
-         6znA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7hCYpSYnu7vUOyp4PgeH6Hf3+hJXmpGz3ieQZzsSBrrcHQdgTH/0J2TERLij4iLuTYIMr4LqHP7aaL6cqp01fjw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwBX5H7Xv9+WlyQMPFejz2g5Pb69zSYvblu6+tVPbaXbAbcjb3L
-	0rr4HSmGsPGCJqsVN1gsHiHM7YqBB5NkuCK32iMSO7p8BJgSk6HRvB2RWKdwHx7kLZ8tNcgMpxg
-	mBuMZbmHMN8QBz3gLmk5mw219sD8=
-X-Gm-Gg: ASbGncvCwyDnD+Rf2ZjEIJCw+KCUPdrLx0H094p3VW19UZkF0pvt3BoJX5fY6/Ymfr2
-	Ld7F6N7P3N9p3o26NDfwcYx0C4sZ5AxaMUKT9oUg=
-X-Google-Smtp-Source: AGHT+IG1lSTw3vhkjaR10Cs/1RUk2dg4rOFzQUH8Vg3YOoulYQDPoBXIiWk9lHKxb6Ovv8OD1EtKfvvi3sbwJQYBGI4=
-X-Received: by 2002:a05:6871:7882:b0:29d:c764:f873 with SMTP id
- 586e51a60fabf-2aa0694cdacmr15710349fac.31.1736872324439; Tue, 14 Jan 2025
- 08:32:04 -0800 (PST)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=FIUi5iGQ;
+ spf=pass (domain: arm.com, ip: 40.107.241.62, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kH2XsQN00dF3+QJ8y0WRltEYIqw68alE3TQd8xkxYZKnpDToHe03TSLCvxMrcr10o0EZY54FnKq/gi3mer2xDCw9j7muw2cB7lVUD9rksxAQ6i36Mc/G8x44dEvfYn8hLjPSq5zSZNR1/4C7+3Q4nO8zCuiVDtDzDiXUVwzb+3BuUJaz7ETwMb54H2SKZFTUfso1aS6bg0Pr08AJFwg9rsOR8kQ3KHdLi0ebiVOJ2N2mwMHdlkSTiHop1Q70IbgqHPQzHerSZgZoX97VwmXBIFTtvELzlNSAkzwEWRhNw3DuaiBbJOPrPkDfXvqZ1369mR/jGeajbr0qAg8eFNCOTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RPvPud2NIVsdD5Itc5O00IaAkxM0kWIIKvAYg4eUjFg=;
+ b=vjstu5jXx/7to79SIVyTwg6JQlDHCOIEW3MjlVm6P5CJC/U9IVgUcNKBd70FpKMqxKhX2mb/VovRa6y3qehxp9DvktfUNqbRKNxjTvuor8Y+XdzM9ZmCWbH7iO54iXxvCxgJDzCYY6ZyIq7iZj1ATzI1e+GPYJmYKBvUluq9InhOfjMRyItSLUu8X7bYOjLJmwSvefF1Rem5XfoAUC/WeR+kxOhGWibU+daHhQZkNVbWyzTM034cCcxZeRy2h6SKlr0FvsFoZYLWYaNu5Y0MCkKzMnCiIJPeLsv5S3ZAd/GcI2XV86bhL7H+o9uUeItDXzqjcfyElcnWY5E3ejJ4Mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RPvPud2NIVsdD5Itc5O00IaAkxM0kWIIKvAYg4eUjFg=;
+ b=FIUi5iGQch1gEa6ynNnUsEc0ye7lZAWwjVOPLpdMwiqh4BQd1WtBxH8pj76WV67pu1EA5KYkn6gXIIVjhZhh1gqALoMXHtSLHxlJBW6fTR9Pn4mIOVGqep6YTvO7TK0HpxBuGzPk7fZxlRjJSmX0qG6vVlPG03JeJVSHC/tLFqQ=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by GV2PR08MB10354.eurprd08.prod.outlook.com (2603:10a6:150:dc::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
+ 2025 17:54:43 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%6]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
+ 17:54:42 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "rybczynska@gmail.com" <rybczynska@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Marta Rybczynska
+	<marta.rybczynska@ygreky.com>
+Subject: Re: [OE-core] [PATCH v2][OE-core 4/4] cve-check: allow feed choice
+Thread-Topic: [OE-core] [PATCH v2][OE-core 4/4] cve-check: allow feed choice
+Thread-Index: AQHbVe5ivAlAKG+0XUiDDI/MZdIYTrMWrt4A
+Date: Tue, 14 Jan 2025 17:54:42 +0000
+Message-ID: <6703A7E3-30BD-44E9-875C-058BD2EAF58C@arm.com>
+References: <20241224102557.9300-1-marta.rybczynska@ygreky.com>
+ <20241224102557.9300-5-marta.rybczynska@ygreky.com>
+In-Reply-To: <20241224102557.9300-5-marta.rybczynska@ygreky.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.200.121)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR08MB7411:EE_|GV2PR08MB10354:EE_
+x-ms-office365-filtering-correlation-id: fb80702e-a2c2-48f5-2eac-08dd34c48662
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?YzVTZVBYRTBOVyticWRHaE1aWDhrdEZYMnNGcTNaVmw5V0EyWjlPREhBNWNH?=
+ =?utf-8?B?UTc1R3dPL3JYQk0remtwWTh6WkJPbFRMemozb1dzcjZyelJzSUpNUS8vS0ZC?=
+ =?utf-8?B?OGZRNFRjME14R1FPbWdJYXF6eDkyM3oweXJscnMwc0ZuclVSYk1pdnNYM0h4?=
+ =?utf-8?B?Z3E5ak14eVNIZVFlUmVwYXRPcG5Fbjl0Qlo3ZFhXcTVSdFhMakE4OERialhG?=
+ =?utf-8?B?L3JVb1pTQjErTjc2bXpBeWxHbXczTEZnRTNIRTV2NVQycHVwSUNlNnhIUHFD?=
+ =?utf-8?B?YThJZVo4QkxWR1F3cjJlREw5MDVBQmRmWDJGSnNoNHdoS0w4eFZyZTZUbEx2?=
+ =?utf-8?B?Z2NxQko0NXNCL2h5dXUxZ3d5SU41eEpoUmhYRSs2U04zbjIwWThqZ0dsS0xs?=
+ =?utf-8?B?c25BNXkzaWhZQ0JFNXdHYzFrbkYvRk5PaVVITnVEUEFPcTZZbnlmSjlzM1k5?=
+ =?utf-8?B?dWU1bDRTN29FKzNwYU5XMVkzbmNvUWNoR2s4blgySXorcVFNcDNqb0NETUEz?=
+ =?utf-8?B?VUkrckFlOUpIVHk3TTliQTF5WXpXeDRncncwOVlGQVBlbHRIT1NtN2J1aEo1?=
+ =?utf-8?B?RGIvMUR3U2ZpdWxId2RBWkY4MkhwNUh6emxmUnp4Snhaa3NiUnlxSDBiTHg5?=
+ =?utf-8?B?ajJLSTlkWG1TZnZjdVpxa3RITk5MRFVkc05ZaFZiem5PSW1YYjgveDBrMVBS?=
+ =?utf-8?B?RzEva2ZVZnczcVk5Ry9GS1d2bTNRUEp0RE5lbi91TU9XeURpTnRzR3lYQ3BM?=
+ =?utf-8?B?YThYdE9yNWN3RjBKUWJ0U0VGK1dMK1VWVXJVWCtUZDYzQTZhVmIxLy9oSHFv?=
+ =?utf-8?B?cmhRRVdYMitaME1sa1hVM2s1V1JzL2M1Ui9md2xTcGF0MEs4YStqYkhxRXZC?=
+ =?utf-8?B?SElRZ0JCUVVmVG9hSkJZSWRvS000QjdEcmk2dkZoVTVuamdqRGVmQzltaWcr?=
+ =?utf-8?B?Zmx4QzZOU1dqdUJsS3Q3MEpXSDJKZ3ZmcXRKRVd4cFhNSVUvRHJyY2lVSjg1?=
+ =?utf-8?B?VS9vVSszdXFwRlM3aUpqWno0QWpKSi9lQzdkK3ZOME9XaUtObUxaaW5UQmdt?=
+ =?utf-8?B?UkpCWkdEcCtJTVRwbmJhVnNqazRXdVZtUy95cFVieWwzTWZpWWQ3dHh4dFZk?=
+ =?utf-8?B?Yyt1aER4RHZQWnZ5b3BsOW4vTk5HakxzNXdEVmhlQm1nNFBDUU1EWnFUbzFI?=
+ =?utf-8?B?cHEwTjg0ZGRzNEhaOG9MbXZhV3ZpSjBQRzUvUnlaQzJRRUQzRFZKOTliSG9y?=
+ =?utf-8?B?bmdOSi8wYW5Da2l0eThZTDQ3OGlPZ04vZnJ0NDFMMXp6dVU3THNLVCtlbVg3?=
+ =?utf-8?B?eFVobXg1TEpwT1B5MkpQaExUcW1oVU5Xd3EwTThhbm1sUlpKdUtsbVFRZGU4?=
+ =?utf-8?B?N1lLWXlNdUJ4TXc3bTBrSkZLWDRLU3JBbHBwV1lsSG5UYUMxSmZqU05SRE1n?=
+ =?utf-8?B?Y2gzRjV3bTNqZytBUTJrYnFDQ2szNVJtYXZlSTRSQjVHQTBhZlVsbUN2NS9P?=
+ =?utf-8?B?cndJcVo5a3I1ek5uRjd1SDVuRnlkdE1wV3JWd3VobmZEb21UNEk2OUhDZTdx?=
+ =?utf-8?B?bXJGTG8yZFRiQTl4d3BvUzd5U0FhMVVGakRxZlhDcmRYZkw3N2hrRHlhcGlr?=
+ =?utf-8?B?a2twMFAyRU02cDhaMWkrRW03dnRFbko3TGs3SmNoc0o3WU9NdDVxdEJ1TXEx?=
+ =?utf-8?B?d3dnaWl6S3VrMExuTUlpa1RIYmJ0eWpkakQxSUNlOEwxRHExTjJqTkRlVXB2?=
+ =?utf-8?B?Wjc1QVZtU3pjMDlXY3hMekdwVkhQOUZJbVdNdkNSN1R3R01pMkZsYkZmRVhy?=
+ =?utf-8?B?NE1nY2wwOVJSckJXcmZNUTN3RjJaWm5wUE5GazRmU1NrQWN5VUZCbDNmYmlm?=
+ =?utf-8?B?dE5jMlIyTXhBeUdYWFJ2amREd3E1M2p2Z2FoblRLdkhwMGJacnRiK3V1czVj?=
+ =?utf-8?Q?lyEHWWkT5J+8dt39bSnzee4MwTZP0XYG?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?V2xOKzlKa1R0WWVCcjlnT2swYWRJMXJHL1dtVEhIUlltSHJWdkp6Vk9pUE85?=
+ =?utf-8?B?ZTc0REVBcFpHbURTVkdiUG5UYVhVcnZGTE8vZVZzZnRkdjgzYWZ6MWM1bFFG?=
+ =?utf-8?B?WVRGRXdyQVRpVXFVeng2NGZsMXV3ajFhdnN2Q3IvMXZvSkEzWE9ZVDRRWEtO?=
+ =?utf-8?B?M0pzYTNkUHIzUWNFQzZuWDlsSS93dVp4NmdQRkxNMmw1YTZzOGw1ZUxWUlRi?=
+ =?utf-8?B?djlnUG8zUjk1c3k1Z2pFRzVtc1UvdUpWVGllbFJWdkxoUnpsbU5CRFowQkhN?=
+ =?utf-8?B?Z3p1d2hsdG5YVkt6UXNjTGUyTTZsbytyT2JZSSsyUDJEenIyOHZnYldRWjlx?=
+ =?utf-8?B?QUxzalRLTXBjUDhOamUvUUlWWW5rWnVyOVV2TlpPSjZWZmxNVmxSekNIZTRD?=
+ =?utf-8?B?SXB2Sk14NUx6OTRSak5uZnhZYzByRTJuR0ZGR0VqWExGWGJ3OThIVlhGV2RX?=
+ =?utf-8?B?V1d1WGVKbVNodmxUYmNwMUNVc1ExT1pBYzY1Y3RGTTZHemNMV0xCZnpSMEVG?=
+ =?utf-8?B?SCswU28zQ3B0NUgyb1FVVWF0UW9qazAzM3FFRTlUTEdDTDV1TFdtTDlLS1A5?=
+ =?utf-8?B?NTQrMkVlS0JNZXNFY2piaWdVSjlVRmo0VG43WGh3cjRQcTRMWElCbFdDYnh3?=
+ =?utf-8?B?Y0kwK1o1U3lMMzY1ZFB2T3NhOHR3Y0Z0SUk2a2QyOHRXdUtTVUpRS0ZuRnZi?=
+ =?utf-8?B?Y2ZmWGpOaFh2ZkJLbk56b0ppRkp1MmErRlZlWVZVZkhnQlEzRjBpNWk1RmpL?=
+ =?utf-8?B?b3BHZHVHa2plOExYOVhZUHZFZm1wK2hKcXVhVG9iMEt3elhlTElyVU5BRHEx?=
+ =?utf-8?B?Sm9oTmp1dEcwVC96OElYVXZBUnJQQjZPbDQyYzl5cU1Vd0xqMm1IWTJLcVBw?=
+ =?utf-8?B?ZVpzUm5CbkR6blJFUEJKdDdnWFZZTStJYlZOTitZelBkOUUwQko2Um03cW14?=
+ =?utf-8?B?YktCcHdGY2RQcDB5ZHhZd0sxYkJSUWxaOHNjSkVoUkMrYnNsVFhDcFRYejhh?=
+ =?utf-8?B?ajRVdEE4eXBNTDJyckJyd1NLVzN2d1FTL01NN0ZRMHpLNzhoWjVZUVFWdmQw?=
+ =?utf-8?B?OXZrTUZ5WVZvWWpPeGJPbjBPdnpSVC9iSlJVZ1Z2Q213b3BPUHFSVmNldUNL?=
+ =?utf-8?B?YjFBSFpSNEhEdk90T21MQXNtS2NrOFluOE5NNnNiVlZRYVZMRnhENkhud3ho?=
+ =?utf-8?B?ODFuR1UzN2ZvdWlzby9ydFBKdFJuZ2pwSHpwZ3Z3b2JtN3hTVmVFaHdIcFdx?=
+ =?utf-8?B?bk1IZHNDeXdqbSt3aURuN1JRYkszQW80cW1IMFlBbFpLN2M2YnlxU3dnMmVv?=
+ =?utf-8?B?L0JWNkt6NEFveHc0MXFabkh4cnZEazYyTUZzOG9NYkU2WWI5S2l5dTNsejFS?=
+ =?utf-8?B?NjZEcURrNFVUZ1dXTjZGQU94a281VWNDYVFPc1Q2TUN4SlluTWNQcHBjcjlY?=
+ =?utf-8?B?VE9wUnJLZWNXTXVXaE5DQ2lZWWFtKzBvVTBmSTBjNnNrc3dFODhxZHRuZUtV?=
+ =?utf-8?B?QmNSY1FLOVFuSDV1Y1JZY3RCUHFzMDRPZmNRU1dDUnVIVWNBYXRpTzdjd3pF?=
+ =?utf-8?B?YXFqQUJ1RktkeGo1RWtlaEg4dXlKdjl5TUxuaGgweE5NM251ZTlMaEFXeExy?=
+ =?utf-8?B?Yi9xRjRNOEljSFRrbnJDU011U3BUR2JXaDhEL0dUMGZ2NnlHcHdSaFBsMWhJ?=
+ =?utf-8?B?WmJ4RldaY1Y5RlJoOTFqd2NRL1RMdkJTOElmdllWQndMdGtLOVppUnZZNkZu?=
+ =?utf-8?B?My9uRXF0bkhKOHFnbHlPNVZrb1YwcVVmRVo1K1MwSHZwWUw3QThQanJyS3ZF?=
+ =?utf-8?B?RFZNcWxVTGlUajBsUW9TMW1mdEh6YzNqMmZnbzhLdk9RR29iUDQ0Nll6MVo5?=
+ =?utf-8?B?NlBuTnArTC9DN2tHdUhpamhZUjNUUXBjdWp1dThBRzFCWmp5OGd5c1RlMUZO?=
+ =?utf-8?B?U2QydWVGVUtBTjhhWUtTdnQzTmN5OTc0TUxaVXdjR0tuMjJvd0M5RXQwOVVy?=
+ =?utf-8?B?eDRuV21UcjRxSkJsZkRWTC9PRG4xVnZ6d2w1Y3RVRElFb1hHSS8xNk1uUlhW?=
+ =?utf-8?B?VUU5ZmZtOFNHMVNSdkdYczhZakxWUVhYbmxRQWJsd0tlNmIySXBkK2Urd0NE?=
+ =?utf-8?Q?fNbVHyvkI+0hEDFdjAg18E6Ae?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EF5955C0CA08744B9DEB40245672868D@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <cover.1736801113.git.steve@sakoman.com> <27315.1736807544501527525@lists.openembedded.org>
- <CAOSpxdaY3X4xrcS6gbcBGL6E+=ejXay3HebikWXb1YLK5HgUgA@mail.gmail.com>
-In-Reply-To: <CAOSpxdaY3X4xrcS6gbcBGL6E+=ejXay3HebikWXb1YLK5HgUgA@mail.gmail.com>
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-Date: Tue, 14 Jan 2025 17:31:53 +0100
-X-Gm-Features: AbW1kvZYpu4mHnJj7MPlI1jML6xtrrG8RYBq4XlmnvVufJc3RDlahPI676b48-4
-Message-ID: <CAB3asfiv9rgh_e67kT9Ekyt9bF4VXnvpvZYDgu6OPe9gR5OS0g@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap 00/15] Patch review
-To: steve@sakoman.com
-Cc: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000eb2c3a062bad19fc"
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb80702e-a2c2-48f5-2eac-08dd34c48662
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2025 17:54:42.8781
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JG2ltxEc5uoeQq5u52lLr6jMATfI6Isv9UzOCQpay9tN/ZUre/uWNMiDhn2bZpKPb4lvCFsndFKd7aSBtjbq7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB10354
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 16:32:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209810
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:54:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209811
 
---000000000000eb2c3a062bad19fc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Steve
-
-This patch is still looking for its way into the master branch:
-https://patchwork.yoctoproject.org/project/docs/patch/20250113233736.418120=
-1-3-adrian.freihofer@siemens.com/
-I hope this will happen soon.
-
-Thank you and regards,
-Adrian
-
-
-Am Di., 14. Jan. 2025 um 16:57 Uhr schrieb Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>:
-
-> Hi Adrian,
->
-> Will these changes break any existing workflows or require
-> documentation changes?
->
-> Thanks,
->
-> Steve
->
-> On Mon, Jan 13, 2025 at 2:32=E2=80=AFPM Adrian Freihofer via
-> lists.openembedded.org
-> <adrian.freihofer=3Dsiemens.com@lists.openembedded.org> wrote:
-> >
-> > Hi Steve
-> >
-> > Would it be possible to cherry-pick also these poky commits:
-> >
-> > a3c51794144 oe-selftest: devtool ide-sdk use modify debug-build
-> > 92a4abac54a devtool: ide-sdk recommend DEBUG_BUILD
-> > 71acb3b781d devtool: ide-sdk sort cmake preset
-> > 1f7eb26c947 devtool: modify support debug-builds
-> >
-> > respectively these OE-core commits:
-> >
-> > fc17808799d2b667afbe4ea9837b66af70d47007
-> > b886c26bf893878ba8eb6bee80dd0507e5cb0d2d
-> > 65950eb601c6c8aac0e4bc8683e544305346229d
-> > a3c5179414410ba8ccf40c7ec168ffbbf73a9096
-> >
-> > These patches fix some bugs. They also restore compatibility with the
-> latest version 2.8.0 of
-> https://marketplace.visualstudio.com/items/yocto-project.yocto-bitbake/ch=
-angelog.
-> Without these patches, the user has to configure the
-> bitbake.disableDevtoolDebugBuild setting, which is not intuitive at all.
-> >
-> > Thank you anyway.
-> > Adrian
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#209808):
-> https://lists.openembedded.org/g/openembedded-core/message/209808
-> Mute This Topic: https://lists.openembedded.org/mt/110595467/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000eb2c3a062bad19fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Steve</div><div><br></div><div>This patch is still=
- looking for its way into the master branch: <a href=3D"https://patchwork.y=
-octoproject.org/project/docs/patch/20250113233736.4181201-3-adrian.freihofe=
-r@siemens.com/">https://patchwork.yoctoproject.org/project/docs/patch/20250=
-113233736.4181201-3-adrian.freihofer@siemens.com/</a></div><div>I hope this=
- will happen soon.</div><div><br></div><div>Thank you and regards,</div><di=
-v>Adrian<br></div><div><br></div><br><div class=3D"gmail_quote gmail_quote_=
-container"><div dir=3D"ltr" class=3D"gmail_attr">Am Di., 14. Jan. 2025 um 1=
-6:57=C2=A0Uhr schrieb Steve Sakoman via <a href=3D"http://lists.openembedde=
-d.org">lists.openembedded.org</a> &lt;steve=3D<a href=3D"mailto:sakoman.com=
-@lists.openembedded.org">sakoman.com@lists.openembedded.org</a>&gt;:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Adrian,<br>
-<br>
-Will these changes break any existing workflows or require<br>
-documentation changes?<br>
-<br>
-Thanks,<br>
-<br>
-Steve<br>
-<br>
-On Mon, Jan 13, 2025 at 2:32=E2=80=AFPM Adrian Freihofer via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a><br>
-&lt;adrian.freihofer=3D<a href=3D"mailto:siemens.com@lists.openembedded.org=
-" target=3D"_blank">siemens.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Steve<br>
-&gt;<br>
-&gt; Would it be possible to cherry-pick also these poky commits:<br>
-&gt;<br>
-&gt; a3c51794144 oe-selftest: devtool ide-sdk use modify debug-build<br>
-&gt; 92a4abac54a devtool: ide-sdk recommend DEBUG_BUILD<br>
-&gt; 71acb3b781d devtool: ide-sdk sort cmake preset<br>
-&gt; 1f7eb26c947 devtool: modify support debug-builds<br>
-&gt;<br>
-&gt; respectively these OE-core commits:<br>
-&gt;<br>
-&gt; fc17808799d2b667afbe4ea9837b66af70d47007<br>
-&gt; b886c26bf893878ba8eb6bee80dd0507e5cb0d2d<br>
-&gt; 65950eb601c6c8aac0e4bc8683e544305346229d<br>
-&gt; a3c5179414410ba8ccf40c7ec168ffbbf73a9096<br>
-&gt;<br>
-&gt; These patches fix some bugs. They also restore compatibility with the =
-latest version 2.8.0 of <a href=3D"https://marketplace.visualstudio.com/ite=
-ms/yocto-project.yocto-bitbake/changelog" rel=3D"noreferrer" target=3D"_bla=
-nk">https://marketplace.visualstudio.com/items/yocto-project.yocto-bitbake/=
-changelog</a>. Without these patches, the user has to configure the bitbake=
-.disableDevtoolDebugBuild setting, which is not intuitive at all.<br>
-&gt;<br>
-&gt; Thank you anyway.<br>
-&gt; Adrian<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#209808): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/209808" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/209808</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110595467/445=
-4582" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/110595467/4454582</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:adrian.freihofer@gmail.com=
-" target=3D"_blank">adrian.freihofer@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000eb2c3a062bad19fc--
+T24gMjQgRGVjIDIwMjQsIGF0IDEwOjI1LCBNYXJ0YSBSeWJjenluc2thIHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxyeWJjenluc2thPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+PiB3cm90ZToNCg0KVGhlcmXigJlzIGFuIGluY29uc2lzdGVuY3k6DQoNCj4gU2V0IHRoZSBOVkRf
+REJfVkVSU0lPTiB2YXJpYWJsZSB0byBjaG9vc2UgZmVlZDoNCj4gTlZEMiAoZGVmYXVsdCkgLSB0
+aGUgTlZEIGZlZWQgd2l0aCBBUEkgdmVyc2lvbiAyDQo+IE5WRDEgLSB0aGUgTlZEIEpTT04gZmVl
+ZCAoZGVwcmVjYXRlZCkNCj4gRktJRSAtIHRoZSBGS0lFLUNBRCBmZWVkIHJlY29uc3RydWN0aW9u
+DQoNCuKAnE5WRDHigJ0NCg0KPiArIyBQb3NzaWJsZSBkYXRhYmFzZSBzb3VyY2VzOiBOVkQxLCBO
+VkQyLCBGS0lFDQo+ICtOVkRfREJfVkVSU0lPTiA/PSAiTlZEMiINCg0K4oCcTlZEMeKAnQ0KDQo+
+ICsgICAgaWYgbnZkX2RhdGFiYXNlX3R5cGUgbm90IGluICgiTlZEIiwgIk5WRDIiLCAiRktJReKA
+nSk6DQoNCuKAnE5WROKAnQ0KDQpJ4oCZbSB0aGlua2luZyDigJxOVkQx4oCdIHNob3VsZCBiZSB1
+c2VkIGV2ZXJ5d2hlcmUuDQoNCklmIHlvdSBzZXQgaXQgYXMgdGhlIGRvY3VtZW50YXRpb24gc2F5
+cyB0aGVuIGV2ZXJ5IHJlY2lwZSB0aHJvd3MgYSB3YXJuaW5nLCB3aGljaCBpcyBxdWl0ZSB0aGUg
+cGFzdGVib21iLiAgTWlnaHQgYmUgYmV0dGVyIHRvIG1ha2UgaXQgYmIuZmF0YWwoKSBhbmQgdGVs
+bCB0aGUgdXNlciB0byBmaXggdGhlaXIgdHlwbz8NCg0KUm9zcw==
 
