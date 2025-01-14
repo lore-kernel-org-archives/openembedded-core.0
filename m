@@ -1,131 +1,108 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A72E77188
-	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 08:21:52 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.40505.1736842904477072969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BABF9C02184
+	for <webhook@archiver.kernel.org>; Tue, 14 Jan 2025 08:29:02 +0000 (UTC)
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web11.40580.1736843332539817542
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 00:21:45 -0800
+ Tue, 14 Jan 2025 00:28:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=zLgYMGTj;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=YJZbQu1VVNLCDnRlj6su1q3cRY6bWNEYXXuM45MAF2U=; b=zLgYMGTj1+m6bR3gHoAt/AR8L/
-	CKl7JK3gTJcizv93m36cSpfF7WeAk74aCYHcgyrxFIKssRMhq5tpvS38VkEAi2U58NCeiIA3C5x9F
-	fafKhbJbuub3qHsouJdoGt/t3OfcgGIWjHsWEFYDIt3RxtTgpaiOUOnIOWsq4gi4fW8zPqFA0QyEn
-	xG8/cpAyM6uCD06HDvcucksIKcICnuu92cUjei5rS9eDPnwLYdFtgIOPl+Gn/wlGxZ11bQoHj0kKo
-	bD4GQQgJYCDwskdhTvQQFhlt4Y6BbHFCwHxxpeKJH1KD0z8xidCZbYpMIO5fUHZkgx1AORYE6l+cR
-	1zRAcPlA==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <sean@geanix.com>)
-	id 1tXcBC-0000yE-1T;
-	Tue, 14 Jan 2025 09:21:42 +0100
-Received: from [185.17.218.86] (helo=zen..)
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <sean@geanix.com>)
-	id 1tXcBC-000I4z-1S;
-	Tue, 14 Jan 2025 09:21:42 +0100
-From: Sean Nyekjaer <sean@geanix.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Vue/OuCK;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1736843333; x=1768379333;
+  h=from:to:cc:subject:date:message-id;
+  bh=uD8hmAtdGz9JtT/IXm5Bdr4pyYb+jC/gLHIJZmWdoNk=;
+  b=Vue/OuCKIHmGRmiYXn+3f4EmcEt9dMWhO7G3y7JtTmYhdQVJjHdGb1hJ
+   +nP8So2YkOe47syrdxhZ2MfRzOxxQJEH+vCdxeGbUigykCrtOPHz+CwuG
+   s27U03L5yixstxTdhmCOMkVKwxPGUneAPF20wUi9/n5cA3dwKeQxZJ5GT
+   mqxh5pYSRCyhUquduwAXrIuqU6nY5NdJ619wdqu3rd3SsML3iweiFluhU
+   93etMF7RTNOSQkzAFiKYmaoYKXUeIp613n03g1YwJa+xAqZOZ+UsyIv3U
+   Ypu6gMrVM12nPvD/50Ls7bjOnXLvyGXORy1wVSoKKAUQZRb+VzSISdqhF
+   w==;
+X-CSE-ConnectionGUID: Cc0XimTOTeOrVgs8icmvKg==
+X-CSE-MsgGUID: O2fBwNkJTn2SJVWTurG25w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="186435816"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728918000"; 
+   d="scan'208";a="186435816"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 17:28:36 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5F31AD4808
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:34 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3912EBF4BA
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:34 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id A942B20071A35
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:28:33 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 1ECE91A000B;
+	Tue, 14 Jan 2025 16:28:33 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Sean Nyekjaer <sean@geanix.com>,
-	raj.khem@gmail.com
-Subject: [PATCH] rust-cross-canadian: set CC_<triple> for nativesdk
-Date: Tue, 14 Jan 2025 09:21:26 +0100
-Message-ID: <20250114082128.903105-1-sean@geanix.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27517/Mon Jan 13 10:41:18 2025)
+Cc: Wang Mingyu <wangmy@fujitsu.com>,
+	Lei Maohui <leimaohui@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when enable multilib.
+Date: Tue, 14 Jan 2025 16:28:28 +0800
+Message-Id: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28922.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28922.006
+X-TMASE-Result: 10-0.410800-10.000000
+X-TMASE-MatchedRID: BoYRaA2j95xxFlVx+W7c0AkbCeJRcz4zuw1VED4royYIzRqIBWkBLO4F
+	rhD6LAW/0S0M0e/x7cvj2hhsFJdmFSNvqM5/miSs8t4fUUGeErTBOVz0Jwcxl6vCrG0TnfVUvqn
+	FtM6Nq/LQGlxIVvV/XoAy6p60ZV62G2i4y8P2xXmtIWznhjjBtfoLR4+zsDTtnlVv2XS+do943G
+	jC+656DJZQR5Y9FP6TuvPyk72FB0SDCDXRLCAhHd6SsuG1aIheo4OJu3oM0ltyelx/6jLLOFz3n
+	duBolfQ0mw48P9E/mjyDBYNCJzj6s+YAJ5mo7zlOKgonZY9TFMtLgAQ4uO3AA==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 08:21:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209782
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 08:29:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209783
 
-This fixes build errors when building rust bindings for C dependencies
-for the sdk host.
-This will allow us to build and run rust programs on the sdk host.
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Before:
-% cargo build --target x86_64-oesdk-linux-gnu -vv
-[...]
-   Compiling zstd-sys v2.0.13+zstd.1.5.6 (zstd-rs/zstd-safe/zstd-sys)
-[zstd-sys 2.0.13+zstd.1.5.6] CC_x86_64-oesdk-linux-gnu =3D None
-[zstd-sys 2.0.13+zstd.1.5.6] CC =3D Some(arm-oe-linux-gnueabi-gcc  -mthumb =
--mfpu=3Dneon -mfloat-abi=3Dhard -mcpu=3Dcortex-a7 -D_TIME_BITS=3D64 -D_FILE=
-_OFFSET_BITS=3D64 --sysroot=3D/usr/local/sdk/sysroots/cortexa7t2hf-neon-oe-=
-linux-gnueabi)
-[zstd-sys 2.0.13+zstd.1.5.6] cargo:warning=3DToolExecError: Command LC_ALL=
-=3D"C" "arm-oe-linux-gnueabi-gcc" "-mthumb" "-mfpu=3Dneon" "-mfloat-abi=3Dh=
-ard" "-mcpu=3Dcortex-a7" "-D_TIME_BITS=3D64" "-D_FILE_OFFSET_BITS=3D64" "--=
-sysroot=3D/usr/local/cc-sdk/sysroots/cortexa7t2hf-neon-oe-linux-gnueabi" "-=
-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-=
-frame-pointer" "-m64" "-I" "zstd/lib/" "-I" "zstd/lib/common" "-I" "zstd/li=
-b/legacy" "-O2" "-pipe" "-g" "-feliminate-unused-debug-types" "-flto" "-ffa=
-t-lto-objects" "-fuse-linker-plugin" "-fvisibility=3Dhidden" "-DZSTD_LIB_DE=
-PRECATED=3D0" "-DXXH_PRIVATE_API=3D" "-DZSTDLIB_VISIBILITY=3D" "-DZDICTLIB_=
-VISIBILITY=3D" "-DZSTDERRORLIB_VISIBILITY=3D" "-DZSTD_LEGACY_SUPPORT=3D1" "=
--o" "zstd-rs/target/x86_64-oesdk-linux-gnu/debug/build/zstd-sys-b2560022e17=
-2eec3/out/44ff4c55aa9e5133-debug.o" "-c" "zstd/lib/common/debug.c" with arg=
-s arm-oe-linux-gnueabi-gcc did not execute successfully (status code exit s=
-tatus: 1).cargo:warning=3Darm-oe-linux-gnueabi-gcc: error: unrecognized com=
-mand-line option '-m64'
+After enable multilib in armv8, there are differences in the terminfo files between lib32 and lib64 packages.
 
-After:
-% cargo build --target x86_64-oesdk-linux-gnu -vv
-[...]
-   Compiling zstd-sys v2.0.13+zstd.1.5.6 (zstd-rs/zstd-safe/zstd-sys)
-[zstd-sys 2.0.13+zstd.1.5.6] CC_x86_64_oesdk_linux_gnu =3D Some(x86_64-oesd=
-k-linux-gcc)
-[...]
-   Compiling zstd v0.13.2 (zstd-rs)
-    Finished dev [unoptimized + debuginfo] target(s) in 14.67s
+The differences of kbs between ncurses-terminfo nad lib32-ncurses-terminfo are as follows:
+--- armv7ahf-neon-pokymllib32-linux-gnueabi/lib32-ncurses/6.5/image/usr/share/terminfo/x/xterm+kbs2025-01-14 03:45:45.669478283 +0000
++++ cortexa57-poky-linux/ncurses/6.5/image/usr/share/terminfo/x/xterm+kbs2025-01-14 01:18:20.497366368 +0000
+@@ -1 +1 @@
+-%8xterm+kbs|fragment for backspace key??????????????????????????????????????????????????????????????????????????????????????????????????????????????
+\ No newline at end of file
++%8xterm+kbs|fragment for backspace key??????????????????????????????????????????????????????????????????????????????????????????????????????????????
+\ No newline at end of file
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+After consulting with the upstream of ncurses, it is possible to specify kbs by setting --with-xterm-kbs=XXX.
+Based on the instructions in https://github.com/ThomasDickey/ncurses-snapshots/blob/master/configure#L9810,
+it is appropriate to add --with-xterm-kbs=del.
+
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/ncurses/ncurses.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/reci=
-pes-devtools/rust/rust-cross-canadian.inc
-index c34b839d159..c334bc8890f 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -58,11 +58,13 @@ do_install () {
-=20
-     RUST_TARGET_TRIPLE=3D`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:uppe=
-r:]' | sed 's/-/_/g'`
-     RUST_HOST_TRIPLE=3D`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]'=
- | sed 's/-/_/g'`
-+    RUST_HOST_CC=3D`echo ${RUST_HOST_SYS} | sed 's/-/_/g'`
-     SDKLOADER=3D${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-6=
-4.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'i686', 'ld-linux.so.2', '=
-', d)}${@bb.utils.contains('SDK_ARCH', 'aarch64', 'ld-linux-aarch64.so.1', =
-'', d)}${@bb.utils.contains('SDK_ARCH', 'ppc64le', 'ld64.so.2', '', d)}${@b=
-b.utils.contains('SDK_ARCH', 'riscv64', 'ld-linux-riscv64-lp64d.so.1', '', =
-d)}
-=20
-     cat <<- EOF > "${RUST_ENV_SETUP_SH}"
- 	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS=3D"--sysroot=3D\$OECO=
-RE_TARGET_SYSROOT/usr -C link-arg=3D--sysroot=3D\$OECORE_TARGET_SYSROOT"
- 	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER=3D"\$OECORE_NATIVE_SYSROOT=
-/lib/${SDKLOADER}"
-+	export CC_$RUST_HOST_CC=3D"${CCACHE}${HOST_PREFIX}gcc"
- 	export RUST_TARGET_PATH=3D"\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/=
-rustlib"
- 	EOF
-=20
---=20
-2.47.1
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index e96ee075bd..3f93550cf9 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -70,6 +70,7 @@ ncurses_configure() {
+ 	        --without-debug \
+ 	        --without-ada \
+ 	        --without-gpm \
++		--with-xterm-kbs=del \
+ 	        --enable-hard-tabs \
+ 	        --enable-xmc-glitch \
+ 	        --enable-colorfgbg \
+-- 
+2.43.0
 
 
