@@ -2,58 +2,58 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C50C02183
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 21:07:56 +0000 (UTC)
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.33438.1736975267204393537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42EA8C02180
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 21:18:56 +0000 (UTC)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.33738.1736975928670407057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 13:07:47 -0800
+ Wed, 15 Jan 2025 13:18:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Sstj6xp6;
- spf=pass (domain: smile.fr, ip: 209.85.221.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-385eed29d17so148268f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 13:07:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Lsq5ZX2i;
+ spf=pass (domain: smile.fr, ip: 209.85.221.66, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-385deda28b3so214895f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 13:18:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1736975265; x=1737580065; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1736975927; x=1737580727; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:organization:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=rE5UwvxM8xdOi7IbmS4zNgLS8hMXPoibPVfK2SXfxGM=;
-        b=Sstj6xp6+8ri3aavAU+l0gntDylJhUTet9Ich5iKuljtfdmFZnIOYpUG4j8tqWfRup
-         nkZpikuiPG1XKnzVd6d+QhqVtF0FYZ8b6ms8EIoUwoIjpCY6k7YSgc+4KF2TjJzXO1cU
-         YSq+MHi/xta356fXePkq3NfbGSx6O+czVuwXI=
+        bh=vYZTfElf6u3Uh1StonJ8HyOOgc7VE8qyfizl7HqHvJM=;
+        b=Lsq5ZX2iffmddxjn6w4/nU+zIiWWuvYlvSnljx0vOfwoS1jOK04KBQ8njqnk8OWixV
+         XgidVFaOeNsvWKnoW5LN6DIdd47PeN+hRrXO9AI3RNAPyY0A4apZcGsjRPZ2xQ1SH61K
+         eLJewCsIU67e1bLeCKPRM5zABm2GdReypZjuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736975265; x=1737580065;
+        d=1e100.net; s=20230601; t=1736975927; x=1737580727;
         h=content-transfer-encoding:in-reply-to:organization:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rE5UwvxM8xdOi7IbmS4zNgLS8hMXPoibPVfK2SXfxGM=;
-        b=LxpGWAKTbLfNvNkiRkJeE+AExExo7uvrgGblaNcDkHd9SUiYc/ano5bIiiA5qUxoEt
-         qAOm6D4bAsCJuOkiSHQOxJ/bhgU/6kYHjD1vOKwW46pD8pIZHRtBArkfhch/cpBfuB3g
-         rNYlJAoXhYaJTy4JVNJa7+pO2QGItns0qNCMYWRr6aN6kyqoa9ExzzCETSIIDIaA2gPT
-         8YjlX963NFuogtdua2EHy+f3mguAHoe2fuYoyX18UwVFXcpV9DMOAqUyHZQD9Vn5B6nS
-         9vk9nJT+RcAT+XRaY1doU56CsJxBd7aML8lISxbR09qNcdBN5MifuV667al9LNHFCGYO
-         ZUdA==
-X-Gm-Message-State: AOJu0Yx3Sx4dskYobQMe3DA8Dr/OAOGl3oFyrS8owHeFBtk5NrhqB6gG
-	I+N5IsXXyASADDl52b+V2y9UllerQerwti9Qxw+PRPkJSagSeGc91O+INbTBTl40FXWyOZgFKoh
-	88ZJA7Q==
-X-Gm-Gg: ASbGncskzNJ9wozXfZIQc4ngStYsnmdWyC1wK6UyZtXQnz2F284f2GsRajwhN37WbMX
-	21RqgoC0/Cp+gQfFWRIU33f5k0fXuUzzBa07v5REIkOIV+8GB5KcTTJl90DSVOlVjq4fJFuXssl
-	/RNE+5l6186TqnpN815iarrj6UZmd55xuGhd7IaHIyrfPu+mtSwcCxIonNfZMPKM8qP8DOFxkQK
-	WfkxJRoFef7PKSif8NWVN5htPCL5OnQTa+TVnbteoQja0C4TU+ddFPnAbLL//D+CYe+pHFAAwkS
-	JxVHQvcjbA9d8ZWDsnfi2w1eSvATp8XW+inJurL6G8373fB0P0UAZgVjVQLAnHdetGPNrR/jqHY
-	oyJ/w4+YyiDgYxbWLlw==
-X-Google-Smtp-Source: AGHT+IHUvWrCMtf5wS2XGMKlMaX1WBLi6TtgBSGi7QmenaTjS52TND8JGHsY8rEOUNCH4mXt0O8wdw==
-X-Received: by 2002:a05:6000:1849:b0:386:2ebe:7ae2 with SMTP id ffacd0b85a97d-38a8733df9emr30364640f8f.45.1736975264862;
-        Wed, 15 Jan 2025 13:07:44 -0800 (PST)
+        bh=vYZTfElf6u3Uh1StonJ8HyOOgc7VE8qyfizl7HqHvJM=;
+        b=ByxjtzonHCLPc2OwLSZN/PdetQfJH36yXR1NL2VcoryzZ98nmx5p2tS4EH5uw0wufI
+         t9z0NrLWvNhqnaoa18+8cxThQa6bvKp0uyufnDq3Asee2w4qrHuouSrfVYkNhklHGdc2
+         ajm9A2stJDbUAh0+kOoKeper9nUZ1rEy2N2ZBqxFQxaegTHWmqHnpIh2be+Yms9GR7X0
+         syB4vPtOWmxu6uFu+uHtK53vgZai8MDA+Q73PP5+bcyaFc7NccJ5CC3v4Pe+e7mxQnAR
+         rwqBo9sl7FLTce3Zx0VrkuRk+gThGU6nUAVLjCWEu36SYg41cc+89nZtXOOrSJkL4M1x
+         TFTw==
+X-Gm-Message-State: AOJu0YzzdW50qx2Y3G4mJhblaL2bCg8cn/5ihBzibz7ZuMBVa5Y+LyPQ
+	OX0QYpnSGI5DeV4fa4QVK/H2jqAvwNhhOAnEP+SFwPiGpAEpQuxQ1nDBhCq565tg1Dc7uok/1tx
+	sM2eBLQ==
+X-Gm-Gg: ASbGnctwPDRrBSqJxoQD1xWhQKQXiVb7q+TVxVKfrk+tyyI5AI6w5UqKmLshHRLuhix
+	Q0QxchdyxnmxOWFwtfV7T8bA+5lJl+U9KblDZj0QlRgDxVmJVZr+UaX8Z+jLk3/YxsHkEJFqKZS
+	HiSkG7YZ6aIg0GpsGHWXk5YeYB6il9ySZa5B+1qwrqT3bh2kGmEavnEf1e/XUT8GJLfJwrt8AaT
+	dkxqoqN/60+W/NxtbTWxp6tTu+xdu1s0ci/nTX1fQJw5dboJA0hLFrISZ31hhV8QBrSUbdEb5rj
+	3DeMGd+Gs2rhAKWEcNwvWxnFP8amS2k9ny1oIEg3c80AsC2DmFGf/0hOAK1j9mZBhZD4Qq787fU
+	NLTYIa2i1zPhO8VOiyA==
+X-Google-Smtp-Source: AGHT+IFy1gg7A97iXHYGKqzstG+t4QIE7wPp+4sRrezxZJ/SLCK7do8enE/Emjm2NMWVosUi72Dj8w==
+X-Received: by 2002:a05:6000:4013:b0:385:df4e:366f with SMTP id ffacd0b85a97d-38a873318cemr30642406f8f.38.1736975926600;
+        Wed, 15 Jan 2025 13:18:46 -0800 (PST)
 Received: from ?IPV6:2a01:cb00:dee:f000:bdfc:82d7:e163:62a9? (2a01cb000deef000bdfc82d7e16362a9.ipv6.abo.wanadoo.fr. [2a01:cb00:dee:f000:bdfc:82d7:e163:62a9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74c6179sm35650745e9.22.2025.01.15.13.07.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37d0fasm18973196f8f.19.2025.01.15.13.18.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jan 2025 13:07:44 -0800 (PST)
-Message-ID: <69dd2cc8-0ec0-475a-a526-5b68325b4ddd@smile.fr>
-Date: Wed, 15 Jan 2025 22:07:44 +0100
+        Wed, 15 Jan 2025 13:18:46 -0800 (PST)
+Message-ID: <21196336-ff3a-4881-9138-2d19740da777@smile.fr>
+Date: Wed, 15 Jan 2025 22:18:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH v2] sanity: test for c toolchain
@@ -69,28 +69,16 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 21:07:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209928
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 21:18:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209929
 
-Hi Christos,
-
-This look like a solid v2 :)
+Oops forgot something
 
 Le 15/01/2025 à 20:39, Christos Gavros via lists.openembedded.org a écrit :
 > Users reported issues caused by missing the right libstdc++-version-dev.
 > A new function 'check_c_toolchain' added in sanity.bbclass to test linking libstdc++
 > Fixes [YOCTO #<15712>]
-Proper way to tag this bugzilla ticket is "Fixes [YOCTO #15712]"
-
-See
-https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#implement-and-commit-changes
-(or any of the previous commits including this tag.
-
-Now, I notice that the patchtest message is a bit misleading.
-
-With the tag fixed, you can add my reviewed-by tag:
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-
+> 
 > Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
 > ---
 > v1->v2
@@ -128,6 +116,9 @@ Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 > +    import subprocess
 > +    from tempfile import NamedTemporaryFile
 > +    
+   ^^^^
+I forgot to tell you that you have whitespaces here
+
 > +    try:
 > +        with NamedTemporaryFile(delete=False, suffix=".c") as c_file:
 > +            c_code = """
@@ -165,6 +156,8 @@ Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 >              status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
 >  
 > +    # Check if linking with lstdc++ is failing 
+and here ----------------------------------------^
+
 > +    status.addresult(check_c_toolchain(d))
 > +
 >  def check_sanity(sanity_data):
