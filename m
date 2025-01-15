@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7266FC02196
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:08 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.17867.1736936767952238247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB02CC0218B
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:18 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.17799.1736936769402549075
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 02:26:08 -0800
+ Wed, 15 Jan 2025 02:26:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Dv1xQqbe;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CnPVubtW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010194697fbf49-84e3116d-f9d9-4d9b-a028-7a971c07c089-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FwrVUrgC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SIpjVy5w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010194697fc4af-871bf7a4-b7f9-40e3-a885-a43ad42ef16d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736936767;
+	t=1736936768;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mVRoSsoOuMDtD6oaxyk1DxujVJ2iMvlUQCMoACNm7xY=;
-	b=Dv1xQqbegXMtaSTmfYFMpGtvVgUyH9X0B8KVHnSDvR1q9QQyQhRM/luGTT53ctIn
-	eUjMePQLghnX44X81XXpkJw3hFY6WO1adMlMYN4WJlffBF9T9U7fV21ysqlbU9paqk5
-	cRBIfiYOAaLLnfT2NLHfVcIy/l2FbvGuOQYF9E/w=
+	bh=5hA7rzTjv1a6k77fooiyoSuBmqz2qTrOZRNrRnePFbQ=;
+	b=FwrVUrgCNkdlWanKsQnH6CoYq4EP+Boj80w+FeG+KSYhl4PH8Fe8EUKcBlo4g2RD
+	T2FUaOrc9pU0CKW3vrARHFqgJ/lgGamOmIIQNNg1LftYwrGonTlEziexyWtgNKscKJL
+	pcTw+wTdHqLJtck59Af+m/fsvAuPoKXm5puKmZoE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936767;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936768;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mVRoSsoOuMDtD6oaxyk1DxujVJ2iMvlUQCMoACNm7xY=;
-	b=CnPVubtWEKhxGjuTVpjzXupLRF28Hkjt/+xoxhZaFdcm+xgSb+A8BoDEgUSDP3Wp
-	pL3ZLSS2calw1Ldi4EEbNj4qbt47vxvZd0fbMK69PvrZEnFHdW6F9Kygcsr393AUvUL
-	HJisnuMxD4jtj4nFkmhryOhpevylNNKGDYG/SlAk=
-Content-Type: multipart/mixed; boundary="===============5163347402972499136=="
+	bh=5hA7rzTjv1a6k77fooiyoSuBmqz2qTrOZRNrRnePFbQ=;
+	b=SIpjVy5w5MfJFRHVZR1gSAvQfmSoHOtOzYTdOfZ3OQJ6l+DcK7jHT/yX13hKnl5r
+	sHcdaNG3Z7He6TAg01sTctIdnVRlP4g4ubICireEZqRqPclBqh5BA7IBr62gYvUp8HW
+	Ga+VShuQSyEphWqRl9NlugTBJPVwyDm48YfsW5II=
+Content-Type: multipart/mixed; boundary="===============4561753643441368163=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm: upgrading to 19.1.7 SUCCEEDED
-Message-ID: <01010194697fbf49-84e3116d-f9d9-4d9b-a028-7a971c07c089-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jan 2025 10:26:07 +0000
+Subject: [AUH] python3-poetry-core: upgrading to 2.0.1 SUCCEEDED
+Message-ID: <01010194697fc4af-871bf7a4-b7f9-40e3-a885-a43ad42ef16d-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jan 2025 10:26:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.15-54.240.27.29
+X-SES-Outgoing: 2025.01.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209838
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209843
 
---===============5163347402972499136==
+--===============4561753643441368163==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *llvm* to *19.1.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-poetry-core* to *2.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-llvm-upgrade-19.1.6-19.1.7.patch
+    - apply the patch: git am 0001-python3-poetry-core-upgrade-2.0.0-2.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,234 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2fd323f7614c50040f4a58c5e9b1bae49ed03ee1 Mon Sep 17 00:00:00 2001
+From 133d0ab3d107c79903b1f3e7bcba4e95c3544dad Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jan 2025 07:23:36 +0000
-Subject: [PATCH] llvm: upgrade 19.1.6 -> 19.1.7
+Date: Wed, 15 Jan 2025 07:36:03 +0000
+Subject: [PATCH] python3-poetry-core: upgrade 2.0.0 -> 2.0.1
 
 ---
- ...tcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch | 4 ++--
- .../llvm/0007-llvm-allow-env-override-of-exe-path.patch  | 9 ++++-----
- .../llvm/{llvm_19.1.6.bb => llvm_19.1.7.bb}              | 4 +++-
- 3 files changed, 9 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/llvm/{llvm_19.1.6.bb => llvm_19.1.7.bb} (98%)
+ ...ython3-poetry-core_2.0.0.bb => python3-poetry-core_2.0.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-poetry-core_2.0.0.bb => python3-poetry-core_2.0.1.bb} (94%)
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-index a5c53b6657..587ceffbed 100644
---- a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-@@ -1,4 +1,4 @@
--From 3b30a9bda88374e8f03bf96e972aee5bd214b98b Mon Sep 17 00:00:00 2001
-+From c1008a5e021ac7cf188cc02e8295d0922683c822 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 27 Nov 2020 10:11:08 +0000
- Subject: [PATCH] AsmMatcherEmitter: sort ClassInfo lists by name as well
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 4 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.0.0.bb b/meta/recipes-devtools/python/python3-poetry-core_2.0.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-poetry-core_2.0.0.bb
+rename to meta/recipes-devtools/python/python3-poetry-core_2.0.1.bb
+index 09b1a2340d..8fb39a7d67 100644
+--- a/meta/recipes-devtools/python/python3-poetry-core_2.0.0.bb
++++ b/meta/recipes-devtools/python/python3-poetry-core_2.0.1.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
+     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
+ "
  
- diff --git a/llvm/utils/TableGen/AsmMatcherEmitter.cpp b/llvm/utils/TableGen/AsmMatcherEmitter.cpp
--index 73724e662f9e..1ca9c73415db 100644
-+index 5035ef527..03fc84203 100644
- --- a/llvm/utils/TableGen/AsmMatcherEmitter.cpp
- +++ b/llvm/utils/TableGen/AsmMatcherEmitter.cpp
- @@ -361,7 +361,10 @@ public:
-diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-index add38b3bb4..dbaa51e50a 100644
---- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-@@ -1,4 +1,4 @@
--From 588a8694c6540e31140c7e242bfb5e279d6ca08c Mon Sep 17 00:00:00 2001
-+From 4932bc2bc69159450bd5248450530f9d015df02c Mon Sep 17 00:00:00 2001
- From: Martin Kelly <mkelly@xevo.com>
- Date: Fri, 19 May 2017 00:22:57 -0700
- Subject: [PATCH] llvm: allow env override of exe and libdir path
-@@ -13,11 +13,11 @@ Upstream-Status: Inappropriate [OE-specific]
- Signed-off-by: Martin Kelly <mkelly@xevo.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- llvm/tools/llvm-config/llvm-config.cpp | 25 +++++++++++++++++++------
-- 1 file changed, 19 insertions(+), 6 deletions(-)
-+ llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
-+ 1 file changed, 7 insertions(+)
+-SRC_URI[sha256sum] = "3317a3cc3932011a61114236b2d49883f4fb1403d2f5e97771ac0d077cfa396f"
++SRC_URI[sha256sum] = "10177c2772469d9032a49f0d8707af761b1c597cea3b4fb31546e5cd436eb157"
  
- diff --git a/llvm/tools/llvm-config/llvm-config.cpp b/llvm/tools/llvm-config/llvm-config.cpp
--index e86eb2b44b10..7b2abf318dbe 100644
-+index d5b76b1bb..6c28c34bc 100644
- --- a/llvm/tools/llvm-config/llvm-config.cpp
- +++ b/llvm/tools/llvm-config/llvm-config.cpp
- @@ -246,6 +246,13 @@ Typical components:\n\
-@@ -34,4 +34,3 @@ index e86eb2b44b10..7b2abf318dbe 100644
-    // This just needs to be some symbol in the binary; C++ doesn't
-    // allow taking the address of ::main however.
-    void *P = (void *)(intptr_t)GetExecutablePath;
-- 
-diff --git a/meta/recipes-devtools/llvm/llvm_19.1.6.bb b/meta/recipes-devtools/llvm/llvm_19.1.7.bb
-similarity index 98%
-rename from meta/recipes-devtools/llvm/llvm_19.1.6.bb
-rename to meta/recipes-devtools/llvm/llvm_19.1.7.bb
-index 003676a652..012493228e 100644
---- a/meta/recipes-devtools/llvm/llvm_19.1.6.bb
-+++ b/meta/recipes-devtools/llvm/llvm_19.1.7.bb
-@@ -27,7 +27,7 @@ SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-            file://llvm-config \
-            "
--SRC_URI[sha256sum] = "e3f79317adaa9196d2cfffe1c869d7c100b7540832bc44fe0d3f44a12861fa34"
-+SRC_URI[sha256sum] = "82401fea7b79d0078043f7598b835284d6650a75b93e64b6f761ea7b63097501"
- UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
- UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
+ inherit python_poetry_core pypi
  
-@@ -177,3 +177,5 @@ FILES:${PN}-staticdev += "\
- INSANE_SKIP:${PN}-libllvm += "dev-so"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+PV = "19.1.7"
 -- 
 2.44.1
 
 
---===============5163347402972499136==
+--===============4561753643441368163==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-llvm-upgrade-19.1.6-19.1.7.patch"
+ filename="0001-python3-poetry-core-upgrade-2.0.0-2.0.1.patch"
 
-RnJvbSAyZmQzMjNmNzYxNGM1MDA0MGY0YTU4YzVlOWIxYmFlNDllZDAzZWUxIE1vbiBTZXAgMTcg
+RnJvbSAxMzNkMGFiM2QxMDdjNzk5MDNiMWYzZTdiY2JhNGU5NWMzNTQ0ZGFkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDc6MjM6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-bHZtOiB1cGdyYWRlIDE5LjEuNiAtPiAxOS4xLjcKCi0tLQogLi4udGNoZXJFbWl0dGVyLXNvcnQt
-Q2xhc3NJbmZvLWxpc3RzLWJ5LW5hbWUtYXMtd2UucGF0Y2ggfCA0ICsrLS0KIC4uLi9sbHZtLzAw
-MDctbGx2bS1hbGxvdy1lbnYtb3ZlcnJpZGUtb2YtZXhlLXBhdGgucGF0Y2ggIHwgOSArKysrLS0t
-LS0KIC4uLi9sbHZtL3tsbHZtXzE5LjEuNi5iYiA9PiBsbHZtXzE5LjEuNy5iYn0gICAgICAgICAg
-ICAgIHwgNCArKystCiAzIGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlv
-bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGx2bS97bGx2bV8xOS4xLjYuYmIg
-PT4gbGx2bV8xOS4xLjcuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2xsdm0vbGx2bS8wMDAxLUFzbU1hdGNoZXJFbWl0dGVyLXNvcnQtQ2xhc3NJbmZvLWxpc3Rz
-LWJ5LW5hbWUtYXMtd2UucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGx2bS9sbHZtLzAw
-MDEtQXNtTWF0Y2hlckVtaXR0ZXItc29ydC1DbGFzc0luZm8tbGlzdHMtYnktbmFtZS1hcy13ZS5w
-YXRjaAppbmRleCBhNWM1M2I2NjU3Li41ODdjZWZmYmVkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbGx2bS9sbHZtLzAwMDEtQXNtTWF0Y2hlckVtaXR0ZXItc29ydC1DbGFzc0lu
-Zm8tbGlzdHMtYnktbmFtZS1hcy13ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-bGx2bS9sbHZtLzAwMDEtQXNtTWF0Y2hlckVtaXR0ZXItc29ydC1DbGFzc0luZm8tbGlzdHMtYnkt
-bmFtZS1hcy13ZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2IzMGE5YmRhODgzNzRlOGYw
-M2JmOTZlOTcyYWVlNWJkMjE0Yjk4YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzEw
-MDhhNWUwMjFhYzdjZjE4OGNjMDJlODI5NWQwOTIyNjgzYzgyMiBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-RGF0ZTogRnJpLCAyNyBOb3YgMjAyMCAxMDoxMTowOCArMDAwMAogU3ViamVjdDogW1BBVENIXSBB
-c21NYXRjaGVyRW1pdHRlcjogc29ydCBDbGFzc0luZm8gbGlzdHMgYnkgbmFtZSBhcyB3ZWxsCkBA
-IC0xNCw3ICsxNCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
-bmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVs
-ZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2xsdm0vdXRpbHMvVGFibGVHZW4vQXNtTWF0Y2hlckVt
-aXR0ZXIuY3BwIGIvbGx2bS91dGlscy9UYWJsZUdlbi9Bc21NYXRjaGVyRW1pdHRlci5jcHAKLWlu
-ZGV4IDczNzI0ZTY2MmY5ZS4uMWNhOWM3MzQxNWRiIDEwMDY0NAoraW5kZXggNTAzNWVmNTI3Li4w
-M2ZjODQyMDMgMTAwNjQ0CiAtLS0gYS9sbHZtL3V0aWxzL1RhYmxlR2VuL0FzbU1hdGNoZXJFbWl0
-dGVyLmNwcAogKysrIGIvbGx2bS91dGlscy9UYWJsZUdlbi9Bc21NYXRjaGVyRW1pdHRlci5jcHAK
-IEBAIC0zNjEsNyArMzYxLDEwIEBAIHB1YmxpYzoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9sbHZtL2xsdm0vMDAwNy1sbHZtLWFsbG93LWVudi1vdmVycmlkZS1vZi1leGUtcGF0
-aC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sbHZtL2xsdm0vMDAwNy1sbHZtLWFsbG93
-LWVudi1vdmVycmlkZS1vZi1leGUtcGF0aC5wYXRjaAppbmRleCBhZGQzOGIzYmI0Li5kYmFhNTFl
-NTBhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGx2bS9sbHZtLzAwMDctbGx2
-bS1hbGxvdy1lbnYtb3ZlcnJpZGUtb2YtZXhlLXBhdGgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2xsdm0vbGx2bS8wMDA3LWxsdm0tYWxsb3ctZW52LW92ZXJyaWRlLW9mLWV4ZS1w
-YXRoLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1ODhhODY5NGM2NTQwZTMxMTQwYzdlMjQy
-YmZiNWUyNzlkNmNhMDhjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0OTMyYmMyYmM2
-OTE1OTQ1MGJkNTI0ODQ1MDUzMGY5ZDAxNWRmMDJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogTWFydGluIEtlbGx5IDxta2VsbHlAeGV2by5jb20+CiBEYXRlOiBGcmksIDE5IE1heSAy
-MDE3IDAwOjIyOjU3IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGxsdm06IGFsbG93IGVudiBvdmVy
-cmlkZSBvZiBleGUgYW5kIGxpYmRpciBwYXRoCkBAIC0xMywxMSArMTMsMTEgQEAgVXBzdHJlYW0t
-U3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtPRS1zcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IE1hcnRp
-biBLZWxseSA8bWtlbGx5QHhldm8uY29tPgogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KIC0tLQotIGxsdm0vdG9vbHMvbGx2bS1jb25maWcvbGx2bS1jb25maWcu
-Y3BwIHwgMjUgKysrKysrKysrKysrKysrKysrKy0tLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCAxOSBp
-bnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQorIGxsdm0vdG9vbHMvbGx2bS1jb25maWcvbGx2
-bS1jb25maWcuY3BwIHwgNyArKysrKysrCisgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygr
-KQogCiBkaWZmIC0tZ2l0IGEvbGx2bS90b29scy9sbHZtLWNvbmZpZy9sbHZtLWNvbmZpZy5jcHAg
-Yi9sbHZtL3Rvb2xzL2xsdm0tY29uZmlnL2xsdm0tY29uZmlnLmNwcAotaW5kZXggZTg2ZWIyYjQ0
-YjEwLi43YjJhYmYzMThkYmUgMTAwNjQ0CitpbmRleCBkNWI3NmIxYmIuLjZjMjhjMzRiYyAxMDA2
-NDQKIC0tLSBhL2xsdm0vdG9vbHMvbGx2bS1jb25maWcvbGx2bS1jb25maWcuY3BwCiArKysgYi9s
-bHZtL3Rvb2xzL2xsdm0tY29uZmlnL2xsdm0tY29uZmlnLmNwcAogQEAgLTI0Niw2ICsyNDYsMTMg
-QEAgVHlwaWNhbCBjb21wb25lbnRzOlxuXApAQCAtMzQsNCArMzQsMyBAQCBpbmRleCBlODZlYjJi
-NDRiMTAuLjdiMmFiZjMxOGRiZSAxMDA2NDQKICAgIC8vIFRoaXMganVzdCBuZWVkcyB0byBiZSBz
-b21lIHN5bWJvbCBpbiB0aGUgYmluYXJ5OyBDKysgZG9lc24ndAogICAgLy8gYWxsb3cgdGFraW5n
-IHRoZSBhZGRyZXNzIG9mIDo6bWFpbiBob3dldmVyLgogICAgdm9pZCAqUCA9ICh2b2lkICopKGlu
-dHB0cl90KUdldEV4ZWN1dGFibGVQYXRoOwotIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2xsdm0vbGx2bV8xOS4xLjYuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGx2bS9s
-bHZtXzE5LjEuNy5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbGx2bS9sbHZtXzE5LjEuNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2xsdm0vbGx2bV8xOS4xLjcuYmIKaW5kZXggMDAzNjc2YTY1Mi4uMDEyNDkzMjI4ZSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xsdm0vbGx2bV8xOS4xLjYuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xsdm0vbGx2bV8xOS4xLjcuYmIKQEAgLTI3LDcgKzI3
-LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vbGx2bS9sbHZtLXByb2plY3QvcmVs
-ZWFzZXMvZG93bmxvYWQvbGx2bW9yZy0ke1BWfS8KICAgICAgICAgICAgZmlsZTovLzAwMDEtQXNt
-TWF0Y2hlckVtaXR0ZXItc29ydC1DbGFzc0luZm8tbGlzdHMtYnktbmFtZS1hcy13ZS5wYXRjaDtz
-dHJpcGxldmVsPTIgXAogICAgICAgICAgICBmaWxlOi8vbGx2bS1jb25maWcgXAogICAgICAgICAg
-ICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTNmNzkzMTdhZGFhOTE5NmQyY2ZmZmUxYzg2OWQ3
-YzEwMGI3NTQwODMyYmM0NGZlMGQzZjQ0YTEyODYxZmEzNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI4MjQwMWZlYTdiNzlkMDA3ODA0M2Y3NTk4YjgzNTI4NGQ2NjUwYTc1YjkzZTY0YjZmNzYxZWE3
-YjYzMDk3NTAxIgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9sbHZt
-L2xsdm0tcHJvamVjdCIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImxsdm1vcmctKD9QPHB2ZXI+
-XGQrKFwuXGQrKSspIgogCkBAIC0xNzcsMyArMTc3LDUgQEAgRklMRVM6JHtQTn0tc3RhdGljZGV2
-ICs9ICJcCiBJTlNBTkVfU0tJUDoke1BOfS1saWJsbHZtICs9ICJkZXYtc28iCiAKIEJCQ0xBU1NF
-WFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKKworUFYgPSAiMTkuMS43IgotLSAKMi40NC4xCgo=
+CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDc6MzY6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBvZXRyeS1jb3JlOiB1cGdyYWRlIDIuMC4wIC0+IDIuMC4xCgotLS0KIC4uLnl0aG9u
+My1wb2V0cnktY29yZV8yLjAuMC5iYiA9PiBweXRob24zLXBvZXRyeS1jb3JlXzIuMC4xLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4w
+LjAuYmIgPT4gcHl0aG9uMy1wb2V0cnktY29yZV8yLjAuMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4wLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4w
+LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4wLjEuYmIKaW5kZXgg
+MDliMWEyMzQwZC4uOGZiMzlhN2Q2NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjAuMS5iYgpAQCAtMTUsNyArMTUs
+NyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gIlwKICAgICBmaWxlOi8vc3JjL3BvZXRyeS9jb3JlL192
+ZW5kb3IvdG9tbGkvTElDRU5TRTttZDU9YWFhYWYwODc5ZDE3ZGYwMTEwZDFhYThjOGM5ZjQ2ZjUg
+XAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzMxN2EzY2MzOTMyMDExYTYxMTE0MjM2YjJk
+NDk4ODNmNGZiMTQwM2QyZjVlOTc3NzFhYzBkMDc3Y2ZhMzk2ZiIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIxMDE3N2MyNzcyNDY5ZDkwMzJhNDlmMGQ4NzA3YWY3NjFiMWM1OTdjZWEzYjRmYjMxNTQ2
+ZTVjZDQzNmViMTU3IgogCiBpbmhlcml0IHB5dGhvbl9wb2V0cnlfY29yZSBweXBpCiAKLS0gCjIu
+NDQuMQoK
 
---===============5163347402972499136==
+--===============4561753643441368163==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/llvm: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm: SRC_URI changed from "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.6/llvm-project-19.1.6.src.tar.xz file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 file://llvm-config" to "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/llvm-project-19.1.7.src.tar.xz file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 file://llvm-config"
-packages/core2-64-poky-linux/llvm/llvm-bugpointpasses: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-bugpointpasses: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-dbg: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-dbg: PKGSIZE changed from 56113416 to 56113640 (+0%)
-packages/core2-64-poky-linux/llvm/llvm-dbg: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-dev: FILES: removed "/usr/lib/libLLVM-19.1.6.so", added "/usr/lib/libLLVM-19.1.7.so"
-packages/core2-64-poky-linux/llvm/llvm-dev: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-dev: PKGSIZE changed from 26271252 to 26271414 (+0%)
-packages/core2-64-poky-linux/llvm/llvm-dev: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-doc: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-doc: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-libllvm: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-libllvm: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-liblto: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-liblto: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-liboptremarks: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-liboptremarks: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-llvmhello: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-llvmhello: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-locale: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-locale: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-src: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-src: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm-staticdev: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm-staticdev: PKGSIZE changed from 226447312 to 226448896 (+0%)
-packages/core2-64-poky-linux/llvm/llvm-staticdev: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-packages/core2-64-poky-linux/llvm/llvm: PV changed from "19.1.6" to "19.1.7"
-packages/core2-64-poky-linux/llvm/llvm: PKGV changed from 19.1.6 [default] to 19.1.7 [default]
-Changes to packages/core2-64-poky-linux/llvm (sysroot):
-  /usr/bin/crossscripts/llvm-config19.1.6 moved to /usr/bin/crossscripts/llvm-config19.1.7
-Changes to packages/x86_64-linux/llvm-native (sysroot):
-  /usr/bin/llvm-config changed symlink target from llvm-config19.1.6 to llvm-config19.1.7
-  /usr/bin/llvm-config19.1.6 moved to /usr/bin/llvm-config19.1.7
-  /usr/bin/llvm-tblgen19.1.6 moved to /usr/bin/llvm-tblgen19.1.7
+packages/core2-64-poky-linux/python3-poetry-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.0.0.tar.gz;downloadfilename=poetry_core-2.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.0.1.tar.gz;downloadfilename=poetry_core-2.0.1.tar.gz"
+packages/core2-64-poky-linux/python3-poetry-core: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-dev: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-dev: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-doc: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-doc: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-locale: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-locale: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-src: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-src: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core: PKGSIZE changed from 2447753 to 2450434 (+0%)
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core: PV changed from "2.0.0" to "2.0.1"
+packages/core2-64-poky-linux/python3-poetry-core/python3-poetry-core: PKGV changed from 2.0.0 [default] to 2.0.1 [default]
+Changes to packages/core2-64-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.0.1.dist-info
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.0.1.dist-info
 
---===============5163347402972499136==
+--===============4561753643441368163==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/llvm (sysroot):
-  /usr/bin/crossscripts/llvm-config19.1.6 moved to /usr/bin/crossscripts/llvm-config19.1.7
-Changes to packages/x86_64-linux/llvm-native (sysroot):
-  /usr/bin/llvm-config changed symlink target from llvm-config19.1.6 to llvm-config19.1.7
-  /usr/bin/llvm-config19.1.6 moved to /usr/bin/llvm-config19.1.7
-  /usr/bin/llvm-tblgen19.1.6 moved to /usr/bin/llvm-tblgen19.1.7
+Changes to packages/core2-64-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.0.1.dist-info
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.0.0.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.0.1.dist-info
 
---===============5163347402972499136==--
+--===============4561753643441368163==--
 
