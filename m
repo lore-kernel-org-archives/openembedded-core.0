@@ -2,145 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AFCC02183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 391EFC02185
 	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 14:38:04 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.22641.1736951878259517132
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.22643.1736951880045001742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 06:37:58 -0800
+ Wed, 15 Jan 2025 06:38:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T1Qyqf1J;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2164b662090so120336275ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 06:37:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XVflOBAM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21680814d42so102535705ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 06:38:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736951877; x=1737556677; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j8W/Qv310gGCk1sEx9lCc65SugXPsLrK7CyW2n3t4RY=;
-        b=T1Qyqf1JwxuiZV6+Lp14t1gQa1AG6B4tIWARAo1UKRt57KnvqhPHGSAI/8Y9roZoe4
-         gk4WIHlUlFkrUqfz+yM6mXow3QNI7OHXdogyAX7jn+bR7TxsUioKvKA9LCioJDNDASyZ
-         NAigy+NrfiYtrQs9nLypHTWG++UuZPWAw6LLYyGux3A4C7YJUsFbstZ8BjTn3NjTADDy
-         Xtv0Ly276pcdxbWcNR46txMqYpDrCegTuDmDFgikgz5W8WtDsUgpRMd4PqiZ8iKC8+4U
-         Czl32CvhoX61qaUt4wqNZLofDMJtzjFOi7F10uqm20Ir4ZusCVSQrjer92gD0os2sm2S
-         mw0w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736951879; x=1737556679; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uu+vx0ADfZ28oW0RGVvN60aTETYGJly0irJhz7iQil8=;
+        b=XVflOBAM8CVj7I3JYsU06RP4RfKv6A5iUoGX2alW6g1gePk0Qf9NK6aPVvRaHbjp2l
+         s601yDc29VifAjJGIrsvwxUDCPCVewY/lW9eQe4xRHDwgk6guRSqWMbb3uh40Yct2pZY
+         3FcxzloQLc4tGO3zsGnMyUw+RRmkGsYICZYjlmPVjVI98AOueW1Y+QosHOUDXrUVGOv6
+         VFlsEBY0l7iq6W+Av9Sb98LCW4ykm5gos2mbjJktHohN4LTkLohioli7s6FNtnHyQgD4
+         FNMULbSCH0IxNN9Ippbt+6+GeIzASeoX+QE0ad8kmFWduZljxKBNKM5PKsj+w+wPsnXb
+         vOUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736951877; x=1737556677;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j8W/Qv310gGCk1sEx9lCc65SugXPsLrK7CyW2n3t4RY=;
-        b=Ncz8OYRO5DH69o0fHPIHlNH3LHU2zG3tH4AnsFbXrQP2KCSgtWYOpXsRighMs9B7Xu
-         StyT6YFT8nFQOuIaLF1jfCN81HhMO7NQDmHpJ5T0n5V1fxN7Jm5/Rf7lRO5fXcRVrigM
-         csvfaDx6084y2liOZabH+mb4k3Yw93cPlGpu9VpR7zRnUJGdWDZW5GVp/G0fjLnYrbmB
-         PHhJ8zMtHBfOoxOf8ke6CkhMJw2A/qXZ/SBrLoBu44bFtcXZjdDdrePwb68+M/DWtkGG
-         cUpnb+KeQYExCbp7q8aLqwDaPvzVNgDc/RqmSygEFULv2WJaNzIXsC/Iv9j6i6ITJHRO
-         mipA==
-X-Gm-Message-State: AOJu0YxpDCI/pR9keyN9RpdSBUAaTIlKT0VQz+buLwS/N2XQJHMd4qNI
-	SgVvJ6PXJN7V/1LrAXsWcTyzZ97KahmwkGxKoFw6yfMLHe8vGpTfhq5LM660nIR9rxAEo/+2WPj
-	A4k8=
-X-Gm-Gg: ASbGnctcgDFMei8RqKiiRVSK8omP7y4jT7AMsXxveximKNqU0Q5+XeB8hjrwfzROdtd
-	k4KNVYnN7MUsfxlKtFER2zlHmymg+9f2OdgLOmqLgsxy8intc1CIN0hc+rpilePv/aeS+10ObiI
-	+LxJ10wV+NHY/PR7pA9pK5UiQEIRMTI8uaXmst1xPliX6VPxcAYChYVWQko8EsztzFJIQZFYLh7
-	YOu+mU+X1Cdu6o9uvN+t4KDSGuK9OKWEspmcXfCBEAshQ==
-X-Google-Smtp-Source: AGHT+IEo3Xhu4vyqALRtsTHRTpQdSs+GDl2ATnSEUkHZqeVK6ousWSYL0gR6qf86TCLyoANPYkgVbQ==
-X-Received: by 2002:a17:902:ccc2:b0:215:6cb2:7877 with SMTP id d9443c01a7336-21a83f4b2b4mr498390625ad.4.1736951877469;
-        Wed, 15 Jan 2025 06:37:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736951879; x=1737556679;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uu+vx0ADfZ28oW0RGVvN60aTETYGJly0irJhz7iQil8=;
+        b=lwfXLU5sXnMHkQLvVT2EALwV+OOI8/sSvPlzIoABAYEw96EeXe/I1OmqxAvbRuOWF2
+         wWIXv2l07oWZShwtL9FpcWjPbC9LvQ5G+zh9oI0M9WnJjUFx0MEDlqE2FPhkVKhvjtu+
+         ik4PxwU0dRIvrA63jGxIDaZteqJrgtfc/uUxUf58jpbOZuRhXT4s8llZjNrSEhU4gFCb
+         330czGYEmLRn6ILi+O33y2SjHNOAfmfZCrndQvLOzfP1GWGj7DHmEB6xBXy1IIlnM0aX
+         3nyaF+lQetk0lNcv0fthI6cuSRopvdNEds6M+ZGgGeX59x2G8ecCr5VG0tulvRL6NhYR
+         nm0A==
+X-Gm-Message-State: AOJu0YxetIyoKCAt6Qa2140hVo7HNKUVhjlxp6+efm8Sj9t89ghl7mjG
+	4ZIqMLuU03jbsEkHOrV/jKGpBDhlUUzA/vcia6atwyrVPKRMelpJBai0QMXGJf8B3LpgXMXTEHa
+	9HQI=
+X-Gm-Gg: ASbGncu7hhoo5nMKNU90jlu95vDNkyX9l/xWb75NroX3+7MYK3b2JFiel32YNAlPVqm
+	QHfwcC8DfeDleeUOn4qLBkbQ/Rk+noSJNoP0hbKjdNMwXoknPB1NFOVQpbIJ2BjyByAbTRkbj7U
+	Dbd1OYK7TdYgV/WjdiX8+NVGwmZlKEjBCpWGqaAYepiNX5zlTvfn1+MJQho6Dr+CjvAdIWsfEVP
+	cv2oM7ugGpv2BWFNtJaKVr7sX99AJX8M9YoU2+9B2efng==
+X-Google-Smtp-Source: AGHT+IHokmwyVpjnf8yqV9hHMZezm2wZJpmKHDiA/WNh9bO4oD7VKUeS5Dm3/SN1fceNk2f2b3dWgA==
+X-Received: by 2002:a17:902:ccc2:b0:216:4165:c05e with SMTP id d9443c01a7336-21a83f67982mr539555005ad.24.1736951879190;
+        Wed, 15 Jan 2025 06:37:59 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f244cccsm82333295ad.210.2025.01.15.06.37.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f244cccsm82333295ad.210.2025.01.15.06.37.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 06:37:57 -0800 (PST)
+        Wed, 15 Jan 2025 06:37:58 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/11] Patch review
-Date: Wed, 15 Jan 2025 06:37:38 -0800
-Message-ID: <cover.1736951751.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/11] go: Fix CVE-2024-34155
+Date: Wed, 15 Jan 2025 06:37:39 -0800
+Message-ID: <9d21d527e2448e202030ae7ad38c88e25943a2f3.1736951751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1736951751.git.steve@sakoman.com>
+References: <cover.1736951751.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 14:38:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209906
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Friday, January 17
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Passed a-full on autobuilder:
+Calling any of the Parse functions on Go source code which contains
+deeply nested literals can cause a panic due to stack exhaustion.
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/809
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-34155
 
-The following changes since commit a270d4c957259761bcc7382fcc54642a02f9fc7d:
+Upstream-patch:
+https://github.com/golang/go/commit/b232596139dbe96a62edbe3a2a203e856bf556eb
 
-  build-appliance-image: Update to kirkstone head revision (2025-01-09 08:49:38 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (3):
-  go: Fix CVE-2024-34155
-  go: Fix CVE-2024-34156
-  go: Fix CVE-2024-34158
-
-Divya Chellam (1):
-  ruby: fix CVE-2024-49761
-
-Peter Marko (1):
-  gstreamer1.0: ignore CVEs fixed in plugins recipes
-
-Yogita Urade (6):
-  ofono: fix CVE-2024-7539
-  ofono: fix CVE-2024-7543
-  ofono: fix CVE-2024-7544
-  ofono: fix CVE-2024-7545
-  ofono: fix CVE-2024-7546
-  ofono: fix CVE-2024-7547
-
- .../ofono/ofono/CVE-2024-7539.patch           |  88 +++
- .../ofono/ofono/CVE-2024-7543.patch           |  30 +
- .../ofono/ofono/CVE-2024-7544.patch           |  30 +
- .../ofono/ofono/CVE-2024-7545.patch           |  32 +
- .../ofono/ofono/CVE-2024-7546.patch           |  30 +
- .../ofono/ofono/CVE-2024-7547.patch           |  29 +
- meta/recipes-connectivity/ofono/ofono_1.34.bb |   6 +
- meta/recipes-devtools/go/go-1.17.13.inc       |   3 +
- .../go/go-1.21/CVE-2024-34155.patch           |  71 +++
- .../go/go-1.21/CVE-2024-34156.patch           | 150 +++++
- .../go/go-1.21/CVE-2024-34158.patch           | 205 +++++++
- .../ruby/ruby/CVE-2024-49761-0001.patch       | 391 ++++++++++++
- .../ruby/ruby/CVE-2024-49761-0002.patch       | 104 ++++
- .../ruby/ruby/CVE-2024-49761-0003.patch       |  85 +++
- .../ruby/ruby/CVE-2024-49761-0004.patch       |  71 +++
- .../ruby/ruby/CVE-2024-49761-0005.patch       |  51 ++
- .../ruby/ruby/CVE-2024-49761-0006.patch       |  79 +++
- .../ruby/ruby/CVE-2024-49761-0007.patch       | 561 ++++++++++++++++++
- .../ruby/ruby/CVE-2024-49761-0008.patch       | 107 ++++
- .../ruby/ruby/CVE-2024-49761-0009.patch       |  46 ++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |   9 +
- .../gstreamer/gstreamer1.0_1.20.7.bb          |   9 +
- 22 files changed, 2187 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7543.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7544.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7545.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7547.patch
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/go/go-1.17.13.inc       |  1 +
+ .../go/go-1.21/CVE-2024-34155.patch           | 71 +++++++++++++++++++
+ 2 files changed, 72 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-34155.patch
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-34156.patch
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-34158.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0001.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0002.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0003.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0004.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0005.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0006.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0007.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0008.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-49761-0009.patch
 
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 349b0be6be..11bd2afde0 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -58,6 +58,7 @@ SRC_URI += "\
+     file://CVE-2023-45288.patch \
+     file://CVE-2024-24789.patch \
+     file://CVE-2024-24791.patch \
++    file://CVE-2024-34155.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2024-34155.patch b/meta/recipes-devtools/go/go-1.21/CVE-2024-34155.patch
+new file mode 100644
+index 0000000000..515d9dcdff
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.21/CVE-2024-34155.patch
+@@ -0,0 +1,71 @@
++From b232596139dbe96a62edbe3a2a203e856bf556eb Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 10 Jun 2024 15:34:12 -0700
++Subject: [PATCH] go/parser: track depth in nested element lists
++
++Prevents stack exhaustion with extremely deeply nested literal values,
++i.e. field values in structs.
++
++Updates #69138
++Fixes #69142
++Fixes CVE-2024-34155
++
++Change-Id: I2e8e33b44105cc169d7ed1ae83fb56df0c10f1ee
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/1520
++Reviewed-by: Robert Griesemer <gri@google.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Russ Cox <rsc@google.com>
++(cherry picked from commit eb1b038c0d01761694e7a735ef87ac9164c6568e)
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/1561
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/611181
++Reviewed-by: Michael Pratt <mpratt@google.com>
++TryBot-Bypass: Dmitri Shuralyov <dmitshur@google.com>
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++
++CVE: CVE-2024-34155
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/b232596139dbe96a62edbe3a2a203e856bf556eb]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/go/parser/parser.go      | 2 ++
++ src/go/parser/parser_test.go | 9 +++++----
++ 2 files changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/src/go/parser/parser.go b/src/go/parser/parser.go
++index 2c42b9f..a728d9a 100644
++--- a/src/go/parser/parser.go
+++++ b/src/go/parser/parser.go
++@@ -1481,6 +1481,8 @@ func (p *parser) parseElementList() (list []ast.Expr) {
++ }
++
++ func (p *parser) parseLiteralValue(typ ast.Expr) ast.Expr {
+++	defer decNestLev(incNestLev(p))
+++
++	if p.trace {
++		defer un(trace(p, "LiteralValue"))
++	}
++diff --git a/src/go/parser/parser_test.go b/src/go/parser/parser_test.go
++index 993df63..b2cd501 100644
++--- a/src/go/parser/parser_test.go
+++++ b/src/go/parser/parser_test.go
++@@ -607,10 +607,11 @@ var parseDepthTests = []struct {
++	{name: "chan2", format: "package main; var x «<-chan »int"},
++	{name: "interface", format: "package main; var x «interface { M() «int» }»", scope: true, scopeMultiplier: 2}, // Scopes: InterfaceType, FuncType
++	{name: "map", format: "package main; var x «map[int]»int"},
++-	{name: "slicelit", format: "package main; var x = «[]any{«»}»", parseMultiplier: 2},             // Parser nodes: UnaryExpr, CompositeLit
++-	{name: "arraylit", format: "package main; var x = «[1]any{«nil»}»", parseMultiplier: 2},         // Parser nodes: UnaryExpr, CompositeLit
++-	{name: "structlit", format: "package main; var x = «struct{x any}{«nil»}»", parseMultiplier: 2}, // Parser nodes: UnaryExpr, CompositeLit
++-	{name: "maplit", format: "package main; var x = «map[int]any{1:«nil»}»", parseMultiplier: 2},    // Parser nodes: CompositeLit, KeyValueExpr
+++	{name: "slicelit", format: "package main; var x = []any{«[]any{«»}»}", parseMultiplier: 3},      // Parser nodes: UnaryExpr, CompositeLit
+++	{name: "arraylit", format: "package main; var x = «[1]any{«nil»}»", parseMultiplier: 3},         // Parser nodes: UnaryExpr, CompositeLit
+++	{name: "structlit", format: "package main; var x = «struct{x any}{«nil»}»", parseMultiplier: 3}, // Parser nodes: UnaryExpr, CompositeLit
+++	{name: "maplit", format: "package main; var x = «map[int]any{1:«nil»}»", parseMultiplier: 3},    // Parser nodes: CompositeLit, KeyValueExpr
+++	{name: "element", format: "package main; var x = struct{x any}{x: «{«»}»}"},
++	{name: "dot", format: "package main; var x = «x.»x"},
++	{name: "index", format: "package main; var x = x«[1]»"},
++	{name: "slice", format: "package main; var x = x«[1:2]»"},
++--
++2.40.0
 -- 
 2.43.0
 
