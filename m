@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD11DC02188
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:18 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.17880.1736936777793155665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B513FC021AA
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:20 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.17867.1736936767952238247
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Jan 2025 02:26:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FjTO37jK;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OcDduqLV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010194697fe50f-752065cf-206d-44c2-8719-384281d8078a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SXi998rz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IRGL12p7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010194697fea9f-e40f6ae9-b99a-4e0a-9b0f-e4acf66f5932-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736936777;
+	t=1736936778;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=S0Qty/ywtrqkS1UJW3xlKrrkOgeAAuRUVa3/Q0GCg9o=;
-	b=FjTO37jKwj1qOnMAo82oQwPtSL2ZtMJyFga4s1Dd83wCF7/GDK+XrmC5xxW4Tu+5
-	0zcCNTOOBWTaqvUN8lc8+r8bAf4r3fcgS/gqo3MePrrSNYbEEXXWaguniK037zQhUpR
-	ytNiXwUOVv4q5+l+6D3AsVHB0KmRRuyRlNWg6wO8=
+	bh=nR0At/qJvp3YLwBzmyApvU5LLwyBn64YHdwqUhhE0QQ=;
+	b=SXi998rzLVAWd3L3Qyd6EqN9bmRavdAArn0jKgNxLxxDTZ/5ESEsloQ4urBhqLnf
+	YJ76VyBLn0nRi+Zh2p1pvMk0LQ6LyKq+A3sVPwu28EHkbuqQ1jwNroW3r/Qw7yuVMn1
+	o18Ujsmv+jjZ/Vc1S/+/Vlgq87VmbKdIzm4O26Rs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936777;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936778;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=S0Qty/ywtrqkS1UJW3xlKrrkOgeAAuRUVa3/Q0GCg9o=;
-	b=OcDduqLVn5aK8d29cmFsi64CFXJ8i+0uv1ymf2Yvl0A+1LtsUldQzEX/7ZJD0tJd
-	KpND4FAPhKwIRxFFtDCAXL+ZQyT9MpSMvlSTO4nM8KhewkteBs5WAv5EkQekkfL3SqY
-	t3foyFsKAhhUA+nU/6se6tli63IKMHqaDdyOlVgs=
-Content-Type: multipart/mixed; boundary="===============7387485529974378098=="
+	bh=nR0At/qJvp3YLwBzmyApvU5LLwyBn64YHdwqUhhE0QQ=;
+	b=IRGL12p7dEDNs3Lp8rYE50wCpUlIaADjF/2RBxKJY1VaRP4mx6mk+tpuiKRKpM75
+	PRgwrIGrZRTWvAkty1W971cLQGXbuThb2BDiel2Qpa8LDsssLdQVub7CIsmEbJTbh37
+	AGilqXKOzmyg86/I6le4h8OrXPWjCsbz73rKtwHI=
+Content-Type: multipart/mixed; boundary="===============0904986845924827381=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.56.0 SUCCEEDED
-Message-ID: <01010194697fe50f-752065cf-206d-44c2-8719-384281d8078a-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jan 2025 10:26:16 +0000
+Subject: [AUH] vulkan-loader: upgrading to 1.4.304.0 FAILED
+Message-ID: <01010194697fea9f-e40f6ae9-b99a-4e0a-9b0f-e4acf66f5932-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jan 2025 10:26:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.15-54.240.27.23
+X-SES-Outgoing: 2025.01.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209871
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209876
 
---===============7387485529974378098==
+--===============0904986845924827381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pango* to *1.56.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-loader* to *1.4.304.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.55.5-1.56.0.patch
+    - apply the patch: git am 0001-vulkan-loader-upgrade-1.3.296.0-1.4.304.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,1604 +78,58 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9afb33c65062ff36631815ffaf52a053681f1a4c Mon Sep 17 00:00:00 2001
+From 2b021a8c0a24a9863b7a487e6bc6fdfb1d916ed0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jan 2025 08:58:59 +0000
-Subject: [PATCH] pango: upgrade 1.55.5 -> 1.56.0
+Date: Wed, 15 Jan 2025 09:28:32 +0000
+Subject: [PATCH] vulkan-loader: upgrade 1.3.296.0 -> 1.4.304.0
 
 ---
- .../recipes-graphics/pango/{pango_1.55.5.bb => pango_1.56.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.55.5.bb => pango_1.56.0.bb} (93%)
+ ...{vulkan-loader_1.3.296.0.bb => vulkan-loader_1.4.304.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-loader_1.3.296.0.bb => vulkan-loader_1.4.304.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.55.5.bb b/meta/recipes-graphics/pango/pango_1.56.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/pango/pango_1.55.5.bb
-rename to meta/recipes-graphics/pango/pango_1.56.0.bb
-index 6c7242274f..4184d8733e 100644
---- a/meta/recipes-graphics/pango/pango_1.55.5.bb
-+++ b/meta/recipes-graphics/pango/pango_1.56.0.bb
-@@ -18,7 +18,7 @@ UPSTREAM_CHECK_REGEX = "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+index 92ed18c299..bfee4b9f65 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+@@ -9,8 +9,8 @@ SECTION = "libs"
  
--SRC_URI[archive.sha256sum] = "e396126ea08203cbd8ef12638e6222e2e1fd8aa9cac6743072fedc5f2d820dd8"
-+SRC_URI[archive.sha256sum] = "1fb98b338ee6f7cf8ef96153b7d242f4568fe60f9b7434524eca630a57bd538b"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=vulkan-sdk-1.3.296;protocol=https"
+-SRCREV = "7aeb5e4324957b6f60dac5c8cedb955df4fecbfb"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=main;protocol=https"
++SRCREV = "6a6878c614c8c6dbe81ee7a9f1176bdb52dc7dd7"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.1
 
 
---===============7387485529974378098==
+--===============0904986845924827381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.55/pango-1.55.5.tar.xz;name=archive" to "https://download.gnome.org/sources//pango/1.56/pango-1.56.0.tar.xz;name=archive"
-packages/core2-64-poky-linux/pango: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangoxft-1.0.so.0.5505.0 /usr/lib/.debug/libpangoft2-1.0.so.0.5505.0 /usr/lib/.debug/libpangocairo-1.0.so.0.5505.0 /usr/lib/.debug/libpango-1.0.so.0.5505.0", added "/usr/lib/.debug/libpango-1.0.so.0.5600.0 /usr/lib/.debug/libpangoft2-1.0.so.0.5600.0 /usr/lib/.debug/libpangocairo-1.0.so.0.5600.0 /usr/lib/.debug/libpangoxft-1.0.so.0.5600.0"
-packages/core2-64-poky-linux/pango/pango-dbg: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-dbg: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-dbg: PKGSIZE changed from 2209576 to 2229248 (+1%)
-packages/core2-64-poky-linux/pango/pango-dev: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-dev: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-dev: PKGSIZE changed from 1570177 to 1578079 (+1%)
-packages/core2-64-poky-linux/pango/pango-doc: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-doc: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-locale: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-locale: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-src: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-src: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango-src: PKGSIZE changed from 2100753 to 2113325 (+1%)
-packages/core2-64-poky-linux/pango/pango-staticdev: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango-staticdev: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5505.0 /usr/lib/libpango-1.0.so.0.5505.0 /usr/lib/libpangocairo-1.0.so.0.5505.0 /usr/lib/libpangoft2-1.0.so.0.5505.0", added "/usr/lib/libpangoxft-1.0.so.0.5600.0 /usr/lib/libpango-1.0.so.0.5600.0 /usr/lib/libpangoft2-1.0.so.0.5600.0 /usr/lib/libpangocairo-1.0.so.0.5600.0"
-packages/core2-64-poky-linux/pango/pango: PKGV changed from 1.55.5 [default] to 1.56.0 [default]
-packages/core2-64-poky-linux/pango/pango: PV changed from "1.55.5" to "1.56.0"
-packages/core2-64-poky-linux/pango/pango: PKGSIZE changed from 864335 to 868823 (+1%)
-Changes to packages/core2-64-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5505.0 to libpango-1.0.so.0.5600.0
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5505.0 to libpangocairo-1.0.so.0.5600.0
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5505.0 to libpangoft2-1.0.so.0.5600.0
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5505.0 to libpangoxft-1.0.so.0.5600.0
-  /usr/lib/libpango-1.0.so.0.5505.0 moved to /usr/lib/libpango-1.0.so.0.5600.0
-  /usr/lib/libpangocairo-1.0.so.0.5505.0 moved to /usr/lib/libpangocairo-1.0.so.0.5600.0
-  /usr/lib/libpangoft2-1.0.so.0.5505.0 moved to /usr/lib/libpangoft2-1.0.so.0.5600.0
-  /usr/lib/libpangoxft-1.0.so.0.5505.0 moved to /usr/lib/libpangoxft-1.0.so.0.5600.0
-Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
-  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
-  /usr/libexec/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/x86_64-poky-linux/gcc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
-  /usr/libexec/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-
---===============7387485529974378098==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1874 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 919 .bb files complete (0 cached, 919 parsed). 1875 targets, 52 skipped, 0 masked, 0 errors.
-Removing 62 recipes from the core2-64 sysroot...done.
-Removing 62 recipes from the qemux86_64 sysroot...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1874 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.9.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
+TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "5.1"
@@ -1678,2140 +138,2497 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:57158514d36bdfdf55e1cf92bba01ca8aa724dc2"
+workspace            = "tmp-auh-upgrades:40e17e3e4923a5a49eb5ae4cff48b21c295b2cf7"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 398 Local 387 Mirrors 0 Missed 11 Current 250 (97% match, 98% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 276 Local 256 Mirrors 0 Missed 20 Current 406 (92% match, 97% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 5 stale sstate objects for arch core2-64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 309 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 324 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 326 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 328 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_spdx_setscene)
-NOTE: Running task 924 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_write_config)
-NOTE: recipe pango-1.56.0-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.56.0-r0: task do_write_config: Started
-NOTE: recipe pango-1.56.0-r0: task do_write_config: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running task 957 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_recipe_qa)
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 332 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 333 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 334 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 335 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe harfbuzz-10.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 337 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 340 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.56.0-r0: task do_recipe_qa: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 344 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 345 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 348 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 350 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 353 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/harfbuzz/10.1.0/temp/log.do_packagedata_setscene.1155131
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 354 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_package_setscene)
-NOTE: recipe pango-1.56.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 499 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 500 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 502 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 503 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 506 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 507 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 509 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 511 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 512 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 515 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 517 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 519 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 520 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 526 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 529 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 531 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_create_spdx_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 533 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 537 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 556 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 569 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_create_spdx_setscene)
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 589 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 599 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 601 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1044 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_recipe_qa)
+NOTE: Running setscene task 603 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 604 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 606 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 608 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 609 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_recipe_qa_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1101 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_fetch)
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 611 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 612 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1225 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_write_config)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_recipe_qa: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 614 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1292 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Started
 NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 619 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
+NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_recipe_qa: Succeeded
 NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 359 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 360 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx_setscene)
-NOTE: Running task 988 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_fetch)
-NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.56.0-r0: task do_fetch: Started
-NOTE: recipe pango-1.56.0-r0: task do_fetch: Succeeded
-NOTE: Running task 993 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_unpack)
-NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 391 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe pango-1.56.0-r0: task do_unpack: Started
+NOTE: Running task 1305 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_fetch)
+NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Started
+NOTE: Running setscene task 623 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 629 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 630 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_fetch: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 639 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1377 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_unpack)
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 654 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 655 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
 NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 393 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe pango-1.56.0-r0: task do_unpack: Succeeded
-NOTE: Running task 994 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_patch)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_package_setscene: Started
-NOTE: recipe pango-1.56.0-r0: task do_patch: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 397 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe pango-1.56.0-r0: task do_patch: Succeeded
-NOTE: Running task 995 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 659 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1412 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_patch)
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 668 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_patch: Started
 NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.56.0-r0: task do_deploy_source_date_epoch: Started
 NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-10.1.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 402 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 404 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 405 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 406 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 407 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 409 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 410 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 411 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 412 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 413 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
-NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 415 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 416 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 417 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 418 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 420 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 421 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 423 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_recipe_qa_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 426 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 429 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 430 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 432 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 434 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 436 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 438 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 439 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 441 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 443 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 444 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 445 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 449 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 450 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 451 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 453 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 454 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 455 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
-NOTE: Running setscene task 456 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 457 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 459 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_recipe_qa_setscene)
-NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 463 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 465 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 468 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 470 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 471 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 472 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 474 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 475 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 476 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 478 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_packagedata_setscene)
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 480 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 483 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 485 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 491 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 492 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 494 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 496 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 498 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 499 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 501 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 502 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 504 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 508 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.13.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 509 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 511 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 513 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 515 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-75.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 518 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 519 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 520 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 521 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 523 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 524 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 526 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 527 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 528 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 529 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 530 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 531 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 532 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 533 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 534 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 535 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 536 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 540 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 542 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 544 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 546 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.13.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 552 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 553 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 554 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 555 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 556 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 557 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 559 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 560 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 561 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 562 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 563 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 565 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.13.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 571 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 573 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 575 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 577 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 578 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 580 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 582 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.13.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 584 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 586 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 590 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 591 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 592 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 593 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 596 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 598 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 600 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 602 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 604 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 608 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 610 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 612 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 613 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 615 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 617 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 618 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 619 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 621 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 622 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 626 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 628 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 629 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 631 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 633 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 637 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 638 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 640 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 674 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_patch: Succeeded
+NOTE: Running task 1462 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1463 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1464 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_populate_lic)
 NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1465 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_patch)
+NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Succeeded
 NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 642 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 645 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 647 of 648 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1767 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_packagedata)
-NOTE: Running task 1770 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-10.1.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.56.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-10.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1795 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.56.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.56.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1796 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_configure)
-NOTE: recipe pango-1.56.0-r0: task do_configure: Started
-NOTE: recipe pango-1.56.0-r0: task do_configure: Succeeded
-NOTE: Running task 1797 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_compile)
-NOTE: recipe pango-1.56.0-r0: task do_compile: Started
-NOTE: recipe pango-1.56.0-r0: task do_compile: Succeeded
-NOTE: Running task 1798 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_install)
-NOTE: recipe pango-1.56.0-r0: task do_install: Started
-NOTE: recipe pango-1.56.0-r0: task do_install: Succeeded
-NOTE: Running task 1799 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_package)
-NOTE: Running task 1800 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_populate_sysroot)
-NOTE: recipe pango-1.56.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.56.0-r0: task do_package: Started
-NOTE: recipe pango-1.56.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_package: Succeeded
-NOTE: Running task 1801 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_packagedata)
-NOTE: recipe pango-1.56.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.56.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1802 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_create_spdx)
-NOTE: Running task 1803 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_package_write_ipk)
-NOTE: Running task 1804 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_package_write_deb)
-NOTE: Running task 1805 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_package_write_rpm)
-NOTE: Running task 1806 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_package_qa)
-NOTE: recipe pango-1.56.0-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.56.0-r0: task do_package_write_ipk: Started
-NOTE: recipe pango-1.56.0-r0: task do_package_write_deb: Started
-NOTE: recipe pango-1.56.0-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.56.0-r0: task do_package_qa: Started
-NOTE: recipe pango-1.56.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1807 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_create_package_spdx)
-NOTE: recipe pango-1.56.0-r0: task do_create_package_spdx: Started
-NOTE: recipe pango-1.56.0-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.56.0-r0: task do_package_write_deb: Succeeded
-NOTE: Running noexec task 1808 of 1808 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.56.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 1808 tasks of which 1786 didn't need to be rerun and all succeeded.
+NOTE: Running task 1787 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1886 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1901 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_configure)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_configure: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build --target all --
+| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| [1/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c
+| FAILED: loader/CMakeFiles/vulkan.dir/allocation.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c:27:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [2/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unk
+ nown_function_handling.c
+| FAILED: loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_fu
+ nction_handling.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_function_handling.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_function_handling.c:25:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [3/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c
+| FAILED: loader/CMakeFiles/vulkan.dir/log.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c:34:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [4/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c
+| FAILED: loader/CMakeFiles/vulkan.dir/extension_manual.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c:29:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [5/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c
+| FAILED: loader/CMakeFiles/vulkan.dir/terminator.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c:34:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [6/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_linux.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c:30:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [7/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_environment.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c:29:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [8/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c
+| FAILED: loader/CMakeFiles/vulkan.dir/debug_utils.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c:33:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [9/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/settings.c.o -MF loader/CMakeFiles/vulkan.dir/settings.c.o.d -o loader/CMakeFiles/vulkan.dir/settings.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c
+| FAILED: loader/CMakeFiles/vulkan.dir/settings.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/settings.c.o -MF loader/CMakeFiles/vulkan.dir/settings.c.o.d -o loader/CMakeFiles/vulkan.dir/settings.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c:26:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [10/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c
+| FAILED: loader/CMakeFiles/vulkan.dir/wsi.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c:31:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [11/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c
+| FAILED: loader/CMakeFiles/vulkan.dir/cJSON.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c:63:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [12/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_json.c.o -MF loader/CMakeFiles/vulkan.dir/loader_json.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_json.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_json.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_json.c.o -MF loader/CMakeFiles/vulkan.dir/loader_json.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_json.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c:37:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [13/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c
+| FAILED: loader/CMakeFiles/vulkan.dir/trampoline.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3597:78: error: unknown type name 'VkRenderingAreaInfo'; did you mean 'VkRenderingAreaInfoKHR'?
+|  3597 |                                                                        const VkRenderingAreaInfo *pRenderingAreaInfo,
+|       |                                                                              ^~~~~~~~~~~~~~~~~~~
+|       |                                                                              VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkGetRenderingAreaGranularity':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3606:5: error: called object is not a function or function pointer
+|  3606 |     disp->GetRenderingAreaGranularity(device, pRenderingAreaInfo, pGranularity);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSet':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3620:5: error: called object is not a function or function pointer
+|  3620 |     disp->CmdPushDescriptorSet(commandBuffer, pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSetWithTemplate':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3634:5: error: called object is not a function or function pointer
+|  3634 |     disp->CmdPushDescriptorSetWithTemplate(commandBuffer, descriptorUpdateTemplate, layout, set, pData);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetLineStipple':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3646:5: error: called object is not a function or function pointer
+|  3646 |     disp->CmdSetLineStipple(commandBuffer, lineStippleFactor, lineStipplePattern);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdBindIndexBuffer2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3658:5: error: called object is not a function or function pointer
+|  3658 |     disp->CmdBindIndexBuffer2(commandBuffer, buffer, offset, size, indexType);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3662:72: error: unknown type name 'VkCopyMemoryToImageInfo'; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  3662 |                                                                  const VkCopyMemoryToImageInfo *pCopyMemoryToImageInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyMemoryToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3670:12: error: called object is not a function or function pointer
+|  3670 |     return disp->CopyMemoryToImage(device, pCopyMemoryToImageInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3674:72: error: unknown type name 'VkCopyImageToMemoryInfo'; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  3674 |                                                                  const VkCopyImageToMemoryInfo *pCopyImageToMemoryInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToMemory':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3682:12: error: called object is not a function or function pointer
+|  3682 |     return disp->CopyImageToMemory(device, pCopyImageToMemoryInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3686:71: error: unknown type name 'VkCopyImageToImageInfo'; did you mean 'VkCopyImageToImageInfoEXT'?
+|  3686 |                                                                 const VkCopyImageToImageInfo *pCopyImageToImageInfo) {
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                       VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3694:12: error: called object is not a function or function pointer
+|  3694 |     return disp->CopyImageToImage(device, pCopyImageToImageInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3698:76: error: unknown type name 'VkHostImageLayoutTransitionInfo'; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  3698 |                                                                      const VkHostImageLayoutTransitionInfo *pTransitions) {
+|       |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                            VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkTransitionImageLayout':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3706:12: error: called object is not a function or function pointer
+|  3706 |     return disp->TransitionImageLayout(device, transitionCount, pTransitions);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3710:82: error: unknown type name 'VkDeviceImageSubresourceInfo'; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  3710 |                                                                            const VkDeviceImageSubresourceInfo *pInfo,
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                  VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3711:76: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  3711 |                                                                            VkSubresourceLayout2 *pLayout) {
+|       |                                                                            ^~~~~~~~~~~~~~~~~~~~
+|       |                                                                            VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3723:77: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  3723 |                                                                       const VkImageSubresource2 *pSubresource,
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~
+|       |                                                                             VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3724:71: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  3724 |                                                                       VkSubresourceLayout2 *pLayout) {
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~
+|       |                                                                       VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3735:82: error: unknown type name 'VkMemoryMapInfo'; did you mean 'VkMemoryMapInfoKHR'?
+|  3735 | LOADER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory2(VkDevice device, const VkMemoryMapInfo *pMemoryMapInfo, void **ppData) {
+|       |                                                                                  ^~~~~~~~~~~~~~~
+|       |                                                                                  VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkMapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3743:12: error: called object is not a function or function pointer
+|  3743 |     return disp->MapMemory2(device, pMemoryMapInfo, ppData);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3746:84: error: unknown type name 'VkMemoryUnmapInfo'; did you mean 'VkMemoryUnmapInfoKHR'?
+|  3746 | LOADER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL vkUnmapMemory2(VkDevice device, const VkMemoryUnmapInfo *pMemoryUnmapInfo) {
+|       |                                                                                    ^~~~~~~~~~~~~~~~~
+|       |                                                                                    VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkUnmapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3754:12: error: called object is not a function or function pointer
+|  3754 |     return disp->UnmapMemory2(device, pMemoryUnmapInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3758:73: error: unknown type name 'VkBindDescriptorSetsInfo'; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  3758 |                                                                   const VkBindDescriptorSetsInfo *pBindDescriptorSetsInfo) {
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdBindDescriptorSets2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3766:5: error: called object is not a function or function pointer
+|  3766 |     disp->CmdBindDescriptorSets2(commandBuffer, pBindDescriptorSetsInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3770:68: error: unknown type name 'VkPushConstantsInfo'; did you mean 'VkPushConstantsInfoKHR'?
+|  3770 |                                                              const VkPushConstantsInfo *pPushConstantsInfo) {
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~
+|       |                                                                    VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushConstants2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3778:5: error: called object is not a function or function pointer
+|  3778 |     disp->CmdPushConstants2(commandBuffer, pPushConstantsInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3782:72: error: unknown type name 'VkPushDescriptorSetInfo'; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  3782 |                                                                  const VkPushDescriptorSetInfo *pPushDescriptorSetInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSet2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3790:5: error: called object is not a function or function pointer
+|  3790 |     disp->CmdPushDescriptorSet2(commandBuffer, pPushDescriptorSetInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3794:42: error: unknown type name 'VkPushDescriptorSetWithTemplateInfo'; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  3794 |     VkCommandBuffer commandBuffer, const VkPushDescriptorSetWithTemplateInfo *pPushDescriptorSetWithTemplateInfo) {
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSetWithTemplate2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3802:5: error: called object is not a function or function pointer
+|  3802 |     disp->CmdPushDescriptorSetWithTemplate2(commandBuffer, pPushDescriptorSetWithTemplateInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3806:75: error: unknown type name 'VkRenderingAttachmentLocationInfo'; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  3806 | vkCmdSetRenderingAttachmentLocations(VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfo *pLocationInfo) {
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetRenderingAttachmentLocations':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3814:5: error: called object is not a function or function pointer
+|  3814 |     disp->CmdSetRenderingAttachmentLocations(commandBuffer, pLocationInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3818:42: error: unknown type name 'VkRenderingInputAttachmentIndexInfo'; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  3818 |     VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo *pInputAttachmentIndexInfo) {
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetRenderingInputAttachmentIndices':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3826:5: error: called object is not a function or function pointer
+|  3826 |     disp->CmdSetRenderingInputAttachmentIndices(commandBuffer, pInputAttachmentIndexInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyMemoryToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3671:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3671 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToMemory':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3683:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3683 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3695:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3695 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkTransitionImageLayout':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3707:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3707 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkMapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3744:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3744 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkUnmapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3755:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3755 | }
+|       | ^
+| [14/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c
+| FAILED: loader/CMakeFiles/vulkan.dir/gpa_helper.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.h:25,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:23:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c: In function 'trampoline_get_proc_addr':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:253:58: error: 'vkCmdSetLineStipple' undeclared (first use in this function); did you mean 'vkCmdSetLineStippleEXT'?
+|   253 |     if (!strcmp(funcName, "vkCmdSetLineStipple")) return vkCmdSetLineStipple;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:253:58: note: each undeclared identifier is reported only once for each function it appears in
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:254:51: error: 'vkMapMemory2' undeclared (first use in this function); did you mean 'vkMapMemory'?
+|   254 |     if (!strcmp(funcName, "vkMapMemory2")) return vkMapMemory2;
+|       |                                                   ^~~~~~~~~~~~
+|       |                                                   vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:255:53: error: 'vkUnmapMemory2' undeclared (first use in this function); did you mean 'vkUnmapMemory'?
+|   255 |     if (!strcmp(funcName, "vkUnmapMemory2")) return vkUnmapMemory2;
+|       |                                                     ^~~~~~~~~~~~~~
+|       |                                                     vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:256:60: error: 'vkCmdBindIndexBuffer2' undeclared (first use in this function); did you mean 'vkCmdBindIndexBuffer'?
+|   256 |     if (!strcmp(funcName, "vkCmdBindIndexBuffer2")) return vkCmdBindIndexBuffer2;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                                            vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:257:68: error: 'vkGetRenderingAreaGranularity' undeclared (first use in this function); did you mean 'vkGetRenderingAreaGranularityKHR'?
+|   257 |     if (!strcmp(funcName, "vkGetRenderingAreaGranularity")) return vkGetRenderingAreaGranularity;
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                    vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:258:72: error: 'vkGetDeviceImageSubresourceLayout' undeclared (first use in this function); did you mean 'vkGetDeviceImageSubresourceLayoutKHR'?
+|   258 |     if (!strcmp(funcName, "vkGetDeviceImageSubresourceLayout")) return vkGetDeviceImageSubresourceLayout;
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:259:67: error: 'vkGetImageSubresourceLayout2' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout'?
+|   259 |     if (!strcmp(funcName, "vkGetImageSubresourceLayout2")) return vkGetImageSubresourceLayout2;
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:260:61: error: 'vkCmdPushDescriptorSet' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetKHR'?
+|   260 |     if (!strcmp(funcName, "vkCmdPushDescriptorSet")) return vkCmdPushDescriptorSet;
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:261:73: error: 'vkCmdPushDescriptorSetWithTemplate' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetWithTemplateKHR'?
+|   261 |     if (!strcmp(funcName, "vkCmdPushDescriptorSetWithTemplate")) return vkCmdPushDescriptorSetWithTemplate;
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:262:75: error: 'vkCmdSetRenderingAttachmentLocations' undeclared (first use in this function); did you mean 'vkCmdSetRenderingAttachmentLocationsKHR'?
+|   262 |     if (!strcmp(funcName, "vkCmdSetRenderingAttachmentLocations")) return vkCmdSetRenderingAttachmentLocations;
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                           vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:263:78: error: 'vkCmdSetRenderingInputAttachmentIndices' undeclared (first use in this function); did you mean 'vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   263 |     if (!strcmp(funcName, "vkCmdSetRenderingInputAttachmentIndices")) return vkCmdSetRenderingInputAttachmentIndices;
+|       |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                              vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:264:63: error: 'vkCmdBindDescriptorSets2' undeclared (first use in this function); did you mean 'vkCmdBindDescriptorSets'?
+|   264 |     if (!strcmp(funcName, "vkCmdBindDescriptorSets2")) return vkCmdBindDescriptorSets2;
+|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                               vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:265:58: error: 'vkCmdPushConstants2' undeclared (first use in this function); did you mean 'vkCmdPushConstants'?
+|   265 |     if (!strcmp(funcName, "vkCmdPushConstants2")) return vkCmdPushConstants2;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:266:62: error: 'vkCmdPushDescriptorSet2' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSet2KHR'?
+|   266 |     if (!strcmp(funcName, "vkCmdPushDescriptorSet2")) return vkCmdPushDescriptorSet2;
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:267:74: error: 'vkCmdPushDescriptorSetWithTemplate2' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   267 |     if (!strcmp(funcName, "vkCmdPushDescriptorSetWithTemplate2")) return vkCmdPushDescriptorSetWithTemplate2;
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                          vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:268:58: error: 'vkCopyMemoryToImage' undeclared (first use in this function); did you mean 'vkCopyMemoryToImageEXT'?
+|   268 |     if (!strcmp(funcName, "vkCopyMemoryToImage")) return vkCopyMemoryToImage;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:269:58: error: 'vkCopyImageToMemory' undeclared (first use in this function); did you mean 'vkCopyImageToMemoryEXT'?
+|   269 |     if (!strcmp(funcName, "vkCopyImageToMemory")) return vkCopyImageToMemory;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:270:57: error: 'vkCopyImageToImage' undeclared (first use in this function); did you mean 'vkCopyImageToImageEXT'?
+|   270 |     if (!strcmp(funcName, "vkCopyImageToImage")) return vkCopyImageToImage;
+|       |                                                         ^~~~~~~~~~~~~~~~~~
+|       |                                                         vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:271:62: error: 'vkTransitionImageLayout' undeclared (first use in this function); did you mean 'vkTransitionImageLayoutEXT'?
+|   271 |     if (!strcmp(funcName, "vkTransitionImageLayout")) return vkTransitionImageLayout;
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              vkTransitionImageLayoutEXT
+| [15/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.h:32,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c:31:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c:76:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_icd_init_entries':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:54: error: 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                      ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:54: note: each undeclared identifier is reported only once for each function it appears in
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                      ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:67: error: expected ';' before 'fp_gipa'
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                                   ^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_device_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:526:33: error: 'PFN_vkCmdSetLineStipple' undeclared (first use in this function); did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   526 |     table->CmdSetLineStipple = (PFN_vkCmdSetLineStipple)gpa(dev, "vkCmdSetLineStipple");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:526:57: error: expected ';' before 'gpa'
+|   526 |     table->CmdSetLineStipple = (PFN_vkCmdSetLineStipple)gpa(dev, "vkCmdSetLineStipple");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:527:26: error: 'PFN_vkMapMemory2' undeclared (first use in this function); did you mean 'PFN_vkMapMemory'?
+|   527 |     table->MapMemory2 = (PFN_vkMapMemory2)gpa(dev, "vkMapMemory2");
+|       |                          ^~~~~~~~~~~~~~~~
+|       |                          PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:527:43: error: expected ';' before 'gpa'
+|   527 |     table->MapMemory2 = (PFN_vkMapMemory2)gpa(dev, "vkMapMemory2");
+|       |                                           ^~~
+|       |                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:528:28: error: 'PFN_vkUnmapMemory2' undeclared (first use in this function); did you mean 'PFN_vkUnmapMemory'?
+|   528 |     table->UnmapMemory2 = (PFN_vkUnmapMemory2)gpa(dev, "vkUnmapMemory2");
+|       |                            ^~~~~~~~~~~~~~~~~~
+|       |                            PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:528:47: error: expected ';' before 'gpa'
+|   528 |     table->UnmapMemory2 = (PFN_vkUnmapMemory2)gpa(dev, "vkUnmapMemory2");
+|       |                                               ^~~
+|       |                                               ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:529:35: error: 'PFN_vkCmdBindIndexBuffer2' undeclared (first use in this function); did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   529 |     table->CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)gpa(dev, "vkCmdBindIndexBuffer2");
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:529:61: error: expected ';' before 'gpa'
+|   529 |     table->CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)gpa(dev, "vkCmdBindIndexBuffer2");
+|       |                                                             ^~~
+|       |                                                             ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:530:43: error: 'PFN_vkGetRenderingAreaGranularity' undeclared (first use in this function); did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   530 |     table->GetRenderingAreaGranularity = (PFN_vkGetRenderingAreaGranularity)gpa(dev, "vkGetRenderingAreaGranularity");
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:530:77: error: expected ';' before 'gpa'
+|   530 |     table->GetRenderingAreaGranularity = (PFN_vkGetRenderingAreaGranularity)gpa(dev, "vkGetRenderingAreaGranularity");
+|       |                                                                             ^~~
+|       |                                                                             ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:531:47: error: 'PFN_vkGetDeviceImageSubresourceLayout' undeclared (first use in this function); did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   531 |     table->GetDeviceImageSubresourceLayout = (PFN_vkGetDeviceImageSubresourceLayout)gpa(dev, "vkGetDeviceImageSubresourceLayout");
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                               PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:531:85: error: expected ';' before 'gpa'
+|   531 |     table->GetDeviceImageSubresourceLayout = (PFN_vkGetDeviceImageSubresourceLayout)gpa(dev, "vkGetDeviceImageSubresourceLayout");
+|       |                                                                                     ^~~
+|       |                                                                                     ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:532:42: error: 'PFN_vkGetImageSubresourceLayout2' undeclared (first use in this function); did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   532 |     table->GetImageSubresourceLayout2 = (PFN_vkGetImageSubresourceLayout2)gpa(dev, "vkGetImageSubresourceLayout2");
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:532:75: error: expected ';' before 'gpa'
+|   532 |     table->GetImageSubresourceLayout2 = (PFN_vkGetImageSubresourceLayout2)gpa(dev, "vkGetImageSubresourceLayout2");
+|       |                                                                           ^~~
+|       |                                                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:533:36: error: 'PFN_vkCmdPushDescriptorSet' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   533 |     table->CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)gpa(dev, "vkCmdPushDescriptorSet");
+|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                    PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:533:63: error: expected ';' before 'gpa'
+|   533 |     table->CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)gpa(dev, "vkCmdPushDescriptorSet");
+|       |                                                               ^~~
+|       |                                                               ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:534:48: error: 'PFN_vkCmdPushDescriptorSetWithTemplate' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   534 |     table->CmdPushDescriptorSetWithTemplate = (PFN_vkCmdPushDescriptorSetWithTemplate)gpa(dev, "vkCmdPushDescriptorSetWithTemplate");
+|       |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:534:87: error: expected ';' before 'gpa'
+|   534 |     table->CmdPushDescriptorSetWithTemplate = (PFN_vkCmdPushDescriptorSetWithTemplate)gpa(dev, "vkCmdPushDescriptorSetWithTemplate");
+|       |                                                                                       ^~~
+|       |                                                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:535:50: error: 'PFN_vkCmdSetRenderingAttachmentLocations' undeclared (first use in this function); did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   535 |     table->CmdSetRenderingAttachmentLocations = (PFN_vkCmdSetRenderingAttachmentLocations)gpa(dev, "vkCmdSetRenderingAttachmentLocations");
+|       |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                  PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:535:91: error: expected ';' before 'gpa'
+|   535 |     table->CmdSetRenderingAttachmentLocations = (PFN_vkCmdSetRenderingAttachmentLocations)gpa(dev, "vkCmdSetRenderingAttachmentLocations");
+|       |                                                                                           ^~~
+|       |                                                                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:536:53: error: 'PFN_vkCmdSetRenderingInputAttachmentIndices' undeclared (first use in this function); did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   536 |     table->CmdSetRenderingInputAttachmentIndices = (PFN_vkCmdSetRenderingInputAttachmentIndices)gpa(dev, "vkCmdSetRenderingInputAttachmentIndices");
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:536:97: error: expected ';' before 'gpa'
+|   536 |     table->CmdSetRenderingInputAttachmentIndices = (PFN_vkCmdSetRenderingInputAttachmentIndices)gpa(dev, "vkCmdSetRenderingInputAttachmentIndices");
+|       |                                                                                                 ^~~
+|       |                                                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:537:38: error: 'PFN_vkCmdBindDescriptorSets2' undeclared (first use in this function); did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   537 |     table->CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)gpa(dev, "vkCmdBindDescriptorSets2");
+|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                      PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:537:67: error: expected ';' before 'gpa'
+|   537 |     table->CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)gpa(dev, "vkCmdBindDescriptorSets2");
+|       |                                                                   ^~~
+|       |                                                                   ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:538:33: error: 'PFN_vkCmdPushConstants2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushConstants'?
+|   538 |     table->CmdPushConstants2 = (PFN_vkCmdPushConstants2)gpa(dev, "vkCmdPushConstants2");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:538:57: error: expected ';' before 'gpa'
+|   538 |     table->CmdPushConstants2 = (PFN_vkCmdPushConstants2)gpa(dev, "vkCmdPushConstants2");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:539:37: error: 'PFN_vkCmdPushDescriptorSet2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   539 |     table->CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)gpa(dev, "vkCmdPushDescriptorSet2");
+|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:539:65: error: expected ';' before 'gpa'
+|   539 |     table->CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)gpa(dev, "vkCmdPushDescriptorSet2");
+|       |                                                                 ^~~
+|       |                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:540:49: error: 'PFN_vkCmdPushDescriptorSetWithTemplate2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   540 |     table->CmdPushDescriptorSetWithTemplate2 = (PFN_vkCmdPushDescriptorSetWithTemplate2)gpa(dev, "vkCmdPushDescriptorSetWithTemplate2");
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:540:89: error: expected ';' before 'gpa'
+|   540 |     table->CmdPushDescriptorSetWithTemplate2 = (PFN_vkCmdPushDescriptorSetWithTemplate2)gpa(dev, "vkCmdPushDescriptorSetWithTemplate2");
+|       |                                                                                         ^~~
+|       |                                                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:541:33: error: 'PFN_vkCopyMemoryToImage' undeclared (first use in this function); did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   541 |     table->CopyMemoryToImage = (PFN_vkCopyMemoryToImage)gpa(dev, "vkCopyMemoryToImage");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:541:57: error: expected ';' before 'gpa'
+|   541 |     table->CopyMemoryToImage = (PFN_vkCopyMemoryToImage)gpa(dev, "vkCopyMemoryToImage");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:542:33: error: 'PFN_vkCopyImageToMemory' undeclared (first use in this function); did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   542 |     table->CopyImageToMemory = (PFN_vkCopyImageToMemory)gpa(dev, "vkCopyImageToMemory");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:542:57: error: expected ';' before 'gpa'
+|   542 |     table->CopyImageToMemory = (PFN_vkCopyImageToMemory)gpa(dev, "vkCopyImageToMemory");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:543:32: error: 'PFN_vkCopyImageToImage' undeclared (first use in this function); did you mean 'PFN_vkCopyImageToImageEXT'?
+|   543 |     table->CopyImageToImage = (PFN_vkCopyImageToImage)gpa(dev, "vkCopyImageToImage");
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:543:55: error: expected ';' before 'gpa'
+|   543 |     table->CopyImageToImage = (PFN_vkCopyImageToImage)gpa(dev, "vkCopyImageToImage");
+|       |                                                       ^~~
+|       |                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:544:37: error: 'PFN_vkTransitionImageLayout' undeclared (first use in this function); did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   544 |     table->TransitionImageLayout = (PFN_vkTransitionImageLayout)gpa(dev, "vkTransitionImageLayout");
+|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:544:65: error: expected ';' before 'gpa'
+|   544 |     table->TransitionImageLayout = (PFN_vkTransitionImageLayout)gpa(dev, "vkTransitionImageLayout");
+|       |                                                                 ^~~
+|       |                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_device_extension_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:789:39: error: 'PFN_vkGetImageViewHandle64NVX' undeclared (first use in this function); did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   789 |     table->GetImageViewHandle64NVX = (PFN_vkGetImageViewHandle64NVX)gdpa(dev, "vkGetImageViewHandle64NVX");
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                       PFN_vkGetImageViewHandleNVX
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:789:69: error: expected ';' before 'gdpa'
+|   789 |     table->GetImageViewHandle64NVX = (PFN_vkGetImageViewHandle64NVX)gdpa(dev, "vkGetImageViewHandle64NVX");
+|       |                                                                     ^~~~
+|       |                                                                     ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_instance_extension_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:1509:80: error: 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|  1509 |     table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = (PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV)gpa(inst, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV");
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:1509:151: error: expected ';' before 'gpa'
+|  1509 |     table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = (PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV)gpa(inst, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV");
+|       |                                                                                                                                                       ^~~
+|       |                                                                                                                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_lookup_device_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2339:84: error: 'VK_API_VERSION_1_4' undeclared (first use in this function); did you mean 'VK_API_VERSION_1_0'?
+|  2339 |         if (dev->should_ignore_device_commands_from_newer_version && api_version < VK_API_VERSION_1_4) return NULL;
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~
+|       |                                                                                    VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2340:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2340 |         return (void *)table->CmdSetLineStipple;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2344:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2344 |         return (void *)table->MapMemory2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2348:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2348 |         return (void *)table->UnmapMemory2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2352:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2352 |         return (void *)table->CmdBindIndexBuffer2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2356:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2356 |         return (void *)table->GetRenderingAreaGranularity;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2360:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2360 |         return (void *)table->GetDeviceImageSubresourceLayout;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2364:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2364 |         return (void *)table->GetImageSubresourceLayout2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2368:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2368 |         return (void *)table->CmdPushDescriptorSet;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2372:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2372 |         return (void *)table->CmdPushDescriptorSetWithTemplate;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2376:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2376 |         return (void *)table->CmdSetRenderingAttachmentLocations;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2380:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2380 |         return (void *)table->CmdSetRenderingInputAttachmentIndices;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2384:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2384 |         return (void *)table->CmdBindDescriptorSets2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2388:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2388 |         return (void *)table->CmdPushConstants2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2392:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2392 |         return (void *)table->CmdPushDescriptorSet2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2396:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2396 |         return (void *)table->CmdPushDescriptorSetWithTemplate2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2400:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2400 |         return (void *)table->CopyMemoryToImage;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2404:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2404 |         return (void *)table->CopyImageToMemory;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2408:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2408 |         return (void *)table->CopyImageToImage;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2412:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2412 |         return (void *)table->TransitionImageLayout;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2648:58: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2648 |     if (!strcmp(name, "GetImageViewHandle64NVX")) return (void *)table->GetImageViewHandle64NVX;
+|       |                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_lookup_instance_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:3373:99: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  3373 |     if (!strcmp(name, "GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV")) return (void *)table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4403:11: error: unknown type name 'VkRenderingAttachmentLocationInfo'; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  4403 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdSetRenderingAttachmentLocationsKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4411:64: error: passing argument 2 of 'disp->CmdSetRenderingAttachmentLocationsKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4411 |     disp->CmdSetRenderingAttachmentLocationsKHR(commandBuffer, pLocationInfo);
+|       |                                                                ^~~~~~~~~~~~~
+|       |                                                                |
+|       |                                                                const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4411:64: note: expected 'const VkRenderingAttachmentLocationInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4416:11: error: unknown type name 'VkRenderingInputAttachmentIndexInfo'; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  4416 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdSetRenderingInputAttachmentIndicesKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4424:67: error: passing argument 2 of 'disp->CmdSetRenderingInputAttachmentIndicesKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4424 |     disp->CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer, pInputAttachmentIndexInfo);
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   |
+|       |                                                                   const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4424:67: note: expected 'const VkRenderingInputAttachmentIndexInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4610:11: error: unknown type name 'VkMemoryMapInfo'; did you mean 'VkMemoryMapInfoKHR'?
+|  4610 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'MapMemory2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4619:40: error: passing argument 2 of 'disp->MapMemory2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4619 |     return disp->MapMemory2KHR(device, pMemoryMapInfo, ppData);
+|       |                                        ^~~~~~~~~~~~~~
+|       |                                        |
+|       |                                        const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4619:40: note: expected 'const VkMemoryMapInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4624:11: error: unknown type name 'VkMemoryUnmapInfo'; did you mean 'VkMemoryUnmapInfoKHR'?
+|  4624 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo) {
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'UnmapMemory2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4632:42: error: passing argument 2 of 'disp->UnmapMemory2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4632 |     return disp->UnmapMemory2KHR(device, pMemoryUnmapInfo);
+|       |                                          ^~~~~~~~~~~~~~~~
+|       |                                          |
+|       |                                          const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4632:42: note: expected 'const VkMemoryUnmapInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4950:11: error: unknown type name 'VkRenderingAreaInfo'; did you mean 'VkRenderingAreaInfoKHR'?
+|  4950 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetRenderingAreaGranularityKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4959:50: error: passing argument 2 of 'disp->GetRenderingAreaGranularityKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4959 |     disp->GetRenderingAreaGranularityKHR(device, pRenderingAreaInfo, pGranularity);
+|       |                                                  ^~~~~~~~~~~~~~~~~~
+|       |                                                  |
+|       |                                                  const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4959:50: note: expected 'const VkRenderingAreaInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4964:11: error: unknown type name 'VkDeviceImageSubresourceInfo'; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  4964 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4965:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  4965 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4979:11: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  4979 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4980:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  4980 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5171:11: error: unknown type name 'VkBindDescriptorSetsInfo'; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  5171 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdBindDescriptorSets2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5179:52: error: passing argument 2 of 'disp->CmdBindDescriptorSets2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5179 |     disp->CmdBindDescriptorSets2KHR(commandBuffer, pBindDescriptorSetsInfo);
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                    |
+|       |                                                    const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5179:52: note: expected 'const VkBindDescriptorSetsInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5184:11: error: unknown type name 'VkPushConstantsInfo'; did you mean 'VkPushConstantsInfoKHR'?
+|  5184 |     const VkPushConstantsInfo*                  pPushConstantsInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushConstants2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5192:47: error: passing argument 2 of 'disp->CmdPushConstants2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5192 |     disp->CmdPushConstants2KHR(commandBuffer, pPushConstantsInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5192:47: note: expected 'const VkPushConstantsInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5197:11: error: unknown type name 'VkPushDescriptorSetInfo'; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  5197 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushDescriptorSet2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5205:51: error: passing argument 2 of 'disp->CmdPushDescriptorSet2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5205 |     disp->CmdPushDescriptorSet2KHR(commandBuffer, pPushDescriptorSetInfo);
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                   |
+|       |                                                   const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5205:51: note: expected 'const VkPushDescriptorSetInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5210:11: error: unknown type name 'VkPushDescriptorSetWithTemplateInfo'; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  5210 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushDescriptorSetWithTemplate2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5218:63: error: passing argument 2 of 'disp->CmdPushDescriptorSetWithTemplate2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5218 |     disp->CmdPushDescriptorSetWithTemplate2KHR(commandBuffer, pPushDescriptorSetWithTemplateInfo);
+|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                               |
+|       |                                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5218:63: note: expected 'const VkPushDescriptorSetWithTemplateInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetImageViewHandle64NVX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5607:12: error: called object is not a function or function pointer
+|  5607 |     return disp->GetImageViewHandle64NVX(device, pInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdInitializeGraphScratchMemoryAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:62: error: passing argument 2 of 'disp->CmdInitializeGraphScratchMemoryAMDX' makes integer from pointer without a cast [-Wint-conversion]
+|  6302 |     disp->CmdInitializeGraphScratchMemoryAMDX(commandBuffer, executionGraph, scratch, scratchSize);
+|       |                                                              ^~~~~~~~~~~~~~
+|       |                                                              |
+|       |                                                              VkPipeline {aka struct VkPipeline_T *}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:62: note: expected 'VkDeviceAddress' {aka 'long unsigned int'} but argument is of type 'VkPipeline' {aka 'struct VkPipeline_T *'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:5: error: too many arguments to function 'disp->CmdInitializeGraphScratchMemoryAMDX'
+|  6302 |     disp->CmdInitializeGraphScratchMemoryAMDX(commandBuffer, executionGraph, scratch, scratchSize);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:56: error: passing argument 3 of 'disp->CmdDispatchGraphAMDX' makes pointer from integer without a cast [-Wint-conversion]
+|  6319 |     disp->CmdDispatchGraphAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |                                                        ^~~~~~~~~~~
+|       |                                                        |
+|       |                                                        VkDeviceSize {aka long unsigned int}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:56: note: expected 'const VkDispatchGraphCountInfoAMDX *' but argument is of type 'VkDeviceSize' {aka 'long unsigned int'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:5: error: too many arguments to function 'disp->CmdDispatchGraphAMDX'
+|  6319 |     disp->CmdDispatchGraphAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphIndirectAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:64: error: passing argument 3 of 'disp->CmdDispatchGraphIndirectAMDX' makes pointer from integer without a cast [-Wint-conversion]
+|  6336 |     disp->CmdDispatchGraphIndirectAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |                                                                ^~~~~~~~~~~
+|       |                                                                |
+|       |                                                                VkDeviceSize {aka long unsigned int}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:64: note: expected 'const VkDispatchGraphCountInfoAMDX *' but argument is of type 'VkDeviceSize' {aka 'long unsigned int'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:5: error: too many arguments to function 'disp->CmdDispatchGraphIndirectAMDX'
+|  6336 |     disp->CmdDispatchGraphIndirectAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphIndirectCountAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6353:5: error: too many arguments to function 'disp->CmdDispatchGraphIndirectCountAMDX'
+|  6353 |     disp->CmdDispatchGraphIndirectCountAMDX(commandBuffer, scratch, scratchSize, countInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7440:11: error: unknown type name 'VkCopyMemoryToImageInfo'; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  7440 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyMemoryToImageEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7448:47: error: passing argument 2 of 'disp->CopyMemoryToImageEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7448 |     return disp->CopyMemoryToImageEXT(device, pCopyMemoryToImageInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7448:47: note: expected 'const VkCopyMemoryToImageInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7453:11: error: unknown type name 'VkCopyImageToMemoryInfo'; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  7453 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyImageToMemoryEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7461:47: error: passing argument 2 of 'disp->CopyImageToMemoryEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7461 |     return disp->CopyImageToMemoryEXT(device, pCopyImageToMemoryInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7461:47: note: expected 'const VkCopyImageToMemoryInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7466:11: error: unknown type name 'VkCopyImageToImageInfo'; did you mean 'VkCopyImageToImageInfoEXT'?
+|  7466 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyImageToImageEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7474:46: error: passing argument 2 of 'disp->CopyImageToImageEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7474 |     return disp->CopyImageToImageEXT(device, pCopyImageToImageInfo);
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~
+|       |                                              |
+|       |                                              const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7474:46: note: expected 'const VkCopyImageToImageInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7480:11: error: unknown type name 'VkHostImageLayoutTransitionInfo'; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  7480 |     const VkHostImageLayoutTransitionInfo*      pTransitions) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'TransitionImageLayoutEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7488:68: error: passing argument 3 of 'disp->TransitionImageLayoutEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7488 |     return disp->TransitionImageLayoutEXT(device, transitionCount, pTransitions);
+|       |                                                                    ^~~~~~~~~~~~
+|       |                                                                    |
+|       |                                                                    const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7488:68: note: expected 'const VkHostImageLayoutTransitionInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7494:11: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  7494 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7495:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  7495 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:9813:5: error: unknown type name 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV'
+|  9813 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:9829:5: error: unknown type name 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV'
+|  9829 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'extension_instance_gpa':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:10784:25: error: 'GetDeviceImageSubresourceLayoutKHR' undeclared (first use in this function); did you mean 'vkGetDeviceImageSubresourceLayoutKHR'?
+| 10784 |         *addr = (void *)GetDeviceImageSubresourceLayoutKHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:10788:25: error: 'GetImageSubresourceLayout2KHR' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout2KHR'?
+| 10788 |         *addr = (void *)GetImageSubresourceLayout2KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetImageSubresourceLayout2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:11524:25: error: 'GetImageSubresourceLayout2EXT' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout2EXT'?
+| 11524 |         *addr = (void *)GetImageSubresourceLayout2EXT;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetImageSubresourceLayout2EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12226:25: error: 'GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'GetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+| 12226 |         *addr = (void *)GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         GetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12734:73: error: 'terminator_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared here (not in a function); did you mean 'terminator_GetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+| 12734 |     .GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = terminator_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV,
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         terminator_GetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12806:51: error: 'VK_NV_DISPLAY_STEREO_EXTENSION_NAME' undeclared here (not in a function); did you mean 'VK_EXT_DISPLAY_CONTROL_EXTENSION_NAME'?
+| 12806 |                                                   VK_NV_DISPLAY_STEREO_EXTENSION_NAME,
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                   VK_EXT_DISPLAY_CONTROL_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetImageViewHandle64NVX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5608:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  5608 | }
+|       | ^
+| ninja: build stopped: subcommand failed.
+| 
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600, line 153
+| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600, line 147
+| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600, line 142
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600, line 166
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1902 tasks of which 1887 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250115092815.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250115092815.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: There were 12 ERROR messages, returning a non-zero exit code.
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:10.2.0-r0 to 0:10.1.0-r0) [version-going-backwards]
-ERROR: harfbuzz-10.1.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/log.do_compile.2052600
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: vulkan-loader-1.4.304.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.2052600' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/log.do_compile.2052600
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile) failed with exit code '1'
 
---===============7387485529974378098==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5505.0 /usr/lib/libpangoft2-1.0.so.0.5505.0 /usr/lib/libpangocairo-1.0.so.0.5505.0 /usr/lib/libpango-1.0.so.0.5505.0", added "/usr/lib/libpangoft2-1.0.so.0.5600.0 /usr/lib/libpango-1.0.so.0.5600.0 /usr/lib/libpangocairo-1.0.so.0.5600.0 /usr/lib/libpangoxft-1.0.so.0.5600.0"
-Changes to packages/core2-64-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5505.0 to libpango-1.0.so.0.5600.0
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5505.0 to libpangocairo-1.0.so.0.5600.0
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5505.0 to libpangoft2-1.0.so.0.5600.0
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5505.0 to libpangoxft-1.0.so.0.5600.0
-  /usr/lib/libpango-1.0.so.0.5505.0 moved to /usr/lib/libpango-1.0.so.0.5600.0
-  /usr/lib/libpangocairo-1.0.so.0.5505.0 moved to /usr/lib/libpangocairo-1.0.so.0.5600.0
-  /usr/lib/libpangoft2-1.0.so.0.5505.0 moved to /usr/lib/libpangoft2-1.0.so.0.5600.0
-  /usr/lib/libpangoxft-1.0.so.0.5505.0 moved to /usr/lib/libpangoxft-1.0.so.0.5600.0
-Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
-  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
-  /usr/libexec/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/x86_64-poky-linux/gcc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
-  /usr/libexec/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-
---===============7387485529974378098==
+--===============0904986845924827381==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.55.5-1.56.0.patch"
+ filename="0001-vulkan-loader-upgrade-1.3.296.0-1.4.304.0.patch"
 
-RnJvbSA5YWZiMzNjNjUwNjJmZjM2NjMxODE1ZmZhZjUyYTA1MzY4MWYxYTRjIE1vbiBTZXAgMTcg
+RnJvbSAyYjAyMWE4YzBhMjRhOTg2M2I3YTQ4N2U2YmM2ZmRmYjFkOTE2ZWQwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDg6NTg6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-YW5nbzogdXBncmFkZSAxLjU1LjUgLT4gMS41Ni4wCgotLS0KIC4uLi9yZWNpcGVzLWdyYXBoaWNz
-L3BhbmdvL3twYW5nb18xLjU1LjUuYmIgPT4gcGFuZ29fMS41Ni4wLmJifSB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9wYW5nby97cGFuZ29fMS41NS41LmJiID0+IHBhbmdvXzEuNTYuMC5iYn0g
-KDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFuZ29fMS41
-NS41LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTYuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28v
-cGFuZ29fMS41NS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFu
-Z29fMS41Ni4wLmJiCmluZGV4IDZjNzI0MjI3NGYuLjQxODRkODczM2UgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjU1LjUuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTYuMC5iYgpAQCAtMTgsNyArMTgsNyBAQCBVUFNU
-UkVBTV9DSEVDS19SRUdFWCA9ICJwYW5nby0oP1A8cHZlcj5cZCtcLig/ITlcZCspXGQrXC5cZCsp
-IgogR0lSX01FU09OX0VOQUJMRV9GTEFHID0gImVuYWJsZWQiCiBHSVJfTUVTT05fRElTQUJMRV9G
-TEFHID0gImRpc2FibGVkIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJlMzk2MTI2
-ZWEwODIwM2NiZDhlZjEyNjM4ZTYyMjJlMmUxZmQ4YWE5Y2FjNjc0MzA3MmZlZGM1ZjJkODIwZGQ4
-IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMWZiOThiMzM4ZWU2ZjdjZjhlZjk2MTUz
-YjdkMjQyZjQ1NjhmZTYwZjliNzQzNDUyNGVjYTYzMGE1N2JkNTM4YiIKIAogREVQRU5EUyA9ICJn
-bGliLTIuMCBnbGliLTIuMC1uYXRpdmUgZm9udGNvbmZpZyBmcmVldHlwZSB2aXJ0dWFsL2xpYmlj
-b252IGNhaXJvIGhhcmZidXp6IGZyaWJpZGkiCiAKLS0gCjIuNDQuMQoK
+CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDk6Mjg6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tbG9hZGVyOiB1cGdyYWRlIDEuMy4yOTYuMCAtPiAxLjQuMzA0LjAKCi0tLQogLi4ue3Z1
+bGthbi1sb2FkZXJfMS4zLjI5Ni4wLmJiID0+IHZ1bGthbi1sb2FkZXJfMS40LjMwNC4wLmJifSB8
+IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3t2dWxrYW4tbG9hZGVyXzEuMy4y
+OTYuMC5iYiA9PiB2dWxrYW4tbG9hZGVyXzEuNC4zMDQuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjI5Ni4wLmJi
+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuNC4zMDQuMC5i
+YgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+dnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjI5Ni4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS40LjMwNC4wLmJiCmluZGV4IDkyZWQxOGMy
+OTkuLmJmZWU0YjlmNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
+dnVsa2FuLWxvYWRlcl8xLjMuMjk2LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4tbG9hZGVyXzEuNC4zMDQuMC5iYgpAQCAtOSw4ICs5LDggQEAgU0VDVElPTiA9
+ICJsaWJzIgogCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
+bGU6Ly9MSUNFTlNFLnR4dDttZDU9N2RiZWZlZDIzMjQyNzYwYWEzNDc1ZWU0MjgwMWM1YWMiCi1T
+UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Mb2FkZXIuZ2l0
+O2JyYW5jaD12dWxrYW4tc2RrLTEuMy4yOTY7cHJvdG9jb2w9aHR0cHMiCi1TUkNSRVYgPSAiN2Fl
+YjVlNDMyNDk1N2I2ZjYwZGFjNWM4Y2VkYjk1NWRmNGZlY2JmYiIKK1NSQ19VUkkgPSAiZ2l0Oi8v
+Z2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLUxvYWRlci5naXQ7YnJhbmNoPW1haW47cHJv
+dG9jb2w9aHR0cHMiCitTUkNSRVYgPSAiNmE2ODc4YzYxNGM4YzZkYmU4MWVlN2E5ZjExNzZiZGI1
+MmRjN2RkNyIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40NC4xCgo=
 
---===============7387485529974378098==--
+--===============0904986845924827381==--
 
