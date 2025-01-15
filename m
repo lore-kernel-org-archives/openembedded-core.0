@@ -1,150 +1,114 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <madmarri@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 478CFC02180
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 14:38:24 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.22658.1736951894295088577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982AAC02180
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 15:29:24 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web10.24002.1736954963043826401
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 06:38:14 -0800
+ Wed, 15 Jan 2025 07:29:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pa8SrGk1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-215770613dbso83531345ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 06:38:14 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=i+MX3ksK;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: madmarri@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1736951893; x=1737556693; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rwaLYtX/0+kDhM1qb0x7aoslHr6jQPs/zlcLeN68G9M=;
-        b=pa8SrGk1h+QbrQ2BueDHDsNxx0GDBpZmlwW+VfjxAsyc6zvEabHvvgZbIksfu6C/f7
-         bq/cRAz7UVARZVWX521fsl/O+fW0zrrCn1kO9a1EJreYNtVjoNGb9ZhTy8+jEibEk+wi
-         uC/waIpCVnljQLR2/su7izmPLj3UPoQ+YJWf6t755o8jtqLMcNrkIXnjm8PMgGgI/PJS
-         cqcZrGtjttOwoYty+G5TV4O4/lS7IXNeonKotEJr89xwBDMmfsX0/Z6iOmhbV+PcNjfu
-         fx9wBEyprIntZe6IKmDbmNjp1tvlfhPJ57QgGicZr/onMIv93v7svTCgkGg/9fi3AnkE
-         IQjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736951893; x=1737556693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rwaLYtX/0+kDhM1qb0x7aoslHr6jQPs/zlcLeN68G9M=;
-        b=T69qS4ZQbV7zEKq6urZCJkPiivPCCYb32l3dIPWkz3N13wZyFJyI+Vbwd44Ypp5FeZ
-         QNI4NPM3k6qgUOr2dxGTOwecWG1zklvWOIMv6d/GbUVjDOj3zH70p2vJSpfGzUgLhNoY
-         KEh/tOHpxPjJGHXme7YfTPvm4pPdruHmTumVPiGlFyTJgZJ2OndV/BX+BIj76h6r0HkD
-         lrkMYL3wuaYoCIll8q3bEMFIn7MUEfjwStFUCKye8kn5lbCBjbEuWCWEs0778BfDiEum
-         1jTNwc05M2c846wltbW5ttEejI5b1K+ZNUzcbSNR/+b2jhoqgzJGYdYQBYiNL/ShoVGI
-         38Lg==
-X-Gm-Message-State: AOJu0YxN6PKbhuaC5eTIWDb/n9tKrs2Xca5Hb1/wjyxbR0ClRF5PkLyp
-	kZXRDOrTgvCuR47TatzeHQJz/ueaxCjjI4L4AA0xTbuVoCJuUaGLvf+ADVurHUv/vsdMz20Tncq
-	9ir0=
-X-Gm-Gg: ASbGncuTSb0XGNVMjpi08qQSXapNhvEPgMoAdAylv9N7zAIwMPbkrfZGpWmYzkyXHMz
-	oVicj/13/OjKyWvmQL7aLgcEFfbTsvTfYZhNce5upvk79H0dAEbq5NhsoYqbRMLaY/gjx84ygya
-	LxqILT5t41ZSL+Cyx7mkWQAXXb1lrrOhioEfdHv/H8TdZYDOkpfZ5TwBa6tpvmVKKfZn9Ua5WM9
-	Qgjli8m69EjARhyO/boZaDWGb2kVnCMAo/bFqky25Q1RQ==
-X-Google-Smtp-Source: AGHT+IGTZVNqw/rldHlwN4KhZWtHjnUPNHCVw1nqlebRTUlVVka10K5rhEkEZxrv2nYdHkIyGe4YOw==
-X-Received: by 2002:a17:903:2b10:b0:216:2dc5:233c with SMTP id d9443c01a7336-21a83fd34b5mr462465975ad.41.1736951893603;
-        Wed, 15 Jan 2025 06:38:13 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f244cccsm82333295ad.210.2025.01.15.06.38.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 06:38:13 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+  d=cisco.com; i=@cisco.com; l=876; q=dns/txt; s=iport;
+  t=1736954963; x=1738164563;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nUuPgBvQx+9F5oz+UpGjoKWH3wMJyNB5fuRrspKtz5U=;
+  b=i+MX3ksK+KIAZ+ldM/h5CH3I6BTg9rHtyPfdEsvHEeWKRu+a2BfsY5KY
+   7rughmcuHYUpMsSTNp2agkBSti/LJVmSr89X570VIiLKwU/QPRXTZ7iSb
+   bD/owN8zVGLZlotbOCtoiPcbaASfDjm4E2OrhvZ5vKg0ksP5AD5zvYv7i
+   k=;
+X-CSE-ConnectionGUID: 367+xfDpR0+/FkMq0N51fA==
+X-CSE-MsgGUID: AmSM+m1GRX2Iq6W1WO/Kpg==
+X-IPAS-Result: =?us-ascii?q?A0AUAAC904dnj5QQJK1aHAEBAQEBAQcBARIBAQQEAQGCA?=
+ =?us-ascii?q?AYBAQsBg0BZQ0i0X4ElA1YPAQEBDzETBAEBhQeKdQImNQgOAQIEAQEBAQMCA?=
+ =?us-ascii?q?wEBAQEBAQEBAQEBCwEBBQEBAQIBBwUUAQEBAQEBOQVJhgiGXTYBRoEMRIMBA?=
+ =?us-ascii?q?YJkA7MRgiyBAYR72TiBbYFIAY1JhWcnG4FJRIR9hRCFdwSHZp8HSIEhA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBcgM4DAswFTSBGHuCRmlJNwINAjWCHnyCK4RchEeEVYVighSCE?=
+ =?us-ascii?q?YQ9QAMLGA1IESw3FBsGPm4HmzoBPINxAYEOgUeBQ5JZa7JlhCWEb4cplS4aM?=
+ =?us-ascii?q?6pTLphOpEeEZoFoATiBWzMaCBsVgyIJSRkPjjofwzJGMjwCBwsBAQMJkXEBA?=
+ =?us-ascii?q?Q?=
+IronPort-Data: A9a23:778glq4RO9DuW5Q5kr7URgxRtDDHchMFZxGqfqrLsTDasY5as4F+v
+ mNNCzuHOKzfambzc9h+Ydm2pkMCupTVmNYwT1dlrnhjZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH1dOC89RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wr+KUzBHf/g2QpajtNtvrYwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eZtNHufZ5LXl0r
+ b9fBjMod0il2ru46efuIgVsrpxLwMjDNYcbvDRkiDreF/tjGMmFSKTR7tge1zA17ixMNa+BP
+ IxCN3w2MlKZP00n1lQ/UPrSmM+tj3X6eidCqXqepLE85C7YywkZPL3FbIOJJIzbHZwP9qqej
+ kvDxEG6B0g1DuzF6CPbzSuToajshSyuDer+E5Xjq6Y12wfMroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymEzq7SpgLcDW8eQ3sYMZottdQ9Qnoh0
+ Vrhc87V6SJH6+PKCmKT2q+u9XD1FyswNDckOHYKZF5QizX8m70bghXKR9dlNae6iNzpBD39q
+ wxmSgBg3N3/auZVjM2GEUD7vt66mnTeoucICuTrsoCNs1oRiG2NPtDABb3nARBodtjxor6p5
+ yRspiRmxLpSZaxhbQTUKAn3IJmn5uyeLBrXikN1Ep8q+lyFoiH4I9AAv2gmfx01b67onAMFh
+ meN4Wu9A7cObROXgVNfOdvZ5zkClPK5TIq5Bpg4kPIROcYsK2drAx2ClWbLgjiyyxJz+U3OE
+ Zyaas2rRW0LErhqySH+RuEWl9cWKtMWmwvuqWTA503/i9K2PSfNIZ9caQvmRr5itsus/l6Km
+ +uzwuPWkH2zpsWiOXGPqeb+7DkicRAGOHwBg5UMKrXbflE+SDlJ5j246epJRrGJVp99zo/gl
+ kxRkGcIoLYjrRUr8Tm3V00=
+IronPort-HdrOrdr: A9a23:+hS1Ya7iqx+9N53jygPXwMPXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBEDjexPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7d8+mUzJ876U
+ +mGJIObOHNMQ==
+X-Talos-CUID: =?us-ascii?q?9a23=3Adh8vnGti8H8o8htDh+lbGBRA6It+LCKe3Hn8O3X?=
+ =?us-ascii?q?gSiFHS5iMEXnNoa1Nxp8=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3ARAEhRw2YkmVaMR++XOYBfmuzGTUjyqGVLQMIyLo?=
+ =?us-ascii?q?8i5OlLHJPYgi6yxevTdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.13,206,1732579200"; 
+   d="scan'208";a="414689012"
+Received: from alln-l-core-11.cisco.com ([173.36.16.148])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Jan 2025 15:29:12 +0000
+Received: from sjc-ads-7373.cisco.com (sjc-ads-7373.cisco.com [10.30.220.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-11.cisco.com (Postfix) with ESMTPS id 6DD9C180001F7;
+	Wed, 15 Jan 2025 15:29:12 +0000 (GMT)
+Received: by sjc-ads-7373.cisco.com (Postfix, from userid 1839049)
+	id 00B57CC12B5; Wed, 15 Jan 2025 07:29:12 -0800 (PST)
+From: Madhu Marri <madmarri@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/11] ofono: fix CVE-2024-7546
-Date: Wed, 15 Jan 2025 06:37:48 -0800
-Message-ID: <33b2a67b3134498e8c4845efddc7854b4d2315cd.1736951751.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1736951751.git.steve@sakoman.com>
-References: <cover.1736951751.git.steve@sakoman.com>
+Cc: xe-linux-external@cisco.com,
+	madmarri@cisco.com
+Subject: [OE-core] [master] [PATCH] strace: add vendor to CVE_PRODUCT to exclude false positives
+Date: Wed, 15 Jan 2025 15:29:08 +0000
+Message-ID: <20250115152909.2368573-1-madmarri@cisco.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.220.158, sjc-ads-7373.cisco.com
+X-Outbound-Node: alln-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 14:38:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209915
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 15:29:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209917
 
-From: Yogita Urade <yogita.urade@windriver.com>
+- To avoid false positives such as CVE-2000-0006, add the CVE_PRODUCT
+value with the vendor.
+- The CVE-2000-0006 has the vendor paul_kranenburg:strace.
+- This change has been verified by running do_cve_check task for
+strace package.
 
-oFono SimToolKit Heap-based Buffer Overflow Privilege Escalation
-Vulnerability. This vulnerability allows local attackers to execute
-arbitrary code on affected installations of oFono. An attacker must
-first obtain the ability to execute code on the target modem in
-order to exploit this vulnerability.
-
-The specific flaw exists within the parsing of STK command PDUs.
-The issue results from the lack of proper validation of the length
-of user-supplied data prior to copying it to a heap-based buffer.
-An attacker can leverage this vulnerability to execute code in the
-context of the service account. Was ZDI-CAN-23459.
-
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2024-7546
-
-Upstream patch:
-https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=79ea6677669e50b0bb9c231765adb4f81c375f63
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Madhu Marri <madmarri@cisco.com>
 ---
- .../ofono/ofono/CVE-2024-7546.patch           | 30 +++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
+ meta/recipes-devtools/strace/strace_6.12.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
-new file mode 100644
-index 0000000000..aac6751625
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
-@@ -0,0 +1,30 @@
-+From 79ea6677669e50b0bb9c231765adb4f81c375f63 Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Tue, 3 Dec 2024 21:43:52 +0200
-+Subject: [PATCH] Fix CVE-2024-7546
-+
-+CVE: CVE-2024-7546
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=79ea6677669e50b0bb9c231765adb4f81c375f63]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ src/stkutil.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/stkutil.c b/src/stkutil.c
-+index e1fd75c..88a715d 100644
-+--- a/src/stkutil.c
-++++ b/src/stkutil.c
-+@@ -1783,6 +1783,10 @@ static bool parse_dataobj_frame_layout(struct comprehension_tlv_iter *iter,
-+
-+	fl->layout = data[0];
-+	fl->len = len - 1;
-++
-++	if (fl->len > sizeof(fl->size))
-++		return false;
-++
-+	memcpy(fl->size, data + 1, fl->len);
-+
-+	return true;
-+--
-+2.40.0
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-index 0597caff3c..0c1e0ea6f8 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-@@ -22,6 +22,7 @@ SRC_URI = "\
-     file://CVE-2024-7543.patch \
-     file://CVE-2024-7544.patch \
-     file://CVE-2024-7545.patch \
-+    file://CVE-2024-7546.patch \
- "
- SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
+diff --git a/meta/recipes-devtools/strace/strace_6.12.bb b/meta/recipes-devtools/strace/strace_6.12.bb
+index c16e5dc478..0cbaead216 100644
+--- a/meta/recipes-devtools/strace/strace_6.12.bb
++++ b/meta/recipes-devtools/strace/strace_6.12.bb
+@@ -53,3 +53,6 @@ do_install_ptest() {
+ RDEPENDS:${PN}-ptest += "make coreutils grep gawk sed locale-base-en-us"
  
+ BBCLASSEXTEND = "native"
++
++# adding 'CVE_PRODUCT' to avoid false detection of CVEs
++CVE_PRODUCT = "strace:strace"
 -- 
-2.43.0
+2.44.1
 
 
