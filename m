@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 931ECC021A9
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.17796.1736936768796530175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD635C021B1
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:31 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.17883.1736936782289879678
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 02:26:08 -0800
+ Wed, 15 Jan 2025 02:26:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CpQQiH6m;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zaF61LNO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194697fc220-e31f6f25-45fd-42be-a39d-60e0071bb57a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=X0Xw541j;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DQNj/VIH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010194697ff5a4-9463195a-d255-4b4a-8e11-06e146a69418-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1736936768;
+	t=1736936781;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2MWRVhsBbqCvofiKTJQ+6tzLy5ZleSJ4yaiGX6qDoJw=;
-	b=CpQQiH6mASBdXJVh5bpwOwNB3HtKVe1IaUJGhyJU+Rbgsx0lVUA+TqWZzp9csCtd
-	NnIxu+eY9F/hhGO5s8jR5PKVvkv03rPhP7bBNlzcRSS1/gx2qIbYyCcTFo8vtuSII6I
-	4kUhK0Qf+0/oK7PJsFpFmjn3QNbs34vb+wPn1iH8=
+	bh=QejCLT7NWgF6NWgkpqFEEGkKp2K+/sYoaIBEKK8xf1Y=;
+	b=X0Xw541jXZPR+aw2DzCxn1M8NMfg/DkHptL+76aOlD1O47AqA/YPZUX0eZ82/ojo
+	ifxjrQMTz0kLlWyIuKiiDxj93TjQP9UYHQWMICFrtL4xjzDsBctIyBzI5oeuwVTpK9V
+	qseM1jox/3hrj2AAFAFo36MkMcM5EUXyeyl0v6zs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936768;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936781;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2MWRVhsBbqCvofiKTJQ+6tzLy5ZleSJ4yaiGX6qDoJw=;
-	b=zaF61LNOo6+1+NkLv0nXX5+IhgUX11s2bh0su8SgYnGj9BavT94iJ9ht8C6hCtjz
-	nF9Hd/85TUWGZzZjPqCYpZ/SsstKVa70Uqw+k+ySgPEUVhI6VrgeakJ3b+0EBeThBck
-	gwpBwCCJdX18TyAkC9REruGdPioWDZczhpwFWiNI=
-Content-Type: multipart/mixed; boundary="===============5129063683031260590=="
+	bh=QejCLT7NWgF6NWgkpqFEEGkKp2K+/sYoaIBEKK8xf1Y=;
+	b=DQNj/VIHda1HwrFG8QbThH3N/GrrAiNtpQmdYUMSv7DHKnjtmeOxPgvvzGhsfie1
+	uWE11DL0UK5q03XMLotOX4V27TxHrK7ovV5Cuo0Q3FZ4T5SJXF5oW4OJz/oujhvS1de
+	iKVMhPNBG3BKJu2aO3kMi/NzXE2cTpjs6bK6FmJg=
+Content-Type: multipart/mixed; boundary="===============2661355651424868386=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-binary-native: upgrading to 1.23.4 SUCCEEDED
-Message-ID: <01010194697fc220-e31f6f25-45fd-42be-a39d-60e0071bb57a-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jan 2025 10:26:08 +0000
+Subject: [AUH] gst-devtools: upgrading to 1.24.11 SUCCEEDED
+Message-ID: <01010194697ff5a4-9463195a-d255-4b4a-8e11-06e146a69418-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jan 2025 10:26:21 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.15-54.240.27.191
+X-SES-Outgoing: 2025.01.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209842
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209885
 
---===============5129063683031260590==
+--===============2661355651424868386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *go-binary-native* to *1.23.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gst-devtools* to *1.24.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-binary-native-upgrade-1.22.8-1.23.4.patch
+    - apply the patch: git am 0001-gst-devtools-upgrade-1.24.10-1.24.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,1623 +72,1255 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a9659537824364c11013c23ee3ceeeb12fe7361c Mon Sep 17 00:00:00 2001
+From d3a293389ac555534edfc6db3e994f6855aa255b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jan 2025 06:49:49 +0000
-Subject: [PATCH] go-binary-native: upgrade 1.22.8 -> 1.23.4
+Date: Wed, 15 Jan 2025 09:57:17 +0000
+Subject: [PATCH] gst-devtools: upgrade 1.24.10 -> 1.24.11
 
 ---
- ...{go-binary-native_1.22.8.bb => go-binary-native_1.23.4.bb} | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.8.bb => go-binary-native_1.23.4.bb} (78%)
+ .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
+ .../{gst-devtools_1.24.10.bb => gst-devtools_1.24.11.bb}        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.10.bb => gst-devtools_1.24.11.bb} (95%)
 
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.8.bb b/meta/recipes-devtools/go/go-binary-native_1.23.4.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.8.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.23.4.bb
-index 98799eb503..071ad2478c 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.23.4.bb
-@@ -9,9 +9,7 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+index 7423cebc39..7c7ba888bb 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+@@ -1,4 +1,4 @@
+-From 9749abecad3ffcd497e216f813f935f0937e6453 Mon Sep 17 00:00:00 2001
++From ee11bda42fe7aea9f9e0f7ae7811c3cb5aca3c02 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 9 Sep 2018 17:38:10 -0700
+ Subject: [PATCH] connect has a different signature on musl
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.10.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.10.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb
+index 7e46634ed0..7ab250f564 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "5f467d29fc67c7ae6468cb6ad5b047a274bae8180cac5e0b7ddbfeba3e47e18f"
--SRC_URI[go_linux_arm64.sha256sum] = "5c616b32dab04bb8c4c8700478381daea0174dc70083e4026321163879278a4a"
--SRC_URI[go_linux_ppc64le.sha256sum] = "c546f27866510bf8e54e86fe6f58c705af0e894341e5572c91f197a734152c27"
-+SRC_URI[go_linux_amd64.sha256sum] = "6924efde5de86fe277676e929dc9917d466efa02fb934197bc2eba35d5680971"
+-SRC_URI[sha256sum] = "2983537148b0a8d52bad2a3f4c9dcca808fd5aa12fccee25acc4a4277f0780ec"
++SRC_URI[sha256sum] = "73990a939c1ea9d9ca199b8cd135dd3a7120b495004aaa79299257d9cd897834"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
 -- 
 2.44.1
 
 
---===============5129063683031260590==
+--===============2661355651424868386==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-go-binary-native-upgrade-1.22.8-1.23.4.patch"
+ filename="0001-gst-devtools-upgrade-1.24.10-1.24.11.patch"
 
-RnJvbSBhOTY1OTUzNzgyNDM2NGMxMTAxM2MyM2VlM2NlZWViMTJmZTczNjFjIE1vbiBTZXAgMTcg
+RnJvbSBkM2EyOTMzODlhYzU1NTUzNGVkZmM2ZGIzZTk5NGY2ODU1YWEyNTViIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDY6NDk6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-by1iaW5hcnktbmF0aXZlOiB1cGdyYWRlIDEuMjIuOCAtPiAxLjIzLjQKCi0tLQogLi4ue2dvLWJp
-bmFyeS1uYXRpdmVfMS4yMi44LmJiID0+IGdvLWJpbmFyeS1uYXRpdmVfMS4yMy40LmJifSB8IDQg
-Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tYmluYXJ5LW5hdGl2ZV8xLjIyLjguYmIg
-PT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjIzLjQuYmJ9ICg3OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yMi44LmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yMy40LmJiCnNpbWlsYXJpdHkgaW5k
-ZXggNzglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0
-aXZlXzEuMjIuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFy
-eS1uYXRpdmVfMS4yMy40LmJiCmluZGV4IDk4Nzk5ZWI1MDMuLjA3MWFkMjQ3OGMgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0aXZlXzEuMjIuOC5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjIzLjQuYmIK
-QEAgLTksOSArOSw3IEBAIFBST1ZJREVTID0gImdvLW5hdGl2ZSIKIAogIyBDaGVja3N1bXMgYXZh
-aWxhYmxlIGF0IGh0dHBzOi8vZ28uZGV2L2RsLwogU1JDX1VSSSA9ICJodHRwczovL2RsLmdvb2ds
-ZS5jb20vZ28vZ28ke1BWfS4ke0JVSUxEX0dPT1N9LSR7QlVJTERfR09BUkNIfS50YXIuZ3o7bmFt
-ZT1nb18ke0JVSUxEX0dPVFVQTEV9IgotU1JDX1VSSVtnb19saW51eF9hbWQ2NC5zaGEyNTZzdW1d
-ID0gIjVmNDY3ZDI5ZmM2N2M3YWU2NDY4Y2I2YWQ1YjA0N2EyNzRiYWU4MTgwY2FjNWUwYjdkZGJm
-ZWJhM2U0N2UxOGYiCi1TUkNfVVJJW2dvX2xpbnV4X2FybTY0LnNoYTI1NnN1bV0gPSAiNWM2MTZi
-MzJkYWIwNGJiOGM0Yzg3MDA0NzgzODFkYWVhMDE3NGRjNzAwODNlNDAyNjMyMTE2Mzg3OTI3OGE0
-YSIKLVNSQ19VUklbZ29fbGludXhfcHBjNjRsZS5zaGEyNTZzdW1dID0gImM1NDZmMjc4NjY1MTBi
-ZjhlNTRlODZmZTZmNThjNzA1YWYwZTg5NDM0MWU1NTcyYzkxZjE5N2E3MzQxNTJjMjciCitTUkNf
-VVJJW2dvX2xpbnV4X2FtZDY0LnNoYTI1NnN1bV0gPSAiNjkyNGVmZGU1ZGU4NmZlMjc3Njc2ZTky
-OWRjOTkxN2Q0NjZlZmEwMmZiOTM0MTk3YmMyZWJhMzVkNTY4MDk3MSIKIAogVVBTVFJFQU1fQ0hF
-Q0tfVVJJID0gImh0dHBzOi8vZ29sYW5nLm9yZy9kbC8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9
-ICJnbyg/UDxwdmVyPlxkKyhcLlxkKykrKVwubGludXgiCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMDk6NTc6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yNC4xMCAtPiAxLjI0LjExCgotLS0KIC4uLi8wMDAxLWNv
+bm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoICAgICAgICB8IDIg
+Ky0KIC4uLi97Z3N0LWRldnRvb2xzXzEuMjQuMTAuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuMTEu
+YmJ9ICAgICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0
+LWRldnRvb2xzXzEuMjQuMTAuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuMTEuYmJ9ICg5NSUpCgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29s
+cy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29scy8wMDAxLWNvbm5l
+Y3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoCmluZGV4IDc0MjNjZWJj
+MzkuLjdjN2JhODg4YmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3QtZGV2dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUt
+b24tbXVzbC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+LWRldnRvb2xzLzAwMDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk3NDlhYmVjYWQzZmZjZDQ5N2UyMTZmODEzZjkz
+NWYwOTM3ZTY0NTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVlMTFiZGE0MmZlN2Fl
+YTlmOWUwZjdhZTc4MTFjM2NiNWFjYTNjMDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogU3VuLCA5IFNlcCAyMDE4IDE3
+OjM4OjEwIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNvbm5lY3QgaGFzIGEgZGlmZmVyZW50IHNp
+Z25hdHVyZSBvbiBtdXNsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0LWRldnRvb2xzXzEuMjQuMTAuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
+c3RyZWFtZXIvZ3N0LWRldnRvb2xzXzEuMjQuMTEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18x
+LjI0LjEwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+LWRldnRvb2xzXzEuMjQuMTEuYmIKaW5kZXggN2U0NjYzNGVkMC4uN2FiMjUwZjU2NCAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0
+LjEwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9v
+bHNfMS4yNC4xMS5iYgpAQCAtMTIsNyArMTIsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVh
+bWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LWRldnRvb2xzL2dzdC1kZXZ0b29scy0ke1BWfQog
+ICAgICAgICAgICBmaWxlOi8vMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUt
+b24tbXVzbC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5
+ODM1MzcxNDhiMGE4ZDUyYmFkMmEzZjRjOWRjY2E4MDhmZDVhYTEyZmNjZWUyNWFjYzRhNDI3N2Yw
+NzgwZWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzM5OTBhOTM5YzFlYTlkOWNhMTk5YjhjZDEz
+NWRkM2E3MTIwYjQ5NTAwNGFhYTc5Mjk5MjU3ZDljZDg5NzgzNCIKIAogREVQRU5EUyA9ICJqc29u
+LWdsaWIgZ2xpYi0yLjAgZ2xpYi0yLjAtbmF0aXZlIGdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
+cGx1Z2lucy1iYXNlIgogUlJFQ09NTUVORFM6JHtQTn0gPSAiZ2l0IgotLSAKMi40NC4xCgo=
 
---===============5129063683031260590==
+--===============2661355651424868386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Changes to packages/x86_64-linux/go-binary-native (sysroot):
-  /usr/lib/go/api/go1.23.txt was added
-  /usr/lib/go/doc/initial was added
-  /usr/lib/go/doc/initial/1-intro.md was added
-  /usr/lib/go/doc/initial/2-language.md was added
-  /usr/lib/go/doc/initial/3-tools.md was added
-  /usr/lib/go/doc/initial/4-runtime.md was added
-  /usr/lib/go/doc/initial/5-toolchain.md was added
-  /usr/lib/go/doc/initial/6-stdlib was added
-  /usr/lib/go/doc/initial/6-stdlib/0-heading.md was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor/0-heading.md was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor/README was added
-  /usr/lib/go/doc/initial/7-ports.md was added
-  /usr/lib/go/doc/README.md was added
-  /usr/lib/go/pkg/tool/linux_amd64/preprofile was added
-  /usr/lib/go/src/cmd/cgo/internal/test/cgo_stubs_ppc64x_internal_linking_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/intervals.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/intervals_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/mergelocals.go was added
-  /usr/lib/go/src/cmd/compile/internal/pgoir was added
-  /usr/lib/go/src/cmd/compile/internal/pgoir/irgraph.go was added
-  /usr/lib/go/src/cmd/compile/internal/syntax/issues_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/test/mergelocals_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/compiler_internal.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/errsupport.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/format.go was added
-  /usr/lib/go/src/cmd/go/internal/script/cmds_nonunix.go was added
-  /usr/lib/go/src/cmd/go/internal/script/cmds_unix.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrycmd was added
-  /usr/lib/go/src/cmd/go/internal/telemetrycmd/telemetry.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats_bootstrap.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_other.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_unix.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_windows.go was added
-  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen.go was added
-  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen_test.go was added
-  /usr/lib/go/src/cmd/internal/obj/arm64/asm_test.go was added
-  /usr/lib/go/src/cmd/internal/obj/loong64/asm_test.go was added
-  /usr/lib/go/src/cmd/internal/pgo was added
-  /usr/lib/go/src/cmd/internal/pgo/deserialize.go was added
-  /usr/lib/go/src/cmd/internal/pgo/pgo.go was added
-  /usr/lib/go/src/cmd/internal/pgo/pprof.go was added
-  /usr/lib/go/src/cmd/internal/pgo/serialize.go was added
-  /usr/lib/go/src/cmd/internal/pgo/serialize_test.go was added
-  /usr/lib/go/src/cmd/internal/telemetry was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter/counter_bootstrap.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter/counter.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/telemetry_bootstrap.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/telemetry.go was added
-  /usr/lib/go/src/cmd/link/internal/ld/macho_update_uuid.go was added
-  /usr/lib/go/src/cmd/preprofile was added
-  /usr/lib/go/src/cmd/preprofile/main.go was added
-  /usr/lib/go/src/cmd/relnote was added
-  /usr/lib/go/src/cmd/relnote/relnote_test.go was added
-  /usr/lib/go/src/cmd/trace/gen.go was added
-  /usr/lib/go/src/cmd/trace/goroutinegen.go was added
-  /usr/lib/go/src/cmd/trace/gstate.go was added
-  /usr/lib/go/src/cmd/trace/jsontrace.go was added
-  /usr/lib/go/src/cmd/trace/jsontrace_test.go was added
-  /usr/lib/go/src/cmd/trace/procgen.go was added
-  /usr/lib/go/src/cmd/trace/regions.go was added
-  /usr/lib/go/src/cmd/trace/tasks.go was added
-  /usr/lib/go/src/cmd/trace/threadgen.go was added
-  /usr/lib/go/src/cmd/trace/viewer.go was added
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/graph.css was added
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/svgpan/svgpan.js was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/dump.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/links.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/relnote.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/errgroup.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/pre_go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/sockcmsg_zos.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/symaddr_zos_s390x.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/zsymaddr_zos_s390x.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/CONTRIBUTING.md was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/counter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest_go121.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/dir.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.dockerignore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.eslintrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitattributes was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitignore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config/config.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/counter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/file.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/stackcounter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/crash_go123.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/monitor.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_other.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_unix.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dir.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/proginfo.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/types.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/date.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/Doc.txt was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/findwork.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/reports.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/run.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/upload.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/mode.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npm was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npx was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package-lock.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.prettierrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/README.md was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_posix.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.stylelintrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/tsconfig.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/types_alias.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/cases.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/context.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/fold.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/icu.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/info.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/map.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables10.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables11.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables12.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables13.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables15.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables9.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/trieval.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/internal.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/common.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/compact.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/parents.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compose.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/coverage.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/lookup.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag/tag.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/coverage.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform/transform.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/composition.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/forminfo.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/input.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/iter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/normalize.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/readwriter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/transform.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/trie.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion/stdversion.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go121.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go122.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/manifest.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/stdlib.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typeparams/free.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode_string.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/recv.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/toonew.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/types.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/features.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go119.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go121.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/break.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/code.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/emoji.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/entity.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/heading.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/html.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/inline.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/link.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/list.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/para.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/parse.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/quote.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/README.md was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/table.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/tables.go was added
-  /usr/lib/go/src/crypto/internal/cryptotest was added
-  /usr/lib/go/src/crypto/internal/cryptotest/hash.go was added
-  /usr/lib/go/src/crypto/internal/hpke was added
-  /usr/lib/go/src/crypto/internal/hpke/hpke.go was added
-  /usr/lib/go/src/crypto/internal/hpke/hpke_test.go was added
-  /usr/lib/go/src/crypto/internal/mlkem768 was added
-  /usr/lib/go/src/crypto/internal/mlkem768/mlkem768.go was added
-  /usr/lib/go/src/crypto/internal/mlkem768/mlkem768_test.go was added
-  /usr/lib/go/src/crypto/purego_test.go was added
-  /usr/lib/go/src/crypto/rand/rand_darwin.go was added
-  /usr/lib/go/src/crypto/sha512/sha512block_riscv64.s was added
-  /usr/lib/go/src/crypto/tls/bogo_config.json was added
-  /usr/lib/go/src/crypto/tls/bogo_shim_test.go was added
-  /usr/lib/go/src/crypto/tls/defaults.go was added
-  /usr/lib/go/src/crypto/tls/ech.go was added
-  /usr/lib/go/src/crypto/tls/ech_test.go was added
-  /usr/lib/go/src/encoding/csv/fuzz_test.go was added
-  /usr/lib/go/src/flag/example_flagset_test.go was added
-  /usr/lib/go/src/go/ast/walk_test.go was added
-  /usr/lib/go/src/go/build/vendor_test.go was added
-  /usr/lib/go/src/go/types/badlinkname.go was added
-  /usr/lib/go/src/go/types/errsupport.go was added
-  /usr/lib/go/src/go/types/format.go was added
-  /usr/lib/go/src/hash/crc32/gen.go was added
-  /usr/lib/go/src/internal/abi/escape.go was added
-  /usr/lib/go/src/internal/abi/iface.go was added
-  /usr/lib/go/src/internal/abi/rangefuncconsts.go was added
-  /usr/lib/go/src/internal/abi/runtime.go was added
-  /usr/lib/go/src/internal/asan was added
-  /usr/lib/go/src/internal/asan/asan.go was added
-  /usr/lib/go/src/internal/asan/doc.go was added
-  /usr/lib/go/src/internal/asan/noasan.go was added
-  /usr/lib/go/src/internal/byteorder was added
-  /usr/lib/go/src/internal/byteorder/byteorder.go was added
-  /usr/lib/go/src/internal/concurrent was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap_bench_test.go was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap.go was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile was added
-  /usr/lib/go/src/internal/coverage/cfile/apis.go was added
-  /usr/lib/go/src/internal/coverage/cfile/emitdata_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile/emit.go was added
-  /usr/lib/go/src/internal/coverage/cfile/hooks.go was added
-  /usr/lib/go/src/internal/coverage/cfile/snapshot_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile/testsupport.go was added
-  /usr/lib/go/src/internal/coverage/cfile/ts_test.go was added
-  /usr/lib/go/src/internal/filepathlite was added
-  /usr/lib/go/src/internal/filepathlite/path.go was added
-  /usr/lib/go/src/internal/filepathlite/path_nonwindows.go was added
-  /usr/lib/go/src/internal/filepathlite/path_plan9.go was added
-  /usr/lib/go/src/internal/filepathlite/path_unix.go was added
-  /usr/lib/go/src/internal/filepathlite/path_windows.go was added
-  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_off.go was added
-  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_on.go was added
-  /usr/lib/go/src/internal/msan was added
-  /usr/lib/go/src/internal/msan/doc.go was added
-  /usr/lib/go/src/internal/msan/msan.go was added
-  /usr/lib/go/src/internal/msan/nomsan.go was added
-  /usr/lib/go/src/internal/poll/sendfile.go was added
-  /usr/lib/go/src/internal/poll/sock_cloexec_solaris.go was added
-  /usr/lib/go/src/internal/profile/graph.go was added
-  /usr/lib/go/src/internal/profilerecord was added
-  /usr/lib/go/src/internal/profilerecord/profilerecord.go was added
-  /usr/lib/go/src/internal/runtime was added
-  /usr/lib/go/src/internal/runtime/atomic was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_386.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_386.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_generic.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/bench_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/doc.go was added
-  /usr/lib/go/src/internal/runtime/atomic/stubs.go was added
-  /usr/lib/go/src/internal/runtime/atomic/sys_linux_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/sys_nonlinux_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/types_64bit.go was added
-  /usr/lib/go/src/internal/runtime/atomic/types.go was added
-  /usr/lib/go/src/internal/runtime/atomic/unaligned.go was added
-  /usr/lib/go/src/internal/runtime/exithook was added
-  /usr/lib/go/src/internal/runtime/exithook/hooks.go was added
-  /usr/lib/go/src/internal/runtime/syscall was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_386.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_amd64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_loong64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mips64x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mipsx.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_ppc64x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_riscv64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_s390x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_386.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_amd64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_loong64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mips64x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mipsx.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_ppc64x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_riscv64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_s390x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/syscall_linux.go was added
-  /usr/lib/go/src/internal/runtime/syscall/syscall_linux_test.go was added
-  /usr/lib/go/src/internal/stringslite was added
-  /usr/lib/go/src/internal/stringslite/strings.go was added
-  /usr/lib/go/src/internal/syscall/unix/arc4random_darwin.go was added
-  /usr/lib/go/src/internal/syscall/unix/asm_openbsd.s was added
-  /usr/lib/go/src/internal/syscall/unix/eaccess_darwin.go was added
-  /usr/lib/go/src/internal/syscall/unix/eaccess_openbsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris.go was added
-  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris_test.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_bsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_netbsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_posix.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_mipsx.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_other.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_test.go was added
-  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_bsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_linux.go was added
-  /usr/lib/go/src/internal/syscall/windows/types_windows.go was added
-  /usr/lib/go/src/internal/syscall/windows/version_windows.go was added
-  /usr/lib/go/src/internal/syscall/windows/version_windows_test.go was added
-  /usr/lib/go/src/internal/sysinfo/cpuinfo_bsd.go was added
-  /usr/lib/go/src/internal/sysinfo/export_test.go was added
-  /usr/lib/go/src/internal/sysinfo/sysinfo_test.go was added
-  /usr/lib/go/src/internal/trace/base.go was added
-  /usr/lib/go/src/internal/trace/batchcursor.go was added
-  /usr/lib/go/src/internal/trace/batchcursor_test.go was added
-  /usr/lib/go/src/internal/trace/batch.go was added
-  /usr/lib/go/src/internal/trace/event was added
-  /usr/lib/go/src/internal/trace/event/event.go was added
-  /usr/lib/go/src/internal/trace/event.go was added
-  /usr/lib/go/src/internal/trace/event/go122 was added
-  /usr/lib/go/src/internal/trace/event/go122/event.go was added
-  /usr/lib/go/src/internal/trace/event/requirements.go was added
-  /usr/lib/go/src/internal/trace/event_test.go was added
-  /usr/lib/go/src/internal/trace/export_test.go was added
-  /usr/lib/go/src/internal/trace/generation.go was added
-  /usr/lib/go/src/internal/trace/internal was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/order.go was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/parser.go was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/parser_test.go was added
-  /usr/lib/go/src/internal/trace/internal/testgen was added
-  /usr/lib/go/src/internal/trace/internal/testgen/go122 was added
-  /usr/lib/go/src/internal/trace/internal/testgen/go122/trace.go was added
-  /usr/lib/go/src/internal/trace/oldtrace.go was added
-  /usr/lib/go/src/internal/trace/oldtrace_test.go was added
-  /usr/lib/go/src/internal/trace/order_test.go was added
-  /usr/lib/go/src/internal/trace/raw was added
-  /usr/lib/go/src/internal/trace/raw/doc.go was added
-  /usr/lib/go/src/internal/trace/raw/event.go was added
-  /usr/lib/go/src/internal/trace/raw/reader.go was added
-  /usr/lib/go/src/internal/trace/raw/textreader.go was added
-  /usr/lib/go/src/internal/trace/raw/textwriter.go was added
-  /usr/lib/go/src/internal/trace/raw/writer.go was added
-  /usr/lib/go/src/internal/trace/reader.go was added
-  /usr/lib/go/src/internal/trace/reader_test.go was added
-  /usr/lib/go/src/internal/trace/resources.go was added
-  /usr/lib/go/src/internal/trace/testtrace was added
-  /usr/lib/go/src/internal/trace/testtrace/expectation.go was added
-  /usr/lib/go/src/internal/trace/testtrace/format.go was added
-  /usr/lib/go/src/internal/trace/testtrace/validation.go was added
-  /usr/lib/go/src/internal/trace/trace_test.go was added
-  /usr/lib/go/src/internal/trace/value.go was added
-  /usr/lib/go/src/internal/trace/version was added
-  /usr/lib/go/src/internal/trace/version/version.go was added
-  /usr/lib/go/src/internal/weak was added
-  /usr/lib/go/src/internal/weak/pointer.go was added
-  /usr/lib/go/src/internal/weak/pointer_test.go was added
-  /usr/lib/go/src/maps/iter.go was added
-  /usr/lib/go/src/maps/iter_test.go was added
-  /usr/lib/go/src/net/http/transport_dial_test.go was added
-  /usr/lib/go/src/net/internal/cgotest was added
-  /usr/lib/go/src/net/internal/cgotest/empty_test.go was added
-  /usr/lib/go/src/net/internal/cgotest/resstate.go was added
-  /usr/lib/go/src/net/sock_cloexec_solaris.go was added
-  /usr/lib/go/src/net/splice_linux_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_darwin_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_posix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_solaris_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_unix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_windows_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_illumos_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_posix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_solaris_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_test.go was added
-  /usr/lib/go/src/net/tcpsock_solaris.go was added
-  /usr/lib/go/src/net/tcpsock_unix.go was added
-  /usr/lib/go/src/net/tcpsock_windows.go was added
-  /usr/lib/go/src/os/copy_test.go was added
-  /usr/lib/go/src/os/exec_linux.go was added
-  /usr/lib/go/src/os/exec_nohandle.go was added
-  /usr/lib/go/src/os/exec_test.go was added
-  /usr/lib/go/src/os/pidfd_linux.go was added
-  /usr/lib/go/src/os/pidfd_linux_test.go was added
-  /usr/lib/go/src/os/pidfd_other.go was added
-  /usr/lib/go/src/reflect/badlinkname.go was added
-  /usr/lib/go/src/reflect/iter.go was added
-  /usr/lib/go/src/reflect/iter_test.go was added
-  /usr/lib/go/src/runtime/badlinkname.go was added
-  /usr/lib/go/src/runtime/badlinkname_linux.go was added
-  /usr/lib/go/src/runtime/coro_test.go was added
-  /usr/lib/go/src/runtime/coverage/coverage.go was added
-  /usr/lib/go/src/runtime/debug/example_monitor_test.go was added
-  /usr/lib/go/src/runtime/linkname.go was added
-  /usr/lib/go/src/runtime/linkname_unix.go was added
-  /usr/lib/go/src/runtime/msize.go was added
-  /usr/lib/go/src/runtime/netpoll_kqueue_event.go was added
-  /usr/lib/go/src/runtime/netpoll_kqueue_pipe.go was added
-  /usr/lib/go/src/runtime/trace2map_test.go was added
-  /usr/lib/go/src/runtime/traceallocfree.go was added
-  /usr/lib/go/src/runtime/traceback_system_test.go was added
-  /usr/lib/go/src/runtime/tracebuf.go was added
-  /usr/lib/go/src/runtime/tracecpu.go was added
-  /usr/lib/go/src/runtime/traceevent.go was added
-  /usr/lib/go/src/runtime/traceexp.go was added
-  /usr/lib/go/src/runtime/tracemap.go was added
-  /usr/lib/go/src/runtime/traceregion.go was added
-  /usr/lib/go/src/runtime/traceruntime.go was added
-  /usr/lib/go/src/runtime/tracestack.go was added
-  /usr/lib/go/src/runtime/tracestatus.go was added
-  /usr/lib/go/src/runtime/tracestring.go was added
-  /usr/lib/go/src/runtime/tracetime.go was added
-  /usr/lib/go/src/runtime/tracetype.go was added
-  /usr/lib/go/src/slices/iter.go was added
-  /usr/lib/go/src/slices/iter_test.go was added
-  /usr/lib/go/src/structs was added
-  /usr/lib/go/src/structs/doc.go was added
-  /usr/lib/go/src/structs/hostlayout.go was added
-  /usr/lib/go/src/syscall/badlinkname_unix.go was added
-  /usr/lib/go/src/syscall/export_bsd_test.go was added
-  /usr/lib/go/src/syscall/linkname_bsd.go was added
-  /usr/lib/go/src/syscall/linkname_darwin.go was added
-  /usr/lib/go/src/syscall/linkname_libc.go was added
-  /usr/lib/go/src/syscall/linkname_openbsd.go was added
-  /usr/lib/go/src/syscall/linkname_unix.go was added
-  /usr/lib/go/src/testing/testing_windows_test.go was added
-  /usr/lib/go/src/unique was added
-  /usr/lib/go/src/unique/clone.go was added
-  /usr/lib/go/src/unique/clone_test.go was added
-  /usr/lib/go/src/unique/doc.go was added
-  /usr/lib/go/src/unique/handle_bench_test.go was added
-  /usr/lib/go/src/unique/handle.go was added
-  /usr/lib/go/src/unique/handle_test.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3 was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/doc.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/hashes.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/hashes_noasm.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf_amd64.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf_amd64.s was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/register.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3_s390x.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3_s390x.s was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/shake.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/shake_noasm.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/xor.go was added
-  /usr/lib/go/test/codegen/atomics.go was added
-  /usr/lib/go/test/codegen/issue66585.go was added
-  /usr/lib/go/test/fixedbugs/issue54542.go was added
-  /usr/lib/go/test/fixedbugs/issue65362.go was added
-  /usr/lib/go/test/fixedbugs/issue65417.go was added
-  /usr/lib/go/test/fixedbugs/issue65778.go was added
-  /usr/lib/go/test/fixedbugs/issue65893.go was added
-  /usr/lib/go/test/fixedbugs/issue65962.go was added
-  /usr/lib/go/test/fixedbugs/issue66261.go was added
-  /usr/lib/go/test/fixedbugs/issue66585.go was added
-  /usr/lib/go/test/fixedbugs/issue66663.go was added
-  /usr/lib/go/test/fixedbugs/issue66873.go was added
-  /usr/lib/go/test/fixedbugs/issue67190.go was added
-  /usr/lib/go/test/fixedbugs/issue68054.go was added
-  /usr/lib/go/test/fixedbugs/issue68264.go was added
-  /usr/lib/go/test/fixedbugs/issue68322.go was added
-  /usr/lib/go/test/fixedbugs/issue68415.go was added
-  /usr/lib/go/test/fixedbugs/issue68525.go was added
-  /usr/lib/go/test/fixedbugs/issue68580.go was added
-  /usr/lib/go/test/fixedbugs/issue69434.go was added
-  /usr/lib/go/test/fixedbugs/issue69507.go was added
-  /usr/lib/go/test/linknameasm.dir was added
-  /usr/lib/go/test/linknameasm.dir/a_amd64.s was added
-  /usr/lib/go/test/linknameasm.dir/x.go was added
-  /usr/lib/go/test/linknameasm.go was added
-  /usr/lib/go/src/cmd/compile/internal/pgo was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph/graph.go was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/irgraph.go was removed
-  /usr/lib/go/src/cmd/compile/internal/ssa/phielim.go was removed
-  /usr/lib/go/src/cmd/go/internal/script/cmds_other.go was removed
-  /usr/lib/go/src/cmd/go/internal/script/cmds_posix.go was removed
-  /usr/lib/go/src/cmd/internal/objabi/typekind.go was removed
-  /usr/lib/go/src/cmd/trace/annotations.go was removed
-  /usr/lib/go/src/cmd/trace/annotations_test.go was removed
-  /usr/lib/go/src/cmd/trace/trace.go was removed
-  /usr/lib/go/src/cmd/trace/trace_test.go was removed
-  /usr/lib/go/src/cmd/trace/trace_unix_test.go was removed
-  /usr/lib/go/src/cmd/trace/v2 was removed
-  /usr/lib/go/src/cmd/trace/v2/gen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/goroutinegen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/goroutines.go was removed
-  /usr/lib/go/src/cmd/trace/v2/gstate.go was removed
-  /usr/lib/go/src/cmd/trace/v2/jsontrace.go was removed
-  /usr/lib/go/src/cmd/trace/v2/jsontrace_test.go was removed
-  /usr/lib/go/src/cmd/trace/v2/main.go was removed
-  /usr/lib/go/src/cmd/trace/v2/pprof.go was removed
-  /usr/lib/go/src/cmd/trace/v2/procgen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/regions.go was removed
-  /usr/lib/go/src/cmd/trace/v2/tasks.go was removed
-  /usr/lib/go/src/cmd/trace/v2/threadgen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/viewer.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/flamegraph.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/flamegraph.html was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/d3_flame_graph.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_FLAME_GRAPH_LICENSE was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_LICENSE was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/index.js was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package.json was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package-lock.json was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/README.md was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/update.sh was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/webpack.config.js was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/epoll_zos.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/fstatfs_zos.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/windows/empty.s was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go118.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go119.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/buildtag/buildtag_old.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/ifaceassert/parameterized.go was removed
-  /usr/lib/go/src/encoding/csv/fuzz.go was removed
-  /usr/lib/go/src/image/png/fuzz.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_on.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_on.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_on.go was removed
-  /usr/lib/go/src/internal/intern was removed
-  /usr/lib/go/src/internal/intern/intern.go was removed
-  /usr/lib/go/src/internal/intern/intern_test.go was removed
-  /usr/lib/go/src/internal/poll/strconv.go was removed
-  /usr/lib/go/src/internal/profile/legacy_profile.go was removed
-  /usr/lib/go/src/internal/profile/profile_test.go was removed
-  /usr/lib/go/src/internal/safefilepath was removed
-  /usr/lib/go/src/internal/safefilepath/path.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_other.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_test.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_windows.go was removed
-  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.go was removed
-  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.s was removed
-  /usr/lib/go/src/internal/trace/goroutines.go was removed
-  /usr/lib/go/src/internal/trace/mkcanned.bash was removed
-  /usr/lib/go/src/internal/trace/parser_test.go was removed
-  /usr/lib/go/src/internal/trace/v2 was removed
-  /usr/lib/go/src/internal/trace/v2/base.go was removed
-  /usr/lib/go/src/internal/trace/v2/batchcursor.go was removed
-  /usr/lib/go/src/internal/trace/v2/batchcursor_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/batch.go was removed
-  /usr/lib/go/src/internal/trace/v2/event was removed
-  /usr/lib/go/src/internal/trace/v2/event/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event/go122 was removed
-  /usr/lib/go/src/internal/trace/v2/event/go122/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event/requirements.go was removed
-  /usr/lib/go/src/internal/trace/v2/event_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/generation.go was removed
-  /usr/lib/go/src/internal/trace/v2/internal was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122 was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122/trace.go was removed
-  /usr/lib/go/src/internal/trace/v2/mkexp.bash was removed
-  /usr/lib/go/src/internal/trace/v2/order.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw was removed
-  /usr/lib/go/src/internal/trace/v2/raw/doc.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/reader.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/textreader.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/textwriter.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/writer.go was removed
-  /usr/lib/go/src/internal/trace/v2/reader.go was removed
-  /usr/lib/go/src/internal/trace/v2/reader_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/resources.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/expectation.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/format.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/validation.go was removed
-  /usr/lib/go/src/internal/trace/v2/trace_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/value.go was removed
-  /usr/lib/go/src/internal/trace/v2/version was removed
-  /usr/lib/go/src/internal/trace/v2/version/version.go was removed
-  /usr/lib/go/src/internal/trace/writer.go was removed
-  /usr/lib/go/src/maps/maps.s was removed
-  /usr/lib/go/src/net/cgo_unix_cgo_darwin.go was removed
-  /usr/lib/go/src/net/main_noconf_test.go was removed
-  /usr/lib/go/src/net/netip/leaf_alts.go was removed
-  /usr/lib/go/src/net/sendfile_linux_test.go was removed
-  /usr/lib/go/src/net/splice_test.go was removed
-  /usr/lib/go/src/net/tcpsockopt_dragonfly.go was removed
-  /usr/lib/go/src/os/endian_big.go was removed
-  /usr/lib/go/src/os/endian_little.go was removed
-  /usr/lib/go/src/os/error_posix.go was removed
-  /usr/lib/go/src/path/filepath/path_nonwindows.go was removed
-  /usr/lib/go/src/runtime/coverage/apis.go was removed
-  /usr/lib/go/src/runtime/coverage/dummy.s was removed
-  /usr/lib/go/src/runtime/coverage/emitdata_test.go was removed
-  /usr/lib/go/src/runtime/coverage/emit.go was removed
-  /usr/lib/go/src/runtime/coverage/hooks.go was removed
-  /usr/lib/go/src/runtime/coverage/testsupport.go was removed
-  /usr/lib/go/src/runtime/coverage/ts_test.go was removed
-  /usr/lib/go/src/runtime/exithook.go was removed
-  /usr/lib/go/src/runtime/internal/atomic was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_386.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_386.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_generic.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/bench_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/doc.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/stubs.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/sys_linux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/sys_nonlinux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/types_64bit.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/types.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/unaligned.go was removed
-  /usr/lib/go/src/runtime/internal/syscall was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_386.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_amd64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_loong64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mips64x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mipsx.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_ppc64x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_riscv64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_s390x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_386.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_amd64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_loong64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mips64x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mipsx.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_ppc64x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_riscv64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_s390x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/syscall_linux.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/syscall_linux_test.go was removed
-  /usr/lib/go/src/runtime/mbitmap_allocheaders.go was removed
-  /usr/lib/go/src/runtime/mbitmap_noallocheaders.go was removed
-  /usr/lib/go/src/runtime/msize_allocheaders.go was removed
-  /usr/lib/go/src/runtime/msize_noallocheaders.go was removed
-  /usr/lib/go/src/runtime/pagetrace_off.go was removed
-  /usr/lib/go/src/runtime/pagetrace_on.go was removed
-  /usr/lib/go/src/runtime/trace2buf.go was removed
-  /usr/lib/go/src/runtime/trace2cpu.go was removed
-  /usr/lib/go/src/runtime/trace2event.go was removed
-  /usr/lib/go/src/runtime/trace2.go was removed
-  /usr/lib/go/src/runtime/trace2map.go was removed
-  /usr/lib/go/src/runtime/trace2region.go was removed
-  /usr/lib/go/src/runtime/trace2runtime.go was removed
-  /usr/lib/go/src/runtime/trace2stack.go was removed
-  /usr/lib/go/src/runtime/trace2status.go was removed
-  /usr/lib/go/src/runtime/trace2string.go was removed
-  /usr/lib/go/src/runtime/trace2time.go was removed
-  /usr/lib/go/src/runtime/trace/trace_stack_test.go was removed
-  /usr/lib/go/src/syscall/asan0.go was removed
-  /usr/lib/go/src/syscall/asan.go was removed
-  /usr/lib/go/src/syscall/endian_big.go was removed
-  /usr/lib/go/src/syscall/endian_little.go was removed
-  /usr/lib/go/src/syscall/export_darwin_test.go was removed
-  /usr/lib/go/src/syscall/export_unix_test.go was removed
-  /usr/lib/go/src/syscall/msan0.go was removed
-  /usr/lib/go/src/syscall/msan.go was removed
-  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_compat.go was removed
-  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_go1.13.go was removed
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-1.0.so.0.2410.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2410.0", added "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2411.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2411.0"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools/gst-devtools: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2410.0 /usr/lib/libgstvalidate-1.0.so.0.2410.0", added "/usr/lib/libgstvalidate-1.0.so.0.2411.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2411.0"
+packages/core2-64-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+packages/core2-64-poky-linux/gst-devtools: PV changed from "1.24.10" to "1.24.11"
+packages/core2-64-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.10.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.11.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
+packages/core2-64-poky-linux/gst-devtools: PKGV changed from 1.24.10 [default] to 1.24.11 [default]
+Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
+  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2410.0 to libgstvalidate-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2410.0 to libgstvalidate-default-overrides-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-1.0.so.0.2410.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2410.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2411.0
 
---===============5129063683031260590==
+--===============2661355651424868386==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (0 cached, 919 parsed). 1875 targets, 52 skipped, 0 masked, 0 errors.
+Removing 77 recipes from the core2-64 sysroot...done.
+Removing 82 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ef565b58f9e35d8aaeb1f74187526d2b92835b0b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 627 Local 608 Mirrors 0 Missed 19 Current 311 (96% match, 97% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+Removing 2 stale sstate objects for arch qemux86_64...done.
+Removing 1 stale sstate objects for arch allarch...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 312 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 345 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 346 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 358 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 370 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 384 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 414 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 417 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.17.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 419 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 420 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 421 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 422 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 423 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 424 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 425 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 428 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_create_spdx_setscene)
+NOTE: recipe git-2.47.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe iso-codes-4.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_populate_lic_setscene: Started
+NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe orc-0.4.40-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 431 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx_setscene)
+NOTE: recipe git-2.47.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe orc-0.4.40-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 437 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe iso-codes-4.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 439 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 441 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 443 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 444 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 445 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_packagedata_setscene)
+NOTE: recipe alsa-lib-1.2.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 446 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_packagedata_setscene)
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 447 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.55.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 449 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 450 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 451 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 453 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 454 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 456 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe git-2.47.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 457 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
+NOTE: recipe json-glib-1.10.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe git-2.47.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 459 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 460 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 461 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 462 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 463 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_packagedata_setscene)
+NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 464 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_packagedata_setscene)
+NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 465 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 466 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 470 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 471 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_packagedata_setscene)
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 472 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata_setscene)
+NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 473 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 474 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 478 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_packagedata_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 479 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_recipe_qa_setscene)
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/pango/1.55.5/temp/log.do_packagedata_setscene.2832443
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 481 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_create_spdx_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 485 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 487 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 489 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe git-2.47.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 490 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_package_setscene)
+NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/git/2.47.1/temp/log.do_packagedata_setscene.2832744
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 493 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 494 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 495 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 500 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 501 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 505 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_package_setscene)
+NOTE: Running setscene task 506 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 512 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 513 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 514 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 523 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 524 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 526 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_packagedata_setscene)
+NOTE: Running setscene task 529 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_recipe_qa_setscene)
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Started
+NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 531 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 532 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.10.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 533 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_create_spdx_setscene)
+NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 536 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 537 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 540 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 542 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_recipe_qa_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 549 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libpng-1.6.44-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gstreamer1.0-1.24.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.44-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 554 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe alsa-lib-1.2.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 555 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 557 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 558 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 559 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_packagedata_setscene)
+NOTE: Running setscene task 560 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_packagedata_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 561 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 571 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: recipe pango-1.55.5-r0: task do_package_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe git-2.47.1-r0: task do_package_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-protocols-1.39-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 578 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 579 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 580 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 581 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-protocols-1.39-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 584 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 585 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 588 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 599 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 601 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 605 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 606 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 607 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 609 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_packagedata_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 611 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 614 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 616 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 618 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 619 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 620 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 623 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 624 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 627 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 628 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 630 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 631 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 633 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_package_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 634 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.13.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 636 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 637 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 640 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 642 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 643 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
+NOTE: Running setscene task 645 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 646 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe harfbuzz-10.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 648 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 650 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 652 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
+NOTE: recipe harfbuzz-10.1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 654 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.55.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.13.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 655 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 658 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.55.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.13.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe harfbuzz-10.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe harfbuzz-10.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 665 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 669 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 670 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 672 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 673 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 674 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 675 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe harfbuzz-10.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 986 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_fetch)
+NOTE: recipe libxml2-2.13.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 677 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe harfbuzz-10.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1120 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_write_config)
+NOTE: recipe json-glib-1.10.6-r0: task do_fetch: Started
+NOTE: recipe libxml2-2.13.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 680 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 681 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 682 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 683 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: Running task 1251 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_unpack)
+NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 685 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 686 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 687 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 688 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 690 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
+NOTE: recipe json-glib-1.10.6-r0: task do_write_config: Started
+NOTE: recipe libxml2-2.13.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 691 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_write_config: Succeeded
+NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 693 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_recipe_qa_setscene)
+NOTE: recipe json-glib-1.10.6-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_package_setscene: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 695 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.11.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 697 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 700 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 702 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
+NOTE: recipe git-2.47.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1331 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_fetch)
+NOTE: recipe curl-8.11.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 705 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 707 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 708 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 710 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_recipe_qa_setscene)
+NOTE: Running task 1383 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_recipe_qa)
+NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 712 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 713 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: Running task 1387 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_patch)
+NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe git-2.47.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1400 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_write_config)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_fetch: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_fetch: Succeeded
+NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1409 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_write_config)
+NOTE: Running task 1410 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_unpack)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_recipe_qa: Started
+NOTE: recipe curl-8.11.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 717 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_patch: Started
+NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_write_config: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 720 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 721 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 723 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_packagedata_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_write_config: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_patch: Succeeded
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_write_config: Succeeded
+NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 724 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 726 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
+NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_write_config: Succeeded
+NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 728 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 729 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 730 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_recipe_qa_setscene)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1495 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_fetch)
+NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 732 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 733 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 734 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
+NOTE: Running setscene task 735 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 736 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 739 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 744 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
+NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_fetch: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_fetch: Succeeded
+NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1512 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_unpack)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 747 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 748 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 749 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 750 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_unpack: Succeeded
+NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 752 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 754 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 755 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_unpack: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 756 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 758 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 759 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 761 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 765 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 769 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 770 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 773 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 778 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 779 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: Running task 1540 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_patch)
+NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_unpack: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1545 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_patch)
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 784 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_patch: Started
+NOTE: Running setscene task 786 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_patch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 788 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 790 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 792 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 793 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 794 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 798 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_patch: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1562 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_deploy_source_date_epoch)
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 799 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.13.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 801 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_patch: Succeeded
+NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 803 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 805 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.13.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 808 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 809 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 810 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 811 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 812 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 813 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 814 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-setuptools-75.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.13.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gst-devtools-1.24.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 816 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 817 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 818 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 819 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
+NOTE: Running setscene task 820 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 821 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 822 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 823 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 824 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 826 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 827 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 830 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 832 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 834 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 836 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.13.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 841 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 842 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 843 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 844 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 845 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 846 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 847 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 848 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 849 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 851 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 852 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 857 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.13.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 861 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 864 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 865 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 867 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 868 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 871 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 873 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 876 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 877 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 879 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.13.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 881 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 883 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 885 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 886 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 888 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 890 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 892 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 893 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 898 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 900 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 902 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 903 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 905 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 907 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 908 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 909 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 911 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 912 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 916 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 918 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 919 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 921 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 923 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 927 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 928 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 930 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 932 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 935 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 937 of 938 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2183 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2397 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2449 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_packagedata)
+NOTE: Running task 2479 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/git/git_2.47.1.bb:do_packagedata)
+NOTE: recipe json-glib-1.10.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2541 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.55.5-r0: task do_packagedata: Started
+NOTE: recipe git-2.47.1-r0: task do_packagedata: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe pango-1.55.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2551 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_collect_spdx_deps)
+NOTE: recipe git-2.47.1-r0: task do_packagedata: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_collect_spdx_deps: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2557 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_configure)
+NOTE: recipe json-glib-1.10.6-r0: task do_configure: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2558 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_configure)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_configure: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_configure: Succeeded
+NOTE: Running task 2559 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_configure_ptest_base)
+NOTE: recipe json-glib-1.10.6-r0: task do_configure_ptest_base: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2560 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_compile)
+NOTE: recipe json-glib-1.10.6-r0: task do_compile: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_compile: Succeeded
+NOTE: Running task 2561 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_compile_ptest_base)
+NOTE: recipe json-glib-1.10.6-r0: task do_compile_ptest_base: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2562 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_install)
+NOTE: recipe json-glib-1.10.6-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_configure: Succeeded
+NOTE: Running task 2563 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_compile)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_compile: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_install: Succeeded
+NOTE: Running task 2564 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_install_ptest_base)
+NOTE: recipe json-glib-1.10.6-r0: task do_install_ptest_base: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2565 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_package)
+NOTE: Running task 2566 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_populate_sysroot)
+NOTE: recipe json-glib-1.10.6-r0: task do_package: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_populate_sysroot: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe json-glib-1.10.6-r0: task do_package: Succeeded
+NOTE: Running task 2567 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_packagedata)
+NOTE: recipe json-glib-1.10.6-r0: task do_packagedata: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_packagedata unihash changed to b81eb28e0405dfd94a22a48c472b9128c918ce7d7843986ec5ce96f738c211f8
+NOTE: Setscene tasks completed
+NOTE: Running task 2568 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb:do_create_spdx)
+NOTE: recipe json-glib-1.10.6-r0: task do_create_spdx: Started
+NOTE: recipe json-glib-1.10.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_compile: Succeeded
+NOTE: Running task 2569 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_install)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_install: Succeeded
+NOTE: Running task 2570 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_package)
+NOTE: Running task 2571 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_populate_sysroot)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_package: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_populate_sysroot: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2572 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2573 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_configure)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_configure: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_configure: Succeeded
+NOTE: Running task 2574 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_compile)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_package: Succeeded
+NOTE: Running task 2575 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_packagedata)
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_packagedata: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_compile: Succeeded
+NOTE: Running task 2576 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_install)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_install: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_install: Succeeded
+NOTE: Running task 2577 of 2588 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.11.bb:do_populate_sysroot)
+NOTE: recipe gst-devtools-1.24.11-r0: task do_populate_sysroot: Started
+NOTE: recipe gst-devtools-1.24.11-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.24.10-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2577 tasks of which 2536 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250115095627.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250115095627.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/gstreamer1.0-plugins-base/1.24.10/temp/log.do_packagedata.2863596
+Summary: There were 126 ERROR messages, returning a non-zero exit code.
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.56.0-r0 to 0:1.55.5-r0) [version-going-backwards]
+ERROR: pango-1.55.5-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-src went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-dbg went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package gitweb went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-tk went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-perltools went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-staticdev went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-dev went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-doc went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-locale went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: QA Issue: Package version for package git-bash-completion went backwards which would break package feeds (from 0:2.48.1-r0 to 0:2.47.1-r0) [version-going-backwards]
+ERROR: git-2.47.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-basedebug went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dsd went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.24.11-r0 to 0:1.24.10-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.24.10-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/gstreamer1.0-plugins-base/1.24.10/temp/log.do_packagedata.2863596
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.10.bb:do_packagedata) failed with exit code '1'
+
+--===============2661355651424868386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86_64-linux/go-binary-native (sysroot):
-  /usr/lib/go/api/go1.23.txt was added
-  /usr/lib/go/doc/initial was added
-  /usr/lib/go/doc/initial/1-intro.md was added
-  /usr/lib/go/doc/initial/2-language.md was added
-  /usr/lib/go/doc/initial/3-tools.md was added
-  /usr/lib/go/doc/initial/4-runtime.md was added
-  /usr/lib/go/doc/initial/5-toolchain.md was added
-  /usr/lib/go/doc/initial/6-stdlib was added
-  /usr/lib/go/doc/initial/6-stdlib/0-heading.md was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor/0-heading.md was added
-  /usr/lib/go/doc/initial/6-stdlib/99-minor/README was added
-  /usr/lib/go/doc/initial/7-ports.md was added
-  /usr/lib/go/doc/README.md was added
-  /usr/lib/go/pkg/tool/linux_amd64/preprofile was added
-  /usr/lib/go/src/cmd/cgo/internal/test/cgo_stubs_ppc64x_internal_linking_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/intervals.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/intervals_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/liveness/mergelocals.go was added
-  /usr/lib/go/src/cmd/compile/internal/pgoir was added
-  /usr/lib/go/src/cmd/compile/internal/pgoir/irgraph.go was added
-  /usr/lib/go/src/cmd/compile/internal/syntax/issues_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/test/mergelocals_test.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/compiler_internal.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/errsupport.go was added
-  /usr/lib/go/src/cmd/compile/internal/types2/format.go was added
-  /usr/lib/go/src/cmd/go/internal/script/cmds_nonunix.go was added
-  /usr/lib/go/src/cmd/go/internal/script/cmds_unix.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrycmd was added
-  /usr/lib/go/src/cmd/go/internal/telemetrycmd/telemetry.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats_bootstrap.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/telemetrystats.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_other.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_unix.go was added
-  /usr/lib/go/src/cmd/go/internal/telemetrystats/version_windows.go was added
-  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen.go was added
-  /usr/lib/go/src/cmd/internal/dwarf/putvarabbrevgen_test.go was added
-  /usr/lib/go/src/cmd/internal/obj/arm64/asm_test.go was added
-  /usr/lib/go/src/cmd/internal/obj/loong64/asm_test.go was added
-  /usr/lib/go/src/cmd/internal/pgo was added
-  /usr/lib/go/src/cmd/internal/pgo/deserialize.go was added
-  /usr/lib/go/src/cmd/internal/pgo/pgo.go was added
-  /usr/lib/go/src/cmd/internal/pgo/pprof.go was added
-  /usr/lib/go/src/cmd/internal/pgo/serialize.go was added
-  /usr/lib/go/src/cmd/internal/pgo/serialize_test.go was added
-  /usr/lib/go/src/cmd/internal/telemetry was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter/counter_bootstrap.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/counter/counter.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/telemetry_bootstrap.go was added
-  /usr/lib/go/src/cmd/internal/telemetry/telemetry.go was added
-  /usr/lib/go/src/cmd/link/internal/ld/macho_update_uuid.go was added
-  /usr/lib/go/src/cmd/preprofile was added
-  /usr/lib/go/src/cmd/preprofile/main.go was added
-  /usr/lib/go/src/cmd/relnote was added
-  /usr/lib/go/src/cmd/relnote/relnote_test.go was added
-  /usr/lib/go/src/cmd/trace/gen.go was added
-  /usr/lib/go/src/cmd/trace/goroutinegen.go was added
-  /usr/lib/go/src/cmd/trace/gstate.go was added
-  /usr/lib/go/src/cmd/trace/jsontrace.go was added
-  /usr/lib/go/src/cmd/trace/jsontrace_test.go was added
-  /usr/lib/go/src/cmd/trace/procgen.go was added
-  /usr/lib/go/src/cmd/trace/regions.go was added
-  /usr/lib/go/src/cmd/trace/tasks.go was added
-  /usr/lib/go/src/cmd/trace/threadgen.go was added
-  /usr/lib/go/src/cmd/trace/viewer.go was added
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/graph.css was added
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/svgpan/svgpan.js was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/dump.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/links.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/build/relnote/relnote.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/errgroup.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sync/errgroup/pre_go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/bpxsvc_zos.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/sockcmsg_zos.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/symaddr_zos_s390x.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/zsymaddr_zos_s390x.s was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/CONTRIBUTING.md was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/counter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/countertest/countertest_go121.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/counter/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/dir.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.dockerignore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.eslintrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitattributes was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.gitignore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/config/config.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/configstore/download_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/counter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/file.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/counter/stackcounter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/crash_go123.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/monitor.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_other.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_unix.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/mmap/mmap_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/dir.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/proginfo.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/telemetry/types.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/date.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/Doc.txt was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/findwork.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/reports.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/run.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/internal/upload/upload.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/mode.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npm was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/npx was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/package-lock.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.prettierrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/README.md was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_posix.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/start_windows.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/.stylelintrc.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/tsconfig.json was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/telemetry/types_alias.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/cases.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/context.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/fold.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/icu.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/info.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/map.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables10.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables11.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables12.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables13.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables15.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/tables9.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/cases/trieval.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/internal.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/common.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/compact.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/parents.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compact/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/compose.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/coverage.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/lookup.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/language/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/internal/tag/tag.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/coverage.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/doc.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/language.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/match.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/parse.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tables.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/language/tags.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/PATENTS was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/transform/transform.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/composition.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/forminfo.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/input.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/iter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/normalize.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/readwriter.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/transform.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/text/unicode/norm/trie.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/stdversion/stdversion.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go121.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/aliases/aliases_go122.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/manifest.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/stdlib/stdlib.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typeparams/free.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/errorcode_string.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/recv.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/toonew.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/typesinternal/types.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/features.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go119.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go120.go was added
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/internal/versions/toolchain_go121.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/break.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/code.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/emoji.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/entity.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/heading.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/html.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/inline.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/LICENSE was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/link.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/list.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/para.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/parse.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/quote.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/README.md was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/table.go was added
-  /usr/lib/go/src/cmd/vendor/rsc.io/markdown/tables.go was added
-  /usr/lib/go/src/crypto/internal/cryptotest was added
-  /usr/lib/go/src/crypto/internal/cryptotest/hash.go was added
-  /usr/lib/go/src/crypto/internal/hpke was added
-  /usr/lib/go/src/crypto/internal/hpke/hpke.go was added
-  /usr/lib/go/src/crypto/internal/hpke/hpke_test.go was added
-  /usr/lib/go/src/crypto/internal/mlkem768 was added
-  /usr/lib/go/src/crypto/internal/mlkem768/mlkem768.go was added
-  /usr/lib/go/src/crypto/internal/mlkem768/mlkem768_test.go was added
-  /usr/lib/go/src/crypto/purego_test.go was added
-  /usr/lib/go/src/crypto/rand/rand_darwin.go was added
-  /usr/lib/go/src/crypto/sha512/sha512block_riscv64.s was added
-  /usr/lib/go/src/crypto/tls/bogo_config.json was added
-  /usr/lib/go/src/crypto/tls/bogo_shim_test.go was added
-  /usr/lib/go/src/crypto/tls/defaults.go was added
-  /usr/lib/go/src/crypto/tls/ech.go was added
-  /usr/lib/go/src/crypto/tls/ech_test.go was added
-  /usr/lib/go/src/encoding/csv/fuzz_test.go was added
-  /usr/lib/go/src/flag/example_flagset_test.go was added
-  /usr/lib/go/src/go/ast/walk_test.go was added
-  /usr/lib/go/src/go/build/vendor_test.go was added
-  /usr/lib/go/src/go/types/badlinkname.go was added
-  /usr/lib/go/src/go/types/errsupport.go was added
-  /usr/lib/go/src/go/types/format.go was added
-  /usr/lib/go/src/hash/crc32/gen.go was added
-  /usr/lib/go/src/internal/abi/escape.go was added
-  /usr/lib/go/src/internal/abi/iface.go was added
-  /usr/lib/go/src/internal/abi/rangefuncconsts.go was added
-  /usr/lib/go/src/internal/abi/runtime.go was added
-  /usr/lib/go/src/internal/asan was added
-  /usr/lib/go/src/internal/asan/asan.go was added
-  /usr/lib/go/src/internal/asan/doc.go was added
-  /usr/lib/go/src/internal/asan/noasan.go was added
-  /usr/lib/go/src/internal/byteorder was added
-  /usr/lib/go/src/internal/byteorder/byteorder.go was added
-  /usr/lib/go/src/internal/concurrent was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap_bench_test.go was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap.go was added
-  /usr/lib/go/src/internal/concurrent/hashtriemap_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile was added
-  /usr/lib/go/src/internal/coverage/cfile/apis.go was added
-  /usr/lib/go/src/internal/coverage/cfile/emitdata_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile/emit.go was added
-  /usr/lib/go/src/internal/coverage/cfile/hooks.go was added
-  /usr/lib/go/src/internal/coverage/cfile/snapshot_test.go was added
-  /usr/lib/go/src/internal/coverage/cfile/testsupport.go was added
-  /usr/lib/go/src/internal/coverage/cfile/ts_test.go was added
-  /usr/lib/go/src/internal/filepathlite was added
-  /usr/lib/go/src/internal/filepathlite/path.go was added
-  /usr/lib/go/src/internal/filepathlite/path_nonwindows.go was added
-  /usr/lib/go/src/internal/filepathlite/path_plan9.go was added
-  /usr/lib/go/src/internal/filepathlite/path_unix.go was added
-  /usr/lib/go/src/internal/filepathlite/path_windows.go was added
-  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_off.go was added
-  /usr/lib/go/src/internal/goexperiment/exp_aliastypeparams_on.go was added
-  /usr/lib/go/src/internal/msan was added
-  /usr/lib/go/src/internal/msan/doc.go was added
-  /usr/lib/go/src/internal/msan/msan.go was added
-  /usr/lib/go/src/internal/msan/nomsan.go was added
-  /usr/lib/go/src/internal/poll/sendfile.go was added
-  /usr/lib/go/src/internal/poll/sock_cloexec_solaris.go was added
-  /usr/lib/go/src/internal/profile/graph.go was added
-  /usr/lib/go/src/internal/profilerecord was added
-  /usr/lib/go/src/internal/profilerecord/profilerecord.go was added
-  /usr/lib/go/src/internal/runtime was added
-  /usr/lib/go/src/internal/runtime/atomic was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_386.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_386.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_amd64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_generic.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_andor_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_loong64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mips64x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_mipsx.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_ppc64x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_riscv64.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_s390x.s was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.go was added
-  /usr/lib/go/src/internal/runtime/atomic/atomic_wasm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/bench_test.go was added
-  /usr/lib/go/src/internal/runtime/atomic/doc.go was added
-  /usr/lib/go/src/internal/runtime/atomic/stubs.go was added
-  /usr/lib/go/src/internal/runtime/atomic/sys_linux_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/sys_nonlinux_arm.s was added
-  /usr/lib/go/src/internal/runtime/atomic/types_64bit.go was added
-  /usr/lib/go/src/internal/runtime/atomic/types.go was added
-  /usr/lib/go/src/internal/runtime/atomic/unaligned.go was added
-  /usr/lib/go/src/internal/runtime/exithook was added
-  /usr/lib/go/src/internal/runtime/exithook/hooks.go was added
-  /usr/lib/go/src/internal/runtime/syscall was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_386.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_amd64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_arm.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_loong64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mips64x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_mipsx.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_ppc64x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_riscv64.s was added
-  /usr/lib/go/src/internal/runtime/syscall/asm_linux_s390x.s was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_386.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_amd64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_arm.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_loong64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mips64x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_mipsx.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_ppc64x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_riscv64.go was added
-  /usr/lib/go/src/internal/runtime/syscall/defs_linux_s390x.go was added
-  /usr/lib/go/src/internal/runtime/syscall/syscall_linux.go was added
-  /usr/lib/go/src/internal/runtime/syscall/syscall_linux_test.go was added
-  /usr/lib/go/src/internal/stringslite was added
-  /usr/lib/go/src/internal/stringslite/strings.go was added
-  /usr/lib/go/src/internal/syscall/unix/arc4random_darwin.go was added
-  /usr/lib/go/src/internal/syscall/unix/asm_openbsd.s was added
-  /usr/lib/go/src/internal/syscall/unix/eaccess_darwin.go was added
-  /usr/lib/go/src/internal/syscall/unix/eaccess_openbsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris.go was added
-  /usr/lib/go/src/internal/syscall/unix/kernel_version_solaris_test.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_bsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_netbsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/nofollow_posix.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_mipsx.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_other.go was added
-  /usr/lib/go/src/internal/syscall/unix/siginfo_linux_test.go was added
-  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_bsd.go was added
-  /usr/lib/go/src/internal/syscall/unix/tcsetpgrp_linux.go was added
-  /usr/lib/go/src/internal/syscall/windows/types_windows.go was added
-  /usr/lib/go/src/internal/syscall/windows/version_windows.go was added
-  /usr/lib/go/src/internal/syscall/windows/version_windows_test.go was added
-  /usr/lib/go/src/internal/sysinfo/cpuinfo_bsd.go was added
-  /usr/lib/go/src/internal/sysinfo/export_test.go was added
-  /usr/lib/go/src/internal/sysinfo/sysinfo_test.go was added
-  /usr/lib/go/src/internal/trace/base.go was added
-  /usr/lib/go/src/internal/trace/batchcursor.go was added
-  /usr/lib/go/src/internal/trace/batchcursor_test.go was added
-  /usr/lib/go/src/internal/trace/batch.go was added
-  /usr/lib/go/src/internal/trace/event was added
-  /usr/lib/go/src/internal/trace/event/event.go was added
-  /usr/lib/go/src/internal/trace/event.go was added
-  /usr/lib/go/src/internal/trace/event/go122 was added
-  /usr/lib/go/src/internal/trace/event/go122/event.go was added
-  /usr/lib/go/src/internal/trace/event/requirements.go was added
-  /usr/lib/go/src/internal/trace/event_test.go was added
-  /usr/lib/go/src/internal/trace/export_test.go was added
-  /usr/lib/go/src/internal/trace/generation.go was added
-  /usr/lib/go/src/internal/trace/internal was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/order.go was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/parser.go was added
-  /usr/lib/go/src/internal/trace/internal/oldtrace/parser_test.go was added
-  /usr/lib/go/src/internal/trace/internal/testgen was added
-  /usr/lib/go/src/internal/trace/internal/testgen/go122 was added
-  /usr/lib/go/src/internal/trace/internal/testgen/go122/trace.go was added
-  /usr/lib/go/src/internal/trace/oldtrace.go was added
-  /usr/lib/go/src/internal/trace/oldtrace_test.go was added
-  /usr/lib/go/src/internal/trace/order_test.go was added
-  /usr/lib/go/src/internal/trace/raw was added
-  /usr/lib/go/src/internal/trace/raw/doc.go was added
-  /usr/lib/go/src/internal/trace/raw/event.go was added
-  /usr/lib/go/src/internal/trace/raw/reader.go was added
-  /usr/lib/go/src/internal/trace/raw/textreader.go was added
-  /usr/lib/go/src/internal/trace/raw/textwriter.go was added
-  /usr/lib/go/src/internal/trace/raw/writer.go was added
-  /usr/lib/go/src/internal/trace/reader.go was added
-  /usr/lib/go/src/internal/trace/reader_test.go was added
-  /usr/lib/go/src/internal/trace/resources.go was added
-  /usr/lib/go/src/internal/trace/testtrace was added
-  /usr/lib/go/src/internal/trace/testtrace/expectation.go was added
-  /usr/lib/go/src/internal/trace/testtrace/format.go was added
-  /usr/lib/go/src/internal/trace/testtrace/validation.go was added
-  /usr/lib/go/src/internal/trace/trace_test.go was added
-  /usr/lib/go/src/internal/trace/value.go was added
-  /usr/lib/go/src/internal/trace/version was added
-  /usr/lib/go/src/internal/trace/version/version.go was added
-  /usr/lib/go/src/internal/weak was added
-  /usr/lib/go/src/internal/weak/pointer.go was added
-  /usr/lib/go/src/internal/weak/pointer_test.go was added
-  /usr/lib/go/src/maps/iter.go was added
-  /usr/lib/go/src/maps/iter_test.go was added
-  /usr/lib/go/src/net/http/transport_dial_test.go was added
-  /usr/lib/go/src/net/internal/cgotest was added
-  /usr/lib/go/src/net/internal/cgotest/empty_test.go was added
-  /usr/lib/go/src/net/internal/cgotest/resstate.go was added
-  /usr/lib/go/src/net/sock_cloexec_solaris.go was added
-  /usr/lib/go/src/net/splice_linux_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_darwin_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_posix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_solaris_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_unix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_conf_windows_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_illumos_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_posix_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_solaris_test.go was added
-  /usr/lib/go/src/net/tcpconn_keepalive_test.go was added
-  /usr/lib/go/src/net/tcpsock_solaris.go was added
-  /usr/lib/go/src/net/tcpsock_unix.go was added
-  /usr/lib/go/src/net/tcpsock_windows.go was added
-  /usr/lib/go/src/os/copy_test.go was added
-  /usr/lib/go/src/os/exec_linux.go was added
-  /usr/lib/go/src/os/exec_nohandle.go was added
-  /usr/lib/go/src/os/exec_test.go was added
-  /usr/lib/go/src/os/pidfd_linux.go was added
-  /usr/lib/go/src/os/pidfd_linux_test.go was added
-  /usr/lib/go/src/os/pidfd_other.go was added
-  /usr/lib/go/src/reflect/badlinkname.go was added
-  /usr/lib/go/src/reflect/iter.go was added
-  /usr/lib/go/src/reflect/iter_test.go was added
-  /usr/lib/go/src/runtime/badlinkname.go was added
-  /usr/lib/go/src/runtime/badlinkname_linux.go was added
-  /usr/lib/go/src/runtime/coro_test.go was added
-  /usr/lib/go/src/runtime/coverage/coverage.go was added
-  /usr/lib/go/src/runtime/debug/example_monitor_test.go was added
-  /usr/lib/go/src/runtime/linkname.go was added
-  /usr/lib/go/src/runtime/linkname_unix.go was added
-  /usr/lib/go/src/runtime/msize.go was added
-  /usr/lib/go/src/runtime/netpoll_kqueue_event.go was added
-  /usr/lib/go/src/runtime/netpoll_kqueue_pipe.go was added
-  /usr/lib/go/src/runtime/trace2map_test.go was added
-  /usr/lib/go/src/runtime/traceallocfree.go was added
-  /usr/lib/go/src/runtime/traceback_system_test.go was added
-  /usr/lib/go/src/runtime/tracebuf.go was added
-  /usr/lib/go/src/runtime/tracecpu.go was added
-  /usr/lib/go/src/runtime/traceevent.go was added
-  /usr/lib/go/src/runtime/traceexp.go was added
-  /usr/lib/go/src/runtime/tracemap.go was added
-  /usr/lib/go/src/runtime/traceregion.go was added
-  /usr/lib/go/src/runtime/traceruntime.go was added
-  /usr/lib/go/src/runtime/tracestack.go was added
-  /usr/lib/go/src/runtime/tracestatus.go was added
-  /usr/lib/go/src/runtime/tracestring.go was added
-  /usr/lib/go/src/runtime/tracetime.go was added
-  /usr/lib/go/src/runtime/tracetype.go was added
-  /usr/lib/go/src/slices/iter.go was added
-  /usr/lib/go/src/slices/iter_test.go was added
-  /usr/lib/go/src/structs was added
-  /usr/lib/go/src/structs/doc.go was added
-  /usr/lib/go/src/structs/hostlayout.go was added
-  /usr/lib/go/src/syscall/badlinkname_unix.go was added
-  /usr/lib/go/src/syscall/export_bsd_test.go was added
-  /usr/lib/go/src/syscall/linkname_bsd.go was added
-  /usr/lib/go/src/syscall/linkname_darwin.go was added
-  /usr/lib/go/src/syscall/linkname_libc.go was added
-  /usr/lib/go/src/syscall/linkname_openbsd.go was added
-  /usr/lib/go/src/syscall/linkname_unix.go was added
-  /usr/lib/go/src/testing/testing_windows_test.go was added
-  /usr/lib/go/src/unique was added
-  /usr/lib/go/src/unique/clone.go was added
-  /usr/lib/go/src/unique/clone_test.go was added
-  /usr/lib/go/src/unique/doc.go was added
-  /usr/lib/go/src/unique/handle_bench_test.go was added
-  /usr/lib/go/src/unique/handle.go was added
-  /usr/lib/go/src/unique/handle_test.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3 was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/doc.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/hashes.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/hashes_noasm.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf_amd64.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf_amd64.s was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/keccakf.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/register.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3_s390x.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/sha3_s390x.s was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/shake.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/shake_noasm.go was added
-  /usr/lib/go/src/vendor/golang.org/x/crypto/sha3/xor.go was added
-  /usr/lib/go/test/codegen/atomics.go was added
-  /usr/lib/go/test/codegen/issue66585.go was added
-  /usr/lib/go/test/fixedbugs/issue54542.go was added
-  /usr/lib/go/test/fixedbugs/issue65362.go was added
-  /usr/lib/go/test/fixedbugs/issue65417.go was added
-  /usr/lib/go/test/fixedbugs/issue65778.go was added
-  /usr/lib/go/test/fixedbugs/issue65893.go was added
-  /usr/lib/go/test/fixedbugs/issue65962.go was added
-  /usr/lib/go/test/fixedbugs/issue66261.go was added
-  /usr/lib/go/test/fixedbugs/issue66585.go was added
-  /usr/lib/go/test/fixedbugs/issue66663.go was added
-  /usr/lib/go/test/fixedbugs/issue66873.go was added
-  /usr/lib/go/test/fixedbugs/issue67190.go was added
-  /usr/lib/go/test/fixedbugs/issue68054.go was added
-  /usr/lib/go/test/fixedbugs/issue68264.go was added
-  /usr/lib/go/test/fixedbugs/issue68322.go was added
-  /usr/lib/go/test/fixedbugs/issue68415.go was added
-  /usr/lib/go/test/fixedbugs/issue68525.go was added
-  /usr/lib/go/test/fixedbugs/issue68580.go was added
-  /usr/lib/go/test/fixedbugs/issue69434.go was added
-  /usr/lib/go/test/fixedbugs/issue69507.go was added
-  /usr/lib/go/test/linknameasm.dir was added
-  /usr/lib/go/test/linknameasm.dir/a_amd64.s was added
-  /usr/lib/go/test/linknameasm.dir/x.go was added
-  /usr/lib/go/test/linknameasm.go was added
-  /usr/lib/go/src/cmd/compile/internal/pgo was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/internal/graph/graph.go was removed
-  /usr/lib/go/src/cmd/compile/internal/pgo/irgraph.go was removed
-  /usr/lib/go/src/cmd/compile/internal/ssa/phielim.go was removed
-  /usr/lib/go/src/cmd/go/internal/script/cmds_other.go was removed
-  /usr/lib/go/src/cmd/go/internal/script/cmds_posix.go was removed
-  /usr/lib/go/src/cmd/internal/objabi/typekind.go was removed
-  /usr/lib/go/src/cmd/trace/annotations.go was removed
-  /usr/lib/go/src/cmd/trace/annotations_test.go was removed
-  /usr/lib/go/src/cmd/trace/trace.go was removed
-  /usr/lib/go/src/cmd/trace/trace_test.go was removed
-  /usr/lib/go/src/cmd/trace/trace_unix_test.go was removed
-  /usr/lib/go/src/cmd/trace/v2 was removed
-  /usr/lib/go/src/cmd/trace/v2/gen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/goroutinegen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/goroutines.go was removed
-  /usr/lib/go/src/cmd/trace/v2/gstate.go was removed
-  /usr/lib/go/src/cmd/trace/v2/jsontrace.go was removed
-  /usr/lib/go/src/cmd/trace/v2/jsontrace_test.go was removed
-  /usr/lib/go/src/cmd/trace/v2/main.go was removed
-  /usr/lib/go/src/cmd/trace/v2/pprof.go was removed
-  /usr/lib/go/src/cmd/trace/v2/procgen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/regions.go was removed
-  /usr/lib/go/src/cmd/trace/v2/tasks.go was removed
-  /usr/lib/go/src/cmd/trace/v2/threadgen.go was removed
-  /usr/lib/go/src/cmd/trace/v2/viewer.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/flamegraph.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/internal/driver/html/flamegraph.html was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/d3_flame_graph.go was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_FLAME_GRAPH_LICENSE was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/D3_LICENSE was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/index.js was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package.json was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/package-lock.json was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/README.md was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/update.sh was removed
-  /usr/lib/go/src/cmd/vendor/github.com/google/pprof/third_party/d3flamegraph/webpack.config.js was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/epoll_zos.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/unix/fstatfs_zos.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/sys/windows/empty.s was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go118.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/asmdecl/arches_go119.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/buildtag/buildtag_old.go was removed
-  /usr/lib/go/src/cmd/vendor/golang.org/x/tools/go/analysis/passes/ifaceassert/parameterized.go was removed
-  /usr/lib/go/src/encoding/csv/fuzz.go was removed
-  /usr/lib/go/src/image/png/fuzz.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_allocheaders_on.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_exectracer2_on.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_off.go was removed
-  /usr/lib/go/src/internal/goexperiment/exp_pagetrace_on.go was removed
-  /usr/lib/go/src/internal/intern was removed
-  /usr/lib/go/src/internal/intern/intern.go was removed
-  /usr/lib/go/src/internal/intern/intern_test.go was removed
-  /usr/lib/go/src/internal/poll/strconv.go was removed
-  /usr/lib/go/src/internal/profile/legacy_profile.go was removed
-  /usr/lib/go/src/internal/profile/profile_test.go was removed
-  /usr/lib/go/src/internal/safefilepath was removed
-  /usr/lib/go/src/internal/safefilepath/path.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_other.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_test.go was removed
-  /usr/lib/go/src/internal/safefilepath/path_windows.go was removed
-  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.go was removed
-  /usr/lib/go/src/internal/syscall/unix/getentropy_darwin.s was removed
-  /usr/lib/go/src/internal/trace/goroutines.go was removed
-  /usr/lib/go/src/internal/trace/mkcanned.bash was removed
-  /usr/lib/go/src/internal/trace/parser_test.go was removed
-  /usr/lib/go/src/internal/trace/v2 was removed
-  /usr/lib/go/src/internal/trace/v2/base.go was removed
-  /usr/lib/go/src/internal/trace/v2/batchcursor.go was removed
-  /usr/lib/go/src/internal/trace/v2/batchcursor_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/batch.go was removed
-  /usr/lib/go/src/internal/trace/v2/event was removed
-  /usr/lib/go/src/internal/trace/v2/event/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event/go122 was removed
-  /usr/lib/go/src/internal/trace/v2/event/go122/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/event/requirements.go was removed
-  /usr/lib/go/src/internal/trace/v2/event_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/generation.go was removed
-  /usr/lib/go/src/internal/trace/v2/internal was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122 was removed
-  /usr/lib/go/src/internal/trace/v2/internal/testgen/go122/trace.go was removed
-  /usr/lib/go/src/internal/trace/v2/mkexp.bash was removed
-  /usr/lib/go/src/internal/trace/v2/order.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw was removed
-  /usr/lib/go/src/internal/trace/v2/raw/doc.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/event.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/reader.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/textreader.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/textwriter.go was removed
-  /usr/lib/go/src/internal/trace/v2/raw/writer.go was removed
-  /usr/lib/go/src/internal/trace/v2/reader.go was removed
-  /usr/lib/go/src/internal/trace/v2/reader_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/resources.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/expectation.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/format.go was removed
-  /usr/lib/go/src/internal/trace/v2/testtrace/validation.go was removed
-  /usr/lib/go/src/internal/trace/v2/trace_test.go was removed
-  /usr/lib/go/src/internal/trace/v2/value.go was removed
-  /usr/lib/go/src/internal/trace/v2/version was removed
-  /usr/lib/go/src/internal/trace/v2/version/version.go was removed
-  /usr/lib/go/src/internal/trace/writer.go was removed
-  /usr/lib/go/src/maps/maps.s was removed
-  /usr/lib/go/src/net/cgo_unix_cgo_darwin.go was removed
-  /usr/lib/go/src/net/main_noconf_test.go was removed
-  /usr/lib/go/src/net/netip/leaf_alts.go was removed
-  /usr/lib/go/src/net/sendfile_linux_test.go was removed
-  /usr/lib/go/src/net/splice_test.go was removed
-  /usr/lib/go/src/net/tcpsockopt_dragonfly.go was removed
-  /usr/lib/go/src/os/endian_big.go was removed
-  /usr/lib/go/src/os/endian_little.go was removed
-  /usr/lib/go/src/os/error_posix.go was removed
-  /usr/lib/go/src/path/filepath/path_nonwindows.go was removed
-  /usr/lib/go/src/runtime/coverage/apis.go was removed
-  /usr/lib/go/src/runtime/coverage/dummy.s was removed
-  /usr/lib/go/src/runtime/coverage/emitdata_test.go was removed
-  /usr/lib/go/src/runtime/coverage/emit.go was removed
-  /usr/lib/go/src/runtime/coverage/hooks.go was removed
-  /usr/lib/go/src/runtime/coverage/testsupport.go was removed
-  /usr/lib/go/src/runtime/coverage/ts_test.go was removed
-  /usr/lib/go/src/runtime/exithook.go was removed
-  /usr/lib/go/src/runtime/internal/atomic was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_386.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_386.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_amd64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_generic.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_andor_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_loong64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mips64x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_mipsx.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_ppc64x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_riscv64.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_s390x.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/atomic_wasm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/bench_test.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/doc.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/stubs.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/sys_linux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/sys_nonlinux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/atomic/types_64bit.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/types.go was removed
-  /usr/lib/go/src/runtime/internal/atomic/unaligned.go was removed
-  /usr/lib/go/src/runtime/internal/syscall was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_386.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_amd64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_arm.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_loong64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mips64x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_mipsx.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_ppc64x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_riscv64.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/asm_linux_s390x.s was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_386.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_amd64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_arm.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_loong64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mips64x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_mipsx.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_ppc64x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_riscv64.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/defs_linux_s390x.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/syscall_linux.go was removed
-  /usr/lib/go/src/runtime/internal/syscall/syscall_linux_test.go was removed
-  /usr/lib/go/src/runtime/mbitmap_allocheaders.go was removed
-  /usr/lib/go/src/runtime/mbitmap_noallocheaders.go was removed
-  /usr/lib/go/src/runtime/msize_allocheaders.go was removed
-  /usr/lib/go/src/runtime/msize_noallocheaders.go was removed
-  /usr/lib/go/src/runtime/pagetrace_off.go was removed
-  /usr/lib/go/src/runtime/pagetrace_on.go was removed
-  /usr/lib/go/src/runtime/trace2buf.go was removed
-  /usr/lib/go/src/runtime/trace2cpu.go was removed
-  /usr/lib/go/src/runtime/trace2event.go was removed
-  /usr/lib/go/src/runtime/trace2.go was removed
-  /usr/lib/go/src/runtime/trace2map.go was removed
-  /usr/lib/go/src/runtime/trace2region.go was removed
-  /usr/lib/go/src/runtime/trace2runtime.go was removed
-  /usr/lib/go/src/runtime/trace2stack.go was removed
-  /usr/lib/go/src/runtime/trace2status.go was removed
-  /usr/lib/go/src/runtime/trace2string.go was removed
-  /usr/lib/go/src/runtime/trace2time.go was removed
-  /usr/lib/go/src/runtime/trace/trace_stack_test.go was removed
-  /usr/lib/go/src/syscall/asan0.go was removed
-  /usr/lib/go/src/syscall/asan.go was removed
-  /usr/lib/go/src/syscall/endian_big.go was removed
-  /usr/lib/go/src/syscall/endian_little.go was removed
-  /usr/lib/go/src/syscall/export_darwin_test.go was removed
-  /usr/lib/go/src/syscall/export_unix_test.go was removed
-  /usr/lib/go/src/syscall/msan0.go was removed
-  /usr/lib/go/src/syscall/msan.go was removed
-  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_compat.go was removed
-  /usr/lib/go/src/vendor/golang.org/x/crypto/internal/poly1305/bits_go1.13.go was removed
+packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2410.0 /usr/lib/libgstvalidate-1.0.so.0.2410.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2411.0 /usr/lib/libgstvalidate-1.0.so.0.2411.0"
+Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
+  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2410.0 to libgstvalidate-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2410.0 to libgstvalidate-default-overrides-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-1.0.so.0.2410.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2411.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2410.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2411.0
 
---===============5129063683031260590==--
+--===============2661355651424868386==--
 
