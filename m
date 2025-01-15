@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 518CAC021AD
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:31 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.17869.1736936768451810378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E21B7C02190
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 10:26:30 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.17813.1736936784780951140
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 02:26:24 -0800
+ Wed, 15 Jan 2025 02:26:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iG1Ce2sd;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Sz8Slc5q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101946980014a-21fa5024-a81f-4946-ae8f-0eb02fa63c0e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=A1f2ZCuW;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HATFioxb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019469800066-a6c20939-7c1a-44da-90b5-d453909fcc44-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1736936784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HcF8BogWw0ACtlvkOLfV5jid5Ib6vNn31A8xHMsflx8=;
-	b=iG1Ce2sdW9MeF6If9yj9ypr7O7Fdcc1Ou68fU2B07fQZeVdNCMBnbYsiWRz9ldJ5
-	MiIJJ37/hX61erOZC8ylwt7nCRsuzRK+K0q5XUhWFeDLsWIzsIsA1WXOfYztb47Utmo
-	3rOHLqOxqKMTqMbHNhgd1cmzTmYUPBDh5sRSbLQ8=
+	bh=GZKbhQpiiXWga3dWkIJOyjwImui5K6SX+6lcwYllgJY=;
+	b=A1f2ZCuWjxy/yIOY9fryKxK5jNwDg4P2IwKc4F3FnpK811gJzlVVszNOom72OqKZ
+	BSwR5m48D0pVl0KAhcPG4nJAkOQLpTbUXy32yULZSrEnRKDFXVQ6r2PLCzLpQJAuBDB
+	f/zbzHaqiGurd1jj81OQJjYSUIZrrICfdxVFi/SY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1736936784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HcF8BogWw0ACtlvkOLfV5jid5Ib6vNn31A8xHMsflx8=;
-	b=Sz8Slc5qeml9UaUcvlx9lQi65hz80viMpvWP0UfxuGXTm8n+FqEfGLH1grVEjqst
-	+QaKYpvfrmh3KGB1/sau4jSs6v/cul3UH0n88EeZyc4JjryciDDITmVlR/t9kb70lv+
-	awKJ/Y3lFlAphWhHMbx8Tar5MyhOKBFgRlTtbVyI=
-Content-Type: multipart/mixed; boundary="===============1447031420575139494=="
+	bh=GZKbhQpiiXWga3dWkIJOyjwImui5K6SX+6lcwYllgJY=;
+	b=HATFioxb2GH/Yhdo02tv/EzHvl2VRHn/mZbAxKT+FRZ97xJGg+gK0nlxPozMqIfw
+	n4CJJMaL5piA9BaDzN+oIeDNCGCv+HHms2hITZPtYHxZAcQGMa9/3mjEuh4my8f4fYZ
+	y8aJuV5Ds0QOxTTI5wjyDhYrdPyXIJA8cvFR8rvc=
+Content-Type: multipart/mixed; boundary="===============0870711323095256200=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsoup: upgrading to 3.6.3 SUCCEEDED
-Message-ID: <010101946980014a-21fa5024-a81f-4946-ae8f-0eb02fa63c0e-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jan 2025 10:26:24 +0000
+Subject: [AUH] at-spi2-core: upgrading to 2.54.1 SUCCEEDED
+Message-ID: <0101019469800066-a6c20939-7c1a-44da-90b5-d453909fcc44-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jan 2025 10:26:23 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.15-54.240.27.193
+X-SES-Outgoing: 2025.01.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209890
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 10:26:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209892
 
---===============1447031420575139494==
+--===============0870711323095256200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libsoup* to *3.6.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *at-spi2-core* to *2.54.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsoup-upgrade-3.6.1-3.6.3.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.54.0-2.54.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,235 +72,304 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 77214001a0808e857c527ad97793535e63368ff8 Mon Sep 17 00:00:00 2001
+From 88ad0c2fc3b86a01d4dc20480119fcac56c38a56 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jan 2025 10:24:23 +0000
-Subject: [PATCH] libsoup: upgrade 3.6.1 -> 3.6.3
+Date: Wed, 15 Jan 2025 10:17:38 +0000
+Subject: [PATCH] at-spi2-core: upgrade 2.54.0 -> 2.54.1
 
 ---
- .../libsoup/{libsoup_3.6.1.bb => libsoup_3.6.3.bb}              | 2 +-
+ .../atk/{at-spi2-core_2.54.0.bb => at-spi2-core_2.54.1.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libsoup/{libsoup_3.6.1.bb => libsoup_3.6.3.bb} (96%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.54.0.bb => at-spi2-core_2.54.1.bb} (95%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.6.1.bb b/meta/recipes-support/libsoup/libsoup_3.6.3.bb
-similarity index 96%
-rename from meta/recipes-support/libsoup/libsoup_3.6.1.bb
-rename to meta/recipes-support/libsoup/libsoup_3.6.3.bb
-index 6ac48fb944..62fc549fd9 100644
---- a/meta/recipes-support/libsoup/libsoup_3.6.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.6.3.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.54.0.bb b/meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+similarity index 95%
+rename from meta/recipes-support/atk/at-spi2-core_2.54.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+index 975dc9b959..7b87783735 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.54.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+@@ -13,7 +13,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[sha256sum] = "ceb1f1aa2bdd73b2cd8159d3998c96c55ef097ef15e4b4f36029209fa18af838"
-+SRC_URI[sha256sum] = "a0d84ab07bd168b317d319b0dc40c8b301b4543fba2ec42fa733914b2081afbd"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
  
- PROVIDES = "libsoup-3.0"
- CVE_PRODUCT = "libsoup"
+-SRC_URI[sha256sum] = "d7eee7e75beddcc272cedc2b60535600f3aae6e481589ebc667afc437c0a6079"
++SRC_URI[sha256sum] = "f0729e5c8765feb1969bb6c1fba18afa2582126b0359aa75a173fda1acf93c4c"
+ 
+ DEPENDS = " \
+ 	dbus \
 -- 
 2.44.1
 
 
---===============1447031420575139494==
+--===============0870711323095256200==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsoup-upgrade-3.6.1-3.6.3.patch"
+ filename="0001-at-spi2-core-upgrade-2.54.0-2.54.1.patch"
 
-RnJvbSA3NzIxNDAwMWEwODA4ZTg1N2M1MjdhZDk3NzkzNTM1ZTYzMzY4ZmY4IE1vbiBTZXAgMTcg
+RnJvbSA4OGFkMGMyZmMzYjg2YTAxZDRkYzIwNDgwMTE5ZmNhYzU2YzM4YTU2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMTA6MjQ6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzb3VwOiB1cGdyYWRlIDMuNi4xIC0+IDMuNi4zCgotLS0KIC4uLi9saWJzb3VwL3tsaWJzb3Vw
-XzMuNi4xLmJiID0+IGxpYnNvdXBfMy42LjMuYmJ9ICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2xpYnNvdXAve2xpYnNvdXBfMy42LjEuYmIgPT4gbGlic291cF8zLjYuMy5i
-Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJzb3VwL2xpYnNv
-dXBfMy42LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJzb3VwL2xpYnNvdXBfMy42LjMu
-YmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-bGlic291cC9saWJzb3VwXzMuNi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJzb3VwL2xpYnNvdXBfMy42LjMuYmIKaW5kZXggNmFjNDhmYjk0NC4uNjJmYzU0OWZkOSAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlic291cC9saWJzb3VwXzMuNi4xLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnNvdXAvbGlic291cF8zLjYuMy5iYgpAQCAtMTIs
-NyArMTIsNyBAQCBERVBFTkRTID0gImdsaWItMi4wIGdsaWItMi4wLW5hdGl2ZSBsaWJ4bWwyIHNx
-bGl0ZTMgbGlicHNsIG5naHR0cDIiCiBTSFJUX1ZFUiA9ICIke0BkLmdldFZhcignUFYnKS5zcGxp
-dCgnLicpWzBdfS4ke0BkLmdldFZhcignUFYnKS5zcGxpdCgnLicpWzFdfSIKIAogU1JDX1VSSSA9
-ICIke0dOT01FX01JUlJPUn0vbGlic291cC8ke1NIUlRfVkVSfS9saWJzb3VwLSR7UFZ9LnRhci54
-eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjZWIxZjFhYTJiZGQ3M2IyY2Q4MTU5ZDM5OThjOTZj
-NTVlZjA5N2VmMTVlNGI0ZjM2MDI5MjA5ZmExOGFmODM4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImEwZDg0YWIwN2JkMTY4YjMxN2QzMTliMGRjNDBjOGIzMDFiNDU0M2ZiYTJlYzQyZmE3MzM5MTRi
-MjA4MWFmYmQiCiAKIFBST1ZJREVTID0gImxpYnNvdXAtMy4wIgogQ1ZFX1BST0RVQ1QgPSAibGli
-c291cCIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFdlZCwgMTUgSmFuIDIwMjUgMTA6MTc6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi41NC4wIC0+IDIuNTQuMQoKLS0tCiAuLi4vYXRrL3thdC1z
+cGkyLWNvcmVfMi41NC4wLmJiID0+IGF0LXNwaTItY29yZV8yLjU0LjEuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsve2F0LXNwaTItY29yZV8yLjU0LjAuYmIgPT4gYXQtc3Bp
+Mi1jb3JlXzIuNTQuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9hdGsvYXQtc3BpMi1jb3JlXzIuNTQuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
+dC1zcGkyLWNvcmVfMi41NC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi41NC4wLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNTQuMS5iYgppbmRleCA5NzVk
+YzliOTU5Li43Yjg3NzgzNzM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsv
+YXQtc3BpMi1jb3JlXzIuNTQuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQt
+c3BpMi1jb3JlXzIuNTQuMS5iYgpAQCAtMTMsNyArMTMsNyBAQCBNQUpfVkVSID0gIiR7QG9lLnV0
+aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0iCiAKIFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJS
+T1J9LyR7QlBOfS8ke01BSl9WRVJ9LyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICJkN2VlZTdlNzViZWRkY2MyNzJjZWRjMmI2MDUzNTYwMGYzYWFlNmU0ODE1ODll
+YmM2NjdhZmM0MzdjMGE2MDc5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImYwNzI5ZTVjODc2NWZl
+YjE5NjliYjZjMWZiYTE4YWZhMjU4MjEyNmIwMzU5YWE3NWExNzNmZGExYWNmOTNjNGMiCiAKIERF
+UEVORFMgPSAiIFwKIAlkYnVzIFwKLS0gCjIuNDQuMQoK
 
---===============1447031420575139494==
+--===============0870711323095256200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libsoup: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup: SRC_URI changed from "https://download.gnome.org/sources//libsoup/3.6/libsoup-3.6.1.tar.xz" to "https://download.gnome.org/sources//libsoup/3.6/libsoup-3.6.3.tar.xz"
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: FILELIST: removed "/usr/lib/.debug/libsoup-3.0.so.0.7.1", added "/usr/lib/.debug/libsoup-3.0.so.0.7.2"
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PKGSIZE changed from 2368864 to 2379032 (+0%)
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-dev: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-dev: PKGSIZE changed from 1067128 to 1067134 (+0%)
-packages/core2-64-poky-linux/libsoup/libsoup-dev: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-doc: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-doc: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ab: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ab: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-an: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-an: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-as: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-as: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-be: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-be: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bg: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bg: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bn-in: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bn-in: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bs: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bs: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca+valencia: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca+valencia: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-cs: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-cs: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-da: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-da: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-de: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-de: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-el: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-el: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-en-gb: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-en-gb: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-es: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-es: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-et: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-et: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eu: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eu: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fa: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fa: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fi: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fi: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fr: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fr: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fur: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fur: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gd: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gd: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gl: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gl: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gu: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gu: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-he: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-he: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hi: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hi: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hr: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hr: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hu: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hu: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-id: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-id: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-it: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-it: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ja: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ja: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ka: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ka: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kab: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kab: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kn: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kn: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ko: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ko: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lt: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lt: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lv: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lv: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ml: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ml: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-mr: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-mr: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ms: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ms: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nb: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nb: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ne: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ne: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nl: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nl: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-oc: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-oc: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-or: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-or: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pa: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pa: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pl: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pl: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt-br: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt-br: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ro: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ro: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ru: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ru: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sk: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sk: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sl: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sl: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr+latin: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr+latin: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sv: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sv: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ta: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ta: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-te: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-te: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tg: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tg: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-th: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-th: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tr: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tr: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ug: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ug: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uk: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uk: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-vi: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-vi: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-cn: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-cn: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-hk: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-hk: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-tw: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-tw: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-src: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-src: PKGSIZE changed from 1788594 to 1796809 (+0%)
-packages/core2-64-poky-linux/libsoup/libsoup-src: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-staticdev: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup-staticdev: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-packages/core2-64-poky-linux/libsoup/libsoup: FILELIST: removed "/usr/lib/libsoup-3.0.so.0.7.1", added "/usr/lib/libsoup-3.0.so.0.7.2"
-packages/core2-64-poky-linux/libsoup/libsoup: PV changed from "3.6.1" to "3.6.3"
-packages/core2-64-poky-linux/libsoup/libsoup: PKGSIZE changed from 683696 to 687792 (+1%)
-packages/core2-64-poky-linux/libsoup/libsoup: PKGV changed from 3.6.1 [default] to 3.6.3 [default]
-Changes to packages/core2-64-poky-linux/libsoup (sysroot):
-  /usr/lib/libsoup-3.0.so.0 changed symlink target from libsoup-3.0.so.0.7.1 to libsoup-3.0.so.0.7.2
-  /usr/lib/libsoup-3.0.so.0.7.1 moved to /usr/lib/libsoup-3.0.so.0.7.2
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.25409.1", added "/usr/lib/.debug/libatk-1.0.so.0.25410.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 2225776 to 2226072 (+0%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kab: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kab: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGSIZE changed from 10596 to 10588 (-0%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGSIZE changed from 11068 to 11074 (+0%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGSIZE changed from 11129 to 10746 (-3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGSIZE changed from 12855 to 13324 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGSIZE changed from 13577 to 16421 (+21%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2050374 to 2050585 (+0%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25409.1", added "/usr/lib/libatk-1.0.so.0.25410.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.54.0" to "2.54.1"
+packages/core2-64-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.54/at-spi2-core-2.54.0.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.54/at-spi2-core-2.54.1.tar.xz"
+packages/core2-64-poky-linux/at-spi2-core: PKGV changed from 2.54.0 [default] to 2.54.1 [default]
+packages/core2-64-poky-linux/at-spi2-core: PV changed from "2.54.0" to "2.54.1"
+Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25409.1 to libatk-1.0.so.0.25410.1
+  /usr/lib/libatk-1.0.so.0.25409.1 moved to /usr/lib/libatk-1.0.so.0.25410.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1811,16 +1880,17 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============1447031420575139494==
+--===============0870711323095256200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libsoup/libsoup: FILELIST: removed "/usr/lib/libsoup-3.0.so.0.7.1", added "/usr/lib/libsoup-3.0.so.0.7.2"
-Changes to packages/core2-64-poky-linux/libsoup (sysroot):
-  /usr/lib/libsoup-3.0.so.0 changed symlink target from libsoup-3.0.so.0.7.1 to libsoup-3.0.so.0.7.2
-  /usr/lib/libsoup-3.0.so.0.7.1 moved to /usr/lib/libsoup-3.0.so.0.7.2
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGSIZE changed from 13577 to 16421 (+21%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25409.1", added "/usr/lib/libatk-1.0.so.0.25410.1"
+Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25409.1 to libatk-1.0.so.0.25410.1
+  /usr/lib/libatk-1.0.so.0.25409.1 moved to /usr/lib/libatk-1.0.so.0.25410.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3331,5 +3401,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============1447031420575139494==--
+--===============0870711323095256200==--
 
