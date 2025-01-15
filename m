@@ -1,241 +1,305 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9D2E77188
-	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 01:04:45 +0000 (UTC)
-Received: from esa7.fujitsucc.c3s2.iphmx.com (esa7.fujitsucc.c3s2.iphmx.com [68.232.159.87])
- by mx.groups.io with SMTP id smtpd.web11.10801.1736903082256215490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A274E77188
+	for <webhook@archiver.kernel.org>; Wed, 15 Jan 2025 01:53:15 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.11682.1736905992278905261
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jan 2025 17:04:42 -0800
+ Tue, 14 Jan 2025 17:53:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=pZzFy9ve;
- spf=pass (domain: fujitsu.com, ip: 68.232.159.87, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1736903083; x=1768439083;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZQVR8ULYhbpqBLKXUolZKyCgjwykxDUf1gzPBZchbwI=;
-  b=pZzFy9veuTWEKLNUFYgrjyLOodLB6TXIkdO4IBBFtBn+heoDK7ngnTq6
-   gNOFKRJMgW8MvfC/qwjZR6iBYk2LTEbWiS4QIYeVS75fNWekx4bk8ZN/H
-   yBL89lKzuC4Zk8KhHj6NCPdOpZ8NmwejxEAN0h4//rAbG5dE8rRiLEXsA
-   N/uvoH5Fk0B+RBwPCkFagi0wsewhji+kdONUSFMCOyJJKTH+Asks662p9
-   7ILKo51VjkWyNWVPoCpYQDG/ln0EJ9mt4eK0ovZJ4UKqB3KXQieTkC1gi
-   tQ5XJi3QF/0Kby64ZzrIq/yWsL+nnccgs+UEt0VXd8Fu3rgLCAhUmseE6
-   g==;
-X-CSE-ConnectionGUID: NjdstKSwS/2gInWbP9lKLA==
-X-CSE-MsgGUID: a7LALh8GS9e+rJRtCW7eCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="142803452"
-X-IronPort-AV: E=Sophos;i="6.12,315,1728918000"; 
-   d="scan'208";a="142803452"
-Received: from mail-japaneastazlp17011030.outbound.protection.outlook.com (HELO TYVP286CU001.outbound.protection.outlook.com) ([40.93.73.30])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 10:04:40 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I3K0EgB+nQ8EbYyR5ZxNsAC9WpAjhf06rh7BpBvBZYsEO/3mmYI5C4EWICbOCC9ognuphuGVfk8hAUKobh3WEfjWnJpwwY4eN0gC1b0k8p/8i51E6ccSDR6P56fcHkYOYu6iqHzyqicXOvbaUjjEPqIirFHfuOE98XaHH61wRrNUycKJg3FztuiKcB6kbMBEkGUGMgpfMCP/GmJJYya6iMn8jRDOvhSJuUCmkJ/XsFIOhtHQ3aYFjPtUHIOfAhPt2LM7npDtmqXsQA1bBn87MjACdOfhVui7P58hTK6oIE/RnMetyWeSMNs9ixz1NfCIBo1H2YVxTrDmOed1ppSqxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZQVR8ULYhbpqBLKXUolZKyCgjwykxDUf1gzPBZchbwI=;
- b=WcJbqCImoixus7311p8kl3c4BknCkMir9E4VZ3gj/h8/6eVP9kIFFUHzb/DzsoV43Bo77R/k0rZYDMjBZdZ98q06xavceS7yWF+KIi2AFqSVsRbcWEMrfdv3RiozZTMO8nyaMtOG6oYiEhpE4pyFPStf9Zk55j3HSw+D6uuU6qWBzYlQczXDB0t1bL3fQ5Al1NpKC2RXfGP4QBXqP0WJRmCajSpiKkqUQMI7iD+sWNMUcdA/lpB2Rm4mse9rm1JHDPQB1y9IX3NTw61HHBeJBl6NadVNIxrdgHsJLaXJDa/KUmdY9uMIwjSRcUbC2SuH81i2rm4dGAaXSzjqTOeglA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
- (2603:1096:400:3fb::13) by TYXPR01MB15225.jpnprd01.prod.outlook.com
- (2603:1096:405:279::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 01:04:37 +0000
-Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
- ([fe80::e0dd:28e5:6a6e:2342]) by TYWPR01MB11861.jpnprd01.prod.outlook.com
- ([fe80::e0dd:28e5:6a6e:2342%6]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 01:04:37 +0000
-From: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Maohui Lei (Fujitsu)"
-	<leimaohui@fujitsu.com>
-Subject: RE: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when
- enable multilib.
-Thread-Topic: [PATCH] [OE-core] [PATCH v2] ncurses: Fix install conflict when
- enable multilib.
-Thread-Index: AQHbZl5O/+Gs1UzEP0unmeQlgga2orMWGioAgADo0BA=
-Date: Wed, 15 Jan 2025 01:04:37 +0000
-Message-ID: 
- <TYWPR01MB1186111770D515F743B8A403BDC192@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-References: <1736843308-4094-1-git-send-email-wangmy@fujitsu.com>
- <CANNYZj_=sCFxY83eCUzSVu5e7HXwB-pk1r4RS26LovYT=i6q8A@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_=sCFxY83eCUzSVu5e7HXwB-pk1r4RS26LovYT=i6q8A@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- =?utf-8?B?TVNJUF9MYWJlbF8xZTkyZWY3My0wYWQxLTQwYzUtYWQ1NS00NmRlMzM5Njgw?=
- =?utf-8?B?MmZfQWN0aW9uSWQ9YTJlZDE1ZjktM2MzYi00Njg5LWFjMWUtMWNlZDQ4YzUz?=
- =?utf-8?B?YWYwO01TSVBfTGFiZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFkNTUtNDZkZTMz?=
- =?utf-8?B?OTY4MDJmX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF8xZTkyZWY3My0wYWQx?=
- =?utf-8?B?LTQwYzUtYWQ1NS00NmRlMzM5NjgwMmZfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
- =?utf-8?B?ZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFkNTUtNDZkZTMzOTY4MDJmX01ldGhv?=
- =?utf-8?B?ZD1Qcml2aWxlZ2VkO01TSVBfTGFiZWxfMWU5MmVmNzMtMGFkMS00MGM1LWFk?=
- =?utf-8?B?NTUtNDZkZTMzOTY4MDJmX05hbWU9RlVKSVRTVS1QVUJMSUPigIs7TVNJUF9M?=
- =?utf-8?B?YWJlbF8xZTkyZWY3My0wYWQxLTQwYzUtYWQ1NS00NmRlMzM5NjgwMmZfU2V0?=
- =?utf-8?B?RGF0ZT0yMDI1LTAxLTE1VDAwOjUzOjE5WjtNU0lQX0xhYmVsXzFlOTJlZjcz?=
- =?utf-8?B?LTBhZDEtNDBjNS1hZDU1LTQ2ZGUzMzk2ODAyZl9TaXRlSWQ9YTE5ZjEyMWQt?=
- =?utf-8?Q?81e1-4858-a9d8-736e267fd4c7;?=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYWPR01MB11861:EE_|TYXPR01MB15225:EE_
-x-ms-office365-filtering-correlation-id: 70d8214e-4188-4342-81db-08dd350094e5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700018|1580799027;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?NkEraWliMVRad2IvYldNOFhCUXdVOEJHcitJODVueXY5ME8yaEJLa0RNN01u?=
- =?utf-8?B?Lzlrc3hNWkRTbzZCZ3dINDJsc081WE90YU9XU1JFeExOUm1sbXRUVXJQeXZ5?=
- =?utf-8?B?ejhMWWR5ZzhiVW5rVFRsL1FzS2dIc1Arak1lMWpiRndab3c3OG94RDVTU085?=
- =?utf-8?B?ZFhlRFlKWmhsVkg4dWpFM3o0OTJJdkthZTAvTzNjbFYvUnAreG5aWGQrTUNq?=
- =?utf-8?B?WERDWk1MR1p6YUNwOU45cHJiMzA2MWF0ZlBIRnN5NGZoZ3VWaDJqZy9hai9Y?=
- =?utf-8?B?Vmt3Ukd1TTRnOG41Y1FXNVJwL09aWGszSk9XWVNiWUhOdkJDa0J1Y2RkeFNy?=
- =?utf-8?B?VmlSS2NNdjRMUGRLZGxkYTJaV2pEMnh5U2E1SWhOeHV2cmw3K3d3QW1XMGZE?=
- =?utf-8?B?UEVKN091RndtZ0FEZTJCTjBmTysxaWtWdmRiVzN6dnBVMjlrN2xwb0s1Wms3?=
- =?utf-8?B?UTdsTHdRWS9jZ0ZydTY0RC91aGxBMmhJaXZjWlArekppam5MSDZua0dQempt?=
- =?utf-8?B?Y2NTc2QyRml2US9TOVRVajNZQk9RQzJCU2QxNUVhQ3BXMmMyQ0tOSXRHeWhJ?=
- =?utf-8?B?SUdSYkYrREtLVGF5K2V1Y0JpczhuV3V2ajlGaWt4Z3BrRS8zZ0hIdk1iK2Zs?=
- =?utf-8?B?dnRaR3JQNHlhM2t4Ymo3TGtjYWRYSlUyYTNyZ0lFRWFHUExGYzFJT3g1R0VY?=
- =?utf-8?B?WFpaUFZwSXJYU1BGMGl2bHJYbHlFYXFUMms0RVpaUkpVQXc3bDZ0R3lmU050?=
- =?utf-8?B?M3hOSzZIdjg5NVE3WVlQWmwyMVl2a0tyVHVhb3RIblpFUERGZkdrWHl0Wkdz?=
- =?utf-8?B?bjFWcHl0Q0NzL3orOS9EOWVDMHNIS1lmd2trNU1SRWtjZFMrZStYbUNTbXhK?=
- =?utf-8?B?OHNQbzFvVGZhYWZoaWJUWThNbGxDR2VjcXV2czR3QjdTQU5TcmNMOXR4aWwz?=
- =?utf-8?B?cnNZUmczQ0duTGhNWjArclovMkZHZWluT3E4WGFJUW5jL1k4WlFpbXJTVWVW?=
- =?utf-8?B?U09CMlZTZ0h2Tk05SnU1K0lRTlVUNDRPanhIaDRnVFFrU3dSSXd2LzVmNGIy?=
- =?utf-8?B?WGpLUjVISnFzNnJ0TWlvSm1lblNCWTkrdHJjTUs1TnRhUWxMMi9RUTlUQUxl?=
- =?utf-8?B?Y1NyMVl3WHhTaTJ2dXJKRVYxM3QyUGZSQWRaQlNTUXVRSHdZelFTOXhHa1oy?=
- =?utf-8?B?Sjd6aCtXalNKeXVBZE41Y1F2dGlOWm1Za3I0TDluK0NPTUVPQ0VLRDZaNitG?=
- =?utf-8?B?emhETFJ5c2ZTSU9SamhZUTRrNkVZVGlPT2U3MTlTOE94ZW8wUVAyRXB0bjRI?=
- =?utf-8?B?emQ5SnpBNTBzSGdhWXpEd1czcUIrNjJ4OU8wbzM3VGVVZFRQeC9LVmVWcXky?=
- =?utf-8?B?NWVuUTdzaHhuUmY2UnJna1lRckE3bkx4MDN6c0M3MHZhbXhqb1dCcE1WSDM3?=
- =?utf-8?B?ak05azJVNVBnRVJRRjg4UGlZcGJMZlhDK2lvYm9rSzdadW5nMmw3SlRjUkN6?=
- =?utf-8?B?SzVXU3BpMlp6QktGSmVNUzRjdFF5YWN0ampGa29NMGNCdEFKcnpHNTFkV3ZR?=
- =?utf-8?B?L09yUytpMjUvd0VRVDFhSXRlVnlObU1BSWQ1YTJOb2xrdFE2djVvYVhXUDlx?=
- =?utf-8?B?UjhmdUg1TzF1akozNlo2Umx3N0VDSUROaHdnNVVOSWRtbWRxYzl2U0RCU1M3?=
- =?utf-8?B?RzJoSk5KbE9YMjg5NDljUURUZlVLbEpFV2F6NFR5RjNVLzEvNlpDNGlBZ0cr?=
- =?utf-8?B?TFR4V29ZaXgrdms0NjNuUWVIN0xQYlVDcGxaUEw2ckRJTStuSlJpbklhNCtv?=
- =?utf-8?B?ZGNpQ0wrTWxJTWQrV1h5bUt0UjgxNGN6Z3R6cmVtVTlXTlNVTzlCbHlRN0RJ?=
- =?utf-8?B?dUJwa1I5amp6TXFxSGtTeGpPeEprRjBKckRVdmYrWXhzblBiL2VaU2FhVTZ1?=
- =?utf-8?Q?k8OCVR9Q50c=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB11861.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?c3FONDBxNlBSeExUeU40VC92d1NUSnlQd2RoMUxaZVFaeVd3OWxjVzBCeE90?=
- =?utf-8?B?R0VnbTJURWdIakxtOWRLWGVGcFVITHE1dVJ5aDZscXo4Y2ZxT2dydWNpcGhD?=
- =?utf-8?B?YXA5ZDdYNW9rZGd2TXMydHJhU3JLTVppM3RuUmF4ZTl0QWJTUkhMZ2Jtakps?=
- =?utf-8?B?VUFiWk1pYU83ZkpUOFJaUmlhNHF5TlNjU3NuM2ZUbkd0MHo0YUVIMWg2YnNh?=
- =?utf-8?B?R3ZuV1Q5N09YbjJVa3oxSTdUMWdoaUNuZ2hpTDdyblZqMlU1Y20yL3J5Y3Rh?=
- =?utf-8?B?MGdTQnJqRy9iSmpCSithcDUyS01vcmkxajh6K0VBeU1JWTJJUlA2N2VzYTdR?=
- =?utf-8?B?dS9hUDgrbHRuWkF6ZmlZalZhSDJjNDRKcWdnRlNQVDFFZi8wL282a0NoY2ZV?=
- =?utf-8?B?a0kwd3greUVQcGw4cng0RVRyOTFod2FPRmErTGU3bWhmbDVoUTRsWUFQYW1L?=
- =?utf-8?B?dVZTaU1FTDY2UUVtbkNMa3FmZTRZaTMvWW1acTR4SVRoVHNOUHBLckVXeWx6?=
- =?utf-8?B?cjJ4TDlHTThzanlTZ2R0ZzRJQlFOR1grSC9PQ2VKajdxWWExSWd0R21kZGFo?=
- =?utf-8?B?eHpVTnlCb0tBYVRwMXNmMFBzNG02N0gxczBUVUI2ZWZvOXEvUjZ0akVkeUVQ?=
- =?utf-8?B?dUQvTEMvNTRHQkxpYkgvdDdwZjh0em1xcmtGTTJxR3NKTjJ1b1VmdEpyOHNa?=
- =?utf-8?B?d21rTE1hTWFmdE9hS1Q1bHdkWDVianVLN3ZmRHY0cFdKaW5LYjAzcEwxS0o4?=
- =?utf-8?B?TDRhUUxEOW52Wk5wS2MvY25LYVJZN0I1b25zOStORUtIRnRWMXI4dEJzS1J1?=
- =?utf-8?B?MEtSeDNFOCtJblF2VXNYT0VJSWR1UUFPQ0ZENzNqSHpIbHlHRGZYdGFHVzF6?=
- =?utf-8?B?TnJPQ2djU29Sa0hyb2NRVHN3bEVtN0dtNnUrUFJyQk90Tkh4Mi82OGYxQWFv?=
- =?utf-8?B?S05OczI3Q2w4ajVYUE43Zy9rdnBxSUhLM1VnTVN2djBVZG53cmUwb3J4U1Vt?=
- =?utf-8?B?VHEwa2NGMG91ckYyc2grMU91TDhHOTd0Tkcwa1pQMmNYZFQ0b09nbkZlNld2?=
- =?utf-8?B?dEYyQXhhdm1raENmdzBGMWNRc0NGMjlLUVZvRTE2OGtHQUk1VmpyZGl6eHN2?=
- =?utf-8?B?a2doNG53dk5sZUhpMVViRFBUOEg5bWNWSmlsVXFONkZEdjJRUDIwZzY5dytO?=
- =?utf-8?B?cnV0cHJ1VVc4ZGZwR2RDeTdsbjdZM0YreXZZbGxoWUJORm1HTk5FTGh6NC9C?=
- =?utf-8?B?akt5c0JXM3ZsRnErWTYvTzBGbFBMcyt6Z3BrRnp5SnFjcjZjV3FCaWVNM0du?=
- =?utf-8?B?YlRnWU5IeEVtbWd1WS9xQ2kvdjJlUHFvVzB1QktWcmhNTlg2RmY2dXJWR0lo?=
- =?utf-8?B?ZUYybXYzWkFYY1RGUzdSMGVURmlQOWdUSE9xUFRQZnRmN3p2TXFqR2ZDZFY1?=
- =?utf-8?B?ZmQvekM4d3gxN3Q0WEs2N2JCNEZLdW9nS0tNb0VsVStRbFhHUHhWR09Wb2Vm?=
- =?utf-8?B?MkpZUlY5SVlqaEhoOFlud2I4NDROMXF4a1dCNFJsTk1GZSt1WXNxSWQ2UVdj?=
- =?utf-8?B?ZUwzZHYxK081Qi9MaEdremJmYmE1UEtZUEQ5VG5FNzJ6QmhlUVp2bTRUQ2JU?=
- =?utf-8?B?ZmsxcnlWNjhoc3liKzZEenZ1WXBBU3M1Z2wzQ01XbjFKY3BwaVpFbEt5Q1RF?=
- =?utf-8?B?dm9Rb2h6eEt6K3FYaHViLzV4U1JBa0pkNGhIS3FuSzZMdldYMUpLYzJtQkZt?=
- =?utf-8?B?anFVU0ptSzUyMkZEMllLRjFxeWw4L2N2WGcwd0IyWHk0cU5UV2lxNWFybGl0?=
- =?utf-8?B?U0lKZjZlTEt0Yzg0NDNqSlVDUTF5d1ZiWi9rR3N6WVpsZWhIVzk5V25Xb2NK?=
- =?utf-8?B?NW4vdzZ6ZFlFdm9GeDRZRzMzdFc0YzRoSStpSDFmS3dRSVFmbmdWWEd3QUUz?=
- =?utf-8?B?TlBQV2RiS3d5VlJVRjJtVWREZWxwTTA0MVdhZUVoelg3LzZLSjdDTU53QnY1?=
- =?utf-8?B?V2ZWZUJpUSsvOHBEdm15VGlSM1kxYU9hYmN1c3FmQzJUS2JDTXRBdkNFNU9O?=
- =?utf-8?B?dHJmcWlnQkh1SCtUSU1BVW85b3d0M2VMMmRiT2h0TXRrVTdTbGdsWm5aTDYr?=
- =?utf-8?Q?KKFj4jWFMZXc0cLpUlyBl09Lg?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31108058b8=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50F1Wm91031851
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:53:12 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443s1pkbns-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jan 2025 17:53:11 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 14 Jan 2025 17:53:09 -0800
+From: dchellam <divya.chellam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][PATCH 1/1] wget: fix CVE-2024-10524
+Date: Wed, 15 Jan 2025 01:52:45 +0000
+Message-ID: <20250115015245.2892721-1-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	z08xGKomy4Sqfs5OufAgaKFGpfDms+4u6rWaoBIvEX64N+Mc9VxdAQBQgvKZSIlrQZc81D2BKZ8bzJ8CjdNjEw9munrZKx1dcM7Yjhcy2hDqetaZGaRJLgRZaqzSjb4taI9druzBgFeVg6nlG4GrfOc27lae0jozXe/qeCgtuFXNG20chSkuncJvy4BKdn+adVZQl7zjU6Tl7dVO0UNsBKRovPtysH638/2/kzUxFdRs2+QBtZNY7jQpwK8xnCXa1C1q28NAdhm53ml1S5l2D7XfAiwDb3L90u7tonUj59is0KkC1/J/swtf17Qnpy1V9grSftAJdQX7SHrQe4NocwhrLY9kp8qUqQvc8dV5yvc8RtDt/x2xbR1jrVG+6qAkFeaj8iZsb0oogFY/JLsf/EyffU6QcQ1sAHpkNH1djt2ePsgksv648/XzwEoYcrkflNhZBjCnj0wKUTWxKN2esoj0F7r1e0SM316yJzpKRb8BDPwl/ZwqXzGyV4fwH9App8tetBGHTtvZNurzNoOBr5xyVCETQC4ZEvhB4I/Mt/xpoIwKfymJdWBBEYn0d6mg+pCdFX6P66/x72TLD3UCu5UaT+CEO0d0RUiTTJpovDYVhaqx5wTtzA7RgrIFZUlP
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11861.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70d8214e-4188-4342-81db-08dd350094e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 01:04:37.0613
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wy8/vjpLZrrfdZukvzn8Q0GjFhBvyus49c0/ldqGzs93WcASPNBGgFfzNd7O/V6lVtxBHPHPSckeM9ky6lPNVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB15225
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Authority-Analysis: v=2.4 cv=DdLtqutW c=1 sm=1 tr=0 ts=67871507 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=IkcTkHD0fZMA:10 a=VdSt8ZQiCzkA:10 a=PYnjg3YJAAAA:8 a=mDV3o1hIAAAA:8 a=P5wrnlEIAAAA:8
+ a=mNYpJT6RAAAA:8 a=t7CeM3EgAAAA:8 a=aYjVkuYQAAAA:8 a=hSpJreNbMDZsDvoszS4A:9 a=lqcHg5cX4UMA:10 a=r-HJ9bD__24A:10 a=Wpz8ju6o9T4A:10 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ImwWUX5h3JJ3gRE9moBe:22 a=z2U-W3hJrleVIN9YIjzO:22 a=aoaxo0Z0h-rxbPFMW5aL:22
+ a=eybOJ6GWDyyBfQoUqdmp:22 a=FdTzh2GWekK77mhwV6Dw:22 a=XAG9d7F89tCahMKViDxK:22
+X-Proofpoint-GUID: tFPymGQ0RQ9gyUMvtZ3iJVnAfStP5dSF
+X-Proofpoint-ORIG-GUID: tFPymGQ0RQ9gyUMvtZ3iJVnAfStP5dSF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-14_09,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2501150011
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 50F1Wm91031851
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 01:04:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209813
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 01:53:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209814
 
-PiBjYXNlICRob3N0X29zIGluDQo+ICgqbGludXgtZ251fCpjeWd3aW58Km1pbmd3MzJ8Km1zeXMp
-DQo+ICAgICB3YW50X3h0ZXJtX2ticz1ERUwNCj4gICAgIDs7DQo+ICgqKQ0KPiAgICAgd2FudF94
-dGVybV9rYnM9QlMNCj4gICAgIDs7DQo+IGVzYWMNCg0KV2UgY2hlY2sgdGhlIG91dHB1dCBvZiBo
-b3N0X29zIHdoZW4gZW5hYmxlIG11bHRpbGliOg0KJGhvc3Rfb3Mgb2YgYWFyY2g2NCA6IGxpbnV4
-LWdudQ0KJGhvc3Rfb3Mgb2YgYWFyY2gzMjogbGludXgtZ251ZWFiaQ0KDQpXZSB0aGluayBhYm91
-dCB0d28gc29sdXRpb25zOg0KMS4gVXNlIHRoZSB2MiBwYXRjaCB0byBzcGVjaWZ5IC0td2l0aC14
-dGVybS1rYnM9ZGVsDQoyLiBUZW1wb3JhcmlseSBtb2RpZnkgdGhlIGZvbGxvd2luZyBjb2RlIGlu
-IFlvY3RvLiBBbmQgc3VibWl0IHBhdGNoZXMgdG8gdXBzdHJlYW06DQotLS0gYS9jb25maWd1cmUN
-CisrKyBiL2NvbmZpZ3VyZQ0KQEAgLTk0NzAsNyArOTQ3MCw3IEBAIGVjaG8gIiR7RUNIT19UfSR3
-aXRoX3h0ZXJtX25ldyIgPiY2DQogV0hJQ0hfWFRFUk09JHdpdGhfeHRlcm1fbmV3DQogDQogY2Fz
-ZSAkaG9zdF9vcyBpbg0KLSgqbGludXgtZ251fCpjeWd3aW58Km1pbmd3MzJ8Km1zeXMpDQorKCps
-aW51eC1nbnUqfCpjeWd3aW58Km1pbmd3MzJ8Km1zeXMpDQogICAgICAgIHdhbnRfeHRlcm1fa2Jz
-PURFTA0KICAgICAgICA7Ow0KICgqKQ0KDQpXaGljaCBwbGFuIGRvIHlvdSB0aGluayBpcyBiZXR0
-ZXI/DQoNCiAgLS0NCkJlc3QgUmVnYXJkcw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpXYW5nIE1pbmd5dQ0KRlVKSVRTVSBOQU5KSU5HIFNPRlRX
-QVJFIFRFQ0hOT0xPR1kgQ08uLCBMVEQuIChGTlNUKQ0KTm8uNiBXZW56aHUgUm9hZCwgTmFuamlu
-ZywgMjEwMDEyLCBDaGluYQ0KVEVM77yaKzg2KzI1LTg2NjMwNTY2LS04NTY4DQpDT0lOUzogNzk5
-ODg1NDgNCkZBWDogKzg2KzI1LTgzMzE3Njg1DQpNQUlMOiB3YW5nbXlAZnVqaXRzdS5jb20NCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgQWxleGFuZGVyDQo+IEthbmF2aW4gdmlhIGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogVHVlc2RheSwgSmFudWFyeSAxNCwgMjAyNSA3OjAwIFBN
-DQo+IFRvOiBXYW5nLCBNaW5neXUv546LIOm4o+eRnCA8d2FuZ215QGZ1aml0c3UuY29tPg0KPiBD
-Yzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgTGVpLCBNYW9odWkv
-6Zu3IOiMguaFpw0KPiA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BB
-VENIXSBbT0UtY29yZV0gW1BBVENIIHYyXSBuY3Vyc2VzOiBGaXggaW5zdGFsbCBjb25mbGljdCB3
-aGVuDQo+IGVuYWJsZSBtdWx0aWxpYi4NCj4gDQo+IE9uIFR1ZSwgMTQgSmFuIDIwMjUgYXQgMDk6
-MjgsIHdhbmdteSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8d2FuZ215PWZ1aml0c3Uu
-Y29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+IEFmdGVyIGNvbnN1bHRpbmcg
-d2l0aCB0aGUgdXBzdHJlYW0gb2YgbmN1cnNlcywgaXQgaXMgcG9zc2libGUgdG8gc3BlY2lmeSBr
-YnMgYnkNCj4gc2V0dGluZyAtLXdpdGgteHRlcm0ta2JzPVhYWC4NCj4gPiBCYXNlZCBvbiB0aGUg
-aW5zdHJ1Y3Rpb25zIGluDQo+ID4gaHR0cHM6Ly9naXRodWIuY29tL1Rob21hc0RpY2tleS9uY3Vy
-c2VzLXNuYXBzaG90cy9ibG9iL21hc3Rlci9jb25maWd1cg0KPiA+IGUjTDk4MTAsIGl0IGlzIGFw
-cHJvcHJpYXRlIHRvIGFkZCAtLXdpdGgteHRlcm0ta2JzPWRlbC4NCj4gDQo+IEknZCBsaWtlIHRv
-IGRpZyBhIGxpdHRsZSBiaXQgZGVlcGVyIGludG8gdGhpcywgYmVjYXVzZSBJJ20gbm90IHN1cmUg
-aG93IHRoZSBtaXNtYXRjaA0KPiBjb3VsZCBoYXBwZW4uIFRoZSBjb25maWd1cmUgc2NyaXB0IGRv
-ZXMgdGhpcw0KPiBhdXRvZGV0ZWN0aW9uOg0KPiANCj4gY2FzZSAkaG9zdF9vcyBpbg0KPiAoKmxp
-bnV4LWdudXwqY3lnd2lufCptaW5ndzMyfCptc3lzKQ0KPiAgICAgd2FudF94dGVybV9rYnM9REVM
-DQo+ICAgICA7Ow0KPiAoKikNCj4gICAgIHdhbnRfeHRlcm1fa2JzPUJTDQo+ICAgICA7Ow0KPiBl
-c2FjDQo+IA0KPiBQcmVzdW1hYmx5IGl0IGNob29zZXMgQlMgb3B0aW9uIGluIG9uZSBvZiB5b3Vy
-IG11bHRpbGliIGNvbmZpZ3VyYXRpb25zLCBidXQgSSBkbw0KPiBub3QgdW5kZXJzdGFuZCB3aHkg
-d291bGQgdGhhdCBiZS4gQ2FuIHlvdSBzaGFyZSBsb2cuZG9fY29uZmlndXJlIGZvciBib3RoIG9m
-DQo+IHRoZW0sIHBhcnRpY3VsYXJseSBpbnRlcmVzdGluZyB3b3VsZCBiZSB0aGUgcGFydCB3aGVy
-ZSBpdCBzZXRzIGhvc3Rfb3M6DQo+IA0KPiBjaGVja2luZyBidWlsZCBzeXN0ZW0gdHlwZS4uLiB4
-ODZfNjQtcGMtbGludXgtZ251IGNoZWNraW5nIGhvc3Qgc3lzdGVtIHR5cGUuLi4NCj4geDg2XzY0
-LXBva3ktbGludXgtZ251IGNoZWNraW5nIHRhcmdldCBzeXN0ZW0gdHlwZS4uLiB4ODZfNjQtcG9r
-eS1saW51eC1nbnUNCj4gQ29uZmlndXJpbmcgZm9yIGxpbnV4LWdudQ0KPiANCj4gVGhhbmtzLA0K
-PiBBbGV4DQo=
+From: Divya Chellam <divya.chellam@windriver.com>
+
+Applications that use Wget to access a remote resource using
+shorthand URLs and pass arbitrary user credentials in the URL
+are vulnerable. In these cases attackers can enter crafted
+credentials which will cause Wget to access an arbitrary host.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-10524
+
+Upstream-patch:
+https://git.savannah.gnu.org/cgit/wget.git/commit/?id=3Dc419542d956a2607b=
+bce5df64b9d378a8588d778
+
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+---
+ .../wget/wget/CVE-2024-10524.patch            | 197 ++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.21.4.bb     |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-10524.patch
+
+diff --git a/meta/recipes-extended/wget/wget/CVE-2024-10524.patch b/meta/=
+recipes-extended/wget/wget/CVE-2024-10524.patch
+new file mode 100644
+index 0000000000..21f990ee73
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2024-10524.patch
+@@ -0,0 +1,197 @@
++From c419542d956a2607bbce5df64b9d378a8588d778 Mon Sep 17 00:00:00 2001
++From: Tim R=C3=BChsen <tim.ruehsen@gmx.de>
++Date: Sun, 27 Oct 2024 19:53:14 +0100
++Subject: [PATCH] Fix CVE-2024-10524 (drop support for shorthand URLs)
++
++* doc/wget.texi: Add documentation for removed support for shorthand URL=
+s.
++* src/html-url.c (src/html-url.c): Call maybe_prepend_scheme.
++* src/main.c (main): Likewise.
++* src/retr.c (getproxy): Likewise.
++* src/url.c: Rename definition of rewrite_shorthand_url to maybe_prepend=
+_scheme,
++  add new function is_valid_port.
++* src/url.h: Rename declaration of rewrite_shorthand_url to maybe_prepen=
+d_scheme.
++
++Reported-by: Goni Golan <gonig@jfrog.com>
++
++CVE: CVE-2024-10524
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/wget.git/co=
+mmit/?id=3Dc419542d956a2607bbce5df64b9d378a8588d778]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ doc/wget.texi  | 12 ++++-------
++ src/html-url.c |  2 +-
++ src/main.c     |  2 +-
++ src/retr.c     |  2 +-
++ src/url.c      | 57 ++++++++++++++++----------------------------------
++ src/url.h      |  2 +-
++ 6 files changed, 26 insertions(+), 51 deletions(-)
++
++diff --git a/doc/wget.texi b/doc/wget.texi
++index 3c24de2..503a03d 100644
++--- a/doc/wget.texi
+++++ b/doc/wget.texi
++@@ -314,8 +314,8 @@ for text files.  Here is an example:
++ ftp://host/directory/file;type=3Da
++ @end example
++=20
++-Two alternative variants of @sc{url} specification are also supported,
++-because of historical (hysterical?) reasons and their widespreaded use.
+++The two alternative variants of @sc{url} specifications are no longer
+++supported because of security considerations:
++=20
++ @sc{ftp}-only syntax (supported by @code{NcFTP}):
++ @example
++@@ -327,12 +327,8 @@ host:/dir/file
++ host[:port]/dir/file
++ @end example
++=20
++-These two alternative forms are deprecated, and may cease being
++-supported in the future.
++-
++-If you do not understand the difference between these notations, or do
++-not know which one to use, just use the plain ordinary format you use
++-with your favorite browser, like @code{Lynx} or @code{Netscape}.
+++These two alternative forms have been deprecated long time ago,
+++and support is removed with version 1.22.0.
++=20
++ @c man begin OPTIONS
++=20
++diff --git a/src/html-url.c b/src/html-url.c
++index 896d6fc..3deea9c 100644
++--- a/src/html-url.c
+++++ b/src/html-url.c
++@@ -931,7 +931,7 @@ get_urls_file (const char *file)
++           url_text =3D merged;
++         }
++=20
++-      new_url =3D rewrite_shorthand_url (url_text);
+++      new_url =3D maybe_prepend_scheme (url_text);
++       if (new_url)
++         {
++           xfree (url_text);
++diff --git a/src/main.c b/src/main.c
++index d1c3c3e..f1d7792 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -2126,7 +2126,7 @@ only if outputting to a regular file.\n"));
++       struct iri *iri =3D iri_new ();
++       struct url *url_parsed;
++=20
++-      t =3D rewrite_shorthand_url (argv[optind]);
+++      t =3D maybe_prepend_scheme (argv[optind]);
++       if (!t)
++         t =3D argv[optind];
++=20
++diff --git a/src/retr.c b/src/retr.c
++index 38c9fcf..a124046 100644
++--- a/src/retr.c
+++++ b/src/retr.c
++@@ -1493,7 +1493,7 @@ getproxy (struct url *u)
++=20
++   /* Handle shorthands.  `rewritten_storage' is a kludge to allow
++      getproxy() to return static storage. */
++-  rewritten_url =3D rewrite_shorthand_url (proxy);
+++  rewritten_url =3D maybe_prepend_scheme (proxy);
++   if (rewritten_url)
++     return rewritten_url;
++=20
++diff --git a/src/url.c b/src/url.c
++index 0acd3f3..6868825 100644
++--- a/src/url.c
+++++ b/src/url.c
++@@ -594,60 +594,39 @@ parse_credentials (const char *beg, const char *en=
+d, char **user, char **passwd)
++   return true;
++ }
++=20
++-/* Used by main.c: detect URLs written using the "shorthand" URL forms
++-   originally popularized by Netscape and NcFTP.  HTTP shorthands look
++-   like this:
++-
++-   www.foo.com[:port]/dir/file   -> http://www.foo.com[:port]/dir/file
++-   www.foo.com[:port]            -> http://www.foo.com[:port]
++-
++-   FTP shorthands look like this:
++-
++-   foo.bar.com:dir/file          -> ftp://foo.bar.com/dir/file
++-   foo.bar.com:/absdir/file      -> ftp://foo.bar.com//absdir/file
+++static bool is_valid_port(const char *p)
+++{
+++  unsigned port =3D (unsigned) atoi (p);
+++  if (port =3D=3D 0 || port > 65535)
+++    return false;
++=20
++-   If the URL needs not or cannot be rewritten, return NULL.  */
+++  int digits =3D strspn (p, "0123456789");
+++  return digits && (p[digits] =3D=3D '/' || p[digits] =3D=3D '\0');
+++}
++=20
+++/* Prepend "http://" to url if scheme is missing, otherwise return NULL=
+. */
++ char *
++-rewrite_shorthand_url (const char *url)
+++maybe_prepend_scheme (const char *url)
++ {
++-  const char *p;
++-  char *ret;
++-
++   if (url_scheme (url) !=3D SCHEME_INVALID)
++     return NULL;
++=20
++-  /* Look for a ':' or '/'.  The former signifies NcFTP syntax, the
++-     latter Netscape.  */
++-  p =3D strpbrk (url, ":/");
+++  const char *p =3D strchr (url, ':');
++   if (p =3D=3D url)
++     return NULL;
++=20
++   /* If we're looking at "://", it means the URL uses a scheme we
++      don't support, which may include "https" when compiled without
++-     SSL support.  Don't bogusly rewrite such URLs.  */
+++     SSL support.  Don't bogusly prepend "http://" to such URLs.  */
++   if (p && p[0] =3D=3D ':' && p[1] =3D=3D '/' && p[2] =3D=3D '/')
++     return NULL;
++=20
++-  if (p && *p =3D=3D ':')
++-    {
++-      /* Colon indicates ftp, as in foo.bar.com:path.  Check for
++-         special case of http port number ("localhost:10000").  */
++-      int digits =3D strspn (p + 1, "0123456789");
++-      if (digits && (p[1 + digits] =3D=3D '/' || p[1 + digits] =3D=3D '=
+\0'))
++-        goto http;
++-
++-      /* Turn "foo.bar.com:path" to "ftp://foo.bar.com/path". */
++-      if ((ret =3D aprintf ("ftp://%s", url)) !=3D NULL)
++-        ret[6 + (p - url)] =3D '/';
++-    }
++-  else
++-    {
++-    http:
++-      /* Just prepend "http://" to URL. */
++-      ret =3D aprintf ("http://%s", url);
++-    }
++-  return ret;
+++  if (p && p[0] =3D=3D ':' && !is_valid_port (p + 1))
+++    return NULL;
+++
+++
+++  fprintf(stderr, "Prepended http:// to '%s'\n", url);
+++  return aprintf ("http://%s", url);
++ }
++=20
++ static void split_path (const char *, char **, char **);
++diff --git a/src/url.h b/src/url.h
++index fb9da33..5f99b0a 100644
++--- a/src/url.h
+++++ b/src/url.h
++@@ -128,7 +128,7 @@ char *uri_merge (const char *, const char *);
++=20
++ int mkalldirs (const char *);
++=20
++-char *rewrite_shorthand_url (const char *);
+++char *maybe_prepend_scheme (const char *);
++ bool schemes_are_similar_p (enum url_scheme a, enum url_scheme b);
++=20
++ bool are_urls_equal (const char *u1, const char *u2);
++--=20
++2.40.0
++
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-ext=
+ended/wget/wget_1.21.4.bb
+index bc65a8f7c8..b5f50f6c84 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.21.4.bb
+@@ -1,6 +1,7 @@
+ SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+            file://CVE-2024-38428.patch \
++           file://CVE-2024-10524.patch \
+           "
+=20
+ SRC_URI[sha256sum] =3D "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea=
+51df27525bcde04c"
+--=20
+2.40.0
+
 
