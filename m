@@ -1,202 +1,352 @@
-Return-Path: <denis.osterland@diehl.com>
+Return-Path: <peng.zhang1.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF188E77188
-	for <webhook@archiver.kernel.org>; Thu, 16 Jan 2025 07:13:58 +0000 (UTC)
-Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
- by mx.groups.io with SMTP id smtpd.web10.43196.1737011628917266644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF937C02180
+	for <webhook@archiver.kernel.org>; Thu, 16 Jan 2025 07:27:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.43314.1737012423029800250
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jan 2025 23:13:50 -0800
+ Wed, 15 Jan 2025 23:27:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=We/muu3K;
- spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=104ee42bf=denis.osterland@diehl.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1737011629; x=1768547629;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=IbBGWfX5oq1YJVdiPhrGaHq4E21BU5quqdWDE2no170=;
-  b=We/muu3Kv7u/wd0mzAIP8rU4QLV7aJI3Vw7Y0e1hsibpDmiDAXH397BB
-   qfE7aCidY7OhS6fxYUMaX6ymqYdq0SatXVct5kjd35PpI+f7OgjEPgjyC
-   T8c77Aj+xOejMKcYS4s3NGgHGG6LjGCM1X5cZ1iTWvMArYbvHN1RC90iW
-   TDfYeP9dntlb7m0UN+xOuTm2xrzHzxUaqTB2zPFczep/srSL7Mi73iz0K
-   doDfmESlCzVI6aejgY6Q7E50sf2hmZWwzu39AWHj2xjKeDNkXsnUsphYl
-   CUr4C8U93P4FmBDZriaWme8erluD1D5NDmFdwjjQUd9dYi+azs0CtLN2k
-   g==;
-X-CSE-ConnectionGUID: n/6ET6vLQaOACtsYjisOSw==
-X-CSE-MsgGUID: 3ShbW2d8QUqV/6tIDz5sbg==
-X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:+bH6i6iBlE8jRRas8hWQ46ADX161ehAKZh0ujC45NGQN5FlGYwR3n
- yJfBTDVa7vTPTzqM8Q2M9718ldF4MGLn5ImCldcGRtFVHdLrMeDHYuCRqubFy+bd8OdFhM+t
- cxPO9ScIppsQCCD/kv3bbW/8ykgjKjVHLP1VrCdZnp6GVc9E3ks1h8yl79pi4dmiNHnDl3ds
- 4iaT6H3MUe93z9/O34V7KTEsBBkp6u3ozIXuFUieOpG1LP7vyB94MU3fvDpfxMUO7V8HvKmX
- 7SEi7K073if8xYgCtfjmbH+NUYQRvnOPk2OvXwQULKm2nB+SlcJPtUG2IA0MQEP4wihn8xt0
- IcK8p+9WBxvMqzBmOBbWB5dVCpkOepa+/rHFn75utaXlxCFMiOE/xkVN61FAGFi0r4xWQlz3
- fwENChfKVecmP3wzLO2Su0qjcMma9HoPcRH0k2Mtgo1fsvKO7ibBf2i2OJl4dsQuixvNa6ON
- pYUZTY/NEvMakNCYg5KU8tjkur5iHCgKzEJ9Q3O+fNnsmPe8ld8gePnWDb3ln5mZu0IxBrC9
- jKel4jdKktHXDBK4WPdqhpAvseWw2WjHtpUTODgnhJTqAX77nQJDxELXkeMr/C8i0qvM/pSM
- EV8FhAG9MDez2T1CICmN/GEiCTc5ENEAoMOS7RSBDylkcI43S7IXwDocRYRMLTKhOduLRQ22
- 1mAmc/eBDAHmNW9VXKH+76Imii5MC4TIHVqTXdsodwtuoSLTCkb13ojf/47eEKHpoSd9QLYm
- lhmmBMDa4A71qbn4UkZEWfv2FpArrCRJuI8C56+smiNtmuVb6b9D2CkBMSyAV+t4+91Q3HY1
- EXolfRy48gISs+gqHKTZNwEO5iC++20MjzHpmVwSsxJGzSFoxZPfKhc5SN1K1gxaIAPfiXxJ
- kPStANVopRUORNGb4cuO8ThUYJzne65To6NuvP8N7KiZrB9eQmG52dpflKdxWTklkQEnaAyO
- ZPdesGpZZofIf0/l2vvHLdGitfHwAhl/mPZesr3ny2ayITZOmK0ZaVYK1GBO7VRAKSs5V+9H
- 8xkH8ySxhNSVefzbiXa/csYKkoHBXw6Hozt7ctPe+iOJwBrFG0sB7nW27xJRmB+t/0N0LeSu
- CjtHBYDkjITmEH6FOlDUVg7AJuHYHq1hStT0fAEVbpw50UeXA==
-IronPort-HdrOrdr: A9a23:gnCn+6i80V0kkE+3NJ+Mirl/8HBQXvYji2hC6mlwRA09TyX+rb
- HIoB17726RtN91YhsdcL+7V5VoLUmzyXZaibNhRYtKdjOWw1dAVbsSi7cKmgeQYhEWlNQttp
- uIApIObeEYZGIS5arHCW+DcurIqOPtzEnCv5a9854Cd2FXgu5bnn1E41agf3FLeA==
-X-Talos-CUID: =?us-ascii?q?9a23=3AnGropGusi8R7VbQSbSoKfX9x6IsjNSPw8CnOB3a?=
- =?us-ascii?q?xLk9CVKakS16L35h7xp8=3D?=
-X-Talos-MUID: 9a23:W9bUrwZZeF8Yz+BT7ATsjg44OJdR3r2QTx4RsLkU5tKOOnkl
-X-IronPort-AV: E=Sophos;i="6.13,208,1732575600"; 
-   d="p7s'346?scan'346,208,346";a="103913833"
-From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
-To: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] create-spdx: support line numbers
-Date: Thu, 16 Jan 2025 08:13:45 +0100 (CET)
-Message-ID: <b50eb75f524c4bc8bf3dd1763dbfd24d@diehl.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3111d49cac=peng.zhang1.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50G7DvA4000838
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 23:27:02 -0800
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443mt7546p-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jan 2025 23:27:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fs5vyeHFwPR+LZlmtcVQvLfsRL+2fdtMYB/w00quE38VRriGIE8gSpyIwdd6+PRwkH166e3X9tWYoGmkANJ9xVyfM9WaBRYYUElBhiOL4yglPB2HMkq5tBGxqR1ESSt0uXENNYjlD3fZeLhBH4Hb4oIiGPBLuiV/TuuCCEpAhS9nbtEaUeMxXX9TW4hjLLvaAGtdMM/00L8RGA1tF3yGE91r4sCZaH4ckixxIPrQq1KlMyCj5KFJ2UK96snsZ/zrlbr5k9xOgfc7FBDays6R5vFJikKRHF/uBi7PsL6zeImwDP/6CZ/Y4+qtoriEHj1suHPqecYM3rPfvicBR2mlgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GvpA39vcZHBqb+evBz2sATBLb2REg+rBvr66iE91SmI=;
+ b=CnvEs1uujNUFhSmDaywDBr9KmRIHmEzNBMqN/Cc3dlL7j6GHefCgEEOlJSwYPHZvRCP+1bmFfPnSOKUSNWAqEK4dzF/InIyoTQueDWTMkS4a2t/3xjVkrKMUXs3I1aYildkNK+9f+2OOcBi195/dwkooejQqtahhoeUmsVwDFuRuVRNhsXjRx9bZMo8nitUSK+9OHnD7hR6nn6/JloywzbEqDNVqTYXCAYJbzzGAWI3d8vSTXTPpg71ukc9qpEeC1zU6z2PQfCweojOHV9UpGtZtj+2cVNFhSqLoQVC03El5hPgrLcAi7bjI7vEqetrUpsri36j4+Zba87Gayu1zqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8562.namprd11.prod.outlook.com (2603:10b6:610:1b8::13)
+ by MW3PR11MB4523.namprd11.prod.outlook.com (2603:10b6:303:5b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
+ 2025 07:26:59 +0000
+Received: from CH3PR11MB8562.namprd11.prod.outlook.com
+ ([fe80::24c6:f8fc:1afe:179f]) by CH3PR11MB8562.namprd11.prod.outlook.com
+ ([fe80::24c6:f8fc:1afe:179f%7]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
+ 07:26:59 +0000
+From: peng.zhang1.cn@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone][PATCH 2/2] vte: fix CVE-2024-37535
+Date: Thu, 16 Jan 2025 15:26:48 +0800
+Message-Id: <20250116072648.2645833-2-peng.zhang1.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250116072648.2645833-1-peng.zhang1.cn@windriver.com>
+References: <20250116072648.2645833-1-peng.zhang1.cn@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0111.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::16) To CH3PR11MB8562.namprd11.prod.outlook.com
+ (2603:10b6:610:1b8::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----5336BEACC003BC721641A8379E60D1FB"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8562:EE_|MW3PR11MB4523:EE_
+X-MS-Office365-Filtering-Correlation-Id: ead3f72f-e876-41d7-b032-08dd35ff2a15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Xqt0gy44p0sijUAqUPAZC9bhbZ1IKRvjx3OZfCOcgY4cHP7AMaXluYbcXiS0?=
+ =?us-ascii?Q?JIS0dmwRoZVftOPRKzKsnXR/PVGV+k3FJaY4uzb9EX6ywOz3efxAgMhQRTXS?=
+ =?us-ascii?Q?10+3j/K09xxozMNJduOE20a/zfmlxaRU+4Uy3zcTp+NeqNLg5w/RZTIEttdz?=
+ =?us-ascii?Q?M5zWYB2BzhfFj3GjNw4LU3wfcny3wNTXJJ0UozOcvPG8fP+0OMUkQSmFS/2N?=
+ =?us-ascii?Q?de7I/uqpGYXeU93kn+MeDcDDHhBvnZPUUs3RiCgqqq6pCqbF/q7G+0JsXOGu?=
+ =?us-ascii?Q?T8zTCXzbwivQU969e4O+MTi1a/E+uRQxOM4Q3kPVBL3Gj8pJi6s4pHiTwjiw?=
+ =?us-ascii?Q?l9HAabml5cPHUnTKl+GTQSrm/146x2v3PY9UYGM2Tnu12QfaRjAbVTPeqlSn?=
+ =?us-ascii?Q?WuLwbxuhkqX3U4Lqr8DngKOaaNnjuheVV3Uu2diqk4wZupm2SGqjOjH98dXZ?=
+ =?us-ascii?Q?zSQ/6qM4by9f+o5HYTgD1tm/lLc2lKYyZ+QwL0m+ZnVd8L2wxSCTIP14Ogpc?=
+ =?us-ascii?Q?/jAGifkfyCuFaeDFoLXNokEs/wfJkqmZFLUrBH/ekzyRh8ILkwjVjFY9/qzq?=
+ =?us-ascii?Q?Au5ojAe9jdFnAnj+7X+Mrb4z+xVjZLx6VeqNMm3nMJmBL5ux6LnPEyEB0ZyT?=
+ =?us-ascii?Q?1X8JuMeM72qid5o35H7nBOzMEco8G2dMXdZUu8+YHxktfg1TVHakkK/BUYNb?=
+ =?us-ascii?Q?pSqg6V0Om+aH7JUAF/VLPfd+Zv+nVcgLFa3CEEusKpGl4k3/oPNi1NvzXRmk?=
+ =?us-ascii?Q?+xxhrlS5rYVGEWrYnF26tuJ1vXXq7l63FMs1Bken8yBsokVo/hn5g0ULR0aw?=
+ =?us-ascii?Q?P2qeex7CG4/htyBaN4QqcxS6/o+WUg6cZTmzaQ0TA0QlbjVm1nzHEgqTW00J?=
+ =?us-ascii?Q?E6IeEe+aVbm9ClYEwjrhi/tzGMyTrD9qoOuXUr53eBdZXK2WOyuwGFctQYrL?=
+ =?us-ascii?Q?I05FaajK1srQd+Tg2nx8ePpXpMELzFSfLvOMEKX7Ekuv6ZFUxOgpaL+2cIxK?=
+ =?us-ascii?Q?zBG4xbUdrPZk1Xoh5pA9DRu4CVyofbpFc45n2WIFyY6pZP3e0wwkMtugrb5K?=
+ =?us-ascii?Q?9bEoHrSoKoDK0FQ76ktcselrbw2kXFkdYsT5SWg9T9hgF7LdrYKrIkfsp27S?=
+ =?us-ascii?Q?ZCwmRi07/OAIoioFgSeTVmSVczWddK0kX/PzsEW0MFQGZ44TCvWccqsE97AT?=
+ =?us-ascii?Q?iAb++KRbaRckgO3fQZyh6/UWPcz3VqIDwVgX9cZRejIztpPWSByooGw4sjNL?=
+ =?us-ascii?Q?kXl5YJmLlTWpS7nAb4VKzb08Q3QRIvAQ3AnGbYzJ1eZsefvSK9J/lOcwMwCM?=
+ =?us-ascii?Q?/fHQ7xf4dKKLlecgDVCCxPwNvvUm2gWWXYHEeht7BQyb6GUE0C7n6PhW7fNi?=
+ =?us-ascii?Q?iKPR3oJdY/al7cvyPjpx5egK+OYsIJam05J0qtmwiCLNW7eEKA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8562.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?dtnV7LRvBcL8umBPwCbo4g91bm1EbNjvccnsVAOtH/FPBjATDTcliGhKH+9t?=
+ =?us-ascii?Q?MDYtcOt7BdnR/NdH43C/T93Ip8hOsOyBKMRJ/jTxdLEodu8fqsjxyI7E8azH?=
+ =?us-ascii?Q?NLOOu9ot9DNRApkXz5Qf/PSYb6SEQyLIHbXf2PZEulRvjPacXSjMI2biIZM7?=
+ =?us-ascii?Q?AArBKKoHTXlaScI3INJR5WVq/dFlTSuwKELsydr/GN+PrnV+T1LjUgOdxGj8?=
+ =?us-ascii?Q?A/BXPZTZONMKRJ1RKfuqb9lzekh8lv1JgVZiKoNPNXJkLB8hCco31Vx4LhSt?=
+ =?us-ascii?Q?zGzvAbOgTBMUQV5PCJQEnpdRGsEyopLY4BsUP48yXP+NdwwZhKuR7Eume2A6?=
+ =?us-ascii?Q?B9TKZLFS4sNm8VXn2LsyNiWHSX3SbTMR8I/l7znrbenmxflMwIgLA6+FeUsj?=
+ =?us-ascii?Q?6ojZXGTmdNSP77K/t66hseakzdeZS+8zLXjfS+NPeKOECnuxDhksSnfHHrxM?=
+ =?us-ascii?Q?goQUjnefYnznQDu6AyvrTEnWWfotz97hdbm8Gazbpzd39YLuIvLYZWPxLTaV?=
+ =?us-ascii?Q?mBhsx36fLtMPQx4m+wp7LOxl7qZjZ+jzcjZzgeNY0U1hYAKGcfPE5CJQeicy?=
+ =?us-ascii?Q?wroLFRVWQp/ibOD2LqDpFOAtrbaMr6cQA0npA7LDl4F2VNk8cXb0nl3nr4TU?=
+ =?us-ascii?Q?L5Z5McR78Z3LmjfoG4zotO92xpfs2SQezittjbahu0XCNgu0iIbXKLCMs8s/?=
+ =?us-ascii?Q?EXgCe4a03EujFb97bWzRSKJEuYAAMkvXRF/HKSL4qMwJHHJdpcYsaKBgjI4f?=
+ =?us-ascii?Q?5XPOAl95qcOtd4VH/6P7440IhDRlfli4N6+BJ/KfyL27MI2H7gbI/c5TAC0P?=
+ =?us-ascii?Q?idYj1wWJKcQNPzL4lXemuGRJxZkM8lreldd/+sJ4tNzOD+dO7U6SQSzOn3zP?=
+ =?us-ascii?Q?BOMlm+Beppj/E/jVqVb6jcpFk+5Mfz5mixTboRt8+jSDx6qr865VV5G8C3BK?=
+ =?us-ascii?Q?dxrTSzQiUoqpKZt+m48NDryIjrXjJtTeaYwxSa+eDmGvugHXnznOz/ffrOJ1?=
+ =?us-ascii?Q?lfOB2eR1Pp3xFVynbkcwcogCx4EZK2ziA1FSTCnZ2qWWq7QOse3Ig90jDfbN?=
+ =?us-ascii?Q?HSAN5mj+8fODmEgghGdg6fhQX6anNjH+b0v2TyXnnJNRbFZwmURKDFtz2Y0j?=
+ =?us-ascii?Q?V8vb4dJCvxNPQ3R5fjze1tui5UvpTETE5oQVvEWuFnCQVKTDZzy9xNY8BQeO?=
+ =?us-ascii?Q?gE8xtHrjqLmmYA8KDYPrkMfQF9/eYfpDnuEaYsjVqQBmeg5Lxk7FQ81p5JuS?=
+ =?us-ascii?Q?GkDi5eOPNxn2TUx3DQF2nV6R56G6f5x2J/X4ftQpqQOUzJZXnJLu9ihlhzkj?=
+ =?us-ascii?Q?X/Uz255il1UN8GJHy5uZUrT7cOs6SUvIbF8vT1jRJ2iLFBxZrkXHL/4fHmi7?=
+ =?us-ascii?Q?q38117MH11csOS4syBhQ8R4SoCputV5Mh7sQzyVm6S2cOC/WyrlOQ3I52yvW?=
+ =?us-ascii?Q?4wb1EBBycP6xU7y2JAAz8d0/Wt3Cu5Djrr9pwLZcwzGFA9fZMhdD1rhWHTXB?=
+ =?us-ascii?Q?s7ablILlfu2zIeuyDhDa6PQnou0klRbch4TP/Z3oR9TAHlxheBF+j6SKMEn2?=
+ =?us-ascii?Q?mw1ztxrGNNxmJsifBuFDECDExxR6WWBHFSGm/jNtfBRQDHkQk/dz3K1dAbbs?=
+ =?us-ascii?Q?WA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ead3f72f-e876-41d7-b032-08dd35ff2a15
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8562.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 07:26:59.7133
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kL1kLGXcH6LDtqWVd8GZpYK4SN2z9eiqJV21DesG1u4fiDPSnT6zaj0c8un3mkCEL0uJWgbeIjFwp3epbC9G+7ja8RCsBRaQ02I9SIG6MjU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4523
+X-Proofpoint-ORIG-GUID: SJlO96Yq8fdTSmURZgr5-5Yvye63ne6p
+X-Authority-Analysis: v=2.4 cv=SeoNduRu c=1 sm=1 tr=0 ts=6788b4c6 cx=c_pps a=AHWEOuZXH7ukEk4XErmcRg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=PYnjg3YJAAAA:8
+ a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=aiIX5UjjAAAA:8 a=aB6V93zSjU73ytCuqJ8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: SJlO96Yq8fdTSmURZgr5-5Yvye63ne6p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-16_03,2025-01-15_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
+ mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ adultscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501160052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 07:13:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209935
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 07:27:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209937
 
-This is an S/MIME signed message
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
-------5336BEACC003BC721641A8379E60D1FB
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+CVE-2024-37535:
+GNOME VTE before 0.76.3 allows an attacker to cause a denial of service
+ (memory consumption) via a window resize escape sequence, a related
+issue to CVE-2000-0476.
 
-LIC_FILES_CHKSUM supports begin-/endline for licenses included in
-for instance header files. This patch adds support for line numbers
-to NO_GENERIC_LICENSE, too.
+Reference:
+[https://nvd.nist.gov/vuln/detail/CVE-2024-37535]
 
-Signed-off-by: Denis Osterland-Heim <denis.osterland@diehl.com>
+Upstream patches:
+[https://gitlab.gnome.org/GNOME/vte/-/commit/036bc3ddcbb56f05c6ca76712a53b89dee1369e2]
+[https://gitlab.gnome.org/GNOME/vte/-/commit/c313849c2e5133802e21b13fa0b141b360171d39]
+
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ .../vte/vte/CVE-2024-37535-0001.patch         | 63 ++++++++++++++
+ .../vte/vte/CVE-2024-37535-0002.patch         | 85 +++++++++++++++++++
+ meta/recipes-support/vte/vte_0.66.2.bb        |  9 +-
+ 3 files changed, 155 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-0001.patch
+ create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-0002.patch
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 27242ecf70..494bde117f 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -75,11 +75,17 @@ def convert_license_to_spdx(lic, license_data, document, d, existing={}):
-                     pass
-             if extracted_info.extractedText is None:
-                 # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
--                filename = d.getVarFlag('NO_GENERIC_LICENSE', name)
-+                entry = d.getVarFlag('NO_GENERIC_LICENSE', name).split(';')
-+                filename = entry[0]
-+                params = {i.split('=')[0]: i.split('=')[1] for i in entry[1:] if '=' in i}
-+                beginline = int(params.get('beginline', 1))
-+                endline = params.get('endline', None)
-+                if endline:
-+                    endline = int(endline)
-                 if filename:
-                     filename = d.expand("${S}/" + filename)
-                     with open(filename, errors="replace") as f:
--                        extracted_info.extractedText = f.read()
-+                        extracted_info.extractedText = "".join(line for idx, line in enumerate(f, 1) if beginline <= idx and idx <=
-(endline or idx))
-                 else:
-                     bb.fatal("Cannot find any text for license %s" % name)
+diff --git a/meta/recipes-support/vte/vte/CVE-2024-37535-0001.patch b/meta/recipes-support/vte/vte/CVE-2024-37535-0001.patch
+new file mode 100644
+index 0000000000..f7c84323fb
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/CVE-2024-37535-0001.patch
+@@ -0,0 +1,63 @@
++From 036bc3ddcbb56f05c6ca76712a53b89dee1369e2 Mon Sep 17 00:00:00 2001
++From: Christian Persch <chpe@src.gnome.org>
++Date: Sun, 2 Jun 2024 19:19:35 +0200
++Subject: [PATCH] emulation: Restrict resize request to sane numbers
++
++Fixes: https://gitlab.gnome.org/GNOME/vte/-/issues/2786
++(cherry picked from commit fd5511f24b7269195a7083f409244e9787c705dc)
++
++CVE: CVE-2024-37535
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/vte/-/commit/036bc3ddcbb56f05c6ca76712a53b89dee1369e2]
++
++Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
++---
++ src/vteseq.cc | 20 ++++++++++++--------
++ 1 file changed, 12 insertions(+), 8 deletions(-)
++
++diff --git a/src/vteseq.cc b/src/vteseq.cc
++index 2c5b1e128..5b3f398e2 100644
++--- a/src/vteseq.cc
+++++ b/src/vteseq.cc
++@@ -213,9 +213,18 @@ Terminal::emit_bell()
++ /* Emit a "resize-window" signal.  (Grid size.) */
++ void
++ Terminal::emit_resize_window(guint columns,
++-                                       guint rows)
++-{
++-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `resize-window'.\n");
+++                             guint rows)
+++{
+++        // Ignore resizes with excessive number of rows or columns,
+++        // see https://gitlab.gnome.org/GNOME/vte/-/issues/2786
+++        if (columns < VTE_MIN_GRID_WIDTH ||
+++            columns > 511 ||
+++            rows < VTE_MIN_GRID_HEIGHT ||
+++            rows > 511)
+++                return;
+++
+++        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `resize-window' %d columns %d rows.\n",
+++                         columns, rows);
++         g_signal_emit(m_terminal, signals[SIGNAL_RESIZE_WINDOW], 0, columns, rows);
++ }
++ 
++@@ -4467,8 +4476,6 @@ Terminal::DECSLPP(vte::parser::Sequence const& seq)
++         else if (param < 24)
++                 return;
++ 
++-        _vte_debug_print(VTE_DEBUG_EMULATION, "Resizing to %d rows.\n", param);
++-
++         emit_resize_window(m_column_count, param);
++ }
++ 
++@@ -8990,9 +8997,6 @@ Terminal::XTERM_WM(vte::parser::Sequence const& seq)
++                 seq.collect(1, {&height, &width});
++ 
++                 if (width != -1 && height != -1) {
++-                        _vte_debug_print(VTE_DEBUG_EMULATION,
++-                                         "Resizing window to %d columns, %d rows.\n",
++-                                         width, height);
++                         emit_resize_window(width, height);
++                 }
++                 break;
++-- 
++GitLab
+diff --git a/meta/recipes-support/vte/vte/CVE-2024-37535-0002.patch b/meta/recipes-support/vte/vte/CVE-2024-37535-0002.patch
+new file mode 100644
+index 0000000000..c396817060
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/CVE-2024-37535-0002.patch
+@@ -0,0 +1,85 @@
++From c313849c2e5133802e21b13fa0b141b360171d39 Mon Sep 17 00:00:00 2001
++From: Christian Persch <chpe@src.gnome.org>
++Date: Sun, 2 Jun 2024 19:19:35 +0200
++Subject: [PATCH] widget: Add safety limit to widget size requests
++
++https://gitlab.gnome.org/GNOME/vte/-/issues/2786
++(cherry picked from commit 1803ba866053a3d7840892b9d31fe2944a183eda)
++
++CVE: CVE-2024-37535
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/vte/-/commit/c313849c2e5133802e21b13fa0b141b360171d39]
++
++Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
++---
++ src/vtegtk.cc | 35 +++++++++++++++++++++++++++++++++++
++ 1 file changed, 35 insertions(+)
++
++diff --git a/src/vtegtk.cc b/src/vtegtk.cc
++index 24bdd7184..48cae79c1 100644
++--- a/src/vtegtk.cc
+++++ b/src/vtegtk.cc
++@@ -91,6 +91,38 @@
++ template<typename T>
++ constexpr bool check_enum_value(T value) noexcept;
++ 
+++static inline void
+++sanitise_widget_size_request(int* minimum,
+++                             int* natural) noexcept
+++{
+++        // Overly large size requests will make gtk happily allocate
+++        // a window size over the window system's limits (see
+++        // e.g. https://gitlab.gnome.org/GNOME/vte/-/issues/2786),
+++        // leading to aborting the whole process.
+++        // The toolkit should be in a better position to know about
+++        // these limits and not exceed them (which here is certainly
+++        // possible since our minimum sizes are very small), let's
+++        // limit the widget's size request to some large value
+++        // that hopefully is within the absolute limits of
+++        // the window system (assumed here to be int16 range,
+++        // and leaving some space for the widgets that contain
+++        // the terminal).
+++        auto const limit = (1 << 15) - (1 << 12);
+++
+++        if (*minimum > limit || *natural > limit) {
+++                static auto warned = false;
+++
+++                if (!warned) {
+++                        g_warning("Widget size request (minimum %d, natural %d) exceeds limits\n",
+++                                  *minimum, *natural);
+++                        warned = true;
+++                }
+++        }
+++
+++        *minimum = std::min(*minimum, limit);
+++        *natural = std::clamp(*natural, *minimum, limit);
+++}
+++
++ struct _VteTerminalClassPrivate {
++         GtkStyleProvider *style_provider;
++ };
++@@ -510,6 +542,7 @@ try
++ {
++ 	VteTerminal *terminal = VTE_TERMINAL(widget);
++         WIDGET(terminal)->get_preferred_width(minimum_width, natural_width);
+++        sanitise_widget_size_request(minimum_width, natural_width);
++ }
++ catch (...)
++ {
++@@ -524,6 +557,7 @@ try
++ {
++ 	VteTerminal *terminal = VTE_TERMINAL(widget);
++         WIDGET(terminal)->get_preferred_height(minimum_height, natural_height);
+++        sanitise_widget_size_request(minimum_height, natural_height);
++ }
++ catch (...)
++ {
++@@ -781,6 +815,7 @@ try
++         WIDGET(terminal)->measure(orientation, for_size,
++                                   minimum, natural,
++                                   minimum_baseline, natural_baseline);
+++        sanitise_widget_size_request(minimum, natural);
++ }
++ catch (...)
++ {
++-- 
++GitLab
+diff --git a/meta/recipes-support/vte/vte_0.66.2.bb b/meta/recipes-support/vte/vte_0.66.2.bb
+index af1c47cf80..365e4361cb 100644
+--- a/meta/recipes-support/vte/vte_0.66.2.bb
++++ b/meta/recipes-support/vte/vte_0.66.2.bb
+@@ -19,8 +19,13 @@ GIR_MESON_OPTION = 'gir'
+ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-introspection
  
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+-SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+-            file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch"
++SRC_URI += " \
++            file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
++            file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch \
++            file://CVE-2024-37535-0001.patch \
++            file://CVE-2024-37535-0002.patch \
++            "
++
+ SRC_URI[archive.sha256sum] = "e89974673a72a0a06edac6d17830b82bb124decf0cb3b52cebc92ec3ff04d976"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 -- 
-2.45.2
-
-------5336BEACC003BC721641A8379E60D1FB
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-MIIPQAYJKoZIhvcNAQcCoIIPMTCCDy0CAQExDzANBglghkgBZQMEAgEFADALBgkq
-hkiG9w0BBwGgggxWMIIGUTCCBDmgAwIBAgICMAAwDQYJKoZIhvcNAQELBQAwgaMx
-ITAfBgNVBAMMGERpZWhsIEdyb3VwIE1haWwgUm9vdCBDQTELMAkGA1UEBhMCREUx
-EjAQBgNVBAcMCU51ZXJuYmVyZzEUMBIGA1UECgwLRGllaGwgR3JvdXAxFDASBgNV
-BAsMC0RpZWhsIEdyb3VwMQ8wDQYDVQQIDAZCYXllcm4xIDAeBgkqhkiG9w0BCQEW
-EXg1MDktY2FAZGllaGwuY29tMB4XDTE4MDUyOTEyMzIzNVoXDTI4MDUyNjEyMzIz
-NVowgZQxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xFDASBgNVBAoMC0Rp
-ZWhsIEdyb3VwMRswGQYDVQQLDBJEaWVobCBNZXRlcmluZyBUS0gxHzAdBgNVBAMM
-FkRpZWhsIE1ldGVyaW5nIE1haWwgQ0ExIDAeBgkqhkiG9w0BCQEWEXg1MDktY2FA
-ZGllaGwuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtISPrKPL
-Zjjh//2n9b+GXgrhijJV2knQVC0+/FS3zGl4p2fboB+Vr4YHz1uilEvhsS1oG4FV
-f1u0dqdmLVxDHBPMO2K1NKKOJN/6LDDfyiZGNqDOJke6FzrmDyPXXTDtgzWZfdnD
-esx63XSxprre30oJ3BxDFS+/8UpuI628SPc1N4125rHeUXG4scKFSjqRPcIOAQ2X
-veGXU2dYHzq7B02NA8tssmtJNwXjyvMjOw6HGZ8SB87TrFQm6drEtM7QhI/mfpGe
-nTZ4nc84n0yKuMveav8IOspYbkOXzi4JapiOUpmccNLZdIiMg5WJQ0Xt9NSp5yD5
-CYKideGrWgX2wNEBpalgjZoPPQDImcWEJx88/yYZ4FwtRD3VueFqpBr4z/bxwVDr
-N2a/sEqnocY9Tm2EQyHFHDCJ9JyYEXB8W0LTFcUAx+uHijwPk/oIB5EeH8UygXlX
-qUqII+BUZ+q5m5sIc4eXQ10UpUEjG/ptIyO1Ee/E0kPOWzHp07pPgXCZohZb3y41
-Ha2pO6rXOsOmPBK2r2++fLWz3NFyfEJCmn6FcBNi003HUEVCup1D9/9yaPHPSieN
-27sjQcQ96GbOitC99p3xMnSlg4N11lGeuTXCZjIGXdZL5/dThQaxneVA+hr2X+i1
-KmqnesMaSBEuBEBDmbDbakEgJFVWtVeXuk8CAwEAAaOBmzCBmDASBgNVHRMBAf8E
-CDAGAQH/AgEAMAsGA1UdDwQEAwIBBjAdBgNVHQ4EFgQUn8t6NGPzWsF+oZYXxmfn
-p4Ok7rIwHwYDVR0jBBgwFoAUZrrYQMMD50v/OCDMgDN7y/GT2P8wNQYDVR0fBC4w
-LDAqoCigJoYkaHR0cDovL2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMA0G
-CSqGSIb3DQEBCwUAA4ICAQAl6hO6b6+GseZi3EAU+zPVhxNZP5Y+YsBnjf13jCGw
-nUVvPz6giwXiCd9KIC4eCqqrJLTHwZe8c/9hSk5CCd6A5XAd3YudrPDvmIwms5Ex
-OREMQkygZO6/qxfXO6IhfUO4HvYQtQexzHOLuxG/KdycVwWapA4acFzBurxFQ3aG
-jvPRgvWxe2Mt3K9wLrEhvGrDmS8yg4bYNyBZGgax6LRhfW4/ShInVUa0koG2Sj+H
-hKpppvqDK4FNgR2dKeCPoo28P9a+K9N3wkLKx4zxaxHegij0DsJOBAVbhk+vDWDO
-gedjtT09c9bsykaXFzykyQeQz7cwrTQ1gDacdcDgywMDQzZKim9O3JpyzvXnD7mb
-CvclM3xp9w6jIJbeaQE7HDlA9YIL/bSRIQq8mJcXArUevLK2MX/Mb+5m3UMU+zXc
-ZqmaneeZeR4bOWrmmhK6bMuce6H+i2YB1vG3BAcSfKQUzZ1m6aKSW1FvjI3SZXQD
-FzRzBwC5ql7i2ugtfOLNYjOO/fvAxNppIZb3IyWN1KBAI7YgS4nx0us/NIlWpTMW
-91WeUtNBCp2sgi3VTi/TUel3RZ9x3tggMUhrksGkFXz2NUL85AdPV6BqJXXXHggd
-121rnduE9ocMt0MFLuDPkMaHqKNzBAcKTcmFM8KYMJ5Z7NBqGtTAgHNVmEnU8gu3
-czCCBf0wggPloAMCAQICAgtcMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJE
-RTEPMA0GA1UECAwGQmF5ZXJuMRQwEgYDVQQKDAtEaWVobCBHcm91cDEbMBkGA1UE
-CwwSRGllaGwgTWV0ZXJpbmcgVEtIMR8wHQYDVQQDDBZEaWVobCBNZXRlcmluZyBN
-YWlsIENBMSAwHgYJKoZIhvcNAQkBFhF4NTA5LWNhQGRpZWhsLmNvbTAeFw0yNDAx
-MDIwOTE5MzlaFw0yNjAxMDIwOTE5MzlaMIG8MSIwIAYDVQQDDBlkZW5pcy5vc3Rl
-cmxhbmRAZGllaGwuY29tMSgwJgYJKoZIhvcNAQkBFhlkZW5pcy5vc3RlcmxhbmRA
-ZGllaGwuY29tMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMRwwGgYDVQQK
-DBNEaWVobCBNZXRlcmluZyBUSy1IMRwwGgYDVQQLDBNEaWVobCBNZXRlcmluZyBU
-Sy1IMRIwEAYDVQQHDAlOdWVybmJlcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQDC4CfZJns8lrNXSkis30SmXgEPwIED4unjF8EoHzBRk5cQphMwuxVY
-uFrZmkB8+FJ7kNnazQ5ddAH+7uh/w7vxEbch92iEpJxYRT6z9U7Mgw0sqGjzWQjd
-sVzCSrWJrOdrHXc65BnAPOpjNDNe1dR8J9Z4a7OZU5NnQqJMT314j2gfGawGDakJ
-Vph7S6v4AVmty1Fi4iRbaIamu8KJFrHQb5E1UVD5drrxW6TS0z/3YkrMQ6qA1fBB
-Y271mRVq/1ByvJMgPJu7LtIyuGwGJw44RxF0JPLlqRWpsIa+z2cI48dkvwb8k0T1
-rNSIj9urOmUEJGF5O8LioUy0vwmxeWF7AgMBAAGjggEtMIIBKTAfBgNVHSMEGDAW
-gBSfy3o0Y/NawX6hlhfGZ+eng6TusjAJBgNVHRIEAjAAMCQGA1UdEQQdMBuBGWRl
-bmlzLm9zdGVybGFuZEBkaWVobC5jb20wNQYDVR0fBC4wLDAqoCigJoYkaHR0cDov
-L2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMDUGCCsGAQUFBwEBBCkwJzAl
-BggrBgEFBQcwAoYZaHR0cDovL3d3dy5kaWVobC5jb20vcGtpLzAJBgNVHRMEAjAA
-MB0GA1UdDgQWBBQK9y4jVYoCDsL7lhhJKjEP5wv1nTALBgNVHQ8EBAMCBaAwHQYD
-VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGCWCGSAGG+EIBAQQEAwIFoDAN
-BgkqhkiG9w0BAQsFAAOCAgEAB27J8TZvm6g0rtQpv4kqYwzkXOkCt27WHHWzl/JZ
-knFwWH4mvlRSrQtKkx8cPb5xqqx7k4qXC7TAef4W5YmnpWDtw7YHQAygAsCV1+i8
-uBhdnBVRYkLi0Brsqb/KaDVCFDAYn82kr8OlDaVl5GazIF5rTTUFVT7QEUewf5e7
-Ej4tkepIMP8DW0mM9VRdiSd+DFQQQsQR91nJZS+Gd0jT2tW6SVtZEGnsdgKi9VOw
-+/u7TPynQA3m70zel9t0RySfc5bfZGqEBK/nqU2g5n/qaHKT9cMM8vTAJOmzMv4W
-p7j6RF851h+6c4kH0UsUR9LdbXsKS0KsKTmjPbmbuMAWSEafskq5lJdhIybBnGcp
-FwOkXw6yLHhvmBQ27hVolbrAgLprlLBm8qLq0G3dPHlLwgnNlD6RAcjaVLOcqH3Q
-HWHbKlVg310S75cll1rM+GAudWdsHWxOUbK7R0lwJf/E+FAXciAsExWzCQarpSFI
-AYJjvnsYTiSWas6b5L/rKtyeWIz5wJ3ovxFaMglCtGNGh3sqKwVgb0PeGJ/hfXkV
-Z3i06A/GFOMDvvZ4kI2OL2wwUftkvi8ID5g2nbX/WQh9y6zhlXtiOlA1IplU+PU3
-OHrFL4SBW0X7j1l+9Jl9kGy/ukAr+9nWZ55nUoV/L9C1GLrAO5KF/fDpO2b7lidQ
-mWUxggKuMIICqgIBATCBmzCBlDELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVy
-bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
-IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
-DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
-CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MDExNjA3
-MTM0NVowLwYJKoZIhvcNAQkEMSIEILTn0f14I3Q6hpLC/QjQMgBun9oV8kBJ3BVO
-snhwr5ygMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
-FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
-SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
-BIIBADm+T/0FIBsFFmwUKV8R+TRRX32JdKym5jl7Jw0cFs8mI8aGH5Umzavv2l5/
-CWoHmWJiRqSRqS50Wp1o4SBkRSd6u16Fgaew1FJj0yJ05edLSCINvAdcjMId8onJ
-uK+cVNqUP/ks4g9j4y+GS4H+bsqNjTg+civNp2JSk7/ZMN5dWagOcqmRSFAvF2Ne
-J4FWM/mkTkADDrUMCRi3bkUX71g7s8BU8nmtPVSj8gBne2E7dkjs8QDsWBHaM/F1
-CwiRTDnYsZhDOujFQW3EMT0GKZTT1S1eWrlopy8qoZpX++Gal6LW17EJsaCwF/jS
-Us1HcIqcDCEDPVN1RRgBF9lL0Rc=
-
-------5336BEACC003BC721641A8379E60D1FB--
+2.34.1
 
 
