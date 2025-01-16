@@ -1,219 +1,168 @@
-Return-Path: <SunilKumar.Dora@windriver.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A14C02180
-	for <webhook@archiver.kernel.org>; Thu, 16 Jan 2025 09:10:19 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.44336.1737018611089872884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1899C02180
+	for <webhook@archiver.kernel.org>; Thu, 16 Jan 2025 11:01:59 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.52])
+ by mx.groups.io with SMTP id smtpd.web10.44920.1737022138323593589
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jan 2025 01:10:11 -0800
+ Thu, 16 Jan 2025 02:08:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3111c5c6c5=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50G8vnmK022250
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 01:10:10 -0800
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443mt7573p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 01:10:10 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=tjb+Yj8g;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.21.52, mailfrom: catalin.popescu@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SPVU+iG83R9Oe3KlwOq1aBNsNk3lq0udCTm88rg+OW/uf5vO5ouWG2ymBDjy7xHQSxwQ7uJ6vtqpCbTZ7iEIM4HwJs5R9ljjJv53l2lkzLDx4DlqLJAkcSBvKxoXXircufMc9whi2gERaA6tlILbSPpR6ZeCegL87fdesXRSgmsiZsQzxeB7JsguyDITeVUYwxSzdwOpz7rLHFjNVLE0qTtu/5OIeYGOa7RflkbezEoIZAQE9IpAo8d7zkEXtR25xZp7vsH0tfDXBnlGrTOcHm4Uk7KIDIJ0MWJW0fDIJXNEVUwJD3fSvH190BrZ92iezMTTufVBvNlbfCm8XZFfGw==
+ b=mcaz/b+9g3eKUANXhcjEOzVoH6ccoadJBoW2B2muw2mPTT+yM5lAwt2/azNLsTzHEwxzklxwRz/cQJXMBoQUXmrjxQ4REMi1NFB6LzyL85knPbb5agYf4sb3Gqtu02v/7NMQTKTb7fqixjfiqm3lW5x5WFKJ3SuHCwxMca4AZOGCOBfrqwtMlmrHr9/K9E7FrcqyOoRSB5Q1NMujA3e04Ogc/IHWQ9ZE5gU3xcHDa6HAz1CZxwVa0PyWvCN+RhrsSt2so08u9k4ghlqEMM35yQabT2cY95CUgNWoLWQ87XQbK6cxMugYyDC+8N3CSmwzIHsXw30lWemNRjTtlBoi+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rgdp+W6xq+qMRxZIESNyh+t4dZMYpLSsYhJaY59DX3k=;
- b=eWUI3f0q00SHLkuia84YZJyG7VoPxaXlfpysu9zZsR5Q2OTnot3n5F7lS7W6KzdowVyIYS+VBVv+sUl4i8GHVFISUrJSWlRIH6LuIEW9yVFUBSZt7x0oRXIvliMMsyMzmxFeJ4tKIhnasrjWgzWsyCqfxOfAx9ZcPdEGtWRsiqBbYXwOElNCFq73hxlmYoGuJXIfOP0CmKTCfU6sFNVE/6Yn+osS9wjOyw3JViki5HcaFRiEzdqLTjA4M25ZmEzbj3vaS8YRMIJ2lUMQP3Xy1rsBusUBqQcORd7vJZzuI34GvoeVw3JHF7RPQKhPs3IL+PkUqDxBE85Tmip/e9QaIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- DS0PR11MB6448.namprd11.prod.outlook.com (2603:10b6:8:c3::21) with Microsoft
+ bh=xT5RG5CQHtRqEWlUqJvKehyirJtr6njc6F2jI8PLAyg=;
+ b=NByqedjGT8AH/DXy2pReWjNfDHS8skpJfWsFb2Pz0IHAojRwkTxOh2UwN0qeREu6s1Nf5cX2iSHF1Vixm0K4TFtiOBRt93yIr+TvmaEEav2sp+r4cAh2dbqyu7rnRiSoJrXHQcpDo2PTRZxh9kE4XC2+T8OuvVhnfb4wTsQoxe0hOxxNalrpdIbkVRIbrQLwL8vFQ3A2r8YJaGVh6eQU9NuxrrwhUdyxs6g6m3Ls3vaSPW6pFtY4HmunyjT4Q/I8A3WA9uNaDMOIwpYHimHTfzqDdUU0PAopE1ObvPlQN7i6tV0w/GAeR3tQe3Fh9BaOxn94DjGtF9dzXLWw5q1UuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xT5RG5CQHtRqEWlUqJvKehyirJtr6njc6F2jI8PLAyg=;
+ b=tjb+Yj8gxufQ4vfIC1wonr/GpzZwppY8j2rNYZHKiHN5F3DNhH6uofUO744H/aZjbbMo9ah5AXfBTOcjZ70eycv6QcbW5VtddehQDAYLdiPHzz5LMD4cOB4VWXvzMSHeD1CdanCLH37TrlyiXZVdKFIlIj/8cmlxSOUaqrtYdug=
+Received: from DU2PR04CA0296.eurprd04.prod.outlook.com (2603:10a6:10:28c::31)
+ by AM9PR06MB7873.eurprd06.prod.outlook.com (2603:10a6:20b:3af::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.14; Thu, 16 Jan
+ 2025 10:08:55 +0000
+Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
+ (2603:10a6:10:28c:cafe::66) by DU2PR04CA0296.outlook.office365.com
+ (2603:10a6:10:28c::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.12 via Frontend Transport; Thu,
+ 16 Jan 2025 10:08:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.94; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.94) by
+ DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8356.13; Thu, 16 Jan 2025 09:10:06 +0000
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d%3]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 09:10:06 +0000
-From: sunilkumar.dora@windriver.com
+ 15.20.8356.11 via Frontend Transport; Thu, 16 Jan 2025 10:08:54 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Thu, 16 Jan 2025 11:08:54 +0100
+From: Catalin Popescu <catalin.popescu@leica-geosystems.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: [PATCH] gcc: poison-system-directories patch updated for missing paths
-Date: Thu, 16 Jan 2025 01:09:44 -0800
-Message-ID: <20250116090944.1194383-1-sunilkumar.dora@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR03CA0001.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::14) To DS0PR11MB7901.namprd11.prod.outlook.com
- (2603:10b6:8:f4::20)
+CC: bsp-development.geo@leica-geosystems.com,
+	Catalin Popescu <catalin.popescu@leica-geosystems.com>
+Subject: [scarthgap][PATCH] Revert "bluez5: remove configuration files from install task"
+Date: Thu, 16 Jan 2025 11:08:52 +0100
+Message-ID: <20250116100852.2058330-1-catalin.popescu@leica-geosystems.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-OriginalArrivalTime: 16 Jan 2025 10:08:54.0433 (UTC) FILETIME=[A6249110:01DB67FE]
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DS0PR11MB6448:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc308063-021c-4413-d665-08dd360d918c
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|AM9PR06MB7873:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05263aae-fe2d-49e6-c326-08dd3615c8d6
+X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?i14acnYvWMtzwFn0GaAdj+H+YyNh0jE1OiQroUT25+j9NDPJlL8DcgIgTtuX?=
- =?us-ascii?Q?sli2nsgLjYn8BvCTH6ALgT4epJDEnBPtbFiu2Tu7YyUcqoCwZxzj5m8tZiqC?=
- =?us-ascii?Q?9Ks4VNCbdWiffDN0gCHRYPCyaY8CaZRVlzTUW7gruyR95Xf0LFRMDZudirdK?=
- =?us-ascii?Q?axGx/xdLioRJRXib0tg94DvJ+Znp7FmgkoGeUuHNLbLMHmuS08qU9c4fOwCq?=
- =?us-ascii?Q?K66HSNolQo/E5cMs185qM6rqi74B7C0ixkhKjLEIznbFIMsgzxzS8OH4hZA9?=
- =?us-ascii?Q?VCU3FU69SeavRE+qOLXBgdgFi4GBZfZCWHLUJpxJJ87g0qmwqtCQyZlbANOK?=
- =?us-ascii?Q?seKMYkkOHNxcuqjzp9q2f5twL2cqbmZPVTLhWegosRIS/O05RxCOdZTLESlq?=
- =?us-ascii?Q?MmvHWKZeGp9DN8ymoRj31q7b21roI2KXdw/SaDyxZ7FEE2E+4Pw7nfzimq1K?=
- =?us-ascii?Q?irSt2zXgWMBrToSPnRTfSz/4w8/O0wRrLsiIKzvPb4oeS1NyMr0kd7q58bjy?=
- =?us-ascii?Q?cyXI1H07gAGRM5jPGjMSYLURlArWPZmyoJXJeHgMgNXeU8bikxvnYLKdEiGk?=
- =?us-ascii?Q?fHIPkbTo3lxI4rqJNh0V23SuRfQF/BqqXvdKzaYv6SolenDV8HYTo/jtj8Cz?=
- =?us-ascii?Q?PoJxhrp8iUa/XCy34xpYQLCNL0eNxNxpcmKihGxkRxUxiMquSor4TkPquu+h?=
- =?us-ascii?Q?fdXW8hgq1ZkL6EcmJgrIoSvS1+mABr9s8nhLYjw4SorPopBdU9Pp2jYXJj9F?=
- =?us-ascii?Q?x8BR9bKvq4sGdEPBE3yQYsPxDoGaByPW+OwL8FeoSYwrHcsvOvLSE0NEcnuL?=
- =?us-ascii?Q?sYCICrTj2IrS1TK/BRorZOZ2m5UBvbB771ZWC3SvUOrO066lkNsM8v55kMMZ?=
- =?us-ascii?Q?mQRLD9QpXrfRCZ1gNXy3sq06szfh0z2GWoRHdonuE7VA3v6XCfFXCsQdVa6W?=
- =?us-ascii?Q?p6Z64ZRuIJUcwN8oHGdkecMBnK9wmRt7ahq1YqkAHNg3DswUpIg+KfRwXcuX?=
- =?us-ascii?Q?C+in+jSoSN7h78/FOivmZs4JteyNPFrajyQ8vTG4xbNyPIbBQ+7ZgIrUPS6Y?=
- =?us-ascii?Q?fn4mH3FmOYV1QBd2Iu2fjwROmdBeiNFgUuGr+n1EE7858LpfbUKxJWSBvGZE?=
- =?us-ascii?Q?PeFmQgTUO3nn5QtgFzYkE7NFFJdkJu5Ynun4/qpTkApIjre+4aeXaORzWnxE?=
- =?us-ascii?Q?k/8KQ22bYKMZc4sUCO2RFj5MZ/jVzwiJrXdlSYVq+R/U8tM8GNz0cdWbEdUn?=
- =?us-ascii?Q?q1GneVbYl0E5Xn8Cnspilgsgg+ZUbfAGfqMo1P59HQtDzBL81fKrQwVv3qD+?=
- =?us-ascii?Q?h6Cz1y0q2STnLWoGqaORxibGZ5oigXw3K07Vb1yuBzlyXYlPc0uAie4lXbDk?=
- =?us-ascii?Q?ZYOCXTZ1IQcbKTgujNlDWYfT5J61reoMzOn91lNPlbSwBGLdGA=3D=3D?=
+	=?us-ascii?Q?+QY/CCWE8NEV/UIuIAxRzX7tOWc2w4GsUY2OcSGDu06a08XzA1dTeEDGbzVp?=
+ =?us-ascii?Q?YZjsX9CPf6ip/UkexUWvqkM3y27WX6prg76bzuAL0x9mLSi8nCD3jj9xDpBH?=
+ =?us-ascii?Q?cGkx1V/DB/ecLvYkOuQxI7eTM84YVmU4vfHGq0vDP4ugxg69dygR6QxlNvEh?=
+ =?us-ascii?Q?mCA/xxVB+oyOOJnnWs2p9zuVY6CHsPR1ohniNWg1cNje5dlZC1kzlYETHQdc?=
+ =?us-ascii?Q?HGr4F+vTARp3bCUHO0Rd8sW+8DVLLDiZ45Lq42TB4Lv3YpI9aJSKQ6aLAzQj?=
+ =?us-ascii?Q?inDlB7dzzKlpsSCT1Z46ODb1/FSwcWxagYCdUbV2IFteYoGutO7VzNnwl24/?=
+ =?us-ascii?Q?ZWci6B3ll0yRg/QwxpfMyCyAHtO5O46+rHhRa9eLtKVU7q7OgbhiiJvXzUUE?=
+ =?us-ascii?Q?X6CFBp6heXhvlX1EBHqV0LjjmvVLBXyNmyX8fEj7mcHHBwb3NwfUEubnVNl0?=
+ =?us-ascii?Q?XWCZi6HoYDtPeDielqP/3hHj9hZDAC+gKBj1Ge8HXDVkNN3UbDf72Iu0IB7M?=
+ =?us-ascii?Q?NgwT4zcOMe8S2E6UDqR8pPGg81ibH3RJFfi2Ry2Df0LjoD5+E2m0aHSgwgtY?=
+ =?us-ascii?Q?m6ujsPFNvZ0noPh2O/CcT5x2iLjiDXhro5FCgxc7kk0uVzKkvcxc98uUhnP5?=
+ =?us-ascii?Q?93shpOxTlD4hL8zeG5DbNtptwZFKikiA1m63V26D1tK2zC3/m5DX5PAHoUZQ?=
+ =?us-ascii?Q?CzzIkn4RpbVQz2vqaUZRVlnoDYNZnAtGus+iBIS74t9il1Pa3cQyKm6c9WJ5?=
+ =?us-ascii?Q?f/i+f/L8AnvG60c7FzsVW7nG2zs8AWryUoC9eZOSrZ637PtK5ANPWHO5exQ0?=
+ =?us-ascii?Q?mY36PoXzzm2EK4ORAfdisCzYbuwZUa0NDaAafUmqGS7uwBdyWL4RjvJAxdgo?=
+ =?us-ascii?Q?kdRuyKJrWsGJk4iIWdYmB78FaEyYhm1O2tEmZ9WSajxpETvniNyBHq+HCbRC?=
+ =?us-ascii?Q?yO8HrI0RhFYCXwtLTu7gZTd9yiKW+v4YghQf0+Wmyg8bXfL/21+CyOPXzK9l?=
+ =?us-ascii?Q?m09Rha2/fTPAYek3xWUAumRxWIUDDc5+H6goUrJ+BKAhBPf5s+QzuhurdNfZ?=
+ =?us-ascii?Q?2NN0kHNJHAEUQU8+HNTGPnXyN0ei3yqbMFpGIK2uqYHqhXWajFngxspYqHa3?=
+ =?us-ascii?Q?zfCRrO8Oge1NalaHX4zwzlGiFZo+2sPapcYWcmhcbaCP8YATqqkccAYCtENR?=
+ =?us-ascii?Q?ed02aq3A++Gl+WHR/DkGmx46vgWiC3hWgLnyH2axkiCphdiDPV0VwKV1GN3i?=
+ =?us-ascii?Q?soEHVIss1X+GG6nT1x7jSoDVcM6vBMljiv62323t7D/z4jovp+zna89OkXSc?=
+ =?us-ascii?Q?kGhSxAecNtY97jHKD2B04TZxtsGOvLpLpOqFHd9CwzClPH6+VBMVfWTNabre?=
+ =?us-ascii?Q?mGXd+WZ3XCcqmmP5Qa5EU9ptdqpDi/OqFlqNDPS+Yx5QA4HUVAWkxU+4APu6?=
+ =?us-ascii?Q?V8DPdTm41ugjkOGJWIHzP3c/LUxEsSzxQAsUIl52hcIJsMQNYJoELg=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kGDre8w4oZQ8pEGrjZGk54s5tmZvEFJHTEpZ+vFTz8pUjr7siG06q/bdlYbW?=
- =?us-ascii?Q?604vUEX+sqFLHAfPV9Y2pnxFrF6YyXQDH1yHXcl81TNYgHM4tVOkEeY+NTiv?=
- =?us-ascii?Q?nBjGueBLHN5PhG0F5fsi0+jQdU4sxcZeglZgmm/nktkliq+CrxvCjgR5F0Q/?=
- =?us-ascii?Q?l/85LjUlmEaYL5qENzbMZLodxla+SKkuRYOi3y0dFABY87Hgoh1VY0bj/fkO?=
- =?us-ascii?Q?fF2T5f8UD3WpnS2Ln7o3p86FQBH1QL8M6q9KpoAXiuRImrHK16Kt2ezrPlgn?=
- =?us-ascii?Q?vitbJh4G70R2FzJ5JNk0BxSmuw79E17aSQT5fL5wxlwCOtRBrS+YOPxrAKiC?=
- =?us-ascii?Q?gCsFy8bV7YPsZ+r1y5UpB/tKFkBk65DF6CSDXV4LXI4NxHxij/p69gZRphAf?=
- =?us-ascii?Q?DW+tr4Yh+mJW08ncM5RInGIk04DuoTwsfAUeHET66VndTQV5GJeKPQiZdYvb?=
- =?us-ascii?Q?es3qvscBXB5K+dbw+m3LI/dIMDo1+L9FZUh+tg7QbwV5GXL/O+NY60QgUO6a?=
- =?us-ascii?Q?WDPdz0JnKafcKPeu8df2zTQot4LBq5Ac+cfswtdsQitu4q8tGIAQrz7nbnaX?=
- =?us-ascii?Q?oNmsZrYPXTVIXky24dolMB48rycIkPBT2K9Tdo8yxQQd7WS67E14PBTdXt68?=
- =?us-ascii?Q?94JZFHCckpevYW2o20KsbRIsvy2R2a+tE4TCB6iIKeI4JIs9it8PlEuEBYRu?=
- =?us-ascii?Q?bOQoDTDMLAzjnJt4xIlhdNB1JG8GIRYNaxBSEOF0o5EdHaNFcdDdAGp8PFXe?=
- =?us-ascii?Q?aDn+9TW3qDxJgq6yfADHDPX6Jqogg9yDQfcFsydkAlbhVjxb9UCkndQ0hUAH?=
- =?us-ascii?Q?7ASWVX6HKXbNxBzhM6KjKab2ju4Dcs19hrnd5tx3NMz9xzEC2CATPS50L/9b?=
- =?us-ascii?Q?+00D6bdYZnLLHB8WANDMVsB3DNGJ/9/+5+Av7HKerzaxUxEkvfz2gpfgjB9Q?=
- =?us-ascii?Q?ZvuZ3oNIELlP3ATslvAC/QyLHOvlVB8iUdTX2A0ZTrAShDl2LDMbVvSe3475?=
- =?us-ascii?Q?WLfa9XiZlsAzIrwO8ss+ZVubtQuTpI02Vr8Qqy9eclEE7crFw203kotefseT?=
- =?us-ascii?Q?QEh901yyEUIkNpV4QXQ1zC4MXIbwHkoaBEyDGIkScZIRDtFlA+dp/V4NWaOP?=
- =?us-ascii?Q?u1OVnJb4HR82Txcyj00+LNf7SG+shLdPBZu0Q9N8btM4IJ5pednhnzJF6F7n?=
- =?us-ascii?Q?GAyZD3q+rTr/rfaI1dpbsahAKPciK++nc8pvgvDepyoISWzjUzeBMvcRbEYa?=
- =?us-ascii?Q?wNflSUEXPrlXfT9qaacYYOIZOyT91K0Wk2ghFXaZjMy4wpczrm0KWjZz1FaU?=
- =?us-ascii?Q?3qD64bsOsGlYz5MtKsO+iKmDlWeg72uMbmACtXh0v0I3nJmRGXWzfi4IuDBI?=
- =?us-ascii?Q?R158QOGLUV9NzVacqPzZNqy2DvbU/tyJrblt0qBeByBn2VXD6hZQbFYKRjUV?=
- =?us-ascii?Q?lgcwO4ovZ7B7oh4IpPH4Wvubt1QV0AdJLJHM/A84fb2G6H8keMAYmf6MwHM/?=
- =?us-ascii?Q?YCmQbtx4KfIypcQ5mvU2l95KCWSx8EHLIs++dajHrKNd01uFxQDzrmPmdgrA?=
- =?us-ascii?Q?yyS7psPn2luYXTYNoN04+GClfY7DYSpyfFAi8McVogI2IX6VmA9jsQRnyvuO?=
- =?us-ascii?Q?og=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc308063-021c-4413-d665-08dd360d918c
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 09:10:06.4079
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 10:08:54.7584
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lO4UrwMyjK4OQ0X+VeUnfCFY8Oksv7+C+IEPHbPtbTFjYM/PEftU4ZyDGH1IAaqTExXmgoB6UkHmBCK+rBgcNc1pdA6bPESDpF1FVTxnMR4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6448
-X-Proofpoint-ORIG-GUID: QloezXa2fqleGdjRgAiI89XbVeKyxEir
-X-Authority-Analysis: v=2.4 cv=SeoNduRu c=1 sm=1 tr=0 ts=6788ccf2 cx=c_pps a=2bhcDDF4uZIgm5IDeBgkqw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=iGHA9ds3AAAA:8
- a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=ayRE358LKASKH7s7ZH0A:9 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: QloezXa2fqleGdjRgAiI89XbVeKyxEir
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-16_03,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- adultscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501160067
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05263aae-fe2d-49e6-c326-08dd3615c8d6
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FD.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR06MB7873
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 09:10:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209940
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 11:01:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209941
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+This reverts commit 49391fdcf71b32c5fd3c7b134c1d1c45cc1db388 which
+introduced a bluetooth regression on systems with read-only rootfs.
 
-Modified logic in gcc/incpath.cc to ensure that non-existing host system paths are
-not deleted during cross-compilation. If the build system attempts to search a host
-path, gcc will now issue a warning instead of silently ignoring it.
+When configuration files are missing, bluez tries to generate them which
+fails on a read-only rootfs. As a result bluetooth service fails to
+start and bluetooth is broken. Hence, configuration files need to be
+installed in the rootfs in a way or another.
 
-Fixes [YOCTO #15672]
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15672
+Bluez commit be0e79629 (build: ship all config files with --enable-datafile=
+s,
+2024-02-12) introduced configuration files installation in bluez version
+5.73. However, scarthgap pulls in version 5.72, so it is responsible of the
+installation of configuration files until bluez is upgraded. Scarthgap
+commit 49391fdcf71b32c5fd3c7b134c1d1c45cc1db388 removed installation of
+configuration files too early, hence the revert.
 
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+Signed-off-by: Catalin Popescu <catalin.popescu@leica-geosystems.com>
 ---
- .../0002-gcc-poison-system-directories.patch  | 22 +++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-index ca75d08f59..367c9e3821 100644
---- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
-@@ -14,6 +14,7 @@ wants this to be a failure, they can add "-Werror=poison-system-directories".
- Upstream-Status: Inappropriate [OE configuration]
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: sunil dora <sunilkumar.dora@windriver.com>
- ---
-  gcc/common.opt      |  4 ++++
-  gcc/config.in       | 10 ++++++++++
-@@ -21,8 +22,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  gcc/configure.ac    | 16 ++++++++++++++++
-  gcc/doc/invoke.texi |  9 +++++++++
-  gcc/gcc.cc          |  9 +++++++--
-- gcc/incpath.cc      | 21 +++++++++++++++++++++
-- 7 files changed, 86 insertions(+), 2 deletions(-)
-+ gcc/incpath.cc      | 25 +++++++++++++++++++++++++
-+ 7 files changed, 90 insertions(+), 2 deletions(-)
- 
- diff --git a/gcc/common.opt b/gcc/common.opt
- index ad348844775..df3992b420d 100644
-@@ -186,7 +187,7 @@ index 728332b8153..343e4915097 100644
-  /* Pass -d* flags, possibly modifying -dumpdir, -dumpbase et al.
-  
- diff --git a/gcc/incpath.cc b/gcc/incpath.cc
--index 64cdd2f4a1b..e572d98ab17 100644
-+index 64cdd2f4a..89f42900d 100644
- --- a/gcc/incpath.cc
- +++ b/gcc/incpath.cc
- @@ -26,6 +26,7 @@
-@@ -197,7 +198,18 @@ index 64cdd2f4a1b..e572d98ab17 100644
-  
-  /* Microsoft Windows does not natively support inodes.
-     VMS has non-numeric inodes.  */
--@@ -399,6 +400,26 @@ merge_include_chains (const char *sysroot, cpp_reader *pfile, int verbose)
-+@@ -273,6 +274,10 @@ remove_duplicates (cpp_reader *pfile, struct cpp_dir *head,
-+			     cur->name, xstrerror (errno));
-+	      reason = REASON_NOENT;
-+	    }
-++#ifdef ENABLE_POISON_SYSTEM_DIRECTORIES
-++	  pcur = &cur->next;
-++	  continue;
-++#endif
-+	}
-+       else if (!S_ISDIR (st.st_mode))
-+	cpp_error_with_line (pfile, CPP_DL_WARNING, 0, 0,
-+@@ -399,6 +404,26 @@ merge_include_chains (const char *sysroot, cpp_reader *pfile, int verbose)
-  	}
-        fprintf (stderr, _("End of search list.\n"));
-      }
-@@ -224,3 +236,5 @@ index 64cdd2f4a1b..e572d98ab17 100644
-  }
-  
-  /* Use given -I paths for #include "..." but not #include <...>, and
-+--
-+2.34.1
--- 
-2.43.0
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-con=
+nectivity/bluez5/bluez5.inc
+index 3f2f096aac..976297127d 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -86,6 +86,14 @@ do_install:append() {
+ 	install -d ${D}${INIT_D_DIR}
+ 	install -m 0755 ${WORKDIR}/init ${D}${INIT_D_DIR}/bluetooth
+=20
++	install -d ${D}${sysconfdir}/bluetooth/
++	if [ -f ${S}/profiles/network/network.conf ]; then
++		install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bl=
+uetooth/
++	fi
++	if [ -f ${S}/profiles/input/input.conf ]; then
++		install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/blueto=
+oth/
++	fi
++
+ 	if [ -f ${D}/${sysconfdir}/init.d/bluetooth ]; then
+ 		sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}/${sysconfdir}/init.d/blu=
+etooth
+ 	fi
+
+base-commit: c3e0666dd2624c20c5f32657846d6f044046205b
+--=20
+2.34.1
 
 
