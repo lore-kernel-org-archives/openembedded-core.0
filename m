@@ -2,133 +2,295 @@ Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F22C02183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6442DC02188
 	for <webhook@archiver.kernel.org>; Thu, 16 Jan 2025 15:51:31 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.52740.1737042684868829663
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.52448.1737042687750764122
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jan 2025 07:51:24 -0800
+ Thu, 16 Jan 2025 07:51:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=311110a243=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50GCK0V0023893
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 07:51:24 -0800
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=311110a243=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50G5BLbd023508
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 15:51:27 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443mt75jkq-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 443dv15ta2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 07:51:24 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 15:51:26 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 16 Jan 2025 07:51:23 -0800
+ 15.1.2507.43; Thu, 16 Jan 2025 07:51:25 -0800
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 16 Jan 2025 07:51:22 -0800
+ 15.1.2507.43 via Frontend Transport; Thu, 16 Jan 2025 07:51:24 -0800
 From: <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 2/8] rsync: Delete pedantic errors re-ordering patch
-Date: Thu, 16 Jan 2025 15:51:13 +0000
-Message-ID: <20250116155119.3867588-2-archana.polampalli@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 3/8] rsync: fix CVE-2024-12084
+Date: Thu, 16 Jan 2025 15:51:14 +0000
+Message-ID: <20250116155119.3867588-3-archana.polampalli@windriver.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20250116155119.3867588-1-archana.polampalli@windriver.com>
 References: <20250116155119.3867588-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: fmmSggNBTBc10tPN4YTXOGKAZb-L13sk
-X-Authority-Analysis: v=2.4 cv=SeoNduRu c=1 sm=1 tr=0 ts=67892afc cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8 a=hGzw-44bAAAA:8 a=pGLkceISAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8
- a=t7CeM3EgAAAA:8 a=XPFyc7n6Pc-lLjYrnlAA:9 a=EFAMUN6BmlsA:10 a=87bzWugj7ioA:10 a=HvKuF1_PTVFglORKqfwH:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: fmmSggNBTBc10tPN4YTXOGKAZb-L13sk
+X-Proofpoint-GUID: Lo50qnc9K2PL_PH-lvL0nArjMybQ6FtP
+X-Authority-Analysis: v=2.4 cv=N5zTF39B c=1 sm=1 tr=0 ts=67892afe cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=hGzw-44bAAAA:8 a=t7CeM3EgAAAA:8 a=KrHTQlyhAAAA:8 a=M98Jb2jFlnBTcjZXD7UA:9 a=HvKuF1_PTVFglORKqfwH:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=NeM01qLVy57-G_-UPP7B:22
+X-Proofpoint-ORIG-GUID: Lo50qnc9K2PL_PH-lvL0nArjMybQ6FtP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-16_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- adultscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501160119
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
+ suspectscore=0 bulkscore=0 mlxscore=0 phishscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2411120000
+ definitions=main-2501160119
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Jan 2025 15:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209960
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209961
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-It has been fixed by removing the check upstream see
-https://github.com/WayneD/rsync/commit/9a3449a3980421f84ac55498ba565bc112b20d6c
+A heap-based buffer overflow flaw was found in the rsync daemon. This issue is due
+to improper handling of attacker-controlled checksum lengths (s2length) in the code.
+When MAX_DIGEST_LEN exceeds the fixed SUM_LENGTH (16 bytes), an attacker can write
+out of bounds in the sum2 buffer.
 
-(From OE-Core rev: c6228b8371ea5c3c452db7b536948ae96d83844b)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- ...antic-errors-at-the-end-of-configure.patch | 44 -------------------
- meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  1 -
- 2 files changed, 45 deletions(-)
- delete mode 100644 meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
+ .../rsync/files/CVE-2024-12084-0001.patch     | 156 ++++++++++++++++++
+ .../rsync/files/CVE-2024-12084-0002.patch     |  43 +++++
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   2 +
+ 3 files changed, 201 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch b/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
-deleted file mode 100644
-index f11f13dd48..0000000000
---- a/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From e6321b0b456fca987b48d5ec7aba7e2826128e5f Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Thu, 18 Aug 2022 07:46:28 -0700
--Subject: [PATCH] Turn on -pedantic-errors at the end of 'configure'
--
--Problem reported by Khem Raj in:
--https://lists.gnu.org/r/autoconf-patches/2022-08/msg00009.html
--Upstream-Status: Submitted [https://lists.samba.org/archive/rsync/2022-August/032862.html]
--
-----
-- configure.ac | 20 ++++++++++++++++++++
-- 1 file changed, 20 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index a2c9955..afabef0 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1437,6 +1437,26 @@ case "$CC" in
--     ;;
-- esac
-- 
--+# Enable -pedantic-errors last, so that it doesn't mess up other
--+# 'configure' tests.  For example, Autoconf uses empty function
--+# prototypes like 'int main () {}' which Clang 15's -pedantic-errors
--+# would reject.  Generally it's not a good idea to try to run
--+# 'configure' itself with strict compiler checking.
--+if test x"$GCC" = x"yes"; then
--+    if test x"$with_included_popt" != x"yes"; then
--+	# Turn pedantic warnings into errors to ensure an array-init overflow is an error.
--+	CFLAGS="$CFLAGS -pedantic-errors"
--+    else
--+	# Our internal popt code cannot be compiled with pedantic warnings as errors, so try to
--+	# turn off pedantic warnings (which will not lose the error for array-init overflow).
--+	# Older gcc versions don't understand -Wno-pedantic, so check if --help=warnings lists
--+	# -Wpedantic and use that as a flag.
--+	case `$CC --help=warnings 2>/dev/null | grep Wpedantic` in
--+	    *-Wpedantic*) CFLAGS="$CFLAGS -pedantic-errors -Wno-pedantic" ;;
--+	esac
--+    fi
--+fi
--+
-- AC_CONFIG_FILES([Makefile lib/dummy zlib/dummy popt/dummy shconfig])
-- AC_OUTPUT
-- 
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+new file mode 100644
+index 0000000000..d654067fab
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+@@ -0,0 +1,156 @@
++From 0902b52f6687b1f7952422080d50b93108742e53 Mon Sep 17 00:00:00 2001
++From: Wayne Davison <wayne@opencoder.net>
++Date: Tue, 29 Oct 2024 22:55:29 -0700
++Subject: [PATCH] Some checksum buffer fixes.
++
++- Put sum2_array into sum_struct to hold an array of sum2 checksums
++  that are each xfer_sum_len bytes.
++- Remove sum2 buf from sum_buf.
++- Add macro sum2_at() to access each sum2 array element.
++- Throw an error if a sums header has an s2length larger than
++  xfer_sum_len.
++
++CVE: CVE-2024-12084
++
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=0902b52f6687b1f7952422080d50b93108742e53]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ io.c     | 3 ++-
++ match.c  | 8 ++++----
++ rsync.c  | 5 ++++-
++ rsync.h  | 4 +++-
++ sender.c | 4 +++-
++ 5 files changed, 16 insertions(+), 8 deletions(-)
++
++diff --git a/io.c b/io.c
++index a99ac0ec..bb60eeca 100644
++--- a/io.c
+++++ b/io.c
++@@ -55,6 +55,7 @@ extern int read_batch;
++ extern int compat_flags;
++ extern int protect_args;
++ extern int checksum_seed;
+++extern int xfer_sum_len;
++ extern int daemon_connection;
++ extern int protocol_version;
++ extern int remove_source_files;
++@@ -1977,7 +1978,7 @@ void read_sum_head(int f, struct sum_struct *sum)
++		exit_cleanup(RERR_PROTOCOL);
++	}
++	sum->s2length = protocol_version < 27 ? csum_length : (int)read_int(f);
++-	if (sum->s2length < 0 || sum->s2length > MAX_DIGEST_LEN) {
+++	if (sum->s2length < 0 || sum->s2length > xfer_sum_len) {
++		rprintf(FERROR, "Invalid checksum length %d [%s]\n",
++			sum->s2length, who_am_i());
++		exit_cleanup(RERR_PROTOCOL);
++diff --git a/match.c b/match.c
++index cdb30a15..36e78ed2 100644
++--- a/match.c
+++++ b/match.c
++@@ -232,7 +232,7 @@ static void hash_search(int f,struct sum_struct *s,
++				done_csum2 = 1;
++			}
++
++-			if (memcmp(sum2,s->sums[i].sum2,s->s2length) != 0) {
+++			if (memcmp(sum2, sum2_at(s, i), s->s2length) != 0) {
++				false_alarms++;
++				continue;
++			}
++@@ -252,7 +252,7 @@ static void hash_search(int f,struct sum_struct *s,
++					if (i != aligned_i) {
++						if (sum != s->sums[aligned_i].sum1
++						 || l != s->sums[aligned_i].len
++-						 || memcmp(sum2, s->sums[aligned_i].sum2, s->s2length) != 0)
+++						 || memcmp(sum2, sum2_at(s, aligned_i), s->s2length) != 0)
++							goto check_want_i;
++						i = aligned_i;
++					}
++@@ -271,7 +271,7 @@ static void hash_search(int f,struct sum_struct *s,
++						if (sum != s->sums[i].sum1)
++							goto check_want_i;
++						get_checksum2((char *)map, l, sum2);
++-						if (memcmp(sum2, s->sums[i].sum2, s->s2length) != 0)
+++						if (memcmp(sum2, sum2_at(s, i), s->s2length) != 0)
++							goto check_want_i;
++						/* OK, we have a re-alignment match.  Bump the offset
++						 * forward to the new match point. */
++@@ -290,7 +290,7 @@ static void hash_search(int f,struct sum_struct *s,
++			 && (!updating_basis_file || s->sums[want_i].offset >= offset
++			  || s->sums[want_i].flags & SUMFLG_SAME_OFFSET)
++			 && sum == s->sums[want_i].sum1
++-			 && memcmp(sum2, s->sums[want_i].sum2, s->s2length) == 0) {
+++			 && memcmp(sum2, sum2_at(s, want_i), s->s2length) == 0) {
++				/* we've found an adjacent match - the RLL coder
++				 * will be happy */
++				i = want_i;
++diff --git a/rsync.c b/rsync.c
++index cd288f57..b130aba5 100644
++--- a/rsync.c
+++++ b/rsync.c
++@@ -437,7 +437,10 @@ int read_ndx_and_attrs(int f_in, int f_out, int *iflag_ptr, uchar *type_ptr, cha
++   */
++ void free_sums(struct sum_struct *s)
++ {
++-	if (s->sums) free(s->sums);
+++	if (s->sums) {
+++		free(s->sums);
+++		free(s->sum2_array);
+++	}
++	free(s);
++ }
++
++diff --git a/rsync.h b/rsync.h
++index d3709fe0..8ddbe702 100644
++--- a/rsync.h
+++++ b/rsync.h
++@@ -958,12 +958,12 @@ struct sum_buf {
++	uint32 sum1;	        /**< simple checksum */
++	int32 chain;		/**< next hash-table collision */
++	short flags;		/**< flag bits */
++-	char sum2[SUM_LENGTH];	/**< checksum  */
++ };
++
++ struct sum_struct {
++	OFF_T flength;		/**< total file length */
++	struct sum_buf *sums;	/**< points to info for each chunk */
+++	char *sum2_array;	/**< checksums of length xfer_sum_len */
++	int32 count;		/**< how many chunks */
++	int32 blength;		/**< block_length */
++	int32 remainder;	/**< flength % block_length */
++@@ -982,6 +982,8 @@ struct map_struct {
++	int status;		/* first errno from read errors		*/
++ };
++
+++#define sum2_at(s, i)	((s)->sum2_array + ((OFF_T)(i) * xfer_sum_len))
+++
++ #define NAME_IS_FILE		(0)    /* filter name as a file */
++ #define NAME_IS_DIR		(1<<0) /* filter name as a dir */
++ #define NAME_IS_XATTR		(1<<2) /* filter name as an xattr */
++diff --git a/sender.c b/sender.c
++index 3d4f052e..ab205341 100644
++--- a/sender.c
+++++ b/sender.c
++@@ -31,6 +31,7 @@ extern int log_before_transfer;
++ extern int stdout_format_has_i;
++ extern int logfile_format_has_i;
++ extern int want_xattr_optim;
+++extern int xfer_sum_len;
++ extern int csum_length;
++ extern int append_mode;
++ extern int copy_links;
++@@ -94,10 +95,11 @@ static struct sum_struct *receive_sums(int f)
++		return(s);
++
++	s->sums = new_array(struct sum_buf, s->count);
+++	s->sum2_array = new_array(char, s->count * xfer_sum_len);
++
++	for (i = 0; i < s->count; i++) {
++		s->sums[i].sum1 = read_int(f);
++-		read_buf(f, s->sums[i].sum2, s->s2length);
+++		read_buf(f, sum2_at(s, i), s->s2length);
++
++		s->sums[i].offset = offset;
++		s->sums[i].flags = 0;
++--
++2.40.0
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
+new file mode 100644
+index 0000000000..266b80c241
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
+@@ -0,0 +1,43 @@
++From 42e2b56c4ede3ab164f9a5c6dae02aa84606a6c1 Mon Sep 17 00:00:00 2001
++From: Wayne Davison <wayne@opencoder.net>
++Date: Tue, 5 Nov 2024 11:01:03 -0800
++Subject: [PATCH] Another cast when multiplying integers.
++
++CVE: CVE-2024-12084
++
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=42e2b56c4ede3ab164f9a5c6dae02aa84606a6c1]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ rsync.h  | 2 +-
++ sender.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/rsync.h b/rsync.h
++index 8ddbe702..0f9e277f 100644
++--- a/rsync.h
+++++ b/rsync.h
++@@ -982,7 +982,7 @@ struct map_struct {
++	int status;		/* first errno from read errors		*/
++ };
++
++-#define sum2_at(s, i)	((s)->sum2_array + ((OFF_T)(i) * xfer_sum_len))
+++#define sum2_at(s, i)	((s)->sum2_array + ((size_t)(i) * xfer_sum_len))
++
++ #define NAME_IS_FILE		(0)    /* filter name as a file */
++ #define NAME_IS_DIR		(1<<0) /* filter name as a dir */
++diff --git a/sender.c b/sender.c
++index ab205341..2bbff2fa 100644
++--- a/sender.c
+++++ b/sender.c
++@@ -95,7 +95,7 @@ static struct sum_struct *receive_sums(int f)
++		return(s);
++
++	s->sums = new_array(struct sum_buf, s->count);
++-	s->sum2_array = new_array(char, s->count * xfer_sum_len);
+++	s->sum2_array = new_array(char, (size_t)s->count * xfer_sum_len);
++
++	for (i = 0; i < s->count; i++) {
++		s->sums[i].sum1 = read_int(f);
++--
++2.40.0
 diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-index 84052d0ff1..53c2136f4d 100644
+index 53c2136f4d..749d44948d 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-@@ -15,7 +15,6 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+@@ -15,6 +15,8 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
             file://makefile-no-rebuild.patch \
             file://determism.patch \
             file://0001-Add-missing-prototypes-to-function-declarations.patch \
--           file://0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch \
++           file://CVE-2024-12084-0001.patch \
++           file://CVE-2024-12084-0002.patch \
             "
  
  SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
