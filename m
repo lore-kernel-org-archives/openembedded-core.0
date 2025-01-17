@@ -1,98 +1,68 @@
-Return-Path: <bastien.jauny@smile.fr>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7212C02185
-	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 15:48:19 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.13703.1737128896819620689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E44F9C02183
+	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 16:40:39 +0000 (UTC)
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [185.125.25.11])
+ by mx.groups.io with SMTP id smtpd.web10.15356.1737132034023150856
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jan 2025 07:48:17 -0800
+ Fri, 17 Jan 2025 08:40:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Qov3jnwR;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: bastien.jauny@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38789e5b6a7so1280491f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 07:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1737128895; x=1737733695; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZO/5ZEidRF78JXBan041S300XlM0F9vJlJtairVpm4=;
-        b=Qov3jnwR+1Lbzg3Cru0i13vv5xtHACSKSU6zoI9zqWfSNZXLjDqznPllZhcXoAht8w
-         GdSUYr24cfPtu6qFpt/VaNOWLOC5tmecArGiNWWBpWEtLb8mIG/WMkggX15cAwzRT8CK
-         Ax1H9zKKtGh9sLwxMaKR1vE+x6QcMKi2ztkKo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737128895; x=1737733695;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pZO/5ZEidRF78JXBan041S300XlM0F9vJlJtairVpm4=;
-        b=SI63QYWiIKT1jo4oIq6sTFSX9wxN+hPy7FdYjeOsBFCCeAYV6z/50XF+6jnc8ohn8M
-         nwSLyDaxww/aw9Qj8JIk3tWuJZx2bIEKc6+zCJhCwsAv8rvQLEI1X6tokPP9MkVnsW4N
-         LQNl2a1N+XtiBDbfUkdhFxNukZneFnMitYITzWSMbkHSS+2FJITCwQ4EIpUlG92hQlUi
-         xqm+8qWnb0wYESFXeahqyXMKoIs6fX6LsLZTXmWHfcSF5B/6r5PvVREKLy/3/PxTULRY
-         d76OpSSo4LrKH+oVmqFwz3r8moO2IjTBHcC1CNHi7aelOga30wHyOBaqQGe/iigLKVCC
-         4L9Q==
-X-Gm-Message-State: AOJu0YxIIOHCeTazo0lr9tCsVmwOi6otyMMpVamsFmmSd27f8NX9ITVk
-	yniCfmBZ8JRAF74u59iYWW6YHv0SGs/hlmmT5Ukn7pBM7b8LpGlGJ6PjuLFEGHpHpeHVKvsJoyz
-	Z
-X-Gm-Gg: ASbGncugjKa/laEP+PtQZ5dp+6rHtHI2gtOqore1hjdkDO2xIG64OY6fnN/w1TwQY64
-	O7Jkp0zBO/vU8Y3hTgcLq09E2I7U67Czdd+yGOpes9NlcSlO+hO1VgMkdBVaMlG86g9bREEYgdb
-	f7DQskSHF+Rl9wvwYJ7IkQrB+o864Fw4gxyO6iJBexnjwqMJvuwOLqSDaNRaGiuI3PvRCauVMQN
-	oSKJKrKrbkx0dySwbe4mtVIX0Qz8RyXd4xPkn9tq6Gth2npal4HqWvdLl9clEJ1IIgZRzqgPZV4
-	uv/D+v3+YxcVXm2rKY9vtPx6B7pwyuFl8LnN6Amoal/OWWxfHg==
-X-Google-Smtp-Source: AGHT+IGH30cfevBRZBtPGN97Q9OCmDbf1g03MMHwCxulx3MUjNxwyYtkyc4OMsKCMxTKmD5bTWYEag==
-X-Received: by 2002:a05:6000:2a6:b0:38b:d9a3:6cff with SMTP id ffacd0b85a97d-38bf565f093mr3535626f8f.16.1737128894898;
-        Fri, 17 Jan 2025 07:48:14 -0800 (PST)
-Received: from FRSMI24-NEIGE.. (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf327e06asm2847378f8f.95.2025.01.17.07.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 07:48:14 -0800 (PST)
-From: Bastien Jauny <bastien.jauny@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Bastien JAUNY <bastien.jauny@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] classes/logging: Added the bbverbnote command to the logging set
-Date: Fri, 17 Jan 2025 16:48:07 +0100
-Message-ID: <20250117154807.2465736-1-bastien.jauny@smile.fr>
-X-Mailer: git-send-email 2.43.0
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.11, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4YZQTD1TNdzGN4;
+	Fri, 17 Jan 2025 17:40:32 +0100 (CET)
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4YZQTC4Tb5zlc5;
+	Fri, 17 Jan 2025 17:40:31 +0100 (CET)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Subject: [PATCH RFC kirkstone scarthgap styhead 0/2]
+ uboot-extlinux-config.bbclass: add support for DTBOs
+Date: Fri, 17 Jan 2025 17:40:18 +0100
+Message-Id: <20250117-extlinux-overlays-backport-v1-0-dad9fdb81777@cherry.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPKHimcC/x3MQQqDMBBA0avIrBswoVLabaEH6LZ0EZPRDJFEJ
+ qlExLs3unx/8TdIyIQJHs0GjAsliqFCXhowTocRBdlqUK3qWilvAkueKPyKiAvypNckem38HDk
+ L26O8W9ldlRqgDmbGgco5/8D79TyaJ/Ypx4AHktGc3ajnE3l1qC189/0PLG0Q05YAAAA=
+X-Change-ID: 20250117-extlinux-overlays-backport-dbe19d15422f
+To: openembedded-core@lists.openembedded.org, 
+ Quentin Schulz <quentin.schulz@cherry.de>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 15:48:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209991
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 16:40:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209992
 
-From: Bastien JAUNY <bastien.jauny@smile.fr>
+I am not sure this is actually a desirable backport as it's not a
+bugfix, hence the RFC.
 
-Fixes [YOCTO #15688]
+Applies cleanly on top of all listed branch, nothing more done on my
+side than that.
 
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Bastien JAUNY <bastien.jauny@smile.fr>
+It's just that I'll need to support extlinux config with overlays in a
+few weeks for my BSP layer based on scarthgap and modifying the behavior
+from my own layer is not a lot of fun I'm expecting.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/classes-global/logging.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Quentin Schulz (2):
+      uboot-extlinux-config.bbclass: simplify FDT/FDTDIR logic
+      uboot-extlinux-config.bbclass: add support for DTBOs
 
-diff --git a/meta/classes-global/logging.bbclass b/meta/classes-global/logging.bbclass
-index ce03abfe42..136f1e1733 100644
---- a/meta/classes-global/logging.bbclass
-+++ b/meta/classes-global/logging.bbclass
-@@ -32,6 +32,16 @@ bbnote() {
- 	fi
- }
- 
-+# Notify the user of a noteworthy condition.
-+# Output: logs console
-+bbverbnote() {
-+        if [ -p ${LOGFIFO} ]; then
-+                printf "%b\0" "bbverbnote $*" > ${LOGFIFO}
-+        else
-+            echo "NOTE: $*"
-+        fi
-+}
-+
- # Print a warning to the log. Warnings are non-fatal, and do not
- # indicate a build failure.
- # Output: logs console
+ meta/classes-recipe/uboot-extlinux-config.bbclass | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+---
+base-commit: 62dfe689246d648f9970a5476716e486b1a33765
+change-id: 20250117-extlinux-overlays-backport-dbe19d15422f
+
+Best regards,
+-- 
+Quentin Schulz <quentin.schulz@cherry.de>
+
 
