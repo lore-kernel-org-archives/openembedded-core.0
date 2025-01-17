@@ -1,101 +1,126 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <spushpka@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E807C02183
-	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 07:31:27 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.5997.1737099080813701780
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79060C02183
+	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 08:07:47 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.web11.6351.1737101258746269754
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jan 2025 23:31:20 -0800
+ Fri, 17 Jan 2025 00:07:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XWc9tvXX;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MWUdaWza;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010194732c7045-78e55006-4a76-4df0-ad0e-bf3b355840f8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1737099079; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=YZxK1z4yLSWdyFkwF4D8juq17YVWu5XM+o8J18CmftE=;
-	b=XWc9tvXXs44KfhuWVvXvdS4golIaaKPOuIB8jBg3sxB8p8/YG6xyJZ3h2Cyk3xGX
-	dcuh/W73Zf+y6b5jVw4910s2bNHg5cU3MBSqKp0x4OVnlIcENkhTZMxr09H1Qi90HAP
-	+IfhjLL6nobGvhLOG1b2lD4jEtohwHjtjigcAeq0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1737099079;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=YZxK1z4yLSWdyFkwF4D8juq17YVWu5XM+o8J18CmftE=;
-	b=MWUdaWzaWqD17l3Lp5KOLn6lmUTuJJ5GV1njtL9epRD+M7TbdYRFI7YnlLesIlFP
-	txMYAdwbAFzsitGszibbz2o+I4LHtSeINu0ZNZ1Eu1CES3MfhYsgZGfkOQtZfZLMZUe
-	0LIB3QdDYKk/aAOFoPYHI79mDpoEids0877DdH8o=
-From: patchtest@automation.yoctoproject.org
-To: Madhu Marri <madmarri@cisco.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-selinux] [scarthgap] [PATCH] selinux: Mark CVE-2020-10751 as
- Patched
-In-Reply-To: <20250117071248.4088445-1-madmarri@cisco.com>
-References: <20250117071248.4088445-1-madmarri@cisco.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194732c7045-78e55006-4a76-4df0-ad0e-bf3b355840f8-000000@us-west-2.amazonses.com>
-Date: Fri, 17 Jan 2025 07:31:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.17-54.240.27.45
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=cfVlViH5;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: spushpka@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1625; q=dns/txt; s=iport;
+  t=1737101258; x=1738310858;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cb2t7NfG/Yt5JngpQEr5vUp4QBAo1TrrLEPxp//ImmY=;
+  b=cfVlViH5B0928f7Rv5NrlBe7A4FydJPsZXVsOuNQzzq7wnSynPoEhQz9
+   7WLyPR4ILLVqkjAb9qGAofmD6VgFu61eSd54chIP7JfXZmFk6lsTkAK5W
+   vYAVV4soasunYBOCaJqJ33OF76SSGcJnCuNk0WQZpnBi85h9gt5UO7l2u
+   M=;
+X-CSE-ConnectionGUID: IojwpcyzSsOG5kEQ6hS1zQ==
+X-CSE-MsgGUID: 8S6YrCyyQtabfDzu0oI0/A==
+X-IPAS-Result: =?us-ascii?q?A0APAABLD4pn/4v/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBgX8FAQEBAQsBAYJJdlpCSIxyiVKLdpIlgSUDVg8BAQEPOQsEA?=
+ =?us-ascii?q?QGFB4p1AiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE?=
+ =?us-ascii?q?4V7DUkBDAEIAYV9NgFGgQxEgwEBgmQCARGzBYIsgQGDWgWBHNk4gW2BSAGNS?=
+ =?us-ascii?q?W8BhHcnG4FJRIR9gQWBXAEBAhiBLmWFdwSDd4NujwuQJ0iBIQNZLAFVEw0KC?=
+ =?us-ascii?q?wcFgXEDOAwLMBWBSkQ3gkZpSTcCDQI1gh58giuEXIRFYC8DAwMDgzaFYoIUg?=
+ =?us-ascii?q?hSEb0ADCxgNSBEsNxQbBj5uB5tSATyDc4EOLCCBAIEMCxOTAZI5oQOEJYwYl?=
+ =?us-ascii?q?S4aM6pTmHyOBJZDhGaBZzyBRwsHTSMVgyIJSRkPjiwMC4NYgX+7cSI1AjoCB?=
+ =?us-ascii?q?wsBAQMJjUCBM4JrAQE?=
+IronPort-Data: A9a23:DBqlIauOONASbaqhY/plJtmTwOfnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKWGAaP6JMGD9c9B1b9nkoxsC7MeAzIVhG1Q/pS9jRSkQgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav656yEhjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuGYzdJ5xYuajhJs/va90s21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw2+F1HnlF5
+ O4jMxciMxOuvry2++upc7w57igjBJGD0II3oHpsy3TdSP0hW52GG/+M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwxGYH49tL/Aan3XaCVFs1KNpqMf6GnIxws327/oWDbQUofSGp0JwBfH+
+ goq+UypOU8rLveO2AOZ+3iiqv3SxSTaAMU7QejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:QZa8Rq8BE32iXcL5EDZuk+DTI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WKb+UyCJ8U7ndQtsp
+ uJtMNFebnNMWQ=
+X-Talos-CUID: 9a23:bXT3Em7dCEjQc9aeX9ss1UkWBdguY2/m11D/fkyVMDhpc+SHcArF
+X-Talos-MUID: =?us-ascii?q?9a23=3AXmNrCQ2KtD8kMer5aBLALejICjUjs5/wOVomgIQ?=
+ =?us-ascii?q?/p8COOwBiJm+arWzwa9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.13,211,1732579200"; 
+   d="scan'208";a="307046974"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jan 2025 08:07:37 +0000
+Received: from sjc-ads-1396.cisco.com (sjc-ads-1396.cisco.com [171.70.59.88])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 8FE601800023A;
+	Fri, 17 Jan 2025 08:07:37 +0000 (GMT)
+Received: by sjc-ads-1396.cisco.com (Postfix, from userid 1839047)
+	id 211BECC128E; Fri, 17 Jan 2025 00:07:37 -0800 (PST)
+From: Shubham Pushpkar <spushpka@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	spushpka@cisco.com
+Subject: [OE-core] [master] [PATCH] glibc 2.40: Deferred CVE-2010-4756
+Date: Fri, 17 Jan 2025 00:07:09 -0800
+Message-Id: <20250117080709.3112142-1-spushpka@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.59.88, sjc-ads-1396.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 07:31:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209978
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 08:07:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209979
 
---NextPart
-Content-Type: text/plain
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2010-4756
+Type: Security Advisory
+CVE: CVE-2010-4756
+Score: 4.0
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Analysis:
+- It is a bug in network facing services if users pass
+  in unsanitized inputs to glob, without using appropriate
+  rlimits on memory usage. [1]
+- Issue is memory exhaustion via glob() calls, e.g. from
+  within an ftp server. It is not a security issue, ftp servers
+  shouldn't be passing this to libc glob. [2]
+- Hence skipping the CVE for now.
 
+Reference:
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=681681
+[2] https://github.com/openembedded/openembedded-core/commit/cf282ae03db3
+
+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
 ---
-Testing patch /home/patchtest/share/mboxes/meta-selinux-scarthgap-selinux-Mark-CVE-2020-10751-as-Patched.patch
+ meta/recipes-core/glibc/glibc_2.40.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-core/glibc/glibc_2.40.bb b/meta/recipes-core/glibc/glibc_2.40.bb
+index 3e855b19d8..3210492764 100644
+--- a/meta/recipes-core/glibc/glibc_2.40.bb
++++ b/meta/recipes-core/glibc/glibc_2.40.bb
+@@ -20,6 +20,12 @@ CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
+ CVE_STATUS_STABLE_BACKPORTS = ""
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
++# glibc https://nvd.nist.gov/vuln/detail/CVE-2010-4756
++CVE_STATUS[CVE-2010-4756] = "upstream-wontfix: \
++Issue is memory exhaustion via glob() calls, e.g. from within an ftp server. \
++Upstream don't see it as a security issue, ftp servers shouldn't be passing this to libc glob. \
++Exclude as upstream have no plans to add BSD's GLOB_LIMIT."
++
+ DEPENDS += "gperf-native bison-native"
+ 
+ NATIVESDKFIXES ?= ""
+-- 
+2.35.6
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
