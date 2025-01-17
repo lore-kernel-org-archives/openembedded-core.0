@@ -1,306 +1,275 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF56C02183
-	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 05:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 155A3C02183
+	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 06:34:07 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4767.1737091364913158751
+ by mx.groups.io with SMTP id smtpd.web11.5511.1737095644423883522
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jan 2025 21:22:45 -0800
+ Thu, 16 Jan 2025 22:34:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3112428a8b=divya.chellam@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3112575f3e=archana.polampalli@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H4hvno028250
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 05:22:44 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 446wf7h5pt-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H53gES024045
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 06:34:03 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 446wf7h7dg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 05:22:43 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 06:34:03 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 16 Jan 2025 21:22:27 -0800
-From: dchellam <divya.chellam@windriver.com>
+ 15.1.2507.43; Thu, 16 Jan 2025 22:34:01 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 16 Jan 2025 22:34:00 -0800
+From: <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <lpd-eng-rr@windriver.com>
-Subject: [OE-core][kirkstone][PATCH 1/1] wget: fix CVE-2024-10524
-Date: Fri, 17 Jan 2025 05:22:05 +0000
-Message-ID: <20250117052205.1324227-1-divya.chellam@windriver.com>
+Subject: [oe-core][PATCH 1/1] rsync: upgrade 3.3.0 -> 3.4.1
+Date: Fri, 17 Jan 2025 06:33:58 +0000
+Message-ID: <20250117063358.731606-1-archana.polampalli@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: TcB3Lqrxvpg7fnvFhZIGis80_yrCP8K0
-X-Authority-Analysis: v=2.4 cv=X8moKHTe c=1 sm=1 tr=0 ts=6789e923 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=IkcTkHD0fZMA:10 a=VdSt8ZQiCzkA:10 a=PYnjg3YJAAAA:8 a=mDV3o1hIAAAA:8 a=P5wrnlEIAAAA:8
- a=mNYpJT6RAAAA:8 a=t7CeM3EgAAAA:8 a=aYjVkuYQAAAA:8 a=hSpJreNbMDZsDvoszS4A:9 a=lqcHg5cX4UMA:10 a=r-HJ9bD__24A:10 a=Wpz8ju6o9T4A:10 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ImwWUX5h3JJ3gRE9moBe:22 a=z2U-W3hJrleVIN9YIjzO:22 a=aoaxo0Z0h-rxbPFMW5aL:22
- a=eybOJ6GWDyyBfQoUqdmp:22 a=FdTzh2GWekK77mhwV6Dw:22 a=XAG9d7F89tCahMKViDxK:22
-X-Proofpoint-GUID: TcB3Lqrxvpg7fnvFhZIGis80_yrCP8K0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 9yXhhjjzrqSIGosuf_xfxyEOGrW-t1jF
+X-Authority-Analysis: v=2.4 cv=X8moKHTe c=1 sm=1 tr=0 ts=6789f9db cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VdSt8ZQiCzkA:10 a=NEAV23lmAAAA:8 a=hGzw-44bAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=ag1SF4gXAAAA:8 a=QyXUC8HyAAAA:8
+ a=nAfzVDAiAAAA:8 a=zYeTIwrI00KFcQGnOAIA:9 a=F7mDGgsl5lMA:10 a=HvKuF1_PTVFglORKqfwH:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=6NcUnlDuP-xAuRjE5D5D:22
+X-Proofpoint-GUID: 9yXhhjjzrqSIGosuf_xfxyEOGrW-t1jF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_01,2025-01-16_01,2024-11-22_01
+ definitions=2025-01-17_02,2025-01-16_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
  bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0 mlxscore=0
  malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501170040
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 50H4hvno028250
+ engine=8.21.0-2411120000 definitions=main-2501170050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 05:22:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209975
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 06:34:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209976
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Applications that use Wget to access a remote resource using
-shorthand URLs and pass arbitrary user credentials in the URL
-are vulnerable. In these cases attackers can enter crafted
-credentials which will cause Wget to access an arbitrary host.
+CVEs addressed in this release:
+CVE-2024-12084
+CVE-2024-12085
+CVE-2024-12086
+CVE-2024-12087
+CVE-2024-12088
+CVE-2024-12747
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2024-10524
+Refreshed below patches:
+makefile-no-rebuild.patch
+determism.patch
+0001-Add-missing-prototypes-to-function-declarations.patch
 
-Upstream-patch:
-https://git.savannah.gnu.org/cgit/wget.git/commit/?id=3Dc419542d956a2607b=
-bce5df64b9d378a8588d778
+Changelog:
+https://github.com/RsyncProject/rsync/blob/v3.4.1/NEWS.md
+https://github.com/RsyncProject/rsync/blob/v3.4.0/NEWS.md
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../wget/wget/CVE-2024-10524.patch            | 197 ++++++++++++++++++
- meta/recipes-extended/wget/wget_1.21.4.bb     |   1 +
- 2 files changed, 198 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-10524.patch
+ ...-prototypes-to-function-declarations.patch | 69 ++++---------------
+ .../rsync/files/determism.patch               | 20 ++++--
+ .../rsync/files/makefile-no-rebuild.patch     | 10 +--
+ .../rsync/{rsync_3.3.0.bb => rsync_3.4.1.bb}  |  2 +-
+ 4 files changed, 32 insertions(+), 69 deletions(-)
+ rename meta/recipes-devtools/rsync/{rsync_3.3.0.bb => rsync_3.4.1.bb} (96%)
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2024-10524.patch b/meta/=
-recipes-extended/wget/wget/CVE-2024-10524.patch
-new file mode 100644
-index 0000000000..21f990ee73
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2024-10524.patch
-@@ -0,0 +1,197 @@
-+From c419542d956a2607bbce5df64b9d378a8588d778 Mon Sep 17 00:00:00 2001
-+From: Tim R=C3=BChsen <tim.ruehsen@gmx.de>
-+Date: Sun, 27 Oct 2024 19:53:14 +0100
-+Subject: [PATCH] Fix CVE-2024-10524 (drop support for shorthand URLs)
+diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+index 2379de84f2..3011308c61 100644
+--- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
++++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+@@ -1,4 +1,4 @@
+-From 2beb35c34c45320144f37b12ef4d72fb8734280e Mon Sep 17 00:00:00 2001
++From 073caa67f2aa221de113a21f8105940421a2da90 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 29 Aug 2022 19:53:28 -0700
+ Subject: [PATCH] Add missing prototypes to function declarations
+@@ -15,21 +15,19 @@ Fixes errors like
+ 
+ Upstream-Status: Submitted [https://lists.samba.org/archive/rsync/2022-August/032858.html]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+ ---
+- checksum.c       | 2 +-
+- exclude.c        | 2 +-
+- hlink.c          | 3 +--
+- lib/pool_alloc.c | 2 +-
+- log.c            | 2 +-
+- main.c           | 2 +-
+- syscall.c        | 4 ++--
+- zlib/crc32.c     | 2 +-
+- zlib/trees.c     | 2 +-
+- zlib/zutil.c     | 4 ++--
+- 10 files changed, 12 insertions(+), 13 deletions(-)
++ checksum.c   | 2 +-
++ exclude.c    | 2 +-
++ log.c        | 2 +-
++ main.c       | 2 +-
++ zlib/crc32.c | 2 +-
++ zlib/trees.c | 2 +-
++ zlib/zutil.c | 4 ++--
++ 7 files changed, 8 insertions(+), 8 deletions(-)
+ 
+ diff --git a/checksum.c b/checksum.c
+-index cb21882..736818b 100644
++index 66e8089..b24b202 100644
+ --- a/checksum.c
+ +++ b/checksum.c
+ @@ -779,7 +779,7 @@ static void verify_digest(struct name_num_item *nni, BOOL check_auth_list)
+@@ -54,33 +52,6 @@ index 87edbcf..ae0de2f 100644
+  {
+  	if (partial_string_buf) {
+  		if (partial_string_len)
+-diff --git a/hlink.c b/hlink.c
+-index 20291f2..5c26a6b 100644
+---- a/hlink.c
+-+++ b/hlink.c
+-@@ -117,8 +117,7 @@ static void match_gnums(int32 *ndx_list, int ndx_count)
+- 	struct ht_int32_node *node = NULL;
+- 	int32 gnum, gnum_next;
+- 
+--	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)()) hlink_compare_gnum);
+--
+-+	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)(const void *, const void *)) hlink_compare_gnum);
+- 	for (from = 0; from < ndx_count; from++) {
+- 		file = hlink_flist->sorted[ndx_list[from]];
+- 		gnum = F_HL_GNUM(file);
+-diff --git a/lib/pool_alloc.c b/lib/pool_alloc.c
+-index a1a7245..4eae062 100644
+---- a/lib/pool_alloc.c
+-+++ b/lib/pool_alloc.c
+-@@ -9,7 +9,7 @@ struct alloc_pool
+- 	size_t			size;		/* extent size		*/
+- 	size_t			quantum;	/* allocation quantum	*/
+- 	struct pool_extent	*extents;	/* top extent is "live" */
+--	void			(*bomb)();	/* called if malloc fails */
+-+	void			(*bomb)(const char *, const char *, int);	/* called if malloc fails */
+- 	int			flags;
+- 
+- 	/* statistical data */
+ diff --git a/log.c b/log.c
+ index e4ba1cc..8482b71 100644
+ --- a/log.c
+@@ -95,7 +66,7 @@ index e4ba1cc..8482b71 100644
+  	int options = LOG_PID;
+  
+ diff --git a/main.c b/main.c
+-index 0c60b86..4bc664a 100644
++index 4f070ac..f59eaec 100644
+ --- a/main.c
+ +++ b/main.c
+ @@ -246,7 +246,7 @@ void read_del_stats(int f)
+@@ -107,22 +78,6 @@ index 0c60b86..4bc664a 100644
+  {
+  	char *gname;
+  	uid_t uid;
+-diff --git a/syscall.c b/syscall.c
+-index d92074a..92ca86d 100644
+---- a/syscall.c
+-+++ b/syscall.c
+-@@ -389,9 +389,9 @@ OFF_T do_lseek(int fd, OFF_T offset, int whence)
+- {
+- #ifdef HAVE_LSEEK64
+- #if !SIZEOF_OFF64_T
+--	OFF_T lseek64();
+-+	OFF_T lseek64(int fd, OFF_T offset, int whence);
+- #else
+--	off64_t lseek64();
+-+	off64_t lseek64(int fd, off64_t offset, int whence);
+- #endif
+- 	return lseek64(fd, offset, whence);
+- #else
+ diff --git a/zlib/crc32.c b/zlib/crc32.c
+ index 05733f4..50c6c02 100644
+ --- a/zlib/crc32.c
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
+index e3494fdded..f915d658c8 100644
+--- a/meta/recipes-devtools/rsync/files/determism.patch
++++ b/meta/recipes-devtools/rsync/files/determism.patch
+@@ -1,7 +1,12 @@
++From 41b859a9df9611b7b3f6cbe28af47118d947080f Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Sun, 21 Feb 2021 09:45:48 +0000
++Subject: [PATCH] rsync: Fix a file sorting determinism issue
 +
-+* doc/wget.texi: Add documentation for removed support for shorthand URL=
-s.
-+* src/html-url.c (src/html-url.c): Call maybe_prepend_scheme.
-+* src/main.c (main): Likewise.
-+* src/retr.c (getproxy): Likewise.
-+* src/url.c: Rename definition of rewrite_shorthand_url to maybe_prepend=
-_scheme,
-+  add new function is_valid_port.
-+* src/url.h: Rename declaration of rewrite_shorthand_url to maybe_prepen=
-d_scheme.
-+
-+Reported-by: Goni Golan <gonig@jfrog.com>
-+
-+CVE: CVE-2024-10524
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/wget.git/co=
-mmit/?id=3Dc419542d956a2607bbce5df64b9d378a8588d778]
-+
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+ The Makefile calls awk on a "*.c" glob. The results of this glob are sorted
+ but the order depends on the locale settings, particularly whether
+ "util.c" and "util2.c" sort before or after each other. In en_US.UTF-8
+-they sort one way, in C, they sort the other. The sorting order changes 
++they sort one way, in C, they sort the other. The sorting order changes
+ the output binaries. The behaviour also changes dependning on whether
+ SHELL (/bin/sh) is dash or bash.
+ 
+@@ -15,12 +20,15 @@ Upstream-Status: Backport [ish, see below]
+ After discussion upstream renamed util.c to util1.c which avoids the problem
+ in a different way. This patch can be dropped when we upgrade to include:
+ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf833a0b31cb0637ff46c80f8d
 +---
-+ doc/wget.texi  | 12 ++++-------
-+ src/html-url.c |  2 +-
-+ src/main.c     |  2 +-
-+ src/retr.c     |  2 +-
-+ src/url.c      | 57 ++++++++++++++++----------------------------------
-+ src/url.h      |  2 +-
-+ 6 files changed, 26 insertions(+), 51 deletions(-)
-+
-+diff --git a/doc/wget.texi b/doc/wget.texi
-+index 3c24de2..503a03d 100644
-+--- a/doc/wget.texi
-++++ b/doc/wget.texi
-+@@ -314,8 +314,8 @@ for text files.  Here is an example:
-+ ftp://host/directory/file;type=3Da
-+ @end example
-+=20
-+-Two alternative variants of @sc{url} specification are also supported,
-+-because of historical (hysterical?) reasons and their widespreaded use.
-++The two alternative variants of @sc{url} specifications are no longer
-++supported because of security considerations:
-+=20
-+ @sc{ftp}-only syntax (supported by @code{NcFTP}):
-+ @example
-+@@ -327,12 +327,8 @@ host:/dir/file
-+ host[:port]/dir/file
-+ @end example
-+=20
-+-These two alternative forms are deprecated, and may cease being
-+-supported in the future.
-+-
-+-If you do not understand the difference between these notations, or do
-+-not know which one to use, just use the plain ordinary format you use
-+-with your favorite browser, like @code{Lynx} or @code{Netscape}.
-++These two alternative forms have been deprecated long time ago,
-++and support is removed with version 1.22.0.
-+=20
-+ @c man begin OPTIONS
-+=20
-+diff --git a/src/html-url.c b/src/html-url.c
-+index 896d6fc..3deea9c 100644
-+--- a/src/html-url.c
-++++ b/src/html-url.c
-+@@ -931,7 +931,7 @@ get_urls_file (const char *file)
-+           url_text =3D merged;
-+         }
-+=20
-+-      new_url =3D rewrite_shorthand_url (url_text);
-++      new_url =3D maybe_prepend_scheme (url_text);
-+       if (new_url)
-+         {
-+           xfree (url_text);
-+diff --git a/src/main.c b/src/main.c
-+index d1c3c3e..f1d7792 100644
-+--- a/src/main.c
-++++ b/src/main.c
-+@@ -2126,7 +2126,7 @@ only if outputting to a regular file.\n"));
-+       struct iri *iri =3D iri_new ();
-+       struct url *url_parsed;
-+=20
-+-      t =3D rewrite_shorthand_url (argv[optind]);
-++      t =3D maybe_prepend_scheme (argv[optind]);
-+       if (!t)
-+         t =3D argv[optind];
-+=20
-+diff --git a/src/retr.c b/src/retr.c
-+index 38c9fcf..a124046 100644
-+--- a/src/retr.c
-++++ b/src/retr.c
-+@@ -1493,7 +1493,7 @@ getproxy (struct url *u)
-+=20
-+   /* Handle shorthands.  `rewritten_storage' is a kludge to allow
-+      getproxy() to return static storage. */
-+-  rewritten_url =3D rewrite_shorthand_url (proxy);
-++  rewritten_url =3D maybe_prepend_scheme (proxy);
-+   if (rewritten_url)
-+     return rewritten_url;
-+=20
-+diff --git a/src/url.c b/src/url.c
-+index 0acd3f3..6868825 100644
-+--- a/src/url.c
-++++ b/src/url.c
-+@@ -594,60 +594,39 @@ parse_credentials (const char *beg, const char *en=
-d, char **user, char **passwd)
-+   return true;
-+ }
-+=20
-+-/* Used by main.c: detect URLs written using the "shorthand" URL forms
-+-   originally popularized by Netscape and NcFTP.  HTTP shorthands look
-+-   like this:
-+-
-+-   www.foo.com[:port]/dir/file   -> http://www.foo.com[:port]/dir/file
-+-   www.foo.com[:port]            -> http://www.foo.com[:port]
-+-
-+-   FTP shorthands look like this:
-+-
-+-   foo.bar.com:dir/file          -> ftp://foo.bar.com/dir/file
-+-   foo.bar.com:/absdir/file      -> ftp://foo.bar.com//absdir/file
-++static bool is_valid_port(const char *p)
-++{
-++  unsigned port =3D (unsigned) atoi (p);
-++  if (port =3D=3D 0 || port > 65535)
-++    return false;
-+=20
-+-   If the URL needs not or cannot be rewritten, return NULL.  */
-++  int digits =3D strspn (p, "0123456789");
-++  return digits && (p[digits] =3D=3D '/' || p[digits] =3D=3D '\0');
-++}
-+=20
-++/* Prepend "http://" to url if scheme is missing, otherwise return NULL=
-. */
-+ char *
-+-rewrite_shorthand_url (const char *url)
-++maybe_prepend_scheme (const char *url)
-+ {
-+-  const char *p;
-+-  char *ret;
-+-
-+   if (url_scheme (url) !=3D SCHEME_INVALID)
-+     return NULL;
-+=20
-+-  /* Look for a ':' or '/'.  The former signifies NcFTP syntax, the
-+-     latter Netscape.  */
-+-  p =3D strpbrk (url, ":/");
-++  const char *p =3D strchr (url, ':');
-+   if (p =3D=3D url)
-+     return NULL;
-+=20
-+   /* If we're looking at "://", it means the URL uses a scheme we
-+      don't support, which may include "https" when compiled without
-+-     SSL support.  Don't bogusly rewrite such URLs.  */
-++     SSL support.  Don't bogusly prepend "http://" to such URLs.  */
-+   if (p && p[0] =3D=3D ':' && p[1] =3D=3D '/' && p[2] =3D=3D '/')
-+     return NULL;
-+=20
-+-  if (p && *p =3D=3D ':')
-+-    {
-+-      /* Colon indicates ftp, as in foo.bar.com:path.  Check for
-+-         special case of http port number ("localhost:10000").  */
-+-      int digits =3D strspn (p + 1, "0123456789");
-+-      if (digits && (p[1 + digits] =3D=3D '/' || p[1 + digits] =3D=3D '=
-\0'))
-+-        goto http;
-+-
-+-      /* Turn "foo.bar.com:path" to "ftp://foo.bar.com/path". */
-+-      if ((ret =3D aprintf ("ftp://%s", url)) !=3D NULL)
-+-        ret[6 + (p - url)] =3D '/';
-+-    }
-+-  else
-+-    {
-+-    http:
-+-      /* Just prepend "http://" to URL. */
-+-      ret =3D aprintf ("http://%s", url);
-+-    }
-+-  return ret;
-++  if (p && p[0] =3D=3D ':' && !is_valid_port (p + 1))
-++    return NULL;
-++
-++
-++  fprintf(stderr, "Prepended http:// to '%s'\n", url);
-++  return aprintf ("http://%s", url);
-+ }
-+=20
-+ static void split_path (const char *, char **, char **);
-+diff --git a/src/url.h b/src/url.h
-+index fb9da33..5f99b0a 100644
-+--- a/src/url.h
-++++ b/src/url.h
-+@@ -128,7 +128,7 @@ char *uri_merge (const char *, const char *);
-+=20
-+ int mkalldirs (const char *);
-+=20
-+-char *rewrite_shorthand_url (const char *);
-++char *maybe_prepend_scheme (const char *);
-+ bool schemes_are_similar_p (enum url_scheme a, enum url_scheme b);
-+=20
-+ bool are_urls_equal (const char *u1, const char *u2);
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-ext=
-ended/wget/wget_1.21.4.bb
-index bc65a8f7c8..b5f50f6c84 100644
---- a/meta/recipes-extended/wget/wget_1.21.4.bb
-+++ b/meta/recipes-extended/wget/wget_1.21.4.bb
-@@ -1,6 +1,7 @@
- SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0002-improve-reproducibility.patch \
-            file://CVE-2024-38428.patch \
-+           file://CVE-2024-10524.patch \
-           "
-=20
- SRC_URI[sha256sum] =3D "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea=
-51df27525bcde04c"
---=20
++ Makefile.in | 5 +++++
++ 1 file changed, 5 insertions(+)
+ 
+-Index: rsync-3.2.3/Makefile.in
+-===================================================================
+---- rsync-3.2.3.orig/Makefile.in
+-+++ rsync-3.2.3/Makefile.in
+-@@ -26,6 +26,11 @@ MKDIR_P=@MKDIR_P@
++diff --git a/Makefile.in b/Makefile.in
++index 1d13e8c..2c5cf99 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -27,6 +27,11 @@ MKDIR_P=@MKDIR_P@
+  VPATH=$(srcdir)
+  SHELL=/bin/sh
+  
+diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+index 0c9ce8b8e3..42af4c55d0 100644
+--- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
++++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+@@ -1,4 +1,4 @@
+-From f446686c26c499e15ef17d495a93cfbc20e16090 Mon Sep 17 00:00:00 2001
++From 603e5862cca832ae925d0c92a8654a57caff5910 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 12 Apr 2016 15:51:54 +0100
+ Subject: [PATCH] rsync: remove upstream's rebuild logic
+@@ -13,12 +13,12 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 54 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index a1253e5..a084935 100644
++index 7c75c26..1d13e8c 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -192,60 +192,6 @@ gensend: gen
+- 	fi
+- 	rsync -aic $(GENFILES) git-version.h $${SAMBA_HOST-samba.org}:/home/ftp/pub/rsync/generated-files/ || true
++@@ -184,60 +184,6 @@ conf: configure.sh config.h.in
++ .PHONY: gen
++ gen: conf proto.h man git-version.h
+  
+ -aclocal.m4: $(srcdir)/m4/*.m4
+ -	aclocal -I $(srcdir)/m4
+diff --git a/meta/recipes-devtools/rsync/rsync_3.3.0.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
+similarity index 96%
+rename from meta/recipes-devtools/rsync/rsync_3.3.0.bb
+rename to meta/recipes-devtools/rsync/rsync_3.4.1.bb
+index c03bb270d4..2cf87d379a 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.3.0.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://determism.patch \
+            file://0001-Add-missing-prototypes-to-function-declarations.patch \
+            "
+-SRC_URI[sha256sum] = "7399e9a6708c32d678a72a63219e96f23be0be2336e50fd1348498d07041df90"
++SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
+ 
+ # Doesn't use automake
+ inherit autotools-brokensep
+-- 
 2.40.0
 
 
