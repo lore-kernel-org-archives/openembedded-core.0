@@ -1,109 +1,151 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AA6C02183
-	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 19:25:22 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web11.3415.1737141915915207314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA99C02183
+	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 22:07:43 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by mx.groups.io with SMTP id smtpd.web10.6886.1737151100371757638
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jan 2025 11:25:16 -0800
+ Fri, 17 Jan 2025 13:58:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JhqXDzRh;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-29fc424237bso1961324fac.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 11:25:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737141915; x=1737746715; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dbYrTQg6uhkwlM5ysmyaygplQK/kzShg+HRH60Tcr/E=;
-        b=JhqXDzRhJ3lp+mMGGY8giOXzrF4UFZcILtkr0AD7qV/+Vk23q3TzIV3CeeIgVAn90O
-         lUdi9Oacs52igK/Q/7IxgA/ux8aI9Mx2jhIa/Tm1vkmOwthFFG2i/uOpy7Uqog2Ze9AY
-         2Tik+KUevfVClx1CjQwNnfKJIdf1JDCrnBm4Omr6H5zuRYcCktjk6g7kgzLJiylV63CT
-         3y7CpDqtm6vjNNpYSwab7JSGzuczhXK4C0B5zhpkaSUTste8z6ft6nYQWEkhmyr1pFrq
-         iW6Cp+syHchr4EfPtCeZiud/46C3H1yE3ufN/aAlpu5r1rg3Zn+aoKGg/waxhmIc0uMi
-         O2/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737141915; x=1737746715;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dbYrTQg6uhkwlM5ysmyaygplQK/kzShg+HRH60Tcr/E=;
-        b=JTcmcoT2N+VqJg+JeKVt+wjJ5nAO74ecF/wAqT37OmN7VUCPEwzxYDVvI44LzJ+34R
-         iCyBO7UgbUqHUJQ+M6NadLGICg7QsENlspDXgRNPBqOhcXb/rY8NSpDqE8wFEy2rz7sE
-         bWtTWOGGR25sdixzENihALuWDsTHHZUISnEnvg97vR14ftgDWGdzSTWF5vN3rmrwb2U0
-         qODW/vEIA1TkzGv1gLLoMQtJlmM1jTPpbfenblXyf/XhiM/5IMRscqVK4ApZtX7wUGuY
-         y8Yx04DhIkBFtGegaN48cco+OGeqTMPqH/+wGBElEltAjL9x+6fN+vFX7T7fOfF4I4sH
-         my/g==
-X-Forwarded-Encrypted: i=1; AJvYcCXU4kls2sCMbiTQlosReu4TNCOBEAzOkXUFGU8/4yU7zDRGGUwGDDPcdqY1kBKX2gG6/YR8sBQCThu+9ExNYWks3w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx0XkWrkPsI/gOnPsueFrfQyRzrM5+GBdbLn6+qSPRzPb+XAhnD
-	dOO4ANYMh5wSbxyf5859G+7p+G5UlG396JDb4CLh2Tob3zISx9oo71JUfU5Bcqudf4LopVWKyBZ
-	yai+Vsd4UiEaFiRC6VlX8oCCWoMY=
-X-Gm-Gg: ASbGnctlrm+IOMqdR8t20j1/g98JYgBleHLbnb+S1OWsLhWFg9Ixm/TvgTKu8tDQ1zx
-	9urT0tKooZvMUhCdXrYklE/GmTLjHvY8Uckhh4Q==
-X-Google-Smtp-Source: AGHT+IEsU+vyQ3hCR3dROrkat4Wdmuvl5iJWZn/WdXj+9LWQORJCXoRarZP5uPC2VXlBct6oBItm5nXjTjtauss7QHU=
-X-Received: by 2002:a05:6871:538e:b0:29e:5894:9de7 with SMTP id
- 586e51a60fabf-2b1c0cd8350mr2381243fac.33.1737141915121; Fri, 17 Jan 2025
- 11:25:15 -0800 (PST)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=K9QvAuve;
+ spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: a-christidis@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50HLwJJ9256166
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 17 Jan 2025 15:58:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1737151099;
+	bh=EJbkjSwuB9pCg6NW36OYttVcMdT8rkfXhJ45JWCdecI=;
+	h=From:To:CC:Subject:Date;
+	b=K9QvAuvepRtLVRAdLPsLAdudQt5/JQV4+4+QquvArOQRivK8Ge5kaX6f2DzAEzHhF
+	 Yr5xWql3iU+XItO5Sn410zjnxI6ucPn9n0i9f+X88B/lLXRcaT55XcTRiYdSnSNYAq
+	 7AW07QRC7CG8aV0q+9e4WkIKFuPmAmt3QMKuEPuU=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50HLwJcT002877
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 17 Jan 2025 15:58:19 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 17
+ Jan 2025 15:58:19 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 17 Jan 2025 15:58:19 -0600
+Received: from antonios-ThinkStation-P3-Tower.dhcp.ti.com (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50HLwJZo064059;
+	Fri, 17 Jan 2025 15:58:19 -0600
+From: a-christidis@ti.com
+To: <raj.khem@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: [master][PATCH] opencl-cts: add recipe
+Date: Fri, 17 Jan 2025 15:58:18 -0600
+Message-ID: <20250117215818.445740-1-a-christidis@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1736150475.git.liezhi.yang@windriver.com>
- <b6a3ea4a7a3c811d7f3f9fa74e11d5001321ecb1.1736150475.git.liezhi.yang@windriver.com>
- <CAMKF1soHePWfU3Vf5614+rW2iCLKmfmXwqFhh+genW++s_JcYg@mail.gmail.com> <A08654A9-D6FE-4BAA-9181-2EC9CE497D61@arm.com>
-In-Reply-To: <A08654A9-D6FE-4BAA-9181-2EC9CE497D61@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 17 Jan 2025 11:24:49 -0800
-X-Gm-Features: AbW1kvaw7W0wCJL0n9fx94N_gtOHTltR1nadddXseMut_HzPpMB7TmQN-Wb09Dk
-Message-ID: <CAMKF1sr0zrrF3hgVT0faFJXx6MOWk=aTiNYms0LXX0s85qmzSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] fmt: 11.0.2 -> 11.1.1
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 19:25:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209997
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 22:07:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209998
 
-On Fri, Jan 17, 2025 at 7:46=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
->
-> On 9 Jan 2025, at 18:35, Khem Raj via lists.openembedded.org <raj.khem=3D=
-gmail.com@lists.openembedded.org> wrote:
-> >
-> > I know this patch is applied but I still want to bring it to attention
-> > Many packages in other layers depend on fmt.  fmt's APIs are not or
-> > not used in a very backward compatible way
-> > some packages provide an option to use vendored version of fmt so in
-> > case of system fmt being not compatible is not
-> > a huge issue other than duplication, but some packages e.g. gerbera
-> > rely on system provided fmt and it still has not moved to
-> > 11.1
->
-> If fmt has basically no API stability, should we just have fmt10, fmt11 e=
-tc recipes instead?
->
+From: Antonios Christidis <a-christidis@ti.com>
 
-maybe, although that also means that multiple versions are made to coexist.
+This recipe provides the opecl-cts suite.  This is a pre-release version
+v2024-08-08, which I have tested to work with opencl-headers version v2024.05.08
+. The pre-release version was picked due to incompatibility issues with other
+versions of headers. Commits past the pre release will run into issues with 
+CL_UNORM_INT_2_101010_EXT  
 
-> The -dev packages for each of those will conflict as they don=E2=80=99t v=
-ersion the headers, but at least the library packages could be parallel ins=
-talled.
->
+The recipe also includes a patch, to allow it to compile and build properly.
+Further information below.
 
-exactly. I have seen that most packages have it vendored and it's used
-statically.
-Sometimes OE-core updates versions of such packages, before rest of
-distributions have picked it up. It means the burden of porting
-the dependent packages falls on us too and we may not have enough
-folks doing this sort of unplanned work.
-For meta-openembedded I have decided to add SKIP_RECIPE to recipes
-failing with such porting issues,  until world builds become clean,
-sometimes it means disabling a lot of recipes but I expect folks who
-use them will fix them in due course.
+Signed-off-by: Antonios Christidis <a-christidis@ti.com>
+---
+ .../files/0001-Ignore-Compiler-Warnings.patch | 36 +++++++++++++++++++
+ .../opencl/opencl-cts_2024.08.08.bb           | 24 +++++++++++++
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
+ create mode 100644 meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
 
-> Ross
+diff --git a/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch b/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
+new file mode 100644
+index 000000000..38016789b
+--- /dev/null
++++ b/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
+@@ -0,0 +1,36 @@
++From 082ce10dd191f036f5a6e1fb31134e9736ba3643 Mon Sep 17 00:00:00 2001
++From: Antonios Christidis <a-christidis@ti.com>
++Date: Fri, 17 Jan 2025 15:05:39 -0600
++Subject: [PATCH] Ignore Compiler Warnings
++
++
++Upstream repo is using Ubuntu 20.04 to build. Their compiler is old enough to
++to not catch these warnings. While our distro compiler is capable of catching 
++them, resulting in compilation failures. Thus change the build system to ignore
++the warnings. Resulting in no errors (-Werror flag enabled).  
++
++Upstream-Status: Inappropriate [oe specific - compilation errors due to cross-compiling]
++
++Singed-Off-By: Antonios Christidis <a-christidis@ti.com>
++---
++ CMakeLists.txt | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 5cfef6b3..71b6ddb4 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -109,7 +109,9 @@ if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?Clang"
++     add_cxx_flag_if_supported(-Wno-error=cpp) # Allow #warning directive
++     add_cxx_flag_if_supported(-Wno-unknown-pragmas) # Issue #785
++     add_cxx_flag_if_supported(-Wno-error=asm-operand-widths) # Issue #784
++-
+++    add_cxx_flag_if_supported(-Wno-maybe-uninitialized)
+++    add_cxx_flag_if_supported(-Wno-stringop-truncation)
+++    add_cxx_flag_if_supported(-Wno-strict-aliasing)
++     # -msse -mfpmath=sse to force gcc to use sse for float math,
++     # avoiding excess precision problems that cause tests like int2float
++     # to falsely fail. -ffloat-store also works, but WG suggested
++-- 
++2.34.1
++
+diff --git a/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb b/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
+new file mode 100644
+index 000000000..aa0e090db
+--- /dev/null
++++ b/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "OpenCL CTS"
++DESCRIPTION = "OpenCL CTS test suite"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
++
++inherit pkgconfig cmake
++
++DEPENDS += "opencl-headers opencl-icd-loader"
++RDEPENDS:${PN} += "python3-core"
++
++S = "${WORKDIR}/git"
++
++SRC_URI = "git://github.com/KhronosGroup/OpenCL-CTS.git;protocol=https;branch=main \
++	   file://0001-Ignore-Compiler-Warnings.patch"
++
++SRCREV = "a406b340913f622da089b00f284a597656c10239"
++
++EXTRA_OECMAKE:append = " -DCL_INCLUDE_DIR=${STAGING_INCDIR} -DCL_LIB_DIR=${STAGING_LIBDIR} -DOPENCL_LIBRARIES=OpenCL"
++
++do_install() {
++        install -d ${D}${bindir}/opencl_test_conformance
++        cp -r ${B}/test_conformance/* ${D}${bindir}/opencl_test_conformance
++        sed -i 's:/usr/bin/python:/usr/bin/python3:g' ${D}${bindir}/opencl_test_conformance/run_conformance.py
++}
+-- 
+2.34.1
+
 
