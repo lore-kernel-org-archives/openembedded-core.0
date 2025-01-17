@@ -1,151 +1,100 @@
-Return-Path: <philip@balister.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA99C02183
-	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 22:07:43 +0000 (UTC)
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by mx.groups.io with SMTP id smtpd.web10.6886.1737151100371757638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D66C02183
+	for <webhook@archiver.kernel.org>; Fri, 17 Jan 2025 22:16:43 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.7255.1737152195151732726
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jan 2025 13:58:20 -0800
+ Fri, 17 Jan 2025 14:16:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=K9QvAuve;
- spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: a-christidis@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50HLwJJ9256166
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jan 2025 15:58:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1737151099;
-	bh=EJbkjSwuB9pCg6NW36OYttVcMdT8rkfXhJ45JWCdecI=;
-	h=From:To:CC:Subject:Date;
-	b=K9QvAuvepRtLVRAdLPsLAdudQt5/JQV4+4+QquvArOQRivK8Ge5kaX6f2DzAEzHhF
-	 Yr5xWql3iU+XItO5Sn410zjnxI6ucPn9n0i9f+X88B/lLXRcaT55XcTRiYdSnSNYAq
-	 7AW07QRC7CG8aV0q+9e4WkIKFuPmAmt3QMKuEPuU=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50HLwJcT002877
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 17 Jan 2025 15:58:19 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 17
- Jan 2025 15:58:19 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 17 Jan 2025 15:58:19 -0600
-Received: from antonios-ThinkStation-P3-Tower.dhcp.ti.com (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50HLwJZo064059;
-	Fri, 17 Jan 2025 15:58:19 -0600
-From: a-christidis@ti.com
-To: <raj.khem@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [master][PATCH] opencl-cts: add recipe
-Date: Fri, 17 Jan 2025 15:58:18 -0600
-Message-ID: <20250117215818.445740-1-a-christidis@ti.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bcjTKGIE;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ukrwg/vV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101947656e650-1324cc60-a56e-43af-a481-594403beda3b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1737152194; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=H6ETgc+6cOTND8MD8U7FZx1JzzGvpwPfxif7Xt5eEww=;
+	b=bcjTKGIEu8eLwaocOPErSR8bJLl0octfGHnbmHkgGeAXEsUcx4KnGgJ/XYReOn3M
+	AdUSUNe4sBZqa+2VJRgVUsD/1nGktHOhSuTfjCRCg7xHLdcgWWh1rW9p9YEEFjWjNgj
+	rXBOmHkOIt3DyBHdFtTlVYUnx/EBAeL/hOKvzJrw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1737152194;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=H6ETgc+6cOTND8MD8U7FZx1JzzGvpwPfxif7Xt5eEww=;
+	b=ukrwg/vVs69OxzQqdQzfKEhMTpsWv2JOpg17pgfeCPrDNm04ZfVmXEkULegOxDOO
+	irXB+DD0y/vPF9vPnls5orHvKxL8+sQ+E16Ih6cQZu6e7vQ9hOq/naB/2HtONU5WNCy
+	nKPYaJVYFGhsGUDgmmM00hBcnEYZ6kTxszUkNAZ4=
+From: patchtest@automation.yoctoproject.org
+To: a-christidis@ti.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [master][PATCH] opencl-cts: add recipe
+In-Reply-To: <20250117215818.445740-1-a-christidis@ti.com>
+References: <20250117215818.445740-1-a-christidis@ti.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101947656e650-1324cc60-a56e-43af-a481-594403beda3b-000000@us-west-2.amazonses.com>
+Date: Fri, 17 Jan 2025 22:16:34 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.17-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 22:07:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209998
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jan 2025 22:16:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/209999
 
-From: Antonios Christidis <a-christidis@ti.com>
+--NextPart
+Content-Type: text/plain
 
-This recipe provides the opecl-cts suite.  This is a pre-release version
-v2024-08-08, which I have tested to work with opencl-headers version v2024.05.08
-. The pre-release version was picked due to incompatibility issues with other
-versions of headers. Commits past the pre release will run into issues with 
-CL_UNORM_INT_2_101010_EXT  
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The recipe also includes a patch, to allow it to compile and build properly.
-Further information below.
-
-Signed-off-by: Antonios Christidis <a-christidis@ti.com>
 ---
- .../files/0001-Ignore-Compiler-Warnings.patch | 36 +++++++++++++++++++
- .../opencl/opencl-cts_2024.08.08.bb           | 24 +++++++++++++
- 2 files changed, 60 insertions(+)
- create mode 100644 meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
- create mode 100644 meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
+Testing patch /home/patchtest/share/mboxes/master-opencl-cts-add-recipe.patch
 
-diff --git a/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch b/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
-new file mode 100644
-index 000000000..38016789b
---- /dev/null
-+++ b/meta-oe/recipes-core/opencl/files/0001-Ignore-Compiler-Warnings.patch
-@@ -0,0 +1,36 @@
-+From 082ce10dd191f036f5a6e1fb31134e9736ba3643 Mon Sep 17 00:00:00 2001
-+From: Antonios Christidis <a-christidis@ti.com>
-+Date: Fri, 17 Jan 2025 15:05:39 -0600
-+Subject: [PATCH] Ignore Compiler Warnings
-+
-+
-+Upstream repo is using Ubuntu 20.04 to build. Their compiler is old enough to
-+to not catch these warnings. While our distro compiler is capable of catching 
-+them, resulting in compilation failures. Thus change the build system to ignore
-+the warnings. Resulting in no errors (-Werror flag enabled).  
-+
-+Upstream-Status: Inappropriate [oe specific - compilation errors due to cross-compiling]
-+
-+Singed-Off-By: Antonios Christidis <a-christidis@ti.com>
-+---
-+ CMakeLists.txt | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 5cfef6b3..71b6ddb4 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -109,7 +109,9 @@ if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?Clang"
-+     add_cxx_flag_if_supported(-Wno-error=cpp) # Allow #warning directive
-+     add_cxx_flag_if_supported(-Wno-unknown-pragmas) # Issue #785
-+     add_cxx_flag_if_supported(-Wno-error=asm-operand-widths) # Issue #784
-+-
-++    add_cxx_flag_if_supported(-Wno-maybe-uninitialized)
-++    add_cxx_flag_if_supported(-Wno-stringop-truncation)
-++    add_cxx_flag_if_supported(-Wno-strict-aliasing)
-+     # -msse -mfpmath=sse to force gcc to use sse for float math,
-+     # avoiding excess precision problems that cause tests like int2float
-+     # to falsely fail. -ffloat-store also works, but WG suggested
-+-- 
-+2.34.1
-+
-diff --git a/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb b/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
-new file mode 100644
-index 000000000..aa0e090db
---- /dev/null
-+++ b/meta-oe/recipes-core/opencl/opencl-cts_2024.08.08.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "OpenCL CTS"
-+DESCRIPTION = "OpenCL CTS test suite"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+
-+inherit pkgconfig cmake
-+
-+DEPENDS += "opencl-headers opencl-icd-loader"
-+RDEPENDS:${PN} += "python3-core"
-+
-+S = "${WORKDIR}/git"
-+
-+SRC_URI = "git://github.com/KhronosGroup/OpenCL-CTS.git;protocol=https;branch=main \
-+	   file://0001-Ignore-Compiler-Warnings.patch"
-+
-+SRCREV = "a406b340913f622da089b00f284a597656c10239"
-+
-+EXTRA_OECMAKE:append = " -DCL_INCLUDE_DIR=${STAGING_INCDIR} -DCL_LIB_DIR=${STAGING_LIBDIR} -DOPENCL_LIBRARIES=OpenCL"
-+
-+do_install() {
-+        install -d ${D}${bindir}/opencl_test_conformance
-+        cp -r ${B}/test_conformance/* ${D}${bindir}/opencl_test_conformance
-+        sed -i 's:/usr/bin/python:/usr/bin/python3:g' ${D}${bindir}/opencl_test_conformance/run_conformance.py
-+}
--- 
-2.34.1
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Ignore-Compiler-Warnings.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
