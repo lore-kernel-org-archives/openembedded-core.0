@@ -2,34 +2,38 @@ Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91BBC02183
-	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 14:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7FBC02183
+	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 14:04:15 +0000 (UTC)
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by mx.groups.io with SMTP id smtpd.web10.15628.1737295324563284409
+ by mx.groups.io with SMTP id smtpd.web10.15659.1737295449519849432
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jan 2025 06:02:05 -0800
+ Sun, 19 Jan 2025 06:04:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=LIzuK4ka;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=Mw5o5KoW;
  spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2F7421047DC3B;
-	Sun, 19 Jan 2025 15:02:01 +0100 (CET)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4131D1047DC3B;
+	Sun, 19 Jan 2025 15:04:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1737295322;
+	t=1737295447;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=lGxHZ9T6iqI4a5QShtoTMMH5PfOlMH2BWg1mRQgBQcE=;
-	b=LIzuK4kaLq2wijHK6dHktLloCCQjFKGDrTNZgO0OMrhrdBCKm59ZtRiduTBJ8Jl7d2BEvV
-	4RMXEYq6zTEz3Kd4IoFQPcM1ZmGOg4K0h1ZPc5yijhytHjWIal973TwAk0w9t/kcsSbz9r
-	0BCOMhUNggqiiQx5DH5doxbQD2G4epnbqyUA/JUQlvZnWkB3HQVPtrPddhGWQLu+2Uohj2
-	DtkeIIY9OPYTsUSvkA1h0ZkQVHd16Zw7Pa45hwE1TWGN63/FJLmXy1PMM6kr5qurliKL/D
-	4u0c5HO13h0/XvOamkz1smECHrEYDYt8AHmdF4IFFMgopAYJNgrJoBI00wAP4Q==
+	bh=V/rqpa+AbSwLzdQVkB/zEuoq6Om9lcSlf+pz6Qgr4Lc=;
+	b=Mw5o5KoW/EPUnefSnRPwyea5uyL6yIegc79GllNU0VjIo9evy46lwEKiIWWiEivQ/ONsnC
+	arFCb6MDlDSuL2LkdPTPKLPOnJUm9CmVjJsD2Wp9DWQ97QiEQ1h8NQckYw9DszheYAGR8b
+	UqOWhTgCe7rJWMJUyvv0YZexcOVL4inxpOOEJf0CibCO3kgqXASoERE33dDRZBrg46/FSb
+	nfHa/oNV+tHzisBrtqx0e3wH7nSUsuD0SqJ143nmkvKP7ySEocVupN6IHZjKDDC1kubTrp
+	5BX64AyFj1QxFOoQ+/D8vDgH4hN8wGEDlKaWSQfrxszLT6El0vmlSb1n1m5CoQ==
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH v3] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
-Date: Sun, 19 Jan 2025 15:00:09 +0100
-Message-ID: <20250119140145.21753-1-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v4] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+Date: Sun, 19 Jan 2025 15:03:35 +0100
+Message-ID: <20250119140349.21919-1-marex@denx.de>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
@@ -37,8 +41,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 14:02:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210007
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 14:04:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210008
 
 In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
 kernel-fitimage.bbclass is in use to generate signed kernel
@@ -97,11 +101,17 @@ Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
 )
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Sean Anderson <sean.anderson@seco.com>
+---
 V2: Take a different approach, split the kernel-fitimage.bbclass and
     use it to generate dummy fitImage on demand
 V3: Use mkimage -f auto-conf and mkimage -f auto to break the loop,
     the fitImage .its source is not even needed because the 'required'
     property can only have two values, 'conf' or 'image' .
+V4: Restore CC list
 ---
  .../kernel-fitimage-config.bbclass            | 50 +++++++++++++++++
  meta/classes-recipe/kernel-fitimage.bbclass   | 54 +------------------
