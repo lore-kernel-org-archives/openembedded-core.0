@@ -2,341 +2,124 @@ Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7FBC02183
-	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 14:04:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B71C02183
+	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 14:19:45 +0000 (UTC)
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by mx.groups.io with SMTP id smtpd.web10.15659.1737295449519849432
+ by mx.groups.io with SMTP id smtpd.web10.15880.1737296379878094076
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jan 2025 06:04:10 -0800
+ Sun, 19 Jan 2025 06:19:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=Mw5o5KoW;
+ dkim=pass header.i=@denx.de header.s=mx-20241105 header.b=RD4bW1Uz;
  spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4131D1047DC3B;
-	Sun, 19 Jan 2025 15:04:05 +0100 (CET)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B47191040DBC5;
+	Sun, 19 Jan 2025 15:19:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1737295447;
+	t=1737296377;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=V/rqpa+AbSwLzdQVkB/zEuoq6Om9lcSlf+pz6Qgr4Lc=;
-	b=Mw5o5KoW/EPUnefSnRPwyea5uyL6yIegc79GllNU0VjIo9evy46lwEKiIWWiEivQ/ONsnC
-	arFCb6MDlDSuL2LkdPTPKLPOnJUm9CmVjJsD2Wp9DWQ97QiEQ1h8NQckYw9DszheYAGR8b
-	UqOWhTgCe7rJWMJUyvv0YZexcOVL4inxpOOEJf0CibCO3kgqXASoERE33dDRZBrg46/FSb
-	nfHa/oNV+tHzisBrtqx0e3wH7nSUsuD0SqJ143nmkvKP7ySEocVupN6IHZjKDDC1kubTrp
-	5BX64AyFj1QxFOoQ+/D8vDgH4hN8wGEDlKaWSQfrxszLT6El0vmlSb1n1m5CoQ==
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH v4] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
-Date: Sun, 19 Jan 2025 15:03:35 +0100
-Message-ID: <20250119140349.21919-1-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M7gtwcxNK+W9xKiXlBv2e1IdGj5bQV7yMEkM/BPr/G8=;
+	b=RD4bW1UzDUya8U9XW0gNZyba8pUXBnWm1yMzmaKeQi3ig9J5fKo+gnw7Tbmm2f7naxaj71
+	q6EMRkgjbgvUCd6xC2ymapavYeVgnxvPlnsQukwLVZaOzcXxGoULUIUgctcJ92EM4In+Fh
+	C0w0qtRKZ8tEJ8dFl/9DQaCbfxnWsODLT3d8+0FRV55dnY/dX7fD6D0erPbxQ/g9DhEre+
+	60vk8HGYPBNIuxVgPZ5WIKXHYPxSMLPpMEKTMmj973eIzQZFOh1igNPHcyBSaFjMYRd87G
+	iYlTMyc5VRospfEBtvj20SUXEE0hoeTBc+m4Egl4GJaB+R1Svffr56T7qgFwiw==
+Message-ID: <334ccaf1-c068-4455-927c-0941fe9173d1@denx.de>
+Date: Sun, 19 Jan 2025 15:16:58 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] u-boot: kernel-fitimage: Fix dependency loop
+ if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Sean Anderson <sean.anderson@seco.com>
+References: <20250114010202.95843-1-marex@denx.de>
+ <D71O2LIHDS5O.VUCRVWWZYSFN@bootlin.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <D71O2LIHDS5O.VUCRVWWZYSFN@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 14:04:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210008
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 14:19:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210009
 
-In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
-kernel-fitimage.bbclass is in use to generate signed kernel
-fitImage, there is a circular dependency between uboot-sign
-and kernel-fitimage bbclasses . The loop looks like this:
-
-kernel-fitimage.bbclass:
-- do_populate_sysroot depends on do_assemble_fitimage
-  - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroo=
-t
-    - virtual/bootloader:do_populate_sysroot depends on virtual/bootloade=
-r:do_install
-      =3D> The virtual/bootloader:do_install installs and the
-         virtual/bootloader:do_populate_sysroot places into
-         sysroot an U-Boot environment script embedded into
-         kernel fitImage during do_assemble_fitimage run .
-
-uboot-sign.bbclass:
-- DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
-  - do_deploy depends on do_uboot_assemble_fitimage
-  - do_install depends on do_uboot_assemble_fitimage
-  - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysr=
-oot
-    =3D> do_install depends on virtual/kernel:do_populate_sysroot
-
-=3D> virtual/bootloader:do_install depends on virtual/kernel:do_populate_=
-sysroot
-   virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_in=
-stall
-
-Attempt to resolve the loop. Pull fitimage configuration options into sep=
-arate
-new bbclass kernel-fitimage-config.bbclass so these configuration options=
- can
-be shared by both uboot-sign.bbclass and kernel-fitimage.bbclass, and mak=
-e use
-of mkimage -f auto-conf / mkimage -f auto option to insert /signature nod=
-e key-*
-subnode into U-Boot control DT without depending on the layout of kernel =
-fitImage
-itself. This is perfectly valid to do, because the U-Boot /signature node=
- key-*
-subnodes 'required' property can contain either of two values, 'conf' or =
-'image'
-to authenticate either selected configuration or all of images when booti=
-ng the
-fitImage.
-
-For details of the U-Boot fitImage signing process, see:
-https://docs.u-boot.org/en/latest/usage/fit/signature.html
-For details of mkimage -f auto-conf and -f auto, see:
-https://manpages.debian.org/experimental/u-boot-tools/mkimage.1.en.html#E=
-XAMPLES
-
-Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
-)
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Sean Anderson <sean.anderson@seco.com>
----
-V2: Take a different approach, split the kernel-fitimage.bbclass and
-    use it to generate dummy fitImage on demand
-V3: Use mkimage -f auto-conf and mkimage -f auto to break the loop,
-    the fitImage .its source is not even needed because the 'required'
-    property can only have two values, 'conf' or 'image' .
-V4: Restore CC list
----
- .../kernel-fitimage-config.bbclass            | 50 +++++++++++++++++
- meta/classes-recipe/kernel-fitimage.bbclass   | 54 +------------------
- meta/classes-recipe/uboot-sign.bbclass        | 26 ++++-----
- 3 files changed, 64 insertions(+), 66 deletions(-)
- create mode 100644 meta/classes-recipe/kernel-fitimage-config.bbclass
-
-diff --git a/meta/classes-recipe/kernel-fitimage-config.bbclass b/meta/cl=
-asses-recipe/kernel-fitimage-config.bbclass
-new file mode 100644
-index 00000000000..1f665f7d47c
---- /dev/null
-+++ b/meta/classes-recipe/kernel-fitimage-config.bbclass
-@@ -0,0 +1,50 @@
-+# Description string
-+FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
-+
-+# Kernel fitImage Hash Algo
-+FIT_HASH_ALG ?=3D "sha256"
-+
-+# Kernel fitImage Signature Algo
-+FIT_SIGN_ALG ?=3D "rsa2048"
-+
-+# Kernel / U-Boot fitImage Padding Algo
-+FIT_PAD_ALG ?=3D "pkcs-1.5"
-+
-+# Generate keys for signing Kernel fitImage
-+FIT_GENERATE_KEYS ?=3D "0"
-+
-+# Size of private keys in number of bits
-+FIT_SIGN_NUMBITS ?=3D "2048"
-+
-+# args to openssl genrsa (Default is just the public exponent)
-+FIT_KEY_GENRSA_ARGS ?=3D "-F4"
-+
-+# args to openssl req (Default is -batch for non interactive mode and
-+# -new for new certificate)
-+FIT_KEY_REQ_ARGS ?=3D "-batch -new"
-+
-+# Standard format for public key certificate
-+FIT_KEY_SIGN_PKCS ?=3D "-x509"
-+
-+# Sign individual images as well
-+FIT_SIGN_INDIVIDUAL ?=3D "0"
-+
-+FIT_CONF_PREFIX ?=3D "conf-"
-+FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
-+
-+FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
-z cpio.zst cpio.gz ext2.gz cpio"
-+
-+# Allow user to select the default DTB for FIT image when multiple dtb's=
- exists.
-+FIT_CONF_DEFAULT_DTB ?=3D ""
-+
-+# length of address in number of <u32> cells
-+# ex: 1 32bits address, 2 64bits address
-+FIT_ADDRESS_CELLS ?=3D "1"
-+
-+# Keys used to sign individually image nodes.
-+# The keys to sign image nodes must be different from those used to sign
-+# configuration nodes, otherwise the "required" property, from
-+# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
-mage".
-+# Then the images signature checking will not be mandatory and no error =
-will be
-+# raised in case of failure.
-+# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
-", "dev2.key")
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-r=
-ecipe/kernel-fitimage.bbclass
-index 67c98adb232..33dae750672 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -4,7 +4,7 @@
- # SPDX-License-Identifier: MIT
- #
-=20
--inherit kernel-uboot kernel-artifact-names uboot-config
-+inherit kernel-uboot kernel-artifact-names uboot-config kernel-fitimage-=
-config
-=20
- def get_fit_replacement_type(d):
-     kerneltypes =3D d.getVar('KERNEL_IMAGETYPES') or ""
-@@ -52,58 +52,6 @@ python __anonymous () {
-         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/d=
-evicetree")
- }
-=20
--
--# Description string
--FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
--
--# Kernel fitImage Hash Algo
--FIT_HASH_ALG ?=3D "sha256"
--
--# Kernel fitImage Signature Algo
--FIT_SIGN_ALG ?=3D "rsa2048"
--
--# Kernel / U-Boot fitImage Padding Algo
--FIT_PAD_ALG ?=3D "pkcs-1.5"
--
--# Generate keys for signing Kernel fitImage
--FIT_GENERATE_KEYS ?=3D "0"
--
--# Size of private keys in number of bits
--FIT_SIGN_NUMBITS ?=3D "2048"
--
--# args to openssl genrsa (Default is just the public exponent)
--FIT_KEY_GENRSA_ARGS ?=3D "-F4"
--
--# args to openssl req (Default is -batch for non interactive mode and
--# -new for new certificate)
--FIT_KEY_REQ_ARGS ?=3D "-batch -new"
--
--# Standard format for public key certificate
--FIT_KEY_SIGN_PKCS ?=3D "-x509"
--
--# Sign individual images as well
--FIT_SIGN_INDIVIDUAL ?=3D "0"
--
--FIT_CONF_PREFIX ?=3D "conf-"
--FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
--
--FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
-z cpio.zst cpio.gz ext2.gz cpio"
--
--# Allow user to select the default DTB for FIT image when multiple dtb's=
- exists.
--FIT_CONF_DEFAULT_DTB ?=3D ""
--
--# length of address in number of <u32> cells
--# ex: 1 32bits address, 2 64bits address
--FIT_ADDRESS_CELLS ?=3D "1"
--
--# Keys used to sign individually image nodes.
--# The keys to sign image nodes must be different from those used to sign
--# configuration nodes, otherwise the "required" property, from
--# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
-mage".
--# Then the images signature checking will not be mandatory and no error =
-will be
--# raised in case of failure.
--# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
-", "dev2.key")
--
- #
- # Emit the fitImage ITS header
- #
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe=
-/uboot-sign.bbclass
-index a17be745cec..d23ae4d8d15 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -25,7 +25,7 @@
- # For more details on signature process, please refer to U-Boot document=
-ation.
-=20
- # We need some variables from u-boot-config
--inherit uboot-config
-+inherit uboot-config kernel-fitimage-config
-=20
- # Enable use of a U-Boot fitImage
- UBOOT_FITIMAGE_ENABLE ?=3D "0"
-@@ -85,9 +85,6 @@ UBOOT_FIT_KEY_SIGN_PKCS ?=3D "-x509"
- # ex: 1 32bits address, 2 64bits address
- UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
-=20
--# This is only necessary for determining the signing configuration
--KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
--
- UBOOT_FIT_UBOOT_LOADADDRESS ?=3D "${UBOOT_LOADADDRESS}"
- UBOOT_FIT_UBOOT_ENTRYPOINT ?=3D "${UBOOT_ENTRYPOINT}"
-=20
-@@ -96,8 +93,6 @@ python() {
-     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
-     if d.getVar('UBOOT_FITIMAGE_ENABLE') =3D=3D '1' or sign:
-         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
--    if sign:
--        d.appendVar('DEPENDS', " " + d.getVar('KERNEL_PN'))
- }
-=20
- concat_dtb() {
-@@ -106,16 +101,25 @@ concat_dtb() {
-=20
- 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
- 		# Re-sign the kernel in order to add the keys to our dtb
-+		UBOOT_MKIMAGE_MODE=3D"auto-conf"
-+		# Signing individual images is not recommended as that
-+		# makes fitImage susceptible to mix-and-match attack.
-+		if [ "${FIT_SIGN_INDIVIDUAL}" =3D "1" ] ; then
-+			UBOOT_MKIMAGE_MODE=3D"auto"
-+		fi
- 		${UBOOT_MKIMAGE_SIGN} \
- 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}')=
- else ''} \
--			-F -k "${UBOOT_SIGN_KEYDIR}" \
-+			-f ${UBOOT_MKIMAGE_MODE} -d /dev/null \
-+			-k "${UBOOT_SIGN_KEYDIR}" \
-+			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
-+			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
- 			-K "${UBOOT_DTB_BINARY}" \
--			-r ${B}/fitImage-linux \
-+			-r ${B}/unused.itb
- 			${UBOOT_MKIMAGE_SIGN_ARGS}
- 		# Verify the kernel image and u-boot dtb
- 		${UBOOT_FIT_CHECK_SIGN} \
- 			-k "${UBOOT_DTB_BINARY}" \
--			-f ${B}/fitImage-linux
-+			-f ${B}/unused.itb
- 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
- 	fi
-=20
-@@ -351,10 +355,6 @@ uboot_assemble_fitimage_helper() {
- }
-=20
- do_uboot_assemble_fitimage() {
--	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] ; then
--		cp "${STAGING_DIR_HOST}/sysroot-only/fitImage" "${B}/fitImage-linux"
--	fi
--
- 	if [ -n "${UBOOT_CONFIG}" ]; then
- 		unset i
- 		for config in ${UBOOT_MACHINE}; do
---=20
-2.45.2
-
+On 1/14/25 9:52 AM, Mathieu Dubois-Briand wrote:
+> On Tue Jan 14, 2025 at 2:01 AM CET, Marek Vasut via lists.openembedded.org wrote:
+>> In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+>> kernel-fitimage.bbclass is in use to generate signed kernel
+>> fitImage, there is a circular dependency between uboot-sign
+>> and kernel-fitimage bbclasses . The loop looks like this:
+>>
+>> kernel-fitimage.bbclass:
+>> - do_populate_sysroot depends on do_assemble_fitimage
+>>    - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroot
+>>      - virtual/bootloader:do_populate_sysroot depends on virtual/bootloader:do_install
+>>        => The virtual/bootloader:do_install installs and the
+>>           virtual/bootloader:do_populate_sysroot places into
+>>           sysroot an U-Boot environment script embedded into
+>>           kernel fitImage during do_assemble_fitimage run .
+>>
+>> uboot-sign.bbclass:
+>> - DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+>>    - do_deploy depends on do_uboot_assemble_fitimage
+>>    - do_install depends on do_uboot_assemble_fitimage
+>>    - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysroot
+>>      => do_install depends on virtual/kernel:do_populate_sysroot
+>>
+>> => virtual/bootloader:do_install depends on virtual/kernel:do_populate_sysroot
+>>     virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_install
+>>
+>> Attempt to resolve the loop. Pull fitimage_assemble() into separate new bbclass
+>> kernel-fitimage-its.bbclass and split fitimage_assemble() into two functions,
+>> fitimage_assemble_its() to generate the fit-image.its and fitimage_assemble_itb()
+>> to run mkimage on fit-image.its and produce the final fitImage-none fitImage.
+>>
+>> Inherit kernel-fitimage-its.bbclass in uboot-sign.bbclass and use these two
+>> new functions to generate a dummy signed fitImage which, instead of containing
+>> any meaningful blobs as payloads contains a dummy u-boot.dtb as payload for
+>> every single blob included in the fitImage. The placement of signature {}
+>> nodes in this dummy signed fitImage exactly matches the final signed kernel
+>> fitImage, which is very important.
+>>
+>> The follow up mkimage invocation which inserts public key material into
+>> u-boot.dtb /signature {} node does not care about the content of the dummy
+>> signed fitImage blobs, that mkimage invocation only cares about the placement
+>> of signature {} nodes in that dummy signed fitImage. That mkimage invocation
+>> uses the placement of these signature {} nodes to construct u-boot.dtb
+>> /signature/<key> 'required' property content, which is used by U-Boot
+>> when authenticating blobs in the fitImage using the public <key> that
+>> was currently inserted into the u-boot.dtb by mkimage .
+>>
+>> Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies")
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+> 
+> Hi Marek,
+> 
+> I believe this patch is breaking the oe-selftests on the autobuilder,
+> with the following error:
+> 
+> ERROR: linux-yocto-6.12.9+git-r0 do_assemble_fitimage: Execution of '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.1950022' failed with exit code 127
+> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/log.do_assemble_fitimage.1950022
+> Log data follows:
+> | DEBUG: Executing shell function do_assemble_fitimage
+> | /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.1950022: line 150: fitimage_assemble: command not found
+> | WARNING: /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.1950022:150 exit 127 from 'fitimage_assemble fit-image.its fitImage-none ""'
+> | WARNING: Backtrace (BB generated script):
+> | 	#1: do_assemble_fitimage, /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.1950022, line 150
+> | 	#2: main, /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-844261/tmp/work/qemux86_64-poky-linux/linux-yocto/6.12.9+git/temp/run.do_assemble_fitimage.1950022, line 157
+> NOTE: recipe linux-yocto-6.12.9+git-r0: task do_assemble_fitimage: Failed
+> 
+> https://valkyrie.yoctoproject.org/#/builders/48/builds/726/steps/14/logs/stdio
+> 
+> Can you have a look at this issue please ?
+Hopefully fixed in V4 , in an even better way.
 
