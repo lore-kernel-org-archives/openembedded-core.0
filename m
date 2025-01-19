@@ -1,159 +1,127 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57767C02187
-	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 15:40:56 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.17168.1737301254971407674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92251C02187
+	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 16:35:46 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.18289.1737304537119637681
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jan 2025 07:40:55 -0800
+ Sun, 19 Jan 2025 08:35:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=erqxAFT2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38a88ba968aso3344155f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 07:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1737301253; x=1737906053; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u6UH17APyYR73/pu/00kA4yD8m46rdHFcglEwf6lZfw=;
-        b=erqxAFT2iCO8YjmTviZyxc7oqHYV7XFjl4GskVyEga5YW9qk2Z2IJyo1NtNV9IMf9l
-         70kKEW4i98UPZcmls+OeJ4jfRTwO7K7/jgOF645y90BaGGeJE3T0F81ZPdOU1Mbv1VON
-         zY3Iv3nKq642iiTWQcoNN6fTDtQXTt3khp8vA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737301253; x=1737906053;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=u6UH17APyYR73/pu/00kA4yD8m46rdHFcglEwf6lZfw=;
-        b=iirgtmXWtI1tluwA6lHakuj7QXNq6JGuMTDOuE+Ffnb9lkNQgAUlWEVMII9le3OJSK
-         z5CbQUK8tp8ixRXS536P7Tpr/q5QCetzq2ZPdWhBEEQ8yBxYarihqroK15CgKTPcnFSs
-         xGldpoBn+nqXDUNQORdHExwZhiTdU9XKK1IE3oXDgMr53TMhptdcptz5XriXUVEfs62w
-         faN63jZHf5Y1tcg7KWFIBZ62pn7jZNCUDLcp6Xrp7P9o8S2EcozOdWGcsXqvkuYv2cwa
-         mREyP1XGbTDAMSyaaQWM4VWnRrhSF5k4HzfJIRoDq1tJyV3Pk/0WtW+vIZxisSWHgQVo
-         bYIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCO8qTxHvBpL7X9DZm2+YsvUkCykXhIwtu/L2EaeSEbSYuJschMojsnq/EUuhxFAvCocKg3NA5ZK0AGHerPHmH1w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxIX1RLsX95zRCUUEkaxPmgVPKcF3gWxNOTH7WGBWUrxjM+rNYv
-	Ru3NWXMf6W/dxrl5Ly1Gdek4G9ZynnizzXkUUDrH5/Tgm/Aq5PjrJ1rGrPLXcholdU0DL60O9jD
-	ed4Y=
-X-Gm-Gg: ASbGncvVdSQIb0WX6x1X4d+goHwYdQINWnKCo+4rDqBSP2QOKop670FWSqugUyTOXh+
-	aEv7VhwOAr9DnbYeodlXYrmF6HVQ5C9Y1W9ignXkqTCsshp05SN8gOtSidBjXJM7dGcwJaHu7mL
-	irDoq6k+hgqNvA5y2XqR22/i/AGFW2V/hLEJraMHe2JMb8YVEggIFK9YfLIDiKmryXN5Xp+ZObW
-	iLDSujqoGhPRFPPO9viyjDXusUFTe3+1Tt4ARwERBatuWY3CPhVy0TYUK2xZJbWJzdIh4FPNNh2
-	B8glezRlF+taLmj06UGLM16LdVv8laT8KP4qKCO+OsWHbJPLdGyEzQ==
-X-Google-Smtp-Source: AGHT+IFBymyjlZqb2FdejqgW5m4vSR2FOZUUydy0KymsTRqsUt/xx+67w0pEGAXvqQjBwjxgllmt9g==
-X-Received: by 2002:a5d:64a3:0:b0:385:f909:eb2c with SMTP id ffacd0b85a97d-38bf57a77a2mr11172275f8f.38.1737301253147;
-        Sun, 19 Jan 2025 07:40:53 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fc8d:dcfa:b189:c6? ([2001:8b0:aba:5f3c:fc8d:dcfa:b189:c6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf327decbsm8047579f8f.90.2025.01.19.07.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 07:40:52 -0800 (PST)
-Message-ID: <41fb22dedbde1dca96112a31bb0b3e75ccf228f2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] pango: Restore the install tests for pango
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jiaying.Song.CN@windriver.com, openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2025 15:40:51 +0000
-In-Reply-To: <20250119153306.3842715-1-jiaying.song.cn@windriver.com>
-References: <20250119153306.3842715-1-jiaying.song.cn@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RgoJn4N2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202501191635338e6ca509fb86fc5ef3-bprkxk@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202501191635338e6ca509fb86fc5ef3
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 19 Jan 2025 17:35:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=iInC994T1RE/5o0el6aWpRZIbjR0IyZZOe93vgTHe9I=;
+ b=RgoJn4N27bJQnfWe+1oHM/jbFdG8OU7ER5gem2fhMk9skdW23iTO67JlzajPNja0+CpWo1
+ 2678Rsnm8d6g9MC7E9uIWWN+2npMtb5aFY9KvBNn3Nksm3xn5FkWSYT9A7iQom5BR5AETEZh
+ OfgWiETMs4xc7Nd0N9Si3l5fOyAt7j1pNls6HDnadj4nKDms6F3p6JZiWZSY5l0nNlGfnaod
+ /WJRx1jA8OkXnZM3JO5SMoNLnnfj49x0dYMzoIL4oItpgYBNTrZ30Xw6CZFvoJBeTMPYGaUI
+ gTvgDgcxXEk1/Ht1GESzSyFTjr0H0pZ7Z0hy8wWMavAQcsxcgrmkF7Nw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] ofono: patch CVE-2024-7540, CVE-2024-7541, CVE-2024-7542
+Date: Sun, 19 Jan 2025 17:34:38 +0100
+Message-Id: <20250119163438.318539-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 15:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210011
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 16:35:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210012
 
-On Sun, 2025-01-19 at 23:33 +0800, Song, Jiaying (CN) via lists.openembedde=
-d.org wrote:
-> From: Jiaying Song <jiaying.song.cn@windriver.com>
->=20
-> Upstream removed the install-test and left only the build-test
-> option,but this cannot be tested on the target. Therefore, the
-> install-test is restored using the patch provided by upstream:
-> https://salsa.debian.org/gnome-team/pango/-/blob/debian/latest/debian/pat=
-ches/Revert-build-Drop-the-install-tests-option.patch
->=20
-> Related discussions and commits:
-> https://gitlab.gnome.org/GNOME/pango/-/issues/799
-> https://gitlab.gnome.org/GNOME/pango/-/commit/2c637453aa1ece7daa9c477b95b=
-20d993c70ab4e
-> https://gitlab.gnome.org/GNOME/pango/-/commit/927abccf371cd823b185a6df98d=
-871d12601220a
->=20
-> Partial test log:
-> # Start of break tests
-> ok 1 /text/break/grapheme
-> ok 2 /text/break/word
-> ok 3 /text/break/sentence
-> ok 4 /text/break/line # SKIP Test file not found
-> ok 5 /text/break/emoji
-> ok 6 /text/break/char
-> # End of break tests
-> # End of text tests
-> PASS: pango/testboundaries_ucd.test
-> SUMMARY: total=3D27; passed=3D27; skipped=3D0; failed=3D0; user=3D29.6s; =
-system=3D18.0s; maxrss=3D35328
->=20
-> Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-> ---
-> =C2=A0.../distro/include/ptest-packagelists.inc=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 1 +
-> =C2=A0...-build-Drop-the-install-tests-option.patch | 316 +++++++++++++++=
-+++
-> =C2=A0meta/recipes-graphics/pango/pango/run-ptest=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 6 +
-> =C2=A0meta/recipes-graphics/pango/pango_1.55.5.bb=C2=A0=C2=A0 |=C2=A0 16 =
-+-
-> =C2=A04 files changed, 337 insertions(+), 2 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-graphics/pango/pango/0001-Revert-bu=
-ild-Drop-the-install-tests-option.patch
-> =C2=A0create mode 100644 meta/recipes-graphics/pango/pango/run-ptest
->=20
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index e2a90c1c2ef..e01b7a3c346 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -85,6 +85,7 @@ PTESTS_FAST =3D "\
-> =C2=A0=C2=A0=C2=A0=C2=A0 wayland \
-> =C2=A0=C2=A0=C2=A0=C2=A0 xz \
-> =C2=A0=C2=A0=C2=A0=C2=A0 zlib \
-> +=C2=A0=C2=A0=C2=A0 pango \
-> =C2=A0"
-> =C2=A0PTESTS_FAST:append:libc-glibc =3D " glibc-y2038-tests"
-> =C2=A0PTESTS_PROBLEMS:remove:libc-glibc =3D "glibc-y2038-tests"
-> diff --git a/meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the=
--install-tests-option.patch b/meta/recipes-graphics/pango/pango/0001-Revert=
--build-Drop-the-install-tests-option.patch
-> new file mode 100644
-> index 00000000000..42e94422cc1
-> --- /dev/null
-> +++ b/meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the-instal=
-l-tests-option.patch
-> @@ -0,0 +1,316 @@
-> +From 2e8c8aee4dc7cc069afaec3a2caaeeaa73d5b0ce Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Jeremy=3D20B=3DC3=3DADcha?=3D <jeremy.bicha@canonical.=
-com>
-> +Date: Mon, 10 Jun 2024 08:52:56 -0400
-> +Subject: [PATCH] Revert "build: Drop the install-tests option"
-> +
-> +This reverts commit 2c637453aa1ece7daa9c477b95b20d993c70ab4e.
-> +
-> +Closes: https://gitlab.gnome.org/GNOME/pango/-/issues/799
-> +
-> +Upstream-Status: Backport [https://salsa.debian.org/gnome-team/pango/-/b=
-lob/debian/latest/debian/patches/Revert-build-Drop-the-install-tests-option=
-.patch]
-> +Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-If it was not merged into the main upstream development branch, it is
-not a backport. As far as I know this is Rejected upstream.
+Cherry-pick commit
+https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=29ff6334b492504ace101be748b256e6953d2c2f
 
-Cheers,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...024-7540_CVE-2024-7541_CVE-2024-7542.patch | 52 +++++++++++++++++++
+ meta/recipes-connectivity/ofono/ofono_2.14.bb |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
 
-Richard
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
+new file mode 100644
+index 0000000000..fd97d4b51b
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
+@@ -0,0 +1,52 @@
++From 29ff6334b492504ace101be748b256e6953d2c2f Mon Sep 17 00:00:00 2001
++From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
++Date: Tue, 17 Dec 2024 11:31:28 +0200
++Subject: [PATCH] atmodem: sms: ensure buffer is initialized before use
++
++Fixes: CVE-2024-7540
++Fixes: CVE-2024-7541
++Fixes: CVE-2024-7542
++
++CVE: CVE-2024-7540
++CVE: CVE-2024-7541
++CVE: CVE-2024-7542
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=29ff6334b492504ace101be748b256e6953d2c2f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ drivers/atmodem/sms.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/drivers/atmodem/sms.c b/drivers/atmodem/sms.c
++index d994856b..0668c631 100644
++--- a/drivers/atmodem/sms.c
+++++ b/drivers/atmodem/sms.c
++@@ -399,7 +399,7 @@ static void at_cmt_notify(GAtResult *result, gpointer user_data)
++ 	struct sms_data *data = ofono_sms_get_data(sms);
++ 	GAtResultIter iter;
++ 	const char *hexpdu;
++-	unsigned char pdu[176];
+++	unsigned char pdu[176] = {0};
++ 	long pdu_len;
++ 	int tpdu_len;
++ 
++@@ -466,7 +466,7 @@ static void at_cmgr_notify(GAtResult *result, gpointer user_data)
++ 	struct sms_data *data = ofono_sms_get_data(sms);
++ 	GAtResultIter iter;
++ 	const char *hexpdu;
++-	unsigned char pdu[176];
+++	unsigned char pdu[176] = {0};
++ 	long pdu_len;
++ 	int tpdu_len;
++ 
++@@ -648,7 +648,7 @@ static void at_cmgl_notify(GAtResult *result, gpointer user_data)
++ 	struct sms_data *data = ofono_sms_get_data(sms);
++ 	GAtResultIter iter;
++ 	const char *hexpdu;
++-	unsigned char pdu[176];
+++	unsigned char pdu[176] = {0};
++ 	long pdu_len;
++ 	int tpdu_len;
++ 	int index;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.14.bb b/meta/recipes-connectivity/ofono/ofono_2.14.bb
+index 34e919ef5a..9a91afaa7b 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.14.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.14.bb
+@@ -12,6 +12,7 @@ SRC_URI = "\
+     file://rmnet.patch \
+     file://ofono \
+     file://CVE-2024-7539.patch \
++    file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
+ "
+ SRC_URI[sha256sum] = "983cbfd5e1e1a410ba7ad2db7f50fadc91e50b29f1ede40cdc73f941da7ba95f"
+ 
+-- 
+2.30.2
+
 
