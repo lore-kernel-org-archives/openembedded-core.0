@@ -1,78 +1,140 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C77AC02188
-	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 06:00:50 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.31354.1737352843425955427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8775C02185
+	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 06:55:40 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.31983.1737356138549417919
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jan 2025 22:00:43 -0800
+ Sun, 19 Jan 2025 22:55:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=311543c3c1=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50K5t1ws013826
-	for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 22:00:43 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4488f719st-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 22:00:42 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 19 Jan 2025 22:00:41 -0800
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 19 Jan 2025 22:00:41 -0800
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH 1/1] wpa-supplicant: Add CVE id to CVE-2024-3596_00.patch
-Date: Sun, 19 Jan 2025 22:00:41 -0800
-Message-ID: <93ea4608b9ed81e9cd3d34030fb74895598d06a1.1737352688.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.44.1
-In-Reply-To: <cover.1737352688.git.liezhi.yang@windriver.com>
-References: <cover.1737352688.git.liezhi.yang@windriver.com>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1tZlhA-0000Nj-L9; Mon, 20 Jan 2025 07:55:36 +0100
+Received: from dude06.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::5c])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1tZlh9-000tJ1-2s;
+	Mon, 20 Jan 2025 07:55:35 +0100
+Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1tZlh9-00CUds-2h;
+	Mon, 20 Jan 2025 07:55:35 +0100
+From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Felix Kloeckner <F.Kloeckner@weinmann-emt.de>
+Subject: [PATCH v2] kernel-yocto: make kernel commits reproducible
+Date: Mon, 20 Jan 2025 07:55:15 +0100
+Message-Id: <20250120065515.2977687-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: fVfV9WxboP_dP-GYOpMmJ5XjFoYTLUQp
-X-Authority-Analysis: v=2.4 cv=GqG4+l1C c=1 sm=1 tr=0 ts=678de68a cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=yaAG3qJ-AAAA:8 a=t7CeM3EgAAAA:8 a=a_U1oVfrAAAA:8 a=E4qHEs3NAjZpBf9O43QA:9 a=GFfUI7B0NGUA:10
- a=oLVlbjkABFOu4cUI0CGI:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: fVfV9WxboP_dP-GYOpMmJ5XjFoYTLUQp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-20_01,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxlogscore=959 phishscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2501200048
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 06:00:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210021
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 06:55:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210022
 
-From: Robert Yang <liezhi.yang@windriver.com>
+The git commit hashes for the kernel checkout are not reproducible under
+certain conditions:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+- If the git repository is initialized on an archive (rather than a
+  git), the initial git commit not only has the current user name set,
+  it also uses the current system time as committer and author date.
+  This will affect the initial git hash and thus all subsequent ones.
+
+- The patches applied by the kern-tools have a valid author and date.
+  However, their committer again depends on the user building the BSP.
+
+This is an issue, for example, if one compiles a kernel with
+CONFIG_LOCALVERSION_AUTO enabled where the commit hash lands into the
+kernel and thus the package version. This not only makes the package
+version non-reproducible, but also leads to version mismatches between
+kernel modules built against a fresh kernel checkout and the kernel
+retrieved from the sstate cache.
+
+The class uses 'check_git_config' from utils.bbclass, but this only sets
+the git user and only if none existed before. Thus it doesn't really
+help here.
+
+Since in Git the committer information can be set only from the
+environment variables GIT_COMMITTER_NAME, GIT_COMMITTER_EMAIL, and
+GIT_COMMITTER_DATE, we introduce a helper function to set those and
+apply the author settings in the same way.
+As values simply use PATCH_GIT_USER_NAME, PATCH_GIT_USER_EMAIL (from
+patch.bbclass) and SOURCE_DATE_EPOCH.
+For convenience, put the new helper 'reproducible_git_committer_author'
+into utils.bbclass next to 'check_git_config' so others can use it, too.
+
+Using this helper in kernel-yocto.bbclass makes the committer and author
+date/name/email for the initial commit reproducible, as well as the
+committer name/email for the patches applied with kern-tools.
+
+For debugging purpose, allow disabling the reproducibility features by
+setting KERNEL_DEBUG_TIMESTAMPS to "1".
+
+Suggested-by: Felix Klöckner <F.Kloeckner@weinmann-emt.de>
+Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
 ---
- .../wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch         | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/utils.bbclass        | 10 ++++++++++
+ meta/classes-recipe/kernel-yocto.bbclass |  6 ++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
-index 7a8197d2b4..58e1327f2b 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
-@@ -6,6 +6,7 @@ Subject: [PATCH 1/9] ieee802_11_auth: Coding style cleanup - no string
+diff --git a/meta/classes-global/utils.bbclass b/meta/classes-global/utils.bbclass
+index c9cae8930f..530a490ea8 100644
+--- a/meta/classes-global/utils.bbclass
++++ b/meta/classes-global/utils.bbclass
+@@ -367,3 +367,13 @@ check_git_config() {
+ 		git config --local user.name "${PATCH_GIT_USER_NAME}"
+ 	fi
+ }
++
++# Sets fixed git committer and author for reproducible commits
++reproducible_git_committer_author() {
++	export GIT_COMMITTER_NAME="${PATCH_GIT_USER_NAME}"
++	export GIT_COMMITTER_EMAIL="${PATCH_GIT_USER_EMAIL}"
++	export GIT_COMMITTER_DATE="$(date -d @${SOURCE_DATE_EPOCH})"
++	export GIT_AUTHOR_NAME="${PATCH_GIT_USER_NAME}"
++	export GIT_AUTHOR_EMAIL="${PATCH_GIT_USER_EMAIL}"
++	export GIT_AUTHOR_DATE="$(date -d @${SOURCE_DATE_EPOCH})"
++}
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 7d80e9aa52..697132c073 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -352,6 +352,9 @@ do_patch() {
+ 	cd ${S}
  
- Signed-off-by: Jouni Malinen <j@w1.fi>
- 
-+CVE: CVE-2024-3596
- Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=945acf3ef06a6c312927da4fa055693dbac432d1]
- Signed-off-by: Peter Marko <peter.marko@siemens.com>
- ---
+ 	check_git_config
++	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
++		reproducible_git_committer_author
++	fi
+ 	meta_dir=$(kgit --meta)
+ 	(cd ${meta_dir}; ln -sf patch.queue series)
+ 	if [ -f "${meta_dir}/series" ]; then
+@@ -434,6 +437,9 @@ do_kernel_checkout() {
+ 		rm -f .gitignore
+ 		git init
+ 		check_git_config
++		if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
++			reproducible_git_committer_author
++		fi
+ 		git add .
+ 		git commit -q -n -m "baseline commit: creating repo for ${PN}-${PV}"
+ 		git clean -d -f
 -- 
-2.44.1
+2.39.5
 
 
