@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB64C0218C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD54C02181
 	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 17:51:35 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.42252.1737395487540887087
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.42132.1737395485818586029
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jan 2025 09:51:27 -0800
+ Mon, 20 Jan 2025 09:51:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QV+2/ii3;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2164b1f05caso85817035ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 09:51:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DJ6IsQvD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2164b1f05caso85816805ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 09:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737395487; x=1738000287; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737395485; x=1738000285; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sMZlwOEpUnjmaA+u19KbEtXQ7GcA9wYP2kjgXfyxSUQ=;
-        b=QV+2/ii3yETQzfJcmvA5IKnGDGX8NLC9yIwP//mEXKFfB1Fz/acuBt4fBtbmIgv8pE
-         6sYkKk/wD6ctNPSZVaW8Fi/qvz9DCEvFRWgbEmby5HV9kMTe1z/A4FhwdgvFwSTBJ6kp
-         cdc5Nwx2+A3BLcNIEZmSrFaY+hN3bH+1euR3sUflwWR79qz3tJ+AZ5sQfQblhCNS+1Rp
-         KgJcionGl+TTomfwsGZMnRLE5GZhmFrQFXZXWsXT1oYnSu1+Cyfrz/ScutoQEs1ci0KB
-         Eo/fjKkTAwI8wgCYPO9UFvJh1e17exSa9CnCMS6C5tvhkpShc9b4mFQMzpNTDOa717Gr
-         VpyQ==
+        bh=sqzcdHiKPCMe6V21jdHMT1VWdvGkO6G2gfjMwG2C5u8=;
+        b=DJ6IsQvDtf5qEJ4gaBNI4Lcz4R3aliCMAZpn9ZSqv1+i48WYdGBTk8Bgaib6IEoUAe
+         B5dOzT0+rQaNwRxh2DniByV6hR6GFFmkuTSf05ZhgIkDgVGx8Pq+4YzGTViccdXhXGt7
+         /euBrKu45e3HgYcZ1Bdu1ad9nTb5mwGN5K6nZc9/ywI//iRJfVg6p7QPyHCoYzbXvaGw
+         XD1aBA1k0i82O92nlgyDQiKh+BQs49jTzc8fThUEl7XObgiJlDVUdKK4PuFblI0ko14i
+         dJdP4QXfSzh3sKBHv/FkW4pR3u/WTbrTlgrNW9+T8VHn3u+jtYj77OKWVfsgkRBk5BzG
+         ppDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737395487; x=1738000287;
+        d=1e100.net; s=20230601; t=1737395485; x=1738000285;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sMZlwOEpUnjmaA+u19KbEtXQ7GcA9wYP2kjgXfyxSUQ=;
-        b=rjAeeTjui5rAEX0iz+mTmrcl0cNXVHTaGk54im6eH/HjsoKvsJp4z5RsIohmXUPOyu
-         LNrTk1EaS0hZjPqxwWblBny+GjyLnithMP3COFQw+CriEBO/haboxmZjD1M6/vicxEHV
-         9NrHwRz3w87fMBoDH2ppnDSXxZ8bTrV38qLAfq6ej3ZeYWJDdkCCZlB9QG4+37YodNYy
-         fZwSIQE7+rui0UqEijEA8/ElsQEg0O4YR+jwHv6jLqFfAtV0OhjBDs7zJlHM/TbROL+O
-         EIX4IKpxD0RIOsuBvkspj0aEYBGsdc9NxOq89DK1+hD0dcLz4US0k+d0kI6gKBTZyfpl
-         S1Wg==
-X-Gm-Message-State: AOJu0Yx+bofYv28rlfViV9s7LMaxAGfK8/6+K7KyjwdppyYkf/4YO1yG
-	9nVX4ra7Uee34P+mEFpRgXEGF05h3pmVH1f1NCDRVhQ0dov9/XEnhXvn9KkPbpk0v9sViES5SWO
-	XGU0=
-X-Gm-Gg: ASbGncv6bikqkbdm1583ZNVCyN5QdBsQDXProrVb9Q5Keop+v08P5zIpIcVuWk4N+aj
-	LbftEY2VoMa7cczIklDqzr16iHqydiI3iTMpfy7LlnBcjtw54qbwYHaIYxNQezHFDhUIBvEZZxy
-	fWOPALrj8NCSQh/lRpUCbd9cnjizjB8j2Pey4HVZJ03hwnMSjDP5WxxcDliA9LDqQSzglurCU9Z
-	+BOJTi1uZ7lsw+gpMXw9aBFIhObi7h1MBX0Gdfi+88bGFwZfygp2x6PJNM=
-X-Google-Smtp-Source: AGHT+IEx8rauFBS8nXTxBYURiVu3wUWdX7z/q50AmRe/LIrreoc1Iq0llG4MYRVvqQae3QiG4qI6kg==
-X-Received: by 2002:a05:6a20:7491:b0:1e3:cf57:5f5f with SMTP id adf61e73a8af0-1eb21568535mr21562463637.27.1737395486775;
-        Mon, 20 Jan 2025 09:51:26 -0800 (PST)
+        bh=sqzcdHiKPCMe6V21jdHMT1VWdvGkO6G2gfjMwG2C5u8=;
+        b=gUz84YahD2EcBJ8CSEcNkffgRrAagbd+svwuniK3tRfeNwOs5YceUSHlJwjrL9eZNo
+         kzBoheLu/XrjQAU9354ln8OkuLNkOu8IXQ08B0Qe4mSSnN6FmDphALIdrPijlFAUf9Sb
+         TexzTcvKpqoW71UfPiqEyyfg0ytQvsTpoXjyYgFnt8E2jKQefZDvPQsI4euTOxHafH2d
+         OGPbJnVg0DU/sBOMsex+clGhfxlelbaBRO+wqkn4MQnuP8P1LTfDgcE6In/BWytHb7kv
+         QyETyRoYJ4j4s1iaJNjY5HpqSAZmbfQyC6fRLCWP/jYvtJWUOAUyQcalJiCC8ga/b/LT
+         e6yQ==
+X-Gm-Message-State: AOJu0YwGeS/ee5Yn8fPvvPPrWLLm6CO9mH0hnd9bliiWhyQxqFyr7LOE
+	c6iNRDHjnthb2cTgDJc9hlgo4fQJj9oQCn/Bs26qmrWHQRgPCbaTL4Pi8Q1t1pKynMqHprN/wSP
+	tp8U=
+X-Gm-Gg: ASbGnctHIH4ISIHUVskprIgFr/rnyJ0yGOSydnKAsuxnXrmZ9uKxP8EvGnwc+E/HnXC
+	sqCKPyeavyDyBQddVMCbwMKHd7qnM4JgrIki/nGDoJtoRlehp8Rm5PIBlyQB5reP8nVceF8+59m
+	ezryka+NLT0Pe4Sn0caGiDkVv2NnVBKCG+oIrIpq82MgBi1kNVT1zWb1OZv0yX3A0MkV+zW0xUY
+	zFCwfO7RXw1nvcx/LeHVHITWS+v1UWqIFLK5ewJI4OTUejW51wONtyPUPM=
+X-Google-Smtp-Source: AGHT+IEl8AIHqeF2eNUDIFFUZTa085V3flStGogaa6yDK4ztiPCI1mHfK2f6DvfbLuDIyTC/P8aPSw==
+X-Received: by 2002:a05:6a21:7882:b0:1ea:ddd1:2fda with SMTP id adf61e73a8af0-1eb215683b7mr22668480637.26.1737395485044;
+        Mon, 20 Jan 2025 09:51:25 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a9bcdcf643esm6155565a12.38.2025.01.20.09.51.25
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a9bcdcf643esm6155565a12.38.2025.01.20.09.51.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 09:51:26 -0800 (PST)
+        Mon, 20 Jan 2025 09:51:24 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/16] rsync: fix CVE-2024-12747
-Date: Mon, 20 Jan 2025 09:50:56 -0800
-Message-ID: <c0905ffb2f1aa3bc4c6187ff4860dcc8d3dbfb01.1737395091.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/16] rsync: fix CVE-2024-12088
+Date: Mon, 20 Jan 2025 09:50:55 -0800
+Message-ID: <741200c41a19ef5b4876d9a80667dfde2e5f4a9d.1737395091.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1737395091.git.steve@sakoman.com>
 References: <cover.1737395091.git.steve@sakoman.com>
@@ -66,232 +66,179 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 17:51:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210056
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210055
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A flaw was found in rsync. This vulnerability arises from a race condition during
-rsync's handling of symbolic links. Rsync's default behavior when encountering
-symbolic links is to skip them. If an attacker replaced a regular file with a
-symbolic link at the right time, it was possible to bypass the default behavior
-and traverse symbolic links. Depending on the privileges of the rsync process,
-an attacker could leak sensitive information, potentially leading to privilege escalation.
+A flaw was found in rsync. When using the `--safe-links` option, rsync fails to
+properly verify if a symbolic link destination contains another symbolic link within it.
+This results in a path traversal vulnerability, which may lead to arbitrary file write
+outside the desired directory
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../rsync/files/CVE-2024-12747.patch          | 192 ++++++++++++++++++
+ .../rsync/files/CVE-2024-12088.patch          | 141 ++++++++++++++++++
  meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   1 +
- 2 files changed, 193 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+ 2 files changed, 142 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
 new file mode 100644
-index 0000000000..b1dd0a03b9
+index 0000000000..b2a3a86e1a
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
-@@ -0,0 +1,192 @@
-+From 0590b09d9a34ae72741b91ec0708a820650198b0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
+@@ -0,0 +1,141 @@
++From 407c71c7ce562137230e8ba19149c81ccc47c387 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Wed, 18 Dec 2024 08:59:42 +1100
-+Subject: [PATCH] fixed symlink race condition in sender
++Date: Sat, 23 Nov 2024 15:15:53 +1100
++Subject: [PATCH] make --safe-links stricter
 +
-+when we open a file that we don't expect to be a symlink use
-+O_NOFOLLOW to prevent a race condition where an attacker could change
-+a file between being a normal file and a symlink
++when --safe-links is used also reject links where a '../' component is
++included in the destination as other than the leading part of the
++filename
 +
-+CVE: CVE-2024-12747
++CVE: CVE-2024-12088
 +
-+Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=0590b09d9a34ae72741b91ec0708a820650198b0]
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=407c71c7ce562137230e8ba19149c81ccc47c387]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ checksum.c  |  2 +-
-+ flist.c     |  2 +-
-+ generator.c |  4 ++--
-+ receiver.c  |  2 +-
-+ sender.c    |  2 +-
-+ syscall.c   | 20 ++++++++++++++++++++
-+ t_unsafe.c  |  3 +++
-+ tls.c       |  3 +++
-+ trimslash.c |  2 ++
-+ util1.c     |  2 +-
-+ 10 files changed, 35 insertions(+), 7 deletions(-)
++ testsuite/safe-links.test    | 55 ++++++++++++++++++++++++++++++++++++
++ testsuite/unsafe-byname.test |  2 +-
++ util1.c                      | 26 ++++++++++++++++-
++ 3 files changed, 81 insertions(+), 2 deletions(-)
++ create mode 100644 testsuite/safe-links.test
 +
-+diff --git a/checksum.c b/checksum.c
-+index cb21882c..66e80896 100644
-+--- a/checksum.c
-++++ b/checksum.c
-+@@ -406,7 +406,7 @@ void file_checksum(const char *fname, const STRUCT_STAT *st_p, char *sum)
-+	int32 remainder;
-+	int fd;
-+
-+-	fd = do_open(fname, O_RDONLY, 0);
-++	fd = do_open_checklinks(fname);
-+	if (fd == -1) {
-+		memset(sum, 0, file_sum_len);
-+		return;
-+diff --git a/flist.c b/flist.c
-+index 087f9da6..17832533 100644
-+--- a/flist.c
-++++ b/flist.c
-+@@ -1390,7 +1390,7 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
-+
-+	if (copy_devices && am_sender && IS_DEVICE(st.st_mode)) {
-+		if (st.st_size == 0) {
-+-			int fd = do_open(fname, O_RDONLY, 0);
-++			int fd = do_open_checklinks(fname);
-+			if (fd >= 0) {
-+				st.st_size = get_device_size(fd, fname);
-+				close(fd);
-+diff --git a/generator.c b/generator.c
-+index 110db28f..3f13bb95 100644
-+--- a/generator.c
-++++ b/generator.c
-+@@ -1798,7 +1798,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
-+
-+	if (write_devices && IS_DEVICE(sx.st.st_mode) && sx.st.st_size == 0) {
-+		/* This early open into fd skips the regular open below. */
-+-		if ((fd = do_open(fnamecmp, O_RDONLY, 0)) >= 0)
-++		if ((fd = do_open_nofollow(fnamecmp, O_RDONLY)) >= 0)
-+			real_sx.st.st_size = sx.st.st_size = get_device_size(fd, fnamecmp);
-+	}
-+
-+@@ -1867,7 +1867,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
-+	}
-+
-+	/* open the file */
-+-	if (fd < 0 && (fd = do_open(fnamecmp, O_RDONLY, 0)) < 0) {
-++	if (fd < 0 && (fd = do_open_checklinks(fnamecmp)) < 0) {
-+		rsyserr(FERROR, errno, "failed to open %s, continuing",
-+			full_fname(fnamecmp));
-+	  pretend_missing:
-+diff --git a/receiver.c b/receiver.c
-+index 8031b8f4..edfbb210 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -775,7 +775,7 @@ int recv_files(int f_in, int f_out, char *local_name)
-+			if (fnamecmp != fname) {
-+				fnamecmp = fname;
-+				fnamecmp_type = FNAMECMP_FNAME;
-+-				fd1 = do_open(fnamecmp, O_RDONLY, 0);
-++				fd1 = do_open_nofollow(fnamecmp, O_RDONLY);
-+			}
-+
-+			if (fd1 == -1 && basis_dir[0]) {
-+diff --git a/sender.c b/sender.c
-+index 2bbff2fa..a4d46c39 100644
-+--- a/sender.c
-++++ b/sender.c
-+@@ -350,7 +350,7 @@ void send_files(int f_in, int f_out)
-+			exit_cleanup(RERR_PROTOCOL);
-+		}
-+
-+-		fd = do_open(fname, O_RDONLY, 0);
-++		fd = do_open_checklinks(fname);
-+		if (fd == -1) {
-+			if (errno == ENOENT) {
-+				enum logcode c = am_daemon && protocol_version < 28 ? FERROR : FWARNING;
-+diff --git a/syscall.c b/syscall.c
-+index 081357bb..8cea2900 100644
-+--- a/syscall.c
-++++ b/syscall.c
-+@@ -45,6 +45,8 @@ extern int preallocate_files;
-+ extern int preserve_perms;
-+ extern int preserve_executability;
-+ extern int open_noatime;
-++extern int copy_links;
-++extern int copy_unsafe_links;
-+
-+ #ifndef S_BLKSIZE
-+ # if defined hpux || defined __hpux__ || defined __hpux
-+@@ -788,3 +790,21 @@ cleanup:
-+	return retfd;
-+ #endif // O_NOFOLLOW, O_DIRECTORY
-+ }
++diff --git a/testsuite/safe-links.test b/testsuite/safe-links.test
++new file mode 100644
++index 00000000..6e95a4b9
++--- /dev/null
+++++ b/testsuite/safe-links.test
++@@ -0,0 +1,55 @@
+++#!/bin/sh
 ++
-++/*
-++  varient of do_open/do_open_nofollow which does do_open() if the
-++  copy_links or copy_unsafe_links options are set and does
-++  do_open_nofollow() otherwise
+++. "$suitedir/rsync.fns"
 ++
-++  This is used to prevent a race condition where an attacker could be
-++  switching a file between being a symlink and being a normal file
-++
-++  The open is always done with O_RDONLY flags
-++ */
-++int do_open_checklinks(const char *pathname)
-++{
-++	if (copy_links || copy_unsafe_links) {
-++		return do_open(pathname, O_RDONLY, 0);
-++	}
-++	return do_open_nofollow(pathname, O_RDONLY);
+++test_symlink() {
+++	is_a_link "$1" || test_fail "File $1 is not a symlink"
 ++}
-+diff --git a/t_unsafe.c b/t_unsafe.c
-+index 010cac50..e10619a2 100644
-+--- a/t_unsafe.c
-++++ b/t_unsafe.c
-+@@ -28,6 +28,9 @@ int am_root = 0;
-+ int am_sender = 1;
-+ int read_only = 0;
-+ int list_only = 0;
-++int copy_links = 0;
-++int copy_unsafe_links = 0;
 ++
-+ short info_levels[COUNT_INFO], debug_levels[COUNT_DEBUG];
+++test_regular() {
+++	if [ ! -f "$1" ]; then
+++		test_fail "File $1 is not regular file or not exists"
+++	fi
+++}
+++
+++test_notexist() {
+++        if [ -e "$1" ]; then
+++                test_fail "File $1 exists"
+++	fi
+++        if [ -h "$1" ]; then
+++                test_fail "File $1 exists as a symlink"
+++	fi
+++}
+++
+++cd "$tmpdir"
+++
+++mkdir from
+++
+++mkdir "from/safe"
+++mkdir "from/unsafe"
+++
+++mkdir "from/safe/files"
+++mkdir "from/safe/links"
+++
+++touch "from/safe/files/file1"
+++touch "from/safe/files/file2"
+++touch "from/unsafe/unsafefile"
+++
+++ln -s ../files/file1 "from/safe/links/"
+++ln -s ../files/file2 "from/safe/links/"
+++ln -s ../../unsafe/unsafefile "from/safe/links/"
+++ln -s a/a/a/../../../unsafe2 "from/safe/links/"
+++
+++#echo "LISTING FROM"
+++#ls -lR from
+++
+++echo "rsync with relative path and just -a"
+++$RSYNC -avv --safe-links from/safe/ to
+++
+++#echo "LISTING TO"
+++#ls -lR to
+++
+++test_symlink to/links/file1
+++test_symlink to/links/file2
+++test_notexist to/links/unsafefile
+++test_notexist to/links/unsafe2
++diff --git a/testsuite/unsafe-byname.test b/testsuite/unsafe-byname.test
++index 75e72014..d2e318ef 100644
++--- a/testsuite/unsafe-byname.test
+++++ b/testsuite/unsafe-byname.test
++@@ -40,7 +40,7 @@ test_unsafe ..//../dest 		from/dir			unsafe
++ test_unsafe ..				from/file			safe
++ test_unsafe ../..			from/file			unsafe
++ test_unsafe ..//..			from//file			unsafe
++-test_unsafe dir/..			from				safe
+++test_unsafe dir/..			from				unsafe
++ test_unsafe dir/../..			from				unsafe
++ test_unsafe dir/..//..			from				unsafe
 +
-+ int
-+diff --git a/tls.c b/tls.c
-+index e6b0708a..858f8f10 100644
-+--- a/tls.c
-++++ b/tls.c
-+@@ -49,6 +49,9 @@ int list_only = 0;
-+ int link_times = 0;
-+ int link_owner = 0;
-+ int nsec_times = 0;
-++int safe_symlinks = 0;
-++int copy_links = 0;
-++int copy_unsafe_links = 0;
-+
-+ #ifdef SUPPORT_XATTRS
-+
-+diff --git a/trimslash.c b/trimslash.c
-+index 1ec928ca..f2774cd7 100644
-+--- a/trimslash.c
-++++ b/trimslash.c
-+@@ -26,6 +26,8 @@ int am_root = 0;
-+ int am_sender = 1;
-+ int read_only = 1;
-+ int list_only = 0;
-++int copy_links = 0;
-++int copy_unsafe_links = 0;
-+
-+ int
-+ main(int argc, char **argv)
 +diff --git a/util1.c b/util1.c
-+index f260d398..d84bc414 100644
++index da50ff1e..f260d398 100644
 +--- a/util1.c
 ++++ b/util1.c
-+@@ -365,7 +365,7 @@ int copy_file(const char *source, const char *dest, int tmpfilefd, mode_t mode)
-+	int len;   /* Number of bytes read into `buf'. */
-+	OFF_T prealloc_len = 0, offset = 0;
++@@ -1318,7 +1318,14 @@ int handle_partial_dir(const char *fname, int create)
++  *
++  * "src" is the top source directory currently applicable at the level
++  * of the referenced symlink.  This is usually the symlink's full path
++- * (including its name), as referenced from the root of the transfer. */
+++ * (including its name), as referenced from the root of the transfer.
+++ *
+++ * NOTE: this also rejects dest names with a .. component in other
+++ * than the first component of the name ie. it rejects names such as
+++ * a/b/../x/y. This needs to be done as the leading subpaths 'a' or
+++ * 'b' could later be replaced with symlinks such as a link to '.'
+++ * resulting in the link being transferred now becoming unsafe
+++ */
++ int unsafe_symlink(const char *dest, const char *src)
++ {
++	const char *name, *slash;
++@@ -1328,6 +1335,23 @@ int unsafe_symlink(const char *dest, const char *src)
++	if (!dest || !*dest || *dest == '/')
++		return 1;
 +
-+-	if ((ifd = do_open(source, O_RDONLY, 0)) < 0) {
-++	if ((ifd = do_open_nofollow(source, O_RDONLY)) < 0) {
-+		int save_errno = errno;
-+		rsyserr(FERROR_XFER, errno, "open %s", full_fname(source));
-+		errno = save_errno;
+++	// reject destinations with /../ in the name other than at the start of the name
+++	const char *dest2 = dest;
+++	while (strncmp(dest2, "../", 3) == 0) {
+++	    dest2 += 3;
+++	    while (*dest2 == '/') {
+++		// allow for ..//..///../foo
+++		dest2++;
+++	    }
+++	}
+++	if (strstr(dest2, "/../"))
+++	    return 1;
+++
+++	// reject if the destination ends in /..
+++	const size_t dlen = strlen(dest);
+++	if (dlen > 3 && strcmp(&dest[dlen-3], "/..") == 0)
+++	    return 1;
+++
++	/* find out what our safety margin is */
++	for (name = src; (slash = strchr(name, '/')) != 0; name = slash+1) {
++		/* ".." segment starts the count over.  "." segment is ignored. */
 +--
 +2.40.0
 diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-index df3627ed53..37e79e1e56 100644
+index bfbe97c57d..df3627ed53 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-@@ -26,6 +26,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+@@ -25,6 +25,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://CVE-2024-12087-0001.patch \
             file://CVE-2024-12087-0002.patch \
             file://CVE-2024-12087-0003.patch \
-            file://CVE-2024-12088.patch \
-+           file://CVE-2024-12747.patch \
++           file://CVE-2024-12088.patch \
             "
  
  SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
