@@ -1,116 +1,113 @@
-Return-Path: <scott.murray@konsulko.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A370C02185
-	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 21:32:48 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.1873.1737408766122789896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DB9C02182
+	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 22:54:28 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.3641.1737413658306139938
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jan 2025 13:32:46 -0800
+ Mon, 20 Jan 2025 14:54:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=Nzdck270;
- spf=pass (domain: konsulko.com, ip: 209.85.222.176, mailfrom: scott.murray@konsulko.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7b6e4d38185so485276785a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 13:32:46 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C3RfteDT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436281c8a38so35819205e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 14:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1737408765; x=1738013565; darn=lists.openembedded.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IzPnZtQDa48WfRWx+XHKS+CzTljna49YfjNhBYidFLE=;
-        b=Nzdck270QGn8pETjPNcfmjoVNcFnvCj25DyOJ9EPf1gbq16IsZO8W1gttlOZAHjsZn
-         qwMERmMj8+9vshD79mLQAloNp6SRvUTZk5HO+o0nCVSfSQ3hJkCcNPPD1+y34nr45/LC
-         EuTrS9HHfIpgy9RdL54oj7v5lTnL2LMVZWjAA=
+        d=linuxfoundation.org; s=google; t=1737413657; x=1738018457; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=56d9frMpJS11OPdkj+Ql/husm7u6IcGqRYpX47A2Km0=;
+        b=C3RfteDTyA5XjPL6xVnlNBMxUSkoqjfjdYfyE7TqMVlQ03IolRr8nCo8y3a2M3AVgj
+         hbar47P+lnaxueLXroIEmVOi4lAZiJvt2WUXaYcZWIiBsC4qKeo0L9kC77jbwTrWVZ2d
+         itN+sE6PMnuW6oqR/1foKWfPUHJb7YbsPcyDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737408765; x=1738013565;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IzPnZtQDa48WfRWx+XHKS+CzTljna49YfjNhBYidFLE=;
-        b=SlbMlcetezz998EyqnX58axtVRgfxwcnFzljX9OTXkt7rdadg++5q7lZUmKYw80D4d
-         tpJHzOnbetp51te/mrXVL4WdIXG+EG3g8Qp88koR2Gktuyw+tJLci3s4RBrO+xSGb1XT
-         s9/PKzWtKom8koNH/WK2fGafOWZutEDs10h3qxXyo+PNNtLJ8qY6mfKZ42apOJyI+YWd
-         S80dqRYvvziRzFT4UlmrSOJGTH9N16PWtu2CMVwRgEl/HkNZeRQwQPitzJ+tQKVozEGu
-         yNVV/bw19nPz3H9J0wBAfNZoPrk4oCJ3+oXrVIihzdstoNC8wYgLI9hHQcPPnPYfbHD7
-         vnlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXvZbso+j5euipmP+1S8u0wb8cFVnte6LAQfzxgI9LeOwhNrx7rf+7KN4C5yPJ5JzXUq5B2g6uAHT+ELgxKvoWWpA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyYWUUo0ILGpsB3lc8AMPP8loKqzSeQ/yVo+eKDIu8k9CbKLjwj
-	QBmO85HctD2KvJAFfFlGpRnzO7YTXjCC0oYbe15VL/fmnn2q1gkRQ044q+qmuGnkl1yvlpgsACh
-	J
-X-Gm-Gg: ASbGncunDAYVDqgocE6hG1xtJKJjXhqnqVwNw41EMbHk/vnijI/BWGnRMCqte/JJIKM
-	eV8aogJjDwGzrGw7zBXN5iau3KPoNohObc6dMfCifo9UjwbEu7GtfI6KwTS7SwiaBH6BYcSpTTF
-	5dinxcmrvzENWYJQNgCHMbS3PGvgHV7INHueFw/8C/vw/mFc8/KfCYDeXS4b2kGetYN6O9cDrdg
-	Wu8hRrASSsMtgkUMDHrfmQIriwka9lCSiLkcWPU+h/cucZCcdwJmoYPMnZ5Irqjjz+/cUh8kCVP
-	ENp6wAX2I4ZZm9z10Xlbmx3ELFGo
-X-Google-Smtp-Source: AGHT+IG9lNl1cKbpoqNpgN49pjViVFoUteH88kBg5PBaH/XkxB6JzPcn5Jx7rCuAZgbABeqXUk8+kw==
-X-Received: by 2002:a05:620a:43a6:b0:7b6:d939:f958 with SMTP id af79cd13be357-7be63247d43mr2738127585a.25.1737408765082;
-        Mon, 20 Jan 2025 13:32:45 -0800 (PST)
-Received: from godzilla (107-179-213-3.cpe.teksavvy.com. [107.179.213.3])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be614ef1b2sm482146385a.106.2025.01.20.13.32.44
+        d=1e100.net; s=20230601; t=1737413657; x=1738018457;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=56d9frMpJS11OPdkj+Ql/husm7u6IcGqRYpX47A2Km0=;
+        b=vdWmDdjzqccwNO+EM6Kdwp8QLrOXyKufmlYYrHCqp8ltnVjfo0POUAKHXMx9Ft1cU7
+         POqYvTcTymfvDaSG/8KXIfKY86/BNGBsBxkFYXTGZsjNITpkgK+PQAI0u59u7SBP1m62
+         r9oNcXXOPqZnWpW92BGGdahr0LgVGBuHlPyK4B2Czuho3lXH1vngweudaPdDiXfTpVHf
+         n1OvQTS9bRIvsh2V5L/ZW7o/G3bkw5hpvyxvkPd5cbaF+zj/Hh4TDQj+T+sefKU+uRRB
+         /wQWrP6QqdcueILEpYu+mVvdOG87pcJio9nm1P3zWhv1LHXX32ZGG3mviVu5rH2LDaah
+         bfWw==
+X-Gm-Message-State: AOJu0Yy5fWOMNMO2dYnx0hmeg9fDKb03we6vz+clCxkUjVRalgURubhO
+	bQnZRIs3q8ajyVdYESOcbJfccU0WWhMwsBqYJ1OVQemOYe1eSQ+vCA2ENez2oz8=
+X-Gm-Gg: ASbGncvrL3F/gH1jKp+GFRUOIfqmgy5vaic112rPfvpovrs+PCmlKBfg2sSMG5OfCDH
+	5IpMx5fKF1t5pUrWdjJph08eotIVbV2a3e/dZwzCtxnXVQth12JuV8Tec9/wahB5zZEhIkp6BVW
+	dCtbGf2fGKbaQi68nzF88qSV6NWyMpy0iMS36zoSN+IBqbJ+z2QreJ6YTdhOt/uyyeXCL5zAgJy
+	4DBQo1FD/0D+QeHL61mvDuCOklrSH7eF/cwjAfJbdHKmjsQkTaEgwrH5JQmhRpgXx1/uZmaLG6Q
+	fnMsvldzQ87W/9Kzo6TbZ7/J1LApYpW+wkHVcDztTTcEDGlS7AsmaWw2kAQ=
+X-Google-Smtp-Source: AGHT+IHBGi/B3qqYkidm/BincZZGVk35hNakhA1XXzKHoFxS2sbiJbxM5OZ78pjBI52Xo/uXp5Imbw==
+X-Received: by 2002:a05:600c:524c:b0:435:306:e5dd with SMTP id 5b1f17b1804b1-4389143a66dmr128535405e9.22.1737413656528;
+        Mon, 20 Jan 2025 14:54:16 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1c9c:1142:86e8:37c3? ([2001:8b0:aba:5f3c:1c9c:1142:86e8:37c3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438904625e5sm157145045e9.32.2025.01.20.14.54.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 13:32:44 -0800 (PST)
-Date: Mon, 20 Jan 2025 16:32:43 -0500 (EST)
-From: Scott Murray <scott.murray@konsulko.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-cc: yocto-patches@lists.yoctoproject.org, 
-    openembedded-core@lists.openembedded.org
-Subject: Re: [meta-lts-mixins][scarthgap/rust][PATCH] classes: rename to
- classes-recipes/
-In-Reply-To: <lybjw1ffw0.fsf@ensc-pc.intern.sigma-chemnitz.de>
-Message-ID: <a5630788-8f4a-faa2-7d6b-8dc87dd1642c@konsulko.com>
-References: <20250120165117.737681-1-enrico.scholz@sigma-chemnitz.de> <1f6cdeb4-c868-e32c-4372-123371eb4b12@konsulko.com> <lybjw1ffw0.fsf@ensc-pc.intern.sigma-chemnitz.de>
+        Mon, 20 Jan 2025 14:54:15 -0800 (PST)
+Message-ID: <648e69b6898d3f95bea785d1ee56e2ce500ae579.camel@linuxfoundation.org>
+Subject: Re: [yocto-patches] [meta-lts-mixins][scarthgap/rust][PATCH]
+ classes: rename to classes-recipes/
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: yocto-patches@lists.yoctoproject.org, Enrico Scholz
+	 <enrico.scholz@sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org, "antonin.godard"
+	 <antonin.godard@bootlin.com>
+Date: Mon, 20 Jan 2025 22:54:14 +0000
+In-Reply-To: <a5630788-8f4a-faa2-7d6b-8dc87dd1642c@konsulko.com>
+References: <20250120165117.737681-1-enrico.scholz@sigma-chemnitz.de>
+	 <1f6cdeb4-c868-e32c-4372-123371eb4b12@konsulko.com>
+	 <lybjw1ffw0.fsf@ensc-pc.intern.sigma-chemnitz.de>
+	 <a5630788-8f4a-faa2-7d6b-8dc87dd1642c@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 21:32:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210064
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 22:54:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210065
 
-On Mon, 20 Jan 2025, Enrico Scholz wrote:
+On Mon, 2025-01-20 at 16:32 -0500, Scott Murray via lists.yoctoproject.org =
+wrote:
+> On Mon, 20 Jan 2025, Enrico Scholz wrote:
+>=20
+> > Scott Murray <scott.murray@konsulko.com> writes:
+> >=20
+> > > > bitbake looks first in 'classes-recipes/' and then in
+> > > > 'classes/'.
+> > > > Hence, content had no effect and was just ignored.
+> > > >=20
+> > > > Rename folder so that it overrides the OE-core classes.
+> > > >=20
+> > > > Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> > > [snip]
+> > >=20
+> > > I'm pretty sure this is incorrect.
+> >=20
+> > Logic is in [1]
+> >=20
+> > --> first iterate (using $BBPATH) in 'recipes-%', then in 'recipes'
+>=20
+> Hmm, the code I looked at was in lib/bblayers/query.py, and its logic is
+> different AFAICT.=C2=A0 Can you confirm that "bitbake-layers show-overlay=
+ed"
+> shows it as being overlayed for you as it does for me?=C2=A0 That it does
+> would seem to indicate a bblayers bug, and there is perhaps some missing
+> documentation of this behavior (change) (e.g. I don't see any mention of
+> classes-global vs classes-recipe vs classes and how their prioritization
+> works wrt layers in the docs).=C2=A0 I'm CC'ing oe-core just in case I'm
+> really missing something here...
 
-> Scott Murray <scott.murray@konsulko.com> writes:
->
-> >> bitbake looks first in 'classes-recipes/' and then in 'classes/'.
-> >> Hence, content had no effect and was just ignored.
-> >>
-> >> Rename folder so that it overrides the OE-core classes.
-> >>
-> >> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> > [snip]
-> >
-> > I'm pretty sure this is incorrect.
->
-> Logic is in [1]
->
-> --> first iterate (using $BBPATH) in 'recipes-%', then in 'recipes'
+I think bblayers needs fixing and we need to sort the docs too...
 
-Hmm, the code I looked at was in lib/bblayers/query.py, and its logic is
-different AFAICT.  Can you confirm that "bitbake-layers show-overlayed"
-shows it as being overlayed for you as it does for me?  That it does
-would seem to indicate a bblayers bug, and there is perhaps some missing
-documentation of this behavior (change) (e.g. I don't see any mention of
-classes-global vs classes-recipe vs classes and how their prioritization
-works wrt layers in the docs).  I'm CC'ing oe-core just in case I'm
-really missing something here...
+Copying Antonin as we probably want a bug to track that.
 
-> For now, it does not matter because classes in OE core and meta-lts-mixins
-> are very similar.  But 1.81 seems to introduce other data layouts so correct
-> classes are probably important.
->
-> I stumpled across it while fixing cargo-native build errors [2]
+Cheers,
 
-Okay, I'll queue it up once I have some cycles to do some test builds
-here.
-
-> Enrico
->
-> Footnotes:
-> [1]  https://github.com/openembedded/bitbake/blob/0329a7e3ac694737f2d2c1861f65492551360663/lib/bb/parse/parse_py/BBHandler.py#L53-L68
->
-> [2]  https://lists.openembedded.org/g/openembedded-core/message/210043
->
->
-
-Scott
-
+Richard
 
