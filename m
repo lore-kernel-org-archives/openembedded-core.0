@@ -1,140 +1,108 @@
-Return-Path: <denis.osterland@diehl.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FEB9C02181
-	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 13:10:53 +0000 (UTC)
-Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
- by mx.groups.io with SMTP id smtpd.web10.36198.1737378644903563826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB727C02181
+	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 13:42:33 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.36701.1737380546426841631
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jan 2025 05:10:45 -0800
+ Mon, 20 Jan 2025 05:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=whCz4l1c;
- spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=108336ff4=denis.osterland@diehl.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PZWJ4OBx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38789e5b6a7so2508706f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 05:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1737378645; x=1768914645;
-  h=from:to:subject:date:message-id:
-   content-transfer-encoding:mime-version;
-  bh=XvnJcltGxwU9gDUHjTv1dg2Uv/V6HpVTIu5Iwfcu5AU=;
-  b=whCz4l1cGIC4FnLz7AzRTi+iiBBt2EH/zaaORa2weQRYKUlEiFBxTtuv
-   CgdMLXRThGbDCmrlsVF2/Y3+2XT4up/UQOGlQ9xBlGQf8/nccWJSAgEBf
-   kGXw/m05qdG8AgjFUVrBhoYh2uf45hBZkMzDXp/20ZUQ8C415WiVhALDR
-   ibiJSSzVHLNOOPHmt5boan23aYrVL2gY4Vu7eQLGH5lm44UpaOV4gRufr
-   OqWNkVNUSjcb1fu8PYdwSHG/lnABWddIt+nZbHAMAwlNt52GhzSw/+3mC
-   6esOOZGxbjaNpjKc78PxNujy9/8p0sMCmgutK7qSs3ctDA16BNwQQXP69
-   g==;
-X-CSE-ConnectionGUID: U1IwXz6bTYSMscgBqPMyBw==
-X-CSE-MsgGUID: ZTdMuu79R8maIJB0kCaoBQ==
-X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:uOuzXKsC/wgApxUOfgbGc2Y2fufnVDBfMUV32f8akzHdYApBsoF/q
- tZmKTyCbPzcYmv0Ktx2PI6xoxkA78WGx4JlGgdkrS1jQi1H9ZOVVN+UEBz9bniYRiHhoOCLz
- O1DMIWafJBsJpP4jk3wWlQ0hSAkjclkfpKlVqicfHg3HVI8IMsYoUoLs/YjhYJ1isSODQqIu
- Nfjy+XSI1bNNwRcawr40Ird7ko01BjOkGlA5AFmPKoT5Aa2e0Q9V/rzG4ngdhMUfaEERoZWd
- 86bpJml82XQ+QsaC9/Nut7Tbk0QT7fOChOFg3xQVrLKqkAqSvsai/tT2FI0MC+7uh3R9zxD4
- IwlWa+YEG/FCpbxdNE1CHG0Jc3c0Zpuo9crKVDn2SCaItavn3HEm52CB2luVWEUF3oe7cijO
- pX0JRhUBi1vid5az5qGE8hzttZ9JvXaB6YEsX5K1An8HNw5FMWrr6Xivbe03R8KrexlWNP3R
- u5CMXxkaw7YJRFON1cTTpk5mY9EhFGmK3sB9QnT/uxuuDC7IA9ZidABNPLZd9qLXoNShVqVv
- GbP+WjRDhAXNNjZwj2Amp6prraXwXmmBtlJS9VU8NZYvFG223FMWSdGUFKag9PhiWW3XPhmf
- hl8Fi0G6PJaGFaQZt7lUhu1pXSJshIRV59bFPc3wAWM0bbPpQGBC24JSzRMZNAruIkxXzNC6
- 7OSt4qxQ2Uy6/vODyvGrt94sA+PBMTcFkdaDQdscOfPy4CLTF0b5v4XcuteLQ==
-IronPort-HdrOrdr: A9a23:VE2d6q6+AFfeLVqOjgPXwXiCI+orL9Y04lQ7vn2ZFiY5TiXIra
- qTdaogviMc0AxhIE3I6urwQ5VoJkmsuKKdgLNhd4tKMzOW3ldAQLsN0WKA+UytJ8SdzJ8l6U
- 4IScEXZLLN5DNB7foSlTPIcerIt+P3k5xA692+815dCStjbqRh6AlFBgOWC0xxQwVgGZ4zGI
- H03LsjmxOQPVsef+OmAnIIRM7NntXEmIiOW29gOzcXrC21yR+44r/zFBaVmj8YTjN02L8ntU
- TVjgDj4a2nkvejjjvRzXXa4Zh6kMbojoIrPr3DtuElbhHXziq4boVoXLOP+BgzveGU8V4v1P
- Xcvhs6OMx3ynXJOkW4uwHk1QXM2Csnr1Xi1Vibq33+ptGRfkN0N+NxwaZiNjfJ4Uspu99xlI
- hR2XiCipZRBRTc2Azg+tnhTXhR5wqJiEtntdRWo21UUIMYZrMUh5cY5llpHJAJGz+/wJw7Ed
- NpENrX6J9tABCnhjHizytSKe6XLzAO9yS9Mw8/Uwuuon5rdUVCvg4lLQok7y49HdwGOsF5Dq
- //Q95Vffl1P7IrhORGdaY8aPryNWrMSx7pPHiJKVrqOb0dM2/MrZmf2sRQ2AjiQu118LI8kJ
- 7KFFNU3FRCCX7GGImA2oZG/QvKR3j4VTPxyttG75w8obHkQqH3WBfzAWzGvvHQ1Mn3OPerLc
- qbKdZTGbvuPGHuEYFG00n3XIRTM2AXVIkQtswgU1yDr8rXIsmy39arO8r7Nf7oC3IpS2n/Cn
- wMUHz6I9hB9FmiXjv9jALKU33gd0Tj9dZ7EbTc/eIU1I8RX7c8+jQ9mBC8/IWGODdCuqs5cA
- 93J67miLqyoS2s8WPB/wxSS25gJ1cQ5K+lX2JBpAcMPU+xaroIs9CbYmxK2mCbLBB6Qc/QHB
- VWulh7kJjHXKC41GQnEZaqI2iah3wcqDaQQ50Vn6iZ6d7iYY43ApErQ6RtGQijLW0Epe+rkh
- Y3VOYpfD6vKtq1s9TasHU9PpChS+VB
-X-Talos-CUID: 9a23:Z4j8yGDW1oolZGH6ExQ+1VEkCJ4vTkzm6WzbLGWhMUN4YqLAHA==
-X-Talos-MUID: 9a23:QLF0zAZgXXxAL+BThQPgoSx/a5ZSs6GnKWInyZYtss6uDHkl
-X-IronPort-AV: E=Sophos;i="6.13,219,1732575600"; 
-   d="scan'208";a="104256337"
-From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] create-spdx: support line numbers
-Thread-Topic: [PATCH] create-spdx: support line numbers
-Thread-Index: AdtrO7lORJKBZ1X1RqyDPwGQL2g+Fw==
-Date: Mon, 20 Jan 2025 13:04:58 +0000
-Message-ID: <1e91d93673d7414baea355383b0f0ebe@diehl.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-disclaimerprocessed: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=linuxfoundation.org; s=google; t=1737380545; x=1737985345; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=j0l+NtOTyd5zHuprz2kI7IhLSC+xH/GzePzZaGnGHew=;
+        b=PZWJ4OBxldprQbDRGwJ7xBJLkkgAsnRAgGIp54R1ZrK+xH+u7nf7s0wtAnZimlgiQv
+         hWZ8Z2g6xJPtPYfwivOLIawckVNd6mRp1eDzSrxypIruc03T7Hufl5KYDfazoSFRfNat
+         JqN0BhDEeyZ34Kw+EM2DKwFhz8+JZDu5f0M3w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737380545; x=1737985345;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j0l+NtOTyd5zHuprz2kI7IhLSC+xH/GzePzZaGnGHew=;
+        b=gkh/9AnbEsEeMDKNChAv6YooreY8suo8UVn1C92h3Yx3Scg4OUT+brZ5xQgPpoeJ+2
+         KaBdYTSdWd0rQKYK3fd+ZDiXiXKZQ1yk3KX4bEyKcvwad6b2g5pDQOlJL4DCBqJO3/WX
+         dzuGqm47wepA16iFGUwLLu6FAPuZ7fNd0FkOmyrZLujDT5Xl5sDbt2PLCpbqoxu75E72
+         0/D+wY3epIPAhvH4aCVaZaenwW7amIVk+lBQkHFFK86+PdqVOEIW8oe5CESOdIj1bR+i
+         P5Uht/3C61QpMEI4qkk7GxvoUKnJQMTWwh6875+9VHms67XluJYA0kjDim81ZMW6Z6aI
+         nN1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVVYu2FM2pC+8OYDMv0xERPRVxAY5DJi28wvL7wGOgdlc6yYNaxpfepHvh9Gz41dgjf8KuhODnNgYYQMy0Pd2IhSQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxMBkkkYY9yJDuCWnbo3qVGu1oblSktpprl1wdd6zgbOC4TtV9L
+	hX+1WH01XD1U5F4wy+Hzp4lgU23Wrt5MY9674CurCh3DxMpkYeHMbxktOdC9gGw=
+X-Gm-Gg: ASbGncswa9XGUgjVc47/JW0vM8ZaYzKb2n8nEtb3WOX/Ha1X8oCeUIFFaAkv3bB94KL
+	H+DJBmyxdy+8+K9P7NNvWngT9XTX7AUkACZq11mOV3L13wVRGQVm+tra54XyUieOoeBlMczYnyz
+	O1mmCHl0ekC+s6MIJq/ozM0l6Db8YxuKNbZMYWDCfiljmtjWzVvhH8+a8vzmMAQrLbCPAlCmo7s
+	eQ7tbiVFQkz+6wXsgOE6ACTDcXHt4ifkMGfUz655k2tqZVPZ6mcWbqgDbq1TvJn2nZbTfatFnmP
+	iykhgLfeCtMpQItDLnMA0+MQLJ2MpR+GPolT6dzAL6YiR6xDj9WjY+KXsCo=
+X-Google-Smtp-Source: AGHT+IE5Q8Yo7GsqZJtSaS6XPOb4ouPjpqrvzNGXYk12IE0pZ2M8KhDJzg6o+a7DmnHfbTs9/lN+Jg==
+X-Received: by 2002:a5d:588f:0:b0:385:e961:6589 with SMTP id ffacd0b85a97d-38bf565f8b9mr11151051f8f.20.1737380544852;
+        Mon, 20 Jan 2025 05:42:24 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3a8b:bde5:329e:7f3c? ([2001:8b0:aba:5f3c:3a8b:bde5:329e:7f3c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c0f03984sm156093345e9.0.2025.01.20.05.42.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 05:42:23 -0800 (PST)
+Message-ID: <0cf72b0f1033722e4c197ae1bcf7891e1d34f65d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] sanity: test for c toolchain
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: gavrosc@yahoo.com, openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Date: Mon, 20 Jan 2025 13:42:23 +0000
+In-Reply-To: <20250118120105.11681-1-gavrosc@yahoo.com>
+References: <20250118120105.11681-1-gavrosc.ref@yahoo.com>
+	 <20250118120105.11681-1-gavrosc@yahoo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-X-GBS-PROC: AvLZyVEBsXnffHjQqcUo3GrkwECuKz0rD/zx0KJ7IyZWT4PLlht/DwY9ASCK6I+7779YMmcRVs61Z/dv9AMcEaoEMWLmicsb8Fs1Gjwt9ow=
-X-GBS-PROCJOB: T6vXm0tbutBs2F3Hr04tXPEHf68YyV4INRyAJ+o/4XsqLS+Yxc9cF03/LrCPJ7lZ
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 13:10:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210028
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 13:42:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210029
 
-TElDX0ZJTEVTX0NIS1NVTSBzdXBwb3J0cyBiZWdpbi0vZW5kbGluZSBmb3IgbGljZW5zZXMgaW5j
-bHVkZWQgaW4NCmZvciBpbnN0YW5jZSBoZWFkZXIgZmlsZXMuIFRoaXMgcGF0Y2ggYWRkcyBzdXBw
-b3J0IGZvciBsaW5lIG51bWJlcnMNCnRvIE5PX0dFTkVSSUNfTElDRU5TRSwgdG9vLg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQtSGVpbSA8ZGVuaXMub3N0ZXJsYW5kQGRpZWhsLmNv
-bT4NCi0tLQ0KUmVzZW50IHdpdGhvdXQgc2lnbmF0dXJlDQoNCiBtZXRhL2NsYXNzZXMvY3JlYXRl
-LXNwZHgtMi4yLmJiY2xhc3MgfCAxMCArKysrKysrKy0tDQogMSBmaWxlIGNoYW5nZWQsIDggaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9j
-cmVhdGUtc3BkeC0yLjIuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9jcmVhdGUtc3BkeC0yLjIuYmJj
-bGFzcw0KaW5kZXggMjcyNDJlY2Y3MC4uNDk0YmRlMTE3ZiAxMDA2NDQNCi0tLSBhL21ldGEvY2xh
-c3Nlcy9jcmVhdGUtc3BkeC0yLjIuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2VzL2NyZWF0ZS1z
-cGR4LTIuMi5iYmNsYXNzDQpAQCAtNzUsMTEgKzc1LDE3IEBAIGRlZiBjb252ZXJ0X2xpY2Vuc2Vf
-dG9fc3BkeChsaWMsIGxpY2Vuc2VfZGF0YSwgZG9jdW1lbnQsIGQsIGV4aXN0aW5nPXt9KToNCiAg
-ICAgICAgICAgICAgICAgICAgIHBhc3MNCiAgICAgICAgICAgICBpZiBleHRyYWN0ZWRfaW5mby5l
-eHRyYWN0ZWRUZXh0IGlzIE5vbmU6DQogICAgICAgICAgICAgICAgICMgSWYgaXQncyBub3QgU1BE
-WCBvciBQRCwgdGhlbiBOT19HRU5FUklDX0xJQ0VOU0UgbXVzdCBiZSBzZXQNCi0gICAgICAgICAg
-ICAgICAgZmlsZW5hbWUgPSBkLmdldFZhckZsYWcoJ05PX0dFTkVSSUNfTElDRU5TRScsIG5hbWUp
-DQorICAgICAgICAgICAgICAgIGVudHJ5ID0gZC5nZXRWYXJGbGFnKCdOT19HRU5FUklDX0xJQ0VO
-U0UnLCBuYW1lKS5zcGxpdCgnOycpDQorICAgICAgICAgICAgICAgIGZpbGVuYW1lID0gZW50cnlb
-MF0NCisgICAgICAgICAgICAgICAgcGFyYW1zID0ge2kuc3BsaXQoJz0nKVswXTogaS5zcGxpdCgn
-PScpWzFdIGZvciBpIGluIGVudHJ5WzE6XSBpZiAnPScgaW4gaX0NCisgICAgICAgICAgICAgICAg
-YmVnaW5saW5lID0gaW50KHBhcmFtcy5nZXQoJ2JlZ2lubGluZScsIDEpKQ0KKyAgICAgICAgICAg
-ICAgICBlbmRsaW5lID0gcGFyYW1zLmdldCgnZW5kbGluZScsIE5vbmUpDQorICAgICAgICAgICAg
-ICAgIGlmIGVuZGxpbmU6DQorICAgICAgICAgICAgICAgICAgICBlbmRsaW5lID0gaW50KGVuZGxp
-bmUpDQogICAgICAgICAgICAgICAgIGlmIGZpbGVuYW1lOg0KICAgICAgICAgICAgICAgICAgICAg
-ZmlsZW5hbWUgPSBkLmV4cGFuZCgiJHtTfS8iICsgZmlsZW5hbWUpDQogICAgICAgICAgICAgICAg
-ICAgICB3aXRoIG9wZW4oZmlsZW5hbWUsIGVycm9ycz0icmVwbGFjZSIpIGFzIGY6DQotICAgICAg
-ICAgICAgICAgICAgICAgICAgZXh0cmFjdGVkX2luZm8uZXh0cmFjdGVkVGV4dCA9IGYucmVhZCgp
-DQorICAgICAgICAgICAgICAgICAgICAgICAgZXh0cmFjdGVkX2luZm8uZXh0cmFjdGVkVGV4dCA9
-ICIiLmpvaW4obGluZSBmb3IgaWR4LCBsaW5lIGluIGVudW1lcmF0ZShmLCAxKSBpZiBiZWdpbmxp
-bmUgPD0gaWR4IGFuZCBpZHggPD0gKGVuZGxpbmUgb3IgaWR4KSkNCiAgICAgICAgICAgICAgICAg
-ZWxzZToNCiAgICAgICAgICAgICAgICAgICAgIGJiLmZhdGFsKCJDYW5ub3QgZmluZCBhbnkgdGV4
-dCBmb3IgbGljZW5zZSAlcyIgJSBuYW1lKQ0KDQotLQ0KMi40NS4yDQpEaWVobCBNZXRlcmluZyBH
-bWJILCBEb25hdXN0cmFzc2UgMTIwLCA5MDQ1MSBOdWVybmJlcmcNClNpdHogZGVyIEdlc2VsbHNj
-aGFmdDogQW5zYmFjaCwgUmVnaXN0ZXJnZXJpY2h0OiBBbnNiYWNoIEhSQiA2OQ0KR2VzY2hhZWZ0
-c2Z1ZWhyZXI6IERyLiBDaHJpc3RvZiBCb3NiYWNoIChTcHJlY2hlciksIERpcGwuLURvbG0uIEFu
-bmV0dGUgR2V1dGhlciwgRGlwbC4tS2ZtLiBSZWluZXIgRWRlbCwgSmVhbi1DbGF1ZGUgTHV0dHJp
-bmdlcg0KDQpCaXR0ZSBkZW5rZW4gU2llIGFuIGRpZSBVbXdlbHQsIGJldm9yIFNpZSBkaWVzZSBF
-LU1haWwgZHJ1Y2tlbi4gRGllc2UgRS1NYWlsIGthbm4gdmVydHJhdWxpY2hlIEluZm9ybWF0aW9u
-ZW4gZW50aGFsdGVuLiBTb2xsdGVuIGRpZSBpbiBkaWVzZXIgRS1NYWlsIGVudGhhbHRlbmVuIElu
-Zm9ybWF0aW9uZW4gbmljaHQgZsO8ciBTaWUgYmVzdGltbXQgc2VpbiwgaW5mb3JtaWVyZW4gU2ll
-IGJpdHRlIHVudmVyenVlZ2xpY2ggZGVuIEFic2VuZGVyIHBlciBFLU1haWwgdW5kIGxvZXNjaGVu
-IFNpZSBkaWVzZSBFLU1haWwgaW4gSWhyZW0gU3lzdGVtLiBKZWRlIHVuYmVyZWNodGlndGUgRm9y
-bSBkZXIgUmVwcm9kdWt0aW9uLCBCZWthbm50Z2FiZSwgQWVuZGVydW5nLCBWZXJ0ZWlsdW5nIHVu
-ZC9vZGVyIFB1Ymxpa2F0aW9uIGRpZXNlciBFLU1haWwgaXN0IHN0cmVuZ3N0ZW5zIHVudGVyc2Fn
-dC4gSW5mb3JtYXRpb25lbiB6dW0gRGF0ZW5zY2h1dHogZmluZGVuIFNpZSBhdWYgdW5zZXJlciBI
-b21lcGFnZTxodHRwczovL3d3dy5kaWVobC5jb20vbWV0ZXJpbmcvZGUvaW1wcmVzc3VtLXVuZC1y
-ZWNodGxpY2hlLWhpbndlaXNlLz4uDQoNCkJlZm9yZSBwcmludGluZywgdGhpbmsgYWJvdXQgZW52
-aXJvbm1lbnRhbCByZXNwb25zaWJpbGl0eS5UaGlzIG1lc3NhZ2UgbWF5IGNvbnRhaW4gY29uZmlk
-ZW50aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgYXJlIG5vdCBhdXRob3JpemVkIHRvIHJlY2VpdmUg
-dGhpcyBpbmZvcm1hdGlvbiBwbGVhc2UgYWR2aXNlIHRoZSBzZW5kZXIgaW1tZWRpYXRlbHkgYnkg
-cmVwbHkgZS1tYWlsIGFuZCBkZWxldGUgdGhpcyBtZXNzYWdlIHdpdGhvdXQgbWFraW5nIGFueSBj
-b3BpZXMuIEFueSBmb3JtIG9mIHVuYXV0aG9yaXplZCB1c2UsIHB1YmxpY2F0aW9uLCByZXByb2R1
-Y3Rpb24sIGNvcHlpbmcgb3IgZGlzY2xvc3VyZSBvZiB0aGUgZS1tYWlsIGlzIG5vdCBwZXJtaXR0
-ZWQuIEluZm9ybWF0aW9uIGFib3V0IGRhdGEgcHJvdGVjdGlvbiBjYW4gYmUgZm91bmQgb24gb3Vy
-IGhvbWVwYWdlPGh0dHBzOi8vd3d3LmRpZWhsLmNvbS9tZXRlcmluZy9lbi9kYXRhLXByb3RlY3Rp
-b24vPi4NCg==
+On Sat, 2025-01-18 at 13:01 +0100, Christos Gavros via lists.openembedded.o=
+rg wrote:
+> Users reported issues caused by missing the right libstdc++-version-dev.
+> A new function 'check_c_toolchain' added in sanity.bbclass to test linkin=
+g libstdc++
+> Fixes [YOCTO #15712]
+>=20
+> Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
+> Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+> v2->v3
+> * whitespaces are removed
+> * the format for reference to the bug is fixed
+> * 'Reviewed-by' tag is added
+> ---
+> =C2=A0meta/classes-global/sanity.bbclass | 40 +++++++++++++++++++++++++++=
++++
+> =C2=A01 file changed, 40 insertions(+)
+
+This is looking really good thanks!
+
+The one thing left which probably needs tweaking is testing this on
+every build. I think that is a bit too much overhead and we should do
+this in check_sanity_version_change().
+
+The reason being that once builds are working on a given system we
+probably don't need to check again. If people do run into issues, they
+will probably test a clean builddir and at that point the error would
+also show up.
+
+If you could send a v4 with that small tweak, I think it looks good to
+merge, thanks.
+
+Cheers,
+
+Richard
+
 
