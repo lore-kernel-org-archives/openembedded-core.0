@@ -1,103 +1,171 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D08AFC02185
-	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 16:45:24 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web11.40700.1737391516026445190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AF5C02185
+	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 17:51:15 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.42121.1737395470467002469
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jan 2025 08:45:20 -0800
+ Mon, 20 Jan 2025 09:51:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=K0ZtsI0B;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-2.intern.sigma-chemnitz.de (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
-	by mail-out-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 50KGjDlk1870040
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 17:45:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1737391513;
-	bh=6r/eMduz7iAyQwUMVsWPF8C4dpCdtqoiPvflbU7532M=; l=1786;
-	h=From:To:Cc:Subject:Date;
-	b=K0ZtsI0BfjRzcU7qIpgRRgnRqjsZ5kGwq20Wq7DkKR8HvERf4fK9aSjhjWvTHSHAW
-	 8jUvR2tmF92wgfA+o+bAQ6gM4vG8IW4nFcrZgv2tolEJfcSMK7JyJmcgpTiAGvK9oZ
-	 KE4t4sciy8ZTJgaWxCNDtuo6art7FGkFtneVMWEwmHxjWMHJcyTr4Gob+qo6Jl+lAJ
-	 KzBEhxMWdRWowu7ZTbxv6z3TZwsZAllRfWSEXfUh2FqLR4eMGTaiaMj8fbDGR5TkVs
-	 Ykyi4Q7ZDOKjN3o65NVahS/+WA0SgsFQ+d21LajXjlA8c9i+Q/TtNS5VJzA5X9FQzs
-	 DP/u2ptL70pYQ==
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-2.intern.sigma-chemnitz.de (8.18.1/8.18.1) with ESMTP id 50KGjA0c2312817
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Mon, 20 Jan 2025 17:45:10 +0100
-Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
-	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id DP2KQJ1LCR; Mon, 20 Jan 2025 17:45:09 +0100
-Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 50KGj9XG1815253
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 20 Jan 2025 17:45:09 +0100
-Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.98)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1tZuth-00000002qzW-1bPB;
-	Mon, 20 Jan 2025 17:45:09 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Arask+5b;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21670dce0a7so99669605ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 09:51:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737395470; x=1738000270; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L+iKwzSxYVm1P2u7TWnM4gBumuNfdHgOy5TcD8ddEQM=;
+        b=Arask+5bmcUSC8ZAuYvX8sLWUhqz/gYkbDwehW68NWxD09ejJz/oVNVgriSoPsENUP
+         j4DLSg9HlbcJeCZlD9DBhd+NECB0/iQsJAyitioTdBKUwmoRJfEQAb/xS2klNWM86SoE
+         Cc8Bk6CtBlaGMVCDNG5sSv8HybRp5ijE4eF+IVSS+5Q8Vby7sIhW4coxnoqUW8Ld4XrI
+         fbhtm7jR92tVci//kxm/KnMqVAfEvwNezoQYfQRhpykfgFuPa3GQ2hBqh/2sIsUSNr4U
+         3h1kNP8PZEo03jxrcGpbmF9XR0h4tEL7ZZILnTMBDCUZZQFaQq0u2AJ4m+MWM9pULhg7
+         g6+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737395470; x=1738000270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L+iKwzSxYVm1P2u7TWnM4gBumuNfdHgOy5TcD8ddEQM=;
+        b=sYE6qlWhttW4pSI8O/A5jluiR3u9fWCjNCAwsoYPsfH4zJ21KdAY7DvbIOLKx+zVZx
+         VjEPYuzpwalnpGwElSkvJhcF+mmlbx0tpQ/Dw7kABivUHFfQulqqOQiB89JL89qcDvdm
+         Kb2awCC1slBntVKYx0QjglWPPo19yMHcvLp4NrlPEfXw/Bo/3fkEteOHCkNSiXq1oMyD
+         e80zu92QPNyCoNboLucbZ8BgUbyGduuQnyyQfeVVXiJ4BvAEiYUA694fDWjXVBsUyquM
+         a2W8Yuz+Go5jR8O506Wl5+HNwveAQ/2YPaH5EvevrdHmr+xjsx2rHdnlWB34GJ3oGlOr
+         psBQ==
+X-Gm-Message-State: AOJu0YxqjhLgoLBQJzfH0n+Yuju3Xoj2sCxF9qt6YDQgEDKRs9GjTZky
+	pelywbMfxdLbidwd1karmPGmYPrnoCZnJ9bTfPDH3jy6G4exp6smlWzmoxipfFXgSp7poi/Sm3v
+	EPg0=
+X-Gm-Gg: ASbGncvxzxvyz+x5CHJhS1Y78V0oIogqQWer+FouHyJQSGBJ1KCCOOKDS8HL04+RvjC
+	Parf63A7C8h/jmnkByQsseMLLzLL24W+tjMysjOJUXC7+eS7LJiiONP9nQ++yLsvC8csgTq7JVC
+	XFerpSFCsBOHGKb42W5x9tfp5LS4Xnw5RcTZ95v3ViQxdeYGpscznVpRK/IQ7PE/JpxKqGwmgGX
+	Ys5tLgq8/FqBPYmqyN2yRWLcvdlOUseNYnWvdWm6L0Wq72X8ZKZL/KKo+8=
+X-Google-Smtp-Source: AGHT+IFnTwGENA2+AcWfGKhwNym9OAJ7B83JiJiq5OYpN9a0lnMX6ycgoT2lHZM6lDM7E1w5YZA1ZA==
+X-Received: by 2002:a17:902:f7ce:b0:215:773a:c168 with SMTP id d9443c01a7336-21c352de425mr212847055ad.1.1737395469462;
+        Mon, 20 Jan 2025 09:51:09 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a9bcdcf643esm6155565a12.38.2025.01.20.09.51.08
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 09:51:09 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] rust-common: add LDFLAGS to 'build-rust-cc' wrapper
-Date: Mon, 20 Jan 2025 17:45:04 +0100
-Message-ID: <20250120164504.680234-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.48.1
+Subject: [OE-core][kirkstone 00/16] Patch review
+Date: Mon, 20 Jan 2025 09:50:44 -0800
+Message-ID: <cover.1737395091.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 678e7d958c284250d7b37cb5
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 16:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210043
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 17:51:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210044
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Please review this set of changes for kirkstone and have comments back by
+end of day Wednesday, January 22
 
-Although rust differs between compiling (--> 'rust-cc' wrapper) and
-linking (--> 'rust-ccld' wrapper), some core crates are using only the
-'rust-cc' wrapper to check for available compiler options [1] and
-libraries [2].
+Passed a-full on autobuilder:
 
-Not having LDFLAGS can break the build in subtle ways.  E.g. 'cargo-native'
-can fail to build with
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/842
 
-|   = note: .../hosttools/ld: .../liblibz_sys-....rlib(deflate.o):
-|     relocation R_X86_64_32S against hidden symbol `_length_code' can not be used when making a PIE object
+The following changes since commit 8c32d91b64ae296d7832ddeb42983f4f3c237946:
 
-because it does not find '-lz' (added by "DEPENDS = zlib") and builds
-a static libz.a with missing PIC flags.
+  ofono: fix CVE-2024-7547 (2025-01-14 05:49:41 -0800)
 
-Add LDFLAGS to the 'build-rust-cc' wrapper as it is done already for
-the target one.
+are available in the Git repository at:
 
-[1] https://github.com/rust-lang/cc-rs/pull/1322
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-[2] https://github.com/rust-lang/libz-sys/blob/12a32798c6bd18986cb5cd603359b03c96f0eb4c/build.rs#L228-L234
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 4.0.23
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes-recipe/rust-common.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alexander Kanavin (1):
+  rsync: update 3.2.5 -> 3.2.7
 
-diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
-index 6940093e59bf..baa3869c478f 100644
---- a/meta/classes-recipe/rust-common.bbclass
-+++ b/meta/classes-recipe/rust-common.bbclass
-@@ -173,7 +173,7 @@ do_rust_create_wrappers () {
- 	mkdir -p "${WRAPPER_DIR}"
- 
- 	# Yocto Build / Rust Host C compiler
--	create_wrapper_rust "${RUST_BUILD_CC}" "" "${CRATE_CC_FLAGS}" "${BUILD_CC}"
-+	create_wrapper_rust "${RUST_BUILD_CC}" "" "${CRATE_CC_FLAGS}" "${BUILD_CC}" "${BUILD_LDFLAGS}"
- 	# Yocto Build / Rust Host C++ compiler
- 	create_wrapper_rust "${RUST_BUILD_CXX}" "" "${CRATE_CC_FLAGS}" "${BUILD_CXX}"
- 	# Yocto Build / Rust Host linker
+Archana Polampalli (6):
+  rsync: fix CVE-2024-12084
+  rsync: fix CVE-2024-12085
+  rsync: fix CVE-2024-12086
+  rsync: fix CVE-2024-12087
+  rsync: fix CVE-2024-12088
+  rsync: fix CVE-2024-12747
+
+Divya Chellam (1):
+  wget: fix CVE-2024-10524
+
+Khem Raj (1):
+  rsync: Delete pedantic errors re-ordering patch
+
+Peter Marko (2):
+  socat: patch CVE-2024-54661
+  ofono: patch CVE-2024-7540, CVE-2024-7541, CVE-2024-7542
+
+Ross Burton (2):
+  classes/nativesdk: also override TUNE_PKGARCH
+  classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package
+    architecture
+
+Zhang Peng (2):
+  avahi: fix CVE-2024-52616
+  vte: fix CVE-2024-37535
+
+ meta/classes/nativesdk.bbclass                |   1 +
+ meta/classes/qemu.bbclass                     |   8 +-
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
+ .../avahi/files/CVE-2024-52616.patch          | 104 +++++++++
+ ...024-7540_CVE-2024-7541_CVE-2024-7542.patch |  52 +++++
+ meta/recipes-connectivity/ofono/ofono_1.34.bb |   1 +
+ .../socat/socat/CVE-2024-54661.patch          | 113 ++++++++++
+ .../socat/socat_1.7.4.4.bb                    |   4 +-
+ meta/recipes-devtools/gcc/gcc-testsuite.inc   |   6 +-
+ ...-prototypes-to-function-declarations.patch |  28 ++-
+ ...antic-errors-at-the-end-of-configure.patch |  68 ------
+ .../rsync/files/CVE-2024-12084-0001.patch     | 156 ++++++++++++++
+ .../rsync/files/CVE-2024-12084-0002.patch     |  43 ++++
+ .../rsync/files/CVE-2024-12085.patch          |  32 +++
+ .../rsync/files/CVE-2024-12086-0001.patch     |  42 ++++
+ .../rsync/files/CVE-2024-12086-0002.patch     | 108 ++++++++++
+ .../rsync/files/CVE-2024-12086-0003.patch     | 108 ++++++++++
+ .../rsync/files/CVE-2024-12086-0004.patch     |  41 ++++
+ .../rsync/files/CVE-2024-12087-0001.patch     |  49 +++++
+ .../rsync/files/CVE-2024-12087-0002.patch     |  31 +++
+ .../rsync/files/CVE-2024-12087-0003.patch     |  40 ++++
+ .../rsync/files/CVE-2024-12088.patch          | 141 +++++++++++++
+ .../rsync/files/CVE-2024-12747.patch          | 192 +++++++++++++++++
+ .../rsync/{rsync_3.2.5.bb => rsync_3.2.7.bb}  |  15 +-
+ .../wget/wget/CVE-2024-10524.patch            | 197 ++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.21.4.bb     |   1 +
+ .../vte/vte/CVE-2024-37535-0001.patch         |  63 ++++++
+ .../vte/vte/CVE-2024-37535-0002.patch         |  85 ++++++++
+ meta/recipes-support/vte/vte_0.66.2.bb        |   9 +-
+ scripts/install-buildtools                    |   4 +-
+ 30 files changed, 1645 insertions(+), 98 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2024-52616.patch
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch
+ create mode 100644 meta/recipes-connectivity/socat/socat/CVE-2024-54661.patch
+ delete mode 100644 meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+ rename meta/recipes-devtools/rsync/{rsync_3.2.5.bb => rsync_3.2.7.bb} (81%)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-10524.patch
+ create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-0001.patch
+ create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-0002.patch
+
 -- 
-2.48.1
+2.43.0
 
 
