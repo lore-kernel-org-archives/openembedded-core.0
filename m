@@ -1,97 +1,73 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85276C02187
-	for <webhook@archiver.kernel.org>; Sun, 19 Jan 2025 20:05:37 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.22381.1737317131583923537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAFDC0218A
+	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 06:00:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.31352.1737352842951458264
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jan 2025 12:05:31 -0800
+ Sun, 19 Jan 2025 22:00:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jgceZiZy;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso3416958f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 12:05:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737317130; x=1737921930; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1BlLXUOhGSGw2XrN1YZ5YoAqeGJWZrFq5MQWn/glYL8=;
-        b=jgceZiZyAEfb5zH1iWA2NKbqPqsRBRsoVZLGTf3U0Y/vyLd+mw55Fxtu1BH0tU3X8u
-         xflj2fqKDnV5/CUJ007miUpmwpBY490UGbePaomxRwVszlk2q0V5mFykxRk5RZyw6E+e
-         MqZZ6aeViEaCshq/DnCkgQKA881QNmTms3G3eiZk+ll4RUbs4MOX0UtUUGt0t7BeK5lt
-         hT26j53/iuA76y5c+0b9unJ0zCM0hZNWmrSzlEtKR6fqn+p3JQ66C1xYW6Z1nfa5YAHl
-         yzEEwxpdALDGmYwmLV9m3x2Nf10w0nCPwSFRDdEoGrVoADorsCuEW/P+gR5dKtTn1L+N
-         ydcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737317130; x=1737921930;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1BlLXUOhGSGw2XrN1YZ5YoAqeGJWZrFq5MQWn/glYL8=;
-        b=XPqLkv8j5m2mMftyWeE5iYkoVwrn4D4cDbTLRpOnKHgzi99Z+u5hQzhGhIKeZHK8g5
-         mY+9i6KpuUu0CNRlLO/EcuMHlNPGAITzjYOyLRxMrzLbC7iPdgkqxH79GWoO8YJJlI2Y
-         8soUcHPgEEKwA5RK5A+Iw/k/nmNw1rBEC7V5H7/wAsSeA4BdZ06cGMJBYA8F0/0we8WN
-         0Nr+zmaq6nW3Cl3LPr2/qEsCutzaGlEAwCZdNNVyKJn8hOX2CW9HqAxOaY5Tjs9S6aQu
-         gEZrChdRQE0BecosRbjXZp0emI58dKKeJAXUk/BTByll4uuBzlGkyOTFYE6U2lgBVBpv
-         F+5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVo7RPVIp4rlz0QHQOGS5aYclmp2mgcttbnd9Pca3mkMyilp2Js7AAgH9hSyUkt4hKOsWtLsuwYAs2ZFtFhXDlFGg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyLil0IH5MX8JNjhJWiN0u54E1AcxS+RrbyeK4eJNh9fywD5YQo
-	i7KmRdf9z/Ngnfx2v1WYoLqsf/LFY0vgNUEX6Uksf8uRAtqOWbqb
-X-Gm-Gg: ASbGncuEY1J0ptV6VYoZq84wqwKuGrL0rPSO/iV1VpGGRA0fziBqAxxTGk2g/mPLMXU
-	5grbNi7cHu0/Tp8F2bLnVIJ1iaiPfpA3a0f43a95thVSTtSKM+JKAA4PocfNJi4YNnbSZsdr4v0
-	Dp2Cc51gjvnrtoCvGPUCPG3BToBNsV5FWod+3+f0QKw+maidNpQM2cecL7XSHlNZQ7n0CWyJJ+d
-	2JAiqc35S2DZHD97RmoZ7OY7icC/rZIcciFroHcHtxZs2m3oYTfbZ5XvmDDWdZLtNztRQh6Rz9w
-	s2mFSshxoQWyynSb1JdQx3oanQbv3cRqVFopiL22z+s=
-X-Google-Smtp-Source: AGHT+IFceuYXyhpsBgtxVDRg8fAWYSYsw/HAi373/5/RB4Ja//fScvOmNFg7WZa0niA39kIZZDEvpg==
-X-Received: by 2002:a05:6000:2a9:b0:38a:50f7:24fa with SMTP id ffacd0b85a97d-38bf57bed8emr9784973f8f.54.1737317129640;
-        Sun, 19 Jan 2025 12:05:29 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf321505asm8313557f8f.7.2025.01.19.12.05.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 12:05:28 -0800 (PST)
-Message-ID: <aa7cdc322dd11dfa7942e7306c111b7918132ced.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v5] u-boot: kernel-fitimage: Fix dependency
- loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: marex@denx.de, openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2025 21:05:27 +0100
-In-Reply-To: <20250119180926.41739-1-marex@denx.de>
-References: <20250119180926.41739-1-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41app1) 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=311543c3c1=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50K5t1wr013826
+	for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 22:00:42 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4488f719st-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 22:00:42 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 19 Jan 2025 22:00:41 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 19 Jan 2025 22:00:41 -0800
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [scarthgap][PATCH 0/1] wpa-supplicant: Add CVE id to CVE-2024-3596_00.patch
+Date: Sun, 19 Jan 2025 22:00:40 -0800
+Message-ID: <cover.1737352688.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 2LMPnuS85ErErvzvxagziO8PKU102Z3B
+X-Authority-Analysis: v=2.4 cv=GqG4+l1C c=1 sm=1 tr=0 ts=678de68a cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=nRkYztHi4iAhUXRIAbsA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 2LMPnuS85ErErvzvxagziO8PKU102Z3B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-20_01,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=744 phishscore=0 lowpriorityscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2501200048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jan 2025 20:05:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210019
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 06:00:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210020
 
-Hi Marek,
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Thank you for fixing this bug. I think this v5 looks really nice.
+The following changes since commit 92eea72a25e553c698bee9e3f551a5880bd4631c:
 
-Not sure how to add my
-Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-but if via E-Mail is fine, here it is.
+  systemd: enable create-log-dirs (2025-01-13 06:16:07 -0800)
 
-Regards,
-Adrian
+are available in the Git repository at:
 
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210018):
-> https://lists.openembedded.org/g/openembedded-core/message/210018
-> Mute This Topic: https://lists.openembedded.org/mt/110702086/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+  https://github.com/robertlinux/yocto rbt/cve
+  https://github.com/robertlinux/yocto/tree/rbt/cve
+
+Robert Yang (1):
+  wpa-supplicant: Add CVE id to CVE-2024-3596_00.patch
+
+ .../wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch         | 1 +
+ 1 file changed, 1 insertion(+)
+
+-- 
+2.44.1
 
 
