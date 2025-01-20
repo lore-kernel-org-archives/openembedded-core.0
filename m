@@ -2,61 +2,61 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD4CC0218C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E39CEC0218D
 	for <webhook@archiver.kernel.org>; Mon, 20 Jan 2025 14:00:13 +0000 (UTC)
 Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.35716.1737377276440880970
+ by mx.groups.io with SMTP id smtpd.web10.35800.1737377275668471958
  for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Jan 2025 04:47:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YGfsxeJU;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vq6ssb6z;
  spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: arturkow2000@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54024aa9febso4474002e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 04:47:56 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54298ec925bso5304159e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 04:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1737377273; x=1737982073; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gUBZ/MjYIEmyPQEgf5zKWhx1g02PCZraW796fbGupF0=;
-        b=YGfsxeJUkHxpCvJA7OXt/WcN5j83a7+z78me78iZMKb2lPdttilFGmKf2id8ndrW76
-         ezk+omWpuQk747QDG7DjWNzGaNfLx3tqMI0AfNCSpfQZA3Y8cLdN7hWiKWmti6dGkkvm
-         4fZHVGPT/51PsUhNjoAjivGtkAqlJaPb0IK1chwj99OxSxzbSrw31PSjKbzYO8YEy2gV
-         g6KFiDrXzuiAJMs433C/Zg64p05uZNuVoKip/HiGro3hXBpV6xIGhRXNiVpW1e6svmhE
-         NHcYgFGgJcYp20gBp2aXSWfRB5TuupUIfp9k/aE/hmxbckr97hF8uIbRJcepp6gvzM/N
-         zEsA==
+        bh=1QktOdatgETcXATTGpeMs+Jrot2sQykkxwWyuaI+FY8=;
+        b=Vq6ssb6zzqLYdiroYsYoAyuwHL1ujlpRW+l9Q0dyoobRDBQMl8IH28TFlexqQPlxPV
+         +sT85W5FZgSsF8aH6zl/M4giVIgTxrv4tgoKPgfDxzYUMebaxL4ZXs93AzR/xHSMmOtO
+         nN6+NKP9HCUd2FwzPrCrrN7m231OIkw5BeC5im6oK0+77X/SBBeotUw4izoaINjQ+iB8
+         eaUWSCjYzMEwmfVV88Q77RyrmngCfmgSrffd4E13UrfNESKJhEKMRtN0TfeZqY9CGRIC
+         Llms4VKoM5gncWvMJzGrQN7T+kFbC6z2T2vzt47RZnojrQlayJYPWceSuZcWqbag/aFg
+         5SJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1737377273; x=1737982073;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gUBZ/MjYIEmyPQEgf5zKWhx1g02PCZraW796fbGupF0=;
-        b=TX4zSsu9jH6daofu1SD6dutE1lvrwK75F6I1Yv9P6M1cjCrCpn+i0+lSJYSD9PilEF
-         ci9TdzzKqzt4ZstAxFCocREDsRE9u225RuWHyDqmSDEQs9Q1DF08WIrZ3cshl+M90E7U
-         PNrfsafke4GCxTaD4sfy3K8Ov7rbBDqBnGLTBPYjqZYpIxcAnjMunFmMAr2ko3R686US
-         KA142FxMM70nDK3oXtEYWiR6W+05PQlhJHLBMeu2IfDd+KTmMeB4fC2ohiWeYcu4+o6U
-         +MEXL3RKbsm72EkQHn1i/CuEn8dBS1+P1/OuYuKMC1DJb7iJTUagDQJQOh2QmjfGqCXn
-         /HNA==
-X-Gm-Message-State: AOJu0YyN5UVU6s0IumemtJI6vKsqd1IM6qcENp2jw5qhqK2WIwNS58t9
-	2UVDY31klnnb0ueiYSVE3fFUrj4Kxc0MpXngsaU1y1rNSvbYMiKhmc2P6w==
-X-Gm-Gg: ASbGncvDrcTkWKxLWkuY8vdrMgWCOD1GqMC/tvy33DZdqx/mttUnaNJrFiHGt+r5Hgu
-	5OQPXjlOB+glC/nFig+u+dZZ/jZZLaYlD4yOyeaYNYChwNd+j7oT03lv53iWqMWP+Vp6LaeSJNs
-	G2T6Ahf8XphXP1Qgp3SHDb9lmhGrOR5glrTKV2qufBkxJvsHf8pM8hrE+9aKsxwmGkW9xYdaqjr
-	h4Fn1IdpVG4SLnGynocINxKC65zaWysTNbSDMR7jqrj8sbMBr2BbjLRvJxNwRdWJt71tQ66dz3w
-	wA==
-X-Google-Smtp-Source: AGHT+IEoV/xzsoV45WfgSEGCTf04Uocw+AFIu7AbYwaC26TkItByJC8Q5jAj5AVgAlQui3DcXkI9Ig==
-X-Received: by 2002:ac2:4142:0:b0:540:2a6e:3e11 with SMTP id 2adb3069b0e04-5439c287d97mr2930160e87.46.1737377272489;
-        Mon, 20 Jan 2025 04:47:52 -0800 (PST)
+        bh=1QktOdatgETcXATTGpeMs+Jrot2sQykkxwWyuaI+FY8=;
+        b=HbrcVfD7fdjljyoqsngvgkSNV/c7R/WoCOEJUcfy+IaFqqJZ+p+lVKAfVO2XU9Vt34
+         uC0ML0CowUzNqHI+21WENbqMF2KyKCzQnQKT19DwJYcqTsAju70qVSYEjcK7wObAdr1L
+         tiyvaDWJqW3yM9NEz/q+DT+xXhJg1yhXyfK8ii4Z3886fewVVvQOwyf3UhS3O+VhXgU1
+         lVoMZ+DNGrU5LiU43mNXfa7hsz4EVyLsGSCQvFWcDIUvhJPD6459VoG95tYxpKn7nBFB
+         SYNQOFMCfpiyrAvWJd2x1KvCYFHwoIET4pLIPLdq+ev/USZrx6j5aI+6EsUxhRpZMHpj
+         YdZA==
+X-Gm-Message-State: AOJu0YwzRMlx8/Pi224r4yIk8RA6ZTuXGneCcahcOGy89LKt4Dfvkus1
+	WF0zOSMPf3/5n0bsYMtKPcCsDjoYwkDTZnCgsDC3Vt5UU4MRRtHEXNwYrg==
+X-Gm-Gg: ASbGncvRvX+TL4UYHFFhk2yaty5zNq9hCweWhTmu7vSsny4avxltvP/ibrwCdFZX4p9
+	TwgTaCKLlDQGNIJgrCWHj3HSTMI1e/20ByJnEjbB+O5OPXSuitibFf1CyIKOAEb1Q1LcDH8210M
+	FN9dgeE6nPUVYCOhAlXutcScopg3E+k87loqe/QaAVWt3sX5ZbGE8LzLK5g9uuocVQujVwf6jZQ
+	Ww1aSGzW0Pqsw1pHRHQgWgvGWruq6//kGlNBhvk8TBt7AyGtFkgmuEAPzeHkj7L/ofyoHd/2cm5
+	Sw==
+X-Google-Smtp-Source: AGHT+IHtUrQxzAn0bTKDPZ+H7NUW+TFfhkOKrsp/Zdy4NGwbBTA5HqAvPlSns9mch4hUimj7LWq8lQ==
+X-Received: by 2002:a05:6512:108a:b0:540:1fd6:4e4f with SMTP id 2adb3069b0e04-5439c246c5fmr4470910e87.22.1737377273202;
+        Mon, 20 Jan 2025 04:47:53 -0800 (PST)
 Received: from eta.play.pl ([2a02:a312:c49b:a180:23ed:c831:8228:ebaa])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0742csm1307523e87.37.2025.01.20.04.47.51
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0742csm1307523e87.37.2025.01.20.04.47.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 20 Jan 2025 04:47:52 -0800 (PST)
 From: "Artur Kowalski" <arturkow2000@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Artur Kowalski <arturkow2000@gmail.com>
-Subject: [PATCH v3 4/8] systemd.bbclass: introduce systemd_service_searchpaths()
-Date: Mon, 20 Jan 2025 13:46:02 +0100
-Message-ID: <20250120124605.263817-6-arturkow2000@gmail.com>
+Subject: [PATCH v3 5/8] systemd.bbclass: properly handle user units in systemd_create_presets
+Date: Mon, 20 Jan 2025 13:46:03 +0100
+Message-ID: <20250120124605.263817-7-arturkow2000@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250120124605.263817-2-arturkow2000@gmail.com>
 References: <20250120124605.263817-2-arturkow2000@gmail.com>
@@ -66,61 +66,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jan 2025 14:00:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210036
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210035
 
-systemd_service_searchpaths accepts boolean value indicating whether we
-are dealing with system or user units and returns search paths
-accordingly.
-
-Previously search path list was created in systemd_check_services() but
-following commits will introduce additional places. The
-systemd_service_searchpaths helper function is meant to reduce code
-duplication.
+Previously user units were handled the same way as system units, that
+is all preset files were created in system-preset directory, but user
+presets should be in user-preset directory.
 
 Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
 ---
- meta/classes-recipe/systemd.bbclass | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ meta/classes-recipe/systemd.bbclass | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 14fef2d7a6..a3c2c6eb20 100644
+index a3c2c6eb20..592f15a4b7 100644
 --- a/meta/classes-recipe/systemd.bbclass
 +++ b/meta/classes-recipe/systemd.bbclass
-@@ -90,6 +90,18 @@ def systemd_service_path(service, searchpaths, d):
+@@ -102,6 +102,12 @@ def systemd_service_searchpaths(user, d):
+             d.getVar("systemd_system_unitdir"),
+         ]
  
-     return path_found, base
- 
-+def systemd_service_searchpaths(user, d):
-+    if user:
-+        return [
-+            oe.path.join(d.getVar("sysconfdir"), "systemd", "user"),
-+            d.getVar("systemd_user_unitdir"),
-+        ]
-+    else:
-+        return [
-+            oe.path.join(d.getVar("sysconfdir"), "systemd", "system"),
-+            d.getVar("systemd_system_unitdir"),
-+        ]
++def systemd_service_exists(service, user, d):
++    searchpaths = systemd_service_searchpaths(user, d)
++    path, _ = systemd_service_path(service, searchpaths, d)
++
++    return path != ''
 +
  python systemd_populate_packages() {
      import re
      import shlex
-@@ -169,12 +181,9 @@ python systemd_populate_packages() {
+@@ -197,13 +203,27 @@ python systemd_populate_packages() {
+                     bb.fatal("Didn't find service unit '{0}', specified in SYSTEMD_SERVICE:{1}. {2}".format(
+                         service, pkg_systemd, "Also looked for service unit '{0}'.".format(base) if base is not None else ""))
  
-     # Check service-files and call systemd_add_files_and_parse for each entry
-     def systemd_check_services():
--        searchpaths = [
--            oe.path.join(d.getVar("sysconfdir"), "systemd", "system"),
--            oe.path.join(d.getVar("sysconfdir"), "systemd", "user"),
--        ]
--        searchpaths.append(d.getVar("systemd_system_unitdir"))
--        searchpaths.append(d.getVar("systemd_user_unitdir"))
-+        searchpaths = systemd_service_searchpaths(False, d)
-+        searchpaths.extend(systemd_service_searchpaths(True, d))
+-    def systemd_create_presets(pkg, action):
+-        presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg)
++    def systemd_create_presets(pkg, action, user):
++        # Check there is at least one service of given type (system/user), don't
++        # create empty files.
++        needs_preset = False
++        for service in d.getVar('SYSTEMD_SERVICE:%s' % pkg).split():
++            if systemd_service_exists(service, user, d):
++                needs_preset = True
++                break
 +
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES')
++        if not needs_preset:
++            return
++
++        prefix = "user" if user else "system"
++        presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg))
+         bb.utils.mkdirhier(os.path.dirname(presetf))
+         with open(presetf, 'a') as fd:
+             for service in d.getVar('SYSTEMD_SERVICE:%s' % pkg).split():
++                if not systemd_service_exists(service, user, d):
++                    continue
+                 fd.write("%s %s\n" % (action,service))
+-        d.appendVar("FILES:%s" % pkg, ' ' + oe.path.join(d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg))
++        d.appendVar("FILES:%s" % pkg, ' ' + oe.path.join(d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg)))
  
-         # scan for all in SYSTEMD_SERVICE[]
+     # Run all modifications once when creating package
+     if os.path.exists(d.getVar("D")):
+@@ -213,7 +233,8 @@ python systemd_populate_packages() {
+                 systemd_generate_package_scripts(pkg)
+                 action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
+                 if action in ("enable", "disable"):
+-                    systemd_create_presets(pkg, action)
++                    systemd_create_presets(pkg, action, False)
++                    systemd_create_presets(pkg, action, True)
+                 elif action not in ("mask", "preset"):
+                     bb.fatal("SYSTEMD_AUTO_ENABLE:%s '%s' is not 'enable', 'disable', 'mask' or 'preset'" % (pkg, action))
+         systemd_check_services()
 -- 
 2.47.1
 
