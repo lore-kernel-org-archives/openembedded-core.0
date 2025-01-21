@@ -1,289 +1,177 @@
-Return-Path: <jst@mbs-solutions.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5C2AC02182
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 12:14:32 +0000 (UTC)
-Received: from FR6P281CU001.outbound.protection.outlook.com (FR6P281CU001.outbound.protection.outlook.com [52.101.171.86])
- by mx.groups.io with SMTP id smtpd.web11.14418.1737461669070611836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF9D7C02182
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 12:34:22 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.14695.1737462860653083674
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 04:14:29 -0800
+ Tue, 21 Jan 2025 04:34:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mbs-solutions.de header.s=selector1 header.b=gPGII66D;
- spf=pass (domain: mbs-solutions.de, ip: 52.101.171.86, mailfrom: jst@mbs-solutions.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UmGbUfZnAJtDsEHufnoQ49sgIVU0PKBfye3kRXNPKzPzyMfjkits/95No6Dx23VL94IGORBzpMKxkOfJEgAhnvpybzv3/Xx6YRP2290c95kU6l1Puj9mLjTJ8TrWBCoeyzUGTp3OJ2kmUJrnCz6rrF7T93b7jgIGdCVjsyDLHLUk0y3q/2GLWXh/mFz9kkwuoKajYMCxvEHfCiyLSPy7vE5WRyHz4JTTgy1SaF8dTKgumZCffZibB3f1ZpFFG6kiXnQ+HCtFPHZEsAIt+CP6C9hOdW77zklIasut6fo4V6MHNSKaYiT8infQ3PAr0oKkmX/9iyouX/q1Zt9YAV2WIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=789VzZpw1fdQ5VvPKlLAQzMmJfh5Y5YltMceJj32ljw=;
- b=gbEl5bcLjf7mCfgqgJTERrrRykINpXh4XbQ+CVm1qH14Z4s+VHQOPJqkp3zGSeNC33+GDWT7Kpy4baC/O+cnXqrRb7oY79vAN6vl/XT7qJf0XWIjENimX8ah71mTg+s5hmJt3FOYH4YvH72O0JICOQm4owf8tnTBGwefJPgBePtpZNRSuX8aVHQDvV7leBWhztQzztAtqtPBpSSku7Yf1h62EH86p7JxA0s+tZvzMrkCw1AhHPkXf2lu8iIwhwJDFeO41ELMWQnV0G2lMgmVCenlo1PK3lM/snH4oCe9FVp834NIRl3n2ykM7Wsx1Dn7Mh5dxTLHjpze8B/A+tKtYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mbs-solutions.de; dmarc=pass action=none
- header.from=mbs-solutions.de; dkim=pass header.d=mbs-solutions.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mbs-solutions.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=789VzZpw1fdQ5VvPKlLAQzMmJfh5Y5YltMceJj32ljw=;
- b=gPGII66DUekND2CI9zjQeRa4VKWngIFaNQciqD683n/5vkJPmLgy7O+RGVJaMK6kwXvkVrvHdwLqqKDz3i7mKW1xS7VX3g/OgYFbnAkCCdMloEJCcEVNSjZJz01o3EtXo/WLaa6cZj4eO/VCXPLKUjVmNaj2MbztVdMc+CL44Wq5jgN3Y4b4r1rpcsME3vyb1xdgkbKGVFdr3p88r7WMBCpeQwk0OI1cJWyM3UB2OeVe2BLVqL3F2Cf5dVsWY/UGRj6W4iuv5MRt4+KAnql6273bky91HCKiSe2BuyCT4cGxUtwDT/flf+kjuUMkyjHkfwtv8Cgck8aSwb2eSdcS2w==
-Received: from FRYP281MB2522.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:71::11)
- by BEZP281MB3106.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:65::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.22; Tue, 21 Jan
- 2025 12:14:25 +0000
-Received: from FRYP281MB2522.DEUP281.PROD.OUTLOOK.COM
- ([fe80::8a76:8812:5cd2:3e5c]) by FRYP281MB2522.DEUP281.PROD.OUTLOOK.COM
- ([fe80::8a76:8812:5cd2:3e5c%4]) with mapi id 15.20.8356.020; Tue, 21 Jan 2025
- 12:14:25 +0000
-From: =?utf-8?B?SmFuIFN0cmF0ZXItQsO8ZGRlZmVsZA==?= <jst@mbs-solutions.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] cargo: remove LD_LIBRARY_PATH wrapper
-Thread-Topic: [OE-core] [PATCH] cargo: remove LD_LIBRARY_PATH wrapper
-Thread-Index: AQHba9xHDBeKJAdaSUWcOquDez15sLMg7J2AgAA3r4A=
-Date: Tue, 21 Jan 2025 12:14:25 +0000
-Message-ID: <1710ee6e-1ebb-4f15-bd5d-9c995b109e99@mbs-solutions.de>
-References: <20250121081220.35589-1-jst@mbs-solutions.de>
- <3258af1e3c4f84058976961be7a8d717f4b803f8.camel@linuxfoundation.org>
-In-Reply-To: 
- <3258af1e3c4f84058976961be7a8d717f4b803f8.camel@linuxfoundation.org>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mbs-solutions.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FRYP281MB2522:EE_|BEZP281MB3106:EE_
-x-ms-office365-filtering-correlation-id: 68d5e793-e3ce-4c8b-dec5-08dd3a15257f
-x-etr: Bypass spam filtering for authenticated sender 'mbs-solutions.de'
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|8096899003|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?dzZmU3JPVjBuejZBY1VWR0ZGeHhzVllZMVQ4Qmlja0h4MDBLNytaRUtORVFU?=
- =?utf-8?B?Um5mNXp0anJ6WW40OGN6ZGpWdDRDT041TStEbGpESVdDMUhwemoya2ZFUjJX?=
- =?utf-8?B?RXhTM1ozTDhldXdaTUhSUEdnUE5ueWxucWd2MnFlSzZqZERIcWROOWZjWExq?=
- =?utf-8?B?cFR5RTBOT2NyL0tNZE1mWEVhMERaa2V4L2NlTVJxZXBxYlEyNGZmcHc3UjJL?=
- =?utf-8?B?WkFKZ1d3VXlNNGJGQ1plY1E4Tndjd2RQS0NjOE1YRml0SXhHeWpnTU51MXN4?=
- =?utf-8?B?UUthMW95QkNyVXNTVDhsYjd4ZEM3VUpidnlTSUhpM2dCRHBpZFU3OXZQYm5D?=
- =?utf-8?B?YXFyQ2ZjUWpYbkdiK05JVjRWRmpPZ1dYTWdBQnN1cEtUV1FwTHUvZW9CMXZJ?=
- =?utf-8?B?dU5tOCtqYWxkUUoralJVQ1ltcHNKSStBRzMzdkQ5bkJNcjVWVkwybDdQclpE?=
- =?utf-8?B?N0FJUHdwTXM3elZuajRrVFlQRFE1dmFSOUdzM0g1L01nNHZza2ZYV1lPZXVk?=
- =?utf-8?B?VUZtVkcwdXM1NmlSVGhsSzE1dHo1M1ZPeGdka0ljWGgvQ3RqTjN5dzB6RmFO?=
- =?utf-8?B?djU1dFp1RjBVM09kSm85YTI3RlJIWUVpOGlBNW80c3RRRk9aQ1VaU3ByTmh4?=
- =?utf-8?B?ZWFra3dzZFQ0NzhuMDFxdDZHL0FneFQyU2Jlc2J4TlRiMzlyUFkydkVCWHFM?=
- =?utf-8?B?TkcyVERsSTFXOTc0NDZGK3NlODY4QjBMQmFHUFlEU1R6bmFveU1QRjVHbStr?=
- =?utf-8?B?VXpkTTNobUtZNDRnak4zSlVpMEt1NGpiTlh3eUluTzB1T05VQjJwRmszV2c5?=
- =?utf-8?B?aFFSb3Q4YUJCQk1BSTlmMjA0MzdPaVBjZ01Ja295a2ZIQVJXaisrek4yWlFJ?=
- =?utf-8?B?ZkFRSXdPanFFM1pHc0lrd3pwcGM3L2FTSnVOWjROTU9DckEreTlYTlVIa2Z5?=
- =?utf-8?B?Q283aVVGaU1CR0w5VmlYa0lQa0dqcDRLZXpGNk1henV6TjloRENmazdOUTIv?=
- =?utf-8?B?Tisramx4aXhqVHhRVmxVZURyUmNRT0JWTU1BVUI4Rmc2OTU1TUZzUnNUTlRl?=
- =?utf-8?B?aWlaejUzcktaaEcyQUlENHR5UDRZUVZZVmxpc0dEeHVObGNGc3FiZ1g3cHNQ?=
- =?utf-8?B?WEI3U1JFWEhYNitEQ2duelR1ekE1V3l2WDNBSnNEWmNaZ3RYczJFNE9kbkdq?=
- =?utf-8?B?enhxMjVYVDRGQ2h3UmtuY2tYYVdMckE5OXV0N2hzMFZLdlhxRlR0bi9iSldk?=
- =?utf-8?B?UHN1dktMUm1Fa3RpSC9BR0RKYWh3YWQ1dWN3WGZkdlkrYlYzNHFBU2RDSlg4?=
- =?utf-8?B?Uk9qUGJmODJPUEJKb2s2cFNiTWVxRjdxdlJnTnNwSTVXenZtdGVrblY5WXJs?=
- =?utf-8?B?SkRzZ2hEM1A2bkprbFdMbXlqNVhRMDE4RmUyMVpwN1pRYjB6c0dJNURZWVpV?=
- =?utf-8?B?WjNhSWo3a2Vab2FUTVdEU3dKY2ptenBZWXhzMVFmTC9hQWNTYjdlRTNiV1o0?=
- =?utf-8?B?ekI0SEFUZ0lHNUNwUThRWTdlRjNyV1JqMW01bm9GaHdFRWRSbzBndlZXZ1lh?=
- =?utf-8?B?ZHE4dE5MN1plN1dSelI0UXhacm9TS2MxKzVWM0doNEVsTTZqMENqcTVqbU9x?=
- =?utf-8?B?QnN2MnpQTWFublBiYWtaK2hKQWFuZmNzdFAwWkYvcDFqK050dXFOMkZ5Z0Jo?=
- =?utf-8?B?Nm5uRXpnMGtoVEFxcHBJeWVSOEhtSXUvQXhwdzk2Y0paK0JESE04a0JiRU02?=
- =?utf-8?B?anNCb3NhWlh0SjVHOFVlbkFUL1VwYm5RQ0dKSGhYOFFqWkM5RFBQUnVsTXI5?=
- =?utf-8?B?QzVaWWNtbG4yeE1TRGlYdDdtR2R2bmNDM0Fxb2Zjc3RVT1BYRU1sb251Z05r?=
- =?utf-8?B?SDIxRXR1SnlvQk0zcC9lc3REM1ZpS0hQekdKYVVxVGNzV1hFczBGMm9JWFlh?=
- =?utf-8?Q?prQCDgZKoK+b3pKaCwD4lR80sr9AF3GZ?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FRYP281MB2522.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(8096899003)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cE82YVNNUng1OGdXaThEN2lNN2ZQc3V4UnJiRHZRV3gvT0xhVmNudWZIeU5F?=
- =?utf-8?B?Mkx2ZXl3Yy8va1p5bHpXaU5uWUJwNjZlSTAyUVdPM3lUSkhXYTZhTFBMUVp5?=
- =?utf-8?B?OUc5V3RiWWpCaDdlcktGNU9DT0V6MzNRenF4QWxvcWxkNWdoNmlneExaTExB?=
- =?utf-8?B?OEpyYVJtU1JZbWtBckk0ZXlOc1c1QWdXbmVJYmVQOHZMMTRtelJOK3cwZTF6?=
- =?utf-8?B?UnA2R1JqRmltbEZEL0M1YjVDQ3JmZm9wQVl4VkJLU2psbEFaVjdXQWpMS0gz?=
- =?utf-8?B?bEJhbVpiQ0VQU1dCejc5YTdOZEFYamhyTitWbDFXM1B4TGNQcHFpQXpvbkNl?=
- =?utf-8?B?T2lOblRETittUGFFQnppeG52MkRTclpNRDYyVjRuRGRpc1k3VlY3cGdjeGhJ?=
- =?utf-8?B?enBQZExZQjc5RGpEN1REN0szbkh5ZnJpOXFHTi90bFVmQWo0NDJZTGlSZ2NR?=
- =?utf-8?B?dGd6WnhtSklqOHFheXlwSDM2NS9MclRjSjMwcml4bXIvTW44MC9WS0ZRVy9t?=
- =?utf-8?B?MVQwRWJkSkw5azA5MDMycWxSOEZ2UTIvZVZpUHo1VS9zM0RhTkJyTXRlSVBL?=
- =?utf-8?B?Z3BTTE5XYWtubFFnVUxlMjhrLzF0cC9wbENGZWsyb2ZoaW9CQi9uckV1eGVw?=
- =?utf-8?B?TDZsNEFBVzJYYVl3ck5pREVZQVVYYVNzMElEUm5pTXcvdEJOU3hLN1JCMUZS?=
- =?utf-8?B?TFh1Z1REMUdCVkpzUTJKTnI3cUp1S2FCT2NYZXRoTE5rYklGblgzdlc0VU91?=
- =?utf-8?B?Q2RZU3dWMGViUy9rdlMxNElKMlEyVlozRkRmeUIzZDBsRGU2bWlDYklVVGp4?=
- =?utf-8?B?UGJaT3lYSDlMNGVmRVhRd3V3TDlYaVVFdHFBQ3MwcnNHeVZLTjJTV2E4cHB1?=
- =?utf-8?B?WGJ1S25qckxxdjVONWJxZ1g1VjVzVEZvNE4zZlhFc0REajlVSXIvcWRESVBl?=
- =?utf-8?B?OGgyRlkya0k3a0NvYkdOQVhlZG5nV1VjK3hZUnlxRTk4bEZMNk02d0FjS1Az?=
- =?utf-8?B?N0wxU0RDdVZKelh5VHZmZzNHRlJGZHNCaUZPbXVrNWJHUWlrdm9icWRDanR3?=
- =?utf-8?B?UlYwUUQxTExqemxCU1hFUGVHblQ5K1ZzWFV4TmFHem1VTmRCUTI3RmFJejVM?=
- =?utf-8?B?NmE5RVNwMTdCd2twUkhXWFMvcTJIZ0RzRzN5Zk9zR3RlY29mS3NsNzRKeFRJ?=
- =?utf-8?B?OWVUazJML1ZrTGkrZ2F4K2JxYVVtWXl6cFNyNk1CUmpzUTVrYWtpN1FmVzNj?=
- =?utf-8?B?THVkeU8vTXJWbXNhcHp5eGJzNXBLUGkzWjYvR1ZJYW1VeHd4ekh3ZEVCVGtm?=
- =?utf-8?B?RFRMNUhXcFVqVWpvQWpMS2RVeE05a3c5QnhaMUR4MktrSmJDSlVxdTNoTGZU?=
- =?utf-8?B?SU1KMGNFa0tCUXNXdGNSeU4zTGREZldJdHltUHRiM2hZQStMN1pGOXlWc3NH?=
- =?utf-8?B?SUFiWWRvNzRQSlFKa0tycGlmaEgyb1dXQlY0b2hGZnJxRURTUHJRMDJUN3NS?=
- =?utf-8?B?NkNVRFBKbDJLcEpYVHRJaFhQREsrcld2eXVXd3dBcTlKNzVqNGRWUXRObU9Y?=
- =?utf-8?B?ODFMOERPTlpDT3RSckZySVVaZlpUWTVhNXk0SEJxZU1XNjJ3R3dDNWd3WFpV?=
- =?utf-8?B?UTY2QzZsSERsSkh0T1AzL0pSWlo1VUJGWHpvS1FYQmwvTHJudk5lWFp6Qno0?=
- =?utf-8?B?U0pZMHlhZjdVSWF4ZjdaS3UrUTNFWTg5QUZtRFFyYXN4SXJxYTF6SWVtczU5?=
- =?utf-8?B?dVg2OHRjaHM5QmJIT1lGZTJTN0ZFUGFodzBDLzdkQUwzVGJGR2ZocUU4L2U2?=
- =?utf-8?B?VkhrNlpSZUhSdVZWVDlXOEFWOER5TzA2S0IzR3JxTW10b2hUM0tIREFmRTk4?=
- =?utf-8?B?cHAyREFnVG92TzlWZVQ5OFZYbHhUWGZYVlJjdGVZK3czVS9mMndqWVp1V1dD?=
- =?utf-8?B?WFVoYVNVSVVPcHM1T25lQ2hCMEVOdG0zSXdwOHB5dldRUDBlcEZwUDZGUEdD?=
- =?utf-8?B?U0ZMYlp0YnptVnlGYWpVNGVJeHBuWUM3d09MZkRZZ1J0eHp3VTl4M0hab2wr?=
- =?utf-8?B?aEU4d1FFelhMTGFUNUwvS0VxMEt6blNlWWErNy9zckdLZFVkWmVzL2ZnZ0JQ?=
- =?utf-8?Q?Has0=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_1710ee6e1ebb4f15bd5d9c995b109e99mbssolutionsde_"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=at1hEU3L;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43690d4605dso38060435e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 04:34:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1737462859; x=1738067659; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T/HbRdjX6gQ4tTKywNWjvH4/q9vLIWn8ZRcalOhLjE0=;
+        b=at1hEU3L5rumxWmeQZDf2d0QQq/Wb1EoaAg8CFnpJoPon1EdyX0X+oVSlHrFm616EP
+         403F+djK6kHADp2DF9lVtSYCWD5o/D1XYa9dMT1sJDs72pWd1ftY43opkllDLoEoWnRG
+         Nhepkj63v0jkvCnDv1CJRV5SgQZ3UhAZMSk4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737462859; x=1738067659;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T/HbRdjX6gQ4tTKywNWjvH4/q9vLIWn8ZRcalOhLjE0=;
+        b=ik193YWxKyVb61Q350uBK3flFT6+95RQr07f0kXz63ujRfgCnVHsTIXLN5kiXkYBy9
+         GmmqQ7jlyDGS6dPAjJOQvj2+I8mR3LG9gA4m2RkjGHFbcaoaWq4NM5b2mYGxRMHsLZY2
+         RKcR1bVeumy0TeyDbmlBMABP9Va8LgXtcOgGUAb6hEtSIhO9oR1sjv/j2RMNt9zUX7J9
+         gLslc53F5YTDWr9nLEKkiHv3xLC/JqigPm3kZZ8LIKxEx5Ze7Evo+9/ZJUWsCB/JR1rv
+         IwlfdjAO07cG251SkWucgY4maPcJOOPwS64C6np32vh9pJzrrdBzXMe2inzBSmZYHcP0
+         YWWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjLYVpjQ/JSb13f9WEOmNRqj9rg3whAHncw0+7ueR4LGmZ9W4MM67F4KL2jSS7oiy4C/Kb93iX4JizHnKkPx/yIA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzRDOoNpEJMwhxuZTh+AdCjghFnRNk/T7sGH2v4nr2azGj13N2W
+	lhxH1HoVG+vWQYDqO+v8WjWKOU92nkxX+LPPt6vU9S5NTFtjcWJZAIL2ydRIiYs=
+X-Gm-Gg: ASbGncstIW+OHR6TCOs48s4sW/kO4OF82ghf3E7/b5eJQR1do3z32aR6L6UJeX+pjwv
+	NE4TwKmQgMfJTJg6k/lgUwKnunMlKnHsC753Pl32OPo2kqP/HNTJBrkLeJNqBG0E7wDkXm/Xj8K
+	cTfiv6qW+EfK/sv2lh1j/UabLc9gi6901glBC+wjF6PH+W1lOR6M1Tc6ADD8KI3TBaa9um2HZ2D
+	u1s75ZVn2lQDWUGWFnUhDEuodxfjwqMiCSD27WpbvAJ4nqolYoSa48lxgQwieSv+DFL/ypLROfC
+	trsiP6KngXUI8bHlOJr8KmS3+y2uhkYOBGCmMrplEiyo3U1VXTWFE43MbHo=
+X-Google-Smtp-Source: AGHT+IF/QVNyxcACfVFVmLHgcT1N06csGW2yAE+uHUXPrrtpUY2OR7fEm1cUOmON9kamj0BowC2kZA==
+X-Received: by 2002:a05:600c:1e0b:b0:434:ea21:e14f with SMTP id 5b1f17b1804b1-438913ed04amr153697875e9.13.1737462858975;
+        Tue, 21 Jan 2025 04:34:18 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fff5:d00b:f6db:4bc7? ([2001:8b0:aba:5f3c:fff5:d00b:f6db:4bc7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c0f03984sm180057475e9.0.2025.01.21.04.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2025 04:34:18 -0800 (PST)
+Message-ID: <8c83d1715bb0c8e523f4b947b0f215700f4c8c51.camel@linuxfoundation.org>
+Subject: Re: [PATCH v5] u-boot: kernel-fitimage: Fix dependency loop if
+ UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>, Sean Anderson <sean.anderson@seco.com>
+Date: Tue, 21 Jan 2025 12:34:17 +0000
+In-Reply-To: <20250119180926.41739-1-marex@denx.de>
+References: <20250119180926.41739-1-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-X-OriginatorOrg: mbs-solutions.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FRYP281MB2522.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68d5e793-e3ce-4c8b-dec5-08dd3a15257f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2025 12:14:25.4124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 778c8b78-467e-4379-adca-743b91174c8a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pHxOd4MiJmp5jkCaU2uMIqOq6vu7eQSna2iG6KOkQ7sjP1GBdfuzVQ5UuYnRGl+t6rrCjJY8/i8T9LITK7QdyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BEZP281MB3106
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 12:14:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210091
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 12:34:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210092
 
---_000_1710ee6e1ebb4f15bd5d9c995b109e99mbssolutionsde_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Sun, 2025-01-19 at 19:08 +0100, Marek Vasut wrote:
+> In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+> kernel-fitimage.bbclass is in use to generate signed kernel
+> fitImage, there is a circular dependency between uboot-sign
+> and kernel-fitimage bbclasses . The loop looks like this:
+>=20
+> kernel-fitimage.bbclass:
+> - do_populate_sysroot depends on do_assemble_fitimage
+> =C2=A0 - do_assemble_fitimage depends on virtual/bootloader:do_populate_s=
+ysroot
+> =C2=A0=C2=A0=C2=A0 - virtual/bootloader:do_populate_sysroot depends on vi=
+rtual/bootloader:do_install
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D> The virtual/bootloader:do_install ins=
+talls and the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtual/bootloader:do_po=
+pulate_sysroot places into
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sysroot an U-Boot enviro=
+nment script embedded into
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel fitImage during d=
+o_assemble_fitimage run .
+>=20
+> uboot-sign.bbclass:
+> - DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+> =C2=A0 - do_deploy depends on do_uboot_assemble_fitimage
+> =C2=A0 - do_install depends on do_uboot_assemble_fitimage
+> =C2=A0 - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate=
+_sysroot
+> =C2=A0=C2=A0=C2=A0 =3D> do_install depends on virtual/kernel:do_populate_=
+sysroot
+>=20
+> =3D> virtual/bootloader:do_install depends on virtual/kernel:do_populate_=
+sysroot
+> =C2=A0=C2=A0 virtual/kernel:do_populate_sysroot depends on virtual/bootlo=
+ader:do_install
+>=20
+> Attempt to resolve the loop. Pull fitimage configuration options into sep=
+arate
+> new bbclass kernel-fitimage-config.bbclass so these configuration options=
+ can
+> be shared by both uboot-sign.bbclass and kernel-fitimage.bbclass, and mak=
+e use
+> of mkimage -f auto-conf / mkimage -f auto option to insert /signature nod=
+e key-*
+> subnode into U-Boot control DT without depending on the layout of kernel =
+fitImage
+> itself. This is perfectly valid to do, because the U-Boot /signature node=
+ key-*
+> subnodes 'required' property can contain either of two values, 'conf' or =
+'image'
+> to authenticate either selected configuration or all of images when booti=
+ng the
+> fitImage.
+>=20
+> For details of the U-Boot fitImage signing process, see:
+> https://docs.u-boot.org/en/latest/usage/fit/signature.html
+> For details of mkimage -f auto-conf and -f auto, see:
+> https://manpages.debian.org/experimental/u-boot-tools/mkimage.1.en.html#E=
+XAMPLES
+>=20
+> Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
+)
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> ---
+> V2: Take a different approach, split the kernel-fitimage.bbclass and
+> =C2=A0=C2=A0=C2=A0 use it to generate dummy fitImage on demand
+> V3: Use mkimage -f auto-conf and mkimage -f auto to break the loop,
+> =C2=A0=C2=A0=C2=A0 the fitImage .its source is not even needed because th=
+e 'required'
+> =C2=A0=C2=A0=C2=A0 property can only have two values, 'conf' or 'image' .
+> V4: Restore CC list
+> V5: - Add missing trailing backslash after unused.itb
+> =C2=A0=C2=A0=C2=A0 - Replace ${UBOOT_MKIMAGE_MODE} with $UBOOT_MKIMAGE_MO=
+DE
+> =C2=A0=C2=A0=C2=A0 - Move -d /dev/null to the end of mkimage invocation
+> ---
+> =C2=A0.../kernel-fitimage-config.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 50 +++++++++++++++++
+> =C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=C2=A0 | 54 +-----=
+-------------
+> =C2=A0meta/classes-recipe/uboot-sign.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 27 +++++-----
+> =C2=A03 files changed, 65 insertions(+), 66 deletions(-)
+> =C2=A0create mode 100644 meta/classes-recipe/kernel-fitimage-config.bbcla=
+ss
 
-QW0gMjEuMDEuMjUgdW0gMDk6NTUgc2NocmllYiBSaWNoYXJkIFB1cmRpZToNCg0KT24gVHVlLCAy
-MDI1LTAxLTIxIGF0IDA5OjEyICswMTAwLCBKYW4gU3RyYXRlci1Cw7xkZGVmZWxkIHZpYSBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KDQoNCkZpeGVzIFtZT0NUTyAjMTU1NzldDQoNClRo
-aXMgY29tbWl0IHJlbW92ZXMgdGhlIExEX0xJQlJBUllfUEFUSCB3cmFwcGVyIGFyb3VuZCBgY2Fy
-Z29gLg0KU2V0dGluZyB0aGUgTERfTElCUkFSWV9QQVRIIGNhdXNlcyBtYW55IHByb2JsZW1zLg0K
-U29tZSBidWlsZCBzY3JpcHRzIHdpbGwgbm90IHJ1biBiZWNhdXNlIHRoZSBidWlsZCBzY3JpcHRz
-IGV4ZWN1dGUNCmJpbmFyaWVzIGZyb20gdGhlIGhvc3Qgc3lzdGVtIHRoYXQgYXJlIG5vdCBjb21w
-YXRpYmxlIHdpdGggdGhlIHRhcmdldA0KbGlicmFyaWVzLg0KRXZlbiBhIHNpbXBsZSBgY2FyZ28g
-aGVscCBidWlsZGAgY2FuIGZhaWwgYmVjYXVzZSBpdCB1c2VzIGBsZXNzYA0KaW50ZXJuYWxseSwg
-d2hpY2ggc2hvdWxkIG5vdCBiZSBsaW5rZWQgYWdhaW5zdCB0aGUgdGFyZ2V0IGxpYnJhcmllcy4N
-Cg0KVGhlcmUgbWlnaHQgYmUgY2FzZXMgd2hlcmUgdGhlIExEX0xJQlJBUllfUEFUSCBpcyBuZWVk
-ZWQgZm9yIHNvbWUgaG9zdHMsDQpsaWtlIHRoZSBjYXNlIGRlc2NyaWJlZCBpbiAzODhlN2NhYzlm
-OTBlNzljZThjM2MxNjgzZDhlZTBmNGRmMWJjOTA3DQpidXQgb25lIGNhbiBhbHdheXMgc2V0IExE
-X0xJQlJBUllfUEFUSCBtYW51YWxseSBpZiBuZWVkZWQuDQoNCkEgY3VycmVudCB3b3JraW5nIHdv
-cmthcm91bmQgd2l0aG91dCB0aGlzIGNvbW1pdCB3b3VsZCBiZSBhbHdheXMgdXNpbmcNCmBjYXJn
-by5yZWFsYCBpbnN0ZWFkIG9mIGBjYXJnb2AsIHdoaWNoIGNhbiBsZWFkIHRvIGNvbmZ1c2lvbi4N
-Cg0KU2lnbmVkLW9mZi1ieTogSmFuIFN0cmF0ZXItQsO8ZGRlZmVsZCA8anN0QG1icy1zb2x1dGlv
-bnMuZGU+PG1haWx0bzpqc3RAbWJzLXNvbHV0aW9ucy5kZT4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ydXN0L2NhcmdvXzEuODEuMC5iYiB8IDggLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdl
-ZCwgOCBkZWxldGlvbnMoLSkNCg0KDQoNClRoYXQgd3JhcHBlciB3YXMgYWRkZWQgZm9yIGEgcmVh
-c29uLiBJcyB0aGF0IHJlYXNvbiBzdGlsbCB2YWxpZCBhbmQgaG93DQpkbyB5b3UgcGxhbiB0byBt
-aXRpZ2F0ZSBhZ2FpbnN0IHRoZSBpc3N1ZXMgaXQgd2FzIG9yaWdpbmFsbHkgYWRkZWQgZm9yPw0K
-VGhlIGNvbW1pdCBtZXNzYWdlIG5lZWRzIHRvIG1lbnRpb24gdGhpcy4NCg0KQ2hlZXJzLA0KDQpS
-aWNoYXJkDQoNCg0KU29ycnkgZm9yIG5vdCBiZWluZyBjbGVhciBlbm91Z2guDQoNCkNhcmdvIHN0
-aWxsIGRvZXNuJ3Qgc2V0IExEX0xJQlJBUllfUEFUSCB0byAvbGliLywgc28gdGhlIGlzc3VlIHJl
-bWFpbnMuIE9uIHRoZSBvdGhlciBoYW5kLCBDYXJnbyBpdHNlbGYgb25seSBzZXRzIExEX0xJQlJB
-UllfUEFUSCBmb3Igc29tZSBjb21tYW5kcyBpZiBuZWVkZWQsIGFuZCBub3QgYWx3YXlzIGxpa2Ug
-dGhlIHdyYXBwZXIgZG9lcy4NCg0KQXMgbWVudGlvbmVkIGluIHRoZSBjb21taXQgbWVzc2FnZSwg
-SSB3b3VsZCBhcmd1ZSB0aGF0IHNldHRpbmcgdGhlIGVudmlyb25tZW50IHZhcmlhYmxlIGFsd2F5
-cyBpcyB3cm9uZywgYW5kIG9uZSBzaG91bGQgaW5zdGVhZCBzZXQgTERfTElCUkFSWV9QQVRIIG1h
-bnVhbGx5IGlmIG5lZWRlZC4NCg0KQW5vdGhlciwgbWF5YmUgYmV0dGVyLCBhcHByb2FjaCB3b3Vs
-ZCBiZSB0byByZW1vdmUgdGhlIHdyYXBwZXIgYW5kIHBhdGNoIENhcmdvIGl0c2VsZiwgYnV0IEkg
-d2FzIG5vdCBhYmxlIHRvIGRvIHNvIGFuZCBhbHNvIGRvbid0IGtub3cgd2hhdCBzaWRlIGVmZmVj
-dHMgdGhhdCB3aWxsIGhhdmUuDQoNCktpbmRseSByZWdhcmRzLA0KDQpKYW4NCg==
+This looks great and I'm nearly ready to merge it but I do have one
+further request. Instead of creating kernel-fitimage-config.bbclass,
+could you create something like meta/conf/image-fitimage.conf?
 
---_000_1710ee6e1ebb4f15bd5d9c995b109e99mbssolutionsde_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <3C9C7015865D484E9B326EF5FBD5D7B2@DEUP281.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+There is already precedent for this with image-uefi.conf and you can
+include with require ../conf/image-fitimage.conf. I'd like to see
+config variables being in conf files rather than class files.
 
-PCFET0NUWVBFIGh0bWw+DQo8aHRtbD4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVu
-dC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPC9oZWFkPg0KPGJv
-ZHk+DQo8ZGl2IGNsYXNzPSJtb3otY2l0ZS1wcmVmaXgiPkFtIDIxLjAxLjI1IHVtIDA5OjU1IHNj
-aHJpZWIgUmljaGFyZCBQdXJkaWU6PGJyPg0KPC9kaXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRl
-IiBjaXRlPSJtaWQ6MzI1OGFmMWUzYzRmODQwNTg5NzY5NjFiZTdhOGQ3MTdmNGI4MDNmOC5jYW1l
-bEBsaW51eGZvdW5kYXRpb24ub3JnIj4NCjxwcmUgd3JhcD0iIiBjbGFzcz0ibW96LXF1b3RlLXBy
-ZSI+T24gVHVlLCAyMDI1LTAxLTIxIGF0IDA5OjEyICswMTAwLCBKYW4gU3RyYXRlci1Cw7xkZGVm
-ZWxkIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPC9wcmU+DQo8YmxvY2txdW90
-ZSB0eXBlPSJjaXRlIj4NCjxwcmUgd3JhcD0iIiBjbGFzcz0ibW96LXF1b3RlLXByZSI+Rml4ZXMg
-W1lPQ1RPICMxNTU3OV0NCg0KVGhpcyBjb21taXQgcmVtb3ZlcyB0aGUgTERfTElCUkFSWV9QQVRI
-IHdyYXBwZXIgYXJvdW5kIGBjYXJnb2AuDQpTZXR0aW5nIHRoZSBMRF9MSUJSQVJZX1BBVEggY2F1
-c2VzIG1hbnkgcHJvYmxlbXMuDQpTb21lIGJ1aWxkIHNjcmlwdHMgd2lsbCBub3QgcnVuIGJlY2F1
-c2UgdGhlIGJ1aWxkIHNjcmlwdHMgZXhlY3V0ZQ0KYmluYXJpZXMgZnJvbSB0aGUgaG9zdCBzeXN0
-ZW0gdGhhdCBhcmUgbm90IGNvbXBhdGlibGUgd2l0aCB0aGUgdGFyZ2V0DQpsaWJyYXJpZXMuDQpF
-dmVuIGEgc2ltcGxlIGBjYXJnbyBoZWxwIGJ1aWxkYCBjYW4gZmFpbCBiZWNhdXNlIGl0IHVzZXMg
-YGxlc3NgDQppbnRlcm5hbGx5LCB3aGljaCBzaG91bGQgbm90IGJlIGxpbmtlZCBhZ2FpbnN0IHRo
-ZSB0YXJnZXQgbGlicmFyaWVzLg0KDQpUaGVyZSBtaWdodCBiZSBjYXNlcyB3aGVyZSB0aGUgTERf
-TElCUkFSWV9QQVRIIGlzIG5lZWRlZCBmb3Igc29tZSBob3N0cywNCmxpa2UgdGhlIGNhc2UgZGVz
-Y3JpYmVkIGluIDM4OGU3Y2FjOWY5MGU3OWNlOGMzYzE2ODNkOGVlMGY0ZGYxYmM5MDcNCmJ1dCBv
-bmUgY2FuIGFsd2F5cyBzZXQgTERfTElCUkFSWV9QQVRIIG1hbnVhbGx5IGlmIG5lZWRlZC4NCg0K
-QSBjdXJyZW50IHdvcmtpbmcgd29ya2Fyb3VuZCB3aXRob3V0IHRoaXMgY29tbWl0IHdvdWxkIGJl
-IGFsd2F5cyB1c2luZw0KYGNhcmdvLnJlYWxgIGluc3RlYWQgb2YgYGNhcmdvYCwgd2hpY2ggY2Fu
-IGxlYWQgdG8gY29uZnVzaW9uLg0KDQpTaWduZWQtb2ZmLWJ5OiBKYW4gU3RyYXRlci1Cw7xkZGVm
-ZWxkIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1haWx0bzpqc3RAbWJz
-LXNvbHV0aW9ucy5kZSI+Jmx0O2pzdEBtYnMtc29sdXRpb25zLmRlJmd0OzwvYT4NCi0tLQ0KJm5i
-c3A7bWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvY2FyZ29fMS44MS4wLmJiIHwgOCAtLS0tLS0t
-LQ0KJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDggZGVsZXRpb25zKC0pDQo8L3ByZT4NCjwvYmxvY2tx
-dW90ZT4NCjxwcmUgd3JhcD0iIiBjbGFzcz0ibW96LXF1b3RlLXByZSI+DQpUaGF0IHdyYXBwZXIg
-d2FzIGFkZGVkIGZvciBhIHJlYXNvbi4gSXMgdGhhdCByZWFzb24gc3RpbGwgdmFsaWQgYW5kIGhv
-dw0KZG8geW91IHBsYW4gdG8gbWl0aWdhdGUgYWdhaW5zdCB0aGUgaXNzdWVzIGl0IHdhcyBvcmln
-aW5hbGx5IGFkZGVkIGZvcj8NClRoZSBjb21taXQgbWVzc2FnZSBuZWVkcyB0byBtZW50aW9uIHRo
-aXMuDQoNCkNoZWVycywNCg0KUmljaGFyZA0KPC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2IGNs
-YXNzPSJtb3otc2lnbmF0dXJlIj4NCjxwPlNvcnJ5IGZvciBub3QgYmVpbmcgY2xlYXIgZW5vdWdo
-LjwvcD4NCjxwPkNhcmdvIHN0aWxsIGRvZXNuJ3Qgc2V0IExEX0xJQlJBUllfUEFUSCB0byAvbGli
-Lywgc28gdGhlIGlzc3VlIHJlbWFpbnMuIE9uIHRoZSBvdGhlciBoYW5kLCBDYXJnbyBpdHNlbGYg
-b25seSBzZXRzIExEX0xJQlJBUllfUEFUSCBmb3Igc29tZSBjb21tYW5kcyBpZiBuZWVkZWQsIGFu
-ZCBub3QgYWx3YXlzIGxpa2UgdGhlIHdyYXBwZXIgZG9lcy48L3A+DQo8cD5BcyBtZW50aW9uZWQg
-aW4gdGhlIGNvbW1pdCBtZXNzYWdlLCBJIHdvdWxkIGFyZ3VlIHRoYXQgc2V0dGluZyB0aGUgZW52
-aXJvbm1lbnQgdmFyaWFibGUgYWx3YXlzIGlzIHdyb25nLCBhbmQgb25lIHNob3VsZCBpbnN0ZWFk
-IHNldCBMRF9MSUJSQVJZX1BBVEggbWFudWFsbHkgaWYgbmVlZGVkLjwvcD4NCjxwPkFub3RoZXIs
-IG1heWJlIGJldHRlciwgYXBwcm9hY2ggd291bGQgYmUgdG8gcmVtb3ZlIHRoZSB3cmFwcGVyIGFu
-ZCBwYXRjaCBDYXJnbyBpdHNlbGYsIGJ1dCBJIHdhcyBub3QgYWJsZSB0byBkbyBzbyBhbmQgYWxz
-byBkb24ndCBrbm93IHdoYXQgc2lkZSBlZmZlY3RzIHRoYXQgd2lsbCBoYXZlLjwvcD4NCjxwPktp
-bmRseSByZWdhcmRzLDwvcD4NCjxwPkphbjxicj4NCjwvcD4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0i
-bW96LXNpZ25hdHVyZSI+DQo8bWV0YSBuYW1lPSJQcm9nSWQiIGNvbnRlbnQ9IldvcmQuRG9jdW1l
-bnQiPg0KPG1ldGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSI+
-DQo8bWV0YSBuYW1lPSJPcmlnaW5hdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSI+DQo8
-c3R5bGU+QGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpIZWx2ZXRpY2E7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMiAyIDIgMiAyIDQ7DQoJbXNvLWZvbnQtY2hhcnNldDowOw0KCW1zby1nZW5lcmljLWZv
-bnQtZmFtaWx5OnN3aXNzOw0KCW1zby1mb250LXBpdGNoOnZhcmlhYmxlOw0KCW1zby1mb250LXNp
-Z25hdHVyZTotNTM2ODU4ODgxIC0xMDczNzExMDEzIDkgMCA1MTEgMDt9QGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-Ow0KCW1zby1mb250LWNoYXJzZXQ6MDsNCgltc28tZ2VuZXJpYy1mb250LWZhbWlseTpyb21hbjsN
-Cgltc28tZm9udC1waXRjaDp2YXJpYWJsZTsNCgltc28tZm9udC1zaWduYXR1cmU6MyAwIDAgMCAx
-IDA7fUBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDsNCgltc28tZm9udC1jaGFyc2V0OjA7DQoJbXNvLWdlbmVyaWMtZm9udC1m
-YW1pbHk6c3dpc3M7DQoJbXNvLWZvbnQtcGl0Y2g6dmFyaWFibGU7DQoJbXNvLWZvbnQtc2lnbmF0
-dXJlOi00Njk3NTAwMTcgLTEwNzM3MzI0ODUgOSAwIDUxMSAwO31wLk1zb05vcm1hbCwgbGkuTXNv
-Tm9ybWFsLCBkaXYuTXNvTm9ybWFsDQoJe21zby1zdHlsZS11bmhpZGU6bm87DQoJbXNvLXN0eWxl
-LXFmb3JtYXQ6eWVzOw0KCW1zby1zdHlsZS1wYXJlbnQ6IiI7DQoJbWFyZ2luOjBjbTsNCgltc28t
-cGFnaW5hdGlvbjp3aWRvdy1vcnBoYW47DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWls
-eToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgltc28tYXNjaWktZm9udC1mYW1pbHk6Q2FsaWJyaTsN
-Cgltc28tYXNjaWktdGhlbWUtZm9udDptaW5vci1sYXRpbjsNCgltc28tZmFyZWFzdC1mb250LWZh
-bWlseTpDYWxpYnJpOw0KCW1zby1mYXJlYXN0LXRoZW1lLWZvbnQ6bWlub3ItbGF0aW47DQoJbXNv
-LWhhbnNpLWZvbnQtZmFtaWx5OkNhbGlicmk7DQoJbXNvLWhhbnNpLXRoZW1lLWZvbnQ6bWlub3It
-bGF0aW47DQoJbXNvLWJpZGktZm9udC1mYW1pbHk6IlRpbWVzIE5ldyBSb21hbiI7DQoJbXNvLWJp
-ZGktdGhlbWUtZm9udDptaW5vci1iaWRpOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO31h
-OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1ub3Nob3c6eWVzOw0KCW1zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjojMDU2M0MxOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRl
-cmxpbmU7DQoJdGV4dC11bmRlcmxpbmU6c2luZ2xlO31hOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJs
-aW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLW5vc2hvdzp5ZXM7DQoJbXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOiM5NTRGNzI7DQoJbXNvLXRoZW1lY29sb3I6Zm9sbG93ZWRoeXBlcmxpbms7
-DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTsNCgl0ZXh0LXVuZGVybGluZTpzaW5nbGU7fS5N
-c29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCW1zby1kZWZhdWx0
-LXByb3BzOnllczsNCglmb250LXNpemU6MTIuMHB0Ow0KCW1zby1hbnNpLWZvbnQtc2l6ZToxMi4w
-cHQ7DQoJbXNvLWJpZGktZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgltc28tYXNjaWktZm9udC1mYW1pbHk6Q2FsaWJyaTsNCgltc28tYXNjaWkt
-dGhlbWUtZm9udDptaW5vci1sYXRpbjsNCgltc28tZmFyZWFzdC1mb250LWZhbWlseTpDYWxpYnJp
-Ow0KCW1zby1mYXJlYXN0LXRoZW1lLWZvbnQ6bWlub3ItbGF0aW47DQoJbXNvLWhhbnNpLWZvbnQt
-ZmFtaWx5OkNhbGlicmk7DQoJbXNvLWhhbnNpLXRoZW1lLWZvbnQ6bWlub3ItbGF0aW47DQoJbXNv
-LWJpZGktZm9udC1mYW1pbHk6IlRpbWVzIE5ldyBSb21hbiI7DQoJbXNvLWJpZGktdGhlbWUtZm9u
-dDptaW5vci1iaWRpOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO31kaXYuV29yZFNlY3Rp
-b24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO308L3N0eWxlPjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1s
-Pg0K
+Adding some comments at the top of the new file explaining which config
+settings are there and what it is for would also be good.
 
---_000_1710ee6e1ebb4f15bd5d9c995b109e99mbssolutionsde_--
+Thanks,
+
+Richard
+
 
