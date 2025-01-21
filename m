@@ -1,156 +1,101 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8CFC0218B
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 08:55:41 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.11924.1737449736027164214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD886C02182
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 09:05:21 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.12011.1737450316168722488
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 00:55:36 -0800
+ Tue, 21 Jan 2025 01:05:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31163e49e6=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L8TTWV009201
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:35 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 448cpq28yr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:35 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 21 Jan 2025 00:55:35 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 00:55:34 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 8/9] Add recipe nativesdk-multiconfig-multlib-toolchain-packager
-Date: Tue, 21 Jan 2025 16:55:25 +0800
-Message-ID: <20250121085526.1370937-8-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250121085526.1370937-1-hongxu.jia@windriver.com>
-References: <20250121085526.1370937-1-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: MR1eoblNUCYZvG0BvYgMnMs2r4v4zQXZ
-X-Proofpoint-GUID: MR1eoblNUCYZvG0BvYgMnMs2r4v4zQXZ
-X-Authority-Analysis: v=2.4 cv=TdtstQQh c=1 sm=1 tr=0 ts=678f6107 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=PaQVhxr333NsTzhZ9hwA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-21_04,2025-01-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501210072
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OhHyF53o;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=g0La2rR8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010194881bdd51-8ba9e05d-ca70-4fe8-a2b7-479c64d515d9-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1737450315; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=qCY2WgoCp1zKA8t+eCkf14BZa9uAk5qSFBqfOI/UDJk=;
+	b=OhHyF53oDkK4SAwdB6O1XKQHDKzP+knUTfzYvQzB3wryKqYz3MdgOa91KlBzdNqS
+	wIrYBXk+N2fFGmajnCW8QwbF4+2f8I9HRelTidBTscNDbm81ghFi6Eh5kPYXrNZfdQ2
+	X/hfIB3IFHDMG7dvCbdsrjO7jDJkuMABwJzp+7C4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1737450315;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=qCY2WgoCp1zKA8t+eCkf14BZa9uAk5qSFBqfOI/UDJk=;
+	b=g0La2rR8wJin65tifUFdJJYXPbBGFnH00+yCaWC54jEsnk/79HB6rqWihh8OXlAZ
+	ZenOcNBHYdTTNJ+kE6TkmTapeYxzgGv7TKnWXHOYC1Y0Vr4twYsY00yYtORC45xrYno
+	A/dYeSGAhku/+WYj+DVh64ayy6O3CBmz8nre0f9o=
+From: patchtest@automation.yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 8/9] Add recipe
+ nativesdk-multiconfig-multlib-toolchain-packager
+In-Reply-To: <20250121085526.1370937-8-hongxu.jia@windriver.com>
+References: <20250121085526.1370937-8-hongxu.jia@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194881bdd51-8ba9e05d-ca70-4fe8-a2b7-479c64d515d9-000000@us-west-2.amazonses.com>
+Date: Tue, 21 Jan 2025 09:05:15 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.21-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 08:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210080
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 09:05:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210082
 
-Support two mutliconfig build x86 and x86_64:
+--NextPart
+Content-Type: text/plain
 
-1. Trigger a x86 multiconfig build to generate 32bit x86 buildtools-tarball.
-During package runtime installation, script postinst extracted 32bit x86
-buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-2. Trigger a x86_64 multiconfig build to generate 64bit x86_64 buildtools-tarball.
-During package runtime installation, script postinst extracted 64bit x86_64
-buildtools-tarball and installed it to 32bit x86 nativesdk sysroot.
-
-[ YOCTO #15722 ]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...ticonfig-multlib-toolchain-packager_0.1.bb | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
+Testing patch /home/patchtest/share/mboxes/8-9-Add-recipe-nativesdk-multiconfig-multlib-toolchain-packager.patch
 
-diff --git a/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
-new file mode 100644
-index 0000000000..c742c3eddd
---- /dev/null
-+++ b/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
-@@ -0,0 +1,74 @@
-+DESCRIPTION = "Fetch 32bit x86 buildtools-tarball from x86 multiconfig build, \
-+extract and install toolchain libraries and include files into 64bit nativesdk sysroot.\
-+Or fetch 64bit x86_64 buildtools-tarball from x86_64 multiconfig build, \
-+extract and install toolchain libraries and include files into 32bit nativesdk sysroot.\
-+"
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-+
-+inherit nativesdk
-+
-+MCSDK_ARCH:virtclass-mcextend-x86 = "i686"
-+MCSDK_ARCH:virtclass-mcextend-x86_64 = "x86_64"
-+
-+FROM_MULTICONFIG:virtclass-mcextend-x86_64 = "x86"
-+FROM_MULTICONFIG:virtclass-mcextend-x86 = "x86_64"
-+
-+TO_MULTICONFIG = "${MCNAME}"
-+
-+MC_SDK_DEPLOY = "${TOPDIR}/tmp-mc-${MCNAME}/deploy/sdk"
-+MC_TOOLCHAIN_OUTPUTNAME = "${MCSDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
-+
-+# 64bit x86_64 platform requires 32bit x86 buildtools-tarball
-+# Or
-+# 32bit x86 platform requires 64bit buildtools-tarball
-+do_install[mcdepends] += "mc:${FROM_MULTICONFIG}:${TO_MULTICONFIG}:buildtools-tarball:do_build"
-+do_install () {
-+    install -d ${D}${localstatedir}/machines/${MCNAME}
-+    install ${MC_SDK_DEPLOY}/${MC_TOOLCHAIN_OUTPUTNAME}.sh ${D}${localstatedir}/machines/${MCNAME}/buildtools-tarball.sh
-+}
-+
-+MC_BASELIB:virtclass-mcextend-x86 = "lib"
-+MC_BASELIB:virtclass-mcextend-x86_64 = "lib64"
-+
-+INSTALL_FILES ?= " \
-+    /usr/include \
-+    /usr/${MC_BASELIB} \
-+    /${MC_BASELIB} \
-+"
-+do_install[vardeps] += "INSTALL_FILES MC_SDK_DEPLOY MC_TOOLCHAIN_OUTPUTNAME"
-+
-+# Extract and install toolchain libraries and include files into nativesdk sysroot
-+pkg_postinst:${PN} () {
-+    set -x
-+    $D${localstatedir}/machines/${MCNAME}/buildtools-tarball.sh -y -d $D/sdk-${MCNAME}
-+    src_prefix="$D/sdk-${MCNAME}/sysroots/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}"
-+    for install_file in ${INSTALL_FILES}; do
-+        if [ ! -e ${src_prefix}${install_file} ]; then
-+            echo "${src_prefix}${install_file} does not exist"
-+            exit 1
-+        elif [ -d ${src_prefix}${install_file} ]; then
-+            install -d $D${SDKPATHNATIVE}${install_file}
-+            cp -rf ${src_prefix}${install_file}/* $D${SDKPATHNATIVE}${install_file}/
-+        else
-+            install -d $D${SDKPATHNATIVE}${install_file%/*}
-+            cp -f ${src_prefix}${install_file} $D${SDKPATHNATIVE}${install_file}
-+        fi
-+    done
-+    rm $D/sdk-${MCNAME} -rf
-+}
-+
-+
-+python () {
-+    mcname = d.getVar('MCNAME')
-+    if not mcname:
-+        raise bb.parse.SkipRecipe("Not a multiconfig target")
-+
-+    multiconfigs = d.getVar('BBMULTICONFIG') or ""
-+    if mcname not in multiconfigs:
-+        raise bb.parse.SkipRecipe("multiconfig target %s not enabled" % mcname)
-+}
-+
-+INSANE_SKIP = "native-last"
-+
-+BBCLASSEXTEND = "mcextend:x86 mcextend:x86_64"
--- 
-2.34.1
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
