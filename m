@@ -2,124 +2,242 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86595C02182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 867B5C02185
 	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 08:55:41 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.11836.1737449732124099953
+ by mx.groups.io with SMTP id smtpd.web10.11926.1737449737004337034
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 00:55:32 -0800
+ Tue, 21 Jan 2025 00:55:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31163e49e6=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L8ZZWB017946
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:32 -0800
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L6I3Nd024929
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:36 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 448cpq28ym-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4488f72dj7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:31 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:36 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 21 Jan 2025 00:55:31 -0800
+ 15.1.2507.43; Tue, 21 Jan 2025 00:55:35 -0800
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 00:55:30 -0800
+ 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 00:55:35 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 4/9] script/relocate_sdk.py: check dynamic loader arch before relocating interpreter
-Date: Tue, 21 Jan 2025 16:55:21 +0800
-Message-ID: <20250121085526.1370937-4-hongxu.jia@windriver.com>
+Subject: [PATCH 9/9] selftest/multiconfig: test multiconfig multlib nativesdk gcc
+Date: Tue, 21 Jan 2025 16:55:26 +0800
+Message-ID: <20250121085526.1370937-9-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250121085526.1370937-1-hongxu.jia@windriver.com>
 References: <20250121085526.1370937-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: sby8cerSIaaSULy_A5HqkVe0U2CRZmH_
-X-Proofpoint-GUID: sby8cerSIaaSULy_A5HqkVe0U2CRZmH_
-X-Authority-Analysis: v=2.4 cv=TdtstQQh c=1 sm=1 tr=0 ts=678f6103 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=dAzMZrHdxAaOrm8FoQAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: xfyS69c1wCFL25QKJKbV0Nq6TP9PGaV5
+X-Authority-Analysis: v=2.4 cv=GqG4+l1C c=1 sm=1 tr=0 ts=678f6108 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=TOxOv8nXIum1QvLWbuQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: xfyS69c1wCFL25QKJKbV0Nq6TP9PGaV5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-21_04,2025-01-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=730 adultscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501210072
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2501210072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 08:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210076
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210081
 
-While multiple dynamic loader existed, in order to make executable file is
-interpreted by the expected dynamic loader, relocating interpreter only if
-the new dynamic loader and executable file have the same arch
+Add 2 cases to test multiconfig multlib nativesdk gcc
+
+1. test_multiconfig_64bit_gcc_suport_32bit_multilib
+Build 64bit x86_64 buildtools-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86.
+The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86 multiconfig
+build to generate 32bit x86 buildtools-tarball which contains minimal 32bit toolchains
+libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86
+extract 32bit x86 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
+Then use 64bit gcc to compile 32bit and 64bit hello world program
+
+2. test_multiconfig_32bit_gcc_suport_64bit_multilib
+Build 32bit i686 buildtools-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86_64.
+The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86_64 multiconfig
+build to generate 64bit x86_64 buildtools-tarball which contains minimal 64bit toolchains
+libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86_64
+extract 64bit x86_64 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
+Then use 32bit gcc to compile 32bit and 64bit hello world program
+
+...
+2025-01-20 22:08:15,003 - oe-selftest - INFO -  ... ok
+2025-01-20 22:08:15,004 - oe-selftest - INFO - test_multiconfig_32bit_gcc_suport_64bit_multilib (multiconfig.MultiConfig)
+2025-01-20 22:17:13,046 - oe-selftest - INFO -  ... ok
+2025-01-20 22:17:13,047 - oe-selftest - INFO - test_multiconfig_64bit_gcc_suport_32bit_multilib (multiconfig.MultiConfig)
+...
 
 [ YOCTO #15722 ]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- scripts/relocate_sdk.py | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/multiconfig.py | 139 +++++++++++++++++++-
+ 1 file changed, 138 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 8a728720ba..9e01c09cb0 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -49,6 +49,34 @@ def get_arch():
-     elif ei_class == 2:
-         return 64
+diff --git a/meta/lib/oeqa/selftest/cases/multiconfig.py b/meta/lib/oeqa/selftest/cases/multiconfig.py
+index f509cbf607..5757612ee3 100644
+--- a/meta/lib/oeqa/selftest/cases/multiconfig.py
++++ b/meta/lib/oeqa/selftest/cases/multiconfig.py
+@@ -7,7 +7,7 @@
+ import os
+ import textwrap
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import bitbake
++from oeqa.utils.commands import bitbake, runCmd, get_bb_vars
  
-+def get_dl_arch(dl_path):
-+    try:
-+        with open(dl_path, "r+b") as f:
-+            e_ident =f.read(16)
-+    except IOError:
-+        exctype, ioex = sys.exc_info()[:2]
-+        if ioex.errno == errno.ETXTBSY:
-+            print("Could not open %s. File used by another process.\nPlease "\
-+                  "make sure you exit all processes that might use any SDK "\
-+                  "binaries." % e)
-+        else:
-+            print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
-+        sys.exit(-1)
-+
-+    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
-+
-+    if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
-+        print("ERROR: unknow %s" % dl_path)
-+        sys.exit(-1)
-+
-+    if ei_class == 1:
-+        arch = 32
-+    elif ei_class == 2:
-+        arch = 64
-+
-+    return arch
-+
-+
- def parse_elf_header():
-     global e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
-            e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx
-@@ -223,6 +251,8 @@ else:
+ class MultiConfig(OESelftestTestCase):
  
- executables_list = sys.argv[3:]
+@@ -85,3 +85,140 @@ BBMULTICONFIG = "muslmc"
  
-+dl_arch = get_dl_arch(new_dl_path)
+         # Build a core-image-minimal, only dry run needed to check config is present
+         bitbake('mc:muslmc:bash -n')
 +
- errors = False
- for e in executables_list:
-     perms = os.stat(e)[stat.ST_MODE]
-@@ -247,7 +277,7 @@ for e in executables_list:
-     old_size = os.path.getsize(e)
-     if old_size >= 64:
-         arch = get_arch()
--        if arch:
-+        if arch and arch == dl_arch:
-             parse_elf_header()
-             if not change_interpreter(e):
-                 errors = True
++    def _run_multilib_nativesdk_gcc(self, environment_script_path, c_example_src):
++        def runCmdEnv(cmd):
++            cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
++                environment_script_path, cmd)
++            self.logger.debug(cmd)
++            result = runCmd(cmd)
++            self.logger.debug(f"ret: {result.status}, output {result.output}")
++            return result
++
++        runCmdEnv('which gcc')
++        self.logger.debug(f"c_example_src {c_example_src}")
++        result = runCmdEnv("gcc -m32 %s -o main-32 && ./main-32" % (c_example_src))
++        self.assertEqual("Hello world!", result.output, "Compile 32 bit program failed")
++        result = runCmdEnv("gcc -m64 %s -o main-64 && ./main-64" % (c_example_src))
++        self.assertEqual("Hello world!", result.output, "Compile 64 bit program failed")
++
++    def test_multiconfig_64bit_gcc_suport_32bit_multilib(self):
++        """
++        Build 64bit x86_64 buildtools-extended-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86.
++        The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86 multiconfig
++        build to generate 32bit x86 buildtools-tarball which contains minimal 32bit toolchains
++        libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86
++        extract 32bit x86 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
++        Then use 64bit gcc to compile 32bit and 64bit hello world program
++        """
++
++        config = """
++BBMULTICONFIG = "x86 x86_64"
++# Unify the same SDKPATHNATIVE for two multiconfig, otherwise
++# nativesdk relocation will fail
++SDKPATHNATIVE = "${SDKPATH}/sysroots/x86_64${SDK_VENDOR}-${SDK_OS}"
++"""
++        self.write_config(config)
++
++        x86config = """
++SDKMACHINE = "i686"
++TMPDIR = "${TOPDIR}/tmp-mc-x86"
++# Only install 32bit toolchains library and include files to buildtools-tarball
++TOOLCHAIN_HOST_TASK:pn-buildtools-tarball = "nativesdk-libgcc nativesdk-libgcc-dev nativesdk-glibc nativesdk-glibc-dev nativesdk-sdk-provides-dummy nativesdk-buildtools-perl-dummy"
++# Do not add relocate script to buildtools-tarball
++SDK_RELOCATE_AFTER_INSTALL:pn-buildtools-tarball = "0"
++"""
++        self.write_config(x86config, 'x86')
++
++        x86_64config = """
++SDKMACHINE = "x86_64"
++TMPDIR = "${TOPDIR}/tmp-mc-x86_64"
++TOOLCHAIN_HOST_TASK:append:pn-buildtools-extended-tarball = " nativesdk-multiconfig-multlib-toolchain-packager-x86"
++# lib64 in 64bit nativesdk sysroot, avoid conflict with 32bit lib
++baselib:class-nativesdk= "lib64"
++baselib:class-crosssdk= "lib64"
++libdir_nativesdk = "${prefix_nativesdk}/lib64"
++base_libdir_nativesdk = "/lib64"
++"""
++        self.write_config(x86_64config, 'x86_64')
++
++        bitbake('mc:x86_64:buildtools-extended-tarball')
++
++        needed_vars = ['TOPDIR', 'DISTRO_VERSION', 'COREBASE', 'SDK_VENDOR']
++        bb_vars = get_bb_vars(needed_vars)
++
++        c_example_src = os.path.join(
++            bb_vars['COREBASE'],
++            'meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c'
++        )
++        sdk_name = 'x86_64-buildtools-extended-nativesdk-standalone-%s.sh' % bb_vars['DISTRO_VERSION']
++        sdk_path = os.path.join(bb_vars['TOPDIR'], 'tmp-mc-x86_64/deploy/sdk', sdk_name)
++        self.logger.debug(f"sdk_path {sdk_path}")
++        runCmd('sh %s -y -d "%s"' % (sdk_path, './sdk-test'))
++
++        environment_script = 'environment-setup-x86_64%s-linux' % (bb_vars['SDK_VENDOR'])
++        environment_script_path = os.path.join('./sdk-test', environment_script)
++
++        self._run_multilib_nativesdk_gcc(environment_script_path, c_example_src)
++
++    def test_multiconfig_32bit_gcc_suport_64bit_multilib(self):
++        """
++        Build 32bit i686 buildtools-extended-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86_64.
++        The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86_64 multiconfig
++        build to generate 64bit x86_64 buildtools-tarball which contains minimal 64bit toolchains
++        libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86_64
++        extract 64bit x86_64 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
++        Then use 64bit gcc to compile 32bit and 64bit hello world program
++        """
++
++        config = """
++BBMULTICONFIG = "x86 x86_64"
++# Unify the same SDKPATHNATIVE for two multiconfig, otherwise
++# nativesdk relocation will fail
++SDKPATHNATIVE = "${SDKPATH}/sysroots/i686${SDK_VENDOR}-${SDK_OS}"
++"""
++        self.write_config(config)
++
++        x86config = """
++SDKMACHINE = "i686"
++TMPDIR = "${TOPDIR}/tmp-mc-x86"
++TOOLCHAIN_HOST_TASK:append:pn-buildtools-extended-tarball = " nativesdk-multiconfig-multlib-toolchain-packager-x86_64"
++"""
++        self.write_config(x86config, 'x86')
++
++        x86_64config = """
++SDKMACHINE = "x86_64"
++TMPDIR = "${TOPDIR}/tmp-mc-x86_64"
++# Only install 64bit toolchains library and include files to buildtools-tarball
++TOOLCHAIN_HOST_TASK:pn-buildtools-tarball = "nativesdk-libgcc nativesdk-libgcc-dev nativesdk-glibc nativesdk-glibc-dev nativesdk-sdk-provides-dummy nativesdk-buildtools-perl-dummy"
++# Do not add relocate script to buildtools-tarball
++SDK_RELOCATE_AFTER_INSTALL:pn-buildtools-tarball = "0"
++
++# lib64 in 64bit nativesdk sysroot, avoid conflict with 32bit lib
++baselib:class-nativesdk= "lib64"
++baselib:class-crosssdk= "lib64"
++libdir_nativesdk = "${prefix_nativesdk}/lib64"
++base_libdir_nativesdk = "/lib64"
++"""
++        self.write_config(x86_64config, 'x86_64')
++
++        bitbake('mc:x86:buildtools-extended-tarball')
++
++        needed_vars = ['TOPDIR', 'DISTRO_VERSION', 'COREBASE', 'SDK_VENDOR']
++        bb_vars = get_bb_vars(needed_vars)
++
++        c_example_src = os.path.join(
++            bb_vars['COREBASE'],
++            'meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c'
++        )
++        sdk_name = 'i686-buildtools-extended-nativesdk-standalone-%s.sh' % bb_vars['DISTRO_VERSION']
++
++        sdk_path = os.path.join(bb_vars['TOPDIR'], 'tmp-mc-x86/deploy/sdk', sdk_name)
++        self.logger.debug(f"sdk_path {sdk_path}")
++        runCmd('sh %s -y -d "%s"' % (sdk_path, './sdk-test'))
++
++        environment_script = 'environment-setup-i686%s-linux' % (bb_vars['SDK_VENDOR'])
++        environment_script_path = os.path.join('./sdk-test', environment_script)
++
++        self._run_multilib_nativesdk_gcc(environment_script_path, c_example_src)
++
 -- 
 2.34.1
 
