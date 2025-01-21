@@ -1,117 +1,353 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C100AC02182
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 18:23:24 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.22840.1737483795508402490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B04C02182
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 21:22:25 +0000 (UTC)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by mx.groups.io with SMTP id smtpd.web11.27311.1737494539530611743
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 10:23:15 -0800
+ Tue, 21 Jan 2025 13:22:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40082106F
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 10:23:43 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6672E3F5A1
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 10:23:14 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=KQ1ep8Gr;
+ spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 409E31048B8B8;
+	Tue, 21 Jan 2025 22:22:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1737494537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pY+e1wKF07b1azBcX3w3jSJqwKiu6Mnw/wSbzsli4Fs=;
+	b=KQ1ep8Gr/FWiRwW58JzSFHUCMGvxJdBYJvDwpvwyPhgv+AT89pCV0NZvqJH1zqskVubEFP
+	A+diqIJQUJR6Y+SHiyMMyUvbOlVDGl7xjTsoqqbX52BGvr2RrJyKSfcsr9zAV+yQNz/3cX
+	ALvnirBwRo0H7+SCX9gyKjWIpYx5/rtkVtLWk8GLjBK+eRUVaIvDsqmKyjcV+SiCFET3Sj
+	21VCa1Gtnrv5IFl0NrM0eXKfhhNhVMUq6TXosB98vkk4XDxwUuu09NDIYbtksmoA5VY6Bf
+	VyzFrCBA7g+gcokKZ6PbxLEyMkBbvY2QTz4cKiVD08/B2GaUbCJux0dtF/dA8Q==
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] oeqa/poisoning: fix gcc include poisoning test
-Date: Tue, 21 Jan 2025 18:23:08 +0000
-Message-ID: <20250121182309.904188-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Marek Vasut <marex@denx.de>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v6] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+Date: Tue, 21 Jan 2025 22:20:52 +0100
+Message-ID: <20250121212152.150384-1-marex@denx.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 18:23:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210106
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 21:22:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210108
 
-The test code in poison was flawed: as long as one CPP/CC/CXX has fatal
-poisoning enabled then the test passes.  However, at the moment due to
-a bad rebase only CPP has fatal poisoning and CC/CXX do not.
+In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+kernel-fitimage.bbclass is in use to generate signed kernel
+fitImage, there is a circular dependency between uboot-sign
+and kernel-fitimage bbclasses . The loop looks like this:
 
-Rewrite the do_compile() task to more carefully check the output so the
-test harness itself just has to bitbake the recipe.
+kernel-fitimage.bbclass:
+- do_populate_sysroot depends on do_assemble_fitimage
+  - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroo=
+t
+    - virtual/bootloader:do_populate_sysroot depends on virtual/bootloade=
+r:do_install
+      =3D> The virtual/bootloader:do_install installs and the
+         virtual/bootloader:do_populate_sysroot places into
+         sysroot an U-Boot environment script embedded into
+         kernel fitImage during do_assemble_fitimage run .
 
-Note that this results in the test failing:
+uboot-sign.bbclass:
+- DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+  - do_deploy depends on do_uboot_assemble_fitimage
+  - do_install depends on do_uboot_assemble_fitimage
+  - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysr=
+oot
+    =3D> do_install depends on virtual/kernel:do_populate_sysroot
 
-  ERROR: poison-1.0-r0 do_compile: C Compiler is not poisoned.
-  Exit status 0, output:  cc1: warning: include location "/usr/include" i=
-s unsafe for cross-compilation [-Wpoison-system-directories]
-  ERROR: poison-1.0-r0 do_compile: C++ Compiler is not poisoned.
-  Exit status 0, output:  cc1plus: warning: include location "/usr/includ=
-e" is unsafe for cross-compilation [-Wpoison-system-directories]
+=3D> virtual/bootloader:do_install depends on virtual/kernel:do_populate_=
+sysroot
+   virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_in=
+stall
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Attempt to resolve the loop. Pull fitimage configuration options into sep=
+arate
+new configuration file image-fitimage.conf so these configuration options=
+ can
+be shared by both uboot-sign.bbclass and kernel-fitimage.bbclass, and mak=
+e use
+of mkimage -f auto-conf / mkimage -f auto option to insert /signature nod=
+e key-*
+subnode into U-Boot control DT without depending on the layout of kernel =
+fitImage
+itself. This is perfectly valid to do, because the U-Boot /signature node=
+ key-*
+subnodes 'required' property can contain either of two values, 'conf' or =
+'image'
+to authenticate either selected configuration or all of images when booti=
+ng the
+fitImage.
+
+For details of the U-Boot fitImage signing process, see:
+https://docs.u-boot.org/en/latest/usage/fit/signature.html
+For details of mkimage -f auto-conf and -f auto, see:
+https://manpages.debian.org/experimental/u-boot-tools/mkimage.1.en.html#E=
+XAMPLES
+
+Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
+)
+Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta-selftest/recipes-test/poison/poison.bb  | 26 ++++++++++++++------
- meta/lib/oeqa/selftest/cases/buildoptions.py |  5 ++--
- 2 files changed, 21 insertions(+), 10 deletions(-)
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Sean Anderson <sean.anderson@seco.com>
+---
+V2: Take a different approach, split the kernel-fitimage.bbclass and
+    use it to generate dummy fitImage on demand
+V3: Use mkimage -f auto-conf and mkimage -f auto to break the loop,
+    the fitImage .its source is not even needed because the 'required'
+    property can only have two values, 'conf' or 'image' .
+V4: Restore CC list
+V5: - Add missing trailing backslash after unused.itb
+    - Replace ${UBOOT_MKIMAGE_MODE} with $UBOOT_MKIMAGE_MODE
+    - Move -d /dev/null to the end of mkimage invocation
+V6: - Turn kernel-fitimage-config.bbclass into conf/image-fitimage.conf
+      and update commit message to reflect that change
+    - Add a bit of a comment at the start of conf/image-fitimage.conf
+      explaining what those options are, the documentation for each
+      option is further in the conf/image-fitimage.conf above each
+      option already.
+    - Add RB from Adrian
+---
+ meta/classes-recipe/kernel-fitimage.bbclass | 53 +--------------------
+ meta/classes-recipe/uboot-sign.bbclass      | 26 +++++-----
+ meta/conf/image-fitimage.conf               | 53 +++++++++++++++++++++
+ 3 files changed, 68 insertions(+), 64 deletions(-)
+ create mode 100644 meta/conf/image-fitimage.conf
 
-diff --git a/meta-selftest/recipes-test/poison/poison.bb b/meta-selftest/=
-recipes-test/poison/poison.bb
-index e9eee0cdbab..771113acf32 100644
---- a/meta-selftest/recipes-test/poison/poison.bb
-+++ b/meta-selftest/recipes-test/poison/poison.bb
-@@ -8,13 +8,25 @@ inherit nopackages
- # This test confirms that compiling code that searches /usr/include for =
-headers
- # will result in compiler errors.  This recipe should will fail to build=
- and
- # oe-selftest has a test that verifies that.
--do_compile() {
--    bbnote Testing preprocessor
--    echo "int main(int argc, char** argv) {}" | ${CPP} -I/usr/include -
--    bbnote Testing C compiler
--    echo "int main(int argc, char** argv) {}" | ${CC} -x c -I/usr/includ=
-e -
--    bbnote Testing C++ compiler
--    echo "int main(int argc, char** argv) {}" | ${CC} -x c++ -I/usr/incl=
-ude -
-+python do_compile() {
-+    import subprocess
-+
-+    tests =3D {
-+        "Preprocessor": "${CPP} -I/usr/include -",
-+        "C Compiler": "${CC} -I/usr/include -x c -",
-+        "C++ Compiler": "${CXX} -I/usr/include -x c++ -",
-+    }
-+
-+    for name, cmd in tests.items():
-+        cmd =3D d.expand(cmd)
-+        bb.note("Test command: " + cmd)
-+        testcode =3D "int main(int argc, char** argv) {}"
-+        proc =3D subprocess.run(cmd, shell=3DTrue, input=3Dtestcode, cap=
-ture_output=3DTrue, text=3DTrue)
-+
-+        if proc.returncode !=3D 0 and "is unsafe for cross-compilation" =
-in proc.stderr:
-+            bb.note(f"{name} passed: {proc.stderr}")
-+        else:
-+            bb.error(f"{name} is not poisoned. Exit status {proc.returnc=
-ode}, output: {proc.stdout} {proc.stderr}")
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-r=
+ecipe/kernel-fitimage.bbclass
+index 67c98adb232..fe076badfa5 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -5,6 +5,7 @@
+ #
+=20
+ inherit kernel-uboot kernel-artifact-names uboot-config
++require conf/image-fitimage.conf
+=20
+ def get_fit_replacement_type(d):
+     kerneltypes =3D d.getVar('KERNEL_IMAGETYPES') or ""
+@@ -52,58 +53,6 @@ python __anonymous () {
+         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/d=
+evicetree")
  }
 =20
- EXCLUDE_FROM_WORLD =3D "1"
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa=
-/selftest/cases/buildoptions.py
-index 09272314bb8..b509bcf951c 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -234,6 +234,5 @@ PREMIRRORS =3D "\\
+-
+-# Description string
+-FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+-
+-# Kernel fitImage Hash Algo
+-FIT_HASH_ALG ?=3D "sha256"
+-
+-# Kernel fitImage Signature Algo
+-FIT_SIGN_ALG ?=3D "rsa2048"
+-
+-# Kernel / U-Boot fitImage Padding Algo
+-FIT_PAD_ALG ?=3D "pkcs-1.5"
+-
+-# Generate keys for signing Kernel fitImage
+-FIT_GENERATE_KEYS ?=3D "0"
+-
+-# Size of private keys in number of bits
+-FIT_SIGN_NUMBITS ?=3D "2048"
+-
+-# args to openssl genrsa (Default is just the public exponent)
+-FIT_KEY_GENRSA_ARGS ?=3D "-F4"
+-
+-# args to openssl req (Default is -batch for non interactive mode and
+-# -new for new certificate)
+-FIT_KEY_REQ_ARGS ?=3D "-batch -new"
+-
+-# Standard format for public key certificate
+-FIT_KEY_SIGN_PKCS ?=3D "-x509"
+-
+-# Sign individual images as well
+-FIT_SIGN_INDIVIDUAL ?=3D "0"
+-
+-FIT_CONF_PREFIX ?=3D "conf-"
+-FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
+-
+-FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
+z cpio.zst cpio.gz ext2.gz cpio"
+-
+-# Allow user to select the default DTB for FIT image when multiple dtb's=
+ exists.
+-FIT_CONF_DEFAULT_DTB ?=3D ""
+-
+-# length of address in number of <u32> cells
+-# ex: 1 32bits address, 2 64bits address
+-FIT_ADDRESS_CELLS ?=3D "1"
+-
+-# Keys used to sign individually image nodes.
+-# The keys to sign image nodes must be different from those used to sign
+-# configuration nodes, otherwise the "required" property, from
+-# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
+mage".
+-# Then the images signature checking will not be mandatory and no error =
+will be
+-# raised in case of failure.
+-# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
+", "dev2.key")
+-
+ #
+ # Emit the fitImage ITS header
+ #
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe=
+/uboot-sign.bbclass
+index a17be745cec..96c47ab0165 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -26,6 +26,7 @@
 =20
- class Poisoning(OESelftestTestCase):
-     def test_poisoning(self):
--        res =3D bitbake("poison", ignore_status=3DTrue)
--        self.assertNotEqual(res.status, 0)
--        self.assertTrue("is unsafe for cross-compilation" in res.output)
-+        # The poison recipe fails if the poisoning didn't work
-+        bitbake("poison")
+ # We need some variables from u-boot-config
+ inherit uboot-config
++require conf/image-fitimage.conf
+=20
+ # Enable use of a U-Boot fitImage
+ UBOOT_FITIMAGE_ENABLE ?=3D "0"
+@@ -85,9 +86,6 @@ UBOOT_FIT_KEY_SIGN_PKCS ?=3D "-x509"
+ # ex: 1 32bits address, 2 64bits address
+ UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
+=20
+-# This is only necessary for determining the signing configuration
+-KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
+-
+ UBOOT_FIT_UBOOT_LOADADDRESS ?=3D "${UBOOT_LOADADDRESS}"
+ UBOOT_FIT_UBOOT_ENTRYPOINT ?=3D "${UBOOT_ENTRYPOINT}"
+=20
+@@ -96,8 +94,6 @@ python() {
+     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') =3D=3D '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
+-    if sign:
+-        d.appendVar('DEPENDS', " " + d.getVar('KERNEL_PN'))
+ }
+=20
+ concat_dtb() {
+@@ -106,16 +102,26 @@ concat_dtb() {
+=20
+ 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
+ 		# Re-sign the kernel in order to add the keys to our dtb
++		UBOOT_MKIMAGE_MODE=3D"auto-conf"
++		# Signing individual images is not recommended as that
++		# makes fitImage susceptible to mix-and-match attack.
++		if [ "${FIT_SIGN_INDIVIDUAL}" =3D "1" ] ; then
++			UBOOT_MKIMAGE_MODE=3D"auto"
++		fi
+ 		${UBOOT_MKIMAGE_SIGN} \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}')=
+ else ''} \
+-			-F -k "${UBOOT_SIGN_KEYDIR}" \
++			-f $UBOOT_MKIMAGE_MODE \
++			-k "${UBOOT_SIGN_KEYDIR}" \
++			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
++			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
+ 			-K "${UBOOT_DTB_BINARY}" \
+-			-r ${B}/fitImage-linux \
++			-d /dev/null \
++			-r ${B}/unused.itb \
+ 			${UBOOT_MKIMAGE_SIGN_ARGS}
+ 		# Verify the kernel image and u-boot dtb
+ 		${UBOOT_FIT_CHECK_SIGN} \
+ 			-k "${UBOOT_DTB_BINARY}" \
+-			-f ${B}/fitImage-linux
++			-f ${B}/unused.itb
+ 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
+ 	fi
+=20
+@@ -351,10 +357,6 @@ uboot_assemble_fitimage_helper() {
+ }
+=20
+ do_uboot_assemble_fitimage() {
+-	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] ; then
+-		cp "${STAGING_DIR_HOST}/sysroot-only/fitImage" "${B}/fitImage-linux"
+-	fi
+-
+ 	if [ -n "${UBOOT_CONFIG}" ]; then
+ 		unset i
+ 		for config in ${UBOOT_MACHINE}; do
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.con=
+f
+new file mode 100644
+index 00000000000..be9ae301346
+--- /dev/null
++++ b/meta/conf/image-fitimage.conf
+@@ -0,0 +1,53 @@
++# Possible options for fitImage generation, mainly
++# related to signing of the fitImage content.
++
++# Description string
++FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
++
++# Kernel fitImage Hash Algo
++FIT_HASH_ALG ?=3D "sha256"
++
++# Kernel fitImage Signature Algo
++FIT_SIGN_ALG ?=3D "rsa2048"
++
++# Kernel / U-Boot fitImage Padding Algo
++FIT_PAD_ALG ?=3D "pkcs-1.5"
++
++# Generate keys for signing Kernel fitImage
++FIT_GENERATE_KEYS ?=3D "0"
++
++# Size of private keys in number of bits
++FIT_SIGN_NUMBITS ?=3D "2048"
++
++# args to openssl genrsa (Default is just the public exponent)
++FIT_KEY_GENRSA_ARGS ?=3D "-F4"
++
++# args to openssl req (Default is -batch for non interactive mode and
++# -new for new certificate)
++FIT_KEY_REQ_ARGS ?=3D "-batch -new"
++
++# Standard format for public key certificate
++FIT_KEY_SIGN_PKCS ?=3D "-x509"
++
++# Sign individual images as well
++FIT_SIGN_INDIVIDUAL ?=3D "0"
++
++FIT_CONF_PREFIX ?=3D "conf-"
++FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
++
++FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
+z cpio.zst cpio.gz ext2.gz cpio"
++
++# Allow user to select the default DTB for FIT image when multiple dtb's=
+ exists.
++FIT_CONF_DEFAULT_DTB ?=3D ""
++
++# length of address in number of <u32> cells
++# ex: 1 32bits address, 2 64bits address
++FIT_ADDRESS_CELLS ?=3D "1"
++
++# Keys used to sign individually image nodes.
++# The keys to sign image nodes must be different from those used to sign
++# configuration nodes, otherwise the "required" property, from
++# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
+mage".
++# Then the images signature checking will not be mandatory and no error =
+will be
++# raised in case of failure.
++# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
+", "dev2.key")
 --=20
-2.43.0
+2.45.2
 
 
