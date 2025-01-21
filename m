@@ -2,242 +2,143 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 867B5C02185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9752EC02187
 	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 08:55:41 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.11926.1737449737004337034
+ by mx.groups.io with SMTP id smtpd.web10.11923.1737449735034207757
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 00:55:37 -0800
+ Tue, 21 Jan 2025 00:55:35 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31163e49e6=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L6I3Nd024929
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:36 -0800
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L6eCPG010269
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:34 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4488f72dj7-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 448cpq28yq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:36 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 00:55:34 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 21 Jan 2025 00:55:35 -0800
+ 15.1.2507.43; Tue, 21 Jan 2025 00:55:34 -0800
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 00:55:35 -0800
+ 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 00:55:33 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 9/9] selftest/multiconfig: test multiconfig multlib nativesdk gcc
-Date: Tue, 21 Jan 2025 16:55:26 +0800
-Message-ID: <20250121085526.1370937-9-hongxu.jia@windriver.com>
+Subject: [PATCH 7/9] gcc-configure-common.inc: add multlib support for i686/i586/x86_64 nativesdk gcc
+Date: Tue, 21 Jan 2025 16:55:24 +0800
+Message-ID: <20250121085526.1370937-7-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250121085526.1370937-1-hongxu.jia@windriver.com>
 References: <20250121085526.1370937-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: xfyS69c1wCFL25QKJKbV0Nq6TP9PGaV5
-X-Authority-Analysis: v=2.4 cv=GqG4+l1C c=1 sm=1 tr=0 ts=678f6108 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=TOxOv8nXIum1QvLWbuQA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: xfyS69c1wCFL25QKJKbV0Nq6TP9PGaV5
+X-Proofpoint-ORIG-GUID: ukU6-XzxVduKJI0uycmlh9MjFQdFfUAo
+X-Proofpoint-GUID: ukU6-XzxVduKJI0uycmlh9MjFQdFfUAo
+X-Authority-Analysis: v=2.4 cv=TdtstQQh c=1 sm=1 tr=0 ts=678f6106 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=45OZM_v20GHH4WQ5mVsA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-21_04,2025-01-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2501210072
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501210072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 08:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210081
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210079
 
-Add 2 cases to test multiconfig multlib nativesdk gcc
+We have patch 0016-handle-sysroot-support-for-nativesdk-gcc.patch to handle
+sysroot support for nativesdk-gcc, and add %r target_relocatable_prefix
+into spec file for nativesdk-gcc relocation. It was used for injected
+paths SYSTEMLIBS_DIR
 
-1. test_multiconfig_64bit_gcc_suport_32bit_multilib
-Build 64bit x86_64 buildtools-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86.
-The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86 multiconfig
-build to generate 32bit x86 buildtools-tarball which contains minimal 32bit toolchains
-libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86
-extract 32bit x86 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
-Then use 64bit gcc to compile 32bit and 64bit hello world program
+Due to the supported SDKMACHINE includes:
 
-2. test_multiconfig_32bit_gcc_suport_64bit_multilib
-Build 32bit i686 buildtools-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86_64.
-The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86_64 multiconfig
-build to generate 64bit x86_64 buildtools-tarball which contains minimal 64bit toolchains
-libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86_64
-extract 64bit x86_64 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
-Then use 32bit gcc to compile 32bit and 64bit hello world program
+  aarch64, i586, i686, loongarch64, ppc64, ppc64le, riscv64, x86_64
 
-...
-2025-01-20 22:08:15,003 - oe-selftest - INFO -  ... ok
-2025-01-20 22:08:15,004 - oe-selftest - INFO - test_multiconfig_32bit_gcc_suport_64bit_multilib (multiconfig.MultiConfig)
-2025-01-20 22:17:13,046 - oe-selftest - INFO -  ... ok
-2025-01-20 22:17:13,047 - oe-selftest - INFO - test_multiconfig_64bit_gcc_suport_32bit_multilib (multiconfig.MultiConfig)
-...
+Only i586 and x86_64, i686 and x86_64 have multilib relationship,
+for i586,i686 and x86_64, this commit:
+
+- Tweak target_relocatable_prefix, set ${root_prefix} to it, and tweak
+libdir32 and libdir64 based on ${root_prefix} prefix with "/lib" and
+"/lib64" suffix.
+
+- Harcode dirnames ['m64', 'm32'] and osdirnames ['../lib64', '../lib']
+
+Above setting also covers gcc-nativesdk without multilib
+
+For other situation, the configuration is the same as usual
 
 [ YOCTO #15722 ]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/multiconfig.py | 139 +++++++++++++++++++-
- 1 file changed, 138 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-configure-common.inc       | 9 +++++++++
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc        | 5 +++++
+ .../0016-handle-sysroot-support-for-nativesdk-gcc.patch  | 2 +-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/multiconfig.py b/meta/lib/oeqa/selftest/cases/multiconfig.py
-index f509cbf607..5757612ee3 100644
---- a/meta/lib/oeqa/selftest/cases/multiconfig.py
-+++ b/meta/lib/oeqa/selftest/cases/multiconfig.py
-@@ -7,7 +7,7 @@
- import os
- import textwrap
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake
-+from oeqa.utils.commands import bitbake, runCmd, get_bb_vars
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 5c79936242..bd5c953334 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -73,6 +73,14 @@ SYSTEMHEADERS = "${target_includedir}"
+ SYSTEMLIBS = "${target_base_libdir}/"
+ SYSTEMLIBS1 = "${target_libdir}/"
  
- class MultiConfig(OESelftestTestCase):
- 
-@@ -85,3 +85,140 @@ BBMULTICONFIG = "muslmc"
- 
-         # Build a core-image-minimal, only dry run needed to check config is present
-         bitbake('mc:muslmc:bash -n')
++def tune_target_relocatable_prefix(d):
++    if d.getVar("SDK_ARCH") in ["x86_64", "i686", "i586"]:
++        return d.getVar("root_prefix")
++    else:
++        return d.getVar("SYSTEMLIBS")
++TARGET_RELOCATE_PREFIX = "${SYSTEMLIBS}"
++TARGET_RELOCATE_PREFIX:class-nativesdk = "${@tune_target_relocatable_prefix(d)}"
 +
-+    def _run_multilib_nativesdk_gcc(self, environment_script_path, c_example_src):
-+        def runCmdEnv(cmd):
-+            cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
-+                environment_script_path, cmd)
-+            self.logger.debug(cmd)
-+            result = runCmd(cmd)
-+            self.logger.debug(f"ret: {result.status}, output {result.output}")
-+            return result
-+
-+        runCmdEnv('which gcc')
-+        self.logger.debug(f"c_example_src {c_example_src}")
-+        result = runCmdEnv("gcc -m32 %s -o main-32 && ./main-32" % (c_example_src))
-+        self.assertEqual("Hello world!", result.output, "Compile 32 bit program failed")
-+        result = runCmdEnv("gcc -m64 %s -o main-64 && ./main-64" % (c_example_src))
-+        self.assertEqual("Hello world!", result.output, "Compile 64 bit program failed")
-+
-+    def test_multiconfig_64bit_gcc_suport_32bit_multilib(self):
-+        """
-+        Build 64bit x86_64 buildtools-extended-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86.
-+        The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86 multiconfig
-+        build to generate 32bit x86 buildtools-tarball which contains minimal 32bit toolchains
-+        libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86
-+        extract 32bit x86 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
-+        Then use 64bit gcc to compile 32bit and 64bit hello world program
-+        """
-+
-+        config = """
-+BBMULTICONFIG = "x86 x86_64"
-+# Unify the same SDKPATHNATIVE for two multiconfig, otherwise
-+# nativesdk relocation will fail
-+SDKPATHNATIVE = "${SDKPATH}/sysroots/x86_64${SDK_VENDOR}-${SDK_OS}"
-+"""
-+        self.write_config(config)
-+
-+        x86config = """
-+SDKMACHINE = "i686"
-+TMPDIR = "${TOPDIR}/tmp-mc-x86"
-+# Only install 32bit toolchains library and include files to buildtools-tarball
-+TOOLCHAIN_HOST_TASK:pn-buildtools-tarball = "nativesdk-libgcc nativesdk-libgcc-dev nativesdk-glibc nativesdk-glibc-dev nativesdk-sdk-provides-dummy nativesdk-buildtools-perl-dummy"
-+# Do not add relocate script to buildtools-tarball
-+SDK_RELOCATE_AFTER_INSTALL:pn-buildtools-tarball = "0"
-+"""
-+        self.write_config(x86config, 'x86')
-+
-+        x86_64config = """
-+SDKMACHINE = "x86_64"
-+TMPDIR = "${TOPDIR}/tmp-mc-x86_64"
-+TOOLCHAIN_HOST_TASK:append:pn-buildtools-extended-tarball = " nativesdk-multiconfig-multlib-toolchain-packager-x86"
-+# lib64 in 64bit nativesdk sysroot, avoid conflict with 32bit lib
-+baselib:class-nativesdk= "lib64"
-+baselib:class-crosssdk= "lib64"
-+libdir_nativesdk = "${prefix_nativesdk}/lib64"
-+base_libdir_nativesdk = "/lib64"
-+"""
-+        self.write_config(x86_64config, 'x86_64')
-+
-+        bitbake('mc:x86_64:buildtools-extended-tarball')
-+
-+        needed_vars = ['TOPDIR', 'DISTRO_VERSION', 'COREBASE', 'SDK_VENDOR']
-+        bb_vars = get_bb_vars(needed_vars)
-+
-+        c_example_src = os.path.join(
-+            bb_vars['COREBASE'],
-+            'meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c'
-+        )
-+        sdk_name = 'x86_64-buildtools-extended-nativesdk-standalone-%s.sh' % bb_vars['DISTRO_VERSION']
-+        sdk_path = os.path.join(bb_vars['TOPDIR'], 'tmp-mc-x86_64/deploy/sdk', sdk_name)
-+        self.logger.debug(f"sdk_path {sdk_path}")
-+        runCmd('sh %s -y -d "%s"' % (sdk_path, './sdk-test'))
-+
-+        environment_script = 'environment-setup-x86_64%s-linux' % (bb_vars['SDK_VENDOR'])
-+        environment_script_path = os.path.join('./sdk-test', environment_script)
-+
-+        self._run_multilib_nativesdk_gcc(environment_script_path, c_example_src)
-+
-+    def test_multiconfig_32bit_gcc_suport_64bit_multilib(self):
-+        """
-+        Build 32bit i686 buildtools-extended-tarball with package nativesdk-multiconfig-multlib-toolchain-packager-x86_64.
-+        The recipe nativesdk-multiconfig-multlib-toolchain-packager trigger a x86_64 multiconfig
-+        build to generate 64bit x86_64 buildtools-tarball which contains minimal 64bit toolchains
-+        libraries and include files. The package nativesdk-multiconfig-multlib-toolchain-packager-x86_64
-+        extract 64bit x86_64 buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
-+        Then use 64bit gcc to compile 32bit and 64bit hello world program
-+        """
-+
-+        config = """
-+BBMULTICONFIG = "x86 x86_64"
-+# Unify the same SDKPATHNATIVE for two multiconfig, otherwise
-+# nativesdk relocation will fail
-+SDKPATHNATIVE = "${SDKPATH}/sysroots/i686${SDK_VENDOR}-${SDK_OS}"
-+"""
-+        self.write_config(config)
-+
-+        x86config = """
-+SDKMACHINE = "i686"
-+TMPDIR = "${TOPDIR}/tmp-mc-x86"
-+TOOLCHAIN_HOST_TASK:append:pn-buildtools-extended-tarball = " nativesdk-multiconfig-multlib-toolchain-packager-x86_64"
-+"""
-+        self.write_config(x86config, 'x86')
-+
-+        x86_64config = """
-+SDKMACHINE = "x86_64"
-+TMPDIR = "${TOPDIR}/tmp-mc-x86_64"
-+# Only install 64bit toolchains library and include files to buildtools-tarball
-+TOOLCHAIN_HOST_TASK:pn-buildtools-tarball = "nativesdk-libgcc nativesdk-libgcc-dev nativesdk-glibc nativesdk-glibc-dev nativesdk-sdk-provides-dummy nativesdk-buildtools-perl-dummy"
-+# Do not add relocate script to buildtools-tarball
-+SDK_RELOCATE_AFTER_INSTALL:pn-buildtools-tarball = "0"
-+
-+# lib64 in 64bit nativesdk sysroot, avoid conflict with 32bit lib
-+baselib:class-nativesdk= "lib64"
-+baselib:class-crosssdk= "lib64"
-+libdir_nativesdk = "${prefix_nativesdk}/lib64"
-+base_libdir_nativesdk = "/lib64"
-+"""
-+        self.write_config(x86_64config, 'x86_64')
-+
-+        bitbake('mc:x86:buildtools-extended-tarball')
-+
-+        needed_vars = ['TOPDIR', 'DISTRO_VERSION', 'COREBASE', 'SDK_VENDOR']
-+        bb_vars = get_bb_vars(needed_vars)
-+
-+        c_example_src = os.path.join(
-+            bb_vars['COREBASE'],
-+            'meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c'
-+        )
-+        sdk_name = 'i686-buildtools-extended-nativesdk-standalone-%s.sh' % bb_vars['DISTRO_VERSION']
-+
-+        sdk_path = os.path.join(bb_vars['TOPDIR'], 'tmp-mc-x86/deploy/sdk', sdk_name)
-+        self.logger.debug(f"sdk_path {sdk_path}")
-+        runCmd('sh %s -y -d "%s"' % (sdk_path, './sdk-test'))
-+
-+        environment_script = 'environment-setup-i686%s-linux' % (bb_vars['SDK_VENDOR'])
-+        environment_script_path = os.path.join('./sdk-test', environment_script)
-+
-+        self._run_multilib_nativesdk_gcc(environment_script_path, c_example_src)
-+
+ do_configure:prepend () {
+ 	# teach gcc to find correct target includedir when checking libc ssp support
+ 	mkdir -p ${B}/gcc
+@@ -83,6 +91,7 @@ do_configure:prepend () {
+ #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
+ #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
+ #define SYSTEMLIBS_DIR "${SYSTEMLIBS}"
++#define TARGET_RELOCATE_PREFIX "${TARGET_RELOCATE_PREFIX}"
+ #endif /* ! GCC_DEFAULTS_H */
+ _EOF
+ 	mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 2dbbc23c94..31336f75eb 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -172,6 +172,11 @@ python gcc_multilib_setup() {
+     target_arch = (d.getVar('TARGET_ARCH_MULTILIB_ORIGINAL') if mlprefix
+                     else d.getVar('TARGET_ARCH'))
+     if pn == "nativesdk-gcc":
++        if d.getVar('SDK_ARCH') in ['x86_64', 'i686', 'i586']:
++            libdir32 = '%r/lib'
++            libdir64 = '%r/lib64'
++            target_config_files = gcc_target_config_files[d.getVar("SDK_ARCH")]
++            write_config(builddir, target_config_files, ['m64', 'm32'], ['64', '32'], ['../lib64', '../lib'])
+         header_config_files = gcc_header_config_files[d.getVar("SDK_ARCH")]
+         write_headers(builddir, header_config_files, libdir32, libdir64, libdirx32, libdirn32)
+         return
+diff --git a/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
+index edd100ee46..7d96a42027 100644
+--- a/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
++++ b/meta/recipes-devtools/gcc/gcc/0016-handle-sysroot-support-for-nativesdk-gcc.patch
+@@ -389,7 +389,7 @@ index e3e9374d1cc..b080609341b 100644
+  #endif
+  static const char *target_system_root = DEFAULT_TARGET_SYSTEM_ROOT;
+  
+-+static char target_relocatable_prefix[4096] __attribute__ ((section (".gccrelocprefix"))) = SYSTEMLIBS_DIR;
+++static char target_relocatable_prefix[4096] __attribute__ ((section (".gccrelocprefix"))) = TARGET_RELOCATE_PREFIX;
+ +
+  /* Nonzero means pass the updated target_system_root to the compiler.  */
+  
 -- 
 2.34.1
 
