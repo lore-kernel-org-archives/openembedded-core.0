@@ -1,160 +1,120 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA8B1C02182
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 09:12:41 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.12079.1737450761166087405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F441C0218B
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 10:31:22 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.13071.1737455477883009572
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 01:12:41 -0800
+ Tue, 21 Jan 2025 02:31:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31163e49e6=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L6eCQ8010269
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 01:12:40 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 448cpq29k6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 01:12:40 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 21 Jan 2025 01:12:39 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 21 Jan 2025 01:12:39 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2 8/9] nativesdk-multiconfig-multlib-toolchain-packager: add recipe
-Date: Tue, 21 Jan 2025 17:12:38 +0800
-Message-ID: <20250121091238.1398961-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250121085526.1370937-8-hongxu.jia@windriver.com>
-References: <20250121085526.1370937-8-hongxu.jia@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Tx4uwDwi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-438a3216fc2so26650435e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 02:31:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737455476; x=1738060276; darn=lists.openembedded.org;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oZpclnJCyqv/rNhTIIlT4KB1Fr/lCB6WdTG/ak/fk5A=;
+        b=Tx4uwDwibYcei3XEX9V4man29+0mUHodMms3AcW5p7bCxP4aUjBMgi5mxzK6ngISWW
+         FVrI50an3FYNJjp9n65zo/TNYDon+EzgzH00Dszaa9KRDVl3cpAzJ0paNanL5yAvN82K
+         qP73UfzaJSUUQKqp/lS0D96PZBTvEE9TtSPTrJnF9O0eUdvKH2aunDoG+G7+9Z8AYNSB
+         yo57JKtxXE8fOucSpzx0Y6fokwBQIa5FFIF7H00crOyRImGLMlGEiGgf5XRQz1tHhHlo
+         v6VGKDdU8I5UJ4C+woDsIjO9pyqtZwt8AYLUDbYhajYZOn4w5R3v6tw07ccJgLmoJbS2
+         Buag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737455476; x=1738060276;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oZpclnJCyqv/rNhTIIlT4KB1Fr/lCB6WdTG/ak/fk5A=;
+        b=i3VkeycoB2pxC2CdpNXoSUOCuaAoDl47CnbjuX3JVPgGN308nKu31hC+idul4kLiZm
+         BiHi/1qX88EmgXpsnl6/BXMOezE2b1YCXrt2E7ax4OhtWT6rPfyerZzcdhPDCdNLYVXf
+         rJ/eQNM1jgkNMlolBnDXwyzuRhZ05zT+07fxIlllCx0IJAPs/yTsBgBUqW7rtStJ1LgV
+         A+FEgaBPn/9OS+LN5/XudKunboKlb3NnvJ8mS6CsAis+rprOs+kHKi2+LG82bGLJ3o3x
+         xv5F/k8w6kASTKvx67sboTzyMZxxpcL7i+le3hd48UjTRRryMLuKuyXblyxzw8bnIlSo
+         64iA==
+X-Gm-Message-State: AOJu0YzT7cM5sbHWWgCVF/7XVn2xwwHARGNCpwBGswohiKj0cs78VDZ9
+	VW2tq1y3AoKrLiBYR8MVDp5M0u5ZIi3R3+vUdYBftRlFyMW9Grrjnm2JEg==
+X-Gm-Gg: ASbGncteKQM7gdGoaEPx9JWiDt7jGV7pCObTzv8TqX3H/a2uMTY1nU/mU4dIYSTIDzi
+	fj+1oVg5aTRjtEU6ngSM/wthR49TDS0saKxeXIlxAsYQ3UZfOpSOmPY9UZEfQE0C3iuZlEuh6BT
+	YF01QX05qI0CICMHIMyIRfVUHwT3zJf466nY3uDBkgiqnyqavRfNrIJz2PQ9fsyQidOx3DGZKD9
+	naW//FQTvfirBvDy2HhtPNBa4V5oXKkVttwpeLltJECLoxyGCRvwCa5AxOpi5c8mHxsK7IZl68Z
+	2waRn9vvyGNkJ2NKDhgfADn0yco=
+X-Google-Smtp-Source: AGHT+IG8ktmFlO+CEBLGcbfyRUTnMwznDxA+hPIoW9CZOSNDoqirROgYYOMHiJhlt6g76S6YZpBV8w==
+X-Received: by 2002:a7b:cd0a:0:b0:438:a1f5:3e38 with SMTP id 5b1f17b1804b1-438a1f53e8fmr119600685e9.30.1737455475362;
+        Tue, 21 Jan 2025 02:31:15 -0800 (PST)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74995f6sm236896515e9.1.2025.01.21.02.31.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2025 02:31:15 -0800 (PST)
+Message-ID: <264405d9-4f89-4102-acf2-320e73235a59@gmail.com>
+Date: Tue, 21 Jan 2025 11:31:14 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Subject: npm based packages omit dependencies since Yocto 5.1
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: N2YlXlHbxXV9zWiRiSwNE3zdmCPJosbI
-X-Proofpoint-GUID: N2YlXlHbxXV9zWiRiSwNE3zdmCPJosbI
-X-Authority-Analysis: v=2.4 cv=TdtstQQh c=1 sm=1 tr=0 ts=678f6508 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VdSt8ZQiCzkA:10 a=t7CeM3EgAAAA:8 a=PaQVhxr333NsTzhZ9hwA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-21_04,2025-01-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501210075
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 09:12:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210083
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 10:31:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210084
 
-Support two mutliconfig build x86 and x86_64:
+Hi,
 
-1. Trigger a x86 multiconfig build to generate 32bit x86 buildtools-tarball.
-During package runtime installation, script postinst extracted 32bit x86
-buildtools-tarball and installed it to 64bit x86_64 nativesdk sysroot.
+I have a minimalistic recipe for pm2 (https://www.npmjs.com/package/pm2):
+==================================
+node-pm2_5.3.1.bb
+==================================
+SUMMARY = "Production process manager for Node.JS applications with a built-in load balancer."
+HOMEPAGE = "http://pm2.keymetrics.io/"
+LICENSE = "AGPL-3.0-or-later"
+LIC_FILES_CHKSUM = "file://GNU-AGPL-3.0.txt;md5=9f9fa01c099265d62f73735e404ff8bb"
 
-2. Trigger a x86_64 multiconfig build to generate 64bit x86_64 buildtools-tarball.
-During package runtime installation, script postinst extracted 64bit x86_64
-buildtools-tarball and installed it to 32bit x86 nativesdk sysroot.
+SRC_URI = " \
+     npm://registry.npmjs.org/;package=pm2;version=${PV} \
+     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
+     "
 
-[ YOCTO #15722 ]
+S = "${UNPACKDIR}/npm"
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+inherit npm
 
-Changed in v2:
-Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+do_install:append () {
+         rm -rf ${D}${libdir}/node_modules/pm2/lib/templates/init-scripts/openrc.tpl
+}
 
----
- ...ticonfig-multlib-toolchain-packager_0.1.bb | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
+RDEPENDS:${PN} = "bash"
+==================================
 
-diff --git a/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
-new file mode 100644
-index 0000000000..c742c3eddd
---- /dev/null
-+++ b/meta-selftest/recipes-test/multiconfig/nativesdk-multiconfig-multlib-toolchain-packager_0.1.bb
-@@ -0,0 +1,74 @@
-+DESCRIPTION = "Fetch 32bit x86 buildtools-tarball from x86 multiconfig build, \
-+extract and install toolchain libraries and include files into 64bit nativesdk sysroot.\
-+Or fetch 64bit x86_64 buildtools-tarball from x86_64 multiconfig build, \
-+extract and install toolchain libraries and include files into 32bit nativesdk sysroot.\
-+"
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-+
-+inherit nativesdk
-+
-+MCSDK_ARCH:virtclass-mcextend-x86 = "i686"
-+MCSDK_ARCH:virtclass-mcextend-x86_64 = "x86_64"
-+
-+FROM_MULTICONFIG:virtclass-mcextend-x86_64 = "x86"
-+FROM_MULTICONFIG:virtclass-mcextend-x86 = "x86_64"
-+
-+TO_MULTICONFIG = "${MCNAME}"
-+
-+MC_SDK_DEPLOY = "${TOPDIR}/tmp-mc-${MCNAME}/deploy/sdk"
-+MC_TOOLCHAIN_OUTPUTNAME = "${MCSDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
-+
-+# 64bit x86_64 platform requires 32bit x86 buildtools-tarball
-+# Or
-+# 32bit x86 platform requires 64bit buildtools-tarball
-+do_install[mcdepends] += "mc:${FROM_MULTICONFIG}:${TO_MULTICONFIG}:buildtools-tarball:do_build"
-+do_install () {
-+    install -d ${D}${localstatedir}/machines/${MCNAME}
-+    install ${MC_SDK_DEPLOY}/${MC_TOOLCHAIN_OUTPUTNAME}.sh ${D}${localstatedir}/machines/${MCNAME}/buildtools-tarball.sh
-+}
-+
-+MC_BASELIB:virtclass-mcextend-x86 = "lib"
-+MC_BASELIB:virtclass-mcextend-x86_64 = "lib64"
-+
-+INSTALL_FILES ?= " \
-+    /usr/include \
-+    /usr/${MC_BASELIB} \
-+    /${MC_BASELIB} \
-+"
-+do_install[vardeps] += "INSTALL_FILES MC_SDK_DEPLOY MC_TOOLCHAIN_OUTPUTNAME"
-+
-+# Extract and install toolchain libraries and include files into nativesdk sysroot
-+pkg_postinst:${PN} () {
-+    set -x
-+    $D${localstatedir}/machines/${MCNAME}/buildtools-tarball.sh -y -d $D/sdk-${MCNAME}
-+    src_prefix="$D/sdk-${MCNAME}/sysroots/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}"
-+    for install_file in ${INSTALL_FILES}; do
-+        if [ ! -e ${src_prefix}${install_file} ]; then
-+            echo "${src_prefix}${install_file} does not exist"
-+            exit 1
-+        elif [ -d ${src_prefix}${install_file} ]; then
-+            install -d $D${SDKPATHNATIVE}${install_file}
-+            cp -rf ${src_prefix}${install_file}/* $D${SDKPATHNATIVE}${install_file}/
-+        else
-+            install -d $D${SDKPATHNATIVE}${install_file%/*}
-+            cp -f ${src_prefix}${install_file} $D${SDKPATHNATIVE}${install_file}
-+        fi
-+    done
-+    rm $D/sdk-${MCNAME} -rf
-+}
-+
-+
-+python () {
-+    mcname = d.getVar('MCNAME')
-+    if not mcname:
-+        raise bb.parse.SkipRecipe("Not a multiconfig target")
-+
-+    multiconfigs = d.getVar('BBMULTICONFIG') or ""
-+    if mcname not in multiconfigs:
-+        raise bb.parse.SkipRecipe("multiconfig target %s not enabled" % mcname)
-+}
-+
-+INSANE_SKIP = "native-last"
-+
-+BBCLASSEXTEND = "mcextend:x86 mcextend:x86_64"
--- 
-2.34.1
+Previously this recipe has built and worked correctly under
+Yocto 4.3 and 5.0, as in the package included its own internal
+dependencies in /usr/lib/node_modules/pm2/node_modules.
+Yocto 4.3 ships nodejs 20.8.1, Yocto 5.0 ships nodejs 20.12.2.
+
+With Yocto 5.1 (node 20.18.0) and master (22.12.0), the package
+only has the pm2 module contents in /usr/lib/node_modules/pm2
+but no dependencies.
+
+It seems that at some point, nodejs 20.x LTS upgraded npm
+to a version with a breaking change which now flattens the
+dependencies into a single level in /usr/lib/node_modules
+from the previously accustomed dependency tree in
+/usr/lib/node_modules/pm2/node_modules.
+
+Is there an incantation of EXTRA_OENPM or the npm:// SRC_URI
+that would allow either to unflatten the dependency tree, or
+include the dependencies as well as the main node module?
+
+Thanks in advance,
+Zoltán Böszörményi
 
 
