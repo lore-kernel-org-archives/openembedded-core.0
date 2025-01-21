@@ -1,118 +1,147 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 732A6C02182
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 11:02:22 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.13486.1737457339775193021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D6FC0218B
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 11:28:02 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.13818.1737458876338362408
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 03:02:20 -0800
+ Tue, 21 Jan 2025 03:27:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bqe2Xu8y;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436249df846so37142155e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 03:02:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mCfnNGrO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361c705434so39214445e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 03:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1737457338; x=1738062138; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c9/ilpFgKjGKghNbkkUV/JqathvcR2iwyshhIgEi9XU=;
-        b=bqe2Xu8yPjMRtX7AcRRnyfE7OelIC8Es7tGxbkYX8NJuSYvM2CDOjqeYtIjpEXt+RF
-         +98QgWt9mXJ5TIWLF/w4b+wC9Tx/J26LwRtwZPyvC3wraiC8+nNVpH16GAvpGRTxRmLP
-         OQZdK2F8nOq2snLp7O0jzEs5LjZdqHAYGZKmE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737457338; x=1738062138;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20230601; t=1737458875; x=1738063675; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=c9/ilpFgKjGKghNbkkUV/JqathvcR2iwyshhIgEi9XU=;
-        b=rr1W1JLt2CdP5b96+rC3BREkyBYbd5K/wz2SxPINPXagzZmRpeRut8Exrca46//y/I
-         70WpjUYf76K9npAVTUtkm5JQX/cbDgXOZZgG5a94c7rwCphP5+RF4cZNJefYh/5mpJPO
-         u6bv4TlOY4yzjF/uKF/PIPE36W8s3aF1MWfN7pwu/vvhhwDY8hMtC4bzGBcARm32p0Mx
-         DayrEc7pRGzYH9wu2XACXljfnD5CBAqSF/YDUWfVoG+nSxM+qoF6h61NmdkggizQn4zI
-         PK4QSJXCntNXMQ8CJcuvSgsWhzgNXsrFbjG2aLs8PrfiCfD7dIX93tUF3SUJBWWLz/aQ
-         840g==
-X-Forwarded-Encrypted: i=1; AJvYcCVGoeahQixMQ95YUcY1T9ObwhWpO3FBBelm+sUIzL+1nBmcK05qfV1joRseNlb+1OXrkCdmoKoJKYF+XuqpO1jKqA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YweBmbeP4fVmUdxWq+7a5TdgS54STHCidXMnYf2jYeK8bE2KaMo
-	oeVFIXfYvTkoy9oSUEVsVY4ijrzCbJsc9WbGIt5sSTdhdCUNJ7/QFkGqXHfnDXQ=
-X-Gm-Gg: ASbGnctb5Vu2/YUkRECOm8jB5SPK9kqbRffz3i1lS51vzjg5KG2N0Lv26tFAeP69+hx
-	M6ntwrMJR0H8Gf7FOPjmsyKCSn7bz11U0Id0ODPXdNsrKH2VKVpp9w5gADyQHGJHzqEavIE+m7q
-	EVomDXfLsQccWuK2se1LLcpXIx+2q0R0FfK3rbomJhVGIaWzMTMu7S+sHek280bnkDGruMIQMaj
-	YXsTx5HQvIXNgNWICjIxzrjYUQ884CXKGNi0eR0ghltasPME+vXKHFGHnBpGM/1wBzyCCSTnegm
-	b2WCKdXziz4Oic550uMTuPUISG9tmBXEo+GY/roYUtE4RCFEE9BbZDoxx4w=
-X-Google-Smtp-Source: AGHT+IFVis8QindrTh1AnHQkwIyrytYP0/jnHcLxsQXRdJNW4hWJAbZlLR/c5ls9+KeuW0hn5BJFng==
-X-Received: by 2002:a05:600c:3d85:b0:436:488f:4f3 with SMTP id 5b1f17b1804b1-438913f8926mr164755015e9.17.1737457337689;
-        Tue, 21 Jan 2025 03:02:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e272:e8bb:f22e:9203? ([2001:8b0:aba:5f3c:e272:e8bb:f22e:9203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c75290a2sm237052825e9.29.2025.01.21.03.02.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 03:02:16 -0800 (PST)
-Message-ID: <9aedbeaccf400910bd83d5b9e4405ce5eaa173d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cargo: Drop cargo wrapper to ensure
- successfull cargo builds in SDK
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Date: Tue, 21 Jan 2025 11:02:16 +0000
-In-Reply-To: <20250121105402.733009-1-Yash.Shinde@windriver.com>
-References: <20250121105402.733009-1-Yash.Shinde@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        bh=laHReS7fZhzGs01TTEJnzAZZGnTnI/ibK6SL8EtIFsU=;
+        b=mCfnNGrO620vKIZ2b+n2yBrO+vY8ycZSI7qkBAICItK71jo2VYzR6BBd0RfLQTMV3B
+         HUkaE8vdT7sixagkjRlv5b5Mdlkyqc+O37Y5GRpvUgEJ+/kQcNhRt9GNWk71PwEoo7eU
+         yJrycu4d797nkRp8JK+A3EAJzWBbDoFKt24/Wk+5AEVoJcv8Fbp1itwh8+ga4QUCqUb4
+         9snjxYJGX7hABWO0wmJOjzlAhCEE+r8Xv0nNdHBZ/NJt+tBBt0K5tJimVrzpgrWDP1wj
+         gMpijWT3PNsYWOukXmBMReQRfeaxFHtvwDjYKETzoElmHHgsZzuFJUkJotXUQhmQEQHi
+         VYSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737458875; x=1738063675;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=laHReS7fZhzGs01TTEJnzAZZGnTnI/ibK6SL8EtIFsU=;
+        b=Io1wRkgB3CpTRXqZVpGNxZVPuEh3IzPHYeeYOD1B2YL5g7dvsf0HD34Nm3mu4tDpVB
+         7Aza63dd9LnRx2OlR/SU3EGnkEhz6qzRtn388X9N7SA9sqZVbkpNF9XhL+ubpiHGiHEK
+         aoXPH6skYk84+DUiGMmgNjnXJbtAT2mKfvfQ9VFwXYF1JQBb0KBeFUa9l41IvjONy3Br
+         IWlLHBkH3U+n0y7kF2O/D9P7z1mntQeO4N1KhjtT71DYw+6PR1TdS66EPiah+u7BaPbr
+         nFyZazyMBDUNmYr6EE0kmc0K0BK8Ro/eOhTgdtWXN6FY5C6fYAou0TychQAbkiHeUwRe
+         z9Yg==
+X-Gm-Message-State: AOJu0Yy+SYAPoxK48TnxlCdGh1vmKvGGOxiNElarY3C74g1htMCX2kY9
+	+wl3RX84k5nc7KNgjUqROm4VEfyroNwRR6eJ1rBsKWTq4enlJIOm
+X-Gm-Gg: ASbGnct1UXN9cQ8tVh2RXXjiV1X7Xl9ytUmg6N7LxMvsjayfzljBRvj7m4tBldo3pdM
+	xyiCgU7nAzxgbNK1+w8dSLLP4Z4lWxDbtPEVlI6DvVyRMwxfyijCwGQSU+AroPj8pFSPD5rMhCo
+	cDLvnOVHvqLQ7hC/CXFYjqj2TC/in4wWEEejfdElafm0mWRAx7gxRMOTSoKPmie0SWjpaRuz5KN
+	EfXuoM0u+tB/0kFFJO8ugCPd9RPSS2BavrK29xXzHOKvwpjQUQqIsp6LYz4KH5wvLadIUqQK2nZ
+	rdeVrMSIj+g0qXa5HphmctOJfpA=
+X-Google-Smtp-Source: AGHT+IEvm+hIEPK8i/miCe1ouGoWwXy2/cGYlTZ+IYxPcAe6fnKdeYxanchHLb3gyK3YHAplQg+Ang==
+X-Received: by 2002:a05:600c:3420:b0:436:f3f6:9582 with SMTP id 5b1f17b1804b1-438913cb729mr163024155e9.8.1737458874586;
+        Tue, 21 Jan 2025 03:27:54 -0800 (PST)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c7499884sm240073375e9.5.2025.01.21.03.27.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2025 03:27:54 -0800 (PST)
+Message-ID: <77aceded-b5bc-41c6-8505-142ea72fa4d4@gmail.com>
+Date: Tue, 21 Jan 2025 12:27:53 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] npm based packages omit dependencies since Yocto 5.1
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <264405d9-4f89-4102-acf2-320e73235a59@gmail.com>
+ <CA+chaQePYP7LVSK_Fxbuf-+MexZVwUpnn35CO7=2Ji3xB3nZeA@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CA+chaQePYP7LVSK_Fxbuf-+MexZVwUpnn35CO7=2Ji3xB3nZeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 11:02:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210089
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 11:28:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210090
 
-On Tue, 2025-01-21 at 02:54 -0800, Yash Shinde via lists.openembedded.org w=
-rote:
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->=20
-> - The SDK uses a cargo wrapper that sets LD_LIBRARY_PATH to point to SDK =
-target library directory.
-> =C2=A0 This wrapper was added to resolve library path errors by including=
- libdir and base_dir paths
-> =C2=A0 in LD_LIBRARY_PATH for tumbleweed-ty-3 distro.
-> =C2=A0 (https://git.openembedded.org/openembedded-core/commit/?id=3D388e7=
-cac9f90e79ce8c3c1683d8ee0f4df1bc907)
->=20
-> - But, a simple 'cargo build' in SDK env caused failures for certain crat=
-es due to
-> =C2=A0 undefined symbol and broken C compiler in SDK. Removing the cargo =
-wrapper builds the crate
-> =C2=A0 successfully.
->=20
-> - With tumbleweed no longer being part of the tested distributions, drop =
-the cargo wrapper that was
-> =C2=A0 previously added to address library loading issues on it.
-> =C2=A0 This resolves the errors seen with 'cargo build' in SDK env.
->=20
-> References:
-> Tumbleweed removal: https://git.yoctoproject.org/yocto-autobuilder2/commi=
-t/?id=3D96e82ce670c02b166398500435c2df455b09b951
-> List of tested distros: https://git.yoctoproject.org/yocto-autobuilder2/t=
-ree/config.py?id=3D694d2a9bae523d9396b37da9cc6535a558e04d81#n168
->=20
-> Fixes [YOCTO #15579]
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15579
->=20
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
-> =C2=A0meta/recipes-devtools/rust/cargo_1.81.0.bb | 8 --------
-> =C2=A01 file changed, 8 deletions(-)
+That's it! ;destsuffix=npm helped with Yocto 5.1.
+Thank you very much!
 
-Even if we're not testing on tumbleweed, there is an interaction issue
-here and this interaction is going to come back and bite us with some
-new combination of host and nativesdk glibc.
+I will re-test with Yocto master and report back.
 
-I'm therefore not convinced that simply removing this is a great idea,
-we need to find a way to address the underlying issue.
+2025. 01. 21. 11:53 keltezéssel, Martin Jansa írta:
+> I believe it's the side effect of UNPACKDIR changes, I had to add
+> ;destsuffix=npm in all npmsw:// entries (or ;destsuffix=git where S is
+> set to WORKDIR/git) for dependencies in node_modules to be unpacked
+> where they used to be before.
+>
+> On Tue, Jan 21, 2025 at 11:31 AM Zoltan Boszormenyi via
+> lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org>
+> wrote:
+>> Hi,
+>>
+>> I have a minimalistic recipe for pm2 (https://www.npmjs.com/package/pm2):
+>> ==================================
+>> node-pm2_5.3.1.bb
+>> ==================================
+>> SUMMARY = "Production process manager for Node.JS applications with a built-in load balancer."
+>> HOMEPAGE = "http://pm2.keymetrics.io/"
+>> LICENSE = "AGPL-3.0-or-later"
+>> LIC_FILES_CHKSUM = "file://GNU-AGPL-3.0.txt;md5=9f9fa01c099265d62f73735e404ff8bb"
+>>
+>> SRC_URI = " \
+>>       npm://registry.npmjs.org/;package=pm2;version=${PV} \
+>>       npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
+>>       "
+>>
+>> S = "${UNPACKDIR}/npm"
+>>
+>> inherit npm
+>>
+>> do_install:append () {
+>>           rm -rf ${D}${libdir}/node_modules/pm2/lib/templates/init-scripts/openrc.tpl
+>> }
+>>
+>> RDEPENDS:${PN} = "bash"
+>> ==================================
+>>
+>> Previously this recipe has built and worked correctly under
+>> Yocto 4.3 and 5.0, as in the package included its own internal
+>> dependencies in /usr/lib/node_modules/pm2/node_modules.
+>> Yocto 4.3 ships nodejs 20.8.1, Yocto 5.0 ships nodejs 20.12.2.
+>>
+>> With Yocto 5.1 (node 20.18.0) and master (22.12.0), the package
+>> only has the pm2 module contents in /usr/lib/node_modules/pm2
+>> but no dependencies.
+>>
+>> It seems that at some point, nodejs 20.x LTS upgraded npm
+>> to a version with a breaking change which now flattens the
+>> dependencies into a single level in /usr/lib/node_modules
+>> from the previously accustomed dependency tree in
+>> /usr/lib/node_modules/pm2/node_modules.
+>>
+>> Is there an incantation of EXTRA_OENPM or the npm:// SRC_URI
+>> that would allow either to unflatten the dependency tree, or
+>> include the dependencies as well as the main node module?
+>>
+>> Thanks in advance,
+>> Zoltán Böszörményi
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#210084): https://lists.openembedded.org/g/openembedded-core/message/210084
+>> Mute This Topic: https://lists.openembedded.org/mt/110731121/3617156
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [martin.jansa@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
-Cheers,
-
-Richard
 
