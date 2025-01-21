@@ -1,482 +1,214 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE18C02182
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 03:41:20 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.8478.1737430876129132886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 749FEC02182
+	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 05:18:30 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.57])
+ by mx.groups.io with SMTP id smtpd.web10.9725.1737436707439874252
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jan 2025 19:41:16 -0800
+ Mon, 20 Jan 2025 21:18:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3116417f34=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L2e3ic002656;
-	Mon, 20 Jan 2025 19:41:15 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4488f72717-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 20 Jan 2025 19:41:14 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 20 Jan 2025 19:41:14 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 20 Jan 2025 19:41:13 -0800
-From: <jiaying.song.cn@windriver.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=fsynrELO;
+ spf=pass (domain: axis.com, ip: 40.107.104.57, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TTsdGIAqyjtd6oRRxz32CB25vtLjMHC/ndPw1hsqbfa0nSoSqdu84WFHc/X4GPDlXkozb871VvnNrzJDYv4ur8rBHEo7XmBxyujdoAv1S//g+SjGnKuDF9S+Zw+xOKl1lP6SHkW4R6+6geAHtHyrD04WfF9W85D+Qs1JHzeeBryVcuvSfxgqcHH8ppqEzcw6So40nzXnXKLAL2XpTrt/aUYBxa2FbUM7S+KtWbfEyNoU+BlH7J22H1NWYHA+gLfk099Zwhb8Yyx7JFNlhm5Syw8Im+wv6hGOos+PhtkZ5/IS7bWridafNQY9/1tFpiA6UCbt9MOac0OgEMTbBsZkgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TKcc8v0UpQXXwcVgFmH6ORUjUgby1LgTLTLhSmVBeSE=;
+ b=bRfgyYcscikh+PG+X/NQX4kT2nZPvNaUJ0J3uFHAcE7+whohNPh70f25Y/Ue8C7dNWmVNrpozrNlHZSGbKz7fvOsSMT0vDgDO01zr6ORD0PMj/u6+mMDQEkodqRAArndJdg44jbDAoYtw/d9B+FmlpUDoLvcW4PeRfp2P8cAXCtv1ScCE20AwL6cUrVreTu767GteRlxCX+2YjOTjCLpPDsYpIp/enb01LvloJ5/69aWu+jHOxbmPp4HInOcIm5wl5B+jbdJv5/P9OVGaNutlNkVOfk/DXnOMTCt5+IEWkYBwTglaSlrtlbcU6YP9Ks84fjxHNFbQKt9q5sXDsz7tQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TKcc8v0UpQXXwcVgFmH6ORUjUgby1LgTLTLhSmVBeSE=;
+ b=fsynrELOuyXh1kqygcVI+RMV6vilX7FH5nOoHEDvQ+Naj7BUYtbyewrRo3DESWwKlJqXJqQk1lzKvKWy8kztwOl0U8Ebdqr8eYBJUf3h/rwd/C7kyyRyvqN/P/jbM2gLi5eRtlIm/VRkO0cVVsE+dvFmErUnAcIiPXImjToXYPs=
+Received: from DUZPR01CA0191.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b6::20) by PA4PR02MB6559.eurprd02.prod.outlook.com
+ (2603:10a6:102:f5::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Tue, 21 Jan
+ 2025 05:18:23 +0000
+Received: from DU6PEPF00009526.eurprd02.prod.outlook.com
+ (2603:10a6:10:4b6:cafe::9f) by DUZPR01CA0191.outlook.office365.com
+ (2603:10a6:10:4b6::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.22 via Frontend Transport; Tue,
+ 21 Jan 2025 05:18:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DU6PEPF00009526.mail.protection.outlook.com (10.167.8.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8377.8 via Frontend Transport; Tue, 21 Jan 2025 05:18:22 +0000
+Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 21 Jan
+ 2025 06:18:22 +0100
+Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAIL21W.axis.com
+ (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 21 Jan
+ 2025 06:18:22 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+ Transport; Tue, 21 Jan 2025 06:18:22 +0100
+Received: from saur (saur.se.axis.com [10.92.3.10])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 4DF11248
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 06:18:22 +0100 (CET)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur (8.17.1/8.15.2) with ESMTPS id 50L5IMTs2403193
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 06:18:22 +0100
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 50L5ILqX2403190
+	for openembedded-core@lists.openembedded.org; Tue, 21 Jan 2025 06:18:21 +0100
+From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v3] pango: Restore the install tests for pango
-Date: Tue, 21 Jan 2025 11:41:12 +0800
-Message-ID: <20250121034112.1099179-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] systemd: Remove /var/log/README using a patch
+Date: Tue, 21 Jan 2025 06:18:12 +0100
+Message-ID: <20250121051812.2403150-1-pkj@axis.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-GUID: S4ctjVfxva7IcC4jw1mEqh2pW4ZP4Dxo
-X-Authority-Analysis: v=2.4 cv=GqG4+l1C c=1 sm=1 tr=0 ts=678f175a cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VdSt8ZQiCzkA:10 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=DfNHnWVPAAAA:8 a=woYHl-Inc-TQh9fTz6gA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=rjTVMONInIDnV1a_A2c_:22
-X-Proofpoint-ORIG-GUID: S4ctjVfxva7IcC4jw1mEqh2pW4ZP4Dxo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-21_02,2025-01-20_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2501210027
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF00009526:EE_|PA4PR02MB6559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37106f17-9102-4b67-33c5-08dd39db06b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?eNhiCfwOfagiBVzbLLBRQvWE48MXJRRfzfwdaWphXr2NYj7UL/29zfGgbFJH?=
+ =?us-ascii?Q?+hildDIkH5PBjgLpzJwT9s7kY+83Ejf169yJjmRooHfwPobIg5nyB9Xmk8mI?=
+ =?us-ascii?Q?tC4PA7dY+cYUgO2ZEyvUUUEux78wiOHaLxDacn53Mw2jnIcGhDoVZCJqnx1e?=
+ =?us-ascii?Q?pZmtTpeqnssVNEqFdFPByewpznzXFWk+sRViEiJFPhPBucvU0A5bMJx1A3a9?=
+ =?us-ascii?Q?QCKVQGi3aHcd3jY5izd8nKFmL0U9R9uoiH3oBuFbvj1nf4HVWY3DEPKyOoiM?=
+ =?us-ascii?Q?tDxPp5UwnoGKvmlhjAcU1Ay2NVwsjskj705k1jIiCOyMvKYb3k4IRk8t3ZNJ?=
+ =?us-ascii?Q?DkgswqoiT9TlpWceQ02zRT1pngxjJiEPXmMrBCCCXqmfLobh39RePaG7FnoG?=
+ =?us-ascii?Q?Ig100uhuS8WZYVWjN0j9bsOdFMQQZm5/f3KHOHG/GqBJl54UgYa5Dj4KGeci?=
+ =?us-ascii?Q?UY3PAC+Ty58Lq3KV6aX1UqR0/VAqfA4J/eTS/71bmS2ibpciZz5YriNMv7N8?=
+ =?us-ascii?Q?Pp4U3dW9xhccMIRbVc8MUwqSbJUGBhm7Ak2GAkrDjc5d8bBAcS3RB7JQoAIV?=
+ =?us-ascii?Q?/rIUdp485+Mdni12QmGojtSsdWGxwFug0NagrSKCkVXLA09lk4GN9pMIcSLN?=
+ =?us-ascii?Q?HjkrbUf04YDYlmZzlT63c1IW1EDcCIU4ZZNK8jYzsF4l41KoSAuxiCPBlk2+?=
+ =?us-ascii?Q?SPwblKIakYK4z316vzUXJoIGB9PMibunfDQZWeVVjYjtEOV30YMgMGKX8Stx?=
+ =?us-ascii?Q?9NWjRZOEDY/Phrc8K9KgA1rnv1s8sIZ+Lx1IfPwy9oBT/dzc/bedEZ2bMHcV?=
+ =?us-ascii?Q?LhWONuqHMjQyF80zCn73/+ea6a2gO2YMpP6BrH9Zy+vRVPjQ3y95z36M5kfn?=
+ =?us-ascii?Q?VIdtbwzxZDUMcM32kJVT0WVoCuyqEHlSu+SnD/8bE/tWxWHZ3Xm0x6lp1seh?=
+ =?us-ascii?Q?vqih7GU7+usFFcfAnmbGWmajtMsfpPmUZi4PejfwJ04UrzAavUTMx8zF9jYw?=
+ =?us-ascii?Q?XdxZBTxJ6S62QJlwEYC6m8ae1ruaWHr5FEoOtaf9TejmMIQt3RSCjZK2/Vyk?=
+ =?us-ascii?Q?/dba9lzaYSeXqj0/vdrfIl9juqEs0p1JIiWG0Lom2MBW/ahwTZ6zrViEcKWZ?=
+ =?us-ascii?Q?Nqfdq04IuaRSzyRvJx7CtvrZmoQshhmVQKmp+N31Cdv9ZB9+FrHkJG9fka/r?=
+ =?us-ascii?Q?DfOMxC/gOhK/So+WxAfhb/zTrK7LQl5+SN46RfkMcqbHYGQLWd6aEv2tWpl3?=
+ =?us-ascii?Q?M2LYdabm5zyb1zvQC68iuaIzdDECIR/K1NP1WSwcve90xlQb9+FgLYa5ROIl?=
+ =?us-ascii?Q?tw+zrtytWnwAbzY2n/wsu283OROyka++2j3pHHP1kGB3D28AHjQ7ntLAV6ZL?=
+ =?us-ascii?Q?uDK6QYxGTgHTchr8kb8f1lQmjEk1dxKYsN8uLb79GB6/aevJ8Uz1Q6xDFXXD?=
+ =?us-ascii?Q?UlZfG+tLTSrm3IpHnlIF8Y4Xrihj+71c+BEwXDdsipzIbFBDrV0GMZdBb1ZE?=
+ =?us-ascii?Q?e2woC4WSho2S8fA=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2025 05:18:22.9144
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37106f17-9102-4b67-33c5-08dd39db06b7
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF00009526.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6559
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 03:41:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210068
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 05:18:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210069
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+Commit f82d9c997ba (systemd: enable create-log-dirs) removed the
+creation of the /var/log/README symbolic link by using sed. However, the
+update to 257 changed the target line and the sed expression no longer
+matches. Rather than correcting the sed expression, use a patch to
+remove /var/log/README so that any future changes do not go unnoticed.
 
-Due to our use of multiple architectures, removing the install-test
-option severely impacts our ability to validate Pango correctly across
-different platforms.  Moreover, the build tests provided cannot be
-executed in our cross-build environment. Therefore, the install-test is
-restored using the patch provided by upstream:
-https://salsa.debian.org/gnome-team/pango/-/blob/debian/latest/debian/patches/Revert-build-Drop-the-install-tests-option.patch
-
-Related discussions and commits:
-https://gitlab.gnome.org/GNOME/pango/-/issues/799
-https://gitlab.gnome.org/GNOME/pango/-/commit/2c637453aa1ece7daa9c477b95b20d993c70ab4e
-https://gitlab.gnome.org/GNOME/pango/-/commit/927abccf371cd823b185a6df98d871d12601220a
-
-Partial test log:
-ok 1 /text/break/grapheme
-ok 2 /text/break/word
-ok 3 /text/break/sentence
-ok 4 /text/break/line # SKIP Test file not found ok 5 /text/break/emoji ok 6 /text/break/char # End of break tests # End of text tests
-PASS: pango/testboundaries_ucd.test
-SUMMARY: total=27; passed=27; skipped=0; failed=0; user=29.6s; system=18.0s; maxrss=35328
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../distro/include/ptest-packagelists.inc     |   1 +
- ...-build-Drop-the-install-tests-option.patch | 314 ++++++++++++++++++
- meta/recipes-graphics/pango/pango/run-ptest   |   6 +
- meta/recipes-graphics/pango/pango_1.55.5.bb   |  16 +-
- 4 files changed, 335 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the-install-tests-option.patch
- create mode 100644 meta/recipes-graphics/pango/pango/run-ptest
+ .../0001-Do-not-create-var-log-README.patch   | 30 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_257.1.bb    |  5 +---
+ 2 files changed, 31 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Do-not-create-va=
+r-log-README.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index e2a90c1c2ef..e01b7a3c346 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -85,6 +85,7 @@ PTESTS_FAST = "\
-     wayland \
-     xz \
-     zlib \
-+    pango \
- "
- PTESTS_FAST:append:libc-glibc = " glibc-y2038-tests"
- PTESTS_PROBLEMS:remove:libc-glibc = "glibc-y2038-tests"
-diff --git a/meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the-install-tests-option.patch b/meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the-install-tests-option.patch
+diff --git a/meta/recipes-core/systemd/systemd/0001-Do-not-create-var-log-R=
+EADME.patch b/meta/recipes-core/systemd/systemd/0001-Do-not-create-var-log-=
+README.patch
 new file mode 100644
-index 00000000000..5b3c94a1fb4
+index 0000000000..850e356b2f
 --- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/0001-Revert-build-Drop-the-install-tests-option.patch
-@@ -0,0 +1,314 @@
-+From 2e8c8aee4dc7cc069afaec3a2caaeeaa73d5b0ce Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Jeremy=20B=C3=ADcha?= <jeremy.bicha@canonical.com>
-+Date: Mon, 10 Jun 2024 08:52:56 -0400
-+Subject: [PATCH] Revert "build: Drop the install-tests option"
++++ b/meta/recipes-core/systemd/systemd/0001-Do-not-create-var-log-README.p=
+atch
+@@ -0,0 +1,30 @@
++From 425ad51e727058b48dd4580fd6afe7e51e96a28a Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Tue, 21 Jan 2025 05:02:00 +0100
++Subject: [PATCH] Do not create /var/log/README
 +
-+This reverts commit 2c637453aa1ece7daa9c477b95b20d993c70ab4e.
++/var/log/README is a link to /usr/share/doc/systemd/README.logs. The
++latter is packaged in systemd-doc and likely not installed, which leaves
++/var/log/README as a dead link. Since /var/log/README is not very
++useful, just remove it.
 +
-+Upstream-Status: Denied [https://gitlab.gnome.org/GNOME/pango/-/issues/799]
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 +---
-+ meson.build                 |   1 +
-+ meson.options               |   5 +
-+ tests/gen-installed-test.py |  25 +++++
-+ tests/meson.build           | 208 +++++++++++++++++++++++++++++++++++-
-+ 4 files changed, 237 insertions(+), 2 deletions(-)
-+ create mode 100755 tests/gen-installed-test.py
++ tmpfiles.d/legacy.conf.in | 3 ---
++ 1 file changed, 3 deletions(-)
 +
-+diff --git a/meson.build b/meson.build
-+index dd358fe..32bcf97 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -590,6 +590,7 @@ summary('Introspection', gir.found(), section: 'Build')
-+ summary('Documentation', get_option('documentation'), section: 'Build')
-+ summary('Build Testsuite', get_option('build-testsuite'), section: 'Build')
-+ summary('Build Examples', get_option('build-examples'), section: 'Build')
-++summary('Install tests', get_option('install-tests'), section: 'Build')
-+ 
-+ summary('prefix', pango_prefix, section: 'Directories')
-+ summary('includedir', pango_includedir, section: 'Directories')
-+diff --git a/meson.options b/meson.options
-+index 1cf039b..72b07ee 100644
-+--- a/meson.options
-++++ b/meson.options
-+@@ -25,6 +25,11 @@ option('build-examples',
-+        type: 'boolean',
-+        value: true)
-+ 
-++option('install-tests',
-++       description : 'Install tests',
-++       type: 'boolean',
-++       value: false)
-++
-+ option('fontconfig',
-+        description : 'Build with FontConfig support. Passing \'auto\' or \'disabled\' disables fontconfig where it is optional, i.e. on Windows and macOS. Passing \'disabled\' on platforms where fontconfig is required results in error.',
-+        type: 'feature',
-+diff --git a/tests/gen-installed-test.py b/tests/gen-installed-test.py
-+new file mode 100755
-+index 0000000..eeb4abe
-+--- /dev/null
-++++ b/tests/gen-installed-test.py
-+@@ -0,0 +1,25 @@
-++#!/usr/bin/env python3
-++
-++import sys
-++import argparse
-++import os
-++
-++template = '''[Test]
-++Type=session
-++Exec={}
-++'''
-++
-++def build_template(test_dir, test_name):
-++    return template.format(os.path.join(test_dir, test_name))
-++
-++if __name__ == '__main__':
-++    argparser = argparse.ArgumentParser(description='Generate installed-test description file')
-++    argparser.add_argument('installed_test_dir', help='Path for installed test binaries')
-++    argparser.add_argument('test_name', help='Name of the test unit')
-++    argparser.add_argument('out_dir', help='Path for the output')
-++
-++    args = argparser.parse_args()
-++
-++    outfile = os.path.join(args.out_dir, args.test_name + '.test')
-++    with open(outfile, 'w') as f:
-++        f.write(build_template(args.installed_test_dir, args.test_name))
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 72ea8be..c288d44 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -90,24 +90,228 @@ if cairo_dep.found()
-+   endif
-+ endif
-+ 
-++installed_test_data = [
-++  'boundaries.utf8',
-++  'GraphemeBreakTest.txt',
-++  'WordBreakTest.txt',
-++  'SentenceBreakTest.txt',
-++  'EmojiBreakTest.txt',
-++  'CharBreakTest.txt',
-++]
-++
-++installed_test_layouts_data = [
-++  'layouts/bratwurst2.layout',
-++  'layouts/bratwurst3.layout',
-++  'layouts/bratwurst4.layout',
-++  'layouts/bratwurst.layout',
-++  'layouts/effigy.layout',
-++  'layouts/kebab.layout',
-++  'layouts/tabs.layout',
-++  'layouts/tabs-nowrap.layout',
-++  'layouts/valid-1.layout',
-++  'layouts/valid-2.layout',
-++  'layouts/valid-3.layout',
-++  'layouts/valid-4.layout',
-++  'layouts/valid-5.layout',
-++  'layouts/valid-6.layout',
-++  'layouts/valid-7.layout',
-++  'layouts/valid-8.layout',
-++  'layouts/valid-9.layout',
-++  'layouts/valid-10.layout',
-++  'layouts/valid-11.layout',
-++  'layouts/valid-12.layout',
-++  'layouts/valid-13.layout',
-++  'layouts/valid-14.layout',
-++  'layouts/valid-15.layout',
-++  'layouts/valid-16.layout',
-++  'layouts/valid-17.layout',
-++  'layouts/valid-18.layout',
-++  'layouts/valid-19.layout',
-++  'layouts/valid-20.layout',
-++  'layouts/valid-21.layout',
-++  'layouts/valid-22.layout',
-++  'layouts/tab-crash.layout',
-++  'layouts/tab-assert.layout',
-++  'layouts/arabic-format.layout',
-++  'layouts/no-space.layout',
-++  'layouts/aaa.layout',
-++  'layouts/letterspacing.layout',
-++  'layouts/screaming.layout',
-++]
-++
-++installed_test_fontsets_data = [
-++  'fontsets/cantarell',
-++  'fontsets/cantarell2',
-++  'fontsets/mono',
-++  'fontsets/mono2',
-++]
-++
-++installed_test_fonts_data = [
-++  'fonts/amiri-06dd.ttf',
-++  'fonts/Cantarell-VF.otf',
-++  'fonts/DejaVuSans-Bold.ttf',
-++  'fonts/DejaVuSansMono.ttf',
-++  'fonts/DejaVuSans.ttf',
-++  'fonts/droid-sans-subset.ttf',
-++  'fonts/emoji-subset.ttf',
-++  'fonts/fa-regular-f2db.ttf',
-++  'fonts/fa-solid-f2db.ttf',
-++  'fonts/fonts.conf',
-++  'fonts/noto-sans-cjk.ttf',
-++]
-++
-++test_markups_data = [
-++  'markups/fail-1',
-++  'markups/fail-2',
-++  'markups/fail-3',
-++  'markups/fail-4',
-++  'markups/fail-5',
-++  'markups/fail-6',
-++  'markups/fail-7',
-++  'markups/fail-8',
-++  'markups/fail-9',
-++  'markups/fail-10',
-++  'markups/fail-11',
-++  'markups/fail-12',
-++  'markups/fail-13',
-++  'markups/fail-14',
-++  'markups/fail-15',
-++  'markups/fail-16',
-++  'markups/fail-17',
-++  'markups/fail-20',
-++  'markups/fail-21',
-++  'markups/fail-22',
-++  'markups/fail-23',
-++  'markups/fail-24',
-++  'markups/fail-25',
-++  'markups/fail-26',
-++  'markups/fail-27',
-++  'markups/fail-28',
-++  'markups/fail-29',
-++  'markups/fail-30',
-++  'markups/fail-31',
-++  'markups/fail-32',
-++  'markups/fail-33',
-++  'markups/fail-34',
-++  'markups/fail-35',
-++  'markups/fail-36',
-++  'markups/fail-37',
-++  'markups/fail-38',
-++  'markups/fail-39',
-++  'markups/valid-1',
-++  'markups/valid-2',
-++  'markups/valid-3',
-++  'markups/valid-4',
-++  'markups/valid-5',
-++  'markups/valid-6',
-++  'markups/valid-7',
-++  'markups/valid-8',
-++  'markups/valid-9',
-++  'markups/valid-10',
-++  'markups/valid-11',
-++  'markups/valid-12',
-++  'markups/valid-13',
-++  'markups/valid-14',
-++  'markups/valid-15',
-++  'markups/valid-16',
-++  'markups/valid-17',
-++  'markups/valid-18',
-++  'markups/valid-19',
-++  'markups/valid-20',
-++  'markups/valid-21',
-++  'markups/valid-22',
-++  'markups/valid-23',
-++  'markups/valid-24',
-++]
-++
-++test_breaks_data = [
-++  'breaks/one',
-++  'breaks/two',
-++  'breaks/three',
-++  'breaks/nine',
-++  'breaks/ten',
-++  'breaks/eleven',
-++]
-++
-++if thai_dep.found()
-++  test_breaks_data += [ 'breaks/four', ]
-++endif
-++
-++test_items_data = [
-++  'itemize/one',
-++  'itemize/two',
-++]
-++
-++installed_test_markups_data = []
-++foreach d: test_markups_data
-++  installed_test_markups_data += d + '.markup'
-++  installed_test_markups_data += d + '.expected'
-++endforeach
-++
-++installed_test_breaks_data = []
-++foreach d: test_breaks_data
-++  installed_test_breaks_data += d + '.break'
-++  installed_test_breaks_data += d + '.expected'
-++endforeach
-++
-++installed_test_items_data = []
-++foreach d: test_items_data
-++  installed_test_items_data += d + '.items'
-++  installed_test_items_data += d + '.expected'
-++endforeach
-++
-++installed_test_nofonts_data = [
-++  'nofonts/fonts.conf',
-++]
-++
-++installed_test_datadir = join_paths(pango_datadir, 'installed-tests', 'pango')
-++installed_test_bindir = join_paths(pango_libexecdir, 'installed-tests', 'pango')
-++
-++if get_option('install-tests')
-++  install_data(installed_test_data, install_dir: installed_test_bindir)
-++  install_data(installed_test_fonts_data, install_dir: join_paths(installed_test_bindir, 'fonts'))
-++  install_data(installed_test_layouts_data, install_dir: join_paths(installed_test_bindir, 'layouts'))
-++  install_data(installed_test_markups_data, install_dir: join_paths(installed_test_bindir, 'markups'))
-++  install_data(installed_test_breaks_data, install_dir: join_paths(installed_test_bindir, 'breaks'))
-++  install_data(installed_test_items_data, install_dir: join_paths(installed_test_bindir, 'itemize'))
-++  install_data(installed_test_fontsets_data, install_dir: join_paths(installed_test_bindir, 'fontsets'))
-++  install_data(installed_test_nofonts_data, install_dir: join_paths(installed_test_bindir, 'nofonts'))
-++endif
-++
-++gen_installed_test = files([ 'gen-installed-test.py' ])
-+ gen_all_unicode = files([ 'gen-all-unicode.py' ])
-+ 
-+ custom_target('all-unicode',
-+               output: 'all-unicode.txt',
-+               command: [
-+                 gen_all_unicode, '@OUTPUT@'
-+-              ])
-++              ],
-++              install: get_option('install-tests'),
-++              install_dir: installed_test_bindir)
-+ 
-+ foreach t: tests
-+   name = t[0]
-+   src = t.get(1, [ '@0@.c'.format(name) ])
-+   deps = t.get(2, [ libpango_dep ])
-+ 
-++  custom_target(name + '.test',
-++                output: name + '.test',
-++                command: [
-++                  gen_installed_test,
-++                  installed_test_bindir,
-++                  name,
-++                  '@OUTDIR@',
-++                ],
-++                install: get_option('install-tests'),
-++                install_dir: installed_test_datadir)
-++
-+   bin = executable(name, src,
-+                    dependencies: deps,
-+                    include_directories: root_inc,
-+                    c_args: common_cflags + pango_debug_cflags + test_cflags,
-+-                   cpp_args: common_cppflags + pango_debug_cflags + test_cflags)
-++                   cpp_args: common_cppflags + pango_debug_cflags + test_cflags,
-++                   install: get_option('install-tests'),
-++                   install_dir: installed_test_bindir)
-+ 
-+   test(name, bin,
-+     args: ['-k', '--tap'],
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/pango/pango/run-ptest b/meta/recipes-graphics/pango/pango/run-ptest
-new file mode 100644
-index 00000000000..e1fab050ef9
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/run-ptest
-@@ -0,0 +1,6 @@
-+#! /bin/sh
-+
-+# workaround for https://gitlab.gnome.org/GNOME/pango/-/issues/668
-+mkdir -p /usr/share/fonts/pango-private
-+cp -rf /usr/libexec/installed-tests/pango/fonts/* /usr/share/fonts/pango-private
-+gnome-desktop-testing-runner pango
-diff --git a/meta/recipes-graphics/pango/pango_1.55.5.bb b/meta/recipes-graphics/pango/pango_1.55.5.bb
-index 6c7242274f8..3025fe5e972 100644
---- a/meta/recipes-graphics/pango/pango_1.55.5.bb
-+++ b/meta/recipes-graphics/pango/pango_1.55.5.bb
-@@ -11,29 +11,41 @@ LICENSE = "LGPL-2.0-or-later"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- 
--inherit gnomebase gi-docgen upstream-version-is-even gobject-introspection
-+inherit gnomebase gi-docgen upstream-version-is-even gobject-introspection ptest-gnome
- 
- UPSTREAM_CHECK_REGEX = "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
- 
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- 
-+SRC_URI += "file://run-ptest \
-+            file://0001-Revert-build-Drop-the-install-tests-option.patch \
-+           "
-+
- SRC_URI[archive.sha256sum] = "e396126ea08203cbd8ef12638e6222e2e1fd8aa9cac6743072fedc5f2d820dd8"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
-+                   ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
- 
- PACKAGECONFIG[x11] = ",,virtual/libx11 libxft"
- PACKAGECONFIG[thai] = "-Dlibthai=enabled,-Dlibthai=disabled,libthai"
-+PACKAGECONFIG[tests] = "-Dinstall-tests=true, -Dinstall-tests=false"
- 
- GIR_MESON_OPTION = 'introspection'
- GIDOCGEN_MESON_OPTION = 'documentation'
- 
-+do_configure:prepend() {
-+	chmod +x ${S}/tests/*.py
-+}
-+
- LEAD_SONAME = "libpango-1.0*"
- 
- FILES:${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
- 
-+RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-en-us"
-+
- RPROVIDES:${PN} += "pango-modules pango-module-indic-lang \
-                     pango-module-basic-fc pango-module-arabic-lang"
- 
--- 
-2.25.1
-
++diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
++index b475500e58..650c91a8da 100644
++--- a/tmpfiles.d/legacy.conf.in
+++++ b/tmpfiles.d/legacy.conf.in
++@@ -13,9 +13,6 @@
++=20
++ d /run/lock 0755 root root -
++ L /var/lock - - - - ../run/lock
++-{% if CREATE_LOG_DIRS %}
++-L$ /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
++-{% endif %}
++=20
++ {% if HAVE_SYSV_COMPAT %}
++ # /run/lock/subsys is used for serializing SysV service execution, and
+diff --git a/meta/recipes-core/systemd/systemd_257.1.bb b/meta/recipes-core=
+/systemd/systemd_257.1.bb
+index e7dae83957..cdf72a5015 100644
+--- a/meta/recipes-core/systemd/systemd_257.1.bb
++++ b/meta/recipes-core/systemd/systemd_257.1.bb
+@@ -28,6 +28,7 @@ SRC_URI +=3D " \
+            file://systemd-pager.sh \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0002-implment-systemd-sysv-install-for-OE.patch \
++           file://0001-Do-not-create-var-log-README.patch \
+            "
+=20
+ # patches needed by musl
+@@ -405,10 +406,6 @@ do_install() {
+ 		# Actively disable Predictable Network Interface Names
+ 		sed -i 's/^NamePolicy=3D.*/NamePolicy=3D/;s/^AlternativeNamesPolicy=3D.*=
+/AlternativeNamesPolicy=3D/' ${D}${nonarch_libdir}/systemd/network/99-defau=
+lt.link
+ 	fi
+-
+-	if [ -e ${D}${nonarch_libdir}/tmpfiles.d/legacy.conf ];then
+-		sed -i -e '/^L \/var\/log\/README/d' ${D}${nonarch_libdir}/tmpfiles.d/le=
+gacy.conf
+-	fi
+ }
+=20
+ python populate_packages:prepend (){
 
