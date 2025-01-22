@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C6BDC0218B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F5B5C02182
 	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 03:03:37 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.34428.1737515014020302211
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.34191.1737515015358302138
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 19:03:34 -0800
+ Tue, 21 Jan 2025 19:03:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=I3tZs+El;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-216728b1836so109377525ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=V/lAQUws;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2eed82ca5b4so10991192a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515013; x=1738119813; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515015; x=1738119815; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vVU6OlNosesVc8GeD9f3zhn/DAHu8nl6ef1H4kQOMaQ=;
-        b=I3tZs+ElV/6s5RmSZMy3Zc1+PRFntzdDg+/R6ftsLjJRcaPScISlgw4F0Xl3WDAJgR
-         GIpIzD0OwXDND5WX3qqeEJfkh3tPlDI+Sj3jQ8w2CJCWqpbFUJ6zhr5WucROpGhY5K3/
-         KqquaMmkpV3h02umLKppztn0yKrRbDOCKlN5l8qWr2/OUo5F3sySjyUsModjjmnU4t1+
-         ldb7GSVODrCQaaOrLHcHRa0D6gKrZktZqUFcg4nVgGQo43N4mQPkva4MUpsGjxU90FxW
-         A9uawn6A6Ch1Z+mHP8X3GOeaqdJec3aAVWi7xb8GpSyEdpb7tglJn9TemYwXKtQBqioW
-         +j/A==
+        bh=2bS3EnvPtqdujFy/QmD8f38Tj/M2eblVWJ+Kw4kfxzE=;
+        b=V/lAQUws7k/bDgtMjbw5CqMZplvURPA3ljsMFVsUHbOcYdfSdbHIYkMdUb312rX14c
+         Fgurdt/ajHVJC8AnoXyrqvuNqF9uLeoIZy1b20f7jXnymqIfVrh6WaSE1Ed+sqjmwFjH
+         H7JXwFoyjhSkSGurmSP6eLRg0aEchKEXg+73mkkcGiUJp+b1mAraSkyNEeE21O+lR9le
+         80bcWtY/rg6xwNQPtOGOG86qO7GbuLIfVGZc5xAAAQO6wVUMcK+LcdKgVI/lnCSVGZ+M
+         3n7LvkMcOb6Ln+F9mJd/yTHnj0Zx01CdhzDpo/cDKtAQGAJZPRSSATh2Lv2pHM4rna9/
+         PdxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737515013; x=1738119813;
+        d=1e100.net; s=20230601; t=1737515015; x=1738119815;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vVU6OlNosesVc8GeD9f3zhn/DAHu8nl6ef1H4kQOMaQ=;
-        b=aRoweOlruKklFC2PkM4HRopCoaEGRcZ1Hn6HKVI9Gy1zLWNOuUQt6Y4WbZOkRg+STY
-         0PkpS4T5G+l1EdH8gJZsMdRrse8OvzxfUj+AMFB7A0KtIRHbNAH4IpruoCTGcF5Ck2/0
-         Rkc/qX43smZVeeoj+8ZAaZwzqjJpiTpSIX8Sw9G1m5DNurvB+u71wqA3kloqJYkOGOHX
-         ALxVY3oZP9XC1c/QbECaqJ9LhZ5F7kRaxHTyMoGQTU60HllU5F0x73htjzM405cNjZZw
-         Dg14BREEGogyF5ceWtwV3bjdyuuOLOsrQYBFNh0WcYl05lBBOYi0oqB97gWNDRtsS4Hq
-         Em8A==
-X-Gm-Message-State: AOJu0Yy76a0RONMRW5kKIR6szSBoPwB8Efps48sxVAoPIJi0ftVtuzYB
-	16KiERU+zVMcNAmYaptl5gY4H4k+7uvK0XAWfaHrjKwcNLgfU9RNtcMS2jRyeFHLELXs5yzymTz
-	ZXv4=
-X-Gm-Gg: ASbGnctMQ2nb+IN0XCY0XDkybn/JP3lanZs0Von9LPJMZ/rAxwNYX7rOzjCvrbTQLrq
-	gaMkg0JzgwT6q6x9acaV5axG7dn5s4PFcYB1G8NTuPeDuRsB1/XZ5xt/wIc6mBA9zIN+Jkodckt
-	qOtR9cBWvbf3OPpFHRxUAvqchXKCpapGp4A4fjiBEhiBsBYXFUPXlCc3BM4QXgcOz07mghiXkYQ
-	JOE48kl8TFYbctisSns0uceAjFn2Laxj+2JIhKRzOvH64GbqOEzLm5b5rM=
-X-Google-Smtp-Source: AGHT+IElPgG/m94dwuW+Ls2crkmlIVcBcepe8juuAk/niWF5pU1OhKgDlwRNKQ8A5oMDXENQwqaYSg==
-X-Received: by 2002:a05:6a21:6d91:b0:1e0:cbd1:8046 with SMTP id adf61e73a8af0-1eb21174c17mr30397889637.0.1737515013184;
-        Tue, 21 Jan 2025 19:03:33 -0800 (PST)
+        bh=2bS3EnvPtqdujFy/QmD8f38Tj/M2eblVWJ+Kw4kfxzE=;
+        b=u47U2VZ+VIdn7Ku0UOMysTfu96toxssoewoHrnR14oW9RlrDVW2R/NFMrQIbXF8yJx
+         rUQOVTHfntCmktWHQF/uH3OXyBCpg0goGC8yCesUnPgii7nM2Pv4VhwbMxW7FSRxXspI
+         BHox3Ng/HeZUczIqwAzedQ9uW3dXOfj3EzH8QV5wnzFq26iNMTqccymTDOIAEGIM6lTe
+         RbAcMcE7UJdSr6Bpmwl6yxhdYNPIvpvtVTdqlhsatgI3mA84n6setZ91YDL9QdNi68XD
+         YFZ4x9vlM0/gw+wXUtAppLayaDJo2f3+0ktHche72v7P+wDWqd3Lrn38ScEuYiLSGjIk
+         Gcrw==
+X-Gm-Message-State: AOJu0Yw0iXg4Xz/1RnS3PQ+dtdpB20CUfDMf9uMhb2joEH8BbNwKhtU6
+	MJB6s3EvcnGP/NGl4MPPO+kUN6oC1zN7clIdK41y2vO1OwV41jJ5U0RmoK6WLxkLgPVK7hyrsvj
+	pzgo=
+X-Gm-Gg: ASbGncv1yZBK4vzXzivdql0sgnj8RPVui5iHN/lFuvXbQOqsM60zvwULwnStlt1Apwu
+	5WbRudAupJQRyv7jtAyNUAqINXOJTHXY5TLTFT0B1oS9DFc10MgzM7TYocelsdzV6SrxYRFsSj7
+	/4s7JQh/EDZOiF1hwBU6wVIsOKJwUQqjjRxT1etMQC9JQP6sBH4FXlT0ed3nkyCGi/I0sjxaytJ
+	xYKUAetMIg0u2A/EdLM0711LFr90GzsMZLYH7wfsnOM8sN0TKODPqhkDgM=
+X-Google-Smtp-Source: AGHT+IHcTXNIdkP+8Vx4iiZfv+wvqQNpuWkBfJ1pniIUGEd3Q8tLkobUW1sS88PbCPnzIEdBoPHhKw==
+X-Received: by 2002:a05:6a00:a95:b0:72d:8fa2:9998 with SMTP id d2e1a72fcca58-72dafa44feamr30439186b3a.14.1737515014673;
+        Tue, 21 Jan 2025 19:03:34 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.32
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 19:03:32 -0800 (PST)
+        Tue, 21 Jan 2025 19:03:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/14] avahi: fix CVE-2024-52616
-Date: Tue, 21 Jan 2025 19:02:59 -0800
-Message-ID: <28de3f131b17dc4165df927060ee51f0de3ada90.1737514842.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/14] socat: patch CVE-2024-54661
+Date: Tue, 21 Jan 2025 19:03:00 -0800
+Message-ID: <efa7a5e5a8448ae52152ee8ebbf5c51d691a34d2.1737514842.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1737514842.git.steve@sakoman.com>
 References: <cover.1737514842.git.steve@sakoman.com>
@@ -66,153 +66,155 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:03:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210117
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210118
 
-From: Zhang Peng <peng.zhang1.cn@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-CVE-2024-52616:
-A flaw was found in the Avahi-daemon, where it initializes DNS transaction IDs
-randomly only once at startup, incrementing them sequentially after that. This
-predictable behavior facilitates DNS spoofing attacks, allowing attackers to
-guess transaction IDs.
+Picked upstream commit
+https://repo.or.cz/socat.git/commitdiff/4ee1f31cf80019c5907876576d6dfd49368d660f
 
-Reference:
-[https://nvd.nist.gov/vuln/detail/CVE-2024-52616]
-[https://github.com/avahi/avahi/security/advisories/GHSA-r9j3-vjjh-p8vm]
+Since this was the only commit in 1.8.0.2 it also contained release
+changes which were dropped.
 
-Upstream patches:
-[https://github.com/avahi/avahi/commit/f8710bdc8b29ee1176fe3bfaeabebbda1b7a79f7]
-
-Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
- .../avahi/files/CVE-2024-52616.patch          | 104 ++++++++++++++++++
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2024-52616.patch
+ .../socat/files/CVE-2024-54661.patch          | 113 ++++++++++++++++++
+ .../socat/socat_1.8.0.0.bb                    |   1 +
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/files/CVE-2024-54661.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index 1f18d4491d..1163c17e20 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -35,6 +35,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
-            file://CVE-2023-38471-2.patch \
-            file://CVE-2023-38472.patch \
-            file://CVE-2023-38473.patch \
-+           file://CVE-2024-52616.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2024-52616.patch b/meta/recipes-connectivity/avahi/files/CVE-2024-52616.patch
+diff --git a/meta/recipes-connectivity/socat/files/CVE-2024-54661.patch b/meta/recipes-connectivity/socat/files/CVE-2024-54661.patch
 new file mode 100644
-index 0000000000..a156f98728
+index 0000000000..3bf685ebd9
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2024-52616.patch
-@@ -0,0 +1,104 @@
-+From f8710bdc8b29ee1176fe3bfaeabebbda1b7a79f7 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
-+Date: Mon, 11 Nov 2024 00:56:09 +0100
-+Subject: [PATCH] Properly randomize query id of DNS packets
++++ b/meta/recipes-connectivity/socat/files/CVE-2024-54661.patch
+@@ -0,0 +1,113 @@
++From 4ee1f31cf80019c5907876576d6dfd49368d660f Mon Sep 17 00:00:00 2001
++From: Gerhard Rieger <gerhard@dest-unreach.org>
++Date: Fri, 6 Dec 2024 11:42:09 +0100
++Subject: [PATCH] Version 1.8.0.2 - CVE-2024-54661: Arbitrary file overwrite in
++ readline.sh
 +
-+CVE: CVE-2024-52616
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/f8710bdc8b29ee1176fe3bfaeabebbda1b7a79f7]
-+
-+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
++CVE: CVE-2024-54661
++Upstream-Status: Backport [https://repo.or.cz/socat.git/commitdiff/4ee1f31cf80019c5907876576d6dfd49368d660f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ avahi-core/wide-area.c | 36 ++++++++++++++++++++++++++++--------
-+ configure.ac           |  3 ++-
-+ 2 files changed, 30 insertions(+), 9 deletions(-)
++ readline.sh | 10 +++++++--
++ test.sh     | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 71 insertions(+), 2 deletions(-)
 +
-+diff --git a/avahi-core/wide-area.c b/avahi-core/wide-area.c
-+index 971f5e714..00a15056e 100644
-+--- a/avahi-core/wide-area.c
-++++ b/avahi-core/wide-area.c
-+@@ -40,6 +40,13 @@
-+ #include "addr-util.h"
-+ #include "rr-util.h"
++diff --git a/readline.sh b/readline.sh
++index b6f8438..1045303 100755
++--- a/readline.sh
+++++ b/readline.sh
++@@ -22,9 +22,15 @@ if [ "$withhistfile" ]; then
++ else
++     HISTOPT=
++ fi
++-mkdir -p /tmp/$USER || exit 1
++ #
++ #
 + 
-++#ifdef HAVE_SYS_RANDOM_H
-++#include <sys/random.h>
-++#endif
-++#ifndef HAVE_GETRANDOM
-++#  define getrandom(d, len, flags) (-1)
-++#endif
++-exec socat -d readline"$HISTOPT",noecho='[Pp]assword:' exec:"$PROGRAM",sigint,pty,setsid,ctty,raw,echo=0,stderr 2>/tmp/$USER/stderr2
+++if test -w .; then
+++    STDERR=./socat-readline.${1##*/}.log
+++    rm -f $STDERR
+++else
+++    STDERR=/dev/null
+++fi
 ++
-+ #define CACHE_ENTRIES_MAX 500
+++exec socat -d readline"$HISTOPT",noecho='[Pp]assword:' exec:"$PROGRAM",sigint,pty,setsid,ctty,raw,echo=0,stderr 2>$STDERR
 + 
-+ typedef struct AvahiWideAreaCacheEntry AvahiWideAreaCacheEntry;
-+@@ -84,8 +91,6 @@ struct AvahiWideAreaLookupEngine {
-+     int fd_ipv4, fd_ipv6;
-+     AvahiWatch *watch_ipv4, *watch_ipv6;
++diff --git a/test.sh b/test.sh
++index 46bebf8..5204ac7 100755
++--- a/test.sh
+++++ b/test.sh
++@@ -19154,6 +19154,69 @@ esac
++ N=$((N+1))
 + 
-+-    uint16_t next_id;
-+-
-+     /* Cache */
-+     AVAHI_LLIST_HEAD(AvahiWideAreaCacheEntry, cache);
-+     AvahiHashmap *cache_by_key;
-+@@ -201,6 +206,26 @@ static void sender_timeout_callback(AvahiTimeEvent *e, void *userdata) {
-+     avahi_time_event_update(e, avahi_elapse_time(&tv, 1000, 0));
-+ }
 + 
-++static uint16_t get_random_uint16(void) {
-++    uint16_t next_id;
+++# Test the readline.sh file overwrite vulnerability
+++NAME=READLINE_SH_OVERWRITE
+++case "$TESTS" in
+++*%$N%*|*%functions%*|*%bugs%*|*%readline%*|*%security%*|*%$NAME%*)
+++TEST="$NAME: Test the readline.sh file overwrite vulnerability"
+++# Create a symlink /tmp/$USER/stderr2 pointing to a temporary file,
+++# run readline.sh
+++# When the temporary file is kept the test succeeded
+++if ! eval $NUMCOND; then :
+++elif ! cond=$(checkconds \
+++		  "" \
+++		  "" \
+++		  "readline.sh" \
+++		  "" \
+++		  "" \
+++		  "" \
+++		  "" ); then
+++    $PRINTF "test $F_n $TEST... ${YELLOW}$cond${NORMAL}\n" $N
+++    numCANT=$((numCANT+1))
+++    listCANT="$listCANT $N"
+++    namesCANT="$namesCANT $NAME"
+++else
+++    tf="$td/test$N.file"
+++    te="$td/test$N.stderr"
+++    tdiff="$td/test$N.diff"
+++    da="test$N $(date) $RANDOM"
+++    echo "$da" >"$tf"
+++    ln -sf "$tf" /tmp/$USER/stderr2
+++    CMD0="readline.sh cat"
+++    printf "test $F_n $TEST... " $N
+++    $CMD0 </dev/null >/dev/null 2>"${te}0"
+++    rc0=$?
+++#    if [ "$rc0" -ne 0 ]; then
+++#	$PRINTF "$CANT (rc0=$rc0)\n"
+++#	echo "$CMD0"
+++#	cat "${te}0" >&2
+++#	numCANT=$((numCANT+1))
+++#	listCANT="$listCANT $N"
+++#	namesCANT="$namesCANT $NAME"
+++#    elif ! echo "$da" |diff - "$tf" >$tdiff; then
+++    if ! echo "$da" |diff - "$tf" >$tdiff; then
+++	$PRINTF "$FAILED (diff)\n"
+++	echo "$CMD0 &"
+++	cat "${te}0" >&2
+++	echo "// diff:" >&2
+++	cat "$tdiff" >&2
+++	numFAIL=$((numFAIL+1))
+++	listFAIL="$listFAIL $N"
+++	namesFAIL="$namesFAIL $NAME"
+++    else
+++	$PRINTF "$OK\n"
+++	if [ "$VERBOSE" ]; then echo "$CMD0 &"; fi
+++	if [ "$DEBUG" ];   then cat "${te}0" >&2; fi
+++	if [ "$VERBOSE" ]; then echo "$CMD1"; fi
+++	if [ "$DEBUG" ];   then cat "${te}1" >&2; fi
+++	numOK=$((numOK+1))
+++	listOK="$listOK $N"
+++    fi
+++fi # NUMCOND
+++ ;;
+++esac
+++N=$((N+1))
 ++
-++    if (getrandom(&next_id, sizeof(next_id), 0) == -1)
-++        next_id = (uint16_t) rand();
-++    return next_id;
-++}
-++
-++static uint16_t avahi_wide_area_next_id(AvahiWideAreaLookupEngine *e) {
-++    uint16_t next_id;
-++
-++    next_id = get_random_uint16();
-++    while (find_lookup(e, next_id)) {
-++        /* This ID is already used, get new. */
-++        next_id = get_random_uint16();
-++    }
-++    return next_id;
-++}
-++
-++
-+ AvahiWideAreaLookup *avahi_wide_area_lookup_new(
-+     AvahiWideAreaLookupEngine *e,
-+     AvahiKey *key,
-+@@ -227,11 +252,7 @@ AvahiWideAreaLookup *avahi_wide_area_lookup_new(
-+     /* If more than 65K wide area quries are issued simultaneously,
-+      * this will break. This should be limited by some higher level */
++ # end of common tests
 + 
-+-    for (;; e->next_id++)
-+-        if (!find_lookup(e, e->next_id))
-+-            break; /* This ID is not yet used. */
-+-
-+-    l->id = e->next_id++;
-++    l->id = avahi_wide_area_next_id(e);
-+ 
-+     /* We keep the packet around in case we need to repeat our query */
-+     l->packet = avahi_dns_packet_new(0);
-+@@ -604,7 +625,6 @@ AvahiWideAreaLookupEngine *avahi_wide_area_engine_new(AvahiServer *s) {
-+         e->watch_ipv6 = s->poll_api->watch_new(e->server->poll_api, e->fd_ipv6, AVAHI_WATCH_IN, socket_event, e);
-+ 
-+     e->n_dns_servers = e->current_dns_server = 0;
-+-    e->next_id = (uint16_t) rand();
-+ 
-+     /* Initialize cache */
-+     AVAHI_LLIST_HEAD_INIT(AvahiWideAreaCacheEntry, e->cache);
-+diff --git a/configure.ac b/configure.ac
-+index a3211b80e..31bce3d76 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -367,7 +367,8 @@ AC_FUNC_SELECT_ARGTYPES
-+ # whether libc's malloc does too. (Same for realloc.)
-+ #AC_FUNC_MALLOC
-+ #AC_FUNC_REALLOC
-+-AC_CHECK_FUNCS([gethostname memchr memmove memset mkdir select socket strchr strcspn strdup strerror strrchr strspn strstr uname setresuid setreuid setresgid setregid strcasecmp gettimeofday putenv strncasecmp strlcpy gethostbyname seteuid setegid setproctitle getprogname])
-++AC_CHECK_FUNCS([gethostname memchr memmove memset mkdir select socket strchr strcspn strdup strerror strrchr strspn strstr uname setresuid setreuid setresgid setregid strcasecmp gettimeofday putenv strncasecmp strlcpy gethostbyname seteuid setegid setproctitle getprogname getrandom])
-++AC_CHECK_HEADERS([sys/random.h])
-+ 
-+ AC_FUNC_CHOWN
-+ AC_FUNC_STAT
++ ##################################################################################
++-- 
++2.30.2
 +
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+index 912605c95c..bb39730005 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://0001-fix-compile-procan.c-failed.patch \
++           file://CVE-2024-54661.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "e1de683dd22ee0e3a6c6bbff269abe18ab0c9d7eb650204f125155b9005faca7"
 -- 
 2.43.0
 
