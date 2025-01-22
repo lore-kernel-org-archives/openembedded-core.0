@@ -1,94 +1,136 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C06CDC0218C
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 10:03:39 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.39826.1737540212607862073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4B2C02181
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 10:52:39 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.40736.1737543156877527564
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 02:03:32 -0800
+ Wed, 22 Jan 2025 02:52:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bygZBUnk;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43690d4605dso45837975e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 02:03:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XA4/CE48;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4368a293339so77203545e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 02:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737540211; x=1738145011; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1737543155; x=1738147955; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aELK4diICl+2IAIFh8A7HeK/ba3qKTyOGJ/Ec5M8Uu4=;
-        b=bygZBUnkF+CuqzYonPbwwqkXszbMJ3/VNtZtkAhSEeFnCzVVpbCWAdKUm0+bHU2c9Z
-         Y5R5hJApYlfakxsoApr5NjiTYDTR/QEMNQ8KI9xxkpfrNZl6kUliNbogrJ9MK36usHhk
-         rlgeMho5HlRknZAB/LsUWVYny9mD1Lv2nmVjSOU5Z9y5vdF0tODdH54q7f+2+iUv7HwV
-         Npn3aYix/CUWquCFMCMattC45QeaSb7gwL6nBqpjdS4oQOlZVf652WpTyjhLqF2vqZgA
-         JkwVZiSjJEDDT6tbDJZSaeS+ci3xGeB2gvqjZCZN/TZFkhnry9kgOoD2sMxEnwMvyYjz
-         oH8w==
+        bh=f9g25D/z/13LVMY95KLCbXyDcpZuqcJelIaIdMoVd+s=;
+        b=XA4/CE48UJ+IITKL0D1rbs5QZsIdESVyUbGtDRcRnrzZnMF5RLE09fxRbUbqBU4iQs
+         crPx5XV/bK6l04TuGjWJeGLcmGpzSjYbM6VhlAu+q8GHVAjhAv0GH7P6x5MNU9VwwLu+
+         jxtYQd09uyYyNSpcKZwRLgIGS/vORRV3tYT9w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737540211; x=1738145011;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aELK4diICl+2IAIFh8A7HeK/ba3qKTyOGJ/Ec5M8Uu4=;
-        b=l9WqrLE6Dkx5pbExD8xvCWwtvIQ7caiVihCB55Ce+jpx06OUfs7fJ7WvmJ0PMIqn7n
-         bhA056kFNhQ5G1FQWCOa1prKOk2cXaR2JtbtU14hYG7ALDMcWSIRpaNZPfZpA0HoVsbV
-         n2xl7XYicXzSMUYdsFHYOypPJ9n1RInH1lCLJYHrGWRrcIanQuy3/aRFaZK6yTpDjf5I
-         7lHJszfZQu6Xohf5usaTGV63jylhxLKWZrn4R8qb4Lv9334MI7rkT944KG0O4A7YAiVR
-         6+n0roHiKpQfsOuG4obAD/XtRBzmhu/uv8BbiCsX2J/25/wWuYzZchkks9/S0GrD033P
-         suTg==
-X-Gm-Message-State: AOJu0YzNCN+UQyvWeicwj+OUg/1hZxMIlU/wKMLc5tNCGsN+ymUBeDA4
-	ARhG4JkJpnj6mmD3h4NZCG3y8HNMsleUndVhGTYx11Jk1CEP6QxGiD/GWw==
-X-Gm-Gg: ASbGnct4sQbxNLIp6C6OjyczHV6qqbbFRD7rfkBcjF3KM9H872Bd/+FDPIC3VDzol04
-	dcr3HxYekgNF5vaIh4MQdEDWD1nFu+s9OsXrQzk+E7KdxCErb48UCT35M2qOklgoKQj6GQHz7dB
-	Xz7fRxp85pO+7ToqCKBTMrlneoobUkOBQphamfT3jIkmd1hoptdUp/K8Wod/WhuBhDFxwOYD+j7
-	qZDY+J8Y/dK2Umi6EOpVdwE7Z2oo/jMUgrRxh0fA3V8iMTx36KUDxOYgfcKpR2bR5mS+nyD0lQQ
-	CFKqTAytXNt3+mD4J2dgNKaPqjK+kF8=
-X-Google-Smtp-Source: AGHT+IFKJaYSi2uqzNppmkFnltU6EV4UhRNioZN42kAeh2v9G8a8n7N4ZylZCNbrWI478Y0mOv7Sfw==
-X-Received: by 2002:a05:600c:1e0b:b0:434:ea21:e14f with SMTP id 5b1f17b1804b1-438913ed04amr187532645e9.13.1737540210757;
-        Wed, 22 Jan 2025 02:03:30 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221bf0sm15606997f8f.28.2025.01.22.02.03.30
+        d=1e100.net; s=20230601; t=1737543155; x=1738147955;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f9g25D/z/13LVMY95KLCbXyDcpZuqcJelIaIdMoVd+s=;
+        b=troHezQyiMPFAmtL5/1vNOn+V+ua2q6mF8RvI9NtakLJpgy+300SEg9OtAK+rDnCFb
+         jyIqV/1IsfYZZN1ZxaL8gA+mp3SMKSto72fDan3jddm6Bc8EU+Af6ehFyx8z0hqhoLPx
+         WDddBxtY+Ujx78rxXVHmb9RWZlEG7kV0/JViMkArqSiGH3K6q7f2gHNM4DXlOQCdca/8
+         hHjn/wuLVkzK1d7fkT7gIue9YPwplHfTYCAc8IoFLSm1Bw0MCBxu26CHWYNcCTL+PIIC
+         gmAyL0rL2xtHtNm3kBEIhYpieIepIjb3SlxqH/PP/GW9Ib6QHWVdOxBW6vSbsmQgIgyj
+         toQg==
+X-Forwarded-Encrypted: i=1; AJvYcCXyCzDhPT73EWZ1812Oa2ZzTUT0ZYhCIxHcJ0zGmu9fZbuJjxMxbbdPQ6wFKxgG1HOAPr3WhtDgy7Fj+FTosnPDeg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwdufBNVRAfJnn3MAnZnucp0XnSU8ykfcOXd3d6Eec61gzbP7Oj
+	UF/VaCkkR5nKTRZHGJ5QiMWUMFOb4R+czPF4Rw4b7kPMEUWt+NTOzSXUYPqUmTg=
+X-Gm-Gg: ASbGnct/dJOvjiKFPRwvVVWyUZqErOuZuIHAz4Hl4L0MDH6OQ/odNr84UgRtu1HI0p3
+	K9u08VRMXd5NqAnnfyzTdEnS+A2HiUadjO7O8FHROxi5rtKesjebEkx4JSV8scgAnLKLxyJQr4W
+	yNIJFsJju9CMObwxRE8Q3Wv0+9WEEJMuATsr5kJFsjd/wzTUMokl/aG18WVu6c5vgNSm1M7CBN8
+	wp1jwIHicnut1ANxg5fXM93Ck/YVwrZ5EUrgr8SeVoVGSEFOQ8Bo1HC6WDZsmsY/S6ikJDHsFKd
+	A4CNUMWx32ESulTpXInMmec5tqjps7H/vrYDyk3jN9zlg2sNdxMCQg==
+X-Google-Smtp-Source: AGHT+IE/Edgkaz19/b9Uxd69g9+g6QPqVifEbyQIh5R8a7SLNaKct3w8iGKGw1a4jFjy2fv3ddVoyg==
+X-Received: by 2002:a05:600c:6c06:b0:436:e8b4:36e7 with SMTP id 5b1f17b1804b1-438913cb191mr185369525e9.8.1737543155274;
+        Wed, 22 Jan 2025 02:52:35 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bd38:1d:73cc:d341? ([2001:8b0:aba:5f3c:bd38:1d:73cc:d341])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b318a8efsm20686595e9.5.2025.01.22.02.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 02:03:30 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] selftest/virgl: add a link to RHEL merge request to address the missing vgem module
-Date: Wed, 22 Jan 2025 11:03:24 +0100
-Message-Id: <20250122100324.1561841-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250122100324.1561841-1-alex.kanavin@gmail.com>
-References: <20250122100324.1561841-1-alex.kanavin@gmail.com>
+        Wed, 22 Jan 2025 02:52:34 -0800 (PST)
+Message-ID: <42001d9fd5d7ef3f115e47315cf0c711bf35c6d3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] gcc: make include poisoning fatal again
+ in gcc/g++
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2025 10:52:33 +0000
+In-Reply-To: <20250121182309.904188-2-ross.burton@arm.com>
+References: <20250121182309.904188-1-ross.burton@arm.com>
+	 <20250121182309.904188-2-ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 10:03:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210142
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 10:52:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210143
 
-From: Alexander Kanavin <alex@linutronix.de>
+On Tue, 2025-01-21 at 18:23 +0000, Ross Burton via lists.openembedded.org w=
+rote:
+> We have a patch to allow us to 'poison' system include directories,
+> which are warnings by default but we make them fatal in cross builds.
+>=20
+> However, in the 13.1 upgrade[1] the patch to make the warnings fatal was
+> dropped in the compiler invocation, so it only took effect for pure
+> preprocessor calls. This was not noticed at the time as the test case
+> was flawed, but this has now been fixed.
+>=20
+> Add back the fatal poisoning, and restructure the patch slightly so it
+> is less invasive.
+>=20
+> [1] oe-core bea46612fd9106cc5b46eb1d81623b6492563c13
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+> =C2=A0.../0002-gcc-poison-system-directories.patch=C2=A0 | 35 +++++++++++=
+++------
+> =C2=A01 file changed, 25 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directo=
+ries.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directori=
+es.patch
+> index 367c9e3821b..d8b3d4a9984 100644
+> --- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.pa=
+tch
+> +++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.pa=
+tch
+> @@ -160,10 +160,21 @@ index f82f7d2817b..1da91813b0e 100644
+> =C2=A0 @opindex Wno-float-equal
+> =C2=A0 @item -Wfloat-equal
+> =C2=A0diff --git a/gcc/gcc.cc b/gcc/gcc.cc
+> -index 728332b8153..343e4915097 100644
+> +index 728332b8153..a63f128cb95 100644
+> =C2=A0--- a/gcc/gcc.cc
+> =C2=A0+++ b/gcc/gcc.cc
+> -@@ -1159,6 +1159,8 @@ proper position among the other output files.=C2=
+=A0 */
+> +@@ -902,6 +902,10 @@ proper position among the other output files.=C2=A0=
+ */
+> + #define ASM_MAP ""
+> + #endif
+> +=20
+> ++#ifdef POISON_BY_DEFAULT
+> ++#define POISON_IS_ERROR " -Werror=3Dpoison-system-directories"
+> ++#endif
+> ++
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 ++
- 1 file changed, 2 insertions(+)
+I think this needs to be:
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 27090ae5cd9..4843d810a20 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -273,6 +273,8 @@ TEST_RUNQEMUPARAMS += " slirp"
-         import subprocess, os
- 
-         distro = oe.lsb.distro_identifier()
-+        # Merge request to address the issue on centos/rhel/derivatives:
-+        # https://gitlab.com/cki-project/kernel-ark/-/merge_requests/3449
-         if distro and (distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'centos-9', 'ubuntu-16.04', 'ubuntu-18.04'] or
-             distro.startswith('almalinux') or distro.startswith('rocky')):
-             self.skipTest('virgl headless cannot be tested with %s' %(distro))
--- 
-2.39.5
++#ifdef POISON_BY_DEFAULT
++#define POISON_IS_ERROR " -Werror=3Dpoison-system-directories"
++#else
++#define POISON_IS_ERROR
++#endif
+
+otherwwise POISON_IS_ERROR is undefined and leads to failures building
+target gcc and gcc-cross-canadian. Fixup in -next I can squash in if
+you agree.
+
+Cheers,
+
+Richard
 
 
