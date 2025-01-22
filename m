@@ -1,119 +1,97 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B84FAC02181
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 15:28:31 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.46318.1737559702580706150
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BBD7C02181
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 17:13:52 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.49354.1737566026870220414
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 07:28:22 -0800
+ Wed, 22 Jan 2025 09:13:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D01A1007
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 07:28:50 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AE5443F66E
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 07:28:21 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ElvKO8D6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3862ca8e0bbso5905385f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 09:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737566025; x=1738170825; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IySAKbvg8bWAGUNeV5sH1Af6t63E+wNd9m0s3SJzGVs=;
+        b=ElvKO8D6N/759ujItsydl263oza0xnpEDBAtIbsCLLoK/vohV0QbIFuhCHORwrp2T2
+         3KDDFYnoJJh88lLYyG96ng+UhvMj763qpeN5KPD0JxYtNk69OC5X96f490KGu3+HBfaK
+         xEmL+byNbN/kGffgDNkvZbTYPW2rBYI9bTyuBI/V+xUvJVqcIGffrx8P9g95GfnP0u1N
+         Mz0yN76R9LGts4h7ojffUa0cdLTK0DvOAjfUW6nbrbNBmDyJ6uF9M1ORnHBGdwXwdUU0
+         lN4V1VAga2/dPBr3oMQ3G3MkqHlHaEFE2jCfooVMTrlQ/5xUcoPIt0Vk3MpsJlu9iBFd
+         J3AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737566025; x=1738170825;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IySAKbvg8bWAGUNeV5sH1Af6t63E+wNd9m0s3SJzGVs=;
+        b=e1kc3o6m+hBcPqFPJYR5UkyBZYHI5kB48xrGD0VrViYBjh9MNavbYIoCRwJtHatWJq
+         3yuhRvyEV7WcMhbp0soSepZKQOyi+MG/xRmfHfSDuUgodR0tYcg0WS+Q2uvRzuQgREQn
+         LhqCjq+gM/IIM+q8RKppSfAu4aK3iCDSX9QC79+xzGLJaEwR7vABGui67A/j7f535ITj
+         Y+OQTERygjdjwYRgOE5qc9vUR+DRkf9uJzQOrNQvCZF70d2VVM/OLzX6JSwJOqcj3f0j
+         cVA8xJMqSpDa9vlzeVB673er5cU4QWJwMfxVSIjb+VIpObMRsT2HxpddlhvaJMaxooJr
+         L/bg==
+X-Gm-Message-State: AOJu0YyawpY9J8joxA3AS1GMP80Z+JUd50HeNnYn5+bAK7WglbRt8luJ
+	1J+6dMRz+ZCOzt0XDaudBXFUnS/1x1dWimZb1zsz2RzzVJnLsT4l0zfjxQ==
+X-Gm-Gg: ASbGncvWgHdXkNDeQodphu0EFXVCeUJPdiufHaomjirZ8pcN/Ht2j83efGR+IaRIKwl
+	6oyuNzzK7DqLBQR1KznpQC5ZxoLXWuhyxtFYZ12t8Pb7pesxbBxU3TKyPFYAjzhoqf6adT9GQ9Q
+	15WHnKayIKzhJGBanZj12xxObekw+HND8ZR6O/bzNmm4LY69GP0enKMPlEeyEqD4kdvWiorovOc
+	tK1lSYL4VpNYsB2p8Fsx9Fh01zCefY4xoUBLvDMQImoTlqWp/gPSBxr4GqZtr4e+AiQ2krUkrNQ
+	D1kfizMenfZTzOn5F0owl9y7vBc=
+X-Google-Smtp-Source: AGHT+IFxhlm+iYQMHun4jwi3gJxxtBT17w+Kga65VQNhxySxH0eP1qQpNAv4+0Tyv+eA6B/xL04FaQ==
+X-Received: by 2002:adf:f48c:0:b0:385:f996:1b8e with SMTP id ffacd0b85a97d-38bf5659a94mr18199401f8f.16.1737566025107;
+        Wed, 22 Jan 2025 09:13:45 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-438b31a0f47sm30851545e9.15.2025.01.22.09.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 09:13:44 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] man-db: fix broken requirement for flex
-Date: Wed, 22 Jan 2025 15:28:17 +0000
-Message-ID: <20250122152817.736263-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: steve@sakoman.com,
+	Jiaying Song <jsong-cn@ala-lpggp7.wrs.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [styhead][PATCH] boost: fix do_fetch error
+Date: Wed, 22 Jan 2025 18:13:36 +0100
+Message-ID: <20250122171336.2261801-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 15:28:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210157
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 17:13:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210158
 
-Normally flex-native in the sysroot via the toolchain, but different
-toolchains may not depend on flex-native (eg, external-arm-toolchain).
+From: Jiaying Song <jsong-cn@ala-lpggp7.wrs.com>
 
-This results in a configure error:
+Change the SRC_URI to the correct value due to the following error:
+WARNING: boost-native-1.86.0-r0 do_fetch: Checksum failure encountered with download of https://boostorg.jfrog.io/artifactory/main/release/1.86.0/source/boost_1_86_0.tar.bz2 - will attempt other sources if available
 
-  checking for flex... no
-  configure: error: flex is required when building from revision control
-
-Now we're not building from revision control, but the configure script
-is broken with out-of-tree builds and checks the (empty) build tree for
-pre-generated sources.  Apply a fix to look in the source tree instead.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Jiaying Song <jsong-cn@ala-lpggp7.wrs.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-extended/man-db/files/flex.patch | 36 +++++++++++++++++++
- meta/recipes-extended/man-db/man-db_2.13.0.bb |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-extended/man-db/files/flex.patch
+ meta/recipes-support/boost/boost-1.86.0.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/man-db/files/flex.patch b/meta/recipes=
--extended/man-db/files/flex.patch
-new file mode 100644
-index 00000000000..c18be7e36ae
---- /dev/null
-+++ b/meta/recipes-extended/man-db/files/flex.patch
-@@ -0,0 +1,36 @@
-+From d3f7c160bddf5d879c74e19e4f577882e8b22559 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Wed, 22 Jan 2025 14:16:48 +0000
-+Subject: [PATCH] configure: check for shipped generated sources in sourc=
-e
-+ directory
-+
-+The configure script fails if it can't find flex and the pregenerated
-+source code isn't available, as is the case in builds from git whereas
-+tarballs include the code.
-+
-+However this breaks with out-of-tree builds, where cwd during configure
-+is the build directory not the source directory, and the pregenerated
-+sources will always be inside the source directory.
-+
-+Upstream-Status: Submitted [https://gitlab.com/man-db/man-db/-/merge_req=
-uests/12]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 7e9148fb..49a213fd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -380,7 +380,7 @@ dnl To add more decompressors just follow the scheme=
- above.
-+ dnl The "noyywrap" argument is new in Autoconf 2.70, but this also work=
-s
-+ dnl fine with older versions that ignore the argument.
-+ AC_PROG_LEX([noyywrap])
-+-if test "$LEX" =3D ":" && (test ! -e src/lexgrog.c || test ! -e src/zso=
-elim.c)
-++if test "$LEX" =3D ":" && (test ! -e $srcdir/src/lexgrog.c || test ! -e=
- $srcdir/src/zsoelim.c)
-+ then
-+ 	AC_MSG_ERROR([flex is required when building from revision control])
-+ fi
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-extended/man-db/man-db_2.13.0.bb b/meta/recipes=
--extended/man-db/man-db_2.13.0.bb
-index 2fa18a8f24f..2178239bb60 100644
---- a/meta/recipes-extended/man-db/man-db_2.13.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.13.0.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af=
-26da5dc08a4e440464 \
-                    "
-=20
- SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-+           file://flex.patch \
-            file://99_mandb \
-           "
- SRC_URI[sha256sum] =3D "82f0739f4f61aab5eb937d234de3b014e777b5538a28cbd3=
-1433c45ae09aefb9"
---=20
-2.43.0
+diff --git a/meta/recipes-support/boost/boost-1.86.0.inc b/meta/recipes-support/boost/boost-1.86.0.inc
+index 2378b27575..7113a50049 100644
+--- a/meta/recipes-support/boost/boost-1.86.0.inc
++++ b/meta/recipes-support/boost/boost-1.86.0.inc
+@@ -11,7 +11,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
+ 
+-SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
++SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
+ SRC_URI[sha256sum] = "1bed88e40401b2cb7a1f76d4bab499e352fa4d0c5f31c0dbae64e24d34d7513b"
+ 
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+-- 
+2.48.1
 
 
