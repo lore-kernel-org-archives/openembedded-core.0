@@ -2,393 +2,309 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E307C0218E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0F7C0218D
 	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 03:03:37 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.34190.1737515012165601483
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.34427.1737515010406886165
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 19:03:32 -0800
+ Tue, 21 Jan 2025 19:03:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XgZoJeJn;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ee51f8c47dso8790785a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:32 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JWHacZXu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21619108a6bso109778765ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515011; x=1738119811; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515010; x=1738119810; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6OdoIqQPJKC9x/s6uEtJ0AfAyjHKYUabBjv+nISApjQ=;
-        b=XgZoJeJnNTDHbvpkOkcWj6H8ckgspKRgkxWeLoFz5VSQJ7UFndCTvfhT0mHBtTnqJY
-         DglV++gNC62pTGrWam2ndQingLS+VoP3QDVwsSpNT7qjm9nYGm6UV8H6utItBzGX+w7r
-         S/yEmkKuw3l0sAbHUH/IYN3qN+zvmqNZB8P+Hwu+R4S/xiKiaH6y0v9877J916hTdWGn
-         K+lKLXBvlvZsmwp/vMllieKLgKOBf51wKymk7eNe0Nqj3fFF3tEsD+7LS0H8LjtYVyVm
-         UzbD70R7hOaBdwU/fBHaa1Qkrw+pS6LkUDXKGfCHr1pCEMgY7eRSr2K3xgJ1ylqIdc22
-         cZvw==
+        bh=UbVCHgsmjCFvelc7YSw6+1i6yBvoV4kSEUvC3kJWTSI=;
+        b=JWHacZXuNqK/MXURW53dfiABxUFV/R++WCYB4B7iLfbi3/79MMdMkvldkuXTw6go+W
+         quheOTzrXk/Df+CAt1Df/wRiFdz0qdT3RgNuJfJarlXPFO3IJDxenHye0FhkJLXloaJj
+         tPPd4uNVKpkibDGi6K9cmnE8VgOABFchoPywmru7m+5xHp5Q6Oncv+VcSROED5EMg1k5
+         bnVcnboMFmlQbn6zZ/aqShPKH9EYoz7Lone7LxxNzePFPr6etEFh8R2igBUjHHq8lo+G
+         lISokO95L2MMKqe6JtXvE4r05xdn9Hk908Iz8PKxvSCu6DOSTI5Q4ejYxZKHKduc3mYN
+         Cnnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737515011; x=1738119811;
+        d=1e100.net; s=20230601; t=1737515010; x=1738119810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6OdoIqQPJKC9x/s6uEtJ0AfAyjHKYUabBjv+nISApjQ=;
-        b=KS2Vr5+KM2vnL37RA2eFTPgpxwIyx0tt5G0KEF3ZgLPppOpQKNXfXgROfx0NX5fZhN
-         lHx+CiZrsC0iO5dmElbpqrr4AdiJe3dPezSmKpjs87xzsX2J8e7DpZ3w6vpxsyvKMQKw
-         0YdMW1HNC8DB7otiyYEwKQeFTsLDBFBzgehrrfuX0Zw68zt/mRHmSKcnbYfcYxPntxs1
-         G2Jwgtj2o3+C+PAHX7BbEEpBGPBbHmvkUVvaJh+CNnXLMNUBX8Fp7JC/p1AA/X6d6LGZ
-         ENIaidF2w6/SXo3kDTst4TJTx3QGWTxHW700vK4yLl7B5o5lQCGcJcRLF0OnAkfK+Oxd
-         niUw==
-X-Gm-Message-State: AOJu0YxbXqCE1fSSisblBCH+SZKr8bjtJFETQPzvDbjSMgMgLvZhPeJr
-	w+mTd2fmu5JNvW8TjI/h+IV2iuAbS1Y+qnXbdGusMWTkSQqBtzXtv33QzUEg6p5kqO3ZJHV8QM+
-	kOl8=
-X-Gm-Gg: ASbGnctdMyuxQ1Sd8IrsP1DqD9nbM1kczJd0rO23opygTc53gsshJ7cxZnTDTm7zVS/
-	pGWPvW3nq/GhX1vlu8xWCXYG04BG0F7+cqc4yCr7oQUSpYifeTPX0y1Ptcz39MjbfdDorohKBJG
-	UaFQyCjkuxVIMsOoA3KAbOkisdFxoCZ1oXtvl5PkeLJEzNik8KTg+05hxAKrn8FoL3vugUprc5Z
-	dsNLlaZQqyrE9NE3WV8R7ZMLa0GBz+MaUoX8Xn1Y06OI+I33fgfPPpk7JA=
-X-Google-Smtp-Source: AGHT+IGIN+FULxOTXc3lkuy1U3jvI0CcONcB38pACXXuDNMBLaiyxOah3GP3gHAgNFLUPqjP9NkSnA==
-X-Received: by 2002:a05:6a00:8084:b0:724:d758:f35 with SMTP id d2e1a72fcca58-72daf9bd157mr26859937b3a.2.1737515011297;
-        Tue, 21 Jan 2025 19:03:31 -0800 (PST)
+        bh=UbVCHgsmjCFvelc7YSw6+1i6yBvoV4kSEUvC3kJWTSI=;
+        b=eatO9vgWKOBFR1WBHVRBGJVEpfpx1eo8qK6LhexcNhmzKDxl6YzI1CGjMgJw/sJIlj
+         DIqto/CSwbFJyp1ixPfZioKAR4GqTlmTHG86m4MxBc15FG/vsTQxTQH9YonYvXIR1LU0
+         JWpactU/6aI9o2zN7UP+sPKSgMoP0gEhXqBJJCa7l201e5VEdF4pgZN6HVghgn+X7H6t
+         tBQzVkE7Jv9FyAsVM37THcEZvEr8/nWQWnBSTOmP48mIRqCKhE/A9Hfh5XSn5d/XWLHu
+         ObXQr2YFgSi1VyAijS+xaIqd1xq5W0q8dalZPID0P744aEDba9tzf90USUGTzI/0G0uU
+         QHXw==
+X-Gm-Message-State: AOJu0YzvJai/cxHrwVG6knDCCAnJlfyAb9XkUiHxXh9uC75+YdkqlCg1
+	lu3uLJX28ZT1wqktZUaS8Ecjl9BH2VY1E5ilfXzVfVizwAlwWJg9p3IyuFbiIJVLSbT5ANM+udh
+	0NMc=
+X-Gm-Gg: ASbGncuqOpRMFOwOdL2gGhVkBuE5cw3AhLVuw/QCrPgZJKQoMLNiwCq8CMNSlgytOao
+	RgmWsvZQXwC9pSI+QRClL/XTthAvrnfyYoJn1qZJ3hMWDGrF/uI4xZ8+oJobGUYABRZ0qNakfSi
+	LEAZThGmtaJmp/ZaWx/gEx/8NCWD3yGucXA2f1/fiRgsQZHDjPmVPqPQO2GORsUMt814LkQ9l1V
+	OwGBXmd1tYCpddPI2GrvZo9q7LOVOCLXouZJnLYujy7DMdtQzYh5rFA05c=
+X-Google-Smtp-Source: AGHT+IGGidVYGBUEZj4KD3v3yGML2KKCy1UBQDVLSDG8Z7OxkuS7C2MtmQa8HWvc7YzyfoZSgdD3UA==
+X-Received: by 2002:a05:6a21:788f:b0:1d4:fc66:30e8 with SMTP id adf61e73a8af0-1eb21493cc1mr27021624637.10.1737515009191;
+        Tue, 21 Jan 2025 19:03:29 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 19:03:30 -0800 (PST)
+        Tue, 21 Jan 2025 19:03:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/14] ofono: Fix multiple CVEs
-Date: Tue, 21 Jan 2025 19:02:58 -0800
-Message-ID: <d244d4d48615a7b08f1ab0231f074caa31790247.1737514842.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/14] wget: fix CVE-2024-10524
+Date: Tue, 21 Jan 2025 19:02:57 -0800
+Message-ID: <425c3f55bd316a563597ff6ff95f8104848e2f10.1737514842.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1737514842.git.steve@sakoman.com>
 References: <cover.1737514842.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:03:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210116
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210115
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Backport fixes for:
+Applications that use Wget to access a remote resource using
+shorthand URLs and pass arbitrary user credentials in the URL
+are vulnerable. In these cases attackers can enter crafted
+credentials which will cause Wget to access an arbitrary host.
 
-* CVE-2024-7539 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=389e2344f86319265fb72ae590b470716e038fdc
-* CVE-2024-7543 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=90e60ada012de42964214d8155260f5749d0dcc7
-* CVE-2024-7544 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=a240705a0d5d41eca6de4125ab2349ecde4c873a
-* CVE-2024-7545 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=556e14548c38c2b96d85881542046ee7ed750bb5
-* CVE-2024-7546 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=79ea6677669e50b0bb9c231765adb4f81c375f63
-* CVE-2024-7547 - Upstream-Status: Backport from https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=305df050d02aea8532f7625d6642685aa530f9b0
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-10524
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Upstream-patch:
+https://git.savannah.gnu.org/cgit/wget.git/commit/?id=c419542d956a2607bbce5df64b9d378a8588d778
+
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ofono/ofono/CVE-2024-7539.patch           | 88 +++++++++++++++++++
- .../ofono/ofono/CVE-2024-7543.patch           | 30 +++++++
- .../ofono/ofono/CVE-2024-7544.patch           | 30 +++++++
- .../ofono/ofono/CVE-2024-7545.patch           | 32 +++++++
- .../ofono/ofono/CVE-2024-7546.patch           | 30 +++++++
- .../ofono/ofono/CVE-2024-7547.patch           | 29 ++++++
- meta/recipes-connectivity/ofono/ofono_2.4.bb  |  6 ++
- 7 files changed, 245 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7543.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7544.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7545.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2024-7547.patch
+ .../wget/wget/CVE-2024-10524.patch            | 197 ++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.21.4.bb     |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-10524.patch
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
+diff --git a/meta/recipes-extended/wget/wget/CVE-2024-10524.patch b/meta/recipes-extended/wget/wget/CVE-2024-10524.patch
 new file mode 100644
-index 0000000000..7fcc620fd8
+index 0000000000..21f990ee73
 --- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7539.patch
-@@ -0,0 +1,88 @@
-+From 389e2344f86319265fb72ae590b470716e038fdc Mon Sep 17 00:00:00 2001
-+From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
-+Date: Tue, 17 Dec 2024 11:31:29 +0200
-+Subject: [PATCH] ussd: ensure ussd content fits in buffers
++++ b/meta/recipes-extended/wget/wget/CVE-2024-10524.patch
+@@ -0,0 +1,197 @@
++From c419542d956a2607bbce5df64b9d378a8588d778 Mon Sep 17 00:00:00 2001
++From: Tim Rühsen <tim.ruehsen@gmx.de>
++Date: Sun, 27 Oct 2024 19:53:14 +0100
++Subject: [PATCH] Fix CVE-2024-10524 (drop support for shorthand URLs)
 +
-+Fixes: CVE-2024-7539
++* doc/wget.texi: Add documentation for removed support for shorthand URLs.
++* src/html-url.c (src/html-url.c): Call maybe_prepend_scheme.
++* src/main.c (main): Likewise.
++* src/retr.c (getproxy): Likewise.
++* src/url.c: Rename definition of rewrite_shorthand_url to maybe_prepend_scheme,
++  add new function is_valid_port.
++* src/url.h: Rename declaration of rewrite_shorthand_url to maybe_prepend_scheme.
 +
-+CVE: CVE-2024-7539
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=389e2344f86319265fb72ae590b470716e038fdc]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Reported-by: Goni Golan <gonig@jfrog.com>
++
++CVE: CVE-2024-10524
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/wget.git/commit/?id=c419542d956a2607bbce5df64b9d378a8588d778]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 +---
-+ drivers/atmodem/ussd.c      | 5 ++++-
-+ drivers/huaweimodem/ussd.c  | 5 ++++-
-+ drivers/speedupmodem/ussd.c | 5 ++++-
-+ 3 files changed, 12 insertions(+), 3 deletions(-)
++ doc/wget.texi  | 12 ++++-------
++ src/html-url.c |  2 +-
++ src/main.c     |  2 +-
++ src/retr.c     |  2 +-
++ src/url.c      | 57 ++++++++++++++++----------------------------------
++ src/url.h      |  2 +-
++ 6 files changed, 26 insertions(+), 51 deletions(-)
 +
-+diff --git a/drivers/atmodem/ussd.c b/drivers/atmodem/ussd.c
-+index aaf47b2..cee9bc5 100644
-+--- a/drivers/atmodem/ussd.c
-++++ b/drivers/atmodem/ussd.c
-+@@ -107,7 +107,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
-+ 	const char *content;
-+ 	int dcs;
-+ 	enum sms_charset charset;
-+-	unsigned char msg[160];
-++	unsigned char msg[160] = {0};
-+ 	const unsigned char *msg_ptr = NULL;
-+ 	long msg_len;
++diff --git a/doc/wget.texi b/doc/wget.texi
++index 3c24de2..503a03d 100644
++--- a/doc/wget.texi
+++++ b/doc/wget.texi
++@@ -314,8 +314,8 @@ for text files.  Here is an example:
++ ftp://host/directory/file;type=a
++ @end example
 + 
-+@@ -127,6 +127,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
-+ 	if (!g_at_result_iter_next_number(&iter, &dcs))
-+ 		dcs = 0;
++-Two alternative variants of @sc{url} specification are also supported,
++-because of historical (hysterical?) reasons and their widespreaded use.
+++The two alternative variants of @sc{url} specifications are no longer
+++supported because of security considerations:
 + 
-++	if (strlen(content) > sizeof(msg) * 2)
-++		goto out;
++ @sc{ftp}-only syntax (supported by @code{NcFTP}):
++ @example
++@@ -327,12 +327,8 @@ host:/dir/file
++ host[:port]/dir/file
++ @end example
++ 
++-These two alternative forms are deprecated, and may cease being
++-supported in the future.
++-
++-If you do not understand the difference between these notations, or do
++-not know which one to use, just use the plain ordinary format you use
++-with your favorite browser, like @code{Lynx} or @code{Netscape}.
+++These two alternative forms have been deprecated long time ago,
+++and support is removed with version 1.22.0.
++ 
++ @c man begin OPTIONS
++ 
++diff --git a/src/html-url.c b/src/html-url.c
++index 896d6fc..3deea9c 100644
++--- a/src/html-url.c
+++++ b/src/html-url.c
++@@ -931,7 +931,7 @@ get_urls_file (const char *file)
++           url_text = merged;
++         }
++ 
++-      new_url = rewrite_shorthand_url (url_text);
+++      new_url = maybe_prepend_scheme (url_text);
++       if (new_url)
++         {
++           xfree (url_text);
++diff --git a/src/main.c b/src/main.c
++index d1c3c3e..f1d7792 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -2126,7 +2126,7 @@ only if outputting to a regular file.\n"));
++       struct iri *iri = iri_new ();
++       struct url *url_parsed;
++ 
++-      t = rewrite_shorthand_url (argv[optind]);
+++      t = maybe_prepend_scheme (argv[optind]);
++       if (!t)
++         t = argv[optind];
++ 
++diff --git a/src/retr.c b/src/retr.c
++index 38c9fcf..a124046 100644
++--- a/src/retr.c
+++++ b/src/retr.c
++@@ -1493,7 +1493,7 @@ getproxy (struct url *u)
++ 
++   /* Handle shorthands.  `rewritten_storage' is a kludge to allow
++      getproxy() to return static storage. */
++-  rewritten_url = rewrite_shorthand_url (proxy);
+++  rewritten_url = maybe_prepend_scheme (proxy);
++   if (rewritten_url)
++     return rewritten_url;
++ 
++diff --git a/src/url.c b/src/url.c
++index 0acd3f3..6868825 100644
++--- a/src/url.c
+++++ b/src/url.c
++@@ -594,60 +594,39 @@ parse_credentials (const char *beg, const char *end, char **user, char **passwd)
++   return true;
++ }
++ 
++-/* Used by main.c: detect URLs written using the "shorthand" URL forms
++-   originally popularized by Netscape and NcFTP.  HTTP shorthands look
++-   like this:
++-
++-   www.foo.com[:port]/dir/file   -> http://www.foo.com[:port]/dir/file
++-   www.foo.com[:port]            -> http://www.foo.com[:port]
++-
++-   FTP shorthands look like this:
++-
++-   foo.bar.com:dir/file          -> ftp://foo.bar.com/dir/file
++-   foo.bar.com:/absdir/file      -> ftp://foo.bar.com//absdir/file
+++static bool is_valid_port(const char *p)
+++{
+++  unsigned port = (unsigned) atoi (p);
+++  if (port == 0 || port > 65535)
+++    return false;
++ 
++-   If the URL needs not or cannot be rewritten, return NULL.  */
+++  int digits = strspn (p, "0123456789");
+++  return digits && (p[digits] == '/' || p[digits] == '\0');
+++}
++ 
+++/* Prepend "http://" to url if scheme is missing, otherwise return NULL. */
++ char *
++-rewrite_shorthand_url (const char *url)
+++maybe_prepend_scheme (const char *url)
++ {
++-  const char *p;
++-  char *ret;
++-
++   if (url_scheme (url) != SCHEME_INVALID)
++     return NULL;
++ 
++-  /* Look for a ':' or '/'.  The former signifies NcFTP syntax, the
++-     latter Netscape.  */
++-  p = strpbrk (url, ":/");
+++  const char *p = strchr (url, ':');
++   if (p == url)
++     return NULL;
++ 
++   /* If we're looking at "://", it means the URL uses a scheme we
++      don't support, which may include "https" when compiled without
++-     SSL support.  Don't bogusly rewrite such URLs.  */
+++     SSL support.  Don't bogusly prepend "http://" to such URLs.  */
++   if (p && p[0] == ':' && p[1] == '/' && p[2] == '/')
++     return NULL;
++ 
++-  if (p && *p == ':')
++-    {
++-      /* Colon indicates ftp, as in foo.bar.com:path.  Check for
++-         special case of http port number ("localhost:10000").  */
++-      int digits = strspn (p + 1, "0123456789");
++-      if (digits && (p[1 + digits] == '/' || p[1 + digits] == '\0'))
++-        goto http;
++-
++-      /* Turn "foo.bar.com:path" to "ftp://foo.bar.com/path". */
++-      if ((ret = aprintf ("ftp://%s", url)) != NULL)
++-        ret[6 + (p - url)] = '/';
++-    }
++-  else
++-    {
++-    http:
++-      /* Just prepend "http://" to URL. */
++-      ret = aprintf ("http://%s", url);
++-    }
++-  return ret;
+++  if (p && p[0] == ':' && !is_valid_port (p + 1))
+++    return NULL;
 ++
-+ 	if (!cbs_dcs_decode(dcs, NULL, NULL, &charset, NULL, NULL, NULL)) {
-+ 		ofono_error("Unsupported USSD data coding scheme (%02x)", dcs);
-+ 		status = 4; /* Not supported */
-+diff --git a/drivers/huaweimodem/ussd.c b/drivers/huaweimodem/ussd.c
-+index ffb9b2a..cfdb4ee 100644
-+--- a/drivers/huaweimodem/ussd.c
-++++ b/drivers/huaweimodem/ussd.c
-+@@ -52,7 +52,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
-+ 	int status;
-+ 	int dcs = 0;
-+ 	const char *content;
-+-	unsigned char msg[160];
-++	unsigned char msg[160] = {0};
-+ 	const unsigned char *msg_ptr = NULL;
-+ 	long msg_len;
-+ 
-+@@ -69,6 +69,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
-+ 
-+ 	g_at_result_iter_next_number(&iter, &dcs);
-+ 
-++	if (strlen(content) > sizeof(msg) * 2)
-++		goto out;
 ++
-+ 	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
+++  fprintf(stderr, "Prepended http:// to '%s'\n", url);
+++  return aprintf ("http://%s", url);
++ }
 + 
-+ out:
-+diff --git a/drivers/speedupmodem/ussd.c b/drivers/speedupmodem/ussd.c
-+index 44da8ed..33441c6 100644
-+--- a/drivers/speedupmodem/ussd.c
-++++ b/drivers/speedupmodem/ussd.c
-+@@ -51,7 +51,7 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
-+ 	int status;
-+ 	int dcs = 0;
-+ 	const char *content;
-+-	unsigned char msg[160];
-++	unsigned char msg[160] = {0};
-+ 	const unsigned char *msg_ptr = NULL;
-+ 	long msg_len;
++ static void split_path (const char *, char **, char **);
++diff --git a/src/url.h b/src/url.h
++index fb9da33..5f99b0a 100644
++--- a/src/url.h
+++++ b/src/url.h
++@@ -128,7 +128,7 @@ char *uri_merge (const char *, const char *);
 + 
-+@@ -68,6 +68,9 @@ static void cusd_parse(GAtResult *result, struct ofono_ussd *ussd)
++ int mkalldirs (const char *);
 + 
-+ 	g_at_result_iter_next_number(&iter, &dcs);
++-char *rewrite_shorthand_url (const char *);
+++char *maybe_prepend_scheme (const char *);
++ bool schemes_are_similar_p (enum url_scheme a, enum url_scheme b);
 + 
-++	if (strlen(content) > sizeof(msg) * 2)
-++		goto out;
-++
-+ 	msg_ptr = decode_hex_own_buf(content, -1, &msg_len, 0, msg);
-+ 
-+ out:
++ bool are_urls_equal (const char *u1, const char *u2);
 +-- 
-+2.25.1
++2.40.0
 +
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7543.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7543.patch
-new file mode 100644
-index 0000000000..e48579e59a
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7543.patch
-@@ -0,0 +1,30 @@
-+From 90e60ada012de42964214d8155260f5749d0dcc7 Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Tue, 3 Dec 2024 21:43:50 +0200
-+Subject: [PATCH] stkutil: Fix CVE-2024-7543
-+
-+CVE: CVE-2024-7543
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=90e60ada012de42964214d8155260f5749d0dcc7]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/stkutil.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/stkutil.c b/src/stkutil.c
-+index 4f31af4..fdd11ad 100644
-+--- a/src/stkutil.c
-++++ b/src/stkutil.c
-+@@ -1876,6 +1876,10 @@ static bool parse_dataobj_mms_reference(struct comprehension_tlv_iter *iter,
-+ 
-+ 	data = comprehension_tlv_iter_get_data(iter);
-+ 	mr->len = len;
-++
-++	if (len > sizeof(mr->ref))
-++		return false;
-++
-+ 	memcpy(mr->ref, data, len);
-+ 
-+ 	return true;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7544.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7544.patch
-new file mode 100644
-index 0000000000..7984bc6487
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7544.patch
-@@ -0,0 +1,30 @@
-+From a240705a0d5d41eca6de4125ab2349ecde4c873a Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Tue, 3 Dec 2024 21:43:49 +0200
-+Subject: [PATCH] stkutil: Fix CVE-2024-7544
-+
-+CVE: CVE-2024-7544
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=a240705a0d5d41eca6de4125ab2349ecde4c873a]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/stkutil.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/stkutil.c b/src/stkutil.c
-+index fdd11ad..475caaa 100644
-+--- a/src/stkutil.c
-++++ b/src/stkutil.c
-+@@ -1898,6 +1898,10 @@ static bool parse_dataobj_mms_id(struct comprehension_tlv_iter *iter,
-+ 
-+ 	data = comprehension_tlv_iter_get_data(iter);
-+ 	mi->len = len;
-++
-++	if (len > sizeof(mi->id))
-++		return false;
-++
-+ 	memcpy(mi->id, data, len);
-+ 
-+ 	return true;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7545.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7545.patch
-new file mode 100644
-index 0000000000..a3bf13a81e
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7545.patch
-@@ -0,0 +1,32 @@
-+From 556e14548c38c2b96d85881542046ee7ed750bb5 Mon Sep 17 00:00:00 2001
-+From: Sicelo A. Mhlongo <absicsz@gmail.com>
-+Date: Wed, Dec 4 12:07:34 2024 +0200
-+Subject: [PATCH] stkutil: ensure data fits in buffer
-+
-+Fixes CVE-2024-7545
-+
-+CVE: CVE-2024-7545
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=556e14548c38c2b96d85881542046ee7ed750bb5]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/stkutil.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/stkutil.c b/src/stkutil.c
-+index 475caaa..e1fd75c 100644
-+--- a/src/stkutil.c
-++++ b/src/stkutil.c
-+@@ -1938,6 +1938,10 @@ static bool parse_dataobj_mms_content_id(
-+ 
-+ 	data = comprehension_tlv_iter_get_data(iter);
-+ 	mci->len = len;
-++
-++	if (len > sizeof(mci->id))
-++		return false;
-++
-+ 	memcpy(mci->id, data, len);
-+ 
-+ 	return true;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
-new file mode 100644
-index 0000000000..808458be2f
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7546.patch
-@@ -0,0 +1,30 @@
-+From 79ea6677669e50b0bb9c231765adb4f81c375f63 Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Tue, 3 Dec 2024 21:43:52 +0200
-+Subject: [PATCH] Fix CVE-2024-7546
-+
-+CVE: CVE-2024-7546
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=79ea6677669e50b0bb9c231765adb4f81c375f63]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/stkutil.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/stkutil.c b/src/stkutil.c
-+index e1fd75c..88a715d 100644
-+--- a/src/stkutil.c
-++++ b/src/stkutil.c
-+@@ -1783,6 +1783,10 @@ static bool parse_dataobj_frame_layout(struct comprehension_tlv_iter *iter,
-+ 
-+ 	fl->layout = data[0];
-+ 	fl->len = len - 1;
-++
-++	if (fl->len > sizeof(fl->size))
-++		return false;
-++
-+ 	memcpy(fl->size, data + 1, fl->len);
-+ 
-+ 	return true;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2024-7547.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7547.patch
-new file mode 100644
-index 0000000000..d4feee7f7f
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2024-7547.patch
-@@ -0,0 +1,29 @@
-+From 305df050d02aea8532f7625d6642685aa530f9b0 Mon Sep 17 00:00:00 2001
-+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-+Date: Tue, 3 Dec 2024 21:43:51 +0200
-+Subject: [PATCH] Fix CVE-2024-7547
-+
-+CVE: CVE-2024-7547
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=305df050d02aea8532f7625d6642685aa530f9b0]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/smsutil.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/smsutil.c b/src/smsutil.c
-+index def47e8..f79f59d 100644
-+--- a/src/smsutil.c
-++++ b/src/smsutil.c
-+@@ -1475,6 +1475,9 @@ static gboolean decode_command(const unsigned char *pdu, int len,
-+ 	if ((len - offset) < out->command.cdl)
-+ 		return FALSE;
-+ 
-++	if (out->command.cdl > sizeof(out->command.cd))
-++		return FALSE;
-++
-+ 	memcpy(out->command.cd, pdu + offset, out->command.cdl);
-+ 
-+ 	return TRUE;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono_2.4.bb b/meta/recipes-connectivity/ofono/ofono_2.4.bb
-index f8ade2b2f8..852c71948e 100644
---- a/meta/recipes-connectivity/ofono/ofono_2.4.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_2.4.bb
-@@ -16,6 +16,12 @@ SRC_URI = "\
-     file://CVE-2023-2794-0002.patch \
-     file://CVE-2023-2794-0003.patch \
-     file://CVE-2023-2794-0004.patch \
-+    file://CVE-2024-7539.patch \
-+    file://CVE-2024-7543.patch \
-+    file://CVE-2024-7544.patch \
-+    file://CVE-2024-7545.patch \
-+    file://CVE-2024-7546.patch \
-+    file://CVE-2024-7547.patch \
- "
- SRC_URI[sha256sum] = "93580adc1afd1890dc516efb069de0c5cdfef014415256ddfb28ab172df2d11d"
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
+index bc65a8f7c8..b5f50f6c84 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.21.4.bb
+@@ -1,6 +1,7 @@
+ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+            file://CVE-2024-38428.patch \
++           file://CVE-2024-10524.patch \
+           "
  
+ SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
 -- 
 2.43.0
 
