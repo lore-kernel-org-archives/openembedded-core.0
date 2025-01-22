@@ -1,98 +1,87 @@
-Return-Path: <throos@amazon.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2334CC02181
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 11:17:00 +0000 (UTC)
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
- by mx.groups.io with SMTP id smtpd.web10.41121.1737544618673991056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25567C02182
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 11:24:00 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.41052.1737545036033494950
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 03:16:58 -0800
+ Wed, 22 Jan 2025 03:23:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=MD+UwMD6;
- spf=pass (domain: amazon.de, ip: 52.119.213.152, mailfrom: prvs=11060a133=throos@amazon.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QbP3USPa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38632b8ae71so5450504f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1737544619; x=1769080619;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7WmsTDtB7xWchaT2kvFmLwLwDSph52sRbZQsqWmEDFI=;
-  b=MD+UwMD6aS1EGPI/6386JDVu3ywieotemp94RaGOGSawNoZDpsi1Zc0F
-   7o0INYONobOpnIcPWsASqtX0J2T/0lefbka/ENy7RryamyRzapoVXS4J9
-   FaqfjKq0y1ZeBAqewySLkAkqnLvx9pWBRPPpVHDrRFOXpcgVGPEOoUE2y
-   A=;
-X-IronPort-AV: E=Sophos;i="6.13,225,1732579200"; 
-   d="scan'208";a="59609296"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 11:16:56 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [10.0.43.254:31701]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.7.13:2525] with esmtp (Farcaster)
- id fd59e1c9-b587-4e69-8488-53bd7197da95; Wed, 22 Jan 2025 11:16:55 +0000 (UTC)
-X-Farcaster-Flow-ID: fd59e1c9-b587-4e69-8488-53bd7197da95
-Received: from EX19D016EUC001.ant.amazon.com (10.252.51.169) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.155) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
- Wed, 22 Jan 2025 11:16:55 +0000
-Received: from u182adcbddbfb55.ant.amazon.com (10.1.213.30) by
- EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
- Wed, 22 Jan 2025 11:16:53 +0000
-From: <throos@amazon.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Thomas Roos <throos@amazon.de>
-Subject: [poky][master][PATCH] gcc-sanitizers.inc: Workaround for aarch64
-Date: Wed, 22 Jan 2025 12:16:42 +0100
-Message-ID: <20250122111642.155310-1-throos@amazon.de>
-X-Mailer: git-send-email 2.34.1
+        d=linuxfoundation.org; s=google; t=1737545034; x=1738149834; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eFL3x2UTJqUqcCJpH9Ad5J/oXKe60IvYfM1EhttKduU=;
+        b=QbP3USPaxEjYM/ypIn0ScwjueEyyeA8S6CYjssblTou1AhxZYt7qS6L6LHtLw1IBay
+         C8QT7xSaSMqp5pqeiNDSGTD7crfiy0LQ7r/nwqn5oHnDabPXvTW5pg3ObNnBv+Zot2dI
+         iJ/V7BG6vYHnLNu7qcl8Cgsknj2l6MRznm3kI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737545034; x=1738149834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eFL3x2UTJqUqcCJpH9Ad5J/oXKe60IvYfM1EhttKduU=;
+        b=VR0QmSAjR5vFST7TZ9BQkqQyQxYe3lxFY+N4KfR1RuY/Q8FSUL8a/aqimGBoUxfO9b
+         oZhb3R+NJ3FLS7aVu4UzvXFt0rbdKZioJ0aBRRwf6LMGzgENan9qhBF3npklSijTpLyT
+         Jgj5vMp12c/5JoJBk+94XZUHSSACQeathTlJ9GTMbsjN/nD5YS44855+PJH6OJTP9o03
+         Xq8Rt2t+cFhekdUhwfSMYBKeeTDPn5KRm1C+CBHqrNr8VF6qAWArwEw9JWNhPT+dCSfA
+         DY1ASq3eJNpZNsKJ3VT2f5dwJM+f7fmcxo4U/oV/FpL8REcrmDntTfJbAReN9n+hjqpk
+         wyHA==
+X-Gm-Message-State: AOJu0Yx1Tl9XUJIRu920y0cdA/lPe+X6L0UeX3UESKwF8G1WJf6Ew9gc
+	9TXEMXa/aO7tnvg5WpwsEJJu7MhCTP+gMl7kzSGdkEG2nQ+8WkNx3gvLQAT2xC/Ldvj3XqP/qeV
+	aGfk=
+X-Gm-Gg: ASbGncs/73kYuFjflrDGc9GGW7DHyjv6xQU9/wb4rHC6zlPDVEtYm2fJaFPcoqRZDrK
+	KAW7x9wp2bWu5r1Va7gScB0gR2aHOccQ8URLs/MCFgd2ES/2zWiYDBfu2mIndhg3584ZjrgT/sG
+	2q1k4S6y0KrNouHnWyxBoUdiEBIvc++ePxlhMKNOrUd7jvbvnVE26Sve+Ym2VaPbjbRSFfG+kms
+	03T3B7J2hGf+EGyDGTxB7AgJYd75ApUlNmP/BaCSPxDW4ZeqTIJhAoc50hvdS+0Bt7j4nZHVhjw
+	PdIFHjl2X0yW/bSsOEng
+X-Google-Smtp-Source: AGHT+IEgrPimBd2isPwmU/ZYgY33lQh1WvAHKZqGK5ijzlRE5uDhv9ZoXwVTBfsZlb955fRm5I8PIA==
+X-Received: by 2002:a05:6000:402a:b0:386:3327:9d07 with SMTP id ffacd0b85a97d-38bf59ef829mr20415895f8f.54.1737545033852;
+        Wed, 22 Jan 2025 03:23:53 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bd38:1d:73cc:d341])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf321504asm16268405f8f.17.2025.01.22.03.23.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 03:23:53 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3-cffi: Add missing pkgconfig dependency
+Date: Wed, 22 Jan 2025 11:23:52 +0000
+Message-ID: <20250122112352.1945986-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.1.213.30]
-X-ClientProxiedBy: EX19D033UWC002.ant.amazon.com (10.13.139.196) To
- EX19D016EUC001.ant.amazon.com (10.252.51.169)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 11:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210144
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 11:24:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210145
 
-From: Thomas Roos <throos@amazon.de>
+With gcc posioning fixed, this recipe showed errors, using an incorrect include
+path looking at the host system. If pkgconfig is present, the correct include
+paths are used. Therefore add the missing dependency.
 
-When using the -fsanitize=address  CXX_FLAG for a program compiled for
-aarch64 / arm64
-
-This is happing:
-MemorySanitizer: CHECK failed: sanitizer_allocator_primary64.h:133 "((kSpaceBeg))
- == ((address_range.Init(TotalSpaceSize, PrimaryAllocatorName, kSpaceBeg)))"
- (0xe00000000000, 0xfffffffffffffff4) (tid=51745)
-
-With -DSANITIZER_CAN_USE_ALLOCATOR64=0 this is not happening and
-potenial bugs are detected.
-
-ARM32 does not require this patch.
-
-More info about the issue in this thread:
-https://github.com/llvm/llvm-project/issues/65144
-
-Signed-off-by: Thomas Roos <throos@amazon.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python3-cffi_1.17.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index 8c98e9cf8a..ae05ae6dfd 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -11,6 +11,8 @@ EXTRA_OECONF_PATHS = "\
-     --with-build-sysroot=${STAGING_DIR_TARGET} \
- "
+diff --git a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+index 99979a73e8b..fbe9051a90b 100644
+--- a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
++++ b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789
  
-+CXXFLAGS:append:aarch64 = " -DSANITIZER_CAN_USE_ALLOCATOR64=0"
-+
- do_configure () {
-     rm -rf ${B}/${TARGET_SYS}/libsanitizer/
-     mkdir -p ${B}/${TARGET_SYS}/libsanitizer/
--- 
-2.34.1
-
+ SRC_URI += "file://run-ptest"
+ 
+-inherit pypi python_setuptools_build_meta ptest
++inherit pypi python_setuptools_build_meta ptest pkgconfig
+ 
+ do_install_ptest() {
+     cp -r ${S}/testing ${D}${PTEST_PATH}
 
