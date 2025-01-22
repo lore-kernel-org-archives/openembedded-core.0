@@ -1,140 +1,193 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CD4C0218B
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 03:03:57 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.34206.1737515027967785353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1390DC02181
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 04:18:38 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web11.35254.1737519514268489781
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 19:03:48 -0800
+ Tue, 21 Jan 2025 20:18:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KHqmCZeB;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21a7ed0155cso102956655ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VIg20HfK;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-29ff8053384so3730210fac.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 20:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515027; x=1738119827; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qete963qxQgXQ6kY8X9ydLKkLOA8TvcmlY+jgTHB0ig=;
-        b=KHqmCZeBOcSTMBZe98GQmaOtcFWVGi/80b89+NL8aVA4+rMsvoHHyIVJzSduGVxvgZ
-         oV2DLG0/ztC5pGxBP9tWbN3INFGlOybaccYWXnsrF6qbp9+slTJ6UM/BWb2m/WXwobSr
-         XuT6Rvl93MSQ+wzUJSKfN6/8g7mBc1pyLjmHpF/4fzQuIx2e7jQVnLgooxAywbrK9hWQ
-         S/Q6rfzkPRRYYvtP9UObGbbi5Tbkhf2j3jjoAN/aLhgqERprF9+9KsfjVOitAYcwmAZz
-         8nq+QkdX3V67Af0sRtOekvD6RCHX7CCdS8DcidNAb5NhnU8DDIc2U8yw1itBMx/AsgYA
-         KtMg==
+        d=gmail.com; s=20230601; t=1737519513; x=1738124313; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hbaKnAfBPz8GLbIY85H+Jw47YrDWbDeHjwXPhtKHi0Y=;
+        b=VIg20HfKDF3c53Y2l+vt8lvnWY8+MzSJAq2naoPnYw4q5y0LAunKCqNxYvlmN91Vkc
+         PWQuhl0qbb/U9prK502mlWeO6aXTfJGca2kTEyt1d0gIVDCwurRqGUoDJfNGAEHHPU7h
+         vrc6YxFNLGoMZkqnWZnr0Rjk02ei0XJ59m50ypeGeqSjE4ktJ1kOWDFqtvUndAfQxn08
+         X2kKVi4RESNHgddARDZruX6LW+SklzNpzbjX586hph/EI7gsAYNdEzSaqHc+jpwAACnC
+         7WUilAVhaYI2/CTZcoxMNAiWwouVCtNdVCfcBQAIiFDvUQffUzOrLnLuSIaT5YBEAo2k
+         Uwxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737515027; x=1738119827;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1737519513; x=1738124313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qete963qxQgXQ6kY8X9ydLKkLOA8TvcmlY+jgTHB0ig=;
-        b=ljUix34nSO24TiENj/YhXymM6sXn0mZCDcB6ZQzGZRqwU5oSPtWG2uQLGmgjgbBTHY
-         ACb7mQAxe2BijbZUNGoM1JxjFY08psHiyBm05KEcp7Xv8+C1+v4Z4LIrDK7qSSZmU4sk
-         Rny4k9Vf+bE473hJJHeRcclL4G6DJmswkyVWOPhufTKhccTj2H0xZEheluLB6TKhNU5D
-         l3Gsxjnyjp8YtIfwZU8eKdRUYucTcYGu0/Dc9SgQ6OJvIPEbe8ZmBlQ3VB2pmbrIRo9y
-         vjkWpC9FUBky4q4CcWkukjC2jnSEjIb5gAYKBpWfBYFeH1VovsrfVE+hrkNYEibGKUH7
-         p+zw==
-X-Gm-Message-State: AOJu0YyHpgNoDJDwNJHcXy31iJvyv9xGzHE9Vlw6kRda7cXStuGXSV6n
-	9TQq8XHlusXzkyQTX8ddcqb+NCd67thHVP7CvQtx7Z8kTG0PDJeucln+Ds3UNmxoP/iSMA9758/
-	GvPM=
-X-Gm-Gg: ASbGncsEvp/vcJG3LGPpNdTz5uSAdklddF1hIJeTai7qG7wgl9MqWmaqziHNEke9jrf
-	ygoOrglN0zQj1yhO7Htp92GV38ap+Sw7nKRKJ7MbEDRttNN7L+wJVT/B4HSpReFey2bpGB8m19H
-	+tDvbUc5/QxJ4pCgzikYD+5fHuzIeD8Xosp2o1PQU1tQx8q/xNvvcPlyaKOsoIak19znpr+NIKD
-	GPk2hRv7IMxRxG+6LeG+boPAHdQhxOn/Ykne6I09rbGJAY/r/OZhHUvt+I=
-X-Google-Smtp-Source: AGHT+IF+emkhGkMr9o2JOmzBX/zCfBGLS7uVQvgqtR0wfA1EFDNdxQVwVjMrPNVbE31a+d4u3sBNNg==
-X-Received: by 2002:a05:6a21:6da1:b0:1e1:a0b6:9861 with SMTP id adf61e73a8af0-1eb214818cemr28447660637.12.1737515027214;
-        Tue, 21 Jan 2025 19:03:47 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 19:03:46 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/14] classes/qemu: use tune to select QEMU_EXTRAOPTIONS, not package architecture
-Date: Tue, 21 Jan 2025 19:03:08 -0800
-Message-ID: <972ca555ff3aa41d32980477850c92915b6395ed.1737514842.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1737514842.git.steve@sakoman.com>
-References: <cover.1737514842.git.steve@sakoman.com>
+        bh=hbaKnAfBPz8GLbIY85H+Jw47YrDWbDeHjwXPhtKHi0Y=;
+        b=xMbAONFPdwexBnA/72mlvx8pQ0O2TFNtzkrkSZm1pyHqIdjGeAmMHXQgPMNQa5Pz1b
+         kpWKO2rA/5hu9hHuRHbMKd/US7t29iLJ5p4+pYIjXN0JXuPoFpBSOsRisLBAtVr5I2TK
+         7TRjJWnbewtEAKzCN01CQVQMNp7Z2xfuBQSSFkLs064D9VT64nieaM69jvZRRZKvXtKY
+         BOWThx715bIVdazokFxSBi0q0mClbiHeZ85NernbRk+SASz0lI2jDjVCL5KTDpvdruOI
+         CS4l1s9UQ749sbxi3njJ4MvNIzq9g78nToufdpRjAlwQMLxQWKYAUAgTJTUN1oWhHlmp
+         PctA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMEUCu407VsjQBu4p0rkFDywMLwnYCan35dD6vNmmy9a/oeFILO680yDEj6ionkbac60c3MN810Ik/TRVjZMvKEA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyfk+lON0muHmVCJub1neDBjDiiJxI4V/QfXrhAMvRhB2WSxJNt
+	qEZ706O+V3/znWjOKtGH+rsDIB+7HqWQIOT8cu9FUb48lUOmwGAqboNtloCrSaBpUZiMcrSmaz9
+	WBv2Vx5GZYlJMrH3DE6UKFG7wNL8=
+X-Gm-Gg: ASbGncuamiL56Uh06tPL2zDDX1T/3y7D7KeEHDziZNSSW+6vxZYQu66EyzFV5WILbah
+	PNlKBuZSr9HIwoKR0FYe//AicQovP3OMUq0oOAH3eXBRgzRjfJA==
+X-Google-Smtp-Source: AGHT+IGET/LHu+K4KIy9vh2thVr7i+i8X/A/6Ty614kJCRGsd754S2eiw63hTF61M2bX4okrmBGMfEKGjaqGDOqE0fY=
+X-Received: by 2002:a05:6871:4915:b0:29e:5522:8ee4 with SMTP id
+ 586e51a60fabf-2b1c0b4d6c6mr10309292fac.25.1737519513425; Tue, 21 Jan 2025
+ 20:18:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241225030437.972359-1-Qi.Chen@windriver.com>
+ <7008933E-1611-4683-86A2-083772D4CE71@arm.com> <PH0PR11MB5611A86DA4C9CE43DEFA2EB5ED132@PH0PR11MB5611.namprd11.prod.outlook.com>
+ <181B122FF6A5F825.28670@lists.openembedded.org> <218aaf1a-7320-4514-bace-78ce19b313f8@windriver.com>
+In-Reply-To: <218aaf1a-7320-4514-bace-78ce19b313f8@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Jan 2025 20:18:07 -0800
+X-Gm-Features: AbW1kvaxMGD2iRc50tgd7ClL9eGjQG532_1_-HYTvQr2loOxwKNR1YfJR6mnzVM
+Message-ID: <CAMKF1srqww1x7Yh9qff58cZ2fS2cib4QLBRDmMwh1tHnUyuhmw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V2] lib32-64k-pagesize.inc: add conf for building
+ 32bit binary with 64K alignment
+To: Qi.Chen@windriver.com
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"MacLeod, Randy" <Randy.Macleod@windriver.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:03:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210126
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 04:18:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210129
 
-From: Ross Burton <ross.burton@arm.com>
+On Tue, Jan 21, 2025 at 7:03=E2=80=AFPM Chen Qi via lists.openembedded.org
+<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> ping
+>
+> Is there something I need to do for this patch? Or is this patch not
+> suitable for oe-core?
+>
 
-Using the package architecture to select the right qemu options to pass
-to qemu-user is incorrect, and fails for recipes that set PACKAGE_ARCH
-to MACHINE_ARCH (as the qemuppc workarounds suggest) because there are
-not typically any options set for the machine name.
+if we are enabling 64K pages then 32bit aarch32 apps should also be
+compiled using 64k pages. Usually this could mean different
+performance characteristics and 32bit apps are usually only rebuilt if
+not used as prebuilts, so how will it function in a multilib
+environment?
 
-Solve this by using TUNE_PKGARCH instead: for the majority of recipes
-this is the same value, but for machine-specific recipes it remains the
-same instead of changing to the machine name.
-
-This means we can remove the qemuppc workarounds, as they're obsolete.
-
-Also update the gcc-testsuite recipe which uses the same pattern to use
-TUNE_PKGARCH, and generalise the else codepath to avoid needing to
-update the list of architectures.
-
-[ YOCTO #15647 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 414b754a6cbb9cc354b1180efd5c3329568a2537)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes-recipe/qemu.bbclass            | 8 ++------
- meta/recipes-devtools/gcc/gcc-testsuite.inc | 4 ++--
- 2 files changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes-recipe/qemu.bbclass b/meta/classes-recipe/qemu.bbclass
-index dbb5ee0b66..8d7c82668b 100644
---- a/meta/classes-recipe/qemu.bbclass
-+++ b/meta/classes-recipe/qemu.bbclass
-@@ -60,8 +60,8 @@ def qemu_run_binary(data, rootfs_path, binary):
- # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
- # qemu-arm default CPU supports all required architecture levels.
- 
--QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
--QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
-+QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE_PKGARCH')) or ""}"
-+QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${TUNE_PKGARCH}"
- 
- QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
- QEMU_EXTRAOPTIONS_ppce500mc = " -cpu e500mc"
-@@ -71,7 +71,3 @@ QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
- QEMU_EXTRAOPTIONS_powerpc64le = " -cpu POWER9"
--# Some packages e.g. fwupd sets PACKAGE_ARCH = MACHINE_ARCH and uses meson which
--# needs right options to usermode qemu
--QEMU_EXTRAOPTIONS_qemuppc = " -cpu 7400"
--QEMU_EXTRAOPTIONS_qemuppc64 = " -cpu POWER9"
-diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-devtools/gcc/gcc-testsuite.inc
-index f16d471478..eb9ddead08 100644
---- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
-+++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
-@@ -53,8 +53,8 @@ python check_prepare() {
-         #   - valid for x86*, powerpc, arm, arm64
-         if qemu_binary.endswith(("x86_64", "i386", "arm", "aarch64")):
-             args += ["-cpu", "max"]
--        elif qemu_binary.endswith(("ppc", "mips", "mips64")):
--            extra = d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH'))
-+        else:
-+            extra = d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('TUNE_PKGARCH'))
-             if extra:
-                 args += extra.split()
-         # For mips64 we could set a maximal CPU (e.g. Loongson-3A4000) however they either have MSA
--- 
-2.43.0
-
+> Regards,
+> Qi
+>
+> On 1/16/25 12:34, Chen Qi via lists.openembedded.org wrote:
+> > Ping
+> >
+> > Ross & Richard, is there anything else I need to do for this patch?
+> >
+> > Regards,
+> > Qi
+> >
+> > -----Original Message-----
+> > From: Chen, Qi
+> > Sent: Thursday, January 9, 2025 9:54 AM
+> > To: Ross Burton <Ross.Burton@arm.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: RE: [OE-core][PATCH V2] lib32-64k-pagesize.inc: add conf for b=
+uilding 32bit binary with 64K alignment
+> >
+> > Hi Ross,
+> >
+> > The "./bsp/marvell-cn10xxx" exists in yocto-kernel-cache's origin/yocto=
+-6.6 branch.
+> > In its master branch, the marvell-cn96xx.cfg also enables CONFIG_ARM64_=
+64K_PAGES=3Dy.
+> >
+> > This patch was tested on pristine poky + qemuarm64. The test steps are =
+in the commit message. I didn't test all softwares in oe-core, but as lib32=
+-core-image-full-cmdline started well with no failed systemd service, I ass=
+umed that most softwares should also behave well. I also tested lib32-sysst=
+at with core-image-minimal.
+> >
+> > The help text for ARM64_64K_PAGES changed with this commit: https://git=
+hub.com/torvalds/linux/commit/db488be354bc85724d7b9523e94435fdaa761a35
+> > So 32bit arm was not supported at first, but at some point, it was.
+> >
+> > Regards,
+> > Qi
+> >
+> > -----Original Message-----
+> > From: Ross Burton <Ross.Burton@arm.com>
+> > Sent: Thursday, January 9, 2025 1:02 AM
+> > To: Chen, Qi <Qi.Chen@windriver.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core][PATCH V2] lib32-64k-pagesize.inc: add conf for b=
+uilding 32bit binary with 64K alignment
+> >
+> > On 25 Dec 2024, at 03:04, Chen Qi via lists.openembedded.org <Qi.Chen=
+=3Dwindriver.com@lists.openembedded.org> wrote:
+> >> When 64K page size is enabled, for 32bit multilib, we'll need to build
+> >> applications with 64K alignment, otherwise, we'll see errors like belo=
+w at runtime:
+> >>
+> >>   root@marvell-cn10xxx:~# /lib/ld-linux-armhf.so.3
+> >>     Segmentation fault
+> >>
+> >> marvell-cn10xxx in yocto-kernel-cache enables CONFIG_ARM64_4K_PAGES=3D=
+y by default.
+> >> And the issue was first discovered there.
+> > Do you mean _64K_PAGES?  Where is this marvell-cn100xxx?  In yocto-kern=
+el-cache there are no users of arm64-64kb-pages and nothing called cn10xxx.=
+  Is this a Wind River-specific fork of yocto-kernel-cache?
+> >
+> >> However, there's a kernel config fragment in yocto-kernel-cache which
+> >> enableds 64K page size for arm64: arch/arm/arm64-64kb-pages.scc. So
+> >> it's easy for other
+> >> arm64 BSPs to enable this. And when they do so, they'll have problem
+> >> with multilib. This patch adds a config file to help people a little
+> >> bit in such situation.
+> >>
+> >> The max-page-size option is used to fix this issue. This option is
+> >> added to both CFLAGS and LDFLAGS for the purpose of covering as many
+> >> recipes as possible.
+> > First, I should point out that changing the page size is an ABI break, =
+and the 32-bit ABI was formalised long before 64kb pages were a thing, so t=
+hings _will_ break.  That said the loader should work, as a decade ago binu=
+tils 2.25 changed the alignment to 64kb pages by default:
+> >
+> > https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dblobdiff;f=3Dld/em=
+ulparams/armelf_linux.sh;h=3D280db842208e06e3231ec3a8322369193630a07d;hp=3D=
+35891f1fc91bddd03677aaefd7146ae5333e6cf0;hb=3D7572ca8989ead4c3425a1500bc241=
+eaaeffa2c89;hpb=3D8335d6aa34b88ce31b62e1b578d54ab4aa364435
+> >
+> > That won=E2=80=99t help specific pieces of software that eg assume the =
+page size is a built-time constant (and use the wrong constant), but hellow=
+orld should be good.  Can you replicate with pristine poky master and a min=
+imal configuration in a qemu?
+> >
+> > Ross
+> >
+> >
+> >
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210113): https://lists.openembedded.org/g/openembedde=
+d-core/message/210113
+> Mute This Topic: https://lists.openembedded.org/mt/110280373/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
