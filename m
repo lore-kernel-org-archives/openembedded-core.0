@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A06BC0218F
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 03:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CA3C02182
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 03:03:57 +0000 (UTC)
 Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.34432.1737515018904832596
+ by mx.groups.io with SMTP id smtpd.web11.34208.1737515029382347007
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jan 2025 19:03:38 -0800
+ Tue, 21 Jan 2025 19:03:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ItZ24hSw;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=F368meCa;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2f441904a42so11524580a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:38 -0800 (PST)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso637376a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jan 2025 19:03:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515018; x=1738119818; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737515029; x=1738119829; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CFbN/mEV9Y5Mm/0BpnO6G7l8VJDfBKz0Q1H6wTjXqYs=;
-        b=ItZ24hSwbK7MeKCUKplkVpQLon/PCy85mR2cYXeT7L69ros+8BU/7wscyiMRHruKRg
-         n4FgYcsiUqYDgiD1RnlgZyQYTDeh8fO354NWADk5DFSKyJUHZQB7dReRsgo7bk6BZRcg
-         KOWXlYpsnzcH+DopgFfOFtQq2QXk2iiQXXBISoEvGmmESI/lVsdjZyFmAOM5iwdr/a1q
-         Am+gQixrYMkD1HkXeYVkL5fvoCW2x4jV68U6ByAouEgIAun3EsFoRtfvjOxO79KQtg8Z
-         BYQavGc8yyRufhPzh1itqmxD21jbr3Z+uGkx7k+K18QOqieZFLIkQi2ClU7k1/eILY9E
-         InpA==
+        bh=fhVnxTtcuWxBw/xBQRQR9/9HrpUH+Lb97Fz4c7n27wA=;
+        b=F368meCaKR01clQ2rYNDYr5tn+OSS9IgeTmVu7tYpikBo4rx5o3YTwHYiIN4LSgDwu
+         Pn4RrH+EEIsMX/TfwUrAmV64wYyMBmzzrlzqVZI2Qj7KpRFX5DRf0GOBqpuUC8q29tn0
+         gBvEVY9wjuZRC5PnurU+C4bTcQ5wwiz0ZOiVuW1b2B1+kVByuk/H/Q8JNsdgQOXb9wJb
+         vWVOYH7qMQQ/OY3a2N7Thx/F3WizQnIwePxmx6aY6EMKKU1GWlavX8y6C8kI84Y/QKkM
+         kcXMaXsYLgneSVI9fS9UKx84eVdYD83/y8YTg5UfToXCPkKqMRBhwTZ8qOtYr2omzsMS
+         sTag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737515018; x=1738119818;
+        d=1e100.net; s=20230601; t=1737515029; x=1738119829;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CFbN/mEV9Y5Mm/0BpnO6G7l8VJDfBKz0Q1H6wTjXqYs=;
-        b=s1/45SosvkpMSb1SXitHzdQQ4EA94NdiYiQ7T8ShwE8b1rvDtIEDTeP21DeqEDdfbt
-         gNmMMyBY0SWOTw61wHO12Gu/MwpRD4t+bh8VG7cZjRujNarERVrLUdcGUgOYK7IzAgpY
-         fCbT7jWL7F4uFlGwnNJXe+dmBugab8z+juUJPoNAFCZQ4iQBD6fUNrJFPx5+ZKfHT8yk
-         c6oM6Cwf9wTocPBt69CpmB4w8MvHfAFiX4KjhUdtpE0waUkHsCxDLo7S5xTwp1A4SKBb
-         fTbG0B0Qzk3xb9FscG/nwUA5dwC2YPAoQXTY6Aw4BZJEHnk7SqCbInfwE7XjcrRpgLtv
-         3XRw==
-X-Gm-Message-State: AOJu0YyLpW9P/Euz4Hk448TOauoes9fPyubJZkgTeyv6nGkIUerXIoy+
-	Pd00oGSYKZ3jljl0oC7MfK+uY2USo32Nc0oV7SBd2tHfld0aalF7AMjao/0sETUT3NRqfdfP4KR
-	ZO1I=
-X-Gm-Gg: ASbGncuBw7PpFvT6DRKKrRAYz1b1WSUjz4xWSgFCstjXWsbqItbSTDrBAbEBnEbLJR1
-	8JyfPRoYJohBFXjZACkm350aK3/M1/AJF8u7ndfPEiVe9R/yM4r6+XFLeXZfKWZUdxoG6X0Zg9x
-	+OlT/Nl3a85t8+PMyB+z4xGIgfplIbeRVF/1UChnA4H3jKkFlhUNIXs1Fg1hxgGHdHDM9RvOQ5O
-	/ocheF4ZvxtK3237Wuq3qRzWvRupDzHdeX/RsJ0SB4yJlSjXFcLlUZjdAQ=
-X-Google-Smtp-Source: AGHT+IGIHDJfl5vF8Rvi7TEt01YJn4rJglheaR2uVSkVPMd8VH5Dobn7YXwvEc8YA++uakW1wVMAZw==
-X-Received: by 2002:a05:6a00:4293:b0:727:3cd0:122f with SMTP id d2e1a72fcca58-72dafa04710mr26067837b3a.9.1737515018124;
-        Tue, 21 Jan 2025 19:03:38 -0800 (PST)
+        bh=fhVnxTtcuWxBw/xBQRQR9/9HrpUH+Lb97Fz4c7n27wA=;
+        b=jnqZwNMlwE0izZ3i1dKJziQuFfkum6afd8ywTz4+iruFnXH3dyeQDxNevCMPX0FNlx
+         VTiGgq8Jzt4C+TtfVUxpRdZrNOr1Kjg8bM+46XSKY9zWXV/GpppmYojaf8p0GXZlpTvx
+         w/k6WuMvJ+Xi7S/l8B6JencaS6egXWEEldO25y+GLuUNpT6eT4Blqx0qqZyYFWeSTKMG
+         Q+eP59Ntkr227ryruJb0DS6lLdGBqSKR8+tkge3lIJh+xaiGxhLgB4kgCdgXjXld8GIM
+         yWYkF9YTYEACqr37kaL4pPtWkQ2SisNkh+mbgcNKAxC6CsCxKcC2KO8Yp3bgylt2Zsn2
+         73ow==
+X-Gm-Message-State: AOJu0Yz2B5r84MHRiamgDeosRLhVUSw8OtKodpTMekil/M4oE/MhLDcp
+	5Di6XgKqNMHO8CUuY9d8AA5KtWI31v3A2/i4aiLeZJyUexfy7BbDDvfwPKA+283AvKKonZBttgV
+	yDsQ=
+X-Gm-Gg: ASbGncsNesdbFnzOTWocPVknLbKAgufdOYL6qqYb/OpeRyHwnMvUL/TcOWxYz3IJStW
+	i3cK6QQilXbNf5SWcOkZULXuceL6PRUv5oe6xwJ0wql2XOQasCgaPUkii2NYEAzBkZlMAwB/Ct0
+	mRN67cNP0CIBcKE5RKao0HYIXAfSsZEe4bagNBROXy/VsLypBxtcXE4nouzMzAVWPT3H6wEZeUm
+	6HwbjkMHwBFOirwfQym8aHjTZYAJJuDaTaqY4bXxtJys5RArjCtBe/Qm1s=
+X-Google-Smtp-Source: AGHT+IGjMAMSq4Py5OCiexTOH7doXZZi7AbXw7m4YZM/rCPFO91uqNIQ2w4PT4qNbLOQJl2YDlG3Zg==
+X-Received: by 2002:a05:6a00:1d12:b0:728:15fd:dabb with SMTP id d2e1a72fcca58-72db1c5d820mr30682355b3a.8.1737515028629;
+        Tue, 21 Jan 2025 19:03:48 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8112c1sm9800337b3a.37.2025.01.21.19.03.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 19:03:37 -0800 (PST)
+        Tue, 21 Jan 2025 19:03:48 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/14] ofono: patch CVE-2023-4232
-Date: Tue, 21 Jan 2025 19:03:02 -0800
-Message-ID: <476ef12ab91aada032ea0e6acc5a0044497ace25.1737514842.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 13/14] pulseaudio: fix webrtc audio depdency
+Date: Tue, 21 Jan 2025 19:03:09 -0800
+Message-ID: <e80c3ca36f08a259e13fd94f1c87a7f5bf485a8b.1737514842.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1737514842.git.steve@sakoman.com>
 References: <cover.1737514842.git.steve@sakoman.com>
@@ -65,70 +65,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:03:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210120
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 03:03:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210127
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Esben Haabendal <esben@geanix.com>
 
-Cherry-pick commit
-https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=2ff2da7ac374a790f8b2a0216bcb4e3126498225
+Since pulseaudio v16.99.1, the library needed is webrtc-audio-processing-1.
+This fixes
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Run-time dependency webrtc-audio-processing-1 found: NO (tried pkgconfig and cmake)
+Looking for a fallback subproject for the dependency webrtc-audio-processing-1
+
+../pulseaudio-17.0/meson.build:730:15: ERROR: Automatic wrap-based subproject downloading is disabled
+
+The library is available in meta-openembedded/meta-multimedia.
+
+(cherry picked from commit 4661c49eb4f0ed89a3d027d9a003c40744baaf38)
+
+Signed-off-by: Esben Haabendal <esben@geanix.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Esben Haabendal <esben@geanix.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ofono/ofono/CVE-2023-4232.patch           | 31 +++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_2.4.bb  |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4232.patch
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2023-4232.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4232.patch
-new file mode 100644
-index 0000000000..516cbf779c
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4232.patch
-@@ -0,0 +1,31 @@
-+From 2ff2da7ac374a790f8b2a0216bcb4e3126498225 Mon Sep 17 00:00:00 2001
-+From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
-+Date: Wed, 4 Dec 2024 10:18:52 +0200
-+Subject: [PATCH] smsutil: check status report fits in buffer
-+
-+Fixes CVE-2023-4232
-+
-+CVE: CVE-2023-4232
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=2ff2da7ac374a790f8b2a0216bcb4e3126498225]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/smsutil.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/smsutil.c b/src/smsutil.c
-+index ac89f16c..a706e26f 100644
-+--- a/src/smsutil.c
-++++ b/src/smsutil.c
-+@@ -1088,6 +1088,9 @@ static gboolean decode_status_report(const unsigned char *pdu, int len,
-+ 		if ((len - offset) < expected)
-+ 			return FALSE;
-+ 
-++		if (expected > (int)sizeof(out->status_report.ud))
-++			return FALSE;
-++
-+ 		memcpy(out->status_report.ud, pdu + offset, expected);
-+ 	}
-+ 
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-connectivity/ofono/ofono_2.4.bb b/meta/recipes-connectivity/ofono/ofono_2.4.bb
-index 097a0e0566..a6a4852a63 100644
---- a/meta/recipes-connectivity/ofono/ofono_2.4.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_2.4.bb
-@@ -23,6 +23,7 @@ SRC_URI = "\
-     file://CVE-2024-7546.patch \
-     file://CVE-2024-7547.patch \
-     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
-+    file://CVE-2023-4232.patch \
- "
- SRC_URI[sha256sum] = "93580adc1afd1890dc516efb069de0c5cdfef014415256ddfb28ab172df2d11d"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index ae16056d24..1ab3831519 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -121,7 +121,7 @@ PACKAGECONFIG[jack] = "-Djack=enabled,-Djack=disabled,jack"
+ # able to use pulseaudio autospawn for root as well.
+ PACKAGECONFIG[autospawn-for-root] = ",,,"
+ PACKAGECONFIG[lirc] = "-Dlirc=enabled,-Dlirc=disabled,lirc"
+-PACKAGECONFIG[webrtc] = "-Dwebrtc-aec=enabled,-Dwebrtc-aec=disabled,webrtc-audio-processing"
++PACKAGECONFIG[webrtc] = "-Dwebrtc-aec=enabled,-Dwebrtc-aec=disabled,webrtc-audio-processing-1"
+ PACKAGECONFIG[ipv6] = "-Dipv6=true,-Dipv6=false,"
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,"
  
 -- 
 2.43.0
