@@ -1,119 +1,127 @@
-Return-Path: <esben@geanix.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BCEC02181
-	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 14:17:31 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web10.44575.1737555445554000404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A26CFC02181
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 15:09:01 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.45872.1737558534457346943
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 06:17:26 -0800
+ Wed, 22 Jan 2025 07:08:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=Gt5Fvt7T;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: esben@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Type:MIME-Version:Message-ID:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=Pn7WNMipUI7zTrYWsKSTBp1ghnKBtiGi4+qqmELEcL0=; b=Gt5Fvt7TsaSvo6pgo59ZpfDC9w
-	tm6F3OdqE0wIrgeOQcgfM0ZrGn2YqFubz3VAhrJLbeHh+EBOdORbhVmPPF+dVMuYtAokX1eBEsDC3
-	iNbi4rgrmo2mHo368VJvO7bRkz1UPokiusYNe54pyAMO1nE6IF9pwMDRtAb99LLGA5pBXEyNr87z3
-	m4vNT398hTkHn7Gc1TxJdiuvdWXzc2+wKkH5X9oN0ugbc1fBltlH6UtJGmCXD/+2d2kA5Fm8d4HMz
-	Exe/Crk8dkPydNmHCMZFwAyoXGLkvimfvV+VYZ7baFJY8+e3HVORXMSRdxS0mHRR4JbNnxdNCzERe
-	TrvVTNjA==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <esben@geanix.com>)
-	id 1tabXj-000HcH-1k;
-	Wed, 22 Jan 2025 15:17:19 +0100
-Received: from [87.49.44.57] (helo=localhost)
-	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <esben@geanix.com>)
-	id 1tabXj-0007rX-0T;
-	Wed, 22 Jan 2025 15:17:19 +0100
-From: Esben Haabendal <esben@geanix.com>
-To: "Sadineni, Harish via lists.openembedded.org"
- <Harish.Sadineni=windriver.com@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org,
-  Harish.Sadineni@windriver.com,  Randy.MacLeod@windriver.com,
-  Sundeep.Kokkonda@windriver.com,  Shivaprasad.Moodalappa@windriver.com
-Subject: Re: [OE-core] [PATCH V2 1/2] rust: fix for rust multilib sdk
- configuration
-In-Reply-To: <20250116134833.1838212-1-Harish.Sadineni@windriver.com> (Harish
-	via lists openembedded org Sadineni's message of "Thu, 16 Jan 2025
-	05:48:31 -0800")
-References: <20250116134833.1838212-1-Harish.Sadineni@windriver.com>
-Date: Wed, 22 Jan 2025 15:17:18 +0100
-Message-ID: <87o6zzszkh.fsf@geanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=P/VzQ9zG;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7bcf33f698dso625624285a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 07:08:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1737558533; x=1738163333; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6gy7p38nAIo+x9ovBfHi7PTNXT3sVP7P2uXisGBT5c=;
+        b=P/VzQ9zGsdTp4df2zGAViiKsqsP3IqCRkvlee/RSo0Jp2WkUJJEeY6TfxBgg+Z6hCM
+         SEJQVMu7ZbS/7zz2aO0kDcZ6B89Trh3XHwZPTtoe1b0XZPasQ5NJluBmL3S6YqP8eOwb
+         ejX3fK/gJfDfD0/ERZh5bZUFzri0LxGh9AKzm8Bq2tbLhEyBZcYm7WZrWX7fm7ZOeeOb
+         D6cpUxU+tX+ShMahIyb2trOFPowtWYfZacaGycHyIHqnQBn79PCEoHSAvCNXswOjGaco
+         roSNNCPv8YYI8eUeDLMc6QdBy25RP3+mVGYHxCfybizkmGYosGm6F7wfX4rmmY3yJwtx
+         EzDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737558533; x=1738163333;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6gy7p38nAIo+x9ovBfHi7PTNXT3sVP7P2uXisGBT5c=;
+        b=KA6veZJNTBf5xekaq8btaLlpjSFQ/B77gUpW+J0yFB+mAu/6TupOx+7c41wo4V6U8o
+         6WsyNzhAN/pQytqKw6XrDQHbz/pIPNh0qyTAe9lIuHETiy2W4FqCEVoANcJ9Yctj9jHJ
+         R/GGKkKbX30JCo0a5fgHE1rGoelsvrXQZ6IQCdkCvc+6zd8fIQiAvVzAfMGvseruOQo1
+         QELKLnvrvMEbket/NBmdTvTkz+cxVy/EaoOD59Hvy7eVdjvFjtG87AbxH+Ft51c09UjR
+         30fQwwXP2cUeMkqoXUBwrjvVWBqJC5MiCDS6oNbXMaqm5wBNJPtfr7Mor+sSU7uHj2UJ
+         abVQ==
+X-Gm-Message-State: AOJu0YzBSOIxCH71T3yjP6R1dOUFs+Ct9ITDOjKPKCGxLlVnj0gUTXq7
+	6xwxqGCeXhZDUOKmDBDAQgutiuRz2UH21aNau6e+axA3Oc0HoyNw8QOL8wGGzVC4jZOds/1Yj1e
+	wxXY=
+X-Gm-Gg: ASbGncund1GR0EAuco3XpWqnbs0992CkXedpkfmm2wdwsJy+hy0GnBFzYMiq+QYXeBc
+	xRgNI17EFKixvynkuQpi4A6lQIFOGaI34cL2FlRLZgFxHMWF68km2O33YovV8CXYZpFD5wY9u+S
+	EalKjTmokfgvL/m1kdGsmxtN16Lh0uB/6D5R0PGRpt2joNn/9SpvPTmDkFuHOeVXB7WUTS8JIRX
+	/eYsXiWeXjMyn+hDKNIX+dYkZamhnG3hvAQ95QdRBRr+nQRKjZw9gqXb9sA3gv4YR3F+d39OVru
+	OeW1Hx484zrH0WwZzpRczggyaqNcYw==
+X-Google-Smtp-Source: AGHT+IE4LYjCFiLtJ/5u4eBaZynNmK4xe/JeeP296NSC2JzZp8wuTeo1iNrD1Gzeq+yqqSH8jPkm6g==
+X-Received: by 2002:a05:620a:15a:b0:7be:82fc:6877 with SMTP id af79cd13be357-7be82fc6c6emr879999385a.37.1737558531700;
+        Wed, 22 Jan 2025 07:08:51 -0800 (PST)
+Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be614ef2d7sm668957185a.96.2025.01.22.07.08.50
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 07:08:51 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] python3-numpy: upgrade 2.2.1 -> 2.2.2
+Date: Wed, 22 Jan 2025 10:08:48 -0500
+Message-Id: <20250122150848.3101917-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Authenticated-Sender: esben@geanix.com
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27526/Wed Jan 22 10:40:03 2025)
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 14:17:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210155
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 15:09:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210156
 
-"Sadineni, Harish via lists.openembedded.org"
-<Harish.Sadineni=windriver.com@lists.openembedded.org> writes:
+Changelog: https://github.com/numpy/numpy/releases/tag/v2.2.2
 
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->
-> YOCTO [#15061]
-> The rust sdk installs both 'rust.sh' and 'cargo.sh' for lib32 and lib64 in the same location.
-> This causes below error while installing the lib32 & lib64 binaries:
->
-> Error: Transaction test error:
->   file /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/environment-setup.d/cargo.sh
-> conflicts between attempted installs of rust-cross-canadian-arm-1.67.1-r0.x86_64_nativesdk and
->  rust-cross-canadian-aarch64-1.67.1-r0.x86_64_nativesdk
->   file /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/environment-setup.d/rust.sh
-> conflicts between attempted installs of rust-cross-canadian-arm-1.67.1-r0.x86_64_nativesdk and
-> rust-cross-canadian-aarch64-1.67.1-r0.x86_64_nativesdk
-> ERROR: Task (virtual:multilib:lib32:/media/build/poky/meta/recipes-sato/images/core-image-sato.bb:do_populate_sdk)
-> failed with exit code '1'
->
-> The change includes:
-> - Prepending '${RUST_TARGET_SYS}' to 'rust.sh' to differentiate between target systems.
-> - Moving the non-target-specific environment variables to 'nativesdk-cargo' and 'nativesdk-rust',
-> instead of being managed by the cross-canadian recipe.
-> - Removed the redundant cargo config file from the 'rust-cross-canadian.inc' file.
->
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  meta/recipes-devtools/rust/cargo_1.81.0.bb    | 15 +++++++++++
->  .../rust/rust-cross-canadian.inc              | 27 ++-----------------
->  meta/recipes-devtools/rust/rust_1.81.0.bb     | 13 +++++++++
->  3 files changed, 30 insertions(+), 25 deletions(-)
->
-> diff --git a/meta/recipes-devtools/rust/cargo_1.81.0.bb b/meta/recipes-devtools/rust/cargo_1.81.0.bb
-> index 123032cdf7..d05b076d30 100644
-> --- a/meta/recipes-devtools/rust/cargo_1.81.0.bb
-> +++ b/meta/recipes-devtools/rust/cargo_1.81.0.bb
-> @@ -50,8 +50,23 @@ do_install:append:class-nativesdk() {
->  	# sets to libdir but not base_libdir leading to symbol mismatches depending on the
->  	# host OS. Fully set LD_LIBRARY_PATH to contain both to avoid this.
->  	create_wrapper ${D}/${bindir}/cargo LD_LIBRARY_PATH=${libdir}:${base_libdir}
-> +
-> +        ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-> +        mkdir "${ENV_SETUP_DIR}"
-> +        CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
-> +
-> +        cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
-> +	# Keep the below off as long as HTTP/2 is disabled.
-> +	export CARGO_HTTP_MULTIPLEXING=false
-> +
-> +	export CARGO_HTTP_CAINFO="\$OECORE_NATIVE_SYSROOT/etc/ssl/certs/ca-certificates.crt"
-> +	EOF
-> +
-> +        chown -R root.root ${D}
+Reproducibility looks OK:
 
-You should probably cleanup the mixed use of tabs and spaces above.
+|2025-01-20 16:40:52,428 - oe-selftest - INFO - Ran 1 test in 2125.833s
+|2025-01-20 16:40:52,428 - oe-selftest - INFO - OK
+|2025-01-20 16:40:57,146 - oe-selftest - INFO - RESULTS:
+|2025-01-20 16:40:57,146 - oe-selftest - INFO - RESULTS - reproducible.ReproducibleTests.test_reproducible_builds: PASSED (2065.94s)
+|2025-01-20 16:40:57,147 - oe-selftest - INFO - SUMMARY:
+|2025-01-20 16:40:57,147 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 2125.834s
+|2025-01-20 16:40:57,147 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
 
-/Esben
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...1-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch | 2 +-
+ .../python/python3-numpy/fix_reproducibility.patch              | 2 +-
+ .../python/{python3-numpy_2.2.1.bb => python3-numpy_2.2.2.bb}   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.2.1.bb => python3-numpy_2.2.2.bb} (96%)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+index 4a673081062..437bafb54f5 100644
+--- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
++++ b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+@@ -1,4 +1,4 @@
+-From 16a973c118989674afeeda2c2ccc24c9c366210e Mon Sep 17 00:00:00 2001
++From ad6c0196e4c97ca37368610c010e46c90a4749b4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Dec 2015 13:20:30 +0200
+ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+index 18d7f3f84e4..514073d94e4 100644
+--- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
++++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+@@ -1,4 +1,4 @@
+-From cde931f4380745b9818b55d7b06a43d347518967 Mon Sep 17 00:00:00 2001
++From 061a8ae1d1d000892d6dba89a444922e7a28804b Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 29 Sep 2023 22:53:24 +0100
+ Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.2.1.bb b/meta/recipes-devtools/python/python3-numpy_2.2.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-numpy_2.2.1.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.2.2.bb
+index 251e7b0c64d..3b74e9059d1 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.2.1.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.2.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://fix_reproducibility.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "45681fd7128c8ad1c379f0ca0776a8b0c6583d2f69889ddac01559dfe4390918"
++SRC_URI[sha256sum] = "ed6906f61834d687738d25988ae117683705636936cc605be0bb208b23df4d8f"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-- 
+2.39.5
+
 
