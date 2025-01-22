@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3165C02181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E46B6C02182
 	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 20:42:56 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.4494.1737578574659918646
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.4490.1737578571388258228
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 12:42:54 -0800
+ Wed, 22 Jan 2025 12:42:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=UPL6PI33;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2025012220425232cfc7d9ea66279c47-nhj6ma@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2025012220425232cfc7d9ea66279c47
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=PjGXdYfh;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2025012220424714229905a6b7c35cb9-hkqc5w@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2025012220424714229905a6b7c35cb9
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 22 Jan 2025 21:42:52 +0100
+        Wed, 22 Jan 2025 21:42:47 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=wiGLhs6fx8cRpKZKvJJIBV44iK0JSbNlaxqYiQ7N5DU=;
- b=UPL6PI333DTH+iPfEk+6hR4xYRFCXVFfCLy0Tz4TOinZm3aAVM7DPX8h697Gu9Ox8BKsRz
- 0dOeA+TYyiysM8OteALYBhnPdyBoEGHZ+INTnGHbNhgAb/cAbWMDyGUNCYYSACdN4CiiZ1vl
- GduhMEcAEr2BBWiyP+U7cwc7mS3cKHCbJIYMbzj05PhNK13T/cvnN9DPYvu0ONsyxvUdobx2
- czr0/cSNgCs7dEG3q2fnFnC0Jx7SHR3wY+9fo/PXOyjkaxkjlTngZq337A0YIWzkinoXuJ1U
- aYWtuC+hwkyENtW9pfB5oXVOUsyAvveiBrfMtHQVGJlabyP2dsWZbhGg==;
+ bh=YLMfnY3VDWa6AH46HHgXr05QfqYipX+E6notk1B6844=;
+ b=PjGXdYfhlwFD+Ths6w/JoTfoNhs5XMkp6TH4cUGfcU1WX1BxS9gHxo3w/eSFnFYzkr3CdT
+ jtM4ihWInT6D2x5k3b6zhes2TjUI8Stqss+uP+39ggNi5AXnUH8qIu+/VuB9wa8Wfbh8ytAk
+ cETzwuZ6wGZW8T02cJdNJrHHHFF8+faaH+C2TET7vIqbXqq+rsvqg7bIUhru0eBIWZZIllfN
+ pI5qy/Uq/rDIercqRygcxoFeHvhEx0n9c2NK7jMJ/gH2YegQHKOGrg0RKAS5lgDLGmUQtfLJ
+ 0t44sSnTQhF6tdKeMSwErKvXKZC7ptkgtmYiL4hHH53BlETUeURkJzMA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: patch CVE-2024-13176
-Date: Wed, 22 Jan 2025 21:41:45 +0100
-Message-Id: <20250122204145.4016309-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] openssl: patch CVE-2024-13176
+Date: Wed, 22 Jan 2025 21:41:57 +0100
+Message-Id: <20250122204157.4016363-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,29 +37,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 20:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210162
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210161
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Picked [1] per link in [2].
+Picked [1] per link in [2]
 
-[1] https://github.com/openssl/openssl/commit/07272b05b04836a762b4baa874958af51d513844
+[1] https://github.com/openssl/openssl/commit/4b1cb94a734a7d4ec363ac0a215a25c181e11f65
 [2] https://nvd.nist.gov/vuln/detail/CVE-2024-13176
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../openssl/openssl/CVE-2024-13176.patch      | 125 ++++++++++++++++++
- .../openssl/openssl_3.0.15.bb                 |   1 +
- 2 files changed, 126 insertions(+)
+ .../openssl/openssl/CVE-2024-13176.patch      | 126 ++++++++++++++++++
+ .../openssl/openssl_3.2.3.bb                  |   1 +
+ 2 files changed, 127 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
 new file mode 100644
-index 0000000000..0076003db1
+index 00000000000..28d4dd706a8
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
-@@ -0,0 +1,125 @@
-+From 07272b05b04836a762b4baa874958af51d513844 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,126 @@
++From 4b1cb94a734a7d4ec363ac0a215a25c181e11f65 Mon Sep 17 00:00:00 2001
 +From: Tomas Mraz <tomas@openssl.org>
 +Date: Wed, 15 Jan 2025 18:27:02 +0100
 +Subject: [PATCH] Fix timing side-channel in ECDSA signature computation
@@ -81,9 +81,10 @@ index 0000000000..0076003db1
 +(Merged from https://github.com/openssl/openssl/pull/26429)
 +
 +(cherry picked from commit 63c40a66c5dc287485705d06122d3a6e74a6a203)
++(cherry picked from commit 392dcb336405a0c94486aa6655057f59fd3a0902)
 +
 +CVE: CVE-2024-13176
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/07272b05b04836a762b4baa874958af51d513844]
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/4b1cb94a734a7d4ec363ac0a215a25c181e11f65]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
 + crypto/bn/bn_exp.c  | 21 +++++++++++++++------
@@ -92,7 +93,7 @@ index 0000000000..0076003db1
 + 3 files changed, 22 insertions(+), 9 deletions(-)
 +
 +diff --git a/crypto/bn/bn_exp.c b/crypto/bn/bn_exp.c
-+index 598a592ca1397..d84c7de18a6b6 100644
++index b876edbfac36e..af52e2ced6914 100644
 +--- a/crypto/bn/bn_exp.c
 ++++ b/crypto/bn/bn_exp.c
 +@@ -606,7 +606,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBUF(BIGNUM *b, int top,
@@ -145,18 +146,18 @@ index 0000000000..0076003db1
 +                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 + {
 +diff --git a/crypto/ec/ec_lib.c b/crypto/ec/ec_lib.c
-+index b1696d93bd6dd..1f0bf1ec795fa 100644
++index c92b4dcb0ac45..a79fbb98cf6fa 100644
 +--- a/crypto/ec/ec_lib.c
 ++++ b/crypto/ec/ec_lib.c
-+@@ -20,6 +20,7 @@
-+ #include <openssl/err.h>
++@@ -21,6 +21,7 @@
 + #include <openssl/opensslv.h>
++ #include <openssl/param_build.h>
 + #include "crypto/ec.h"
 ++#include "crypto/bn.h"
 + #include "internal/nelem.h"
 + #include "ec_local.h"
 + 
-+@@ -1262,10 +1263,10 @@ static int ec_field_inverse_mod_ord(const EC_GROUP *group, BIGNUM *r,
++@@ -1261,10 +1262,10 @@ static int ec_field_inverse_mod_ord(const EC_GROUP *group, BIGNUM *r,
 +     if (!BN_sub(e, group->order, e))
 +         goto err;
 +     /*-
@@ -171,7 +172,7 @@ index 0000000000..0076003db1
 + 
 +     ret = 1;
 +diff --git a/include/crypto/bn.h b/include/crypto/bn.h
-+index c5f328156d3a9..59a629b9f6288 100644
++index 302f031c2ff1d..499e1d10efab0 100644
 +--- a/include/crypto/bn.h
 ++++ b/include/crypto/bn.h
 +@@ -73,6 +73,9 @@ int bn_set_words(BIGNUM *a, const BN_ULONG *words, int num_words);
@@ -184,13 +185,13 @@ index 0000000000..0076003db1
 + int bn_to_mont_fixed_top(BIGNUM *r, const BIGNUM *a, BN_MONT_CTX *mont,
 +                          BN_CTX *ctx);
 + int bn_from_mont_fixed_top(BIGNUM *r, const BIGNUM *a, BN_MONT_CTX *mont,
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-index 5f7e7c0000..295f05729f 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
+index 2c30dbd47ab..0b47bab5507 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
 @@ -13,6 +13,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
-            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
             file://CVE-2024-9143.patch \
 +           file://CVE-2024-13176.patch \
             "
