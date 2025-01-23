@@ -1,118 +1,115 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9755DC02182
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 08:25:09 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.6794.1737620702903826307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A379CC02182
+	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 08:38:19 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.6890.1737621495563029833
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 00:25:02 -0800
+ Thu, 23 Jan 2025 00:38:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3118843f91=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50N6g3QJ013791
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 00:25:02 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44aqjg9hcj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 00:25:02 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 23 Jan 2025 00:25:01 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 23 Jan 2025 00:25:01 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] dos2unix.bbclass: Fix patch error for recipes that inherit dos2unix.
-Date: Thu, 23 Jan 2025 16:25:00 +0800
-Message-ID: <20250123082500.903901-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250122044245.3463096-1-hongxu.jia@windriver.com>
-References: <20250122044245.3463096-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=htfATP8W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so282147f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 00:38:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1737621494; x=1738226294; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=12wU4mdBsIND5hsUjcMnWyCyXKYE6Fk+ShMPBsrj85s=;
+        b=htfATP8WOf2dKXRzgA8ci21EHL7ntVzFhdXp0k7bVnC4yZ27H7cVG4wgMSyBVHmCBD
+         F9aeA1YU0gxdgZFdvlwPBcPKxKE05RAzurz2nvD4VSvvHPBeUdawszzltkLkGDBCUAUs
+         W5MLPWXqJ9b/2T+oeplBjJDHmMS90e16nn2ZU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737621494; x=1738226294;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=12wU4mdBsIND5hsUjcMnWyCyXKYE6Fk+ShMPBsrj85s=;
+        b=VT548wcIJE3PIKHhiEFag7AKMhCg3NvhKxR/cgpsCm8cKfmcoTbwA2JlT+endwrTVq
+         MDD85B4Q1j77rMXkU0vYNX9RC3gBlJP9eco47YgmDoKfhCiN9PtFKcmx8o4EHWMl8C5U
+         QiA/4GdNs6Tz4rxcp/zJYGcDXsnUutSqFssJJhLqLTQoD5naRHuZuwD5tOgOuEsPqgb9
+         O6XkLOCuvl8Dg6vzox3BTR60r0Y8pC8RTLakLNT2dGLKEAYVXCEFhSEDoAtkyun7XExx
+         Eh/smgonKe/jXQP8MbZGDTE5Fvvnex4Uo9iE1C2d79yECSehEGb1rTSv0y5yPRMiUJNX
+         TyMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMn5QiT2IEHLq3E6GdxkDjrngOxuIvoWIjx9+Vxgn6uEvH84uJwLekP7L0ooyCod+gF3mLGACtp6qSom3Zr0z7eQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyOgIF+CB7/8kJz4lAzNtT+uHTJtlx2oA/CLC59XzhxyUlpEYeI
+	c0HY4k8Hdb0d9MvpynczheiFvBjVYcwP35xZXavpLVGR2/EsguPrEeiDsRmHT50=
+X-Gm-Gg: ASbGnctvh8NdYtfu9gnMTk+0XzH+nhVX6CKnYol0KaZxT0ExL2r0d4M1xMx8qlNY1hm
+	zEonmIWlIP0wcmzNBfGVtQl5a4iJoIg5F+QWPf9G9LQ91AU7j+zUtPSuxUIcD06FO6Ha6j5CNTx
+	W+97o4/QXuHBY9LBxp3cGe/gZMwnXmle9QT19Q/U6yRw88gLhJgluUDzM3BosUcar0ru1ZiNbTc
+	MTgYVWfFWAkJ0qT4KRXTxlzaqTcSnaG60jgDHFmti1Nk4Zm+GDbrurpHxXxwZP/QzqTxYD/YG0o
+	LJtbsBn+BMARFmRUpS8AeQW9XWatlltDIyeqkDhVTVyh8fzbQfb6FJ8Xj6kdcbZ64kPEFw==
+X-Google-Smtp-Source: AGHT+IGj0NuU1SuWquYm7Hs9U4E0nNP28iaCPmuZUG6a1jaTZF4Zh1j/EnQmTmhyRfzRnPdL7X1/eA==
+X-Received: by 2002:a5d:5f51:0:b0:385:f17b:de54 with SMTP id ffacd0b85a97d-38bf56568b8mr23573010f8f.5.1737621493891;
+        Thu, 23 Jan 2025 00:38:13 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e9f3:6482:e693:9d62? ([2001:8b0:aba:5f3c:e9f3:6482:e693:9d62])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf32222d1sm18676259f8f.38.2025.01.23.00.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jan 2025 00:38:13 -0800 (PST)
+Message-ID: <2a14a7e2d97936c5e0f68a8320bddc20dd4005d7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] classes/spdx-common: Fix patch error for
+ recipes that inherit dos2unix.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: hongxu.jia@eng.windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jan 2025 08:38:12 +0000
+In-Reply-To: <181D447E5FAF7FB4.25327@lists.openembedded.org>
+References: 
+	<9c98a7d0304062e884e35823af9a97f30bff75b3.camel@linuxfoundation.org>
+		 <16166.1737619411751493273@lists.openembedded.org>
+	 <181D447E5FAF7FB4.25327@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 1i1BegpTFhsk8Bjdo_2eqBJvqlZ29gW5
-X-Proofpoint-ORIG-GUID: 1i1BegpTFhsk8Bjdo_2eqBJvqlZ29gW5
-X-Authority-Analysis: v=2.4 cv=d7QPyQjE c=1 sm=1 tr=0 ts=6791fcde cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VdSt8ZQiCzkA:10 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8 a=sEjYR0fyHhnjKJuzxcIA:9 a=Yupwre4RP9_Eg_Bd0iYG:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-23_03,2025-01-22_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- bulkscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 clxscore=1015
- suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501230063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 08:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210178
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 08:38:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210179
 
-While SPDX_INCLUDE_SOURCES = "1", call do_patch in do_create_spdx failed
-for these recipes inherit dos2unix
+On Thu, 2025-01-23 at 08:18 +0000, Richard Purdie via lists.openembedded.or=
+g wrote:
+> Hi Hongxu,
+>=20
+> On Thu, 2025-01-23 at 00:03 -0800, hongxu via lists.openembedded.org wrot=
+e:
+> >=20
+> > Convert do_convert_crlf_to_lf from a separate task to a postfunc or
+> > prefunc
+> > is not suitable for this case, the postfunc and prefunc is executed
+> > in
+> > bb.build.exec_task [1], but do_patch is called by bb.build.exec_func
+> > in archiver.bbclass and meta/lib/oe/spdx_common.py
+> > Which means postfunc or prefunc will not be invoked in
+> > bb.build.exec_func
+> > =C2=A0
+> > I think prepend function to task do_patch could workaround the issue,
+> > v2 incoming
+> > =C2=A0
+> > [1]
+> > https://git.yoctoproject.org/poky/commit/?id=3D0f516fe9a043276c67062289=
+5c4760ff6468f293
+>=20
+>=20
+> That is a good point. It makes me wonder if we shouldn't tweak the code
+> to allow exec_func to optionally execute the pre/post funcs though. I
+> still don't like having to manually fix up these things, or start using
+> append/prepend which the pre/post funcs were meant to avoid.
 
-Prepend function do_convert_crlf_to_lf to task do_patch to assure always
-run before do_patch
+Of course that still doesn't handle the [depends] flag which is really a ta=
+sk variable.
 
-Add dos2unix-native to DEPENDS to assure the existence of command dos2unix
-before do_convert_crlf_to_lf is executed in any task
+Your patch changing it to DEPENDS won't work unforutnately as that is
+added to the sysroot too late to function correctly.
 
-Also remove extra do_convert_crlf_to_lf in archiver.bbclass which
-is not necessary any more
+I guess this is why we've ended up working around the issue. It would
+be nice to fix this properly somehow but I'm not sure how we can do
+that now.
 
-Suggested-by Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
-Changed in v2:
+Cheers,
 
-Do not call bb.build.exec_func to run do_convert_crlf_to_lf in classes/spdx-common,
-preprend it to task do_patch to assure always run before do_patch
-
- meta/classes-recipe/dos2unix.bbclass | 8 +++++---
- meta/classes/archiver.bbclass        | 3 ---
- 2 files changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes-recipe/dos2unix.bbclass b/meta/classes-recipe/dos2unix.bbclass
-index 18e89b1cf2..edc8c3afb4 100644
---- a/meta/classes-recipe/dos2unix.bbclass
-+++ b/meta/classes-recipe/dos2unix.bbclass
-@@ -10,11 +10,13 @@
- # on Linux(LF), which can cause annoying patching errors during
- # git push/checkout processes.
- 
--do_convert_crlf_to_lf[depends] += "dos2unix-native:do_populate_sysroot"
-+DEPENDS += "dos2unix-native"
- 
- # Convert CRLF line terminators to LF
--do_convert_crlf_to_lf () {
-+convert_crlf_to_lf () {
- 	find ${S} -type f -exec dos2unix {} \;
- }
- 
--addtask convert_crlf_to_lf after do_unpack before do_patch
-+python do_patch:prepend() {
-+    bb.build.exec_func('convert_crlf_to_lf', d)
-+}
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index df271feddd..4404f0c032 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -507,9 +507,6 @@ python do_unpack_and_patch() {
-         src_orig = '%s.orig' % src
-         oe.path.copytree(src, src_orig)
- 
--    if bb.data.inherits_class('dos2unix', d):
--        bb.build.exec_func('do_convert_crlf_to_lf', d)
--
-     # Make sure gcc and kernel sources are patched only once
-     if not (d.getVar('SRC_URI') == "" or is_work_shared(d)):
-         bb.build.exec_func('do_patch', d)
--- 
-2.34.1
-
+Richard
 
