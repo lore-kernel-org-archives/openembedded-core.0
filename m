@@ -1,82 +1,129 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C58AC02181
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 01:48:57 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.2022.1737596932253752880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF652C02182
+	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 03:00:17 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.2977.1737601211101145856
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 17:48:52 -0800
+ Wed, 22 Jan 2025 19:00:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31187c3c42=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50N1Z1ZG024335;
-	Wed, 22 Jan 2025 17:48:51 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44aqjg98xc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 22 Jan 2025 17:48:50 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 22 Jan 2025 17:48:50 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 22 Jan 2025 17:48:48 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>, <martin.jansa@gmail.com>,
-        <Changqing.Li@windriver.com>
-Subject: [styhead][PATCH v2] boost: fix do_fetch error
-Date: Thu, 23 Jan 2025 09:48:48 +0800
-Message-ID: <20250123014848.5402-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SEExfgZh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-219f8263ae0so7312055ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 19:00:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737601210; x=1738206010; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxz0obSEZPfYM65TBDe/vwLQ9AmqYoYnZi1HcD5Gmdg=;
+        b=SEExfgZh2bEK/vgvP6GMOHOTMj3yuPpEUFgg9PFFSRR9viru/QKayULrE6UFoLrlsS
+         S3uKwmZjGuRZ+9Yt4Lw2F1UUurI/Bo5D5r49mkBHiSAIhFJRnD71GnIBRIlFmjxyFn0l
+         zxDl/PtAWeOUIcP8D30AstbFvl3LOKq61y2AsJzUPToFSc79yVGGVGhVVwqCbYVH8n64
+         VvYUZOxZPGgdXeri+diOOCq76vKNBs+n1SR4A3orJQHFPS6PCsyRk/hriW/5o0uEyL9B
+         8WMvxjUCWgY1EKpeak/wRB1ZBHmiyVzrcusYYzi8mEpmo4J1ysbnJHqdGgsq3lPRSIoS
+         O7wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737601210; x=1738206010;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxz0obSEZPfYM65TBDe/vwLQ9AmqYoYnZi1HcD5Gmdg=;
+        b=DSi902nSs/ApRVEO8Jr9DQ9R+UQ/em3lK9A2CgnoXT9FlOu9Ty9C7pXVEiaBpaEW+0
+         EU0bVxQUzS1zuXOKqOAVcuQN5wMH7NVxILTje9pWD1hiimcZ+MOD1BvMLarUkNNuychP
+         dNaw71bDnd0gYy2domFnkXyzV6+ML8u4R6RivnJAyLqr+4PEJSdGQg2oYcqGXAOfcmHJ
+         90BprMQi34uH8Y8OalPZA3QOrXAYHRdlEe591/GwEBUzVN6Oj9aeG04SYWD2Sk5jyv4h
+         wojX/5FI65gkSJpID2cIaqN2qGVy472JIwwDCrpAt4gExrBUwHCmtDoMI25hf6wcM1Ia
+         ffvw==
+X-Gm-Message-State: AOJu0YzJ47RqmW4vPgzHK8rh0/ro8eVSTb/1MZY0SN9cKwLH0wFkn98k
+	DNrJW7Zy3IcezQb6HP2iGPEj6zcxJ5hdTjlhoI4HcBQD7BfthzH+3jUA56nAo6Pxj2AySW9oFyu
+	FM6I=
+X-Gm-Gg: ASbGnctcFnH2MPPd6Zau/ROGLw6ZAR2DxfTCELP5Gae6Ou6u0VF3YaqB9C+4cikfyJh
+	WjIs/P9s3lcUAtuSkjaAWqA66Q4UN5t2BioAsFl3N8kC0mQdZACxnDFm0hAuOmkGrRTsu8qa3bV
+	5HqRfwgozlx+bldw5WNxiPL2A3WG6JGrVa4hTBL60Rl+GgpSFoBw4z3F4FeFJBCMRY9tAIV/trd
+	mveHsgdvc1Gjgtjb3FvHO7KC9gT/CFQOub4LbMr7PuuBgagaVM/0/a7q+dhibmSIUmfRw==
+X-Google-Smtp-Source: AGHT+IGECJO0MF3LTV8+oOxaOHjAzcK9RIh2y1PMPFZmCBaD24CmacHH9JA+UbcVFH3wPW18+vLhng==
+X-Received: by 2002:a05:6a20:7f82:b0:1e1:ae68:d900 with SMTP id adf61e73a8af0-1eb214cb10amr38321756637.22.1737601209934;
+        Wed, 22 Jan 2025 19:00:09 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab816accsm12048389b3a.69.2025.01.22.19.00.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 19:00:09 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/8] Patch review
+Date: Wed, 22 Jan 2025 18:59:50 -0800
+Message-ID: <cover.1737601063.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: q5uagsR15bn86zwNIHHsWMLUCaRLFfly
-X-Proofpoint-ORIG-GUID: q5uagsR15bn86zwNIHHsWMLUCaRLFfly
-X-Authority-Analysis: v=2.4 cv=d7QPyQjE c=1 sm=1 tr=0 ts=6791a002 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=ovJmrJClAAAA:8 a=gvic6WYWAAAA:8 a=AIPdC31oAAAA:8 a=t7CeM3EgAAAA:8 a=qGZC1g6ORkK1xQXCNfoA:9
- a=brTEhlvMp4NY0_u118I2:22 a=PupUpSa0FqD61Tkl4dNl:22 a=5478VIVnyzLWgM9zoUhq:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-22_11,2025-01-22_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- bulkscore=0 mlxlogscore=979 mlxscore=0 phishscore=0 clxscore=1015
- suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2501230012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 01:48:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210164
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 03:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210165
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, January 24
 
-Change the SRC_URI to the correct value due to the following error:
-WARNING: boost-native-1.86.0-r0 do_fetch: Checksum failure encountered with download of https://boostorg.jfrog.io/artifactory/main/release/1.86.0/source/boost_1_86_0.tar.bz2 - will attempt other sources if available
+Passed a-full on autobuilder:
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- meta/recipes-support/boost/boost-1.86.0.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/869
 
-diff --git a/meta/recipes-support/boost/boost-1.86.0.inc b/meta/recipes-support/boost/boost-1.86.0.inc
-index 2378b27575..7113a50049 100644
---- a/meta/recipes-support/boost/boost-1.86.0.inc
-+++ b/meta/recipes-support/boost/boost-1.86.0.inc
-@@ -11,7 +11,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
- BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
--SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
-+SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
- SRC_URI[sha256sum] = "1bed88e40401b2cb7a1f76d4bab499e352fa4d0c5f31c0dbae64e24d34d7513b"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+The following changes since commit 660e00469f9c99fe733cc8b37f67438a96ff2e97:
+
+  libgfortran: fix buildpath QA issue (2025-01-21 12:33:25 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Archana Polampalli (6):
+  rsync: fix CVE-2024-12084
+  rsync: fix CVE-2024-12085
+  rsync: fix CVE-2024-12086
+  rsync: fix CVE-2024-12087
+  rsync: fix CVE-2024-12088
+  rsync: fix CVE-2024-12747
+
+Harish Sadineni (1):
+  rust-target-config: Fix TARGET_C_INT_WIDTH with correct size
+
+Jiaying Song (1):
+  boost: fix do_fetch error
+
+ .../classes-recipe/rust-target-config.bbclass |  10 +-
+ .../rsync/files/CVE-2024-12084-0001.patch     | 156 ++++++++++++++
+ .../rsync/files/CVE-2024-12084-0002.patch     |  43 ++++
+ .../rsync/files/CVE-2024-12085.patch          |  32 +++
+ .../rsync/files/CVE-2024-12086-0001.patch     |  42 ++++
+ .../rsync/files/CVE-2024-12086-0002.patch     | 108 ++++++++++
+ .../rsync/files/CVE-2024-12086-0003.patch     | 108 ++++++++++
+ .../rsync/files/CVE-2024-12086-0004.patch     |  41 ++++
+ .../rsync/files/CVE-2024-12087-0001.patch     |  49 +++++
+ .../rsync/files/CVE-2024-12087-0002.patch     |  31 +++
+ .../rsync/files/CVE-2024-12087-0003.patch     |  40 ++++
+ .../rsync/files/CVE-2024-12088.patch          | 141 +++++++++++++
+ .../rsync/files/CVE-2024-12747.patch          | 192 ++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  12 ++
+ meta/recipes-support/boost/boost-1.84.0.inc   |   2 +-
+ 15 files changed, 1001 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+
 -- 
-2.25.1
+2.43.0
 
 
