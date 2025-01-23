@@ -1,176 +1,124 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E45C02182
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 09:12:19 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.6935.1737623535344903900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA8B8C02182
+	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 09:12:29 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.7207.1737623547808726201
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 01:12:15 -0800
+ Thu, 23 Jan 2025 01:12:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c3ZIMmuj;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30613037309so6366911fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 01:12:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737623533; x=1738228333; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=clKcJl5lxoJhmx6kCQuq4BwMzD3US3i2o8bC2CepdtU=;
-        b=c3ZIMmujuP6PM2//SqTHx8mi5BxniQaZGfCYl9rn/0UVEzd+4Z+CUnq+nXSnsxzWkZ
-         VL8gKai2WygDqkl98XgPjWhkCglipnU583MMfdnn9DYVgtkV5xEyNfRyM4kiX3Yhy91d
-         aRymZZTbRKr1j9ze0WdIhOfs9CBLKkeVSecNbS4VE+ihjahJv+UBHcnouu9qKNkof9oH
-         EYZhCDxEBYoKvuj89E+qDjhy77r1N++dbMK2n81HQ6Pia5a9EjVeJfxGL3X5cjO6ryXm
-         kGM4Mn1DeUyPxBoZWdZMJhHSoq1MMCm5ufwci6LYOqZWFQmuSlBXwKzziAFZr2k/O/Fs
-         Fq3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737623533; x=1738228333;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=clKcJl5lxoJhmx6kCQuq4BwMzD3US3i2o8bC2CepdtU=;
-        b=p4E231mHBQ02Wo3snzug3LL44JwqPwIXP2l8DC/HfT22NCMlkOtNmBh30VTYa769cY
-         5gSWMWO78TIVOtx/uJ/udwBJc5HBFooUw+0cR600LkGoPOdDP0bPtjld9BJIwo0vk+uF
-         xEN8rd/kzVUgZIx+Fnn+pubnL6MMr86z3QFDY0HghCUTmqkA06Ng0IDqj6jRoDp9Rasf
-         yY4oBOMjEMjR9u4OPl3iiO/TiEXIItw6E8THIQMN9JnEDbyjJWo0HrmFFcGHhha3bzfl
-         0M92DHREadhI8dlzz44yINPNfxbSehetIZmCu+CYIY+Wt7opoueXyPz3BlljsFe8TtnU
-         CCBQ==
-X-Gm-Message-State: AOJu0YyxhRj8McGXNH0A7Mt/NUFOZqqEAehXdmUEYrUNW3oyCM+GSRzU
-	IS24PqzHhXP2aO71zQlUDDUTuSbNFD4McDMHcco8DQweTVR8Ah5OWJO+BuMCb91LMEANR+uH3kn
-	tb3ZakWhsaijBe9nAdxl7beXn55U=
-X-Gm-Gg: ASbGncvPEMNW+/19zqe1IvmUnGeNmBS+/Ja4Z1LRADZ8KuetJ87poFoJ08VcQ5B6cla
-	a6SMmR8/X33R9gh2WmwbwtQhDt164Ytm3DT1+LsS8svhugULiBYOPUeByCYg+PVO6ZiotokGekR
-	k=
-X-Google-Smtp-Source: AGHT+IHwdLtqFPGWUmw8kWRZGJKXo0zIMRlTVQiyhvzIIlV4KDfndwHb0zAOZqUZnwOZMrMn8hE3B1M5SAjTAjf02FU=
-X-Received: by 2002:a05:651c:1305:b0:300:1dbd:b252 with SMTP id
- 38308e7fff4ca-3072ca60bc4mr70569881fa.7.1737623532923; Thu, 23 Jan 2025
- 01:12:12 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3118843f91=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50N7QOoe013295;
+	Thu, 23 Jan 2025 09:12:26 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44aqk3hhcv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 23 Jan 2025 09:12:26 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 23 Jan 2025 01:12:24 -0800
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 23 Jan 2025 01:12:24 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>
+Subject: [PATCH v3] dos2unix.bbclass: Fix patch error for recipes that inherit dos2unix.
+Date: Thu, 23 Jan 2025 17:12:23 +0800
+Message-ID: <20250123091223.1535398-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <264405d9-4f89-4102-acf2-320e73235a59@gmail.com>
- <CA+chaQePYP7LVSK_Fxbuf-+MexZVwUpnn35CO7=2Ji3xB3nZeA@mail.gmail.com>
- <181CB1A49703171B.28835@lists.openembedded.org> <0f95eab6-489e-4be4-9add-5b0c5b39532a@gmail.com>
-In-Reply-To: <0f95eab6-489e-4be4-9add-5b0c5b39532a@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 23 Jan 2025 10:11:59 +0100
-X-Gm-Features: AWEUYZkqu65cqxjrN_L760czFhPdJqLrtphIvnj0QSPCaSL1VGmUvAGB4aiVO5I
-Message-ID: <CA+chaQctwfYRBvb23gMpmH4NPZt=xieZdc-5XT1uX3iXd4PFgA@mail.gmail.com>
-Subject: Re: [OE-core] npm based packages omit dependencies since Yocto 5.1
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: efGKW5vwmk-XZvszJ3JqahkIXaDI2-xC
+X-Proofpoint-ORIG-GUID: efGKW5vwmk-XZvszJ3JqahkIXaDI2-xC
+X-Authority-Analysis: v=2.4 cv=fZVXy1QF c=1 sm=1 tr=0 ts=679207fa cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VdSt8ZQiCzkA:10 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8 a=sEjYR0fyHhnjKJuzxcIA:9 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-23_04,2025-01-22_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501230069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 09:12:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210182
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 09:12:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210183
 
-Please try it with the changes from
-https://lists.openembedded.org/g/bitbake-devel/message/16920 as well.
-I believe the destsuffix=3Dnpm doesn't work with them anymore, it
-doesn't for me, but unfortunately I haven't had the time yet to figure
-out why and provide proper feedback on that RFC.
+While SPDX_INCLUDE_SOURCES = "1", call do_patch in do_create_spdx failed
+for these recipes inherit dos2unix
 
-On Tue, Jan 21, 2025 at 5:26=E2=80=AFPM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=
-=A1n <zboszor@gmail.com> wrote:
->
-> The recent changes in Yocto master with the unmodified recipe didn't help=
-.
-> But npmsw://...;destsuffix=3Dnpm in the recipe did.
->
-> Thanks again!
->
-> 2025. 01. 21. 12:27 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openem=
-bedded.org =C3=ADrta:
-> > That's it! ;destsuffix=3Dnpm helped with Yocto 5.1.
-> > Thank you very much!
-> >
-> > I will re-test with Yocto master and report back.
-> >
-> > 2025. 01. 21. 11:53 keltez=C3=A9ssel, Martin Jansa =C3=ADrta:
-> >> I believe it's the side effect of UNPACKDIR changes, I had to add
-> >> ;destsuffix=3Dnpm in all npmsw:// entries (or ;destsuffix=3Dgit where =
-S is
-> >> set to WORKDIR/git) for dependencies in node_modules to be unpacked
-> >> where they used to be before.
-> >>
-> >> On Tue, Jan 21, 2025 at 11:31=E2=80=AFAM Zoltan Boszormenyi via
-> >> lists.openembedded.org <zboszor=3Dgmail.com@lists.openembedded.org>
-> >> wrote:
-> >>> Hi,
-> >>>
-> >>> I have a minimalistic recipe for pm2 (https://www.npmjs.com/package/p=
-m2):
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> node-pm2_5.3.1.bb
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> SUMMARY =3D "Production process manager for Node.JS applications with=
- a built-in load
-> >>> balancer."
-> >>> HOMEPAGE =3D "http://pm2.keymetrics.io/"
-> >>> LICENSE =3D "AGPL-3.0-or-later"
-> >>> LIC_FILES_CHKSUM =3D "file://GNU-AGPL-3.0.txt;md5=3D9f9fa01c099265d62=
-f73735e404ff8bb"
-> >>>
-> >>> SRC_URI =3D " \
-> >>>       npm://registry.npmjs.org/;package=3Dpm2;version=3D${PV} \
-> >>>       npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
-> >>>       "
-> >>>
-> >>> S =3D "${UNPACKDIR}/npm"
-> >>>
-> >>> inherit npm
-> >>>
-> >>> do_install:append () {
-> >>>           rm -rf ${D}${libdir}/node_modules/pm2/lib/templates/init-sc=
-ripts/openrc.tpl
-> >>> }
-> >>>
-> >>> RDEPENDS:${PN} =3D "bash"
-> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>
-> >>> Previously this recipe has built and worked correctly under
-> >>> Yocto 4.3 and 5.0, as in the package included its own internal
-> >>> dependencies in /usr/lib/node_modules/pm2/node_modules.
-> >>> Yocto 4.3 ships nodejs 20.8.1, Yocto 5.0 ships nodejs 20.12.2.
-> >>>
-> >>> With Yocto 5.1 (node 20.18.0) and master (22.12.0), the package
-> >>> only has the pm2 module contents in /usr/lib/node_modules/pm2
-> >>> but no dependencies.
-> >>>
-> >>> It seems that at some point, nodejs 20.x LTS upgraded npm
-> >>> to a version with a breaking change which now flattens the
-> >>> dependencies into a single level in /usr/lib/node_modules
-> >>> from the previously accustomed dependency tree in
-> >>> /usr/lib/node_modules/pm2/node_modules.
-> >>>
-> >>> Is there an incantation of EXTRA_OENPM or the npm:// SRC_URI
-> >>> that would allow either to unflatten the dependency tree, or
-> >>> include the dependencies as well as the main node module?
-> >>>
-> >>> Thanks in advance,
-> >>> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
-> >>>
-> >>>
-> >>>
-> >>>
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#210090): https://lists.openembedded.org/g/openembed=
-ded-core/message/210090
-> > Mute This Topic: https://lists.openembedded.org/mt/110731121/3617728
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-zboszor@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+Prepend function convert_crlf_to_lf to task do_patch to assure always
+run before do_patch
+
+Add dos2unix-native to PATCHDEPENDENCY to assure the existence of
+command dos2unix before convert_crlf_to_lf is executed in do_patch
+- The do_creat_spdx task has added PATCHDEPENDENCY to depends
+- The do_unpack_and_patch task has added task after do_patch
+  (addtask do_unpack_and_patch after do_patch do_preconfigure)
+
+Also remove extra do_convert_crlf_to_lf in archiver.bbclass which
+is not necessary any more
+
+Suggested-by Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+Changed in v2: 
+
+Do not call bb.build.exec_func to run do_convert_crlf_to_lf in classes/spdx-common,
+preprend it to task do_patch to assure always run before do_patch
+
+Changed in v3:
+Add dos2unix-native to PATCHDEPENDENCY other than to DEPENDS
+which is too late for do_patch
+
+ meta/classes-recipe/dos2unix.bbclass | 8 +++++---
+ meta/classes/archiver.bbclass        | 3 ---
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes-recipe/dos2unix.bbclass b/meta/classes-recipe/dos2unix.bbclass
+index 18e89b1cf2..3a094197a2 100644
+--- a/meta/classes-recipe/dos2unix.bbclass
++++ b/meta/classes-recipe/dos2unix.bbclass
+@@ -10,11 +10,13 @@
+ # on Linux(LF), which can cause annoying patching errors during
+ # git push/checkout processes.
+ 
+-do_convert_crlf_to_lf[depends] += "dos2unix-native:do_populate_sysroot"
++PATCHDEPENDENCY += "dos2unix-native:do_populate_sysroot"
+ 
+ # Convert CRLF line terminators to LF
+-do_convert_crlf_to_lf () {
++convert_crlf_to_lf () {
+ 	find ${S} -type f -exec dos2unix {} \;
+ }
+ 
+-addtask convert_crlf_to_lf after do_unpack before do_patch
++python do_patch:prepend() {
++    bb.build.exec_func('convert_crlf_to_lf', d)
++}
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index df271feddd..4404f0c032 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -507,9 +507,6 @@ python do_unpack_and_patch() {
+         src_orig = '%s.orig' % src
+         oe.path.copytree(src, src_orig)
+ 
+-    if bb.data.inherits_class('dos2unix', d):
+-        bb.build.exec_func('do_convert_crlf_to_lf', d)
+-
+     # Make sure gcc and kernel sources are patched only once
+     if not (d.getVar('SRC_URI') == "" or is_work_shared(d)):
+         bb.build.exec_func('do_patch', d)
+-- 
+2.34.1
+
 
