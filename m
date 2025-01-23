@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC95C0218E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5DBC02181
 	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 03:00:17 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.2980.1737601213821623253
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.3131.1737601215420113013
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jan 2025 19:00:13 -0800
+ Wed, 22 Jan 2025 19:00:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bpiuJe4b;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21675fd60feso7702145ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 19:00:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e8QylADv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2f441904a42so903410a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jan 2025 19:00:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737601213; x=1738206013; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737601215; x=1738206015; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=huFhUOwohlNSw+rn2skzyaNDBwD1RcVbUqR/CLHRtY4=;
-        b=bpiuJe4bkOst6v0lLkkZlpghGBYNvkN27xI3yS2e04RwvnzHqW1Qd7OHNbeEUOj/Pu
-         xm19wYFBpjlLS84kKeWdKTvnHQUAOISWWgORbmnYQaMLABkbxg98kSZ4sFByDapcUzlQ
-         aTTzmYR+d8otnDmtYXgPzr5OPAuZL9Mxl98qXXjQEW4D5spf4Z/wQJ1ivFRxH9eOTmON
-         n5qfinta2PnEZZylTvnSdpY8uTIJFMQ4iA4Wi52T3t0TUJec4Fg3lal755MXvhJTCMGJ
-         fDgagB0TXRism/2weATkpyGca3YThpOEZRJfs83yTDwTE2a1e3ErB1wgrLbv2brYm9RS
-         MhmQ==
+        bh=7ebfKKR0qR6p1ElLX8dJsbgVVcUFJExf8P0f8nVwLHc=;
+        b=e8QylADvpiUApaegbY5urb8ZftbLJhCLxFhEAEslSrpCpcLOkpzSVj+tWkqZE/XCzE
+         vq1n0U6DirIp1Ht2u1NwiYJCUIrZuwtjQQoK0ZR7ecaN51u88+jh2IoN2ROZ9PMRC4wM
+         v5L0hFdSTqgf9VCBAfgyJgxBcB3iV0uX80d0sOyTdyeSHVI7SKWdN0YGXlZqVg3ePeFQ
+         nEx01BIvSEFWNghJr7qTvOgLpiqGpsq+wE2xFjPSHgBIrJbH41cK0gUS5ST3HDa7fZkA
+         LC6J2/lFgbhfOLa+rWV0P+5SCAlaYWLRnV5ywrqoSomkoDR5V/277wfuvckQ5txE/MvB
+         Fpng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737601213; x=1738206013;
+        d=1e100.net; s=20230601; t=1737601215; x=1738206015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=huFhUOwohlNSw+rn2skzyaNDBwD1RcVbUqR/CLHRtY4=;
-        b=KfL4znt5hv4bznELZzIQ9QDbjNNNukXah79FdD7Omo2DsEVmBIdfbKB2XCAThLTKNe
-         IYrm8ZdruBzA6HbKsITXsU1ODn1SPfrAkcKNG0BlVHys4s4Z6QCiPbO7dTWkWh158Tyx
-         htRP3FLU1fWPmjTvugu3pJsPBL4Y8av77/D6K4CO/tSok9PFzaL9ORLLKV/BZTmWjx3k
-         6i2AwqIh+JzC08J/seQ8aOl9aWeTO2AfOTOfvQA7DJ4UpffWDN0crq6bXTfLZj2tzve1
-         7Ld9RpamY3C01V0Z71hYkOhWFkGnZY4HlXa4ilE1xm4sUSiPl+tbjfAFN0Ql5/IVo2IT
-         GzqA==
-X-Gm-Message-State: AOJu0Yw0q4uUYhOUoK8v9COUCrE6D5llKEAFB8dNaCSBiKEYZin4RDcr
-	/K16+snba50fBZFhj+mP8Ek5UhtBcPSPkCpvZQRuBluIeSXgVcvHT+qTrAL6mE5jkvGktRdj/nt
-	g4k0=
-X-Gm-Gg: ASbGncsTZvCXeA3MngeB5WTfPCXL6HixqYo9UQQRr6BjCCgQ1dLRghWnnQ3s0GcB7Bu
-	XPCbDlu3Glbdp1pgT+Ge+z+aP6xIcqLnYfYswRu42XV5p2l21xQ7IdvGCpLzEvQmpi9D50jYhF7
-	VGzb1OBmqtrUdbbucIVO3ksLr18qHSaEYnvA7czrnYiZeHrtT13K2imECy/IexxJkNn5W5Hgrbz
-	Jgjm0m3hiBBlw/xQnz3xbHeYRUNOR321XWEUU6ouiu9bSo396ioSvXmyb0/3/ujxLLpAA==
-X-Google-Smtp-Source: AGHT+IENPTHNphFwMqssNo4/hzj7/X9y4igWeO+R4CmdmxZ4qY+ZkY2lSjlNsE79wA0R23HmysN6sA==
-X-Received: by 2002:a05:6a20:7491:b0:1e1:bef7:af57 with SMTP id adf61e73a8af0-1eb214a4638mr36594770637.21.1737601213017;
-        Wed, 22 Jan 2025 19:00:13 -0800 (PST)
+        bh=7ebfKKR0qR6p1ElLX8dJsbgVVcUFJExf8P0f8nVwLHc=;
+        b=DqgIDVKsG3GJ4HWJcZm6fqeVU0l0zkg5sTce1npkwVY68DP06sOKZcfzjpFR8pXB0h
+         IgSApM/ucw5C3AwzY3XUE+WcnhuWaGyl7hDGY7KLZotGqbtNVmq3tZVhr/vtwUSvMu7k
+         6UeYlw6hEFFXVC71PN5Mi6ypFOTaOwBQIVN1Ftv0vDpQksWcs32UB1ZhVTdbaJFAdk2z
+         PUl2V3T9P/1wEAxPOojuUbakTpRhW+upKXuuCeq80fTmJsYNj16YcaLS4K3l3IPiejMT
+         bml8Tqt0MnZS+UqEjPRHN/l5pR+Y5dR8c+dYec2B61efBJK4C+9dbzFJrle8+JdGxcSB
+         byfQ==
+X-Gm-Message-State: AOJu0YyBHFJXQaIcr0L9hhnmLwwmbGjNrnhWPf4bnuT/L9JgCa8nmSrN
+	ZOhSNCqwX05SNJWWZFUHdhR7iaA2J1/Not7pAl2rTf6bdcLkooec0qlG3jgjUyB00OAWeFMvJ48
+	N268=
+X-Gm-Gg: ASbGncuXOxmbg03Q3ary05k4UJhNKUAm+LsBBreGiZiqsePEOLmKszGyi25+AjRhjw0
+	qKzH+U0pK83W4rCRdlQYUdByfw+4RmuhSny0l0RRa/cyB5eSKoTvgDwvds743MusiqjyXPZZgSd
+	hEbx7Qu4VuMzk7v8uuaM1I5Hz1eG2r3X/Oz21pmk0ukpHrOOKshhhhlHQmP9PiGjP6hqED9K0ec
+	CAHB/0uH4xHiGx1h4iS0nctOS5pYwucd7P9gQY5fGvZoDe5zzXH5xujQbIfvjviK6ZgEA==
+X-Google-Smtp-Source: AGHT+IGCDsEfzi6XNx27lTnPmA8x7nJSzxmZjXVj8K0mTK0Axql+iTHouZSVS4MtixoWN003fGTizw==
+X-Received: by 2002:a05:6a00:2184:b0:725:ef4b:de33 with SMTP id d2e1a72fcca58-72daf88b1b9mr37106505b3a.0.1737601214512;
+        Wed, 22 Jan 2025 19:00:14 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab816accsm12048389b3a.69.2025.01.22.19.00.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab816accsm12048389b3a.69.2025.01.22.19.00.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 19:00:12 -0800 (PST)
+        Wed, 22 Jan 2025 19:00:14 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 2/8] rsync: fix CVE-2024-12085
-Date: Wed, 22 Jan 2025 18:59:52 -0800
-Message-ID: <fb8439e856d5ea10d12180020a14442c3b101e56.1737601063.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 3/8] rsync: fix CVE-2024-12086
+Date: Wed, 22 Jan 2025 18:59:53 -0800
+Message-ID: <19f4e7bd965c63f19cc756e6e2bf8f58d9e1dc8d.1737601063.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1737601063.git.steve@sakoman.com>
 References: <cover.1737601063.git.steve@sakoman.com>
@@ -66,70 +66,367 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 03:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210167
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210168
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A flaw was found in the rsync daemon which could be triggered when rsync compares
-file checksums. This flaw allows an attacker to manipulate the checksum length
-(s2length) to cause a comparison between a checksum and uninitialized memory and
-leak one byte of uninitialized stack data at a time.
+A flaw was found in rsync. It could allow a server to enumerate the contents of an
+arbitrary file from the client's machine. This issue occurs when files are being
+copied from a client to a server. During this process, the rsync server will send
+checksums of local data to the client to compare with in order to determine what
+data needs to be sent to the server. By sending specially constructed checksum values
+for arbitrary files, an attacker may be able to reconstruct the data of those files
+byte-by-byte based on the responses from the client.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../rsync/files/CVE-2024-12085.patch          | 32 +++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
+ .../rsync/files/CVE-2024-12086-0001.patch     |  42 +++++++
+ .../rsync/files/CVE-2024-12086-0002.patch     | 108 ++++++++++++++++++
+ .../rsync/files/CVE-2024-12086-0003.patch     | 108 ++++++++++++++++++
+ .../rsync/files/CVE-2024-12086-0004.patch     |  41 +++++++
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   4 +
+ 5 files changed, 303 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
 new file mode 100644
-index 0000000000..165d5a62f9
+index 0000000000..958a25a37b
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
-@@ -0,0 +1,32 @@
-+From 589b0691e59f761ccb05ddb8e1124991440db2c7 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
+@@ -0,0 +1,42 @@
++From 8ad4b5d912fad1df29717dddaa775724da77d299 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Thu, 14 Nov 2024 09:57:08 +1100
-+Subject: [PATCH] prevent information leak off the stack
++Date: Sat, 23 Nov 2024 11:08:03 +1100
++Subject: [PATCH] refuse fuzzy options when fuzzy not selected
 +
-+prevent leak of uninitialised stack data in hash_search
++this prevents a malicious server providing a file to compare to when
++the user has not given the fuzzy option
 +
-+CVE: CVE-2024-12085
++CVE: CVE-2024-12086
 +
-+Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=589b0691e59f761ccb05ddb8e1124991440db2c7]
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=8ad4b5d912fad1df29717dddaa775724da77d299]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ match.c | 3 +++
-+ 1 file changed, 3 insertions(+)
++ receiver.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/match.c b/match.c
-+index 36e78ed2..dfd6af2c 100644
-+--- a/match.c
-++++ b/match.c
-+@@ -147,6 +147,9 @@ static void hash_search(int f,struct sum_struct *s,
-+	int more;
-+	schar *map;
++diff --git a/receiver.c b/receiver.c
++index 6b4b369e..2d7f6033 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -66,6 +66,7 @@ extern char sender_file_sum[MAX_DIGEST_LEN];
++ extern struct file_list *cur_flist, *first_flist, *dir_flist;
++ extern filter_rule_list daemon_filter_list;
++ extern OFF_T preallocated_len;
+++extern int fuzzy_basis;
 +
-++	// prevent possible memory leaks
-++	memset(sum2, 0, sizeof sum2);
++ extern struct name_num_item *xfer_sum_nni;
++ extern int xfer_sum_len;
++@@ -716,6 +717,10 @@ int recv_files(int f_in, int f_out, char *local_name)
++				fnamecmp = get_backup_name(fname);
++				break;
++			case FNAMECMP_FUZZY:
+++				if (fuzzy_basis == 0) {
+++					rprintf(FERROR_XFER, "rsync: refusing malicious fuzzy operation for %s\n", xname);
+++					exit_cleanup(RERR_PROTOCOL);
+++				}
++				if (file->dirname) {
++					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, file->dirname, xname);
++					fnamecmp = fnamecmpbuf;
++--
++2.40.0
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
+new file mode 100644
+index 0000000000..5d25f12dd8
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
+@@ -0,0 +1,108 @@
++From b4a27ca25d0abb6fcf14f41b7e11f3a6e1d8a4ff Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Sat, 23 Nov 2024 12:26:10 +1100
++Subject: [PATCH] added secure_relative_open()
++
++this is an open that enforces no symlink following for all path
++components in a relative path
++
++CVE: CVE-2024-12086
++
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=b4a27ca25d0abb6fcf14f41b7e11f3a6e1d8a4ff]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ syscall.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 74 insertions(+)
++
++diff --git a/syscall.c b/syscall.c
++index b4b0f1f1..cffc814b 100644
++--- a/syscall.c
+++++ b/syscall.c
++@@ -33,6 +33,8 @@
++ #include <sys/syscall.h>
++ #endif
++
+++#include "ifuncs.h"
 ++
-+	/* want_i is used to encourage adjacent matches, allowing the RLL
-+	 * coding of the output to work more efficiently. */
-+	want_i = 0;
++ extern int dry_run;
++ extern int am_root;
++ extern int am_sender;
++@@ -707,3 +709,75 @@ int do_open_nofollow(const char *pathname, int flags)
++
++	return fd;
++ }
+++
+++/*
+++  open a file relative to a base directory. The basedir can be NULL,
+++  in which case the current working directory is used. The relpath
+++  must be a relative path, and the relpath must not contain any
+++  elements in the path which follow symlinks (ie. like O_NOFOLLOW, but
+++  applies to all path components, not just the last component)
+++*/
+++int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
+++{
+++	if (!relpath || relpath[0] == '/') {
+++		// must be a relative path
+++		errno = EINVAL;
+++		return -1;
+++	}
+++
+++#if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY)
+++	// really old system, all we can do is live with the risks
+++	if (!basedir) {
+++		return open(relpath, flags, mode);
+++	}
+++	char fullpath[MAXPATHLEN];
+++	pathjoin(fullpath, sizeof fullpath, basedir, relpath);
+++	return open(fullpath, flags, mode);
+++#else
+++	int dirfd = AT_FDCWD;
+++	if (basedir != NULL) {
+++		dirfd = openat(AT_FDCWD, basedir, O_RDONLY | O_DIRECTORY);
+++		if (dirfd == -1) {
+++			return -1;
+++		}
+++	}
+++	int retfd = -1;
+++
+++	char *path_copy = my_strdup(relpath, __FILE__, __LINE__);
+++	if (!path_copy) {
+++		return -1;
+++	}
+++
+++	for (const char *part = strtok(path_copy, "/");
+++	     part != NULL;
+++	     part = strtok(NULL, "/"))
+++	{
+++		int next_fd = openat(dirfd, part, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+++		if (next_fd == -1 && errno == ENOTDIR) {
+++			if (strtok(NULL, "/") != NULL) {
+++				// this is not the last component of the path
+++				errno = ELOOP;
+++				goto cleanup;
+++			}
+++			// this could be the last component of the path, try as a file
+++			retfd = openat(dirfd, part, flags | O_NOFOLLOW, mode);
+++			goto cleanup;
+++		}
+++		if (next_fd == -1) {
+++			goto cleanup;
+++		}
+++		if (dirfd != AT_FDCWD) close(dirfd);
+++		dirfd = next_fd;
+++	}
+++
+++	// the path must be a directory
+++	errno = EINVAL;
+++
+++cleanup:
+++	free(path_copy);
+++	if (dirfd != AT_FDCWD) {
+++		close(dirfd);
+++	}
+++	return retfd;
+++#endif // O_NOFOLLOW, O_DIRECTORY
+++}
++--
++2.40.0
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
+new file mode 100644
+index 0000000000..de1747adf2
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
+@@ -0,0 +1,108 @@
++From c35e28331f10ba6eba370611abd78bde32d54da7 Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Sat, 23 Nov 2024 12:28:13 +1100
++Subject: [PATCH] receiver: use secure_relative_open() for basis file
++
++this prevents attacks where the basis file is manipulated by a
++malicious sender to gain information about files outside the
++destination tree
++
++CVE: CVE-2024-12086
++
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=c35e28331f10ba6eba370611abd78bde32d54da7]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ receiver.c | 42 ++++++++++++++++++++++++++----------------
++ 1 file changed, 26 insertions(+), 16 deletions(-)
++
++diff --git a/receiver.c b/receiver.c
++index 2d7f6033..8031b8f4 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -552,6 +552,8 @@ int recv_files(int f_in, int f_out, char *local_name)
++	progress_init();
++
++	while (1) {
+++		const char *basedir = NULL;
+++
++		cleanup_disable();
++
++		/* This call also sets cur_flist. */
++@@ -722,27 +724,29 @@ int recv_files(int f_in, int f_out, char *local_name)
++					exit_cleanup(RERR_PROTOCOL);
++				}
++				if (file->dirname) {
++-					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, file->dirname, xname);
++-					fnamecmp = fnamecmpbuf;
++-				} else
++-					fnamecmp = xname;
+++					basedir = file->dirname;
+++				}
+++				fnamecmp = xname;
++				break;
++			default:
++				if (fnamecmp_type > FNAMECMP_FUZZY && fnamecmp_type-FNAMECMP_FUZZY <= basis_dir_cnt) {
++					fnamecmp_type -= FNAMECMP_FUZZY + 1;
++					if (file->dirname) {
++-						stringjoin(fnamecmpbuf, sizeof fnamecmpbuf,
++-							   basis_dir[fnamecmp_type], "/", file->dirname, "/", xname, NULL);
++-					} else
++-						pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], xname);
+++						pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], file->dirname);
+++						basedir = fnamecmpbuf;
+++					} else {
+++						basedir = basis_dir[fnamecmp_type];
+++					}
+++					fnamecmp = xname;
++				} else if (fnamecmp_type >= basis_dir_cnt) {
++					rprintf(FERROR,
++						"invalid basis_dir index: %d.\n",
++						fnamecmp_type);
++					exit_cleanup(RERR_PROTOCOL);
++-				} else
++-					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], fname);
++-				fnamecmp = fnamecmpbuf;
+++				} else {
+++					basedir = basis_dir[fnamecmp_type];
+++					fnamecmp = fname;
+++				}
++				break;
++			}
++			if (!fnamecmp || (daemon_filter_list.head
++@@ -765,7 +769,7 @@ int recv_files(int f_in, int f_out, char *local_name)
++		}
++
++		/* open the file */
++-		fd1 = do_open(fnamecmp, O_RDONLY, 0);
+++		fd1 = secure_relative_open(basedir, fnamecmp, O_RDONLY, 0);
++
++		if (fd1 == -1 && protocol_version < 29) {
++			if (fnamecmp != fname) {
++@@ -776,14 +780,20 @@ int recv_files(int f_in, int f_out, char *local_name)
++
++			if (fd1 == -1 && basis_dir[0]) {
++				/* pre-29 allowed only one alternate basis */
++-				pathjoin(fnamecmpbuf, sizeof fnamecmpbuf,
++-					 basis_dir[0], fname);
++-				fnamecmp = fnamecmpbuf;
+++				basedir = basis_dir[0];
+++				fnamecmp = fname;
++				fnamecmp_type = FNAMECMP_BASIS_DIR_LOW;
++-				fd1 = do_open(fnamecmp, O_RDONLY, 0);
+++				fd1 = secure_relative_open(basedir, fnamecmp, O_RDONLY, 0);
++			}
++		}
++
+++		if (basedir) {
+++			// for the following code we need the full
+++			// path name as a single string
+++			pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basedir, fnamecmp);
+++			fnamecmp = fnamecmpbuf;
+++		}
+++
++		one_inplace = inplace_partial && fnamecmp_type == FNAMECMP_PARTIAL_DIR;
++		updating_basis_or_equiv = one_inplace
++		    || (inplace && (fnamecmp == fname || fnamecmp_type == FNAMECMP_BACKUP));
++--
++2.40.0
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
+new file mode 100644
+index 0000000000..b85e1dfae4
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
+@@ -0,0 +1,41 @@
++From 9f86ddc9652247233f32b241a79d5aa4fb9d4afa Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Tue, 26 Nov 2024 09:16:31 +1100
++Subject: [PATCH] disallow ../ elements in relpath for secure_relative_open
++
++CVE: CVE-2024-12086
++
++Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=9f86ddc9652247233f32b241a79d5aa4fb9d4afa]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ syscall.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/syscall.c b/syscall.c
++index cffc814b..081357bb 100644
++--- a/syscall.c
+++++ b/syscall.c
++@@ -716,6 +716,8 @@ int do_open_nofollow(const char *pathname, int flags)
++   must be a relative path, and the relpath must not contain any
++   elements in the path which follow symlinks (ie. like O_NOFOLLOW, but
++   applies to all path components, not just the last component)
+++
+++  The relpath must also not contain any ../ elements in the path
++ */
++ int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
++ {
++@@ -724,6 +726,11 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
++		errno = EINVAL;
++		return -1;
++	}
+++	if (strncmp(relpath, "../", 3) == 0 || strstr(relpath, "/../")) {
+++		// no ../ elements allowed in the relpath
+++		errno = EINVAL;
+++		return -1;
+++	}
++
++ #if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY)
++	// really old system, all we can do is live with the risks
 +--
 +2.40.0
 diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-index 2f3ea61978..0d9c68a915 100644
+index 0d9c68a915..0bde73aad2 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://0001-Add-missing-prototypes-to-function-declarations.patch \
+@@ -18,6 +18,10 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
             file://CVE-2024-12084-0001.patch \
             file://CVE-2024-12084-0002.patch \
-+           file://CVE-2024-12085.patch \
+            file://CVE-2024-12085.patch \
++           file://CVE-2024-12086-0001.patch \
++           file://CVE-2024-12086-0002.patch \
++           file://CVE-2024-12086-0003.patch \
++           file://CVE-2024-12086-0004.patch \
             "
  SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
  
