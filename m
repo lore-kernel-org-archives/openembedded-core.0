@@ -1,100 +1,77 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF789C02182
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 16:02:11 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.13872.1737648130660197057
- for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 08:02:10 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IqBBhByj;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=yrHLUfXL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019493e6468d-f69ace28-ffb5-4bbf-b830-54b96bfa93bc-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1737648129; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+HGeApxvzioWN4P7n2gYl3iQRmpvQrSIyG/ynWGNLZQ=;
-	b=IqBBhByjdPbdytn7Drxgh8cPqfctAEQBJQDyAvhKDgxagruvDC1HwKP/92wUgjq4
-	M7yUzpto3AYCqGE5eoSl+3fhNG64YoFixHrmmW9sG8blH09z/6G6SJR4THNAnZCOGaT
-	+0i0iBDO5Nw2NfyZTEXBydITlhvNF18FEemHOSM0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1737648129;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+HGeApxvzioWN4P7n2gYl3iQRmpvQrSIyG/ynWGNLZQ=;
-	b=yrHLUfXLZ75VmoNmzmY6f8RsfujkMcuxoSAyCXdI9ZVOPKsyPrGB7V6AH+Wl0gg9
-	NEmfVsipM4X4rse1ol6vxUEC99tQFB9Tkx3P9vQRtuPFt5e3dglOAj0KYq/aTAHkVoe
-	2tPP18rEAHZpUdeYR+sZ0qz7+SQ4D9TjGhmHUaT4=
-From: patchtest@automation.yoctoproject.org
-To: Harish.Sadineni@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH V3 1/3] rust: fix for rust multilib sdk configuration
-In-Reply-To: <20250123154755.3579988-1-Harish.Sadineni@windriver.com>
-References: <20250123154755.3579988-1-Harish.Sadineni@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019493e6468d-f69ace28-ffb5-4bbf-b830-54b96bfa93bc-000000@us-west-2.amazonses.com>
-Date: Thu, 23 Jan 2025 16:02:09 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.23-54.240.27.29
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 567AEC02182
+	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 17:17:52 +0000 (UTC)
+Subject: Re: [PATCH v2 7/9] gcc-configure-common.inc: add multlib support for i686/i586/x86_64 nativesdk gcc
+To: openembedded-core@lists.openembedded.org
+From: "hongxu" <hongxu.jia@eng.windriver.com>
+X-Originating-Location: US (147.11.105.171)
+X-Originating-Platform: Linux Firefox 134
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 23 Jan 2025 09:17:49 -0800
+References: <20250123045339.2443875-1-hongxu.jia@windriver.com>
+In-Reply-To: <20250123045339.2443875-1-hongxu.jia@windriver.com>
+Message-ID: <16166.1737652669267400613@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="GWSZJwTU2zzutCNt2ymp"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 16:02:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210200
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 17:17:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210201
 
---NextPart
-Content-Type: text/plain
+--GWSZJwTU2zzutCNt2ymp
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The series is available in https://git.openembedded.org/openembedded-core-c=
+ontrib/log/?h=3Dmathieu/master-next
 
----
-Testing patch /home/patchtest/share/mboxes/V3-1-3-rust-fix-for-rust-multilib-sdk-configuration.patch
+selftest/multiconfig: test multiconfig multlib nativesdk gccmathieu/master-=
+next =C2=A0 =C2=A0Hongxu Jia
+nativesdk-multiconfig-multlib-toolchain-packager: add recipe =C2=A0 =C2=A0H=
+ongxu Jia
+gcc-configure-common.inc: add multlib support for i686/i586/x86_64 nativesd=
+k gcc =C2=A0 =C2=A0Hongxu Jia
+meta/conf/bitbake.conf: support multiarch for nativesdk =C2=A0 =C2=A0Hongxu=
+ Jia
+libgcc-common: apply multilib symlinks for nativesdk libgcc =C2=A0 =C2=A0Ho=
+ngxu Jia
+script/relocate_sdk.py: check dynamic loader arch before relocating interpr=
+eter =C2=A0 =C2=A0Hongxu Jia
+toolchain-shar-relocate.sh: support multiple dynamic loaders for multilib =
+=C2=A0 =C2=A0Hongxu Jia
+multilib_header.bbclass: need multilib headers for nativesdk builds =C2=A0 =
+=C2=A0Hongxu Jia
+perl: fix do_install failed for nativesdk-perl =C2=A0 =C2=A0Hongxu Jia
 
-FAIL: test max line length: Patch line too long (current length 375, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+//Hongxu
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+--GWSZJwTU2zzutCNt2ymp
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+<div>The series is available in <a href=3D"https://git.openembedded.org/ope=
+nembedded-core-contrib/log/?h=3Dmathieu/master-next" target=3D"_blank" rel=
+=3D"noopener">https://git.openembedded.org/openembedded-core-contrib/log/?h=
+=3Dmathieu/master-next</a></div>
+<div>&nbsp;</div>
+<div>selftest/multiconfig: test multiconfig multlib nativesdk gccmathieu/ma=
+ster-next &nbsp; &nbsp;Hongxu Jia<br />nativesdk-multiconfig-multlib-toolch=
+ain-packager: add recipe &nbsp; &nbsp;Hongxu Jia<br />gcc-configure-common.=
+inc: add multlib support for i686/i586/x86_64 nativesdk gcc &nbsp; &nbsp;Ho=
+ngxu Jia<br />meta/conf/bitbake.conf: support multiarch for nativesdk &nbsp=
+; &nbsp;Hongxu Jia<br />libgcc-common: apply multilib symlinks for nativesd=
+k libgcc &nbsp; &nbsp;Hongxu Jia<br />script/relocate_sdk.py: check dynamic=
+ loader arch before relocating interpreter &nbsp; &nbsp;Hongxu Jia<br />too=
+lchain-shar-relocate.sh: support multiple dynamic loaders for multilib &nbs=
+p; &nbsp;Hongxu Jia<br />multilib_header.bbclass: need multilib headers for=
+ nativesdk builds &nbsp; &nbsp;Hongxu Jia<br />perl: fix do_install failed =
+for nativesdk-perl &nbsp; &nbsp;Hongxu Jia</div>
+<div>&nbsp;</div>
+<div>//Hongxu</div>
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--GWSZJwTU2zzutCNt2ymp--
 
