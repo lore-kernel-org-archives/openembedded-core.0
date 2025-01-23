@@ -1,531 +1,333 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F5AC02182
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 18:58:13 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web10.19155.1737658686107731456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3197AC02182
+	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 20:00:53 +0000 (UTC)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by mx.groups.io with SMTP id smtpd.web11.21330.1737662443295063340
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 10:58:06 -0800
+ Thu, 23 Jan 2025 12:00:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q73Qe5P9;
- spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e549b0f8d57so2153853276.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 10:58:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737658685; x=1738263485; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ow3b9EruZzWpeIK+mQyYctcE+eo/9bW/YTthfxUgWao=;
-        b=Q73Qe5P9APTwnN90yyKI2iJ0eLc8Aog2RVl75NyA7bT4E4WlEnrne8zLHd2biDT8YI
-         iGHFPKfAiZBuIZxJnLwp7Ecyz3OjRyr0YQV8oZWVnGmvNfrnj2+9RIh7YK5lDixbUuoc
-         ny95KmZ61lU4VUb/E9yE/L1VWu48jOxTB2Y2ihqNeuZkw6j5BYnRvwcYWqCjpTEtyHES
-         jwhdvsetQgv2rhqc14iYf+JMO2OhokXLB1HJVewN1I0eADZ+S/+VHvDWnyUbAIPtXnXt
-         Dpzdfhyan9pQLxlP8W+YdY4ucHf5RzaO4lnGiDm/hQJGZj2cYO5D8kyM/PrVETG4r80B
-         qfpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737658685; x=1738263485;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ow3b9EruZzWpeIK+mQyYctcE+eo/9bW/YTthfxUgWao=;
-        b=QBCVVy0/D3d7izU+o/Yvdf9VSFcVEteyFUv6liMREFvLNWpSwuO6c2E+4bTPkP2tqZ
-         JAxa5eyl68pnkKapj/k+UnAIiI0cUGFiacs2Jjp0tZuhJJB5sBRe9Dj1VS9Fe/Zxe/LD
-         0Kqd7rkA9vSy/SaP+FvwzBHUkRLVjDqxeb35Vq8gQ2w/bUy/KxkCp9xoNJwEYPjJDABJ
-         ObzoOMrgSdxv7SURlmt/fkF6/PUjeEDUPamKnVkZZ2mOJqNjm6PPjVcOa2KvN9XWZsxh
-         QDPa4bYKqFNbtQzU//DBNUcCuPweC+3FkZ/6bnAprIRMZgIxO3oFVkBrw5u59oN8CJC2
-         dxoA==
-X-Gm-Message-State: AOJu0Yzx785cpnBTb1B2WQn5F2etWHtLc4GSZiLxTJ6ft+wf8OD00u7K
-	8d0FpACbme6GYyTaWaq771KIh8jq6+JgJkvtr3W1aJk5DclOMa6lfgnlU4PL26IMEPkSOaWSfaw
-	l1G+8eAsXFe0BEL3zmJGfPYFEl1M=
-X-Gm-Gg: ASbGnct/CzuoKuqt9PnVFvqBwqZE2riA87kd6FBCtARXsKxr99n3AfRVmJ/GEN+rY5J
-	ewDPf/dZ5w/LWbx+N1fJD3XBlwPu/4ipUOQmAY15p6I1i+s2elaTQYA1v4InAHi+MgtVA4s0YMr
-	iiOlf++3tcjo6B
-X-Google-Smtp-Source: AGHT+IF7qTuT+7jwD6KLTdbxhuS++Kw+YzHlxu+TXKYmTnD+hwZEJnHBFya/PQVPX4DvRnDme8IiUp/WU4i9kSg9FDc=
-X-Received: by 2002:a05:6902:2683:b0:e4d:25c6:c3b2 with SMTP id
- 3f1490d57ef6-e57b103cb9cmr20653775276.7.1737658685006; Thu, 23 Jan 2025
- 10:58:05 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=XETcprs7;
+ spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 13A01101D23B1;
+	Thu, 23 Jan 2025 21:00:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1737662440;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8RfqZ7WqOW/7u1LZfafnyX1AemP2p0FSCt5zRL09kSY=;
+	b=XETcprs73pLFfGT/4Xlkcb7RconsFDf7PXR3JYB0kassR8ZkO4304ca/oKYP7DCkF98352
+	jMGgJMQmVSTh5Q0H0hnBgo76Ko3MsnoZIHac4d97iCJekBl0h7A1Vt3V1KFEs76CHveMWu
+	GqqYzRygeuZ1Xt52ViDm8FtUGXLMZ952/3ZjGAfLJNrSEPJz8qoVN5A53IdNz2TocS1uO1
+	YBQTlTo7whQUjXKOU9xesE2h5NXA9O39XtdVnJsRX2vKt3IdQLwNwqsjdfv4XLTgH5G2BY
+	YLpthKmskJeOZCmJUubq3IsG+qmC8IDFG3/csZ8bW76/+eA8IBlq8FKDppSAeg==
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Marek Vasut <marex@denx.de>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+Date: Thu, 23 Jan 2025 20:59:21 +0100
+Message-ID: <20250123200023.181817-1-marex@denx.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20250123184440.2431629-1-peter.marko@siemens.com>
- <20250123184440.2431629-3-peter.marko@siemens.com> <CANNYZj9gvtf3pyJfWUnaPm=39zDbzpPrsN0g6Frhjb68D9368g@mail.gmail.com>
- <AS1PR10MB56979EC59BF404E17C056D2BFDE02@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56979EC59BF404E17C056D2BFDE02@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 23 Jan 2025 19:57:54 +0100
-X-Gm-Features: AbW1kvZLgu4_0a3aJn8qgwXJDXRpmGPvO0e8xyLG1c8E7DhO6tIfEcZY4b6Xc_A
-Message-ID: <CANNYZj8bLrMaPy3iq2qqOAkLbxNBzPZyXJmFimtt1PLxMiXREw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 3/3] go: upgrade 1.22.10 -> 1.22.11
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a928e8062c6430d6"
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 18:58:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210210
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 20:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210211
 
---000000000000a928e8062c6430d6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+kernel-fitimage.bbclass is in use to generate signed kernel
+fitImage, there is a circular dependency between uboot-sign
+and kernel-fitimage bbclasses . The loop looks like this:
 
-The point is, if not you, then who? :) 1.22 won=E2=80=99t be supported for =
-much
-longer.
+kernel-fitimage.bbclass:
+- do_populate_sysroot depends on do_assemble_fitimage
+  - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroo=
+t
+    - virtual/bootloader:do_populate_sysroot depends on virtual/bootloade=
+r:do_install
+      =3D> The virtual/bootloader:do_install installs and the
+         virtual/bootloader:do_populate_sysroot places into
+         sysroot an U-Boot environment script embedded into
+         kernel fitImage during do_assemble_fitimage run .
 
-Alex
+uboot-sign.bbclass:
+- DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+  - do_deploy depends on do_uboot_assemble_fitimage
+  - do_install depends on do_uboot_assemble_fitimage
+  - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysr=
+oot
+    =3D> do_install depends on virtual/kernel:do_populate_sysroot
 
-On Thu 23. Jan 2025 at 19.55, Marko, Peter <Peter.Marko@siemens.com> wrote:
+=3D> virtual/bootloader:do_install depends on virtual/kernel:do_populate_=
+sysroot
+   virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_in=
+stall
 
-> Unfortunately no, I already answered this in
-> https://lists.openembedded.org/g/openembedded-core/message/206463
->
-> Peter
->
->
->
-> *From:* Alexander Kanavin <alex.kanavin@gmail.com>
-> *Sent:* Thursday, January 23, 2025 19:47
-> *To:* Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core][PATCH 3/3] go: upgrade 1.22.10 -> 1.22.11
->
->
->
-> Can you update to 1.23 as well?
->
->
->
-> Alex
->
->
->
-> On Thu 23. Jan 2025 at 19.45, Peter Marko via lists.openembedded.org
-> <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Upgrade to latest 1.22.x release [1]:
->
-> $ git --no-pager log --oneline go1.22.10..go1.22.11
-> f072884354 (tag: go1.22.11) [release-branch.go1.22] go1.22.11
-> b72d56f98d [release-branch.go1.22] net/http: persist header stripping
-> across repeated redirects
-> 19d2103415 [release-branch.go1.22] crypto/x509: properly check for IPv6
-> hosts in URIs
-> ae9996f965 [release-branch.go1.22] runtime: hold traceAcquire across
-> casgstatus in injectglist
-> 223260bc63 [release-branch.go1.22] crypto/tls: fix Config.Time in tests
-> using expired certificates
->
-> Fixes CVE-2024-45336 and CVE-2024-45341
->
-> [1] https://github.com/golang/go/compare/go1.22.10...go1.22.11
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-devtools/go/{go-1.22.10.inc =3D> go-1.22.11.inc} | 2 +-
->  ...binary-native_1.22.10.bb =3D> go-binary-native_1.22.11.bb} | 6 +++---
->  ...oss-canadian_1.22.10.bb =3D> go-cross-canadian_1.22.11.bb} | 0
->  .../go/{go-cross_1.22.10.bb =3D> go-cross_1.22.11.bb}         | 0
->  .../go/{go-crosssdk_1.22.10.bb =3D> go-crosssdk_1.22.11.bb}   | 0
->  .../go/{go-runtime_1.22.10.bb =3D> go-runtime_1.22.11.bb}     | 0
->  meta/recipes-devtools/go/{go_1.22.10.bb =3D> go_1.22.11.bb}   | 0
->  7 files changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-devtools/go/{go-1.22.10.inc =3D> go-1.22.11.inc} (89=
-%)
->  rename meta/recipes-devtools/go/{go-binary-native_1.22.10.bb =3D>
-> go-binary-native_1.22.11.bb} (78%)
->  rename meta/recipes-devtools/go/{go-cross-canadian_1.22.10.bb =3D>
-> go-cross-canadian_1.22.11.bb} (100%)
->  rename meta/recipes-devtools/go/{go-cross_1.22.10.bb =3D>
-> go-cross_1.22.11.bb} (100%)
->  rename meta/recipes-devtools/go/{go-crosssdk_1.22.10.bb =3D>
-> go-crosssdk_1.22.11.bb} (100%)
->  rename meta/recipes-devtools/go/{go-runtime_1.22.10.bb =3D>
-> go-runtime_1.22.11.bb} (100%)
->  rename meta/recipes-devtools/go/{go_1.22.10.bb =3D> go_1.22.11.bb} (100%=
+Attempt to resolve the loop. Pull fitimage configuration options into sep=
+arate
+new configuration file image-fitimage.conf so these configuration options=
+ can
+be shared by both uboot-sign.bbclass and kernel-fitimage.bbclass, and mak=
+e use
+of mkimage -f auto-conf / mkimage -f auto option to insert /signature nod=
+e key-*
+subnode into U-Boot control DT without depending on the layout of kernel =
+fitImage
+itself. This is perfectly valid to do, because the U-Boot /signature node=
+ key-*
+subnodes 'required' property can contain either of two values, 'conf' or =
+'image'
+to authenticate either selected configuration or all of images when booti=
+ng the
+fitImage.
+
+For details of the U-Boot fitImage signing process, see:
+https://docs.u-boot.org/en/latest/usage/fit/signature.html
+For details of mkimage -f auto-conf and -f auto, see:
+https://manpages.debian.org/experimental/u-boot-tools/mkimage.1.en.html#E=
+XAMPLES
+
+(From OE-Core rev: 259bfa86f384206f0d0a96a5b84887186c5f689e)
+
+Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies"=
 )
->
-> diff --git a/meta/recipes-devtools/go/go-1.22.10.inc
-> b/meta/recipes-devtools/go/go-1.22.11.inc
-> similarity index 89%
-> rename from meta/recipes-devtools/go/go-1.22.10.inc
-> rename to meta/recipes-devtools/go/go-1.22.11.inc
-> index 2abe7d0f3e3..21222bea4ec 100644
-> --- a/meta/recipes-devtools/go/go-1.22.10.inc
-> +++ b/meta/recipes-devtools/go/go-1.22.11.inc
-> @@ -15,4 +15,4 @@ SRC_URI +=3D "\
->
-> file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
->      file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
->  "
-> -SRC_URI[main.sha256sum] =3D
-> "1e94fd48be750d1fafb4d9b3b6dd31a6e9d2735d339bf2462bc97b64ca4c1037"
-> +SRC_URI[main.sha256sum] =3D
-> "a60c23dec95d10a2576265ce580f57869d5ac2471c4f4aca805addc9ea0fc9fe"
-> diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.10.bb
-> b/meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-> similarity index 78%
-> rename from meta/recipes-devtools/go/go-binary-native_1.22.10.bb
-> rename to meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-> index 8c8fe5bff9f..a526cc88bc2 100644
-> --- a/meta/recipes-devtools/go/go-binary-native_1.22.10.bb
-> +++ b/meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-> @@ -9,9 +9,9 @@ PROVIDES =3D "go-native"
->
->  # Checksums available at https://go.dev/dl/
->  SRC_URI =3D "
-> https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;nam=
-e=3Dgo_${BUILD_GOTUPLE}
-> "
-> -SRC_URI[go_linux_amd64.sha256sum] =3D
-> "736ce492a19d756a92719a6121226087ccd91b652ed5caec40ad6dbfb2252092"
-> -SRC_URI[go_linux_arm64.sha256sum] =3D
-> "5213c5e32fde3bd7da65516467b7ffbfe40d2bb5a5f58105e387eef450583eec"
-> -SRC_URI[go_linux_ppc64le.sha256sum] =3D
-> "db05b9838f69d741fb9a5301220b1a62014aee025b0baf341aba3d280087b981"
-> +SRC_URI[go_linux_amd64.sha256sum] =3D
-> "0fc88d966d33896384fbde56e9a8d80a305dc17a9f48f1832e061724b1719991"
-> +SRC_URI[go_linux_arm64.sha256sum] =3D
-> "9ebfcab26801fa4cf0627c6439db7a4da4d3c6766142a3dd83508240e4f21031"
-> +SRC_URI[go_linux_ppc64le.sha256sum] =3D
-> "963a0ec973640b23ee8bb7a462cc415276fd8436111a03df8c34eb3b1ae29f12"
->
->  UPSTREAM_CHECK_URI =3D "https://golang.org/dl/"
->  UPSTREAM_CHECK_REGEX =3D "go(?P<pver>\d+(\.\d+)+)\.linux"
-> diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.10.bb
-> b/meta/recipes-devtools/go/go-cross-canadian_1.22.11.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross-canadian_1.22.10.bb
-> rename to meta/recipes-devtools/go/go-cross-canadian_1.22.11.bb
-> diff --git a/meta/recipes-devtools/go/go-cross_1.22.10.bb
-> b/meta/recipes-devtools/go/go-cross_1.22.11.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross_1.22.10.bb
-> rename to meta/recipes-devtools/go/go-cross_1.22.11.bb
-> diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.10.bb
-> b/meta/recipes-devtools/go/go-crosssdk_1.22.11.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-crosssdk_1.22.10.bb
-> rename to meta/recipes-devtools/go/go-crosssdk_1.22.11.bb
-> diff --git a/meta/recipes-devtools/go/go-runtime_1.22.10.bb
-> b/meta/recipes-devtools/go/go-runtime_1.22.11.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-runtime_1.22.10.bb
-> rename to meta/recipes-devtools/go/go-runtime_1.22.11.bb
-> diff --git a/meta/recipes-devtools/go/go_1.22.10.bb
-> b/meta/recipes-devtools/go/go_1.22.11.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go_1.22.10.bb
-> rename to meta/recipes-devtools/go/go_1.22.11.bb
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210207):
-> https://lists.openembedded.org/g/openembedded-core/message/210207
-> Mute This Topic: https://lists.openembedded.org/mt/110777118/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/kernel-fitimage.bbclass | 53 +--------------------
+ meta/classes-recipe/uboot-sign.bbclass      | 26 +++++-----
+ meta/conf/image-fitimage.conf               | 53 +++++++++++++++++++++
+ 3 files changed, 68 insertions(+), 64 deletions(-)
+ create mode 100644 meta/conf/image-fitimage.conf
 
---000000000000a928e8062c6430d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-r=
+ecipe/kernel-fitimage.bbclass
+index 18ab17bd2c4..3e20c3248be 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -5,6 +5,7 @@
+ #
+=20
+ inherit kernel-uboot kernel-artifact-names uboot-config
++require conf/image-fitimage.conf
+=20
+ def get_fit_replacement_type(d):
+     kerneltypes =3D d.getVar('KERNEL_IMAGETYPES') or ""
+@@ -52,58 +53,6 @@ python __anonymous () {
+         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/d=
+evicetree")
+ }
+=20
+-
+-# Description string
+-FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+-
+-# Kernel fitImage Hash Algo
+-FIT_HASH_ALG ?=3D "sha256"
+-
+-# Kernel fitImage Signature Algo
+-FIT_SIGN_ALG ?=3D "rsa2048"
+-
+-# Kernel / U-Boot fitImage Padding Algo
+-FIT_PAD_ALG ?=3D "pkcs-1.5"
+-
+-# Generate keys for signing Kernel fitImage
+-FIT_GENERATE_KEYS ?=3D "0"
+-
+-# Size of private keys in number of bits
+-FIT_SIGN_NUMBITS ?=3D "2048"
+-
+-# args to openssl genrsa (Default is just the public exponent)
+-FIT_KEY_GENRSA_ARGS ?=3D "-F4"
+-
+-# args to openssl req (Default is -batch for non interactive mode and
+-# -new for new certificate)
+-FIT_KEY_REQ_ARGS ?=3D "-batch -new"
+-
+-# Standard format for public key certificate
+-FIT_KEY_SIGN_PKCS ?=3D "-x509"
+-
+-# Sign individual images as well
+-FIT_SIGN_INDIVIDUAL ?=3D "0"
+-
+-FIT_CONF_PREFIX ?=3D "conf-"
+-FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
+-
+-FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
+z cpio.zst cpio.gz ext2.gz cpio"
+-
+-# Allow user to select the default DTB for FIT image when multiple dtb's=
+ exists.
+-FIT_CONF_DEFAULT_DTB ?=3D ""
+-
+-# length of address in number of <u32> cells
+-# ex: 1 32bits address, 2 64bits address
+-FIT_ADDRESS_CELLS ?=3D "1"
+-
+-# Keys used to sign individually image nodes.
+-# The keys to sign image nodes must be different from those used to sign
+-# configuration nodes, otherwise the "required" property, from
+-# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
+mage".
+-# Then the images signature checking will not be mandatory and no error =
+will be
+-# raised in case of failure.
+-# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
+", "dev2.key")
+-
+ #
+ # Emit the fitImage ITS header
+ #
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe=
+/uboot-sign.bbclass
+index a17be745cec..96c47ab0165 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -26,6 +26,7 @@
+=20
+ # We need some variables from u-boot-config
+ inherit uboot-config
++require conf/image-fitimage.conf
+=20
+ # Enable use of a U-Boot fitImage
+ UBOOT_FITIMAGE_ENABLE ?=3D "0"
+@@ -85,9 +86,6 @@ UBOOT_FIT_KEY_SIGN_PKCS ?=3D "-x509"
+ # ex: 1 32bits address, 2 64bits address
+ UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
+=20
+-# This is only necessary for determining the signing configuration
+-KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
+-
+ UBOOT_FIT_UBOOT_LOADADDRESS ?=3D "${UBOOT_LOADADDRESS}"
+ UBOOT_FIT_UBOOT_ENTRYPOINT ?=3D "${UBOOT_ENTRYPOINT}"
+=20
+@@ -96,8 +94,6 @@ python() {
+     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') =3D=3D '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
+-    if sign:
+-        d.appendVar('DEPENDS', " " + d.getVar('KERNEL_PN'))
+ }
+=20
+ concat_dtb() {
+@@ -106,16 +102,26 @@ concat_dtb() {
+=20
+ 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
+ 		# Re-sign the kernel in order to add the keys to our dtb
++		UBOOT_MKIMAGE_MODE=3D"auto-conf"
++		# Signing individual images is not recommended as that
++		# makes fitImage susceptible to mix-and-match attack.
++		if [ "${FIT_SIGN_INDIVIDUAL}" =3D "1" ] ; then
++			UBOOT_MKIMAGE_MODE=3D"auto"
++		fi
+ 		${UBOOT_MKIMAGE_SIGN} \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}')=
+ else ''} \
+-			-F -k "${UBOOT_SIGN_KEYDIR}" \
++			-f $UBOOT_MKIMAGE_MODE \
++			-k "${UBOOT_SIGN_KEYDIR}" \
++			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
++			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
+ 			-K "${UBOOT_DTB_BINARY}" \
+-			-r ${B}/fitImage-linux \
++			-d /dev/null \
++			-r ${B}/unused.itb \
+ 			${UBOOT_MKIMAGE_SIGN_ARGS}
+ 		# Verify the kernel image and u-boot dtb
+ 		${UBOOT_FIT_CHECK_SIGN} \
+ 			-k "${UBOOT_DTB_BINARY}" \
+-			-f ${B}/fitImage-linux
++			-f ${B}/unused.itb
+ 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
+ 	fi
+=20
+@@ -351,10 +357,6 @@ uboot_assemble_fitimage_helper() {
+ }
+=20
+ do_uboot_assemble_fitimage() {
+-	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] ; then
+-		cp "${STAGING_DIR_HOST}/sysroot-only/fitImage" "${B}/fitImage-linux"
+-	fi
+-
+ 	if [ -n "${UBOOT_CONFIG}" ]; then
+ 		unset i
+ 		for config in ${UBOOT_MACHINE}; do
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.con=
+f
+new file mode 100644
+index 00000000000..be9ae301346
+--- /dev/null
++++ b/meta/conf/image-fitimage.conf
+@@ -0,0 +1,53 @@
++# Possible options for fitImage generation, mainly
++# related to signing of the fitImage content.
++
++# Description string
++FIT_DESC ?=3D "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
++
++# Kernel fitImage Hash Algo
++FIT_HASH_ALG ?=3D "sha256"
++
++# Kernel fitImage Signature Algo
++FIT_SIGN_ALG ?=3D "rsa2048"
++
++# Kernel / U-Boot fitImage Padding Algo
++FIT_PAD_ALG ?=3D "pkcs-1.5"
++
++# Generate keys for signing Kernel fitImage
++FIT_GENERATE_KEYS ?=3D "0"
++
++# Size of private keys in number of bits
++FIT_SIGN_NUMBITS ?=3D "2048"
++
++# args to openssl genrsa (Default is just the public exponent)
++FIT_KEY_GENRSA_ARGS ?=3D "-F4"
++
++# args to openssl req (Default is -batch for non interactive mode and
++# -new for new certificate)
++FIT_KEY_REQ_ARGS ?=3D "-batch -new"
++
++# Standard format for public key certificate
++FIT_KEY_SIGN_PKCS ?=3D "-x509"
++
++# Sign individual images as well
++FIT_SIGN_INDIVIDUAL ?=3D "0"
++
++FIT_CONF_PREFIX ?=3D "conf-"
++FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
++
++FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
+z cpio.zst cpio.gz ext2.gz cpio"
++
++# Allow user to select the default DTB for FIT image when multiple dtb's=
+ exists.
++FIT_CONF_DEFAULT_DTB ?=3D ""
++
++# length of address in number of <u32> cells
++# ex: 1 32bits address, 2 64bits address
++FIT_ADDRESS_CELLS ?=3D "1"
++
++# Keys used to sign individually image nodes.
++# The keys to sign image nodes must be different from those used to sign
++# configuration nodes, otherwise the "required" property, from
++# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "i=
+mage".
++# Then the images signature checking will not be mandatory and no error =
+will be
++# raised in case of failure.
++# UBOOT_SIGN_IMG_KEYNAME =3D "dev2" # keys name in keydir (eg. "dev2.crt=
+", "dev2.key")
+--=20
+2.45.2
 
-<div dir=3D"auto">The point is, if not you, then who? :) 1.22 won=E2=80=99t=
- be supported for much longer.</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">Alex</div><div><br><div class=3D"gmail_quote gmail_quote_container">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu 23. Jan 2025 at 19.55, Marko, =
-Peter &lt;<a href=3D"mailto:Peter.Marko@siemens.com">Peter.Marko@siemens.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-le=
-ft:1ex;border-left-color:rgb(204,204,204)">
-
-
-
-
-
-<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple" style=3D"overflow-wrap: =
-break-word;">
-<div class=3D"m_5259311321569912241WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Unfortunately no, I a=
-lready answered this in
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/20646=
-3" target=3D"_blank">https://lists.openembedded.org/g/openembedded-core/mes=
-sage/206463</a></span></p></div></div><div lang=3D"EN-US" link=3D"blue" vli=
-nk=3D"purple" style=3D"overflow-wrap: break-word;"><div class=3D"m_52593113=
-21569912241WordSection1"><p class=3D"MsoNormal"><span style=3D"font-size:11=
-pt"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Peter<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt"><u></u>=C2=A0<u></u><=
-/span></p>
-<div style=3D"border-width:medium medium medium 1.5pt;border-style:none non=
-e none solid;padding:0in 0in 0in 4pt;border-color:currentcolor currentcolor=
- currentcolor blue">
-<div>
-<div style=3D"border-width:1pt medium medium;border-style:solid none none;p=
-adding:3pt 0in 0in;border-color:rgb(225,225,225) currentcolor currentcolor"=
->
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:Calibri=
-,sans-serif">From:</span></b><span style=3D"font-size:11pt;font-family:Cali=
-bri,sans-serif"> Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail=
-.com" target=3D"_blank" style=3D"font-family:Calibri,sans-serif">alex.kanav=
-in@gmail.com</a>&gt;
-<br>
-<b style=3D"font-family:Calibri,sans-serif">Sent:</b> Thursday, January 23,=
- 2025 19:47<br>
-<b style=3D"font-family:Calibri,sans-serif">To:</b> Marko, Peter (FT D EU S=
-K BFS1) &lt;<a href=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank" st=
-yle=3D"font-family:Calibri,sans-serif">Peter.Marko@siemens.com</a>&gt;<br>
-<b style=3D"font-family:Calibri,sans-serif">Cc:</b> <a href=3D"mailto:opene=
-mbedded-core@lists.openembedded.org" target=3D"_blank" style=3D"font-family=
-:Calibri,sans-serif">openembedded-core@lists.openembedded.org</a><br>
-<b style=3D"font-family:Calibri,sans-serif">Subject:</b> Re: [OE-core][PATC=
-H 3/3] go: upgrade 1.22.10 -&gt; 1.22.11<u style=3D"font-family:Calibri,san=
-s-serif"></u><u style=3D"font-family:Calibri,sans-serif"></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal">Can you update to 1.23 as well?<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Alex<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Thu 23. Jan 2025 at 19.45, Peter Marko via <a hre=
-f=3D"http://lists.openembedded.org" target=3D"_blank">
-lists.openembedded.org</a> &lt;peter.marko=3D<a href=3D"mailto:siemens.com@=
-lists.openembedded.org" target=3D"_blank">siemens.com@lists.openembedded.or=
-g</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
-e none none solid;padding:0in 0in 0in 6pt;margin-left:4.8pt;margin-right:0i=
-n;border-color:currentcolor currentcolor currentcolor rgb(204,204,204)">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">From: Peter Marko &lt;<=
-a href=3D"mailto:peter.marko@siemens.com" target=3D"_blank">peter.marko@sie=
-mens.com</a>&gt;<br>
-<br>
-Upgrade to latest 1.22.x release [1]:<br>
-<br>
-$ git --no-pager log --oneline go1.22.10..go1.22.11<br>
-f072884354 (tag: go1.22.11) [release-branch.go1.22] go1.22.11<br>
-b72d56f98d [release-branch.go1.22] net/http: persist header stripping acros=
-s repeated redirects<br>
-19d2103415 [release-branch.go1.22] crypto/x509: properly check for IPv6 hos=
-ts in URIs<br>
-ae9996f965 [release-branch.go1.22] runtime: hold traceAcquire across casgst=
-atus in injectglist<br>
-223260bc63 [release-branch.go1.22] crypto/tls: fix Config.Time in tests usi=
-ng expired certificates<br>
-<br>
-Fixes CVE-2024-45336 and CVE-2024-45341<br>
-<br>
-[1] <a href=3D"https://github.com/golang/go/compare/go1.22.10...go1.22.11" =
-target=3D"_blank">
-https://github.com/golang/go/compare/go1.22.10...go1.22.11</a><br>
-<br>
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/{go-1.22.10.inc =3D&gt; go-1.22.11.inc} | 2 =
-+-<br>
-=C2=A0...<a href=3D"http://binary-native_1.22.10.bb" target=3D"_blank">bina=
-ry-native_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-binary-native_1.22.11.bb" target=3D"_blank">go-binary-=
-native_1.22.11.bb</a>} | 6 +++---<br>
-=C2=A0...<a href=3D"http://oss-canadian_1.22.10.bb" target=3D"_blank">oss-c=
-anadian_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-cross-canadian_1.22.11.bb" target=3D"_blank">go-cross-=
-canadian_1.22.11.bb</a>} | 0<br>
-=C2=A0.../go/{<a href=3D"http://go-cross_1.22.10.bb" target=3D"_blank">go-c=
-ross_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-cross_1.22.11.bb" target=3D"_blank">go-cross_1.22.11.b=
-b</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
-=C2=A0.../go/{<a href=3D"http://go-crosssdk_1.22.10.bb" target=3D"_blank">g=
-o-crosssdk_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-crosssdk_1.22.11.bb" target=3D"_blank">go-crosssdk_1.2=
-2.11.bb</a>}=C2=A0 =C2=A0| 0<br>
-=C2=A0.../go/{<a href=3D"http://go-runtime_1.22.10.bb" target=3D"_blank">go=
--runtime_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-runtime_1.22.11.bb" target=3D"_blank">go-runtime_1.22.=
-11.bb</a>}=C2=A0 =C2=A0 =C2=A0| 0<br>
-=C2=A0meta/recipes-devtools/go/{<a href=3D"http://go_1.22.10.bb" target=3D"=
-_blank">go_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go_1.22.11.bb" target=3D"_blank">go_1.22.11.bb</a>}=C2=A0=
- =C2=A0| 0<br>
-=C2=A07 files changed, 4 insertions(+), 4 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/go/{go-1.22.10.inc =3D&gt; go-1.22.11.in=
-c} (89%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go-binary-native_1=
-.22.10.bb" target=3D"_blank">go-binary-native_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-binary-native_1.22.11.bb" target=3D"_blank">go-binary-=
-native_1.22.11.bb</a>} (78%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go-cross-canadian_=
-1.22.10.bb" target=3D"_blank">go-cross-canadian_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-cross-canadian_1.22.11.bb" target=3D"_blank">go-cross-=
-canadian_1.22.11.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go-cross_1.22.10.b=
-b" target=3D"_blank">go-cross_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-cross_1.22.11.bb" target=3D"_blank">go-cross_1.22.11.b=
-b</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go-crosssdk_1.22.1=
-0.bb" target=3D"_blank">go-crosssdk_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-crosssdk_1.22.11.bb" target=3D"_blank">go-crosssdk_1.2=
-2.11.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go-runtime_1.22.10=
-.bb" target=3D"_blank">go-runtime_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go-runtime_1.22.11.bb" target=3D"_blank">go-runtime_1.22.=
-11.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/go/{<a href=3D"http://go_1.22.10.bb" tar=
-get=3D"_blank">go_1.22.10.bb</a> =3D&gt;
-<a href=3D"http://go_1.22.11.bb" target=3D"_blank">go_1.22.11.bb</a>} (100%=
-)<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.22.10.inc b/meta/recipes-devtool=
-s/go/go-1.22.11.inc<br>
-similarity index 89%<br>
-rename from meta/recipes-devtools/go/go-1.22.10.inc<br>
-rename to meta/recipes-devtools/go/go-1.22.11.inc<br>
-index 2abe7d0f3e3..21222bea4ec 100644<br>
---- a/meta/recipes-devtools/go/go-1.22.10.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.22.11.inc<br>
-@@ -15,4 +15,4 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0<a>file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-=
-host-compile.patch</a> \<br>
-=C2=A0 =C2=A0 =C2=A0<a>file://0009-go-Filter-build-paths-on-staticly-linked=
--arches.patch</a> \<br>
-=C2=A0&quot;<br>
--SRC_URI[main.sha256sum] =3D &quot;1e94fd48be750d1fafb4d9b3b6dd31a6e9d2735d=
-339bf2462bc97b64ca4c1037&quot;<br>
-+SRC_URI[main.sha256sum] =3D &quot;a60c23dec95d10a2576265ce580f57869d5ac247=
-1c4f4aca805addc9ea0fc9fe&quot;<br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.=
-22.10.bb" target=3D"_blank">go-binary-native_1.22.10.bb</a> b/meta/recipes-=
-devtools/go/<a href=3D"http://go-binary-native_1.22.11.bb" target=3D"_blank=
-">go-binary-native_1.22.11.bb</a><br>
-similarity index 78%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.2=
-2.10.bb" target=3D"_blank">go-binary-native_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.22.=
-11.bb" target=3D"_blank">go-binary-native_1.22.11.bb</a><br>
-index 8c8fe5bff9f..a526cc88bc2 100644<br>
---- a/meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.22.10.b=
-b" target=3D"_blank">go-binary-native_1.22.10.bb</a><br>
-+++ b/meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.22.11.b=
-b" target=3D"_blank">go-binary-native_1.22.11.bb</a><br>
-@@ -9,9 +9,9 @@ PROVIDES =3D &quot;go-native&quot;<br>
-<br>
-=C2=A0# Checksums available at <a href=3D"https://go.dev/dl/" target=3D"_bl=
-ank">https://go.dev/dl/</a><br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://dl.google.com/go/go$%7BPV%7D.$%7=
-BBUILD_GOOS%7D-$%7BBUILD_GOARCH%7D.tar.gz;name=3Dgo_$%7BBUILD_GOTUPLE%7D" t=
-arget=3D"_blank">https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOA=
-RCH}.tar.gz;name=3Dgo_${BUILD_GOTUPLE}</a>&quot;<br>
--SRC_URI[go_linux_amd64.sha256sum] =3D &quot;736ce492a19d756a92719a61212260=
-87ccd91b652ed5caec40ad6dbfb2252092&quot;<br>
--SRC_URI[go_linux_arm64.sha256sum] =3D &quot;5213c5e32fde3bd7da65516467b7ff=
-bfe40d2bb5a5f58105e387eef450583eec&quot;<br>
--SRC_URI[go_linux_ppc64le.sha256sum] =3D &quot;db05b9838f69d741fb9a5301220b=
-1a62014aee025b0baf341aba3d280087b981&quot;<br>
-+SRC_URI[go_linux_amd64.sha256sum] =3D &quot;0fc88d966d33896384fbde56e9a8d8=
-0a305dc17a9f48f1832e061724b1719991&quot;<br>
-+SRC_URI[go_linux_arm64.sha256sum] =3D &quot;9ebfcab26801fa4cf0627c6439db7a=
-4da4d3c6766142a3dd83508240e4f21031&quot;<br>
-+SRC_URI[go_linux_ppc64le.sha256sum] =3D &quot;963a0ec973640b23ee8bb7a462cc=
-415276fd8436111a03df8c34eb3b1ae29f12&quot;<br>
-<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://golang.org/dl/" targe=
-t=3D"_blank">https://golang.org/dl/</a>&quot;<br>
-=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;go(?P&lt;pver&gt;\d+(\.\d+)+)\.linux&q=
-uot;<br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-cross-canadian_1=
-.22.10.bb" target=3D"_blank">go-cross-canadian_1.22.10.bb</a> b/meta/recipe=
-s-devtools/go/<a href=3D"http://go-cross-canadian_1.22.11.bb" target=3D"_bl=
-ank">go-cross-canadian_1.22.11.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go-cross-canadian_1.=
-22.10.bb" target=3D"_blank">go-cross-canadian_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go-cross-canadian_1.22=
-.11.bb" target=3D"_blank">go-cross-canadian_1.22.11.bb</a><br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-cross_1.22.10.bb=
-" target=3D"_blank">go-cross_1.22.10.bb</a> b/meta/recipes-devtools/go/<a h=
-ref=3D"http://go-cross_1.22.11.bb" target=3D"_blank">go-cross_1.22.11.bb</a=
-><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go-cross_1.22.10.bb"=
- target=3D"_blank">go-cross_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go-cross_1.22.11.bb" t=
-arget=3D"_blank">go-cross_1.22.11.bb</a><br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-crosssdk_1.22.10=
-.bb" target=3D"_blank">go-crosssdk_1.22.10.bb</a> b/meta/recipes-devtools/g=
-o/<a href=3D"http://go-crosssdk_1.22.11.bb" target=3D"_blank">go-crosssdk_1=
-.22.11.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go-crosssdk_1.22.10.=
-bb" target=3D"_blank">go-crosssdk_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go-crosssdk_1.22.11.bb=
-" target=3D"_blank">go-crosssdk_1.22.11.bb</a><br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-runtime_1.22.10.=
-bb" target=3D"_blank">go-runtime_1.22.10.bb</a> b/meta/recipes-devtools/go/=
-<a href=3D"http://go-runtime_1.22.11.bb" target=3D"_blank">go-runtime_1.22.=
-11.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go-runtime_1.22.10.b=
-b" target=3D"_blank">go-runtime_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go-runtime_1.22.11.bb"=
- target=3D"_blank">go-runtime_1.22.11.bb</a><br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go_1.22.10.bb" targ=
-et=3D"_blank">go_1.22.10.bb</a> b/meta/recipes-devtools/go/<a href=3D"http:=
-//go_1.22.11.bb" target=3D"_blank">go_1.22.11.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/go/<a href=3D"http://go_1.22.10.bb" targe=
-t=3D"_blank">go_1.22.10.bb</a><br>
-rename to meta/recipes-devtools/go/<a href=3D"http://go_1.22.11.bb" target=
-=3D"_blank">go_1.22.11.bb</a><br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#210207): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/210207" target=3D"_blank">
-https://lists.openembedded.org/g/openembedded-core/message/210207</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110777118/168=
-6489" target=3D"_blank">
-https://lists.openembedded.org/mt/110777118/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">
-openembedded-core+owner@lists.openembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" target=3D"_blank">
-https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
-ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<=
-br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</blockquote></div></div>
-
---000000000000a928e8062c6430d6--
 
