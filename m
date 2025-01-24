@@ -1,241 +1,170 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB11C02181
-	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 18:00:45 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.18944.1737741636122746100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D068C0218B
+	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 19:30:30 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web10.1364.1737747026747766708
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jan 2025 10:00:36 -0800
+ Fri, 24 Jan 2025 11:30:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 50OHt8lP011271;
-	Fri, 24 Jan 2025 11:55:08 -0600
-Received: from [192.168.2.133] ([192.168.2.133])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 50OHt63a017053;
-	Fri, 24 Jan 2025 11:55:07 -0600
-Message-ID: <7adc6819-4e38-4dd0-b8fd-c80ed9f61d1c@kernel.crashing.org>
-Date: Fri, 24 Jan 2025 11:55:06 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DNv/hmry;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4678664e22fso21505201cf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 11:30:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737747026; x=1738351826; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vZRhjPkZhAQzGROsG241qG9LxBXxAiY577vurgaXWjM=;
+        b=DNv/hmry4ajLRRVR9X4/bFtyehrKfh4ISlptGN7oQXB9DH8CUI0DEVhJTk+orNDiDg
+         Zb233UKCwTHT/3xFvAMKYVCnOsHChQyx+glkD6/+wf0u1zf86zz3tlQQFuR0uPfE8Jw/
+         traOCAGf62Ff3fVJYIfn/Ihldujxg2VTL7XZlgPSkIUd5hGuSNIFUkw4Tqt+nNm+cMKy
+         i+oKXT73hSqSFGt917y53hlaU+m7evg3GHS0Y2HDX6tuRgqXGwlgOalhO1EtgxZgLOkO
+         Rs0Aa4rI8F6RI9XXUAPMqQlMS+jFvQ7x+oM8WhGYwTRXviljOSdYphSJUXLA68jfn3RM
+         1AzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737747026; x=1738351826;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vZRhjPkZhAQzGROsG241qG9LxBXxAiY577vurgaXWjM=;
+        b=V152bx46jKV1Qa71x7X4BMKvNaKjAC7kiMU+CMWLLfpFjzeBpEulkv0ZsJ7YXl20a8
+         qFLIJ9CmCEaMo+Gqsf4nLO3s1hdOgCndK0yFbcNFqBiX3qtZc7bELBZaxzejDUn4lnhy
+         GZ7qQQJWCJs96KnDKWcofMIThqQx53nAa8dhjHuwrsJ1c0AWIicVZ4Q/Mv46BE4x0oyn
+         OLp8jijJ6yYMySWyDoyMqVKFpjRNp201+DkmRmUPmkUnKjWKrXjXbDRki6VgdX90233F
+         xgeBSoHVR9XnwNqeLSL7Y64aCYVO6alH74ikJwP2AIO2Vqwd6qAcKnyJnGPsL5J2urnN
+         sV4g==
+X-Gm-Message-State: AOJu0YzgEu0Pq882Dy8ZlP55ZjM2uNIPXzOoDGCmdeSEeGUgNHjIOIl5
+	j/QsSS6oe/bFudUngv63bUSnknI1fdm2gAY/brxyHqKybj1yocX9ERAOsIfbdzFgmn96k6tHo0D
+	B4SamY2ffGIFvzckWLHbNqZMkLdNLbn9u
+X-Gm-Gg: ASbGncskKedM4e7eEOkGSOZrhTpT/KZVTvQbUgsBfE6L4iDx93uSWz18+EjSUIYUrI7
+	RlEriPGAfxcG0+H9JT6Eg/oyyGI8U6fiDV47aPwLhGaLmJJbJcmYik53WiWOqfHxrc8kbuuhuKU
+	pY4ZoDq+7I+ACk3xq5ArGp
+X-Google-Smtp-Source: AGHT+IFFYcgw/dsXOBhvYhEvCiNn6aCkL9Q6cKDJcjuR0RhQvnGgi3XFvOHHEGA1B4lNm2TdKkR1d3tbUotSQFGKLIQ=
+X-Received: by 2002:ac8:5f08:0:b0:466:948e:bef6 with SMTP id
+ d75a77b69052e-46e12bb31f5mr487823761cf.43.1737747025691; Fri, 24 Jan 2025
+ 11:30:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] [RFC] bash: Drop /bin/sh from RPROVIDES
-Content-Language: en-US
-To: alex.kanavin@gmail.com, marex@denx.de
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org,
-        Alexander Kanavin <alex@linutronix.de>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20250123201229.182266-1-marex@denx.de>
- <CAMKF1sohTGBUO0Lv3YWykjZg-6BB2Fcrd7x=g23iRxHe3TpqSg@mail.gmail.com>
- <a9914d2c-72c9-4cc0-b414-33d33d4c4f42@denx.de>
- <CANNYZj8XgBiaa9aqRPmETXzFgn1v-oeqN2-1zqugDAK6xuyYxQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CANNYZj8XgBiaa9aqRPmETXzFgn1v-oeqN2-1zqugDAK6xuyYxQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 50OHt8lP011271
+References: <20250124141852.2089467-1-beniamin.sandu@windriver.com>
+In-Reply-To: <20250124141852.2089467-1-beniamin.sandu@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Jan 2025 20:30:14 +0100
+X-Gm-Features: AWEUYZnSWyuuQNisTYDzGHH5IJQ68A2EyNmxuyseNJwECtLz4H-scgZ7R8weSqw
+Message-ID: <CANNYZj8v_gbjquwKafQHcczz7JX6v7HWmqKBi4WkAiucBKT-wQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] classes: add rootfs-footprint
+To: beniamin.sandu@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 18:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210245
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 19:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210246
 
+Isn't this what spdx already does?
+E.g. tmp/deploy/spdx/3.0.1/qemux86_64/rootfs/core-image-full-cmdline-qemux86-64-rootfs.spdx.json
 
+Alex
 
-On 1/24/25 10:39 AM, Alexander Kanavin via lists.openembedded.org wrote:
-> I wonder if we can just drop /etc/shells altogether from base-files?
-
-/etc/shells is used by pam as one of it's multiple validation steps.  If =
-the=20
-shell is not listed there then remote login can be denied.  So the existe=
-nce of=20
-/etc/shells is definitely required.  The file doesn't need to come from=20
-base-files (but usually should).
-
-With that said, "something" needs to provide /bin/sh.  Just dropping /bin=
-/sh=20
-from a shell, by itself, it's the right answer as there are ABSOLUTELY sy=
-stems=20
-out there where '/bin/bash' _is_ the only shell installed on the system.
-
-Just like we have busybox only systems providing /bin/sh...
-
-or dash based systems where it is the only thing providing /bin/sh...
-
-
-I'm more inclined to say that base-files depending on /bin/sh is the erro=
-r.=20
-AFAIK nothing in base-files should require /bin/sh (or are there post-ins=
-tall=20
-scripts?).   Once that is resolved, then various POSIX /bin/sh providers =
-can=20
-each provide it -- using update-alternatives to have the 'best' matching=20
-providing the right /bin/sh link.  (This is why update-alternatives [in t=
-he past=20
-at least] run directly and didn't require a shell to execute.  I don't kn=
-ow that=20
-we have the ability to do this with our multi-package support approach th=
-ough.)
-
-So essential install order may be something like:
-
-base-files
-libc (libraries only)
-update-alternatives
-<a shell>
-  - shell calls update-alternatives to register it as /bin/sh, as well as=
- add=20
-this as a valid shell to /etc/shells.
-
-End result (for bash)
-
-/bin/sh -> /bin/bash
-
-/etc/shell contains:
-   /bin/sh
-   /bin/bash
-
-(Note, circular dependencies for some base components have been considere=
-d=20
-normal in the workstation world.  They work around this by use the 'insta=
-ll' to=20
-temporarily provide the /bin/sh and some other resources until they can b=
-e=20
-installed into the chroot.   This really isn't anything different from wh=
-at=20
-we're doing, we expect some host-system (native) items to be available in=
- order=20
-to populate the image.)
-
---Mark
-
-> Alex
->=20
-> On Fri 24. Jan 2025 at 16.26, Marek Vasut via lists.openembedded.org=20
-> <http://lists.openembedded.org> <marex=3Ddenx.de@lists.openembedded.org=
-=20
-> <mailto:denx.de@lists.openembedded.org>> wrote:
->=20
->     On 1/23/25 10:18 PM, Khem Raj wrote:
->      > On Thu, Jan 23, 2025 at 12:12=E2=80=AFPM Marek Vasut via
->      > lists.openembedded.org <http://lists.openembedded.org>
->     <marex=3Ddenx.de@lists.openembedded.org
->     <mailto:denx.de@lists.openembedded.org>> wrote:
->      >>
->      >> Remove /bin/sh from bash RPROVIDES as this has a side-effect wh=
-ich
->      >> confuses rpm package manager when also busybox provides /bin/sh=
- and
->      >> base-files depend on /bin/sh . The problem is broken down below.
->      >>
->      >> First, bash depends on base-files and bash pkg_postinst must ru=
-n
->      >> after base-files was installed, because it requires /etc/shells
->      >> provided by base-files to be in place.
->      >>
->      >> Second, base-files depends on /bin/sh, which is provided by eit=
-her
->      >> bash or busybox in this case. This is the actual problem here, =
-if
->      >> bash is selected as /bin/sh provider, then there is cyclic depe=
-ndency
->      >> between bash and base-files, and that confuses dnf which may in=
-stall
->      >> the packages in the wrong order, bash first and base-files seco=
-nd .
->      >>
->      >> To make this worse, if busybox is also /bin/sh provider, it can=
- and
->      >> does happen that some systems pick busybox as the /bin/sh provi=
-der,
->      >> while others pick bash as the /bin/sh provider, and that cyclic
->      >> dependency does not always appear.
->      >>
->      >> Attempt to break this dependency, drop RPROVIDES /bin/sh from b=
-ash
->      >> recipe to always force base-files to pick /bin/sh from busybox .
->      >> (I am really unsure about this approach)
->      >>
->      >> Signed-off-by: Marek Vasut <marex@denx.de <mailto:marex@denx.de=
->>
->      >> ---
->      >> Cc: Alexander Kanavin <alex@linutronix.de <mailto:alex@linutron=
-ix.de>>
->      >> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com
->     <mailto:alexandre.belloni@bootlin.com>>
->      >> Cc: Richard Purdie <richard.purdie@linuxfoundation.org
->     <mailto:richard.purdie@linuxfoundation.org>>
->      >> ---
->      >>=C2=A0 =C2=A0meta/recipes-extended/bash/bash.inc | 2 +-
->      >>=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->      >>
->      >> diff --git a/meta/recipes-extended/bash/bash.inc
->     b/meta/recipes-extended/bash/bash.inc
->      >> index 634209c9115..6a061b8a612 100644
->      >> --- a/meta/recipes-extended/bash/bash.inc
->      >> +++ b/meta/recipes-extended/bash/bash.inc
->      >> @@ -134,4 +134,4 @@ FILES:${PN}-loadable +=3D "${libdir}/bash/*=
-"
->      >>
->      >>=C2=A0 =C2=A0# Limit the RPROVIDES here to class target so that =
-if usrmerge is
->     enabled for nativesdk, it does not
->      >>=C2=A0 =C2=A0# include host system paths in /bin/
->      >> -RPROVIDES:${PN}:append:class-target =3D "
->     ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sh /bin/b=
-ash', '',
->     d)}"
->      >> +RPROVIDES:${PN}:append:class-target =3D "
->     ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/bash', ''=
-, d)}"
->      >
->      > Does this now mean that system will always need busybox ?
->=20
->     The system will require some other /bin/sh provider than bash .
->=20
->     I suspect there will always be one , but maybe I am wrong and there=
- are
->     systems without busybox and with bash only (probably yes) ?
->=20
->      >=C2=A0 some distros
->      > may not want that and simply use
->      > other variants to fill in the shoes. I wonder if shell choice co=
-uld be
->      > a distro option or image feature which can then
->      > help sort this out ?
->     I don't think this specific fix is the correct solution, I think wh=
-at I
->     need to figure out is how to make sure base-files is installed befo=
-re
->     bash, even if there is this cyclic dependency which confuses rpm/dn=
-f
->     into installing the two packages in arbitrary order:
->=20
->     base-files -depends_on-> /bin/sh -depends_on-> bash (the /bin/sh pr=
-ovider)
->=20
->     bash -depends_on-> base-files
->=20
->     I still have to check the input from Martin Jansa , there was some =
-hint
->     which might be the better fix for this.
->=20
->     Any ideas ?
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+On Fri, 24 Jan 2025 at 17:29, Beniamin Sandu via
+lists.openembedded.org
+<beniamin.sandu=windriver.com@lists.openembedded.org> wrote:
+>
+> The rootfs-footprint class can be inherited by image recipes to generate
+> a .json footprint file. This file contains a list of all installed packages,
+> with the following format:
+>
+> {
+>     "package_name": "busybox-udhcpc",
+>     "version": "1.37.0",
+>     "total_size": 2701,
+>     "installed_files": {
+>         "/etc/udhcpc.d/50default": 2652,
+>         "/usr/share/udhcpc/default.script": 49
+>     }
+> }
+>
+> The data can be used with other tools/scripts to generate detailed
+> rootfs reports or perform relevant comparisons.
+>
+> Signed-off-by: Beniamin Sandu <beniamin.sandu@windriver.com>
+> ---
+>  meta/classes/rootfs-footprint.bbclass | 54 +++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 meta/classes/rootfs-footprint.bbclass
+>
+> diff --git a/meta/classes/rootfs-footprint.bbclass b/meta/classes/rootfs-footprint.bbclass
+> new file mode 100644
+> index 0000000000..247db0b709
+> --- /dev/null
+> +++ b/meta/classes/rootfs-footprint.bbclass
+> @@ -0,0 +1,54 @@
+> +# Generates a json footprint file with the list of packages installed in the rootfs image,
+> +# with the following format:
+> +#
+> +# {
+> +#     "package_name": "busybox-syslog",
+> +#     "version": "1.37.0",
+> +#     "total_size": 2824,
+> +#     "installed_files": {
+> +#         "/etc/init.d/syslog": 2104,
+> +#         "/etc/syslog-startup.conf": 651,
+> +#         "/etc/syslog.conf": 69
+> +#     }
+> +# }
+> +#
+> +# Copyright (C) 2024 Wind River Systems, Inc.
+> +# Author: Beniamin Sandu <beniamin.sandu@windriver.com>
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +ROOTFS_POSTPROCESS_COMMAND:append = " create_rootfs_footprint; "
+> +ROOTFS_FOOTPRINT_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.footprint.json"
+> +
+> +python create_rootfs_footprint() {
+> +    from oe.rootfs import image_list_installed_packages
+> +    import oe.packagedata
+> +    import json
+> +
+> +    footprint_file = d.getVar('ROOTFS_FOOTPRINT_FILE')
+> +    pkg_info_dic = {}
+> +    pkg_dic = dict(package_name="", version="", total_size=0, installed_files="")
+> +    pkg_list = sorted(image_list_installed_packages(d))
+> +
+> +    pkg_data_list = []
+> +
+> +    for pkg in pkg_list:
+> +        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'), 'runtime-reverse', pkg)
+> +        pkg_name = os.path.basename(os.readlink(pkg_info))
+> +        pkg_info_dic[pkg_name] = oe.packagedata.read_pkgdatafile(pkg_info)
+> +
+> +        pkg_dic["package_name"] = pkg_name
+> +        pkg_dic["version"] = pkg_info_dic[pkg_name]["PV"]
+> +        pkg_dic["total_size"] = int(pkg_info_dic[pkg_name]["PKGSIZE:" + pkg_name])
+> +        pkg_dic["installed_files"] = json.loads(pkg_info_dic[pkg_name]["FILES_INFO:" + pkg_name])
+> +
+> +        pkg_data_list.append(pkg_dic.copy())
+> +
+> +    with open(footprint_file, 'w') as f:
+> +        json.dump(pkg_data_list, f, indent=4)
+> +
+> +    footprint_link = os.path.join(d.getVar('IMGDEPLOYDIR'), "%s.footprint.json" % d.getVar('IMAGE_LINK_NAME'))
+> +    if os.path.lexists(footprint_link):
+> +        os.remove(footprint_link)
+> +    os.symlink(os.path.basename(footprint_file), footprint_link)
+> +}
+> --
+> 2.39.5
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#210242): https://lists.openembedded.org/g/openembed=
-ded-core/message/210242
-> Mute This Topic: https://lists.openembedded.org/mt/110778651/3616948
+> View/Reply Online (#210236): https://lists.openembedded.org/g/openembedded-core/message/210236
+> Mute This Topic: https://lists.openembedded.org/mt/110791960/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
