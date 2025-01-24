@@ -1,139 +1,166 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCE0C02182
-	for <webhook@archiver.kernel.org>; Thu, 23 Jan 2025 21:18:53 +0000 (UTC)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
- by mx.groups.io with SMTP id smtpd.web11.23167.1737667131261138569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80CEAC02182
+	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 00:00:58 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web11.225.1737676852940972196
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 13:18:51 -0800
+ Thu, 23 Jan 2025 16:00:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dJKx1v2X;
- spf=pass (domain: gmail.com, ip: 209.85.161.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5f4ce54feb8so655839eaf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 13:18:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737667130; x=1738271930; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8SkqnK2/duxImO990JcFgu83fNAVQKlR+olOdTSRSnc=;
-        b=dJKx1v2XSfOqEfsjAyDLXu7wdBafn9CvdRK3GSDC3Rn9sYMA40t0rHkvD4OyRHlQ5r
-         YL8oe012gjFIaRTZNiYMLWMJUBA45TF1tY+BkGf3eurtHnWogcui9314L6wI7vyCJnCo
-         9Cc7me9Q05XGAq7lYKHBQX5Yj3Tj6EPSEZKpu5i08uuyXCLwPVPi6Di19xuoegJfMAdD
-         s9kbwiKoHZDkOaoLarInlRXNRqx7ujZSBBnVG3BmR5iyzf81x9106jp953PrI7vh1GMz
-         aAm2T5RFkRiDhOgjsQkFt72MByyqGBB0zx54lJw4lW6MRhtTqY5pHJ2i1nfABGi7uDnc
-         QVjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737667130; x=1738271930;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8SkqnK2/duxImO990JcFgu83fNAVQKlR+olOdTSRSnc=;
-        b=bXltLG+RujgXtS9GdVY/IfeZzKpWaPEfWqUn2SeF41qYPurdGQLpzWmTDqoOXIQWxJ
-         v7zwOsd4MdRixeGdxjt1yZtWL/pYfdk3lJ6Mc8P/uqgmf7596oKGqHzsAp8r6ZxR9wos
-         PdK76TrvCrFWNy0Iiuq5kIfBAPTKK70LYnYNWqlXP4oNt29OMLXYZfwJ21PNxYpRBujB
-         Rl1zQ62MyA7LO4E7QY7xHBWE6ez4S/TlNdRiMjvskQG+l8XPPuK1q/7BSK9Mtc9s+Otm
-         UxhoWWA1Mecl0VfZbK32TGETEBwF+Id/DbApW20z6iM7mD1wEVDMfT5bKRpoHAML1W0A
-         SUvg==
-X-Gm-Message-State: AOJu0Yyo/xOZLa9rKlyjVoEwTk/i3+WIrExgCgAdxX4pTben2DyGaTHv
-	vKZYXwLuLJiBN/+wMnjeEFpck0EQBWlCV9zAfQtMpDGaKVB6QmV88hUfeY7zq1ZfVxE4apNaWZG
-	03wPlUJXI1F063bmsC/puzsUvCNI=
-X-Gm-Gg: ASbGncs3sM+tXXlkAYEmdUemPfpPkaEnkZDKNouPh9lEsn81ac30sZZv8cEtbcf1fFz
-	d1SdvUrzDIWDi/FPnB0vUyEG63fCJZ1TZh3BaOIv44lYjD8Fo0fYix7tMRjgt
-X-Google-Smtp-Source: AGHT+IGuetBIiiye9yTLMnueAeSlFbF6MyRlknTVZM87Xl9W3E0XJjZgP6kA2j+cruVkouYvW6Pd+iBxFYkYHEyPMQg=
-X-Received: by 2002:a05:6871:4103:b0:29d:c5e8:e41f with SMTP id
- 586e51a60fabf-2b1c09794e0mr17320160fac.5.1737667130465; Thu, 23 Jan 2025
- 13:18:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20250123201229.182266-1-marex@denx.de>
-In-Reply-To: <20250123201229.182266-1-marex@denx.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 23 Jan 2025 13:18:24 -0800
-X-Gm-Features: AWEUYZk-BQZzD-v3ueXBxeF_0KSMcJZaZKHHqhMexFvo-Voczpdcv5qpubbXM7A
-Message-ID: <CAMKF1sohTGBUO0Lv3YWykjZg-6BB2Fcrd7x=g23iRxHe3TpqSg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [RFC] bash: Drop /bin/sh from RPROVIDES
-To: marex@denx.de
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=I73Xk15Q;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1737676853; x=1769212853;
+  h=from:to:cc:subject:date:message-id;
+  bh=QsbMqDuutWCYR19Iq+GTeYQzsZa5eHgOWS0fBEtXgwE=;
+  b=I73Xk15Q7guQyEMR7Ioa1sPEJp7wq9ig8uL2Wdw9ogYlFYppJh2AejYs
+   P9BXhLT5s07w33StQyIU0rEDHHIXLFNEJHMX/HZEw0AHA0+yq9iV3nltt
+   EF1uF8HnJInshZsf6lqsQ3fIASDZZBvX76zIn/9QxaSz0TqmwJgZW96mG
+   o83JJZ63E5o+6usmE3117a2b5Zah4yN6fMg1nPMXsdLQ+UUKVWCCv1mbK
+   dP+hSXCopJvdQfPz0mO7PmJxN3YOY3oJscZya5kD2pL/xgSbiz8+6S0as
+   vNkQsy0AGqvSs/ta8RPC3TE+fE3nOcDBy/iy9hsiRN5vk0v4sP3xkqWWU
+   Q==;
+X-CSE-ConnectionGUID: pVeUpdRAQoCcxWyVDCRoJQ==
+X-CSE-MsgGUID: g1lC58N8SbC43YvXOQ2GVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="175948602"
+X-IronPort-AV: E=Sophos;i="6.13,229,1732546800"; 
+   d="scan'208";a="175948602"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 09:00:50 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 26736B406C
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 09:00:48 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id E670AD0AD7
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 09:00:47 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6BFF5E4AB4
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 09:00:47 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id EE4131A0074;
+	Fri, 24 Jan 2025 08:00:46 +0800 (CST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH] ncurses: update to latest version
+Date: Fri, 24 Jan 2025 08:00:43 +0800
+Message-Id: <1737676843-10340-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28942.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28942.003
+X-TMASE-Result: 10--6.847800-10.000000
+X-TMASE-MatchedRID: 9YmJ+rCjjhG/zwxKdmuyBzo39wOA02LhMVx/3ZYby7+AI7Mvq/sL5+n7
+	ya/+V5vjmrS/IzG3CN2D0fiPNa0yFuRZDz3acVPM/sUSFaCjTLxxXefgn/TNQ1yBP7yEykbVwlH
+	EoNRkLSitsvFtd2QDjJiZJN9vH+EeiCsqewnUZGD8dMpK2wMYwkc1DwKoQo7YpKG9GN+fhxSN3H
+	kV2EiaAyL637QCIVpiytuC65NNIO5MGF0Ua9spp5VRzPxemJL0F4r8H5YrEqywxkbalTMB84yxF
+	TrxUwZkQA5yz5TdUE2UG1C0RdcjvHYMpxnz5ObKYrc32n84WHrh8DHCE/SigYaYRB/7FzEQssbE
+	kSX6c0larX/OF3EJAvD/aJAhh3s4qqg2TSZUFr2zRPQ8T4oe5RjxUZ5vLZHp5lhx0mBJyPFEDiH
+	NtFOhEj0NjcxBITAitz9kIuTkBq6vvxILmKK/HBRFJJyf5BJeAaUQk5EZOUn6C0ePs7A07Xi4XE
+	oPXecxUVeE72Mv3dTLgQz8u7mHpdQ9FHTkFdVI0DlhEBcNZLk=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 21:18:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210213
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 00:00:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210214
 
-On Thu, Jan 23, 2025 at 12:12=E2=80=AFPM Marek Vasut via
-lists.openembedded.org <marex=3Ddenx.de@lists.openembedded.org> wrote:
->
-> Remove /bin/sh from bash RPROVIDES as this has a side-effect which
-> confuses rpm package manager when also busybox provides /bin/sh and
-> base-files depend on /bin/sh . The problem is broken down below.
->
-> First, bash depends on base-files and bash pkg_postinst must run
-> after base-files was installed, because it requires /etc/shells
-> provided by base-files to be in place.
->
-> Second, base-files depends on /bin/sh, which is provided by either
-> bash or busybox in this case. This is the actual problem here, if
-> bash is selected as /bin/sh provider, then there is cyclic dependency
-> between bash and base-files, and that confuses dnf which may install
-> the packages in the wrong order, bash first and base-files second .
->
-> To make this worse, if busybox is also /bin/sh provider, it can and
-> does happen that some systems pick busybox as the /bin/sh provider,
-> while others pick bash as the /bin/sh provider, and that cyclic
-> dependency does not always appear.
->
-> Attempt to break this dependency, drop RPROVIDES /bin/sh from bash
-> recipe to always force base-files to pick /bin/sh from busybox .
-> (I am really unsure about this approach)
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Alexander Kanavin <alex@linutronix.de>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-extended/bash/bash.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/=
-bash/bash.inc
-> index 634209c9115..6a061b8a612 100644
-> --- a/meta/recipes-extended/bash/bash.inc
-> +++ b/meta/recipes-extended/bash/bash.inc
-> @@ -134,4 +134,4 @@ FILES:${PN}-loadable +=3D "${libdir}/bash/*"
->
->  # Limit the RPROVIDES here to class target so that if usrmerge is enable=
-d for nativesdk, it does not
->  # include host system paths in /bin/
-> -RPROVIDES:${PN}:append:class-target =3D " ${@bb.utils.contains('DISTRO_F=
-EATURES', 'usrmerge', '/bin/sh /bin/bash', '', d)}"
-> +RPROVIDES:${PN}:append:class-target =3D " ${@bb.utils.contains('DISTRO_F=
-EATURES', 'usrmerge', '/bin/bash', '', d)}"
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Does this now mean that system will always need busybox ? some distros
-may not want that and simply use
-other variants to fill in the shoes. I wonder if shell choice could be
-a distro option or image feature which can then
-help sort this out ?
+exit_prototype.patch
+removed since it's included in latest version.
 
-> --
-> 2.45.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210212): https://lists.openembedded.org/g/openembedde=
-d-core/message/210212
-> Mute This Topic: https://lists.openembedded.org/mt/110778651/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+License-Update: Copyright year updated to 2025
+
+Changelog:
+==========
+- improve pattern used for configure --with-xterm-kbs option
+- update configure macros, from work on cdk and dialog.
+- change a parameter name in curs_sp_funcs.3x, for consistency
+- improve formatting/style of manpages
+- change winwstr() to a generated function, using the macro definition,
+- moving its handling of negative length parameter into winnwstr().
+- correct actual-function name in a few trace calls.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../ncurses/files/exit_prototype.patch        | 31 -------------------
+ meta/recipes-core/ncurses/ncurses.inc         |  2 +-
+ meta/recipes-core/ncurses/ncurses_6.5.bb      |  3 +-
+ 3 files changed, 2 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-core/ncurses/files/exit_prototype.patch
+
+diff --git a/meta/recipes-core/ncurses/files/exit_prototype.patch b/meta/recipes-core/ncurses/files/exit_prototype.patch
+deleted file mode 100644
+index 299852d2c0..0000000000
+--- a/meta/recipes-core/ncurses/files/exit_prototype.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From af798dceafec8a9ea3f83fc250d784511ca0a29c Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 30 Aug 2022 15:58:32 -0700
+-Subject: [PATCH] Add needed headers for including mbstate_t and exit()
+-
+-Upstream-Status: Inappropriate [Reconfigure will solve it]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/configure b/configure
+-index 005d44e2..72fa6c23 100755
+---- a/configure
+-+++ b/configure
+-@@ -3462,6 +3462,7 @@ rm -f "conftest.$ac_objext" "conftest.$ac_ext"
+-   cat >"conftest.$ac_ext" <<_ACEOF
+- #line 3463 "configure"
+- #include "confdefs.h"
+-+#include <stdlib.h>
+- $ac_declaration
+- int
+- main (void)
+-@@ -13533,6 +13534,7 @@ cat >"conftest.$ac_ext" <<_ACEOF
+- #include <stdlib.h>
+- #include <stdarg.h>
+- #include <stdio.h>
+-+#include <wchar.h>
+- #ifdef HAVE_LIBUTF8_H
+- #include <libutf8.h>
+- #endif
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index e96ee075bd..d5d53359f3 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
+ DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
+ HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6f291ee54551d9d8d992ecd623fe4bc7;endline=27"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c534844fa5a74d14ae8fa3d9b3b42138;endline=27"
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS:class-native = ""
+diff --git a/meta/recipes-core/ncurses/ncurses_6.5.bb b/meta/recipes-core/ncurses/ncurses_6.5.bb
+index 2e3ee337ea..708aeeb446 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.5.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.5.bb
+@@ -3,10 +3,9 @@ require ncurses.inc
+ SRC_URI += "file://0001-tic-hang.patch \
+            file://0002-configure-reproducible.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
+-           file://exit_prototype.patch \
+            "
+ # commit id corresponds to the revision in package version
+-SRCREV = "1c55d64d9d3e00399a21f04e9cac1e472ab5f70a"
++SRCREV = "752b540280a58c0ba0cc048e88518667409c1429"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+_\d+)$"
+-- 
+2.43.0
+
 
