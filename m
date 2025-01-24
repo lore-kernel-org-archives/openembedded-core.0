@@ -1,90 +1,138 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E833C0218B
-	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 12:43:33 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.11008.1737722604840117815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38FD0C02181
+	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 12:51:33 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web11.11173.1737723086842717386
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jan 2025 04:43:25 -0800
+ Fri, 24 Jan 2025 04:51:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OUV7xq+P;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6d8a3e99e32so18618656d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 04:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737722604; x=1738327404; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BtE1+iCfr/t1qpzsqa23pB+/F9MX7JIoplG9TEwcTaA=;
-        b=OUV7xq+PdeCARl4gAmqveC8qjZL4StCSzKVNeNcKATb4LBdSnOmXH2GSRTEOBKB7F4
-         ZL5xR2ORUOf4OjqzU4aCAXqve0zbzWrXZYE31ZGBkIEFcGjJWDr443Zp+EK8ueQu+XHz
-         x3jQLgPY8eHDp3x3s5aPd/v1PLbVJPD2Oy588Tq3VFai2wW9PQIAqLlceb8XFFGjzKkm
-         dDzJ6Wiw6hxn3cH2D+GsesAYfSJKIxNc1IKa+gkN2lqub4cZsfDIMkBknSeqDd4g7lWa
-         jOEYvgG1Ck63bDGpEKCp9SqIlgiMYuFsrdPbfvOzHtPgd/i3Vx6Yq0awPWlsPhFK9IPV
-         jfXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737722604; x=1738327404;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BtE1+iCfr/t1qpzsqa23pB+/F9MX7JIoplG9TEwcTaA=;
-        b=vWpzehX+fzL8ZwWbIYCrAqv6xHvoyQ6Uf96/bSNlpneUzF05WGOr9OQBhXRECCiijT
-         GNmd5HpUNgKea1zLU3S8EmZ7e2LMSbFOgG4KjKughOZiCLr85r8HxTzFZte6Jj3lqkj6
-         RpUNws1retXrpo0eWu5vbspTZJl9inQIm7ayER63f094LpbWPr3GJqUq3B6pcl6zGRhA
-         RaU1weCsfPdl6TlZAoh/K2dwjD464G1SH+y8+84Z1zKME7VA87xPMY5XM2i1xqLOzcqZ
-         qB/x0xcx8eOEoWvWLNkPVbzTZaTRBAMCGyUv1CJJUw9MyEr+JY1Y7GBO/KkMvNZldpxm
-         Ayww==
-X-Gm-Message-State: AOJu0Yy4IfKGYu6o68xSnoV4jacJ5WRvNDwCvdAvAfSr/Xtr7ZnK2FB8
-	Ev8XcV6TT2XKLH0PC58ZMZKhdkh9tCrGl9RQb7nW+dJfJwE8hGbuUUBuWqXSeEdr7lGIWfu1NKy
-	OfKY+dyL4y2JMpg45G7zCmiAkUoI=
-X-Gm-Gg: ASbGncvSV58FkvPknt8Z4YqnMeEK7Y/aiS5KMdNo7ne4sxxFr/tYbM6E1HHkXk/kNUr
-	MzZzgjHYeGNr8wmajoyUlJRI5gX7BU1CGeLi+PEXokrt0UgVpXXbpGnzf8ZGjZ28iSgh5bMql1I
-	ZqSc4+8WQiE25s+Jfz8Qch
-X-Google-Smtp-Source: AGHT+IGzcmhkrMbTkf7H46oLLINnl921rvBZDuzDMqvnv687qlSWSbcXegPGITfyyOtS4p5RR2KNCo3bd69ZK6Te9mw=
-X-Received: by 2002:ad4:5e85:0:b0:6d8:8fbf:d1b7 with SMTP id
- 6a1803df08f44-6e1b223ad9fmr417953906d6.43.1737722603898; Fri, 24 Jan 2025
- 04:43:23 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout12.t-online.de (Postfix) with SMTP id AFDC316B0;
+	Fri, 24 Jan 2025 13:51:23 +0100 (CET)
+Received: from [192.168.178.67] ([84.154.163.122]) by fwd71.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tbJ9d-1JAj6O0; Fri, 24 Jan 2025 13:51:21 +0100
+Date: Fri, 24 Jan 2025 13:51:42 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [PATCH v3 8/8] image.bbclass: enable systemd user
+ services
+To: arturkow2000@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <6QFLQS.3B9MTODL3DXT1@t-online.de>
+In-Reply-To: <20250120124605.263817-10-arturkow2000@gmail.com>
+References: <20250120124605.263817-2-arturkow2000@gmail.com>
+	<20250120124605.263817-10-arturkow2000@gmail.com>
+X-Mailer: geary/46.0
 MIME-Version: 1.0
-References: <20250123201229.182266-1-marex@denx.de>
-In-Reply-To: <20250123201229.182266-1-marex@denx.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Jan 2025 13:43:13 +0100
-X-Gm-Features: AWEUYZlv3C8WUUsJOP-2B2i7q5mtYAHZjfpP51LrNL4kaeR7TZQV7Urtna--Hcc
-Message-ID: <CANNYZj9B-ZY+L9Wk0DED5yMxSxMzFca1SOfKVH1ZgPfo2GG7Xg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [RFC] bash: Drop /bin/sh from RPROVIDES
-To: marex@denx.de
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative; boundary="=-8aK6WvlMAsrsjJjWpKZO"
+X-TOI-EXPURGATEID: 150726::1737723081-59FF89CD-976FA614/0/0 CLEAN NORMAL
+X-TOI-MSGID: 850db482-7038-4681-8348-9d9546df5f6f
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 12:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210220
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 12:51:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210221
 
-On Thu, 23 Jan 2025 at 21:12, Marek Vasut via lists.openembedded.org
-<marex=denx.de@lists.openembedded.org> wrote:
+--=-8aK6WvlMAsrsjJjWpKZO
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
->  # Limit the RPROVIDES here to class target so that if usrmerge is enabled for nativesdk, it does not
->  # include host system paths in /bin/
-> -RPROVIDES:${PN}:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sh /bin/bash', '', d)}"
-> +RPROVIDES:${PN}:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/bash', '', d)}"
+With this patch applied I see an error in image creation after 
+do_rootfs if gnome-shell is installed:
 
-This was added for a reason (that you can find in git history), if we
-partially remove it, then the reason will come back and bite us.
+| Error: Systemctl preset_all issue in org.gnome.Shell@wayland.service
+| WARNING: 
+/home/flk/poky/build/tmp/work/intel_corei7_64-poky-linux/gnome-image/1.0/temp/run.systemd_preset_all.2011511:158 
+exit 1 from 'systemctl 
+--root="/home/flk/poky/build/tmp/work/intel_corei7_64-poky-linux/gnome-image/1.0/rootfs" 
+--global --preset-mode=enable-only preset-all'
 
-What I'd like to understand is how bash's postinst is actually failing
-when /etc/shells is not there yet:
 
-grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo
-${base_bindir}/bash >> $D${sysconfdir}/shells
 
-Basically you either need to show me how to reproduce the issue, or
-show an error message you're getting, or an incorrect outcome on the
-rootfs.
+On Mon, Jan 20 2025 at 13:46:06 +01:00:00, Artur Kowalski via 
+lists.openembedded.org <arturkow2000=gmail.com@lists.openembedded.org> 
+wrote:
+> Run systemctl preset-all with --global flag so user unit's are enabled
+> the same way system units are.
+> 
+> Signed-off-by: Artur Kowalski <arturkow2000@gmail.com 
+> <mailto:arturkow2000@gmail.com>>
+> ---
+>  meta/classes-recipe/image.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes-recipe/image.bbclass 
+> b/meta/classes-recipe/image.bbclass
+> index 84a2017eb5..f08818db03 100644
+> --- a/meta/classes-recipe/image.bbclass
+> +++ b/meta/classes-recipe/image.bbclass
+> @@ -702,6 +702,7 @@ reproducible_final_image_task () {
+>  systemd_preset_all () {
+>      if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
+>  	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only 
+> preset-all
+> +	systemctl --root="${IMAGE_ROOTFS}" --global 
+> --preset-mode=enable-only preset-all
+>      fi
+>  }
+> 
+> --
+> 2.47.1
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210039): 
+> <https://lists.openembedded.org/g/openembedded-core/message/210039>
+> Mute This Topic: <https://lists.openembedded.org/mt/110714552/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org 
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe: 
+> <https://lists.openembedded.org/g/openembedded-core/unsub> 
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Alex
+
+--=-8aK6WvlMAsrsjJjWpKZO
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>With this patch applied I see an error in image creation after do_rootfs if gnome-shell is installed:</div><div><br></div><div><div>| Error: Systemctl preset_all issue in org.gnome.Shell@wayland.service</div><div>| WARNING: /home/flk/poky/build/tmp/work/intel_corei7_64-poky-linux/gnome-image/1.0/temp/run.systemd_preset_all.2011511:158 exit 1 from 'systemctl --root="/home/flk/poky/build/tmp/work/intel_corei7_64-poky-linux/gnome-image/1.0/rootfs" --global --preset-mode=enable-only preset-all'</div></div><div><br></div><div><br></div></div><div id="geary-quote" dir="auto"><br>On Mon, Jan 20 2025 at 13:46:06 +01:00:00, Artur Kowalski via lists.openembedded.org &lt;arturkow2000=gmail.com@lists.openembedded.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Run systemctl preset-all with --global flag so user unit's are enabled
+the same way system units are.
+
+Signed-off-by: Artur Kowalski &lt;<a href="mailto:arturkow2000@gmail.com">arturkow2000@gmail.com</a>&gt;
+---
+ meta/classes-recipe/image.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 84a2017eb5..f08818db03 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -702,6 +702,7 @@ reproducible_final_image_task () {
+ systemd_preset_all () {
+     if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
+ 	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
++	systemctl --root="${IMAGE_ROOTFS}" --global --preset-mode=enable-only preset-all
+     fi
+ }
+ 
+<div>-- 
+</div>2.47.1
+
+</div><div class="plaintext" style="white-space: break-spaces;">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#210039): <a href="https://lists.openembedded.org/g/openembedded-core/message/210039">https://lists.openembedded.org/g/openembedded-core/message/210039</a>
+Mute This Topic: <a href="https://lists.openembedded.org/mt/110714552/3618223">https://lists.openembedded.org/mt/110714552/3618223</a>
+Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</div></blockquote></div>
+--=-8aK6WvlMAsrsjJjWpKZO--
+
 
