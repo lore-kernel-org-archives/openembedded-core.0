@@ -1,141 +1,103 @@
-Return-Path: <marc.ferland@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20896C02181
-	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 15:44:24 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.15187.1737733458578227744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EFABC0218F
+	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 15:57:14 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.15738.1737734228007073150
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jan 2025 07:44:18 -0800
+ Fri, 24 Jan 2025 07:57:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=N4+JZzGg;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: marc.ferland@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaeef97ff02so416758266b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 07:44:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WjfEIwAS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so3226889a91.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 07:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737733457; x=1738338257; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=p7LVJVr5AiIVb0TbiiqEaGgKx8hrXoT1cWP53bHPGG8=;
-        b=N4+JZzGgiMMMhggUeoaCQfdXnOaqQdO3QyhsANtcwKDhR9HEnkTMu3B9FFCWsOEt5Z
-         FYZLoNygX+VtNNY1jZS/f0EkZggUwhHjTrfQjPH6z9xSQ1sW6A+TwSMZIRRxG8Cqf+EO
-         g4BqNuC2EkwOb289/aDzTq3/qJ0Kv2Gnn7z0WG4eaZ1hwiNu0ZQ7kwq71z8aD9vVRtNl
-         mWwy6G6Cwzp+UrxJcrlRDWlexu4c/0gLIZLOOCT9GnVY0VXsW8iPXhy2gphGD5haCZd3
-         xwcAcufnkvayLpKT/En6kBkz7fMiWvs6tFRSRulFiHupeYdbqdxD/kWYqRn2ADUqZpmm
-         CqyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737733457; x=1738338257;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737734227; x=1738339027; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p7LVJVr5AiIVb0TbiiqEaGgKx8hrXoT1cWP53bHPGG8=;
-        b=Oyl9aCsIynMplQkwEablWbRbn7ShHSKgnboTRmX88M5qog9snzRNZuZH1CEUEgEnTK
-         MQodhezvFHBCNMMQ7q57pYvX/iINj9TfL6FtwhiXngAnmfmckoeNQKmxnxy1/YYkwMRs
-         ug/NNV+o9hEecChCWwILLIRjzkMSll+6GNekzflXfK0XK8MxSe3g9CT9/FY5jgVk3L01
-         //KOsQOCAQYIPnZBoejGim2vd4FEGXYQbpI5WkzspsYgNECJRLvZghApXC51B4Y6boV6
-         J88tyPTYNFSPwTFZ509dBWfsNaK9Rpt8/3y8TmNBVzW6cwNjEP15UkOz0unyXB+E3vOG
-         HucA==
-X-Gm-Message-State: AOJu0YxSUbqNbevMmrwk6E4HKI1rM3j4TZthblS9cAIXxXmfRXaWJpk/
-	pitatoZpSVZZVdKM910lqwdzv3j3hdjbE+s2koInV1ngAovDEvFYu/TyjbZot0VidQPBY23qENd
-	bLpB1U8h7FH7nUNoTQeef0/OX8qA=
-X-Gm-Gg: ASbGnctcprqVflWZ+kbO8AtSVnqLVn3pAiodnTMplorfIm6lwkLic4pYGIyBv5CyDpU
-	tbvFoCNj8/iWFqx4x970IbIpq6hFjfg8mHuaVKfF89gSItFUYh3vcLvoqtxK0l2g=
-X-Google-Smtp-Source: AGHT+IGgOn2DREfa7NsKp7+dCRM15jWUoXCFoqbcfzazk9+KOveIsphN8U+R2L+5Hxlj1FdSjDSEQPGOkNE72hm+AD8=
-X-Received: by 2002:a17:907:7296:b0:aab:75f1:e51a with SMTP id
- a640c23a62f3a-ab38b44e04emr3199679566b.38.1737733456513; Fri, 24 Jan 2025
- 07:44:16 -0800 (PST)
+        bh=3SuvnAr+inhi2dz8u8VmsqqSE9ahlC10DYyIfQgRswg=;
+        b=WjfEIwASIzGv2OlG4Wkj+d5bpGjLe4nkid8eSlxbFTE/Cfd3pXXtO9Xdt3SeL9M/5U
+         8ZrTNsjdJ0KBU3tJf57bCIuBg9Vf7MesOSi0PtWKtI7WuHLRE2lcd0cXq9eP9Jk50RFY
+         lsWKv17sWE7GRV0XDjedOlAn/o+2vsnwCzyNL0eJWzzxqJbT++1qYx8Z2qnyjwoY66t7
+         0LguJRBEaZGXCzdzo/4RqwACotkN6muxCzgjYLJSHKBTVARqfGNnPg+3wauHNrpzj3SE
+         m4ji5nCR/UCoxzep8KR63wQMpmjlOUnaZS3IggSQOOOv59e53OArxqVpHJghRnlnfzbe
+         fzlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737734227; x=1738339027;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3SuvnAr+inhi2dz8u8VmsqqSE9ahlC10DYyIfQgRswg=;
+        b=etC2sEk0NThOoEnwrcXYngVM7utny/J9roVghdhYZ6KNj2fXxd2W8AqKDxz6C2RkMb
+         LlISYbEJ6c/4CK/Ki4HzFzjOBX+nJy/LzhV6tnf+yZnmBHNHW2Yxrit2A/rHNiFM1LSq
+         1lWthgZMfQZcLS+c5YhRkz81q5bm0ViNAFGQiTz79U5jukv6yJItMLv7HNVG9DBkJ5bx
+         bQSJD6nOJeu6A0brkin87ff6xDobZXXMi9HNIBvr+JO0XjtwwSPpHWzC6AmLFwspSwCJ
+         +rySgFGqsQ4Uz1bKPt50s9JAc/bUgTzJz6s9ffGHN5UKDqfNEfyK6w0THiOAE1FlF8c0
+         tWwQ==
+X-Gm-Message-State: AOJu0YwB86M1OFq2rt66FoCE0xsmtTRJOEJ/AvXwRWLH2drOJTIGr/fT
+	HHzqTP1FV+o/2rJJJvHBRTNVYpGljpwaZIaF4WzBVnfBtEA1AtihR2ExBit+vuWC4N2uX8yldwh
+	s1p4=
+X-Gm-Gg: ASbGncsIv+H+7P3FxB8aW6UWGxc3wm0p9mw5k2KGkM8Tcw8bgQEY+g6DeDW/BKTCKQj
+	h+5F54Duft9uAZcat2issHNAOsJfJaIQLEnK0dq3346m8AA7gbrYc/08kZq702wrS3oZohGLGeF
+	ibvHkaJhSckG/U2CKc6qoH0Kwr4PJHQjUQOQ2FzqGsTMX9ZyMY/lxEfUaGW6nIGH/4zIACmWjmW
+	ohF5At/OTwKLu4zG005uANeGSkgG7Ejq+f3hou2zPa3saySl+lR3mzMrnKaCac4TOvWTA==
+X-Google-Smtp-Source: AGHT+IFAxa45ZQygEiN8dDgZER2sJQU40P3Eys6L3cxKlVDNXYhUzy/blMeoLBe8Y5B9GNzzJ5MrVw==
+X-Received: by 2002:a17:90a:7187:b0:2f7:e201:a8cc with SMTP id 98e67ed59e1d1-2f7e201ab8fmr22202388a91.18.1737734227267;
+        Fri, 24 Jan 2025 07:57:07 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7ffaf9e98sm1879168a91.38.2025.01.24.07.57.06
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 07:57:07 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][styhead 2/6] classes/nativesdk: also override TUNE_PKGARCH
+Date: Fri, 24 Jan 2025 07:56:50 -0800
+Message-ID: <9c64247b206efa72a52460a0b94734f7afc832e1.1737734087.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1737734087.git.steve@sakoman.com>
+References: <cover.1737734087.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20250120154605.3023068-1-marc.ferland@sonatest.com> <z6jsvvuyc2x23pqa6yw7dandwpfukuu3uxm27fznrzbaui7ocg@h2yyduzllnny>
-In-Reply-To: <z6jsvvuyc2x23pqa6yw7dandwpfukuu3uxm27fznrzbaui7ocg@h2yyduzllnny>
-From: Marc Ferland <marc.ferland@gmail.com>
-Date: Fri, 24 Jan 2025 10:44:05 -0500
-X-Gm-Features: AWEUYZmkWSGYxe7CRKwg1Ivj6PVGHkyRo0oZxgpVgcQOJoWqE6rMiJXVXYiJGh4
-Message-ID: <CAMRMzCAnupFh7jnU6T1dbA2=uDwDEEcZxK+L6Zdpg1xMNZRJoQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] linux-firmware: split ath10k firmwares in separate packages
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Marc Ferland <marc.ferland@sonatest.com>
-Content-Type: multipart/alternative; boundary="00000000000063fd84062c759928"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 15:44:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210226
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 15:57:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210229
 
---00000000000063fd84062c759928
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ross Burton <ross.burton@arm.com>
 
-On Fri, Jan 24, 2025 at 5:48=E2=80=AFAM Dmitry Baryshkov <
-dmitry.baryshkov@linaro.org> wrote:
+The nativesdk class overrides PACKAGE_ARCH and unsets TUNE_FEATURES, but
+as recipes might want to look at TUNE_PKGARCH too (for example, when
+setting QEMU_EXTRAOPTIONS) we should also override that variable.
 
-> Hello,
->
-> On Mon, Jan 20, 2025 at 10:46:03AM -0500, marc.ferland@gmail.com wrote:
-> > From: Marc Ferland <marc.ferland@sonatest.com>
-> >
-> > This patch introduces the following packages for ath10k based chips:
-> >
-> > - linux-firmware-ath10k-qca4019
-> > - linux-firmware-ath10k-qca6174
-> > - linux-firmware-ath10k-qca9377
-> > - linux-firmware-ath10k-qca9887
-> > - linux-firmware-ath10k-qca9888
-> > - linux-firmware-ath10k-qca988x
-> > - linux-firmware-ath10k-qca9984
-> > - linux-firmware-ath10k-qca99x0
-> > - linux-firmware-ath10k-misc: catches all firmwares that are not
-> >   already included in the other -ath10k- packages (currently empty).
-> >
-> > linux-firmware-ath10k is now a meta package that depends on all of the
-> > split-out ath10k packages.
->
-> This is a very nice idea. Would you mind introducing the same kind of
-> changes for ath12k/ and for the qca/ BT firmware?
->
-> Thanks, I'll take a look.
-Marc
+Otherwise, a nativesdk recipe will have the TUNE_PKGARCH of the target,
+which leads to errors (eg passing mips arguments to an arm qemu).
 
---00000000000063fd84062c759928
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 05322beb290e1db30bef49b4364f8a8e6e9f7408)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/classes-recipe/nativesdk.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Jan 24, 2025 at 5:48=E2=80=AFAM Dmitr=
-y Baryshkov &lt;<a href=3D"mailto:dmitry.baryshkov@linaro.org">dmitry.barys=
-hkov@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">Hello,<br>
-<br>
-On Mon, Jan 20, 2025 at 10:46:03AM -0500, <a href=3D"mailto:marc.ferland@gm=
-ail.com" target=3D"_blank">marc.ferland@gmail.com</a> wrote:<br>
-&gt; From: Marc Ferland &lt;<a href=3D"mailto:marc.ferland@sonatest.com" ta=
-rget=3D"_blank">marc.ferland@sonatest.com</a>&gt;<br>
-&gt; <br>
-&gt; This patch introduces the following packages for ath10k based chips:<b=
-r>
-&gt; <br>
-&gt; - linux-firmware-ath10k-qca4019<br>
-&gt; - linux-firmware-ath10k-qca6174<br>
-&gt; - linux-firmware-ath10k-qca9377<br>
-&gt; - linux-firmware-ath10k-qca9887<br>
-&gt; - linux-firmware-ath10k-qca9888<br>
-&gt; - linux-firmware-ath10k-qca988x<br>
-&gt; - linux-firmware-ath10k-qca9984<br>
-&gt; - linux-firmware-ath10k-qca99x0<br>
-&gt; - linux-firmware-ath10k-misc: catches all firmwares that are not<br>
-&gt;=C2=A0 =C2=A0already included in the other -ath10k- packages (currently=
- empty).<br>
-&gt; <br>
-&gt; linux-firmware-ath10k is now a meta package that depends on all of the=
-<br>
-&gt; split-out ath10k packages.<br>
-<br>
-This is a very nice idea. Would you mind introducing the same kind of<br>
-changes for ath12k/ and for the qca/ BT firmware?<br>
-<br></blockquote><div>Thanks, I&#39;ll take a look.</div><div>Marc <br></di=
-v></div></div>
+diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/nativesdk.bbclass
+index b0634de582..4e57349aa0 100644
+--- a/meta/classes-recipe/nativesdk.bbclass
++++ b/meta/classes-recipe/nativesdk.bbclass
+@@ -32,6 +32,7 @@ RECIPE_SYSROOT = "${WORKDIR}/recipe-sysroot"
+ #
+ PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
+ PACKAGE_ARCHS = "${SDK_PACKAGE_ARCHS}"
++TUNE_PKGARCH = "${SDK_ARCH}"
+ 
+ #
+ # We need chrpath >= 0.14 to ensure we can deal with 32 and 64 bit
+-- 
+2.43.0
 
---00000000000063fd84062c759928--
 
