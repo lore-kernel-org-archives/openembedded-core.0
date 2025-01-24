@@ -1,106 +1,90 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AB5C02181
-	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 10:48:52 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.9187.1737715730487462911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E833C0218B
+	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 12:43:33 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.11008.1737722604840117815
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jan 2025 02:48:50 -0800
+ Fri, 24 Jan 2025 04:43:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=QOFcdGjb;
- spf=pass (domain: linaro.org, ip: 209.85.167.44, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54287a3ba3cso2835243e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 02:48:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OUV7xq+P;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6d8a3e99e32so18618656d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 04:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737715728; x=1738320528; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYEI2etOsZDMGBfkwWpsnOOq0w6LfUaMlAkM8BUmIl8=;
-        b=QOFcdGjblkrhlQb0OUrLQxz/AtRE3EcCnEqP0t7IAapjvd8jT63zhPVWw7XzLd5JSV
-         pWI/uwNtvHHDNumtd1ONZ8ImhH6VVWVBVk1W7MCPGzdU7mJ1mPDYyjUQ0Vcmu4CCw5Ql
-         KUULBNsDJOlsMv5wHAhOoS0XFCOTo/IpZzGKcKF8vx0TfHfsKchWjWcW8PawTUArgUWx
-         p5oMBfVegqSAoEtXIVVdZHm1DvWTbPP1RGg1bhjlDusCrGR8BiOHeETuXHvseoKwq2m4
-         Jh9jcfsKJD/F49LdeybaVxf5ehkmmhrMt83iFppgNBvTmMKUvCR115FdbqY63l82CyHy
-         05Tw==
+        d=gmail.com; s=20230601; t=1737722604; x=1738327404; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BtE1+iCfr/t1qpzsqa23pB+/F9MX7JIoplG9TEwcTaA=;
+        b=OUV7xq+PdeCARl4gAmqveC8qjZL4StCSzKVNeNcKATb4LBdSnOmXH2GSRTEOBKB7F4
+         ZL5xR2ORUOf4OjqzU4aCAXqve0zbzWrXZYE31ZGBkIEFcGjJWDr443Zp+EK8ueQu+XHz
+         x3jQLgPY8eHDp3x3s5aPd/v1PLbVJPD2Oy588Tq3VFai2wW9PQIAqLlceb8XFFGjzKkm
+         dDzJ6Wiw6hxn3cH2D+GsesAYfSJKIxNc1IKa+gkN2lqub4cZsfDIMkBknSeqDd4g7lWa
+         jOEYvgG1Ck63bDGpEKCp9SqIlgiMYuFsrdPbfvOzHtPgd/i3Vx6Yq0awPWlsPhFK9IPV
+         jfXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737715728; x=1738320528;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cYEI2etOsZDMGBfkwWpsnOOq0w6LfUaMlAkM8BUmIl8=;
-        b=hPKl+4XSmPJzbXV5jPOnOhjJbqBpFd5q3IKnhsoIplAxLi59MDstt5TBykcOmHuu+h
-         TpFP5kHH3jeYcKrCy8t8AuYDEHcRjLoLqWx2O+GgmyzvtCd9vVN9Z9lYwFn9AVAUMDns
-         Uh2oIISx/5x5JC0UR6iORqCZK4QlgtPqD59yo9HkqCU/cRr9Yxuph0tJj055e+KNqTqh
-         iGsvtHZRNZ9rkoaMSDF2G+cFeMpe4Ei+Yd+GPgi/EhkK7pLbbAXarmUwzoFTQFgacJ/w
-         lWWDu8rcLDApoRdX9+9+CnHPCCeUTDnGDnLOxTnY84/Sto2pLi7z7PM2oF+J37sxwSRM
-         phXg==
-X-Gm-Message-State: AOJu0YwBsLi6wSaH+kJz0kk5VOd++IdqDmJZF3MuyXS4JZuZuWD6zfey
-	eK3jjazJM2Z5mZbT8QQWiVubcWDfZf7QmnE4QDwVovBCS9d7hhtcwnEUlkPV3HA=
-X-Gm-Gg: ASbGncvBk2lJHP30gST3vxmHRFJlICrot9XtKMAgbzqV4u8Io2Ukc0OaV68aKkGDufa
-	NAMnN+JKlMGGC22MpoXhE3cS7vmWLDBCqn/67xKdtF8fbL6DbDz9R/BX9E4rLfl2eH9Uc0InDNc
-	0gYe+I/O5hBzH0ovpFCv2wRqpVQeaXai5OIkib+2yftRgspM/a68R9nvNOqfMw2/qLdaCyj9jnh
-	Gl+GAy13RxYQJDY7Cvtr/GBvNr9g3lxsq0X+hKxyPN1g8zHnd/Vyav6F1pwrrMz1x/KQPhLsDVZ
-	utpgyLr41bg33G5dXJn590qLr+kEfwm9xzFB2jACH3qmrroTZmSATdPrWpVi
-X-Google-Smtp-Source: AGHT+IFt3j5YFbvVZQgDShHIRTyn92aEyD+8fgK4FGvCD41tuLvsrpAvtn2wIMu7ZA4Yu+EE6wIZDw==
-X-Received: by 2002:a05:6512:4028:b0:540:16b3:3699 with SMTP id 2adb3069b0e04-543c7d5738fmr854543e87.9.1737715728457;
-        Fri, 24 Jan 2025 02:48:48 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c837995esm251527e87.189.2025.01.24.02.48.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 02:48:47 -0800 (PST)
-Date: Fri, 24 Jan 2025 12:48:44 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: marc.ferland@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Marc Ferland <marc.ferland@sonatest.com>
-Subject: Re: [PATCH 1/3] linux-firmware: split ath10k firmwares in separate
- packages
-Message-ID: <z6jsvvuyc2x23pqa6yw7dandwpfukuu3uxm27fznrzbaui7ocg@h2yyduzllnny>
-References: <20250120154605.3023068-1-marc.ferland@sonatest.com>
+        d=1e100.net; s=20230601; t=1737722604; x=1738327404;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BtE1+iCfr/t1qpzsqa23pB+/F9MX7JIoplG9TEwcTaA=;
+        b=vWpzehX+fzL8ZwWbIYCrAqv6xHvoyQ6Uf96/bSNlpneUzF05WGOr9OQBhXRECCiijT
+         GNmd5HpUNgKea1zLU3S8EmZ7e2LMSbFOgG4KjKughOZiCLr85r8HxTzFZte6Jj3lqkj6
+         RpUNws1retXrpo0eWu5vbspTZJl9inQIm7ayER63f094LpbWPr3GJqUq3B6pcl6zGRhA
+         RaU1weCsfPdl6TlZAoh/K2dwjD464G1SH+y8+84Z1zKME7VA87xPMY5XM2i1xqLOzcqZ
+         qB/x0xcx8eOEoWvWLNkPVbzTZaTRBAMCGyUv1CJJUw9MyEr+JY1Y7GBO/KkMvNZldpxm
+         Ayww==
+X-Gm-Message-State: AOJu0Yy4IfKGYu6o68xSnoV4jacJ5WRvNDwCvdAvAfSr/Xtr7ZnK2FB8
+	Ev8XcV6TT2XKLH0PC58ZMZKhdkh9tCrGl9RQb7nW+dJfJwE8hGbuUUBuWqXSeEdr7lGIWfu1NKy
+	OfKY+dyL4y2JMpg45G7zCmiAkUoI=
+X-Gm-Gg: ASbGncvSV58FkvPknt8Z4YqnMeEK7Y/aiS5KMdNo7ne4sxxFr/tYbM6E1HHkXk/kNUr
+	MzZzgjHYeGNr8wmajoyUlJRI5gX7BU1CGeLi+PEXokrt0UgVpXXbpGnzf8ZGjZ28iSgh5bMql1I
+	ZqSc4+8WQiE25s+Jfz8Qch
+X-Google-Smtp-Source: AGHT+IGzcmhkrMbTkf7H46oLLINnl921rvBZDuzDMqvnv687qlSWSbcXegPGITfyyOtS4p5RR2KNCo3bd69ZK6Te9mw=
+X-Received: by 2002:ad4:5e85:0:b0:6d8:8fbf:d1b7 with SMTP id
+ 6a1803df08f44-6e1b223ad9fmr417953906d6.43.1737722603898; Fri, 24 Jan 2025
+ 04:43:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250120154605.3023068-1-marc.ferland@sonatest.com>
+References: <20250123201229.182266-1-marex@denx.de>
+In-Reply-To: <20250123201229.182266-1-marex@denx.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Jan 2025 13:43:13 +0100
+X-Gm-Features: AWEUYZlv3C8WUUsJOP-2B2i7q5mtYAHZjfpP51LrNL4kaeR7TZQV7Urtna--Hcc
+Message-ID: <CANNYZj9B-ZY+L9Wk0DED5yMxSxMzFca1SOfKVH1ZgPfo2GG7Xg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] [RFC] bash: Drop /bin/sh from RPROVIDES
+To: marex@denx.de
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 10:48:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210219
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 12:43:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210220
 
-Hello,
+On Thu, 23 Jan 2025 at 21:12, Marek Vasut via lists.openembedded.org
+<marex=denx.de@lists.openembedded.org> wrote:
 
-On Mon, Jan 20, 2025 at 10:46:03AM -0500, marc.ferland@gmail.com wrote:
-> From: Marc Ferland <marc.ferland@sonatest.com>
-> 
-> This patch introduces the following packages for ath10k based chips:
-> 
-> - linux-firmware-ath10k-qca4019
-> - linux-firmware-ath10k-qca6174
-> - linux-firmware-ath10k-qca9377
-> - linux-firmware-ath10k-qca9887
-> - linux-firmware-ath10k-qca9888
-> - linux-firmware-ath10k-qca988x
-> - linux-firmware-ath10k-qca9984
-> - linux-firmware-ath10k-qca99x0
-> - linux-firmware-ath10k-misc: catches all firmwares that are not
->   already included in the other -ath10k- packages (currently empty).
-> 
-> linux-firmware-ath10k is now a meta package that depends on all of the
-> split-out ath10k packages.
+>  # Limit the RPROVIDES here to class target so that if usrmerge is enabled for nativesdk, it does not
+>  # include host system paths in /bin/
+> -RPROVIDES:${PN}:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sh /bin/bash', '', d)}"
+> +RPROVIDES:${PN}:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/bash', '', d)}"
 
-This is a very nice idea. Would you mind introducing the same kind of
-changes for ath12k/ and for the qca/ BT firmware?
+This was added for a reason (that you can find in git history), if we
+partially remove it, then the reason will come back and bite us.
 
-> 
-> Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
-> ---
->  .../linux-firmware/linux-firmware_20241210.bb | 56 ++++++++++++++++---
->  1 file changed, 48 insertions(+), 8 deletions(-)
-> 
+What I'd like to understand is how bash's postinst is actually failing
+when /etc/shells is not there yet:
 
--- 
-With best wishes
-Dmitry
+grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo
+${base_bindir}/bash >> $D${sysconfdir}/shells
+
+Basically you either need to show me how to reproduce the issue, or
+show an error message you're getting, or an incorrect outcome on the
+rootfs.
+
+Alex
 
