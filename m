@@ -2,322 +2,229 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88118C0218F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81527C0218D
 	for <webhook@archiver.kernel.org>; Fri, 24 Jan 2025 16:29:04 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.19435.1737658097163642393
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.12987.1737728351803683824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jan 2025 10:48:17 -0800
+ Fri, 24 Jan 2025 06:19:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UMlCS9BP;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alexander.v.yurkov@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aa6a92f863cso258381966b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jan 2025 10:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737658095; x=1738262895; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QkFqbtGx6m9Itup0JDHCoN3ABAwsKV/pDM/a+JTyHbo=;
-        b=UMlCS9BPJQwg+CpaOEQ4LzzD9ajkruZWZHxVA1kDyj+MJr6DwfM6UIk+Ky/7pyLx8u
-         JIWw0UKNkKvlAY2jirOfeMWE0/7jNu9TVgCY/9DsMpALcVbNqKOTQJ8ADiHkJl8JQZhN
-         8/5pj+wNm1iyIMOjdManjYcxE5ZBBbhxAQ9U43sbRl83d7jwdGAM7WrrcKphpXGBH/N9
-         vAg/emzs+A/XW3q/olimBeJP7yw0L8a18qkkRA/aIafuW5A6zZeVPke8bbGMtidl1b9B
-         4PvxXVngazpcMPHqSt0xv9M+vNYLpCguT6gp1IeqbRZdcmC1CEzDbp0r1SXa0SXwLLA4
-         PYQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737658095; x=1738262895;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QkFqbtGx6m9Itup0JDHCoN3ABAwsKV/pDM/a+JTyHbo=;
-        b=Aax7c8ZcR091GqCZmwSmupGYhDXjw1bAAeqLrNMEhEOxazSD3TRRUObc75/MZrznhv
-         G6KLwTzsn1ChH+BWeL0kx6TZlHwj1/nLdxnWtiRxkQFgVqMT7vo+09zJa+CWqxXR6Xh5
-         z+trpQpzstBJuW2jmcdBsJxJPod31EdRWHtmWc+37rB4deC6HsjY0+GeeknyBxy5DLv2
-         CKgdsPVtF6fu9UUgzd9/RsOHUZAUkle/GviBoQs0TmueRpYNYIwyV5oZBPYD+7fE1YXo
-         w6KLx0ifb+pOBIuNF10MDw8O1h4Pu+XNt9bnSRY2R68ogBYEWZ+FDAKvTJKM7y6ckmqc
-         vGxg==
-X-Gm-Message-State: AOJu0YzW+DTEPBgEiu/lDceudPZXemkpJZ/eg1ETiS9B7JgSaxY/TY2G
-	x+IW3EvXVG19tRPpeTAtlbPzUvO0miFyAkwaqNlaayrAT+yMV1gd7AgbACL9auk=
-X-Gm-Gg: ASbGncunRf2EQOXwBROiXq25S4Ss3qHjgED3wHL2y+IYHn+S6qzpr2nNhDdkFfVpL+H
-	yZvMMgzFDtq26Q85YeZ//XDnctz4evqQZnY8MqTBLxctCN4L1QZnxII/blb7YTnFQ+O30fDgsxG
-	yijnX3OtF1v+Lkn6dCvz8AbyQebK3ByRYyxZdBfjmG0pMkUr4FfEBZ1qcMaraphZeFTwXtfIjfW
-	DlnIpGrW264zRL+4H8OCIQKsbAsH0OtKAKbTlG3eYEU0REqxbBzwwERo5vT3HbkY1XzoVBkXaUP
-	+ART67LVn6mFhHsecWQn
-X-Google-Smtp-Source: AGHT+IGMpKToY4XWqo3rquzROOGHawkfmk8dJCoOftQQaM3xorc9WevHOJaPPp7WQbDVM0U1rhUMMA==
-X-Received: by 2002:a17:907:3e1f:b0:aaf:117c:e929 with SMTP id a640c23a62f3a-ab38b51c914mr2679792766b.57.1737658094890;
-        Thu, 23 Jan 2025 10:48:14 -0800 (PST)
-Received: from Ubuntu-2204-jammy-amd64-base.. ([2a01:4f8:272:3f67::2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab676117255sm2005066b.165.2025.01.23.10.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 10:48:14 -0800 (PST)
-From: alexander.v.yurkov@gmail.com
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=31193392e9=beniamin.sandu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50O7G1bx018325
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 14:19:11 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2040.outbound.protection.outlook.com [104.47.58.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44aqk3jwkx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 14:19:10 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EIzoIT38sWchO7XexFs41qHCgAoKIepqpbmXaSSZJAqw/H2duK2aAygXFLgGxrMV29cz28ZLQ0yV6MOnVHNuCKt59k8/9tbiaBqQC/dDeIhNKxiRwyKkj/TehEZA1Kp1m23eUaus/WAb/f/YMtTtxniG7AmHX7D2cT3LLImDASP3Pp/rkG4oTYz7OR15J2C06ZqZRtU+7rX5iKlbfQN1gQk2GqfExtkLfIHJeNSTXdqMcH2XRFz9v8vP8QOoEyIUrCMJ2gxR5OT7/bxAjvVwMI9KCV8d01RDErOmHkwUawQXlaoMi/CdRuO/7V9VhlYln2pHZw08d47YR8crwf2mtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aetJKSKuCxlqkJvy7NE5b9VOR3c8WEFGLgOwqEkCKRQ=;
+ b=J+uUCOlLcROE1k0/+W8ZtDYUm1xf15LBsTrBJp9w19GtoeVxdFEqYrrmzxeE29gsNlRnoMX7ca0yxrwmM0hy3BF6hpVRYiM5cW57OlI7a8lSftxu3UWhZFj5fFkt9WQ3ysXF2MDj2nnKlIDLKGEpe9+CypNW2m2wUfZgJ6V0/5dmRIAFOevCrselcPyhQ+Lc/TGKrcnaS4UwLs8o49g6yAk99GuXL5nKVn6SiKhehZ5UJt3QLbtqoKGmHByeWEYDJOcUZDYWg1nuhaxSDtUJib+OWtgMGYZuNfpa/Dhfoz7mlfe/BuXz5HNgnKUmmFFED97vGQ/cHdKd5Z4LG0v07w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB6067.namprd11.prod.outlook.com (2603:10b6:8:63::20) by
+ CY5PR11MB6091.namprd11.prod.outlook.com (2603:10b6:930:2d::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8377.18; Fri, 24 Jan 2025 14:19:07 +0000
+Received: from DM4PR11MB6067.namprd11.prod.outlook.com
+ ([fe80::295d:bdbf:742f:7bf3]) by DM4PR11MB6067.namprd11.prod.outlook.com
+ ([fe80::295d:bdbf:742f:7bf3%7]) with mapi id 15.20.8377.009; Fri, 24 Jan 2025
+ 14:19:06 +0000
+From: Beniamin Sandu <beniamin.sandu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Yurkov <alexander.v.yurkov@gmail.com>,
-	Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH 1/2] oeqa/selftest/recipetool: Update create_go test.
-Date: Thu, 23 Jan 2025 18:47:39 +0000
-Message-Id: <20250123184740.1815534-1-alexander.v.yurkov@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] classes: add rootfs-footprint
+Date: Fri, 24 Jan 2025 16:18:52 +0200
+Message-Id: <20250124141852.2089467-1-beniamin.sandu@windriver.com>
+X-Mailer: git-send-email 2.39.5
+X-ClientProxiedBy: VI1PR08CA0252.eurprd08.prod.outlook.com
+ (2603:10a6:803:dc::25) To DM4PR11MB6067.namprd11.prod.outlook.com
+ (2603:10b6:8:63::20)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6067:EE_|CY5PR11MB6091:EE_
+X-MS-Office365-Filtering-Correlation-Id: de491f88-d8cf-42e4-677e-08dd3c820ff6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ZNjuSH7F6FgEJ0NSu89YO6nbU7dC0wGmOG+LnEOqEsiHeoKro6PczOaJ8HDe?=
+ =?us-ascii?Q?aGcXeX48beji9cIkVnOVf0afJa3EW3z0RJfLJQdrP+f4CNuWCFmXZcxAo08b?=
+ =?us-ascii?Q?kfjAIAcywI5587vpJwRP/VGFgtkTPfHL62EuzEV8vNaVoNR5BCMEDDQ7a2Vd?=
+ =?us-ascii?Q?4N09eJ0RHSMbLB/4wSwBy0G0ZQrL0pMvxffha9AI6nTmxBmR7btu9gtQaf/l?=
+ =?us-ascii?Q?tWGrscLzB6WBXmTUVIXm2WfCvOxBdtT4NPCRUaBbJ+US0/v7wBaE1eCAPOAc?=
+ =?us-ascii?Q?hrfKrwjq4pUwWABjc9wc4O+1CHRdqYgarQa5UTsUFfVE7UdS3a1xokEjAIqA?=
+ =?us-ascii?Q?Jcgm5NzkdiClSHRCKt0K3HmBMoAOFK4d9EpCVtpx0XTIPNyyzDaKtEjFJhQF?=
+ =?us-ascii?Q?gKDBjMGVZNMGAxqzsuLvXXkHmp5dJ49useL/r0un3IWc/GD7J908R8+bc/5c?=
+ =?us-ascii?Q?NzDWPp9a1rJ1J1rSv1yZ36Ikb4yJy9MxQoBN/WOjbDEiGsj1M11wqBSE4teS?=
+ =?us-ascii?Q?jhrVMFM01dF9gg3tF1NFSTAswTUJpiEsgjzTY5OB/q7enseIr9EOVG0VGpj/?=
+ =?us-ascii?Q?UUvSTNrAMVY6sVO7BfBruG3e/uwMkSLYThBjPsRm+KePS5sNdsZRT0EP0Uur?=
+ =?us-ascii?Q?v3LzWN7Yum3pzguOOtAD8wF567rvXXgsIku+rBSK7SYU6/66NJQibgboT2wc?=
+ =?us-ascii?Q?uAc6EuR9HIBcdfM3U0/r8/KkjH19BGpUwXXVv8ruT7IH9AlNRLqLrUrQq8yP?=
+ =?us-ascii?Q?fTAQJ3fBO1uQM/noMM/4PI17rpwkQTua/dCiojWAlcxuWJi2OaQh9fJL2AfR?=
+ =?us-ascii?Q?avrx3gsQB3aIyEfuWQvaZsPQM7H7ELmv8CpGz7vGWd2VIGzDpcNUp7ap4lNK?=
+ =?us-ascii?Q?w/t8lQGx1Acp4okwdeSWooXwVO8JfjfICpRCB1imLexYRNRCpVVBT28oIk20?=
+ =?us-ascii?Q?LZmx2pT7VC4itQbqphyjBcv8aB9lDCR1ZPJNZKq7GHUyk7fosbfkSXReKZiA?=
+ =?us-ascii?Q?YsIEa16+r6F0vA/CkcawKsUERfbLRhVdPQHP3Tth28+bX2qcr2lo+VJF+V1p?=
+ =?us-ascii?Q?LBlx5i4wVTrCOhkuVrBWTPWi4hlmBiG8QKk1Kz69iQlzUnH88DYJhgMHd1FC?=
+ =?us-ascii?Q?S1ungFKGEOTfrlUUaVBGJmQD99Fcs8zUBbG+XRsvQyuLbmatBsqfjlSV34D1?=
+ =?us-ascii?Q?nHl/Yv+2cgBP/pRXp255yCliP7mpSLSlDaokcc9nTx/G1trtJnwe10xiwo7M?=
+ =?us-ascii?Q?6FlXzBh1sora0zViEUJKuiBssfS7DS2p7GCTlpCYx8GYCGqOxnPikKjxeHV5?=
+ =?us-ascii?Q?KDXfYTXeOdzCyAogioEGx+lVGOk3zmcZtNSOhkXl+PP4voTLmoYT3LbWwrWX?=
+ =?us-ascii?Q?Nt4Y61DNpGDOzXDBeJQbTgf799kekagPGAHRVsplBUTvbKiV7NALQ/iIBRpH?=
+ =?us-ascii?Q?V65B5EA07Dz3QCU4b0y80fFNVfOllx3a?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6067.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zC0zkqvuk4sQY9gq/lRLc7g7EtaWbLMTHTyyr4KZTid7vq+/cbXH+vwrjNgS?=
+ =?us-ascii?Q?LWxqTh44E0PIQGI4rz9wSgE9FTSan8yzTlOwMcrfqTkTiAhGQmonDNxI2tef?=
+ =?us-ascii?Q?JrlkhdW3nETTPRwEiMAC6g8cAv0RvCggG3GFAz74jQro2o0nXk+j+R+wlirB?=
+ =?us-ascii?Q?cR9Uvx7cEutQWvzCINU3MhXnrwU8eIRa7UrMuIX3UQCvGRcFh3X+g1favhtf?=
+ =?us-ascii?Q?FbXwKYITJYlrZImIeANkv2m6opBGKNghXgp0d7PlnAbDr/zY+hAiX7Rx4Bpa?=
+ =?us-ascii?Q?qXFh8fbipeaveDAphNlQWQ2+dEoIXbVfgg3ykfuROWLaHySoQaZkz87gwT7R?=
+ =?us-ascii?Q?9DpGd+KDzrkEAf/VehKVi4fLcOsIgpcI3MsfoUzi3SVISTe+y5N1RJu5JfwU?=
+ =?us-ascii?Q?AwTLk2RbSDSk+BQ8BnPfFeSAgTGLD9t3TrbUG2QmKnxq3O+uAqhdH3Uv2FBg?=
+ =?us-ascii?Q?RRVl6g7Ft6s0ehuaEcmPPj2JDVt/9JPyG9rhqXE4Y0mrQPDHDGdW3YzEiArP?=
+ =?us-ascii?Q?Q6RHrMaCdDQ9eFXrhLREzaTpS/+7I0Y+3XyPwogpq1p3ml9kafAduZuWTlRE?=
+ =?us-ascii?Q?gX77ikOCIPSncMay2bv+LufuNAdtM7eKepWjO/q7D6Lf67N/byfF9Car8/uZ?=
+ =?us-ascii?Q?gLG0WwSbUV5nyxQAOhrjjNODMJMmjHtG2d3ACJ3Pgvj/0ktQ2AFiKo/ukcPs?=
+ =?us-ascii?Q?fSj6kAhg0EYld8vA7dKm1OkB0GbyOvUGV/YU4w31ZXcDnWyOSaDHSWBVwZ0Y?=
+ =?us-ascii?Q?Ak7EcKq2q/nUUw/8RTFgL6YuZCOVDfqDUqejF113rkGGcH1OktvS255yhL9Z?=
+ =?us-ascii?Q?F1VLbiKCpoXp/FdeTX2OkIPDDB7nAvKW/mF2w/KL6Lk7ImVmt8Er5VYt3WDL?=
+ =?us-ascii?Q?cus74Hh2YPai+vtcXG556OanfzQM0f7Z8VZ+Gx+8EDgJR6MH5fkaN06dttxM?=
+ =?us-ascii?Q?yukAhijssJY4W33Nt3/0s2Q7oXsGjR+eJIEt5/PmDJY+YqT6KBeSCUnYimTO?=
+ =?us-ascii?Q?doSbckzuU+O5syykfr9M96t4Xt9uA/Equwz9SbWmI7/2aa9IW6FocxEPeVfn?=
+ =?us-ascii?Q?sOx2jMrwmydk/Qv0HoIyekkjf6ECWDjOLLwU3FvVZf2Kn1c18hxTWsrSaSO1?=
+ =?us-ascii?Q?rQEqXNIBqvsoGyjxLfidTuRdyu3b36lMw39PCmO4ZPvWtHy6ka+mImAaQZzT?=
+ =?us-ascii?Q?QBdNbrqljjUHDYVwaeLeGOKd6vB1r+lBpQb65w9qnISBShgCBXwBTWosCk/z?=
+ =?us-ascii?Q?EIXHejFeaebmolRrJXW8qwt71tbEeqLuqRw/KK8Wh+oTGaRm2SD1IYH9Q0yb?=
+ =?us-ascii?Q?Kq55+Feu+A/LKtXAvTKSx2oew3juG6hQwkr+EqnPKu6QMXoYTmuA+4t3DO1k?=
+ =?us-ascii?Q?/wMe77j05f/oMuVLvoTmU+DVbisnkFbtmGy/dj4b9ZWoOtVEbPW/ktOh7YEl?=
+ =?us-ascii?Q?syP57GUB91OICQNmzbWN1Eda108x77wSY3+HsrI07eQdfywIl5nCLz3uW9H6?=
+ =?us-ascii?Q?L8ilwSROqEPRDy0RnjR1JzPgdaUTFGccQCiByD7xsDYRMzU0POG0jnHhAg4g?=
+ =?us-ascii?Q?0zLZBw+T1Yaj7kf8bU9UTB4x1hmen4RrILEXby4ymx88S4SUyNltrKMXbMTz?=
+ =?us-ascii?Q?hw=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de491f88-d8cf-42e4-677e-08dd3c820ff6
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6067.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2025 14:19:06.9268
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: erXqawgcc0vmjjbjjqxFVITHqVCBzCtTjW+1a+Bq2Irmacqjqk4G6s6zBoeCD2fNRvCxzRpKvxtqNTjAXJAJqOetf4viV4qCrtUfItK8uz0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6091
+X-Proofpoint-GUID: kcG8Ky3DiUvjkye5NSCVCdxtbpaii28s
+X-Proofpoint-ORIG-GUID: kcG8Ky3DiUvjkye5NSCVCdxtbpaii28s
+X-Authority-Analysis: v=2.4 cv=fZVXy1QF c=1 sm=1 tr=0 ts=6793a15e cx=c_pps a=G+3U1htxrnhIFlrbIuZW0A==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=BnnXWuJVhKsCD668QDAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-24_06,2025-01-23_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1011 impostorscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501240103
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Jan 2025 16:29:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210234
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210236
 
-From: Alexander Yurkov <alexander.v.yurkov@gmail.com>
+The rootfs-footprint class can be inherited by image recipes to generate
+a .json footprint file. This file contains a list of all installed packages,
+with the following format:
 
-Adjust test_recipetool_go_create test to a smaller repository.
-Combine test_recipetool_go_create and test_recipetool_go_replace_modules
-tests into test_recipetool_go_create, the new test performs both tests.
+{
+    "package_name": "busybox-udhcpc",
+    "version": "1.37.0",
+    "total_size": 2701,
+    "installed_files": {
+        "/etc/udhcpc.d/50default": 2652,
+        "/usr/share/udhcpc/default.script": 49
+    }
+}
 
-Signed-off-by: Alexander Yurkov <alexander.v.yurkov@gmail.com>
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+The data can be used with other tools/scripts to generate detailed
+rootfs reports or perform relevant comparisons.
+
+Signed-off-by: Beniamin Sandu <beniamin.sandu@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 212 ++-------------------
- 1 file changed, 16 insertions(+), 196 deletions(-)
+ meta/classes/rootfs-footprint.bbclass | 54 +++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100644 meta/classes/rootfs-footprint.bbclass
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index f742dd4d64..36557f270f 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -760,13 +760,13 @@ class RecipetoolCreateTests(RecipetoolBase):
-         temprecipe = os.path.join(self.tempdir, 'recipe')
-         os.makedirs(temprecipe)
- 
--        recipefile = os.path.join(temprecipe, 'edgex-go_git.bb')
--        deps_require_file = os.path.join(temprecipe, 'edgex-go', 'edgex-go-modules.inc')
--        lics_require_file = os.path.join(temprecipe, 'edgex-go', 'edgex-go-licenses.inc')
--        modules_txt_file = os.path.join(temprecipe, 'edgex-go', 'modules.txt')
-+        recipefile = os.path.join(temprecipe, 'recipetool-go-test_git.bb')
-+        deps_require_file = os.path.join(temprecipe, 'recipetool-go-test', 'recipetool-go-test-modules.inc')
-+        lics_require_file = os.path.join(temprecipe, 'recipetool-go-test', 'recipetool-go-test-licenses.inc')
-+        modules_txt_file = os.path.join(temprecipe, 'recipetool-go-test', 'modules.txt')
- 
--        srcuri = 'https://github.com/edgexfoundry/edgex-go.git'
--        srcrev = "v3.0.0"
-+        srcuri = 'https://git.yoctoproject.org/recipetool-go-test.git'
-+        srcrev = "c3e213c01b6c1406b430df03ef0d1ae77de5d2f7"
-         srcbranch = "main"
- 
-         result = runCmd('recipetool create -o %s %s -S %s -B %s' % (temprecipe, srcuri, srcrev, srcbranch))
-@@ -775,207 +775,27 @@ class RecipetoolCreateTests(RecipetoolBase):
-         inherits = ['go-vendor']
- 
-         checkvars = {}
--        checkvars['GO_IMPORT'] = "github.com/edgexfoundry/edgex-go"
-+        checkvars['GO_IMPORT'] = "git.yoctoproject.org/recipetool-go-test"
-         checkvars['SRC_URI'] = {'git://${GO_IMPORT};destsuffix=git/src/${GO_IMPORT};nobranch=1;name=${BPN};protocol=https',
-                                 'file://modules.txt'}
--        checkvars['LIC_FILES_CHKSUM'] = {'file://src/${GO_IMPORT}/LICENSE;md5=8f8bc924cf73f6a32381e5fd4c58d603'}
-+        checkvars['LIC_FILES_CHKSUM'] = {
-+            'file://src/${GO_IMPORT}/LICENSE;md5=4e3933dd47afbf115e484d11385fb3bd',
-+            'file://src/${GO_IMPORT}/is/LICENSE;md5=62beaee5a116dd1e80161667b1df39ab'
-+        }
- 
--        self.assertTrue(os.path.isfile(recipefile))
-         self._test_recipe_contents(recipefile, checkvars, inherits)
-+        self.assertNotIn('Traceback', result.output)
- 
-         checkvars = {}
-         checkvars['VENDORED_LIC_FILES_CHKSUM'] = set(
--                 ['file://src/${GO_IMPORT}/vendor/github.com/Microsoft/go-winio/LICENSE;md5=69205ff73858f2c22b2ca135b557e8ef',
--                 'file://src/${GO_IMPORT}/vendor/github.com/armon/go-metrics/LICENSE;md5=d2d77030c0183e3d1e66d26dc1f243be',
--                 'file://src/${GO_IMPORT}/vendor/github.com/cenkalti/backoff/LICENSE;md5=1571d94433e3f3aa05267efd4dbea68b',
--                 'file://src/${GO_IMPORT}/vendor/github.com/davecgh/go-spew/LICENSE;md5=c06795ed54b2a35ebeeb543cd3a73e56',
--                 'file://src/${GO_IMPORT}/vendor/github.com/eclipse/paho.mqtt.golang/LICENSE;md5=dcdb33474b60c38efd27356d8f2edec7',
--                 'file://src/${GO_IMPORT}/vendor/github.com/eclipse/paho.mqtt.golang/edl-v10;md5=3adfcc70f5aeb7a44f3f9b495aa1fbf3',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-bootstrap/v3/LICENSE;md5=0d6dae39976133b2851fba4c1e1275ff',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-configuration/v3/LICENSE;md5=0d6dae39976133b2851fba4c1e1275ff',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-core-contracts/v3/LICENSE;md5=0d6dae39976133b2851fba4c1e1275ff',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-messaging/v3/LICENSE;md5=0d6dae39976133b2851fba4c1e1275ff',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-registry/v3/LICENSE;md5=0d6dae39976133b2851fba4c1e1275ff',
--                 'file://src/${GO_IMPORT}/vendor/github.com/edgexfoundry/go-mod-secrets/v3/LICENSE;md5=f9fa2f4f8e0ef8cc7b5dd150963eb457',
--                 'file://src/${GO_IMPORT}/vendor/github.com/fatih/color/LICENSE.md;md5=316e6d590bdcde7993fb175662c0dd5a',
--                 'file://src/${GO_IMPORT}/vendor/github.com/fxamacker/cbor/v2/LICENSE;md5=827f5a2fa861382d35a3943adf9ebb86',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-jose/go-jose/v3/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-jose/go-jose/v3/json/LICENSE;md5=591778525c869cdde0ab5a1bf283cd81',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-kit/log/LICENSE;md5=5b7c15ad5fffe2ff6e9d58a6c161f082',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-logfmt/logfmt/LICENSE;md5=98e39517c38127f969de33057067091e',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-playground/locales/LICENSE;md5=3ccbda375ee345400ad1da85ba522301',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-playground/universal-translator/LICENSE;md5=2e2b21ef8f61057977d27c727c84bef1',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-playground/validator/v10/LICENSE;md5=a718a0f318d76f7c5d510cbae84f0b60',
--                 'file://src/${GO_IMPORT}/vendor/github.com/go-redis/redis/v7/LICENSE;md5=58103aa5ea1ee9b7a369c9c4a95ef9b5',
--                 'file://src/${GO_IMPORT}/vendor/github.com/golang/protobuf/LICENSE;md5=939cce1ec101726fa754e698ac871622',
--                 'file://src/${GO_IMPORT}/vendor/github.com/gomodule/redigo/LICENSE;md5=2ee41112a44fe7014dce33e26468ba93',
--                 'file://src/${GO_IMPORT}/vendor/github.com/google/uuid/LICENSE;md5=88073b6dd8ec00fe09da59e0b6dfded1',
--                 'file://src/${GO_IMPORT}/vendor/github.com/gorilla/mux/LICENSE;md5=33fa1116c45f9e8de714033f99edde13',
--                 'file://src/${GO_IMPORT}/vendor/github.com/gorilla/websocket/LICENSE;md5=c007b54a1743d596f46b2748d9f8c044',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/consul/api/LICENSE;md5=b8a277a612171b7526e9be072f405ef4',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/errwrap/LICENSE;md5=b278a92d2c1509760384428817710378',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-cleanhttp/LICENSE;md5=65d26fcc2f35ea6a181ac777e42db1ea',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-hclog/LICENSE;md5=ec7f605b74b9ad03347d0a93a5cc7eb8',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-immutable-radix/LICENSE;md5=65d26fcc2f35ea6a181ac777e42db1ea',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-multierror/LICENSE;md5=d44fdeb607e2d2614db9464dbedd4094',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-rootcerts/LICENSE;md5=65d26fcc2f35ea6a181ac777e42db1ea',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/golang-lru/LICENSE;md5=f27a50d2e878867827842f2c60e30bfc',
--                 'file://src/${GO_IMPORT}/vendor/github.com/hashicorp/serf/LICENSE;md5=b278a92d2c1509760384428817710378',
--                 'file://src/${GO_IMPORT}/vendor/github.com/leodido/go-urn/LICENSE;md5=8f50db5538ec1148a9b3d14ed96c3418',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mattn/go-colorable/LICENSE;md5=24ce168f90aec2456a73de1839037245',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mattn/go-isatty/LICENSE;md5=f509beadd5a11227c27b5d2ad6c9f2c6',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mitchellh/consulstructure/LICENSE;md5=96ada10a9e51c98c4656f2cede08c673',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mitchellh/copystructure/LICENSE;md5=56da355a12d4821cda57b8f23ec34bc4',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mitchellh/go-homedir/LICENSE;md5=3f7765c3d4f58e1f84c4313cecf0f5bd',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mitchellh/mapstructure/LICENSE;md5=3f7765c3d4f58e1f84c4313cecf0f5bd',
--                 'file://src/${GO_IMPORT}/vendor/github.com/mitchellh/reflectwalk/LICENSE;md5=3f7765c3d4f58e1f84c4313cecf0f5bd',
--                 'file://src/${GO_IMPORT}/vendor/github.com/nats-io/nats.go/LICENSE;md5=86d3f3a95c324c9479bd8986968f4327',
--                 'file://src/${GO_IMPORT}/vendor/github.com/nats-io/nkeys/LICENSE;md5=86d3f3a95c324c9479bd8986968f4327',
--                 'file://src/${GO_IMPORT}/vendor/github.com/nats-io/nuid/LICENSE;md5=86d3f3a95c324c9479bd8986968f4327',
--                 'file://src/${GO_IMPORT}/vendor/github.com/pmezard/go-difflib/LICENSE;md5=e9a2ebb8de779a07500ddecca806145e',
--                 'file://src/${GO_IMPORT}/vendor/github.com/rcrowley/go-metrics/LICENSE;md5=1bdf5d819f50f141366dabce3be1460f',
--                 'file://src/${GO_IMPORT}/vendor/github.com/spiffe/go-spiffe/v2/LICENSE;md5=86d3f3a95c324c9479bd8986968f4327',
--                 'file://src/${GO_IMPORT}/vendor/github.com/stretchr/objx/LICENSE;md5=d023fd31d3ca39ec61eec65a91732735',
--                 'file://src/${GO_IMPORT}/vendor/github.com/stretchr/testify/LICENSE;md5=188f01994659f3c0d310612333d2a26f',
--                 'file://src/${GO_IMPORT}/vendor/github.com/x448/float16/LICENSE;md5=de8f8e025d57fe7ee0b67f30d571323b',
--                 'file://src/${GO_IMPORT}/vendor/github.com/zeebo/errs/LICENSE;md5=84914ab36fc0eb48edbaa53e66e8d326',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/crypto/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/mod/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/net/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/sync/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/sys/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/text/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/golang.org/x/tools/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707',
--                 'file://src/${GO_IMPORT}/vendor/google.golang.org/genproto/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57',
--                 'file://src/${GO_IMPORT}/vendor/google.golang.org/grpc/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57',
--                 'file://src/${GO_IMPORT}/vendor/google.golang.org/protobuf/LICENSE;md5=02d4002e9171d41a8fad93aa7faf3956',
--                 'file://src/${GO_IMPORT}/vendor/gopkg.in/eapache/queue.v1/LICENSE;md5=1bfd4408d3de090ef6b908b0cc45a316',
--                 'file://src/${GO_IMPORT}/vendor/gopkg.in/yaml.v3/LICENSE;md5=3c91c17266710e16afdbb2b6d15c761c'])
--
-+                 ['file://src/${GO_IMPORT}/vendor/github.com/godbus/dbus/v5/LICENSE;md5=09042bd5c6c96a2b9e45ddf1bc517eed',
-+                 'file://src/${GO_IMPORT}/vendor/github.com/matryer/is/LICENSE;md5=62beaee5a116dd1e80161667b1df39ab'])
-         self.assertTrue(os.path.isfile(lics_require_file))
-         self._test_recipe_contents(lics_require_file, checkvars, [])
- 
-+        # make sure that dependencies don't mention local directory ./matryer/is
-         dependencies = \
--            [   ('github.com/eclipse/paho.mqtt.golang','v1.4.2', '', '', ''),
--                ('github.com/edgexfoundry/go-mod-bootstrap','v3.0.1','github.com/edgexfoundry/go-mod-bootstrap/v3','/v3', ''),
--                ('github.com/edgexfoundry/go-mod-configuration','v3.0.0','github.com/edgexfoundry/go-mod-configuration/v3','/v3', ''),
--                ('github.com/edgexfoundry/go-mod-core-contracts','v3.0.0','github.com/edgexfoundry/go-mod-core-contracts/v3','/v3', ''),
--                ('github.com/edgexfoundry/go-mod-messaging','v3.0.0','github.com/edgexfoundry/go-mod-messaging/v3','/v3', ''),
--                ('github.com/edgexfoundry/go-mod-secrets','v3.0.1','github.com/edgexfoundry/go-mod-secrets/v3','/v3', ''),
--                ('github.com/fxamacker/cbor','v2.4.0','github.com/fxamacker/cbor/v2','/v2', ''),
--                ('github.com/gomodule/redigo','v1.8.9', '', '', ''),
--                ('github.com/google/uuid','v1.3.0', '', '', ''),
--                ('github.com/gorilla/mux','v1.8.0', '', '', ''),
--                ('github.com/rcrowley/go-metrics','v0.0.0-20201227073835-cf1acfcdf475', '', '', ''),
--                ('github.com/spiffe/go-spiffe','v2.1.4','github.com/spiffe/go-spiffe/v2','/v2', ''),
--                ('github.com/stretchr/testify','v1.8.2', '', '', ''),
--                ('go.googlesource.com/crypto','v0.8.0','golang.org/x/crypto', '', ''),
--                ('gopkg.in/eapache/queue.v1','v1.1.0', '', '', ''),
--                ('gopkg.in/yaml.v3','v3.0.1', '', '', ''),
--                ('github.com/microsoft/go-winio','v0.6.0','github.com/Microsoft/go-winio', '', ''),
--                ('github.com/hashicorp/go-metrics','v0.3.10','github.com/armon/go-metrics', '', ''),
--                ('github.com/cenkalti/backoff','v2.2.1+incompatible', '', '', ''),
--                ('github.com/davecgh/go-spew','v1.1.1', '', '', ''),
--                ('github.com/edgexfoundry/go-mod-registry','v3.0.0','github.com/edgexfoundry/go-mod-registry/v3','/v3', ''),
--                ('github.com/fatih/color','v1.9.0', '', '', ''),
--                ('github.com/go-jose/go-jose','v3.0.0','github.com/go-jose/go-jose/v3','/v3', ''),
--                ('github.com/go-kit/log','v0.2.1', '', '', ''),
--                ('github.com/go-logfmt/logfmt','v0.5.1', '', '', ''),
--                ('github.com/go-playground/locales','v0.14.1', '', '', ''),
--                ('github.com/go-playground/universal-translator','v0.18.1', '', '', ''),
--                ('github.com/go-playground/validator','v10.13.0','github.com/go-playground/validator/v10','/v10', ''),
--                ('github.com/go-redis/redis','v7.3.0','github.com/go-redis/redis/v7','/v7', ''),
--                ('github.com/golang/protobuf','v1.5.2', '', '', ''),
--                ('github.com/gorilla/websocket','v1.4.2', '', '', ''),
--                ('github.com/hashicorp/consul','v1.20.0','github.com/hashicorp/consul/api', '', 'api'),
--                ('github.com/hashicorp/errwrap','v1.0.0', '', '', ''),
--                ('github.com/hashicorp/go-cleanhttp','v0.5.1', '', '', ''),
--                ('github.com/hashicorp/go-hclog','v0.14.1', '', '', ''),
--                ('github.com/hashicorp/go-immutable-radix','v1.3.0', '', '', ''),
--                ('github.com/hashicorp/go-multierror','v1.1.1', '', '', ''),
--                ('github.com/hashicorp/go-rootcerts','v1.0.2', '', '', ''),
--                ('github.com/hashicorp/golang-lru','v0.5.4', '', '', ''),
--                ('github.com/hashicorp/serf','v0.10.1', '', '', ''),
--                ('github.com/leodido/go-urn','v1.2.3', '', '', ''),
--                ('github.com/mattn/go-colorable','v0.1.12', '', '', ''),
--                ('github.com/mattn/go-isatty','v0.0.14', '', '', ''),
--                ('github.com/mitchellh/consulstructure','v0.0.0-20190329231841-56fdc4d2da54', '', '', ''),
--                ('github.com/mitchellh/copystructure','v1.2.0', '', '', ''),
--                ('github.com/mitchellh/go-homedir','v1.1.0', '', '', ''),
--                ('github.com/mitchellh/mapstructure','v1.5.0', '', '', ''),
--                ('github.com/mitchellh/reflectwalk','v1.0.2', '', '', ''),
--                ('github.com/nats-io/nats.go','v1.25.0', '', '', ''),
--                ('github.com/nats-io/nkeys','v0.4.4', '', '', ''),
--                ('github.com/nats-io/nuid','v1.0.1', '', '', ''),
--                ('github.com/pmezard/go-difflib','v1.0.0', '', '', ''),
--                ('github.com/stretchr/objx','v0.5.0', '', '', ''),
--                ('github.com/x448/float16','v0.8.4', '', '', ''),
--                ('github.com/zeebo/errs','v1.3.0', '', '', ''),
--                ('go.googlesource.com/mod','v0.8.0','golang.org/x/mod', '', ''),
--                ('go.googlesource.com/net','v0.9.0','golang.org/x/net', '', ''),
--                ('go.googlesource.com/sync','v0.1.0','golang.org/x/sync', '', ''),
--                ('go.googlesource.com/sys','v0.7.0','golang.org/x/sys', '', ''),
--                ('go.googlesource.com/text','v0.9.0','golang.org/x/text', '', ''),
--                ('go.googlesource.com/tools','v0.6.0','golang.org/x/tools', '', ''),
--                ('github.com/googleapis/go-genproto','v0.0.0-20230223222841-637eb2293923','google.golang.org/genproto', '', ''),
--                ('github.com/grpc/grpc-go','v1.53.0','google.golang.org/grpc', '', ''),
--                ('go.googlesource.com/protobuf','v1.28.1','google.golang.org/protobuf', '', ''),
--            ]
--
--        src_uri = set()
--        for d in dependencies:
--            src_uri.add(self._go_urifiy(*d))
--
--        checkvars = {}
--        checkvars['GO_DEPENDENCIES_SRC_URI'] = src_uri
--
--        self.assertTrue(os.path.isfile(deps_require_file))
--        self._test_recipe_contents(deps_require_file, checkvars, [])
--
--    def test_recipetool_create_go_replace_modules(self):
--        # Check handling of replaced modules
--        temprecipe = os.path.join(self.tempdir, 'recipe')
--        os.makedirs(temprecipe)
--
--        recipefile = os.path.join(temprecipe, 'openapi-generator_git.bb')
--        deps_require_file = os.path.join(temprecipe, 'openapi-generator', 'go-modules.inc')
--        lics_require_file = os.path.join(temprecipe, 'openapi-generator', 'go-licenses.inc')
--        modules_txt_file = os.path.join(temprecipe, 'openapi-generator', 'modules.txt')
--
--        srcuri = 'https://github.com/OpenAPITools/openapi-generator.git'
--        srcrev = "v7.2.0"
--        srcbranch = "master"
--        srcsubdir = "samples/openapi3/client/petstore/go"
--
--        result = runCmd('recipetool create -o %s %s -S %s -B %s --src-subdir %s' % (temprecipe, srcuri, srcrev, srcbranch, srcsubdir))
--
--        self.maxDiff = None
--        inherits = ['go-vendor']
--
--        checkvars = {}
--        checkvars['GO_IMPORT'] = "github.com/OpenAPITools/openapi-generator/samples/openapi3/client/petstore/go"
--        checkvars['SRC_URI'] = {'git://${GO_IMPORT};destsuffix=git/src/${GO_IMPORT};nobranch=1;name=${BPN};protocol=https',
--                                'file://modules.txt'}
--
--        self.assertNotIn('Traceback', result.output)
--        self.assertIn('No license file was detected for the main module', result.output)
--        self.assertTrue(os.path.isfile(recipefile))
--        self._test_recipe_contents(recipefile, checkvars, inherits)
--
--        # make sure that dependencies don't mention local directory ./go-petstore
--        dependencies = \
--            [   ('github.com/stretchr/testify','v1.8.4', '', '', ''),
--                ('go.googlesource.com/oauth2','v0.10.0','golang.org/x/oauth2', '', ''),
--                ('github.com/davecgh/go-spew','v1.1.1', '', '', ''),
--                ('github.com/golang/protobuf','v1.5.3', '', '', ''),
--                ('github.com/kr/pretty','v0.3.0', '', '', ''),
--                ('github.com/pmezard/go-difflib','v1.0.0', '', '', ''),
--                ('github.com/rogpeppe/go-internal','v1.9.0', '', '', ''),
--                ('go.googlesource.com/net','v0.12.0','golang.org/x/net', '', ''),
--                ('github.com/golang/appengine','v1.6.7','google.golang.org/appengine', '', ''),
--                ('go.googlesource.com/protobuf','v1.31.0','google.golang.org/protobuf', '', ''),
--                ('gopkg.in/check.v1','v1.0.0-20201130134442-10cb98267c6c', '', '', ''),
--                ('gopkg.in/yaml.v3','v3.0.1', '', '', ''),
-+            [   ('github.com/godbus/dbus','v5.1.0', 'github.com/godbus/dbus/v5', '/v5', ''),
-             ]
- 
-         src_uri = set()
+diff --git a/meta/classes/rootfs-footprint.bbclass b/meta/classes/rootfs-footprint.bbclass
+new file mode 100644
+index 0000000000..247db0b709
+--- /dev/null
++++ b/meta/classes/rootfs-footprint.bbclass
+@@ -0,0 +1,54 @@
++# Generates a json footprint file with the list of packages installed in the rootfs image,
++# with the following format:
++# 
++# {
++#     "package_name": "busybox-syslog",
++#     "version": "1.37.0",
++#     "total_size": 2824,
++#     "installed_files": {
++#         "/etc/init.d/syslog": 2104,
++#         "/etc/syslog-startup.conf": 651,
++#         "/etc/syslog.conf": 69
++#     }
++# }
++#
++# Copyright (C) 2024 Wind River Systems, Inc.
++# Author: Beniamin Sandu <beniamin.sandu@windriver.com>
++#
++# SPDX-License-Identifier: GPL-2.0-only
++
++ROOTFS_POSTPROCESS_COMMAND:append = " create_rootfs_footprint; "
++ROOTFS_FOOTPRINT_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.footprint.json"
++
++python create_rootfs_footprint() {
++    from oe.rootfs import image_list_installed_packages
++    import oe.packagedata
++    import json
++
++    footprint_file = d.getVar('ROOTFS_FOOTPRINT_FILE')
++    pkg_info_dic = {}
++    pkg_dic = dict(package_name="", version="", total_size=0, installed_files="")
++    pkg_list = sorted(image_list_installed_packages(d))
++
++    pkg_data_list = []
++
++    for pkg in pkg_list:
++        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'), 'runtime-reverse', pkg)
++        pkg_name = os.path.basename(os.readlink(pkg_info))
++        pkg_info_dic[pkg_name] = oe.packagedata.read_pkgdatafile(pkg_info)
++
++        pkg_dic["package_name"] = pkg_name
++        pkg_dic["version"] = pkg_info_dic[pkg_name]["PV"]
++        pkg_dic["total_size"] = int(pkg_info_dic[pkg_name]["PKGSIZE:" + pkg_name])
++        pkg_dic["installed_files"] = json.loads(pkg_info_dic[pkg_name]["FILES_INFO:" + pkg_name])
++
++        pkg_data_list.append(pkg_dic.copy())
++
++    with open(footprint_file, 'w') as f:
++        json.dump(pkg_data_list, f, indent=4)
++
++    footprint_link = os.path.join(d.getVar('IMGDEPLOYDIR'), "%s.footprint.json" % d.getVar('IMAGE_LINK_NAME'))
++    if os.path.lexists(footprint_link):
++        os.remove(footprint_link)
++    os.symlink(os.path.basename(footprint_file), footprint_link)
++}
+-- 
+2.39.5
+
 
