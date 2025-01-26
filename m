@@ -2,65 +2,63 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C8EC0218E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 654C4C02191
 	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 12:48:23 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.29139.1737895700581368865
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.29395.1737895694720345788
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jan 2025 04:48:20 -0800
+ Sun, 26 Jan 2025 04:48:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RtG/9DlU;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43634b570c1so24772605e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 04:48:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nNxQppwP;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43624b2d453so38412665e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 04:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737895699; x=1738500499; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1737895693; x=1738500493; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gKnWFOn5Kw8wxIS2x/gnbuEmaI/r1IFLo/zpMQYB05A=;
-        b=RtG/9DlUC8FYwSGrrVM1vIK7kQhVk+mBjuEW7GfWkNa6ogDcTfp2vEm6MRy9hbMk/v
-         uhdEuCnMAkjHQCoF9/HucK+8BtXbblRWwUl22ZvoFnGrCwHxD9BV3hz/WMvfQIy43QOw
-         r2vI4NzTKbTnBJJ0hLQOXMGjc2KI8DBQDWPNE9mPlCaL8EnGnQz8/mJo5sooR4ir3kNB
-         PYM0jHpCxC6ZCYY0GE3o6MSGGv57XLpazkePzUoR0Tz0q3UqA1gvcxBWWyrJjaR5cgyc
-         XX5EiLqzoxsRXyPivJOcFB2Ik2EbFESnzTe8YaoR0Zkj4DZFTQEaDvJd2H+0dQlKmzZb
-         zovg==
+        bh=8Ctn7NvOOTY0sZwX1b2/2TR4cWSg+Kh59AnRbU6xPxI=;
+        b=nNxQppwPbZjg2YRIlLPUZz+YPnfUT7RWLgyGlWOhE/X7XLQxSGAn4YMHoON4cMmZof
+         SON2cmhzWL4FwL3emTsc5fuEMKYeks94SvEZDqWeFnbXSwWwgtgvxttUb4Gm6GAzOoxb
+         mlLj8ZHh95RhrnMpERrGnQe/sOZ2UsMosbZX/m5vYjbJR7QBHnK36EKNQ+WeLINpzpzK
+         QksALoDcdL2kavdIW4YOCUtOybLz9N0oRVitF2ahAx7ODGkQgZko4kBYAaabER80FGj3
+         Z1P1SJBkgWddSJtUAaV0RtUZ2KuK7YGXaib4EYnnZ6G7aBgKyaboVqqRheKZdx8wqQ+l
+         dQDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737895699; x=1738500499;
+        d=1e100.net; s=20230601; t=1737895693; x=1738500493;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gKnWFOn5Kw8wxIS2x/gnbuEmaI/r1IFLo/zpMQYB05A=;
-        b=pRYSbmfgWjmSdtQbPFAgVSBazLrmUND7yflvuUxk7g/uZmNsR7T3HLfsnuQpc4YUL2
-         soELur4NbqMnYCRI3kL9WATFlgIPUAg3P6owPCBVfa34bwvxOdjCTM5C8oRai2zDgl4U
-         dFy+Gyv7LEzleEZ5kzOlUIHQeZrORcJPv1+LQ5Q07apmGpn25OT9vLetxXbcGqJ4o4FO
-         mSZ/9g/ZuT5uu8yKcq0hWjJB01luqjUCKPFETAFMd4lTjtazyOY/LXbVotgbo2yJibxT
-         WAjp6uq6aYcEaq9AeABs7IwmoV/N2LlXKyMEJX5xqE1i6arcSm+jofmOmvB7tguCO8bR
-         Oryg==
-X-Gm-Message-State: AOJu0Yyr9J/nBCzC6GzMXzVGoXg8oCs/0whbEBc8ToI47w4kAF/UXdhY
-	KfVLSNEKXD9aGqcGDW6QieeEBoXuT8HXTdHeB0xJDmYF4Qz27955hjwdPA==
-X-Gm-Gg: ASbGncuTqJzXWdPCULrIE2ua9oD20hW6kyvqmlKYPGTHJvrcG144JH4qftUOEh5asA9
-	Na65314zILYuPf30Z/vA3W/2xnRMFBtiQePYzwlBu9xpKSfbIiP14fvxRmj+w1+sdxziOphXp/A
-	Zv7fvoAiKjYFl7KERBcEmF3LLo6AIn9SQ2rBVbcvoAARFE/USpVuC5TohL9i5kj1K4qYID3Lc4T
-	qGheuvofaj340Wzk2TkMNEHmCy5YOlGuPByR+hMFVQnf03TwIN+rBYCPfgutz/Afvlyg0xBAgfE
-	3GIxVbBSQIDNCaQRvZxafE80SYA=
-X-Google-Smtp-Source: AGHT+IGreR0iChGxIGjS3dGFGvpGsoMiucGtqFumOyIlvLwN6FFh6tr8C6FjF0nfQ/BZeK8w19XS1w==
-X-Received: by 2002:a05:600c:524c:b0:435:306:e5dd with SMTP id 5b1f17b1804b1-4389143a66dmr314967035e9.22.1737895698382;
-        Sun, 26 Jan 2025 04:48:18 -0800 (PST)
+        bh=8Ctn7NvOOTY0sZwX1b2/2TR4cWSg+Kh59AnRbU6xPxI=;
+        b=Yhj/aM/j/n1aELj26MQxbc7sdH4tjKTQT7t1/3Exli7qkVLYT4cU2Z0MsbXmKM/a9/
+         RsMwGZhV4SAESNFhWwsIkhzQ9xUhRCxMmj5oIFXwJr1lS+3BTilWlyybGGgALRNP6w1F
+         6Ap0mbN43oA4Nwg2rcdu5C9gbyndwMoWF0acskDzigmnISHXzLK8lv9GQ81SAuOmGnc+
+         9noBJRvNZptup/CGpDi/EMplSaUiS/OGBFHmoNqEuzQCzA0tSH2QmikwOIigLzebJNI7
+         tWbTp3be9zUDykWbFYEiGvU2O4HqbmAlOwntVkrtJnk7RoEuKQeqSOquobtDC5CDezDn
+         3wlg==
+X-Gm-Message-State: AOJu0YxM6DwT5Z9Hrl3BSp9qerqhfTUXUTmqo+lJ6vErWr5S/I4f9G/J
+	O/Vv7+OiQPyRCYh/UQYL+MXAjAOZVzX+bqB8mF7uXjHGCTajIHBHgUaKGQ==
+X-Gm-Gg: ASbGncuMThMkp0foAKG5CHE/v+CsB0u2/pQSPgjwLyxL2ddcPUlian3SEp2Qe+YSxuO
+	UU531NGlk3ldEnaZBRsF/8TefNnqxt5M7v5yNe6l3NSYfgZdzAvLf7ByAWo76QK1BESynmqr30j
+	T5c751M5scBnzoiRTD1odX7PdT8ycMfXjn8nGabqdQPUmQpCMH2kWofhIbeQSsBv7F/BDTYfa2q
+	5huxPvtIfQtT7KSuI2gMOMTQkaoEeNQkkqyCMZxSWdO53vF4eEe2IyOGKWu1JByBT9lXcqp+IcI
+	vMuM+xefJVRaPll+7R2Eu0B7vx0=
+X-Google-Smtp-Source: AGHT+IGwxKYwN/R4sqtw2Y55VjybSxbCBArOxW6meZzlz9lTIuUMCAjzWL5VkKeiqozndcoa9TG5tQ==
+X-Received: by 2002:a05:600c:1987:b0:434:f753:6012 with SMTP id 5b1f17b1804b1-438913f2f4emr368750685e9.17.1737895692702;
+        Sun, 26 Jan 2025 04:48:12 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd48a906sm95938295e9.18.2025.01.26.04.48.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd48a906sm95938295e9.18.2025.01.26.04.48.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 04:48:17 -0800 (PST)
+        Sun, 26 Jan 2025 04:48:12 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@gmail.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap,styhead][PATCH 5/5] devtool: ide-sdk remove the plugin from eSDK installer
-Date: Sun, 26 Jan 2025 13:48:06 +0100
-Message-ID: <20250126124806.1453644-6-adrian.freihofer@siemens.com>
+Subject: [scarthgap,styhead][PATCH 2/5] devtool: ide-sdk sort cmake preset
+Date: Sun, 26 Jan 2025 13:48:03 +0100
+Message-ID: <20250126124806.1453644-3-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250126124806.1453644-1-adrian.freihofer@siemens.com>
 References: <20250126124806.1453644-1-adrian.freihofer@siemens.com>
@@ -70,70 +68,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 12:48:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210284
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210281
 
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-
-The ide-sdk command bootstraps the SDK from the bitbake environment
-before the IDE configuration is generated. In the case of the eSDK
-installer, the bootstrapping is performed during the installation of
-the eSDK installer. Running the ide-sdk plugin from an eSDK installer
-based setup would require skipping the bootstrapping and probably taking
-some other differences into account when generating the IDE
-configurations.
-
-This would be possible. But it will probably never be implemented, as
-running devtool ide-sdk directly from the bitbake environment is much
-more flexible.
-Also, some of the recent improvements that have made it into the core
-have the potential to make the eSDK installer obsolete at some point in
-the future:
-- bitbake-layers create-layers-setup replicates the layers
-- bitbake-config-build replicates the build configuration
-- The new sstate mirror features replicate the sstate
-- bblock locks the sstate more flexible than the eSDK installer
-- devtool ide-sdk bootstraps the SDK directly from the bitbake
-  environment. The same environment-setup... file is provided with
-  --mode=shared.
-  The devtool modify based workflow is supported since always by devtool
-  and also the default --mode of devtool ide-sdk.
-These functions essentially cover what the eSDK installer does without
-a need for the current implementation of the eSDK installer and the
-populate_sdk_ext, which is hard to maintain and takes a lot of time to
-build.
-This means that instead of making the ide-sdk plugin compatible with the
-eSDK installer, we should rather replace the current implementation of
-the eSDK installer and populate_sdk_ext with an implementation that can
-replicate a normal bitbake environment in a convenient way where the
-ide-sdk plugin also just works without additional complexity.
+Sort the keys of the generated CMakeUserPreset.json file to make it
+easier to search and compare.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/devtool/ide_sdk.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ scripts/lib/devtool/ide_sdk.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 5e4c543275..0b50165a12 100755
+index 65873b088d..eee5425aa7 100755
 --- a/scripts/lib/devtool/ide_sdk.py
 +++ b/scripts/lib/devtool/ide_sdk.py
-@@ -965,6 +965,15 @@ def ide_setup(args, config, basepath, workspace):
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
+@@ -493,7 +493,7 @@ class RecipeModified:
  
-+    # The ide-sdk command bootstraps the SDK from the bitbake environment before the IDE
-+    # configuration is generated. In the case of the eSDK, the bootstrapping is performed
-+    # during the installation of the eSDK installer. Running the ide-sdk plugin from an
-+    # eSDK installer-based setup would require skipping the bootstrapping and probably
-+    # taking some other differences into account when generating the IDE configurations.
-+    # This would be possible. But it is not implemented.
-+    if context.fixed_setup:
-+        return
-+
-     global ide_plugins
- 
-     # Search for IDE plugins in all sub-folders named ide_plugins where devtool seraches for plugins.
+         vars = (key for key in d.keys() if not key.startswith(
+             "__") and not d.getVarFlag(key, "func", False))
+-        for var in vars:
++        for var in sorted(vars):
+             func = d.getVarFlag(var, "func", False)
+             if d.getVarFlag(var, 'python', False) and func:
+                 continue
+@@ -545,7 +545,7 @@ class RecipeModified:
+         cache_vars = {}
+         oecmake_args = d.getVar('OECMAKE_ARGS').split()
+         extra_oecmake = d.getVar('EXTRA_OECMAKE').split()
+-        for param in oecmake_args + extra_oecmake:
++        for param in sorted(oecmake_args + extra_oecmake):
+             d_pref = "-D"
+             if param.startswith(d_pref):
+                 param = param[len(d_pref):]
 -- 
 2.47.1
 
