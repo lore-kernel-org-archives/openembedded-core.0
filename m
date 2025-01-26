@@ -1,133 +1,105 @@
-Return-Path: <gavrosc@yahoo.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA84CC02181
-	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 10:03:12 +0000 (UTC)
-Received: from sonic309-13.consmr.mail.bf2.yahoo.com (sonic309-13.consmr.mail.bf2.yahoo.com [74.6.129.123])
- by mx.groups.io with SMTP id smtpd.web10.27637.1737885785932444476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A493C02181
+	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 11:20:43 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.28293.1737890437514531417
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jan 2025 02:03:06 -0800
+ Sun, 26 Jan 2025 03:20:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=W7763zU+;
- spf=neutral (domain: yahoo.com, ip: 74.6.129.123, mailfrom: gavrosc@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1737885785; bh=mt+gFxQ3dBgb8AAjacVeI1n4XLnVVUflLMF/VTd7Dp4=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=W7763zU+Tvaebqsv2KGOigE/Vtb8ISQXRFf2nWoaCIO8BHuq+Z5/rQC2NK5dmOOE6+CiluO7hLvG+V8P6wPpLiDibG+won1sheF1UF98vKzva4KGA35WMro++71IvruvQP0DU35cEzYg7vL2gMKa+lv7+MlvIrPsymVw0E4eheuKNifZxL1uZZ/nU4VS17iRXoObrW9fxTheiLFw7BL98jjTRsjRDQdBjbNGgvrpFzd+I38B+IPiSwKwDgfwqgjiJUuHx/eFmUoRGZ1d0z2uScW/ZTURGO7AUftlIxdiBtN4+7nxDbcKEVWFbjr37I3ZI1UQAJByjbMZn9dINdCueA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1737885785; bh=0eP37qXXBQ4gma+xewzpaLHKYnIqMQRznBGw56JAWn7=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=TONtVmqEedyVXzTlavwNlMWqjI7m6ZFLcrGPmHcqKlAHQJ5nNFFuknP1Bs+rXqixGCZ7N1nT8f1+6Bs2eomNPFs5dzaP4k6JjI6ZU+q2vuZcnytd1+Z5SMx53I2EHkLTfGNe36csFCkORaJF1MfNXdvXanvt1lr/w6riBMUYytK223g9fc2uJcdu+KCpN43z8w590qsW3xLlaZoFLZ9m1kXCxLkIbajEAhXom+rZx2MTh0T3sBSfi9jjSx78/adKXXjWGoTz5StidRvrdhQrwljl2m0jV8iDtrErMMKz2XMrDeftW+yVMnIlCHD0gGKZLYCzv7ggeK9BZACotmrFSQ==
-X-YMail-OSG: IRNDlNcVM1mSpGq4il1bO.DEiciBfbsihZsupXQ7gpc_MbWia1RpkAg54fKCkd0
- qO9xxPATYBLxsmflbfhlBxkJLVAYRqJhoBZRQc0lUcxXpTD96NFbpYGn9JwB8xoz2fTcQn4ADgkO
- IW4hNntaFQnY2m6wVAQsrO4N3caEAIrRA.AosCUeITn5mrcU4J6grMJYXawioJ11O6Sooa9l1n4u
- qEH.qqPOl.CFAHh7n78w15YyrwpO4a8E2E5RTOX88G8sh9BBA6iuXlGt.drD_wxAr_MXfhfWrTsD
- QOAlVodnZREEyjzF2oUxuFfyq2VqMQdHf5xEj_Wsi9b6du5yq6Sn5tNlGtmyKC_SrR_QEYFhJeYH
- PICvWN.w1VP9vK.fZiCEJgO1t4RFq9yYnC1dGUABSSE0QFiTr6Y1MLM_te7tVKKfKNa0X.uIsChk
- 0EbwyhQpaOsU3UT_uqZr28kiDNphNulM1rucTYtYgWgN0Mmn6ZyU9xWEcYDQCXTcBUpRweXYNDE2
- zwEEB2y2zht5JQoiumChwOs062PmenGK0gxOgc9FR6HBDWJUNvAw1_RFyEX8d4jVPYT_IoEz_MAZ
- 1vIrm8r50i5JqJpqXUc5ILA7JhxKtPY46F2PcgKT2lXp2vu_3Dtz3MUEU8UAsL1h3ezTxyycRhP3
- PbgW1BYV4QQUhxvt0rB9NPd95rIIPGFfGFu32.c8He.Zu25ft3FT5h243I4DDghsSr1h2eXLFy26
- bbqSZci5Owv7SGa2uhVpVrRRBcs55wIOVK6.Y8WO1pkMrx3jCIggLc2BbKuyc5mWLevkJt5.XGQg
- MK_Y._Hbi13Xq4g.I9MUP8nBNXfrViJwpMQEgdh7RJW2gJ0hagXvx2p8V7W3QQlrLxdp3vHBWoxN
- uYfpMp4eEMDtk23SKy2GB3S7kF1uqdBQa.tJUS02ioQaWGM728UDoxL39ydhdDx92sVYt3RlN1OK
- OzbDjCIFH3gCNLUWnnGp1lxnJi3.tXbqYYIUSYNruVfw9KvzrynfNCFU1Z6u5UNVRS6AzdiHnOGd
- nHhLpl40YDOcv3dZs4n4tjzoZfNNDGT54aBX7G_yel_rwYu2fD.UjIaN.eVrXFJnJ_6SR0x2AExA
- aJQiyxJ9aadOpuEzby3QuvShnFPBHx8_2YM9HazeKBzB4QPi3zALqdnpOIzFmP2uE2zIfOAnmabu
- L5nERLsmcVbRBlq5Vtthf35A1xuigpp460fKymTPjLo8sKpBEW5gmGUTjhj_blMhsJ6NN3ALZY8L
- VPR6KdDSDG3r587XGCw4bKY0HEFOzdvOdAQAZ4qWw2AWkC.i8uoBUWTftCg2tm4ELAjjtnxaPFrR
- 2RKERw02a6QTFuoQ_MVFLyd4snkplHlmdwK3hCTMD0wCbYCzxgRPbYMhmaLtmfRf55e6Ksk1aSyQ
- 4htHNNL762BvpmzhOcOs7LHOSn5Oz8toZxxxGBlaTodXne9KvRPKKPSuuHKPJJfwub.Zj3cJtjO0
- zHvwSZWdujWcuYAXKgGutwLYr_TBPabr356nr340KaPpRPy64CVnxV.mDb70gdudT2vV4HlYGytu
- HHaaktow2EOuuuvG66uyfxsox0KeA.yaRm15cqaJ4E986aOZZxbsdOTd0Z4gDEDb2Ey.fPElMsnE
- 5VpHZIwDMt5PgcWxObwSRo7eFuDwibWdd9FZs9as82t7iz0IzDa_dcF1cqF.oNrD3Jbm6f_GjrT8
- qtM5jH7JQMrWvUycFBQk8Kt_Ox8I4tQY7N89M.dpob2CWsHNwDy9XEKG6hpIoWX7XfUlG3v9dE.Q
- .d4RC3T3mOxXR312IhBTRMzCAED7343GINw7ceP3bqMm6TQgOYZBCdnTne.DeEagY8RvuXjcW26l
- eTK8YrFQsoQTkXdcGP1Hk2EhdFz.sp9odsLFDqPZ3wQLALQQsayoibShk6PRN3NEO2Vio9U8NE5u
- e1PJUvY1mDoGyjIroLpyIWa2J33IEzv2OnbCfSNotbojG9bCrFXydKHIJ5UfJW65WKWpITEET_Gz
- naCGDmtAxrS2n8wf.rluTHBGRGswK5WzENn1_X_CdkXL1WPejBhY.cqn.WX_s0_NLmDDakX7fjc4
- Y0Hpe.oEHIAUbeAwxNfs.Bi2C5_Z7UMu79EjnOI9843uWiCs.hWk4o6g0AlHFbxsiZHy4E69AMa4
- YG1qbEaC4GiIHZw4_dxTF1PmFwcVuTztkVR3Bmmy8hg13BAFGGpv8XomTTeFrYhb.CG4XTmjse5d
- PjdUpzzXMvL2iGLSG8ooPX8CxnTEQ0lnzEQcIbJMBA82VnPf2zyi7y3AkgGA2mA--
-X-Sonic-MF: <gavrosc@yahoo.com>
-X-Sonic-ID: 50b19ebb-973b-4697-9500-30ed17a78a4f
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Sun, 26 Jan 2025 10:03:05 +0000
-Received: by hermes--production-ir2-c694d79d9-f7l2b (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d452eee8c37b8280141a82789bb85563;
-          Sun, 26 Jan 2025 10:03:03 +0000 (UTC)
-From: Christos Gavros <gavrosc@yahoo.com>
-To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr,
-	randy.macleod@windriver.com,
-	ross.burton@arm.com,
-	Christos Gavros <gavrosc@yahoo.com>
-Subject: [PATCH v5] sanity: test for cpp toolchain
-Date: Sun, 26 Jan 2025 11:02:25 +0100
-Message-Id: <20250126100225.4147-1-gavrosc@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20250126100225.4147-1-gavrosc.ref@yahoo.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VClJoUIy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-218c8aca5f1so84406565ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 03:20:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1737890437; x=1738495237; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m+a3tye/PKKBYJO0s/k1aCVnxJgmEBKLb/mGe1hISxQ=;
+        b=VClJoUIyFwS/UVrEXIYcFLG3jsfRpZAtv/WctXH0oE098xp6KanaKGAmb6I8A3gGNa
+         egxzJRjOr8PZZ2Q826NmUTu6UCv/6O0aROxuwxyE02dWLta0KHU8MtbxHHYPRqoGHbIc
+         cGkkeADHiiGiKwoKvcau8lqGyAUOyX2LRtf56XlB+3WSQa2sANvxXmLzLC97Fewj8TlY
+         +bviQOnzJVai4cYD7ZSBAkaijwXXFrhR388W8pUbISqGj3C4wHSY++LAKycsglm+Eft6
+         R58Hp/cKi07ftdD5tIZkzD91859nYwf0BSNsqErAWnqtFHQ9BS0hrTqckK5lDWgXpETr
+         e+Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737890437; x=1738495237;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=m+a3tye/PKKBYJO0s/k1aCVnxJgmEBKLb/mGe1hISxQ=;
+        b=Sd/NugRa1ZLIdal5FVv1T6XuUxsSm6OnPtoojQPLh7KNx2sull5xUvyhHhzao0/npq
+         KMUy/XGK4faltcGdI2NmxgdAvxw/JODePN0WTaRFJUFvaYIVFm5xCLOSN+3sPpZExaT7
+         vc0rlQhWEprqagBppZiG0vXWb3FopJlKGAinCQJOwKFA/g1AzJ2It85jfZYCraB55wvJ
+         HL/dF9PxnL7ZPBDBTQup4DUvWJMv28SsIHbfAFSWpwoOI1DHmuS2LgKjTXrxygjVOZMe
+         vYB9SP0nCHZoJW394Tbbx1mizNBJdwfbXdEKMaqBEiunQVpyLqfBmrE5Po7Mnlg0zWvo
+         TI2g==
+X-Gm-Message-State: AOJu0YwLT7fHnmthJOTy9EKV0+sFshxgcdYQ453YXw7rBbsGQfhJH7oA
+	wsUtJAVrkY7057ODYNVXxC8emxb0zEYupJnFbHyWmIye4wgyHXNyVnkgn0h4hwdYiDr++OBXMQZ
+	7
+X-Gm-Gg: ASbGncsxdZFjqK7rqrSn0nZG+fmNosu28daEABK4mZtz81QhGw1je+6umb1oS3b99vn
+	9yLE6+5U086PDxkRfyvoI9SlXG5jMYnw2zYj3oQ2+4nMxUEPJ1MXJ1OITWs6D4J8t5u79hBwSCv
+	qjn+utQbfT7nEph0Z7omdRRiruuwnybpUU7jlS4+/wlwKIo+klEgJUfJGb6GDIsv5icaJiavlvu
+	KIHfKcvVddZ4U8o071s6ltqtZ63ASagpAM0vAMin+0kr0jH69RAfz1M8p4VPKEnQpzbkU0YhX5H
+	g2ErDpeWUA==
+X-Google-Smtp-Source: AGHT+IFvwIveGNOQaCfPj7f+3WLrwYZbkxrXfFA59XT6vBcqxdI15alGobm7n9tVGmsyUBeqjM484w==
+X-Received: by 2002:a05:6a21:3406:b0:1e1:9b77:e237 with SMTP id adf61e73a8af0-1eb215dab81mr63498251637.40.1737890436634;
+        Sun, 26 Jan 2025 03:20:36 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a6a02bbsm5239420b3a.17.2025.01.26.03.20.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2025 03:20:36 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id C9BF41002B5; Sun, 26 Jan 2025 01:20:35 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 26 Jan 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 26 Jan 2025 01:20:35 -1000
+Message-Id: <20250126112035.C9BF41002B5@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 10:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210272
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 11:20:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210273
 
-Users reported issues caused by missing the right libstdc++-version-dev.
-A new function 'check_cpp_toolchain' added in sanity.bbclass to test linking libstdc++
-Fixes [YOCTO #15712]
+Branch: master
 
-Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
----
-v4->v5
-* change function name
-* change shortlog
-* use BUILD_CXX instead of BUILD_CC
-* testing linkage with C++ instead of C
-* change the way of testing by using stdin
----
- meta/classes-global/sanity.bbclass | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+New this week: 3 CVEs
+CVE-2024-57940 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57940 *
+CVE-2024-57944 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57944 *
+CVE-2025-21658 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21658 *
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 7b8a497d5a..66693fc9b9 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -602,6 +602,28 @@ def drop_v14_cross_builds(d):
-                 bb.utils.remove(stamp + "*")
-                 bb.utils.remove(workdir, recurse = True)
- 
-+def check_cpp_toolchain(d):
-+    """
-+    it checks if the c++ compiling and linking to libstdc++ works properly in the native system
-+    """
-+    import shlex
-+    import subprocess
-+
-+    cpp_code = """
-+    #include <iostream>
-+    int main() {
-+        std::cout << "Hello, World!" << std::endl;
-+        return 0;
-+    }
-+    """
-+
-+    cmd = shlex.split(d.getVar("BUILD_CXX")) + ["-x", "c++","-", "-o", "/dev/null", "-lstdc++"]
-+    try:
-+        subprocess.run(cmd, input=cpp_code, capture_output=True, text=True, check=True)
-+        return None
-+    except subprocess.CalledProcessError as e:
-+        return f"An unexpected issue occurred during the C++ toolchain check: {str(e)}"
-+
- def sanity_handle_abichanges(status, d):
-     #
-     # Check the 'ABI' of TMPDIR
-@@ -770,6 +792,9 @@ def check_sanity_version_change(status, d):
-     # macOS with default HFS+ file system)
-     status.addresult(check_case_sensitive(tmpdir, "TMPDIR"))
- 
-+    # Check if linking with lstdc++ is failing
-+    status.addresult(check_cpp_toolchain(d))
-+
- def sanity_check_locale(d):
-     """
-     Currently bitbake switches locale to en_US.UTF-8 so check that this locale actually exists.
--- 
-2.34.1
+Removed this week: 0 CVEs
 
+Full list:  Found 21 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-50613 (CVSS3: 6.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-57940 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57940 *
+CVE-2024-57944 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57944 *
+CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-21658 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21658 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 18
+  qemu:qemu-native:qemu-system-native: 2
+  libsndfile1: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
