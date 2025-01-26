@@ -1,270 +1,237 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189F6C0218D
-	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 21:54:36 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.38967.1737928466516367513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51DB1C0218D
+	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 22:31:56 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.39781.1737930706665844004
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jan 2025 13:54:26 -0800
+ Sun, 26 Jan 2025 14:31:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JGjC2/gV;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ef87d24c2dso4986551a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 13:54:26 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RD9OUikJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4363dc916ceso30434105e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 14:31:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737928466; x=1738533266; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYiU4go7/39EjuTMdCXN3CUr93CCLn2JtMz7jqrpRqU=;
-        b=JGjC2/gVopMCClHLrp2pZc8bIXj5bM5F52J8k1bbdaPvbpYTojwpCRxsxtbByqQ/de
-         x5tcCbM+MtPJd9XRF9OkoVFczhpY2KOOgVHdaWK16HO10gIn+mAMPD/Dgvil5eLhNw0a
-         hq5voE2Y56Pbpocs3uTLLogA7IHtrXbUmoJET/4cWsGez5KgsQzxqMX0lGGjdoXrWn/w
-         wuCg2sHi7Et1Eb3uf6mwmO9j6InqnpA7GLqEpG/FDrgLDxUbMH99wfk055ayntVYCaOP
-         WfsuEoEi7744e+cUfXanu7K4voRzGvwlXOf+mVz8d8OTPMZxymWWoGnS9Vm8bnjyI8+y
-         0w2w==
+        d=linuxfoundation.org; s=google; t=1737930705; x=1738535505; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=L8J2Qwkh6XWLuLZNEyS+KqQ9Qil1166VyOPLP6rAQ+4=;
+        b=RD9OUikJES98WLm0lUQVvPMz4ftxknvXzqU2nk/5rLb9Gng24e5MoSBw9/xuphDs8N
+         l576BtplVZVy7p6/vo2rTBIVflwQ1n2L9A5GlnMr46aos2qRbLz896HP8ZDP0qRFqoCr
+         b4erlJPgGpwbzft6aTzNzilxM3MqQIvSujj4s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737928466; x=1738533266;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZYiU4go7/39EjuTMdCXN3CUr93CCLn2JtMz7jqrpRqU=;
-        b=kYUP9njoCd06qo4B9a5s6fG3zsH5AVwj7TBT0T/js/Wo7u5EqpU2y9J/LXtEkaP7Gm
-         62F1QdrJJCbWG5EdJhXCFuGd0MBsYOyi2RJWUxgH9YySzR8BDG5rSrXDBxZnqBBLVYxF
-         UJZHfbNtQL1ipVZOMqXqXBP+yqp6ChU63iBp/pUyWR6APKSSvOZsJydJu88f7sjnrFas
-         ADa90NtPEwggWjLXyJGIWg5sm4tD76nI1wTEeQad0ngOWLz03HT0gxK9MFvFATu3tY7n
-         UtCLd8q22MTvCwJZAAgbtL/RpK6d1tQN0PIzJINlDum855LZFjiwlhMYMzkrwvx6Few2
-         vNCQ==
-X-Gm-Message-State: AOJu0YzKuSPPdTHcTBIi4dzodveRXTREowt44g6Uh2Xk8BBNCC8d/c4C
-	1PtvnHDwOLO0hbM/bHV8UvnS7+gXcQNR27crrkMK2rZLCK4W0phaO7UnoeonVdTvXmaHkMMxaNq
-	DSVvC0Q3OMPUWWRlojHMiRf5O0Kw=
-X-Gm-Gg: ASbGnct+14XITsKdn9OgNTeOPL1OxHbuMBQBdqJotfIQGqdO2CwlsOA5mGYKjQ2LqzY
-	GrEI+6wrgPl7f9HM/UmUzcuEJvRhUF50n4MsF40tMRDOBTcyX9Ps4tQ5aC0ot05s=
-X-Google-Smtp-Source: AGHT+IH4aTbegf/RqfNcVDt1m5nxgHvJVUKLovpkFhjS/OkV0gYAUr1WwAI00C/1fxLxS+VTT7hmScmdI9JVEM8FUuk=
-X-Received: by 2002:a17:90b:258b:b0:2ee:f80c:688d with SMTP id
- 98e67ed59e1d1-2f782d4f168mr52681920a91.25.1737928465780; Sun, 26 Jan 2025
- 13:54:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737930705; x=1738535505;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L8J2Qwkh6XWLuLZNEyS+KqQ9Qil1166VyOPLP6rAQ+4=;
+        b=AvzXkNZikI6vrrK7kdKBkVlmU6WYcd0gQH3VbcG2sg/VhoDrAJHKUIHT1ITmdEToX+
+         42uNmG4jDGDoYERWhShLRh2a164IQn/ntZakC32yWvsW4mOEpVoJwQ4GAgxqhlxVkdek
+         /TGB07UBr9/GZsYEMMELhOWCj8Ri/jJEmSzJa8cy0IdGba7DAX5qORnsdzYYyyemKwxN
+         kUTt5IcT8RrqV7At16VjWuYzfkt8Cmpi+hRu+Sadj3x9WnlYH01da2trM9FBdyNT4z27
+         Sj+N/5ysIu3k6S9sgzo+07KUH/5iz0/9keHN0cGYeZ38vdHBmaBHaeMIk0MDM57Kmtqp
+         4X4g==
+X-Forwarded-Encrypted: i=1; AJvYcCX1gaF+DDYvM50XLhaAlCMLc7cSyeX0W5uLjaXipAQhhAg9+ToQYWU35ubIWT9IwqvLmO3klmMsThoG1H7F0e9DDQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyaXkEvBYE3Yu+Ju8wmEinOK8SHKKPqEOdqe8Gm3GkoPVk6zNDj
+	Hd8FuJ7TXJIafLtad9cqBTBJFPwbiNCJLsVPQ32LEHmEfbFQbZoEOXHqVuIgYtM=
+X-Gm-Gg: ASbGncvlRFfCE5gJG358Qa3WSKaFLAm52xwSmGSAzBaP2DjfE0p3jrD/om5y7+i9vgR
+	u8vu+2zIa6sDmye3MjeDGkM2ZnHcugORiv5pI4NtsFnbsbiSgqutQt4tt38xOHfo20LidrP/VC7
+	LaFEGCT/ry46HJZQ6LnQGMbwUDkyg9sWLudmUf22rgFk3mueqSIc/oLsgC9s0+Ut1kXcSQQLN0v
+	vQr/KMoCV/o1exhGQy8Rjd21vV6AI8C1km4hFNStfq1BnRIvAyw6O4gTL7eEFjgwXScNK8oE1qd
+	Hm23R6eDoz6WYVYeO0XZbTC2n50NLXHnRGoZRy/y88Vw2e0FDYvwdxY++y39tYiatSQ=
+X-Google-Smtp-Source: AGHT+IHOHT6v0EyS5vMxgU8JxrSbbxRgwAcgpOMiJAUQ6/U7Ob9EXmROQv57CcX1YxJbhC8eNJHC9w==
+X-Received: by 2002:a05:6000:2a8:b0:38a:49c1:8345 with SMTP id ffacd0b85a97d-38c2b7c189emr8879290f8f.18.1737930704912;
+        Sun, 26 Jan 2025 14:31:44 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6905:4568:b67b:291? ([2001:8b0:aba:5f3c:6905:4568:b67b:291])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1bb062sm9157564f8f.71.2025.01.26.14.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2025 14:31:44 -0800 (PST)
+Message-ID: <6d440dedaa447a307ff33d9fb91cecee1b7196a3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] busybox: drop net-tools from defconfig
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>, 
+	openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de, Andrej Valek <andrej.v@skyrain.eu>, Mathieu
+ Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Sun, 26 Jan 2025 22:31:42 +0000
+In-Reply-To: <0653df9c29975d272096a6eb5ced3f724de50942.camel@pengutronix.de>
+References: <20250126115104.1148761-1-ejo@pengutronix.de>
+		 <f62ca5e64bb174608d33f2f88c45da1c70830c93.camel@linuxfoundation.org>
+	 <0653df9c29975d272096a6eb5ced3f724de50942.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-References: <20250126133419.1545381-1-sst@poczta.fm>
-In-Reply-To: <20250126133419.1545381-1-sst@poczta.fm>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 26 Jan 2025 16:54:14 -0500
-X-Gm-Features: AWEUYZkb1t6xsqhPIm7qWffTaapESP7MI9rmwwkqpzqo62qjDt-H77wan6x5lvQ
-Message-ID: <CADkTA4MhRySm1ir_FPXPyM18Fo=MeBsj4w1RZBqxL-Dogdyw2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-yocto: move the cp of
- ${KBUILD_DEFCONFIG} file outside if body
-To: sst@poczta.fm
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d91970062ca3000b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 21:54:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210295
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 22:31:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210296
 
---000000000000d91970062ca3000b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2025-01-26 at 21:30 +0100, Enrico J=C3=B6rns wrote:
+> Am Sonntag, dem 26.01.2025 um 12:58 +0000 schrieb Richard Purdie:
+> > On Sun, 2025-01-26 at 12:51 +0100, Enrico J=C3=B6rns via
+> > lists.openembedded.org wrote:
+> > > The 'net-tools' have been deprecated 15 years ago! [1]
+> > > Let's remove their busybox pendants from the defconfig to prevent
+> > > people
+> > > from accidentally starting projects with ancient technology.
+> > >=20
+> > > [1] https://lists.debian.org/debian-devel/2009/03/msg00780.html
+> > >=20
+> > > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > > ---
+> > > =C2=A0meta/recipes-core/busybox/busybox/defconfig | 10 +++++-----
+> > > =C2=A01 file changed, 5 insertions(+), 5 deletions(-)
+> >=20
+> > I did a quick grep of OE-Core and we still have a handful of sites
+> > using this on target, particularly but not limited to our QA, the ones
+> > that caught my eye:
+>=20
+> thank you for looking into this!
+>=20
+> Well, not that I hadn't done a grep before. =F0=9F=98=89
+> I looked through the occurrences of 'ifconfig' but concluded that startin=
+g with disabling it for
+> busybox could be an initial step that should not break most setups. But n=
+ot sure if I was too
+> optimistic..
 
-On Sun, Jan 26, 2025 at 8:34=E2=80=AFAM Slawomir Stepien via lists.openembe=
-dded.org
-<sst=3Dpoczta.fm@lists.openembedded.org> wrote:
+The udev/initramfs and some of the QA references do worry me a bit.
 
-> In both true/false cases, we will cp the file, so move the invocation
-> after the if body.
->
-> In addition, misleading comment has been removed.
->
-I'm not sure why I didn't remove the else when I was changing that logic to
-do a compare before the copy, but I agree, we don't need the same line
-twice!
+> I started working on a few patches to address occurrences of ifconfig, bu=
+t I ran into challenges
+> with testing my changes. I decided to send this patch on its own, hoping =
+it doesn=E2=80=99t break the
+> autobuilder, and also to check if there are any objections to removing ne=
+t-tools in general.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+I don't see a problem with switching the references over and
+personally, I think we'll need to remove net-tools but one step at a
+time I guess.
 
-Bruce
+I think what I'd suggest is sending a series of what you have removing
+the references you can. We can then test that on the autobuilder and
+see what it shows. Please just make it clear you're asking for help
+with testing. Copying Mathieu as he may be able to help.
 
+> I've now had a second look to see what could be affected by the busybox c=
+onfig change.
+>=20
+> > meta/recipes-core/udev/udev-extraconf/network.sh:=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0ifconfig | grep -q "^$INTERFACE" || ifup $INTERFACE
+>=20
+> Wasn't sure about this one but it seems to be used by the initramfs frame=
+work and thus probably with
+> busybox.
 
->
-> Signed-off-by: Slawomir Stepien <sst@poczta.fm>
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
-> b/meta/classes-recipe/kernel-yocto.bbclass
-> index c45abf6ddc..cef6b9ec3f 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -150,10 +150,6 @@ do_kernel_metadata() {
->         # from the source tree, into a common location and normalized
-> "defconfig" name,
->         # where the rest of the process will include and incoroporate it
-> into the build
->         #
-> -       # If the fetcher has already placed a defconfig in UNPACKDIR (fro=
-m
-> the SRC_URI),
-> -       # we don't overwrite it, but instead warn the user that SRC_URI
-> defconfigs take
-> -       # precendence.
-> -       #
->         if [ -n "${KBUILD_DEFCONFIG}" ]; then
->                 if [ -f "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}" ]=
-;
-> then
->                         if [ -f "${UNPACKDIR}/defconfig" ]; then
-> @@ -163,10 +159,8 @@ do_kernel_metadata() {
->                                 if [ $? -ne 0 ]; then
->                                         bbdebug 1 "detected SRC_URI or
-> patched defconfig in UNPACKDIR. ${KBUILD_DEFCONFIG} copied over it"
->                                 fi
-> -                               cp -f
-> ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${UNPACKDIR}/defconfig
-> -                       else
-> -                               cp -f
-> ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${UNPACKDIR}/defconfig
->                         fi
-> +                       cp -f
-> ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${UNPACKDIR}/defconfig
->                         in_tree_defconfig=3D"${UNPACKDIR}/defconfig"
->                 else
->                         bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}'
-> was specified, but not present in the source tree
-> (${S}/arch/${ARCH}/configs/)"
-> --
-> 2.48.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210290):
-> https://lists.openembedded.org/g/openembedded-core/message/210290
-> Mute This Topic: https://lists.openembedded.org/mt/110821351/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Right, that was my worry.
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> -> Probably affected. Might make sense to replace it with ip anyway.
+>=20
+> > meta/recipes-core/images/build-appliance-image/README_VirtualBox_Toaste=
+r.txt:=C2=A0=C2=A0=C2=A0 $ ifconfig
+> > meta/recipes-core/images/build-appliance-image/README_VirtualBox_Toaste=
+r.txt:=C2=A0=C2=A0=C2=A0 $ ifconfig
+>=20
+> Documentation that hasn't been touched since 2016.
+> Also, the commands mentioned there are for the host machine commands.
 
---000000000000d91970062ca3000b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Agreed, those ones aren't a blocker.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 26, 2025 at 8:34=
-=E2=80=AFAM Slawomir Stepien via <a href=3D"http://lists.openembedded.org">=
-lists.openembedded.org</a> &lt;sst=3D<a href=3D"mailto:poczta.fm@lists.open=
-embedded.org">poczta.fm@lists.openembedded.org</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">In both true/false cases, we =
-will cp the file, so move the invocation<br>
-after the if body.<br>
-<br>
-In addition, misleading comment has been removed.<br></blockquote><div><spa=
-n class=3D"gmail_default" style=3D"font-size:small"></span></div><div><div =
-class=3D"gmail_default" style=3D"font-size:small">I&#39;m not sure why I di=
-dn&#39;t remove the else when I was changing that logic to do a compare bef=
-ore the copy, but I agree, we don&#39;t need the same line twice!</div><div=
- class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"=
-gmail_default" style=3D"font-size:small">Acked-by: Bruce Ashfield &lt;<a hr=
-ef=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Slawomir Stepien &lt;<a href=3D"mailto:sst@poczta.fm" target=
-=3D"_blank">sst@poczta.fm</a>&gt;<br>
----<br>
-=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 8 +-------<br>
-=C2=A01 file changed, 1 insertion(+), 7 deletions(-)<br>
-<br>
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
-/kernel-yocto.bbclass<br>
-index c45abf6ddc..cef6b9ec3f 100644<br>
---- a/meta/classes-recipe/kernel-yocto.bbclass<br>
-+++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
-@@ -150,10 +150,6 @@ do_kernel_metadata() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # from the source tree, into a common location =
-and normalized &quot;defconfig&quot; name,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # where the rest of the process will include an=
-d incoroporate it into the build<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# If the fetcher has already placed a defconfig=
- in UNPACKDIR (from the SRC_URI),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# we don&#39;t overwrite it, but instead warn t=
-he user that SRC_URI defconfigs take<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# precendence.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${KBUILD_DEFCONFIG}&quot; ]; then=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f &quot;${S}/=
-arch/${ARCH}/configs/${KBUILD_DEFCONFIG}&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if [ -f &quot;${UNPACKDIR}/defconfig&quot; ]; then<br>
-@@ -163,10 +159,8 @@ do_kernel_metadata() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ $? -ne 0 ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbdebug =
-1 &quot;detected SRC_URI or patched defconfig in UNPACKDIR. ${KBUILD_DEFCON=
-FIG} copied over it&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -f ${S}/arch/${ARCH}/configs/${KBU=
-ILD_DEFCONFIG} ${UNPACKDIR}/defconfig<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -f ${S}/arch/${ARCH}/configs/${KBU=
-ILD_DEFCONFIG} ${UNPACKDIR}/defconfig<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${UNPACKDIR}/=
-defconfig<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 in_tree_defconfig=3D&quot;${UNPACKDIR}/defconfig&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 bbfatal &quot;A KBUILD_DEFCONFIG &#39;${KBUILD_DEFCONFIG}&#39; w=
-as specified, but not present in the source tree (${S}/arch/${ARCH}/configs=
-/)&quot;<br>
--- <br>
-2.48.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#210290): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/210290" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/210290</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110821351/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/110821351/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+>=20
+> -> Unrelated. ifconfig could be easily removed here, though.
+>=20
+> > meta/recipes-core/busybox/files/simple.script:=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 /SBIN_DIR/ifconfig $interface 0.0.0.0
+> > meta/recipes-core/busybox/files/simple.script:=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /SBIN_DIR/ifconfig $interface $ip $=
+BROADCAST $NETMASK
+>=20
+> Both are guarded by 'if [ $have_bin_ip -eq 1 ]; then' and should also wor=
+k with iproute2 equivalents
+> though.
 
---000000000000d91970062ca3000b--
+Good, I didn't check that, I was just trying to see what references we
+had left.
+
+> -> Related but no need to fix. Fallback could be removed maybe.
+>=20
+> > meta/lib/oeqa/selftest/cases/devtool.py:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 result =3D runCmd('PATH=3D"$PATH:/sbin=
+:/usr/sbin" ifconfig -a', ignore_status=3DTrue)
+> > meta/lib/oeqa/selftest/cases/devtool.py:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.skipTest(=
+'Failed to determine if tap devices exist with ifconfig or ip: %s' % result=
+.output)
+>=20
+> This is fallback handling for missing 'ip' on the host.
+
+Ok.
+
+> -> Unrelated. Could be removed anyway maybe (already had a patch for this=
+).
+>=20
+> > meta/lib/oeqa/utils/qemurunner.py:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 cmd =3D "ifconfig eth0 %s netmask %s up\n" % (self.ip, self.netmask)
+>=20
+> This I had overseen and it actually seems to be called on the target.
+
+Right, that one does seem potentially problematic. I didn't look into
+which set of runner options trigger it though.
+
+>=20
+> -> Probably affected and should be changed.
+>=20
+> > meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py:=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (status, output) =3D self.target.run("ifconfig eth=
+0 | grep 'inet ' | awk '{print $2}'")
+> > meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py:=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (status, output) =3D self.target.run("ifconfig eth=
+0:1 %s netmask 255.255.255.0 && sleep 2 && ping -c 5 %s && ifconfig eth0:1 =
+down" % (virtual_ip,virtual_ip))
+>=20
+> I had made a patch for this but did not figure out how to run this test o=
+r if it is actually used by
+> CI.
+
+I'd guess a "bitbake XXX-image-XXX -c testimage" where the image
+contains connman?
+
+> -> Probably affected and needs more research.
+>=20
+> > but there are others too. We probably need to finish resolving these to
+> > other commands before we can turn this off.
+> >=20
+> > If you aren't able to help with that, we should at least have an open
+> > bug to sort it out.
+>=20
+> I'd try to address the potential issues first.
+>=20
+> Another challenge would be to remove the actual 'net-tools' package becau=
+se ltp=C2=A0
+> still seems to rely on it (with explicit RDEPENDS).
+
+I'd guess there are tests in ltp which call ifconfig and friends?
+
+> But we could start with removing it from packagegroup-core-{base-utils,fu=
+ll-cmdline}.bb IMHO.
+
+Yes, definitely agreed.
+
+> Do you have an opinion about the host tooling? Could we drop net-tools he=
+re, too?
+
+If we don't need it anywhere now, I'd be fine with that.
+
+Cheers,
+
+Richard
 
