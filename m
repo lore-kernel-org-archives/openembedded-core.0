@@ -1,121 +1,120 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 961D6C02181
-	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 12:58:03 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.29488.1737896274345133845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77127C0218E
+	for <webhook@archiver.kernel.org>; Sun, 26 Jan 2025 12:58:23 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.29494.1737896299509095509
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jan 2025 04:57:54 -0800
+ Sun, 26 Jan 2025 04:58:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ph0+yA86;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43634b570c1so24799395e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 04:57:54 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ieFyujx4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-436ce2ab251so22592305e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 04:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737896272; x=1738501072; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1737896297; x=1738501097; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=b/rHl/1un8e3N2rFode1rz0skMzCdN7uHU6OCpC0/H8=;
-        b=Ph0+yA86yUl7TddDjG2c58ChbV0L9aPZbtJBBCUcJ5ZuJB46Q4kBdQmueel2zh53mj
-         YcQ1903/7AWr2OAhRZzs3idGaHmJvaO3OCxZr5h/i4egOfBIaUNodWF3yamkQrlo89Nb
-         xV6RNsE0b23J+IEHOIzal82E4J7WNZSp4hdDJZjmjTuX20zX2Uba1Y7qtH0q4DQN6wvx
-         kO1RY4z4NUzcHRt6NJpEY7aPo6gfOhiQNEcZDV5SJlGE+IWOxjrFcn0tMdm5ROfT9TCT
-         uBSbqspBAuINzKicMgHcNe5hvcHau5+wehjxK9U8s+C2xUBelvinLsACogtP7+BHBgAB
-         MXyQ==
+        bh=pVrxQ2dwOJUUvBSqaNQn0KG6WDGzm7d8T8l7T+v+OaQ=;
+        b=ieFyujx4cwpEUXs+dajrlM1RZhPPP8e+cZ7XWbqhB2888U1eYfazEPbxmZV6+I9Hy4
+         xEMe2PeD8rEJCNbxfTwTDf3qjy7l7YSbudr+j/uHyrp2T2A16SIDaduhgigWZ9Z9wTQR
+         cWezC+UzJRyleWn8nIViCLDVs8ZWQhZNCNSeg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737896272; x=1738501072;
+        d=1e100.net; s=20230601; t=1737896297; x=1738501097;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=b/rHl/1un8e3N2rFode1rz0skMzCdN7uHU6OCpC0/H8=;
-        b=jWOL8zuYv1TqSLiR5SnMqWvfiYrFH4ns3mAaRieCn6uKUJrTNv944dsbI0QcclT9aJ
-         ROisS5ytLCAsXNioRXbep4d4+9qpldvVl5GYoqg97quHhCycMh7wldhuPPKVdvEi9yKY
-         IAZBEoiv3FmMEr4YIjLd0gJM33aycToBYAKftuWl2qU3cgvj4NPG1s/qBIk69QQYRTY8
-         +Hja94asBi2WfJkxuilEOXDY2MXHSe4YjGjIawDZxVlD5xTmOZMsiJxfShR7mEOf+zbI
-         4U18tDWDifnD1AxASfwDvtbDJ/Z+Jz4Bd4+MVaoc4kfV32hny4Lim8DuVjtsR0Siz7Wv
-         dKtA==
-X-Gm-Message-State: AOJu0YyBki2tvlScf/OXZvANIJly0I497uzGojwyKw6Yrk2M2paymBiU
-	yOTlRQUyJYmlgOTozAJM/JtZLWiC6ETujrtl1A+tvP1jDa5z0HmRN9C9Zg==
-X-Gm-Gg: ASbGncsRiHnG0I4UvAcwKYmGGqAGQNkkTZSZzkIxGOdD/+BMh6swB8cDQsZZ+O0SJCq
-	c1TWsdLo/XX0tavX9yED4YKZgojq6uLFAb2+j9IZ/Fr9dMjlXlfgzXWv4wNLsQdYnotvVQ1K4+Z
-	sUZPCqVV6DNadYS6f7zvA2RHFs8NJ0WZhAiZv+fyL/ua9V4E9VWXF+nm6hctKxyipqItVq69P1s
-	cj/9gNc1r1ej4soVU9fMFC5jew6WKi1wEcr0eXzfReSjxS8lREANNQZFfW7YInVzHOdSh/CSypg
-	cUp6erjDdgH84KAhEiaZ1SLmQak2Z0LVmctJ88/Nu9vPsmLJgAr6fQ==
-X-Google-Smtp-Source: AGHT+IED/wjfG5R1smwLATANhHs1GDJsv4rr0Y7MNlqOAMpzhUCkSS+g+vfpw3/hrjh/ejdXsivqog==
-X-Received: by 2002:a05:600c:1f86:b0:436:aaf:7eb9 with SMTP id 5b1f17b1804b1-43891439d5fmr301490855e9.20.1737896272395;
-        Sun, 26 Jan 2025 04:57:52 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd5082d3sm92284435e9.22.2025.01.26.04.57.50
+        bh=pVrxQ2dwOJUUvBSqaNQn0KG6WDGzm7d8T8l7T+v+OaQ=;
+        b=OdfbK6ldf5fS+harZB5ZtD6Zr4G6JJXGCdzyFyoPuVICPhishyZd9phNVfmaeS88Lv
+         9qJcqHwPc8GLsn98yvN2X4y/upw/pl+e827c6AkaCAUfZNIfvWRJCyUC+esCj+JWkI46
+         lOVzWxKVX0d3fTkIiaxryfKRdo2lJDN2+bSAaUx10xk+x1IwynZaudhuflrGJR/9kkiz
+         uglsNy8IHvyhZo8/urExF5OoWVjROu8gjndF5lQUrxYzPYTss3iBIccVvOK0QifslEqs
+         DDqF/9VORHMulzB2AvwWwizpcyv2M8aNF2/Hu9MGEVnQ2C8s64gufYYjHX72OKopSKwS
+         0lUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVgM5Gbbmd/9wc0i8xDV47L5Wfz/olnNQf2ZGFpi/nxnQu6NR6/q56ruwUsI7CwGtOyDmzX+9MwCqSo4Wz1dWsFqA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyievGcZhgoFt1HztJH9Zo8n877vEuBLN3ooRNFxg/2om3pC0tX
+	qOZrGd51XfEbAHxA0eArtAYpV8+1219WqDk2CVo8csnEKdG4ONTbk0SGB2vIVEs=
+X-Gm-Gg: ASbGnctVM4X0YFp/mZU5bm2Tq8Ezx8qra7eu4jRC64w7ELNiRi4LDjbDyNCaFoWNrvb
+	5QyYbLFKU2Xt/jY5RMxnO7S81SWwAvShsc6EkGuIpo0lsmaa4Xb1dPa+BqOr0wTUK1g613KIgLh
+	xmsjSSnqaYF0jolPcclUaEPU0V8AyuFVW67ywVBHBCIs/EcUejkO21h0m2tVipIiThft4/VprWF
+	YWtNG34MxHzzEQ5W6sAnZ5yKb/wvze7IzP2pHqEG7m4FnnW0jbAnw0zC804ij5Z1pr9qhFey7A9
+	dVaw9eJuGuNUKz/+yCXcRpWt8pXcYo5nBJCXc5oIJHAPMCTBhY04IPZZGoYE998gV1o=
+X-Google-Smtp-Source: AGHT+IHC3X4FQnamL1q1ds0tfRJATgrmV3/wwU80bCWysrtM7bplUt+aGkL46o2wDoS3ABXQghoR7w==
+X-Received: by 2002:a05:6000:1f85:b0:385:fbb7:672d with SMTP id ffacd0b85a97d-38bf57b6438mr29230091f8f.52.1737896297360;
+        Sun, 26 Jan 2025 04:58:17 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6905:4568:b67b:291? ([2001:8b0:aba:5f3c:6905:4568:b67b:291])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a188fe8sm8155410f8f.56.2025.01.26.04.58.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 04:57:51 -0800 (PST)
-Message-ID: <d7cb1a42d9bced967202e6ef4290e7663fafe4a4.camel@gmail.com>
-Subject: Re: [OE-core] [scarthgap,styhead][PATCH 0/5] pick devtool ide-sdk
- fixes
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Sun, 26 Jan 2025 13:57:49 +0100
-In-Reply-To: <181E3EECB3DC90F7.4788@lists.openembedded.org>
-References: <181E3EECB3DC90F7.4788@lists.openembedded.org>
+        Sun, 26 Jan 2025 04:58:16 -0800 (PST)
+Message-ID: <f62ca5e64bb174608d33f2f88c45da1c70830c93.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] busybox: drop net-tools from defconfig
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ejo@pengutronix.de, openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de, Andrej Valek <andrej.v@skyrain.eu>
+Date: Sun, 26 Jan 2025 12:58:15 +0000
+In-Reply-To: <20250126115104.1148761-1-ejo@pengutronix.de>
+References: <20250126115104.1148761-1-ejo@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41app1) 
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 12:58:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210286
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jan 2025 12:58:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210287
 
-The related patch for updating the documentation is here:
-https://lists.yoctoproject.org/g/docs/message/6181
-
-Adrian
-
-
-On Sun, 2025-01-26 at 13:48 +0100, Adrian Freihofer via
+On Sun, 2025-01-26 at 12:51 +0100, Enrico J=C3=B6rns via
 lists.openembedded.org wrote:
-> The following commits from openembedded core repository are
-> cherry-picked and apply fast forward:
+> The 'net-tools' have been deprecated 15 years ago! [1]
+> Let's remove their busybox pendants from the defconfig to prevent
+> people
+> from accidentally starting projects with ancient technology.
 >=20
-> git cherry-pick fc17808799d2b667afbe4ea9837b66af70d47007
-> git cherry-pick b886c26bf893878ba8eb6bee80dd0507e5cb0d2d
-> git cherry-pick 65950eb601c6c8aac0e4bc8683e544305346229d
-> git cherry-pick 9ab1e35a0969af144caedcc25cd095a17d758bf9
-> git cherry-pick 177aa72b37f2061ff3311ec5dbb33aa56a5ba006
+> [1] https://lists.debian.org/debian-devel/2009/03/msg00780.html
 >=20
-> Corresponding documentation patches will be picked in the yocto-docs
-> repository.
->=20
-> Adrian Freihofer (5):
-> =C2=A0 devtool: modify support debug-builds
-> =C2=A0 devtool: ide-sdk sort cmake preset
-> =C2=A0 devtool: ide-sdk recommend DEBUG_BUILD
-> =C2=A0 oe-selftest: devtool ide-sdk use modify debug-build
-> =C2=A0 devtool: ide-sdk remove the plugin from eSDK installer
->=20
-> =C2=A0meta/lib/oeqa/selftest/cases/devtool.py |=C2=A0 2 +-
-> =C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 63 ++++++++---------------
-> --
-> =C2=A0scripts/lib/devtool/standard.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3 ++
-> =C2=A03 files changed, 24 insertions(+), 44 deletions(-)
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210279):
-> https://lists.openembedded.org/g/openembedded-core/message/210279
-> Mute This Topic: https://lists.openembedded.org/mt/110820926/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+> Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> ---
+> =C2=A0meta/recipes-core/busybox/busybox/defconfig | 10 +++++-----
+> =C2=A01 file changed, 5 insertions(+), 5 deletions(-)
 
+I did a quick grep of OE-Core and we still have a handful of sites
+using this on target, particularly but not limited to our QA, the ones
+that caught my eye:
+
+meta/recipes-core/udev/udev-extraconf/network.sh:    	ifconfig | grep -q "^=
+$INTERFACE" || ifup $INTERFACE
+meta/recipes-core/images/build-appliance-image/README_VirtualBox_Toaster.tx=
+t:    $ ifconfig
+meta/recipes-core/images/build-appliance-image/README_VirtualBox_Toaster.tx=
+t:    $ ifconfig
+meta/recipes-core/busybox/files/simple.script:                             =
+   /SBIN_DIR/ifconfig $interface 0.0.0.0
+meta/recipes-core/busybox/files/simple.script:                        /SBIN=
+_DIR/ifconfig $interface $ip $BROADCAST $NETMASK
+meta/lib/oeqa/selftest/cases/devtool.py:            result =3D runCmd('PATH=
+=3D"$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=3DTrue)
+meta/lib/oeqa/selftest/cases/devtool.py:                self.skipTest('Fail=
+ed to determine if tap devices exist with ifconfig or ip: %s' % result.outp=
+ut)
+meta/lib/oeqa/utils/qemurunner.py:                    cmd =3D "ifconfig eth=
+0 %s netmask %s up\n" % (self.ip, self.netmask)
+meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py:        (status, output)=
+ =3D self.target.run("ifconfig eth0 | grep 'inet ' | awk '{print $2}'")
+meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py:        (status, output)=
+ =3D self.target.run("ifconfig eth0:1 %s netmask 255.255.255.0 && sleep 2 &=
+& ping -c 5 %s && ifconfig eth0:1 down" % (virtual_ip,virtual_ip))
+
+but there are others too. We probably need to finish resolving these to
+other commands before we can turn this off.
+
+If you aren't able to help with that, we should at least have an open
+bug to sort it out.
+
+Cheers,
+
+Richard
 
