@@ -1,298 +1,110 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <omri.sarig13@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3610BC0218A
-	for <webhook@archiver.kernel.org>; Tue, 28 Jan 2025 10:28:27 +0000 (UTC)
-Subject: Re: [PATCH] qemuriscv: Enable Sv39 memory address scheme by default
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CD1C0218A
+	for <webhook@archiver.kernel.org>; Tue, 28 Jan 2025 11:50:57 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.15785.1738065051563605436
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Jan 2025 03:50:51 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bg6lJP7f;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: omri.sarig13@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5401c52000fso5254871e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 03:50:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738065049; x=1738669849; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9kG30rFVQg6IEhYgdp//iXx5eFD98tF5RVieIMuXEDY=;
+        b=bg6lJP7fcC6BzreLdJunFQnCEYIrRvgknHqGBt3De/vp9iQOLnCoS70D40WPUqoZE4
+         bEm1XXrQoUsfbL1VNPWZuH+SASL5kleoAdH7PeeuMUp585hEgE8oTsrCOVSd3R7DhnJd
+         tikucei+loNvMsz13C57FG6IzKhEQ7iSRUkgtNArbwv0JQXIp1fw7W8jORU/dy5SxVR/
+         lOnonKYbdeLdjwukTwKXlemYufL8HW6gB6rTibfSMeN91tlPeqRxkV+VeBoVFQKWIjJm
+         DIj6g3zib9vJRSQlVz4cMaBKaXE4Cd+HiGhB2VmO/aD3rOQJbH7XNXGrM0B2SizQCALR
+         CybA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738065049; x=1738669849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9kG30rFVQg6IEhYgdp//iXx5eFD98tF5RVieIMuXEDY=;
+        b=Hv/45YMnoVemYgRXYPYXIQBJpXdOhtvCFPRH9949M/Ixc1ZIxhfq4zWE3EIVp5JDbN
+         pNGzA3lf9FCrw8/uusup8ssvD+gZW2PxupNBHS8yWXTzqHvkQjl4cqTXNOKILfwxazCR
+         Dz+bJWoIQypOFFyerPtIurJIJ+P0khY6WLipZOqhdusxnA9zSdu9RCrpW7mleu6yl9E9
+         JGgvV2x+AP7GlweZfzMhYDCPX9OnR3B1v+lXhuBllmgpUO0C9nHzVOjqv5bdYsJQdWHm
+         GPWJ6zztQqHIMzdUimp/iV3vThnhYBNT6RaM8LmWqk/wTCq/kMfnSOaQKOyOBrmBPtU+
+         vvuA==
+X-Gm-Message-State: AOJu0YyBM0wPUdLiRA4GVXHSoE6Zu85sutoY/bRQi6yrOrP1cgS/Aea/
+	8lKTZ+HIAv6PWnURRHsh4bEE08encGo14E1gDSpJiU+sic5mkP77B5GxDMM4ev0=
+X-Gm-Gg: ASbGncsLlcifYzCPA8iVwA5Nuy/TSWTrgPsWg/yNMCZqNTGa++q8jEqmrMJhFlrPBKJ
+	ItyIEIEk9dbgGIE037sA6JZqGZrGz2qwj827UU1cMLa4ImE0lGZZE1Lwmjakrm2eVZQKSEUjI6L
+	DIhBJchVQ6CEPx6EHuD/4fzn0Bn/QrpLOfwGcK2/UcqFrP+HhQbwGLa1vPcU+yAzjP/JGPTzbDx
+	+dzCtec9z8m61Gi9UcaUMXtA5OGk3KZn4u7WJ3Y8X/EQl/aHkip+Xf2jOrzD68vRMg1nLYbc4lt
+	fmC0AxqlX8EcMs75DhhzfWXn00oC8Bo+FU68CdVKcsm+8EiGwFm4YqXsIbAr0flwne+E2vmssw=
+	=
+X-Google-Smtp-Source: AGHT+IEe5QZ7dmi4qct2m8PVt32wL/7/LzIEcs7K3CmDCMtcgEBjYzCuddw6trUOMNRe6cqqVRg5/w==
+X-Received: by 2002:ac2:511e:0:b0:540:2a92:7da9 with SMTP id 2adb3069b0e04-5439c247dd2mr12877757e87.21.1738065048839;
+        Tue, 28 Jan 2025 03:50:48 -0800 (PST)
+Received: from omsa-HP-EliteBook-840-14-inch-G9-Notebook-PC.prevas.se ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c8379a5fsm1624469e87.193.2025.01.28.03.50.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2025 03:50:47 -0800 (PST)
+From: Omri Sarig <omri.sarig13@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: "Yash Shinde" <Yash.Shinde@windriver.com>
-X-Originating-Location: Bengaluru, Karnataka, IN (49.204.85.206)
-X-Originating-Platform: Windows Chrome 132
-User-Agent: GROUPS.IO Web Poster
+Cc: Omri Sarig <omri.sarig13@gmail.com>
+Subject: [PATCH] python3: Update stringold summary
+Date: Tue, 28 Jan 2025 12:50:44 +0100
+Message-ID: <20250128115044.4122641-1-omri.sarig13@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Date: Tue, 28 Jan 2025 02:28:20 -0800
-References: <20250128101633.3664659-1-Yash.Shinde@windriver.com>
-In-Reply-To: <20250128101633.3664659-1-Yash.Shinde@windriver.com>
-Message-ID: <29362.1738060100000717567@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="2F89JQfs7hE7PWunGR9w"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 10:28:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210317
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 11:50:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210318
 
---2F89JQfs7hE7PWunGR9w
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The string package in python currently contains common string
+operations. This package is still in full use.
+However, the old summary line of the package marked it as deprecated. As
+this is not the case, this commit updates the summary line to better
+represent this Python package.
+The new summary line was taken from Python's documentation for the
+package (https://docs.python.org/3.13/library/string.html).
 
-Tested Asan test as follows with command "runqemu nographic"
-(with IMAGE_INSTALL:append =3D " libasan=C2=A0 libasan-dev"):
+In the past, the string library used to contain functionality that later
+was moved to the str object in Python. The assumption is that during
+this change, this library was marked as deprecated here. However, as
+this package contains more functionality, which is still relevant and
+used by python, the package itself should not be marked as deprecated.
 
-root@qemuriscv64:~# gcc -g -fsanitize=3Daddress -o asan_test asan_test.c
+This commit changes the description of the package, but does not change
+the name of the package. The proper name for this package should be
+"string" (instead of "stringold"). However, changing the package's name
+will break compatibility with anyone using the string package in their
+project. As this is a big change, it is decided not to be done yet.
+The change in description, as well as this commit message, should be
+enough to let users understand that the string package in python is
+still valid, and should not be treated as deprecated.
 
-root@qemuriscv64:~# ./asan_test
+Signed-off-by: Omri Sarig <omri.sarig13@gmail.com>
+---
+ meta/recipes-devtools/python/python3/python3-manifest.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Running AddressSanitizer test...
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-=3D=3D262=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on address 0x=
-003f9380002a at pc 0x002add509b88 bp 0x003ff6510ec0 sp 0x003ff6510e90
-
-WRITE of size 1 at 0x003f9380002a thread T0
-
-#0 0x2add509b86 in cause_buffer_overflow /home/root/a.c:9
-
-#1 0x2add509ca2 in main /home/root/a.c:16
-
-#2 0x3f95a917b4 (/lib/libc.so.6+0x277b4) (BuildId: 89440b2a8f8e9f78366a816e=
-4685a39d6a4de4c5)
-
-#3 0x3f95a9185c in __libc_start_main (/lib/libc.so.6+0x2785c) (BuildId: 894=
-40b2a8f8e9f78366a816e4685a39d6a4de4c5)
-
-#4 0x2add509a1e in _start ../sysdeps/riscv/start.S:67
-
-Address 0x003f9380002a is located in stack of thread T0 at offset 42 in fra=
-me
-
-#0 0x2add509ac4 in cause_buffer_overflow /home/root/a.c:5
-
-This frame has 1 object(s):
-
-[32, 42) 'buffer' (line 6) <=3D=3D Memory access at offset 42 overflows thi=
-s variable
-
-HINT: this may be a false positive if your program uses some custom stack u=
-nwind mechanism, swapcontext or vfork
-
-(longjmp and C++ exceptions *are* supported)
-
-SUMMARY: AddressSanitizer: stack-buffer-overflow /home/root/a.c:9 in cause_=
-buffer_overflow
-
-Shadow bytes around the buggy address:
-
-0x003f937ffd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f937ffe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f937ffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f937fff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f937fff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-=3D>0x003f93800000: f1 f1 f1 f1 00[02]f3 f3 00 00 00 00 00 00 00 00
-
-0x003f93800080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f93800100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f93800180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f93800200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-0x003f93800280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-Shadow byte legend (one shadow byte represents 8 application bytes):
-
-Addressable: 00
-
-Partially addressable: 01 02 03 04 05 06 07
-
-Heap left redzone: fa
-
-Freed heap region: fd
-
-Stack left redzone: f1
-
-Stack mid redzone: f2
-
-Stack right redzone: f3
-
-Stack after return: f5
-
-Stack use after scope: f8
-
-Global redzone: f9
-
-Global init order: f6
-
-Poisoned by user: f7
-
-Container overflow: fc
-
-Array cookie: ac
-
-Intra object redzone: bb
-
-ASan internal: fe
-
-Left alloca redzone: ca
-
-Right alloca redzone: cb
-
---2F89JQfs7hE7PWunGR9w
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">Tested A=
-san test as follows with command "runqemu nographic" <br />(with IMAGE_INST=
-ALL:append =3D " libasan&nbsp; libasan-dev"):<br /><br />root@qemuriscv64:~=
-# gcc -g -fsanitize=3Daddress -o asan_test asan_test.c</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">root@qem=
-uriscv64:~# ./asan_test&nbsp;</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">Running =
-AddressSanitizer test...</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">=3D=3D26=
-2=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on address 0x003f9380=
-002a at pc 0x002add509b88 bp 0x003ff6510ec0 sp 0x003ff6510e90</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">WRITE of=
- size 1 at 0x003f9380002a thread T0</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#0 0x2add509b86 in cau=
-se_buffer_overflow /home/root/a.c:9</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#1 0x2add509ca2 in mai=
-n /home/root/a.c:16</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#2 0x3f95a917b4<span s=
-tyle=3D"mso-spacerun: yes;">&nbsp; </span>(/lib/libc.so.6+0x277b4) (BuildId=
-: 89440b2a8f8e9f78366a816e4685a39d6a4de4c5)</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#3 0x3f95a9185c in __l=
-ibc_start_main (/lib/libc.so.6+0x2785c) (BuildId: 89440b2a8f8e9f78366a816e4=
-685a39d6a4de4c5)</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#4 0x2add509a1e in _st=
-art ../sysdeps/riscv/start.S:67</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">&nbsp;</=
-p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">Address =
-0x003f9380002a is located in stack of thread T0 at offset 42 in frame</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>#0 0x2add509ac4 in cau=
-se_buffer_overflow /home/root/a.c:5</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">&nbsp;</=
-p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>This frame has 1 object(s):</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>[32, 42) 'buffer' (lin=
-e 6) &lt;=3D=3D Memory access at offset 42 overflows this variable</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">HINT: th=
-is may be a false positive if your program uses some custom stack unwind me=
-chanism, swapcontext or vfork</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(longjmp a=
-nd C++ exceptions *are* supported)</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">SUMMARY:=
- AddressSanitizer: stack-buffer-overflow /home/root/a.c:9 in cause_buffer_o=
-verflow</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">Shadow b=
-ytes around the buggy address:</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f937ffd80: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f937ffe00: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f937ffe80: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f937fff00: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f937fff80: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">=3D&gt;0=
-x003f93800000: f1 f1 f1 f1 00[02]f3 f3 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f93800080: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f93800100: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f93800180: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f93800200: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>0x003f93800280: 00 00 00 00 00 00 =
-00 00 00 00 00 00 00 00 00 00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;">Shadow b=
-yte legend (one shadow byte represents 8 application bytes):</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Addressable:<span style=3D"mso-spa=
-cerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <=
-/span>00</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Partially addressable: 01 02 03 04=
- 05 06 07</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Heap left redzone:<span style=3D"m=
-so-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fa</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Freed heap region:<span style=3D"m=
-so-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fd</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Stack left redzone:<span style=3D"=
-mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>f1</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Stack mid redzone:<span style=3D"m=
-so-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>f2</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Stack right redzone:<span style=3D=
-"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp; </span>f3</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Stack after return:<span style=3D"=
-mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>f5</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Stack use after scope:<span style=
-=3D"mso-spacerun: yes;">&nbsp;&nbsp; </span>f8</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Global redzone:<span style=3D"mso-=
-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </sp=
-an>f9</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Global init order:<span style=3D"m=
-so-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>f6</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Poisoned by user:<span style=3D"ms=
-o-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>f7</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Container overflow:<span style=3D"=
-mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fc</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Array cookie:<span style=3D"mso-sp=
-acerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; </span>ac</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Intra object redzone:<span style=
-=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>bb</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>ASan internal:<span style=3D"mso-s=
-pacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- </span>fe</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Left alloca redzone:<span style=3D=
-"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp; </span>ca</p>
-<p style=3D"margin: 0in; font-family: Calibri; font-size: 11.0pt;"><span st=
-yle=3D"mso-spacerun: yes;">&nbsp; </span>Right alloca redzone:<span style=
-=3D"mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>cb</p>
-</div>
-
---2F89JQfs7hE7PWunGR9w--
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 4b7f9cc7e3..f99cc5e2f0 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -1035,7 +1035,7 @@
+         ]
+     },
+     "stringold": {
+-        "summary": "Python string APIs [deprecated]",
++        "summary": "Common string operations",
+         "rdepends": [
+             "core"
+         ],
 
