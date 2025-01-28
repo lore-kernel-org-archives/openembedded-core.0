@@ -1,285 +1,388 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1677C0218A
-	for <webhook@archiver.kernel.org>; Tue, 28 Jan 2025 15:23:48 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.19811.1738077819921598531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAE9C0218A
+	for <webhook@archiver.kernel.org>; Tue, 28 Jan 2025 15:51:18 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.177.1738079471222788355
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jan 2025 07:23:40 -0800
+ Tue, 28 Jan 2025 07:51:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=bkFYH2+y;
- spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30225b2586cso68647061fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 07:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738077818; x=1738682618; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yxsrW6kNB1sIPDkCAMxORQMiupCXk7Fm2GMkp6pmDew=;
-        b=bkFYH2+ycvb3ZFhlf2mhPsj1jUxt24dw/2m6COWDTPpf6SlKKXxhc6TejPsJEDLhcB
-         oFrDwxA73w41+zA9KsazLERPNBllip7DP70OIJG8xt37avqR0SEim9hSt8k/Ml1Tu9cq
-         1aFWdbf57N2pRZSwUyqqCDTS9ovJG834B8pgm6r37Zj7IQdd3GL+JbVJ1OQRbZGVaTi/
-         95alIqYrOu3FKwHCW+sw/2UDDIuRNE4p3hyhBX1pZx6XPYMkVXblo2ChewvSxDAtTCTV
-         u0HH926ZWKXykjY378ZOoE0xCNtf98mkYlioOQNOpQjyG2hicy5vjTniTT47AeLPaKWj
-         L9/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738077818; x=1738682618;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yxsrW6kNB1sIPDkCAMxORQMiupCXk7Fm2GMkp6pmDew=;
-        b=Anasze9LRvTKzV08x4SA0kFRBDpFja1IYbWSF41ZWN7qTbpTzNuP6BW0C9xQxp9DOQ
-         aK3nGaxNknYsH1urZBLGTA72980UVIswBv1sqx7LhrQYuCc0cwgxeiXqRr9cMkgUAVed
-         ZjX6eihwmv2IpXT0Q2bwvKgpVz+6FyvQjHz4QVJ1HoSKOr9sB3MkcVmXyPv1KCGd4lEi
-         3i6WTHz61GMRRaKF+9QHWfqu3mJGctR1BtKTBijYBnb7j421fPtGRonH21lD1GCXHuqG
-         6H9sZ7Y/U10RhaOfJixL2h37OkNukPkYdtPzA3PZfKoa9xhpmvP6U9BueG1UphMctgev
-         UY9A==
-X-Gm-Message-State: AOJu0YzV4uPeMUsO3yjmg0c5EuLP03xUJC64wOjKlExmLGwac94n7LEM
-	Fd9NdDRcgswPupW0pTBKiugRg07EftoI9+64OFCdvYzIsX3WjILArsrRYiN60Yw=
-X-Gm-Gg: ASbGnctnWp6fP+M7ipE5MjD7Oy6qbQ9rJpoOmhUB7pCuO/yxGGuWqN5qyOZJWBsgOSE
-	XWAfdlAzopMF4nx/wqDpa3XqhJmBYKkZlJd8xTke3z6JXLYSwCxFB+TDmMdAFzQl23axxNEVlA6
-	VKEENL3qY+PgHm+XXiCV+IkdM0wR9eUsh52jNP6RmfWNAdBFmGuJSDr6UjDA7a5GGZpQQnIv7kO
-	48bJSd7RDUSaib0dn9PTSGzrslA/8VjKiu+uz9pbe3IumCMD6L41r5oV/IqFBTZF7jBpadxsOpL
-	hJ3mRb3x0sdmFLTsq+W4F1p3GFuGBlmn35w/bgkH
-X-Google-Smtp-Source: AGHT+IE5LNtqGOuZ5I5EzVsxXcdZgEms7BIda9quK8ncy2XHV/yGCIP0bddfSURB5s5ifHXT+O/iPA==
-X-Received: by 2002:a05:651c:1547:b0:300:182b:91a0 with SMTP id 38308e7fff4ca-3078df6c6dfmr14736701fa.7.1738077817884;
-        Tue, 28 Jan 2025 07:23:37 -0800 (PST)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3076ba67d4csm18238431fa.15.2025.01.28.07.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 07:23:37 -0800 (PST)
-Date: Tue, 28 Jan 2025 17:23:34 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/3] testimage.bbclass: capture RuntimeError too
-Message-ID: <Z5j2dmXvUc10oz-S@nuoska>
-References: <20241111131604.364308-1-mikko.rapeli@linaro.org>
- <20241111131604.364308-3-mikko.rapeli@linaro.org>
- <10810101792ffe49440847764ed2e4c620e67fe9.camel@linuxfoundation.org>
- <Zzr0Df_92qav6fWq@nuoska>
- <181EDCF7C1A1686B.17613@lists.openembedded.org>
- <ba9ffc9ade0e227bf9db0988e2877ddfef275207.camel@linuxfoundation.org>
- <Z5jrjpl4hLEeyq8t@nuoska>
- <90b742af0089650af6d74410a1cae5b211a6b2d8.camel@linuxfoundation.org>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=41233a820d=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50SB2liB007545
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 07:51:10 -0800
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44enykrjk3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 07:51:10 -0800 (PST)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50SFmvJI007731
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 07:51:10 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44enykrjk1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Jan 2025 07:51:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dPjhUfGaiOfnPyVHADRrCUzvY9QafoxZrlsSZ6REEYcUnGsxvDWGnURtbtu3jcsfAEqT4hlM1Q2OZhnjLiAzVXPRcQCX8a9/MZqe05WbDdfkj1QRbaj4blevRj+tgsxPLZq/0++Jc2T1Aac/qOySDZaYbqhKjOS/gSMSuoMc2bzVThhkkgAXlJmGjZ61Y1Pg2fkPzSrgc0Lq7rec0y1eAjIet+8aLU+uaY40MqMlQ9rWpehT714qMFmSOhDzujN0gDTu2OdKOxy+WAQYOloiaUGVCuvqEGZS+rasRCGPdjB3ycF1kKxHdZ9xpnGUn7ELdpolF4prXL4SLTRkOODEWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vOWWNVHE86FzaxaJ5hQ9HzUaffhmhlDbzGymwytGHJw=;
+ b=WVoM67pKwQmlumzyM8KQGmLIOFOQm+rd87io9IaMr94n0HilFcsQezyu6HVp/CFRjkzcfgJyre1GfiZIgb/IDaLHPPWq8BRZvRUCgDDBNJ8xnjeJbtT2I+HX4Rikbt2iCJcwNnhMD12hKNVUTJvlHurQpUVV1LwlWbdjAnCWzEr49Wotr6HsCjX9C3NMvUCRFZgQi9/9Zw3CB9XDBTBfKGZkmb8hbJvPif+5RLmx9gVMPKgzy6o5tFKhAfSuN0njc6+SUQlVwZ/RzMfve29x7s5sAL7zNNB4p2YBiDNdeEmX907u6SE1CErAJhOLzx8XMFbfWv4/ig8m4dUtQM0PDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by BN9PR11MB5307.namprd11.prod.outlook.com (2603:10b6:408:118::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.23; Tue, 28 Jan
+ 2025 15:51:07 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.8377.021; Tue, 28 Jan 2025
+ 15:51:07 +0000
+Content-Type: multipart/alternative;
+ boundary="------------41RqTnUq2ufKNIyrnIYqdDBV"
+Message-ID: <96981090-c00a-40cb-802c-f709450036f1@windriver.com>
+Date: Tue, 28 Jan 2025 10:51:03 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] qemuriscv: Enable Sv39 memory address scheme by default
+To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org,
+        "Ramasamy, Rajeshkumar" <Rajeshkumar.Ramasamy@windriver.com>,
+        Khem Raj <raj.khem@gmail.com>
+Cc: Sundeep.Kokkonda@windriver.com, "Hao, Kexin" <Kexin.Hao@windriver.com>,
+        "He, Zhe" <Zhe.He@windriver.com>, Trevor Woerner <twoerner@gmail.com>,
+        Alistair Francis <alistair.francis@wdc.com>
+References: <20250128101633.3664659-1-Yash.Shinde@windriver.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20250128101633.3664659-1-Yash.Shinde@windriver.com>
+X-ClientProxiedBy: BYAPR01CA0051.prod.exchangelabs.com (2603:10b6:a03:94::28)
+ To CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <90b742af0089650af6d74410a1cae5b211a6b2d8.camel@linuxfoundation.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|BN9PR11MB5307:EE_
+X-MS-Office365-Filtering-Correlation-Id: 621e7397-23be-41dd-eb2e-08dd3fb393e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?M2hGRmNhSWNaSStoWTZrR05ROS9ZaEt3NFBCeXN4VDlCWnRPNk8rUDFtUE5y?=
+ =?utf-8?B?NTVhQWs3aFpQZTF5c0pIampSRk1wYlRjUjNRb3dzZE0wTUNxZDZSSnhYUDlT?=
+ =?utf-8?B?anZJTW1WeHN0d1pPWVl5bnAyZ2RKMnlOWHBsYmJ3US9VbjQyaVU2L3lNVUVq?=
+ =?utf-8?B?eEN0dFRTUmNHVFNjdUI1Y3ZLbWsyTkZ5ckc0U1pHZWxmT0F6TGp4aXlzQXVn?=
+ =?utf-8?B?bkxoZG8zQkVoQ3J1dDdvc2R5SXllWU0wRUUzcXJrb1JjL1hHUkpqOXJUV09a?=
+ =?utf-8?B?eGNqZjI5R0xLU1cvTm9sWmc1ZTNBcC9BL2NlemNLN1k2QWNtYm04bjlCRHlW?=
+ =?utf-8?B?dGFjUkI3YVlsY3RMbzhCTHY3MVdvMUUxcUtGOVRGVWNqL005RjZ6YkQzRTNG?=
+ =?utf-8?B?Q2k3R3d2bTlYOTlxVjByWGZ2cUlxWlh3bGRjMlRaN3g5TXEwbWwzWUtJdjhT?=
+ =?utf-8?B?bU1sQk92U21tenYxYzRaVW4zLzh6Wko5VjZmaklpVFo5bElodDBXWC9qNDRu?=
+ =?utf-8?B?Zkl1K3QzOVo0TDAyaVRXeGVmNnZMSFkvYWJYaExCVWJjS3ZzdGdFT3JQMEJ4?=
+ =?utf-8?B?a3Bkc1dHbnpxbjgvalFFNkVBLytwdUJiTVRrWnJNakp0a3VkcWtuQ3FML0t2?=
+ =?utf-8?B?alJjSG8yTU42UWJUaFpIYnhueWVXNjQyL1NFSDBvQ2lEUk5xb1AvZXhXWFFP?=
+ =?utf-8?B?MVBBRktKSVFxWnpRUmVrM1RWVFZ3R2g1aTh2OW5HNFowNUd2N01lRGFZdm01?=
+ =?utf-8?B?dml2UTUwL2l2ZXR2VWcvVHd5NzUvdnBTNTlnbUw3YjlET2ZMN0tRWEJNdjh1?=
+ =?utf-8?B?Rm9COHJXOTlOeGQvNHhVVU9nRGVsTDMrK3VRd2thN1NSeHVBTnRLRlhiNDdz?=
+ =?utf-8?B?bVUwdnk0WENSRGVVSmw2VlVZbjNrZVBuNjhrMlJzSVdzZE52TXhWNE83U3Z5?=
+ =?utf-8?B?WHVvSjJRWUNBT3NjdFVKSDAyaCs1MjlvbTE5MVhiL2FNbjV2eWxYWlBMQWJT?=
+ =?utf-8?B?KzBWdDVZQUVHWnpyUGh2UVlWRnpaNGRRaU82RFhWMHhWWHE1VEJnUmVDV2ZH?=
+ =?utf-8?B?VW0xT3k4ZkxsV3ZZT3FnUEtuaWNXS2luUWg4cEtIS1dJbjA1eTdXeCtqajNR?=
+ =?utf-8?B?eS9jeG1SVnJjTlRGNTc4dXpYRDVvcW9OMUdwOGtTZ1BwS3o3SlNpWndjelJ4?=
+ =?utf-8?B?dHBGMW4yL0x0bmNITFVVWUdwa2draDFOM3ZWR3pMQkRJdnlRN1lnbGpsUXRk?=
+ =?utf-8?B?N2lXT1VydWJhNHRNTVh3OWJ5cVVXeGxncHlvVEk2SVNsYXpYV2h3QWJUSEZ3?=
+ =?utf-8?B?bXhRZ3F1Q3F3SHYzNG1lR3ZaeEFSTDhHNTRaTEs4WlBsTjR1OEFyK2ptQ2dW?=
+ =?utf-8?B?eFFZQ0RhWmRCZlROVDlESm41Uy81NUhKdnZRek5aN3VwYzNUMFBnbmkwempM?=
+ =?utf-8?B?NGhQd0l5R0ZCN3o1aHVpWktETGs0amJZRGpScWpzSHhtcmxEWkhBcHhTaFdZ?=
+ =?utf-8?B?WnF5dTlpa2dFbzZuVUhIRUlLR3VWcFRzclkvYVNqdHhRbXBvV04xcjlYWUl6?=
+ =?utf-8?B?WHBpQ1AwZ0dQN0dnNVlKOVlkT2JHemJmSEJmb1JCWk5kem1aVENGVW9JcHJH?=
+ =?utf-8?B?aXc1RG0wbkI1a0RXN2h4bS9kTXJpVmVzanNDRWJHWnVwVlRlSDVhMEIrRXpw?=
+ =?utf-8?B?TDBiRm4zQU9iTnMyZmxSUFNnME95RGJkREVJTDZ2elhzeXFPNitnWTNoTG1h?=
+ =?utf-8?B?ckZ5REkvRmloUFRVSnk5SW5ZOXJ2cGRyRzIrWFdQQVU4RytncnZMRVJrdXpw?=
+ =?utf-8?B?SVJ3WnFkZmxJaWU4bHhIZz09?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RVdUYkxtVis4T2d1cmsvNVBwVnk2ZUxPenRvcnBSRHF3cTVkTkNLOTZTSUFX?=
+ =?utf-8?B?UGRpTTJmNm5VMCtxa0Q4S3kxMFdGMmt4N09oZEJsd0JodlNKVVNXYmFmdVhi?=
+ =?utf-8?B?S0l2ODdidmF2b1QxaWNrOFR1VXVVVTczZE9qSzB2NXBkNURoL05IVDlPaXlM?=
+ =?utf-8?B?aE9CVGVtYk5lbElNL2ErNUQ2MVRuZTBHdXZERTdvUzB2a3owSzBMc3FQZk85?=
+ =?utf-8?B?Q0pXelJndVZIRUZGeDhZa1BkRXYrOFJnRTViVmx5YUx4ZFArRVJDeHI2cE9D?=
+ =?utf-8?B?VkJIZktVcEtJb0p6VjRrdDhGRjc2WmNJQzc1cTV2Tk1KSGlxV3ZPaTZJeC9s?=
+ =?utf-8?B?cWNEMEdUSU1Cd21lVUdsVlBJOGgxWURrNVVRK3pwYzBSamZiNG44U1c3SDhi?=
+ =?utf-8?B?RUlBcGtUTnN5Q1dBWUcrTWFzMG8xdWVzZnI4bGJMcUdQQ1ZBZ2c0RC9VbzY1?=
+ =?utf-8?B?RFN2eklSRi8yL2trcXlWQXhUdEoraUJBbXhyODVpckdvd1BkcHNoeENsblRQ?=
+ =?utf-8?B?SE55OE9NYUdaYUdYUHRuR0tsT2tZTUlCZ1dKZWFqd01rK09BUTgwOXlNMU9F?=
+ =?utf-8?B?aUVlMGtzQVNLaG1ZWXp1Y2dCRHF4NUp5cmVWMnJwelg4SFA4N0tkZlpzSHlD?=
+ =?utf-8?B?NE4yMWIrdGxwRGJvbnAxbUtkcjlPd0lwR21GRkVTL3dCMklaTVRvMGlvM3NT?=
+ =?utf-8?B?NGZmZ05LVmliS0tUUmdRenFjbCs3TmtvK2R6SnkvWmVQOHBFWk4rZFYrNElx?=
+ =?utf-8?B?WWZLR2E4VmlhWkZ4L0ZjY20zVDI1K0paRHVVdWhVRnhVaFJMMGtHSFphTTdv?=
+ =?utf-8?B?OVhvTjd4NzQ0azdCbWRvckNqWFFyM0UrVHFqRmpERUxFcDhBbHovMk5uZEx6?=
+ =?utf-8?B?bU1wc2pKakwwWUlEKzFNbzdKS2FmNnFCaUtYSU5HY2RpSkN1cXlENVN6VHFw?=
+ =?utf-8?B?TWl5UTZndHRtQ1psZU4xTUx1c2lQYlVMZnpiWUFtdUg5WGNwWmhMd3Y4alpO?=
+ =?utf-8?B?NFZndG95VlVvYm56NzAwUlczYTI4SFI2Z1EybFZvZVMyYlRUZUZOS2kwUVRk?=
+ =?utf-8?B?YUZSUHl6L0dhOUt6TmU4OUNwNERTNDlERElEeGswTTFmK2NaM1N2M3E2RWVz?=
+ =?utf-8?B?MDJxZHpESkd4Q21qaVJYc28zU2R4UldkczE5ZG5Fa05lUVk3akFpclU4bnRi?=
+ =?utf-8?B?dlptYzFFUk45cnNTT0VTK0dIRkhPZytYY3V4QURleXN1RTB4anJtWmtaUVhv?=
+ =?utf-8?B?eXErSGVKV21HbmRUQ1FmaVBQMlgrb21UOWdLdklqK1hnN3cvUVdqNGpyWEdF?=
+ =?utf-8?B?ZkxkakVJNmV3eFIwWHQrSXl1M1NZWW4wYWU2ZEhveDNsdnFKOUJnemk1WWdt?=
+ =?utf-8?B?aldENGVBMnJkdjdKUnJ0ajhicDB3NUJaRmUyZ1RlSVBqK3QvcDNjNjh6NUVD?=
+ =?utf-8?B?Q2NLK3NWMkpBcTdDY01Uam54NWRjcU82RkpwQjF0SWhPL1dsQWc5VTJWc0RJ?=
+ =?utf-8?B?Nkh5RWhXSHhTUHFXZysvNk9ITXY3cFRvVDVBM3FVT0F2TWdTckNkbXZsL0ww?=
+ =?utf-8?B?MHhlRUNmVjcyUm83VXhJdXRBOERqWHJ5N1BlalNNdTFwem5PL3lBMVc2bmxG?=
+ =?utf-8?B?aHFlYXhKYVVMSDFqRmdkalZ4T3ZjdWpNUWFaVXNkQ2VQZFRTcUFPNnBqZ2VV?=
+ =?utf-8?B?YmFpYjBMWWNOS1laQy9sVjVGYXNHc0dYcFM0K3VwaU4rZmdzcElabFpkMlBY?=
+ =?utf-8?B?YWdQRXBOQkR1QUtqbWx2K1NIK1ZkeFVEOURDUjdDYXV3cU9JQW1DNktQcGhU?=
+ =?utf-8?B?UE4wRXRtcnRScVhnQUo0N1BNTnVJTFg0OVdYdE5ud0FpTnYyZllzYUtEK0FS?=
+ =?utf-8?B?d2JmbUtKWUtTWm5WWC9nQTVFZzhrMmtsVTJ0TkREakVwODlFMm5KbVV5Um5m?=
+ =?utf-8?B?OEhUdjk5TmNYbXlCbEJGWC8vTFBtZnRJa2hPc3lCRHFRbysyYWFJeXYrOGFO?=
+ =?utf-8?B?ZTFReFZNR3M3WlVyeURxdTRWaEwxTjAyM2tZQ1kxNmIzczJ2TnkvS3J5bXRE?=
+ =?utf-8?B?SS9MUWxrcG03TUtzZmlsVGF0QXdoL0JnRXRrQUtaK0RJd0x6ZGlYTXJvL05D?=
+ =?utf-8?B?dG9zWUQ1NW1vQzhvS2VZRGwwOUNINTZkWFRSbG9Fc2VBSmpyVmExenYweUtP?=
+ =?utf-8?B?OHc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 621e7397-23be-41dd-eb2e-08dd3fb393e7
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2025 15:51:07.1621
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zCjkDmda1D5FWsQm9HXcqa73ctIKcGaVul342dAilRgB8jbDAdTs2slGXIZKjgf1hOar9isjPUiLXJ++hn5W/ri924fal5daIT5epEHtj9Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5307
+X-Authority-Analysis: v=2.4 cv=Wv/RMcfv c=1 sm=1 tr=0 ts=6798fcee cx=c_pps a=H8RDR50mQ1szzU+C1Tr1+Q==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10 a=iGHA9ds3AAAA:8
+ a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=3DWwVrQRWzlIKs_BgJ4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=EAANymjFHU3wsFqUKEkA:9 a=ngMMgqPnNPQRbIJ8:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: _MJ9enoGygm0Oz2t-i2rvq_MVugJcA2X
+X-Proofpoint-ORIG-GUID: omwou3wEWJ7MqHwb8VIBfeDA36O0s7Yh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 clxscore=1011 phishscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501280118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 15:23:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210328
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 15:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210329
 
-Hi,
+--------------41RqTnUq2ufKNIyrnIYqdDBV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 50SB2liB007545
 
-On Tue, Jan 28, 2025 at 03:10:34PM +0000, Richard Purdie wrote:
-> On Tue, 2025-01-28 at 16:37 +0200, Mikko Rapeli wrote:
-> > On Tue, Jan 28, 2025 at 01:49:00PM +0000, Richard Purdie wrote:
-> > > On Tue, 2025-01-28 at 13:04 +0000, Richard Purdie via
-> > > lists.openembedded.org wrote:
-> > > > 
-> > > > Sorry for the delay in looking at this patch. I'm a bit worried about
-> > > > there being a leaked processes and wanted to understand if there was
-> > > > other cleanup we should be doing.
-> > > > 
-> > > > Instead of this path, would it make sense to move the results.stop()
-> > > > inside the finally? I'm worried that other forms of exception would
-> > > > also leak processes.
-> > > 
-> > > I've looked more at this and I don't understand how this patch works.
-> > > 
-> > > By adding the exception to the exception clause, it will trigger a
-> > > bb.error() call. The results.stop() call won't happen as results isn't
-> > > set in this failure.
-> > > 
-> > > The only significant difference would therefore be the results =
-> > > tc.results assignment. Does that really stop processes? If so, should
-> > > we always be doing that?
-> > > 
-> > > I'd like to understand what we need to do to "fix" things so we can
-> > > handle other exceptions.
-> > 
-> > If I remember correctly, I saw this when building meta-arm qemuarm64-secureboot
-> > kas config which runs oeqa runtime tests with testimage.bbclass during build.
-> > 
-> > Without fix 4b3b37156cdf70230bc74c647784da8514c284cf in poky a single failing test
-> > leaked Cooker processes. Then a rebuild of core-image-base connected to that Cooker
-> > process and somehow failed to re-generate rootfs which became an empty directory
-> > inside .wic image. This resulted qemu boot hanging which again throws RuntimeError
-> > from meta/lib/oeqa/core/target/qemu.py line 52.
-> 
-> Just to be clear, is memory resident bitbake set or not
-> (BB_SERVER_TIMEOUT) ?
+Add Raj, Khem, Kexin and Zhe who know more about RISC-V than I do.
+Kexin and Zhe are on holiday for a week or more.
+CC a few people who have contributed to riscv* conf.
 
-meta-arm builds set:
+I am not all that familiar with either qemu internals or riscv=20
+specifications so any input is appreciated.
 
-ci/base.yml:    BB_SERVER_TIMEOUT = "300"
+I have some comments and questions below.
 
-I was building in kas shell.
+On 2025-01-28 5:16 a.m., Yash.Shinde@windriver.com wrote:
+> From: Yash Shinde<Yash.Shinde@windriver.com>
+>
+> Currently, GCC Asan supports only Sv39 on RISC-V due to custom allocato=
+r configurations optimized for large allocations.
+> These configurations are incompatible with larger address spaces like S=
+v48/Sv57.
+> This fix enables RISC-V's configuration for Sv39 by default when runnin=
+g `runqemu nographic`,
+> eliminating the need for manual configuration via command line flags (`=
+qemuparams=3D"-cpu rv64, sv39=3Dtrue"`).
+>
+> Fixes [YOCTO #15691]
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15691
+>
+> Reference:https://git.openembedded.org/openembedded-core/commit/?id=3D4=
+b4450ff695ef73bf7a2437e142d2e0730d6a547
+>
+> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+> ---
+>   meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/=
+machine/include/riscv/qemuriscv.inc
+> index d01d988eee..6170ce65f2 100644
+> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
+> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+> @@ -27,6 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 =3D "0x80200000"
+>   # qemuboot options
+>   QB_SMP ?=3D "-smp 4"
+>   QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
+> +QB_CPU =3D "-cpu rv64, sv39=3Dtrue"
 
-> > Example with poky from October 2024 (from old log files which I still had):
-> > 
-> > NOTE: Reconnecting to bitbake server...
-> > ...
-> > NOTE: recipe core-image-base-1.0-r0: task do_create_image_spdx: Succeeded
-> > QMP Available for connection at /home/builder/src/base/meta-arm/build/tmp/.ndozl5yn
-> > QMP connected to QEMU at 10/31/24 13:55:56 and took 0.56 seconds
-> > QMP released QEMU at 10/31/24 13:55:56 and took 0.19 seconds from connect
-> > Bitbake still alive (no events for 600s). Active tasks:
-> > /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
-> > WARNING: core-image-base-1.0-r0 do_testimage: Target didn't reach login banner in 1000 seconds (10/31/24 14:12:36)
-> > WARNING: core-image-base-1.0-r0 do_testimage: Last 25 lines of login console (22962):
-> > [��� 4.345255] Key type fscrypt-provisioning registered
-> > [��� 4.363120] Btrfs loaded, zoned=no, fsverity=no
-> > [��� 4.522255] input: QEMU QEMU USB Tablet as /devices/platform/4010000000.pcie/pci0000:00/0000:00:03.0/usb1/1-1/1-1:1.0/0003:0627:0001.0001/input
-> > /input0
-> > [��� 4.528765] hid-generic 0003:0627:0001.0001: input: USB HID v0.01 Mouse [QEMU QEMU USB Tablet] on usb-0000:00:03.0-1/input0
-> > [��� 4.636796] Key type encrypted registered
-> > [��� 4.644819] printk: legacy console [netcon0] enabled
-> > [��� 4.645638] netconsole: network logging started
-> > [��� 4.651065] clk: Disabling unused clocks
-> > [��� 4.651780] PM: genpd: Disabling unused power domains
-> > [��� 4.669045] usb 1-2: new high-speed USB device number 3 using xhci_hcd
-> > [��� 4.794967] Freeing unused kernel memory: 1856K
-> > [��� 4.803684] Run /init as init process
-> > [��� 4.847358] input: QEMU QEMU USB Keyboard as /devices/platform/4010000000.pcie/pci0000:00/0000:00:03.0/usb1/1-2/1-2:1.0/0003:0627:0001.0002/inp
-> > ut/input1
-> > [��� 4.919633] hid-generic 0003:0627:0001.0002: input: USB HID v1.11 Keyboard [QEMU QEMU USB Keyboard] on usb-0000:00:03.0-2/input0
-> > Starting systemd-udevd version 256.6
-> > 
-> > [��� 7.407191] virtio_net virtio0 enp0s1: renamed from eth0
-> > [�� 12.633172] ext3: Unknown parameter 'umask'
-> > [�� 12.634318] ext2: Unknown parameter 'umask'
-> > [�� 12.634924] ext4: Unknown parameter 'umask'
-> > [�� 12.676391] EXT4-fs (vda2): mounted filesystem 41dc66e6-d693-46b3-a5d6-a46998500609 r/w with ordered data mode. Quota mode: disabled.
-> > [�� 13.080423] /dev/disk/by-label/root: Can't open blockdev
-> > [�� 13.081201] /dev/disk/by-label/root: Can't open blockdev
-> > ERROR: There's no '/dev' on rootfs.
-> > 
-> > WARNING: core-image-base-1.0-r0 do_testimage: Check full boot log: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-l
-> > inux/core-image-base/1.0/testimage/qemu_boot_log.20241031135427
-> > Output from runqemu:
-> > runqemu - INFO - Received signal: 15
-> > runqemu - INFO - Cleaning up
-> > runqemu - INFO - Host uptime: 14098967.33
-> > 
-> > tput: No value for $TERM and no -T specified
-> > WARNING: core-image-base-1.0-r0 do_testimage: Extra log data read: 
-> > 
-> > Output from runqemu:
-> > runqemu - INFO - Received signal: 15
-> > runqemu - INFO - Cleaning up
-> > runqemu - INFO - Host uptime: 14098967.33
-> > 
-> > tput: No value for $TERM and no -T specified
-> > 
-> > Output from runqemu:
-> > runqemu - INFO - Received signal: 15
-> > runqemu - INFO - Cleaning up
-> > runqemu - INFO - Host uptime: 14098967.33
-> > 
-> > tput: No value for $TERM and no -T specified
-> > 
-> > ERROR: core-image-base-1.0-r0 do_testimage: Error executing a python function in exec_func_python() autogenerated:
-> > 
-> > The stack trace of python calls that resulted in this exception/failure was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> > ���� 0001:
-> > �*** 0002:do_testimage(d)
-> > ���� 0003:
-> > File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 122, function: do_testimage
-> > ���� 0118:��� dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
-> > ���� 0119:}
-> > ���� 0120:
-> > ���� 0121:python do_testimage() {
-> > �*** 0122:��� testimage_main(d)
-> > ���� 0123:}
-> > ���� 0124:
-> > ���� 0125:addtask testimage
-> > ���� 0126:do_testimage[nostamp] = "1"
-> > File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 364, function: testimage_main
-> > ���� 0360:��� orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
-> > ���� 0361:��� try:
-> > ���� 0362:������� # We need to check if runqemu ends unexpectedly
-> > ���� 0363:������� # or if the worker send us a SIGTERM
-> > �*** 0364:������� tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-> > ���� 0365:������� import threading
-> > ���� 0366:������� try:
-> > ���� 0367:����������� threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start(
-> > )
-> > ���� 0368:������� except ValueError:
-> > File: '/home/builder/src/base/meta-arm/build/../poky/meta/lib/oeqa/core/target/qemu.py', lineno: 91, function: start
-> > ���� 0087:����������� except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as err:
-> > ���� 0088:��������������� msg += "Error running command: %s\n%s\n" % (blcmd, err)
-> > ���� 0089:����������� msg += "\n\n===== end: snippet =====\n"
-> > ���� 0090:
-> > �*** 0091:����������� raise RuntimeError("FAILED to start qemu - check the task log and the boot log %s" % (msg))
-> > ���� 0092:
-> > ���� 0093:��� def stop(self):
-> > ���� 0094:������� self.runner.stop()
-> > Exception: RuntimeError: FAILED to start qemu - check the task log and the boot log 
-> > 
-> > ===== start: snippet =====
-> > 
-> > 
-> > 
-> > ===== end: snippet =====
-> > 
-> > ===== start: snippet =====
-> > 
-> > Error running command: ['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/te
-> > stimage/qemu_boot_log.20241031135427']
-> > Command '['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/testimage/qemu_b
-> > oot_log.20241031135427']' returned non-zero exit status 1.
-> > 
-> > ===== end: snippet =====
-> > 
-> > 
-> > ERROR: Logfile of failure stored in: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/
-> > log.do_testimage.1578012
-> > NOTE: recipe core-image-base-1.0-r0: task do_testimage: Failed
-> > ERROR: Task (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage) failed with exit code '1
-> > '
-> > NOTE: Tasks Summary: Attempted 7116 tasks of which 7081 didn't need to be rerun and 1 failed.
-> > 
-> > Summary: 1 task failed:
-> > � /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
-> > 
-> > 
-> > Since this exit happens without catching RuntimeError, there is no cleanup
-> > and Cooker, qemu-system-aarch64 etc processes get leaked again.
-> 
-> Can you point at the "no cleanup"? The code in question has a
-> try/except/finally clause and the finally should always run. I'm
-> therefore struggling to work out which cleanup code isn't running.
-> 
-> > If the RuntimeError is captured, then clean up is done and qemu-system-aarch64
-> > and Cooker processes get killed. Together with
-> > 4b3b37156cdf70230bc74c647784da8514c284cf in poky
-> > the failing oeqa runtime test under qemu was handled correctly
-> > and rebuilds always ended up with same failure, specifically
-> > from parselogs which is a bit greedy when detecting errors.
-> > 
-> > Does this help? If not, I can try to replicate the setup and failures
-> > again, and try different fixes.
-> 
-> I can't really sed which cleanup code we're missing and I'd like to
-> understand this before we take the patch as something isn't adding up.
+Thanks Yash.
 
-With TESTIMAGE_AUTO = "1" in local.conf, I have seen a lot of failures to kill
-Cooker and qemu-system-aarch64 processes. Running tests with slirp networking
-over ssh and even pressing ctrl-c multiple times on the build leaves those into
-the background. Manual cleanup is needed.
+To save everyone from doing the math, sv39 gives the system 512 GB=20
+virtual address space.
 
-I will setup the builds again to test these out.
+Should we use the ?=3D operator here so that users can easily override=20
+this specification
+just as is done for=C2=A0 QB_SMP two lines above?
 
-Cheers,
+Please summarize what testing you did.
 
--Mikko
+Did you test with TCLIBC=3Dmusl ?
+
+Since you are changing qemuriscv.inc you and the YP AB should test=20
+qemuriscv32 and qemuriscv64.
+qemuriscv32 should, if I'm understanding how this works, be unaffected=20
+since it has to use sv32 mode.
+
+Did you find out why sv39 isn't the default for qemu?
+If not, please check the git history and it there isn't an answer there,=20
+ask one of the qemu developers
+who work on risc-v. It would be nice to have a sentence about that in=20
+the commit log.
+
+Did you consider a different RISC-V cpu sub-arch such as rva22s64 ?
+
+https://github.com/qemu/qemu/commit/3ba8462c4ca55720239fdc6fa30b9870d22a8=
+814
+
+I'm only asking because it seems like it might be a good fit for us and=20
+I noticed it when
+searching the qemu commit logs looking for sv39.
+
+
+../Randy
+
+
+
+
+>   QB_MACHINE =3D "-machine virt"
+>   QB_DEFAULT_BIOS =3D "fw_jump.elf"
+>   QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,down=
+script=3Dno"
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------41RqTnUq2ufKNIyrnIYqdDBV
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Add Raj, Khem, Kexin and Zhe who know
+      more about RISC-V than I do.</div>
+    <div class="moz-cite-prefix">Kexin and Zhe are on holiday for a week
+      or more.</div>
+    <div class="moz-cite-prefix">CC a few people who have contributed to
+      riscv* conf.</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">I am not all that familiar with either
+      qemu internals or riscv specifications so any input is
+      appreciated.</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">I have some comments and questions
+      below.<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 2025-01-28 5:16 a.m.,
+      <a class="moz-txt-link-abbreviated" href="mailto:Yash.Shinde@windriver.com">Yash.Shinde@windriver.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20250128101633.3664659-1-Yash.Shinde@windriver.com">
+      <pre wrap="" class="moz-quote-pre">From: Yash Shinde <a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+
+Currently, GCC Asan supports only Sv39 on RISC-V due to custom allocator configurations optimized for large allocations.
+These configurations are incompatible with larger address spaces like Sv48/Sv57.
+This fix enables RISC-V's configuration for Sv39 by default when running `runqemu nographic`,
+eliminating the need for manual configuration via command line flags (`qemuparams=&quot;-cpu rv64, sv39=true&quot;`).
+
+Fixes [YOCTO #15691]
+<a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=15691">https://bugzilla.yoctoproject.org/show_bug.cgi?id=15691</a>
+
+Reference: <a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/commit/?id=4b4450ff695ef73bf7a2437e142d2e0730d6a547">https://git.openembedded.org/openembedded-core/commit/?id=4b4450ff695ef73bf7a2437e142d2e0730d6a547</a>
+
+Signed-off-by: Yash Shinde <a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+---
+ meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index d01d988eee..6170ce65f2 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -27,6 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 = &quot;0x80200000&quot;
+ # qemuboot options
+ QB_SMP ?= &quot;-smp 4&quot;
+ QB_KERNEL_CMDLINE_APPEND = &quot;earlycon=sbi&quot;
++QB_CPU = &quot;-cpu rv64, sv39=true&quot;</pre>
+    </blockquote>
+    <p>Thanks Yash.<br>
+    </p>
+    <p>To save everyone from doing the math, sv39 gives the system 512
+      GB virtual address space.<br>
+    </p>
+    <p>Should we use the ?= operator here so that users can easily
+      override this specification<br>
+      just as is done for&nbsp; QB_SMP two lines above?<br>
+    </p>
+    <p>Please summarize what testing you did.</p>
+    <p>Did you test with TCLIBC=musl ?<br>
+    </p>
+    <p></p>
+    <p>Since you are changing qemuriscv.inc you and the YP AB should
+      test qemuriscv32 and qemuriscv64.<br>
+      qemuriscv32 should, if I'm understanding how this works, be
+      unaffected since it has to use sv32 mode.<br>
+    </p>
+    <p>Did you find out why sv39 isn't the default for qemu? <br>
+      If not, please check the git history and it there isn't an answer
+      there, ask one of the qemu developers<br>
+      who work on risc-v. It would be nice to have a sentence about that
+      in the commit log.<br>
+      <br>
+      Did you consider a different RISC-V cpu sub-arch such as rva22s64
+      ?<br>
+      <br>
+      &nbsp;&nbsp;
+<a class="moz-txt-link-freetext" href="https://github.com/qemu/qemu/commit/3ba8462c4ca55720239fdc6fa30b9870d22a8814">https://github.com/qemu/qemu/commit/3ba8462c4ca55720239fdc6fa30b9870d22a8814</a><br>
+    </p>
+    <p>I'm only asking because it seems like it might be a good fit for
+      us and I noticed it when<br>
+      searching the qemu commit logs looking for sv39. <br>
+    </p>
+    <p><br>
+    </p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:20250128101633.3664659-1-Yash.Shinde@windriver.com">
+      <pre wrap="" class="moz-quote-pre">
+ QB_MACHINE = &quot;-machine virt&quot;
+ QB_DEFAULT_BIOS = &quot;fw_jump.elf&quot;
+ QB_TAP_OPT = &quot;-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no&quot;
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------41RqTnUq2ufKNIyrnIYqdDBV--
 
