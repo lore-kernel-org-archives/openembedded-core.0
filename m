@@ -1,87 +1,104 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF169C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 11:22:25 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.10262.1738149742875401685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1293DC0218D
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 11:34:06 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.10420.1738150439356899327
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 03:22:23 -0800
+ Wed, 29 Jan 2025 03:33:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q5x3mLlQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso44604545e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 03:22:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PeljU5/q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: pmi183@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38637614567so3279668f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 03:33:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738149741; x=1738754541; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r+fGPNsvK066977XVCx0h6znHvuyUSsxCkVJMZimjkQ=;
-        b=Q5x3mLlQfHUFItFiwFBUqITAZSYacZFlC+YNtw7PKvwDMIQYSbrWl7tuHHlgwJKXrb
-         rUlnwVqf5O7sxmTWS4SDJO4prTHOEUu2kGyV5W5Ry5IX974hEZ033KOqFjnVT/a1j+i/
-         CXDU/exl+S2QXn758VSdCsbWYHfHoFsSVl5xdbsD5rB6Sx2V4QmdAQB6eYS+dzeAGGAg
-         VKxtLO3UE7j2hoe5sNeoX4RKgjgMxiks7B1dq1+Ges0WRl8UuWPzwrVTqQB2bZSzuhgE
-         Ra/S5Iy/vwzMMOQIrKtdUXbdAyl0DF2/s4FVkg4FrbBtLCIgSw/LG0BBg14c0tvRZI1J
-         bTNg==
+        d=gmail.com; s=20230601; t=1738150438; x=1738755238; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GggrCXN6Zi56PwnxsZ43GvAiGKfTaSKvtkFEYz3J73U=;
+        b=PeljU5/q9FEk7enQdCeINvBDDhTChtSS5ctAjaq9Dmfnrs6cQfeG7Mx1m/NMS5Rwky
+         8PgytnQZAtvO8o1i/D0oi6VNi8bcTDu2Z+9lgcswJLsC1jh/tgrzsLk1apMbtNHoYPPq
+         Oz8svdpx7jZorc6uyuV9zFWBspLSCtjopnwCQULjshLy2nfPDrdH+aeS3cS2sNhPodUj
+         XJ8dNEqa+mt587fUiEht2dvXtdSrgaAJxOacHbJx89HFULDWcsasLDQxivyXooILNUry
+         e9AULaaJSpEtHaf1qVW/09dJRDu8VpgJ5W+L9BRyMR7hjFUtIt6oyx4nxKa/Dj9E4o7e
+         6qiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738149741; x=1738754541;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+fGPNsvK066977XVCx0h6znHvuyUSsxCkVJMZimjkQ=;
-        b=YWUVnmN5gXCWI64WGEKpwx2FDr9DlYofGjHPLs1sSYojMyNel7BGsxMaiUYPOx8W0o
-         +uxTZexkM//kceZYt3BRVpJ8Z4YzfVpXyys/VGiWdTEpDX8NqADd/B8Twnfz+o60F/rY
-         Hps9YCB+Bx03zIxTZRV3D7Ve6Lf+JQ4v8OUH2+6w9korSumu3l0fC7hjDareXtYufLeN
-         TeI3Igr4uoQfLt4GkwMcahE1znB3iwHVPXfojAOAZuFGRmQOk5O8RafLCUcrK6tixQ2I
-         zJ0Bhj8DJroFGUtKf/2Y8aErfVkPBTkOOOYXggz9ZUCvWHJdgXMKKWzSsZMmkrQHQghV
-         gTKA==
-X-Gm-Message-State: AOJu0Yz2Jx1m8cD4YMrS9g53/iyZ57azDN/7RS3/l84YJEXynm9deWwH
-	9g7kRGApi4324wdBQzhmdB6B+vG5VFFOR8NOk8l2R55o6m1SukiQ
-X-Gm-Gg: ASbGnculS/Ei3NThsRJ/dtkw5zti/IOYI3NiHICZtR7aAL0W07F2PXV2LCWDvkZ9uuo
-	Os4i482csA28HP9/FTP6og/KH6V/atWm4GTGIIf0kk3NTvZpPggp4lIrPABnukjyHNubmYF3aPU
-	Lqwq9VyUS4VulwKOZKI8HqmIQ42JSCi17hLlYsMsBvWoPaRCe36H/+bg5AwjtygOu9QDNTpd26K
-	Aukk29Y9yJ+0kgi48hWjsJV/OE2KtZF/rrKET3/Iw2YZyoHn2rxkvXk7mS+uVDbw2RzHNFgYSdB
-	UJI5XxsVuq5qrLQ6F7btZhLLM39tnI8F5XuHLLtuH4WcyZ6h
-X-Google-Smtp-Source: AGHT+IH3v3ORZm76cl5jh4cEeSf7i9ecm0SdMYxSwxienFN+YhDDT24IF2wtWneihP0neJdszzw8OA==
-X-Received: by 2002:a5d:584b:0:b0:38a:8b2c:53ad with SMTP id ffacd0b85a97d-38c51e91b14mr2626072f8f.39.1738149741143;
-        Wed, 29 Jan 2025 03:22:21 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17662bsm16781377f8f.4.2025.01.29.03.22.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 03:22:20 -0800 (PST)
-Message-ID: <55e9cc3c-3113-4447-b7ff-d774d9974021@gmail.com>
-Date: Wed, 29 Jan 2025 12:22:20 +0100
+        d=1e100.net; s=20230601; t=1738150438; x=1738755238;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GggrCXN6Zi56PwnxsZ43GvAiGKfTaSKvtkFEYz3J73U=;
+        b=do5MwVdoAIO4fViD4UsoC+SHsjY7KzGO7UsZ/v9kw1WrPhNuctNvsTD+42ltWHiam7
+         ve9fyB336FFQqxci7Ar9Wtsx8o636B4UzR5SW+gU0W4oVvIiMxg5LyaAjbGoL7Q/Nxfw
+         UdC2CTkROrQ1c6TtdpQcSC87IsF+uH9sfNzQ0AbugkBNTmBIDijmJq9DjCljaTsjvLms
+         62eCNYD2b5Y9/pnP8s97zOCh36uw+q/BX5jVoikRUQe7JoA6h2NZFgiGbopXi0a2W9ru
+         sc0yoG7rI9oaBLbk19fbuW1nmJb/SPk3/m6mUHoSR4qCnM3y2TahT5d/1Tfe53bUbWLt
+         5jzw==
+X-Gm-Message-State: AOJu0YwmJgZhgzveVtPawMiWijDOQM9gw5NuUwwIg53iS5KBaBkrSQQU
+	PtyLryfcD24quXsZrywcippNQfdL3DAa2aex/ANOHMlw3BLY/k/GOK3JXg==
+X-Gm-Gg: ASbGnctTq2e+58QN7nlchYmExnEMyI66yeqm4l+TFU2IAQgLPw2FYBLVBh7XQgaI9VV
+	ensA64am0AERXhzzjowgQF3CsCB0ZD7dT5flKsdMk7zwIqSaECx6Zp1+n+LUVTWZYIIzqDfvmGK
+	Qz/xHuVlKxeMhC+qe1kYQlhdVHFBwK2xPf9P2wp6yg+td0Q+cM0INXmxvx6d+RBeMyCQRWlBZl+
+	enrBvuX/3hDYitCW9v+eFV0ik6PZ2iM3kgK9yd04Y3HAbls5kksRv7BAP7u7oW9D2krdXxIZcg1
+	Lru+ydZydTaUzP9uF8agL09IuS88FMJnL0+TSxbTNeJKYw==
+X-Google-Smtp-Source: AGHT+IEwwrbw9pVtXJTC4Xfu5PZdZMzreiIZTW8mD9vWrWktd7+ndPhyYPWIWzy57cBRemKei6trxw==
+X-Received: by 2002:a05:6000:1a86:b0:385:e3b8:f331 with SMTP id ffacd0b85a97d-38c5194a53dmr2250346f8f.14.1738150437392;
+        Wed, 29 Jan 2025 03:33:57 -0800 (PST)
+Received: from LAPTOP-0FHSM1V0.criticaltechworks.com ([78.137.195.161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc12f88sm19712265e9.2.2025.01.29.03.33.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 03:33:56 -0800 (PST)
+From: Pedro Ferreira <pmi183@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+Subject: [PATCH] rust-common.bbclass: soft assignment for RUSTLIB path
+Date: Wed, 29 Jan 2025 11:33:24 +0000
+Message-Id: <20250129113324.52760-1-pmi183@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v2 2/2] rpm: Re-enable signing
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-References: <20250129104150.2391653-1-zboszor@gmail.com>
- <20250129104150.2391653-2-zboszor@gmail.com>
- <CANNYZj8V4Zq96iFLPOjBzVJsDpb3f-m99UGNnUjS9dd0qRsvTg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj8V4Zq96iFLPOjBzVJsDpb3f-m99UGNnUjS9dd0qRsvTg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 11:22:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210375
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 11:34:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210376
 
-2025. 01. 29. 12:06 keltezéssel, Alexander Kanavin írta:
-> On Wed, 29 Jan 2025 at 11:41, Zoltán Böszörményi <zboszor@gmail.com> wrote:
->
->> -PACKAGECONFIG ??= "archive"
->> +PACKAGECONFIG ??= "archive sequoia"
-> We can't do this. This will add 14 minutes of rust-native to
-> everyone's builds. Rather you should adjust PACKAGECONFIG for rpm in
-> the selftest (and your local configuration).
+From: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
 
-I'll look at how to customize the configuration in the selftest.
+As a user i want to override `RUSTLIB` path on a bbclass, lets
+call it `XYZ.bbclass`.
+
+If a certain recipe inherits `cargo.bbclass` and `XYZ.bbclass` the
+value of `RUSTLIB` is dependent on the order of the inherit.
+
+If `cargo.bbclass` is inherit before `XYZ.bbclass` this will reflect
+the desired value of `RUSTLIB`, on the oposite, if the `XYZ.bbclass`
+is inherit before `cargo.bbclass` then the `RUSTLIB` defined on
+`rust-common.bbclass` will prevail.
+
+Changed definition of `RUSTLIB` to soft assignment to make it overridable.
+
+Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+---
+ meta/classes-recipe/rust-common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
+index baa3869c47..31331c7a26 100644
+--- a/meta/classes-recipe/rust-common.bbclass
++++ b/meta/classes-recipe/rust-common.bbclass
+@@ -13,7 +13,7 @@ FILES:${PN} += "${rustlibdir}/*.so"
+ FILES:${PN}-dev += "${rustlibdir}/*.rlib ${rustlibdir}/*.rmeta"
+ FILES:${PN}-dbg += "${rustlibdir}/.debug"
+ 
+-RUSTLIB = "-L ${STAGING_DIR_HOST}${rustlibdir}"
++RUSTLIB ?= "-L ${STAGING_DIR_HOST}${rustlibdir}"
+ RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=${TARGET_DBGSRC_DIR}"
+ RUSTFLAGS += "${RUSTLIB} ${RUST_DEBUG_REMAP}"
+ RUSTLIB_DEP ??= "libstd-rs"
+-- 
+2.34.1
 
 
