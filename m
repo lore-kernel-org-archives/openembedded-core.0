@@ -1,94 +1,134 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F53C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 13:49:46 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.12790.1738158576522005038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DCE6C0218D
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 14:38:57 +0000 (UTC)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web10.13957.1738161531923000445
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 05:49:36 -0800
+ Wed, 29 Jan 2025 06:38:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ABTEqN9I;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385f06d0c8eso3818950f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 05:49:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=w64PQ38E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.177, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e549be93d5eso12235271276.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 06:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738158575; x=1738763375; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I7kVnPNqikEFEiqn8mupr6R5iB84/0QJ9bpF4KKUOCo=;
-        b=ABTEqN9IZc2D+D3ZjaCyPboAqkyyMDCabKYlVhpxv5PuKRZB7c9Tvx8z/3HFa0LlJa
-         +EaJqbk/Dio376fKriGWo8Vf8/CmSfn2elpjzgxvWmGlQtl9pI/7XM4cQZWisp76Z7pD
-         39uOr4XiL27Z7qAIFMZTj9d1THQ9m3vehylSGliFcPWSdJzTXGig+lW/+mPrrCFIhLoy
-         lRl2fIXhE27fuZHG0ks2j/+uoQfV4T5ZZ4M7hYEqImLHo8ZMn1JYVKcwCRdYuBvm3fFI
-         Nc8yYcgMv7plo1VBVYpYPZXAJH+dLMUDfRM/t9pJ+AjP9Ri8lM6TXuAuwUReQ1BXAMlK
-         Y9fw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738161531; x=1738766331; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yxf2BQWIEOJRR+Eqj0WQ9lMvzdBeHXT6+xPW6IvzDlw=;
+        b=w64PQ38EAPwNU+gG9rQlbpwjtIly8dAy2ZstyRtn0QvmgL31lsz1If0MMJtPp8OyaM
+         EQbyIR/r0hsUVwHP1YC6LA3LvS+tC9m5O1YcZh/Amn3933cCicVKExAC1H1NIYIbWyYY
+         obCa8iT2De7ULZA+jFKxPkGxs++7Sil7lA2pAliWTCsUv5bzoDmECASM8Gwu0kJsnuqb
+         O8aoUbM3UW9+paI5w2MX0ScRpl48j2jif8Txz3INH67srGos0OoQ45rQKwQXRpw1ENVA
+         3FvcorNx0GgmFUk6171qmEZD+1uRWf1wQcsG8SFFKBtfxmB6V5jrI0jky39F2hpxjdPH
+         jzsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738158575; x=1738763375;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I7kVnPNqikEFEiqn8mupr6R5iB84/0QJ9bpF4KKUOCo=;
-        b=eianTGu/MXzwBWOHsx1ghsuXqaAotjVMF9fjacPmxscy4Gp6X4OfyZPZIs9pkjYrI1
-         QL7x1++b8GRzqHTG6j9qtpzlZ7CEIMRI+1CLIrB/SfqC+MJqk3GW4t85o/6P5NgEgeyt
-         LYeOBLEdf5ljiFRCa1HopusHavo/oKuXfZauiSzM2isJxuvjBsLa3O83T5PJD8KZseJ/
-         YMUKyzIlkkbs2CN4+UXK25SaBttFilAYdm0cDLs9+zSF7AqylDIcCPyMYFE4TtQTxv9N
-         NHT6RY4rLsxjYGnvBdQnIXW0SFqXMKxhUSlcZVyoaEbpFMKkK4o/0Shu1wHIef9Wi6J6
-         2/tg==
-X-Gm-Message-State: AOJu0Yzv4YhyCHBtXE0OLh/g34RtAGFMMOnglb0bOwfWIEnTLO4cTYFJ
-	N/yikpyqYn0tmqJx0Af8SXzF0g4i199fP1QK05gwk1VS2Ncozh+J
-X-Gm-Gg: ASbGncvuFbGWE0IW4d9VnFIHyoFV9PWDtE98JDzyQkjqqg5VfnAPM2hlTNudropUzM3
-	1ZSPGn1+2NPWmpmfrhAkswtue78lHAXxBvw/a2/ijYsY2FCwPnstdNSp/0tKPoSIhHNUTIQARWv
-	7/Q5/2EjVDxEM9vqyLzQaRSVxEi20AsLCjBU0NayJaoH1TvJkiG2RZVVBiIDpIXt6epma1bvYfs
-	eXQDSiMGdY9ZtNJWKCi6Zunmwrvdjk/hO9eR85Y8PPu8tg6Jzy134+4ptB8636Ikz+fwUVhFkAO
-	n/h2tIttiBinVgoq2hDcX8cSnTVnuM5HRBcfmQZxOjEjogRc
-X-Google-Smtp-Source: AGHT+IHZxn+0uVTOjnpWpxe82/Y1No5i1jJoH7i+B20s9VJ24GvjcXdZe4g9M9I1pUX7Fbo8CX/Gtg==
-X-Received: by 2002:a05:6000:2c3:b0:38a:888c:679c with SMTP id ffacd0b85a97d-38c520a309dmr2956008f8f.42.1738158574577;
-        Wed, 29 Jan 2025 05:49:34 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1c3bacsm16869677f8f.83.2025.01.29.05.49.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 05:49:34 -0800 (PST)
-Message-ID: <7a3ff3d8-3406-47b1-99f9-b857a31ebd18@gmail.com>
-Date: Wed, 29 Jan 2025 14:49:33 +0100
+        d=1e100.net; s=20230601; t=1738161531; x=1738766331;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yxf2BQWIEOJRR+Eqj0WQ9lMvzdBeHXT6+xPW6IvzDlw=;
+        b=ryB5yPmotBjkpBcANY205D+V1uQqkePUbQfXB0GF7PGx/r6OdvBnbmml0i9b0ZvJXl
+         5/2lIh3p4TfXLM87fZsDvxZo36YTNBGGv1tLglbtfyk2lPY2Fkkv7CE7yFmOOVa+IkDR
+         3nfD25atWIeSztjc5MEnQRK4E7v0BlobIVcT8U/PwdgJWjuytXtZgoV5mUVhEVTW1Xaj
+         GqcEx4z7y8LWAsTbbg7CIXY0a+ZmfsGQy4BFXx0NGSOqpNkMq42wlHoEkcklu7Njv+j4
+         eNajP9lVeXg+MdWMGJuT7C5umMh14vjbZpGnEbdmTw3IEhtHUy9KaoAr1BBS5NG7ohac
+         Wl5w==
+X-Gm-Message-State: AOJu0YyhsNSV0eXSn4LyqqNC8Q3AS9zCfZBFe6HX8PeD3rJ18juRnvn0
+	KThoPUZOY7JArQNNDx/fDRJUrcWBYkLuMSf5RV+uZuC3Fn3yP6YqDGpWQUBLBJYyJseY3ied3oQ
+	Z6bMk9EcKJcw56/f4XvgwkYOyqL4teIHW3QYEYA==
+X-Gm-Gg: ASbGnctXB1nw3WoeCifFw/nA+MGfWCHSHOn/8atYWW8ugCeZQXuEkg3+nV36+jv8rCf
+	Ecivef5oRMnjJ9Dvky3g7DLY+VdRFWsKH40nMexKFXQldQ1EDb5YZcK3egkFfRYIX3xe/HbS8
+X-Google-Smtp-Source: AGHT+IGrAIOCNB7L7UaNY2fkk4Rhug6Vt/aKd+/JWF+ifpnqKCjkv7RQm2fdnomeLWRYO/PryNm7qE8R9QPAmi4+tvY=
+X-Received: by 2002:a05:690c:6ac9:b0:6ee:65ae:2184 with SMTP id
+ 00721157ae682-6f7a848f089mr27502837b3.37.1738161529555; Wed, 29 Jan 2025
+ 06:38:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v3 2/2] oeqa/selftest/cases/signing.py: Re-enable
- self-test
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-References: <20250129124741.4115324-1-zboszor@gmail.com>
- <20250129124741.4115324-2-zboszor@gmail.com>
- <CANNYZj-123Mqr8zyCjmtqyE6BYD2R=wVRy+5NMACu18KAdidSQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj-123Mqr8zyCjmtqyE6BYD2R=wVRy+5NMACu18KAdidSQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250125154215.3316474-1-gudni.m.g@gmail.com>
+In-Reply-To: <20250125154215.3316474-1-gudni.m.g@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 29 Jan 2025 06:38:38 -0800
+X-Gm-Features: AWEUYZmihibosiiJDv1fYgyj80vuhGuX5wamqQmn62mfOafdQMrUvO-v47SdkB0
+Message-ID: <CAOSpxdZXZvG2XcXDeDXV8wKC1sDHchOihQFk4PVnKS_M5+xqwA@mail.gmail.com>
+Subject: Re: [OE-core] [styhead][PATCH 0/3] Cherry pick commits from master to
+ sync styhead's gnupg recipe.
+To: gudni.m.g@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 13:49:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210384
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 14:38:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210385
 
-2025. 01. 29. 14:05 keltezéssel, Alexander Kanavin írta:
-> On Wed, 29 Jan 2025 at 13:47, Zoltán Böszörményi <zboszor@gmail.com> wrote:
+I'm getting a build failure with this series:
+
+| configure:
+| ***
+| *** You need libgpg-error to build this program.
+| **  This library is for example available at
+| ***   https://gnupg.org/ftp/gcrypt/gpgrt
+| *** (at least version 1.51 is required.)
+| ***
+| configure: error:
+| ***
+| *** Required libraries not found. Please consult the above messages
+| *** and install them before running configure again.
+| ***
+| NOTE: The following config.log files may provide further information.
+| NOTE: /home/steve/builds/poky-contrib-styhead/build/tmp/work/core2-64-pok=
+y-linux/gnupg/2.5.2/build/config.log
+| ERROR: configure failed
+| WARNING: exit code 1 from a shell command.
+ERROR: Task (/home/steve/builds/poky-contrib-styhead/meta/recipes-support/g=
+nupg/gnupg_2.5.2.bb:do_configure)
+failed with exit code '1'
+
+Steve
+
+On Sat, Jan 25, 2025 at 7:42=E2=80=AFAM Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
->> +        feature += 'PACKAGECONFIG:append:pn-rpm-native = " sequoia"\n'
->> +        feature += 'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'
-> This and the other patch are now fine, and can go into testing. But:
 >
-> - bonus points for updating the signing section in
-> yocto-docs/dev-manual/packages.rst to mention the above
-> - extra bonus points for updating the 5.2 migration guide in the same
-> repo under documentation/migration-guides/.
-
-I am on it.
-
-In the meantime, I am running "oe-selftest -r signing"
-with the patches on my box in poky.
-
+> Gu=C3=B0ni M=C3=A1r Gilbert (1):
+>   gnupg: remove obsolete patch
+>
+> Wang Mingyu (1):
+>   gnupg: upgrade 2.5.1 -> 2.5.2
+>
+> hongxu (1):
+>   gnupg: upgrade 2.5.0 -> 2.5.1
+>
+>  ...erride-init-is-not-needed-with-gcc-9.patch |  2 +-
+>  ...-a-custom-value-for-the-location-of-.patch |  6 ++--
+>  .../0001-fix-compile-failure-with-musl.patch  | 36 -------------------
+>  ...use-pkgconfig-instead-of-npth-config.patch |  2 +-
+>  ...h-fix-find-version-for-beta-checking.patch |  2 +-
+>  .../gnupg/gnupg/relocate.patch                | 18 +++++-----
+>  .../gnupg/{gnupg_2.5.0.bb =3D> gnupg_2.5.2.bb}  | 15 ++------
+>  7 files changed, 18 insertions(+), 63 deletions(-)
+>  delete mode 100644 meta/recipes-support/gnupg/gnupg/0001-fix-compile-fai=
+lure-with-musl.patch
+>  rename meta/recipes-support/gnupg/{gnupg_2.5.0.bb =3D> gnupg_2.5.2.bb} (=
+85%)
+>
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210265): https://lists.openembedded.org/g/openembedde=
+d-core/message/210265
+> Mute This Topic: https://lists.openembedded.org/mt/110808443/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
