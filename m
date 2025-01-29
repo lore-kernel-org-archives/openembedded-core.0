@@ -2,96 +2,89 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10842C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 05:32:54 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web11.6662.1738128764862581633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 191F6C0218D
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 05:37:04 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web10.6852.1738129014025948416
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jan 2025 21:32:45 -0800
+ Tue, 28 Jan 2025 21:36:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IBBUoPRv;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6dcdd9a3e54so63677966d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 21:32:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PnfrhG6a;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6dd16e1cfa1so50691066d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 21:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738128764; x=1738733564; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1738129013; x=1738733813; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QGTZPol/z3gzn5R+WTV/9S1ExiA1l08cdPHQrayRYfo=;
-        b=IBBUoPRvLU2E7JLBbUVGyK98iU2+Oe2LMBd44sDHdhYuvsoNBJWCpJf+y11yxhdJXF
-         9kpL8IRzmtsYyWFQxvNfz+ngRYXT3zsUmz0x02KUJDhi/p9OGf6ow3S1hDaD0CJdaEq3
-         K+9WJu2ktEdemk5a/JO3J9r9oRNfLNMhuWQnE2HO5Dz+1wHB+60L27CrpUZ2HEBDEi5w
-         Sp4aUM/Q/ZBek/pTvXV5N0SRbVzoKs9h89xFOm0dEwCxg2tbqc14QIlOW4qAeb/ghAEy
-         dtRVeBYn/XNTBx2Yb92K31lbDzSKMpRgjq6A9LtTjJCjxAb0LEB/jouV+wB7SyRZ/N+r
-         ojsA==
+        bh=aBh80HV8T6kw/I1cN3fg8otPQwvm72IHaFlGDluERQY=;
+        b=PnfrhG6aaPzGLvQ7VjiZ0gWojg/HxHmGRkSluEXMWUz2g8k6ANY+lEyxOrY5xAMZUK
+         OnS0thL5EYfAiUz1vjNQHmqmx7p8bvMNimSWm3XKaxntrVWJ/Pv2SpzBIQiP/OuXWh83
+         GOgTNx6fMmDgIg1tKIDxpkFKglEHW4wJ/erfVd+HRGRg0ryiBT9L/nXHT4PGcSOvviOa
+         eOfEA4QEom0Lk/B8ZWG+9YL206iaATN7Rmc5qEw9BnbCbjz+DspAN/IpUMlRuQN0dP+Z
+         yqSiTY38HXZZssp2ybFFxFc/YOuT8UTcStUQ721+tEwhMrZJ5vrqv6oZ5EDm1ZhJpRQZ
+         R8gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738128764; x=1738733564;
+        d=1e100.net; s=20230601; t=1738129013; x=1738733813;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QGTZPol/z3gzn5R+WTV/9S1ExiA1l08cdPHQrayRYfo=;
-        b=vaBTQBSrLN+FuMesni+YNmL9Po6u3AkQB0E9mg5GB6n+C01SEyN3UzdvCWbBjt1aMa
-         8BhcojXS+xlvlhGwOW6TmVpw5nZf9bPwhCbsFavF1SUniOoxoJjHfIJ6m5ryPw/qLo+b
-         BefgZW9PHwcHZi3oRS+UnI+ktNHfxxUXrAeBylS2TvvYaY2tIE0I41eHAkBrsyoZ3xgF
-         9gPsqeRLmbVqvmARxQ/8qfXgcZ6qoMCeAN/OvNNlxTCwu64NJAAKdyP9lycSyFes864D
-         F4NkMq7mKavdyH576VD6Ty/ds780czpgLwfPk+CMQCip3Oacd4LouNSms0TXyyJGS38c
-         9F1A==
-X-Gm-Message-State: AOJu0YxXdve4XpxBeXkcZUNkl3ZEBsm2ynrNVfJC3+T7YIhaKlW6F5vY
-	de8Vpnvn2BmZZVv98I/RluFVbDh2lMcOJjnFRpneNmnFlNhqUD8616+ExwZ5x7CmYu+Cpm6skir
-	ZMSxjhcxlSeu/u5gUmjutmvkJDvI=
-X-Gm-Gg: ASbGncvZA+Sq8g9MlU/2Xvf/cm868hOfSmECSQJx115FXgaDTf0x10l3kVI4nE+I2ta
-	OgLyd0b53pQeBWQbSkDaK7ThuPPFlMFaeGENckPCGqpS3TqE2Ymem+XtGc3tWwjEjdnFfQ1XXDJ
-	6C4HJbNlHvmjRXxwGDca4H81f+8F8KysFHGdnmFHGx+A==
-X-Google-Smtp-Source: AGHT+IG1w5OHQ9H8MuQj9TPrUoHF+m7wyQ3+5VqueJZ8iIqDSj+UfsMM1svHFL0k1DnYzZKTVuudYgTnYIAqjxfoCOI=
-X-Received: by 2002:a05:6214:242d:b0:6d8:8667:c6c2 with SMTP id
- 6a1803df08f44-6e243bb958emr30332236d6.18.1738128763866; Tue, 28 Jan 2025
- 21:32:43 -0800 (PST)
+        bh=aBh80HV8T6kw/I1cN3fg8otPQwvm72IHaFlGDluERQY=;
+        b=BHMTz6xJ525APi3rrGoUhX8cnlPTW2WTbLm+7atUm7dWMSBQm4PL2r7T/ySCSg84Zc
+         MmUIk4vkVxRp+D1BYn78d1oHAv9MHkWsYY/oHHMp1eekZr+7toi52MYLOlf1KPkvoyzD
+         9VtMMYHVTaqFeDHbKtFDMSE79Mjyin3Mvy4N71PxGarFnGQaYHv00vUFloT8wi7Y2U1v
+         +ne8CFWSgqmBaj5R7l/Y67mgR3EYtvuLJiRXGZpcAXL9vzpnF6psdrbxd33WIZTHZy0E
+         zr8yR9ZnqtczQBda/KyV53wylrwkX92u0hsJqACwTYYBMSNWsg+DgW7hyeVvu0ogdpOh
+         3hNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6jDUreE24BDTdjoHPMtM+6L66e1AMHwESFtHnuNQWfkyclYlL6pbwfmHAO8PvW6mmGJbEUpKqPgwzdc+/jkQ8dA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwtGqiXNO63/Ac1s8B07thtqNST+ZCiE8uam/PUFp5QQq2V6Sy0
+	uWhayyzcLqEhMr5WspdId/ow00T/u86r98JXsguv4o6XZHSIAIRYxmOKG00LDomjqAIARbKuaAL
+	TfgSzsSteBcyCh8XKArAUnP8fg4k=
+X-Gm-Gg: ASbGnctPLE7SuT9582edvAdJN7677Jy1cqPCD74/M2cFGM3cKujtesFp8MgrjCOXUtP
+	9uRe2dRI/udlYDRC9kFToZPOq4k1M8jgovyf3soTGcFba3kbvsUDGZp2MdEOg5KfVr8UX6Obxae
+	dFc0qc2X9syl3hdV9lgYaiFUugTMIgfDU=
+X-Google-Smtp-Source: AGHT+IFpxSUtNYK/yBpsXeKXmSIOwIkt/aKdTojSu5GdL2Lj6eWxyCuPgTA1AO+9QhZCBR7ijWOnIVDyratBsFAysuc=
+X-Received: by 2002:a05:6214:21eb:b0:6e1:a36b:3445 with SMTP id
+ 6a1803df08f44-6e243bf2c20mr28702846d6.19.1738129012995; Tue, 28 Jan 2025
+ 21:36:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20240726133559.1124668-1-sundeep.kokkonda@windriver.com>
- <CANNYZj9V8K5upKxUdA8U4OXsdvt_+TTen=MogiVjJfqkV7jOOw@mail.gmail.com> <74363653-308f-4465-8bf5-4f8aab01379e@windriver.com>
-In-Reply-To: <74363653-308f-4465-8bf5-4f8aab01379e@windriver.com>
+References: <266ca4d1-62da-401a-b766-ab6b13c6753b@gmail.com>
+ <CANNYZj-CNT8_yXKLB6PApG=Mknx=TKz2TAosgh17LiH1LQ0_fg@mail.gmail.com>
+ <f8de4060-bba3-4a5c-93f5-eb4685223a73@gmail.com> <CANNYZj-tW3k01HstKJymLz4A9WOmMY6EhugyrhzZVEoH96pHkg@mail.gmail.com>
+ <ef779855-5513-44b6-8b85-f4c07fa69756@gmail.com> <0a4e3939-3361-4656-956f-ae11af7998ac@windriver.com>
+In-Reply-To: <0a4e3939-3361-4656-956f-ae11af7998ac@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 Jan 2025 06:32:32 +0100
-X-Gm-Features: AWEUYZmyMeAnpDegq0WHs17bIvx_b6Wp2g4oILGVzs2BSCHJ5YgWHkpn-1bBu8I
-Message-ID: <CANNYZj-egdbGeyLRRQKT2+ewmfNWC6SxJKy-yDDGQtaUZYp4tw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility issue fix
-To: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
-	naveen.gowda@windriver.com, shivaprasad.moodalappa@windriver.com, 
-	yash.shinde@windriver.com, deepthi.hemraj@windriver.com, 
-	harish.sadineni@windriver.com, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 29 Jan 2025 06:36:42 +0100
+X-Gm-Features: AWEUYZnB6_0rGqZRa1qTcZVY1NMrmxaPbjz1vBDFsN0yiFbQ8LRpGJpjJtG9M2k
+Message-ID: <CANNYZj-DWb5SjEOguzTYgteQ5=rV6wpNuQzpm8+mGniS6ZN2uA@mail.gmail.com>
+Subject: Re: [OE-core] RPM signing errors in Yocto master
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: zboszor@gmail.com, openembedded-core@lists.openembedded.org, 
+	Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 05:32:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210344
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 05:37:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210345
 
-> I just ran some benchmarks to see how much disabling parallel
-> codegen-units affects build times (the parallelism is only at the
-> crate level after this change), and unfortunately the increase has
-> been significant.
->
-> As of current master, rust 1.81.0:
->
-> rust-native 527 seconds -> 853 seconds
-> rust 1123 seconds -> 1688 seconds
->
-> I presume the codegen-units parallel issue can be fixed properly by
-> adding a sort somewhere for determinism, but finding that spot is
-> probably very challenging. We do need to get to it though.
->
-> Can you please point to the request/effort to set up reproducibility
-> tests upstream?
->
-> Sure Alex, I will look into it the ways to optimize it. As I remember, when the 'codegen-units' count is increased it is causing rustdoc binaries are not reproducible.
->
-> I've to re-test it with some higher values of 'codegen-units' on latest rust sources. I'll test that.
+On Tue, 28 Jan 2025 at 22:52, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> A patch to enable the signing using  a PACKAGECONFIG for rpm would
+> likely be accepted. Off by default of course and a test would be ideal.
 
-You can simply drop the patch and then rust will pick a default value
-of 16 for it. On 1.81.0 that still makes rustdoc unreproducible, I
-just checked that.
+We already have this in rpm recipe:
+
+# has replaced openpgp support and is written in rust:
+https://fedoraproject.org/wiki/Changes/RpmSequoia
+PACKAGECONFIG[sequoia] = "-DWITH_SEQUOIA=ON,-DWITH_SEQUOIA=OFF,rpm-sequoia"
+
+I also have a half-baked sequoia recipe:
+https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/rpm/rpm-sequoia_1.5.0.bb?h=akanavin/package-version-updates-later
+
+And there's a currently disabled selftest:
+https://git.yoctoproject.org/poky/tree/meta/lib/oeqa/selftest/cases/signing.py#n62
+
+So someone needs to take all these, add meta-clang, and make it all work.
 
 Alex
 
