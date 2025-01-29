@@ -1,83 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D449C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 08:57:15 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web10.8776.1738141026298036611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BDDC02192
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 09:00:35 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.8650.1738141232875298256
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 00:57:06 -0800
+ Wed, 29 Jan 2025 01:00:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YnIxz6Px;
- spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-46df3fc7176so59504931cf.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 00:57:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DcInVnKB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso2828945e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 01:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738141025; x=1738745825; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SBAOy3Nj+dHtMFPV6oJfhcnjH8jZJtJ9ejFJT2UIm2o=;
-        b=YnIxz6PxH7rynOIcoctQgE1+94MGJdeAxR1e+qwyLXo0JAHhpB4hC6Tg0W8ZeljXeH
-         +9j2FekdHhdzwLLQ8Jyt0RxHKf1sGl8Fqr8ELdfp7UI1Y5asa0RbrQgXcRV0RzXvO25C
-         djyFl4Vm9GV/pH5vZf8ytaXYDBK+U+QfXiDsR1yu6eJAAoh70g6vFeZGkpZnFsrciLM/
-         XZL7fMhW1ixQPI3adxvwv752wasul1qnC5ygA3oMD84cys2QQXfSDqZMDeKcMokblVRe
-         QKrcHK8c6FnYApboD2kfZjgD4JYa1VDjq25MCSWXnSZRG4KHdJOSa6zqL9NIooAKTNOb
-         ntjg==
+        d=gmail.com; s=20230601; t=1738141231; x=1738746031; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RQcGDeU//OyTNAB/b/JDbpCaZ4A9998lfixNP5gkHJ4=;
+        b=DcInVnKB3vgRi3J0LHN8Le64BTngToecJ9wPUVdmhO+MnLouJn9LBpSXAXISp90epJ
+         qZRcTDMXm51oRy5yWAR859btgt1M/21jfw0Ah8tXMvzVMqLg1mBvbPC2X4O3C0l9H4UA
+         Nl4JCfEUg3TyB2SYE4cJEND5nB2+W0u1/aBh21Lv9PL1qQ9MOnSkU5Jwsm0qYvFo2usr
+         v5aEDh9XZWoW6gtWKT8cpqwBEDcvyhBTyM0GexWFETwUSVaiIGEjWRHmnn/Apn0tvfhz
+         VZahwYW7PQN+Go9vVFhy3bgQD1HB1n2myJTePE0egl547tZzPdOEOUcQpVCcMIkYMKKS
+         PVrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738141025; x=1738745825;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SBAOy3Nj+dHtMFPV6oJfhcnjH8jZJtJ9ejFJT2UIm2o=;
-        b=XeWPKZm++Jcrj0kEqGRvXKiuzrj4x4YMod3+Odt7zGBWXdhJJMNYV9bf6EvscUrK21
-         Et3dU4F6Zp2HVNoTSRlSgCKsMif+cJE0pNmOcmUywYW7Rz8FZ3EV/QwtojSQRahHBMsu
-         ISnbd7TJFD+qSOV1s7x5PZKCUXARnKVgAwmdHF5qOl45BwqJXKWbQQyR/D7ostUobsV0
-         rrTcvCFlGRsNbfYV7tJveBWR5/P6/7397Z2XKOFvZ41wedwXlBWGce3SRNs+hG87QsKx
-         K0dLBoHEGp01amtwr5YpHO9XLZv7rlsT12uSKGFAgAzNWk/n1DhKowp01DXnZRRtdsTd
-         Mp8A==
-X-Gm-Message-State: AOJu0YxpZaAZk8KBU4g6Z/A+D6OVODM9FuQptoUvpTTjc+kuL/XJR5P1
-	tdOOEY+dDzj7G2VzPbMYsyvE3FIhEZFnf+Nhz3T+wNq75r/k0YpHdPji7IFag/FDKzLp0hpbMso
-	8LhXxM4hOGb2VwZNr8xuAUBgKh24=
-X-Gm-Gg: ASbGnctMezBpM1YTq3vWHfcvm5Od15cjTRLzugwRzy0Rpa1F+FN8mPusYhsFhxQrvo4
-	lGEFKqD3dSQjMXiTn/JMKde3/Kb5uyGkqU9vTB1Cb/4387nElxkbKGSGoRiV83403JrjfCx6wNd
-	AXvrujRT7t3m7Dz0HrKMWZr/Zj+6wz2uw=
-X-Google-Smtp-Source: AGHT+IGlSBAEah41xkFIzJ1+gL0a3h1ahDHkPuMG7p4dcZmNtiZMcKWd76bEMc+jU5DIwk6KmZT8AR8dO5tc+eEiXUY=
-X-Received: by 2002:a05:6214:29ea:b0:6d8:80e8:d567 with SMTP id
- 6a1803df08f44-6e243c2b69bmr41316616d6.18.1738141025273; Wed, 29 Jan 2025
- 00:57:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738141231; x=1738746031;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQcGDeU//OyTNAB/b/JDbpCaZ4A9998lfixNP5gkHJ4=;
+        b=G7YU2BOZLQvILyTXbGwMaZIPCSYiq00CzKRCUdBgWXXl1WIZqWl4qJvfYk5Z4AX0rq
+         uXXWapgxUfEDQ0KFIyXOtVh2B/Bq8lX+cYSo18zaTQiGGN48EyL4e+AbLSJG5fo6GRZP
+         x/ji3GoKUTzqVm71r7+/VOkKnX55VBItVyRKib4K2ZYjmVEtXfcNySQr0gY/9CSekYyP
+         YZFPf4dwKytYnTrQs6nVzinAUMEEQfXlcxxB/IMGQrBSgIkwJH+TbZ/WMAkbvuhV0p4I
+         qLcsSGZk2XE8cjqezvrUgIGVG0qmS+xdnyRbOPjdZ73wjy+liDIWkgzFiifwk2fvH4Qy
+         Vxzw==
+X-Gm-Message-State: AOJu0YwoZt6opAZqOtDjzbEr5doYeUUVrvd1+HRLI3DYUTjModZrOKCo
+	wWphbZn3897e6F9h8RNn2VX6yZVYh7qxrsI+4mVtWLdo/uUpRdlV
+X-Gm-Gg: ASbGncucG2Tbyr/nN56Z52+41Plx1guXxlTjCZxBtixeiabl1M3o79t3ktd13MmLeaq
+	nM0m9a7GA1MM6RcIijsHJkBR17mpPtWL+y7aED3pEUwgQJBJSm0Yjr3YC+iiYDX2aXf9DM6D4/9
+	eUNX+/IpTK+hlSAYW8B9R8v7oL2l3zplP4ippi5fA4+F3t6xlQ3Ujp6KHCK6zkJaxhHKd+JIAxF
+	eALltklBvoVOdOqQpGsd3J1HMK/bgwo+S7GPawpkDe/1Ze5qCweXWzjUno7nNisAKjWQHCVmMXb
+	d1oIh0PZ4IMt2ntol5DvvTvxYf2PrS1nNboW6fBZFotAtXbY
+X-Google-Smtp-Source: AGHT+IFQ1LnKf89c6VEH9AA8F8Gfr95qyk4RjFbBxp13Nko+pc6ipVV3DAFZQFfVkCk0rtInI4zBUA==
+X-Received: by 2002:a05:600c:1f86:b0:436:e3ea:64dd with SMTP id 5b1f17b1804b1-438d599b97amr56271335e9.11.1738141230904;
+        Wed, 29 Jan 2025 01:00:30 -0800 (PST)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc33e3bsm14854855e9.30.2025.01.29.01.00.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2025 01:00:30 -0800 (PST)
+Message-ID: <b5aef63b-bbab-4bb2-829d-913ffda1ab3c@gmail.com>
+Date: Wed, 29 Jan 2025 10:00:29 +0100
 MIME-Version: 1.0
-References: <20250129080902.1863054-1-zboszor@gmail.com> <20250129080902.1863054-3-zboszor@gmail.com>
-In-Reply-To: <20250129080902.1863054-3-zboszor@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 Jan 2025 09:56:54 +0100
-X-Gm-Features: AWEUYZlqd9lpzjYeo9qMTSFEMLcdrBYt0NVjzBIUlHI4OQnZyzoHKuzJe6N0Z5E
-Message-ID: <CANNYZj_hHHtuSfGMnwhCgDGg7YHzw2p4f4N-oCsHaMTVFviqYQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 3/3] rpm: Automatically enable using rpm-sequoia
- for signed packages
-To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 1/3] cargo.bbclass: Allow using --offline instead
+ of --frozen
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
+References: <20250129080902.1863054-1-zboszor@gmail.com>
+ <CANNYZj-kk=EZMRopOVDVpEVhwzWYSAabSCWWbF7fE7atMN6bNw@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj-kk=EZMRopOVDVpEVhwzWYSAabSCWWbF7fE7atMN6bNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 08:57:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210352
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 09:00:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210353
 
-On Wed, 29 Jan 2025 at 09:09, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zbosz=
-or@gmail.com> wrote:
+2025. 01. 29. 9:49 keltezéssel, Alexander Kanavin írta:
+> On Wed, 29 Jan 2025 at 09:09, Zoltán Böszörményi <zboszor@gmail.com> wrote:
+>> | error: the lock file .../Cargo.lock needs to be updated but --frozen was passed to prevent this
+>> | If you want to try to generate the lock file without accessing the network, remove the --frozen flag and use --offline instead.
+>>
+>> Add a CARGO_USE_OFFLINE_FLAG = 0/1 flag to allow using --offline
+>> instead of --frozen for such cases.
+> If you add custom patches, you indeed need to re-generate and update
+> Cargo.lock. There is code to do that in cargo_common_do_patch_paths()
+> in cargo_common.bbclass, so please check why that isn't working for
+> you.
 
-> +PACKAGECONFIG ??=3D "archive ${@bb.utils.contains('PACKAGE_CLASSES', 'si=
-gn_rpm', 'sequoia', '', d)}"
+But patch 2 in the rpm-sequoia recipe is what "cargo update" created
+in devshell after patch 1. "cargo build" still complained.
 
-PACKAGE_CLASSES is not meant to include things like that. 'sign_rpm'
-should be set with INHERIT.
-
-You also need to re-enable the signing test in
-meta/lib/oeqa/selftest/cases/signing.py and check that is passes.
-
-Alex
+I will look at cargo_common, though, thanks.
 
