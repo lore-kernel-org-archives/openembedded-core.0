@@ -1,100 +1,192 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alistair23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54939C0218A
-	for <webhook@archiver.kernel.org>; Tue, 28 Jan 2025 23:31:22 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1291.1738107079902391524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0FBC0218A
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 00:38:42 +0000 (UTC)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+ by mx.groups.io with SMTP id smtpd.web11.2508.1738111116609510025
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jan 2025 15:31:20 -0800
+ Tue, 28 Jan 2025 16:38:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LEoaMJvN;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dF+L/rLX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010194af4148cb-460dd05a-cf45-4494-b4c7-4ca13881edda-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738107079; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=GOSmoqICYjlOfCiclYlWOd2VcB3SvUzyAhUWGXQYeD4=;
-	b=LEoaMJvNjDkN39P7iS9XA68JchZkR7Nf4mGqDODUO91nQ6zQPQ4/Bxj5uRLAkDGL
-	hTcNREAkFGgHEMkbvZ9D81ziRDTKdx5hqrylYHQLc4Teew+1pJd8RJiSvDCg8SUzaq2
-	Tx58Fx2Zr+BaM5KC208K9lO0wnfSQprWd2lh64J8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738107079;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GOSmoqICYjlOfCiclYlWOd2VcB3SvUzyAhUWGXQYeD4=;
-	b=dF+L/rLXX8dwvwhYUT7iauYLIhnvghbL778N1gIugna0MSYGWMVk7TRnc5fwVti0
-	XM55zW898f7ediccFVv58/P6Ru/fSwJ5N2Sf+O7BxbFXmzBxxHRP0kFGN7wD7ljlfI9
-	yCsBpDP2fa9tyljfURZZhJKEdzAE0PUGy+yEjR/0=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] rt-tests: Fix build with glibc 2.41+
-In-Reply-To: <20250128231427.2404724-1-raj.khem@gmail.com>
-References: <20250128231427.2404724-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194af4148cb-460dd05a-cf45-4494-b4c7-4ca13881edda-000000@us-west-2.amazonses.com>
-Date: Tue, 28 Jan 2025 23:31:18 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.01.28-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oa0NIl2a;
+ spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: alistair23@gmail.com)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4afed7b7d1bso1754388137.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 16:38:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738111115; x=1738715915; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=09eGjbIygG3NgnUiLYPkLNWBolAvDTIqomt+925oKOw=;
+        b=Oa0NIl2a6GKiImDI5RsEmuO2j508N5GHCaf3w2qF73aHPp00pbcrabVh+oqvhq+Opm
+         9dA4KRL/Q4VMHOqyknjy0E1keJHiGz00CNZYGG/o3DMYqviOoiu+9onlSBd4smob7A3m
+         uaBzoLo8wwMkhqSYy+1wapFEyTjljrGFZv3D6POO5B3NIcFj7NA5EwRh6BJst0Y8TV8G
+         KO9m1I8iALumbkUlgm5rHwJYA5GfRAqrLg0e8MwkBVwCInxv5zaLEVMidWk6uQ1zH6ji
+         V8qC317D01c99FCJgAmaOT5+OTP711O9KguIpDXPuGlgyH/xI6RRsIiBnyyXlqzgn0nK
+         Kckw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738111115; x=1738715915;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=09eGjbIygG3NgnUiLYPkLNWBolAvDTIqomt+925oKOw=;
+        b=iFGL/GLn2RGgXrYeXAg0aCJmCMjagEBnMKLaPWZXioGw741c0EJcPYz1/uOc0VRtvK
+         ACCuViCGNmDH95tcvTv2gYzaOIxqbK+50/9DrJHrAM2IytkqsDoJD81zbpNINHW6zCQH
+         d53GlnZha6DHsWQPZq/CCr0ydkaZUakwk8x1IWcfcC4JmT4zKXl5s4EFMk/jIwF8ehJq
+         bsCPBONx7S1nFsnarSwSf1OMD2bcN1ZCinM3L3YYqqEVs9+7e87kFFbU1pl256Egh9ye
+         HzqnTI3FXjYAULnE7vTNmNvRKciJqCLyNDjCD2kmD5SOLntIemLgkykwgeOlO/wDhUGe
+         bDRw==
+X-Forwarded-Encrypted: i=1; AJvYcCWk1a2UK7cMFZpwWQXIHmzAhAktg7txKl42iyJDzNyT16Re9eNMe6Qb0dItgm/lIay+xfJd1iROdnwpGYSA4xt0Sw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyt6RJMRKMKzfs1/ruZh9MEjzk4BhoeaTFldiSUSnWxZskvc0RO
+	V8Dnd0HPx8s1z34b5SU/CN8uz8hqJ9V/0Kc0Ruwo7tgs9UOqV6I4lGxg41ICuq9CzON8+SlXEHd
+	I3I0ksiQF4T2TAzYOhfNQCQwc8Ug=
+X-Gm-Gg: ASbGnct8CjGk6i+dbWvVON3ei078AXn5VUaFy21aPkYPGhRlS6140pm4kgVQNxXyynm
+	HA4waxOU6o4gm6W4A+yO/vlpqc4b4m3g1wJ26j/jgEwlPbm2MNSuaq/XHB8tzJn5OIvvh3se1rE
+	l8zCE0/NG09CYjywAj3VpIfe5GAg==
+X-Google-Smtp-Source: AGHT+IF8T35Rt08gSPgS+rltivGzc1n46rlZ4IJWTrtMU6+4Meg16ttu5QyyLuTCeM+u1qBLwY2qfkYxheoYoJJMR+c=
+X-Received: by 2002:a05:6102:3750:b0:4b2:48cc:5c5a with SMTP id
+ ada2fe7eead31-4b9a4fc2cccmr969135137.15.1738111115514; Tue, 28 Jan 2025
+ 16:38:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20250128101633.3664659-1-Yash.Shinde@windriver.com> <96981090-c00a-40cb-802c-f709450036f1@windriver.com>
+In-Reply-To: <96981090-c00a-40cb-802c-f709450036f1@windriver.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 29 Jan 2025 10:38:09 +1000
+X-Gm-Features: AWEUYZmeMaCm0qBKcb6_VdAP0sAbMDaPfHsqOZuj93eDJdUom3nLw3DXUbowrsw
+Message-ID: <CAKmqyKNHc0rGAAc=3cJZN+uQ8BPhSAyb96Y1+pFGt8bk=ouY6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemuriscv: Enable Sv39 memory address scheme by default
+To: randy.macleod@windriver.com
+Cc: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org, 
+	"Ramasamy, Rajeshkumar" <Rajeshkumar.Ramasamy@windriver.com>, Khem Raj <raj.khem@gmail.com>, 
+	Sundeep.Kokkonda@windriver.com, "Hao, Kexin" <Kexin.Hao@windriver.com>, 
+	"He, Zhe" <Zhe.He@windriver.com>, Trevor Woerner <twoerner@gmail.com>, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 23:31:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210339
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 00:38:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210340
 
---NextPart
-Content-Type: text/plain
+On Wed, Jan 29, 2025 at 1:51=E2=80=AFAM Randy MacLeod via
+lists.openembedded.org
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> Add Raj, Khem, Kexin and Zhe who know more about RISC-V than I do.
+> Kexin and Zhe are on holiday for a week or more.
+> CC a few people who have contributed to riscv* conf.
+>
+> I am not all that familiar with either qemu internals or riscv specificat=
+ions so any input is appreciated.
+>
+> I have some comments and questions below.
+>
+> On 2025-01-28 5:16 a.m., Yash.Shinde@windriver.com wrote:
+>
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+>
+> Currently, GCC Asan supports only Sv39 on RISC-V due to custom allocator =
+configurations optimized for large allocations.
+> These configurations are incompatible with larger address spaces like Sv4=
+8/Sv57.
+> This fix enables RISC-V's configuration for Sv39 by default when running =
+`runqemu nographic`,
+> eliminating the need for manual configuration via command line flags (`qe=
+muparams=3D"-cpu rv64, sv39=3Dtrue"`).
+>
+> Fixes [YOCTO #15691]
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15691
+>
+> Reference: https://git.openembedded.org/openembedded-core/commit/?id=3D4b=
+4450ff695ef73bf7a2437e142d2e0730d6a547
+>
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> ---
+>  meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
+chine/include/riscv/qemuriscv.inc
+> index d01d988eee..6170ce65f2 100644
+> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
+> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+> @@ -27,6 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 =3D "0x80200000"
+>  # qemuboot options
+>  QB_SMP ?=3D "-smp 4"
+>  QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
+> +QB_CPU =3D "-cpu rv64, sv39=3Dtrue"
+>
+> Thanks Yash.
+>
+> To save everyone from doing the math, sv39 gives the system 512 GB virtua=
+l address space.
+>
+> Should we use the ?=3D operator here so that users can easily override th=
+is specification
+> just as is done for  QB_SMP two lines above?
+>
+> Please summarize what testing you did.
+>
+> Did you test with TCLIBC=3Dmusl ?
+>
+> Since you are changing qemuriscv.inc you and the YP AB should test qemuri=
+scv32 and qemuriscv64.
+> qemuriscv32 should, if I'm understanding how this works, be unaffected si=
+nce it has to use sv32 mode.
+>
+> Did you find out why sv39 isn't the default for qemu?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+QEMU defaults to the max supported SATP mode. I'm not sure there is a
+specific reason, that's just what we have always done since we allowed
+a user to specify the SATP mode.
 
----
-Testing patch /home/patchtest/share/mboxes/rt-tests-Fix-build-with-glibc-2.41.patch
+> If not, please check the git history and it there isn't an answer there, =
+ask one of the qemu developers
+> who work on risc-v. It would be nice to have a sentence about that in the=
+ commit log.
+>
+> Did you consider a different RISC-V cpu sub-arch such as rva22s64 ?
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+I think defaulting to a profile (RVA22S64) would be the way to go,
+that will also enable a known set of extensions.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Alistair
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+>
+>    https://github.com/qemu/qemu/commit/3ba8462c4ca55720239fdc6fa30b9870d2=
+2a8814
+>
+> I'm only asking because it seems like it might be a good fit for us and I=
+ noticed it when
+> searching the qemu commit logs looking for sv39.
+>
+>
+> ../Randy
+>
+>
+>
+>
+>  QB_MACHINE =3D "-machine virt"
+>  QB_DEFAULT_BIOS =3D "fw_jump.elf"
+>  QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,downscr=
+ipt=3Dno"
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210329): https://lists.openembedded.org/g/openembedde=
+d-core/message/210329
+> Mute This Topic: https://lists.openembedded.org/mt/110856569/3619028
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+istair23@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
