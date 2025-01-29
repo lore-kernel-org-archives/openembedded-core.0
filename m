@@ -1,103 +1,100 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E77C1C02190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5417C0218D
 	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 11:16:25 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.10173.1738149378328213414
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.10176.1738149381279136303
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 03:16:18 -0800
+ Wed, 29 Jan 2025 03:16:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fx2zJo5F;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso3828505e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 03:16:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738149377; x=1738754177; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d3Km5kkvoPyIkZOgWjXOBbLYeFGv/fztdV8HM5iWYdo=;
-        b=fx2zJo5FiD6DGhLAtvbuRLhcULQD641e9f6IINQ1oXq7mgf5D0EbmstkUSKl80TMCX
-         7NiPwQ0amDwDm9r1tryQoPF/tsVntFu46W7+XoOQKsTeNTZ85030578MhWQnOJTTNbxf
-         DJNGNM3op7LCiN2TW/y1q3IPJ0tg1lc/6GueXNEqcIGxCNWeFYkUWYvSKS3XAXryoj27
-         PNTfwh4q+nHXdmcQTSEnOBhGb9MYGUujkisTUYEekkc1XAox+cV4FsA5XD1wBrYhvunO
-         ZaLn2QGm8nF9HusQxDEgtClbJmB71JFO5jR+GJjgx8R95BF/ljiruWz6+WGkczQCPL04
-         PrvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738149377; x=1738754177;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d3Km5kkvoPyIkZOgWjXOBbLYeFGv/fztdV8HM5iWYdo=;
-        b=HfQcoMgf50NdGP100INnxIWktscLCoUQDtMfJDkNC+gtlRqsWSLxs+gyVXBZFoE6KL
-         yS+YmtHNWQOr3QtvA5WsB0+v5pJXGUw3o/tNYOOg060UY86lrMyzNZdPj9fj9wrZTEcb
-         DDYTj5Yqo5EutIvdfgceIhCI29HeuPzaedejsul0Nd8kfIxohdlTKgd+iM6yGznyIFKz
-         F38NbYczw4Kmx0wyRZXIHBj27RJa9DE+vVMWeUD8l7VyBFachuZsZGW6h/JBqO8NHHNN
-         +EiBI3uygN5wwQtzv7RWYP4XfgBI2Yim0CaBtF6UVFOVaSiYzDtHX4bCBjTd8mTveMr8
-         B1hA==
-X-Gm-Message-State: AOJu0Yy/SeOWjpHnNKfnZ1yhhGFXfgxaB9X/hDDuT81eUpcImSAvqIOc
-	IVRTnKKrdQKZRt/k54xfrAUiRBIjBEk9WCtGg1cGA+hqK71zScqj
-X-Gm-Gg: ASbGncsn9yUuxN33yvsH9CZosozvQP3FkasqFiGzMjAAtPkXL7tUAcgMmgwJH2C6bbf
-	CYSQhbExEDVNE8zZ0SvySE8pVqz2P9YT9bkNT9TNzp6qENlbcCsPDHOhfLRusZCJmJCLgkr+Rak
-	j+6oGT6h+PDRlgG2VUDPewHYEV6h5/z7+2m+9JeCMDYfgMDkFALize5gcDsMTcjfm8hduQBRjuU
-	x+HuhyWuRKenpfVIt+PiPOhOKhVDE+8yeQfUcwRxfMIIaUTGFp/kZX/QuNOB1C/kn8XQVhih7Mn
-	N4yXRsUXF0/gaHl09FshDVxEsLj/wgLyhvfB0Az5RyhdZ0Nj
-X-Google-Smtp-Source: AGHT+IFhid6593Dqxz6CPBOar3RCC5sRc2YaMThYWzhR9t+D62wMbkJaShlx10Oiqr4XLPjB5MMfMg==
-X-Received: by 2002:a05:600c:4893:b0:434:92f8:54a8 with SMTP id 5b1f17b1804b1-438d57c04fdmr54300375e9.0.1738149376439;
-        Wed, 29 Jan 2025 03:16:16 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc24e73sm19052835e9.16.2025.01.29.03.16.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 03:16:16 -0800 (PST)
-Message-ID: <40435266-20cd-4ed6-98cf-8cc498ea97e3@gmail.com>
-Date: Wed, 29 Jan 2025 12:16:15 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v2 1/2] rpm-sequoia: New recipe for version 1.6.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-References: <20250129104150.2391653-1-zboszor@gmail.com>
- <CANNYZj84GhZfxXJ-Snnyb2Zfh2Qu_A5BZemxWNWCm=sKH39=Hw@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj84GhZfxXJ-Snnyb2Zfh2Qu_A5BZemxWNWCm=sKH39=Hw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Jjs0sqBJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=KjKo4T64;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010194b1c6c138-dd184444-dbb5-4949-a1f5-fdbf001d743c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738149380; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=NUvNdRUAU5dTZ6fFAsNwMoFTk6GNRw5h0o2uX6kAzLI=;
+	b=Jjs0sqBJJcWK48m3P/WNXtsYW7rT3hyeR6NIFnFT0Gc/RaWCz2LMVvCpeRxM47/Q
+	F/OjgSMloUTxemxo5yr/VLSGUcypT2bq6tbTHC+qBjI7wTfo1nJNF7IXP+7MO80+bXe
+	JkSmOy/cvGgvS8eEFDBjcDp/JjjES4uY9yCODrJQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738149380;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=NUvNdRUAU5dTZ6fFAsNwMoFTk6GNRw5h0o2uX6kAzLI=;
+	b=KjKo4T64GsburDcOCuqkB8zYeRi08j0slGL9KgyMSCmH4g+DkS7XjSeDnuCEGfvh
+	bQ29R66NLi4agj7mpXM4yLnP1Xs/3/LMskZTE2BgU61ej9Sgx6eY9FActEOU23hM6wv
+	tZWjzwD0lebWxVA5/bPqaqmHibiEF/3UrfYLhs1E=
+From: patchtest@automation.yoctoproject.org
+To: Pedro Ferreira <pmi183@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] rust-common.bbclass: soft assignment for RUSTLIB path
+In-Reply-To: <20250129110255.39564-1-pmi183@gmail.com>
+References: <20250129110255.39564-1-pmi183@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194b1c6c138-dd184444-dbb5-4949-a1f5-fdbf001d743c-000000@us-west-2.amazonses.com>
+Date: Wed, 29 Jan 2025 11:16:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.01.29-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 11:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210373
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210374
 
-2025. 01. 29. 12:04 keltezéssel, Alexander Kanavin írta:
-> On Wed, 29 Jan 2025 at 11:41, Zoltán Böszörményi <zboszor@gmail.com> wrote:
->> +++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.6.0.bb
-> Let's take the latest version right at this point, which is 1.7.0.
+--NextPart
+Content-Type: text/plain
 
-Ok.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
->> +# The license line is taken verbatim from Fedora's specfile
->> +# with formatting differences for Yocto. (AND -> &, OR -> |)
->> +# https://kojipkgs.fedoraproject.org//packages/rust-rpm-sequoia/1.7.0/3.fc41/src/rust-rpm-sequoia-1.7.0-3.fc41.src.rpm
->> +LICENSE = "LGPL-2.0-or-later & Apache-2.0 & BSL-1.0 & MIT & Unicode-DFS-2016 & (Apache-2.0 | MIT) & (MIT | Apache-2.0 | Zlib) & (Unlicense | MIT)"
-> This is the original source, please replace the link:
-> https://src.fedoraproject.org/rpms/rust-rpm-sequoia/blob/rawhide/f/rust-rpm-sequoia.spec
+---
+Testing patch /home/patchtest/share/mboxes/rust-common.bbclass-soft-assignment-for-RUSTLIB-path.patch
 
-Thanks!
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
-> Does the target rpm-sequoia build without issues, or did you try only
-> the native?
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-I tried both. bitbake rpm-sequoia implicitly builds the native version
-if rpm signing is enabled. :)
-I checked that rpm is linked with the new library.
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-> Otherwise, this looks really good, thanks for working through to a
-> much better recipe :)
+---
 
-Thanks. :)
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
+--NextPart
+
+
+--NextPart--
 
