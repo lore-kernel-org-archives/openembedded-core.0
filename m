@@ -2,118 +2,105 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4FB9C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 08:01:24 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.8065.1738137683990599165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9742C02192
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 08:09:24 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.8294.1738138158648563952
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 00:01:24 -0800
+ Wed, 29 Jan 2025 00:09:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fyKddRQh;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385eed29d17so3379169f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 00:01:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=icU/1cvK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3863703258fso227852f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 00:09:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738137682; x=1738742482; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cQGxH0ZhL1GuZ6G5mTvpk1K9fPLAUICqu5Bu1XI1cf8=;
-        b=fyKddRQhfXYxTfTSMr2qg1Ksx1pqTEKcRh16txOtFi92KmbFqE4hd9LFf9pke/XQNi
-         H69j6gUgvrJbrSdlXM/RKRVj5l+x14NzHtGKrWGeTXU1JrsiJNPYbyVe3Lkfir3ENP7q
-         f+z8MqrPLIDbNX1cVbHsfb9++VP0sJuukYE0MfAApYN2INEf4luFbqH0eerVIvQwUSXJ
-         6BwbSrkrOcvU6F8BVL+YRXJYKnRQP3UPj18Pwjx9yQiNZ4noOEiatLaso3sxMnRm6KNT
-         g+tDESYyVdtxqihH10qIjDMH0SgcM8OqvCwSR8anyZVxGIAfnSpIYYfs4hU6o1djvAqb
-         BcAQ==
+        d=gmail.com; s=20230601; t=1738138157; x=1738742957; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuKQ9GNg44GhoJVArD3IXlYK+s20ZN0MIShn8cDnNdg=;
+        b=icU/1cvKIEnDS4L4eAwrPy8sQIfRBnTKQDWcl59IQP9FVNrYvPKHYEStTn8kNE+1nG
+         YWxFxaWu/0SFMYzBMHXFPLA+p5lpPKW3xcDvlCSga9ovLn99lClfKrkaeQpPu8sSKdjP
+         LUYC/smRuum7FOFkHFonxR8GCpuWVdahcMGvAempG4mj+9FfaYWE8V6wi6sKRKw3x5o8
+         /YGluAYACzfPpdqRCUiO5Pa2+HNb4VtDZlooQMKNc+69gSRpnnSeDdQYPVcSEVPy3zkJ
+         ocgw6QliTSq9PBi4xWMT3geuAvtfV+nVCsbZdpxRP+Un8CodJKnJUQ2NC3F9dN/LfwvD
+         MFmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738137682; x=1738742482;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cQGxH0ZhL1GuZ6G5mTvpk1K9fPLAUICqu5Bu1XI1cf8=;
-        b=ds04w4qI3Uwu4mIk9P4VOJjNDonghfvxE9Aip9prZbVbiq6MTK7gg28Fniaw16uFLf
-         a85uUPIWN/QUeg4HLBX+4kMMAZiKosWVOrMf3G9q6ni9QeQpoVYsf2sW/1cMItBndYeY
-         o/UTxkZSGyd98HwgLUFJ94jzhFR0WHtURdipVndz/2mWG7aD95/RjQ9GSLh0ZotBOZHs
-         OsxbF/Iis3tPts+oVyTKplE5jSG3t/Vh2jZ6wuIxkyTKuPBIQriwaDyUrAdkHnY6rhSO
-         oaoTM6vHZYswa41HhSs3zfzHqqXKDOhpl+pmsfCy+joWfmcs37X7Or8g4fiA+3oWSMAW
-         4TRQ==
-X-Gm-Message-State: AOJu0YyCPGiZWDoSmHMaoXP68eVdyV6UtOXtfusRS4DctjKYt9l5UwIX
-	mNXhRmb+xQi5oJd9OgplTInGCuBJe1Wc0G+fHqqaFrrqQF8ve23G
-X-Gm-Gg: ASbGncvwDrN0rWTueonWCPUFuW9BWwlPancXvl+/yc9S0skaJNTpC+KCAfo4wVbJnA6
-	GtbYnmS/WdQEJ+QLfE1YcNIP74DxNoWpHJvhk1pqLNFFaY4WVjn+AG6kqoXHq11+c10GGX/000Z
-	yGDf4/0H+edGSmUG70Pp+Nw376QOA2RZTxlV5fgD1ILOVIYXSvpYSi1HaJic8EmUi3w3MOmBo72
-	UEpTHXlWtQ1RdAb0TjUh9cV2cr8v3q2+jotAo8vm22f58EdvvLMccL4EtqGr4SK2KMktc2HbtSt
-	IurfoQDHldS1J3h0fKtbcwj1cT6Kj2bSkjlT6y8GWEm+uRer
-X-Google-Smtp-Source: AGHT+IHNc6b9g6cmtBL42rsdxmPVq3UvNV7p4xXZiEylMm+ySwF2iUi3dYfYfwS0E0BeC8jYQfxleA==
-X-Received: by 2002:a05:6000:1fa4:b0:385:dc45:ea26 with SMTP id ffacd0b85a97d-38c5195e85cmr1581078f8f.12.1738137682164;
-        Wed, 29 Jan 2025 00:01:22 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1baf65sm16530658f8f.64.2025.01.29.00.01.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 00:01:21 -0800 (PST)
-Message-ID: <85010feb-ed9c-4be0-bcfd-99c4212847aa@gmail.com>
-Date: Wed, 29 Jan 2025 09:01:20 +0100
+        d=1e100.net; s=20230601; t=1738138157; x=1738742957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NuKQ9GNg44GhoJVArD3IXlYK+s20ZN0MIShn8cDnNdg=;
+        b=s2R3VIhiaHI7ooiC7RYvqmAXwWLN71Q+D5h3BaSEpHBBBfgY0W65BAqhvwmOQ1mHMK
+         csXlQaMAk2VXLgrOaPS3Yc4yfleIk+NhOOyUpztTBHXf97YJJuhV2+WfP5DXfxvlD6Pa
+         5EFT+jjsCihUObJUV+TDrcMNsWrj6qjjsaQQ0OPRnuQAhLnDjgAUFSJO3PNYTHsgRcqm
+         UdEaMVIkvIFpkt24EuZiDIPkPk+kSTPWqq3rQuDEzJxXEki5IzYWSTlncO108w3l6Avz
+         KIA9nLZMjPfDbKiQUmEGJo658lQypRBxsJy5QjwSPrHnTxEijB6hURY59V1+p2tSOmMI
+         +eDg==
+X-Gm-Message-State: AOJu0YyfcvNwz0ktjvHDFRA8p2ucPnFuXx2CbMZXhq9KcltPgKc339Lq
+	/6biK2L92+KCzy2R8J3HygKjenwBNKQU43/5i0PgO/Y8KA0NjiUji65rig==
+X-Gm-Gg: ASbGnct+BGDlXRCxYoWRF82kX7UZq3eJffUmRqjMtH01bJDXtT8QgnQJUsF1vw7PD9N
+	U9B3AUxnWK69s1Jxo4UofBeSKo9iFoApM8m1pHNrsq/HLcV2XiVp+nUvj5x5drPzCIoH0IvIcXn
+	j8MYMIgGtAIKMbdPS7oICZYvySyJ2oJnmLFWd2ILXsXSc77E1sb7PERURKNReAqAkWGxROM8AH/
+	3EP+tRd+R2qFZUFJ5fRhfaaOhexUTki2Vhjxo7cdK8P7IHPVA+trbwjvYOQ5N0bOhVTTTR9nOgg
+	LERp5qnm1HohrjdxPsBYj7OobAZMmudsb9J707WJQqJZ4g==
+X-Google-Smtp-Source: AGHT+IH3ZabkZk2f1bEDWHYB4AmEedmv+iASWP1faifRJA40zpbuQCeqwPnjbhDIZ0iOWI53M+7tng==
+X-Received: by 2002:a05:6000:1447:b0:38a:4184:14ec with SMTP id ffacd0b85a97d-38c50fe00f6mr1849250f8f.1.1738138156697;
+        Wed, 29 Jan 2025 00:09:16 -0800 (PST)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a188fd0sm16618394f8f.58.2025.01.29.00.09.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 00:09:16 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [OE-core][PATCH 1/3] cargo.bbclass: Allow using --offline instead of --frozen
+Date: Wed, 29 Jan 2025 09:09:00 +0100
+Message-ID: <20250129080902.1863054-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] RPM signing errors in Yocto master
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Randy MacLeod <randy.macleod@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-References: <266ca4d1-62da-401a-b766-ab6b13c6753b@gmail.com>
- <CANNYZj-CNT8_yXKLB6PApG=Mknx=TKz2TAosgh17LiH1LQ0_fg@mail.gmail.com>
- <f8de4060-bba3-4a5c-93f5-eb4685223a73@gmail.com>
- <CANNYZj-tW3k01HstKJymLz4A9WOmMY6EhugyrhzZVEoH96pHkg@mail.gmail.com>
- <ef779855-5513-44b6-8b85-f4c07fa69756@gmail.com>
- <0a4e3939-3361-4656-956f-ae11af7998ac@windriver.com>
- <CANNYZj-DWb5SjEOguzTYgteQ5=rV6wpNuQzpm8+mGniS6ZN2uA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj-DWb5SjEOguzTYgteQ5=rV6wpNuQzpm8+mGniS6ZN2uA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 08:01:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210346
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 08:09:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210347
 
-2025. 01. 29. 6:36 keltezéssel, Alexander Kanavin írta:
-> On Tue, 28 Jan 2025 at 22:52, Randy MacLeod <randy.macleod@windriver.com> wrote:
->> A patch to enable the signing using  a PACKAGECONFIG for rpm would
->> likely be accepted. Off by default of course and a test would be ideal.
-> We already have this in rpm recipe:
->
-> # has replaced openpgp support and is written in rust:
-> https://fedoraproject.org/wiki/Changes/RpmSequoia
-> PACKAGECONFIG[sequoia] = "-DWITH_SEQUOIA=ON,-DWITH_SEQUOIA=OFF,rpm-sequoia"
->
-> I also have a half-baked sequoia recipe:
-> https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/rpm/rpm-sequoia_1.5.0.bb?h=akanavin/package-version-updates-later
+Some rust packages complain about the --frozen flag:
 
-FWIW, I have created an rpm-sequoia 1.6.0 recipe that builds now.
-1.7.0 has some dependencies that need rust 1.83 but Yocto master
-has 1.81 at the moment.
+| error: the lock file .../Cargo.lock needs to be updated but --frozen was passed to prevent this
+| If you want to try to generate the lock file without accessing the network, remove the --frozen flag and use --offline instead.
 
-Some ideas were taken from Fedora 41 and the dependencies
-do not include clang, only openssl. The librpm_sequoia.so.1 library
-is only about 2.5MB large, so rpm may re-enable signing either
-unconditionally, or automatically / conditionally based on
-PACKAGE_CLASSES.
+Add a CARGO_USE_OFFLINE_FLAG = 0/1 flag to allow using --offline
+instead of --frozen for such cases.
 
-I had to slightly modify cargo.bbclass, though, because "cargo build"
-complained about the --frozen flag because it wanted to make some
-changes to Cargo.lock. It also recommended using --offline instead,
-which also avoids looking for the network. So I created a conditional
-in cargo.bbclass for this, maybe other recipes need it, too, that
-previously didn't build.
+Use 0 by default to keep using --frozen as the default flag.
 
-I will post the patchset after testing that I can actually build signed rpms.
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/classes-recipe/cargo.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> And there's a currently disabled selftest:
-> https://git.yoctoproject.org/poky/tree/meta/lib/oeqa/selftest/cases/signing.py#n62
->
-> So someone needs to take all these, add meta-clang, and make it all work.
->
-> Alex
+diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
+index b583f84bdf..fe5ce9b023 100644
+--- a/meta/classes-recipe/cargo.bbclass
++++ b/meta/classes-recipe/cargo.bbclass
+@@ -37,7 +37,10 @@ BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
+ # and will require an up to date Cargo.lock file.
+ # This force the package being built to already ship a Cargo.lock, in the end
+ # this is what we want, at least, for reproducibility of the build.
+-CARGO_BUILD_FLAGS = "-v --frozen --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
++# Sometimes --freeze fails because Cargo.lock needs to be modified
++# without version changes. --offline can be used instead.
++CARGO_USE_OFFLINE_FLAG ??= "0"
++CARGO_BUILD_FLAGS = "-v ${@ '--frozen' if d.getVar('CARGO_USE_OFFLINE_FLAG') == '0' else '--offline'} --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
+ 
+ # This is based on the content of CARGO_BUILD_FLAGS and generally will need to
+ # change if CARGO_BUILD_FLAGS changes.
+-- 
+2.48.1
 
 
