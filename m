@@ -2,117 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DC2C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 18:05:08 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.19353.1738173905385537653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E626AC02193
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 18:05:17 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.19282.1738173917734392979
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 10:05:05 -0800
+ Wed, 29 Jan 2025 10:05:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RZ+6c5E1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-216634dd574so87960135ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 10:05:05 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=w+pChZo2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2166651f752so16021005ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 10:05:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738173904; x=1738778704; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K6Mc0QH7tAmksUvJXDvE3GFYIYu+6ybgT611cCCK9Eg=;
-        b=RZ+6c5E1hA622/CcZ6EWBiICntzLV/CwyMqXKpTRcx1IMbppbYVcYa6BbK6RJMurUQ
-         Vwp1n4dQIOFNgIvC6XXRhTjsWm1BxAKVGfMiy4qIvv/YVW168nCkPL6SZ2k9lXRDml75
-         rPdu4wBlE1OkGLhiySPv5jPoBbmYF38OEGijquKtA4IvaAR+U39v6QtU7+O/4do1HVlv
-         EsCr/TdNgK2j8nzjR3xO5kHrcUJrz2D2tjIW+vN8GLA5iEY2LoUFkxkQCWbBkfptYSIo
-         xlfk848HK67d57mQV0aPAGuwDq99YFkXFRvlMyuo023VMOOKFNlyMIiIqQJmw7C/JiLA
-         j10g==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738173917; x=1738778717; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=suqRx0QmP0olUg42W/3rUoJz+0dDu63k1QA5/RiTXzs=;
+        b=w+pChZo2j7OPgeH0L47I6CWLxLgtjiZfOzHG1fByARx8mQk8T2bzZmEURWw33ASiI0
+         CkJ8QjhMGP2ZTQl2tAPCsrwLhO58w4EyCJIetW6X/6mkCZYVt1aFPKSWmmBTu1RRCPHF
+         LtZQEiJl6e+7HkncfwEDWF7ways31e0tzXnhZUoeL+Oer5l7g0157KeVDJylqD6Ecl++
+         XRcS7qpwCNZzpcOuJunaqqTOEQ5Ut4p59if/an1EZr3VKGm62HZpIGgz5YW7Mnr+Objp
+         p/RXOVZsNbOTsyyt2TdqJbtX26+UiSb7OU0UbkpGedXPvI+k8PeXkuTvvr5EtF/1/ijG
+         nNIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738173904; x=1738778704;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K6Mc0QH7tAmksUvJXDvE3GFYIYu+6ybgT611cCCK9Eg=;
-        b=VDai+/5rt0wIo5BIu/MbMRZEl5LWnakrf3NHpqcjFacRx16X82CZdU7ZOb6ELtpt/i
-         /CtjqhJGuVq8XxQblPVmKhB7HvBnwDw3gmXjYtQ3O6XbMSe8B5jUjXBxXNJ5oYPUyOke
-         qnUfW/I1B8VinnSesr+JAbnUzd3ZvKXxN9oFHs/OlPB18Qp7ZcErG9vcABoXgDyB9WMR
-         rcrmVBtCVaDS71WJp6cIdTdEjS7Oz+arAPNzRPPe5ZBlcLEqYs/7+VcCUk8Y3qCR11mS
-         /Q6nWqxkdeAbEtXo8Eky6OY5I4MmpnPezETS4jH3dHh+Zt3+wrcSZMFn9DLQJR0SKFjW
-         FuVQ==
-X-Gm-Message-State: AOJu0Yzl6gu/jB/vn+g9fYcwBJq3CXSzPgDfFxAAp1jTrO06DExhf+0G
-	LtBhuk6mR9Ta7h8lKC0f/3PHaj89lQOsBrCEbuPQ0y50rVe/Jx6WVwQeTEm4SWcDAZwbQWNlKbk
-	UOtU=
-X-Gm-Gg: ASbGncvOsjvUdO5iYUPkf8inaXgM0hfBS3ghXOca/9f2k50EiQxNfdhFPcYDEnV5oxw
-	aFIXzL1wWZl6qLqIX+fp4qIgn+tDAG3eUzZZHdcFb4WBrweyhs6Jy6X9CtIBX/p6t53BR1r3HSb
-	g/Mei3bMrIw0SEAhOs+8tx+Fi1Q0QkZbYCAH6K6Fvu6VTpT2ZRJJWSpgK/lJmNpStmsebbD/qbr
-	WEkaymFfOOHkG/8FtSnMl1maghwzlp4hcTi+l32A0s0IsVZ/idhO1AzZ0Ane+tBbzBtJHuW4pzW
-	hwnO
-X-Google-Smtp-Source: AGHT+IGoR3D5fYSVwju/8Mlllkdle8dsSeSt5buHQkACbtXmaoGHE7X1hHAAalOQJ7e4g7/Cpp+j7w==
-X-Received: by 2002:a05:6a21:3406:b0:1e1:a576:aec with SMTP id adf61e73a8af0-1ed7a462f1dmr6939936637.8.1738173904351;
-        Wed, 29 Jan 2025 10:05:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738173917; x=1738778717;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=suqRx0QmP0olUg42W/3rUoJz+0dDu63k1QA5/RiTXzs=;
+        b=oKq8i0byj7D+qnoBE7SzmwAAmRV/dFIO5Tp8LrIASI7DOdp4iORAAEK1aKscQ65gL2
+         e7CiffeqrXCOsF1eV/RvdjF9I9oNMuVXq9Cd3i8G6ycScp70/I8mf9c34kYGGKArSRqw
+         u+DLQCiPCdz3GwyBAdR4jFXSh87Dn2VRzpOy6t4EYtp6vmeufx0br3xEj/ewQynG58cm
+         OzkjHyBUk+u7iHN3KLoTPBWCzeCjS8mXHSwP6X0gwPxJS5IfQ7J7Lr3xqyHKZQSoIHsS
+         A28+D2ySDESAcQz2Ta5jkc8RZ/432YS7MT5lwAukXM9SFBfrzBv4YCE5DV/jnF4QxaF0
+         jEeg==
+X-Gm-Message-State: AOJu0Yy9I+PM64Upl/BRjZP+K9lcTCamtsCEcOMnNaQdkp6YA7M9m5Qf
+	j6AuOR2TDOD9drpAnIxhjYHNjC+N5hl8NVbbofl6gZrEYK2q+IiWFAlcllzby/pkE9XKPjhNFp/
+	daYs=
+X-Gm-Gg: ASbGncsvoV7mHs3TvNQ+pfRpSiHkAbl+rktp4SXrhq93yEIwWPf7wGyeCbKbkafq4y2
+	meLKVjGOvuYrizzX3/aksy+6UqA94yZsHBpL678vuFHJQ+UQdniWZW85PTxGE/re9B774o1logq
+	2bPyuFfj5IX6hCxBTyCx3W54aPvk7ZFMG8uBKpEhU59j4r8A5JCRzRbgAk4mKaply4c6NEm4zb6
+	NVjOVwGBal0gfjxED/Br33fcvos87umqWns5aXZVfiubfipdI8gcfYsFVgvFWtcXJ0kW57LaNqF
+	hAY4
+X-Google-Smtp-Source: AGHT+IGb4itOEUMwulWXPhZp+XHDnfifrvTgt21YFeOtd5Etwwl7UaXiuHQJQYZkCHcrT0Qyob7AWQ==
+X-Received: by 2002:a05:6a00:2302:b0:72a:bc6a:3a85 with SMTP id d2e1a72fcca58-72fd0c72bbbmr5829605b3a.22.1738173917049;
+        Wed, 29 Jan 2025 10:05:17 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a69fb24sm11496435b3a.8.2025.01.29.10.05.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a69fb24sm11496435b3a.8.2025.01.29.10.05.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 10:05:04 -0800 (PST)
+        Wed, 29 Jan 2025 10:05:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 0/8] Patch review
-Date: Wed, 29 Jan 2025 10:04:49 -0800
-Message-ID: <cover.1738173760.git.steve@sakoman.com>
+Subject: [OE-core][styhead 5/8] devtool: ide-sdk sort cmake preset
+Date: Wed, 29 Jan 2025 10:04:54 -0800
+Message-ID: <ad633eb3b90adb1087609c97ab8dc83ca0f08ad2.1738173760.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1738173760.git.steve@sakoman.com>
+References: <cover.1738173760.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:05:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210394
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:05:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210399
 
-Please review this set of changes for styhead and have comments back by
-end of day Friday, January 31
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-Passed a-full on autobuilder:
+Sort the keys of the generated CMakeUserPreset.json file to make it
+easier to search and compare.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/905
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ scripts/lib/devtool/ide_sdk.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 06439dff5437782f7b6627e0374eaa24ca5aee4a:
-
-  boost: fix do_fetch error (2025-01-23 08:26:01 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Adrian Freihofer (5):
-  devtool: modify support debug-builds
-  devtool: ide-sdk sort cmake preset
-  devtool: ide-sdk recommend DEBUG_BUILD
-  oe-selftest: devtool ide-sdk use modify debug-build
-  devtool: ide-sdk remove the plugin from eSDK installer
-
-Peter Marko (3):
-  go: upgrade 1.22.8 -> 1.22.9
-  go: upgrade 1.22.9 -> 1.22.10
-  go: upgrade 1.22.10 -> 1.22.11
-
- meta/lib/oeqa/selftest/cases/devtool.py       |  2 +-
- .../go/{go-1.22.8.inc => go-1.22.11.inc}      |  2 +-
- ..._1.22.8.bb => go-binary-native_1.22.11.bb} |  6 +-
- ...1.22.8.bb => go-cross-canadian_1.22.11.bb} |  0
- ...go-cross_1.22.8.bb => go-cross_1.22.11.bb} |  0
- ...sssdk_1.22.8.bb => go-crosssdk_1.22.11.bb} |  0
- ...untime_1.22.8.bb => go-runtime_1.22.11.bb} |  0
- .../go/{go_1.22.8.bb => go_1.22.11.bb}        |  0
- scripts/lib/devtool/ide_sdk.py                | 63 ++++++-------------
- scripts/lib/devtool/standard.py               |  3 +
- 10 files changed, 28 insertions(+), 48 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.8.inc => go-1.22.11.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.8.bb => go-binary-native_1.22.11.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.8.bb => go-cross-canadian_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.8.bb => go-cross_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.8.bb => go-crosssdk_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.8.bb => go-runtime_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.8.bb => go_1.22.11.bb} (100%)
-
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 65873b088d..eee5425aa7 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -493,7 +493,7 @@ class RecipeModified:
+ 
+         vars = (key for key in d.keys() if not key.startswith(
+             "__") and not d.getVarFlag(key, "func", False))
+-        for var in vars:
++        for var in sorted(vars):
+             func = d.getVarFlag(var, "func", False)
+             if d.getVarFlag(var, 'python', False) and func:
+                 continue
+@@ -545,7 +545,7 @@ class RecipeModified:
+         cache_vars = {}
+         oecmake_args = d.getVar('OECMAKE_ARGS').split()
+         extra_oecmake = d.getVar('EXTRA_OECMAKE').split()
+-        for param in oecmake_args + extra_oecmake:
++        for param in sorted(oecmake_args + extra_oecmake):
+             d_pref = "-D"
+             if param.startswith(d_pref):
+                 param = param[len(d_pref):]
 -- 
 2.43.0
 
