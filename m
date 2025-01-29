@@ -1,132 +1,89 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D29C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 09:36:35 +0000 (UTC)
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web11.8974.1738143390051367049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40AF3C02192
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 09:41:35 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.9039.1738143693360545878
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 01:36:31 -0800
+ Wed, 29 Jan 2025 01:41:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=RCIHVS9k;
- spf=pass (domain: smile.fr, ip: 209.85.167.65, mailfrom: yoann.congal@smile.fr)
-Received: by mail-lf1-f65.google.com with SMTP id 2adb3069b0e04-5439a6179a7so571952e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 01:36:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HBNZtI2b;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d92e457230so63838616d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 01:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1738143388; x=1738748188; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ULNzKct1xlqmU1O5IMmPXT8YvIRiqk6Sr4mdTH3hJ4I=;
-        b=RCIHVS9kwtYj01wggEByO1aJ1bB3TsjNo1XwjUG+fR2Aqdyp5mD4vyCJAd9Fz9uSrv
-         TGJEwZXMuHFxcbkm7PCQSmGo3FwI/DpFK32EOtkblgJyXaPvBD2nd8j8NitcoSXh5Zvn
-         JWICDbSnV4OPKyE34rA5jTnya7xhGEUbmLW9w=
+        d=gmail.com; s=20230601; t=1738143692; x=1738748492; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYsEnKEakdIpj1w8FKEZEYdbnixz8Ed8U5iQeOzf8Gg=;
+        b=HBNZtI2b8JF3fsi9ryrXOGh7bxE/9jQBNgDeOUe2l0GeWYVQhZgoko4/vKA/pk9JZJ
+         bhKDt8/FgbLw+bjIrMdMUKzgh5wbe5ie5xaIRQtyBzAjgHhAEqHK8KUlSMz2z1BBsJe7
+         mbx2SD4qo76uWjLhPnZN6zJbNUsTPzDZ9WUne4duGrLoo+VRXAf9fPw3zC3qgwr0RTc6
+         F7OdnmdTkEo1qA3G2zdv6NwIfVoh62487+D1yJpM3ugvuCFCQj0UPkDB7sU11aryNfwd
+         W6pIgO5UNfDaW33DZ5QZCzZVpIkS2+8JAaCr6KDhJKaPJT0D+tYwJC2qsFHGlzvikX/d
+         6sGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738143388; x=1738748188;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1738143692; x=1738748492;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ULNzKct1xlqmU1O5IMmPXT8YvIRiqk6Sr4mdTH3hJ4I=;
-        b=fL9iUAG7QccDnmtUxxDOA39MTNBRlM+DDu6KgViz8jH9ZrVhHSwK0+LFRQGaaWYcKN
-         ocN1R43eSUxGs56OiaWT27p+ECqaZhbETnP/XwoIwtFfP2zTmYU15XGsFHMNffXeaHMw
-         gfy9f10/C8EazHoNez8rjRWfGL3LHlzrf5TwYOqx7aJoW6l0ihHqHmfhEzfxm9/YPa7u
-         pDdjrDej3dIly/Kix6toBWuDy2ZDIsKfZhryOAmoIpeDNRoGCe7Sb8eBPTugk6nXOZDA
-         n83XMOwos8jY8bZxmHfk0rQ2MZg9e2Hu7YPD4I/EZXpJ08NFvASZOIzvxmA4kb2AJ42B
-         YJgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhCc71t21JR2nECP+1VXY5kVIpBW+NRrNvd6fkwLL5pyO3XA5GoNpsa3T4C+vqW4q6nuP1w9FZuRJs9FjUhPSW6A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwSFPX5okloZc9r266hwhuElfNbyVYGuau1uEih9Cu5jLJiJzA7
-	imtKXpMPI4w+BVh3ggTrbzk9IwDywXPSG+p+s/59LZMH5Q3pUqM+Kfy4wIVziXQ=
-X-Gm-Gg: ASbGncud5Wqm9/GP+HUyDklGolvStceET0lYs59NvHeO3uh2p8eD2lv46Z3fMdMmAtW
-	O8qquY7BAnpAX5M/COPW03gDO8fhYPUu/7Kd94i9NihzGJGjjoxCWHFZU1opQutym4xDXbLFGwU
-	hPrtjZLGZeTpUlDoQXSBbzMO6bE0EVtF37AKmgIBA0XXuiZjt10LVCczC1PwN8WbTHbhK3QIrb2
-	r6YErng64nmT0o8DMkGqfvHFF/AKLrul04A5tD5ynxNXLdbIy26LTLgnJWnpFtVUHAr+YAbUcl+
-	60GWE4l8eMj5Vf+Bex2Ualy3RW9YHXmcKxbv4MLxBhwBi3KL69+EBDaiQripud82hgI2V1ISvod
-	2XXZsyrNS3y8cJYCSTdI5y2wMRRL/g10Rl60+ddie0jtH0m32fn+F
-X-Google-Smtp-Source: AGHT+IE0MHypVhP7MIUuvJHf5CMgURoV6OXIVqIT4hVmq02YisZUMu9u8GiC5PfmGZK6FBaSfUMI5w==
-X-Received: by 2002:ac2:4298:0:b0:542:91f3:1514 with SMTP id 2adb3069b0e04-543e4a6a5a1mr742809e87.1.1738143388081;
-        Wed, 29 Jan 2025 01:36:28 -0800 (PST)
-Received: from ?IPV6:2a01:cb00:dee:f000:367a:1a7f:22ad:d27b? (2a01cb000deef000367a1a7f22add27b.ipv6.abo.wanadoo.fr. [2a01:cb00:dee:f000:367a:1a7f:22ad:d27b])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c822fa12sm1894681e87.81.2025.01.29.01.36.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 01:36:27 -0800 (PST)
-Message-ID: <2932fc48-8cc5-41de-a155-e4d23272d802@smile.fr>
-Date: Wed, 29 Jan 2025 10:36:26 +0100
+        bh=rYsEnKEakdIpj1w8FKEZEYdbnixz8Ed8U5iQeOzf8Gg=;
+        b=lIy/6OksKqXYhHaJZLGyTvKOtdo2sALwtBmNJdkY7ZjkTWj6Y7bWZmYD1h+0oSZtv3
+         oxe4EAZkAliU6AK3e0spvHFf55qliwW0t7BaVHMH39UZMUPpbmbm3DiQ3rckERQq5Ooh
+         0BchozXbXE54FGv1DoelAS4dQ2IHSrHHdlm693tjEO2qadYE8CVi6Fhx8QY2c1N9nNWV
+         l1BSwGa/cFweENVF3lveiIhnVHgaUa7Ks6IRtDSzHaHf/pYcR93Tr3RwhkZWiJ+E9zg6
+         dwTCASWtP1hrSf+1uuGfWb/eP97gympWbyCAXGGahGbF81h5NOtJEAdLV5mZXtI3V8pz
+         nJqw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4Xlz62FZEsvqM7hV+ocBXDzXaZru/7A7YqhQClXjGS6nWfyKThCb5fNZek1J9IHUtdaJEmfufyFFHYPy1MCC99Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx7ovXRm8NeVEO2m0mFqS5qNDq4ZKLj48hqLViB7wo8FQDl1NX+
+	IW/NFS/vsEw5uqyPmNRX9eVf1j5jPDhnk/s0knxanMGWQvke9gowBgUDX36achh2RP1jIF/pIS7
+	yMJ/IQnAfY8QW7f9CRwbZU/H91rA=
+X-Gm-Gg: ASbGncs8Lp+4X9v0W4tEm0q9WI2YYs2jG14UJu44AKlyI8okymg5PqJizw2r6lg2AI/
+	Y+/nZQdtX+6FHmikrjitvRjff1R6rZdW5jXFnyYB11c0mveadXYfv6QAUJy+S6gcl1IUxPIqCSu
+	gzEWZzrRq59TIIaoDDz6CfEhirP3Py1CQ=
+X-Google-Smtp-Source: AGHT+IEVy+TOTPCVY6boAQGgm14hOpGcbhv2kpCsiBuXt4tJb0MLlLViE/7EHth1G3LXfUfvvIBu3mvA6HCOX6x92N0=
+X-Received: by 2002:a05:6214:3112:b0:6da:dc79:a3cd with SMTP id
+ 6a1803df08f44-6e243a7f135mr37830546d6.0.1738143692404; Wed, 29 Jan 2025
+ 01:41:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 1/3] cargo.bbclass: Allow using --offline instead
- of --frozen
-To: zboszor@gmail.com, openembedded-core@lists.openembedded.org
-References: <20250129080902.1863054-1-zboszor@gmail.com>
-Content-Language: en-US
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <20250129080902.1863054-1-zboszor@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250129080902.1863054-1-zboszor@gmail.com> <20250129080902.1863054-2-zboszor@gmail.com>
+ <CANNYZj-pUVu_vp7DERcSF__LcRWi3oA4hocfEqfKPW_KxmrGZg@mail.gmail.com>
+ <1b6439a8-3688-4d45-90ab-0eef473eb347@gmail.com> <181F1FDA3B65007A.31881@lists.openembedded.org>
+In-Reply-To: <181F1FDA3B65007A.31881@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 29 Jan 2025 10:41:21 +0100
+X-Gm-Features: AWEUYZmNeV_7ajP2SVy6p6emstywEAhv0CP6cFUT8pW_GydtPMWuBcqtnESkju8
+Message-ID: <CANNYZj_hy4eoxfi6tX-mTsL7z+PLhmDr5GVFgiAXZdYvvF3mBA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/3] rpm-sequoia: New recipe for version 1.6.0
+To: alex.kanavin@gmail.com
+Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
+	openembedded-core@lists.openembedded.org, 
+	Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 09:36:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210359
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 09:41:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210360
 
+On Wed, 29 Jan 2025 at 10:30, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
 
+> Yes, cargo_do_install only copies executables, you need to opt into
+> libraries by setting CARGO_INSTALL_LIBRARIES.
+>
+> But before that, presumably sequioa upstream has a standard
+> installation procedure that we can try to use instead of copying files
+> by hand?
+>
+> I'm particularly interested in how ${S}/target/release/rpm-sequoia.pc
+> is supposed to be installed.
 
-Le 29/01/2025 à 09:09, Zoltan Boszormenyi via lists.openembedded.org a
-écrit :
-> Some rust packages complain about the --frozen flag:
-> 
-> | error: the lock file .../Cargo.lock needs to be updated but --frozen was passed to prevent this
-> | If you want to try to generate the lock file without accessing the network, remove the --frozen flag and use --offline instead.
-> 
-> Add a CARGO_USE_OFFLINE_FLAG = 0/1 flag to allow using --offline
-> instead of --frozen for such cases.
-> 
-> Use 0 by default to keep using --frozen as the default flag.
-> 
-> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
-> ---
->  meta/classes-recipe/cargo.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-> index b583f84bdf..fe5ce9b023 100644
-> --- a/meta/classes-recipe/cargo.bbclass
-> +++ b/meta/classes-recipe/cargo.bbclass
-> @@ -37,7 +37,10 @@ BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
->  # and will require an up to date Cargo.lock file.
->  # This force the package being built to already ship a Cargo.lock, in the end
->  # this is what we want, at least, for reproducibility of the build.
-> -CARGO_BUILD_FLAGS = "-v --frozen --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
-> +# Sometimes --freeze fails because Cargo.lock needs to be modified
-> +# without version changes. --offline can be used instead.
-> +CARGO_USE_OFFLINE_FLAG ??= "0"
-> +CARGO_BUILD_FLAGS = "-v ${@ '--frozen' if d.getVar('CARGO_USE_OFFLINE_FLAG') == '0' else '--offline'} --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
+I looked a bit into this. It seems like they do not a standard install
+procedure, and copying files by hand is indeed correct.
 
-Maybe use
-bb.utils.to_boolean(d.getVar("CARGO_USE_OFFLINE_FLAG"))
-instead of
-d.getVar('CARGO_USE_OFFLINE_FLAG') == '0'
-?
-
-  >  # This is based on the content of CARGO_BUILD_FLAGS and generally
-will need to
->  # change if CARGO_BUILD_FLAGS changes.
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210347): https://lists.openembedded.org/g/openembedded-core/message/210347
-> Mute This Topic: https://lists.openembedded.org/mt/110874793/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yoann.congal@smile.fr]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
--- 
-Yoann Congal
-Smile ECS - Tech Expert
-
+Alex
 
