@@ -1,192 +1,304 @@
-Return-Path: <alistair23@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0FBC0218A
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 00:38:42 +0000 (UTC)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
- by mx.groups.io with SMTP id smtpd.web11.2508.1738111116609510025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573FBC0218A
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 02:44:13 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.4776.1738118649054015613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jan 2025 16:38:36 -0800
+ Tue, 28 Jan 2025 18:44:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oa0NIl2a;
- spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: alistair23@gmail.com)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4afed7b7d1bso1754388137.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 16:38:36 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=wYq5BR5H;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54298ec925bso7395238e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jan 2025 18:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738111115; x=1738715915; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=09eGjbIygG3NgnUiLYPkLNWBolAvDTIqomt+925oKOw=;
-        b=Oa0NIl2a6GKiImDI5RsEmuO2j508N5GHCaf3w2qF73aHPp00pbcrabVh+oqvhq+Opm
-         9dA4KRL/Q4VMHOqyknjy0E1keJHiGz00CNZYGG/o3DMYqviOoiu+9onlSBd4smob7A3m
-         uaBzoLo8wwMkhqSYy+1wapFEyTjljrGFZv3D6POO5B3NIcFj7NA5EwRh6BJst0Y8TV8G
-         KO9m1I8iALumbkUlgm5rHwJYA5GfRAqrLg0e8MwkBVwCInxv5zaLEVMidWk6uQ1zH6ji
-         V8qC317D01c99FCJgAmaOT5+OTP711O9KguIpDXPuGlgyH/xI6RRsIiBnyyXlqzgn0nK
-         Kckw==
+        d=linaro.org; s=google; t=1738118647; x=1738723447; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IVYHGFQKOgBPof98GfAaFdgi1Qa0Lle1CODzTvwW5f0=;
+        b=wYq5BR5HVr7OY3SMGw6Bdh7bewdM6pbqsx+w7zkqaUBYikTaztWY8beO7J6LplKhAI
+         1B6tz92wI4vjLLQjH/KcsUhtOUAJ7UQJAs2anpu9Is3h6pWL13EIGFaAHJqHrUrBHmcQ
+         WAfrX7on4PxE0970wCGR61c8w2fH/uNUnXV5RWBXrckT+Mg9UrDrAAVJENF+f+Qs9O7a
+         I3ij4VTTAQ1kx/VT1AcmeonZes7xifP/UfBdWjD3rE62dCWa6c0GUUwz+hWXEKBHbIKM
+         JOFcVGnWQq4xahvDcCVSWVAyJzFDVowQArBQIdqKVfzSryQ1fdoZIPwFBZuIcD8TLqeg
+         tCQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738111115; x=1738715915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=09eGjbIygG3NgnUiLYPkLNWBolAvDTIqomt+925oKOw=;
-        b=iFGL/GLn2RGgXrYeXAg0aCJmCMjagEBnMKLaPWZXioGw741c0EJcPYz1/uOc0VRtvK
-         ACCuViCGNmDH95tcvTv2gYzaOIxqbK+50/9DrJHrAM2IytkqsDoJD81zbpNINHW6zCQH
-         d53GlnZha6DHsWQPZq/CCr0ydkaZUakwk8x1IWcfcC4JmT4zKXl5s4EFMk/jIwF8ehJq
-         bsCPBONx7S1nFsnarSwSf1OMD2bcN1ZCinM3L3YYqqEVs9+7e87kFFbU1pl256Egh9ye
-         HzqnTI3FXjYAULnE7vTNmNvRKciJqCLyNDjCD2kmD5SOLntIemLgkykwgeOlO/wDhUGe
-         bDRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk1a2UK7cMFZpwWQXIHmzAhAktg7txKl42iyJDzNyT16Re9eNMe6Qb0dItgm/lIay+xfJd1iROdnwpGYSA4xt0Sw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyt6RJMRKMKzfs1/ruZh9MEjzk4BhoeaTFldiSUSnWxZskvc0RO
-	V8Dnd0HPx8s1z34b5SU/CN8uz8hqJ9V/0Kc0Ruwo7tgs9UOqV6I4lGxg41ICuq9CzON8+SlXEHd
-	I3I0ksiQF4T2TAzYOhfNQCQwc8Ug=
-X-Gm-Gg: ASbGnct8CjGk6i+dbWvVON3ei078AXn5VUaFy21aPkYPGhRlS6140pm4kgVQNxXyynm
-	HA4waxOU6o4gm6W4A+yO/vlpqc4b4m3g1wJ26j/jgEwlPbm2MNSuaq/XHB8tzJn5OIvvh3se1rE
-	l8zCE0/NG09CYjywAj3VpIfe5GAg==
-X-Google-Smtp-Source: AGHT+IF8T35Rt08gSPgS+rltivGzc1n46rlZ4IJWTrtMU6+4Meg16ttu5QyyLuTCeM+u1qBLwY2qfkYxheoYoJJMR+c=
-X-Received: by 2002:a05:6102:3750:b0:4b2:48cc:5c5a with SMTP id
- ada2fe7eead31-4b9a4fc2cccmr969135137.15.1738111115514; Tue, 28 Jan 2025
- 16:38:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738118647; x=1738723447;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IVYHGFQKOgBPof98GfAaFdgi1Qa0Lle1CODzTvwW5f0=;
+        b=VNbWxxhSC3yX+IfOyFqrkqWH+swCIMnB7nEvRvcHoa7twOS60UW3c8PeGzdfqegqVV
+         eGsGmx9tneqGE6g8ysMwUs2yzZW41bZFSJEYbHQWBY+98m2bDTAoiGBBe2iv2lMqGgW9
+         qPTRRMGdLrHT5HCnkIRT8p76Dpswn/R4Wyc0Ax7cD83Huiqiy6TF/fQJ6SpoDr614GsA
+         HubFnqSmTvnXATxJ/uRkuDQGUI6SAWq6INIKpHAp0I7u8mudyfqC6hEJaM99m/FLldHN
+         I1m7+pQ0VDS8vDoKIwKVVe38mfWuOI6CwFL8c8nmmvDKDHGBG5cIE8ceLrEZ1IA/Rqt7
+         kZCw==
+X-Gm-Message-State: AOJu0YwER+fDMSr3eWCnyRNaZerSx/mnFAt9xNfSfJM+cOeV1isnXWTh
+	wcP4M7nW7czNApIzNnbRVs3j4zbRf2OBhBw+MoekFAMCpQBQX/larnQphSHJwJQ=
+X-Gm-Gg: ASbGnctz1/lQIOeFyEFP8SRCyh0MVNHU/gdsv0Ji90HTYnrqWkfTLFHfMn4YVKJcH/P
+	O8T35549W5nhZK1GDe5mxnsbISyPK2N4wqOX5k9MT1vQ2dV6UltqS1QZKLmM6P4AAUICvSBBo4p
+	6h1wnnLARjyVVuUqbNaGeWyiaAbgpfj1btTVGDObyGwjSEJmsJPVrqvp1Mk4feVEMoralbUGQlr
+	bHqCsdJrv3+Ftyv73F17ShVMP04jOXhJEW337404tjY70bllMbHLxRu9T7eDL8WzE22j1rmfoLr
+	tDWALISIaHZm2yIgp/MF8wdXW8634nqUcjaCNMihxvdfqT741ASZdnIUyPda7dJD9Iw0ouc=
+X-Google-Smtp-Source: AGHT+IF87T4/1V55ZsrzrslHvS2pz0VUIZD+AGj5yvQ4CjEfJwJ2OdILP/OvdB8XkqNo+x6ppZBsLQ==
+X-Received: by 2002:a05:6512:3051:b0:542:28dc:b692 with SMTP id 2adb3069b0e04-543e4be9b8emr384924e87.14.1738118647029;
+        Tue, 28 Jan 2025 18:44:07 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c83815a9sm1809827e87.225.2025.01.28.18.44.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2025 18:44:05 -0800 (PST)
+Date: Wed, 29 Jan 2025 04:44:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: marc.ferland@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Marc Ferland <marc.ferland@sonatest.com>
+Subject: Re: [PATCH 2/2] linux-firmware: split qca firmwares in separate
+ packages
+Message-ID: <hlr4zstoczjrkyhyrhymzycp3fdisrijtnmgh6gvwnwkhaf5zj@x5srehiplk65>
+References: <20250127162440.3869759-1-marc.ferland@sonatest.com>
+ <20250127162440.3869759-2-marc.ferland@sonatest.com>
 MIME-Version: 1.0
-References: <20250128101633.3664659-1-Yash.Shinde@windriver.com> <96981090-c00a-40cb-802c-f709450036f1@windriver.com>
-In-Reply-To: <96981090-c00a-40cb-802c-f709450036f1@windriver.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 29 Jan 2025 10:38:09 +1000
-X-Gm-Features: AWEUYZmeMaCm0qBKcb6_VdAP0sAbMDaPfHsqOZuj93eDJdUom3nLw3DXUbowrsw
-Message-ID: <CAKmqyKNHc0rGAAc=3cJZN+uQ8BPhSAyb96Y1+pFGt8bk=ouY6Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemuriscv: Enable Sv39 memory address scheme by default
-To: randy.macleod@windriver.com
-Cc: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org, 
-	"Ramasamy, Rajeshkumar" <Rajeshkumar.Ramasamy@windriver.com>, Khem Raj <raj.khem@gmail.com>, 
-	Sundeep.Kokkonda@windriver.com, "Hao, Kexin" <Kexin.Hao@windriver.com>, 
-	"He, Zhe" <Zhe.He@windriver.com>, Trevor Woerner <twoerner@gmail.com>, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250127162440.3869759-2-marc.ferland@sonatest.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 00:38:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210340
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 02:44:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210341
 
-On Wed, Jan 29, 2025 at 1:51=E2=80=AFAM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> Add Raj, Khem, Kexin and Zhe who know more about RISC-V than I do.
-> Kexin and Zhe are on holiday for a week or more.
-> CC a few people who have contributed to riscv* conf.
->
-> I am not all that familiar with either qemu internals or riscv specificat=
-ions so any input is appreciated.
->
-> I have some comments and questions below.
->
-> On 2025-01-28 5:16 a.m., Yash.Shinde@windriver.com wrote:
->
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->
-> Currently, GCC Asan supports only Sv39 on RISC-V due to custom allocator =
-configurations optimized for large allocations.
-> These configurations are incompatible with larger address spaces like Sv4=
-8/Sv57.
-> This fix enables RISC-V's configuration for Sv39 by default when running =
-`runqemu nographic`,
-> eliminating the need for manual configuration via command line flags (`qe=
-muparams=3D"-cpu rv64, sv39=3Dtrue"`).
->
-> Fixes [YOCTO #15691]
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15691
->
-> Reference: https://git.openembedded.org/openembedded-core/commit/?id=3D4b=
-4450ff695ef73bf7a2437e142d2e0730d6a547
->
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+On Mon, Jan 27, 2025 at 11:24:40AM -0500, marc.ferland@gmail.com wrote:
+> From: Marc Ferland <marc.ferland@sonatest.com>
+> 
+> This patch introduces the following packages for firmwares under qca/:
+> 
+> - linux-firmware-qca-qca61x4
+> - linux-firmware-qca-wcn3988
+> - linux-firmware-qca-wcn399x
+> - linux-firmware-qca-wcn6750
+> - linux-firmware-qca-qca2066
+> - linux-firmware-qca-wcn7850
+> - linux-firmware-qca-misc: catches all firmwares that are not already
+>   included in the other -qca- packages (currently empty).
+
+Well, I'd think more about the usb vs serial split too. There is little
+point in having the USB-related files together with the HCI aka
+serial-related files.
+
+> 
+> linux-firmware-qca is now a meta package that depends on all of the
+> split-out qca packages.
+> 
+> Note: Content of the FILES:${PN}-qca* variables taken from WHENCE.
+> 
+> Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
 > ---
->  meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
-chine/include/riscv/qemuriscv.inc
-> index d01d988eee..6170ce65f2 100644
-> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
-> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-> @@ -27,6 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 =3D "0x80200000"
->  # qemuboot options
->  QB_SMP ?=3D "-smp 4"
->  QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
-> +QB_CPU =3D "-cpu rv64, sv39=3Dtrue"
->
-> Thanks Yash.
->
-> To save everyone from doing the math, sv39 gives the system 512 GB virtua=
-l address space.
->
-> Should we use the ?=3D operator here so that users can easily override th=
-is specification
-> just as is done for  QB_SMP two lines above?
->
-> Please summarize what testing you did.
->
-> Did you test with TCLIBC=3Dmusl ?
->
-> Since you are changing qemuriscv.inc you and the YP AB should test qemuri=
-scv32 and qemuriscv64.
-> qemuriscv32 should, if I'm understanding how this works, be unaffected si=
-nce it has to use sv32 mode.
->
-> Did you find out why sv39 isn't the default for qemu?
+>  .../linux-firmware/linux-firmware_20241210.bb | 142 +++++++++++++++++-
+>  1 file changed, 136 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
+> index 78bf13d878..79c273063e 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241210.bb
+> @@ -395,6 +395,13 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+>               ${PN}-ath12k-wcn7850 \
+>               ${PN}-ath12k-misc \
+>               ${PN}-qca \
+> +             ${PN}-qca-qca61x4 \
+> +             ${PN}-qca-wcn3988 \
+> +             ${PN}-qca-wcn399x \
+> +             ${PN}-qca-wcn6750 \
+> +             ${PN}-qca-qca2066 \
+> +             ${PN}-qca-wcn7850 \
+> +             ${PN}-qca-misc \
+>               \
+>               ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+>               \
+> @@ -580,7 +587,13 @@ LICENSE:${PN}-ath12k = "Firmware-qualcommAthos_ath10k"
+>  LICENSE:${PN}-ath12k-qcn9274 = "Firmware-qualcommAthos_ath10k"
+>  LICENSE:${PN}-ath12k-wcn7850 = "Firmware-qualcommAthos_ath10k"
+>  LICENSE:${PN}-ath12k-misc = "Firmware-qualcommAthos_ath10k"
+> -LICENSE:${PN}-qca = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-qca-qca61x4 = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-qca-wcn3988 = "Firmware-qcom"
+> +LICENSE:${PN}-qca-wcn399x = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-qca-wcn6750 = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-qca-qca2066 = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-qca-wcn7850 = "Firmware-qcom"
+> +LICENSE:${PN}-qca-misc = "Firmware-qualcommAthos_ath10k & Firmware-qcom"
+>  
+>  FILES:${PN}-ar3k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAtheros_ar3k"
+>  FILES:${PN}-ar3k = " \
+> @@ -628,9 +641,116 @@ ALLOW_EMPTY:${PN}-ath12k = "1"
+>  # firmwares that are not already included in other -ath12k- packages.
+>  ALLOW_EMPTY:${PN}-ath12k-misc = "1"
+>  
+> -FILES:${PN}-qca = " \
+> -  ${nonarch_base_libdir}/firmware/qca \
+> -"
+> +FILES:${PN}-qca-qca61x4 = " \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000201.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000300.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00130300.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00130302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00230302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000201.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000300.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_00130300.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_00130302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_00230302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00440302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_00440302.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00440302_eu.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_00440302_i2s_eu.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000302_eu.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/htbtfw20.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/htnv20.bin \
 
-QEMU defaults to the max supported SATP mode. I'm not sure there is a
-specific reason, that's just what we have always done since we allowed
-a user to specify the SATP mode.
+So, I think, the htnv20 and htbtfw20 should be a part of the different
+package.
 
-> If not, please check the git history and it there isn't an answer there, =
-ask one of the qemu developers
-> who work on risc-v. It would be nice to have a sentence about that in the=
- commit log.
->
-> Did you consider a different RISC-V cpu sub-arch such as rva22s64 ?
+The rest LGTM.
 
-I think defaulting to a profile (RVA22S64) would be the way to go,
-that will also enable a known set of extensions.
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00130200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0104.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0105.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0106.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0107.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0109.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0110.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00130201.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_010a.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_010b.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_0303.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_010a.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_010b.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_0303.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00190200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200_010e.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200_0112.bin \
+> +"
+> +FILES:${PN}-qca-wcn3988 = " \
+> +  ${nonarch_base_libdir}/firmware/qca/apbtfw10.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/apbtfw11.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/apnv10.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/apnv11.bin \
+> +"
+> +FILES:${PN}-qca-wcn399x = " \
+> +  ${nonarch_base_libdir}/firmware/qca/crbtfw21.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/crnv21.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/crbtfw32.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/crnv32.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/crnv32u.bin \
+> +"
+> +FILES:${PN}-qca-wcn6750 = " \
+> +  ${nonarch_base_libdir}/firmware/qca/msbtfw11.mbn \
+> +  ${nonarch_base_libdir}/firmware/qca/msbtfw11.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/msnv11.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/msnv11.b0a \
+> +  ${nonarch_base_libdir}/firmware/qca/msnv11.b09 \
+> +"
+> +FILES:${PN}-qca-qca2066 = " \
+> +  ${nonarch_base_libdir}/firmware/qca/hpbtfw21.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.bin \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.301 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.302 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.301 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.302 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.309 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.309 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.b8c \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.b9f \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.ba0 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.ba1 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.ba2 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.ba3 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.ba4 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.baa \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.bb8 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.b10c \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21.b111 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.b8c \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.b9f \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.ba0 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.ba1 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.ba2 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.ba3 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.ba4 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.baa \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.bb8 \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.b10c \
+> +  ${nonarch_base_libdir}/firmware/qca/hpnv21g.b111 \
+> +"
+> +FILES:${PN}-qca-wcn7850 = " \
+> +  ${nonarch_base_libdir}/firmware/qca/hmtbtfw20.tlv \
+> +  ${nonarch_base_libdir}/firmware/qca/hmtnv20.b10f \
+> +  ${nonarch_base_libdir}/firmware/qca/hmtnv20.b112 \
+> +  ${nonarch_base_libdir}/firmware/qca/hmtnv20.bin \
+> +"
+> +FILES:${PN}-qca-misc = "${nonarch_base_libdir}/firmware/qca/*"
+> +# -qca is a virtual package that depends upon all qca packages.
+> +ALLOW_EMPTY:${PN}-qca = "1"
+> +# -qca-misc is a catch all package that includes all the qca
+> +# firmwares that are not already included in other -qca- packages.
+> +ALLOW_EMPTY:${PN}-qca-misc = "1"
+> +
+>  
+>  RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
+>  RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
+> @@ -658,8 +778,14 @@ RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-ath12k-misc += "${PN}-ath10k-license"
+> -RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
+> -
+> +RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
+> +RDEPENDS:${PN}-qca-qca61x4 += "${PN}-ath10k-license"
+> +RDEPENDS:${PN}-qca-wcn3988 += "${PN}-qcom-license"
+> +RDEPENDS:${PN}-qca-wcn399x += "${PN}-ath10k-license"
+> +RDEPENDS:${PN}-qca-wcn6750 += "${PN}-ath10k-license"
+> +RDEPENDS:${PN}-qca-qca2066 += "${PN}-ath10k-license"
+> +RDEPENDS:${PN}-qca-wcn7850 += "${PN}-qcom-license"
+> +RDEPENDS:${PN}-qca-misc += "${PN}-ath10k-license ${PN}-qcom-license"
+>  # For ralink
+>  LICENSE:${PN}-ralink = "Firmware-ralink-firmware"
+>  LICENSE:${PN}-ralink-license = "Firmware-ralink-firmware"
+> @@ -1909,6 +2035,7 @@ RDEPENDS:${PN} += "${PN}-whence-license"
+>  # Make linux-firmware-ath10k depend on all of the split-out ath10k packages.
+>  # Make linux-firmware-ath11k depend on all of the split-out ath11k packages.
+>  # Make linux-firmware-ath12k depend on all of the split-out ath12k packages.
+> +# Make linux-firmware-qca depend on all of the split-out qca packages.
+>  # Make linux-firmware-amdgpu depend on all of the split-out amdgpu packages.
+>  python populate_packages:prepend () {
+>      firmware_pkgs = oe.utils.packages_filter_out_system(d)
+> @@ -1929,6 +2056,9 @@ python populate_packages:prepend () {
+>      ath12k_pkgs = filter(lambda x: x.find('-ath12k-') != -1, firmware_pkgs)
+>      d.appendVar('RRECOMMENDS:linux-firmware-ath12k', ' ' + ' '.join(ath12k_pkgs))
+>  
+> +    qca_pkgs = filter(lambda x: x.find('-qca-') != -1, firmware_pkgs)
+> +    d.appendVar('RRECOMMENDS:linux-firmware-qca', ' ' + ' '.join(qca_pkgs))
+> +
+>      amdgpu_pkgs = filter(lambda x: x.find('-amdgpu-') != -1, firmware_pkgs)
+>      d.appendVar('RRECOMMENDS:linux-firmware-amdgpu', ' ' + ' '.join(amdgpu_pkgs))
+>  }
+> -- 
+> 2.34.1
+> 
+> 
 
-Alistair
-
->
->    https://github.com/qemu/qemu/commit/3ba8462c4ca55720239fdc6fa30b9870d2=
-2a8814
->
-> I'm only asking because it seems like it might be a good fit for us and I=
- noticed it when
-> searching the qemu commit logs looking for sv39.
->
->
-> ../Randy
->
->
->
->
->  QB_MACHINE =3D "-machine virt"
->  QB_DEFAULT_BIOS =3D "fw_jump.elf"
->  QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,downscr=
-ipt=3Dno"
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210329): https://lists.openembedded.org/g/openembedde=
-d-core/message/210329
-> Mute This Topic: https://lists.openembedded.org/mt/110856569/3619028
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-istair23@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+-- 
+With best wishes
+Dmitry
 
