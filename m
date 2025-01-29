@@ -1,118 +1,96 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69429C0218D
-	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 10:09:55 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.9374.1738145386205199494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D072C0218D
+	for <webhook@archiver.kernel.org>; Wed, 29 Jan 2025 10:31:45 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.9772.1738146702055656735
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 02:09:46 -0800
+ Wed, 29 Jan 2025 02:31:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DP2740J+;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso3929497f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 02:09:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YP6FhTCc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aaeef97ff02so1104347166b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 02:31:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738145384; x=1738750184; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BhbpyNWEjXhEiJkgjJE5mYOFv+slcwBm3E2+JN5vePo=;
-        b=DP2740J+SCVHztg/GKz2XIz3HWFqfiIudO7CIK8cu1Y/GlK1/Bp+SGR9NwNKWX3lic
-         g84O0cEwqRVIAtbWkYLKGqjXJ5Ydj2fqRssRVk6uX/n+BARgjW0nXU/98WSyMfgHmuoP
-         fpc/o0lE9QZxrqO+aaC12oVank4JmFCeUhqaXtGOCWbM/Kai4PezbTWh8afa1orVr5OJ
-         SnywtshiFM6nzHsKL8lPKBXJuWOzI1qTzscBs6Fl3evCgWpXk8aMzpWSPcnNJ7u2kUMq
-         7gUeyf873hdDpnE2z8J7LfvmJOMWhf8eaRY20kYKzpRSGXvnAtvYvlCo4XkEmTdGWjW/
-         u6MQ==
+        d=gmail.com; s=20230601; t=1738146700; x=1738751500; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WfpTQBUYRv0QWN5YhS7I+WGRbrDRDgkgKalzWJwsGpY=;
+        b=YP6FhTCcLXRCtnQ7wNvhqqPG4ESua8vyznmzkHlERWdQBmzBF6DSsZYilJape8YSjd
+         ZGF+6jqrhs4idp2a3YOFUXX2ewUropiQc5ZHOYbuWIpvswWQlsHlGZ76yyDR36ok0Xwg
+         vXBorYmXSsuwFw/SZCvmlenhLYb8GUeKgqhg8KrLVsQXqA7Tb+kG7H5l3876KfvRFeFV
+         ep0/wuVnDJ5I1A874LJY+yaegWKOnJ9XEsQkoZ+EBouUbm6xDoamdDtdn6fypD2DYyiH
+         MAr8tWombb2V8GGPj/B+m8oeu2dx6FUt5q1U5U2bQ4sv7AF1kXou8zn//MF1LPxqFMQX
+         gVDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738145384; x=1738750184;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BhbpyNWEjXhEiJkgjJE5mYOFv+slcwBm3E2+JN5vePo=;
-        b=AYdvy1Puc7SwSXhtR67RQK7LGEF27JBLwimvCBfuPqD4A/U468Rxlq52ifljiTVTBR
-         Yy2n7QOPWYPknm1c7KmaDPramb5cl4KmZTMk1h20qI/Cv1BQkPtJUe/awBYB6GYC/ii9
-         uIcnjFRPByRUo6obkDdqcYol+jjxTVinHv/4UlBtYk+w2W6phfDbXVoYdPP4u+0fbUA8
-         DW8+Wo/o1I0NBcupjbTnKzps5DFQYd2sI0ZjTYvxN0gHP9GgUkwUfScxVYCZhg8dRb64
-         JIqM5wmSKDs88i+xWYRH0dlY354j+7JjNg+hRja3J0lYjzxIz/G9VNagOcIV7YhAMBQm
-         yqLQ==
-X-Gm-Message-State: AOJu0YxVHGy51YkSmHS1JoV6ceZKFxXlcnT+ioV67S/7C1nOoFdn87Ba
-	Wp2M4oNFCY5DJU0uNqe9PV/RYTI+DDsqWQgFeSeiar24DkP/81G6
-X-Gm-Gg: ASbGncvRb+ogn1AdH9BLOzXz5Y37NaXH2ztWPW8y4hi4m94mzpMBOrFj7f5t1yayBHo
-	0giC8SwxrfVwoLBD8jpRCtQ9F+X7WAIKJyIa6JdtA6RDs3B0XjOXue1kf7MgQgHhERrLNEA8K6f
-	HmDFGO0lcyFQMjIEztySgCUW4RH09VdKsZtsvgeQxFRs5ltPfjiY58K0J7Sf67gJDzcTlcQKN7Y
-	KwMRsz9AGJdObnmMbt3CVzoSWBrUhK2Goj/RCfMONkM1Jl4i9PImSAYq5W3U+Y91e2Gz4o6sBZQ
-	5o0qA9XVBs54V3YYRXF3Bd5a3ahhdDtBvAwb7YAfnTPhdVRh
-X-Google-Smtp-Source: AGHT+IG29247T/savQWl+qd/sy5GK/7Mih9uWWvtiOXqT4lBpedqqw/xQUEoQXQpe3MgWyQTIoXIrg==
-X-Received: by 2002:a05:6000:4011:b0:385:e8b0:df13 with SMTP id ffacd0b85a97d-38c52095e20mr2124797f8f.40.1738145384417;
-        Wed, 29 Jan 2025 02:09:44 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a188673sm16221768f8f.46.2025.01.29.02.09.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2025 02:09:44 -0800 (PST)
-Message-ID: <47dcd9af-18d9-4556-90b7-a33930df6e7b@gmail.com>
-Date: Wed, 29 Jan 2025 11:09:43 +0100
+        d=1e100.net; s=20230601; t=1738146700; x=1738751500;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WfpTQBUYRv0QWN5YhS7I+WGRbrDRDgkgKalzWJwsGpY=;
+        b=sqzcfjTbASmzU8bFnGWg9sgQZUyB8R0atTqzDSo5ZmkpKYwhq8accXWmbASHlNGc9I
+         cFT03gMygbowqLtbtSKtQDExsec+AzsROBQDay8/HesXYTZb6N38YAVzwvufD7V0x2Ac
+         oueS8zBPo67zrDLJSYp49RuItj9wJSBHGPnG/4CCdyW3nnFzl5pHRFcQNeOmzdpyrOue
+         CYkqg1rfrXlLQ8a2jkeP4jUrJxOUguEmoZKtRyUuUROOPgSPH25tCGydHIRjACXc9Kbo
+         bWIBz5uwBae97/dq2pieEg/QO0nR/tFI+TNiw4tqubylX/uhaP3enMRDsIvuxPUDoZaH
+         Xc3A==
+X-Gm-Message-State: AOJu0YzRvoFDwafF3+orooy05/Hejxymyc2X8Ypee4hXL1SS9LDhKDe4
+	ioyqKJZkIpaUTlP4pW+A7er83KdZbgrRXkPIBiFVIB5mJIVHjae8eQHEiw==
+X-Gm-Gg: ASbGnctF9mBxkvM+lC48zuzgFMwPINWCmJFexPWSmI9GUnhx2E6mkYhZ+TU2wG6+LLO
+	iHFoeZKFE22QyqUd2f0TBOy/SGvEfRDz4RMYdYfdbOkLwLkfi+i3iDFNCVFk5U3EAln1Fx/lJLd
+	I8ADQUELycc+6fprrz3oclyEPBY/IroBpjrajm/GOZkQRCdwOXkSSe8Ga5i67dfexkvjgcp7Kvb
+	UT3x8CwCGdtgmHJLuRg7KirIfKfjFIBec0n5Og4NWDMJRGZRmRG8oh3ZauRly/YpvVUE4uemjQE
+	+lGjxo3Uru7QpA6wT+Zhp1hz3ZRvU8PQ
+X-Google-Smtp-Source: AGHT+IE1icyN7FJPICgEq39ZoLAQ3ySmUlbk7b3HW7WemJ4qPP+LDRyCiUpjnS81H8i6I4+VZRWErg==
+X-Received: by 2002:a17:907:1c1d:b0:aae:b259:ef5e with SMTP id a640c23a62f3a-ab6cfba9d90mr256922566b.0.1738146698692;
+        Wed, 29 Jan 2025 02:31:38 -0800 (PST)
+Received: from nac45008.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6760fbf43sm941662566b.154.2025.01.29.02.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 02:31:38 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH] webp: update SRC_URI to use https
+Date: Wed, 29 Jan 2025 11:31:16 +0100
+Message-Id: <20250129103115.3712961-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.39.5
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 2/3] rpm-sequoia: New recipe for version 1.6.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-References: <20250129080902.1863054-1-zboszor@gmail.com>
- <20250129080902.1863054-2-zboszor@gmail.com>
- <CANNYZj-pUVu_vp7DERcSF__LcRWi3oA4hocfEqfKPW_KxmrGZg@mail.gmail.com>
- <1b6439a8-3688-4d45-90ab-0eef473eb347@gmail.com>
- <CANNYZj8Bx=VShWDBUX32rQYmjk=D3ExyXpCqNfXFDBWWVP=p9g@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj8Bx=VShWDBUX32rQYmjk=D3ExyXpCqNfXFDBWWVP=p9g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 10:09:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210362
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 10:31:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210363
 
-2025. 01. 29. 10:29 keltezéssel, Alexander Kanavin írta:
-> On Wed, 29 Jan 2025 at 10:20, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->>>> +LICENSE = "LGPL-2.0-or-later & Apache-2.0 & BSL-1.0 & MIT & Unicode-DFS-2016 & (Apache-2.0 | MIT) & (MIT | Apache-2.0 | Zlib) & (Unlicense | MIT)"
->>> This is very elaborate, how was it determined? How to ensure it remains correct?
->> It was taken from the Fedora specfile license line verbatim.
->> IIRC, they (Red Hat) have a large contingent of lawyers
-> I guess you could add a recipe comment pointing to the original specfile online.
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-The src rpm build from koji can be linked, I haven't found a link for
-a separate specfile.
+As the certificate is for *.storage.googleapis.com, update the
+URL to reflect this.
 
->
->>> Why can't we use upstream's standard install procedure? Also,
->>> cargo.bbclass has an install function, why is it completely replaced?
->> Because it fails with:
->>
->> | DEBUG: Python function extend_recipe_sysroot finished
->> | DEBUG: Executing shell function do_install
->> | ERROR: Did not find anything to install
-> Yes, cargo_do_install only copies executables, you need to opt into
-> libraries by setting CARGO_INSTALL_LIBRARIES.
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ meta/recipes-multimedia/webp/libwebp_1.5.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It installs the library at the wrong location, but do_install:append
-can still fix it so it matches the pkgconfig  file.
-
-> But before that, presumably sequioa upstream has a standard
-> installation procedure that we can try to use instead of copying files
-> by hand?
-
-It doesn't. It's README.md used LD_LIBRARY_PATH for
-the example rpm build using it.
-
-> I'm particularly interested in how ${S}/target/release/rpm-sequoia.pc
-> is supposed to be installed.
-
-It doesn't get installed, just generated.
-
-I guess that's why the rust-rpm-sequoia specfile copies both
-the so and the pc files explicitly in the correct location.
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.5.0.bb b/meta/recipes-multimedia/webp/libwebp_1.5.0.bb
+index 1ca564f678..39fe947eea 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.5.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.5.0.bb
+@@ -13,7 +13,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
+ 
+-SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
++SRC_URI = "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+ SRC_URI[sha256sum] = "7d6fab70cf844bf6769077bd5d7a74893f8ffd4dfb42861745750c63c2a5c92c"
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+-- 
+2.39.5
 
 
