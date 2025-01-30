@@ -1,273 +1,573 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0F2C0218A
-	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 15:38:00 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.67.38])
- by mx.groups.io with SMTP id smtpd.web10.18075.1738251473315657454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0CAC0218A
+	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 15:47:30 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.18405.1738252045059049065
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jan 2025 07:37:53 -0800
+ Thu, 30 Jan 2025 07:47:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=apq1PN0F;
- spf=pass (domain: siemens.com, ip: 52.101.67.38, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oSnXRpj/147xvF5FsXuMKLls1G3PPh74JBltbDNwDqAJQgx3C3ORAtlRGJedyEH1kCKwRW1BV5mQxXVgk/UzpIdZhzQjFtNb5Uy7ybbGVG1cecmZlLN5Q9qwnr9pLqYDQzD15M9u7Oo24r1zOPl2cdanFiFGJ2QwMJc6TUDKcWxRFE8X9dVhJzHcT/z6dzhkO/phCPnzG2eekJ9+LaAxoDrXo7WI3JykDNA3wI+KX2VoOkNyJM9wBVT0HeQBRv6ergUzXrLl4sQ95Bkli2YjrDLPrrvfC25DAT2T8QktnS/B/ypE/8/Nl80w8q/nBut7yrAxQveYkbc8EE3vMu8jkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4WSoDAa4xrNUtGS4HnihlO2tpj+tjVD2VMdZn2WatSE=;
- b=yhAM5YjBWyXWYSHMUZamE+BZqsW3DjNAw/u+sLltAfMQw239iwrzczbj5TqlAK/CuU/KPtdS5wFBDNRHOASMegBTBEW7lP79uA6r8R68Hg6Hkpw3KWxIZ16MmmRgPicyv+mCIuKBMuHibLtN3xW7EEnzSvkGW9uWBd0ktwLU2ZQ96ePyl2Zr6lQMsgpLdkDMgziLJOf/Vkig+D/wqssoBYaU38BEBPvEWnB/HTSPUcDQhgpRja1z7WMUN1Wlb/JoYE/19QdYg3is5ruyV6s6ghBnuKFs9jJyV1PX2H2WvsZQz/afQvFdrN3xu3AKcI5Fv3FwwXMrxHTVAQOUmlYDgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4WSoDAa4xrNUtGS4HnihlO2tpj+tjVD2VMdZn2WatSE=;
- b=apq1PN0FckZPwH1MWN945xQm6w62q4pcdduhZYboyZZQ31mDJyzfn0F2/JnYG3YkZKchPPKhZ+M+f4kPA24mYotqMYCIRXCBexpIPuBfE83xO22sGGqdFGyIvO+AXDezMuMfbMogdmSjqBbMYK2K+JK4kNMGTqNAla0ZC35Pupxp7OgsbragHPE4z+WlkhTcvXMFaYeBvRzaOtx4BaPfBVsdAzOY7bS2PuKR/wetNwQIAx/1eZSX0kg5K4ZHB+li2J35BuBjwHB+USkr2pPh7I7FFh8BTsJ6dAWTQMpjCh9efw8XTScbeo739PEG2KFPnU58t4DQ27KmxktwJLoMmw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV1PR10MB5986.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.16; Thu, 30 Jan
- 2025 15:37:50 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8422.005; Thu, 30 Jan 2025
- 15:37:50 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "steve@sakoman.com" <steve@sakoman.com>, Patches and discussions about the
- oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] Request for discussion: Kernel version for LTS releases
-Thread-Topic: [OE-core] Request for discussion: Kernel version for LTS
- releases
-Thread-Index: AQHbcyOpfuhOukV7t0GR11B/fqY1RbMvadmQ
-Date: Thu, 30 Jan 2025 15:37:50 +0000
-Message-ID: 
- <AS1PR10MB569795F9BEF718384BAECBADFDE92@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9fdc4ec5-0f7d-462a-9fa2-dd6901b7ba28;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-01-30T15:03:04Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB5986:EE_
-x-ms-office365-filtering-correlation-id: 2689dd5f-6bb6-4358-d527-08dd41440dda
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?cmxVVDBtRTU1b25OR2hud2Zlbnl5ZlYwV1B6aU1ZMmhPdFMvWlRRcGR5eFZR?=
- =?utf-8?B?NU5sU2NnS3BkWmJhc1I0b3JkMnZacThXUzNyMTZRRExZWUF1emRHalo1OVlU?=
- =?utf-8?B?QUhkd05nSHUvZUQ5Y1V6eHBzZWJIWk5GSDc4V3pPVy9uK1lJcFJjVkFOa1kv?=
- =?utf-8?B?VmVwVWZNZHR3MHRUKytxL1MzNnZxSzlHU0dFanJOK1VQWmJybmZuMU8xNGw4?=
- =?utf-8?B?SU1wQWZLc2MvOVRjL2RWWTZhQ2I1ZVpvMVlTajkvWHJDNEhPeDhacTdZMCt1?=
- =?utf-8?B?Q2IrRGJLYlFUam1sdVFNQS9XZzR4NDZuREJIT2tYTUJBY2RqMDBlVUtheWRv?=
- =?utf-8?B?Rk1QQXlDdUFLM0FSK25kaFJPeEVPSkJWSC9xdlJCdWMyamxmbEo0UjVqM21j?=
- =?utf-8?B?eXMyQTBHZDREd2xVemRFVW1xbG9nQWNUNWpxSkR6WG84T3kxR0ZHbDlsV09t?=
- =?utf-8?B?M3BjZVludzBhU1MydXEwM20vd1YvVkpZcUlQK011WUpNWkhGWlZkZzVjeGJC?=
- =?utf-8?B?elBJY1VXMC81djFFa2VYNUZwUVVTb1o2ZVBNLzBwbTd3K3RHWGV0ZXdPTmNX?=
- =?utf-8?B?Ukthd1Y0SXBkZ1lQLzlJTFUxa0tXRkFlUndydEpuZjc1ZVNmQkk4K2tPN1RH?=
- =?utf-8?B?dEFVUENXVVg3U0ZSMEpCWW5tajFLYno1TnZzaVhuQ2xZU3FHSzZRcW1pYlZ6?=
- =?utf-8?B?TElkeTNDcmxuT28xd0o4bUJRKzhHZHBCNG9ZK256c3BNazVnSXUyampwUTU4?=
- =?utf-8?B?UDBScGZyUnBOTjBDd2RWb2tIeW9yY2tBdjNjWXltMnNvbEJkWDdETFBpdm0v?=
- =?utf-8?B?YUk4Q1R1M2ZlcTduNzcvd0xwMjBrcFBQc3pTcjBGaGRTanpsdTBOZUdwS0Iv?=
- =?utf-8?B?WWpKdEJzcGdVWnZRaWlKMnhKek4rZ2dkY2RBc0lLUHN6bDdmSzdjOEZISkdB?=
- =?utf-8?B?RmphdEpESWdZRUlhekIwNmtWN1JZdStLNTJaOTMxVENPYXdqY0xaZTN5RjM3?=
- =?utf-8?B?Y2YxYUNmMW1SclJhZUlkcFFvYnVlUnhZWWNTeXRuQUFjUklVU05OWUhtNGtN?=
- =?utf-8?B?K2dzb0VNSElPK1F5ajhwa2RRRi83MkNmYWZCNStQUktuUU1TY2lZTWRzZVhO?=
- =?utf-8?B?blBwN082ZmVnMTJTNUJkOGdLYlQzTHZXTXl0VHZKZnNhU043SHRDQU5pQWtx?=
- =?utf-8?B?UDVSQXVRZ0ZOL2tEWEJGTmRaWE1scVhGSzZtQVJ2TmhVSEdsWDhlTU5FdWJN?=
- =?utf-8?B?eGVXVjArUkZxSmFXaHhwOENZekQ2S2dIdUZrTktUOGNhck9YTml6NDZsZmsw?=
- =?utf-8?B?RWdtREpWU2xqak1NZlNCcDI1bWV2ejBvdm5NeEsyaXdhdmd4VmNPR0hJeUFw?=
- =?utf-8?B?RHBsTCtuTjRDUjN3bGxCWTgxUlptZVprMnpIbXZaVjY0NWo4b0Q1R2pURzFY?=
- =?utf-8?B?RWo5SG9QYk9sZXdvRVcrU3Z3QloyVlRoaFZ1UlZjMVQrT08wZFdnSmVNWUZr?=
- =?utf-8?B?OGZqcWJYRTFXWkEvc3RFQWd0N3B3cmpROEVQSGNFYy8zbTcrRFh1Sk5sOGN0?=
- =?utf-8?B?bVVPdjlqbnEyWjlweFlaWFY3clg2Mzh5VklLN1dJMDl3U2VnN1FDZVgyK3Z2?=
- =?utf-8?B?OFVkdUZWVVlEYWxRaW1ZdnVsWDgrRm51M0xyMmNTanRvN05Ud1dXQWErSkox?=
- =?utf-8?B?UmZ0clZoQlR1UGVSdmgrQzVuczJTMHFTVEFrbk1SdXhld1RmY0lPZlYwRVdu?=
- =?utf-8?B?Y2cva0xmVlV0Z21YRUh6WEI1N2pqYTVTRXB4ZTFlVVo0N3NvTU5SU3JlNVpF?=
- =?utf-8?B?a3J3Z0QvQUdzZzJQVkpNWGtvQU5wWDFudTlSRy80T3dhLzdhS3Y3N25xbVhI?=
- =?utf-8?Q?XSmkCaUrsisAh?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OVVKbEdWS045bGlTNisyeUpuK0gxdzRxVGpRbnJGSnRjMks1b1F5a0k1U2U3?=
- =?utf-8?B?NEZ5YklBV3VDRm1JSWFHMEJ6eVk4Y21SeVRMZ29RVk9IQkVRQ1MvTkVib21F?=
- =?utf-8?B?R2themRtSm5HN3h5Q2tmVkxXVGJ6RGdUMEJvSVVvMUNab2lmR0o5MURmcWl2?=
- =?utf-8?B?U1Boa3g2NkZObVAzODJNZGVOMDh1YnJEazFNT2ZEYS9PeEZEWnFMYXRLNW44?=
- =?utf-8?B?REVERCtoRlFhdmh0T3BKbE42UVVyeEZoY3ZqL0FnUFJ6NUE0UXBRdmdEckdx?=
- =?utf-8?B?cUlaMW1yNmJyb0xZVWNZUGpDMXNVOEd1SkhjZHZNSmc5Q3ZYT0RtdWV3dDIr?=
- =?utf-8?B?akRPOTFJL2R1ZmUyM1pSaFNkdlNJdk5tWUlOUmZkb3ZMWUlyTUxldXprMXhP?=
- =?utf-8?B?SmNBVit1SWFMVm9UcnhqaUQ5MDNxV1FGZXo3eGorS1F2VTFzVDc5NFFOTWlX?=
- =?utf-8?B?enF0eE41MGJZcXdzUm13bFlrdVU4a0w2d0lmV1FCdXgrU0Jxd0lhNm1vL1Rj?=
- =?utf-8?B?cEd3VklCQnkwQXNOVi8wVW9UZU5laUtiRHhiK3M1R2VYSkVoN2ZHdWJmUWcz?=
- =?utf-8?B?QzlBd0lpOVNBZWFEaTFVSnlwb0h1Y1lqVFVTTjFGTndBTEZuWkNoUjNyQkI4?=
- =?utf-8?B?VFQxNnBkSjRuOStkQURVdCtSbmtscitxTVNuajZyWk10SVdqaFhnRml6WEFu?=
- =?utf-8?B?eHlMTXBjWmZiVEU1ZHJnVDk0QzNudTRJTGx5L3h0YlRFajBIQWN1aktPUmVD?=
- =?utf-8?B?QkQ2VCtWcklzb2J6YkZrS3FGeDZZaStyRHJxZWZRcVRxb0d1b1daeWIyTWxa?=
- =?utf-8?B?MVhlTDMySHNQRTY3dmFsTGZ2TjJEK2cxYmoyRVRlTlNVZjFLQnlPd1cwVmZE?=
- =?utf-8?B?LzVuM0t1cFRvQW9aRGY5bHBTYjRLN3hXSEY0cmRoOUNGQWxDTDA5Ly9acktU?=
- =?utf-8?B?cnpUSUY2SlNzMGVGaWo1UXRNaUZvalpLUytEbUtselYwSEJJZTRMWi9LdlQ3?=
- =?utf-8?B?L1Eybk5YSWh3NVpKeFhuY1RCeHhERGFiUlpVVSs0Z1o3OFpnTkhmZXlhZWVS?=
- =?utf-8?B?bXcxQWw2M3VDT0pyQVNENXFlOWxlSksvWFd1RXJWaExNNWJ5SjlxRC9sRys0?=
- =?utf-8?B?NDZHMjB0ODlpblczcDl5MmhlUlhwTFBkWjVXU1JEZC9SSndGMXZGRUZrSVN5?=
- =?utf-8?B?VFoyQ05ZbFNMSVFFY3RHR0o2THd5T0pMcEJ5bC82TzNsenNSSjFMK2VtNTRT?=
- =?utf-8?B?bnV3enVkVE5iclBzaHJsS1pLeHBaRE9ZTXFIWTQvTFJMK3ZmdzJaMkZMYVdP?=
- =?utf-8?B?ZHVjNkVPeVBRcFVhVGdPOXRMc0IvWHUzRE9zY2FGYlk2czlQeVk1cVQrU09o?=
- =?utf-8?B?ZHp6QVRBYndwbEpqU0dlNlBEYXZ0SU1zWWI1ZkZEcDA4cEh0VDV2T2JQS0tQ?=
- =?utf-8?B?ZHVhWHdNak9FWm5mZnlhaWdaRkxVaGlXalowYnE1aUJsL1VwdWFSWHVPZXox?=
- =?utf-8?B?UXpoRzI0OVRaYTJhMHp6Q3RDbDdUM1hyYU1MMW91TUVJZ3pTcHlRU1pqZzZo?=
- =?utf-8?B?M3ZKVWFIeU9TVUVmck12SjVDMzEwc1FCbExtTFozR1JNMkpPci9FZTRHMWFu?=
- =?utf-8?B?d1VxOGNtYnZaY2phN2VNR01OMm1vTCtRYnpzcTF2c1dtYkdCb3Z4c0Y1Mm15?=
- =?utf-8?B?ZmpRb3RoWGdBOUMwZHBFTWRHZlBnNmNhL1kzbU9GR1BxVDhwYitibytJN2Zy?=
- =?utf-8?B?TnNtNkd6MjhCM2tYRS9SNzAyd3dJLy8rKzZmWjZWaU5WTWp3S3YvM0pLYktD?=
- =?utf-8?B?NE5lRFQ3VGJab2hiUXBYb0JEMjRiLzJUUGQySUwrbmVpSmJKQmhHWWd1Snd4?=
- =?utf-8?B?a3U4OEIweVlmQzAvc2lpTy9OY3BTYS9NNEQ4SUxMK2ZvaXo3eGxhQ1ViTW5y?=
- =?utf-8?B?NXZxR1ZFdXdyWVhUaVRNWUFjQUg5Z0ZzbDd1L2hTblJ2TnNWSjRCUWs0Q3k5?=
- =?utf-8?B?TjdET2N3OHBmRlNGZ01MMnQrVHNCaUFBYUk3NHRVMWN3bUNLb3BOOGlQbGtZ?=
- =?utf-8?B?aDlISWhobVg5bkZzQUR1NzN4YjgrcWdaamlKVzUvNjd2aTN0Y0t4Mms3bGlk?=
- =?utf-8?Q?nCFQw40MPv8U+mIL49P+x8wQf?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iBfEQ9Oh;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21669fd5c7cso16918265ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 07:47:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738252044; x=1738856844; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=14/rKxgSrIcZU0wp7M+bdj1QWI/1puB3Mah2wI0Kc/Q=;
+        b=iBfEQ9OhUCY0nkiddf/JyCDUpdC/3X7Pi1zwqRnJRaccTGs+LKRy8CUAtrB4THogF7
+         8sviRRLBjZqHlsEqmtJaKb/+AC9PDcX4flYPmVoKA0EnKgbDAPKKNJFDpZCNwRsLrP/D
+         Dkvf/T3GEikWT7fNMOHxVEhs4FV6ejVzKfJTsvikMcICMu9reo2o1beJ7t93g2zHIH3H
+         ToNV7x6wDeVjgDlkmj4H1nCqLapjg9eA/mODXOEWa/OjLI3eucvpLCw6IHTnsnVFYVyS
+         b9wdIWd1EvRgZqR/JjToOg9uvXnoXoYP/feTDOrSvjxuIDsZF5MPY3twdpvM72RNDOac
+         lLig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738252044; x=1738856844;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=14/rKxgSrIcZU0wp7M+bdj1QWI/1puB3Mah2wI0Kc/Q=;
+        b=RLQbxyNLjaltDigfit5m3aVvG2ObVwjp2cUYp06W/f9ZWxDry5mYOHJi6ixKJwbxPi
+         KWDCsjO8zmIFjCZQ8sCViIeEw2KKgL+xPQ1weLybeBZYIEMFGZVXovPn4LrkFAI9F4bT
+         9qrCKDuPMLEme1MpsShZzpQGnqHSMkqyi8pfiEfzQWO3Wns7G93RT1TcvkKIfP2Nkfus
+         VbnQLCS7XRBwEwpvDM2JZcRMCxRpWa1Mp4c+JwTtCLCY/CAoWbYi5oVinx9b3YwWxkVj
+         1rAegAUoh8tv2v5NnddrOW8rprNY0jVHxXtd9++77MYbrqWPaLmK4189kNuDid4sK6Mq
+         SZVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPFBehkjuU7sV2EKuJYkaOQEcAcPUpY7SRBBgcaieo1QHMuUjv5CZbLZLynDhZNgadRPaHLC0MhRAUKLXE5XEbig==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxb+mWSwkl+UFqr8WpIG6SQX8PGTXld+cMxCfv/0JTwnE5PaDDa
+	2E2WIT9Fxb3zO8NrETzwZjRLBTt90kiA/ShyoW3Ukt9la1vv2LQfV5yFM5TGYk++UEzQNUVyo7m
+	VtCad7OC8RSUbeeweWiQMJQU68EA=
+X-Gm-Gg: ASbGncu/DzHt5N5Lt+Sb36whid7MyxFGY5IbLkRAvfqJhRHM5VqWrDBl1mufdLjFccf
+	STVBZ88vNa1s06z6qXuAcyXWldMcfQ4T0mwjCxplETfR9QeJvZBBcUj8rdf7jf9j6X+BANI3pvQ
+	==
+X-Google-Smtp-Source: AGHT+IHwciFRbIlWcDxaOrbYThlEQyJjhZTYpf9PQ6E1TeQBmd6wWeKpehGeOp9Yg3EN/htGdlnYNlFjdHw8SbwKP5k=
+X-Received: by 2002:a05:6a00:3a19:b0:724:f8d4:2b6e with SMTP id
+ d2e1a72fcca58-72fd0bc82c5mr9188604b3a.4.1738252043409; Thu, 30 Jan 2025
+ 07:47:23 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2689dd5f-6bb6-4358-d527-08dd41440dda
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2025 15:37:50.2404
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VE7+S6TA1QGVc6drB1qgMBSn1FF4AMgOKxqlIJjoEmCOKk0WF0gmdrvfpOLG6/evJ7jZJ/o3B2DdSltBtr2IHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5986
+References: <CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
+ <AS1PR10MB569795F9BEF718384BAECBADFDE92@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB569795F9BEF718384BAECBADFDE92@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 30 Jan 2025 10:47:11 -0500
+X-Gm-Features: AWEUYZkPwGQjL4SlOhRGJMWQVq_V1p8K-ZbonFI3fDfx0TN-NAOZeAsmyS0X3pk
+Message-ID: <CADkTA4Oc-OOj+mN=ifGP4OxRCRVvyOLt4MNAhMnpZqbKowEVGQ@mail.gmail.com>
+Subject: Re: [OE-core] Request for discussion: Kernel version for LTS releases
+To: peter.marko@siemens.com
+Cc: "steve@sakoman.com" <steve@sakoman.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000093e0c0062cee57e0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 15:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210452
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 15:47:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210453
 
-SGVsbG8gU3RldmUsDQpTb21lIHRob3VnaHRzIGZyb20gbXkgc2lkZToNCg0KTGludXgteW9jdG8g
-aXMgYSByZWZlcmVuY2Uga2VybmVsIGZvciBxZW11IG1hY2hpbmVzLg0KVGhleSBhcmUgZ29vZCBm
-b3IgZXhwZXJpbWVudHMgYnV0IHdpbGwgbm90IGdvIHRvIGEgcmVhbCBwcm9kdWN0Lg0KU28gYXJl
-IHRoZSBsaW51eC15b2N0byBxZW11IGtlcm5lbCBDVkVzIGludGVyZXN0aW5nIGF0IGFsbD8NCkkg
-YmV0IHRoYXQgdXNlcnMgb2YgeW9jdG8gaGF2ZSB0aGVpciBvd24ga2VybmVscy4NCkZyb20gdGhp
-cyBwZXJzcGVjdGl2ZSBvZiBjb3Vyc2UgdXBncmFkZSBpcyBmaW5lIGFzIG5vIG9uZSBpcyB1c2lu
-ZyBpdCwgYnV0IGlzIGl0IG5lZWRlZCBhdCBhbGw/DQpJc24ndCBpdCBiZXR0ZXIgdG8ga2VlcCB0
-aGUgb3JpZ2luYWwgb25lIHNvIHVzZXJzIHdobyBkb24ndCB1cGdyYWRlIGhhdmUgYSBnb29kIGNv
-bXBhcmlzb24gYmFzZT8NCk1heWJlIGl0IHdvdWxkIGJlIGludGVyZXN0aW5nIHRvIGhhdmUgdHdv
-IGtlcm5lbCB2ZXJzaW9uIC0gb3JpZ2luYWwgKyBuZXdlc3Qgc28gdGhhdCBjb21wb25lbnRzIGNh
-biBiZSB0ZXN0ZWQgb24gYm90aCwgYnV0IG9ubHkgaWYgYm90aCB3b3VsZCBhbHNvIGJlIHRlc3Rl
-ZCBvbiBhdXRvYnVpbGRlci4NCg0KV2UgaGF2ZSBzcGxpdCBrZXJuZWwgYW5kIG5vbi1rZXJuZWwg
-Q1ZFcyBpbiBvdXIgcmVwb3J0cyBzaW5jZSB0aGUgYmVnaW5uaW5nLg0KRm9yIGEgZGlmZmVyZW50
-IHJlYXNvbiAoZWFjaCBTT0MgbmVlZGVkIGl0cyBvd24gdmVuZG9yIGtlcm5lbCBhdCB0aGF0IHRp
-bWUpLCBidXQgaXQgbWFkZSB0aGUgbWV0cmljcyBmb2N1c2VkIG9uIHdoYXQgd2UgbmVlZGVkLg0K
-S2VybmVsIGFuZCBvdGhlciBjb21wb25lbnRzIGFyZSBvdGhlciB3b3JsZHMgYW5kIHByb2JhYmx5
-IG5vIGRldmVsb3BlciB3aWxsIGJlIGZpeGluZyBib3RoLg0KSSdkIHN1Z2dlc3QgZG9pbmcgdGhl
-IHNhbWUgaW4gb2UtY29yZSAtIHNwbGl0IHRoZSBrZXJuZWwgQ1ZFcyB0byBhIHNlcGFyYXRlIHRh
-Ymxlcy4NClRoaXMgd2lsbCBub3QgZml4IHRoZSBudW1iZXJzLCBidXQgbWF5YmUgaGVscCBtb3N0
-IHVzZXJzIHRvIHNlZSBzdGF0dXMgb2Ygd2hhdCB0aGV5IGFyZSB1c2luZyB3aXRob3V0IG92ZXJm
-bG93aW5nIGZyb20gdW51c2VkIGNvbXBvbmVudCB3aXRoIGFzdHJvbm9taWNhbCBudW1iZXJzLg0K
-DQpUaGlyZCB0b3BpYyBpcyByZWdhcmRpbmcgTlZEIENWRSBtZXRyaWMgcmVwb3J0aW5nLg0KQ3Vy
-cmVudGx5IGl0J3MgYm9ndXMgLSBub3Qgc2hvd2luZyBtYWpvcml0eSBvZiBDVkVzIGFuZCBzaG93
-aW5nIHNvbWUgd2hpY2ggYXJlIGFscmVhZHkgYmFja3BvcnRlZCBidXQgbmV2ZXIgdXBkYXRlZCBp
-biB0aGUgREIuDQpJIHJlbWVtYmVyIHRoYXQgTWFydGEgd2FzIHdvcmtpbmcgb24gYW5ub3RhdGlv
-bnMgZnJvbSBjdmVsaXN0VjUsIGJ1dCBzb21laG93IHRoYXQgYWN0aXZpdHkgZGllZC4NCk1heWJl
-IHRoZXJlIHNob3VsZCBiZSBhIHJlc3RhcnQgb2YgdGhpcyB0byBtYWtlIHRoZSByZXBvcnRzIHJl
-bGlhYmxlL3RydXN0d29ydGh5Pw0KSSB0aGluayB0aGF0IGtlcm5lbCBtYWludGFpbmVycyBhcmUg
-YmFja3BvcnRpbmcgYWxsIHJlbGV2YW50IENWRSBmaXhlcyB0byBhbGwgYWZmZWN0ZWQgTFRTIGJy
-YW5jaGVzLg0KVGhhdCBzaG91bGQgbWVhbiB0aGF0IHdpdGggZXZlcnkgdXBkYXRlLCB3ZSBzaG91
-bGQgYmUgZ2V0dGluZyBiYWNrIGNsb3NlIHRvIDAgQ1ZFcyBhbmQganVzdCBuZWVkIGEgcmVsaWFi
-bGUgZGF0YS4NCg0KTWF5YmUgYSBmaW5hbCBjb21tZW50Li4uDQpXaGVuIHdlIG9wZW4gdGhpcyB0
-b3BpYyBmb3Iga2VybmVsLCB0aGVyZSBhcmUgb3RoZXIgY29tcG9uZW50cyB3aGVyZSB0aGVyZSBp
-cyBsb3Qgb2YgQ1ZFcyB3aGljaCByZWFsaXN0aWNhbGx5IGNhbm5vdCBiZSBiYWNrcG9ydGVkLg0K
-VGhvc2UgYXJlIHVzdWFsbHkgaGFuZGxlZCB2aWEgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9y
-Zy9tZXRhLWx0cy1taXhpbnMvLCBzaG91bGRuJ3QgaXQgYmUgdGhlIHNhbWUgZm9yIGtlcm5lbD8N
-Cg0KVExEUjogU2luY2UgSSdtIG5vdCB1c2luZyBsaW51eC15b2N0bywgSSBoYXZlIGp1c3Qgc3Vn
-Z2VzdGlvbnMgdG8gcmVwb3J0aW5nLCBubyBzdHJvbmcgb3BpbmlvbiBvbiBpdHMgdXBncmFkZS4N
-Cg0KUGV0ZXINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFN0ZXZlIFNha29tYW4gdmlhDQo+
-IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogVGh1cnNkYXksIEphbnVhcnkgMzAsIDIw
-MjUgMTU6MzENCj4gVG86IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3Jl
-IGxheWVyIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4g
-U3ViamVjdDogW09FLWNvcmVdIFJlcXVlc3QgZm9yIGRpc2N1c3Npb246IEtlcm5lbCB2ZXJzaW9u
-IGZvciBMVFMgcmVsZWFzZXMNCj4gDQo+IEFzIHlvdSBtYXkgYmUgYXdhcmUsIHRoZSBzdXBwb3J0
-IHBlcmlvZCBmb3IgTGludXgga2VybmVsIExUUyByZWxlYXNlcw0KPiBoYXMgY2hhbmdlZCB0byB0
-d28geWVhcnMuIFRoaXMgcHJlc2VudHMgYSBjaGFsbGVuZ2UgZm9yIG91ciBZb2N0byBMVFMNCj4g
-cmVsZWFzZXMsIHdoaWNoIGhhdmUgNCB5ZWFyIHN1cHBvcnQgcGVyaW9kcy4NCj4gDQo+IEluIGxp
-Z2h0IG9mIHRoaXMsIFJpY2hhcmQgc2VudCBhbiBlbWFpbCB0byB0aGUgWW9jdG8gYXJjaGl0ZWN0
-dXJlIGxpc3QNCj4gaW4gSmFudWFyeSBvZiAyMDI0IG91dGxpbmluZyB0aGUgcHJvamVjdCdzIHBs
-YW5zIGZvciBrZXJuZWwgc3VwcG9ydCBpbg0KPiBmdXR1cmUgTFRTIHJlbGVhc2VzIChjb3BpZWQg
-YmVsb3cpDQo+IA0KPiBUTERSOiBBcm91bmQgdGhlIG1pZHBvaW50IG9mIHRoZSBZb2N0byBTY2Fy
-dGhnYXAgTFRTIGxpZmVjeWNsZSB3ZSB3aWxsDQo+IGJhY2twb3J0IHRoZSB0aGVuIGN1cnJlbnQg
-TFRTIGtlcm5lbCB2ZXJzaW9uIGFuZCBtYWtlIGl0IHRoZSBkZWZhdWx0DQo+IGtlcm5lbCB2ZXJz
-aW9uLiBUaGUgbGludXgtbGliYy1oZWFkZXJzIHZlcnNpb24gd291bGQgcmVtYWluIGF0IHRoZQ0K
-PiByZWxlYXNlZCB2ZXJzaW9uLg0KPiANCj4gQXQgYSByZWNlbnQgWW9jdG8gUHJvamVjdCBUZWNo
-bmljYWwgVGVhbSBNZWV0aW5nIHRoZXJlIHdhcyBzb21lDQo+IGRpc2N1c3Npb24gYXJvdW5kIHRo
-ZSBncm93aW5nIGtlcm5lbCBDVkUgY291bnRzIGluIHRoZSBzdGFibGUNCj4gYnJhbmNoZXM6DQo+
-IA0KPiBraXJrc3RvbmU6IDU1Mg0KPiBzY2FydGhnYXA6IDIyNQ0KPiANCj4gRm9yIGNvbXBhcmlz
-b24gdGhlIG1hc3RlciBicmFuY2ggQ1ZFIGNvdW50IGZvciB0aGUga2VybmVsIGlzIDE4DQo+IA0K
-PiBUaGUgc3VnZ2VzdGlvbiB3YXMgbWFkZSB0aGF0IHdlIGRvIHRoaXMga2VybmVsIHZlcnNpb24g
-dXBkYXRlIHNvb25lcg0KPiByYXRoZXIgdGhhbiBsYXRlciwgYW5kIGFsc28gaW5jbHVkZSB0aGUg
-S2lya3N0b25lIExUUyBicmFuY2ggaW4gb3JkZXINCj4gdG8gZGVhbCB3aXRoIGl0cyBsYXJnZSBu
-dW1iZXIgb2YgQ1ZFcy4gIFRoZSBvcmlnaW5hbCBwbGFuIHdhcyB0byBvbmx5DQo+IGRvIHRoaXMg
-dmVyc2lvbiBidW1wIGZvciBTY2FydGhnYXAsIHNvIHRoaXMgd291bGQgYmUgYSBjaGFuZ2UgdG8g
-dGhlDQo+IHBsYW4gb2YgcmVjb3JkLg0KPiANCj4gUGxlYXNlIGNvbnNpZGVyIHRoZSBhYm92ZSBh
-bmQgcmVzcG9uZCB0byB0aGlzIGVtYWlsIHdpdGggYW55IHRob3VnaHRzDQo+IG9yIGNvbmNlcm5z
-IHlvdSBtYXkgaGF2ZSBhYm91dCBpbXBsZW1lbnRpbmcgdGhpcyB2ZXJzaW9uIGJ1bXAgaW4gYm90
-aA0KPiBMVFMgYnJhbmNoZXMgaW4gdGhlIGNvbWluZyB3ZWVrcy4NCj4gDQo+IFRoYW5rcyENCj4g
-DQo+IFN0ZXZlDQo+IA0KPiANCj4gRnVsbCB0ZXh0IG9mIFJpY2hhcmQncyBlbWFpbDoNCj4gDQo+
-IFRoZSBwcm9qZWN0IGlzIGF3YXJlIHRoYXQgdGhlIGtlcm5lbCB2ZXJzaW9ucyB0aGF0IHNoaXAg
-aW4gb3VyIG5leHQgTFRTDQo+IGluIEFwcmlsIHdpbGwgbGlrZWx5IG5vdCBoYXZlIHN1cHBvcnQg
-Zm9yIHRoZSBmdWxsIGxpZmV0aW1lIG9mIG91ciBMVFMNCj4gKGZvdXIgeWVhcnMpLiBXZSd2ZSBi
-ZWVuIGFza2VkIGEgZmV3IHF1ZXN0aW9ucyBhYm91dCB0aGlzIHNvIHdlIHdhbnRlZA0KPiB0byB3
-cml0ZSBkb3duIHdoYXQgb3VyIHBsYW4gaXMuDQo+IA0KPiBPdXIgaW50ZW50IGlzIHRvIHN1cHBv
-cnQgdGhlIHZlcnNpb25zIHdlIHNoaXAgd2l0aCBmb3IgYXMgbG9uZyBhcyBpcw0KPiBwcmFjdGlj
-YWwuIElmIHRoZXkgYmVjb21lIGVuZCBvZiBsaWZlIGFyb3VuZCB0aGUgbWlkIHBvaW50IG9mIHRo
-ZSBMVFMNCj4gYXMgZXhwZWN0ZWQsIG91ciBwbGFuIGlzIHRvIGJhY2twb3J0IGEgY3VycmVudCBM
-VFMga2VybmVsIGF0IHRoYXQgdGltZQ0KPiBpbnRvIHRoZSByZWxlYXNlIGFuZCBtYWtlIGl0IHRo
-ZSBkZWZhdWx0LCBsZWF2aW5nIHRoZSBvbGRlciByZWNpcGVzDQo+IHRoZXJlIGZvciBhbnlvbmUg
-d2hvIHN0aWxsIG5lZWRzIHRvIHVzZSB0aGVtLiBJdCB3b3VsZCBiZSBiYXNlZCBvbiB0aGUNCj4g
-a2VybmVsIGluIG9uZSBvZiBvdXIgZnV0dXJlIHJlbGVhc2VzLCBhcyBhcHByb3ByaWF0ZS4NCj4g
-DQo+IFRoZSBsaW51eC1saWJjLWhlYWRlcnMgdmVyc2lvbiB3b3VsZCByZW1haW4gYXQgdGhlIHJl
-bGVhc2VkIHZlcnNpb24uDQo+IFRoaXMgaXMgdXNlZCB0byBjb250cm9sIHRoZSBmZWF0dXJlcyBp
-biB0aGUgdG9vbGNoYWluL3VzZXJzcGFjZSBhbmQNCj4gdGhlcmUgaXMgbm8gbmVlZCB0byB1cGdy
-YWRlIHRoaXMgdG8gd29yayB3aXRoIGEgbmV3ZXIga2VybmVsIHZlcnNpb24uDQo+IFVwZ3JhZGlu
-ZyBpdCB3b3VsZCBwb3RlbnRpYWxseSBjaGFuZ2UgdGhlIHRvb2xjaGFpbiBhbmQgdXNlcnNwYWNl
-DQo+IGZ1bmN0aW9uYWxpdHkgYW5kIHRoaXMgaXMgbm90IGRlc2lyYWJsZSBpbiB0aGUgTFRTLiBU
-byBiZSBjbGVhciwgdGhpcw0KPiBkb2VzIG1lYW4gYmxlZWRpbmcgZWRnZSBmZWF0dXJlcyBpbiB0
-aGUgbmV3ZXIga2VybmVsIG1heSBub3QgYmUNCj4gYXZhaWxhYmxlIGJ1dCB0aGF0IGlzIGRlc2ly
-YWJsZSBpbiB0aGUgY29udGV4dCBvZiB0aGUgcHVycG9zZSBvZiB0aGUNCj4gTFRTLg0KPiANCj4g
-VGhlIG9ubHkgcmVhc29uIHRoZSBoZWFkZXJzIHZlcnNpb24gd291bGQgY2hhbmdlIHdvdWxkIGJl
-IHRvIGFkZHJlc3MgYQ0KPiBzZWN1cml0eSBpc3N1ZSBpbiB0aGUgdG9vbGNoYWluIG9yIGtlcm5l
-bC91c2Vyc3BhY2UgaW50ZXJmYWNlLg0KPiANCj4gU2luY2Ugd2UgZG9uJ3Qga25vdyB3aGF0IHRo
-ZSB1cHN0cmVhbSBrZXJuZWwgd2lsbCBkbywgb3Igd2hlbiBleGFjdGx5LA0KPiBpdCBpcyBoYXJk
-IHRvIG1ha2UgYSBkZWZpbml0aXZlIHBsYW4gYmV5b25kIHRoaXMuDQo+IA0KPiBXZSBhcHByZWNp
-YXRlIHRoaXMgaXNuJ3Qgb3VyIHVzdWFsIHBvbGljeSBvZiAibm8gdXBncmFkZXMiLCBob3dldmVy
-IGlmDQo+IGV2ZXJ5b25lIGtub3dzIHRoaXMgaXMgdGhlIHBsYW4gZnJvbSB0aGUgc3RhcnQsIHdl
-IGJlbGlldmUgdGhhdCBpcw0KPiBkaWZmZXJlbnQgYW5kIGV2ZXJ5b25lIGNhbiBwbGFuIGFjY29y
-ZGluZ2x5LCBoZW5jZSB3YW50aW5nIHRvIG1ha2UgdGhpcw0KPiBjbGVhciBub3cuDQo+IA0KPiBT
-aW5jZSB0aGUgcHJvamVjdCBpcyBwbGFubmluZyB0byBleGVjdXRlIHRoZSBmdWxsIFFBIHByb2Nl
-c3MgYWdhaW5zdA0KPiB0aGlzIG5ldyB2ZXJzaW9uLCBpdCBpcyBwdXR0aW5nIGEgcGxhbiBpbiBw
-bGFjZSB0byBzd2l0Y2ggZnJvbSB0aGUNCj4gc3RhcnQgYW5kIGl0IHBsYW5zIG5vdCB0byB0ZXN0
-IGFnYWluc3QgYW55IG90aGVyIHZlcnNpb24gYmV5b25kIHRoYXQNCj4gcG9pbnQsIGl0IG1ha2Vz
-IG1vc3Qgc2Vuc2UgdG8gZGlyZWN0bHkgaW50ZWdyYXRlIHRoZSBjaGFuZ2VzIHJhdGhlcg0KPiB0
-aGFuIHRoZSBtaXggaW4gbGF5ZXIgYXBwcm9hY2ggd2hpY2ggaXMgdGhlcmUgZm9yIHVucGxhbm5l
-ZCBjaGFuZ2VzLg0KPiANCj4gVG8gYmUgY2xlYXIsIHdlIG1heSBhbHNvIHVwZGF0ZSB0aGlzIHBs
-YW4gaWYvYXMgdGhpbmdzIGRldmVsb3AgaW4gdGhlDQo+IG90aGVyIGRlcGVuZGVudCBlY29zeXN0
-ZW1zIHN1Y2ggYXMga2VybmVsIGFzIHdlIGNhbid0IGtub3cgd2hhdCB3aWxsDQo+IGhhcHBlbiBp
-biB0aGVzZSBvbiB0aGUgdGltZXNjYWxlcyBpbnZvbHZlZC4NCj4gDQo+IENoZWVycywNCj4gDQo+
-IFJpY2hhcmQNCj4gKG9uIGJlaGFsZiBvZiB0aGUgWW9jdG8gUHJvamVjdCBUU0MsIExUUyBhbmQg
-a2VybmVsIG1haW50YWluZXJzKQ0K
+--00000000000093e0c0062cee57e0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 30, 2025 at 10:38=E2=80=AFAM Peter Marko via lists.openembedded=
+.org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+
+> Hello Steve,
+> Some thoughts from my side:
+>
+> Linux-yocto is a reference kernel for qemu machines.
+> They are good for experiments but will not go to a real product.
+>
+
+There's plenty of data points that I've gotten over the past many
+years that show it does in  fact go to product, and I've also done
+several presentations on that point as well.
+
+linux-yocto is NOT only a reference for the qemu machines,
+full-stop. Even if it was only for the qemu-machines, that's only
+the boot / runtime part of the kernel, we use it to drive the rest
+of the compatibility as well as linux-libc-headers.
+
+The main point of the reference versions are a point of momentum
+and synchronization for yocto compatible layers. If we track a
+version and do CVE reporting, it is a baseline for the compatibility
+and what someone should expect from a similar vendor kernel,
+even if they don't provide CVE metrics.
+
+So are the linux-yocto qemu kernel CVEs interesting at all?
+>
+
+They are above.
+
+
+
+> I bet that users of yocto have their own kernels.
+>
+
+And they all have their own distros, that could contain any
+number of different packages and versions, but yet we report
+CVE metrics for our reference distributions.
+
+
+From this perspective of course upgrade is fine as no one is using it, but
+> is it needed at all?
+
+Isn't it better to keep the original one so users who don't upgrade have a
+> good comparison base?
+> Maybe it would be interesting to have two kernel version - original +
+> newest so that components can be tested on both, but only if both would
+> also be tested on autobuilder.
+>
+
+No kernel versions are going to be removed in the plan, it is
+always additive. We'd simply be making a newer version available
+in the branch.  If the old version is EOL, the amount of testing could
+be scaled back, but would still be tested.
+
+
+> We have split kernel and non-kernel CVEs in our reports since the
+> beginning.
+> For a different reason (each SOC needed its own vendor kernel at that
+> time), but it made the metrics focused on what we needed.
+> Kernel and other components are other worlds and probably no developer
+> will be fixing both.
+> I'd suggest doing the same in oe-core - split the kernel CVEs to a
+> separate tables.
+> This will not fix the numbers, but maybe help most users to see status of
+> what they are using without overflowing from unused component with
+> astronomical numbers.
+>
+> Third topic is regarding NVD CVE metric reporting.
+> Currently it's bogus - not showing majority of CVEs and showing some whic=
+h
+> are already backported but never updated in the DB.
+> I remember that Marta was working on annotations from cvelistV5, but
+> somehow that activity died.
+> Maybe there should be a restart of this to make the reports
+> reliable/trustworthy?
+> I think that kernel maintainers are backporting all relevant CVE fixes to
+> all affected LTS branches.
+> That should mean that with every update, we should be getting back close
+> to 0 CVEs and just need a reliable data.
+>
+> Maybe a final comment...
+> When we open this topic for kernel, there are other components where ther=
+e
+> is lot of CVEs which realistically cannot be backported.
+> Those are usually handled via
+> https://git.yoctoproject.org/meta-lts-mixins/, shouldn't it be the same
+> for kernel?
+>
+
+We ruled out mixins for the kernel based on the tight coupling to the rest
+of
+the system, and that we wouldn't want to use it on the AB for the full
+testing.
+
+Cheers,
+
+Bruce
+
+
+
+>
+> TLDR: Since I'm not using linux-yocto, I have just suggestions to
+> reporting, no strong opinion on its upgrade.
+>
+> Peter
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Steve Sakoman via
+> > lists.openembedded.org
+> > Sent: Thursday, January 30, 2025 15:31
+> > To: Patches and discussions about the oe-core layer <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: [OE-core] Request for discussion: Kernel version for LTS
+> releases
+> >
+> > As you may be aware, the support period for Linux kernel LTS releases
+> > has changed to two years. This presents a challenge for our Yocto LTS
+> > releases, which have 4 year support periods.
+> >
+> > In light of this, Richard sent an email to the Yocto architecture list
+> > in January of 2024 outlining the project's plans for kernel support in
+> > future LTS releases (copied below)
+> >
+> > TLDR: Around the midpoint of the Yocto Scarthgap LTS lifecycle we will
+> > backport the then current LTS kernel version and make it the default
+> > kernel version. The linux-libc-headers version would remain at the
+> > released version.
+> >
+> > At a recent Yocto Project Technical Team Meeting there was some
+> > discussion around the growing kernel CVE counts in the stable
+> > branches:
+> >
+> > kirkstone: 552
+> > scarthgap: 225
+> >
+> > For comparison the master branch CVE count for the kernel is 18
+> >
+> > The suggestion was made that we do this kernel version update sooner
+> > rather than later, and also include the Kirkstone LTS branch in order
+> > to deal with its large number of CVEs.  The original plan was to only
+> > do this version bump for Scarthgap, so this would be a change to the
+> > plan of record.
+> >
+> > Please consider the above and respond to this email with any thoughts
+> > or concerns you may have about implementing this version bump in both
+> > LTS branches in the coming weeks.
+> >
+> > Thanks!
+> >
+> > Steve
+> >
+> >
+> > Full text of Richard's email:
+> >
+> > The project is aware that the kernel versions that ship in our next LTS
+> > in April will likely not have support for the full lifetime of our LTS
+> > (four years). We've been asked a few questions about this so we wanted
+> > to write down what our plan is.
+> >
+> > Our intent is to support the versions we ship with for as long as is
+> > practical. If they become end of life around the mid point of the LTS
+> > as expected, our plan is to backport a current LTS kernel at that time
+> > into the release and make it the default, leaving the older recipes
+> > there for anyone who still needs to use them. It would be based on the
+> > kernel in one of our future releases, as appropriate.
+> >
+> > The linux-libc-headers version would remain at the released version.
+> > This is used to control the features in the toolchain/userspace and
+> > there is no need to upgrade this to work with a newer kernel version.
+> > Upgrading it would potentially change the toolchain and userspace
+> > functionality and this is not desirable in the LTS. To be clear, this
+> > does mean bleeding edge features in the newer kernel may not be
+> > available but that is desirable in the context of the purpose of the
+> > LTS.
+> >
+> > The only reason the headers version would change would be to address a
+> > security issue in the toolchain or kernel/userspace interface.
+> >
+> > Since we don't know what the upstream kernel will do, or when exactly,
+> > it is hard to make a definitive plan beyond this.
+> >
+> > We appreciate this isn't our usual policy of "no upgrades", however if
+> > everyone knows this is the plan from the start, we believe that is
+> > different and everyone can plan accordingly, hence wanting to make this
+> > clear now.
+> >
+> > Since the project is planning to execute the full QA process against
+> > this new version, it is putting a plan in place to switch from the
+> > start and it plans not to test against any other version beyond that
+> > point, it makes most sense to directly integrate the changes rather
+> > than the mix in layer approach which is there for unplanned changes.
+> >
+> > To be clear, we may also update this plan if/as things develop in the
+> > other dependent ecosystems such as kernel as we can't know what will
+> > happen in these on the timescales involved.
+> >
+> > Cheers,
+> >
+> > Richard
+> > (on behalf of the Yocto Project TSC, LTS and kernel maintainers)
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210452):
+> https://lists.openembedded.org/g/openembedded-core/message/210452
+> Mute This Topic: https://lists.openembedded.org/mt/110897884/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000093e0c0062cee57e0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 30, 2025 at 10:38=
+=E2=80=AFAM Peter Marko via <a href=3D"http://lists.openembedded.org">lists=
+.openembedded.org</a> &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists=
+.openembedded.org">siemens.com@lists.openembedded.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">Hello Steve,<br>
+Some thoughts from my side:<br>
+<br>
+Linux-yocto is a reference kernel for qemu machines.<br>
+They are good for experiments but will not go to a real product.<br></block=
+quote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">There&#39;s plenty of data points=C2=A0that I&#39;ve gotten over the =
+past many</div><div class=3D"gmail_default" style=3D"font-size:small">years=
+ that show it does in=C2=A0 fact go to product, and I&#39;ve also done=C2=
+=A0</div><div class=3D"gmail_default" style=3D"font-size:small">several pre=
+sentations on that point as well.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">linux-yocto is NOT only a reference for the qemu machines,</div>=
+<div class=3D"gmail_default" style=3D"font-size:small">full-stop. Even if i=
+t was only for the qemu-machines, that&#39;s only</div><div class=3D"gmail_=
+default" style=3D"font-size:small">the boot / runtime part of the kernel, w=
+e use it to drive the rest</div><div class=3D"gmail_default" style=3D"font-=
+size:small">of the compatibility=C2=A0as well as linux-libc-headers.=C2=A0<=
+/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
+class=3D"gmail_default" style=3D"font-size:small">The main point of the ref=
+erence versions are a point of momentum=C2=A0</div></div><div class=3D"gmai=
+l_default" style=3D"font-size:small">and synchronization for yocto compatib=
+le layers. If we track a</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">version and do CVE reporting, it is a baseline for the compatibil=
+ity</div><div class=3D"gmail_default" style=3D"font-size:small">and what so=
+meone should expect from a similar vendor kernel,</div><div class=3D"gmail_=
+default" style=3D"font-size:small">even if they don&#39;t provide CVE metri=
+cs.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+So are the linux-yocto qemu kernel CVEs interesting at all?<br></blockquote=
+><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small"=
+>They are above.</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+I bet that users of yocto have their own kernels.<br>
+</blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font=
+-size:small">And they all have their own distros, that could contain any</d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">number of differe=
+nt packages and versions, but yet we report</div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small">CVE metrics for our reference distributions.</=
+div></div><div><div class=3D"gmail_default" style=3D"font-size:small"><br><=
+/div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From this =
+perspective of course upgrade is fine as no one is using it, but is it need=
+ed at all?</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Isn&#39;t it better to keep the original one so users who don&#39;t upgrade=
+ have a good comparison base?<br>
+Maybe it would be interesting to have two kernel version - original + newes=
+t so that components can be tested on both, but only if both would also be =
+tested on autobuilder.<br></blockquote><div><br></div><div><div class=3D"gm=
+ail_default" style=3D"font-size:small">No kernel versions are going to be r=
+emoved in the plan, it is</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">always additive. We&#39;d simply be making a newer version avail=
+able</div><div class=3D"gmail_default" style=3D"font-size:small">in the bra=
+nch.=C2=A0 If the old version is EOL, the amount of testing could</div></di=
+v><div class=3D"gmail_default" style=3D"font-size:small">be scaled back, bu=
+t would still be tested.</div><div><br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+<br>
+We have split kernel and non-kernel CVEs in our reports since the beginning=
+.<br>
+For a different reason (each SOC needed its own vendor kernel at that time)=
+, but it made the metrics focused on what we needed.<br>
+Kernel and other components are other worlds and probably no developer will=
+ be fixing both.<br>
+I&#39;d suggest doing the same in oe-core - split the kernel CVEs to a sepa=
+rate tables.<br>
+This will not fix the numbers, but maybe help most users to see status of w=
+hat they are using without overflowing from unused component with astronomi=
+cal numbers.<br>
+<br>
+Third topic is regarding NVD CVE metric reporting.<br>
+Currently it&#39;s bogus - not showing majority of CVEs and showing some wh=
+ich are already backported but never updated in the DB.<br>
+I remember that Marta was working on annotations from cvelistV5, but someho=
+w that activity died.<br>
+Maybe there should be a restart of this to make the reports reliable/trustw=
+orthy?<br>
+I think that kernel maintainers are backporting all relevant CVE fixes to a=
+ll affected LTS branches.<br>
+That should mean that with every update, we should be getting back close to=
+ 0 CVEs and just need a reliable data.<br>
+<br>
+Maybe a final comment...<br>
+When we open this topic for kernel, there are other components where there =
+is lot of CVEs which realistically cannot be backported.<br>
+Those are usually handled via <a href=3D"https://git.yoctoproject.org/meta-=
+lts-mixins/" rel=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.=
+org/meta-lts-mixins/</a>, shouldn&#39;t it be the same for kernel?<br></blo=
+ckquote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size=
+:small">We ruled out mixins for the kernel based on the tight coupling to t=
+he rest of</div><div class=3D"gmail_default" style=3D"font-size:small">the =
+system, and that we wouldn&#39;t want to use it on the AB for the full test=
+ing.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">Cheers,</div><div cl=
+ass=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gma=
+il_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+TLDR: Since I&#39;m not using linux-yocto, I have just suggestions to repor=
+ting, no strong opinion on its upgrade.<br>
+<br>
+Peter<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Steve Sakoman via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; Sent: Thursday, January 30, 2025 15:31<br>
+&gt; To: Patches and discussions about the oe-core layer &lt;openembedded-<=
+br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt;<br>
+&gt; Subject: [OE-core] Request for discussion: Kernel version for LTS rele=
+ases<br>
+&gt; <br>
+&gt; As you may be aware, the support period for Linux kernel LTS releases<=
+br>
+&gt; has changed to two years. This presents a challenge for our Yocto LTS<=
+br>
+&gt; releases, which have 4 year support periods.<br>
+&gt; <br>
+&gt; In light of this, Richard sent an email to the Yocto architecture list=
+<br>
+&gt; in January of 2024 outlining the project&#39;s plans for kernel suppor=
+t in<br>
+&gt; future LTS releases (copied below)<br>
+&gt; <br>
+&gt; TLDR: Around the midpoint of the Yocto Scarthgap LTS lifecycle we will=
+<br>
+&gt; backport the then current LTS kernel version and make it the default<b=
+r>
+&gt; kernel version. The linux-libc-headers version would remain at the<br>
+&gt; released version.<br>
+&gt; <br>
+&gt; At a recent Yocto Project Technical Team Meeting there was some<br>
+&gt; discussion around the growing kernel CVE counts in the stable<br>
+&gt; branches:<br>
+&gt; <br>
+&gt; kirkstone: 552<br>
+&gt; scarthgap: 225<br>
+&gt; <br>
+&gt; For comparison the master branch CVE count for the kernel is 18<br>
+&gt; <br>
+&gt; The suggestion was made that we do this kernel version update sooner<b=
+r>
+&gt; rather than later, and also include the Kirkstone LTS branch in order<=
+br>
+&gt; to deal with its large number of CVEs.=C2=A0 The original plan was to =
+only<br>
+&gt; do this version bump for Scarthgap, so this would be a change to the<b=
+r>
+&gt; plan of record.<br>
+&gt; <br>
+&gt; Please consider the above and respond to this email with any thoughts<=
+br>
+&gt; or concerns you may have about implementing this version bump in both<=
+br>
+&gt; LTS branches in the coming weeks.<br>
+&gt; <br>
+&gt; Thanks!<br>
+&gt; <br>
+&gt; Steve<br>
+&gt; <br>
+&gt; <br>
+&gt; Full text of Richard&#39;s email:<br>
+&gt; <br>
+&gt; The project is aware that the kernel versions that ship in our next LT=
+S<br>
+&gt; in April will likely not have support for the full lifetime of our LTS=
+<br>
+&gt; (four years). We&#39;ve been asked a few questions about this so we wa=
+nted<br>
+&gt; to write down what our plan is.<br>
+&gt; <br>
+&gt; Our intent is to support the versions we ship with for as long as is<b=
+r>
+&gt; practical. If they become end of life around the mid point of the LTS<=
+br>
+&gt; as expected, our plan is to backport a current LTS kernel at that time=
+<br>
+&gt; into the release and make it the default, leaving the older recipes<br=
+>
+&gt; there for anyone who still needs to use them. It would be based on the=
+<br>
+&gt; kernel in one of our future releases, as appropriate.<br>
+&gt; <br>
+&gt; The linux-libc-headers version would remain at the released version.<b=
+r>
+&gt; This is used to control the features in the toolchain/userspace and<br=
+>
+&gt; there is no need to upgrade this to work with a newer kernel version.<=
+br>
+&gt; Upgrading it would potentially change the toolchain and userspace<br>
+&gt; functionality and this is not desirable in the LTS. To be clear, this<=
+br>
+&gt; does mean bleeding edge features in the newer kernel may not be<br>
+&gt; available but that is desirable in the context of the purpose of the<b=
+r>
+&gt; LTS.<br>
+&gt; <br>
+&gt; The only reason the headers version would change would be to address a=
+<br>
+&gt; security issue in the toolchain or kernel/userspace interface.<br>
+&gt; <br>
+&gt; Since we don&#39;t know what the upstream kernel will do, or when exac=
+tly,<br>
+&gt; it is hard to make a definitive plan beyond this.<br>
+&gt; <br>
+&gt; We appreciate this isn&#39;t our usual policy of &quot;no upgrades&quo=
+t;, however if<br>
+&gt; everyone knows this is the plan from the start, we believe that is<br>
+&gt; different and everyone can plan accordingly, hence wanting to make thi=
+s<br>
+&gt; clear now.<br>
+&gt; <br>
+&gt; Since the project is planning to execute the full QA process against<b=
+r>
+&gt; this new version, it is putting a plan in place to switch from the<br>
+&gt; start and it plans not to test against any other version beyond that<b=
+r>
+&gt; point, it makes most sense to directly integrate the changes rather<br=
+>
+&gt; than the mix in layer approach which is there for unplanned changes.<b=
+r>
+&gt; <br>
+&gt; To be clear, we may also update this plan if/as things develop in the<=
+br>
+&gt; other dependent ecosystems such as kernel as we can&#39;t know what wi=
+ll<br>
+&gt; happen in these on the timescales involved.<br>
+&gt; <br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; Richard<br>
+&gt; (on behalf of the Yocto Project TSC, LTS and kernel maintainers)<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#210452): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/210452" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/210452</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/110897884/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/110897884/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000093e0c0062cee57e0--
 
