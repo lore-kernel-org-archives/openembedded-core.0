@@ -1,176 +1,273 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC81DC0218F
-	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 15:35:30 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.18012.1738251322794663433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0F2C0218A
+	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 15:38:00 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.67.38])
+ by mx.groups.io with SMTP id smtpd.web10.18075.1738251473315657454
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jan 2025 07:35:23 -0800
+ Thu, 30 Jan 2025 07:37:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=ppJ7r4Ca;
- spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5401bd6cdb7so971829e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 07:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738251321; x=1738856121; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EfJSdWt9g/2yD+nlx0Fs3m2cACLbzLUuleiYYd/sjw4=;
-        b=ppJ7r4Camh3f44gsn5DtY3docYWiYympQOazZSTQ8tUzwVRVpcXSwub0ChaLwJ4gN3
-         JuX6PuhTpF2WtL1itRfHjFK+/VrBDlj0pZjY5rAeIXG4TFuo6uvwPeM+w0wYTZ5zSC1a
-         WLzY7MzODul22pLtGUv32xkKoQevLWNRlClZlsCoG9mSqlI7xBNizxku8w6ThYzzCbJN
-         Hv277OEpW+baRfy8UHyZkTXbZvOf4oJljBQzwBmRLLwWEg/MIG4roAKszBJMs4e64W7o
-         dEdxAi6l31FMQ6JbXi4m286J5v+m9t+a470HbEJhVIKj6P4XlwLtdw98ic/2gurxGXUb
-         XlbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738251321; x=1738856121;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EfJSdWt9g/2yD+nlx0Fs3m2cACLbzLUuleiYYd/sjw4=;
-        b=oCRlfKQ5Uhc/E5toZxWqJYYf9G5pwhq2j46TRgH1c2VpMdRT4e3hMB+91lSlRosaAY
-         yYEOd/yg34aqtGzg5p2gi4y3UcUmfFPnOYJNBrrIQjXSKP/xcUO0eOhmK6JITVTPo7fV
-         0PCfRZ+uQjPOWmgBrvtzpdbuS6Zt5NRe7Wd04g+IvSDqABXt2NC7ew+AWbv06Vo//9up
-         Wf8yJoEQk2fOJNnMZelE7n/P+pk6jPsVCr1DuQc54rmGP0L96iW3TRAcRHtYkwEgGa3Z
-         juMC5/q1BYQEWzSh7fsC8dI2sBlCm/PGTMkGgvCjWZlczEZQo/CFsTbDivPWTk+EE+KB
-         6uyg==
-X-Gm-Message-State: AOJu0YwdMzY+0i4efPyfLD9gOKTzXDuNahnXskzY5WG22+WNW60w+J81
-	YOrU59caj7BcsuExOeY/wPZ3NDjzGLjfJ23eN3cnleYYL9cSuPROZVkkbPLCbK9L6QDozG/3yag
-	sGLw=
-X-Gm-Gg: ASbGncvXy5mkGiyXbuOtnP0uuEHw97AhfHIua2wjiQyllsyGFrBJOJlJQP3W8ioJr2C
-	BT49FOqOvPohq7Ct5HNtjfSVJPjRS194yq8OZsWxMUJMZ53SoRt+xBIMsLB/6WPrdGqJ/kjz8eZ
-	Hmog7TSjESQSX2i91fY806hIADBzC8s5YVTVVwMLt3ZzSPiqB/etU29AwWhHsoS2VWEiKJcht+b
-	TRkg4xVLOPosLMIeVs4Z2Qhz3VJz/u+7Uo9Xp5TwTGSMQZey7/abGKOfyaLb5fq3LvuUngTbhbd
-	sGJlTVxlqGVNUBerYs6y1sfdEzdiqSg60iBgPwaSO2Jdhp3suSRwibXbJMXb
-X-Google-Smtp-Source: AGHT+IGDClsCzYjnk84oe9miG17cHHO4EqJvUqn4k490ZQHJW7c22uLGGk5NmE3zsIJ5nxXZvPfBgg==
-X-Received: by 2002:a05:6512:239e:b0:540:358e:36b9 with SMTP id 2adb3069b0e04-543e4c36d3fmr3036290e87.45.1738251320905;
-        Thu, 30 Jan 2025 07:35:20 -0800 (PST)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebecc3sm186125e87.242.2025.01.30.07.35.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 07:35:19 -0800 (PST)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: meta-arm@lists.yoctoproject.org,
-	Mikko Rapeli <mikko.rapeli@linaro.org>,
-	Jon Mason <jdmason@kudzu.us>
-Subject: [PATCH 3/3] systemd-boot-native: fix kernel signature for secureboot
-Date: Thu, 30 Jan 2025 17:34:35 +0200
-Message-ID: <20250130153435.1074941-3-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250130153435.1074941-1-mikko.rapeli@linaro.org>
-References: <181F17E3A23753E5.21193@lists.yoctoproject.org>
- <20250130153435.1074941-1-mikko.rapeli@linaro.org>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=apq1PN0F;
+ spf=pass (domain: siemens.com, ip: 52.101.67.38, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oSnXRpj/147xvF5FsXuMKLls1G3PPh74JBltbDNwDqAJQgx3C3ORAtlRGJedyEH1kCKwRW1BV5mQxXVgk/UzpIdZhzQjFtNb5Uy7ybbGVG1cecmZlLN5Q9qwnr9pLqYDQzD15M9u7Oo24r1zOPl2cdanFiFGJ2QwMJc6TUDKcWxRFE8X9dVhJzHcT/z6dzhkO/phCPnzG2eekJ9+LaAxoDrXo7WI3JykDNA3wI+KX2VoOkNyJM9wBVT0HeQBRv6ergUzXrLl4sQ95Bkli2YjrDLPrrvfC25DAT2T8QktnS/B/ypE/8/Nl80w8q/nBut7yrAxQveYkbc8EE3vMu8jkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4WSoDAa4xrNUtGS4HnihlO2tpj+tjVD2VMdZn2WatSE=;
+ b=yhAM5YjBWyXWYSHMUZamE+BZqsW3DjNAw/u+sLltAfMQw239iwrzczbj5TqlAK/CuU/KPtdS5wFBDNRHOASMegBTBEW7lP79uA6r8R68Hg6Hkpw3KWxIZ16MmmRgPicyv+mCIuKBMuHibLtN3xW7EEnzSvkGW9uWBd0ktwLU2ZQ96ePyl2Zr6lQMsgpLdkDMgziLJOf/Vkig+D/wqssoBYaU38BEBPvEWnB/HTSPUcDQhgpRja1z7WMUN1Wlb/JoYE/19QdYg3is5ruyV6s6ghBnuKFs9jJyV1PX2H2WvsZQz/afQvFdrN3xu3AKcI5Fv3FwwXMrxHTVAQOUmlYDgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4WSoDAa4xrNUtGS4HnihlO2tpj+tjVD2VMdZn2WatSE=;
+ b=apq1PN0FckZPwH1MWN945xQm6w62q4pcdduhZYboyZZQ31mDJyzfn0F2/JnYG3YkZKchPPKhZ+M+f4kPA24mYotqMYCIRXCBexpIPuBfE83xO22sGGqdFGyIvO+AXDezMuMfbMogdmSjqBbMYK2K+JK4kNMGTqNAla0ZC35Pupxp7OgsbragHPE4z+WlkhTcvXMFaYeBvRzaOtx4BaPfBVsdAzOY7bS2PuKR/wetNwQIAx/1eZSX0kg5K4ZHB+li2J35BuBjwHB+USkr2pPh7I7FFh8BTsJ6dAWTQMpjCh9efw8XTScbeo739PEG2KFPnU58t4DQ27KmxktwJLoMmw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV1PR10MB5986.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.16; Thu, 30 Jan
+ 2025 15:37:50 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8422.005; Thu, 30 Jan 2025
+ 15:37:50 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "steve@sakoman.com" <steve@sakoman.com>, Patches and discussions about the
+ oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] Request for discussion: Kernel version for LTS releases
+Thread-Topic: [OE-core] Request for discussion: Kernel version for LTS
+ releases
+Thread-Index: AQHbcyOpfuhOukV7t0GR11B/fqY1RbMvadmQ
+Date: Thu, 30 Jan 2025 15:37:50 +0000
+Message-ID: 
+ <AS1PR10MB569795F9BEF718384BAECBADFDE92@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+ <CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9fdc4ec5-0f7d-462a-9fa2-dd6901b7ba28;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-01-30T15:03:04Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB5986:EE_
+x-ms-office365-filtering-correlation-id: 2689dd5f-6bb6-4358-d527-08dd41440dda
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?cmxVVDBtRTU1b25OR2hud2Zlbnl5ZlYwV1B6aU1ZMmhPdFMvWlRRcGR5eFZR?=
+ =?utf-8?B?NU5sU2NnS3BkWmJhc1I0b3JkMnZacThXUzNyMTZRRExZWUF1emRHalo1OVlU?=
+ =?utf-8?B?QUhkd05nSHUvZUQ5Y1V6eHBzZWJIWk5GSDc4V3pPVy9uK1lJcFJjVkFOa1kv?=
+ =?utf-8?B?VmVwVWZNZHR3MHRUKytxL1MzNnZxSzlHU0dFanJOK1VQWmJybmZuMU8xNGw4?=
+ =?utf-8?B?SU1wQWZLc2MvOVRjL2RWWTZhQ2I1ZVpvMVlTajkvWHJDNEhPeDhacTdZMCt1?=
+ =?utf-8?B?Q2IrRGJLYlFUam1sdVFNQS9XZzR4NDZuREJIT2tYTUJBY2RqMDBlVUtheWRv?=
+ =?utf-8?B?Rk1QQXlDdUFLM0FSK25kaFJPeEVPSkJWSC9xdlJCdWMyamxmbEo0UjVqM21j?=
+ =?utf-8?B?eXMyQTBHZDREd2xVemRFVW1xbG9nQWNUNWpxSkR6WG84T3kxR0ZHbDlsV09t?=
+ =?utf-8?B?M3BjZVludzBhU1MydXEwM20vd1YvVkpZcUlQK011WUpNWkhGWlZkZzVjeGJC?=
+ =?utf-8?B?elBJY1VXMC81djFFa2VYNUZwUVVTb1o2ZVBNLzBwbTd3K3RHWGV0ZXdPTmNX?=
+ =?utf-8?B?Ukthd1Y0SXBkZ1lQLzlJTFUxa0tXRkFlUndydEpuZjc1ZVNmQkk4K2tPN1RH?=
+ =?utf-8?B?dEFVUENXVVg3U0ZSMEpCWW5tajFLYno1TnZzaVhuQ2xZU3FHSzZRcW1pYlZ6?=
+ =?utf-8?B?TElkeTNDcmxuT28xd0o4bUJRKzhHZHBCNG9ZK256c3BNazVnSXUyampwUTU4?=
+ =?utf-8?B?UDBScGZyUnBOTjBDd2RWb2tIeW9yY2tBdjNjWXltMnNvbEJkWDdETFBpdm0v?=
+ =?utf-8?B?YUk4Q1R1M2ZlcTduNzcvd0xwMjBrcFBQc3pTcjBGaGRTanpsdTBOZUdwS0Iv?=
+ =?utf-8?B?WWpKdEJzcGdVWnZRaWlKMnhKek4rZ2dkY2RBc0lLUHN6bDdmSzdjOEZISkdB?=
+ =?utf-8?B?RmphdEpESWdZRUlhekIwNmtWN1JZdStLNTJaOTMxVENPYXdqY0xaZTN5RjM3?=
+ =?utf-8?B?Y2YxYUNmMW1SclJhZUlkcFFvYnVlUnhZWWNTeXRuQUFjUklVU05OWUhtNGtN?=
+ =?utf-8?B?K2dzb0VNSElPK1F5ajhwa2RRRi83MkNmYWZCNStQUktuUU1TY2lZTWRzZVhO?=
+ =?utf-8?B?blBwN082ZmVnMTJTNUJkOGdLYlQzTHZXTXl0VHZKZnNhU043SHRDQU5pQWtx?=
+ =?utf-8?B?UDVSQXVRZ0ZOL2tEWEJGTmRaWE1scVhGSzZtQVJ2TmhVSEdsWDhlTU5FdWJN?=
+ =?utf-8?B?eGVXVjArUkZxSmFXaHhwOENZekQ2S2dIdUZrTktUOGNhck9YTml6NDZsZmsw?=
+ =?utf-8?B?RWdtREpWU2xqak1NZlNCcDI1bWV2ejBvdm5NeEsyaXdhdmd4VmNPR0hJeUFw?=
+ =?utf-8?B?RHBsTCtuTjRDUjN3bGxCWTgxUlptZVprMnpIbXZaVjY0NWo4b0Q1R2pURzFY?=
+ =?utf-8?B?RWo5SG9QYk9sZXdvRVcrU3Z3QloyVlRoaFZ1UlZjMVQrT08wZFdnSmVNWUZr?=
+ =?utf-8?B?OGZqcWJYRTFXWkEvc3RFQWd0N3B3cmpROEVQSGNFYy8zbTcrRFh1Sk5sOGN0?=
+ =?utf-8?B?bVVPdjlqbnEyWjlweFlaWFY3clg2Mzh5VklLN1dJMDl3U2VnN1FDZVgyK3Z2?=
+ =?utf-8?B?OFVkdUZWVVlEYWxRaW1ZdnVsWDgrRm51M0xyMmNTanRvN05Ud1dXQWErSkox?=
+ =?utf-8?B?UmZ0clZoQlR1UGVSdmgrQzVuczJTMHFTVEFrbk1SdXhld1RmY0lPZlYwRVdu?=
+ =?utf-8?B?Y2cva0xmVlV0Z21YRUh6WEI1N2pqYTVTRXB4ZTFlVVo0N3NvTU5SU3JlNVpF?=
+ =?utf-8?B?a3J3Z0QvQUdzZzJQVkpNWGtvQU5wWDFudTlSRy80T3dhLzdhS3Y3N25xbVhI?=
+ =?utf-8?Q?XSmkCaUrsisAh?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?OVVKbEdWS045bGlTNisyeUpuK0gxdzRxVGpRbnJGSnRjMks1b1F5a0k1U2U3?=
+ =?utf-8?B?NEZ5YklBV3VDRm1JSWFHMEJ6eVk4Y21SeVRMZ29RVk9IQkVRQ1MvTkVib21F?=
+ =?utf-8?B?R2themRtSm5HN3h5Q2tmVkxXVGJ6RGdUMEJvSVVvMUNab2lmR0o5MURmcWl2?=
+ =?utf-8?B?U1Boa3g2NkZObVAzODJNZGVOMDh1YnJEazFNT2ZEYS9PeEZEWnFMYXRLNW44?=
+ =?utf-8?B?REVERCtoRlFhdmh0T3BKbE42UVVyeEZoY3ZqL0FnUFJ6NUE0UXBRdmdEckdx?=
+ =?utf-8?B?cUlaMW1yNmJyb0xZVWNZUGpDMXNVOEd1SkhjZHZNSmc5Q3ZYT0RtdWV3dDIr?=
+ =?utf-8?B?akRPOTFJL2R1ZmUyM1pSaFNkdlNJdk5tWUlOUmZkb3ZMWUlyTUxldXprMXhP?=
+ =?utf-8?B?SmNBVit1SWFMVm9UcnhqaUQ5MDNxV1FGZXo3eGorS1F2VTFzVDc5NFFOTWlX?=
+ =?utf-8?B?enF0eE41MGJZcXdzUm13bFlrdVU4a0w2d0lmV1FCdXgrU0Jxd0lhNm1vL1Rj?=
+ =?utf-8?B?cEd3VklCQnkwQXNOVi8wVW9UZU5laUtiRHhiK3M1R2VYSkVoN2ZHdWJmUWcz?=
+ =?utf-8?B?QzlBd0lpOVNBZWFEaTFVSnlwb0h1Y1lqVFVTTjFGTndBTEZuWkNoUjNyQkI4?=
+ =?utf-8?B?VFQxNnBkSjRuOStkQURVdCtSbmtscitxTVNuajZyWk10SVdqaFhnRml6WEFu?=
+ =?utf-8?B?eHlMTXBjWmZiVEU1ZHJnVDk0QzNudTRJTGx5L3h0YlRFajBIQWN1aktPUmVD?=
+ =?utf-8?B?QkQ2VCtWcklzb2J6YkZrS3FGeDZZaStyRHJxZWZRcVRxb0d1b1daeWIyTWxa?=
+ =?utf-8?B?MVhlTDMySHNQRTY3dmFsTGZ2TjJEK2cxYmoyRVRlTlNVZjFLQnlPd1cwVmZE?=
+ =?utf-8?B?LzVuM0t1cFRvQW9aRGY5bHBTYjRLN3hXSEY0cmRoOUNGQWxDTDA5Ly9acktU?=
+ =?utf-8?B?cnpUSUY2SlNzMGVGaWo1UXRNaUZvalpLUytEbUtselYwSEJJZTRMWi9LdlQ3?=
+ =?utf-8?B?L1Eybk5YSWh3NVpKeFhuY1RCeHhERGFiUlpVVSs0Z1o3OFpnTkhmZXlhZWVS?=
+ =?utf-8?B?bXcxQWw2M3VDT0pyQVNENXFlOWxlSksvWFd1RXJWaExNNWJ5SjlxRC9sRys0?=
+ =?utf-8?B?NDZHMjB0ODlpblczcDl5MmhlUlhwTFBkWjVXU1JEZC9SSndGMXZGRUZrSVN5?=
+ =?utf-8?B?VFoyQ05ZbFNMSVFFY3RHR0o2THd5T0pMcEJ5bC82TzNsenNSSjFMK2VtNTRT?=
+ =?utf-8?B?bnV3enVkVE5iclBzaHJsS1pLeHBaRE9ZTXFIWTQvTFJMK3ZmdzJaMkZMYVdP?=
+ =?utf-8?B?ZHVjNkVPeVBRcFVhVGdPOXRMc0IvWHUzRE9zY2FGYlk2czlQeVk1cVQrU09o?=
+ =?utf-8?B?ZHp6QVRBYndwbEpqU0dlNlBEYXZ0SU1zWWI1ZkZEcDA4cEh0VDV2T2JQS0tQ?=
+ =?utf-8?B?ZHVhWHdNak9FWm5mZnlhaWdaRkxVaGlXalowYnE1aUJsL1VwdWFSWHVPZXox?=
+ =?utf-8?B?UXpoRzI0OVRaYTJhMHp6Q3RDbDdUM1hyYU1MMW91TUVJZ3pTcHlRU1pqZzZo?=
+ =?utf-8?B?M3ZKVWFIeU9TVUVmck12SjVDMzEwc1FCbExtTFozR1JNMkpPci9FZTRHMWFu?=
+ =?utf-8?B?d1VxOGNtYnZaY2phN2VNR01OMm1vTCtRYnpzcTF2c1dtYkdCb3Z4c0Y1Mm15?=
+ =?utf-8?B?ZmpRb3RoWGdBOUMwZHBFTWRHZlBnNmNhL1kzbU9GR1BxVDhwYitibytJN2Zy?=
+ =?utf-8?B?TnNtNkd6MjhCM2tYRS9SNzAyd3dJLy8rKzZmWjZWaU5WTWp3S3YvM0pLYktD?=
+ =?utf-8?B?NE5lRFQ3VGJab2hiUXBYb0JEMjRiLzJUUGQySUwrbmVpSmJKQmhHWWd1Snd4?=
+ =?utf-8?B?a3U4OEIweVlmQzAvc2lpTy9OY3BTYS9NNEQ4SUxMK2ZvaXo3eGxhQ1ViTW5y?=
+ =?utf-8?B?NXZxR1ZFdXdyWVhUaVRNWUFjQUg5Z0ZzbDd1L2hTblJ2TnNWSjRCUWs0Q3k5?=
+ =?utf-8?B?TjdET2N3OHBmRlNGZ01MMnQrVHNCaUFBYUk3NHRVMWN3bUNLb3BOOGlQbGtZ?=
+ =?utf-8?B?aDlISWhobVg5bkZzQUR1NzN4YjgrcWdaamlKVzUvNjd2aTN0Y0t4Mms3bGlk?=
+ =?utf-8?Q?nCFQw40MPv8U+mIL49P+x8wQf?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2689dd5f-6bb6-4358-d527-08dd41440dda
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2025 15:37:50.2404
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VE7+S6TA1QGVc6drB1qgMBSn1FF4AMgOKxqlIJjoEmCOKk0WF0gmdrvfpOLG6/evJ7jZJ/o3B2DdSltBtr2IHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5986
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 15:35:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210451
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 15:38:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210452
 
-systemd update from 256 to 257 broke kernel secureboot signatures
-inside signed UKI files with u-boot based UEFI firmware, e.g.
-meta-arm and qemuarm64-secureboot machine config and secureboot:
-
-$ cd meta-arm
-$ kas build ci/poky.yml:ci/qemuarm64-secureboot.yml:ci/uefi-secureboot.yml:ci/testimage.yml
-
-systemd-boot itself is secureboot signed and verified by firmware.
-Same for the UKI file which combines kernel, initramfs etc.
-Then kernel from UKI is additionally executed using UEFI firmware calls
-which check signatures so the kernel binary inside signed UKI
-needs to be signed with same keys too. PE file padding added
-to systemd ukify in 257 release broke kernel signature validation
-for u-boot and sbsign/sbverify tools. EDK2 based firmware like
-OVMF may not be affected because systemd-boot is able to disable
-signature checking after a signed UKI has been loaded. This feature
-is not supported by u-boot.
-
-Upstream systemd bug report:
-
-https://github.com/systemd/systemd/issues/35851
-
-This patch proposed to upstream in:
-
-https://github.com/systemd/systemd/pull/36225
-
-systemd upstream may not like this revert and would prefer
-alternative, possibly more intrusive changes instead, e.g. to
-UEFI firmware implementations, sbsign/sbverify tooling or
-systemd-boot, but this ukify revert is simpler for us
-systemd users for now.
-
-Cc: Jon Mason <jdmason@kudzu.us>
-Cc: meta-arm@lists.yoctoproject.org
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- .../systemd/systemd-boot-native_257.1.bb      |  3 ++
- ...y.py-disable-virtual-size-for-kernel.patch | 39 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-ukify.py-disable-virtual-size-for-kernel.patch
-
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_257.1.bb b/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-index 5b4b63c294..22ac5c96cc 100644
---- a/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-+++ b/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-@@ -1,4 +1,7 @@
- require systemd.inc
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
-+
-+SRC_URI += "file://0001-ukify.py-disable-virtual-size-for-kernel.patch"
- 
- inherit native
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-ukify.py-disable-virtual-size-for-kernel.patch b/meta/recipes-core/systemd/systemd/0001-ukify.py-disable-virtual-size-for-kernel.patch
-new file mode 100644
-index 0000000000..ddf53f01c7
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-ukify.py-disable-virtual-size-for-kernel.patch
-@@ -0,0 +1,39 @@
-+From cb869363ed84bcdd84c44781bc7f74ac027f9a9e Mon Sep 17 00:00:00 2001
-+From: Mikko Rapeli <mikko.rapeli@linaro.org>
-+Date: Thu, 30 Jan 2025 11:33:38 +0000
-+Subject: [PATCH] ukify.py: disable virtual size for kernel
-+
-+Adding padding to kernel breaks secure boot signature
-+for u-boot based UEFI firmware and sbverify tooling.
-+
-+Workaround for https://github.com/systemd/systemd/issues/35851
-+
-+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-+---
-+ src/ukify/ukify.py | 8 ++------
-+ 1 file changed, 2 insertions(+), 6 deletions(-)
-+
-+Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/36225]
-+
-+diff --git a/src/ukify/ukify.py b/src/ukify/ukify.py
-+index 5f821297c1..08ba800b44 100755
-+--- a/src/ukify/ukify.py
-++++ b/src/ukify/ukify.py
-+@@ -1238,12 +1238,8 @@ def make_uki(opts: UkifyConfig) -> None:
-+         uki.add_section(section)
-+ 
-+     if linux is not None:
-+-        try:
-+-            virtual_size = pefile.PE(linux, fast_load=True).OPTIONAL_HEADER.SizeOfImage
-+-        except pefile.PEFormatError:
-+-            print(f'{linux} is not a valid PE file, not using SizeOfImage.')
-+-            virtual_size = None
-+-
-++        # Padding breaks signature for kernel https://github.com/systemd/systemd/issues/35851
-++        virtual_size = None
-+         uki.add_section(Section.create('.linux', linux, measure=True, virtual_size=virtual_size))
-+ 
-+     # Don't add a sbat section to profile PE binaries.
-+-- 
-+2.43.0
-+
--- 
-2.43.0
-
+SGVsbG8gU3RldmUsDQpTb21lIHRob3VnaHRzIGZyb20gbXkgc2lkZToNCg0KTGludXgteW9jdG8g
+aXMgYSByZWZlcmVuY2Uga2VybmVsIGZvciBxZW11IG1hY2hpbmVzLg0KVGhleSBhcmUgZ29vZCBm
+b3IgZXhwZXJpbWVudHMgYnV0IHdpbGwgbm90IGdvIHRvIGEgcmVhbCBwcm9kdWN0Lg0KU28gYXJl
+IHRoZSBsaW51eC15b2N0byBxZW11IGtlcm5lbCBDVkVzIGludGVyZXN0aW5nIGF0IGFsbD8NCkkg
+YmV0IHRoYXQgdXNlcnMgb2YgeW9jdG8gaGF2ZSB0aGVpciBvd24ga2VybmVscy4NCkZyb20gdGhp
+cyBwZXJzcGVjdGl2ZSBvZiBjb3Vyc2UgdXBncmFkZSBpcyBmaW5lIGFzIG5vIG9uZSBpcyB1c2lu
+ZyBpdCwgYnV0IGlzIGl0IG5lZWRlZCBhdCBhbGw/DQpJc24ndCBpdCBiZXR0ZXIgdG8ga2VlcCB0
+aGUgb3JpZ2luYWwgb25lIHNvIHVzZXJzIHdobyBkb24ndCB1cGdyYWRlIGhhdmUgYSBnb29kIGNv
+bXBhcmlzb24gYmFzZT8NCk1heWJlIGl0IHdvdWxkIGJlIGludGVyZXN0aW5nIHRvIGhhdmUgdHdv
+IGtlcm5lbCB2ZXJzaW9uIC0gb3JpZ2luYWwgKyBuZXdlc3Qgc28gdGhhdCBjb21wb25lbnRzIGNh
+biBiZSB0ZXN0ZWQgb24gYm90aCwgYnV0IG9ubHkgaWYgYm90aCB3b3VsZCBhbHNvIGJlIHRlc3Rl
+ZCBvbiBhdXRvYnVpbGRlci4NCg0KV2UgaGF2ZSBzcGxpdCBrZXJuZWwgYW5kIG5vbi1rZXJuZWwg
+Q1ZFcyBpbiBvdXIgcmVwb3J0cyBzaW5jZSB0aGUgYmVnaW5uaW5nLg0KRm9yIGEgZGlmZmVyZW50
+IHJlYXNvbiAoZWFjaCBTT0MgbmVlZGVkIGl0cyBvd24gdmVuZG9yIGtlcm5lbCBhdCB0aGF0IHRp
+bWUpLCBidXQgaXQgbWFkZSB0aGUgbWV0cmljcyBmb2N1c2VkIG9uIHdoYXQgd2UgbmVlZGVkLg0K
+S2VybmVsIGFuZCBvdGhlciBjb21wb25lbnRzIGFyZSBvdGhlciB3b3JsZHMgYW5kIHByb2JhYmx5
+IG5vIGRldmVsb3BlciB3aWxsIGJlIGZpeGluZyBib3RoLg0KSSdkIHN1Z2dlc3QgZG9pbmcgdGhl
+IHNhbWUgaW4gb2UtY29yZSAtIHNwbGl0IHRoZSBrZXJuZWwgQ1ZFcyB0byBhIHNlcGFyYXRlIHRh
+Ymxlcy4NClRoaXMgd2lsbCBub3QgZml4IHRoZSBudW1iZXJzLCBidXQgbWF5YmUgaGVscCBtb3N0
+IHVzZXJzIHRvIHNlZSBzdGF0dXMgb2Ygd2hhdCB0aGV5IGFyZSB1c2luZyB3aXRob3V0IG92ZXJm
+bG93aW5nIGZyb20gdW51c2VkIGNvbXBvbmVudCB3aXRoIGFzdHJvbm9taWNhbCBudW1iZXJzLg0K
+DQpUaGlyZCB0b3BpYyBpcyByZWdhcmRpbmcgTlZEIENWRSBtZXRyaWMgcmVwb3J0aW5nLg0KQ3Vy
+cmVudGx5IGl0J3MgYm9ndXMgLSBub3Qgc2hvd2luZyBtYWpvcml0eSBvZiBDVkVzIGFuZCBzaG93
+aW5nIHNvbWUgd2hpY2ggYXJlIGFscmVhZHkgYmFja3BvcnRlZCBidXQgbmV2ZXIgdXBkYXRlZCBp
+biB0aGUgREIuDQpJIHJlbWVtYmVyIHRoYXQgTWFydGEgd2FzIHdvcmtpbmcgb24gYW5ub3RhdGlv
+bnMgZnJvbSBjdmVsaXN0VjUsIGJ1dCBzb21laG93IHRoYXQgYWN0aXZpdHkgZGllZC4NCk1heWJl
+IHRoZXJlIHNob3VsZCBiZSBhIHJlc3RhcnQgb2YgdGhpcyB0byBtYWtlIHRoZSByZXBvcnRzIHJl
+bGlhYmxlL3RydXN0d29ydGh5Pw0KSSB0aGluayB0aGF0IGtlcm5lbCBtYWludGFpbmVycyBhcmUg
+YmFja3BvcnRpbmcgYWxsIHJlbGV2YW50IENWRSBmaXhlcyB0byBhbGwgYWZmZWN0ZWQgTFRTIGJy
+YW5jaGVzLg0KVGhhdCBzaG91bGQgbWVhbiB0aGF0IHdpdGggZXZlcnkgdXBkYXRlLCB3ZSBzaG91
+bGQgYmUgZ2V0dGluZyBiYWNrIGNsb3NlIHRvIDAgQ1ZFcyBhbmQganVzdCBuZWVkIGEgcmVsaWFi
+bGUgZGF0YS4NCg0KTWF5YmUgYSBmaW5hbCBjb21tZW50Li4uDQpXaGVuIHdlIG9wZW4gdGhpcyB0
+b3BpYyBmb3Iga2VybmVsLCB0aGVyZSBhcmUgb3RoZXIgY29tcG9uZW50cyB3aGVyZSB0aGVyZSBp
+cyBsb3Qgb2YgQ1ZFcyB3aGljaCByZWFsaXN0aWNhbGx5IGNhbm5vdCBiZSBiYWNrcG9ydGVkLg0K
+VGhvc2UgYXJlIHVzdWFsbHkgaGFuZGxlZCB2aWEgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9y
+Zy9tZXRhLWx0cy1taXhpbnMvLCBzaG91bGRuJ3QgaXQgYmUgdGhlIHNhbWUgZm9yIGtlcm5lbD8N
+Cg0KVExEUjogU2luY2UgSSdtIG5vdCB1c2luZyBsaW51eC15b2N0bywgSSBoYXZlIGp1c3Qgc3Vn
+Z2VzdGlvbnMgdG8gcmVwb3J0aW5nLCBubyBzdHJvbmcgb3BpbmlvbiBvbiBpdHMgdXBncmFkZS4N
+Cg0KUGV0ZXINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFN0ZXZlIFNha29tYW4gdmlhDQo+
+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogVGh1cnNkYXksIEphbnVhcnkgMzAsIDIw
+MjUgMTU6MzENCj4gVG86IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3Jl
+IGxheWVyIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4g
+U3ViamVjdDogW09FLWNvcmVdIFJlcXVlc3QgZm9yIGRpc2N1c3Npb246IEtlcm5lbCB2ZXJzaW9u
+IGZvciBMVFMgcmVsZWFzZXMNCj4gDQo+IEFzIHlvdSBtYXkgYmUgYXdhcmUsIHRoZSBzdXBwb3J0
+IHBlcmlvZCBmb3IgTGludXgga2VybmVsIExUUyByZWxlYXNlcw0KPiBoYXMgY2hhbmdlZCB0byB0
+d28geWVhcnMuIFRoaXMgcHJlc2VudHMgYSBjaGFsbGVuZ2UgZm9yIG91ciBZb2N0byBMVFMNCj4g
+cmVsZWFzZXMsIHdoaWNoIGhhdmUgNCB5ZWFyIHN1cHBvcnQgcGVyaW9kcy4NCj4gDQo+IEluIGxp
+Z2h0IG9mIHRoaXMsIFJpY2hhcmQgc2VudCBhbiBlbWFpbCB0byB0aGUgWW9jdG8gYXJjaGl0ZWN0
+dXJlIGxpc3QNCj4gaW4gSmFudWFyeSBvZiAyMDI0IG91dGxpbmluZyB0aGUgcHJvamVjdCdzIHBs
+YW5zIGZvciBrZXJuZWwgc3VwcG9ydCBpbg0KPiBmdXR1cmUgTFRTIHJlbGVhc2VzIChjb3BpZWQg
+YmVsb3cpDQo+IA0KPiBUTERSOiBBcm91bmQgdGhlIG1pZHBvaW50IG9mIHRoZSBZb2N0byBTY2Fy
+dGhnYXAgTFRTIGxpZmVjeWNsZSB3ZSB3aWxsDQo+IGJhY2twb3J0IHRoZSB0aGVuIGN1cnJlbnQg
+TFRTIGtlcm5lbCB2ZXJzaW9uIGFuZCBtYWtlIGl0IHRoZSBkZWZhdWx0DQo+IGtlcm5lbCB2ZXJz
+aW9uLiBUaGUgbGludXgtbGliYy1oZWFkZXJzIHZlcnNpb24gd291bGQgcmVtYWluIGF0IHRoZQ0K
+PiByZWxlYXNlZCB2ZXJzaW9uLg0KPiANCj4gQXQgYSByZWNlbnQgWW9jdG8gUHJvamVjdCBUZWNo
+bmljYWwgVGVhbSBNZWV0aW5nIHRoZXJlIHdhcyBzb21lDQo+IGRpc2N1c3Npb24gYXJvdW5kIHRo
+ZSBncm93aW5nIGtlcm5lbCBDVkUgY291bnRzIGluIHRoZSBzdGFibGUNCj4gYnJhbmNoZXM6DQo+
+IA0KPiBraXJrc3RvbmU6IDU1Mg0KPiBzY2FydGhnYXA6IDIyNQ0KPiANCj4gRm9yIGNvbXBhcmlz
+b24gdGhlIG1hc3RlciBicmFuY2ggQ1ZFIGNvdW50IGZvciB0aGUga2VybmVsIGlzIDE4DQo+IA0K
+PiBUaGUgc3VnZ2VzdGlvbiB3YXMgbWFkZSB0aGF0IHdlIGRvIHRoaXMga2VybmVsIHZlcnNpb24g
+dXBkYXRlIHNvb25lcg0KPiByYXRoZXIgdGhhbiBsYXRlciwgYW5kIGFsc28gaW5jbHVkZSB0aGUg
+S2lya3N0b25lIExUUyBicmFuY2ggaW4gb3JkZXINCj4gdG8gZGVhbCB3aXRoIGl0cyBsYXJnZSBu
+dW1iZXIgb2YgQ1ZFcy4gIFRoZSBvcmlnaW5hbCBwbGFuIHdhcyB0byBvbmx5DQo+IGRvIHRoaXMg
+dmVyc2lvbiBidW1wIGZvciBTY2FydGhnYXAsIHNvIHRoaXMgd291bGQgYmUgYSBjaGFuZ2UgdG8g
+dGhlDQo+IHBsYW4gb2YgcmVjb3JkLg0KPiANCj4gUGxlYXNlIGNvbnNpZGVyIHRoZSBhYm92ZSBh
+bmQgcmVzcG9uZCB0byB0aGlzIGVtYWlsIHdpdGggYW55IHRob3VnaHRzDQo+IG9yIGNvbmNlcm5z
+IHlvdSBtYXkgaGF2ZSBhYm91dCBpbXBsZW1lbnRpbmcgdGhpcyB2ZXJzaW9uIGJ1bXAgaW4gYm90
+aA0KPiBMVFMgYnJhbmNoZXMgaW4gdGhlIGNvbWluZyB3ZWVrcy4NCj4gDQo+IFRoYW5rcyENCj4g
+DQo+IFN0ZXZlDQo+IA0KPiANCj4gRnVsbCB0ZXh0IG9mIFJpY2hhcmQncyBlbWFpbDoNCj4gDQo+
+IFRoZSBwcm9qZWN0IGlzIGF3YXJlIHRoYXQgdGhlIGtlcm5lbCB2ZXJzaW9ucyB0aGF0IHNoaXAg
+aW4gb3VyIG5leHQgTFRTDQo+IGluIEFwcmlsIHdpbGwgbGlrZWx5IG5vdCBoYXZlIHN1cHBvcnQg
+Zm9yIHRoZSBmdWxsIGxpZmV0aW1lIG9mIG91ciBMVFMNCj4gKGZvdXIgeWVhcnMpLiBXZSd2ZSBi
+ZWVuIGFza2VkIGEgZmV3IHF1ZXN0aW9ucyBhYm91dCB0aGlzIHNvIHdlIHdhbnRlZA0KPiB0byB3
+cml0ZSBkb3duIHdoYXQgb3VyIHBsYW4gaXMuDQo+IA0KPiBPdXIgaW50ZW50IGlzIHRvIHN1cHBv
+cnQgdGhlIHZlcnNpb25zIHdlIHNoaXAgd2l0aCBmb3IgYXMgbG9uZyBhcyBpcw0KPiBwcmFjdGlj
+YWwuIElmIHRoZXkgYmVjb21lIGVuZCBvZiBsaWZlIGFyb3VuZCB0aGUgbWlkIHBvaW50IG9mIHRo
+ZSBMVFMNCj4gYXMgZXhwZWN0ZWQsIG91ciBwbGFuIGlzIHRvIGJhY2twb3J0IGEgY3VycmVudCBM
+VFMga2VybmVsIGF0IHRoYXQgdGltZQ0KPiBpbnRvIHRoZSByZWxlYXNlIGFuZCBtYWtlIGl0IHRo
+ZSBkZWZhdWx0LCBsZWF2aW5nIHRoZSBvbGRlciByZWNpcGVzDQo+IHRoZXJlIGZvciBhbnlvbmUg
+d2hvIHN0aWxsIG5lZWRzIHRvIHVzZSB0aGVtLiBJdCB3b3VsZCBiZSBiYXNlZCBvbiB0aGUNCj4g
+a2VybmVsIGluIG9uZSBvZiBvdXIgZnV0dXJlIHJlbGVhc2VzLCBhcyBhcHByb3ByaWF0ZS4NCj4g
+DQo+IFRoZSBsaW51eC1saWJjLWhlYWRlcnMgdmVyc2lvbiB3b3VsZCByZW1haW4gYXQgdGhlIHJl
+bGVhc2VkIHZlcnNpb24uDQo+IFRoaXMgaXMgdXNlZCB0byBjb250cm9sIHRoZSBmZWF0dXJlcyBp
+biB0aGUgdG9vbGNoYWluL3VzZXJzcGFjZSBhbmQNCj4gdGhlcmUgaXMgbm8gbmVlZCB0byB1cGdy
+YWRlIHRoaXMgdG8gd29yayB3aXRoIGEgbmV3ZXIga2VybmVsIHZlcnNpb24uDQo+IFVwZ3JhZGlu
+ZyBpdCB3b3VsZCBwb3RlbnRpYWxseSBjaGFuZ2UgdGhlIHRvb2xjaGFpbiBhbmQgdXNlcnNwYWNl
+DQo+IGZ1bmN0aW9uYWxpdHkgYW5kIHRoaXMgaXMgbm90IGRlc2lyYWJsZSBpbiB0aGUgTFRTLiBU
+byBiZSBjbGVhciwgdGhpcw0KPiBkb2VzIG1lYW4gYmxlZWRpbmcgZWRnZSBmZWF0dXJlcyBpbiB0
+aGUgbmV3ZXIga2VybmVsIG1heSBub3QgYmUNCj4gYXZhaWxhYmxlIGJ1dCB0aGF0IGlzIGRlc2ly
+YWJsZSBpbiB0aGUgY29udGV4dCBvZiB0aGUgcHVycG9zZSBvZiB0aGUNCj4gTFRTLg0KPiANCj4g
+VGhlIG9ubHkgcmVhc29uIHRoZSBoZWFkZXJzIHZlcnNpb24gd291bGQgY2hhbmdlIHdvdWxkIGJl
+IHRvIGFkZHJlc3MgYQ0KPiBzZWN1cml0eSBpc3N1ZSBpbiB0aGUgdG9vbGNoYWluIG9yIGtlcm5l
+bC91c2Vyc3BhY2UgaW50ZXJmYWNlLg0KPiANCj4gU2luY2Ugd2UgZG9uJ3Qga25vdyB3aGF0IHRo
+ZSB1cHN0cmVhbSBrZXJuZWwgd2lsbCBkbywgb3Igd2hlbiBleGFjdGx5LA0KPiBpdCBpcyBoYXJk
+IHRvIG1ha2UgYSBkZWZpbml0aXZlIHBsYW4gYmV5b25kIHRoaXMuDQo+IA0KPiBXZSBhcHByZWNp
+YXRlIHRoaXMgaXNuJ3Qgb3VyIHVzdWFsIHBvbGljeSBvZiAibm8gdXBncmFkZXMiLCBob3dldmVy
+IGlmDQo+IGV2ZXJ5b25lIGtub3dzIHRoaXMgaXMgdGhlIHBsYW4gZnJvbSB0aGUgc3RhcnQsIHdl
+IGJlbGlldmUgdGhhdCBpcw0KPiBkaWZmZXJlbnQgYW5kIGV2ZXJ5b25lIGNhbiBwbGFuIGFjY29y
+ZGluZ2x5LCBoZW5jZSB3YW50aW5nIHRvIG1ha2UgdGhpcw0KPiBjbGVhciBub3cuDQo+IA0KPiBT
+aW5jZSB0aGUgcHJvamVjdCBpcyBwbGFubmluZyB0byBleGVjdXRlIHRoZSBmdWxsIFFBIHByb2Nl
+c3MgYWdhaW5zdA0KPiB0aGlzIG5ldyB2ZXJzaW9uLCBpdCBpcyBwdXR0aW5nIGEgcGxhbiBpbiBw
+bGFjZSB0byBzd2l0Y2ggZnJvbSB0aGUNCj4gc3RhcnQgYW5kIGl0IHBsYW5zIG5vdCB0byB0ZXN0
+IGFnYWluc3QgYW55IG90aGVyIHZlcnNpb24gYmV5b25kIHRoYXQNCj4gcG9pbnQsIGl0IG1ha2Vz
+IG1vc3Qgc2Vuc2UgdG8gZGlyZWN0bHkgaW50ZWdyYXRlIHRoZSBjaGFuZ2VzIHJhdGhlcg0KPiB0
+aGFuIHRoZSBtaXggaW4gbGF5ZXIgYXBwcm9hY2ggd2hpY2ggaXMgdGhlcmUgZm9yIHVucGxhbm5l
+ZCBjaGFuZ2VzLg0KPiANCj4gVG8gYmUgY2xlYXIsIHdlIG1heSBhbHNvIHVwZGF0ZSB0aGlzIHBs
+YW4gaWYvYXMgdGhpbmdzIGRldmVsb3AgaW4gdGhlDQo+IG90aGVyIGRlcGVuZGVudCBlY29zeXN0
+ZW1zIHN1Y2ggYXMga2VybmVsIGFzIHdlIGNhbid0IGtub3cgd2hhdCB3aWxsDQo+IGhhcHBlbiBp
+biB0aGVzZSBvbiB0aGUgdGltZXNjYWxlcyBpbnZvbHZlZC4NCj4gDQo+IENoZWVycywNCj4gDQo+
+IFJpY2hhcmQNCj4gKG9uIGJlaGFsZiBvZiB0aGUgWW9jdG8gUHJvamVjdCBUU0MsIExUUyBhbmQg
+a2VybmVsIG1haW50YWluZXJzKQ0K
 
