@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B37E2C0218D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8720C02194
 	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 02:51:46 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.7730.1738205496936060069
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.7732.1738205499936234790
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 18:51:37 -0800
+ Wed, 29 Jan 2025 18:51:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aODJDBDH;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2166022c5caso3972245ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:51:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Og/sZHgB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21670dce0a7so6254835ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738205496; x=1738810296; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738205499; x=1738810299; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X+F6BB0qRD0vhqAy8HOXNuvdBIlExc3dRkXfBllP5LE=;
-        b=aODJDBDHSsiPoWaSjMmNdPpT1m3S9XiSXYIZ+Nz3upKzFfA9D8YF6NvF6caXwRYYsz
-         BDR7zIICy56BdFoHlAXCvFk5m4lAmevRf6pkGVL8v9l5FELu6ezz4XtgxS1LwJsoOwCp
-         1NNzpSrOEDN+f1JZuao6m62oz6kpHJfTzHY1E2QlYsn7ax+PtBEV2Udp3i5HV52KFbvJ
-         IdW+trels/69QaS7BD2LLyndPTsYt71YT2n78S6p4+EGjFOG182Jn0D6ogar+uxkh1TA
-         HMkRHjVjYrHEMSdu/O87X+vz0KnKmLzKWDBn3hb433mr1lGLL/M/UW4J+15BL2/PtdaT
-         uBtQ==
+        bh=kOxlbr27ZnvjGHtjWc9CIPmUuLsQtpl/yuZMOHIwal0=;
+        b=Og/sZHgBojGOA8teoZyFK1NeWlonRPVHHPmi333d1j0WTK2/KbNUkVdeCNVO/5RY6u
+         9UcLU4lu1jdbPjki5ky6ERDUrbFbBxrMSmmp7UtrNTlSIviqsqU7hlyCiYHnqNtaod6u
+         WM7qHMeDH9HwGpOBukv1ZymWPEOmHU3ch128ZEE4e8frrO1XQlSJ1ESez/+jPrR9wSNg
+         4KKczmJer/dl2dKv8ZmQLSAkJ7KDv0cR/DiwKvVd2RNmHW6vUEZRnIAYv8fGnOLfLoV7
+         +sgu+/q2I3SbOGFGZJLk2UFeQTzg4b6muzM1jwYqAB0ouWiNlf1AcED+TpXAJQ0v3YzI
+         yaUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738205496; x=1738810296;
+        d=1e100.net; s=20230601; t=1738205499; x=1738810299;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X+F6BB0qRD0vhqAy8HOXNuvdBIlExc3dRkXfBllP5LE=;
-        b=udaC2EDyKX2Xa4QBR3NtsZqTpCCjj0+/8Lt2EKxLiayqgvaWAimHiAtHTCPVtMfMr7
-         eosPNGyXP1DX5oE84srPuZqoLZp1PdcwVY9r9eW3dsY7mGzvf2bME1+rOW+V8KqwedXR
-         T867HVL+OISL+XnUhi1IWc4+VE/xeVxdRC+7YKMa+FKN1Rco5772PJhi2r6bIZ9QqNGg
-         PTLqpFo6pQ2OaConMDv9y/8ITi3DEyLrIui0BHsUFJ3sojTLK85GiQN+tE/A/T3jvw6P
-         Y99eRiWPFqN9QPA0Yp1qn+5gsKlxdDz4e0+gDb3rgXryKLGgF3aW5twUz0RDCGJPMWEg
-         ZJWA==
-X-Gm-Message-State: AOJu0YwcUb32KjizZwP2mLeOc4miyKYTsSNBl5C8lqk7+ZiN2AEXln6R
-	g8MMnassTuTlvg+Sv+oPeC3xa/g5W0R9qJtF+bUfDj1qIDVvGbdMPdUScZdU8Z1mZpjpKQCWfMC
-	Tg/Y=
-X-Gm-Gg: ASbGncv6MxlHbVkCq6ySHWOkD4/5EnPRSC3Oso52USrKmaKAbJPs1Mnofm7WXBKO60/
-	QU/SrmYeP4iAhNvo/ZpXgHMf9xS4auics2no+aG0oFxms7qfLQH/SeLWyigVrUhq8SinNmvuyTD
-	2ULHBlPbS6wC1yblxi4Nvtham4RNT8kIOLoOeudqRF/oPN8EugHdLoiaUaSp+6FGaFptDAHHcX7
-	XkXVw2qYJucswklG9CpOxSFlIvD8JHJgBEIT0cB9EvkJBON24VXa16oeb1XJeTWT5jR2HvR6n/p
-	6+qP
-X-Google-Smtp-Source: AGHT+IEt2vmnAOd3Tx54O0eVuKOsFPHmqGuH8GK5r+eyQYvY3rji7QtnF6StpSfRGDJktOJYuhcXwg==
-X-Received: by 2002:a17:902:e809:b0:21c:e34:c8c3 with SMTP id d9443c01a7336-21dd7c671a3mr89052735ad.24.1738205496197;
-        Wed, 29 Jan 2025 18:51:36 -0800 (PST)
+        bh=kOxlbr27ZnvjGHtjWc9CIPmUuLsQtpl/yuZMOHIwal0=;
+        b=vTN3/W8vtdkCxpAumSjySoVunqliV1jc6lqHpS2zqNKThN0tO75Y14tNxPogZzDOwL
+         5v2ik/8w9zYxE4xLdLB6jrPpOgvD6KPaDS+7dy+E/lo3r5GKv75PHCTRikyCODr1VkFt
+         Wm1M8bOyoR6Er/tdHcIru3poiMv3L9X5gs/f3is3ltQonjUkT8M3LhhARAhOiwmeYo+V
+         SZCKPgetDdI9CnNBYONIdcaDWu4kdd/++1Ef7oQucjgb2jKCKQlZ+6WFwBS8mw6d1Ohy
+         L+mYB4EXTARm394gz31B6TpaQRYUENiQ+B0mmk4eYJZUsN/PSCizGkjJRTPweP/TeemL
+         WiKQ==
+X-Gm-Message-State: AOJu0YwqA9aHvSQ7vVsDKALfbwqlz5JzYoOQ0VlvxVMsd3nKGGgVczb8
+	c9ULQ8a6E5Kw11DpMDnMzevuCJU1V5mC0U4xeIm3oPnDeIWp1MkeGfoTdGAKwErYD99ZQ0AxO3R
+	2IMk=
+X-Gm-Gg: ASbGncuKErMr+QjMTSQMT6mqB+2UZdNAvCird50Toc2MG47zwrlITxWmPMz3DPutCGQ
+	wjiZ/jRvhlAgNNxZT5Gn6NGO0hDrK9zKRkMyUcJ4L2FiHUjuiifAVwDxxQDvTRo6NdhQzb5nVJG
+	w9otctUrFh81PUJKLjCup9g8oEKnnYRYuU7ytzIvOiMupuTN+ff/6WlTJAfSxIpIBV27dRjuf9U
+	8tNSbT7CB5rUn+y2fyH/vdrhyGH+hOTcLJptTlm1Yl/4tASj1HzZl2WLcLg1NnDQlz5ZcnrMufy
+	st0M
+X-Google-Smtp-Source: AGHT+IFzCWjOsdCCENYC57p3irUQY8RCnGVDNA+EnvPTjNKWh5UY5zEqAVYos4kyOBR91POtml5Cog==
+X-Received: by 2002:a05:6a21:9211:b0:1e1:a06b:375a with SMTP id adf61e73a8af0-1ed7a6e191emr10860737637.35.1738205499158;
+        Wed, 29 Jan 2025 18:51:39 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec04794a4sm249726a12.60.2025.01.29.18.51.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec04794a4sm249726a12.60.2025.01.29.18.51.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 18:51:35 -0800 (PST)
+        Wed, 29 Jan 2025 18:51:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/12] devtool: ide-sdk recommend DEBUG_BUILD
-Date: Wed, 29 Jan 2025 18:51:10 -0800
-Message-ID: <23795962683c792347a17854fb0521734497d4a8.1738205405.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/12] devtool: ide-sdk remove the plugin from eSDK installer
+Date: Wed, 29 Jan 2025 18:51:12 -0800
+Message-ID: <f50306ea3e174b8db46b20b68a7ac4299a69f50d.1738205405.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1738205405.git.steve@sakoman.com>
 References: <cover.1738205405.git.steve@sakoman.com>
@@ -67,131 +67,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 02:51:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210430
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210432
 
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-The debug_build_config function was never called. Compiling with debug
-optimized compiler flags was not working. Even with the
---debug-build-config flag set, the build configuration from the recipe
-was used.
+The ide-sdk command bootstraps the SDK from the bitbake environment
+before the IDE configuration is generated. In the case of the eSDK
+installer, the bootstrapping is performed during the installation of
+the eSDK installer. Running the ide-sdk plugin from an eSDK installer
+based setup would require skipping the bootstrapping and probably taking
+some other differences into account when generating the IDE
+configurations.
 
-The devtool ide-sdk --debug-build-config approach didn't work very well
-anyway. The problem is that changing the bbappend file doesn't work
-while bitbake uses the bbappend file. As a workaround, it would be
-possible to parse the recipe, get DEBUG_BUILD and the path to the append
-file, exit tinfoil, change the bbappend file, reopen tinfoil and do what
-ide-sdk is supposed to do. Such an implementation would be complicated
-and slow.
-Therefore, the code that was originally supposed to implement this is
-removed from ide-sdk and the new --debug-build function of devtool
-modify is used instead. Additionally, a hint should be given on how to
-manually add DEBUG_BUILD = '1' to bbappend.
-
-This is compatible with the VSCode Bitbake plug-in, which does not
-support this parameter anyway.
+This would be possible. But it will probably never be implemented, as
+running devtool ide-sdk directly from the bitbake environment is much
+more flexible.
+Also, some of the recent improvements that have made it into the core
+have the potential to make the eSDK installer obsolete at some point in
+the future:
+- bitbake-layers create-layers-setup replicates the layers
+- bitbake-config-build replicates the build configuration
+- The new sstate mirror features replicate the sstate
+- bblock locks the sstate more flexible than the eSDK installer
+- devtool ide-sdk bootstraps the SDK directly from the bitbake
+  environment. The same environment-setup... file is provided with
+  --mode=shared.
+  The devtool modify based workflow is supported since always by devtool
+  and also the default --mode of devtool ide-sdk.
+These functions essentially cover what the eSDK installer does without
+a need for the current implementation of the eSDK installer and the
+populate_sdk_ext, which is hard to maintain and takes a lot of time to
+build.
+This means that instead of making the ide-sdk plugin compatible with the
+eSDK installer, we should rather replace the current implementation of
+the eSDK installer and populate_sdk_ext with an implementation that can
+replicate a normal bitbake environment in a convenient way where the
+ide-sdk plugin also just works without additional complexity.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 50 ++++++----------------------------
- 1 file changed, 9 insertions(+), 41 deletions(-)
+ scripts/lib/devtool/ide_sdk.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index eee5425aa7..5e4c543275 100755
+index 5e4c543275..0b50165a12 100755
 --- a/scripts/lib/devtool/ide_sdk.py
 +++ b/scripts/lib/devtool/ide_sdk.py
-@@ -288,6 +288,7 @@ class RecipeModified:
-         self.bblayers = None
-         self.bpn = None
-         self.d = None
-+        self.debug_build = None
-         self.fakerootcmd = None
-         self.fakerootenv = None
-         self.libdir = None
-@@ -348,6 +349,7 @@ class RecipeModified:
-         self.bpn = recipe_d.getVar('BPN')
-         self.cxx = recipe_d.getVar('CXX')
-         self.d = recipe_d.getVar('D')
-+        self.debug_build = recipe_d.getVar('DEBUG_BUILD')
-         self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
-         self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
-         self.libdir = recipe_d.getVar('libdir')
-@@ -389,17 +391,6 @@ class RecipeModified:
-         self.recipe_id = self.bpn + "-" + self.package_arch
-         self.recipe_id_pretty = self.bpn + ": " + self.package_arch
+@@ -965,6 +965,15 @@ def ide_setup(args, config, basepath, workspace):
+ def register_commands(subparsers, context):
+     """Register devtool subcommands from this plugin"""
  
--    def append_to_bbappend(self, append_text):
--        with open(self.bbappend, 'a') as bbap:
--            bbap.write(append_text)
--
--    def remove_from_bbappend(self, append_text):
--        with open(self.bbappend, 'r') as bbap:
--            text = bbap.read()
--        new_text = text.replace(append_text, '')
--        with open(self.bbappend, 'w') as bbap:
--            bbap.write(new_text)
--
-     @staticmethod
-     def is_valid_shell_variable(var):
-         """Skip strange shell variables like systemd
-@@ -412,34 +403,6 @@ class RecipeModified:
-             return True
-         return False
- 
--    def debug_build_config(self, args):
--        """Explicitely set for example CMAKE_BUILD_TYPE to Debug if not defined otherwise"""
--        if self.build_tool is BuildTool.CMAKE:
--            append_text = os.linesep + \
--                'OECMAKE_ARGS:append = " -DCMAKE_BUILD_TYPE:STRING=Debug"' + os.linesep
--            if args.debug_build_config and not 'CMAKE_BUILD_TYPE' in self.cmake_cache_vars:
--                self.cmake_cache_vars['CMAKE_BUILD_TYPE'] = {
--                    "type": "STRING",
--                    "value": "Debug",
--                }
--                self.append_to_bbappend(append_text)
--            elif 'CMAKE_BUILD_TYPE' in self.cmake_cache_vars:
--                del self.cmake_cache_vars['CMAKE_BUILD_TYPE']
--                self.remove_from_bbappend(append_text)
--        elif self.build_tool is BuildTool.MESON:
--            append_text = os.linesep + 'MESON_BUILDTYPE = "debug"' + os.linesep
--            if args.debug_build_config and self.meson_buildtype != "debug":
--                self.mesonopts.replace(
--                    '--buildtype ' + self.meson_buildtype, '--buildtype debug')
--                self.append_to_bbappend(append_text)
--            elif self.meson_buildtype == "debug":
--                self.mesonopts.replace(
--                    '--buildtype debug', '--buildtype plain')
--                self.remove_from_bbappend(append_text)
--        elif args.debug_build_config:
--            logger.warn(
--                "--debug-build-config is not implemented for this build tool yet.")
--
-     def solib_search_path(self, image):
-         """Search for debug symbols in the rootfs and rootfs-dbg
- 
-@@ -988,6 +951,13 @@ def ide_setup(args, config, basepath, workspace):
-                 recipe_modified.gen_meson_wrapper()
-             ide.setup_modified_recipe(
-                 args, recipe_image, recipe_modified)
++    # The ide-sdk command bootstraps the SDK from the bitbake environment before the IDE
++    # configuration is generated. In the case of the eSDK, the bootstrapping is performed
++    # during the installation of the eSDK installer. Running the ide-sdk plugin from an
++    # eSDK installer-based setup would require skipping the bootstrapping and probably
++    # taking some other differences into account when generating the IDE configurations.
++    # This would be possible. But it is not implemented.
++    if context.fixed_setup:
++        return
 +
-+            if recipe_modified.debug_build != '1':
-+                logger.warn(
-+                    'Recipe %s is compiled with release build configuration. '
-+                    'You might want to add DEBUG_BUILD = "1" to %s. '
-+                    'Note that devtool modify --debug-build can do this automatically.',
-+                    recipe_modified.name, recipe_modified.bbappend)
-     else:
-         raise DevtoolError("Must not end up here.")
+     global ide_plugins
  
-@@ -1065,6 +1035,4 @@ def register_commands(subparsers, context):
-         '-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
-     parser_ide_sdk.add_argument(
-         '--no-check-space', help='Do not check for available space before deploying', action='store_true')
--    parser_ide_sdk.add_argument(
--        '--debug-build-config', help='Use debug build flags, for example set CMAKE_BUILD_TYPE=Debug', action='store_true')
-     parser_ide_sdk.set_defaults(func=ide_setup)
+     # Search for IDE plugins in all sub-folders named ide_plugins where devtool seraches for plugins.
 -- 
 2.43.0
 
