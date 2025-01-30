@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B046EC02194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E72C02196
 	for <webhook@archiver.kernel.org>; Thu, 30 Jan 2025 02:51:36 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.7727.1738205490767270676
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.7678.1738205492373117668
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jan 2025 18:51:30 -0800
+ Wed, 29 Jan 2025 18:51:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=l3QjKrJ1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-215770613dbso3418575ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:51:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jKz9g4Xa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ee8e8e29f6so361017a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jan 2025 18:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738205490; x=1738810290; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738205492; x=1738810292; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RIUUXzA6Bs30r6F0wxrFz+H7jxSWchng2i8h7gBhsLk=;
-        b=l3QjKrJ19G8hGuZsiW6MOhDs+pof8Hw1b0+d2hBVjmSMC7bW+NaCoR0qxxSSkMp/lk
-         74YEpDSneFGaUpFgr9ux5A3wgobeQSPNs4vZiFtw4hVdvJFCZ9Zc/vCZVrcTq9zb6gD3
-         s6jMhqN5tHRECejVHMmbPKMu7bhjtcVdhdnwKgdA810O//TD5OyvXSebJoQ+ln6xSEnz
-         S8qZDuJqpkXhO35DR73/qmLY32/bOlYfrlWUCSQwCcsP+TU9KfY4lI+DB+KhI7bGvzzp
-         1mQbk83tgBB/+LkdjOiRU2frBUv2d30PwzQBGoDbn9dKcmrO0877iOk6LQcjUIK30n54
-         0YFQ==
+        bh=IYJMZfQoFd4jEzcjJ0xXhPrCudnb0RAfOHbVxYVnA+c=;
+        b=jKz9g4XarJc3adqJjhw4tuKzOxtsspS9J3wQKlX9ESIkDvGusWtasCQKoWvrQv5afS
+         Dxfk/5p4u0nGvHZ4zyPNgphoayq8h5WVcY236sNLEOlx0jZVWKQoMMP7/zZLEms1RYxd
+         dvjNuMS8QVyQ1NGah2kIml3bUevh6WRpUWEOTQT+BIkApTN1DCQioPPBKT0EJ+VKg0mY
+         vpG+StJ+0HDb5TEJ1Pa3RAXqnguayx5fYLtHnym8NFE2hbNgPru+JkikFozrJ3M8xE5l
+         prpugQmFPiOrXktTt08Emtl9BZFEUDuIXYO05At6hlHMMSHUKGgbAGKs87nnEmqQeITW
+         g3Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738205490; x=1738810290;
+        d=1e100.net; s=20230601; t=1738205492; x=1738810292;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RIUUXzA6Bs30r6F0wxrFz+H7jxSWchng2i8h7gBhsLk=;
-        b=Q8AEbwdVTtSlA65gYijxQepBIHSxX4PxoolxTUaxO6mfFtpBGwU/ejXLrlcosf9zlK
-         UQ/Hw6vHj3vHonCvmMiSqIbd3CEkttGxWqkUAv0Mc8ft3bs15oRNWEzzSdeY4cfbD/ij
-         9EfKb/jqA7QZgusnSozBIymkn5a1+n1K3ewQktpqjgw4bWLcRLIwBzcBiyCjM0zvb1zp
-         7hJ6Z/XrqsoGVakc48ml+Wisl+C0IFLMOXLg6YmLJd6mlRBxmG9Juw8m0MRWEXCIWKpm
-         lxkXlbMlfdN7Iq/Do8TcPviguJdORvMMhRUc60Hip2rte5QXXlVKkppfYHThQbSf6BQD
-         xEng==
-X-Gm-Message-State: AOJu0Yw7Yp5+X4jF+e1v/zFQSqJH0tfqU9wzPYlhK6Ydx2ZLiBwquJ3i
-	swZNagT3k1A8rfbjtO+FRbgaHJEJD103JxVQgGuM0C+Y8CaNPEfZIfjWjB+L9A+rxkFQ/mVyaaP
-	Ml6A=
-X-Gm-Gg: ASbGnctmGZ5Zux9I2YlHOd2hLoJLacsJNOqihSd/amYdIoazZ2lMzIALaZDsZFcKAZP
-	PrTVjeFSoaGEQWjTKsmgmhAnezQpRxZjJb6kUO+OzTJ196YlY/bSWlDitS0+akNRgrHtT2Dru+U
-	EXnyQ0KAd3tfTY5JtKmBuvV0vB7JZe/dIxhGi1UMYDHR9OLW9EsCz4UdCzV3qPlSwxgpu0nrmYA
-	KAsqKJ29UJZrIWSlyQpr+LxBRDCVy40KlHyOnmkN+nuKkgBAKbe6qknFcrdh4Np1CjOH76V68LG
-	xfWA
-X-Google-Smtp-Source: AGHT+IHGEsUiow6eV87DwpSfLQ26KPdgnb+m5lv9A7/7uQAB7mxXvyYqiOQ6OA+oaAt6EU6nI0pN9Q==
-X-Received: by 2002:a05:6a21:6da4:b0:1e1:b727:1801 with SMTP id adf61e73a8af0-1ed7a5ef9demr7867740637.27.1738205490030;
-        Wed, 29 Jan 2025 18:51:30 -0800 (PST)
+        bh=IYJMZfQoFd4jEzcjJ0xXhPrCudnb0RAfOHbVxYVnA+c=;
+        b=TA7SPa+smdu2vbx0vJwECUrX9AmPqDdr8Y6Pak03RWjCcvKLNTq6BoKKx0jvoYfG/k
+         IWKtSiTwFIykA7HAl6BCCdlP+v1hShx92e2IrNnsAiXRp5zDpS5H7xrA3WPDoXdHRuiJ
+         hJSAgkSIo6vatLU2zzHRfjtLYKb8XvI2PavEHO1WiyHEM9RRHBRQML7kfhLl8sRIv4cI
+         /rulWyZaMJ6fAq6u7qkExLIUWuPnvbmnMK4EchW+cclONoRtAowisPFC1wnslNG5LZFw
+         caZTAp5F1kAhp8PNFwfWbcyibbmu8JU9JhcP3WFhPcAxZ/k+a735L6hxS2bOrniYvaFz
+         DHaQ==
+X-Gm-Message-State: AOJu0Ywz5cy/iYNYa0J3JXaly/+JvjJTZ1n0puVeiT2HVlaZ5Q2cvDZN
+	28KSFyoNu0i3HCknRSwmJpuDA0K/XafRqI2QKanV6cJSYUaJAp9u+6VumYJZsOmtFs6AHK/Najy
+	QEWQ=
+X-Gm-Gg: ASbGncs+gcjXK2Gm9uqIyC2wz8RpncF1q6kQc81aBF+/4tfjeXMT98sZhhsqbHoHbzA
+	TIV/fC+mvZ+J8WnrxppCevriyojlJt6GdaQ7aqMQ8OJ4+nrM07OPZTf9Q+qWMblBvbLjhWS65it
+	F3FhOd/X14/2FE/Rk7UzRPih2OgfQhBgoeZRxngBCOy3bACXD0KEDxdBD19hY2RLw3Kltxv0oY1
+	RO0kHf9aiwPHo52+PJjaEOKzhQhVs1RqAEPrADou1x85pfAa0n7tIifYI9rWJY5JrQaknje59XH
+	KfyE
+X-Google-Smtp-Source: AGHT+IERd8HJREuj+trJY0cj8VTWP1sdUWvdQwamyDkK0Q0zadSnnkiKsr4TyM3mN86FAl4Z+9KPYQ==
+X-Received: by 2002:a05:6a00:8d6:b0:72a:8b90:92e9 with SMTP id d2e1a72fcca58-72fd0bbe0f9mr7250871b3a.5.1738205491403;
+        Wed, 29 Jan 2025 18:51:31 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec04794a4sm249726a12.60.2025.01.29.18.51.29
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec04794a4sm249726a12.60.2025.01.29.18.51.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 18:51:29 -0800 (PST)
+        Wed, 29 Jan 2025 18:51:31 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/12] go: upgrade 1.22.10 -> 1.22.11
-Date: Wed, 29 Jan 2025 18:51:06 -0800
-Message-ID: <35bf053cd41d53a764ef3a2de3e7cb1e6c81109f.1738205405.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/12] u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled
+Date: Wed, 29 Jan 2025 18:51:07 -0800
+Message-ID: <d7bd9c6276611c8c8de0c2a24947783eae5d932a.1738205405.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1738205405.git.steve@sakoman.com>
 References: <cover.1738205405.git.steve@sakoman.com>
@@ -67,99 +67,265 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jan 2025 02:51:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210426
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210427
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Marek Vasut <marex@denx.de>
 
-Upgrade to latest 1.22.x release [1]:
+In case both UBOOT_SIGN_ENABLE and UBOOT_ENV are enabled and
+kernel-fitimage.bbclass is in use to generate signed kernel
+fitImage, there is a circular dependency between uboot-sign
+and kernel-fitimage bbclasses . The loop looks like this:
 
-$ git --no-pager log --oneline go1.22.10..go1.22.11
-f072884354 (tag: go1.22.11) [release-branch.go1.22] go1.22.11
-b72d56f98d [release-branch.go1.22] net/http: persist header stripping across repeated redirects
-19d2103415 [release-branch.go1.22] crypto/x509: properly check for IPv6 hosts in URIs
-ae9996f965 [release-branch.go1.22] runtime: hold traceAcquire across casgstatus in injectglist
-223260bc63 [release-branch.go1.22] crypto/tls: fix Config.Time in tests using expired certificates
+kernel-fitimage.bbclass:
+- do_populate_sysroot depends on do_assemble_fitimage
+  - do_assemble_fitimage depends on virtual/bootloader:do_populate_sysroot
+    - virtual/bootloader:do_populate_sysroot depends on virtual/bootloader:do_install
+      => The virtual/bootloader:do_install installs and the
+         virtual/bootloader:do_populate_sysroot places into
+         sysroot an U-Boot environment script embedded into
+         kernel fitImage during do_assemble_fitimage run .
 
-Fixes CVE-2024-45336 and CVE-2024-45341
+uboot-sign.bbclass:
+- DEPENDS on KERNEL_PN, which is really virtual/kernel. More accurately
+  - do_deploy depends on do_uboot_assemble_fitimage
+  - do_install depends on do_uboot_assemble_fitimage
+  - do_uboot_assemble_fitimage depends on virtual/kernel:do_populate_sysroot
+    => do_install depends on virtual/kernel:do_populate_sysroot
 
-[1] https://github.com/golang/go/compare/go1.22.10...go1.22.11
+=> virtual/bootloader:do_install depends on virtual/kernel:do_populate_sysroot
+   virtual/kernel:do_populate_sysroot depends on virtual/bootloader:do_install
 
-(From OE-Core rev: 4589986602319f9ed61e381b333bb53b731eb8d8)
+Attempt to resolve the loop. Pull fitimage configuration options into separate
+new configuration file image-fitimage.conf so these configuration options can
+be shared by both uboot-sign.bbclass and kernel-fitimage.bbclass, and make use
+of mkimage -f auto-conf / mkimage -f auto option to insert /signature node key-*
+subnode into U-Boot control DT without depending on the layout of kernel fitImage
+itself. This is perfectly valid to do, because the U-Boot /signature node key-*
+subnodes 'required' property can contain either of two values, 'conf' or 'image'
+to authenticate either selected configuration or all of images when booting the
+fitImage.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+For details of the U-Boot fitImage signing process, see:
+https://docs.u-boot.org/en/latest/usage/fit/signature.html
+For details of mkimage -f auto-conf and -f auto, see:
+https://manpages.debian.org/experimental/u-boot-tools/mkimage.1.en.html#EXAMPLES
+
+(From OE-Core rev: 259bfa86f384206f0d0a96a5b84887186c5f689e)
+
+Fixes: 5e12dc911d0c ("u-boot: Rework signing to remove interdependencies")
+Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.22.10.inc => go-1.22.11.inc} | 2 +-
- ...binary-native_1.22.10.bb => go-binary-native_1.22.11.bb} | 6 +++---
- ...oss-canadian_1.22.10.bb => go-cross-canadian_1.22.11.bb} | 0
- .../go/{go-cross_1.22.10.bb => go-cross_1.22.11.bb}         | 0
- .../go/{go-crosssdk_1.22.10.bb => go-crosssdk_1.22.11.bb}   | 0
- .../go/{go-runtime_1.22.10.bb => go-runtime_1.22.11.bb}     | 0
- meta/recipes-devtools/go/{go_1.22.10.bb => go_1.22.11.bb}   | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.10.inc => go-1.22.11.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.10.bb => go-binary-native_1.22.11.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.10.bb => go-cross-canadian_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.10.bb => go-cross_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.10.bb => go-crosssdk_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.10.bb => go-runtime_1.22.11.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.10.bb => go_1.22.11.bb} (100%)
+ meta/classes-recipe/kernel-fitimage.bbclass | 53 +--------------------
+ meta/classes-recipe/uboot-sign.bbclass      | 26 +++++-----
+ meta/conf/image-fitimage.conf               | 53 +++++++++++++++++++++
+ 3 files changed, 68 insertions(+), 64 deletions(-)
+ create mode 100644 meta/conf/image-fitimage.conf
 
-diff --git a/meta/recipes-devtools/go/go-1.22.10.inc b/meta/recipes-devtools/go/go-1.22.11.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.22.10.inc
-rename to meta/recipes-devtools/go/go-1.22.11.inc
-index 2abe7d0f3e..21222bea4e 100644
---- a/meta/recipes-devtools/go/go-1.22.10.inc
-+++ b/meta/recipes-devtools/go/go-1.22.11.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "1e94fd48be750d1fafb4d9b3b6dd31a6e9d2735d339bf2462bc97b64ca4c1037"
-+SRC_URI[main.sha256sum] = "a60c23dec95d10a2576265ce580f57869d5ac2471c4f4aca805addc9ea0fc9fe"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.10.bb b/meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.10.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-index 8c8fe5bff9..a526cc88bc 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.10.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.22.11.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 18ab17bd2c..3e20c3248b 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -5,6 +5,7 @@
+ #
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "736ce492a19d756a92719a6121226087ccd91b652ed5caec40ad6dbfb2252092"
--SRC_URI[go_linux_arm64.sha256sum] = "5213c5e32fde3bd7da65516467b7ffbfe40d2bb5a5f58105e387eef450583eec"
--SRC_URI[go_linux_ppc64le.sha256sum] = "db05b9838f69d741fb9a5301220b1a62014aee025b0baf341aba3d280087b981"
-+SRC_URI[go_linux_amd64.sha256sum] = "0fc88d966d33896384fbde56e9a8d80a305dc17a9f48f1832e061724b1719991"
-+SRC_URI[go_linux_arm64.sha256sum] = "9ebfcab26801fa4cf0627c6439db7a4da4d3c6766142a3dd83508240e4f21031"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "963a0ec973640b23ee8bb7a462cc415276fd8436111a03df8c34eb3b1ae29f12"
+ inherit kernel-uboot kernel-artifact-names uboot-config
++require conf/image-fitimage.conf
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.10.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.11.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.22.10.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.22.11.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.22.10.bb b/meta/recipes-devtools/go/go-cross_1.22.11.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.22.10.bb
-rename to meta/recipes-devtools/go/go-cross_1.22.11.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.10.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.11.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.22.10.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.22.11.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.22.10.bb b/meta/recipes-devtools/go/go-runtime_1.22.11.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.22.10.bb
-rename to meta/recipes-devtools/go/go-runtime_1.22.11.bb
-diff --git a/meta/recipes-devtools/go/go_1.22.10.bb b/meta/recipes-devtools/go/go_1.22.11.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.22.10.bb
-rename to meta/recipes-devtools/go/go_1.22.11.bb
+ def get_fit_replacement_type(d):
+     kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
+@@ -52,58 +53,6 @@ python __anonymous () {
+         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
+ }
+ 
+-
+-# Description string
+-FIT_DESC ?= "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+-
+-# Kernel fitImage Hash Algo
+-FIT_HASH_ALG ?= "sha256"
+-
+-# Kernel fitImage Signature Algo
+-FIT_SIGN_ALG ?= "rsa2048"
+-
+-# Kernel / U-Boot fitImage Padding Algo
+-FIT_PAD_ALG ?= "pkcs-1.5"
+-
+-# Generate keys for signing Kernel fitImage
+-FIT_GENERATE_KEYS ?= "0"
+-
+-# Size of private keys in number of bits
+-FIT_SIGN_NUMBITS ?= "2048"
+-
+-# args to openssl genrsa (Default is just the public exponent)
+-FIT_KEY_GENRSA_ARGS ?= "-F4"
+-
+-# args to openssl req (Default is -batch for non interactive mode and
+-# -new for new certificate)
+-FIT_KEY_REQ_ARGS ?= "-batch -new"
+-
+-# Standard format for public key certificate
+-FIT_KEY_SIGN_PKCS ?= "-x509"
+-
+-# Sign individual images as well
+-FIT_SIGN_INDIVIDUAL ?= "0"
+-
+-FIT_CONF_PREFIX ?= "conf-"
+-FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
+-
+-FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
+-
+-# Allow user to select the default DTB for FIT image when multiple dtb's exists.
+-FIT_CONF_DEFAULT_DTB ?= ""
+-
+-# length of address in number of <u32> cells
+-# ex: 1 32bits address, 2 64bits address
+-FIT_ADDRESS_CELLS ?= "1"
+-
+-# Keys used to sign individually image nodes.
+-# The keys to sign image nodes must be different from those used to sign
+-# configuration nodes, otherwise the "required" property, from
+-# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "image".
+-# Then the images signature checking will not be mandatory and no error will be
+-# raised in case of failure.
+-# UBOOT_SIGN_IMG_KEYNAME = "dev2" # keys name in keydir (eg. "dev2.crt", "dev2.key")
+-
+ #
+ # Emit the fitImage ITS header
+ #
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index a17be745ce..96c47ab016 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -26,6 +26,7 @@
+ 
+ # We need some variables from u-boot-config
+ inherit uboot-config
++require conf/image-fitimage.conf
+ 
+ # Enable use of a U-Boot fitImage
+ UBOOT_FITIMAGE_ENABLE ?= "0"
+@@ -85,9 +86,6 @@ UBOOT_FIT_KEY_SIGN_PKCS ?= "-x509"
+ # ex: 1 32bits address, 2 64bits address
+ UBOOT_FIT_ADDRESS_CELLS ?= "1"
+ 
+-# This is only necessary for determining the signing configuration
+-KERNEL_PN = "${PREFERRED_PROVIDER_virtual/kernel}"
+-
+ UBOOT_FIT_UBOOT_LOADADDRESS ?= "${UBOOT_LOADADDRESS}"
+ UBOOT_FIT_UBOOT_ENTRYPOINT ?= "${UBOOT_ENTRYPOINT}"
+ 
+@@ -96,8 +94,6 @@ python() {
+     sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
+-    if sign:
+-        d.appendVar('DEPENDS', " " + d.getVar('KERNEL_PN'))
+ }
+ 
+ concat_dtb() {
+@@ -106,16 +102,26 @@ concat_dtb() {
+ 
+ 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
+ 		# Re-sign the kernel in order to add the keys to our dtb
++		UBOOT_MKIMAGE_MODE="auto-conf"
++		# Signing individual images is not recommended as that
++		# makes fitImage susceptible to mix-and-match attack.
++		if [ "${FIT_SIGN_INDIVIDUAL}" = "1" ] ; then
++			UBOOT_MKIMAGE_MODE="auto"
++		fi
+ 		${UBOOT_MKIMAGE_SIGN} \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-			-F -k "${UBOOT_SIGN_KEYDIR}" \
++			-f $UBOOT_MKIMAGE_MODE \
++			-k "${UBOOT_SIGN_KEYDIR}" \
++			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
++			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
+ 			-K "${UBOOT_DTB_BINARY}" \
+-			-r ${B}/fitImage-linux \
++			-d /dev/null \
++			-r ${B}/unused.itb \
+ 			${UBOOT_MKIMAGE_SIGN_ARGS}
+ 		# Verify the kernel image and u-boot dtb
+ 		${UBOOT_FIT_CHECK_SIGN} \
+ 			-k "${UBOOT_DTB_BINARY}" \
+-			-f ${B}/fitImage-linux
++			-f ${B}/unused.itb
+ 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
+ 	fi
+ 
+@@ -351,10 +357,6 @@ uboot_assemble_fitimage_helper() {
+ }
+ 
+ do_uboot_assemble_fitimage() {
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
+-		cp "${STAGING_DIR_HOST}/sysroot-only/fitImage" "${B}/fitImage-linux"
+-	fi
+-
+ 	if [ -n "${UBOOT_CONFIG}" ]; then
+ 		unset i
+ 		for config in ${UBOOT_MACHINE}; do
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+new file mode 100644
+index 0000000000..be9ae30134
+--- /dev/null
++++ b/meta/conf/image-fitimage.conf
+@@ -0,0 +1,53 @@
++# Possible options for fitImage generation, mainly
++# related to signing of the fitImage content.
++
++# Description string
++FIT_DESC ?= "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
++
++# Kernel fitImage Hash Algo
++FIT_HASH_ALG ?= "sha256"
++
++# Kernel fitImage Signature Algo
++FIT_SIGN_ALG ?= "rsa2048"
++
++# Kernel / U-Boot fitImage Padding Algo
++FIT_PAD_ALG ?= "pkcs-1.5"
++
++# Generate keys for signing Kernel fitImage
++FIT_GENERATE_KEYS ?= "0"
++
++# Size of private keys in number of bits
++FIT_SIGN_NUMBITS ?= "2048"
++
++# args to openssl genrsa (Default is just the public exponent)
++FIT_KEY_GENRSA_ARGS ?= "-F4"
++
++# args to openssl req (Default is -batch for non interactive mode and
++# -new for new certificate)
++FIT_KEY_REQ_ARGS ?= "-batch -new"
++
++# Standard format for public key certificate
++FIT_KEY_SIGN_PKCS ?= "-x509"
++
++# Sign individual images as well
++FIT_SIGN_INDIVIDUAL ?= "0"
++
++FIT_CONF_PREFIX ?= "conf-"
++FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
++
++FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
++
++# Allow user to select the default DTB for FIT image when multiple dtb's exists.
++FIT_CONF_DEFAULT_DTB ?= ""
++
++# length of address in number of <u32> cells
++# ex: 1 32bits address, 2 64bits address
++FIT_ADDRESS_CELLS ?= "1"
++
++# Keys used to sign individually image nodes.
++# The keys to sign image nodes must be different from those used to sign
++# configuration nodes, otherwise the "required" property, from
++# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "image".
++# Then the images signature checking will not be mandatory and no error will be
++# raised in case of failure.
++# UBOOT_SIGN_IMG_KEYNAME = "dev2" # keys name in keydir (eg. "dev2.crt", "dev2.key")
 -- 
 2.43.0
 
