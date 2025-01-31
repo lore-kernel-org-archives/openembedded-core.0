@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4472C3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DDB5C02192
 	for <webhook@archiver.kernel.org>; Fri, 31 Jan 2025 14:15:51 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.20049.1738332942830634005
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.19654.1738332941489366425
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jan 2025 06:15:42 -0800
+ Fri, 31 Jan 2025 06:15:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=H/pKcmu3;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2164b1f05caso36199225ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 06:15:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iZUTOZ0h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21c2f1b610dso46501325ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 06:15:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738332942; x=1738937742; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738332941; x=1738937741; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PB0aLuZTAig0yGpMIBSrxjLLyxu/a/ni7/QPJGwWvlQ=;
-        b=H/pKcmu3F1NXb7Ks0Mc9BHpoapwhNiEqUxeNmF9tc7mPKW5Cx5nPXkTA19zPLVN4wE
-         srM5lTbSn6IbHmbnYzt49l8+XTv4HSWaqBVucXg/IbBMFGWI12RG2i4CcO95a+bZ1wKT
-         mu2mOvyfztG2CH8NoJUeyGgN3ZoEnkuhO40rsjGAG3hk6lCbg3vQQME1c996mnqT65iV
-         2YBLjxgHfn0uNcVk9RllH6LNrAK5F9KyrYG1ANrew61i1acldGONoKt4/WJhOPWmcuPT
-         xjktfdiquHWJsdvBpf6h/HJpop/wI+MV8oco70yn3KAWpwA0rVDHZgv6C68E7L8BFOKt
-         P1Rg==
+        bh=941Sk92cd9aks85ZHn+IEpAE1zFMbO+RpeqS4DCmU2k=;
+        b=iZUTOZ0hQJBNzxEUhgF/r7sJiIhSFplzr+6gG907h3eNgUtIOC+jPYm6wWUIDBQA/X
+         UdK/7CPmkd7sTo/j3V+auDbrrvzXWt8cK7H8zSk42fTSPs80HAFS9aaK68bpaBz3tYd/
+         /mkG6U6bd1dZSMHQjY6hvQiLC+dsCwtIghLlqcGC54IpTvHVu800/dD1IjCzhB4RQwdI
+         NGcD0BjiJ/EYMRkjMFKgjfXwjhQuHSGrruxzQx3565kjFo1/S2GcMQZ+Zx0SiOweIkiC
+         HDYm85pBMb5yK/AWLDkYDPSBFHId6YqTJauPZWtnde8JO3tqXmIJdho8GdFXKeNDYNvw
+         Gf6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738332942; x=1738937742;
+        d=1e100.net; s=20230601; t=1738332941; x=1738937741;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PB0aLuZTAig0yGpMIBSrxjLLyxu/a/ni7/QPJGwWvlQ=;
-        b=Oqfg10CmIlcrtPhQ14KeebijSp/qgdgTqRL9M8S33tQF1ONvsJlvBbemkXhrlTWXFr
-         SJBK7WA7AmOvvYjOc+5OCjxwZnUM6IWZX3vXApBIC3gXJHYGHjF3kz9KTZOgChnf/E1u
-         k0peQ4H5Idl56ew0B2Yjr/tfKM0eiDUGWXOzvOSjD1ysaiKX12ZfZNNLZzYGM8ND0eAb
-         GdDgtW2KQs6DONkzTE2+/uZU+KTIgWlYIjRpnrTs7QIahYjQgZZk81UiljweiR8fdGVp
-         M/h1W+gL2UOsDqxwiAHWqkz6K7kdE9HMq01LisNhBSrmJ8XVHo3PkMzlkQmo+myDaHuD
-         U2AA==
-X-Gm-Message-State: AOJu0YwvHF0F6CIW/gVRfGXODv1T3QdW1CgoZbhgQk6NAPpJ6q1yDJwE
-	RGO3t9PngnrnE0zhXXGUoUCw35CJ7cDrfMcZw1w1OgZ7L3pjuZGWA4uVab+W/zff7BJY0vi3P33
-	64ns=
-X-Gm-Gg: ASbGncuwRw4dv1OTAglsygoq9BjCB/i6MTU9ow2We5At/OXoxR4LSjmRrqMJUd+/4kt
-	48TRcbh8A0kpDaPNG50egLeFD1K47wg6y2dhnh0oSGO2mHSmcB/401U9R6vqRv9dN5/jaHc4Nob
-	zGE6v2r7QhdPsuMRl/eTt69EUuM8ikSMDqmB2ELIIsqkAia4lkMYpnUi4ggiuMq4FeleSt3Fp5B
-	jWINV60HZeL1C9mWY8/jIB2Kda8dfw0ciQ9z99j/j0p2ly7EFs03CgZTb0WpylxIvoumGe4N/S4
-	sXya
-X-Google-Smtp-Source: AGHT+IGP1J64S6+QDhB4XvCBX4x76xPkUxupnujOwXxnwyVOp2bvKPLHAFsDBmQwIKFW7DPzXY9A1A==
-X-Received: by 2002:a05:6a20:1596:b0:1e1:b12e:edb8 with SMTP id adf61e73a8af0-1ed7a6b168cmr21244217637.30.1738332942013;
-        Fri, 31 Jan 2025 06:15:42 -0800 (PST)
+        bh=941Sk92cd9aks85ZHn+IEpAE1zFMbO+RpeqS4DCmU2k=;
+        b=FGwiSvlq0DQ5SBQyjOZBz7SH7ZHVrWIPO4eXFDRbA/UzGXVqOgDPn6mGZI3rlKgtZc
+         YLX0FnAU737Tz/jBfv92HPN5b+Htvi1pWgygkUR0GsPEPSyGhzvC/diUP8TK8JyOPJia
+         vGiBdNYvU6tQfdybnoS9A8PcwklIgE4tKdjpMFd0xYvRKSBDI+hj5MfZh/44K+4mnoVB
+         gkOOcp9RRuBczlkS3BAUV48VbYo4uBVy/IDpNgjbNcRYnbT81gB8phYlld3FyCmRGkEb
+         AJmB9t3gVty/t1d6H+CS0zqgUOqFjZjKbw22VwaX8BVGsXvu0Uzuymf4qxUdnV8jQDIO
+         hr1Q==
+X-Gm-Message-State: AOJu0YzsT75k9oI+dEZMBgyfmAH0bTh3WjjnPFSQitzBrs3ECtbBfyIH
+	CYrP0hIoVcyYyBoUyOctQgD1Do2AJkWPbQp3+P7Vu+E7W93P9bWB3L4aAXXl7CRUfs5/CvFaZpA
+	Og9k=
+X-Gm-Gg: ASbGncvgIjP4tkvZHuYHxu40xkYSusNjVXT+Yk/ZBGp2mTEO9P/4Rqsfd7RG2Z9VhRS
+	5to71yjfATNsySYqQWEpSv8VhpjIDoPIGc3YALDKLo+56pKJuiduMw6a30y4o8u+TvP30xoYJ2v
+	YsYNmhgK2hbyn/UpMN/RUkZKGVZA9Qr4q61C71Jw0E7IM/Jq40Cl026uIjka//1DQ0PGY2BZdjD
+	XZanAiENzBp82srVkiyMk6oh7KHW+GPXwL/w5rkQPuBG9Qd2R0VRUAZPY6qbxMyTGmZRCg6YdyB
+	qyGg
+X-Google-Smtp-Source: AGHT+IFC7a/RELRMGOT61mHSSrOmJhDSfGooG41UhVepERHzkWbnq3WupbgJclT7S2NXqgL1lRmwpg==
+X-Received: by 2002:a05:6a00:4f83:b0:71e:13ac:d835 with SMTP id d2e1a72fcca58-72fd0c14abbmr16290079b3a.11.1738332940586;
+        Fri, 31 Jan 2025 06:15:40 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe6a1a958sm3412644b3a.172.2025.01.31.06.15.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe6a1a958sm3412644b3a.172.2025.01.31.06.15.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 06:15:41 -0800 (PST)
+        Fri, 31 Jan 2025 06:15:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/4] gdb: Fix CVE-2024-53589
-Date: Fri, 31 Jan 2025 06:15:29 -0800
-Message-ID: <4ddd1e5aea1c4b84a6c4e1db5ded4938c4a35393.1738332771.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/4] binutils: internal gdb: Fix CVE-2024-53589
+Date: Fri, 31 Jan 2025 06:15:28 -0800
+Message-ID: <2d6df18f4a694d6499b337bbbab10ba8bb6e3fe4.1738332771.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1738332771.git.steve@sakoman.com>
 References: <cover.1738332771.git.steve@sakoman.com>
@@ -67,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 14:15:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210485
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210484
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
@@ -76,27 +76,27 @@ CVE: CVE-2024-53589
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc             |  1 +
- .../gdb/gdb/0014-CVE-2024-53589.patch         | 92 +++++++++++++++++++
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0037-CVE-2024-53589.patch        | 92 +++++++++++++++++++
  2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0014-CVE-2024-53589.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0037-CVE-2024-53589.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 6c9fe60cab..84cc65f79b 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -17,5 +17,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0011-CVE-2023-39128.patch \
- 	   file://0012-CVE-2023-39129.patch \
- 	   file://0013-CVE-2023-39130.patch \
-+           file://0014-CVE-2024-53589.patch \
-            "
- SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-diff --git a/meta/recipes-devtools/gdb/gdb/0014-CVE-2024-53589.patch b/meta/recipes-devtools/gdb/gdb/0014-CVE-2024-53589.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 032e67a213..e577a10cb8 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -71,5 +71,6 @@ SRC_URI = "\
+      file://0034-CVE-2022-48064.patch \
+      file://0035-CVE-2023-39129.patch \
+      file://0036-CVE-2023-39130.patch \
++     file://0037-CVE-2024-53589.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0037-CVE-2024-53589.patch b/meta/recipes-devtools/binutils/binutils/0037-CVE-2024-53589.patch
 new file mode 100644
 index 0000000000..380112a3ba
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0014-CVE-2024-53589.patch
++++ b/meta/recipes-devtools/binutils/binutils/0037-CVE-2024-53589.patch
 @@ -0,0 +1,92 @@
 +Author: Alan Modra <amodra@gmail.com>
 +Date:   Mon Nov 11 10:24:09 2024 +1030
