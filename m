@@ -1,135 +1,187 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 927CDC0218F
-	for <webhook@archiver.kernel.org>; Fri, 31 Jan 2025 16:34:02 +0000 (UTC)
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
- by mx.groups.io with SMTP id smtpd.web10.23535.1738341237251055310
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7BBC02199
+	for <webhook@archiver.kernel.org>; Fri, 31 Jan 2025 16:58:42 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.24122.1738342721325997633
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jan 2025 08:33:57 -0800
+ Fri, 31 Jan 2025 08:58:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
-Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout04.t-online.de (Postfix) with SMTP id 38745A4;
-	Fri, 31 Jan 2025 17:33:53 +0100 (CET)
-Received: from [192.168.178.67] ([84.154.170.38]) by fwd70.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tdtxo-253zCi0; Fri, 31 Jan 2025 17:33:52 +0100
-Date: Fri, 31 Jan 2025 17:34:25 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH] mesa: upgrade 24.0.7 -> 24.3.4
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: alex.kanavin@gmail.com, dbaryshkov@gmail.com,
-	openembedded-core@lists.openembedded.org
-Message-Id: <DPOYQS.TMRNZEFBYE473@t-online.de>
-In-Reply-To: <dfcadcaf-64d0-4a4b-a0c7-cdcd5243175a@cherry.de>
-References: <20250131123519.461671-1-dmitry.baryshkov@linaro.org>
-	<CANNYZj_9dkovbXGmvEx4RC1aUKsNOGiqOq7WcM7eP_59QwH9eg@mail.gmail.com>
-	<dfcadcaf-64d0-4a4b-a0c7-cdcd5243175a@cherry.de>
-X-Mailer: geary/46.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j4Wsh8kE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4361815b96cso15684185e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 08:58:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738342719; x=1738947519; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z51HHkk2Jp0WahwgkBt39YSaXEBTltLWMyHnBH/TP4k=;
+        b=j4Wsh8kEOaNognOB92rgLm84/yasZYBcYD9aQZ43KiWbKO01dWwwJMPZCRezUsPrmH
+         Rx/U+xBIdHZXMu+j3/wyW+eC5LbSOZYnAHy3v0XgdyY2NjZjLpICsGbNoJmcQfIyc8Ik
+         HJHM1zcCqaUqQIh27Tfk0tYbeI7P+aOguEBmQA/woI/qiE98HKphEgJSRwJEbYYtgM2Z
+         BPu50QYkT3JG2UOR091AAP5FUUMw4RoiA3TgvxYvBBFmVaEmFnJF/bxtkrYvbuIfX7Xj
+         XBleONqnEa7YroL7v1YUNolSMoXZfAB5/4Np+409Sy2JYKkTzvm4aaqh0FXEXs9sF8+d
+         EkKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738342719; x=1738947519;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z51HHkk2Jp0WahwgkBt39YSaXEBTltLWMyHnBH/TP4k=;
+        b=aIGBfKNdCN6d/ZOgNtyIKgqMbtQmo3DH7gFSA71/s28idxM34b+Ihx1P9ZxagNBM67
+         HbHv7h/BuL0+UdIiLyuRRVkxZzeqGnO4P6mRQpd5SVT4SBr03awBZoTcsGF8z26OeBkV
+         qhgMrnbSEmUrMA8O8lfKfe6/I5rKiBKpwNyDa3AYWBhEhEnEP7NLSevmNVzV2AXSlkzt
+         BZQRHE/8viys9xwJDDWhDUWZNnCCBc+0xxioEaNZN8wMzyoxJHyiSp7xqihpnjptCytG
+         ndOzC06DcfGz3J7BSiGciRfVUXtPsdFWLQQG5CqV16yzDsG+rirvm1ouHaiJUyE6F2/e
+         E8vg==
+X-Gm-Message-State: AOJu0YwQx0TuqznWdcs19+pErKZyr9tw1GhFhXovhn/Z8p9obEv67HT7
+	AkSrB+sx1kMLO0M2sV8gf+Si12xHVUgswGd16PAZt3cMCdsd19ePLZS0pRCq
+X-Gm-Gg: ASbGncsGmy1udipb6DjfFGm5ZnolZ9VnpaT61gXhwMoCpjmOihPcLBmL3ljARV8w3BO
+	cabCIZBrZkje/F6qUaMRxo37Xh6FMte/me8AP8segqJmoI1pZ2/M+UjEeHyrDlh2ffLldVe9ieu
+	nP24SD7heJbPawABfcYLSG/L/Kw9vDzunDLPezSmc2xr9FUZPMF6HCniVIehlAE3PvgUDqZkNjf
+	LKfGq5VAP1qInPZPE6AQVPDMTSo1PGhCmLGmYelxIkNuKqZ01oeX7c0S4z2YFH+tRU3+f+rKydM
+	Sz85GAlmvbf0dmGavJXeYSNr9EzneEWPMy5vSfz3+sGwUDdgvMWTtalY2vc=
+X-Google-Smtp-Source: AGHT+IHKT8+anc15WjbKzCKbxjcstCtm5pK9gbqt6HBl6AfHyqbY8dGkoBnG2l4fZPKHargewwaS3w==
+X-Received: by 2002:a05:600c:c87:b0:434:feb1:adcf with SMTP id 5b1f17b1804b1-438ea3c1cdfmr25565785e9.25.1738342719068;
+        Fri, 31 Jan 2025 08:58:39 -0800 (PST)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23de35csm60422565e9.10.2025.01.31.08.58.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 08:58:38 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH] alsa-utils: Backport fix for alsa_restore_go/std
+Date: Fri, 31 Jan 2025 16:58:11 +0000
+Message-Id: <20250131165810.69625-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-dN1rwWXyZ4/HPLPh5rYr"
-X-TOI-EXPURGATEID: 150726::1738341232-317F9A89-132ECB1E/10/3626336762 SUSPECT URL
-X-TOI-MSGID: 0fae457d-1897-4d79-9429-f3a5c6693284
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 16:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210491
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Jan 2025 16:58:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210492
 
---=-dN1rwWXyZ4/HPLPh5rYr
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Fix the label mismatch which was introduced in the transition from the
+temporary test rules:
 
-<https://codeberg.org/flk/meta-image/src/branch/master/meta/recipes-graphics/mesa>
+  udevd[120]: GOTO 'alsa_restore_std' has no matching label in: '/lib/udev/rules.d/90-alsa-restore.rules'
 
-This is the recipe that I currently use to build mesa 23.3.4 (with 
-meta-clang). One needs to revert
-this commit in meta-clang as it would break mesa
-<https://github.com/kraj/meta-clang/commit/768c60a4f805e49a0a29b81c99fe29b4d26fe1b2>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+ ...restore.rules-fix-alsa_restore_go-st.patch | 42 +++++++++++++++++++
+ ...restore.rules-fix-AMD-acp-pdm-mach-l.patch | 35 ++++++++++++++++
+ .../alsa/alsa-utils_1.2.13.bb                 |  2 +
+ 3 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-90-alsa-restore.rules-fix-alsa_restore_go-st.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0002-alsactl-90-alsa-restore.rules-fix-AMD-acp-pdm-mach-l.patch
 
-On Fri, Jan 31 2025 at 14:17:50 +01:00:00, Quentin Schulz 
-<quentin.schulz@cherry.de> wrote:
-> Hi Dmitry,
-> 
-> On 1/31/25 1:59 PM, Alexander Kanavin via lists.openembedded.org 
-> wrote:
->> On Fri, 31 Jan 2025 at 13:35, Dmitry Baryshkov via
->> lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org 
->> <mailto:dbaryshkov=gmail.com@lists.openembedded.org>>
->> wrote:
->>> 
->>> Upgrade the Mesa package, dropping applied and refreshing 
->>> outstanding
->>> patches. The dri3 config option is now gone, dependencies are merged
->>> into X11 deps. The swrast gallium driver has been split into 
->>> softpipe
->>> and llvmpipe drivers.
->> 
->> How was this tested? For me it fails immediately with the same error
->> as the previous update attempts:
->> 
->> | Run-time dependency libclc found: NO (tried pkgconfig)
->> 
->> Basically, mesa updates are blocked until clang lands in core. If you
->> want new mesa, please do help out.
->> 
-> 
-> For reference:
-> 
-> <https://lore.kernel.org/openembedded-core/20240531-panthor-v1-2-1a76fd752c1b@cherry.de/>
-> and
-> <https://lore.kernel.org/openembedded-core/aa532133-c872-4bde-8479-dba12de225c7@bootlin.com/>
-> and
-> <https://lore.kernel.org/openembedded-core/20240908165102.3699657-1-f_l_k@t-online.de/>
-> and
-> <https://lore.kernel.org/openembedded-core/20240908172311.3773048-1-f_l_k@t-online.de/>
-> 
-> Adding Markus in Cc.
-> 
-> Cheers,
-> Quentin
-
-
---=-dN1rwWXyZ4/HPLPh5rYr
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div><a href="https://codeberg.org/flk/meta-image/src/branch/master/meta/recipes-graphics/mesa">https://codeberg.org/flk/meta-image/src/branch/master/meta/recipes-graphics/mesa</a></div><div><br></div><div>This is the recipe that I currently use to build mesa 23.3.4 (with meta-clang). One needs to revert</div><div>this commit in meta-clang as it would break mesa&nbsp;</div><div><a href="https://github.com/kraj/meta-clang/commit/768c60a4f805e49a0a29b81c99fe29b4d26fe1b2">https://github.com/kraj/meta-clang/commit/768c60a4f805e49a0a29b81c99fe29b4d26fe1b2</a></div></div><div id="geary-quote" dir="auto"><br>On Fri, Jan 31 2025 at 14:17:50 +01:00:00, Quentin Schulz &lt;quentin.schulz@cherry.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Hi Dmitry,
-
-On 1/31/25 1:59 PM, Alexander Kanavin via lists.openembedded.org wrote:
-<blockquote>On Fri, 31 Jan 2025 at 13:35, Dmitry Baryshkov via
-lists.openembedded.org &lt;<a href="mailto:dbaryshkov=gmail.com@lists.openembedded.org">dbaryshkov=gmail.com@lists.openembedded.org</a>&gt;
-wrote:
-<blockquote>
-Upgrade the Mesa package, dropping applied and refreshing outstanding
-patches. The dri3 config option is now gone, dependencies are merged
-into X11 deps. The swrast gallium driver has been split into softpipe
-and llvmpipe drivers.
-</blockquote>
-How was this tested? For me it fails immediately with the same error
-as the previous update attempts:
-
-| Run-time dependency libclc found: NO (tried pkgconfig)
-
-Basically, mesa updates are blocked until clang lands in core. If you
-want new mesa, please do help out.
-
-</blockquote>
-For reference:
-
-<a href="https://lore.kernel.org/openembedded-core/20240531-panthor-v1-2-1a76fd752c1b@cherry.de/">https://lore.kernel.org/openembedded-core/20240531-panthor-v1-2-1a76fd752c1b@cherry.de/</a>
-and
-<a href="https://lore.kernel.org/openembedded-core/aa532133-c872-4bde-8479-dba12de225c7@bootlin.com/">https://lore.kernel.org/openembedded-core/aa532133-c872-4bde-8479-dba12de225c7@bootlin.com/</a>
-and
-<a href="https://lore.kernel.org/openembedded-core/20240908165102.3699657-1-f_l_k@t-online.de/">https://lore.kernel.org/openembedded-core/20240908165102.3699657-1-f_l_k@t-online.de/</a>
-and
-<a href="https://lore.kernel.org/openembedded-core/20240908172311.3773048-1-f_l_k@t-online.de/">https://lore.kernel.org/openembedded-core/20240908172311.3773048-1-f_l_k@t-online.de/</a>
-
-Adding Markus in Cc.
-
-Cheers,
-Quentin
-</div></blockquote></div>
---=-dN1rwWXyZ4/HPLPh5rYr--
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-90-alsa-restore.rules-fix-alsa_restore_go-st.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-90-alsa-restore.rules-fix-alsa_restore_go-st.patch
+new file mode 100644
+index 000000000000..ea02fdb8c527
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-90-alsa-restore.rules-fix-alsa_restore_go-st.patch
+@@ -0,0 +1,42 @@
++From f90124c73edd050b24961197a4abcf17e53b41a8 Mon Sep 17 00:00:00 2001
++From: Jaroslav Kysela <perex@perex.cz>
++Date: Thu, 14 Nov 2024 09:38:49 +0100
++Subject: [PATCH 1/2] alsactl: 90-alsa-restore.rules - fix alsa_restore_go/std
++
++Fix the label mismatch which was introduced in the transition from the
++temporary test rules.
++
++Closes: https://github.com/alsa-project/alsa-utils/issues/280
++Fixes: 8116639 ("alsactl: 90-alsa-restore.rules - add support for AMD ACP digital microphone")
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/f90124c73edd050b24961197a4abcf17e53b41a8]
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++---
++ alsactl/90-alsa-restore.rules.in | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/alsactl/90-alsa-restore.rules.in b/alsactl/90-alsa-restore.rules.in
++index 85f0b15f4856..dae2ed8ccc8f 100644
++--- a/alsactl/90-alsa-restore.rules.in
+++++ b/alsactl/90-alsa-restore.rules.in
++@@ -3,6 +3,8 @@
++ ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", KERNELS!="card*",@extratest@ GOTO="alsa_restore_go"
++ GOTO="alsa_restore_end"
++ 
+++LABEL="alsa_restore_go"
+++
++ ENV{ALSA_CARD_NUMBER}="$attr{device/number}"
++ 
++ # mark HDA analog card; HDMI/DP card does not have capture devices
++@@ -21,7 +23,7 @@ TEST!="/run/udev/alsa-hda-analog-card", GOTO="alsa_restore_std"
++ IMPORT{program}="/usr/bin/cat /run/udev/alsa-hda-analog-card"
++ ENV{ALSA_CARD_HDA_ANALOG}!="", ENV{ALSA_CARD_NUMBER}="$env{ALSA_CARD_HDA_ANALOG}"
++ 
++-LABEL="alsa_restore_go"
+++LABEL="alsa_restore_std"
++ TEST!="@daemonswitch@", RUN+="@sbindir@/alsactl@args@ restore $env{ALSA_CARD_NUMBER}"
++ TEST=="@daemonswitch@", RUN+="@sbindir@/alsactl@args@ nrestore $env{ALSA_CARD_NUMBER}"
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0002-alsactl-90-alsa-restore.rules-fix-AMD-acp-pdm-mach-l.patch b/meta/recipes-multimedia/alsa/alsa-utils/0002-alsactl-90-alsa-restore.rules-fix-AMD-acp-pdm-mach-l.patch
+new file mode 100644
+index 000000000000..2299718d14ca
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/0002-alsactl-90-alsa-restore.rules-fix-AMD-acp-pdm-mach-l.patch
+@@ -0,0 +1,35 @@
++From 6f7ce73159c02b726a6f0fe0acff961c95e337a8 Mon Sep 17 00:00:00 2001
++From: Aaron Ma <aaron.ma@canonical.com>
++Date: Wed, 20 Nov 2024 15:55:02 +0800
++Subject: [PATCH 2/2] alsactl: 90-alsa-restore.rules - fix AMD acp-pdm-mach
++ link
++
++The link name of AMD ACP digital microphones driver acp-pdm-mach
++is acp-dmic-codec. Fix it to make UCM initialize it again.
++
++Closes: https://github.com/alsa-project/alsa-utils/pull/281
++Fixes: 8116639 ("alsactl: 90-alsa-restore.rules - add support for AMD ACP digital microphone")
++Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/6f7ce73159c02b726a6f0fe0acff961c95e337a8]
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++---
++ alsactl/90-alsa-restore.rules.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/alsactl/90-alsa-restore.rules.in b/alsactl/90-alsa-restore.rules.in
++index dae2ed8ccc8f..5db6080b0dc6 100644
++--- a/alsactl/90-alsa-restore.rules.in
+++++ b/alsactl/90-alsa-restore.rules.in
++@@ -14,7 +14,7 @@ DRIVERS=="snd_hda_intel", TEST=="device/pcmC$env{ALSA_CARD_NUMBER}D0p", RUN+="/b
++ TEST=="device/device/acp3x-dmic-capture", GOTO="alsa_hda_analog"
++ TEST=="device/device/acp6x-dmic-capture", GOTO="alsa_hda_analog"
++ TEST=="device/device/acp63-dmic-capture", GOTO="alsa_hda_analog"
++-TEST=="device/device/acp-pdm-dmic", GOTO="alsa_hda_analog"
+++TEST=="device/device/acp-dmic-codec", GOTO="alsa_hda_analog"
++ GOTO="alsa_restore_std"
++ 
++ LABEL="alsa_hda_analog"
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.13.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.13.bb
+index b681922bbf80..91dcee1453f0 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.13.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.13.bb
+@@ -25,6 +25,8 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
+ 
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
++           file://0001-alsactl-90-alsa-restore.rules-fix-alsa_restore_go-st.patch \
++           file://0002-alsactl-90-alsa-restore.rules-fix-AMD-acp-pdm-mach-l.patch \
+            "
+ SRC_URI[sha256sum] = "1702a6b1cdf9ba3e996ecbc1ddcf9171e6808f5961d503d0f27e80ee162f1daa"
+ 
+-- 
+2.25.1
 
 
