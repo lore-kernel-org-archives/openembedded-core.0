@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC3BC0219C
-	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:12 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.42625.1738416048125297131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBC9C021A9
+	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:13 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.42715.1738416048586333496
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 05:21:11 -0800
+ Sat, 01 Feb 2025 05:21:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CyJR1wY6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RI+LrNlL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010194c1ac1f49-cfaa03a3-bd59-4f13-aef6-c07372f7b5fe-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PAp2kZr1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZeC+BRoo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010194c1ac188d-77f75433-e354-48a4-bfbd-da2378076bfa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738416070;
+	t=1738416068;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kk2F+VORoGRp3vK8vnitzXxj5TM3jmbOG/S8Poj7mBI=;
-	b=CyJR1wY6qViwiMU6ewu6Si9x9J+H4wk7X7l4v44NQeQfYzzYXUlOe89zQbWW1mmu
-	YTfluPWf1VduFY5x7K65TrY6HeX+Q1IYuIY2CQuepFZIeTSqTRvZ9/nmcfYlxqBxi0z
-	+q2ISTnzqxDEw4D5AHxwEa3LS1mTIk77pH54AjdY=
+	bh=5mR2CqAmfGvM0MowPLs4uic0gIjeK6apxI7nziBPFcU=;
+	b=PAp2kZr1DIhX9mzXnD5JZSLxnbv0XGuaSQywiegaNkhlu7A6JP4osrtsA1YcTBe/
+	0Yy/BML/6IYHpf6X3tW3ONYUrBnGE8wSfqP/+4eMHHsyC+3P1B0sFMPef0WKEQR47pg
+	UgUgHsnlLrP39o3z2oVXloa5RgCbu+SipYKYMsFg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416070;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416068;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kk2F+VORoGRp3vK8vnitzXxj5TM3jmbOG/S8Poj7mBI=;
-	b=RI+LrNlL7npgrjn9EsjHZfW0/aA17b5xRra0QK0mFgZW7TMX2Ih05HisCBzr6Au2
-	luFyK2p0aig12O9r/cqxjbC+C1oEPZD4mWCawVdHisdaQ2zJNoo846Y9JnLf1pj7YAv
-	2AvncIv6C5XjFYf6q9idBekrarxa/ee9UNBEqtm8=
-Content-Type: multipart/mixed; boundary="===============3074231660945087756=="
+	bh=5mR2CqAmfGvM0MowPLs4uic0gIjeK6apxI7nziBPFcU=;
+	b=ZeC+BRooXGqw7TySI8a5NZn4kg85Pv8PGQu1M1nJ9DGsb4qmBT5RgXSg3KhQO6/x
+	Jbx1hWC3X98BCo2Xba2sMq8r01iSgbVLRkbKAfM3DSVBSJyCZn8sxhdnh+KgT4PQYzc
+	fN6bC5Y5RhuGqAIbio5Q7wCYPj94wjM+uwdUeHBE=
+Content-Type: multipart/mixed; boundary="===============3081835190005710170=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 287 SUCCEEDED
-Message-ID: <01010194c1ac1f49-cfaa03a3-bd59-4f13-aef6-c07372f7b5fe-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Feb 2025 13:21:10 +0000
+Subject: [AUH] wayland-protocols: upgrading to 1.40 SUCCEEDED
+Message-ID: <01010194c1ac188d-77f75433-e354-48a4-bfbd-da2378076bfa-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Feb 2025 13:21:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.01-54.240.27.192
+X-SES-Outgoing: 2025.02.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210596
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210591
 
---===============3074231660945087756==
+--===============3081835190005710170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *diffoscope* to *287* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *wayland-protocols* to *1.40* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-284-287.patch
+    - apply the patch: git am 0001-wayland-protocols-upgrade-1.39-1.40.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,124 +72,96 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 681c148825c659d98aa4ef2a94fcdb8b9c755195 Mon Sep 17 00:00:00 2001
+From e5e4af7f17e24dfe6251170fed5b8af03f24b347 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Feb 2025 13:06:03 +0000
-Subject: [PATCH] diffoscope: upgrade 284 -> 287
+Date: Sat, 1 Feb 2025 12:22:11 +0000
+Subject: [PATCH] wayland-protocols: upgrade 1.39 -> 1.40
 
 ---
- .../diffoscope/{diffoscope_284.bb => diffoscope_287.bb}         | 2 +-
+ .../{wayland-protocols_1.39.bb => wayland-protocols_1.40.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_284.bb => diffoscope_287.bb} (95%)
+ rename meta/recipes-graphics/wayland/{wayland-protocols_1.39.bb => wayland-protocols_1.40.bb} (91%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_284.bb b/meta/recipes-support/diffoscope/diffoscope_287.bb
-similarity index 95%
-rename from meta/recipes-support/diffoscope/diffoscope_284.bb
-rename to meta/recipes-support/diffoscope/diffoscope_287.bb
-index 77717d4238..8f8f114054 100644
---- a/meta/recipes-support/diffoscope/diffoscope_284.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_287.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+similarity index 91%
+rename from meta/recipes-graphics/wayland/wayland-protocols_1.39.bb
+rename to meta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+index 82c373df21..4efc1bd548 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
  
- inherit pypi setuptools3
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "e1dcdcbbf08e2e0a8a02ee5d9a0be3a6aafc39a4b51fa7e0d2f1a16411cb72fa"
++SRC_URI[sha256sum] = "b21711793247c2c42763914392dfa9fcb9e3728ca4b4aa110adb8d915fc00689"
  
--SRC_URI[sha256sum] = "c672e97ce3e69c229858419e8d368563bb583101a9cfc5eb70e28d441502b1b7"
-+SRC_URI[sha256sum] = "51702676957edb4c16ad93bcfc25bfdbcdb0c39fa7d1d16f657db71cfaa58ceb"
- 
- RDEPENDS:${PN} += "\
-         binutils \
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
 -- 
 2.44.1
 
 
---===============3074231660945087756==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-284-287.patch"
-
-RnJvbSA2ODFjMTQ4ODI1YzY1OWQ5OGFhNGVmMmE5NGZjZGI4YjljNzU1MTk1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMzowNjowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRp
-ZmZvc2NvcGU6IHVwZ3JhZGUgMjg0IC0+IDI4NwoKLS0tCiAuLi4vZGlmZm9zY29wZS97ZGlmZm9z
-Y29wZV8yODQuYmIgPT4gZGlmZm9zY29wZV8yODcuYmJ9ICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL3tkaWZmb3Njb3BlXzI4NC5iYiA9PiBkaWZmb3Njb3BlXzI4
-Ny5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Njb3Bl
-L2RpZmZvc2NvcGVfMjg0LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZm
-b3Njb3BlXzI4Ny5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjg0LmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMjg3LmJiCmluZGV4IDc3NzE3ZDQy
-MzguLjhmOGYxMTQwNTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8yODQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzI4Ny5iYgpAQCAtMTIsNyArMTIsNyBAQCBQWVBJX1BBQ0tBR0UgPSAiZGlm
-Zm9zY29wZSIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJjNjcyZTk3Y2UzZTY5YzIyOTg1ODQxOWU4ZDM2ODU2M2JiNTgzMTAxYTljZmM1ZWI3MGUy
-OGQ0NDE1MDJiMWI3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUxNzAyNjc2OTU3ZWRiNGMxNmFk
-OTNiY2ZjMjViZmRiY2RiMGMzOWZhN2QxZDE2ZjY1N2RiNzFjZmFhNThjZWIiCiAKIFJERVBFTkRT
-OiR7UE59ICs9ICJcCiAgICAgICAgIGJpbnV0aWxzIFwKLS0gCjIuNDQuMQoK
-
---===============3074231660945087756==
+--===============3081835190005710170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1365693 to 1376338 (+1%)
-packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "284" to "287"
-packages/core2-64-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.13/site-packages/diffoscope-284.dist-info -> /usr/lib/python3.13/site-packages/diffoscope-287.dist-info, added "/usr/lib/python3.13/site-packages/diffoscope/comparators/__pycache__/asar.cpython-313.pyc /usr/lib/python3.13/site-packages/diffoscope/comparators/asar.py"
-packages/core2-64-poky-linux/diffoscope: PKGV changed from 284 [default] to 287 [default]
-packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-284.tar.gz;downloadfilename=diffoscope-284.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-287.tar.gz;downloadfilename=diffoscope-287.tar.gz"
-packages/core2-64-poky-linux/diffoscope: PV changed from "284" to "287"
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.13/site-packages/diffoscope-284.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-287.dist-info
-  /usr/lib/python3.13/site-packages/diffoscope/comparators/asar.py was added
-  /usr/lib/python3.13/site-packages/diffoscope/comparators/__pycache__/asar.cpython-313.pyc was added
+packages/all-poky-linux/wayland-protocols: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.39/downloads/wayland-protocols-1.39.tar.xz" to "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.40/downloads/wayland-protocols-1.40.tar.xz"
+packages/all-poky-linux/wayland-protocols: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PKGV changed from 1.39 [default] to 1.40 [default]
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGSIZE changed from 733690 to 735021 (+0%)
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PV changed from "1.39" to "1.40"
+packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGV changed from 1.39 [default] to 1.40 [default]
 
---===============3074231660945087756==
-Content-Type: text/plain; charset="us-ascii"
+--===============3081835190005710170==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-wayland-protocols-upgrade-1.39-1.40.patch"
 
-packages/core2-64-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.13/site-packages/diffoscope-284.dist-info -> /usr/lib/python3.13/site-packages/diffoscope-287.dist-info, added "/usr/lib/python3.13/site-packages/diffoscope/comparators/__pycache__/asar.cpython-313.pyc /usr/lib/python3.13/site-packages/diffoscope/comparators/asar.py"
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.13/site-packages/diffoscope-284.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-287.dist-info
-  /usr/lib/python3.13/site-packages/diffoscope/comparators/asar.py was added
-  /usr/lib/python3.13/site-packages/diffoscope/comparators/__pycache__/asar.cpython-313.pyc was added
+RnJvbSBlNWU0YWY3ZjE3ZTI0ZGZlNjI1MTE3MGZlZDViOGFmMDNmMjRiMzQ3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMjoyMjoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdh
+eWxhbmQtcHJvdG9jb2xzOiB1cGdyYWRlIDEuMzkgLT4gMS40MAoKLS0tCiAuLi4ve3dheWxhbmQt
+cHJvdG9jb2xzXzEuMzkuYmIgPT4gd2F5bGFuZC1wcm90b2NvbHNfMS40MC5iYn0gICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2F5bGFuZC1wcm90b2NvbHNfMS4zOS5iYiA9
+PiB3YXlsYW5kLXByb3RvY29sc18xLjQwLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuMzkuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXByb3RvY29sc18xLjQwLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dh
+eWxhbmQtcHJvdG9jb2xzXzEuMzkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
+YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzXzEuNDAuYmIKaW5kZXggODJjMzczZGYyMS4uNGVmYzFi
+ZDU0OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC1w
+cm90b2NvbHNfMS4zOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
+YW5kLXByb3RvY29sc18xLjQwLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM3YjEyYjY3MDJkYTM4Y2EwMjhhY2U1NGFhZTNkNDg0IFwK
+ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3N0YWJsZS9wcmVzZW50YXRpb24tdGltZS9wcmVz
+ZW50YXRpb24tdGltZS54bWw7ZW5kbGluZT0yNjttZDU9NDY0NmNkN2Q5ZWRjOWZhNTVkYjk0MWYy
+ZDNhN2RjNTMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dh
+eWxhbmQvd2F5bGFuZC1wcm90b2NvbHMvLS9yZWxlYXNlcy8ke1BWfS9kb3dubG9hZHMvd2F5bGFu
+ZC1wcm90b2NvbHMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUxZGNkY2Ji
+ZjA4ZTJlMGE4YTAyZWU1ZDlhMGJlM2E2YWFmYzM5YTRiNTFmYTdlMGQyZjFhMTY0MTFjYjcyZmEi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjIxNzExNzkzMjQ3YzJjNDI3NjM5MTQzOTJkZmE5ZmNi
+OWUzNzI4Y2E0YjRhYTExMGFkYjhkOTE1ZmMwMDY4OSIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
+Imh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xz
+Ly0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzLyg/UDxwdmVyPi4rKSIK
+LS0gCjIuNDQuMQoK
 
---===============3074231660945087756==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (0 cached, 919 parsed). 1875 targets, 52 skipped, 0 masked, 0 errors.
-Removing 120 recipes from the core2-64 sysroot...done.
-Removing 131 recipes from the qemux86_64 sysroot...done.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============3074231660945087756==--
+--===============3081835190005710170==--
 
