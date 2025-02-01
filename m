@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C51AC0219D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5C8C021A5
 	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:20:50 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.42621.1738416044724946212
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.42711.1738416044240252461
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 05:20:45 -0800
+ Sat, 01 Feb 2025 05:20:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KBxrcO+M;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mht0zp5K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010194c1abbb04-22478ac1-8d55-427e-8be3-3188387d8c26-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J15MOV43;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=KeZhMoZ3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194c1abb562-b24398e1-f38f-4afd-809b-d0e1b3873a20-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738416045;
+	t=1738416043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kEXOQKEy/kpvHzDzy65Qm+Dnn7ljGl6ogVSHn4ZbJ1U=;
-	b=KBxrcO+M8zZK11pJCBYcPNMMePejJgWOzpUUtpK8gBK8A4y+Vxv3kbv4yip9BxNk
-	ZTN7HW+wbLpIMB2bUlx8Z2hc7xNVhTddjiWA04m7lJF+fesBrUyhGhMTB8kq1umL7uk
-	jV1zb3/4RLn5f4qHEHn1W4jEDxc5G6/o4RpbB04A=
+	bh=k5wNUw6TygE/24TywwVdV3agYKZyYfYyK4BQxJ77kAI=;
+	b=J15MOV43tDITa57ZeHpZ1/I3n2w2u8e54vlR7QHkIW1iOwI2AOmL5ALSZjjltiET
+	1ZPEzKPsjnNjC8spSEE5lf2KksNaAp/OSanYCkphVZzgPaWxJ1M1PLiV/oLo5H9Nd5d
+	tLDxnq5LvlReittXojKllBfhvLopp+zjU6llDGcE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416045;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kEXOQKEy/kpvHzDzy65Qm+Dnn7ljGl6ogVSHn4ZbJ1U=;
-	b=mht0zp5KCjdZennT5cy2A/ggndRaX9QAVJlOOEKUmllu3f7Q/+Vsy6xSybqap49m
-	jr9/RYtrNaMbCr3SA1RId3u5gmufSadrpcgZgCrXUp0jGH0ruNK6G5d2wzeyqMFR0CT
-	4htWx5yB6bSE5aXcKe8huiedvYCN70x6xiES2dVU=
-Content-Type: multipart/mixed; boundary="===============3616103798770010345=="
+	bh=k5wNUw6TygE/24TywwVdV3agYKZyYfYyK4BQxJ77kAI=;
+	b=KeZhMoZ3vm/4+RihCcdnrz84AbxMYsu+et7QF5yB63dKD+IT5vVg0icmuZIzjPcr
+	tGnUT71Qcc2Klg5bYp5wG3ravsHUKPteBBnAyqZEGCmrhV+h/B0jt5m4RX9aeR+9FEO
+	uovsE24Er8372fq5LYslWJyrytJsgbmrbgHeBnPo=
+Content-Type: multipart/mixed; boundary="===============2381924693120318302=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.13.17 FAILED
-Message-ID: <01010194c1abbb04-22478ac1-8d55-427e-8be3-3188387d8c26-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Feb 2025 13:20:44 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake,cmake-native: upgrading to 3.31.5,3.31.5 SUCCEEDED
+Message-ID: <01010194c1abb562-b24398e1-f38f-4afd-809b-d0e1b3873a20-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Feb 2025 13:20:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.01-54.240.27.193
+X-SES-Outgoing: 2025.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210514
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210509
 
---===============3616103798770010345==
+--===============2381924693120318302==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,485 +51,210 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lttng-modules* to *2.13.17* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *3.31.5,3.31.5* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-cmake-cmake-native-upgrade-3.31.4-3.31.5-3.31.4-3.31.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe lttng-modules failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1874 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:950bebb4f31de4cec8364e81925eb9dd8794860f"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (0 cached, 920 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:950bebb4f31de4cec8364e81925eb9dd8794860f"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-tsk1bs06: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-hqm4d7xi/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-hqm4d7xi/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-Cloning into bare repository '/srv/pokybuild/yocto-worker/auh/build/build/downloads/git2/git.lttng.org.lttng-modules'...
-remote: Enumerating objects: 23438, done.        
-remote: Counting objects:   0% (1/23438)        
-remote: Counting objects:   1% (235/23438)        
-remote: Counting objects:   2% (469/23438)        
-remote: Counting objects:   3% (704/23438)        
-remote: Counting objects:   4% (938/23438)        
-remote: Counting objects:   5% (1172/23438)        
-remote: Counting objects:   6% (1407/23438)        
-remote: Counting objects:   7% (1641/23438)        
-remote: Counting objects:   8% (1876/23438)        
-remote: Counting objects:   9% (2110/23438)        
-remote: Counting objects:  10% (2344/23438)        
-remote: Counting objects:  11% (2579/23438)        
-remote: Counting objects:  12% (2813/23438)        
-remote: Counting objects:  13% (3047/23438)        
-remote: Counting objects:  14% (3282/23438)        
-remote: Counting objects:  15% (3516/23438)        
-remote: Counting objects:  16% (3751/23438)        
-remote: Counting objects:  17% (3985/23438)        
-remote: Counting objects:  18% (4219/23438)        
-remote: Counting objects:  19% (4454/23438)        
-remote: Counting objects:  20% (4688/23438)        
-remote: Counting objects:  21% (4922/23438)        
-remote: Counting objects:  22% (5157/23438)        
-remote: Counting objects:  23% (5391/23438)        
-remote: Counting objects:  24% (5626/23438)        
-remote: Counting objects:  25% (5860/23438)        
-remote: Counting objects:  26% (6094/23438)        
-remote: Counting objects:  27% (6329/23438)        
-remote: Counting objects:  28% (6563/23438)        
-remote: Counting objects:  29% (6798/23438)        
-remote: Counting objects:  30% (7032/23438)        
-remote: Counting objects:  31% (7266/23438)        
-remote: Counting objects:  32% (7501/23438)        
-remote: Counting objects:  33% (7735/23438)        
-remote: Counting objects:  34% (7969/23438)        
-remote: Counting objects:  35% (8204/23438)        
-remote: Counting objects:  36% (8438/23438)        
-remote: Counting objects:  37% (8673/23438)        
-remote: Counting objects:  38% (8907/23438)        
-remote: Counting objects:  39% (9141/23438)        
-remote: Counting objects:  40% (9376/23438)        
-remote: Counting objects:  41% (9610/23438)        
-remote: Counting objects:  42% (9844/23438)        
-remote: Counting objects:  43% (10079/23438)        
-remote: Counting objects:  44% (10313/23438)        
-remote: Counting objects:  45% (10548/23438)        
-remote: Counting objects:  46% (10782/23438)        
-remote: Counting objects:  47% (11016/23438)        
-remote: Counting objects:  48% (11251/23438)        
-remote: Counting objects:  49% (11485/23438)        
-remote: Counting objects:  50% (11719/23438)        
-remote: Counting objects:  51% (11954/23438)        
-remote: Counting objects:  52% (12188/23438)        
-remote: Counting objects:  53% (12423/23438)        
-remote: Counting objects:  54% (12657/23438)        
-remote: Counting objects:  55% (12891/23438)        
-remote: Counting objects:  56% (13126/23438)        
-remote: Counting objects:  57% (13360/23438)        
-remote: Counting objects:  58% (13595/23438)        
-remote: Counting objects:  59% (13829/23438)        
-remote: Counting objects:  60% (14063/23438)        
-remote: Counting objects:  61% (14298/23438)        
-remote: Counting objects:  62% (14532/23438)        
-remote: Counting objects:  63% (14766/23438)        
-remote: Counting objects:  64% (15001/23438)        
-remote: Counting objects:  65% (15235/23438)        
-remote: Counting objects:  66% (15470/23438)        
-remote: Counting objects:  67% (15704/23438)        
-remote: Counting objects:  68% (15938/23438)        
-remote: Counting objects:  69% (16173/23438)        
-remote: Counting objects:  70% (16407/23438)        
-remote: Counting objects:  71% (16641/23438)        
-remote: Counting objects:  72% (16876/23438)        
-remote: Counting objects:  73% (17110/23438)        
-remote: Counting objects:  74% (17345/23438)        
-remote: Counting objects:  75% (17579/23438)        
-remote: Counting objects:  76% (17813/23438)        
-remote: Counting objects:  77% (18048/23438)        
-remote: Counting objects:  78% (18282/23438)        
-remote: Counting objects:  79% (18517/23438)        
-remote: Counting objects:  80% (18751/23438)        
-remote: Counting objects:  81% (18985/23438)        
-remote: Counting objects:  82% (19220/23438)        
-remote: Counting objects:  83% (19454/23438)        
-remote: Counting objects:  84% (19688/23438)        
-remote: Counting objects:  85% (19923/23438)        
-remote: Counting objects: 100% (23438/23438), done.        
-remote: Compressing objects:   0% (1/11420)        
-remote: Compressing objects:   1% (115/11420)        
-remote: Compressing objects:   2% (229/11420)        
-remote: Compressing objects:   3% (343/11420)        
-remote: Compressing objects:   4% (457/11420)        
-remote: Compressing objects:   5% (571/11420)        
-remote: Compressing objects:   6% (686/11420)        
-remote: Compressing objects:   7% (800/11420)        
-remote: Compressing objects:   8% (914/11420)        
-remote: Compressing objects:   9% (1028/11420)        
-remote: Compressing objects:  10% (1142/11420)        
-remote: Compressing objects:  11% (1257/11420)        
-remote: Compressing objects:  12% (1371/11420)        
-remote: Compressing objects:  13% (1485/11420)        
-remote: Compressing objects:  14% (1599/11420)        
-remote: Compressing objects:  15% (1713/11420)        
-remote: Compressing objects:  16% (1828/11420)        
-remote: Compressing objects:  17% (1942/11420)        
-remote: Compressing objects:  18% (2056/11420)        
-remote: Compressing objects:  19% (2170/11420)        
-remote: Compressing objects:  20% (2284/11420)        
-remote: Compressing objects:  21% (2399/11420)        
-remote: Compressing objects:  22% (2513/11420)        
-remote: Compressing objects:  23% (2627/11420)        
-remote: Compressing objects:  24% (2741/11420)        
-remote: Compressing objects:  25% (2855/11420)        
-remote: Compressing objects:  26% (2970/11420)        
-remote: Compressing objects:  27% (3084/11420)        
-remote: Compressing objects:  28% (3198/11420)        
-remote: Compressing objects:  29% (3312/11420)        
-remote: Compressing objects:  30% (3426/11420)        
-remote: Compressing objects:  31% (3541/11420)        
-remote: Compressing objects:  32% (3655/11420)        
-remote: Compressing objects:  33% (3769/11420)        
-remote: Compressing objects:  34% (3883/11420)        
-remote: Compressing objects:  35% (3997/11420)        
-remote: Compressing objects:  36% (4112/11420)        
-remote: Compressing objects:  37% (4226/11420)        
-remote: Compressing objects:  38% (4340/11420)        
-remote: Compressing objects:  39% (4454/11420)        
-remote: Compressing objects:  40% (4568/11420)        
-remote: Compressing objects:  41% (4683/11420)        
-remote: Compressing objects:  42% (4797/11420)        
-remote: Compressing objects:  43% (4911/11420)        
-remote: Compressing objects:  44% (5025/11420)        
-remote: Compressing objects:  45% (5139/11420)        
-remote: Compressing objects:  46% (5254/11420)        
-remote: Compressing objects:  47% (5368/11420)        
-remote: Compressing objects:  48% (5482/11420)        
-remote: Compressing objects:  49% (5596/11420)        
-remote: Compressing objects:  50% (5710/11420)        
-remote: Compressing objects:  51% (5825/11420)        
-remote: Compressing objects:  52% (5939/11420)        
-remote: Compressing objects:  53% (6053/11420)        
-remote: Compressing objects:  54% (6167/11420)        
-remote: Compressing objects:  55% (6281/11420)        
-remote: Compressing objects:  56% (6396/11420)        
-remote: Compressing objects:  57% (6510/11420)        
-remote: Compressing objects:  58% (6624/11420)        
-remote: Compressing objects:  59% (6738/11420)        
-remote: Compressing objects:  60% (6852/11420)        
-remote: Compressing objects:  61% (6967/11420)        
-remote: Compressing objects:  62% (7081/11420)        
-remote: Compressing objects:  63% (7195/11420)        
-remote: Compressing objects:  64% (7309/11420)        
-remote: Compressing objects:  65% (7423/11420)        
-remote: Compressing objects:  66% (7538/11420)        
-remote: Compressing objects:  67% (7652/11420)        
-remote: Compressing objects:  68% (7766/11420)        
-remote: Compressing objects:  69% (7880/11420)        
-remote: Compressing objects:  70% (7994/11420)        
-remote: Compressing objects:  71% (8109/11420)        
-remote: Compressing objects:  72% (8223/11420)        
-remote: Compressing objects:  73% (8337/11420)        
-remote: Compressing objects:  74% (8451/11420)        
-remote: Compressing objects:  75% (8565/11420)        
-remote: Compressing objects:  76% (8680/11420)        
-remote: Compressing objects:  77% (8794/11420)        
-remote: Compressing objects:  78% (8908/11420)        
-remote: Compressing objects:  79% (9022/11420)        
-remote: Compressing objects:  80% (9136/11420)        
-remote: Compressing objects:  81% (9251/11420)        
-remote: Compressing objects:  82% (9365/11420)        
-remote: Compressing objects:  83% (9479/11420)        
-remote: Compressing objects:  84% (9593/11420)        
-remote: Compressing objects:  85% (9707/11420)        
-remote: Compressing objects:  86% (9822/11420)        
-remote: Compressing objects:  87% (9936/11420)        
-remote: Compressing objects:  88% (10050/11420)        
-remote: Compressing objects:  89% (10164/11420)        
-remote: Compressing objects:  90% (10278/11420)        
-remote: Compressing objects:  91% (10393/11420)        
-remote: Compressing objects:  92% (10507/11420)        
-remote: Compressing objects:  93% (10621/11420)        
-remote: Compressing objects:  94% (10735/11420)        
-remote: Compressing objects:  95% (10849/11420)        
-remote: Compressing objects:  96% (10964/11420)        
-remote: Compressing objects:  97% (11078/11420)        
-remote: Compressing objects:  98% (11192/11420)        
-remote: Compressing objects:  99% (11306/11420)        
-remote: Compressing objects: 100% (11420/11420), done.        
-Receiving objects:   0% (1/23438)
-Receiving objects:   1% (235/23438)
-Receiving objects:   2% (469/23438)
-Receiving objects:   3% (704/23438)
-Receiving objects:   4% (938/23438)
-Receiving objects:   5% (1172/23438)
-Receiving objects:   6% (1407/23438)
-Receiving objects:   7% (1641/23438)
-Receiving objects:   8% (1876/23438)
-Receiving objects:   9% (2110/23438)
-Receiving objects:  10% (2344/23438)
-Receiving objects:  11% (2579/23438)
-Receiving objects:  12% (2813/23438)
-Receiving objects:  13% (3047/23438)
-Receiving objects:  14% (3282/23438)
-Receiving objects:  15% (3516/23438)
-Receiving objects:  16% (3751/23438)
-Receiving objects:  17% (3985/23438)
-Receiving objects:  18% (4219/23438)
-Receiving objects:  19% (4454/23438)
-Receiving objects:  20% (4688/23438)
-Receiving objects:  21% (4922/23438)
-Receiving objects:  22% (5157/23438)
-Receiving objects:  23% (5391/23438)
-Receiving objects:  24% (5626/23438)
-Receiving objects:  25% (5860/23438)
-Receiving objects:  26% (6094/23438)
-Receiving objects:  27% (6329/23438)
-Receiving objects:  28% (6563/23438)
-Receiving objects:  29% (6798/23438)
-Receiving objects:  30% (7032/23438)
-Receiving objects:  31% (7266/23438)
-Receiving objects:  32% (7501/23438)
-Receiving objects:  33% (7735/23438)
-Receiving objects:  34% (7969/23438)
-Receiving objects:  35% (8204/23438)
-Receiving objects:  36% (8438/23438)
-Receiving objects:  37% (8673/23438)
-Receiving objects:  38% (8907/23438)
-Receiving objects:  39% (9141/23438)
-Receiving objects:  40% (9376/23438)
-Receiving objects:  41% (9610/23438)
-Receiving objects:  42% (9844/23438)
-Receiving objects:  43% (10079/23438)
-Receiving objects:  44% (10313/23438)
-Receiving objects:  45% (10548/23438)
-Receiving objects:  46% (10782/23438)
-Receiving objects:  47% (11016/23438)
-Receiving objects:  48% (11251/23438)
-Receiving objects:  49% (11485/23438)
-Receiving objects:  50% (11719/23438)
-Receiving objects:  51% (11954/23438)
-Receiving objects:  52% (12188/23438)
-Receiving objects:  53% (12423/23438)
-Receiving objects:  54% (12657/23438)
-Receiving objects:  55% (12891/23438)
-Receiving objects:  56% (13126/23438)
-Receiving objects:  57% (13360/23438)
-Receiving objects:  58% (13595/23438)
-Receiving objects:  59% (13829/23438)
-Receiving objects:  60% (14063/23438)
-Receiving objects:  61% (14298/23438)
-Receiving objects:  62% (14532/23438)
-Receiving objects:  63% (14766/23438)
-Receiving objects:  64% (15001/23438)
-Receiving objects:  65% (15235/23438)
-Receiving objects:  66% (15470/23438)
-Receiving objects:  67% (15704/23438)
-Receiving objects:  68% (15938/23438)
-Receiving objects:  69% (16173/23438)
-Receiving objects:  70% (16407/23438)
-Receiving objects:  71% (16641/23438)
-Receiving objects:  72% (16876/23438)
-Receiving objects:  73% (17110/23438)
-Receiving objects:  74% (17345/23438)
-Receiving objects:  75% (17579/23438)
-Receiving objects:  76% (17813/23438)
-Receiving objects:  77% (18048/23438)
-Receiving objects:  78% (18282/23438)
-Receiving objects:  79% (18517/23438)
-Receiving objects:  80% (18751/23438)
-Receiving objects:  81% (18985/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  82% (19220/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  83% (19454/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  84% (19688/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  85% (19923/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  86% (20157/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  87% (20392/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  88% (20626/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  89% (20860/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  90% (21095/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  91% (21329/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  92% (21563/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  93% (21798/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  94% (22032/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  95% (22267/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  96% (22501/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  97% (22735/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects:  98% (22970/23438), 3.61 MiB | 6.43 MiB/s
-remote: Total 23438 (delta 18053), reused 15954 (delta 11796), pack-reused 0        
-Receiving objects:  99% (23204/23438), 3.61 MiB | 6.43 MiB/s
-Receiving objects: 100% (23438/23438), 4.21 MiB | 7.34 MiB/s, done.
-Resolving deltas:   0% (0/18053)
-Resolving deltas:   1% (182/18053)
-Resolving deltas:   2% (363/18053)
-Resolving deltas:   3% (542/18053)
-Resolving deltas:   4% (723/18053)
-Resolving deltas:   5% (903/18053)
-Resolving deltas:   6% (1084/18053)
-Resolving deltas:   7% (1264/18053)
-Resolving deltas:   8% (1445/18053)
-Resolving deltas:   9% (1625/18053)
-Resolving deltas:  10% (1806/18053)
-Resolving deltas:  11% (1986/18053)
-Resolving deltas:  12% (2167/18053)
-Resolving deltas:  13% (2347/18053)
-Resolving deltas:  14% (2528/18053)
-Resolving deltas:  15% (2708/18053)
-Resolving deltas:  16% (2889/18053)
-Resolving deltas:  17% (3070/18053)
-Resolving deltas:  18% (3250/18053)
-Resolving deltas:  19% (3431/18053)
-Resolving deltas:  20% (3611/18053)
-Resolving deltas:  21% (3792/18053)
-Resolving deltas:  22% (3972/18053)
-Resolving deltas:  23% (4153/18053)
-Resolving deltas:  24% (4333/18053)
-Resolving deltas:  25% (4514/18053)
-Resolving deltas:  26% (4694/18053)
-Resolving deltas:  27% (4875/18053)
-Resolving deltas:  28% (5055/18053)
-Resolving deltas:  29% (5236/18053)
-Resolving deltas:  30% (5416/18053)
-Resolving deltas:  31% (5597/18053)
-Resolving deltas:  32% (5777/18053)
-Resolving deltas:  33% (5958/18053)
-Resolving deltas:  34% (6139/18053)
-Resolving deltas:  35% (6319/18053)
-Resolving deltas:  36% (6500/18053)
-Resolving deltas:  37% (6680/18053)
-Resolving deltas:  38% (6861/18053)
-Resolving deltas:  39% (7041/18053)
-Resolving deltas:  40% (7222/18053)
-Resolving deltas:  41% (7402/18053)
-Resolving deltas:  42% (7583/18053)
-Resolving deltas:  43% (7763/18053)
-Resolving deltas:  44% (7944/18053)
-Resolving deltas:  45% (8124/18053)
-Resolving deltas:  46% (8305/18053)
-Resolving deltas:  47% (8485/18053)
-Resolving deltas:  48% (8667/18053)
-Resolving deltas:  49% (8846/18053)
-Resolving deltas:  50% (9027/18053)
-Resolving deltas:  51% (9208/18053)
-Resolving deltas:  52% (9388/18053)
-Resolving deltas:  53% (9570/18053)
-Resolving deltas:  54% (9749/18053)
-Resolving deltas:  55% (9930/18053)
-Resolving deltas:  56% (10110/18053)
-Resolving deltas:  57% (10291/18053)
-Resolving deltas:  58% (10472/18053)
-Resolving deltas:  59% (10652/18053)
-Resolving deltas:  60% (10832/18053)
-Resolving deltas:  61% (11013/18053)
-Resolving deltas:  62% (11193/18053)
-Resolving deltas:  63% (11375/18053)
-Resolving deltas:  64% (11556/18053)
-Resolving deltas:  65% (11740/18053)
-Resolving deltas:  66% (11915/18053)
-Resolving deltas:  67% (12097/18053)
-Resolving deltas:  68% (12277/18053)
-Resolving deltas:  69% (12457/18053)
-Resolving deltas:  70% (12638/18053)
-Resolving deltas:  71% (12818/18053)
-Resolving deltas:  72% (12999/18053)
-Resolving deltas:  73% (13179/18053)
-Resolving deltas:  74% (13360/18053)
-Resolving deltas:  75% (13540/18053)
-Resolving deltas:  76% (13721/18053)
-Resolving deltas:  77% (13901/18053)
-Resolving deltas:  78% (14082/18053)
-Resolving deltas:  79% (14263/18053)
-Resolving deltas:  80% (14444/18053)
-Resolving deltas:  81% (14623/18053)
-Resolving deltas:  82% (14804/18053)
-Resolving deltas:  83% (14984/18053)
-Resolving deltas:  84% (15171/18053)
-Resolving deltas:  85% (15348/18053)
-Resolving deltas:  86% (15526/18053)
-Resolving deltas:  87% (15707/18053)
-Resolving deltas:  88% (15887/18053)
-Resolving deltas:  89% (16069/18053)
-Resolving deltas:  90% (16249/18053)
-Resolving deltas:  91% (16430/18053)
-Resolving deltas:  92% (16609/18053)
-Resolving deltas:  93% (16791/18053)
-Resolving deltas:  94% (16972/18053)
-Resolving deltas:  95% (17152/18053)
-Resolving deltas:  96% (17331/18053)
-Resolving deltas:  97% (17512/18053)
-Resolving deltas:  98% (17692/18053)
-Resolving deltas:  99% (17876/18053)
-Resolving deltas: 100% (18053/18053)
-Resolving deltas: 100% (18053/18053), done.
-NOTE: Creating tarball of git repository
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://lttng.org/files/lttng-modules/lttng-modules-2.13.17.tar.bz2...
-INFO: Rebasing devtool onto bd5ab6e17305359b570d06e18ab0183847e034f0
-WARNING: Command 'git rebase bd5ab6e17305359b570d06e18ab0183847e034f0' failed:
-Auto-merging include/instrumentation/events/sched.h
-CONFLICT (content): Merge conflict in include/instrumentation/events/sched.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/lttng-modules
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/lttng-modules/lttng-modules_2.13.17.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3616103798770010345==--
+
+-- >8 --
+From 5621ed80f345e35ecf72f508acaa6a56a7f05da0 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Feb 2025 05:38:14 +0000
+Subject: [PATCH] cmake,cmake-native: upgrade 3.31.4 -> 3.31.5,3.31.4 -> 3.31.5
+
+---
+ .../cmake/{cmake-native_3.31.4.bb => cmake-native_3.31.5.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ ...1-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch | 2 +-
+ .../cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch   | 2 +-
+ ...5-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.31.4.bb => cmake_3.31.5.bb} | 0
+ 6 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.31.4.bb => cmake-native_3.31.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.31.4.bb => cmake_3.31.5.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.31.4.bb b/meta/recipes-devtools/cmake/cmake-native_3.31.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.31.4.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.31.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index f1410a2c4b..703b037f09 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -20,7 +20,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "a6130bfe75f5ba5c73e672e34359f7c0a1931521957e8393a5c2922c8b0f7f25"
++SRC_URI[sha256sum] = "66fb53a145648be56b46fa9e8ccade3a4d0dfc92e401e52ce76bdad1fea43d27"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
+index cf00964a9c..60dc439c3c 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
+@@ -1,4 +1,4 @@
+-From 969b2d07ad955fdc117bf2ea30305a5b2e74ea76 Mon Sep 17 00:00:00 2001
++From 4651696a9bac909191d4b2aa8c3b606d716e63e6 Mon Sep 17 00:00:00 2001
+ From: Philip Lorenz <philip.lorenz@bmw.de>
+ Date: Mon, 3 Jun 2024 13:19:24 +0200
+ Subject: [PATCH] CMakeDetermineCompilerABI: Strip -pipe from compile flags
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index a01e3fe8c7..df77e54b72 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+@@ -1,4 +1,4 @@
+-From 8faeaefaf00f8d443511077b82624a8bd19cf725 Mon Sep 17 00:00:00 2001
++From fe238e7f4250fd7885e36ac63d346b21ee296d5d Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index 95ae9108aa..757b59a251 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,4 +1,4 @@
+-From c0ca5859788189a81c53face2ab5eaeadc1236b4 Mon Sep 17 00:00:00 2001
++From 345e3176a12907fb1cf96913c95975554957b967 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
+diff --git a/meta/recipes-devtools/cmake/cmake_3.31.4.bb b/meta/recipes-devtools/cmake/cmake_3.31.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.31.4.bb
+rename to meta/recipes-devtools/cmake/cmake_3.31.5.bb
+-- 
+2.44.1
+
+
+--===============2381924693120318302==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1104668624 to 1104679672 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dbg: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-dev: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dev: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-doc: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-doc: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-locale: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-locale: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-src: PKGSIZE changed from 10299827 to 10300253 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-src: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-src: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake/cmake: PKGSIZE changed from 43198977 to 43203338 (+0%)
+packages/core2-64-poky-linux/cmake/cmake: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake/cmake: PV changed from "3.31.4" to "3.31.5"
+packages/core2-64-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v3.31/cmake-3.31.4.tar.gz file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch" to "https://cmake.org/files/v3.31/cmake-3.31.5.tar.gz file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch"
+packages/core2-64-poky-linux/cmake: PKGV changed from 3.31.4 [default] to 3.31.5 [default]
+packages/core2-64-poky-linux/cmake: PV changed from "3.31.4" to "3.31.5"
+
+--===============2381924693120318302==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cmake-cmake-native-upgrade-3.31.4-3.31.5-3.31.4-3.31.patch"
+
+RnJvbSA1NjIxZWQ4MGYzNDVlMzVlY2Y3MmY1MDhhY2FhNmE1NmE3ZjA1ZGEwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAwNTozODoxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNt
+YWtlLGNtYWtlLW5hdGl2ZTogdXBncmFkZSAzLjMxLjQgLT4gMy4zMS41LDMuMzEuNCAtPiAzLjMx
+LjUKCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRpdmVfMy4zMS40LmJiID0+IGNtYWtlLW5hdGl2
+ZV8zLjMxLjUuYmJ9ICAgIHwgMAogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmlu
+YyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uMS1DTWFrZURldGVybWluZUNv
+bXBpbGVyQUJJLVN0cmlwLXBpcGUtZnJvbS1jb21waWxlLWZsLnBhdGNoIHwgMiArLQogLi4uL2Nt
+YWtlL2NtYWtlLzAwMDEtQ01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaCAg
+IHwgMiArLQogLi4uNS1EaXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMt
+aW50ZXJuYWwtLnBhdGNoIHwgMiArLQogLi4uL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtl
+XzMuMzEuNC5iYiA9PiBjbWFrZV8zLjMxLjUuYmJ9IHwgMAogNiBmaWxlcyBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2NtYWtlL3tjbWFrZS1uYXRpdmVfMy4zMS40LmJiID0+IGNtYWtlLW5hdGl2ZV8zLjMxLjUuYmJ9
+ICgxMDAlKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2VfMy4zMS40
+LmJiID0+IGNtYWtlXzMuMzEuNS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV8zLjMxLjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvY21ha2UvY21ha2UtbmF0aXZlXzMuMzEuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV8zLjMx
+LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVf
+My4zMS41LmJiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2Uu
+aW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwppbmRleCBmMTQxMGEy
+YzRiLi43MDNiMDM3ZjA5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
+Y21ha2UuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKQEAg
+LTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFL
+RV9NQUpPUl9WRVJTSU9OfS9jbWFrZS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8v
+MDAwMS1DTWFrZURldGVybWluZUNvbXBpbGVyQUJJLVN0cmlwLXBpcGUtZnJvbS1jb21waWxlLWZs
+LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTYxMzBiZmU3
+NWY1YmE1YzczZTY3MmUzNDM1OWY3YzBhMTkzMTUyMTk1N2U4MzkzYTVjMjkyMmM4YjBmN2YyNSIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NmZiNTNhMTQ1NjQ4YmU1NmI0NmZhOWU4Y2NhZGUzYTRk
+MGRmYzkyZTQwMWU1MmNlNzZiZGFkMWZlYTQzZDI3IgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9
+ICJjbWFrZS0oP1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIApkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVDb21waWxlckFC
+SS1TdHJpcC1waXBlLWZyb20tY29tcGlsZS1mbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlRGV0ZXJtaW5lQ29tcGlsZXJBQkktU3RyaXAtcGlwZS1m
+cm9tLWNvbXBpbGUtZmwucGF0Y2gKaW5kZXggY2YwMDk2NGE5Yy4uNjBkYzQzOWMzYyAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VEZXRlcm1p
+bmVDb21waWxlckFCSS1TdHJpcC1waXBlLWZyb20tY29tcGlsZS1mbC5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZURldGVybWluZUNvbXBpbGVy
+QUJJLVN0cmlwLXBpcGUtZnJvbS1jb21waWxlLWZsLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSA5NjliMmQwN2FkOTU1ZmRjMTE3YmYyZWEzMDMwNWE1YjJlNzRlYTc2IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA0NjUxNjk2YTliYWM5MDkxOTFkNGIyYWE4YzNiNjA2ZDcxNmU2M2U2
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUGhpbGlwIExvcmVueiA8cGhpbGlwLmxv
+cmVuekBibXcuZGU+CiBEYXRlOiBNb24sIDMgSnVuIDIwMjQgMTM6MTk6MjQgKzAyMDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gQ01ha2VEZXRlcm1pbmVDb21waWxlckFCSTogU3RyaXAgLXBpcGUgZnJvbSBj
+b21waWxlIGZsYWdzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
+a2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1kaXNhYmxlLVVTRV9OR0hUVFAyLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VMaXN0cy50eHQtZGlzYWJsZS1V
+U0VfTkdIVFRQMi5wYXRjaAppbmRleCBhMDFlM2ZlOGM3Li5kZjc3ZTU0YjcyIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1k
+aXNhYmxlLVVTRV9OR0hUVFAyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFr
+ZS9jbWFrZS8wMDAxLUNNYWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIDhmYWVhZWZhZjAwZjhkNDQzNTExMDc3YjgyNjI0YThiZDE5Y2Y3
+MjUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZlMjM4ZTdmNDI1MGZkNzg4NWUzNmFj
+NjNkMzQ2YjIxZWUyOTZkNWQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaGFuZ3Fp
+bmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyOCBEZWMgMjAy
+MiAxNzo1MToyNyArMDgwMAogU3ViamVjdDogW1BBVENIXSBDTWFrZUxpc3RzLnR4dDogZGlzYWJs
+ZSBVU0VfTkdIVFRQMgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
+YWtlLzAwMDUtRGlzYWJsZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVy
+bmFsLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDA1LURpc2Fi
+bGUtdXNlLW9mLWV4dDJmcy1leHQyX2ZzLmgtYnktY21ha2Utcy1pbnRlcm5hbC0ucGF0Y2gKaW5k
+ZXggOTVhZTkxMDhhYS4uNzU3YjU5YTI1MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL2NtYWtlLzAwMDUtRGlzYWJsZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1j
+bWFrZS1zLWludGVybmFsLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
+Y21ha2UvMDAwNS1EaXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50
+ZXJuYWwtLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjMGNhNTg1OTc4ODE4OWE4MWM1M2Zh
+Y2UyYWI1ZWFlYWRjMTIzNmI0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNDVlMzE3
+NmExMjkwN2ZiMWNmOTY5MTNjOTU5NzU1NTQ5NTdiOTY3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4KIERhdGU6
+IFRodSwgNSBKdWwgMjAxOCAxMDoyODowNCAtMDMwMAogU3ViamVjdDogW1BBVENIXSBEaXNhYmxl
+IHVzZSBvZiBleHQyZnMvZXh0Ml9mcy5oIGJ5IGNtYWtlJ3MgaW50ZXJuYWwKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMxLjQuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMS41LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMS40LmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMS41LmJiCi0tIAoy
+LjQ0LjEKCg==
+
+--===============2381924693120318302==--
 
