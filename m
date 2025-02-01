@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F441C282D0
-	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C777C1B0FF
+	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:14 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.42643.1738416064017076463
+ by mx.groups.io with SMTP id smtpd.web10.42711.1738416044240252461
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 05:21:04 -0800
+ Sat, 01 Feb 2025 05:21:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Mh2ZSvEg;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cGQGtLau;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194c1ac0320-437139f4-9525-40be-8c3f-7c3d71621939-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Rp+ZzQA1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qQP/bCqh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194c1ac0fb5-eab03c4d-5577-466a-9e1f-eb1026468535-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738416063;
+	t=1738416066;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Gu1Jm4gqjhI+/hxaD94wD5QOWu3VeVJemNaVvNHwKjE=;
-	b=Mh2ZSvEgVr+/rRmBdB+uwoALn6kQ9VfrRRrCKedlaRuuGpknlppCmNDsrJ01bXli
-	2P1VPohJ+CtZbLYUTdYw9o2G75QA3MNl7olu6YYZwWU/WD/NVXjQOVjOtV8oWufa8+h
-	zfSUU4du7se/Fh3j/1Iie+3ReP1/57Y7J4dF+7r8=
+	bh=na5ql+Gi1gVfdo5Xpzkt/SqnBmIXfwgneMq/OGbp/5A=;
+	b=Rp+ZzQA1ZHOa+R0wxtP6GuGkV9KGcnaaAuBnf4HUTXSI5VCMY0JD66t4Ad5l74lG
+	EFnREHEqeBQ8TKrNLZkqEM/1QdkvlIcr/2zXnqgyIIXfWBOBnckFDIltC/ZWfx7ppFQ
+	QdrtggjYRFz5W7NdpbzSSqxVcClwivyt1vGx5kfg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416063;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416066;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Gu1Jm4gqjhI+/hxaD94wD5QOWu3VeVJemNaVvNHwKjE=;
-	b=cGQGtLauusaRDwpKt2TPKs6UX3VwsdMExhCKekNwtGAGxx2mSidwM9QKJRcL5Gvi
-	+xNqq4rDeWETpKUH6OuCNZ74zZEvyIZ2amNyKkSNKWTfph7mH77lnmddoF9xQd1kGJa
-	WQLXJePCEa+iT1GFGQqgUsxt6SWB1HgSdiMh8L9Q=
-Content-Type: multipart/mixed; boundary="===============5533864448847416839=="
+	bh=na5ql+Gi1gVfdo5Xpzkt/SqnBmIXfwgneMq/OGbp/5A=;
+	b=qQP/bCqhrZ7GSpRR9iHjuTo+bYSuHDyr90oOf6yDvQ51fruthHxV0ZwkBkoZS9t3
+	RgvCjtme4mK11R8guY35t+BW4S7uW4eIrTHAjE+v4RKl8i5JzHySU70fjv1rYwaWlEC
+	PBeZEjbfh4/o1/2eEr9m1m3YTZg1msbIuZiMohy8=
+Content-Type: multipart/mixed; boundary="===============0239021608755983539=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.4.304.0 FAILED
-Message-ID: <01010194c1ac0320-437139f4-9525-40be-8c3f-7c3d71621939-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Feb 2025 13:21:03 +0000
+Subject: [AUH] vulkan-loader: upgrading to 1.4.304.0 FAILED
+Message-ID: <01010194c1ac0fb5-eab03c4d-5577-466a-9e1f-eb1026468535-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Feb 2025 13:21:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210576
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210584
 
---===============5533864448847416839==
+--===============0239021608755983539==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.4.304.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *vulkan-loader* to *1.4.304.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.3.296.0-1.4.304.0.patch
+    - apply the patch: git am 0001-vulkan-loader-upgrade-1.3.296.0-1.4.304.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,57 +78,39 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 806c9fd2fda6785ae3776ed298cdc33faca85349 Mon Sep 17 00:00:00 2001
+From 2df68ba98d5607770d3bb2e5eca6db4775e2e231 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Feb 2025 11:16:52 +0000
-Subject: [PATCH] glslang: upgrade 1.3.296.0 -> 1.4.304.0
+Date: Sat, 1 Feb 2025 11:58:39 +0000
+Subject: [PATCH] vulkan-loader: upgrade 1.3.296.0 -> 1.4.304.0
 
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch    | 4 ++--
- .../glslang/{glslang_1.3.296.0.bb => glslang_1.4.304.0.bb}    | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.3.296.0.bb => glslang_1.4.304.0.bb} (96%)
+ ...{vulkan-loader_1.3.296.0.bb => vulkan-loader_1.4.304.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-loader_1.3.296.0.bb => vulkan-loader_1.4.304.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index 04dab67773..644133dc52 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From df6111570ada81d3968043decb5eee16dc5f9fa1 Mon Sep 17 00:00:00 2001
-+From 8e8d2709e718eb3ff988797a5b66a1e14368d5a1 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-@@ -15,7 +15,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslang/glslang.pc.cmake.in
+diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+index 92ed18c299..bfee4b9f65 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb
+@@ -9,8 +9,8 @@ SECTION = "libs"
  
- diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
--index 47925d8d..d90191c3 100644
-+index eb1dc68e..825a4662 100644
- --- a/glslang/CMakeLists.txt
- +++ b/glslang/CMakeLists.txt
- @@ -255,6 +255,8 @@ if(GLSLANG_ENABLE_INSTALL)
-diff --git a/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb b/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.4.304.0.bb
-index 3b66e3544c..a30274c8a5 100644
---- a/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=vulkan-sdk-1.3.296;protocol=https"
+-SRCREV = "7aeb5e4324957b6f60dac5c8cedb955df4fecbfb"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=main;protocol=https"
++SRCREV = "6a6878c614c8c6dbe81ee7a9f1176bdb52dc7dd7"
  
--SRCREV = "46ef757e048e760b46601e6e77ae0cb72c97bd2f"
-+SRCREV = "b3a6aa7b03c51ba976e4f4e96b1e31f77f43f312"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.44.1
 
 
---===============5533864448847416839==
+--===============0239021608755983539==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -136,7 +118,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1876 entries from dependency cache.
+Loaded 1874 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 919 .bb files complete (918 cached, 1 parsed). 1874 targets, 41 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -156,322 +138,2500 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:def398345668d71c01515a51a3d0b1ab42ce9e48"
+workspace            = "tmp-auh-upgrades:5659e479c7d411475e74b43cddbb8683f904203d"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 93 Local 82 Mirrors 0 Missed 11 Current 232 (88% match, 96% complete)
-done.
+Sstate summary: Wanted 272 Local 255 Mirrors 0 Missed 17 Current 410 (93% match, 97% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 5 stale sstate objects for arch core2-64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 324 of 325 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_recipe_qa_setscene)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 412 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 447 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 450 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 455 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 462 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 467 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 482 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 489 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 499 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 501 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 507 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 513 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 515 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxml2-native-2.13.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 517 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libdrm-2.4.124-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-protocols-1.39-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 519 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 521 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 525 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 528 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 529 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 532 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 541 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 544 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 563 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 572 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxml2-native-2.13.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 591 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 599 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 601 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 603 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 604 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1045 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_fetch)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 606 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 607 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 609 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_recipe_qa_setscene)
+NOTE: Running task 1102 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_fetch)
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 610 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 612 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1226 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_write_config)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_fetch: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 614 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
+NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1293 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
+NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Started
+NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
+NOTE: recipe glslang-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Succeeded
+NOTE: Running setscene task 619 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1306 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_unpack)
+NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 624 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 629 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 630 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_unpack: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 642 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 654 of 682 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 656 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-headers-native-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_unpack: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 661 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
+NOTE: Running task 1412 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_patch)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_patch: Started
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 668 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: Running task 1420 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_generate_toolchain_file)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 672 of 682 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1465 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_patch)
+NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 945 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_fetch)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_fetch: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_fetch: Succeeded
-NOTE: Running task 946 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_unpack)
-NOTE: Running task 947 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_unpack: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_unpack: Succeeded
-NOTE: Running task 948 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_patch)
-NOTE: Running task 949 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_collect_spdx_deps)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_patch: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_patch: Succeeded
-NOTE: Running task 950 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 951 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_generate_toolchain_file)
-NOTE: Running task 952 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_populate_lic)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_populate_lic: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_populate_lic unihash changed to 393066c7f40137ef148dd4f81d3b050160f746b72aa546f514eafedb5d8d6b4d
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_deploy_source_date_epoch unihash changed to 805d67308b9e96aa15467238e117c6b036589e7774d28da3f9e251e4ccc85b32
-NOTE: Setscene tasks completed
-NOTE: Running task 953 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_configure)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_configure: Started
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_configure: Succeeded
-NOTE: Running task 954 of 965 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_compile)
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_compile: Started
+NOTE: Running task 1787 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1886 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1901 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_configure)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_configure: Started
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 1926 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile)
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_compile: Started
 Log data follows:
 | DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build --target all --
-| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build'
+| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build --target all --
+| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build'
 | 
 | Run Build Command(s): ninja -v -j 16 all
-| [1/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/OSDependent/Unix/ossource.cpp.o -MF glslang/CMakeFiles/glslang.dir/OSDependent/Unix/ossource.cpp.o.d -o glslang/CMakeFiles/glslang.dir/OSDependent/Unix/ossource.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/OSDependent/Unix/ossource.cpp
-| [2/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/PoolAlloc.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/PoolAlloc.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/PoolAlloc.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/PoolAlloc.cpp
-| [3/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/InfoSink.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/InfoSink.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/InfoSink.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/InfoSink.cpp
-| [4/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/GenericCodeGen/CodeGen.cpp.o -MF glslang/CMakeFiles/glslang.dir/GenericCodeGen/CodeGen.cpp.o.d -o glslang/CMakeFiles/glslang.dir/GenericCodeGen/CodeGen.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/GenericCodeGen/CodeGen.cpp
-| [5/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/GenericCodeGen/Link.cpp.o -MF glslang/CMakeFiles/glslang.dir/GenericCodeGen/Link.cpp.o.d -o glslang/CMakeFiles/glslang.dir/GenericCodeGen/Link.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/GenericCodeGen/Link.cpp
-| [6/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/RemoveTree.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/RemoveTree.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/RemoveTree.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/RemoveTree.cpp
-| [7/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/IntermTraverse.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/IntermTraverse.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/IntermTraverse.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/IntermTraverse.cpp
-| [8/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/attribute.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/attribute.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/attribute.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/attribute.cpp
-| [9/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sy
- sroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/rec
- ipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.o -MF glslang/CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.o.d -o glslang/CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/CInterface/glslang_c_interface.cpp
-| [10/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/Scan.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/Scan.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/Scan.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/Scan.cpp
-| [11/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/limits.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/limits.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/limits.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/limits.cpp
-| [12/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/Constant.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/Constant.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/Constant.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/Constant.cpp
-| [13/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/Versions.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/Versions.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/Versions.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/Versions.cpp
-| [14/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/parseConst.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/parseConst.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/parseConst.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/parseConst.cpp
-| [15/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/intermOut.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/intermOut.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/intermOut.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/intermOut.cpp
-| [16/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseContextBase.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseContextBase.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseContextBase.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/ParseContextBase.cpp
-| [17/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/SpirvIntrinsics.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/SpirvIntrinsics.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/SpirvIntrinsics.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/SpirvIntrinsics.cpp
-| [18/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/SymbolTable.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/SymbolTable.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/SymbolTable.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/SymbolTable.cpp
-| [19/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/Initialize.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/Initialize.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/Initialize.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/Initialize.cpp
-| [20/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpAtom.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpAtom.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpAtom.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/preprocessor/PpAtom.cpp
-| [21/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/Intermediate.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/Intermediate.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/Intermediate.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/Intermediate.cpp
-| [22/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/ShaderLang.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/ShaderLang.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/ShaderLang.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/ShaderLang.cpp
-| [23/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpContext.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpContext.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpContext.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/preprocessor/PpContext.cpp
-| [24/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpTokens.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpTokens.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpTokens.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/preprocessor/PpTokens.cpp
-| [25/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/iomapper.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/iomapper.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/iomapper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/iomapper.cpp
-| [26/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslAttributes.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslAttributes.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslAttributes.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslAttributes.cpp
-| [27/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/propagateNoContraction.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/propagateNoContraction.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/propagateNoContraction.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/propagateNoContraction.cpp
-| [28/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpScanner.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpScanner.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/PpScanner.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/preprocessor/PpScanner.cpp
-| [29/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/reflection.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/reflection.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/reflection.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/reflection.cpp
-| [30/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/Pp.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/Pp.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/preprocessor/Pp.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/preprocessor/Pp.cpp
-| [31/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslOpMap.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslOpMap.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslOpMap.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslOpMap.cpp
-| [32/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/Logger.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/Logger.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/Logger.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/Logger.cpp
-| [33/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/InReadableOrder.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/InReadableOrder.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/InReadableOrder.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/InReadableOrder.cpp
-| [34/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslTokenStream.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslTokenStream.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslTokenStream.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslTokenStream.cpp
-| [35/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/CInterface/spirv_c_interface.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/CInterface/spirv_c_interface.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/CInterface/spirv_c_interface.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/CInterface/spirv_c_interface.cpp
-| [36/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslScanContext.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslScanContext.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslScanContext.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslScanContext.cpp
-| [37/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_default_resource_limits_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-ma
- p=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -
- std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/resource_limits_c.cpp.o -MF glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/resource_limits_c.cpp.o.d -o glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/resource_limits_c.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/ResourceLimits/resource_limits_c.cpp
-| [38/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_OSINCLUDE_UNIX -DSPIRV_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.
- 0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysr
- oot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT SPIRV/CMakeFiles/SPIRV.dir/__/glslang/stub.cpp.o -MF SPIRV/CMakeFiles/SPIRV.dir/__/glslang/stub.cpp.o.d -o SPIRV/CMakeFiles/SPIRV.dir/__/glslang/stub.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/stub.cpp
-| [39/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_default_resource_limits_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-ma
- p=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -
- std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/ResourceLimits.cpp.o -MF glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/ResourceLimits.cpp.o.d -o glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/ResourceLimits.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/ResourceLimits/ResourceLimits.cpp
-| [40/72] : && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -fPIC -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304
- .0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/p
- okybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -Wl,-z,relro,-z,now   -Wl,--no-undefined -Wl,--depen
- dency-file=SPIRV/CMakeFiles/SPIRV.dir/link.d -shared -Wl,-soname,libSPIRV.so.15 -o SPIRV/libSPIRV.so.15.1.0 SPIRV/CMakeFiles/SPIRV.dir/__/glslang/stub.cpp.o  /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot/usr/lib/libSPIRV-Tools-opt.so  /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot/usr/lib/libSPIRV-Tools.so && :
-| [41/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_OSINCLUDE_UNIX  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/a
- uh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-bu
- t-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/GenericCodeGen.dir/stub.cpp.o -MF glslang/CMakeFiles/GenericCodeGen.dir/stub.cpp.o.d -o glslang/CMakeFiles/GenericCodeGen.dir/stub.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/stub.cpp
-| [42/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_OSINCLUDE_UNIX  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/a
- uh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-bu
- t-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/MachineIndependent.dir/stub.cpp.o -MF glslang/CMakeFiles/MachineIndependent.dir/stub.cpp.o.d -o glslang/CMakeFiles/MachineIndependent.dir/stub.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/stub.cpp
-| [43/72] : && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -fPIC -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304
- .0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/p
- okybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -Wl,-z,relro,-z,now   -Wl,--no-undefined -Wl,--depen
- dency-file=glslang/CMakeFiles/glslang-default-resource-limits.dir/link.d -shared -Wl,-soname,libglslang-default-resource-limits.so.15 -o glslang/libglslang-default-resource-limits.so.15.1.0 glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/ResourceLimits.cpp.o glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits/resource_limits_c.cpp.o   && :
-| [44/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_OSINCLUDE_UNIX  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/a
- uh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-bu
- t-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/OSDependent/Unix/CMakeFiles/OSDependent.dir/__/__/stub.cpp.o -MF glslang/OSDependent/Unix/CMakeFiles/OSDependent.dir/__/__/stub.cpp.o.d -o glslang/OSDependent/Unix/CMakeFiles/OSDependent.dir/__/__/stub.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/stub.cpp
-| [45/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/cmake -E cmake_symlink_library glslang/libglslang-default-resource-limits.so.15.1.0  glslang/libglslang-default-resource-limits.so.15 glslang/libglslang-default-resource-limits.so && :
-| [46/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/cmake -E cmake_symlink_library SPIRV/libSPIRV.so.15.1.0  SPIRV/libSPIRV.so.15 SPIRV/libSPIRV.so && :
-| [47/72] : && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/cmake -E rm -f glslang/libGenericCodeGen.a && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar qc glslang/libGenericCodeGen.a  glslang/CMakeFiles/GenericCodeGen.dir/stub.cpp.o && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib glslang/libGenericCodeGen.a && :
-| [48/72] : && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/cmake -E rm -f glslang/libMachineIndependent.a && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar qc glslang/libMachineIndependent.a  glslang/CMakeFiles/MachineIndependent.dir/stub.cpp.o && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib glslang/libMachineIndependent.a && :
-| [49/72] : && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/cmake -E rm -f glslang/OSDependent/Unix/libOSDependent.a && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar qc glslang/OSDependent/Unix/libOSDependent.a  glslang/OSDependent/Unix/CMakeFiles/OSDependent.dir/__/__/stub.cpp.o && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib glslang/OSDependent/Unix/libOSDependent.a && :
-| [50/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvTools.cpp
-| FAILED: glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  
- -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sys
- root-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvTools.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvTools.cpp
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvTools.cpp: In function 'spv_target_env glslang::MapToSpirvToolsEnv(const SpvVersion&, spv::SpvBuildLogger*)':
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvTools.cpp:75:32: error: 'SPV_ENV_VULKAN_1_4' is not a member of 'spv_target_env'
-|    75 |         return spv_target_env::SPV_ENV_VULKAN_1_4;
-|       |                                ^~~~~~~~~~~~~~~~~~
-| [51/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/disassemble.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/disassemble.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/disassemble.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/disassemble.cpp
-| [52/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/doc.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/doc.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/doc.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/doc.cpp
-| [53/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/linkValidate.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/linkValidate.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/linkValidate.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/linkValidate.cpp
-| [54/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvPostProcess.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvPostProcess.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvPostProcess.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvPostProcess.cpp
-| [55/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslParseables.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslParseables.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslParseables.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslParseables.cpp
-| [56/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fc
- anon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-nativ
- e=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT StandAlone/CMakeFiles/spirv-remap.dir/spirv-remap.cpp.o -MF StandAlone/CMakeFiles/spirv-remap.dir/spirv-remap.cpp.o.d -o StandAlone/CMakeFiles/spirv-remap.dir/spirv-remap.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/StandAlone/spirv-remap.cpp
-| [57/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -DSPVRemapper_EXPORTS  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304
- .0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fal
- lthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT SPIRV/CMakeFiles/SPVRemapper.dir/doc.cpp.o -MF SPIRV/CMakeFiles/SPVRemapper.dir/doc.cpp.o.d -o SPIRV/CMakeFiles/SPVRemapper.dir/doc.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/doc.cpp
-| [58/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslGrammar.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslGrammar.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslGrammar.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslGrammar.cpp
-| [59/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -DSPVRemapper_EXPORTS  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304
- .0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fal
- lthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT SPIRV/CMakeFiles/SPVRemapper.dir/SPVRemapper.cpp.o -MF SPIRV/CMakeFiles/SPVRemapper.dir/SPVRemapper.cpp.o.d -o SPIRV/CMakeFiles/SPVRemapper.dir/SPVRemapper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SPVRemapper.cpp
-| [60/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvBuilder.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvBuilder.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/SpvBuilder.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/SpvBuilder.cpp
-| [61/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseHelper.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseHelper.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/ParseHelper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/ParseHelper.cpp
-| [62/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/__/SPIRV/GlslangToSpv.cpp.o -MF glslang/CMakeFiles/glslang.dir/__/SPIRV/GlslangToSpv.cpp.o.d -o glslang/CMakeFiles/glslang.dir/__/SPIRV/GlslangToSpv.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/SPIRV/GlslangToSpv.cpp
-| [63/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -MD -MT glslang/CMakeFiles/glslang.dir/HLSL/hlslParseHelper.cpp.o -MF glslang/CMakeFiles/glslang.dir/HLSL/hlslParseHelper.cpp.o.d -o glslang/CMakeFiles/glslang.dir/HLSL/hlslParseHelper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/HLSL/hlslParseHelper.cpp
-| [64/72] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot -DENABLE_HLSL -DENABLE_OPT=1 -DENABLE_SPIRV -DGLSLANG_IS_SHARED_LIBRARY=1 -DGLSLANG_OSINCLUDE_UNIX -Dglslang_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/.. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/../External -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-s
- ysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git=/usr/src/debug/glslang/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build=/usr/src/debug/glslang/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/re
- cipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -DNDEBUG -std=c++17 -fPIC -fvisibility=hidden -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wimplicit-fallthrough -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -fno-rtti -Werror=deprecated-copy -Wno-unused-but-set-variable -MD -MT glslang/CMakeFiles/glslang.dir/MachineIndependent/glslang_tab.cpp.o -MF glslang/CMakeFiles/glslang.dir/MachineIndependent/glslang_tab.cpp.o.d -o glslang/CMakeFiles/glslang.dir/MachineIndependent/glslang_tab.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/git/glslang/MachineIndependent/glslang_tab.cpp
+| [1/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unk
+ nown_function_handling.c
+| FAILED: loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -MF loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o.d -o loader/CMakeFiles/vulkan.dir/unknown_function_handling.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_fu
+ nction_handling.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_function_handling.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/unknown_function_handling.c:25:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [2/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c
+| FAILED: loader/CMakeFiles/vulkan.dir/allocation.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/allocation.c.o -MF loader/CMakeFiles/vulkan.dir/allocation.c.o.d -o loader/CMakeFiles/vulkan.dir/allocation.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.c:27:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [3/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c
+| FAILED: loader/CMakeFiles/vulkan.dir/log.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/log.c.o -MF loader/CMakeFiles/vulkan.dir/log.c.o.d -o loader/CMakeFiles/vulkan.dir/log.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/log.c:34:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [4/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c
+| FAILED: loader/CMakeFiles/vulkan.dir/extension_manual.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/extension_manual.c.o -MF loader/CMakeFiles/vulkan.dir/extension_manual.c.o.d -o loader/CMakeFiles/vulkan.dir/extension_manual.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/extension_manual.c:29:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [5/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_linux.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_linux.c.o -MF loader/CMakeFiles/vulkan.dir/loader_linux.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_linux.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.h:27,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_linux.c:30:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [6/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_environment.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_environment.c.o -MF loader/CMakeFiles/vulkan.dir/loader_environment.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_environment.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_environment.c:29:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [7/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c
+| FAILED: loader/CMakeFiles/vulkan.dir/terminator.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/terminator.c.o -MF loader/CMakeFiles/vulkan.dir/terminator.c.o.d -o loader/CMakeFiles/vulkan.dir/terminator.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/terminator.c:34:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [8/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/settings.c.o -MF loader/CMakeFiles/vulkan.dir/settings.c.o.d -o loader/CMakeFiles/vulkan.dir/settings.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c
+| FAILED: loader/CMakeFiles/vulkan.dir/settings.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/settings.c.o -MF loader/CMakeFiles/vulkan.dir/settings.c.o.d -o loader/CMakeFiles/vulkan.dir/settings.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/settings.c:26:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [9/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/l
+ oader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-work
+ er/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c
+| FAILED: loader/CMakeFiles/vulkan.dir/debug_utils.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/debug_utils.c.o -MF loader/CMakeFiles/vulkan.dir/debug_utils.c.o.d -o loader/CMakeFiles/vulkan.dir/debug_utils.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/debug_utils.c:33:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [10/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c
+| FAILED: loader/CMakeFiles/vulkan.dir/wsi.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/wsi.c.o -MF loader/CMakeFiles/vulkan.dir/wsi.c.o.d -o loader/CMakeFiles/vulkan.dir/wsi.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/wsi.c:31:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [11/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c
+| FAILED: loader/CMakeFiles/vulkan.dir/cJSON.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/cJSON.c.o -MF loader/CMakeFiles/vulkan.dir/cJSON.c.o.d -o loader/CMakeFiles/vulkan.dir/cJSON.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/cJSON.c:63:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [12/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_json.c.o -MF loader/CMakeFiles/vulkan.dir/loader_json.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_json.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader_json.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader_json.c.o -MF loader/CMakeFiles/vulkan.dir/loader_json.c.o.d -o loader/CMakeFiles/vulkan.dir/loader_json.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_json.c:37:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| [13/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c
+| FAILED: loader/CMakeFiles/vulkan.dir/trampoline.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/trampoline.c.o -MF loader/CMakeFiles/vulkan.dir/trampoline.c.o.d -o loader/CMakeFiles/vulkan.dir/trampoline.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/allocation.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3597:78: error: unknown type name 'VkRenderingAreaInfo'; did you mean 'VkRenderingAreaInfoKHR'?
+|  3597 |                                                                        const VkRenderingAreaInfo *pRenderingAreaInfo,
+|       |                                                                              ^~~~~~~~~~~~~~~~~~~
+|       |                                                                              VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkGetRenderingAreaGranularity':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3606:5: error: called object is not a function or function pointer
+|  3606 |     disp->GetRenderingAreaGranularity(device, pRenderingAreaInfo, pGranularity);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSet':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3620:5: error: called object is not a function or function pointer
+|  3620 |     disp->CmdPushDescriptorSet(commandBuffer, pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSetWithTemplate':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3634:5: error: called object is not a function or function pointer
+|  3634 |     disp->CmdPushDescriptorSetWithTemplate(commandBuffer, descriptorUpdateTemplate, layout, set, pData);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetLineStipple':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3646:5: error: called object is not a function or function pointer
+|  3646 |     disp->CmdSetLineStipple(commandBuffer, lineStippleFactor, lineStipplePattern);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdBindIndexBuffer2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3658:5: error: called object is not a function or function pointer
+|  3658 |     disp->CmdBindIndexBuffer2(commandBuffer, buffer, offset, size, indexType);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3662:72: error: unknown type name 'VkCopyMemoryToImageInfo'; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  3662 |                                                                  const VkCopyMemoryToImageInfo *pCopyMemoryToImageInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyMemoryToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3670:12: error: called object is not a function or function pointer
+|  3670 |     return disp->CopyMemoryToImage(device, pCopyMemoryToImageInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3674:72: error: unknown type name 'VkCopyImageToMemoryInfo'; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  3674 |                                                                  const VkCopyImageToMemoryInfo *pCopyImageToMemoryInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToMemory':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3682:12: error: called object is not a function or function pointer
+|  3682 |     return disp->CopyImageToMemory(device, pCopyImageToMemoryInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3686:71: error: unknown type name 'VkCopyImageToImageInfo'; did you mean 'VkCopyImageToImageInfoEXT'?
+|  3686 |                                                                 const VkCopyImageToImageInfo *pCopyImageToImageInfo) {
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                       VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3694:12: error: called object is not a function or function pointer
+|  3694 |     return disp->CopyImageToImage(device, pCopyImageToImageInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3698:76: error: unknown type name 'VkHostImageLayoutTransitionInfo'; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  3698 |                                                                      const VkHostImageLayoutTransitionInfo *pTransitions) {
+|       |                                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                            VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkTransitionImageLayout':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3706:12: error: called object is not a function or function pointer
+|  3706 |     return disp->TransitionImageLayout(device, transitionCount, pTransitions);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3710:82: error: unknown type name 'VkDeviceImageSubresourceInfo'; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  3710 |                                                                            const VkDeviceImageSubresourceInfo *pInfo,
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                  VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3711:76: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  3711 |                                                                            VkSubresourceLayout2 *pLayout) {
+|       |                                                                            ^~~~~~~~~~~~~~~~~~~~
+|       |                                                                            VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3723:77: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  3723 |                                                                       const VkImageSubresource2 *pSubresource,
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~
+|       |                                                                             VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3724:71: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  3724 |                                                                       VkSubresourceLayout2 *pLayout) {
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~
+|       |                                                                       VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3735:82: error: unknown type name 'VkMemoryMapInfo'; did you mean 'VkMemoryMapInfoKHR'?
+|  3735 | LOADER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory2(VkDevice device, const VkMemoryMapInfo *pMemoryMapInfo, void **ppData) {
+|       |                                                                                  ^~~~~~~~~~~~~~~
+|       |                                                                                  VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkMapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3743:12: error: called object is not a function or function pointer
+|  3743 |     return disp->MapMemory2(device, pMemoryMapInfo, ppData);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3746:84: error: unknown type name 'VkMemoryUnmapInfo'; did you mean 'VkMemoryUnmapInfoKHR'?
+|  3746 | LOADER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL vkUnmapMemory2(VkDevice device, const VkMemoryUnmapInfo *pMemoryUnmapInfo) {
+|       |                                                                                    ^~~~~~~~~~~~~~~~~
+|       |                                                                                    VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkUnmapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3754:12: error: called object is not a function or function pointer
+|  3754 |     return disp->UnmapMemory2(device, pMemoryUnmapInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3758:73: error: unknown type name 'VkBindDescriptorSetsInfo'; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  3758 |                                                                   const VkBindDescriptorSetsInfo *pBindDescriptorSetsInfo) {
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdBindDescriptorSets2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3766:5: error: called object is not a function or function pointer
+|  3766 |     disp->CmdBindDescriptorSets2(commandBuffer, pBindDescriptorSetsInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3770:68: error: unknown type name 'VkPushConstantsInfo'; did you mean 'VkPushConstantsInfoKHR'?
+|  3770 |                                                              const VkPushConstantsInfo *pPushConstantsInfo) {
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~
+|       |                                                                    VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushConstants2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3778:5: error: called object is not a function or function pointer
+|  3778 |     disp->CmdPushConstants2(commandBuffer, pPushConstantsInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3782:72: error: unknown type name 'VkPushDescriptorSetInfo'; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  3782 |                                                                  const VkPushDescriptorSetInfo *pPushDescriptorSetInfo) {
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSet2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3790:5: error: called object is not a function or function pointer
+|  3790 |     disp->CmdPushDescriptorSet2(commandBuffer, pPushDescriptorSetInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3794:42: error: unknown type name 'VkPushDescriptorSetWithTemplateInfo'; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  3794 |     VkCommandBuffer commandBuffer, const VkPushDescriptorSetWithTemplateInfo *pPushDescriptorSetWithTemplateInfo) {
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdPushDescriptorSetWithTemplate2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3802:5: error: called object is not a function or function pointer
+|  3802 |     disp->CmdPushDescriptorSetWithTemplate2(commandBuffer, pPushDescriptorSetWithTemplateInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3806:75: error: unknown type name 'VkRenderingAttachmentLocationInfo'; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  3806 | vkCmdSetRenderingAttachmentLocations(VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfo *pLocationInfo) {
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetRenderingAttachmentLocations':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3814:5: error: called object is not a function or function pointer
+|  3814 |     disp->CmdSetRenderingAttachmentLocations(commandBuffer, pLocationInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3818:42: error: unknown type name 'VkRenderingInputAttachmentIndexInfo'; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  3818 |     VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo *pInputAttachmentIndexInfo) {
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCmdSetRenderingInputAttachmentIndices':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3826:5: error: called object is not a function or function pointer
+|  3826 |     disp->CmdSetRenderingInputAttachmentIndices(commandBuffer, pInputAttachmentIndexInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyMemoryToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3671:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3671 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToMemory':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3683:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3683 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkCopyImageToImage':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3695:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3695 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkTransitionImageLayout':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3707:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3707 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkMapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3744:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3744 | }
+|       | ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c: In function 'vkUnmapMemory2':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/trampoline.c:3755:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  3755 | }
+|       | ^
+| [14/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c
+| FAILED: loader/CMakeFiles/vulkan.dir/gpa_helper.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -MF loader/CMakeFiles/vulkan.dir/gpa_helper.c.o.d -o loader/CMakeFiles/vulkan.dir/gpa_helper.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.h:25,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:23:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c: In function 'trampoline_get_proc_addr':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:253:58: error: 'vkCmdSetLineStipple' undeclared (first use in this function); did you mean 'vkCmdSetLineStippleEXT'?
+|   253 |     if (!strcmp(funcName, "vkCmdSetLineStipple")) return vkCmdSetLineStipple;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:253:58: note: each undeclared identifier is reported only once for each function it appears in
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:254:51: error: 'vkMapMemory2' undeclared (first use in this function); did you mean 'vkMapMemory'?
+|   254 |     if (!strcmp(funcName, "vkMapMemory2")) return vkMapMemory2;
+|       |                                                   ^~~~~~~~~~~~
+|       |                                                   vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:255:53: error: 'vkUnmapMemory2' undeclared (first use in this function); did you mean 'vkUnmapMemory'?
+|   255 |     if (!strcmp(funcName, "vkUnmapMemory2")) return vkUnmapMemory2;
+|       |                                                     ^~~~~~~~~~~~~~
+|       |                                                     vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:256:60: error: 'vkCmdBindIndexBuffer2' undeclared (first use in this function); did you mean 'vkCmdBindIndexBuffer'?
+|   256 |     if (!strcmp(funcName, "vkCmdBindIndexBuffer2")) return vkCmdBindIndexBuffer2;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~
+|       |                                                            vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:257:68: error: 'vkGetRenderingAreaGranularity' undeclared (first use in this function); did you mean 'vkGetRenderingAreaGranularityKHR'?
+|   257 |     if (!strcmp(funcName, "vkGetRenderingAreaGranularity")) return vkGetRenderingAreaGranularity;
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                    vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:258:72: error: 'vkGetDeviceImageSubresourceLayout' undeclared (first use in this function); did you mean 'vkGetDeviceImageSubresourceLayoutKHR'?
+|   258 |     if (!strcmp(funcName, "vkGetDeviceImageSubresourceLayout")) return vkGetDeviceImageSubresourceLayout;
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                        vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:259:67: error: 'vkGetImageSubresourceLayout2' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout'?
+|   259 |     if (!strcmp(funcName, "vkGetImageSubresourceLayout2")) return vkGetImageSubresourceLayout2;
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:260:61: error: 'vkCmdPushDescriptorSet' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetKHR'?
+|   260 |     if (!strcmp(funcName, "vkCmdPushDescriptorSet")) return vkCmdPushDescriptorSet;
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:261:73: error: 'vkCmdPushDescriptorSetWithTemplate' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetWithTemplateKHR'?
+|   261 |     if (!strcmp(funcName, "vkCmdPushDescriptorSetWithTemplate")) return vkCmdPushDescriptorSetWithTemplate;
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:262:75: error: 'vkCmdSetRenderingAttachmentLocations' undeclared (first use in this function); did you mean 'vkCmdSetRenderingAttachmentLocationsKHR'?
+|   262 |     if (!strcmp(funcName, "vkCmdSetRenderingAttachmentLocations")) return vkCmdSetRenderingAttachmentLocations;
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                           vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:263:78: error: 'vkCmdSetRenderingInputAttachmentIndices' undeclared (first use in this function); did you mean 'vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   263 |     if (!strcmp(funcName, "vkCmdSetRenderingInputAttachmentIndices")) return vkCmdSetRenderingInputAttachmentIndices;
+|       |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                              vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:264:63: error: 'vkCmdBindDescriptorSets2' undeclared (first use in this function); did you mean 'vkCmdBindDescriptorSets'?
+|   264 |     if (!strcmp(funcName, "vkCmdBindDescriptorSets2")) return vkCmdBindDescriptorSets2;
+|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                               vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:265:58: error: 'vkCmdPushConstants2' undeclared (first use in this function); did you mean 'vkCmdPushConstants'?
+|   265 |     if (!strcmp(funcName, "vkCmdPushConstants2")) return vkCmdPushConstants2;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:266:62: error: 'vkCmdPushDescriptorSet2' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSet2KHR'?
+|   266 |     if (!strcmp(funcName, "vkCmdPushDescriptorSet2")) return vkCmdPushDescriptorSet2;
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:267:74: error: 'vkCmdPushDescriptorSetWithTemplate2' undeclared (first use in this function); did you mean 'vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   267 |     if (!strcmp(funcName, "vkCmdPushDescriptorSetWithTemplate2")) return vkCmdPushDescriptorSetWithTemplate2;
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                          vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:268:58: error: 'vkCopyMemoryToImage' undeclared (first use in this function); did you mean 'vkCopyMemoryToImageEXT'?
+|   268 |     if (!strcmp(funcName, "vkCopyMemoryToImage")) return vkCopyMemoryToImage;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:269:58: error: 'vkCopyImageToMemory' undeclared (first use in this function); did you mean 'vkCopyImageToMemoryEXT'?
+|   269 |     if (!strcmp(funcName, "vkCopyImageToMemory")) return vkCopyImageToMemory;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~
+|       |                                                          vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:270:57: error: 'vkCopyImageToImage' undeclared (first use in this function); did you mean 'vkCopyImageToImageEXT'?
+|   270 |     if (!strcmp(funcName, "vkCopyImageToImage")) return vkCopyImageToImage;
+|       |                                                         ^~~~~~~~~~~~~~~~~~
+|       |                                                         vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/gpa_helper.c:271:62: error: 'vkTransitionImageLayout' undeclared (first use in this function); did you mean 'vkTransitionImageLayoutEXT'?
+|   271 |     if (!strcmp(funcName, "vkTransitionImageLayout")) return vkTransitionImageLayout;
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              vkTransitionImageLayoutEXT
+| [15/17] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/
+ loader -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c
+| FAILED: loader/CMakeFiles/vulkan.dir/loader.c.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot -DFALLBACK_CONFIG_DIRS=\"/etc/xdg\" -DFALLBACK_DATA_DIRS=\"/usr/local/share:/usr/share\" -DHAVE_ALLOCA_H -DHAVE_CET_H -DHAVE_SECURE_GETENV -DLOADER_ENABLE_LINUX_SORT -DSYSCONFDIR=\"/etc\" -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -D_GNU_SOURCE -Dvulkan_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build/loader -
+ m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git=/usr/src/debug/vulkan-loader/1.4.304.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build=/usr/src/debug/vulkan-loader/1.4.304.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/
+ build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/recipe-sysroot-native=  -pipe -std=c99 -fPIC -fvisibility=hidden -Wall -Wextra -Wno-missing-field-initializers -fno-strict-aliasing -Wno-stringop-truncation -Wno-stringop-overflow -Wshadow=local -Wpointer-arith -MD -MT loader/CMakeFiles/vulkan.dir/loader.c.o -MF loader/CMakeFiles/vulkan.dir/loader.c.o.d -o loader/CMakeFiles/vulkan.dir/loader.c.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:39,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.h:32,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c:31:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:295:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   295 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:498:5: error: unknown type name 'PFN_vkCmdSetLineStipple'; did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   498 |     PFN_vkCmdSetLineStipple CmdSetLineStipple;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:499:5: error: unknown type name 'PFN_vkMapMemory2'; did you mean 'PFN_vkMapMemory'?
+|   499 |     PFN_vkMapMemory2 MapMemory2;
+|       |     ^~~~~~~~~~~~~~~~
+|       |     PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:500:5: error: unknown type name 'PFN_vkUnmapMemory2'; did you mean 'PFN_vkUnmapMemory'?
+|   500 |     PFN_vkUnmapMemory2 UnmapMemory2;
+|       |     ^~~~~~~~~~~~~~~~~~
+|       |     PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:501:5: error: unknown type name 'PFN_vkCmdBindIndexBuffer2'; did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   501 |     PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:502:5: error: unknown type name 'PFN_vkGetRenderingAreaGranularity'; did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   502 |     PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:503:5: error: unknown type name 'PFN_vkGetDeviceImageSubresourceLayout'; did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   503 |     PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:504:5: error: unknown type name 'PFN_vkGetImageSubresourceLayout2'; did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   504 |     PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:505:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet'; did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   505 |     PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:506:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   506 |     PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:507:5: error: unknown type name 'PFN_vkCmdSetRenderingAttachmentLocations'; did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   507 |     PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:508:5: error: unknown type name 'PFN_vkCmdSetRenderingInputAttachmentIndices'; did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   508 |     PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:509:5: error: unknown type name 'PFN_vkCmdBindDescriptorSets2'; did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   509 |     PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:510:5: error: unknown type name 'PFN_vkCmdPushConstants2'; did you mean 'PFN_vkCmdPushConstants'?
+|   510 |     PFN_vkCmdPushConstants2 CmdPushConstants2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:511:5: error: unknown type name 'PFN_vkCmdPushDescriptorSet2'; did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   511 |     PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:512:5: error: unknown type name 'PFN_vkCmdPushDescriptorSetWithTemplate2'; did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   512 |     PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:513:5: error: unknown type name 'PFN_vkCopyMemoryToImage'; did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   513 |     PFN_vkCopyMemoryToImage CopyMemoryToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:514:5: error: unknown type name 'PFN_vkCopyImageToMemory'; did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   514 |     PFN_vkCopyImageToMemory CopyImageToMemory;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:515:5: error: unknown type name 'PFN_vkCopyImageToImage'; did you mean 'PFN_vkCopyImageToImageEXT'?
+|   515 |     PFN_vkCopyImageToImage CopyImageToImage;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:516:5: error: unknown type name 'PFN_vkTransitionImageLayout'; did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   516 |     PFN_vkTransitionImageLayout TransitionImageLayout;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_layer_dispatch_table.h:751:5: error: unknown type name 'PFN_vkGetImageViewHandle64NVX'; did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   751 |     PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetImageViewHandleNVX
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader_common.h:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.h:481:5: error: unknown type name 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV'; did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|   481 |     PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/loader.c:76:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_icd_init_entries':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:54: error: 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                      ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:54: note: each undeclared identifier is reported only once for each function it appears in
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                      ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:54:67: error: expected ';' before 'fp_gipa'
+|    54 | #define LOOKUP_GIPA(func) icd_term->dispatch.func = (PFN_vk##func)fp_gipa(icd_term->instance, "vk" #func);
+|       |                                                                   ^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:316:5: note: in expansion of macro 'LOOKUP_GIPA'
+|   316 |     LOOKUP_GIPA(GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV);
+|       |     ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_device_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:526:33: error: 'PFN_vkCmdSetLineStipple' undeclared (first use in this function); did you mean 'PFN_vkCmdSetLineStippleEXT'?
+|   526 |     table->CmdSetLineStipple = (PFN_vkCmdSetLineStipple)gpa(dev, "vkCmdSetLineStipple");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCmdSetLineStippleEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:526:57: error: expected ';' before 'gpa'
+|   526 |     table->CmdSetLineStipple = (PFN_vkCmdSetLineStipple)gpa(dev, "vkCmdSetLineStipple");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:527:26: error: 'PFN_vkMapMemory2' undeclared (first use in this function); did you mean 'PFN_vkMapMemory'?
+|   527 |     table->MapMemory2 = (PFN_vkMapMemory2)gpa(dev, "vkMapMemory2");
+|       |                          ^~~~~~~~~~~~~~~~
+|       |                          PFN_vkMapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:527:43: error: expected ';' before 'gpa'
+|   527 |     table->MapMemory2 = (PFN_vkMapMemory2)gpa(dev, "vkMapMemory2");
+|       |                                           ^~~
+|       |                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:528:28: error: 'PFN_vkUnmapMemory2' undeclared (first use in this function); did you mean 'PFN_vkUnmapMemory'?
+|   528 |     table->UnmapMemory2 = (PFN_vkUnmapMemory2)gpa(dev, "vkUnmapMemory2");
+|       |                            ^~~~~~~~~~~~~~~~~~
+|       |                            PFN_vkUnmapMemory
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:528:47: error: expected ';' before 'gpa'
+|   528 |     table->UnmapMemory2 = (PFN_vkUnmapMemory2)gpa(dev, "vkUnmapMemory2");
+|       |                                               ^~~
+|       |                                               ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:529:35: error: 'PFN_vkCmdBindIndexBuffer2' undeclared (first use in this function); did you mean 'PFN_vkCmdBindIndexBuffer'?
+|   529 |     table->CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)gpa(dev, "vkCmdBindIndexBuffer2");
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   PFN_vkCmdBindIndexBuffer
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:529:61: error: expected ';' before 'gpa'
+|   529 |     table->CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)gpa(dev, "vkCmdBindIndexBuffer2");
+|       |                                                             ^~~
+|       |                                                             ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:530:43: error: 'PFN_vkGetRenderingAreaGranularity' undeclared (first use in this function); did you mean 'PFN_vkGetRenderingAreaGranularityKHR'?
+|   530 |     table->GetRenderingAreaGranularity = (PFN_vkGetRenderingAreaGranularity)gpa(dev, "vkGetRenderingAreaGranularity");
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           PFN_vkGetRenderingAreaGranularityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:530:77: error: expected ';' before 'gpa'
+|   530 |     table->GetRenderingAreaGranularity = (PFN_vkGetRenderingAreaGranularity)gpa(dev, "vkGetRenderingAreaGranularity");
+|       |                                                                             ^~~
+|       |                                                                             ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:531:47: error: 'PFN_vkGetDeviceImageSubresourceLayout' undeclared (first use in this function); did you mean 'PFN_vkGetDeviceImageSubresourceLayoutKHR'?
+|   531 |     table->GetDeviceImageSubresourceLayout = (PFN_vkGetDeviceImageSubresourceLayout)gpa(dev, "vkGetDeviceImageSubresourceLayout");
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                               PFN_vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:531:85: error: expected ';' before 'gpa'
+|   531 |     table->GetDeviceImageSubresourceLayout = (PFN_vkGetDeviceImageSubresourceLayout)gpa(dev, "vkGetDeviceImageSubresourceLayout");
+|       |                                                                                     ^~~
+|       |                                                                                     ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:532:42: error: 'PFN_vkGetImageSubresourceLayout2' undeclared (first use in this function); did you mean 'PFN_vkGetImageSubresourceLayout'?
+|   532 |     table->GetImageSubresourceLayout2 = (PFN_vkGetImageSubresourceLayout2)gpa(dev, "vkGetImageSubresourceLayout2");
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          PFN_vkGetImageSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:532:75: error: expected ';' before 'gpa'
+|   532 |     table->GetImageSubresourceLayout2 = (PFN_vkGetImageSubresourceLayout2)gpa(dev, "vkGetImageSubresourceLayout2");
+|       |                                                                           ^~~
+|       |                                                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:533:36: error: 'PFN_vkCmdPushDescriptorSet' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetKHR'?
+|   533 |     table->CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)gpa(dev, "vkCmdPushDescriptorSet");
+|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                    PFN_vkCmdPushDescriptorSetKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:533:63: error: expected ';' before 'gpa'
+|   533 |     table->CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)gpa(dev, "vkCmdPushDescriptorSet");
+|       |                                                               ^~~
+|       |                                                               ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:534:48: error: 'PFN_vkCmdPushDescriptorSetWithTemplate' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetWithTemplateKHR'?
+|   534 |     table->CmdPushDescriptorSetWithTemplate = (PFN_vkCmdPushDescriptorSetWithTemplate)gpa(dev, "vkCmdPushDescriptorSetWithTemplate");
+|       |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                PFN_vkCmdPushDescriptorSetWithTemplateKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:534:87: error: expected ';' before 'gpa'
+|   534 |     table->CmdPushDescriptorSetWithTemplate = (PFN_vkCmdPushDescriptorSetWithTemplate)gpa(dev, "vkCmdPushDescriptorSetWithTemplate");
+|       |                                                                                       ^~~
+|       |                                                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:535:50: error: 'PFN_vkCmdSetRenderingAttachmentLocations' undeclared (first use in this function); did you mean 'PFN_vkCmdSetRenderingAttachmentLocationsKHR'?
+|   535 |     table->CmdSetRenderingAttachmentLocations = (PFN_vkCmdSetRenderingAttachmentLocations)gpa(dev, "vkCmdSetRenderingAttachmentLocations");
+|       |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                  PFN_vkCmdSetRenderingAttachmentLocationsKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:535:91: error: expected ';' before 'gpa'
+|   535 |     table->CmdSetRenderingAttachmentLocations = (PFN_vkCmdSetRenderingAttachmentLocations)gpa(dev, "vkCmdSetRenderingAttachmentLocations");
+|       |                                                                                           ^~~
+|       |                                                                                           ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:536:53: error: 'PFN_vkCmdSetRenderingInputAttachmentIndices' undeclared (first use in this function); did you mean 'PFN_vkCmdSetRenderingInputAttachmentIndicesKHR'?
+|   536 |     table->CmdSetRenderingInputAttachmentIndices = (PFN_vkCmdSetRenderingInputAttachmentIndices)gpa(dev, "vkCmdSetRenderingInputAttachmentIndices");
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     PFN_vkCmdSetRenderingInputAttachmentIndicesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:536:97: error: expected ';' before 'gpa'
+|   536 |     table->CmdSetRenderingInputAttachmentIndices = (PFN_vkCmdSetRenderingInputAttachmentIndices)gpa(dev, "vkCmdSetRenderingInputAttachmentIndices");
+|       |                                                                                                 ^~~
+|       |                                                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:537:38: error: 'PFN_vkCmdBindDescriptorSets2' undeclared (first use in this function); did you mean 'PFN_vkCmdBindDescriptorSets'?
+|   537 |     table->CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)gpa(dev, "vkCmdBindDescriptorSets2");
+|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                      PFN_vkCmdBindDescriptorSets
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:537:67: error: expected ';' before 'gpa'
+|   537 |     table->CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)gpa(dev, "vkCmdBindDescriptorSets2");
+|       |                                                                   ^~~
+|       |                                                                   ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:538:33: error: 'PFN_vkCmdPushConstants2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushConstants'?
+|   538 |     table->CmdPushConstants2 = (PFN_vkCmdPushConstants2)gpa(dev, "vkCmdPushConstants2");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCmdPushConstants
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:538:57: error: expected ';' before 'gpa'
+|   538 |     table->CmdPushConstants2 = (PFN_vkCmdPushConstants2)gpa(dev, "vkCmdPushConstants2");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:539:37: error: 'PFN_vkCmdPushDescriptorSet2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSet2KHR'?
+|   539 |     table->CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)gpa(dev, "vkCmdPushDescriptorSet2");
+|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                     PFN_vkCmdPushDescriptorSet2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:539:65: error: expected ';' before 'gpa'
+|   539 |     table->CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)gpa(dev, "vkCmdPushDescriptorSet2");
+|       |                                                                 ^~~
+|       |                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:540:49: error: 'PFN_vkCmdPushDescriptorSetWithTemplate2' undeclared (first use in this function); did you mean 'PFN_vkCmdPushDescriptorSetWithTemplate2KHR'?
+|   540 |     table->CmdPushDescriptorSetWithTemplate2 = (PFN_vkCmdPushDescriptorSetWithTemplate2)gpa(dev, "vkCmdPushDescriptorSetWithTemplate2");
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 PFN_vkCmdPushDescriptorSetWithTemplate2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:540:89: error: expected ';' before 'gpa'
+|   540 |     table->CmdPushDescriptorSetWithTemplate2 = (PFN_vkCmdPushDescriptorSetWithTemplate2)gpa(dev, "vkCmdPushDescriptorSetWithTemplate2");
+|       |                                                                                         ^~~
+|       |                                                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:541:33: error: 'PFN_vkCopyMemoryToImage' undeclared (first use in this function); did you mean 'PFN_vkCopyMemoryToImageEXT'?
+|   541 |     table->CopyMemoryToImage = (PFN_vkCopyMemoryToImage)gpa(dev, "vkCopyMemoryToImage");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCopyMemoryToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:541:57: error: expected ';' before 'gpa'
+|   541 |     table->CopyMemoryToImage = (PFN_vkCopyMemoryToImage)gpa(dev, "vkCopyMemoryToImage");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:542:33: error: 'PFN_vkCopyImageToMemory' undeclared (first use in this function); did you mean 'PFN_vkCopyImageToMemoryEXT'?
+|   542 |     table->CopyImageToMemory = (PFN_vkCopyImageToMemory)gpa(dev, "vkCopyImageToMemory");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 PFN_vkCopyImageToMemoryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:542:57: error: expected ';' before 'gpa'
+|   542 |     table->CopyImageToMemory = (PFN_vkCopyImageToMemory)gpa(dev, "vkCopyImageToMemory");
+|       |                                                         ^~~
+|       |                                                         ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:543:32: error: 'PFN_vkCopyImageToImage' undeclared (first use in this function); did you mean 'PFN_vkCopyImageToImageEXT'?
+|   543 |     table->CopyImageToImage = (PFN_vkCopyImageToImage)gpa(dev, "vkCopyImageToImage");
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                PFN_vkCopyImageToImageEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:543:55: error: expected ';' before 'gpa'
+|   543 |     table->CopyImageToImage = (PFN_vkCopyImageToImage)gpa(dev, "vkCopyImageToImage");
+|       |                                                       ^~~
+|       |                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:544:37: error: 'PFN_vkTransitionImageLayout' undeclared (first use in this function); did you mean 'PFN_vkTransitionImageLayoutEXT'?
+|   544 |     table->TransitionImageLayout = (PFN_vkTransitionImageLayout)gpa(dev, "vkTransitionImageLayout");
+|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                     PFN_vkTransitionImageLayoutEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:544:65: error: expected ';' before 'gpa'
+|   544 |     table->TransitionImageLayout = (PFN_vkTransitionImageLayout)gpa(dev, "vkTransitionImageLayout");
+|       |                                                                 ^~~
+|       |                                                                 ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_device_extension_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:789:39: error: 'PFN_vkGetImageViewHandle64NVX' undeclared (first use in this function); did you mean 'PFN_vkGetImageViewHandleNVX'?
+|   789 |     table->GetImageViewHandle64NVX = (PFN_vkGetImageViewHandle64NVX)gdpa(dev, "vkGetImageViewHandle64NVX");
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                       PFN_vkGetImageViewHandleNVX
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:789:69: error: expected ';' before 'gdpa'
+|   789 |     table->GetImageViewHandle64NVX = (PFN_vkGetImageViewHandle64NVX)gdpa(dev, "vkGetImageViewHandle64NVX");
+|       |                                                                     ^~~~
+|       |                                                                     ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_init_instance_extension_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:1509:80: error: 'PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|  1509 |     table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = (PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV)gpa(inst, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV");
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:1509:151: error: expected ';' before 'gpa'
+|  1509 |     table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = (PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV)gpa(inst, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV");
+|       |                                                                                                                                                       ^~~
+|       |                                                                                                                                                       ;
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_lookup_device_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2339:84: error: 'VK_API_VERSION_1_4' undeclared (first use in this function); did you mean 'VK_API_VERSION_1_0'?
+|  2339 |         if (dev->should_ignore_device_commands_from_newer_version && api_version < VK_API_VERSION_1_4) return NULL;
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~
+|       |                                                                                    VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2340:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2340 |         return (void *)table->CmdSetLineStipple;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2344:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2344 |         return (void *)table->MapMemory2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2348:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2348 |         return (void *)table->UnmapMemory2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2352:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2352 |         return (void *)table->CmdBindIndexBuffer2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2356:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2356 |         return (void *)table->GetRenderingAreaGranularity;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2360:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2360 |         return (void *)table->GetDeviceImageSubresourceLayout;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2364:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2364 |         return (void *)table->GetImageSubresourceLayout2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2368:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2368 |         return (void *)table->CmdPushDescriptorSet;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2372:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2372 |         return (void *)table->CmdPushDescriptorSetWithTemplate;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2376:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2376 |         return (void *)table->CmdSetRenderingAttachmentLocations;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2380:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2380 |         return (void *)table->CmdSetRenderingInputAttachmentIndices;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2384:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2384 |         return (void *)table->CmdBindDescriptorSets2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2388:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2388 |         return (void *)table->CmdPushConstants2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2392:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2392 |         return (void *)table->CmdPushDescriptorSet2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2396:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2396 |         return (void *)table->CmdPushDescriptorSetWithTemplate2;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2400:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2400 |         return (void *)table->CopyMemoryToImage;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2404:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2404 |         return (void *)table->CopyImageToMemory;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2408:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2408 |         return (void *)table->CopyImageToImage;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2412:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2412 |         return (void *)table->TransitionImageLayout;
+|       |                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:2648:58: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  2648 |     if (!strcmp(name, "GetImageViewHandle64NVX")) return (void *)table->GetImageViewHandle64NVX;
+|       |                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'loader_lookup_instance_dispatch_table':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:3373:99: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+|  3373 |     if (!strcmp(name, "GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV")) return (void *)table->GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4403:11: error: unknown type name 'VkRenderingAttachmentLocationInfo'; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  4403 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdSetRenderingAttachmentLocationsKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4411:64: error: passing argument 2 of 'disp->CmdSetRenderingAttachmentLocationsKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4411 |     disp->CmdSetRenderingAttachmentLocationsKHR(commandBuffer, pLocationInfo);
+|       |                                                                ^~~~~~~~~~~~~
+|       |                                                                |
+|       |                                                                const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4411:64: note: expected 'const VkRenderingAttachmentLocationInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4416:11: error: unknown type name 'VkRenderingInputAttachmentIndexInfo'; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  4416 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdSetRenderingInputAttachmentIndicesKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4424:67: error: passing argument 2 of 'disp->CmdSetRenderingInputAttachmentIndicesKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4424 |     disp->CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer, pInputAttachmentIndexInfo);
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   |
+|       |                                                                   const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4424:67: note: expected 'const VkRenderingInputAttachmentIndexInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4610:11: error: unknown type name 'VkMemoryMapInfo'; did you mean 'VkMemoryMapInfoKHR'?
+|  4610 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'MapMemory2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4619:40: error: passing argument 2 of 'disp->MapMemory2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4619 |     return disp->MapMemory2KHR(device, pMemoryMapInfo, ppData);
+|       |                                        ^~~~~~~~~~~~~~
+|       |                                        |
+|       |                                        const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4619:40: note: expected 'const VkMemoryMapInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4624:11: error: unknown type name 'VkMemoryUnmapInfo'; did you mean 'VkMemoryUnmapInfoKHR'?
+|  4624 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo) {
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'UnmapMemory2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4632:42: error: passing argument 2 of 'disp->UnmapMemory2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4632 |     return disp->UnmapMemory2KHR(device, pMemoryUnmapInfo);
+|       |                                          ^~~~~~~~~~~~~~~~
+|       |                                          |
+|       |                                          const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4632:42: note: expected 'const VkMemoryUnmapInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4950:11: error: unknown type name 'VkRenderingAreaInfo'; did you mean 'VkRenderingAreaInfoKHR'?
+|  4950 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetRenderingAreaGranularityKHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4959:50: error: passing argument 2 of 'disp->GetRenderingAreaGranularityKHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  4959 |     disp->GetRenderingAreaGranularityKHR(device, pRenderingAreaInfo, pGranularity);
+|       |                                                  ^~~~~~~~~~~~~~~~~~
+|       |                                                  |
+|       |                                                  const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4959:50: note: expected 'const VkRenderingAreaInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4964:11: error: unknown type name 'VkDeviceImageSubresourceInfo'; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  4964 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4965:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  4965 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4979:11: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  4979 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:4980:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  4980 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5171:11: error: unknown type name 'VkBindDescriptorSetsInfo'; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  5171 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdBindDescriptorSets2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5179:52: error: passing argument 2 of 'disp->CmdBindDescriptorSets2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5179 |     disp->CmdBindDescriptorSets2KHR(commandBuffer, pBindDescriptorSetsInfo);
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                    |
+|       |                                                    const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5179:52: note: expected 'const VkBindDescriptorSetsInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5184:11: error: unknown type name 'VkPushConstantsInfo'; did you mean 'VkPushConstantsInfoKHR'?
+|  5184 |     const VkPushConstantsInfo*                  pPushConstantsInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushConstants2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5192:47: error: passing argument 2 of 'disp->CmdPushConstants2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5192 |     disp->CmdPushConstants2KHR(commandBuffer, pPushConstantsInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5192:47: note: expected 'const VkPushConstantsInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5197:11: error: unknown type name 'VkPushDescriptorSetInfo'; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  5197 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushDescriptorSet2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5205:51: error: passing argument 2 of 'disp->CmdPushDescriptorSet2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5205 |     disp->CmdPushDescriptorSet2KHR(commandBuffer, pPushDescriptorSetInfo);
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                                   |
+|       |                                                   const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5205:51: note: expected 'const VkPushDescriptorSetInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5210:11: error: unknown type name 'VkPushDescriptorSetWithTemplateInfo'; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  5210 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdPushDescriptorSetWithTemplate2KHR':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5218:63: error: passing argument 2 of 'disp->CmdPushDescriptorSetWithTemplate2KHR' from incompatible pointer type [-Wincompatible-pointer-types]
+|  5218 |     disp->CmdPushDescriptorSetWithTemplate2KHR(commandBuffer, pPushDescriptorSetWithTemplateInfo);
+|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                               |
+|       |                                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5218:63: note: expected 'const VkPushDescriptorSetWithTemplateInfoKHR *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetImageViewHandle64NVX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5607:12: error: called object is not a function or function pointer
+|  5607 |     return disp->GetImageViewHandle64NVX(device, pInfo);
+|       |            ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdInitializeGraphScratchMemoryAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:62: error: passing argument 2 of 'disp->CmdInitializeGraphScratchMemoryAMDX' makes integer from pointer without a cast [-Wint-conversion]
+|  6302 |     disp->CmdInitializeGraphScratchMemoryAMDX(commandBuffer, executionGraph, scratch, scratchSize);
+|       |                                                              ^~~~~~~~~~~~~~
+|       |                                                              |
+|       |                                                              VkPipeline {aka struct VkPipeline_T *}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:62: note: expected 'VkDeviceAddress' {aka 'long unsigned int'} but argument is of type 'VkPipeline' {aka 'struct VkPipeline_T *'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6302:5: error: too many arguments to function 'disp->CmdInitializeGraphScratchMemoryAMDX'
+|  6302 |     disp->CmdInitializeGraphScratchMemoryAMDX(commandBuffer, executionGraph, scratch, scratchSize);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:56: error: passing argument 3 of 'disp->CmdDispatchGraphAMDX' makes pointer from integer without a cast [-Wint-conversion]
+|  6319 |     disp->CmdDispatchGraphAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |                                                        ^~~~~~~~~~~
+|       |                                                        |
+|       |                                                        VkDeviceSize {aka long unsigned int}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:56: note: expected 'const VkDispatchGraphCountInfoAMDX *' but argument is of type 'VkDeviceSize' {aka 'long unsigned int'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6319:5: error: too many arguments to function 'disp->CmdDispatchGraphAMDX'
+|  6319 |     disp->CmdDispatchGraphAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphIndirectAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:64: error: passing argument 3 of 'disp->CmdDispatchGraphIndirectAMDX' makes pointer from integer without a cast [-Wint-conversion]
+|  6336 |     disp->CmdDispatchGraphIndirectAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |                                                                ^~~~~~~~~~~
+|       |                                                                |
+|       |                                                                VkDeviceSize {aka long unsigned int}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:64: note: expected 'const VkDispatchGraphCountInfoAMDX *' but argument is of type 'VkDeviceSize' {aka 'long unsigned int'}
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6336:5: error: too many arguments to function 'disp->CmdDispatchGraphIndirectAMDX'
+|  6336 |     disp->CmdDispatchGraphIndirectAMDX(commandBuffer, scratch, scratchSize, pCountInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CmdDispatchGraphIndirectCountAMDX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:6353:5: error: too many arguments to function 'disp->CmdDispatchGraphIndirectCountAMDX'
+|  6353 |     disp->CmdDispatchGraphIndirectCountAMDX(commandBuffer, scratch, scratchSize, countInfo);
+|       |     ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7440:11: error: unknown type name 'VkCopyMemoryToImageInfo'; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  7440 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyMemoryToImageEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7448:47: error: passing argument 2 of 'disp->CopyMemoryToImageEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7448 |     return disp->CopyMemoryToImageEXT(device, pCopyMemoryToImageInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7448:47: note: expected 'const VkCopyMemoryToImageInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7453:11: error: unknown type name 'VkCopyImageToMemoryInfo'; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  7453 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyImageToMemoryEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7461:47: error: passing argument 2 of 'disp->CopyImageToMemoryEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7461 |     return disp->CopyImageToMemoryEXT(device, pCopyImageToMemoryInfo);
+|       |                                               ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                               |
+|       |                                               const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7461:47: note: expected 'const VkCopyImageToMemoryInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7466:11: error: unknown type name 'VkCopyImageToImageInfo'; did you mean 'VkCopyImageToImageInfoEXT'?
+|  7466 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'CopyImageToImageEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7474:46: error: passing argument 2 of 'disp->CopyImageToImageEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7474 |     return disp->CopyImageToImageEXT(device, pCopyImageToImageInfo);
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~
+|       |                                              |
+|       |                                              const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7474:46: note: expected 'const VkCopyImageToImageInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7480:11: error: unknown type name 'VkHostImageLayoutTransitionInfo'; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  7480 |     const VkHostImageLayoutTransitionInfo*      pTransitions) {
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'TransitionImageLayoutEXT':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7488:68: error: passing argument 3 of 'disp->TransitionImageLayoutEXT' from incompatible pointer type [-Wincompatible-pointer-types]
+|  7488 |     return disp->TransitionImageLayoutEXT(device, transitionCount, pTransitions);
+|       |                                                                    ^~~~~~~~~~~~
+|       |                                                                    |
+|       |                                                                    const int *
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7488:68: note: expected 'const VkHostImageLayoutTransitionInfoEXT *' but argument is of type 'const int *'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7494:11: error: unknown type name 'VkImageSubresource2'; did you mean 'VkImageSubresource'?
+|  7494 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:7495:5: error: unknown type name 'VkSubresourceLayout2'; did you mean 'VkSubresourceLayout'?
+|  7495 |     VkSubresourceLayout2*                       pLayout) {
+|       |     ^~~~~~~~~~~~~~~~~~~~
+|       |     VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:9813:5: error: unknown type name 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV'
+|  9813 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:9829:5: error: unknown type name 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV'
+|  9829 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'extension_instance_gpa':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:10784:25: error: 'GetDeviceImageSubresourceLayoutKHR' undeclared (first use in this function); did you mean 'vkGetDeviceImageSubresourceLayoutKHR'?
+| 10784 |         *addr = (void *)GetDeviceImageSubresourceLayoutKHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetDeviceImageSubresourceLayoutKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:10788:25: error: 'GetImageSubresourceLayout2KHR' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout2KHR'?
+| 10788 |         *addr = (void *)GetImageSubresourceLayout2KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetImageSubresourceLayout2KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:11524:25: error: 'GetImageSubresourceLayout2EXT' undeclared (first use in this function); did you mean 'vkGetImageSubresourceLayout2EXT'?
+| 11524 |         *addr = (void *)GetImageSubresourceLayout2EXT;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         vkGetImageSubresourceLayout2EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12226:25: error: 'GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared (first use in this function); did you mean 'GetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+| 12226 |         *addr = (void *)GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                         GetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12734:73: error: 'terminator_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV' undeclared here (not in a function); did you mean 'terminator_GetPhysicalDeviceCooperativeMatrixPropertiesNV'?
+| 12734 |     .GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = terminator_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV,
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         terminator_GetPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:12806:51: error: 'VK_NV_DISPLAY_STEREO_EXTENSION_NAME' undeclared here (not in a function); did you mean 'VK_EXT_DISPLAY_CONTROL_EXTENSION_NAME'?
+| 12806 |                                                   VK_NV_DISPLAY_STEREO_EXTENSION_NAME,
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                   VK_EXT_DISPLAY_CONTROL_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c: In function 'GetImageViewHandle64NVX':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/git/loader/generated/vk_loader_extensions.c:5608:1: warning: control reaches end of non-void function [-Wreturn-type]
+|  5608 | }
+|       | ^
 | ninja: build stopped: subcommand failed.
 | 
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953:159 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
 | WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953, line 159
-| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953, line 153
-| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953, line 148
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953, line 172
-NOTE: recipe glslang-1_1.4.304.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 954 tasks of which 944 didn't need to be rerun and 1 failed.
+| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491, line 153
+| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491, line 147
+| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491, line 142
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491, line 166
+NOTE: recipe vulkan-loader-1.4.304.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1902 tasks of which 1890 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250201111619.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250201115822.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250201111619.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250201115822.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/log.do_compile.3541953
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/log.do_compile.4081491
 Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: glslang-1_1.4.304.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/run.do_compile.3541953' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/glslang/1.4.304.0/temp/log.do_compile.3541953
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.4.304.0.bb:do_compile) failed with exit code '1'
+ERROR: vulkan-loader-1.4.304.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/run.do_compile.4081491' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-loader/1.4.304.0/temp/log.do_compile.4081491
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.4.304.0.bb:do_compile) failed with exit code '1'
 
---===============5533864448847416839==
+--===============0239021608755983539==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.3.296.0-1.4.304.0.patch"
+ filename="0001-vulkan-loader-upgrade-1.3.296.0-1.4.304.0.patch"
 
-RnJvbSA4MDZjOWZkMmZkYTY3ODVhZTM3NzZlZDI5OGNkYzMzZmFjYTg1MzQ5IE1vbiBTZXAgMTcg
+RnJvbSAyZGY2OGJhOThkNTYwNzc3MGQzYmIyZTVlY2E2ZGI0Nzc1ZTJlMjMxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMToxNjo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
-c2xhbmc6IHVwZ3JhZGUgMS4zLjI5Ni4wIC0+IDEuNC4zMDQuMAoKLS0tCiAuLi4vZ2xzbGFuZy9n
-bHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoICAgIHwgNCArKy0t
-CiAuLi4vZ2xzbGFuZy97Z2xzbGFuZ18xLjMuMjk2LjAuYmIgPT4gZ2xzbGFuZ18xLjQuMzA0LjAu
-YmJ9ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRp
-b25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcve2dsc2xhbmdfMS4z
-LjI5Ni4wLmJiID0+IGdsc2xhbmdfMS40LjMwNC4wLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5n
-LXBrZy1jb25maWcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5n
-LzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoCmluZGV4IDA0ZGFiNjc3NzMu
-LjY0NDEzM2RjNTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2ds
-c2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtn
-LWNvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGY2MTExNTcwYWRhODFkMzk2ODA0
-M2RlY2I1ZWVlMTZkYzVmOWZhMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOGU4ZDI3
-MDllNzE4ZWIzZmY5ODg3OTdhNWI2NmExZTE0MzY4ZDVhMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTog
-U3VuLCA3IEZlYiAyMDIxIDAxOjMwOjM5ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdlbmVyYXRl
-IGdsc2xhbmcgcGtnLWNvbmZpZwpAQCAtMTUsNyArMTUsNyBAQCBTaWduZWQtb2ZmLWJ5OiBKb3Nl
-IFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICBjcmVhdGUgbW9kZSAxMDA2NDQg
-Z2xzbGFuZy9nbHNsYW5nLnBjLmNtYWtlLmluCiAKIGRpZmYgLS1naXQgYS9nbHNsYW5nL0NNYWtl
-TGlzdHMudHh0IGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAotaW5kZXggNDc5MjVkOGQuLmQ5MDE5
-MWMzIDEwMDY0NAoraW5kZXggZWIxZGM2OGUuLjgyNWE0NjYyIDEwMDY0NAogLS0tIGEvZ2xzbGFu
-Zy9DTWFrZUxpc3RzLnR4dAogKysrIGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAogQEAgLTI1NSw2
-ICsyNTUsOCBAQCBpZihHTFNMQU5HX0VOQUJMRV9JTlNUQUxMKQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjk2LjAuYmIgYi9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuNC4zMDQuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEu
-My4yOTYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFu
-Z18xLjQuMzA0LjAuYmIKaW5kZXggM2I2NmUzNTQ0Yy4uYTMwMjc0YzhhNSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjk2LjAuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzA0LjAuYmIKQEAgLTgs
-NyArOCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vd3d3Lmtocm9ub3Mub3JnL29wZW5nbGVzL3Nk
-ay90b29scy9SZWZlcmVuY2UtQ29tcGlsZXIiCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSAmIEJT
-RC0yLUNsYXVzZSAmIE1JVCAmIEFwYWNoZS0yLjAgJiBHUEwtMy13aXRoLWJpc29uLWV4Y2VwdGlv
-biIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0yYTJiNWFjZDdi
-YzQ4NDQ5NjRjZmRhNDVmZTgwN2RjMyIKIAotU1JDUkVWID0gIjQ2ZWY3NTdlMDQ4ZTc2MGI0NjYw
-MWU2ZTc3YWUwY2I3MmM5N2JkMmYiCitTUkNSRVYgPSAiYjNhNmFhN2IwM2M1MWJhOTc2ZTRmNGU5
-NmIxZTMxZjc3ZjQzZjMxMiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3Jv
-dXAvZ2xzbGFuZy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAgICBm
-aWxlOi8vMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2ggXAogICAgICAgICAg
-ICAiCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMTo1ODozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
+bGthbi1sb2FkZXI6IHVwZ3JhZGUgMS4zLjI5Ni4wIC0+IDEuNC4zMDQuMAoKLS0tCiAuLi57dnVs
+a2FuLWxvYWRlcl8xLjMuMjk2LjAuYmIgPT4gdnVsa2FuLWxvYWRlcl8xLjQuMzA0LjAuYmJ9IHwg
+NCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1sb2FkZXJfMS4zLjI5
+Ni4wLmJiID0+IHZ1bGthbi1sb2FkZXJfMS40LjMwNC4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWxvYWRlcl8xLjMuMjk2LjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS40LjMwNC4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92
+dWxrYW4vdnVsa2FuLWxvYWRlcl8xLjMuMjk2LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1n
+cmFwaGljcy92dWxrYW4vdnVsa2FuLWxvYWRlcl8xLjQuMzA0LjAuYmIKaW5kZXggOTJlZDE4YzI5
+OS4uYmZlZTRiOWY2NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92
+dWxrYW4tbG9hZGVyXzEuMy4yOTYuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
+a2FuL3Z1bGthbi1sb2FkZXJfMS40LjMwNC4wLmJiCkBAIC05LDggKzksOCBAQCBTRUNUSU9OID0g
+ImxpYnMiCiAKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmls
+ZTovL0xJQ0VOU0UudHh0O21kNT03ZGJlZmVkMjMyNDI3NjBhYTM0NzVlZTQyODAxYzVhYyIKLVNS
+Q19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLUxvYWRlci5naXQ7
+YnJhbmNoPXZ1bGthbi1zZGstMS4zLjI5Njtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICI3YWVi
+NWU0MzI0OTU3YjZmNjBkYWM1YzhjZWRiOTU1ZGY0ZmVjYmZiIgorU1JDX1VSSSA9ICJnaXQ6Ly9n
+aXRodWIuY29tL0tocm9ub3NHcm91cC9WdWxrYW4tTG9hZGVyLmdpdDticmFuY2g9bWFpbjtwcm90
+b2NvbD1odHRwcyIKK1NSQ1JFViA9ICI2YTY4NzhjNjE0YzhjNmRiZTgxZWU3YTlmMTE3NmJkYjUy
+ZGM3ZGQ3IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQ0LjEKCg==
 
---===============5533864448847416839==--
+--===============0239021608755983539==--
 
