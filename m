@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C01C021AE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3A9C021B0
 	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:01 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.42635.1738416055133515208
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.42634.1738416054622171991
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 05:20:55 -0800
+ Sat, 01 Feb 2025 05:20:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bfgdmJAF;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pkjR42sH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010194c1abe14a-83b2de6f-8375-4bd2-9e83-98e6dd09fb8d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QSheF63a;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=L8yoXjMG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010194c1abdef4-be8e1006-abd1-4d54-a640-b93e4c68bd51-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1738416054;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jRv/885RnOrIqi0Kdy0H+smGhjJ4ROxhZBIItGHNDOk=;
-	b=bfgdmJAF0Jlh5d6EtEBhsP6BpWXYhQwOarbfsmYmwrJiQIESjG5ifN0F7p2QNKap
-	kKcvde8vO1/u0UjJ4mT6oR/ZqCYBKUBHhnc5x8KwEA954p3ok1hK+VlEfFo+wFgvoP/
-	XHyJjVjVe4U1mUc/irb3TxlI5n2AZmMc6ndK1jJk=
+	bh=MOHEPGD7dEhmdPa+ApKVfCq2yqE0qafNPUHQlyK8y9E=;
+	b=QSheF63aDbj8iIeYtXSZcVb4H/z9I5vFPfKVmw+Uqy9UCs4Yqb17DB5XDgx63mrT
+	P4Px81FPIYCSwmxwnvnAkhPYmtfeHBu0gGiFKETqWgZKIMn9lqvOh9/8epbM+sxnaOZ
+	RKJDMPyvYBNIgfJcRxjUXi6xsiFt015jPIDdddyA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416054;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jRv/885RnOrIqi0Kdy0H+smGhjJ4ROxhZBIItGHNDOk=;
-	b=pkjR42sHPM9AYDo4p19o3PwlG8pV+kyrnosK5V55Er+1u7wbqQg50IRQTTt3+IFK
-	ccH7pWJYy0IXNOvsjiMXXgIdMLPG2eqKbPx/i2e836C/wikIZeYhGeZyB0JiSgzN+yf
-	QrsI6Rfv7+auBHqOHAkEk5laIDqaf2puTZ1Vszfw=
-Content-Type: multipart/mixed; boundary="===============5063218077988610666=="
+	bh=MOHEPGD7dEhmdPa+ApKVfCq2yqE0qafNPUHQlyK8y9E=;
+	b=L8yoXjMGooDaiZKgrVAAtrTwGz4rNlbxyyGHhCjzlg+IejHMGdYNY6krM0mRioKl
+	BDF1RqR3FMPviCme1rDG9leAB6FJI+ydxv9adVXOuL1j+DLLTuRJogGEpc9BBQBn6W0
+	hq3pe0YA1NzCSyvwgbOSS62Je1hQbS7Og4TEWgE0=
+Content-Type: multipart/mixed; boundary="===============5764530052934018635=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-trove-classifiers: upgrading to 2025.1.15.22 SUCCEEDED
-Message-ID: <01010194c1abe14a-83b2de6f-8375-4bd2-9e83-98e6dd09fb8d-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.10 SUCCEEDED
+Message-ID: <01010194c1abdef4-be8e1006-abd1-4d54-a640-b93e4c68bd51-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Feb 2025 13:20:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.01-54.240.27.30
+X-SES-Outgoing: 2025.02.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210545
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210543
 
---===============5063218077988610666==
+--===============5764530052934018635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-trove-classifiers* to *2025.1.15.22* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-ruamel-yaml* to *0.18.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2024.10.21.16-2025.patch
+    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.18.9-0.18.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,148 +72,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7b283684b92a342f2243d9ef435c1ebc9e630e7b Mon Sep 17 00:00:00 2001
+From 60cd2f02ef962103958733ac2fffee274fb77137 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Feb 2025 08:41:18 +0000
-Subject: [PATCH] python3-trove-classifiers: upgrade 2024.10.21.16 ->
- 2025.1.15.22
+Date: Sat, 1 Feb 2025 08:33:14 +0000
+Subject: [PATCH] python3-ruamel-yaml: upgrade 0.18.9 -> 0.18.10
 
 ---
- ...24.10.21.16.bb => python3-trove-classifiers_2025.1.15.22.bb} | 2 +-
+ ...on3-ruamel-yaml_0.18.9.bb => python3-ruamel-yaml_0.18.10.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-trove-classifiers_2024.10.21.16.bb => python3-trove-classifiers_2025.1.15.22.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.9.bb => python3-ruamel-yaml_0.18.10.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2025.1.15.22.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb
-rename to meta/recipes-devtools/python/python3-trove-classifiers_2025.1.15.22.bb
-index b63d39b784..eb7eb30554 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2024.10.21.16.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2025.1.15.22.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.9.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.9.bb
+rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb
+index efc07169f7..02b04e3c0c 100644
+--- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.9.bb
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb
+@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
--SRC_URI[sha256sum] = "17cbd055d67d5e9d9de63293a8732943fabc21574e4c7b74edf112b4928cf5f3"
-+SRC_URI[sha256sum] = "90af74358d3a01b3532bc7b3c88d8c6a094c2fd50a563d13d9576179326d7ed9"
+ inherit pypi python_setuptools_build_meta
  
- PYPI_PACKAGE = "trove_classifiers"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+-SRC_URI[sha256sum] = "59d0f8b10c658bd55ecd107e334d4117d766a2b9cc8f5176afcdadcff6f84a5e"
++SRC_URI[sha256sum] = "20c86ab29ac2153f80a428e1254a8adf686d3383df04490514ca3b79a362db58"
+ 
+ RDEPENDS:${PN} += "\
+     python3-shell \
 -- 
 2.44.1
 
 
---===============5063218077988610666==
+--===============5764530052934018635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-trove-classifiers: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2024.10.21.16.tar.gz;downloadfilename=trove_classifiers-2024.10.21.16.tar.gz" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2025.1.15.22.tar.gz;downloadfilename=trove_classifiers-2025.1.15.22.tar.gz"
-packages/core2-64-poky-linux/python3-trove-classifiers: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2024.10.21.16" to "2025.1.15.22"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 92657 to 92988 (+0%)
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2024.10.21.16 [default] to 2025.1.15.22 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2024.10.21.16" to "2025.1.15.22"
-Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/WHEEL was removed
+packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.9.tar.gz;downloadfilename=ruamel.yaml-0.18.9.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.10.tar.gz;downloadfilename=ruamel.yaml-0.18.10.tar.gz"
+packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.18.9" to "0.18.10"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1199703 to 1200073 (+0%)
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.18.9 [default] to 0.18.10 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.18.9" to "0.18.10"
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/LICENSE was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/LICENSE was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/WHEEL was removed
 
---===============5063218077988610666==
+--===============5764530052934018635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/LICENSE was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2025.1.15.22.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/LICENSE was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/trove_classifiers-2024.10.21.16.dist-info/WHEEL was removed
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/LICENSE was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.10.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/LICENSE was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/ruamel.yaml-0.18.9.dist-info/WHEEL was removed
 
---===============5063218077988610666==
+--===============5764530052934018635==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-trove-classifiers-upgrade-2024.10.21.16-2025.patch"
+ filename="0001-python3-ruamel-yaml-upgrade-0.18.9-0.18.10.patch"
 
-RnJvbSA3YjI4MzY4NGI5MmEzNDJmMjI0M2Q5ZWY0MzVjMWViYzllNjMwZTdiIE1vbiBTZXAgMTcg
+RnJvbSA2MGNkMmYwMmVmOTYyMTAzOTU4NzMzYWMyZmZmZWUyNzRmYjc3MTM3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAwODo0MToxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdHJvdmUtY2xhc3NpZmllcnM6IHVwZ3JhZGUgMjAyNC4xMC4yMS4xNiAtPgogMjAyNS4x
-LjE1LjIyCgotLS0KIC4uLjI0LjEwLjIxLjE2LmJiID0+IHB5dGhvbjMtdHJvdmUtY2xhc3NpZmll
-cnNfMjAyNS4xLjE1LjIyLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5
-dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNC4xMC4yMS4xNi5iYiA9PiBweXRob24zLXRyb3Zl
-LWNsYXNzaWZpZXJzXzIwMjUuMS4xNS4yMi5iYn0gKDgzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNC4xMC4y
-MS4xNi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFz
-c2lmaWVyc18yMDI1LjEuMTUuMjIuYmIKc2ltaWxhcml0eSBpbmRleCA4MyUKcmVuYW1lIGZyb20g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIw
-MjQuMTAuMjEuMTYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI1LjEuMTUuMjIuYmIKaW5kZXggYjYzZDM5Yjc4NC4u
-ZWI3ZWIzMDU1NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjQuMTAuMjEuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjUuMS4xNS4yMi5i
-YgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5cGEvdHJv
-dmUtY2xhc3NpZmllcnMiCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT04NmQzZjNhOTVjMzI0Yzk0NzliZDg5ODY5NjhmNDMyNyIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE3Y2JkMDU1ZDY3ZDVlOWQ5ZGU2MzI5M2E4NzMyOTQz
-ZmFiYzIxNTc0ZTRjN2I3NGVkZjExMmI0OTI4Y2Y1ZjMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-OTBhZjc0MzU4ZDNhMDFiMzUzMmJjN2IzYzg4ZDhjNmEwOTRjMmZkNTBhNTYzZDEzZDk1NzYxNzkz
-MjZkN2VkOSIKIAogUFlQSV9QQUNLQUdFID0gInRyb3ZlX2NsYXNzaWZpZXJzIgogVVBTVFJFQU1f
-Q0hFQ0tfUFlQSV9QQUNLQUdFID0gIiR7UFlQSV9QQUNLQUdFfSIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAwODozMzoxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcnVhbWVsLXlhbWw6IHVwZ3JhZGUgMC4xOC45IC0+IDAuMTguMTAKCi0tLQogLi4ub24z
+LXJ1YW1lbC15YW1sXzAuMTguOS5iYiA9PiBweXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTAuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1ydWFtZWwteWFtbF8w
+LjE4LjkuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjEwLmJifSAoODUlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8w
+LjE4LjkuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlh
+bWxfMC4xOC4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC45LmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4x
+MC5iYgppbmRleCBlZmMwNzE2OWY3Li4wMmIwNGUzYzBjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC45LmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjEwLmJi
+CkBAIC05LDcgKzksNyBAQCBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BB
+Q0tBR0V9IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiNTlkMGY4YjEwYzY1OGJkNTVlY2QxMDdlMzM0ZDQxMTdkNzY2
+YTJiOWNjOGY1MTc2YWZjZGFkY2ZmNmY4NGE1ZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyMGM4
+NmFiMjlhYzIxNTNmODBhNDI4ZTEyNTRhOGFkZjY4NmQzMzgzZGYwNDQ5MDUxNGNhM2I3OWEzNjJk
+YjU4IgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgIHB5dGhvbjMtc2hlbGwgXAotLSAKMi40
+NC4xCgo=
 
---===============5063218077988610666==--
+--===============5764530052934018635==--
 
