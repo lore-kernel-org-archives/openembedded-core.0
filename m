@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA50CC02194
-	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:12 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.42628.1738416048431017767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A45FC19777
+	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 13:21:02 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.42640.1738416060597163915
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 05:21:11 -0800
+ Sat, 01 Feb 2025 05:21:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Wl74YPqE;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NDVOZSnD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010194c1ac2345-fead71de-9584-43fc-b43d-dcfb023d1579-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OI3QTKMF;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FZ6aCfyc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010194c1abf60e-77a330a7-f761-4930-a0fc-e0d1f56e4241-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738416071;
+	t=1738416060;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Cx6l0mWB88dARw04D/VC6/R4V0p/gwtI10tAcR7Gbu0=;
-	b=Wl74YPqE5pcPSmgWLKLZt5A+b842H787xzN6m/8qxDjcdjL+1jo9ihSZANWTstNd
-	eAeIKZwOZOy6gHoG1TV1ODOd9NUoRq8nRxNct1WMPr2m5FHuuYvSteSPULTDcARiYeY
-	9Q6qrqQzfYogtgwkiOnbYYBBvG6PiiKoGUFtNecs=
+	bh=xhFaA7VKWibABvD5qP7WA0ktZfcy/FegBkdAHxMFKZo=;
+	b=OI3QTKMFizSyNw7mN/FoPvKS2A185uYLWo3/fIjwk4hzJ2fiFQEcI4vXS6qAwVYK
+	zCQVUpcy2um+3b0jL5Puav4VKZ3x9uXIZQnL9NlSGhh6yDh+tX5Vmz2L6XRRq4mFQVw
+	B2uO9zlZFWvyAP6o6+RwdBeXk/7OC+zehi8+19zk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416071;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738416060;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Cx6l0mWB88dARw04D/VC6/R4V0p/gwtI10tAcR7Gbu0=;
-	b=NDVOZSnDNjWySDQVz01CZ8u29OQSWiiOoCuWGrt3EwhsEqyaQ13pXf1k8z0E5e4b
-	a7lwKMTneJT3n7m3UbvqBQ/yK38+If6EwpSQYHI2IfJGVnoR2WZT1rOoXJl8A5UVWUG
-	eEjYms0tGv0kT6KJ2BApoD1bvKUnR+5LoT4isIXk=
-Content-Type: multipart/mixed; boundary="===============0591343353221002873=="
+	bh=xhFaA7VKWibABvD5qP7WA0ktZfcy/FegBkdAHxMFKZo=;
+	b=FZ6aCfyc4H6dcjG5lFvWvbVHDFxxwQccDH+2L73gah6SrGWsYmg9GXyXTguMDxWI
+	R105WCgMDthzKfzw91ykf4K1evXa/tZZJRBbY+JM0FM2dXnFdEQoUTcGihfUFr+/jTu
+	lJqwoPWlcyKaqV+VPjFMGoCNMqsbAvvVuSmYwoLQ=
+Content-Type: multipart/mixed; boundary="===============3336928935363246035=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.5.3 SUCCEEDED
-Message-ID: <01010194c1ac2345-fead71de-9584-43fc-b43d-dcfb023d1579-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Feb 2025 13:21:11 +0000
+Subject: [AUH] mc: upgrading to 4.8.33 SUCCEEDED
+Message-ID: <01010194c1abf60e-77a330a7-f761-4930-a0fc-e0d1f56e4241-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Feb 2025 13:20:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.01-54.240.27.30
+X-SES-Outgoing: 2025.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210600
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 13:21:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210564
 
---===============0591343353221002873==
+--===============3336928935363246035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gnupg* to *2.5.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mc* to *4.8.33* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gnupg-upgrade-2.5.2-2.5.3.patch
+    - apply the patch: git am 0001-mc-upgrade-4.8.32-4.8.33.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,300 +72,314 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 348352dd188c4ed69515532c934326320a59e462 Mon Sep 17 00:00:00 2001
+From bb8c32b8dfb793ae7c39ed8a1daca6a881b351e8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Feb 2025 13:10:00 +0000
-Subject: [PATCH] gnupg: upgrade 2.5.2 -> 2.5.3
+Date: Sat, 1 Feb 2025 10:06:28 +0000
+Subject: [PATCH] mc: upgrade 4.8.32 -> 4.8.33
 
 ---
- .../gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch  | 2 +-
- ...configure.ac-use-a-custom-value-for-the-location-of-.patch | 4 ++--
- .../gnupg/0002-use-pkgconfig-instead-of-npth-config.patch     | 2 +-
- .../0004-autogen.sh-fix-find-version-for-beta-checking.patch  | 2 +-
- meta/recipes-support/gnupg/gnupg/relocate.patch               | 2 +-
- meta/recipes-support/gnupg/{gnupg_2.5.2.bb => gnupg_2.5.3.bb} | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.2.bb => gnupg_2.5.3.bb} (97%)
+ meta/recipes-extended/mc/files/nomandate.patch          | 4 ++--
+ meta/recipes-extended/mc/{mc_4.8.32.bb => mc_4.8.33.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/mc/{mc_4.8.32.bb => mc_4.8.33.bb} (97%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index 024f4a9f10..fcd2528513 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+diff --git a/meta/recipes-extended/mc/files/nomandate.patch b/meta/recipes-extended/mc/files/nomandate.patch
+index 92fa443865..297d2c7bd1 100644
+--- a/meta/recipes-extended/mc/files/nomandate.patch
++++ b/meta/recipes-extended/mc/files/nomandate.patch
 @@ -1,4 +1,4 @@
--From 69d132c4cca738f148551af24932010fb1029ea1 Mon Sep 17 00:00:00 2001
-+From bbf09a439d56ddcae6f641c8f1cf7544e3dd4d6f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 702cba4b71..6e2f8d6fe6 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From d9ef954b602c17839c52a1d7dc73e2354e5fbbbb Mon Sep 17 00:00:00 2001
-+From c9cef60c7be6a5cb5a9557117f4d285278cc6f47 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-From 78c5fd90a052f95157b3914c708a08b2eeab0154 Mon Sep 17 00:00:00 2001
++From 75b0c46bce7438fd4d4cf3d18c2d83f874793111 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 4 Feb 2020 18:12:15 +0000
+ Subject: [PATCH] mc: Fix manpage date indeterminism
+@@ -20,7 +20,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index 29592fd..7286862 100644
-+index 6252d57..1da2c6f 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1911,7 +1911,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index a7a6f03c7d..9c87788e80 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-@@ -1,4 +1,4 @@
--From d5fc05998d7260fd94a558c53f6e6c35a384d163 Mon Sep 17 00:00:00 2001
-+From 7c0163fd17b78284495da382023074ee7dd629b6 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-index 8aeb87dfd4..3b4b01721a 100644
---- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-@@ -1,4 +1,4 @@
--From 21396a6e74d188a2198439aa27403c29c1dbcea8 Mon Sep 17 00:00:00 2001
-+From 24ae21dce9fc7546468580ab37db3bf9559e6efc Mon Sep 17 00:00:00 2001
- From: Wenzong Fan <wenzong.fan@windriver.com>
- Date: Wed, 16 Aug 2017 11:23:22 +0800
- Subject: [PATCH] autogen.sh: fix find-version for beta checking
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index 08e70fb444..b67744419e 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From 93fef8f493ee66856ef02351da25583eea94202d Mon Sep 17 00:00:00 2001
-+From db9e4933176b7919077120cedb8a8b0a40c2115b Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.2.bb b/meta/recipes-support/gnupg/gnupg_2.5.3.bb
+ diff --git a/doc/man/date-of-man-include.am b/doc/man/date-of-man-include.am
+-index 96f9f10..d734c5d 100644
++index ede02e4..19300eb 100644
+ --- a/doc/man/date-of-man-include.am
+ +++ b/doc/man/date-of-man-include.am
+ @@ -1,5 +1,5 @@
+diff --git a/meta/recipes-extended/mc/mc_4.8.32.bb b/meta/recipes-extended/mc/mc_4.8.33.bb
 similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.2.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.3.bb
-index 8e87382f12..cca4feaf6c 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.2.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.3.bb
-@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+rename from meta/recipes-extended/mc/mc_4.8.32.bb
+rename to meta/recipes-extended/mc/mc_4.8.33.bb
+index 97d4cc0b01..ec50cfc7ce 100644
+--- a/meta/recipes-extended/mc/mc_4.8.32.bb
++++ b/meta/recipes-extended/mc/mc_4.8.33.bb
+@@ -11,7 +11,7 @@ RRECOMMENDS:${PN} = "ncurses-terminfo"
+ SRC_URI = "http://ftp.midnight-commander.org/${BPN}-${PV}.tar.bz2 \
+            file://nomandate.patch \
+            "
+-SRC_URI[sha256sum] = "51a039ebd15d5e442312a7053a4ca28276b7f241050b7714d5bae5362ecd3319"
++SRC_URI[sha256sum] = "a3ceb0af84226fedfe5f339464ff2849c3f6bf0321b72027c47b2c10e66a6dba"
  
--SRC_URI[sha256sum] = "7f404ccc6a58493fedc15faef59f3ae914831cff866a23f0bf9d66cfdd0fea29"
-+SRC_URI[sha256sum] = "23128b136aed4e5121e793d1b6c60ee50c8007a9d926c1313e524d05386b54ac"
+ inherit autotools gettext pkgconfig
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
 -- 
 2.44.1
 
 
---===============0591343353221002873==
+--===============3336928935363246035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PKGSIZE changed from 20352560 to 20353632 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-dev: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-dev: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PKGSIZE changed from 11392 to 12141 (+7%)
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-gpg: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-gpg: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ca: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ca: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-cs: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-cs: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-da: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-da: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PKGSIZE changed from 246789 to 247454 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-el: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-el: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGSIZE changed from 224842 to 225410 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PKGSIZE changed from 222458 to 223026 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-eo: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-eo: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-es: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-es: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-et: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-et: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fi: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fi: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PKGSIZE changed from 200153 to 253564 (+27%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-gl: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-gl: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-hu: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-hu: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-id: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-id: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-it: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-it: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PKGSIZE changed from 253303 to 254023 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nb: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nb: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nl: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nl: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pl: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pl: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pt: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pt: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ro: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ro: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ru: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ru: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sk: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sk: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sv: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sv: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-tr: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-tr: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-uk: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-uk: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-cn: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-cn: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-tw: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-tw: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-src: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-src: PKGSIZE changed from 9026285 to 9027344 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-src: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-staticdev: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg-staticdev: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg/gnupg: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg/gnupg: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
-packages/core2-64-poky-linux/gnupg: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.2.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch" to "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.3.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch"
-packages/core2-64-poky-linux/gnupg: PV changed from "2.5.2" to "2.5.3"
-packages/core2-64-poky-linux/gnupg: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/core2-64-poky-linux/mc: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc: SRC_URI changed from "http://ftp.midnight-commander.org/mc-4.8.32.tar.bz2 file://nomandate.patch" to "http://ftp.midnight-commander.org/mc-4.8.33.tar.bz2 file://nomandate.patch"
+packages/core2-64-poky-linux/mc/mc-dbg: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-dbg: PKGSIZE changed from 3974008 to 3971496 (-0%)
+packages/core2-64-poky-linux/mc/mc-dbg: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-dev: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-dev: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-doc: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-doc: PKGSIZE changed from 1082312 to 1083697 (+0%)
+packages/core2-64-poky-linux/mc/mc-doc: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-helpers-perl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-helpers-perl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-helpers: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-helpers: PKGSIZE changed from 105889 to 120975 (+14%)
+packages/core2-64-poky-linux/mc/mc-helpers: FILELIST: added "/usr/libexec/mc/extfs.d/torrent"
+packages/core2-64-poky-linux/mc/mc-helpers: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-af: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-af: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ar: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ar: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-az: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-az: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-be: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-be: PKGSIZE changed from 115320 to 115203 (-0%)
+packages/core2-64-poky-linux/mc/mc-locale-be: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-bg: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-bg: PKGSIZE changed from 104895 to 104075 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-bg: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-br: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-br: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ca: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ca: PKGSIZE changed from 95498 to 95566 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-ca: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-cs: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-cs: PKGSIZE changed from 90154 to 89750 (-0%)
+packages/core2-64-poky-linux/mc/mc-locale-cs: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-da: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-da: PKGSIZE changed from 83689 to 83083 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-da: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-de-ch: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-de-ch: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-de: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-de: PKGSIZE changed from 89675 to 91043 (+2%)
+packages/core2-64-poky-linux/mc/mc-locale-de: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-el: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-el: PKGSIZE changed from 54858 to 54245 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-el: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 85718 to 85268 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-eo: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-eo: PKGSIZE changed from 89592 to 88429 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-eo: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-es: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-es: PKGSIZE changed from 90912 to 90890 (-0%)
+packages/core2-64-poky-linux/mc/mc-locale-es: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-et: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-et: PKGSIZE changed from 88901 to 88921 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-et: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-eu: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-eu: PKGSIZE changed from 77564 to 77036 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-eu: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fa: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-fa: PKGSIZE changed from 17599 to 17320 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-fa: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fi: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-fi: PKGSIZE changed from 41528 to 41187 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-fi: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fr-ca: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-fr-ca: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fr: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-fr: PKGSIZE changed from 96253 to 96944 (+1%)
+packages/core2-64-poky-linux/mc/mc-locale-fr: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ga: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ga: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-gl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-gl: PKGSIZE changed from 79852 to 79297 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-gl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-he: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-he: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-hr: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-hr: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-hu: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-hu: PKGSIZE changed from 74333 to 73771 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-hu: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ia: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ia: PKGSIZE changed from 27075 to 26744 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ia: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-id: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-id: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ie: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ie: PKGSIZE changed from 18924 to 18792 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ie: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-it: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-it: PKGSIZE changed from 84466 to 90348 (+7%)
+packages/core2-64-poky-linux/mc/mc-locale-it: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ja: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ja: PKGSIZE changed from 37542 to 37042 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ja: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ka: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ka: PKGSIZE changed from 65740 to 65005 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ka: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-kk: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-kk: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ko: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ko: PKGSIZE changed from 90218 to 89350 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ko: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-kw: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-kw: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-lt: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-lt: PKGSIZE changed from 46746 to 46437 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-lt: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-lv: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-lv: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-mn: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-mn: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nb: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-nb: PKGSIZE changed from 88142 to 88115 (-0%)
+packages/core2-64-poky-linux/mc/mc-locale-nb: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nl-be: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-nl-be: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-nl: PKGSIZE changed from 84131 to 83535 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-nl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-pl: PKGSIZE changed from 93576 to 93585 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-pl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PKGSIZE changed from 98564 to 98818 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pt: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-pt: PKGSIZE changed from 92576 to 92072 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-pt: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ro: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ro: PKGSIZE changed from 87947 to 87331 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ro: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ru: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ru: PKGSIZE changed from 116030 to 116081 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-ru: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sk: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-sk: PKGSIZE changed from 78911 to 78308 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-sk: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-sl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sr: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-sr: PKGSIZE changed from 92594 to 91900 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-sr: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sv: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-sv: PKGSIZE changed from 77593 to 77051 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-sv: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-szl: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-szl: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ta: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-ta: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-te: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-te: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-tr: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-tr: PKGSIZE changed from 79601 to 79043 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-tr: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-uk: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-uk: PKGSIZE changed from 109505 to 108754 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-uk: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-uz: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-uz: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-vi: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-vi: PKGSIZE changed from 23130 to 22996 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-vi: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-wa: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-wa: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PKGSIZE changed from 73245 to 72739 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 47576 to 47265 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-shell: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-shell: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-src: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-src: PKGSIZE changed from 3967839 to 3978427 (+0%)
+packages/core2-64-poky-linux/mc/mc-src: FILELIST: directory renamed /usr/src/debug/mc/4.8.32/lib/search -> /usr/src/debug/mc/4.8.33/lib/search, directory renamed /usr/src/debug/mc/4.8.32/src/editor -> /usr/src/debug/mc/4.8.33/src/editor, directory renamed /usr/src/debug/mc/4.8.32/lib/tty -> /usr/src/debug/mc/4.8.33/lib/tty, directory renamed /usr/src/debug/mc/4.8.32/lib/skin -> /usr/src/debug/mc/4.8.33/lib/skin, directory renamed /usr/src/debug/mc/4.8.32/lib/filehighlight -> /usr/src/debug/mc/4.8.33/lib/filehighlight, directory renamed /usr/src/debug/mc/4.8.32/src -> /usr/src/debug/mc/4.8.33/src, directory renamed /usr/src/debug/mc/4.8.32/lib/mcconfig -> /usr/src/debug/mc/4.8.33/lib/mcconfig, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/extfs -> /usr/src/debug/mc/4.8.33/src/vfs/extfs, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/tar -> /usr/src/debug/mc/4.8.33/src/vfs/tar, directory renamed /usr/src/debug/mc/4.8.32/lib/vfs -> /usr/src/debug/mc/4.8.33/lib/vfs, directory re
+ named /usr/src/debug/mc/4.8.32/lib/strutil -> /usr/src/debug/mc/4.8.33/lib/strutil, directory renamed /usr/src/debug/mc/4.8.32/src/viewer -> /usr/src/debug/mc/4.8.33/src/viewer, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/ftpfs -> /usr/src/debug/mc/4.8.33/src/vfs/ftpfs, directory renamed /usr/src/debug/mc/4.8.32/src/vfs -> /usr/src/debug/mc/4.8.33/src/vfs, directory renamed /usr/src/debug/mc/4.8.32/lib/widget -> /usr/src/debug/mc/4.8.33/lib/widget, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/cpio -> /usr/src/debug/mc/4.8.33/src/vfs/cpio, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/shell -> /usr/src/debug/mc/4.8.33/src/vfs/shell, directory renamed /usr/src/debug/mc/4.8.32/src/subshell -> /usr/src/debug/mc/4.8.33/src/subshell, directory renamed /usr/src/debug/mc/4.8.32/src/consaver -> /usr/src/debug/mc/4.8.33/src/consaver, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/sfs -> /usr/src/debug/mc/4.8.33/src/vfs/sfs, directory renamed /usr/src/debug/mc/4.8.32/src/
+ diffviewer -> /usr/src/debug/mc/4.8.33/src/diffviewer, directory renamed /usr/src/debug/mc/4.8.32/src/vfs/local -> /usr/src/debug/mc/4.8.33/src/vfs/local, directory renamed /usr/src/debug/mc/4.8.32/lib/event -> /usr/src/debug/mc/4.8.33/lib/event, removed "/usr/src/debug/mc/4.8.32/src/filemanager/cd.h /usr/src/debug/mc/4.8.32/src/filemanager/panelize.h /usr/src/debug/mc/4.8.32/src/filemanager/ext.c /usr/src/debug/mc/4.8.32/src/filemanager/info.c /usr/src/debug/mc/4.8.32/lib/keybind.h /usr/src/debug/mc/4.8.32/lib/glibcompat.c /usr/src/debug/mc/4.8.32/src/filemanager/ext.h /usr/src/debug/mc/4.8.32/src/filemanager/treestore.c /usr/src/debug/mc/4.8.32/src/filemanager/cd.c /usr/src/debug/mc/4.8.32/src/filemanager/panelize.c /usr/src/debug/mc/4.8.32/lib/glibcompat.h /usr/src/debug/mc/4.8.32/lib/keybind.c /usr/src/debug/mc/4.8.32/src/filemanager/info.h /usr/src/debug/mc/4.8.32/src/filemanager/treestore.h /usr/src/debug/mc/4.8.32/src/filemanager/find.c /usr/src/debug/mc/4.8.32/lib/timefmt.h 
+ /usr/src/debug/mc/4.8.32/lib/strutil.h /usr/src/debug/mc/4.8.32/lib/util.h /usr/src/debug/mc/4.8.32/src/filemanager/layout.h /usr/src/debug/mc/4.8.32/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.32/lib/timefmt.c /usr/src/debug/mc/4.8.32/src/filemanager/layout.c /usr/src/debug/mc/4.8.32/lib/util.c /usr/src/debug/mc/4.8.32/src/filemanager/achown.c /usr/src/debug/mc/4.8.32/src/filemanager/command.c /usr/src/debug/mc/4.8.32/src/filemanager/cmd.c /usr/src/debug/mc/4.8.32/src/filemanager/file.h /usr/src/debug/mc/4.8.32/src/filemanager/filegui.c /usr/src/debug/mc/4.8.32/lib/charsets.h /usr/src/debug/mc/4.8.32/lib/serialize.c /usr/src/debug/mc/4.8.32/lib/skin.h /usr/src/debug/mc/4.8.32/src/filemanager/filenot.c /usr/src/debug/mc/4.8.32/src/filemanager/cmd.h /usr/src/debug/mc/4.8.32/src/filemanager/chown.c /usr/src/debug/mc/4.8.32/src/filemanager/command.h /usr/src/debug/mc/4.8.32/lib/serialize.h /usr/src/debug/mc/4.8.32/lib/charsets.c /usr/src/debug/mc/4.8.32/lib/event-types.h /usr/src
+ /debug/mc/4.8.32/src/filemanager/file.c /usr/src/debug/mc/4.8.32/src/filemanager/filegui.h /usr/src/debug/mc/4.8.32/src/filemanager/filenot.h /usr/src/debug/mc/4.8.32/src/filemanager/fileopctx.h /usr/src/debug/mc/4.8.32/lib/global.c /usr/src/debug/mc/4.8.32/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.32/src/filemanager/fileopctx.c /usr/src/debug/mc/4.8.32/lib/search.h /usr/src/debug/mc/4.8.32/lib/widget.h /usr/src/debug/mc/4.8.32/lib/global.h /usr/src/debug/mc/4.8.32/lib/event.h /usr/src/debug/mc/4.8.32/src/filemanager/boxes.c /usr/src/debug/mc/4.8.32/lib/file-entry.h /usr/src/debug/mc/4.8.32/src/filemanager/boxes.h /usr/src/debug/mc/4.8.32/src/filemanager/chmod.c /usr/src/debug/mc/4.8.32/src/filemanager/dir.h /usr/src/debug/mc/4.8.32/lib/filehighlight.h /usr/src/debug/mc/4.8.32/lib/mcconfig.h /usr/src/debug/mc/4.8.32/lib/hook.c /usr/src/debug/mc/4.8.32/lib/lock.c /usr/src/debug/mc/4.8.32/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.32/src/filemanager/panel.c /usr/src/debug
+ /mc/4.8.32/src/filemanager/mountlist.h /usr/src/debug/mc/4.8.32/src/filemanager/panel.h /usr/src/debug/mc/4.8.32/src/filemanager/dir.c /usr/src/debug/mc/4.8.32/lib/hook.h /usr/src/debug/mc/4.8.32/lib/lock.h /usr/src/debug/mc/4.8.32/lib/shell.h /usr/src/debug/mc/4.8.32/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.32/lib/shell.c /usr/src/debug/mc/4.8.32/src/filemanager/filemanager.c /usr/src/debug/mc/4.8.32/src/filemanager/tree.c /usr/src/debug/mc/4.8.32/src/filemanager/filemanager.h /usr/src/debug/mc/4.8.32/lib/utilunix.c /usr/src/debug/mc/4.8.32/src/filemanager/tree.h", added "/usr/src/debug/mc/4.8.33/src/filemanager/cd.h /usr/src/debug/mc/4.8.33/src/filemanager/panelize.h /usr/src/debug/mc/4.8.33/src/filemanager/ext.c /usr/src/debug/mc/4.8.33/src/filemanager/info.c /usr/src/debug/mc/4.8.33/lib/keybind.h /usr/src/debug/mc/4.8.33/lib/glibcompat.c /usr/src/debug/mc/4.8.33/src/filemanager/ext.h /usr/src/debug/mc/4.8.33/src/filemanager/treestore.c /usr/src/debug/mc/4.8.33/src/fileman
+ ager/cd.c /usr/src/debug/mc/4.8.33/src/filemanager/panelize.c /usr/src/debug/mc/4.8.33/lib/glibcompat.h /usr/src/debug/mc/4.8.33/lib/keybind.c /usr/src/debug/mc/4.8.33/src/filemanager/info.h /usr/src/debug/mc/4.8.33/src/filemanager/treestore.h /usr/src/debug/mc/4.8.33/src/filemanager/find.c /usr/src/debug/mc/4.8.33/lib/timefmt.h /usr/src/debug/mc/4.8.33/lib/strutil.h /usr/src/debug/mc/4.8.33/lib/util.h /usr/src/debug/mc/4.8.33/src/filemanager/layout.h /usr/src/debug/mc/4.8.33/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.33/lib/timefmt.c /usr/src/debug/mc/4.8.33/src/filemanager/layout.c /usr/src/debug/mc/4.8.33/lib/util.c /usr/src/debug/mc/4.8.33/src/filemanager/achown.c /usr/src/debug/mc/4.8.33/src/filemanager/command.c /usr/src/debug/mc/4.8.33/src/filemanager/cmd.c /usr/src/debug/mc/4.8.33/lib/idx.h /usr/src/debug/mc/4.8.33/src/filemanager/file.h /usr/src/debug/mc/4.8.33/lib/charsets.h /usr/src/debug/mc/4.8.33/lib/serialize.c /usr/src/debug/mc/4.8.33/lib/skin.h /usr/src/debug/
+ mc/4.8.33/src/filemanager/filegui.c /usr/src/debug/mc/4.8.33/src/filemanager/cmd.h /usr/src/debug/mc/4.8.33/src/filemanager/chown.c /usr/src/debug/mc/4.8.33/src/filemanager/command.h /usr/src/debug/mc/4.8.33/lib/serialize.h /usr/src/debug/mc/4.8.33/lib/charsets.c /usr/src/debug/mc/4.8.33/lib/event-types.h /usr/src/debug/mc/4.8.33/src/filemanager/file.c /usr/src/debug/mc/4.8.33/src/filemanager/filegui.h /usr/src/debug/mc/4.8.33/src/filemanager/filenot.h /usr/src/debug/mc/4.8.33/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.33/lib/global.c /usr/src/debug/mc/4.8.33/lib/search.h /usr/src/debug/mc/4.8.33/lib/widget.h /usr/src/debug/mc/4.8.33/lib/global.h /usr/src/debug/mc/4.8.33/lib/event.h /usr/src/debug/mc/4.8.33/src/filemanager/boxes.c /usr/src/debug/mc/4.8.33/lib/file-entry.h /usr/src/debug/mc/4.8.33/src/filemanager/boxes.h /usr/src/debug/mc/4.8.33/src/filemanager/chmod.c /usr/src/debug/mc/4.8.33/src/filemanager/dir.h /usr/src/debug/mc/4.8.33/lib/filehighlight.h /usr/src/debug/mc/4
+ .8.33/lib/mcconfig.h /usr/src/debug/mc/4.8.33/lib/hook.c /usr/src/debug/mc/4.8.33/lib/lock.c /usr/src/debug/mc/4.8.33/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.33/src/filemanager/panel.c /usr/src/debug/mc/4.8.33/src/filemanager/mountlist.h /usr/src/debug/mc/4.8.33/src/filemanager/panel.h /usr/src/debug/mc/4.8.33/src/filemanager/dir.c /usr/src/debug/mc/4.8.33/lib/hook.h /usr/src/debug/mc/4.8.33/lib/lock.h /usr/src/debug/mc/4.8.33/src/filemanager/filenot.c /usr/src/debug/mc/4.8.33/lib/shell.h /usr/src/debug/mc/4.8.33/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.33/lib/shell.c /usr/src/debug/mc/4.8.33/src/filemanager/filemanager.c /usr/src/debug/mc/4.8.33/src/filemanager/tree.c /usr/src/debug/mc/4.8.33/src/filemanager/filemanager.h /usr/src/debug/mc/4.8.33/lib/utilunix.c /usr/src/debug/mc/4.8.33/src/filemanager/tree.h"
+packages/core2-64-poky-linux/mc/mc-src: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc-staticdev: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc-staticdev: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
+packages/core2-64-poky-linux/mc/mc: PV changed from "4.8.32" to "4.8.33"
+packages/core2-64-poky-linux/mc/mc: PKGSIZE changed from 3719431 to 3728578 (+0%)
+packages/core2-64-poky-linux/mc/mc: FILELIST: added "/etc/mc/mc.vim.keymap"
+packages/core2-64-poky-linux/mc/mc: PKGV changed from 4.8.32 [default] to 4.8.33 [default]
 
---===============0591343353221002873==
+--===============3336928935363246035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PKGSIZE changed from 200153 to 253564 (+27%)
+packages/core2-64-poky-linux/mc/mc-helpers: PKGSIZE changed from 105889 to 120975 (+14%)
+packages/core2-64-poky-linux/mc/mc-helpers: FILELIST: added "/usr/libexec/mc/extfs.d/torrent"
+packages/core2-64-poky-linux/mc/mc: FILELIST: added "/etc/mc/mc.vim.keymap"
 
---===============0591343353221002873==
+--===============3336928935363246035==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gnupg-upgrade-2.5.2-2.5.3.patch"
+ filename="0001-mc-upgrade-4.8.32-4.8.33.patch"
 
-RnJvbSAzNDgzNTJkZDE4OGM0ZWQ2OTUxNTUzMmM5MzQzMjYzMjBhNTllNDYyIE1vbiBTZXAgMTcg
+RnJvbSBiYjhjMzJiOGRmYjc5M2FlN2MzOWVkOGExZGFjYTZhODgxYjM1MWU4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMzoxMDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdu
-dXBnOiB1cGdyYWRlIDIuNS4yIC0+IDIuNS4zCgotLS0KIC4uLi9nbnVwZy8wMDAxLVdvdmVycmlk
-ZS1pbml0LWlzLW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5wYXRjaCAgfCAyICstCiAuLi5jb25maWd1
-cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNoIHwgNCAr
-Ky0tCiAuLi4vZ251cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcu
-cGF0Y2ggICAgIHwgMiArLQogLi4uLzAwMDQtYXV0b2dlbi5zaC1maXgtZmluZC12ZXJzaW9uLWZv
-ci1iZXRhLWNoZWNraW5nLnBhdGNoICB8IDIgKy0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBn
-L2dudXBnL3JlbG9jYXRlLnBhdGNoICAgICAgICAgICAgICAgfCAyICstCiBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9nbnVwZy97Z251cGdfMi41LjIuYmIgPT4gZ251cGdfMi41LjMuYmJ9IHwgMiArLQog
-NiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcve2dudXBnXzIuNS4yLmJiID0+IGdudXBnXzIuNS4z
-LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBn
-LzAwMDEtV292ZXJyaWRlLWluaXQtaXMtbm90LW5lZWRlZC13aXRoLWdjYy05LnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3Qt
-bmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2gKaW5kZXggMDI0ZjRhOWYxMC4uZmNkMjUyODUxMyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1Xb3ZlcnJpZGUt
-aW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZ251cGcvZ251cGcvMDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgt
-Z2NjLTkucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDY5ZDEzMmM0Y2NhNzM4ZjE0ODU1MWFm
-MjQ5MzIwMTBmYjEwMjllYTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGJiZjA5YTQz
-OWQ1NmRkY2FlNmY2NDFjOGYxY2Y3NTQ0ZTNkZDRkNmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyMCBEZWMg
-MjAxOCAxNzozNzo0OCAtMDgwMAogU3ViamVjdDogW1BBVENIXSBXb3ZlcnJpZGUtaW5pdCBpcyBu
-b3QgbmVlZGVkIHdpdGggZ2NjIDkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXBnL2dudXBnLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxv
-Y2F0aW9uLW9mLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEt
-Y29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRj
-aAppbmRleCA3MDJjYmE0YjcxLi42ZTJmOGQ2ZmU2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUt
-Zm9yLXRoZS1sb2NhdGlvbi1vZi0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251
-cGcvZ251cGcvMDAwMS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9j
-YXRpb24tb2YtLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkOWVmOTU0YjYwMmMxNzgzOWM1
-MmExZDdkYzczZTIzNTRlNWZiYmJiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjOWNl
-ZjYwYzdiZTZhNWNiNWE5NTU3MTE3ZjRkMjg1Mjc4Y2M2ZjQ3IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBE
-YXRlOiBNb24sIDIyIEphbiAyMDE4IDE4OjAwOjIxICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNv
-bmZpZ3VyZS5hYzogdXNlIGEgY3VzdG9tIHZhbHVlIGZvciB0aGUgbG9jYXRpb24gb2YKQEAgLTEz
-LDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDI5
-NTkyZmQuLjcyODY4NjIgMTAwNjQ0CitpbmRleCA2MjUyZDU3Li4xZGEyYzZmIDEwMDY0NAogLS0t
-IGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC0xOTExLDcgKzE5MTEsNyBA
-QCBBQ19ERUZJTkVfVU5RVU9URUQoR1BHQ09ORl9ESVNQX05BTUUsICJHUEdDb25mIiwKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDItdXNlLXBrZ2NvbmZp
-Zy1pbnN0ZWFkLW9mLW5wdGgtY29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251
-cGcvZ251cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gK
-aW5kZXggYTdhNmYwM2M3ZC4uOWM4Nzc4OGU4MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZ251cGcvZ251cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25m
-aWcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMi11c2Ut
-cGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIGQ1ZmMwNTk5OGQ3MjYwZmQ5NGE1NThjNTNmNmU2YzM1YTM4NGQxNjMgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIDdjMDE2M2ZkMTdiNzgyODQ0OTVkYTM4MjAyMzA3NGVlN2RkNjI5
-YjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5p
-bnRlbC5jb20+CiBEYXRlOiBXZWQsIDE2IEF1ZyAyMDE3IDExOjE2OjMwICswODAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIHVzZSBwa2djb25maWcgaW5zdGVhZCBvZiBucHRoIGNvbmZpZwpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwNC1hdXRvZ2VuLnNoLWZpeC1m
-aW5kLXZlcnNpb24tZm9yLWJldGEtY2hlY2tpbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9nbnVwZy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQtdmVyc2lvbi1mb3ItYmV0YS1j
-aGVja2luZy5wYXRjaAppbmRleCA4YWViODdkZmQ0Li4zYjRiMDE3MjFhIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQt
-dmVyc2lvbi1mb3ItYmV0YS1jaGVja2luZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9nbnVwZy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQtdmVyc2lvbi1mb3ItYmV0YS1j
-aGVja2luZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjEzOTZhNmU3NGQxODhhMjE5ODQz
-OWFhMjc0MDNjMjljMWRiY2VhOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjRhZTIx
-ZGNlOWZjNzU0NjQ2ODU4MGFiMzdkYjNiZjk1NTllNmVmYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IFdlbnpvbmcgRmFuIDx3ZW56b25nLmZhbkB3aW5kcml2ZXIuY29tPgogRGF0ZTog
-V2VkLCAxNiBBdWcgMjAxNyAxMToyMzoyMiArMDgwMAogU3ViamVjdDogW1BBVENIXSBhdXRvZ2Vu
-LnNoOiBmaXggZmluZC12ZXJzaW9uIGZvciBiZXRhIGNoZWNraW5nCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCmluZGV4IDA4ZTcwZmI0NDQuLmI2
-Nzc0NDQxOWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3Jl
-bG9jYXRlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9j
-YXRlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5M2ZlZjhmNDkzZWU2Njg1NmVmMDIzNTFk
-YTI1NTgzZWVhOTQyMDJkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkYjllNDkzMzE3
-NmI3OTE5MDc3MTIwY2VkYjhhOGIwYTQwYzIxMTViIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFdlZCwgMTkg
-U2VwIDIwMTggMTQ6NDQ6NDAgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWxsb3cgdGhlIGVudmly
-b25tZW50IHRvIG92ZXJyaWRlIHdoZXJlIGdudXBnIGxvb2tzIGZvciBpdHMKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNS4yLmJiIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvZ251cGcvZ251cGdfMi41LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1l
-IGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi41LjIuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNS4zLmJiCmluZGV4IDhlODczODJm
-MTIuLmNjYTRmZWFmNmMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2du
-dXBnXzIuNS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNS4z
-LmJiCkBAIC0yMyw3ICsyMyw3IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmls
-ZTovLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9yZWxvY2F0ZS5wYXRjaCIKIFNSQ19VUkk6YXBw
-ZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgZmlsZTovL3JlbG9jYXRlLnBhdGNoIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiN2Y0MDRjY2M2YTU4NDkzZmVkYzE1ZmFlZjU5ZjNhZTkxNDgzMWNmZjg2
-NmEyM2YwYmY5ZDY2Y2ZkZDBmZWEyOSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyMzEyOGIxMzZh
-ZWQ0ZTUxMjFlNzkzZDFiNmM2MGVlNTBjODAwN2E5ZDkyNmMxMzEzZTUyNGQwNTM4NmI1NGFjIgog
-CiBFWFRSQV9PRUNPTkYgPSAiLS1kaXNhYmxlLWxkYXAgXAogCQktLWRpc2FibGUtY2NpZC1kcml2
-ZXIgXAotLSAKMi40NC4xCgo=
+CkRhdGU6IFNhdCwgMSBGZWIgMjAyNSAxMDowNjoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1j
+OiB1cGdyYWRlIDQuOC4zMiAtPiA0LjguMzMKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21j
+L2ZpbGVzL25vbWFuZGF0ZS5wYXRjaCAgICAgICAgICB8IDQgKystLQogbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL21jL3ttY180LjguMzIuYmIgPT4gbWNfNC44LjMzLmJifSB8IDIgKy0KIDIgZmlsZXMg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9tYy97bWNfNC44LjMyLmJiID0+IG1jXzQuOC4zMy5iYn0gKDk3JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvZmlsZXMvbm9tYW5kYXRlLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21jL2ZpbGVzL25vbWFuZGF0ZS5wYXRjaAppbmRleCA5
+MmZhNDQzODY1Li4yOTdkMmM3YmQxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+bWMvZmlsZXMvbm9tYW5kYXRlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9m
+aWxlcy9ub21hbmRhdGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc4YzVmZDkwYTA1MmY5
+NTE1N2IzOTE0YzcwOGEwOGIyZWVhYjAxNTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDc1YjBjNDZiY2U3NDM4ZmQ0ZDRjZjNkMThjMmQ4M2Y4NzQ3OTMxMTEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4KIERhdGU6IFR1ZSwgNCBGZWIgMjAyMCAxODoxMjoxNSArMDAwMAogU3ViamVj
+dDogW1BBVENIXSBtYzogRml4IG1hbnBhZ2UgZGF0ZSBpbmRldGVybWluaXNtCkBAIC0yMCw3ICsy
+MCw3IEBAIFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51
+eGZvdW5kYXRpb24ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtIGIv
+ZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtCi1pbmRleCA5NmY5ZjEwLi5kNzM0YzVkIDEw
+MDY0NAoraW5kZXggZWRlMDJlNC4uMTkzMDBlYiAxMDA2NDQKIC0tLSBhL2RvYy9tYW4vZGF0ZS1v
+Zi1tYW4taW5jbHVkZS5hbQogKysrIGIvZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtCiBA
+QCAtMSw1ICsxLDUgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180
+LjguMzIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvbWNfNC44LjMzLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180Ljgu
+MzIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180LjguMzMuYmIKaW5k
+ZXggOTdkNGNjMGIwMS4uZWM1MGNmYzdjZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL21jL21jXzQuOC4zMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvbWNfNC44
+LjMzLmJiCkBAIC0xMSw3ICsxMSw3IEBAIFJSRUNPTU1FTkRTOiR7UE59ID0gIm5jdXJzZXMtdGVy
+bWluZm8iCiBTUkNfVVJJID0gImh0dHA6Ly9mdHAubWlkbmlnaHQtY29tbWFuZGVyLm9yZy8ke0JQ
+Tn0tJHtQVn0udGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly9ub21hbmRhdGUucGF0Y2ggXAog
+ICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTFhMDM5ZWJkMTVkNWU0NDIzMTJh
+NzA1M2E0Y2EyODI3NmI3ZjI0MTA1MGI3NzE0ZDViYWU1MzYyZWNkMzMxOSIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICJhM2NlYjBhZjg0MjI2ZmVkZmU1ZjMzOTQ2NGZmMjg0OWMzZjZiZjAzMjFiNzIw
+MjdjNDdiMmMxMGU2NmE2ZGJhIgogCiBpbmhlcml0IGF1dG90b29scyBnZXR0ZXh0IHBrZ2NvbmZp
+ZwogCi0tIAoyLjQ0LjEKCg==
 
---===============0591343353221002873==--
+--===============3336928935363246035==--
 
