@@ -1,100 +1,105 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29EFDC0218A
-	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 17:17:07 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.47239.1738430224235575535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F362C0218A
+	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 17:30:17 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.47525.1738431016551442958
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 09:17:04 -0800
+ Sat, 01 Feb 2025 09:30:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jvTESi0Q;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tVrYBUiV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010194c2841357-5d710a15-4891-442e-a1d3-141ac0f3abe2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738430223; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=B2xxCBQLowccNToFzXAL0Knbr3KfxnZK+dusse5NIt0=;
-	b=jvTESi0QLiYHIJUPCc14IgHRjzsNkX6yIpbr0D6XgmQL5WgwVF5d7lLnIroR2Prr
-	7fITvTjrzZ5elxfKwD5non5LON2nqzHTYkDGMR+qmavkmnfBKaN7FbIXPIp90jxhqao
-	DyGbQFzdnOGbrvQQkZtN3UUbTBMjGf1GX15MEFlw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738430223;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=B2xxCBQLowccNToFzXAL0Knbr3KfxnZK+dusse5NIt0=;
-	b=tVrYBUiVRprCB7c2zeGJY2nGxArLBrOXGntVxmpYypOiW5XISe3V8YDwSIDGgbah
-	ONg/NkZ3l33RGTbxehI/79zFy4escD25534O3BGGTEKQN2fZZwkkzrVLzyryqmuXmS9
-	eBm7GiqEwjvXN3BfbE22OBi+UQtaKDSm6fcVcPRo=
-From: patchtest@automation.yoctoproject.org
-To: Alex Kiernan <alex.kiernan@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-Core 1/2] nss-mdns: Rename recipe to avahi-libnss-mdns
-In-Reply-To: <20250201170509.2974-1-alex.kiernan@gmail.com>
-References: <20250201170509.2974-1-alex.kiernan@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194c2841357-5d710a15-4891-442e-a1d3-141ac0f3abe2-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Feb 2025 17:17:03 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.01-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VpYJAu2U;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so6231617a12.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 09:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738431015; x=1739035815; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I/V2EmQAW7xYI2xnr6gwImRNmoFQQuBJ63UlKlfIJi0=;
+        b=VpYJAu2Ua8WAh0Y7AUvbGkN9M2SReacVI+ZKV2v8gQ8K7kfWjn/LeKYff3ldj/DGcA
+         elisYvpsJnTHtSgc+/pMj/OWNV+drFbMzyMMBmsRv5w6KKNmjXaJ6/LTOgDJX8KNr3j5
+         nTMSa4vVLtI6+R0Vxa9L+5gcuRaycnpbClpLC5FxZ3IldJK7TKIivU6rkXgfma3B3MDD
+         iCgqIzU7zLg+KM8tOdbkMkH+/UleMuaIHNjDdSGInJP/jkC+OyVksUM/Sj3O5u/NhdCT
+         rozoy7JLi8gWT1WLZKVRf1G+b8uTS4wqJR1gajx7AnWfNthBWsktD1aVu5D0lWGJrlaW
+         lKBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738431015; x=1739035815;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I/V2EmQAW7xYI2xnr6gwImRNmoFQQuBJ63UlKlfIJi0=;
+        b=RvEXZxcr+Rl2EvqJ+3UAVWjPq7N+G2xG/0+MAOcJMbexwzCLlECqZ6ZtycdVgfQRPe
+         G2U2P/5kS6MFs+c7EXqev5VLlikWNAXYptpzxh94APakJIOLIWk8qnjqJ/niEtFd8B5T
+         yY5O8tIAtoE89frJxluE8r4OX6YZJcvrk26WmBN2Ka942sFXnl3wl/3H9LhAALB0wvWz
+         QKmQx0uG7z0goQ0SGgBlENI8TDFO2wqdVFX6953gwM/9hpuoj1p1/dYbFl3FG1k/HCo9
+         vK/S5BwriCw0JPFBYWIhAhVsniklz78gJTLJ/mWHPgcDRbRdkkVzNPV8rXhjXwfSEg8w
+         6sZQ==
+X-Gm-Message-State: AOJu0Yy4zZG5GZ5AajflJQg5u1KRFwIOAONen3XyO53pKQ1qVmZz6lF0
+	A0Kkq0HZp90dq/6IYCGCmiAVnv0ASxu9KAzNUVJGz+XrE0HF83bQgBC5tgIK
+X-Gm-Gg: ASbGnct+2DWlKu4cBfYXf/OvVmuv9Qie+f8vunRE7+BSm19XVTIjnTKidPc5HIKhOId
+	QqO59UakCjNZZu8RU7N8yyE9rxCjlQOmtIVNfNSfNp9ZHh1ATMvnuIAxk5fEXfogCCIzi2xNsT3
+	0axybuoLDEhGC110hTIpK6R/dQW5SbgQ7I8P5PeohgoewW3E3qiYrfd0M7Ua4o84PnJUDoOuP4V
+	mqhLZTi3KaaqoMcisHFxNtLyxnHEmCehgC596TJ0+m7GKeuZfiMZzxrGBh76wFmtWVbBLXSHddv
+	k45uj7vfrZGRt0KSSCtMuZf+ipNBHIEftyBvWyI7eznfEEFCXXPojpam9w==
+X-Google-Smtp-Source: AGHT+IH+oG3Sdc/GyI1SSui1m8ug79eMzMbAL9ZP3QDWfhO/xZ8i/jO0Jo9V6IDxJ7BoNg+V3RWXqw==
+X-Received: by 2002:a05:6402:1d4a:b0:5dc:1239:1e5b with SMTP id 4fb4d7f45d1cf-5dc5efe746cmr15453846a12.23.1738431014448;
+        Sat, 01 Feb 2025 09:30:14 -0800 (PST)
+Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724c9da7sm4669984a12.79.2025.02.01.09.30.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Feb 2025 09:30:14 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH v2 2/2] avahi: Switch RRECOMMENDS to avahi-libnss-mdns
+Date: Sat,  1 Feb 2025 17:28:45 +0000
+Message-Id: <20250201172843.1490-2-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250201172843.1490-1-alex.kiernan@gmail.com>
+References: <20250201172843.1490-1-alex.kiernan@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 17:17:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210611
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 17:30:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210613
 
---NextPart
-Content-Type: text/plain
+Rather than using the RPROVIDES on libnss-mdns which comes from
+avahi-libnss-mdns, RRECOMMENDS avahi-libnss-mdns directly to avoid
+picking any other version.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-nss-mdns-Rename-recipe-to-avahi-libnss-mdns.patch
+ meta/recipes-connectivity/avahi/avahi_0.8.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+index a78e776a1843..220160a7e169 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -85,7 +85,7 @@ do_compile:prepend() {
+     export GIR_EXTRA_LIBS_PATH="${B}/avahi-gobject/.libs:${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib/.libs"
+ }
+ 
+-RRECOMMENDS:${PN}:append:libc-glibc = " libnss-mdns"
++RRECOMMENDS:${PN}:append:libc-glibc = " avahi-libnss-mdns"
+ 
+ do_install() {
+ 	autotools_do_install
+@@ -157,7 +157,7 @@ DEV_PKG_DEPENDENCY = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPK
+ DEV_PKG_DEPENDENCY += "${@["", " libavahi-client (= ${EXTENDPKGV})"][bb.utils.contains('PACKAGECONFIG', 'dbus', 1, 0, d)]}"
+ RDEPENDS:${PN}-dnsconfd = "${PN}-daemon"
+ 
+-RRECOMMENDS:avahi-daemon:append:libc-glibc = " libnss-mdns"
++RRECOMMENDS:avahi-daemon:append:libc-glibc = " avahi-libnss-mdns"
+ 
+ CONFFILES:avahi-daemon = "${sysconfdir}/avahi/avahi-daemon.conf"
+ 
+-- 
+2.25.1
 
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
