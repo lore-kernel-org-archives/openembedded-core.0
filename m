@@ -2,103 +2,139 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F362C0218A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3097EC02192
 	for <webhook@archiver.kernel.org>; Sat,  1 Feb 2025 17:30:17 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.47525.1738431016551442958
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.47521.1738431010773030268
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Feb 2025 09:30:16 -0800
+ Sat, 01 Feb 2025 09:30:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VpYJAu2U;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so6231617a12.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 09:30:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gLCSM7FW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d96944401dso4981259a12.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 09:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738431015; x=1739035815; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/V2EmQAW7xYI2xnr6gwImRNmoFQQuBJ63UlKlfIJi0=;
-        b=VpYJAu2Ua8WAh0Y7AUvbGkN9M2SReacVI+ZKV2v8gQ8K7kfWjn/LeKYff3ldj/DGcA
-         elisYvpsJnTHtSgc+/pMj/OWNV+drFbMzyMMBmsRv5w6KKNmjXaJ6/LTOgDJX8KNr3j5
-         nTMSa4vVLtI6+R0Vxa9L+5gcuRaycnpbClpLC5FxZ3IldJK7TKIivU6rkXgfma3B3MDD
-         iCgqIzU7zLg+KM8tOdbkMkH+/UleMuaIHNjDdSGInJP/jkC+OyVksUM/Sj3O5u/NhdCT
-         rozoy7JLi8gWT1WLZKVRf1G+b8uTS4wqJR1gajx7AnWfNthBWsktD1aVu5D0lWGJrlaW
-         lKBw==
+        d=gmail.com; s=20230601; t=1738431009; x=1739035809; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwMDuq6nzL2QYpqI2tNZhT2AGNQp82x/dRoREYFCP4A=;
+        b=gLCSM7FWqEmNNkWj2jLMaXQzX8rd0OiXn2HqIeZH+eB6AHfRL+D9nWXiOGMGG2qIE1
+         2ofhdVwrIeVSli5w57A33wqoTkJWS497eeUwzFtO1eku8/gV4n5wFkahvgy68mgmD1QI
+         idAu5ma60noDhy0xqbqvJBLqldJqmWoiHkpPwlubTTUJftGbf9kMFNplkSkYl8eSklob
+         kiAO63/f5+FqxUwX2GGgkd7bPwbBYB5causUQurmGh6oT5VwT6AnDqtYBU/cjL38aJ/H
+         3UNZCvf1F/NSxemvORu/I5BkQynQuG5X0TBeauf4nDSjvH+bY/enQKcJ8h2u9BZ4IBZT
+         T2uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738431015; x=1739035815;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I/V2EmQAW7xYI2xnr6gwImRNmoFQQuBJ63UlKlfIJi0=;
-        b=RvEXZxcr+Rl2EvqJ+3UAVWjPq7N+G2xG/0+MAOcJMbexwzCLlECqZ6ZtycdVgfQRPe
-         G2U2P/5kS6MFs+c7EXqev5VLlikWNAXYptpzxh94APakJIOLIWk8qnjqJ/niEtFd8B5T
-         yY5O8tIAtoE89frJxluE8r4OX6YZJcvrk26WmBN2Ka942sFXnl3wl/3H9LhAALB0wvWz
-         QKmQx0uG7z0goQ0SGgBlENI8TDFO2wqdVFX6953gwM/9hpuoj1p1/dYbFl3FG1k/HCo9
-         vK/S5BwriCw0JPFBYWIhAhVsniklz78gJTLJ/mWHPgcDRbRdkkVzNPV8rXhjXwfSEg8w
-         6sZQ==
-X-Gm-Message-State: AOJu0Yy4zZG5GZ5AajflJQg5u1KRFwIOAONen3XyO53pKQ1qVmZz6lF0
-	A0Kkq0HZp90dq/6IYCGCmiAVnv0ASxu9KAzNUVJGz+XrE0HF83bQgBC5tgIK
-X-Gm-Gg: ASbGnct+2DWlKu4cBfYXf/OvVmuv9Qie+f8vunRE7+BSm19XVTIjnTKidPc5HIKhOId
-	QqO59UakCjNZZu8RU7N8yyE9rxCjlQOmtIVNfNSfNp9ZHh1ATMvnuIAxk5fEXfogCCIzi2xNsT3
-	0axybuoLDEhGC110hTIpK6R/dQW5SbgQ7I8P5PeohgoewW3E3qiYrfd0M7Ua4o84PnJUDoOuP4V
-	mqhLZTi3KaaqoMcisHFxNtLyxnHEmCehgC596TJ0+m7GKeuZfiMZzxrGBh76wFmtWVbBLXSHddv
-	k45uj7vfrZGRt0KSSCtMuZf+ipNBHIEftyBvWyI7eznfEEFCXXPojpam9w==
-X-Google-Smtp-Source: AGHT+IH+oG3Sdc/GyI1SSui1m8ug79eMzMbAL9ZP3QDWfhO/xZ8i/jO0Jo9V6IDxJ7BoNg+V3RWXqw==
-X-Received: by 2002:a05:6402:1d4a:b0:5dc:1239:1e5b with SMTP id 4fb4d7f45d1cf-5dc5efe746cmr15453846a12.23.1738431014448;
-        Sat, 01 Feb 2025 09:30:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738431009; x=1739035809;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nwMDuq6nzL2QYpqI2tNZhT2AGNQp82x/dRoREYFCP4A=;
+        b=vL9ksGwCm+nmS7a654ffdkWxTpIN1qwqaerhTDgEzHjzIl0Y9FD1rzCrD3sAa5uhrm
+         cCp9LAaqb5rtO3JB+sg3/tgENNkdN31zUuldrXg7aOjMqIULvLwdtYYOEDjJs1dIQ7z+
+         W0Xi5d4xJl37lKohY91F5xZ62Js4wwuRVakGsJM1Jn6wwTew8y3SbHFkyGPWHU74Jbsc
+         C9TRM+Cqb3oUmo2VMM3UKEezyxhNoX30gMJcHtpGpgSxY72pvmK5DqtP7qS6BUGiwqIe
+         LJLkVzexKOwgYVOBBw6aWasAl/j3DaVMTchHAu2pFu0NfCBOz3+ppC3LNnvS8qo48LQ3
+         n1nQ==
+X-Gm-Message-State: AOJu0Yy7mlqDlSN+DtZLCzJNeGOX2ZnE/XDtahvuM/yLxFuWbg0aGk6r
+	csxzfyljbKSbupZ1CY56Uelz7tO88iAUblp401fmbWqOrn7VAz8y1gXGD7m1
+X-Gm-Gg: ASbGncsYbjxhzrDEzSxka+5WE6yHRi5J+oQLYfon0lC/V5dBIxOWNFxIkku7Ib+F3s1
+	PcOtGLHqdSVheDSseXkZbBlP/Uc3W0rlmLNKOfkopE9WiluzghYGL+2KVsAYtY7aTmIuHatCcXX
+	tvSff3RqpyP/OtbF9H9enLnN9cmkX//Ji29Ha+Cx5g93O2jSLkI4gGLsgAuxVp+EJ+dxGDC7ib1
+	TOsE9Ursxt910fzG98jRd19AhTkqo+PRnMoilYEbfPjqh6U409m5uxhQvE9iD9Zu9px5da1Xes+
+	6AS7H4Io/ZQNchWDAt7XPJmTFWQuwaq44EU+uaSDExXeOqodL5YgBjQwdQ==
+X-Google-Smtp-Source: AGHT+IEe4UF/fm6OFvzn9zfL8vG8nHqhRWUf1YjpzddYf3vAKMrNV2tu3BkYiPxFyiJa2CyJVYyG+g==
+X-Received: by 2002:a05:6402:240d:b0:5dc:1395:1d12 with SMTP id 4fb4d7f45d1cf-5dc5effcb54mr14786252a12.31.1738431008684;
+        Sat, 01 Feb 2025 09:30:08 -0800 (PST)
 Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724c9da7sm4669984a12.79.2025.02.01.09.30.13
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc724c9da7sm4669984a12.79.2025.02.01.09.30.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Feb 2025 09:30:14 -0800 (PST)
+        Sat, 01 Feb 2025 09:30:07 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH v2 2/2] avahi: Switch RRECOMMENDS to avahi-libnss-mdns
-Date: Sat,  1 Feb 2025 17:28:45 +0000
-Message-Id: <20250201172843.1490-2-alex.kiernan@gmail.com>
+Subject: [PATCH v2 1/2] nss-mdns: Rename recipe to avahi-libnss-mdns
+Date: Sat,  1 Feb 2025 17:28:43 +0000
+Message-Id: <20250201172843.1490-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250201172843.1490-1-alex.kiernan@gmail.com>
-References: <20250201172843.1490-1-alex.kiernan@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Feb 2025 17:30:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210613
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210612
 
-Rather than using the RPROVIDES on libnss-mdns which comes from
-avahi-libnss-mdns, RRECOMMENDS avahi-libnss-mdns directly to avoid
-picking any other version.
+meta-networking has Apple's mDNSResponder which also delivers libnss-mdns
+nsswitch plugin. Rename this recipe to avahi-libss-mdns and add an RPROVIDE so
+that either than be chosen.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Add missing Sob.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index a78e776a1843..220160a7e169 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -85,7 +85,7 @@ do_compile:prepend() {
-     export GIR_EXTRA_LIBS_PATH="${B}/avahi-gobject/.libs:${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib/.libs"
- }
+ meta/conf/distro/include/distro_alias.inc                       | 2 +-
+ meta/conf/distro/include/maintainers.inc                        | 2 +-
+ .../libnss-mdns_0.15.1.bb => avahi/avahi-libnss-mdns_0.15.1.bb} | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/{libnss-mdns/libnss-mdns_0.15.1.bb => avahi/avahi-libnss-mdns_0.15.1.bb} (97%)
+
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 5000b08eb833..a938c007e8a0 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -13,6 +13,7 @@ DISTRO_PN_ALIAS:pn-alsa-state = "OE-Core"
+ DISTRO_PN_ALIAS:pn-alsa-utils-alsaconf = "OE-Core"
+ DISTRO_PN_ALIAS:pn-alsa-utils-scripts = "OE-Core"
+ DISTRO_PN_ALIAS:pn-atk = "Fedora=atk OpenSuSE=atk"
++DISTRO_PN_ALIAS:pn-avahi-libnss-mdns = "Meego=nss-mdns OpenSuSE=nss-mdns Ubuntu=nss-mdns Mandriva=nss_mdns Debian=nss-mdns"
+ DISTRO_PN_ALIAS:pn-avahi-ui = "Ubuntu=avahi-discover Debian=avahi-discover"
+ DISTRO_PN_ALIAS:pn-babeltrace = "OSPDT"
+ DISTRO_PN_ALIAS:pn-babeltrace2 = "OSPDT"
+@@ -147,7 +148,6 @@ DISTRO_PN_ALIAS:pn-libksba = "Fedora=libksba Debian=libksba8 Ubuntu=libksba"
+ DISTRO_PN_ALIAS:pn-libmatchbox = "Ubuntu=libmatchbox Fedora=libmatchbox"
+ DISTRO_PN_ALIAS:pn-libmpc = "Fedora=libmpc OpenSuse=libmpc2"
+ DISTRO_PN_ALIAS:pn-libnl = "Mandriva=libnl Fedora=libnl"
+-DISTRO_PN_ALIAS:pn-libnss-mdns = "Meego=nss-mdns OpenSuSE=nss-mdns Ubuntu=nss-mdns Mandriva=nss_mdns Debian=nss-mdns"
+ DISTRO_PN_ALIAS:pn-libowl = "Debian=owl OpenedHand"
+ DISTRO_PN_ALIAS:pn-libpam = "Meego=pam Fedora=pam OpenSuSE=pam Ubuntu=pam Mandriva=pam Debian=pam"
+ DISTRO_PN_ALIAS:pn-libpcre = "Mandriva=libpcre0 Fedora=pcre"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 6e3cb54a1fb5..bec55a7c1c9b 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -52,6 +52,7 @@ RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-avahi-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-babeltrace = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-babeltrace2 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
+@@ -364,7 +365,6 @@ RECIPE_MAINTAINER:pn-libmodulemd = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libnl = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libnotify = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libnsl2 = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libnss-nis = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libogg = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libpam = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb b/meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
+rename to meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
+index 0db609fc473b..9b8275b1138d 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
++++ b/meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
+@@ -22,6 +22,7 @@ COMPATIBLE_HOST:libc-musl = 'null'
+ EXTRA_OECONF = "--libdir=${base_libdir}"
  
--RRECOMMENDS:${PN}:append:libc-glibc = " libnss-mdns"
-+RRECOMMENDS:${PN}:append:libc-glibc = " avahi-libnss-mdns"
+ RDEPENDS:${PN} = "avahi-daemon"
++RPROVIDES:${PN} = "libnss-mdns"
  
- do_install() {
- 	autotools_do_install
-@@ -157,7 +157,7 @@ DEV_PKG_DEPENDENCY = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPK
- DEV_PKG_DEPENDENCY += "${@["", " libavahi-client (= ${EXTENDPKGV})"][bb.utils.contains('PACKAGECONFIG', 'dbus', 1, 0, d)]}"
- RDEPENDS:${PN}-dnsconfd = "${PN}-daemon"
- 
--RRECOMMENDS:avahi-daemon:append:libc-glibc = " libnss-mdns"
-+RRECOMMENDS:avahi-daemon:append:libc-glibc = " avahi-libnss-mdns"
- 
- CONFFILES:avahi-daemon = "${sysconfdir}/avahi/avahi-daemon.conf"
- 
+ pkg_postinst:${PN} () {
+ 	sed '
 -- 
 2.25.1
 
