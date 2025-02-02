@@ -1,107 +1,100 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91DCDC0218F
-	for <webhook@archiver.kernel.org>; Sun,  2 Feb 2025 20:04:04 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.71734.1738526640796168290
- for <Openembedded-core@lists.openembedded.org>;
- Sun, 02 Feb 2025 12:04:01 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E715C0218F
+	for <webhook@archiver.kernel.org>; Sun,  2 Feb 2025 20:17:34 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.71973.1738527452777601739
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 02 Feb 2025 12:17:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hWWs2gpc;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436281c8a38so26167525e9.3
-        for <Openembedded-core@lists.openembedded.org>; Sun, 02 Feb 2025 12:04:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738526639; x=1739131439; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GqnaA+ldWalr46s3/xLZU2VNhAKovzMkLti8j72Z0FE=;
-        b=hWWs2gpcmVmXEYZ66V82aG4A18mki1pN9nUchOMAkKs6mJDhKqWrKS6ALaDK5+tyws
-         Rh16YbXgiFvtIqasaY6UUgIHx/R3WuxIpewOUE6Wn9H7lNTQ+os4/rU3ATB5Mwu1msVe
-         EWmpwqWhvZj8MRA9IYSWgOlPsYcKczQaxCsNOsS5884o1CAyHxXc3kvjL8W7A2exWuEO
-         UzD148YXZp18Vo/YfI/OwaBvCVx79j3AU9Ot1AV+/SpKQGfm/nrQUuZFEWWaOtOgchpn
-         0y5nlQNkPkviMUPdQXau8VU1WZ4/+qQ4Ewn1/gUywEeORNuAG1x/5dnl9knV7tx6tzcE
-         /WAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738526639; x=1739131439;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GqnaA+ldWalr46s3/xLZU2VNhAKovzMkLti8j72Z0FE=;
-        b=cOn6rhE5kwwnv3jrwcwCY+zVNkqaY6yYeswCZLbpoCf3NsPUHCCqhBVm/vfP2LdzA9
-         n7+0MvadGD4kGFGAyzFmMnm/70r6oM09uNUvWc1TpHKkT+rAUqTDScLbW9NZ6MaesRly
-         PsrnqCzrHM+CxNywVLT5b7CWEX2Qa2Oki3oI2CrHrAfbtH9eac1WeMIHVO+EjHtoYnpn
-         5bwvd4RKNCSrRGEb5s5bgfRboBMeKTngivQD6BNnUeul4qFe+L3E1z8+NH5TL7FVuaX3
-         UenAK2iwPeQje8LhUbLF3+98HuRc9h1fD+Sv1309w4ujYKMSeAc0PpxelqNjJL3caGR3
-         QPdg==
-X-Gm-Message-State: AOJu0YzE/+ACVy2pvu1F2La5JokeKFg58ytejw5rHYwYi22HL6fmg/Oc
-	Ay4czY3z1Qx0Ah9k/I0w9XeBp3qmsAD6ko4qGfkU2F5CxydijHKc9XBPq/j/hXY=
-X-Gm-Gg: ASbGncuTcfgXBOCD263Gl1XDhLm/jp6wvGVyrMvsJG12MmUQGS//9xa+VwRdDMDkqhv
-	V7sUHWd0SLkS73AIPWQZ6cpn6T2wr7B/mQk67fdewYrJj6C2m+ilxUKhWsPy0hRJusQ3rNnZ6G+
-	QG/jCzLSi1Q/ShKv/QOuJdLXR5EZJOeccek5CI5qAagEcDiNVp2xsqlKhyR+cwdtY4EVbxQYB0L
-	HBN+RmneLFS7D07Ta0r4RpIjKwOELHUPXhv3PKYmYsuI8YZzRYqzXmUxrzUxRDTjrzhOjXLC+Ek
-	fkGSjHyXbqAt+QCawAmwvFZapAXeFQVbfgydoq0FbmS4Bhsbuw==
-X-Google-Smtp-Source: AGHT+IFiG6ox7CcJaC8AwF5Zd8/EBCnAOlLCmn0bMzZGwsue2jQ+0ntFMn0n9jpr1oANnn/h3MB9wA==
-X-Received: by 2002:a05:600c:4e01:b0:434:f3d8:62d0 with SMTP id 5b1f17b1804b1-438dc3a3e77mr157977135e9.3.1738526638689;
-        Sun, 02 Feb 2025 12:03:58 -0800 (PST)
-Received: from slackware.local.localdomain ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23e5d4csm129032675e9.19.2025.02.02.12.03.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2025 12:03:57 -0800 (PST)
-From: uvv.mail@gmail.com
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH 2/3] meson.bbclass: Add an option to specify install tags
-Date: Sun,  2 Feb 2025 21:03:18 +0100
-Message-ID: <20250202200319.82231-2-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20250202200319.82231-1-uvv.mail@gmail.com>
-References: <20250202200319.82231-1-uvv.mail@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=eLfVhd1J;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XEjXMrI4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010194c84faa33-7ac66e78-2697-49ca-b206-2194b9e8f659-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738527451; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=B4svtEbGhDvzOT3JN2i53jY5CR619xQxCTkUhC9idyA=;
+	b=eLfVhd1J0+zPddtWZg2g9kFy2t4EXuF6Uooxi73gPEpu+isF7UCP1DWerEe6Sclr
+	0ddUM9QywXty//kx/uCDtrI3bkWcZMdJ1zT9JUofwJBZX8thuHY8TzBErLp6o8u3Kkf
+	ZvsC1Nnv9Pef3PAGcTIi531p68umP35vm96gGi+g=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738527451;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=B4svtEbGhDvzOT3JN2i53jY5CR619xQxCTkUhC9idyA=;
+	b=XEjXMrI49vrLVbr3WVCX6ZbP5nt9FIF51d6pEnB8wm4W9ddyWIPHpw3ZYlrppCiQ
+	bYUHdDdqW3wmb7oVkLW9lOq5R1mgM3bLq9sW7k+UJ2Buq44PKcMiOK4usntlIb8CKg8
+	XNU7PfKKMv6cRMMvHOIynS5Vi5FURIRL76PA4ccA=
+From: patchtest@automation.yoctoproject.org
+To: uvv.mail@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] systemd: Build the systemctl executable
+In-Reply-To: <20250202200319.82231-3-uvv.mail@gmail.com>
+References: <20250202200319.82231-3-uvv.mail@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194c84faa33-7ac66e78-2697-49ca-b206-2194b9e8f659-000000@us-west-2.amazonses.com>
+Date: Sun, 2 Feb 2025 20:17:31 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Feb 2025 20:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210624
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Feb 2025 20:17:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210626
 
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+--NextPart
+Content-Type: text/plain
 
-The feature is available since meson 0.60.0. You can specify
-comma-separated list of install tags (not targets).
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/classes-recipe/meson.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/3-3-systemd-Build-the-systemctl-executable.patch
 
-diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index b343480f9a..cbfc45b94b 100644
---- a/meta/classes-recipe/meson.bbclass
-+++ b/meta/classes-recipe/meson.bbclass
-@@ -22,6 +22,9 @@ MESON_SOURCEPATH = "${S}"
- # The target to build in do_compile. If unset the default targets are built.
- MESON_TARGET ?= ""
- 
-+# Since 0.60.0 you can specify custom tags to install
-+MESON_INSTALL_TAGS ?= ""
-+
- def noprefix(var, d):
-     return d.getVar(var).replace(d.getVar('prefix') + '/', '', 1)
- 
-@@ -182,7 +185,10 @@ meson_do_compile() {
- }
- 
- meson_do_install() {
--    meson install --destdir ${D} --no-rebuild
-+    if [ "x${MESON_INSTALL_TAGS}" != "x" ] ; then
-+        meson_install_tags="--tags ${MESON_INSTALL_TAGS}"
-+    fi
-+    meson install --destdir ${D} --no-rebuild $meson_install_tags
- }
- 
- EXPORT_FUNCTIONS do_configure do_compile do_install
+FAIL: test Upstream-Status presence: Upstream-Status is Submitted, but it is not mentioned where (test_patch.TestPatch.test_upstream_status_presence_format)
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
