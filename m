@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC35DC02197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E91C02198
 	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:41:50 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.92649.1738600905692892765
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.92299.1738600907986580590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 08:41:45 -0800
+ Mon, 03 Feb 2025 08:41:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S2k5LBJT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38a88ba968aso4222398f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:41:45 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZJLQw/zx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361c705434so34468935e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738600904; x=1739205704; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1738600906; x=1739205706; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AHWgBGTenYwAi5+a4bRXHkLSgGL6W01nGXeVmjbbWwc=;
-        b=S2k5LBJTd6ojfBrqLN6fEy/APya7MagtnprJOjCcNzJM5YUnJo2msPx3yiUalZ7fYy
-         viYKQe4NwfFeHBKX7haBWIBjQADGf1/8T9wOwvJkF07BWPXR8ORGjCJ+99GmPFZE6Hyu
-         +Fl+K3KS05rCONiTeRElTCp97rvHFS1tWg4Zk=
+        bh=dg97IOkr+23x1eQaqOdeWemsS7bfT+ME5H9cHXv/hho=;
+        b=ZJLQw/zxxe0An5Eovs2rJ7HFKvJOidLAuJ8HC06/tPXNh2QTxjPAZ/gXBeAcsoKIit
+         OBmwQ+J3dg5SozL905HMgAkc5MwaxbMvw1TeCl4W3hN1/a3KombZZaRBCRyq9Et8VbE7
+         GJi2pjM08TxvC5GdKoKxITksrV/VTh+ENk460=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738600904; x=1739205704;
+        d=1e100.net; s=20230601; t=1738600906; x=1739205706;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AHWgBGTenYwAi5+a4bRXHkLSgGL6W01nGXeVmjbbWwc=;
-        b=GRA2GO6i4e3LhjNJdm6YjAeyRN/9ryvlS1ayriV2yqW2FIeXrfeSxqqoJpwn6I4jZe
-         JrUpBTrbtn/mTR9Q0fYW/9YyuISCSeC+c/6XC2BIH/I261CQRcPCk6R0TYAEEZFrM6AH
-         r4foiNQU7RcTpMt3KMMQKXtjqQom62Pe+T4qo2hqiaZaMtTmuBPn2clDtefAHkoPfuGP
-         8LTXgiByv30bHKbMaaEdaSk4zMKnZI41a3V6Xq12jJwLxTBzr0F3fKcVEKALwJQ/A6Iz
-         SNtxW97ZN/eqT1iEIp0NtJ9y+8obMQ9TlaHN6V+YenEzr4vevgdnYTxV4qlw7X/sfovA
-         YHfg==
-X-Gm-Message-State: AOJu0Yzowzz2AxeuotiJ5WCRhkAnRhwLp+wgWrRAZ2Akmz1CcY7SNpbb
-	jkwwt3cJknIWuaE+eYVjSJS2WZqxrSuHMndOAqfI/T14ueMuNouFZ4rdEAf1FgyVcefT8pZnblZ
-	c
-X-Gm-Gg: ASbGncveXW4pmEl53l70Ycqoop7Yz6s2RMlxN66qhRAajhsnqnYi7IjgNBHEh/rR+bn
-	wvk/2pePlGSWpi1rqGkgHGJVbGoM/tmCNGlcIGGUhqcazKtpIuejuesEjxwbhRGRIXk7qzOZ1l7
-	Zdfh1u9XWOo0DUIUybJ6yXRoNZtoSNNafttP5ZJweXrDs1qE08NdOGrKraXQ5dcwBQqaDtQZNGf
-	ccCRyz1Lm5atF1fxSFS2bzEoCoeYwj/NQdNLbxwqXAnZtoskIY4ND5eCqkwVAAgIEIVtueMZ48n
-	KhssrRMJ6GziXkZmI7YvPFLo2Re9Eo3h5ueUIUaHuXKv
-X-Google-Smtp-Source: AGHT+IHHRpHZpmMx/prRPj6xBij2OD2ahxNo2PemEiVee4eEZJQPjLiw3CE+XAvlXRncgYR9aR80lQ==
-X-Received: by 2002:a5d:6c65:0:b0:38c:5cd0:ecf3 with SMTP id ffacd0b85a97d-38c5cd0efe3mr15750266f8f.11.1738600903812;
-        Mon, 03 Feb 2025 08:41:43 -0800 (PST)
+        bh=dg97IOkr+23x1eQaqOdeWemsS7bfT+ME5H9cHXv/hho=;
+        b=AhrWocGtO7UtKcugeERc4LnKWc3Ky2LIFmwWrkK1Pi7gBHNQfV9b6zXxtejaDMXO8I
+         jOmlFzaKyiDQNEvbsWhTBDNF+yNp4rPqD8skEbG9JFmdrIBWTlPkTAYDnEoKCwBt0sLh
+         tzH9L3OQnOMdC7ddfxMQL53MPaFSHWShifc3e+eaE4itw5k20vuegqcMJoXCOFtaFVdq
+         lv8cvQ5bl7KsxKvvy4H4P/nusgUqdeT4aBq6ON5iLF2ZACYJpNM/htEylyD54c/f81al
+         85QfEeoNroGoPPstHw+EnYWwsHDXmOWsFYCMotB1hr70fxOvRl6SjpGMGss87thS2drR
+         pDvg==
+X-Gm-Message-State: AOJu0YyNpzoNYYNLpKT2Y0F5bbLyfAn2ym62LP6yo0zDRcj6Vy1OeIF1
+	ahuNSW4Nc6ArhYZQTP0gj+CPnu4NMo3CKItoC4xRkrqagCdkMlnLWzg1++DsWwsLJMKg3+Fv671
+	Z
+X-Gm-Gg: ASbGnctfR5mkRMlxc7Xp8hCSiW4/EJKS854tDaL8UPFx8GjOR7ZfD1j+tXY/pHujBKZ
+	ovY6fC5o/VHJs72i0yg1UvgfyJ/YmfwEs01O+XfpR+IQ9y8qmtGvPiIfzPQOxH2z7RrO+lFCsvs
+	kia1jc8EmVM1sMgXYp3VLdqDvm+XAXvBDWj26wNNW+jBipZBCTPBIeO5WCB/H9rqnphVwwLNoJ1
+	pWFDyi5mQND5rAr8GDuHSk7IbCZVQSZZyPP+oyEJD0tRt5y5/RA294NqwcILcSfBGMKhmIfXYhI
+	C2Z4aAP1ujjS4q/0xnshRKoz7YLP9jrj9mc1DKSyulD2
+X-Google-Smtp-Source: AGHT+IHlNRF1WeB4Pc6MMcgXkZ5XFRq0RlJSPDWBb4uEIx+NypeY7E2cxPeIcLeABR8oqCsYa2Orxw==
+X-Received: by 2002:a5d:5987:0:b0:38a:5122:5a07 with SMTP id ffacd0b85a97d-38c5194a22emr18899127f8f.15.1738600906069;
+        Mon, 03 Feb 2025 08:41:46 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.41.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.41.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 08:41:42 -0800 (PST)
+        Mon, 03 Feb 2025 08:41:45 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/46] harfbuzz: upgrade 10.1.0 -> 10.2.0
-Date: Mon,  3 Feb 2025 16:40:57 +0000
-Message-ID: <20250203164130.3403325-13-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 15/46] libexif: upgrade 0.6.24 -> 0.6.25
+Date: Mon,  3 Feb 2025 16:40:59 +0000
+Message-ID: <20250203164130.3403325-15-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
 References: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
@@ -64,28 +64,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210686
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210688
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../harfbuzz/{harfbuzz_10.1.0.bb => harfbuzz_10.2.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_10.1.0.bb => harfbuzz_10.2.0.bb} (95%)
+ .../0001-Add-serial-tests-config-needed-by-ptest.patch      | 6 +++---
+ .../libexif/{libexif_0.6.24.bb => libexif_0.6.25.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/libexif/{libexif_0.6.24.bb => libexif_0.6.25.bb} (94%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb
-index 4425dd3e1e9..879cad36dcf 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch b/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
+index 505aa073309..26ab7f657f9 100644
+--- a/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
++++ b/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config-needed-by-ptest.patch
+@@ -1,4 +1,4 @@
+-From 1ee7217c8ae724d793f9a9876c3608057a2ccbf8 Mon Sep 17 00:00:00 2001
++From ea0110e5def8eaf2567193323601f06ff892ce15 Mon Sep 17 00:00:00 2001
+ From: Julien Stephan <jstephan@baylibre.com>
+ Date: Tue, 11 Jul 2023 16:07:54 +0200
+ Subject: [PATCH] Add serial-tests config needed by ptest
+@@ -13,10 +13,10 @@ Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+  1 file changed, 1 insertion(+)
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6ce3520f2d089a33cef0fc48321334b8e0b72141f6a763719aaaecd2779ecb82"
-+SRC_URI[sha256sum] = "620e3468faec2ea8685d32c46a58469b850ef63040b3565cde05959825b48227"
+ diff --git a/configure.ac b/configure.ac
+-index cd48047..5413907 100644
++index 9e483c9..561b61c 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -16,6 +16,7 @@ AM_INIT_AUTOMAKE([
++@@ -21,6 +21,7 @@ AM_INIT_AUTOMAKE([
+    dist-zip
+    check-news
+    subdir-objects
+diff --git a/meta/recipes-support/libexif/libexif_0.6.24.bb b/meta/recipes-support/libexif/libexif_0.6.25.bb
+similarity index 94%
+rename from meta/recipes-support/libexif/libexif_0.6.24.bb
+rename to meta/recipes-support/libexif/libexif_0.6.25.bb
+index b407ee52de0..59c22753d04 100644
+--- a/meta/recipes-support/libexif/libexif_0.6.24.bb
++++ b/meta/recipes-support/libexif/libexif_0.6.25.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libexif-${PV}.tar.bz2 \
+            file://run-ptest \
+            "
  
- DEPENDS += "glib-2.0-native"
+-SRC_URI[sha256sum] = "d47564c433b733d83b6704c70477e0a4067811d184ec565258ac563d8223f6ae"
++SRC_URI[sha256sum] = "7c9eba99aed3e6594d8c3e85861f1c6aaf450c218621528bc989d3b3e7a26307"
+ 
+ inherit autotools gettext github-releases ptest
  
 
