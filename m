@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B9ADC02198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63801C02197
 	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:42:11 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.92679.1738600929110657664
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.92673.1738600925760802012
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 08:42:09 -0800
+ Mon, 03 Feb 2025 08:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AThJl2Uz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso32327805e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:42:08 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=anck+wgS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-438a39e659cso32215985e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:42:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738600927; x=1739205727; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1738600923; x=1739205723; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aKiaH2w4ElNAo1rov8qn6nGD4973/Hr8bW3OZz5u60Q=;
-        b=AThJl2UzztYvQw0pxXCyYfIx/WIRiGwzBIoaM2ftIHFWD6d50hVmj505WN1tjSd5JC
-         pujiaR+jfSOfXAb7Mwv5tY2nZjv+zsHCv1G0JCjnsreGpSQjzZPq4svpoSzGoWycqXwX
-         igkg7EICEh1w/3fCRrI3GZZDa9wON3BLogncE=
+        bh=YSp/T9dbhGbBa5/6ZVP0h8Z1EJfh503fGVLnCKJwkEQ=;
+        b=anck+wgSjF3EDHZqGGrtxaG9sHleFE6aU5asBOtw9gu2KHNdvQxI09/SNq2M6Vfr+T
+         9srhJz84uzCJOxyBHCFg4LZ63jruzJ8DE4w+zHqgSN/cQoJ4AmK7NR4JOdbNW/JPOf6m
+         CngAUXuOJYqnJOY14SJz9bSxUOB8VThkWVi9A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738600927; x=1739205727;
+        d=1e100.net; s=20230601; t=1738600923; x=1739205723;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aKiaH2w4ElNAo1rov8qn6nGD4973/Hr8bW3OZz5u60Q=;
-        b=e3mNn4peGoH2YDBC6evjVqr6j5fcg4USKVRL+iyvqDbuqKuLuXsANSKkVeDCOSQaIu
-         EL6N7XFwGisbVwTb6w7HAqAM/kAFZmTRGNEH7q1o6GWa0E8pMiyIFB5H61hpCHfRuE08
-         k9ZjD0QI2UFaS/QnPow+144+PIxTqM8p2ulx+e9/B2NwVS3jFAWQM4ylzq7qB4+kNQbP
-         DQRA3vUWweSoFhL1SMn6/Tjuv9GfCIyxVhPk1CzoB/wMt3SUDaCck6wUwRQ3AbUD2bvL
-         uE14Iv/9f1s+daXUROkpcRHAMWIku+07anejrvAZOV8tqP3MDOEd7w8DoMGPQcWyqTdR
-         m1xw==
-X-Gm-Message-State: AOJu0YwG5/hEXiDqb9SGbW3fquzHcmsIBZAbw28QhBP01rAImDoBW8+o
-	GCpodrOhk7IDEZTQZZgKmkXwtszXZSHtnf4V8c7K5YmOpbt5OLQA655+pZUtaaFLZuXKphaMLRU
-	K
-X-Gm-Gg: ASbGncsu2qwgfMzdZ1PPXHaWW3jpFg/MrDI4t+o9K37sOf2+J+YL4bi/TPAHWc50KXJ
-	5beSW1bCQgthvCSALKv2bgU6voenMDxH0xbefuwBlEPlIerqfD49bAIGkpiIx8UJj/LGWminEjR
-	B+B5W5xy2PgKon3A8JgE1Hk5seveuZgq6yGFvz1WV/TyX4axgWBPUrInwHfjSRiuopQ5ImqJw8M
-	4jqrAxMuq7aZ3vnmijzdNmXmZjzAwNM9G4YryF1tBqg8ML53vnlO9C3c5+fmMyTQQUwyd6X4+bb
-	LgDVm5z08hR419exNlXvVL9QKp4qWPkRq3bg7QaN92XJ
-X-Google-Smtp-Source: AGHT+IFiFTYOurvV8zPUmk0e+8sAjkmigKLi+EM1mx5f3PKmrIDEJX1nJOI8wXZZMN4b9iMdwIuxNA==
-X-Received: by 2002:a05:600c:a45:b0:434:f7e3:bfbd with SMTP id 5b1f17b1804b1-438dc40cf15mr180387765e9.23.1738600927145;
-        Mon, 03 Feb 2025 08:42:07 -0800 (PST)
+        bh=YSp/T9dbhGbBa5/6ZVP0h8Z1EJfh503fGVLnCKJwkEQ=;
+        b=dnORKSwpeTuQZK4K/UlGZUUkZIlHIorS/jZmEINnJDjxd+QbsHPrfatVgsuF6Ozske
+         luYwpa56HdcKGfdX1I3qB4goT+kSXWNRpSW7nGH/LcbASyMqbK/nRAzh9f5kF8JOOQXl
+         DznrthQ7JFizEobUoi+qUeWq5gP3jklOiJsk6BQ22AFi4Ok7o1a2TbhLtIdsgQ0U9aPs
+         JK4mpsi01TnNtTPbUQdXlhdwBaV+hCVAUTDYmfVTdZB4YS3yvicV0hUDs2IwJifNK1Mb
+         ijI7d2NL7nxHWhQtw6YVK2l1JjplYh62Sxqhqixt3eqhL9gp09AqJadmXhvCLNjwgSAr
+         QPlQ==
+X-Gm-Message-State: AOJu0YxhMyF7Aqf10BhASy2lGMgzd0L+GM7YasLRAaVH+hPBph1eeMjd
+	BSt/kdB/ckrQZVHVZHE99so1tIliL6Qf9BXTsWLSq6bsPazgT6IuVyZdJ9dz6labfJBul5KxnYX
+	G
+X-Gm-Gg: ASbGncvfSWCR4gCqgB+MJjsDl12RgNOZOKNq/tfFz9AyfK9qHnQqWiqgESUPRRdlvex
+	xaB+4aWoUwyPa1LrY7swwoxHdAeBXAFvkb58uR+6HubHQa+vL9uce6VrBa/veAyuuqDCj/BrNDF
+	Q/bCJ6TQCZ3E0RZ6t7RzB/qETFCni6mBgUL3DLxTW7hv6iTEFNea6mMlaGEhQvH6hd9vdrAV3kV
+	Bq2na4mUhUYgeqqaYKm8E0nMYLZywGmkfeC2XtDEF0oK9ee6J6gM/oDbPoLhZ2L2+JUZYALtM4l
+	2lnIw3dIsL3u7rCpy7hVL3ZzZY6GwXQP2apzZk56u5bq
+X-Google-Smtp-Source: AGHT+IGO4pFCPS1jLz6GE1e2WjT/jos1Muu/iE+ZerrFJf/uatfWgxGvkIh2XBYjBvpw9U8ICEJ4vw==
+X-Received: by 2002:a05:600c:3d05:b0:434:a802:e99a with SMTP id 5b1f17b1804b1-438dc3ab389mr182269935e9.4.1738600923626;
+        Mon, 03 Feb 2025 08:42:03 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.42.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.42.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 08:42:06 -0800 (PST)
+        Mon, 03 Feb 2025 08:42:02 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 34/46] python3-pygments: upgrade 2.19.0 -> 2.19.1
-Date: Mon,  3 Feb 2025 16:41:18 +0000
-Message-ID: <20250203164130.3403325-34-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 31/46] python3-more-itertools: upgrade 10.5.0 -> 10.6.0
+Date: Mon,  3 Feb 2025 16:41:15 +0000
+Message-ID: <20250203164130.3403325-31-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
 References: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
@@ -64,28 +64,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:42:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210707
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210704
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{python3-pygments_2.19.0.bb => python3-pygments_2.19.1.bb}  | 2 +-
+ ...ore-itertools_10.5.0.bb => python3-more-itertools_10.6.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pygments_2.19.0.bb => python3-pygments_2.19.1.bb} (80%)
+ rename meta/recipes-devtools/python/{python3-more-itertools_10.5.0.bb => python3-more-itertools_10.6.0.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygments_2.19.0.bb b/meta/recipes-devtools/python/python3-pygments_2.19.1.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pygments_2.19.0.bb
-rename to meta/recipes-devtools/python/python3-pygments_2.19.1.bb
-index f1bc8456623..de24ed3f11c 100644
---- a/meta/recipes-devtools/python/python3-pygments_2.19.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygments_2.19.1.bb
-@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb
+index eda9bf1004e..5447a7af8e4 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_10.5.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
  
- inherit python_hatchling
--SRC_URI[sha256sum] = "afc4146269910d4bdfabcd27c24923137a74d562a23a320a41a55ad303e19783"
-+SRC_URI[sha256sum] = "61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f"
+-SRC_URI[sha256sum] = "5482bfef7849c25dc3c6dd53a6173ae4795da2a41a80faea6700d9f5846c5da6"
++SRC_URI[sha256sum] = "2cd7fad1009c31cc9fb6a035108509e6547547a7a738374f10bd49a09eb3ee3b"
  
- inherit pypi
+ inherit pypi python_flit_core ptest-python-pytest
  
 
