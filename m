@@ -2,130 +2,213 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F22D4C02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 19:42:42 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web11.97368.1738611762497317751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1ABDC02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 19:46:22 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web11.97465.1738611973680763308
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 11:42:42 -0800
+ Mon, 03 Feb 2025 11:46:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AKfSFb4P;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5f4c111991bso2282437eaf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:42:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EmBDC+o1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-724d1724657so2878699a34.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:46:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738611761; x=1739216561; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1738611973; x=1739216773; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v6xcIYzEnKgk9lQ6XJHizA2qlPhKZWxWHjIfI1CwreM=;
-        b=AKfSFb4PKLj3cvuDpMZgZNF4MNtaezN42Nto5E0vbrHJ03W2q1h2d+DTdJyAQzy7sH
-         65V07aK9gThRqTkiS/FCO1Hr+FD2Xmii6PZY/5nHbXWn66bA6XWP+YQq1IBcnwZsvUab
-         FJo15JjxlvU3oxILSxzIM2vOTMSVViRCv4iINgx5vpCQn6wD3u31Pxku+j70BnWQqH02
-         PUZh/U9zAQtNuCNXGZfN+GSLMoZoT74SLrSYzXzs6I3ZaHSvCB/H645bmqKHVHrpvsiO
-         3LLa+Yx2cHEozjP142YkWHHoKs6/5+HhX7yrHJtAnABHBKAQioWwancau4FJNRU4Dk1s
-         LLEQ==
+        bh=/8OTceTsy8l5T5zXuAxuBTkReAPJDPRSkAl+mS2i590=;
+        b=EmBDC+o1mzh0hHw6EiJvEFMcuFRTmU7XkdIHiYXxLEYm8m2JkyZOQAywshdOjQLWjk
+         sVG0t/c1ORR96tMn7/80nb7228litLMUDvDCEyvsKNcxbXrqXnrFTGytG7LurHBDMpT0
+         aIoE92li89CWC1//zT1MmTyAAdqyruoVjGQVHEnsIoPlasLJwyxNhlIknbPE2CH5z5Ql
+         fdxh9LXQ/SSiD7ydi9sXY7dLiuXbHnozZRal+SQV8t98/SIsNBwOwfrIVoTPWwqKFjHv
+         G1atk0AcB8T1iRhQnRUVBL9yTkaT9HtyU2s4fs9xQepXT+/g2VMhvD6jHxR0YkG/sBki
+         59aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738611761; x=1739216561;
+        d=1e100.net; s=20230601; t=1738611973; x=1739216773;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v6xcIYzEnKgk9lQ6XJHizA2qlPhKZWxWHjIfI1CwreM=;
-        b=KaMC6BAVzl4TLzYXZbk0Ulbxu8YqpAUchbBU4ArYM9J1/yR1sQAkSMqTwP/e+To19e
-         COvw7GnSBRSlLwJPhmMGPzTno8sdIGpreOBcOpjDSicDwwZFV3Y+N1zrwsiD5J60UtSy
-         dTDLcTeg7todz1bwJHYJhZjGc9g6FQpwlx9b0IsR9dobyxuIMKOaXV1mmbOYJ42FCqct
-         W6EFmxRQpjNIM0rJ4y2VNsU6uEn713DF5yiX2eemWa0h9ngnK9i7guRQvXiLHRv/Drzy
-         KHPNr+uzIuwLNhoO0eVRIltXVbZw5L+MgM37j2mAzCzw29vfhRi1E6jNBHA4lzPswkRF
-         sbKA==
-X-Gm-Message-State: AOJu0Yx/Hr/3avQnIRQgragKIw8b3TSt+bQIBH7fvL5AiF7QmVBqt+1N
-	8hMEbD+eYAcbPr0rnA2WuAFwjM4ucfs7yqY2NYMom/ynB3CaOShEiF3OGDxtGy/J6gkSNxnHDQb
-	kpO6f3VAJHocWUhb1gcM0Hmo/y2g=
-X-Gm-Gg: ASbGncuY8R8JtZGpndjU4Rs8x+viaJl4lPZul1aDX8NDdPI063b9wtkR85bM9i2Ey4i
-	cmfhOMXbfk7Bwoc4BLYGNFD2vl0RNq1NY8ihWAgsTJvex2MkUTZHGf/WpwySz0CoL0nr2fzsG/H
-	IEKsALMBNBrdGgohR0HnncFfZHWg==
-X-Google-Smtp-Source: AGHT+IFdXjk5zrXGtxh/lAYPHDh3NAP8JL2he4IqmJ8TwDesESPa4MAXgxmzg6kP3Xpj99cUNauma6Dzg32b76xOk7A=
-X-Received: by 2002:a05:6871:7983:b0:29e:3d2a:a4a9 with SMTP id
- 586e51a60fabf-2b3e74d1c98mr369653fac.5.1738611761549; Mon, 03 Feb 2025
- 11:42:41 -0800 (PST)
+        bh=/8OTceTsy8l5T5zXuAxuBTkReAPJDPRSkAl+mS2i590=;
+        b=A0vjnSv0ZB7XmfcGg++A7ffgHtNPGECPela5O77rX4H53QdHuA2mpNeOt6mrygGj3U
+         zxbNBm4aqhTp/1CkoY9nZGFySKyCTdN4D08yOFi2LsO95FWle0+CGWjKPNQh07KWiEa5
+         uw8lQPyxebnr2QXEqZ7mQ6a/zYu5yHkMVZ35bo/6euT73OlDzT3hZcksWZBsjrSDf8P1
+         CrRKcThb2c9cifgKz7BlyP3Y4VtKZlw8yVy8V5KBPo464rGhUyyE+l1kqk7qD7FU7d11
+         D23xCTl26nXLooPNoecS9+FLxj6NTfySWktqEyuV1rXOlRlDkz3KhAGshwaUPjp7C+eU
+         ffmw==
+X-Gm-Message-State: AOJu0Yzn33ARHltX3Ew7UW0UrmOQEa3mBIuoUdKwTZw18ESbxNH56zRq
+	8HqSEh0gpZ0V4O2sC7pELEfYBJ7VpfV7TBN7Krc7Gm7fsK45l6sm4nbozBr31E0+ujqVnXd1CHA
+	7p/gXZrgWWOsKYrTrZelBbyWPvpE=
+X-Gm-Gg: ASbGnctL/fn84jJsLuQqJh3UFVHwjjnhRIqVyWifbggDGlwFihGLtrFIa8jNKVxsCAl
+	GPJ2LAFv+AhD/Q/AbbehCYvFLwAFRyvScP+iTDU6pUF6NmiXJLTT7i+jYlrPO33YY5qwktxTVAD
+	yyNzYxM3TAT0n3qPCEoGGwL8uzvA==
+X-Google-Smtp-Source: AGHT+IEOY3ponhu1BR43d7xYQYIq812mERZ1euXjbziy9RKwrDq9Mw81ac1m3KkjbEzsjcfqnk0Lvys2sA2GS3MogNc=
+X-Received: by 2002:a05:6871:2208:b0:29d:c9f6:efdc with SMTP id
+ 586e51a60fabf-2b3e761d7b4mr399313fac.17.1738611972892; Mon, 03 Feb 2025
+ 11:46:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20250203-b4-support-v2-0-848008ad29ea@cherry.de>
-In-Reply-To: <20250203-b4-support-v2-0-848008ad29ea@cherry.de>
+References: <20250203154038.33130-1-nikhilar2410@gmail.com>
+In-Reply-To: <20250203154038.33130-1-nikhilar2410@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Feb 2025 11:42:15 -0800
-X-Gm-Features: AWEUYZm5RlPKghrPE8u9PsA9ayXYtL3WC2oTkR0o68FWsTtFvt9KsPVIrTiBo84
-Message-ID: <CAMKF1sqh0VMORr2ivhz82XVt7EuZ_UmUgtFVHOXb0pQwDesnnw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/2] add basic b4 config file
-To: foss@0leil.net
-Cc: openembedded-core@lists.openembedded.org, 
-	Quentin Schulz <quentin.schulz@cherry.de>
+Date: Mon, 3 Feb 2025 11:45:47 -0800
+X-Gm-Features: AWEUYZmsv_pjJvFwrBlwei5NlRg5NtXeJXp-HXPRLRjZA-eMtsLG-LzYKejQ2Uw
+Message-ID: <CAMKF1so-AM=CkOscM1Zg=CiK3vQt4ZVGFrtizxUx-mLEeKpdyQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] glibc: Suppress GCC -Os warning on
+ user2netname for sunrpc
+To: nikhilar2410@gmail.com
+Cc: openembedded-core@lists.openembedded.org, nikhil.r@kpit.com, 
+	Nikhil R <nikhilr5@kpit.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 19:42:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210731
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 19:46:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210732
 
-On Mon, Feb 3, 2025 at 7:18=E2=80=AFAM Quentin Schulz via
-lists.openembedded.org <foss=3D0leil.net@lists.openembedded.org> wrote:
->
-> This adds very basic support for using b4 in OE-Core. This essentially
-> just automatically adds the proper mailing list when running b4 prep
-> --auto-to-cc.
->
-> This also adds the b4 wrapper script that poky will need to use in order
-> to identify which mailing list a patch needs to be sent to and do some
-> additional per-patch checks that aren't necessary when running from
-> vanilla OE-Core.
->
-> Once this is merged, poky will need to merge OE-Core into itself and
-> override with its own .b4-config that makes use of that script.
->
-> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-> ---
-> Changes in v2:
-> - add mention to first patch that running patchtest for b4 prep --check
->   is what we're eventually aiming for,
-> - add poky b4 wrapper script (it used to be in the patch series for
->   poky, c.f. https://lore.kernel.org/poky/20250123-b4-support-v1-1-4841f5=
-2eccbb@cherry.de/T/#m95d6aa25cc42352416da477cf07d7b3cbd671231
-> - poky b4 wrapper script properly identifies patches with files modified
->   in both OE-Core and other repos part of poky,
-> - poky b4 wrapper script pretty prints when there's more than one
->   project modified by a script, instead of lazily printing a Python
->   list,
-> - Link to v1: https://lore.kernel.org/r/20250117-b4-support-v1-1-fe74a5f5=
-0eb6@cherry.de
->
-> ---
-> Quentin Schulz (2):
->       add basic b4 config file
->       scripts: add b4-wrapper for poky
->
->  .b4-config                 |   3 +
->  scripts/b4-wrapper-poky.py | 170 +++++++++++++++++++++++++++++++++++++++=
-++++++
+LGTM but dunfell is EOL,
 
-is there anything specific to poky in this script ? if not then it
-should not use that in name, it will
-make it confusing. In oe-core we do not refer to particular distros if
-not needed.
-
->  2 files changed, 173 insertions(+)
-> ---
-> base-commit: 30ea609d3357fb3de911f2f6a5e6856c151b976a
-> change-id: 20250117-b4-support-10de313f53b7
+On Mon, Feb 3, 2025 at 7:41=E2=80=AFAM nikhil via lists.openembedded.org
+<nikhilar2410=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> Best regards,
+> From: Nikhil R <nikhilr5@kpit.com>
+>
+> When building with GCC -Os, a warning is triggered indicating that sprint=
+f might overflow.
+>
+> Error:
+>   netname.c: In function 'user2netname':
+>   netname.c:51:28: error: '%s' directive writing up to 255 bytes into a
+>   region of size between 239 and 249 [-Werror=3Dformat-overflow=3D]
+>      51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+>         |                            ^~               ~~~~~~~
+>   netname.c:51:3: note: 'sprintf' output between 8 and 273 bytes into a
+>   destination of size 256
+>      51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+>         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   cc1: all warnings being treated as errors
+>
+> However the code does test prior the sprintf call that dfltdom plus
+> the required extra space for OPSYS, uid, and extra character will not
+> overflow and return 0 instead.
+>
+> Upstream-patch: https://github.com/bminor/glibc/commit/6128e82ebe973163d2=
+dd614d31753c88c0c4d645
+>
+> Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> Tested-by: Carlos O'Donell <carlos@redhat.com>
+> Signed-off-by: Nikhil R <nikhilr5@kpit.com>
+> ---
+>  ...press-gcc-os-warning-on-user2netname.patch | 61 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
+>  2 files changed, 62 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gc=
+c-os-warning-on-user2netname.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-wa=
+rning-on-user2netname.patch b/meta/recipes-core/glibc/glibc/0003-sunrpc-sup=
+press-gcc-os-warning-on-user2netname.patch
+> new file mode 100644
+> index 00000000000..7068a81518f
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-o=
+n-user2netname.patch
+> @@ -0,0 +1,61 @@
+> +From 6128e82ebe973163d2dd614d31753c88c0c4d645 Mon Sep 17 00:00:00 2001
+> +From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+> +Date: Wed, 21 Sep 2022 10:51:07 -0300
+> +Subject: [PATCH] sunrpc: Suppress GCC -Os warning on user2netname
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +GCC with -Os warns that sprint might overflow:
+> +
+> +  netname.c: In function =C3=A2=E2=82=AC=CB=9Cuser2netname=C3=A2=E2=82=
+=AC=E2=84=A2:
+> +  netname.c:51:28: error: =C3=A2=E2=82=AC=CB=9C%s=C3=A2=E2=82=AC=E2=84=
+=A2 directive writing up to 255 bytes into a
+> +  region of size between 239 and 249 [-Werror=3Dformat-overflow=3D]
+> +     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+> +        |                            ^~               ~~~~~~~
+> +  netname.c:51:3: note: =C3=A2=E2=82=AC=CB=9Csprintf=C3=A2=E2=82=AC=E2=
+=84=A2 output between 8 and 273 bytes into a
+> +  destination of size 256
+> +     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+> +        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +  cc1: all warnings being treated as errors
+> +
+> +However the code does test prior the sprintf call that dfltdom plus
+> +the required extra space for OPSYS, uid, and extra character will not
+> +overflow and return 0 instead.
+> +
+> +Checked on x86_64-linux-gnu and i686-linux-gnu.
+> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> +Tested-by: Carlos O'Donell <carlos@redhat.com>
+> +
+> +Upstream-Status: Backport [https://github.com/bminor/glibc/commit/6128e8=
+2ebe973163d2dd614d31753c88c0c4d645]
+> +Signed-off-by: nikhil <nikhil.r@kpit.com>
+> +
+> +---
+> + sunrpc/netname.c | 6 ++++++
+> + 1 file changed, 6 insertions(+)
+> +
+> +diff --git a/sunrpc/netname.c b/sunrpc/netname.c
+> +index bf7f0b81c43..c1d1c43e502 100644
+> +--- a/sunrpc/netname.c
+> ++++ b/sunrpc/netname.c
+> +@@ -20,6 +20,7 @@
+> + #include <string.h>
+> + #include <rpc/rpc.h>
+> + #include <shlib-compat.h>
+> ++#include <libc-diag.h>
+> +
+> + #include "nsswitch.h"
+> +
+> +@@ -48,7 +49,12 @@ user2netname (char netname[MAXNETNAMELEN + 1], const =
+uid_t uid,
+> +   if ((strlen (dfltdom) + OPSYS_LEN + 3 + MAXIPRINT) > (size_t) MAXNETN=
+AMELEN)
+> +     return 0;
+> +
+> ++  /* GCC with -Os warns that sprint might overflow while handling dfltd=
+om,
+> ++     however the above test does check if an overflow would happen.  */
+> ++  DIAG_PUSH_NEEDS_COMMENT;
+> ++  DIAG_IGNORE_Os_NEEDS_COMMENT (8, "-Wformat-overflow");
+> +   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+> ++  DIAG_POP_NEEDS_COMMENT;
+> +   i =3D strlen (netname);
+> +   if (netname[i - 1] =3D=3D '.')
+> +     netname[i - 1] =3D '\0';
+> diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/gl=
+ibc/glibc_2.35.bb
+> index 9400e1e9208..d9cae79ac2f 100644
+> --- a/meta/recipes-core/glibc/glibc_2.35.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.35.bb
+> @@ -64,6 +64,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
+me=3Dglibc \
+>             \
+>             file://0001-Revert-Linux-Implement-a-useful-version-of-_start=
+up_.patch \
+>             file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.p=
+atch \
+> +           file://0003-sunrpc-suppress-gcc-os-warning-on-user2netname.pa=
+tch \
+>             "
+>  S =3D "${WORKDIR}/git"
+>  B =3D "${WORKDIR}/build-${TARGET_SYS}"
 > --
-> Quentin Schulz <quentin.schulz@cherry.de>
+> 2.17.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#210655): https://lists.openembedded.org/g/openembedde=
-d-core/message/210655
-> Mute This Topic: https://lists.openembedded.org/mt/110972445/1997914
+> View/Reply Online (#210658): https://lists.openembedded.org/g/openembedde=
+d-core/message/210658
+> Mute This Topic: https://lists.openembedded.org/mt/110972964/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
