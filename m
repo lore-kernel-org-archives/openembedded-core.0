@@ -1,207 +1,97 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD8EC02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 11:24:28 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.85506.1738581860699012690
- for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 03:24:21 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DFDC02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 11:28:08 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.85553.1738582078394827291
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 03 Feb 2025 03:27:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ea8OMxjQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-438a39e659cso29174815e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 03:24:20 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=ZYovkH6N;
+ spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-305f529a987so32420031fa.2
+        for <Openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 03:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738581859; x=1739186659; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ocVWdLT9rbbd1a2kGZBCLV7sjyQOlhfzoFEz4wbqGxo=;
-        b=Ea8OMxjQvbKI6q5CX2L+YNW/GCyS42ZinId0zbiTlSl+0TmVNG1x/YG7B6sRTKFx/U
-         cnNpmaKLXSWoJUc3B06qqcHeN6PNr4/20cgJ/3HWEWhKqpQCEpPVE+I/H637oaacC22Q
-         9sbHSbUQmhqdCeldOWCbGkhaj0WwYPFtO4s/Yj3qB8A93sCDtDU7kyC+gnSV8BhdUfkL
-         DuS2api33mKUJYuk/H0lhEuD1XjeTQGul/Nxy7fcnABs31PQSbKuFut+7EQ/j6jSNFH+
-         mrY+guTT06Mw2RBEAEalWlt96yF5J16aHRnpiGdjGNZx63KIblPAWO1nV4K1ppFITUef
-         p3RQ==
+        d=linaro.org; s=google; t=1738582076; x=1739186876; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kr6iNXUDdVVQrjdsiRuGMccdfniuscuMsLuHEwzGqSc=;
+        b=ZYovkH6NDArR0+AkZWQtJvIfgA9eHv6gUE4JawXy58hTkOKRTwx6vOIcjHBqD0a54v
+         cUu3sHnhcEXSC6diKOeijUuhHm2KjAoAhC3kYy8JFWRgeG/I6IsQA1hb8gCqrLFtJdJD
+         t2OL5ggiIFfytSLmvD0ixbHzLx6fcqTn6YJe+zZSTyNOmUE9TNRUMiJhc+6FuewBwPwU
+         34G/KWJTziMRBJzWBQlwSxg9aC7Klhj54hw3HYfAaGsQYNCxIYGXcv9Ow8RpTnTbNGsl
+         qZZ7xl/jxuqiKA/IB2Cj7zbBYXPcX6gYLh9H4ngWKCunAfhuD9XG8/hpHrJ119iW0GKQ
+         usdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738581859; x=1739186659;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ocVWdLT9rbbd1a2kGZBCLV7sjyQOlhfzoFEz4wbqGxo=;
-        b=cAeG/o2Q61ygjOjvUD6KnGGELLyKGBwvMFtd6aWNVOfut21SPP8mofV1kocFrAXQ4V
-         tophzaMUjYJPYCbh504cGhN1XPcphJXKp7a5ZTik7mpyUYOW+y9PnuT/Q5g5M9k+w8jq
-         X/Gunrv6GPInEb6a0d0jSazy/D+dLzMycIW82740V4BdDX55mrwFa/rq8w8zh2b/Z7fL
-         yKNraGpI2WYeRNedj5q1bC0uPpQzkQAmsNo3V737akugvK4KyeiJMhV1DbNY8oudLzU5
-         Je2UJx0xr9slZZJ2VC6S2FwbbjpZ5Lh4m9JD1rZS+osZpBcay3V8hETa0N1wZlmq4Yki
-         KaoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrK/mRBOMP6J3lMydWYwgugeapa3m5PZYJHZtY34aJKMjfIhsCcDxpDU6H9+SHewcwR4j3dyI7nlbYtquuDXeoPQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzlPn3yDsc1u+lQOjD8eWRR1J23uIXdKBl3Gb4i4RfMbMFo4C5+
-	S4yxwnWYs71WX2E27+VK7w15ReogzaIBlYvhkxJPLUn+Z/+7c3Lu
-X-Gm-Gg: ASbGncv0gLxTsddOjtYeYXgFQ2dVmFYKrNpVPHUjKPvAUyxW0UXCtlZRda7jE81QNK6
-	mFcVMFVPMGxyMkrwCsd4pS9hwYVfZVhb8DD+STiTh/68YS7dA/WjsmA99CNHvL9UsseyJN7IIL5
-	HSSzwzK1dTnsyYxHYIYPcn735LO6c1hzathyxmkCsv6AdMz7jK7usFuH6uVIsrT/IEdHOpaeACb
-	hO2R5G+e5u4NdTRmgQ3J2HXWEWsxe7UVlca/mrKruxjrh7OC7SVEJp2f815AyDuoUNz3AwMGKkO
-	2rjj3QQuYJoiA+9ANnQ9y5kYvThDt4nlj50m2g9FbUgaMwzK
-X-Google-Smtp-Source: AGHT+IGOTuGL1BaAmCh9qvuyxyI182Sh88ni3cxKkhBcWZnv00sV4Kd4FZF4uSGRn9HpBP0Mily8/Q==
-X-Received: by 2002:a5d:648b:0:b0:38a:5ce8:df51 with SMTP id ffacd0b85a97d-38c51931b2cmr15933899f8f.2.1738581857293;
-        Mon, 03 Feb 2025 03:24:17 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc2ede0sm188551505e9.21.2025.02.03.03.24.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2025 03:24:16 -0800 (PST)
-Message-ID: <0be23bce-a08c-4b6d-a8d4-a78f91a6be87@gmail.com>
-Date: Mon, 3 Feb 2025 12:24:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v4 2/2] oeqa/selftest/cases/signing.py: Re-enable
- self-test
+        d=1e100.net; s=20230601; t=1738582076; x=1739186876;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kr6iNXUDdVVQrjdsiRuGMccdfniuscuMsLuHEwzGqSc=;
+        b=CcE64IbZ06AolO2wZ+O40CJcdOhimmyqQ9MVQz9CRtzRv5gGg+Kn0KH/Y5Gc5KpU8q
+         kwcBQ5U3sfoZ+x0bglfD4WQp6Zxqv80rQLjHADwo10SMcmC5i1AYMyrNgK4liFejJVN4
+         FkNzkEnCSk8UoYSdtmraM1IqRRz00t4kTItFITVVjacOocS5YjlXDZsgHm5SXIEoXx8i
+         4emIMdGyyrQa1i46XYAQthHidZER08tUppMx+eOeLySVmX9xVp6Qhznx/rhPNzbl5GyM
+         uVGg1RZ0b5uy5cvQba0jxAOo8PCQLa/MsPFoJbLGXGSexwlgLf3h1mD5lBmsZjg0kvTW
+         GTlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUenfF4hmcI4ss3Ur3F4N50qM8L7415uAEVmA2smfrxWfu2aM1GoNWepCwxT8ysYXvZuE1ZKPgbZtNjyhcNP8BlJQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy6f1+H18/ErEPvfNfiCaRvG+cTYAdIXplcEnVw4jtXzZhOYYr9
+	PmBu1Ys0j34d0JjxObgRL0z/hqfkwUFmtXqD9AMkk06jUpEmR9oTS5tXUgXvk8s=
+X-Gm-Gg: ASbGncvFX+OgmHGlY/BbxOy0hmVYGSVAowy74C4fobsKOKj5KBQ+7Tyfm3opreacIdt
+	ePC2CQ170ioSxXy1QmPpvRpyMOb3iLPg6VqvcIxsi6XQyd3546UAPREJscFaAYTvw43edQsQuSy
+	xMedcYhH3v847v/mhrtOGuaHjD3JvTPo7WNfe0ETN2pW9SCwWHh8t7fKppJBw1Ka5xzX0cZ2kh1
+	rQynaIj4ICHhawZcuxDi5LQ0z5LIL454NitOczBuya7ubVAZQtA560Y55+R667qqdC7r1WXE13Q
+	7+VBx0OS2j8lupDEu0rfVa4olrNi1tuzTH18gkG1
+X-Google-Smtp-Source: AGHT+IHHqXBX0jQnK5+/CrBXbIoBqCqLWjYLm8YeS0bwp4LUV7bYvhTx27JOTeq2TXt2V84S4X4Xxw==
+X-Received: by 2002:a2e:a908:0:b0:300:2a48:fb63 with SMTP id 38308e7fff4ca-307968c0939mr62381291fa.6.1738582075635;
+        Mon, 03 Feb 2025 03:27:55 -0800 (PST)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a30a5223sm14340301fa.63.2025.02.03.03.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 03:27:53 -0800 (PST)
+Date: Mon, 3 Feb 2025 13:27:50 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-References: <D7FH5IEPPGUA.CNZMYM7LM2F4@bootlin.com>
- <20250131064352.2613105-1-zboszor@gmail.com>
- <20250131064352.2613105-2-zboszor@gmail.com>
- <D7H6P74CVGDM.3LTRAMF91XPEH@bootlin.com>
- <182057ACF258490B.1760@lists.openembedded.org>
- <e75d75e4-2b55-4199-b2ee-e9eb26abafca@gmail.com>
- <CANNYZj__itq2zLjW2_ZN4zGw0dvw2oYhXtSVGBOxpKEqZkmALQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj__itq2zLjW2_ZN4zGw0dvw2oYhXtSVGBOxpKEqZkmALQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Cc: uvv.mail@gmail.com, Openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 3/3] systemd: Build the systemctl executable
+Message-ID: <Z6CoNsKRvAibY0D9@nuoska>
+References: <20250202200319.82231-1-uvv.mail@gmail.com>
+ <20250202200319.82231-3-uvv.mail@gmail.com>
+ <Z6B2HKSlI6k9wNXO@nuoska>
+ <CANNYZj9xjYqke8RvU3atSfwk2V=OC4Np8ZdXSO5hapCOnO75Dg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj9xjYqke8RvU3atSfwk2V=OC4Np8ZdXSO5hapCOnO75Dg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:24:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210644
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:28:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210645
 
-2025. 02. 03. 12:18 keltezéssel, Alexander Kanavin írta:
-> I would recommend you send this change as a proper patch. You should
-> not be asking integrators to produce patches out of ad hoc mailing
-> list tweaks.
+Hi,
 
-I implicitly asked to switch the host distro. :)
+On Mon, Feb 03, 2025 at 12:07:20PM +0100, Alexander Kanavin wrote:
+> On Mon, 3 Feb 2025 at 08:54, Mikko Rapeli via lists.openembedded.org
+> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> > Could you elaborate why? Some usecase or feature not supported by the python
+> > wrapper? Which one?
+> 
+> You got this backwards Mikko. It's you who should elaborate why we
+> should continue using a custom replacement.
+> 
+> As long as this change passes the autobuilder, it works as intended,
+> and needs no further justification.
 
-Seriously, I will send it as a proper patch soon.
+So changes without justification are fine then? I'm not against this change,
+I would just like to understand why it's needed or proposed right now. A reason
+could be just to reduce custom patches in oe-core. That would tell me that no
+actual usecase is currently broken, apart from ukify.py and secureboot for which
+I've sent a patch separately and which was seen in meta-arm side testing.
 
-> Alex
->
-> On Mon, 3 Feb 2025 at 11:11, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> 2025. 02. 02. 9:44 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
->>> 2025. 02. 01. 15:37 keltezéssel, Mathieu Dubois-Briand írta:
->>>> On Fri Jan 31, 2025 at 7:43 AM CET, Zoltán Böszörményi wrote:
->>>>> Enable building rpm with rpm-seqouia for the test.
->>>>>
->>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->>>>> ---
->>>> Sorry, I still get some errors while building:
->>>>
->>>> 2025-02-01 14:28:32,979 - oe-selftest - INFO - 9: 40/54 602/618 (56.20s) (0 failed)
->>>> (signing.Signing.test_signing_packages)
->>>> 2025-02-01 14:28:32,979 - oe-selftest - INFO -
->>>> testtools.testresult.real._StringException: Traceback (most recent call last):
->>>>     File
->>>> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/signing.py",
->>>> line 113, in test_signing_packages
->>>>       runCmd('%s/rpmkeys --define "_dbpath %s" --import %s' %
->>>>     File
->>>> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py",
->>>> line 214, in runCmd
->>>>       raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" %
->>>> (command, result.status, exc_output))
->>>> AssertionError: Command
->>>> '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3250811/tmp/work/core2-64-poky-linux/ed/1.20.2/recipe-sysroot-native/usr/bin/rpmkeys
->>>> --define "_dbpath /tmp/oeqa-rpmdbsj05eco3" --import
->>>> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3250811/meta-selftest/files/signing/key.pub'
->>>> returned non-zero exit status 1:
->>>> error: Certificate 7B31316B5D64AD52:
->>>>     Policy rejects 7B31316B5D64AD52: No binding signature at time 2025-02-01T14:28:26Z
->>>> error:
->>>> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3250811/meta-selftest/files/signing/key.pub:
->>>> key 1 import failed.
->>>>
->>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/893/steps/14/logs/stdio
->>>>
->>>> Do you mind having a look at this ?
->>> I have run the self test on a Fedora 41 host and it succeeded there.
->>>
->>> Probably you need to fix the crypto policy to allow such a cert with a
->>> "no binding signature" or replace the cert.
->>>
->>> This github issue may have some useful pointers:
->>> https://github.com/rpm-software-management/rpm-sequoia/issues/46
->> Can you please try this below?
->>
->> Setting the envvar SEQUOIA_CRYPTO_POLICY to an empty string
->> will use the built-in default policy. See
->> https://github.com/rpm-software-management/rpm-sequoia/blob/main/src/lib.rs#L54
->>
->> ===============================================
->> diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
->> index 51d1c3fa64..9a820ebc72 100644
->> --- a/meta/lib/oeqa/selftest/cases/signing.py
->> +++ b/meta/lib/oeqa/selftest/cases/signing.py
->> @@ -71,7 +71,6 @@ class Signing(OESelftestTestCase):
->>            """
->>            import oe.packagedata
->>
->> -        self.skipTest('This test requires rpm-sequoia support in rpm')
->>            self.setup_gpg()
->>
->>            package_classes = get_bb_var('PACKAGE_CLASSES')
->> @@ -84,9 +83,14 @@ class Signing(OESelftestTestCase):
->>            feature += 'RPM_GPG_PASSPHRASE = "test123"\n'
->>            feature += 'RPM_GPG_NAME = "testuser"\n'
->>            feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
->> +        feature += 'PACKAGECONFIG:append:pn-rpm-native = " sequoia"\n'
->> +        feature += 'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'
->>
->>            self.write_config(feature)
->>
->> +        # Test rpm-sequoia's default built-in policy
->> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
->> +
->>            bitbake('-c clean %s' % test_recipe)
->>            bitbake('-f -c package_write_rpm %s' % test_recipe)
->>
->> @@ -152,6 +156,9 @@ class Signing(OESelftestTestCase):
->>
->>            self.write_config(feature)
->>
->> +        # Test rpm-sequoia's default built-in policy
->> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
->> +
->>            with self.create_new_builddir(os.environ['BUILDDIR'], builddir):
->>
->>                os.environ["PATH"] = nsysroot + ":" + os.environ["PATH"]
->> @@ -198,6 +205,9 @@ class LockedSignatures(OESelftestTestCase):
->>            feature += 'SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n'
->>            self.write_config(feature)
->>
->> +        # Test rpm-sequoia's default built-in policy
->> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
->> +
->>            # Build a locked recipe
->>            bitbake(test_recipe)
->>
->> ===============================================
->>
->> It succeeded for me:
->>
->> $ oe-selftest -r signing
->> ...
->> 2025-02-03 10:53:11,900 - oe-selftest - INFO - oe-selftest () - Ran 3 tests in 2801.617s
->> 2025-02-03 10:53:11,900 - oe-selftest - INFO - oe-selftest - OK - All required tests
->> passed (successes=3, skipped=0, failures=0, errors=0)
->>
->> As for an actual crypto policy for rpm-sequoia, I am not sure
->> how appropriate it would be to create a recipe for Fedora's
->> crypto-policies package in Yocto.
->>
+Cheers,
 
+-Mikko
 
