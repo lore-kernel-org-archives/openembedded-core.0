@@ -1,115 +1,134 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1B0C02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 18:33:32 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.95770.1738607607024357645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F22D4C02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 19:42:42 +0000 (UTC)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web11.97368.1738611762497317751
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 10:33:27 -0800
+ Mon, 03 Feb 2025 11:42:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=kwnthPeH;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id C24DB240027
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Feb 2025 19:33:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1738607604; bh=dG9c1NrZwjVlDZ+8Y4hdin6R9xoHsbpNn7txrZm6sAY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=kwnthPeHe5tMvP3hqRWvbjWLZnM8JjPzRur4uefLTITqytvC+2/hRDUvUvsb36ZkW
-	 2dp4O9tEs0+9GX7g7B/iJAtadQwu5X9qFaOLaZWcSH4eG9GEyGT06hHGRwnpu1cSqe
-	 vOs4BsaUhSFRnEFaMEXXVRdNDeg68kIl6oLfEWGjrx0RhTiij4x7/lVNT8xiY7zoSH
-	 aljvQu692sgcL4H6bLST9Jcbl8PjsbO1vGnehl04YnuTYRTyqEl1cHa1nGrldETblu
-	 NbYU46Jp56i0An2sua3oClsOoONMrQI8oDErHSgs7MF3jqp7j4R2WI2IPqGPALy7YJ
-	 VdLtrIe/EKWdA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4Ymw9c05Qxz9rxP;
-	Mon,  3 Feb 2025 19:33:23 +0100 (CET)
-From: simone.p.weiss@posteo.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] libseccomp: Upgrade 2.5.5 -> 2.6
-Date: Mon,  3 Feb 2025 18:26:43 +0000
-Message-Id: <20250203182643.20919-1-simone.p.weiss@posteo.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AKfSFb4P;
+ spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5f4c111991bso2282437eaf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:42:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738611761; x=1739216561; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v6xcIYzEnKgk9lQ6XJHizA2qlPhKZWxWHjIfI1CwreM=;
+        b=AKfSFb4PKLj3cvuDpMZgZNF4MNtaezN42Nto5E0vbrHJ03W2q1h2d+DTdJyAQzy7sH
+         65V07aK9gThRqTkiS/FCO1Hr+FD2Xmii6PZY/5nHbXWn66bA6XWP+YQq1IBcnwZsvUab
+         FJo15JjxlvU3oxILSxzIM2vOTMSVViRCv4iINgx5vpCQn6wD3u31Pxku+j70BnWQqH02
+         PUZh/U9zAQtNuCNXGZfN+GSLMoZoT74SLrSYzXzs6I3ZaHSvCB/H645bmqKHVHrpvsiO
+         3LLa+Yx2cHEozjP142YkWHHoKs6/5+HhX7yrHJtAnABHBKAQioWwancau4FJNRU4Dk1s
+         LLEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738611761; x=1739216561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v6xcIYzEnKgk9lQ6XJHizA2qlPhKZWxWHjIfI1CwreM=;
+        b=KaMC6BAVzl4TLzYXZbk0Ulbxu8YqpAUchbBU4ArYM9J1/yR1sQAkSMqTwP/e+To19e
+         COvw7GnSBRSlLwJPhmMGPzTno8sdIGpreOBcOpjDSicDwwZFV3Y+N1zrwsiD5J60UtSy
+         dTDLcTeg7todz1bwJHYJhZjGc9g6FQpwlx9b0IsR9dobyxuIMKOaXV1mmbOYJ42FCqct
+         W6EFmxRQpjNIM0rJ4y2VNsU6uEn713DF5yiX2eemWa0h9ngnK9i7guRQvXiLHRv/Drzy
+         KHPNr+uzIuwLNhoO0eVRIltXVbZw5L+MgM37j2mAzCzw29vfhRi1E6jNBHA4lzPswkRF
+         sbKA==
+X-Gm-Message-State: AOJu0Yx/Hr/3avQnIRQgragKIw8b3TSt+bQIBH7fvL5AiF7QmVBqt+1N
+	8hMEbD+eYAcbPr0rnA2WuAFwjM4ucfs7yqY2NYMom/ynB3CaOShEiF3OGDxtGy/J6gkSNxnHDQb
+	kpO6f3VAJHocWUhb1gcM0Hmo/y2g=
+X-Gm-Gg: ASbGncuY8R8JtZGpndjU4Rs8x+viaJl4lPZul1aDX8NDdPI063b9wtkR85bM9i2Ey4i
+	cmfhOMXbfk7Bwoc4BLYGNFD2vl0RNq1NY8ihWAgsTJvex2MkUTZHGf/WpwySz0CoL0nr2fzsG/H
+	IEKsALMBNBrdGgohR0HnncFfZHWg==
+X-Google-Smtp-Source: AGHT+IFdXjk5zrXGtxh/lAYPHDh3NAP8JL2he4IqmJ8TwDesESPa4MAXgxmzg6kP3Xpj99cUNauma6Dzg32b76xOk7A=
+X-Received: by 2002:a05:6871:7983:b0:29e:3d2a:a4a9 with SMTP id
+ 586e51a60fabf-2b3e74d1c98mr369653fac.5.1738611761549; Mon, 03 Feb 2025
+ 11:42:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250203-b4-support-v2-0-848008ad29ea@cherry.de>
+In-Reply-To: <20250203-b4-support-v2-0-848008ad29ea@cherry.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Feb 2025 11:42:15 -0800
+X-Gm-Features: AWEUYZm5RlPKghrPE8u9PsA9ayXYtL3WC2oTkR0o68FWsTtFvt9KsPVIrTiBo84
+Message-ID: <CAMKF1sqh0VMORr2ivhz82XVt7EuZ_UmUgtFVHOXb0pQwDesnnw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/2] add basic b4 config file
+To: foss@0leil.net
+Cc: openembedded-core@lists.openembedded.org, 
+	Quentin Schulz <quentin.schulz@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 18:33:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210730
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 19:42:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210731
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+On Mon, Feb 3, 2025 at 7:18=E2=80=AFAM Quentin Schulz via
+lists.openembedded.org <foss=3D0leil.net@lists.openembedded.org> wrote:
+>
+> This adds very basic support for using b4 in OE-Core. This essentially
+> just automatically adds the proper mailing list when running b4 prep
+> --auto-to-cc.
+>
+> This also adds the b4 wrapper script that poky will need to use in order
+> to identify which mailing list a patch needs to be sent to and do some
+> additional per-patch checks that aren't necessary when running from
+> vanilla OE-Core.
+>
+> Once this is merged, poky will need to merge OE-Core into itself and
+> override with its own .b4-config that makes use of that script.
+>
+> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+> ---
+> Changes in v2:
+> - add mention to first patch that running patchtest for b4 prep --check
+>   is what we're eventually aiming for,
+> - add poky b4 wrapper script (it used to be in the patch series for
+>   poky, c.f. https://lore.kernel.org/poky/20250123-b4-support-v1-1-4841f5=
+2eccbb@cherry.de/T/#m95d6aa25cc42352416da477cf07d7b3cbd671231
+> - poky b4 wrapper script properly identifies patches with files modified
+>   in both OE-Core and other repos part of poky,
+> - poky b4 wrapper script pretty prints when there's more than one
+>   project modified by a script, instead of lazily printing a Python
+>   list,
+> - Link to v1: https://lore.kernel.org/r/20250117-b4-support-v1-1-fe74a5f5=
+0eb6@cherry.de
+>
+> ---
+> Quentin Schulz (2):
+>       add basic b4 config file
+>       scripts: add b4-wrapper for poky
+>
+>  .b4-config                 |   3 +
+>  scripts/b4-wrapper-poky.py | 170 +++++++++++++++++++++++++++++++++++++++=
+++++++
 
-Changelog:
-- Update the syscall table for Linux v6.13
-- Add support for new arches: SuperH little and big endian, LoongArch, an=
-d
-  32-bit Motorola 68000
-- Add multiplexed syscall support for more arches: MIPS, SuperH, and PPC
-- Consolidate and simplify handling of multiplexed syscalls
-- Add support for the SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV flag
-- Add support for transactions with the seccomp_transaction_start(),
-  seccomp_transaction_commit(), and seccomp_transaction_reject() APIs
-- Add a seccomp_precompute() API to generate the seccomp BPF filter prior=
- to
-  seccomp_load() or seccomp_export_bpf_mem()
-- Add support for binary tree filters without syscalls
-- Add support for the kernel=E2=80=99s implementation change of
-  SECCOMP_IOCTL_NOTIF_ID_VALID
-- Add Python binding support for retrieving the notification file descrip=
-tor
-- Improved tooling to help track syscall table updates in the Linux kerne=
-l
-- Handle EINVAL error from the kernel when the WAIT_KILLABLE_RECV flag is
-  erroneously provided to the kernel
-- Fix a seccomp userspace notification issue where the file descriptor wa=
-s
-  being requested more than once
-- Fix a bug where the internal filter state could be corrupted when a fil=
-ter
-  rule addition fails
-- Fix potential memory leak in the internal management of filter snapshot=
-s
-- Utilize Cython rather than distutils in the Python bindings, due to
-  distutils=E2=80=99 deprecation
-- Many test and CI improvements and fixes
-- Many documentation improvements and updates
+is there anything specific to poky in this script ? if not then it
+should not use that in name, it will
+make it confusing. In oe-core we do not refer to particular distros if
+not needed.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
----
- .../libseccomp/{libseccomp_2.5.5.bb =3D> libseccomp_2.6.0.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libseccomp/{libseccomp_2.5.5.bb =3D> libsecc=
-omp_2.6.0.bb} (96%)
-
-diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb b/meta/r=
-ecipes-support/libseccomp/libseccomp_2.6.0.bb
-similarity index 96%
-rename from meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
-rename to meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-index 478e5f4289..949799fc82 100644
---- a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
-+++ b/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7c13b3376cea0c=
-e68d2d2da0a1b3a72c"
-=20
- DEPENDS +=3D "gperf-native"
-=20
--SRCREV =3D "f0b04ab0b4fc0bc2cde6da1f407b4a487fe6d78f"
-+SRCREV =3D "c7c0caed1d04292500ed4b9bb386566053eb9775"
-=20
--SRC_URI =3D "git://github.com/seccomp/libseccomp.git;branch=3Drelease-2.=
-5;protocol=3Dhttps \
-+SRC_URI =3D "git://github.com/seccomp/libseccomp.git;branch=3Drelease-2.=
-6;protocol=3Dhttps \
-            file://run-ptest \
-            "
-=20
---=20
-2.39.5
-
+>  2 files changed, 173 insertions(+)
+> ---
+> base-commit: 30ea609d3357fb3de911f2f6a5e6856c151b976a
+> change-id: 20250117-b4-support-10de313f53b7
+>
+> Best regards,
+> --
+> Quentin Schulz <quentin.schulz@cherry.de>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210655): https://lists.openembedded.org/g/openembedde=
+d-core/message/210655
+> Mute This Topic: https://lists.openembedded.org/mt/110972445/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
