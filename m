@@ -2,79 +2,82 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF11C02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 11:07:38 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.85469.1738580852308998711
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 03:07:32 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7595C02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 11:11:08 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.85519.1738581063308238441
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 03 Feb 2025 03:11:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ay7BQw5d;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6dcdf23b4edso36289086d6.0
-        for <Openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 03:07:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bfbmxHDk;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d92cd1e811so45203196d6.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 03:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738580851; x=1739185651; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1738581062; x=1739185862; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iW32Uikv6TrRE5OQi+wNg491uWnEWWK+kTq6QKyWHGw=;
-        b=ay7BQw5dG2Nn0/oB3n2CFDJOz0Iyy4mbmLyw6A8Gbgi9q05yAwpdCMn6efx+b88XWP
-         FiC59qe+tOBKwT70AtixB3MmejKPmf0K7CPGFSM2YY5nl+H04qV8k1ErxSA0fw5U+3hd
-         /Zs1NcicfRWukgfAUK4rQMu3Jx+EhbPkQbXX5R7fJjeZYHkZCW3fke13zQ6BSr3al38U
-         KX+GW5dxW4r9XZE3oQBveRML63c5sgqSCzytB7ukfA5jK2ArZs/ITt7tmo95a9DTHNOt
-         FiSwrEIAZsg1ZIvsnRIBQhxmYv9YWPWIdJf6DZLs7wmLdrwbH6jNxrQBOLZ/A3HnIPXI
-         B28A==
+        bh=sMYcYTqSpfpWJW0hNF27I4xHq9ilRHZX1P6BgP4lgxY=;
+        b=bfbmxHDktzil101WcENzrtC2RomtqJYSAq6FS4Kd63p4ME3aEUCBLQ2GCNzDO0+ggS
+         bxSU/6xJm2Y3Dr3ZWT/vKmr4seEaHyzn5dW3Jh0ybPj5tvSOHRJqFpmf5BTAC+Oouzdm
+         S6UaXW+zr9C10rTHxhDc895bs6pJf+3Oq3YhBAK98VFqQklrnExad29MNz/6xVinZ19d
+         eLbC9pm/3uIkCyY8v5LA3MEF0jKh08Fn9pl1BkOSJMMvxIWUvgkpk9sG9tPXPVoW1xZ7
+         FyqsjLhKS3hcVfSzXZmiV3v0Mvmha+Zl3Jul/8rJIPcAJkVQS5nFKCsLOsFLDNTBfnbE
+         OH3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738580851; x=1739185651;
+        d=1e100.net; s=20230601; t=1738581062; x=1739185862;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iW32Uikv6TrRE5OQi+wNg491uWnEWWK+kTq6QKyWHGw=;
-        b=qstYQWL0QLggk6vFt15WlV9A1h8xtL5m3KoewTs16kIlydrMMikr856hm/yxQAu86L
-         vwWSfumnLSAiNMUrd1kydljCxVwUkas3FA66po8j8WtAPfCrJPVdPPTDVyedjfgDqbCt
-         rF3bng5zX2n6QK0o7vUFZ3I299eBsHDjwouBI8IyZpHIa2hgCC+ZlUJFuO1RnwL+d1gl
-         ZanW6XsuHK/dbH4weUhWFzDBYIrD1+2lQDWlgtLE/xZduR8IQcdyihY3gJD0/IWzqdMa
-         Pcs+lieAUTuPtXLmKaFscI6wl8URk+HPoSJcOcYnAQUjKBEj7GyYgiJsQScKYNlxgr4c
-         BkIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKT/qxZRPaEB7ttnD4OdutA9kQpd6of0/hijRkZHIiAN4wKssSfZ34CAubiyfeQGu14bMQbmDVDYHC+d/yQcTjMg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx5atN0J8kiqrlBF5++MSZmqsGM0BSqAOYEFzJNU7x/kWW1+l6Y
-	6rQixgqW09Dbpa31BHybZq5QaiIaexx7qfKZXrtzSZuPVBTk+vy7f8g/y38qEOLnOAERkyndEUU
-	he4RwUjdTNjk07tkfjJ64zaksLsw=
-X-Gm-Gg: ASbGncsZXZhSJll+FZmBdF7ez+USZ978G06iTMSTflKRPBgOGeH6K3rUKYqO+y2C5j1
-	xFNpFvJEmwUN3GYjcMdKI0dRsQOKj12b+vs3xgijrj5fnkCYjwRkqEOfsvMq9m1reiGvQodn3dp
-	XICJUr4ICqYi4hMx9KNLdUDIyR7VFiGL0=
-X-Google-Smtp-Source: AGHT+IEMAJJnbI6QapO4x3NckA2w5PsI0tK3Kzy9T0MrpXpIiR+fRr12AoZs+aaW0SJzRONSc1mjsjQfS8Ra7YkarxU=
-X-Received: by 2002:a05:6214:29ea:b0:6d8:80e8:d567 with SMTP id
- 6a1803df08f44-6e243c2b69bmr318824476d6.18.1738580851285; Mon, 03 Feb 2025
- 03:07:31 -0800 (PST)
+        bh=sMYcYTqSpfpWJW0hNF27I4xHq9ilRHZX1P6BgP4lgxY=;
+        b=MGBZgbeaI8VWS+yjlzZ23LO171Hr4AZILv8w2q9/yIewLhm1PL/Dd6ZuK4fcfjtgjN
+         87ifX0EGAllphpdSE5fHGCx1AKFX04fcKlfmgNLfznSuLdsyrX9oP5RmcLaW7/K7kwXR
+         HuJmggVzFjbBeQmpkL3qw1pnbwbhz2pUSs1U6Jpv+/OciZZ1Nq1MjrqRl59fOGgll4IH
+         7cEg3a/RZi0Noqndjl3xPvyjou4SzpZKhAW0hUn0/GyGOguesE7fkreys6QXhi4u0U2H
+         zB2OCSVo+gLTj5GKSmNvvoj7KdNnQcX8u/wAwkZilQuYS3FfI6ceb60mv5ic3J7jU0Xx
+         BGDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUeI+Xz8S7EXVoDlu3dnGNOkkd+c6A0FtMri8So9AAFuEQm1lmmIw2zKkzLsfckariAtxiSZMZafHzoeTG92ZIXcQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxnyPvGE+S99khOHMTV0S7bXZBFSJ/oBGTqT7RdxNtCQWI1jXk5
+	3xZLUEUZlz997OIym15TE9WUkDwS4wcGhaI8IgGhZA8j9I77due8ll0EjbG4lTHNCl66nhXba3E
+	5EltD6jHoWHZWpjONE2b907QIN/8=
+X-Gm-Gg: ASbGnctA5YnBEi/2ooEL5zwT0Ho8AMPmLcZNtcUuUW+ipfh1K3ArTEReB3nSFP2R8MO
+	0sGu+G9Ab89bTC6kSgegW8FIlydc7Nu2QOzzvRV2t/wvwp6N8Bsj621tikVCtwgTLXVDEAEo8ti
+	7OZQFUTLmGFjYALPYpGDzhT7o8b0d9qOM=
+X-Google-Smtp-Source: AGHT+IGTp1e+JUmxlAiUmTaxYWUX0n3CegRrJZb5Zr9ZtLhVac2J81RBJmTZF9kMkLSu4QPOcZ7RSy7tLC9OIC+YtPk=
+X-Received: by 2002:a05:6214:ccb:b0:6d8:a258:68bc with SMTP id
+ 6a1803df08f44-6e251b5d6f2mr228055636d6.11.1738581062294; Mon, 03 Feb 2025
+ 03:11:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20250202200319.82231-1-uvv.mail@gmail.com> <20250202200319.82231-3-uvv.mail@gmail.com>
- <Z6B2HKSlI6k9wNXO@nuoska>
-In-Reply-To: <Z6B2HKSlI6k9wNXO@nuoska>
+References: <20250130165359.137315-1-raj.khem@gmail.com> <fda5a12dbb22da458d6b0dbea2903f08442c70fa.camel@linuxfoundation.org>
+In-Reply-To: <fda5a12dbb22da458d6b0dbea2903f08442c70fa.camel@linuxfoundation.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Feb 2025 12:07:20 +0100
-X-Gm-Features: AWEUYZkAB-zyirl0R2AIjukrzAKSRbISenQzg6YdvoY0kv6XquuijoYr-abzqgY
-Message-ID: <CANNYZj9xjYqke8RvU3atSfwk2V=OC4Np8ZdXSO5hapCOnO75Dg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] systemd: Build the systemctl executable
-To: mikko.rapeli@linaro.org
-Cc: uvv.mail@gmail.com, Openembedded-core@lists.openembedded.org
+Date: Mon, 3 Feb 2025 12:10:51 +0100
+X-Gm-Features: AWEUYZkVWQGoTaQ8GdAJJFC1ff0GCA7otPnQGQOMHmQHzKfIS5ZRgRenSOKU4nY
+Message-ID: <CANNYZj-fRsCoQFLFnvH9+cwvFPw8zWDvHM4eCv=3WoumAxdcxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.41 release
+To: richard.purdie@linuxfoundation.org
+Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org, 
+	Randy MacLeod <randy.macleod@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:07:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210638
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 11:11:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210639
 
-On Mon, 3 Feb 2025 at 08:54, Mikko Rapeli via lists.openembedded.org
-<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> Could you elaborate why? Some usecase or feature not supported by the python
-> wrapper? Which one?
+On Fri, 31 Jan 2025 at 23:37, Richard Purdie via
+lists.openembedded.org
+<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
+> Thanks Khem, this passed in testing, the only issue was valgrind ptests
+> failing:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/851/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/853/steps/12/logs/stdio
+>
+> Copying Randy...
 
-You got this backwards Mikko. It's you who should elaborate why we
-should continue using a custom replacement.
-
-As long as this change passes the autobuilder, it works as intended,
-and needs no further justification.
+Let me bite: it's time we drop valgrind ptest. It's just a non stop
+headache to support and I haven't once seen it provide actual value.
 
 Alex
 
