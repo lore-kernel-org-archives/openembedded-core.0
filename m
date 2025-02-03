@@ -1,108 +1,148 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A2CC02195
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 05:17:57 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.81496.1738559871741031491
- for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Feb 2025 21:17:52 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FB9C02193
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 07:54:17 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.83064.1738569250535745664
+ for <Openembedded-core@lists.openembedded.org>;
+ Sun, 02 Feb 2025 23:54:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BGdNPkVH;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso26590435e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Feb 2025 21:17:51 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=yPTLj88Z;
+ spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-307c13298eeso2879171fa.0
+        for <Openembedded-core@lists.openembedded.org>; Sun, 02 Feb 2025 23:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738559870; x=1739164670; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=udv+4574V1AWrR8ZHq8zjqdug4A0tY0az480GvKrbPw=;
-        b=BGdNPkVHbhot5Pix6iXUm6p/sLGiJ7U+YI47cDUFlGHiGlTniJ/AID+ufHnqMzGyLO
-         fBPEAI7TxVs4DlXYa3yCjFSBX1YPTmPZXaocWJwYy3prdSMUKUgN+M/zv9GUcdZG5tUE
-         k14PhliGYFWDE4V6OrB09xmMM3f216NGWB9jXij49rQbTrSWhepwgZU67XGgrGedmbI3
-         L1d2vkPWryUSQA2+hD4qUVdfL1gyUdfeVzbQhTyrfOIhfuNUATY23AMveaU9ll+i9ZNI
-         mdWL8G1w48JDGEd/L47f9LG0fAw4ku9HL8T3GelyzQBLcRGVobx6NRMNzlHaKrAu9CIz
-         WgXw==
+        d=linaro.org; s=google; t=1738569248; x=1739174048; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+3Gj380EU/3Bzlnkp9noU6lmvBvNprDDtZ6Bjsmzp4k=;
+        b=yPTLj88Z23bV9h4cceFcNWBuR36U03Utx09fuusrAV0z5jBdoekvrPCr8wcmLOLAAR
+         04fTZN7R59BcVEm994UkUNosoIK/nS1BZzAL38TDfh2JC360vZJLfYgyB5nOu7onXqGG
+         tLNQsPPnpeZpj2ZzfSAIucB6S5qXPmgaIddKpQYtMapYHHolg/uxfTurKZ7nY1cEvz4w
+         5iWGRUoqPNM4vx6ZMh1JXzriiTE9DxLuwZvTh9EuGi2rPyKiUg3+MJV+faAYRew5L6Dx
+         jhJELDoRhoEGor1v1RRQuomRwQzDpLfZG55F/7224GMY2PgUYQf8ZlR2z2yS1IcvvIpi
+         i1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738559870; x=1739164670;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=udv+4574V1AWrR8ZHq8zjqdug4A0tY0az480GvKrbPw=;
-        b=VsrGjc1FQCXVajB0ZzyP1yj87jxY8/ty4kCs+TjnlA+2DYqjv3Uw3Z1ZBrnprjvAk6
-         qKO7Xz4fnPldMi4tuE8v8+ZZjOvPCbACnvA7M13cCuqwKR6mD6ZNkRDkRx04cBFZXAWz
-         hEm6QoxgF7g13EY9oyO9aRMaqPa8z9UnHjlOkvCIZzuGEmCxuO3iqKSWFQQRVEqEzlM7
-         vpfHZoJZH/aZgacyXbjkaadj/+lhscGM6HOag7uVO3Q6ZhUsyNmdNTsEuWNh6krIghQ4
-         Gk9sx1Ztloa2a1zUo8ExPcxe8b/V2XvwwxmekL4AGtKE3lkft/R2LLazgCRv8qhF3urw
-         OURw==
-X-Gm-Message-State: AOJu0YyUuK3AAELzBgdw7/zMEQg9LYdO8RuryJ16sYa64wsxUYY8zVcx
-	TrpfrwVf8eiTfxzLDk90GptUorXZZtkpiWL366bGFRR9ZAUEl/VM
-X-Gm-Gg: ASbGnctdTQFl2X2bbws0On92K2J9rgW6qIKZkNMbRUKhHshCsKLTHdd7ljQePXPMQT2
-	pLlxQVF6LPq2WqX0GbD30kszy54UvJGv5aHz+nBY4r+tSxrWIciQhc43H4ATcsZdX1ri9NP5ev9
-	yx5AbOGiiyeRaWDZrJzS8cBzSLfp3l/aotbDPB7r1IdoiwPB5AnRNbqxGgb0HvZP7ts5QctV+6I
-	iCgaaoxKClntHSZ28B/R8haghzO4OE/kKcufJpLO47td17JRTFfdSjZpdhfBMDtwd5M9NiCTsMq
-	tkq84ZS7taxqjndBFOJ3VwrV6GBNQ5txOcVtFsrPoRdgiZGD
-X-Google-Smtp-Source: AGHT+IGQOhCKPjrcbW2F+fBd+KQB3E4lHQzUpqHX1NcWd82JnJMrTruY7I7JTvdLD9kulClIEIrtUw==
-X-Received: by 2002:a05:600c:a45:b0:434:f7e3:bfbd with SMTP id 5b1f17b1804b1-438dc40cf15mr158296455e9.23.1738559869959;
-        Sun, 02 Feb 2025 21:17:49 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf896sm11959201f8f.94.2025.02.02.21.17.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Feb 2025 21:17:49 -0800 (PST)
-Message-ID: <048f3048-f9bd-4299-a92c-1696eaa7bb3f@gmail.com>
-Date: Mon, 3 Feb 2025 06:17:48 +0100
+        d=1e100.net; s=20230601; t=1738569248; x=1739174048;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+3Gj380EU/3Bzlnkp9noU6lmvBvNprDDtZ6Bjsmzp4k=;
+        b=qZcX+JFQIf9vxbzBHuULoeDX5XY7YHUN4xZ5b6+WgGjf6ZKzcpT+75CD0OtS7LBjNd
+         JiczxS710/R6qZrqGqUChPvvoimYxyY+zzceDADWarpOQY5uhqW3pNJzlW7CRUeKJUX8
+         84SCFaWYZ0PNtIvI+doVAsBLE0q+FZ9eCqucSNHUao3rdxOhBdIDY3HKCsMZmZELE6bb
+         IYL6/GZNS5KwyCOx3UNJ7TQqYf1DEdQCl4QouJug3ksNTI2YLjwWTaBVAfWudTlfQXph
+         1mJXZOG1TUHVA3sFtSc7paJ02M5ltXjTz4P/O0/jEnufAF9DBy954BWlTUyV6qff2VEu
+         XZvA==
+X-Gm-Message-State: AOJu0YzNKy+LXwFu74mez3dtMWXkyn8j1e3N2jr0wr+jdBYoSA/xwki4
+	zBhoa0cR0TXRk0vfFuUf3I67jAGY6fhxMUoCeLJkUtx3B1sKlSbwu8Bg5sDL5yQ=
+X-Gm-Gg: ASbGnctn+U0YwPNR0Wu5i9eET99CrgEycP09WbmNZL9nDf2QHOs+xFA4bKyCY6NBzfw
+	oecB+QXlHbNngnnDkmuYc9qzdM9fuMr8KA1OmsnpVlf1mpDV+BeKA+3VErdx9PHe7yL6D2RgL0T
+	lOOHXQhGXktCEepeSnDkqK1+/N4rVc2iZrs9GfpQWGPjeaZ9p4SwgNTc5UAZJEUtSHPyxHMrqNh
+	DqsKktXakeBWuNEIVSCOgL2h/e+gXSbTGJlGhRxUQWhKa87HL/KtnEf+R8lxxsAx0v5sBTosDuP
+	5y3o3eAAHPzYRS/DCEo5rdtBy2ui7stCOke5teG+
+X-Google-Smtp-Source: AGHT+IGV6s6p+ROrhU8md1weVxFEtK4aDgLNbdznPeHa7ds2WCi/y4U88cbkMOe1m7BgZX/W4W1Jfg==
+X-Received: by 2002:a2e:96c5:0:b0:2ff:4e4b:cbe2 with SMTP id 38308e7fff4ca-307aa424553mr30667281fa.14.1738569248470;
+        Sun, 02 Feb 2025 23:54:08 -0800 (PST)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a3069a19sm14256871fa.18.2025.02.02.23.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Feb 2025 23:54:07 -0800 (PST)
+Date: Mon, 3 Feb 2025 09:54:04 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: uvv.mail@gmail.com
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 3/3] systemd: Build the systemctl executable
+Message-ID: <Z6B2HKSlI6k9wNXO@nuoska>
+References: <20250202200319.82231-1-uvv.mail@gmail.com>
+ <20250202200319.82231-3-uvv.mail@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: upgrade 24.0.7 -> 24.3.4
-To: dbaryshkov@gmail.com, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20250131123519.461671-1-dmitry.baryshkov@linaro.org>
- <CANNYZj_9dkovbXGmvEx4RC1aUKsNOGiqOq7WcM7eP_59QwH9eg@mail.gmail.com>
- <q7yoiccmj2xx32xel7ufh46xzfwnadzhjvsmmxcbsyylqeae6k@mhi4yyd24n66>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <q7yoiccmj2xx32xel7ufh46xzfwnadzhjvsmmxcbsyylqeae6k@mhi4yyd24n66>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250202200319.82231-3-uvv.mail@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 05:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210630
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 07:54:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210631
 
-2025. 02. 01. 12:37 keltezéssel, Dmitry Baryshkov via lists.openembedded.org írta:
-> On Fri, Jan 31, 2025 at 01:59:14PM +0100, Alexander Kanavin wrote:
->> On Fri, 31 Jan 2025 at 13:35, Dmitry Baryshkov via
->> lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org>
->> wrote:
->>> Upgrade the Mesa package, dropping applied and refreshing outstanding
->>> patches. The dri3 config option is now gone, dependencies are merged
->>> into X11 deps. The swrast gallium driver has been split into softpipe
->>> and llvmpipe drivers.
->> How was this tested? For me it fails immediately with the same error
->> as the previous update attempts:
-> Yes, I forgot about the Intel world, I was testing on ARM & ARM64.
+Hi,
 
-As far as I can tell, the libclc dependency won't be needed for Mesa 25.0
-for the Intel iris driver. It will still be needed for Rusticl.
+On Sun, Feb 02, 2025 at 09:03:19PM +0100, Vyacheslav Yurkov via lists.openembedded.org wrote:
+> From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> 
+> Instead of the python re-implementation build the actual systemctl from
+> the systemd source tree.
 
->> | Run-time dependency libclc found: NO (tried pkgconfig)
->>
->> Basically, mesa updates are blocked until clang lands in core. If you
->> want new mesa, please do help out.
-> Is there any work in progress? The latest attempt I see was made in
-> November.
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210505): https://lists.openembedded.org/g/openembedded-core/message/210505
-> Mute This Topic: https://lists.openembedded.org/mt/110914607/3617728
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Could you elaborate why? Some usecase or feature not supported by the python
+wrapper? Which one?
 
+Maybe it makes sense to have a self or runtime test for this usecase.
+
+Then the native toolchain set seems to be increasing. While systemd-boot-native
+is also trying to be simple for ukify.py, it could expand if tools like
+systemd-measure for TPM calculations would get added. And systemd-sbsign instead of
+sbsign for secureboot signatures.
+
+Maybe it would make sense to cambine all in a full systemd-native recipe?
+
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>  .../systemd/systemd-systemctl-native.bb       |  20 +-
+>  ...-meson-add-install-tag-for-systemctl.patch |  24 ++
+>  .../systemd/systemd-systemctl/systemctl       | 366 ------------------
+>  3 files changed, 32 insertions(+), 378 deletions(-)
+>  create mode 100644 meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
+>  delete mode 100755 meta/recipes-core/systemd/systemd-systemctl/systemctl
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-systemctl-native.bb b/meta/recipes-core/systemd/systemd-systemctl-native.bb
+> index ffa024caef..57bb1ab830 100644
+> --- a/meta/recipes-core/systemd/systemd-systemctl-native.bb
+> +++ b/meta/recipes-core/systemd/systemd-systemctl-native.bb
+> @@ -1,17 +1,13 @@
+> -SUMMARY = "Wrapper for enabling systemd services"
+> +SUMMARY = "Systemctl executable from systemd"
+>  
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +require systemd.inc
+>  
+> +DEPENDS = "gperf-native libcap-native util-linux-native python3-jinja2-native"
+>  
+> -inherit native
+> +inherit pkgconfig meson native
+>  
+> -SRC_URI = "file://systemctl"
+> +SRC_URI = "file://0001-meson-add-install-tag-for-systemctl.patch"
+>  
+> -S = "${WORKDIR}/sources"
+> -UNPACKDIR = "${S}"
+> -
+> -do_install() {
+> -	install -d ${D}${bindir}
+> -	install -m 0755 ${S}/systemctl ${D}${bindir}
+> -}
+> +MESON_TARGET = "systemctl:executable"
+> +MESON_INSTALL_TAGS = "systemctl"
+> +EXTRA_OEMESON:append = " -Dlink-systemctl-shared=false"
+> diff --git a/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch b/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
+> new file mode 100644
+> index 0000000000..a4b3e5a47e
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
+> @@ -0,0 +1,24 @@
+> +From fe2eb1dde51648b0e5825766e2f27a859de8521c Mon Sep 17 00:00:00 2001
+> +From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> +Date: Sun, 2 Feb 2025 10:13:38 +0100
+> +Subject: [PATCH] meson: add install tag for systemctl
+> +
+> +Upstream-Status: Submitted
+
+Would be nice to link the URL here.
+
+Cheers,
+
+-Mikko
 
