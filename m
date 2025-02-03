@@ -1,112 +1,66 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5204C02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 22:29:23 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.101800.1738621755641215984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 960D5C02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 22:30:03 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web11.101815.1738621797251819935
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 14:29:16 -0800
+ Mon, 03 Feb 2025 14:29:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cS/jcwrl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38632b8ae71so4153869f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 14:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738621754; x=1739226554; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TKjcV/On3ZUKKkSi70Kt+ipPvdaFuhUye2oj980Yun8=;
-        b=cS/jcwrlxPzo+AXoiUDauBXi9yVmHLpW0LujcPET1mKg6KTBGdeL9Cx0fmnrsqrv5R
-         33uJLC6jr+SKeErLlpoEti6ZXBW6/XCnpVdTATtURK8LvMvyV07CTU2tp3PVHs5XEeIo
-         thkgXfRmXKn8gT1VFSqQVToxEW101pIPMAgu4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738621754; x=1739226554;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TKjcV/On3ZUKKkSi70Kt+ipPvdaFuhUye2oj980Yun8=;
-        b=E1rvc1LNb1LY2poKEmuvo9Kbo1gRCvn35JLPN49zpN7vGDN6Y92h2hhBOL4WhwcmQp
-         3iwO/f/IROuaBmtXzghOI4dlkR+Wd0JflSgJh6xS0WxVinFeqoN9sobD2vG81Zc1xZp9
-         eIi3AyKBVsqgXLNGcuhm/biQsTbx6yVHD/SLtsWhb9U1EdNiVu+MiB9bjUt1ZuJkUpmv
-         hrQNAYlZY4ZRYeUBghAsCEijMM1x7UPxvlaBMorz7hupQrg33L3voHafZT44GhmbVZWF
-         SRlCHdps1TB1FmuGzmMkgTR/QtSVcScrmdMAAbIyCmqIUUFAgvGM+3AzvY88HIuhFrGk
-         op3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXDGTjHSdOJo9iAQTFW7/L9E+mJapQ8fZtocVDwUg6FVD44wxQVOWkg3HHPelyjpWDMEJiOn8Cli0qye8HOc0hqDg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzrGtBaq7O2aupqevRWLjD7jnqUXufLkv+ptWDT/gk3p+r1jtCy
-	EKC1sw5At/3JQ8zjSDTPgQhwyWnkV/SC0pZISIrI9JUiS3IQWMEKo934Ktks4oA=
-X-Gm-Gg: ASbGncusxz6Yr1YspDWcHgOEG3b0McsKxMG+zh9LprfYkkJ0LQYweJcT615Hl55Uvy/
-	YcjdjfVmzKYVj9VTKB86S6lT8Dpi/IIzdEpTZRN131i+M5b/FjRxz5DGnNyAvOdwfadve5H92Ox
-	TP+AZN+golTbAGYGezQtXfZ+rVFq8uqxdjg0yWlQcOV4+Yh9GuMkTnUY/Ybzfh5Epm7H9IWD824
-	W0SjZrcPJHkUyxuojHxVWIiVRWb2VSxQeTgmdYyCaB707n36YFggZK7kxa7JkzpnetmjYeOsovc
-	MIpP6m3KEXwCDwRJZasJ95dQxMjbcZdQyQIJXUWrEbsaTWmmWoO0VRpUkcA/oe+fAZtl9WW0Wwy
-	rI7pY
-X-Google-Smtp-Source: AGHT+IEzNYmCOlh7bLJ9owrug4YynwAPcTZsnf8S3CwY1Eg7SrT9BNQ40/W3jQ8O/A2B8bktQ3Zxvg==
-X-Received: by 2002:a05:6000:1f85:b0:385:f1d9:4b90 with SMTP id ffacd0b85a97d-38c51966addmr19793188f8f.13.1738621753990;
-        Mon, 03 Feb 2025 14:29:13 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:bde2:1fee:ad0d:b0b6? ([2001:8b0:aba:5f3c:bde2:1fee:ad0d:b0b6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c125f77sm14097869f8f.56.2025.02.03.14.29.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 14:29:13 -0800 (PST)
-Message-ID: <5908461b69f26ee1598359ddadc15e58a9049ccb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Strange behavior in sstate-diff-machines.sh
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
- "Openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Feb 2025 22:29:10 +0000
-In-Reply-To: <DM8PR12MB54300A067D077BCEED12ADF58BF52@DM8PR12MB5430.namprd12.prod.outlook.com>
+ dkim=pass header.i=@posteo.com header.s=2017 header.b=KHkl1aCU;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 25F6F240027
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Feb 2025 23:29:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1738621795; bh=/i35YJ3g14f2Eb+b9nxV04sgsVPP1fiQZp8rreLitw0=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=KHkl1aCU4iJMURq65f3uyDWK7defpqVYQ7XT04buwu+hBfFmW+xH0yxIHBdnLASDE
+	 DtCe/UJ7nLvok+GsU/TMLI44qJRgHeK15P5fRpDPAZ+tXBMkjJl1LAlfxyCHYoZ+XY
+	 58WiWs1REOUBE48tzTn7FD73jORPReCvH6CZPqWzG4FP9WvEmgSH58quW3kxwr9NJG
+	 7Q6zSjcoHmNFcn9kiw4NA2cLwrNhZXVBM4NP836cUTdZ2tAxovGcVZTYgOcu+AmOdX
+	 dZLlvYlCBT6FFs20np9Jl4rr/mhS3feU7FtnlqYiMvUh28IeoKKSlS3XyqFsX9sV0A
+	 prhUbSWs5vqxg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Yn1QT62BZz6twv;
+	Mon,  3 Feb 2025 23:29:53 +0100 (CET)
+Message-ID: <7ac5db25a31b3e9ed24a8f772e630a765b02ccf1.camel@posteo.net>
+Subject: Re: [OE-core] [AUH] libadwaita: upgrading to 1.6.4 FAILED
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+To: alex.kanavin@gmail.com, simone.p.weiss@posteo.com
+Cc: auh@yoctoproject.org, openembedded-core@lists.openembedded.org
+Date: Mon, 03 Feb 2025 22:29:53 +0000
+In-Reply-To: <CANNYZj8XCuKWDytbAjHS+eJxE3Gwm_2op-ozCdWLGe-NyDbUkg@mail.gmail.com>
 References: 
-	<DM8PR12MB543086C50EF71EBADF83E63D8BF52@DM8PR12MB5430.namprd12.prod.outlook.com>
-	 <9c3a268725aa40db3cab0578208017733bd24f57.camel@linuxfoundation.org>
-	 <DM8PR12MB54300A067D077BCEED12ADF58BF52@DM8PR12MB5430.namprd12.prod.outlook.com>
+	<01010194c1abfff4-e55a6603-ee24-4bd2-b9ab-6d041246d254-000000@us-west-2.amazonses.com>
+	 <cfabe20bdd59186d8e4987ad4446493322dadb1c.camel@posteo.net>
+	 <CANNYZj8XCuKWDytbAjHS+eJxE3Gwm_2op-ozCdWLGe-NyDbUkg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 22:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210739
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 22:30:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210740
 
-On Mon, 2025-02-03 at 22:19 +0000, chris.laplante@agilent.com wrote:
-> > I've never liked that script and personally, I've always wanted to
-> > make bitbake's
-> > owm signature "diff" as helpful as we can. There are ton of
-> > different things
-> > that conspire against us in doing that and whilst we've improved,
-> > it still isn't
-> > ideal.
+On Mon, 2025-02-03 at 21:12 +0100, Alexander Kanavin via
+lists.openembedded.org wrote:
+> On Mon, 3 Feb 2025 at 21:06, Simone Wei=C3=9F via lists.openembedded.org
+> <simone.p.weiss=3Dposteo.com@lists.openembedded.org> wrote:
+> > Hi, looked into the compile issue, it is coming down to this issue
 > >=20
-> > I'd note that the script predates hash equivalence and that can be
-> > a big factor
-> > in things things like this. We've struggled to reconcile some of
-> > the tools with
-> > changes like hash equivalence :(
+> > > Program sassc found: NO
 > >=20
-> > So yes, I can imagine do_package matching between the two machines,
-> > then
-> > hashequiv would reuse the later tasks like do_package_write_rpm
-> > from sstate.
+> > Which now occurs because in [1] the handling wrt to pre build
+> > artifacts
+> > changes. One could fix this issue by depending on sassc, which is in
+> > meta-oe only though. I want to ask to move it if ok.
 >=20
-> Thanks for the info.=20
->=20
-> Would this be the kind of thing that is best ported to bitbake-
-> diffsigs, maybe as some kind of recursive mode? (Just asking out of
-> curiosity - I don't yet have a strong enough grasp of all the
-> caching/signature stuff)
->=20
-> For posterity, I hacked up the script with this patch and it fixed my
-> issue (whilst probably introducing other, subtler issues).
-
-I'm not sure what the best thing to do is. The script can make some
-assumptions that bitbake can't and does in some ways have more data so
-it may not be possible but I've not looked at this area in a while...
-
-Cheers,
-
-Richard
+> Yes, I guess we have to do it even if the only libadwaita consumer in
+> core is epiphany.
+I'll try and will sent corresponding patches.
 
