@@ -1,153 +1,232 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBFDC02192
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 12:29:19 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.86376.1738585750046426819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C61CC02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 12:29:49 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.86383.1738585782224670775
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 04:29:10 -0800
+ Mon, 03 Feb 2025 04:29:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Ap7ey18g;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54021daa6cbso4624345e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 04:29:09 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZWhMkcWG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-438a39e659cso29725445e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 04:29:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738585748; x=1739190548; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DOZKZ70JhuiusihIr9nY+XaBni0CDMcq12Txc1iHojA=;
-        b=Ap7ey18gxvqDibI1l3MSdzUwsdsY/bBq4CKNfyE2wRz3zV9lS78V42GTLYBz3Y5gqs
-         BMU5DVJJS7jWH4VjT3JBno/XwF9VKjRMc+a+b0mT2OfNnTWzPIO+0wQACRKwICb8ZS1K
-         mRTnuNnmkILthey1Ek0fnvh5TNPbSwyldI7jKZJdXUnBNSrhLaQHoerhz5900yvDSmvx
-         kv74wEuhiGTDjU3zDaj8mpLSXAU8HpywDJEp6v0NDdIAHM9QEmTsGPOuCFMGVYL4aWCd
-         FUPdGlzRB2Q/+ojSERer3AQRU+NVS16E0sSNiYr8cHwRkFO8DtsER0r4css0QmZndswA
-         Bypw==
+        d=linuxfoundation.org; s=google; t=1738585780; x=1739190580; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vYdqXnoeh32UM6DLmN0OCK688GtTsv0YVg0moy6ZTzE=;
+        b=ZWhMkcWGKQWR71RXNc1YEk3G1f4Y8wYWpYAvb5jSNLp9CPAFQYfK7Jf06tjwDgTnLB
+         E3znoNwfIAPPozNZbEDbyCzLf7B13BI4vd3VHM6ygmJh5z/puI8FM32uoimr1LgECOO9
+         yy98YfYnmrAq/M3nLng5azBZWChGuEYxATYJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738585748; x=1739190548;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DOZKZ70JhuiusihIr9nY+XaBni0CDMcq12Txc1iHojA=;
-        b=PpEk/lOSWvr1F322T5QfYyOF5qZ8sn+ix1XJeJXOa+eM3n+fUjS7lA2UxJRgDJp483
-         6BqwA4Z/+Cykp9PJ0kvHM63wpWoZSiW23eB9VOQQFmUy7NA0OMiMFDqAInB5boklKF0g
-         PqUXRfyCN/DB1NOZegkE4RhQuT8Qj2M+LCYyXUJfO0Zo6btPd9hCwzl3xB/4JFcgYw2L
-         2VFER2KZabESKJ65s6ctyH6IXLWjOy13/zbOnOTbOytkZ0axcG+k30QIHuwyu4MaBgak
-         3SNzHd2AoC3VKjfBOPkHyN3A+Ogiudgq67W48ZVS05kgf1xWOXDMptgpDfGOE/FmJmqO
-         KAew==
-X-Gm-Message-State: AOJu0YyHCJL+LDxtWxZ3PSFzi1ammuGd9k6w5GhKcBAnMlrhLuLZU5hp
-	QzR0A4l2/RKGbRzofvVXBxjg7yVBO6qHzIa9X9/vG5JAor2+KD+rwSb5xP96j4gNybHkfQFTDuD
-	19KU=
-X-Gm-Gg: ASbGnctd9ppjYrVRG8be5Jr7QZpRxRkprCZdgLAvCqiUaYUKQFjpEhUwFy3EbVoutb4
-	ezQgpd1Qc/dWSA3DdvoGi8BphO88DMy/sfdsqaeraXexOKH0PEyf/g488b52rFa9ERUmfQOecZy
-	ErazzM33Ck93Axg/HXiV7WDoEiIPjuA/175vcQjVeT09mjYLMhORg+YNG/9dHtRglJXLVJujNd2
-	x+Po7itOfquAerbQydsZ4omJNjlQgUmMymKOeGzqV92oBsVtpRb003tJDPoDi4LpSBDhCMO1ztw
-	26qFzuL3t+eL4shL4UCZxn5rwx7g9iOl6UHK93TOYsXGWO1dPsWll7kozvBQ
-X-Google-Smtp-Source: AGHT+IEs5Ne4LZx19/XpznGVP++BWupJM6+1zPP4vsk56maBMqcgScFNPGyf79yeOda+NwUeQweeBw==
-X-Received: by 2002:a05:6512:3409:b0:541:1c5f:bf85 with SMTP id 2adb3069b0e04-543e4c3c3b2mr7852723e87.50.1738585747942;
-        Mon, 03 Feb 2025 04:29:07 -0800 (PST)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebec0a42sm1268218e87.259.2025.02.03.04.29.07
+        d=1e100.net; s=20230601; t=1738585780; x=1739190580;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vYdqXnoeh32UM6DLmN0OCK688GtTsv0YVg0moy6ZTzE=;
+        b=KVNc1fWm1mTw+ZRDASe3BLOPUcWXBvd17C3Cujtmof7i1lSDIbWODCqUAwdn0e87qo
+         1xFO2p+OBAs6KbS6xES6pHSMRU5m9CKIDv8u2qEHnJgm8Z/4C/EghsRdMS2H/sFtSu8I
+         DNoXrlDqY+YLELN7+3Mr/hcPU814QFqwTlJTR7qdRbBXhH/JWqQQgn/ZX1x3zc6lfwoA
+         NzqCIzY5EMRCvrzwoIXNUSF9UPp24n0KVk9zYmH+vYHmFia8GlQa1A3CvIG3eULk+el8
+         XwRd3zhtxuHI3Wq0vFDkTa0/WOHB/oyStOA11gyj5OeCD3IwOxWAWismF/B1mOSkD+s4
+         WLIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVae0HTuSNml+xkHaq166T3177Y3MDu2FgigFyI9VBhn/2bqapnRxAoUnvx1GxL4UM5gS/QTsZVGbQfbSVjLP/csQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyfEk20EkPJ/7y6pxPqTt1qlmvZaRl55qthDHP1amTjazbhQys3
+	Kj4ICCy0KLFWte7jjdfNP0otTEUJW20xXd2tlOril8DY3FlJ7EGFgVqI5K2J1wc=
+X-Gm-Gg: ASbGncuaq+KdF/9SjPyrWYc2SWM/YCjPkYfm3zkeXsLq6W23m/fJZ1o1KSd0yhGfuS5
+	fUlTfBh4NP+2/H4+5fgxORXoq4/OdGu3zgfeYce4gal4JYuXBRZszpga3w2+a4eSftXC+diX4Z3
+	XIaJtJX0p5UGNJVZmci2zkxGR1lvVHGQipHaWIBt6sPyjgKCSiYhIiT/2l3qIhyeK1JnuVo1+w7
+	SuqrH0eEwuAvvAn8oCPmwk77RMSPaYic1S+F6kQxCLdm4wSo8T/y5ksVz7zon08fEQiyUHRGawx
+	YhJKGI9a8AOTDZNfVWi/6ITIhPhWwgeiN8sA4ORE/4JVXCkde/cgqeIknYP5JrOIOsJT7nVAu67
+	CJjYf
+X-Google-Smtp-Source: AGHT+IGHZpEX8SuWhAgp5xJlQGrfdU4KXX7SKiOJt5Pq4EhC30m34gC19ca/t5ZuHPk23A+M9qAhHA==
+X-Received: by 2002:a5d:6d85:0:b0:382:4b52:ffcc with SMTP id ffacd0b85a97d-38c516664cfmr18528267f8f.0.1738585780603;
+        Mon, 03 Feb 2025 04:29:40 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:41c1:3919:865f:692c? ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e245f4a8sm155666115e9.37.2025.02.03.04.29.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:29:07 -0800 (PST)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] testimage.bbclass: fix logDetails() call on error path
-Date: Mon,  3 Feb 2025 14:28:51 +0200
-Message-ID: <20250203122851.1161503-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.47.1
+        Mon, 03 Feb 2025 04:29:39 -0800 (PST)
+Message-ID: <3bf14d26684e308ed7fa7c1e1448be109a2efa61.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v4 2/2] oeqa/selftest/cases/signing.py:
+ Re-enable self-test
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: zboszor@gmail.com, Mathieu Dubois-Briand
+ <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
+Date: Mon, 03 Feb 2025 12:29:38 +0000
+In-Reply-To: <e75d75e4-2b55-4199-b2ee-e9eb26abafca@gmail.com>
+References: <D7FH5IEPPGUA.CNZMYM7LM2F4@bootlin.com>
+	 <20250131064352.2613105-1-zboszor@gmail.com>
+	 <20250131064352.2613105-2-zboszor@gmail.com>
+	 <D7H6P74CVGDM.3LTRAMF91XPEH@bootlin.com>
+	 <182057ACF258490B.1760@lists.openembedded.org>
+	 <e75d75e4-2b55-4199-b2ee-e9eb26abafca@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 12:29:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210650
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 12:29:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210651
 
-This happens when testimage task runs and bitbake is interupted
-twice with ctrl-c/SIGINT:
+On Mon, 2025-02-03 at 11:11 +0100, Zoltan Boszormenyi via lists.openembedde=
+d.org wrote:
+> 2025. 02. 02. 9:44 keltez=C3=A9ssel, Zoltan Boszormenyi via lists.openemb=
+edded.org =C3=ADrta:
+> > 2025. 02. 01. 15:37 keltez=C3=A9ssel, Mathieu Dubois-Briand =C3=ADrta:
+> > > On Fri Jan 31, 2025 at 7:43 AM CET, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=
+=A9nyi wrote:
+> > > > Enable building rpm with rpm-seqouia for the test.
+> > > >=20
+> > > > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmai=
+l.com>
+> > > > ---
+> > > Sorry, I still get some errors while building:
+> > >=20
+> > > 2025-02-01 14:28:32,979 - oe-selftest - INFO - 9: 40/54 602/618 (56.2=
+0s) (0 failed)=20
+> > > (signing.Signing.test_signing_packages)
+> > > 2025-02-01 14:28:32,979 - oe-selftest - INFO -=20
+> > > testtools.testresult.real._StringException: Traceback (most recent ca=
+ll last):
+> > > =C2=A0=C2=A0 File=20
+> > > "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/s=
+elftest/cases/signing.py",=20
+> > > line 113, in test_signing_packages
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 runCmd('%s/rpmkeys --define "_dbpath %s" --i=
+mport %s' %
+> > > =C2=A0=C2=A0 File=20
+> > > "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/u=
+tils/commands.py",=20
+> > > line 214, in runCmd
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 raise AssertionError("Command '%s' returned =
+non-zero exit status %d:\n%s" %=20
+> > > (command, result.status, exc_output))
+> > > AssertionError: Command=20
+> > > '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-325081=
+1/tmp/work/core2-64-poky-linux/ed/1.20.2/recipe-sysroot-native/usr/bin/rpmk=
+eys=20
+> > > --define "_dbpath /tmp/oeqa-rpmdbsj05eco3" --import=20
+> > > /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3250811=
+/meta-selftest/files/signing/key.pub'=20
+> > > returned non-zero exit status 1:
+> > > error: Certificate 7B31316B5D64AD52:
+> > > =C2=A0=C2=A0 Policy rejects 7B31316B5D64AD52: No binding signature at=
+ time 2025-02-01T14:28:26Z
+> > > error:=20
+> > > /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3250811=
+/meta-selftest/files/signing/key.pub:=20
+> > > key 1 import failed.
+> > >=20
+> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/89=
+3/steps/14/logs/stdio
+> > >=20
+> > > Do you mind having a look at this ?
+> >=20
+> > I have run the self test on a Fedora 41 host and it succeeded there.
+> >=20
+> > Probably you need to fix the crypto policy to allow such a cert with a
+> > "no binding signature" or replace the cert.
+> >=20
+> > This github issue may have some useful pointers:
+> > https://github.com/rpm-software-management/rpm-sequoia/issues/46
+>=20
+> Can you please try this below?
+>=20
+> Setting the envvar SEQUOIA_CRYPTO_POLICY to an empty string
+> will use the built-in default policy. See
+> https://github.com/rpm-software-management/rpm-sequoia/blob/main/src/lib.=
+rs#L54
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/self=
+test/cases/signing.py
+> index 51d1c3fa64..9a820ebc72 100644
+> --- a/meta/lib/oeqa/selftest/cases/signing.py
+> +++ b/meta/lib/oeqa/selftest/cases/signing.py
+> @@ -71,7 +71,6 @@ class Signing(OESelftestTestCase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 import oe.packaged=
+ata
+>=20
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.skipTest('This test requ=
+ires rpm-sequoia support in rpm')
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.setup_gpg()
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 package_classes =
+=3D get_bb_var('PACKAGE_CLASSES')
+> @@ -84,9 +83,14 @@ class Signing(OESelftestTestCase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'RPM_=
+GPG_PASSPHRASE =3D "test123"\n'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'RPM_=
+GPG_NAME =3D "testuser"\n'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'GPG_=
+PATH =3D "%s"\n' % self.gpg_dir
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'PACKAGECONFIG:a=
+ppend:pn-rpm-native =3D " sequoia"\n'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'PACKAGECONFIG:a=
+ppend:pn-rpm =3D " sequoia"\n'
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.write_config(=
+feature)
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Test rpm-sequoia's default =
+built-in policy
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.environ['SEQUOIA_CRYPTO_PO=
+LICY'] =3D ''
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake('-c clean =
+%s' % test_recipe)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake('-f -c pac=
+kage_write_rpm %s' % test_recipe)
+>=20
+> @@ -152,6 +156,9 @@ class Signing(OESelftestTestCase):
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.write_config(=
+feature)
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Test rpm-sequoia's default =
+built-in policy
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.environ['SEQUOIA_CRYPTO_PO=
+LICY'] =3D ''
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with self.create_n=
+ew_builddir(os.environ['BUILDDIR'], builddir):
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 os.environ["PATH"] =3D nsysroot + ":" + os.environ["PATH"]
+> @@ -198,6 +205,9 @@ class LockedSignatures(OESelftestTestCase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feature +=3D 'SIGG=
+EN_LOCKEDSIGS_TASKSIG_CHECK =3D "warn"\n'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.write_config(=
+feature)
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Test rpm-sequoia's default =
+built-in policy
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.environ['SEQUOIA_CRYPTO_PO=
+LICY'] =3D ''
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Build a locked r=
+ecipe
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake(test_recip=
+e)
 
-QMP Available for connection at /home/builder/src/base/repo/meta-arm/build/tmp/.xjik9srq
-QMP connected to QEMU at 01/31/25 10:36:19 and took 0.55 seconds
-QMP released QEMU at 01/31/25 10:36:19 and took 0.07 seconds from connect
+Given the way bitbake clears the environment except for allowed
+variables, will that setting make it to where it needs to?
 
-Keyboard Interrupt, closing down...
+I've not looked at the specific test so it is possible it can work but
+it looks a bit unusual to me.
 
-Second Keyboard Interrupt, stopping...
+Cheers,
 
-WARNING: Exiting due to interrupt.
-NOTE: Sending SIGTERM to remaining 1 tasks
-ERROR: core-image-base-1.0-r0 do_testimage: testimage interrupted, shutting down...
-Output from runqemu:
-runqemu - INFO - Received signal: 15
-runqemu - INFO - Cleaning up
-runqemu - INFO - Host uptime: 6230788.40
-
-tput: No value for $TERM and no -T specified
-
-ERROR: core-image-base-1.0-r0 do_testimage: Error executing a python function in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_testimage(d)
-     0003:
-File: '/home/builder/src/base/repo/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 122, function: do_testimage
-     0118:    dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
-     0119:}
-     0120:
-     0121:python do_testimage() {
- *** 0122:    testimage_main(d)
-     0123:}
-     0124:
-     0125:addtask testimage
-     0126:do_testimage[nostamp] = "1"
-File: '/home/builder/src/base/repo/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 389, function: testimage_main
-     0385:
-     0386:    # Show results (if we have them)
-     0387:    if results:
-     0388:        configuration = get_testimage_configuration(d, 'runtime', machine)
- *** 0389:        results.logDetails(get_json_result_dir(d),
-     0390:                        configuration,
-     0391:                        get_testimage_result_id(configuration),
-     0392:                        dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
-     0393:        results.logSummary(pn)
-Exception: AttributeError: 'TestResult' object has no attribute 'logDetails'
-
-ERROR: Logfile of failure stored in: /home/builder/src/base/repo/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.2771735
-
-Summary: 1 task failed:
-  /home/builder/src/base/repo/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/classes-recipe/testimage.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index 97ed4223c4..e090b1ef4b 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -378,7 +378,6 @@ def testimage_main(d):
-             bb.error('runqemu failed, shutting down...')
-         if results:
-             results.stop()
--        results = tc.results
-     finally:
-         signal.signal(signal.SIGTERM, orig_sigterm_handler)
-         tc.target.stop()
-@@ -400,7 +399,7 @@ def testimage_main(d):
- 
-     if not results or not complete:
-         bb.error('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
--    if not results.wasSuccessful():
-+    if results and not results.wasSuccessful():
-         bb.error('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
- 
- def get_runtime_paths(d):
--- 
-2.43.0
-
+Richard
 
