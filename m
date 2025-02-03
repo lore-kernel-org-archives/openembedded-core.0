@@ -2,59 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F32C0219D
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:42:01 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.92303.1738600913434088104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 545E1C02192
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:42:11 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.92316.1738600930121551929
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 08:41:53 -0800
+ Mon, 03 Feb 2025 08:42:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=be8BT8kK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso4204632f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:41:53 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eD5YPqKc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43690d4605dso31913855e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738600911; x=1739205711; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1738600928; x=1739205728; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6SS1qLkjPKhs+Rscw7w2XlsjMsTu05m0RwbdGAg7dhs=;
-        b=be8BT8kK8V5lpWZpCyniA7gD7wX1NxOAnJOTuNu3qd3rgooneiip6L0yROVa4ZbJOq
-         xjQ/EKY9Y8XMTT1jlaFJYVcWy/yIhWfl305IDfKi3c3QvnA7wQNWq6yL5ltuobZ3/dzY
-         XVwuHCOYaQgI/YK7Owu5FaBCil1skWFqn5ePk=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P+pCo3U3v0CQZ9NjzM/fltUf8bqkg9AgTEPcyd1ZwJk=;
+        b=eD5YPqKcyqpxqzjvtTOjzSJGCQMa9Z6OGYkIadU4IbKsD7UCCHH6G4iHzE8pXmWIk2
+         02sojWRwJet2ylwppcMrMqJHy59M+Pj8S/eORrmdfHy2CMKh2b0vinmeYiHc8I08iMAf
+         5kLSdaFTzQucjSVkDq3gsFB74Qav8XTD9M9yM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738600911; x=1739205711;
+        d=1e100.net; s=20230601; t=1738600928; x=1739205728;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6SS1qLkjPKhs+Rscw7w2XlsjMsTu05m0RwbdGAg7dhs=;
-        b=f3hArUHO/aE+6R0GPfeFEYvf0JUeLfTp3VO4OjiMnff0cwMxW+6GdMlUUvNQTMPev+
-         PxZq3/JD5IYOUi2KxF7wy6slEDGxNqtF3gw+iInC+v6vwD9rCrYHJO+r0zAEDss5UimJ
-         nLJqMWxQqNbChXEOBCJK9IQ1g319n6JgVNl0QkUg+kUCVvlf/COqCUOEVzjCmOKkqtRr
-         Jl9Qb3sKMD2cZ/z+jMVcLxuf86bvCVLINzaZQdknlQX5DhdQRz8Fz5G3EfSre8Y5Rr8q
-         kIqzC2ejka4NXaH0BdvwgYqR2wPDAGF4/c9A6bubsezNDTn1XzvBXkfOhyoBq/ibMNRg
-         Bv8g==
-X-Gm-Message-State: AOJu0YyZFOM2s9/t2TtfnzQlOAy7C63tyUj+OLk9BErTOviqCS3wgBZB
-	Ua5a8uwSWhF5DRk14sv1cpD/vxwhFrEaRbWPlilBUbv9+NYk708+0PQNRLDJ2MG153VbF2ZIn4D
-	4
-X-Gm-Gg: ASbGncsGdipGqN1HJOTPU3sT38XhC97ZLmJ0aW06VPcoiTmpyXu/m3xy6/8d6/LV6tL
-	ArNrWHkEzllHjSMXrE/bJTqoODt4az7fjeER4UYDZegXsNVW01Spap50tuiHqPF2nm9i5VAQEII
-	nDLBviW6wS5A/Cwgh7JSU04ApXQVQhPeeiLaYwJiVqpf30KK7RupijsC8DrcrXy6Sfex7K6ocKO
-	tBdGUPrRbttextduts40RoFoc6IlayEviA3Thr8SHPfpIy8bYqsgD/XGVii0jExEvhmPKmqCG+A
-	vX/c+5OAKtVqYb2sK+B5QbF70xcyDFGDPNwpjrkv7kRe
-X-Google-Smtp-Source: AGHT+IG16kGe3aEqHJJ3v1N3d3v8x8taWqEB/6niLqV1x0dcwRE3Vjyjk2Kf1k3t82+1T3UmnOtXCQ==
-X-Received: by 2002:a05:6000:154e:b0:385:e9de:d521 with SMTP id ffacd0b85a97d-38c519395bamr20762196f8f.8.1738600911473;
-        Mon, 03 Feb 2025 08:41:51 -0800 (PST)
+        bh=P+pCo3U3v0CQZ9NjzM/fltUf8bqkg9AgTEPcyd1ZwJk=;
+        b=rscbkmmnDhG/FxRWjU8VMu5PKIor9qNJhhPwKu2gmc2Eqk+vV+iyjfxIpb1ltp7LoK
+         slsCEZoy7cK1jkCR27PEcrv8zmj4VwlH58IuWmCy9a79LyfQPF77VyfjIIvkpB7q3CDg
+         h99fQ4ZmwgKntiRo6z0UEtgYmhzj0vznST/gynF0YQWXPIo8+eIJxJ74JVkKS8DulzoI
+         mFtarp7Q/IlOh4xlw+jfFE9E7G9yfjsUaXV3WVlRboRvPgngvJf+RKPnScOXPYI0E131
+         OO4XTIoN/jxUXCe+7ZzABvijDRukk5ZbKw6c1LpYvEpaCMXv8eLDDNQSCiHmcTnROfTK
+         +LhQ==
+X-Gm-Message-State: AOJu0YxRlOJRzyX8mPfaPXEWtzC7GLdVdZZ/LWu3f/lSp3Aw4Srl1nFh
+	XRQBeBVwSFgQbZ3LveVNe7XqOw/b4H3FTOACPSG8Og6EYAp2nnmp6Jj/fD9A96AhGumRw4xOSvD
+	N
+X-Gm-Gg: ASbGncvi1VN8cs42NpKxd/2pfimSxn5A8cBF6u4g5ULYVy4Vp//q7PKz7TRdsZ+/ScS
+	0gsM2kHyEnY0URhg/fKKV9BPJdM25G2it/pp7s7YnfY4+lB8xgbcn5aRgQ/HKxl1R/WZCWWJfX7
+	7gZjvKzyf2FDhhfbJlAPetaeOPur8zflocKzk4i8fMmV/Y4NdvOfhYiodzh1xMmdfVFQ41sPe0U
+	hd7pexP/GnKJ5P1One+bYrn5Fsf27diIMVrZHftXJPLxi0GKVsWhX1fUE/FheGhkuw6yh7llCq+
+	54vsBc8nJdw2tmz3acXtxbVqp1aOiBSphX8kiCBx5bXv
+X-Google-Smtp-Source: AGHT+IEJokmuIq9WijcGltCnY+ETVqiooOdxkLgN0Ht7AYWqkgpuYQdJ8k9EXlZ4c4jKMrHr9AoSZQ==
+X-Received: by 2002:a05:6000:1864:b0:38a:a037:a517 with SMTP id ffacd0b85a97d-38c51960307mr17557166f8f.19.1738600928205;
+        Mon, 03 Feb 2025 08:42:08 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.41.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec886sm13122395f8f.1.2025.02.03.08.42.07
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 08:41:50 -0800 (PST)
+        Mon, 03 Feb 2025 08:42:07 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Upgrade Helper <auh@yoctoproject.org>
-Subject: [PATCH 20/46] lighttpd: upgrade 1.4.76 -> 1.4.77
-Date: Mon,  3 Feb 2025 16:41:04 +0000
-Message-ID: <20250203164130.3403325-20-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 35/46] python3-pyopenssl: upgrade 24.3.0 -> 25.0.0
+Date: Mon,  3 Feb 2025 16:41:19 +0000
+Message-ID: <20250203164130.3403325-35-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
 References: <20250203164130.3403325-1-richard.purdie@linuxfoundation.org>
@@ -63,31 +63,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:42:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210693
-
-From: Upgrade Helper <auh@yoctoproject.org>
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:42:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210708
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../lighttpd/{lighttpd_1.4.76.bb => lighttpd_1.4.77.bb}         | 2 +-
+ ...{python3-pyopenssl_24.3.0.bb => python3-pyopenssl_25.0.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.76.bb => lighttpd_1.4.77.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-pyopenssl_24.3.0.bb => python3-pyopenssl_25.0.0.bb} (85%)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.76.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.77.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.76.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.77.bb
-index 153f451ea76..2e248a6b11c 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.76.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.77.bb
-@@ -16,7 +16,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-            file://lighttpd \
-            "
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.3.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_25.0.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-pyopenssl_24.3.0.bb
+rename to meta/recipes-devtools/python/python3-pyopenssl_25.0.0.bb
+index b8a980be42b..6485f3e1ed6 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_24.3.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_25.0.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
--SRC_URI[sha256sum] = "8cbf4296e373cfd0cedfe9d978760b5b05c58fdc4048b4e2bcaf0a61ac8f5011"
-+SRC_URI[sha256sum] = "acafabdbfa2267d8b6452d03d85fdd2a66525f3f05a36a79b6645c017f1562ce"
+ DEPENDS += "openssl python3-cryptography"
  
- DEPENDS = "virtual/crypt"
+-SRC_URI[sha256sum] = "49f7a019577d834746bc55c5fce6ecbcec0f2b4ec5ce1cf43a9a173b8138bb36"
++SRC_URI[sha256sum] = "cd2cef799efa3936bb08e8ccb9433a575722b9dd986023f1cabc4ae64e9dac16"
+ 
+ inherit pypi setuptools3
  
 
