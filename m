@@ -2,108 +2,90 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A639FC02195
-	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:24:50 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.91764.1738599885148042775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97825C02196
+	for <webhook@archiver.kernel.org>; Mon,  3 Feb 2025 16:41:10 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.92266.1738600869145372149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 08:24:45 -0800
+ Mon, 03 Feb 2025 08:41:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LNI3ZkH6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385e3621518so2213782f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:24:44 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QZBCM6+5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-385e27c75f4so3876328f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 08:41:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738599883; x=1739204683; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rAkimvLgPU0nsQ1qKa2D9Y0cG1GTso6DHnWDpM/IS4M=;
-        b=LNI3ZkH6P9PzDg6qAYGEYKjdXYDRR9jpvGOGh2aKrOZWxr1OjMHiLqKzzg0jZKOgv3
-         MTXfTRmaO0su5AVAIJCmMl2MpIC3E7EOEoIjSzZj19rgKsEOyn7pvAUyjbMyZ+Ny9ERd
-         KFmCtQlvkxHdRZ57SLNxfTnMzCPkgYdkjyrmk=
+        d=linuxfoundation.org; s=google; t=1738600867; x=1739205667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/qzGFr+pcLfRPc4Wwuv9ZNihxYeQI1FM6ZmgwOmc55c=;
+        b=QZBCM6+5zi2eMyXRlb3AnjORfq5dBmrkrEnXzvdEh9jvI0GW6XslR7LWaZLGCy8AR7
+         iC867gWVP3K3DcQ+CawEmNFgxipVVC1a/FNZLt4VZCFy85xJEbUHdXyDDvjFbjXq9wmZ
+         AppEandsvyS0R1ETpgsGwaDupbHMtVMg36sxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738599883; x=1739204683;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rAkimvLgPU0nsQ1qKa2D9Y0cG1GTso6DHnWDpM/IS4M=;
-        b=Ydcvo+jdq0b++yOpcOPwi4pk/JG+dMvPuV9gKv4ybbTlZOjHD3ao9Lps+ZpQ5tnfUw
-         AeK4/GrMr2K4Thh76nyLiiep+N7p6UZmZM9UekBaUfkYKOrqsDVIuM7glJj2d2du0yp2
-         Npjp3RlNM8fL0QtPjUMAA5v/K7dgl4uAZZy5RirjuC6B2U9mFB0CJ6WJkUzauq3mEgga
-         nx83/VGoEs7uWHjE7npMXT49yhdK+thHCHAo5XTudcNkWJdTZFLCQbJGjU/fWzKxZ5Jn
-         1ZwbCqQVLrrUzu87TidF2rMeTMJT8RjlxqDcAVYyo19v/HnJ9Cnu/acyhw4m37LJpJ+9
-         b5jg==
-X-Gm-Message-State: AOJu0Yz6B721AsCqeugDQP4/vVVLv3g2SsENiDu5kKiuuYbqtxFGaw0t
-	WKfhpBCqQlNBGCPKmtAyRNmTmOg8F+DNUvPEzv2gNt3DyEAj1eGCgHQjRksrR0w=
-X-Gm-Gg: ASbGncs+Ik2myhHtJ2J7aDYDNHOUxs3e7LyYt9sfXCNkp2snjTNPZHjdLrr0jx6gBDP
-	t4IBMAwb8QwQD6d0eAY1yn1s2o/ppS0Dkps4QRjJmueK3FqAN16GAqtDVpHEv0mCT14dr40GWQz
-	H38QyRMjCFien7mUbtIH7zJokR/8ci9A2QmTEd/dvA7a8HcwjQKXuGgg9ATPxlp3N5Si/2H0B90
-	uIf7+Ez2EvH+20cU9EX4o7RtTHix35wHFya7iRssFoy/l9COycpM95mffdEJNBRFBD6rAoar3w0
-	1BClwmvbFcpOf/yhtjeRgRxQtlkzytg3SKiZWi5Kbo8PtvnstqFhjgXOjIHieqZ2YUk+to65Zfe
-	UibHy
-X-Google-Smtp-Source: AGHT+IF65W3SGlB2oi93P2OdWDKl+HG/npMRJz87yqXPpu7AtrvLiLO3ne1g+aZCRF+FbaYOUdOEaw==
-X-Received: by 2002:a05:6000:1fa4:b0:385:dc45:ea26 with SMTP id ffacd0b85a97d-38c5195e85cmr17403394f8f.12.1738599883560;
-        Mon, 03 Feb 2025 08:24:43 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:41c1:3919:865f:692c? ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf831sm13441703f8f.90.2025.02.03.08.24.42
+        d=1e100.net; s=20230601; t=1738600867; x=1739205667;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/qzGFr+pcLfRPc4Wwuv9ZNihxYeQI1FM6ZmgwOmc55c=;
+        b=s/zmaFsg8j1Ot8JKzEpyt2IQyXoRyMwlWUiCoy79r0NOWpCzFjj9+eUwQeQXBqdmDd
+         So/IQ8x3j0u10LgtmiKntKiTz5TxhDIq2bXx9DKPyeL02VYNeYnkz/Yvdyh91wPb57kW
+         Dhh+irH0xsKo4ahcmm0f90Pc27icBbfb/S9R8ibb96yKvfT2fLrNCC7/i/USxzp2MWjW
+         Q1Se4xZzh+l9jo3hE+OtfOJdylUP6TrzWNrEk5hmI6YsNuriNCzBqZJUTZVGHLzFw/Do
+         GPihx13bIWWcFyTT+/UYNlfQ5Uj0C99dCdHARcrDp5yywYIP79ZckFw1wCSbvECsv3/q
+         TASg==
+X-Gm-Message-State: AOJu0YyFI7wfuCfD8YbJ7twZM3ZmB+QRFu/LLJDRh79th58esvLl5K+S
+	LaH7X4ZnMRY1ehCKOK/8e+dGNcSRKmLgrkLIR0FDrt8NasEsbLHO8zKHmNPQZUIzxKhvGunukil
+	E
+X-Gm-Gg: ASbGnctA3ycKI29j/Q0YzkY+0nRdBiZn60aplEbUy0OM8hIDWi5FY5J/y7HPDNNPZXS
+	2DY0O4wTstX15tVgiiTHnvwofzOKCvWumVR9zUZOFgtiCvkCmk+4gKxM8kQ1vin08JUD2BqfiCL
+	8AyAoSDMZU5Plq6I8LXcCB771yI1KLK4yH4LlPjY4WPW9ZQwxV7WWSRJElbov/0Ugjbsh3HsSMK
+	qj7UhXtdprssqU56DVQVJYjNsWS3KfYZmQpwhYMbcGdW3TDj5pOeSHXbQXg6do1ssZaM3xlbaRZ
+	1rKRNaCJTV9kP2HriS2dwZMsZc9aWN8H19IaUoZnI5t6
+X-Google-Smtp-Source: AGHT+IHgP/Sp038wWdK78pb0TGF/CQjkuf0H5jjPbvFWZhTd7kjd13PyCRs2g/q5UNSJoVD7EMmNXw==
+X-Received: by 2002:a05:6000:50c:b0:38a:8906:6b66 with SMTP id ffacd0b85a97d-38c52097153mr15419835f8f.38.1738600867124;
+        Mon, 03 Feb 2025 08:41:07 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41c1:3919:865f:692c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1d0bbfsm13479806f8f.98.2025.02.03.08.41.06
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 08:24:42 -0800 (PST)
-Message-ID: <db7915d3754efd75c2bc07fc5b81b9e8a3702adf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [AUH] pango: upgrading to 1.56.1 SUCCEEDED
+        Mon, 03 Feb 2025 08:41:06 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: auh@yoctoproject.org, Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 03 Feb 2025 16:24:42 +0000
-In-Reply-To: <01010194c1ac03e5-85b47374-6f7f-404a-91f5-949edd047468-000000@us-west-2.amazonses.com>
-References: 
-	<01010194c1ac03e5-85b47374-6f7f-404a-91f5-949edd047468-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 02/47] at-spi2-core: upgrade 2.54.0 -> 2.54.1
+Date: Mon,  3 Feb 2025 16:40:19 +0000
+Message-ID: <20250203164104.3403226-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250203164104.3403226-1-richard.purdie@linuxfoundation.org>
+References: <20250203164104.3403226-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:24:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210666
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 16:41:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210668
 
-On Sat, 2025-02-01 at 13:21 +0000, Auto Upgrade Helper via lists.openembedd=
-ed.org wrote:
-> Hello,
->=20
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe(s) *pango* to *1.56.1* h=
-as Succeeded.
->=20
-> Next steps:
-> =C2=A0=C2=A0=C2=A0 - apply the patch: git am 0001-pango-upgrade-1.55.5-1.=
-56.1.patch
-> =C2=A0=C2=A0=C2=A0 - check the changes to upstream patches and summarize =
-them in the commit message,
-> =C2=A0=C2=A0=C2=A0 - compile an image that contains the package
-> =C2=A0=C2=A0=C2=A0 - perform some basic sanity tests
-> =C2=A0=C2=A0=C2=A0 - amend the patch and sign it off: git commit -s --res=
-et-author --amend
-> =C2=A0=C2=A0=C2=A0 - send it to the appropriate mailing list
->=20
-> Alternatively, if you believe the recipe should not be upgraded at this t=
-ime,
-> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-> automatic upgrades would no longer be attempted.
->=20
-> Please review the attached files for further information and build/update=
- failures.
-> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_=
-bug.cgi?product=3DAutomated%20Update%20Handler
->=20
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../atk/{at-spi2-core_2.54.0.bb => at-spi2-core_2.54.1.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.54.0.bb => at-spi2-core_2.54.1.bb} (95%)
 
-FWIW this has docs issues:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/856/step=
-s/11/logs/stdio
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.54.0.bb b/meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+similarity index 95%
+rename from meta/recipes-support/atk/at-spi2-core_2.54.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+index 975dc9b959d..7b87783735e 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.54.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.54.1.bb
+@@ -13,7 +13,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "d7eee7e75beddcc272cedc2b60535600f3aae6e481589ebc667afc437c0a6079"
++SRC_URI[sha256sum] = "f0729e5c8765feb1969bb6c1fba18afa2582126b0359aa75a173fda1acf93c4c"
+ 
+ DEPENDS = " \
+ 	dbus \
 
