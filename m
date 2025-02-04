@@ -1,89 +1,101 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A63C02194
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 13:59:28 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.116476.1738677557996131745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A7C2C02196
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 14:03:38 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.116992.1738677814308112467
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 05:59:18 -0800
+ Tue, 04 Feb 2025 06:03:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=OSARDaYE;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=FDqammZvjUz0g2xrPG8Ut95xv5fN3TcmIEZfW4dowic=; b=OSARDa
-	YEb5ig4XHnl7UddsEsI0UT9uOen4IdPCRKUtSFz+9EqWlO6qibCfU5rHJxruBav+DZkyoovLgtZdX
-	YMdNBqzf/BQGPttn8wPNa2pLSp7BELa2BCxgpmZexp5f+qA5p/cSnWWdQQckYBN07FfCVq0VpK7X4
-	kLMjMjuN58xV3x0WOm+irHQ6FyqWsRpT16mHdv7mCt8rCguPQBRvlwXUBFCyA2ng27KwLNE6FvbBG
-	bs1jYpfuexuQ6AUCm5dX1m68472QRDgwkClZljCMPkifZ83DR6Xcv50yb/gntja4tF4Xak+7cNqil
-	N6L71YsJHSCwceaCaHdFb/oOcB6g==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <sean@geanix.com>)
-	id 1tfJSO-000Dz2-19;
-	Tue, 04 Feb 2025 14:59:16 +0100
-Received: from [2a06:4004:10df:0:ccc1:2e72:c6e3:a6af] (helo=Seans-MacBook-Pro.local)
-	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <sean@geanix.com>)
-	id 1tfJSO-000IN3-0N;
-	Tue, 04 Feb 2025 14:59:16 +0100
-Date: Tue, 4 Feb 2025 14:59:15 +0100
-From: Sean Nyekjaer <sean@geanix.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] image/populate_sdk: Support usrmerge for
- nativesdk in SDK builds
-Message-ID: <ygnmol4i3p5iixvkrzw6spgljha7vnx6zjljajqr4q2j6r5mvo@eud25kakycyq>
-References: <20250117130851.4055166-1-sean@geanix.com>
- <C02E5327-1001-4CA9-BA15-E063F862C4AA@arm.com>
- <3ot3xt22h6idimbs4xrb4cnojyxeswugitvortqlinqdffb76o@tebg2u26fzin>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3ot3xt22h6idimbs4xrb4cnojyxeswugitvortqlinqdffb76o@tebg2u26fzin>
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27539/Tue Feb  4 10:37:52 2025)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cU/wuGNF;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JDMD4UVZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010194d1460123-296888c5-d45a-4c84-9a3b-6cfd199c4fb5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738677813; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=CmSi9NFavxkkwLXRZBDU8H/D+Pelmq4SGNT8Vhps2RU=;
+	b=cU/wuGNFFEpt2CFK/pIf5KdwxmkcTMbq+9V4rbuE1JQp4WW7Yw8a21lwoTUh7e/+
+	dXXkEiDXeHWoOdHIWPSxzcCtOMVSk2gTUt51Znjv7fBgN+6qQm1WWF8+qAD6V/3eHGu
+	jJFdwKXnIQicDV0gB8gltwXQcr3wGO94f6zQ6hjA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738677813;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=CmSi9NFavxkkwLXRZBDU8H/D+Pelmq4SGNT8Vhps2RU=;
+	b=JDMD4UVZzOsH7oLmpKS+CO5tDBhgogSU3JJdIvg6put5wODXFdDJO4+0xH5i1Cft
+	p/Z7ksqw+lhXM6DO1FlbAkTeUc5rGdGs4YepWjYxvY1uqYxDwXy016H8afSn7mxEVgf
+	nuLEsJjOTMeVhRb2xU3zbxwvGg99WMoQudeoHfME=
+From: patchtest@automation.yoctoproject.org
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 3/3] systemd-boot-native: fix kernel signature for
+ secureboot
+In-Reply-To: <20250204135457.1219477-3-mikko.rapeli@linaro.org>
+References: <20250204135457.1219477-3-mikko.rapeli@linaro.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194d1460123-296888c5-d45a-4c84-9a3b-6cfd199c4fb5-000000@us-west-2.amazonses.com>
+Date: Tue, 4 Feb 2025 14:03:33 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.04-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 13:59:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210800
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 14:03:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210802
 
-Hi Ross,
+--NextPart
+Content-Type: text/plain
 
-On Wed, Jan 22, 2025 at 03:04:35PM +0100, Sean Nyekjaer wrote:
-> On Wed, Jan 22, 2025 at 01:41:11PM +0100, Ross Burton wrote:
-> > Hi Sean,
-> > 
-> > On 17 Jan 2025, at 13:08, Sean Nyekjaer via lists.openembedded.org <sean=geanix.com@lists.openembedded.org> wrote:
-> > > Some recipes(systemd) requires usrmerge. Create the required
-> > > symlinks for `/bin`, `/lib` and `/sbin`, when installing nativesdk
-> > > packages.
-> > > Enable the symlink creation by setting the `usrmerge` flag in
-> > > DISTRO_FEATURES_NATIVESDK.
-> > 
-> > This implies that there is some layout dependency between the target and the sdk environment. There really shouldn't be, what broke to cause you to send this?
-> 
-> Hi Ross,
-> 
-> In order to build and test our rust programs, we need libudev which systemd is providing.
-> We are running our tests with nativesdk.
-> 
-> Systemd is requires usrmerge.
-> 
-> Hope that explains :)
-> 
-> /Sean
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Forgot to ask you yesterday at the OE Workshop.
+---
+Testing patch /home/patchtest/share/mboxes/v2-3-3-systemd-boot-native-fix-kernel-signature-for-secureboot.patch
 
-Is anything holding this back?
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
-/Sean
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
