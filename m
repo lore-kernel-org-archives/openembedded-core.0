@@ -2,96 +2,106 @@ Return-Path: <igor.opaniuk@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC0AC02199
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 10:01:47 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.112524.1738663304290571299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F186FC02194
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 10:01:46 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.112957.1738663301155353809
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 02:01:44 -0800
+ Tue, 04 Feb 2025 02:01:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=bk86lKed;
- spf=pass (domain: foundries.io, ip: 209.85.218.48, mailfrom: igor.opaniuk@foundries.io)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ab7157cf352so551140066b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 02:01:44 -0800 (PST)
+ dkim=pass header.i=@foundries.io header.s=google header.b=RAQhFOUE;
+ spf=pass (domain: foundries.io, ip: 209.85.208.45, mailfrom: igor.opaniuk@foundries.io)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3d0205bd5so8343437a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 02:01:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google; t=1738663301; x=1739268101; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SnYMvQM3V7X1+1l/DoGaDg1Jk7T6tPmxuaEfJDQlWAw=;
-        b=bk86lKedZRbM4JsLXugsG4I3UFNw8FQ4Kj9kDe8wwORf/XrcG2XzRuAKjjq4UdGHGZ
-         FY8fEQdjsM3Zsn9VmkMl2afJsPcwKThQ5zhwvi0+KIEteeR4UDNx+7HIuoQj1fQwRjbT
-         V9El7mS0wj1ZOSYkNQ/KqZsqTaAeQa6hnF8XyFlgq+YP3VW1sDLLRD/MKxzWCF9PRhmK
-         FtMKGU0A2HwvBdkaz+iL8avWowWIMyxAkx1+qiohrrPC18maqvpKyFq1gJN0N8qRAukA
-         TUMi15oam1F4TFkJblKzGuDvK6i0JlhTcz+jm2aR0u5QrYGen6yRFFMK8LfRK1wGNqcX
-         GdVA==
+        d=foundries.io; s=google; t=1738663299; x=1739268099; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rGQku5bIuQdtHNDHmGvwEsWxSe4llQyEXjeCq4u8HuM=;
+        b=RAQhFOUEyYcumG9OEpQSl2bNpPcGktixF7gcUwDmr587/ifiQZgX99MOW3YHjl6kW6
+         3zRJJADL3+chsh+ffrK2Y+wwAcIniuk3EBxInA+R+gf56Jkng/dtFqRukITaH/NDyCav
+         Z1VzosgH04SM+lMSizQq1K4qMj5ZAt8e+8A+QtX03LpBx+J4ukBfIgr01wpvJBXhX59P
+         kDxD1J7l92+U4dL87b56cXc49DVqCwEvHcyE3qSyV9QaZLK8vdlDeDeviCvNN0SJh6Ec
+         uOVlUBqjX+l6s5C8DsnQIn3Cse0PP41hYXM42kr+sYD56tpXsHg/06X7SsNtzPiPLvvP
+         OaHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738663301; x=1739268101;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SnYMvQM3V7X1+1l/DoGaDg1Jk7T6tPmxuaEfJDQlWAw=;
-        b=QIgu0R42Jpm/W9TrOfT4m7Fr8LrQQf/jpZ+KG1AwkMh035JmvkSaZuUMYj3zNIDC0B
-         Q1z6lqxU4dFpK5GgacUzRmngjvlG7I3BDdZfPT80WX4+QkIoSbItPKPpAbf7M5IdZCQM
-         LfC+5JZHyZGsqgUJ/wIg0bQHN1dlffueT3SMm58EzEcx55kLXjUV1shfYZa6FebhZaGD
-         W0QUXItLK1/xO+cVrh6F9z86g8tZnWD94wZEbpkDtRSXZRWX8L9kwyYE7hPgRSHH2gY/
-         lQwaM5HIshQH/QcWlWmvq2sdXATnKBoezn4ZVqP+ySXbEPL08MnYBlUm1kHkDti/ogh5
-         CJnQ==
-X-Gm-Message-State: AOJu0Yy1iJs6FdhqMd7NpcwQ+aq0d4qrM53J7EthoxKr6tTXawoPpebO
-	CFdejkwq9gjeALkSox/GlKs2seeBYOKh1k2ZsQKRUVTftBp4nsoCdG4vQ/Ea9GClbC0pEOUBeWJ
-	swVXZpQ==
-X-Gm-Gg: ASbGncuQXKLTItTpEhxQXfcu0ugh/kaag2i5Qdx4anNu0e+yaOa2+Q+zAW8PJ0mrDUp
-	iL3SePQwF9Als91HXDLeNsjt6NbO6DeLB5NopzS/AXhQOQp6wB5lJHQ0obtbHcxfG2CReKrqgFO
-	6Hd5ytMLpZ6o9IcIUpAJc82194Q4lpRO7M92S3gARFtuZw6EkLbLgMWfw1zionIA8/3jd2HqxsW
-	LFYXRlxemXebJvKoAKLndaJhO6iiwLDuf6ZvGkagPqvIDBSWPWpCMagMVvddWyl2mmnFofs40cK
-	Puq69xt1dJxobJpZU22NPmI=
-X-Google-Smtp-Source: AGHT+IETfwWQ2h50aOAjmxS5LlArhfbgdN7ew6x050mKyLuy+weQrfgyHZNHo2+EsAR2P5kwQuqN8g==
-X-Received: by 2002:a17:907:7d92:b0:ab6:f68d:8b22 with SMTP id a640c23a62f3a-ab7483d03e8mr267537566b.2.1738663301387;
-        Tue, 04 Feb 2025 02:01:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738663299; x=1739268099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rGQku5bIuQdtHNDHmGvwEsWxSe4llQyEXjeCq4u8HuM=;
+        b=NE6wnt3tpEuOaJXwTX0c+lrHEIE3za2ad3vZQEVm7xqWgpj0IvANmfgkQdxVhnLM8A
+         EAX1pInduX8vjAfwCHGrV+800IJeMkF+KzlpoGZOC1OMHWDM5DSvYv+WirrQ2ZdEMpVi
+         wOqgHUgcuJtBV5kC5HBrFMBHU/z/SwSQaf3iG2K4vv2joesjFqybPat1g3EdvAwwPfy3
+         KVraZgqXgMdX78xaf6Qni/Kbn5wHPLLzBu9937WHMnOB0+0oYyb4uMa4UfvNrNmiX7rt
+         QzFw+3kDGnYPtmBiKaMukIb+KcGjds+KX0IkmKjD5aytx1tg9NRjfpienUXLPZoKzdnx
+         TCxA==
+X-Gm-Message-State: AOJu0YzrUfU+Y6lwz8XPlSDkp3rEHKBZuosXDJmCzvGpVzCv91T/IgiU
+	GXw1UVceuRoS8MPiwErZjxQXZdelJKBgfQxxDYsE5uVjBacPwLAMV6CPkpCG0wT85L7cV/+Ht1X
+	hpGENug==
+X-Gm-Gg: ASbGncsJvsKyglc2BRuRH1+3lCaQIxMkuvT8lInDFOlXtM7EksVlhV9CU4FmaHrSqlG
+	P+nubDZLUM8K3sEGFu1wIBd474xvlEq1tDzEyAEqbTib0mEgtDToBPNL59DYBQAs8+ihHPZpfcA
+	mDIHd2gL0MrfEsNiTOOJZAd4sO1mwEfxnYQkoaED2q/MsrDw76wr3Q+UvsOWnNdfao/RCAwdjgt
+	rUno5+Cw0PwOBKJ5fQI58Br+/OsKBHbfSLTP4vJE3cxFbFDRClEFJUP0xmwkLR2kkHLjte1xMHj
+	qVQCHGCsGXy3konHtPjoLuo=
+X-Google-Smtp-Source: AGHT+IGeIqRR53uEgNrACMIFQxoN9ICXvC1DoJsZQuXf7ti3VX1lACoaFkeA/QgB5+ECvzMwLtiFdw==
+X-Received: by 2002:a17:907:7f1f:b0:ab7:b8a:7640 with SMTP id a640c23a62f3a-ab70b8a7664mr1719617066b.46.1738663298920;
+        Tue, 04 Feb 2025 02:01:38 -0800 (PST)
 Received: from igor-t14.. ([185.186.156.113])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff724sm899065966b.105.2025.02.04.02.01.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff724sm899065966b.105.2025.02.04.02.01.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 02:01:40 -0800 (PST)
+        Tue, 04 Feb 2025 02:01:38 -0800 (PST)
 From: igor.opaniuk@foundries.io
 To: openembedded-core@lists.openembedded.org
 Cc: Igor Opaniuk <igor.opaniuk@foundries.io>
-Subject: [PATCH 2/6] MAINTAINERS.md: fix markdown style issues
-Date: Tue,  4 Feb 2025 11:01:10 +0100
-Message-ID: <20250204100114.3749576-3-igor.opaniuk@foundries.io>
+Subject: [PATCH 0/6] Fix markdown style issues
+Date: Tue,  4 Feb 2025 11:01:08 +0100
+Message-ID: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
-References: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210757
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:01:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210755
 
 From: Igor Opaniuk <igor.opaniuk@foundries.io>
 
-Fix markdown style issues using markdownlint tool [1]:
-$ cat MAINTAINERS.md | mdl
-(stdin):71: MD012 Multiple consecutive blank lines
-(stdin):72: MD012 Multiple consecutive blank lines
+Fix markdown style issues using markdownlint tool [1].
+The list of files:
+
+$ find . -type f -name "*.md"
+./README.qemu.md
+./MAINTAINERS.md
+./README.OE-Core.md
+./meta/lib/patchtest/README.md
+./meta/recipes-devtools/rust/README-rust.md
+./meta/recipes-devtools/perl-cross/files/README.md
+./SECURITY.md
+
+The `./meta/recipes-devtools/perl-cross/files/README.md` is skipped,
+as this should be addressed in the `perl-cross` mainline repository
+first.
 
 [1] https://github.com/markdownlint/markdownlint
-Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
----
- MAINTAINERS.md | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/MAINTAINERS.md b/MAINTAINERS.md
-index fe706a19a3..d943ed38f1 100644
---- a/MAINTAINERS.md
-+++ b/MAINTAINERS.md
-@@ -67,5 +67,3 @@ Shadow maintainers/development needed
- 
- * toaster
- * bitbake
--
--
+Igor Opaniuk (6):
+  README.OE-Core.md: fix markdown style issues
+  MAINTAINERS.md: fix markdown style issues
+  README.qemu.md: fix markdown style issues
+  SECURITY.md: fix markdown style issues
+  patchtest/README.md: fix markdown style issues
+  rust/README-rust.md: fix markdown style issues
+
+ MAINTAINERS.md                            |  2 --
+ README.OE-Core.md                         | 17 ++++++++--------
+ README.qemu.md                            |  8 ++++----
+ SECURITY.md                               | 16 +++++++--------
+ meta/lib/patchtest/README.md              |  8 ++++----
+ meta/recipes-devtools/rust/README-rust.md | 24 ++++++++++++-----------
+ 6 files changed, 37 insertions(+), 38 deletions(-)
+
 -- 
 2.43.0
 
