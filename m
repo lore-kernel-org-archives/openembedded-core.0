@@ -1,100 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50BF8C02197
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 11:02:37 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.113537.1738666951440285680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 391A5C02194
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 11:03:27 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web11.113548.1738667002216723730
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 03:02:31 -0800
+ Tue, 04 Feb 2025 03:03:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TTnp5QX9;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JQP7XChR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010194d0a03f03-a3b7b8fa-ab8d-4d0d-ad89-510669b837c0-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738666950; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=QIIIxnECPorqPDEkUUWQR1QuYaUbjPOq08cgRjAbm2w=;
-	b=TTnp5QX9j6hEoKesHNe4t/1wg0hO6QRg0QmzqrNmwilAUjDMtYIaUVbSLfmXfI5c
-	FbjRqdC6hLUzh2SL0+Tsp21c6AkQa7lutONKuYRHDf34c9UJvYTpHufjMSM6/vgohlb
-	ZrviYwWa3PNYZuvezeh8bEYHTIMazAg0XLcVlJKM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738666950;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=QIIIxnECPorqPDEkUUWQR1QuYaUbjPOq08cgRjAbm2w=;
-	b=JQP7XChRDY7Jx+XyA1Dhu6wBRDTHSCk87EiJBilgl3HHAQBO9tkfFNwbSO7We76H
-	6Rrj7X0x0Cm67W833008bHLQ4uE86ziyrjrpU0PxNdqTC93mkjJRuR+zcGuiihIBmBf
-	xK+mUMLMQOtUTVFfTN57EKAMQBNZkrKxD4g7Ap2Y=
-From: patchtest@automation.yoctoproject.org
-To: uvv.mail@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 3/3] systemd: Build the systemctl executable
-In-Reply-To: <20250204105315.84079-3-uvv.mail@gmail.com>
-References: <20250204105315.84079-3-uvv.mail@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194d0a03f03-a3b7b8fa-ab8d-4d0d-ad89-510669b837c0-000000@us-west-2.amazonses.com>
-Date: Tue, 4 Feb 2025 11:02:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.04-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UnNzxm1p;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6df83fd01cbso22330526d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 03:03:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738667001; x=1739271801; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=99Bcy0gE26vhIectDzp01HqlPiF2QhZ6g/zTynwZ5/A=;
+        b=UnNzxm1pc38/azrBaL+G/Qug/lhqoogQdLooWPDNGZSmBQr7DuMLGRDClP87xeWunW
+         K0ytzAE4KfndD6+hG6jG6H2T1PCtibC00Fq9LjQN8ScJgNgTPjhLx56TqbrxwQ+lSUzD
+         ztzPupzXBkl+M22XaeUtF4C77YIDk5BB8GVTC11ZfcS0ib/N4Y1JZguDzuXNK7ty3bI8
+         2DSXILVWRdRkzzbY4/ORSm25t5GTDrF1lSJ0SZVJflvn3AcCBml8jN5/i0y1+VXH5ogy
+         ob7RLpwNO0UOir7UAoeT5Dx4ktDR3sGLtjv7YQSpkfrrWocETXViR5N4OGgZdJeqcSnB
+         vLog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738667001; x=1739271801;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=99Bcy0gE26vhIectDzp01HqlPiF2QhZ6g/zTynwZ5/A=;
+        b=UqPl7y1flsJvFBt6LLk1RZX7mYY6drutKPaJkhyF/Vzn/anJf7F/j7Wo9lf0jHo54s
+         zFf++MxscJ0X8yBbGVQAy2CslJsJ9BGeD+O3dmaji3OQGNuGOUTPo2oZO0G+qqewyhX+
+         Ov/3iI7c3dnCiZnXxshNMAjue5RS7c7uPWB74H1QYAf+OPJMC7ql0uEoLEhdakD6jVot
+         e8gHIHqYuRN3mujx6kh/84SOVdN7vKysZOZXNRbIDH6xPUPjULjs+0G8qsiHSVtKdp0z
+         ci9rLFmR3pMLO4Fo8KdBLKBuYd1TydIVx18Ax3KctXhNUeOEJEsKrYfXwR4TbaZuPUEM
+         no/w==
+X-Gm-Message-State: AOJu0YwATIkaOhi897yxiLpuQCybhJV0quc3Z6CTH1zCzrHJXVPMJZ1q
+	jH78AN9fpRJRq5OrGvKdGnVNQz0+kfL/Qs3woB9vwx4cHUQalKnaJZenYxBSbA0Y4teMkOHq3Ss
+	e4uyWpo9bHpcPQuBqr1D+UoWgBiw=
+X-Gm-Gg: ASbGnctBcK5DZLe+1vSmeqZ+UUtIBfJBSxFElJVcnmWG/JzXfFATfuBV9GFnX82Br+5
+	py8nDB/n20gUgSXpz9gH8yyIvJImUFYLzdECKzkmE3fKEXcFRU/2/c9ULIDB7AhMWFkAoxP3Pv1
+	NGGOIfCucGBwIkL74jtI4jpXtt9wl1lhI=
+X-Google-Smtp-Source: AGHT+IGj+/vMNjNAPISfLYChuZBUl6+5wdr2mAZi1OjPkMDAko8KTtk19L4YJBpwxxPBJcgiP19n/FO/ApEtpkdNJ/g=
+X-Received: by 2002:ad4:5dc8:0:b0:6d8:8f14:2f5f with SMTP id
+ 6a1803df08f44-6e243bf8ce0mr395196066d6.23.1738667001266; Tue, 04 Feb 2025
+ 03:03:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20240726133559.1124668-1-sundeep.kokkonda@windriver.com>
+ <CANNYZj9V8K5upKxUdA8U4OXsdvt_+TTen=MogiVjJfqkV7jOOw@mail.gmail.com>
+ <74363653-308f-4465-8bf5-4f8aab01379e@windriver.com> <CANNYZj-egdbGeyLRRQKT2+ewmfNWC6SxJKy-yDDGQtaUZYp4tw@mail.gmail.com>
+ <d153ffef-33eb-4c68-a2e5-6c4c7320fd9d@windriver.com>
+In-Reply-To: <d153ffef-33eb-4c68-a2e5-6c4c7320fd9d@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 4 Feb 2025 12:03:10 +0100
+X-Gm-Features: AWEUYZm9GvqnrMmFAmnnjNtKscXQRNRw2xtg6yse_Hmqd-_cCE6paraQH51lGQQ
+Message-ID: <CANNYZj89DxgQ8msEbCdmS7dc=ym3y-ekBw6NSA+pwof33_Es6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility issue fix
+To: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
+	naveen.gowda@windriver.com, shivaprasad.moodalappa@windriver.com, 
+	yash.shinde@windriver.com, deepthi.hemraj@windriver.com, 
+	harish.sadineni@windriver.com, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 11:02:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210769
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 11:03:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210770
 
---NextPart
-Content-Type: text/plain
+On Thu, 30 Jan 2025 at 04:24, Sundeep KOKKONDA
+<Sundeep.Kokkonda@windriver.com> wrote:
+> Sure Alex, I will look into it the ways to optimize it. As I remember, when the 'codegen-units' count is increased it is causing rustdoc binaries are not reproducible.
+>
+> I've to re-test it with some higher values of 'codegen-units' on latest rust sources. I'll test that.
+>
+> You can simply drop the patch and then rust will pick a default value
+> of 16 for it. On 1.81.0 that still makes rustdoc unreproducible, I
+> just checked that.
+>
+> Thanks for confirmation Alex.
+>
+> We already have an open issue for the reproducibility issue with rust community and there the rustdoc issue with 'codegen_units' also mentioned.
+>
+> https://github.com/rust-lang/rust/issues/134589#issue-2753629767
+>
+>
+> We will work with upstream to find the proper fix for this issue.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I spent some time looking into rustdoc again. While I couldn't quite
+get to the bottom of the issue (it's a deeply esoteric llvm subject),
+I was at least able to produce a better reproducibility work-around:
 
----
-Testing patch /home/patchtest/share/mboxes/v2-3-3-systemd-Build-the-systemctl-executable.patch
+https://patchwork.yoctoproject.org/project/oe-core/patch/20250204104205.3423548-1-alex.kanavin@gmail.com/
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
