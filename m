@@ -2,62 +2,62 @@ Return-Path: <igor.opaniuk@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0AE1C02198
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 10:01:46 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.112960.1738663303279966153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7CACC02197
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 10:01:56 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.112526.1738663308048788033
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 02:01:43 -0800
+ Tue, 04 Feb 2025 02:01:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=UXakTBdd;
- spf=pass (domain: foundries.io, ip: 209.85.218.46, mailfrom: igor.opaniuk@foundries.io)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ab698eae2d9so1076090266b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 02:01:43 -0800 (PST)
+ dkim=pass header.i=@foundries.io header.s=google header.b=jymUZ4q0;
+ spf=pass (domain: foundries.io, ip: 209.85.208.53, mailfrom: igor.opaniuk@foundries.io)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5dcd3454922so12413a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 02:01:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google; t=1738663301; x=1739268101; darn=lists.openembedded.org;
+        d=foundries.io; s=google; t=1738663305; x=1739268105; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g5BqElZ5YzAMTb6JuZh+a/HZI0EQjOtN8j2Ic06Ql0A=;
-        b=UXakTBddMVUx0n11eTQRum46D9CKF4qY8aC1uyUwDT8rQb6f2fSzn259XGhprJe618
-         X1o/l47j4cYrjmtuY1J3LAcnQc2z17y2B9I+A/Ot5Yw0Uawwb5Kx4X2PcqleQ/a1oviJ
-         1XMBkzM0Yns110L4hhPKsXa9hTm30Li8Hg7OlVjkdOPygrMrt/iq8+ZFhCtp1hQ0RM49
-         eQW9D1w33//Z3ebjqdKTuD8XRYY8LG1czGNW38dEXbcH9RAqaASYcjhhjsYoNIhTD+qL
-         7QPeIGzlnGC2YT0EGHYKmc34+Sg4aY66Ob7vOMUK7Vdb5Nhctbq44yU5GsNvVjKpu66c
-         bsMQ==
+        bh=z7CcnpnQ6xmkom29DnRSYjqEzTX8h0+gdQpdihSbQmc=;
+        b=jymUZ4q0Wh9DwLaLjJICTHBh4J5HxC8SRoyw3W/U1H4R2LKWOTzZfubJ0V2rii+snq
+         EKFuxE7tvUMRU0SY6YmQ87DaLH7aT9D9XqAFJY48SaIloI/KENeIf36g9mBS/utP0Vbg
+         //toJu2kgEVtSbmIZPww7IRDyThbC4j5gUvnRzSpQav/FdO1HRmehqOaDfm6XlDreEAT
+         rv47WAulXpc/46ZueP0X9c0oZxvoisrI/glpKiinZ0IBo78JZSAVkEAm05XiuQrk6Amo
+         LouVwEvMkOg+TVr3Nq9IUjwHnszUOUFoNkvXdvo856j3Rc248+NbIkJ2MGr0FF9ssyXQ
+         X7WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738663301; x=1739268101;
+        d=1e100.net; s=20230601; t=1738663305; x=1739268105;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g5BqElZ5YzAMTb6JuZh+a/HZI0EQjOtN8j2Ic06Ql0A=;
-        b=rVirKAOygYMMvSHkjUKN3BY4ZTfXqlaS4QrtveFSqx6PulVnaSPmtQDqA7gkmTww3x
-         NE4Avqb32kv2n36P+4eUaJUGchUxPy+GQdwhBp5o1qTwQotRVem0vwUIZN7vEkxgDMrO
-         eDh7M7Rq7Yie5lGSijwvalDadiHSmJFxOAa1X5IgUdBhGT75FM/Gen4MmJ1QWDdQDVXB
-         SfWl4BE5kLTLGLg1MYAySRsO9+C+FSNPLsrpYSIBDKCu1YE9SLCvBziTPpkS+6maFENH
-         xss0FHODQ0vPyUSY0JL9KVS3y9r37VnMgvF0QuaIGNZdRX7vnEn9Hlf0QYEdPO2e5Sne
-         D73A==
-X-Gm-Message-State: AOJu0Ywd2RwRIiQfMrchTKkrfhNCitxI8eZ+ZkKEIIyh6XqhNLKVwllY
-	AOFR7p1s9Ht9OtFa9SfuhjwZvx5jD7AUHRvvC1t7EYZ+zPn6YVav3npPQMUfGPjaSsRj+kFGEIC
-	AerwpOg==
-X-Gm-Gg: ASbGncvCrZLZannHO+xadt4lqY86Y6vP505Pntc/AFenCp/BBNITF9OnX8FN4IA6Wau
-	AX4MKuN431PEmBG/dqMyjwt6H/zebpgk2WW/KZzNaHMUy3/eFUKBFeGqOmJx9RTwA9nfeIUXtr5
-	PaPU46Vs9GXvMH3DGo1F7wA211adXF5Yt/JcqXhNMU4QTyNva5mpD+Gvn8cfhnYUVPNg92q180f
-	r16hewVBcd+TrtXq6EEicH/GrPsHFZgnnmsNAJepzn2mDFBnxE7l6gqPs/528o293y8vomWI0GG
-	64Hwon1qNY7mkSK6Ow2gTzE=
-X-Google-Smtp-Source: AGHT+IEuvimPOZou/IBwvrnS+HURP+2Zyluc15s6j7D6f070JlPjfqKTuJTlEQK9NlciclGsJ6CgYg==
-X-Received: by 2002:a17:906:794d:b0:aab:ee4a:6788 with SMTP id a640c23a62f3a-ab6cfdcc151mr2832734766b.57.1738663300495;
-        Tue, 04 Feb 2025 02:01:40 -0800 (PST)
+        bh=z7CcnpnQ6xmkom29DnRSYjqEzTX8h0+gdQpdihSbQmc=;
+        b=POA4gsZmViaUDPE6FkZZK4+U15AoZH36Rvpea1tx7UL+17M0kcX3Ix129qBJbT/Wox
+         t8jXoI8/I/qOIap7d6FUS/q+fN4Mct5Lx81bn9SaxvQDp6BWijtHuJ/ESWwxnhS7tAiU
+         6Ul+v7c6GNuTq7b/Aijen6YYVNa60qkzx2Xz3QA2Nww7nz62JhD+9yEjsrGFCjrzRR73
+         REgExJxhjv6ahUjESRbSn4/Luq6m6NtRSJakRlRezRhjPhR6cZZtXaYJRBUlEFJ+YYF8
+         YvsT4qeGloced6svpVDUWo3ALg7HFUu4Ah6W7kDBESANyHwtMjJQAGjS6TCtpWDxdJqX
+         jlyA==
+X-Gm-Message-State: AOJu0Ywj8rQnWJzLTv3XheWbDM6jOc3hDKkMOJbe7kzCa9rLlVaTSHd3
+	FE06efEg6fb23sYoyKEOZPMDQrqtF8EtWyT9C7/52Wlp3Ka5y97wkfSQUWWXVMpJNyj2hC8A7NQ
+	ib0/WNg==
+X-Gm-Gg: ASbGncuS/Pr8ZcHubb5YQQC7uWFQTXnxoerX6lYcYhRI9wLd20PE5NpmdvUsjIzPKj5
+	w5Ej4YjTcEacPFsP+K2hCF5utJIEgDiiLPr1CiboSE//hOHgoDmjy2DQZZ/dkTia4bl9DpY7PEc
+	EC+ZmoYtEFonS2GaUxAo5cBkTv5nS7DaExyjCtwRkoWBBVXlL5tcFnBxkcZbn5CQaRD9onGjlQE
+	XqN5nQTICynSQSa4uoSumiDD42C7h1y2eHZyVrgGjwykKh+cTCLcJ3dmeIMvijddtW7KJvT/aMt
+	dreDoTqGG21vFEQdUePTrvY=
+X-Google-Smtp-Source: AGHT+IG9YpE25Yoh1DTAclIawQvDBiwFUPqpraE3tcPQKpUb6s5Gy2Eq2QJG2GHuMm2rH5ZSbcV3xw==
+X-Received: by 2002:a17:906:c143:b0:ab6:b9c0:1ea2 with SMTP id a640c23a62f3a-ab6cfcea3e7mr2546035266b.25.1738663305282;
+        Tue, 04 Feb 2025 02:01:45 -0800 (PST)
 Received: from igor-t14.. ([185.186.156.113])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff724sm899065966b.105.2025.02.04.02.01.39
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff724sm899065966b.105.2025.02.04.02.01.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 02:01:39 -0800 (PST)
+        Tue, 04 Feb 2025 02:01:44 -0800 (PST)
 From: igor.opaniuk@foundries.io
 To: openembedded-core@lists.openembedded.org
 Cc: Igor Opaniuk <igor.opaniuk@foundries.io>
-Subject: [PATCH 1/6] README.OE-Core.md: fix markdown style issues
-Date: Tue,  4 Feb 2025 11:01:09 +0100
-Message-ID: <20250204100114.3749576-2-igor.opaniuk@foundries.io>
+Subject: [PATCH 4/6] SECURITY.md: fix markdown style issues
+Date: Tue,  4 Feb 2025 11:01:12 +0100
+Message-ID: <20250204100114.3749576-5-igor.opaniuk@foundries.io>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
 References: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
@@ -66,69 +66,61 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:01:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210756
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:01:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210759
 
 From: Igor Opaniuk <igor.opaniuk@foundries.io>
 
 Fix markdown style issues using markdownlint tool [1]:
 
-$ cat README.OE-Core.md | mdl
-(stdin):15: MD012 Multiple consecutive blank lines
-(stdin):9: MD034 Bare URL used
-(stdin):13: MD034 Bare URL used
+$ cat SECURITY.md | mdl
+(stdin):16: MD013 Line length
+(stdin):19: MD013 Line length
+(stdin):20: MD013 Line length
+(stdin):1: MD026 Trailing punctuation in header
+(stdin):6: MD034 Bare URL used
+(stdin):16: MD034 Bare URL used
 (stdin):19: MD034 Bare URL used
-(stdin):25: MD046 Code block style
-(stdin):29: MD046 Code block style
-(stdin):33: MD046 Code block style
 
 [1] https://github.com/markdownlint/markdownlint
 Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
 ---
- README.OE-Core.md | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ SECURITY.md | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/README.OE-Core.md b/README.OE-Core.md
-index 687c58e410..7187fb94be 100644
---- a/README.OE-Core.md
-+++ b/README.OE-Core.md
-@@ -6,28 +6,27 @@ of OpenEmbedded. It is distro-less (can build a functional image with
- DISTRO = "nodistro") and contains only emulated machine support.
+diff --git a/SECURITY.md b/SECURITY.md
+index 1b63da4f69..a83e09bb0f 100644
+--- a/SECURITY.md
++++ b/SECURITY.md
+@@ -1,9 +1,9 @@
+-How to Report a Potential Vulnerability?
+-========================================
++How to Report a Potential Vulnerability
++=======================================
  
- For information about OpenEmbedded, see the OpenEmbedded website:
--    https://www.openembedded.org/
-+<https://www.openembedded.org/>
+ If you would like to report a public issue (for example, one with a released
+ CVE number), please report it using the
+-[https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Security Security Bugzilla]
++[Security Bugzilla](https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Security)
  
- The Yocto Project has extensive documentation about OE including a reference manual
- which can be found at:
--    https://docs.yoctoproject.org/
--
-+<https://docs.yoctoproject.org/>
+ If you are dealing with a not-yet released or urgent issue, please send a
+ message to security AT yoctoproject DOT org, including as many details as
+@@ -13,10 +13,10 @@ and any example code, if available.
+ Branches maintained with security fixes
+ ---------------------------------------
  
- Contributing
- ------------
+-See [https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS Stable release and LTS]
++See [Stable release and LTS](https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS)
+ for detailed info regarding the policies and maintenance of Stable branches.
  
--Please refer to our contributor guide here: https://docs.yoctoproject.org/dev/contributor-guide/
-+Please refer to our contributor guide here: <https://docs.yoctoproject.org/dev/contributor-guide/>
- for full details on how to submit changes.
- 
- As a quick guide, patches should be sent to openembedded-core@lists.openembedded.org
- The git command to do that would be:
- 
--     git send-email -M -1 --to openembedded-core@lists.openembedded.org
-+```
-+git send-email -M -1 --to openembedded-core@lists.openembedded.org
-+```
- 
- Mailing list:
--
--    https://lists.openembedded.org/g/openembedded-core
-+<https://lists.openembedded.org/g/openembedded-core>
- 
- Source code:
--
--    https://git.openembedded.org/openembedded-core/
-+<https://git.openembedded.org/openembedded-core/>
+-The [https://wiki.yoctoproject.org/wiki/Releases Release page] contains a list of all
+-releases of the Yocto Project. Versions in grey are no longer actively maintained with
+-security patches, but well-tested patches may still be accepted for them for
+-significant issues.
++The [Release page](https://wiki.yoctoproject.org/wiki/Releases) contains
++a list of all releases of the Yocto Project. Versions in grey are no longer
++actively maintained with security patches, but well-tested patches may still
++be accepted for them for significant issues.
 -- 
 2.43.0
 
