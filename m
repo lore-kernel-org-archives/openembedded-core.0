@@ -1,100 +1,92 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <omri.sarig13@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D715AC02196
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 13:02:07 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.115784.1738674120723569201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4021C02196
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 13:08:57 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.115390.1738674536635017039
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 05:02:00 -0800
+ Tue, 04 Feb 2025 05:08:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dk1110Nz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bW2/ps2q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010194d10da4cb-3f0aaae1-f8ed-4b92-af6d-6279fc7585e8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738674120; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Rk0hWeJ8C49KEgzuFb8PYTa5Zn1tG3NEZzFC00m9QVA=;
-	b=dk1110NzXNXmR5ogkxhUDGcHMmLkTmeB8tyjtEYXrRt2u1tRZpgJC1SJl28fdHb5
-	gEAU9gvXyhvO8WoJQ54tMHZQoJwtDcxmxB01u0YkEOcHzyf4NBaWm7Il5T8ZIZNyoMM
-	jqDeh7JPz0Ef6qaudTEAqOGCoqRmsgU8Spugbih0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738674120;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Rk0hWeJ8C49KEgzuFb8PYTa5Zn1tG3NEZzFC00m9QVA=;
-	b=bW2/ps2qixHx22HISHRlpCt/+Uuz+JHspdNTF8qiil3e66smSwqzQXsimBEDUCr2
-	tvH4zItyUBz9jxF5YE1Sglw0Cz6/i1vdXhaDVIRi9vWNWIC6dp3eOcMoU9pF4/5paqR
-	C0Xb6MT7+MR6X6ZAeWNan0hHmxCAIpnUuCg97z2M=
-From: patchtest@automation.yoctoproject.org
-To: Omri Sarig <omri.sarig13@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] python3: Fix typo in python3-manifest.json
-In-Reply-To: <20250204125619.2278355-1-omri.sarig13@gmail.com>
-References: <20250204125619.2278355-1-omri.sarig13@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194d10da4cb-3f0aaae1-f8ed-4b92-af6d-6279fc7585e8-000000@us-west-2.amazonses.com>
-Date: Tue, 4 Feb 2025 13:01:59 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.04-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=msU6WYYZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: omri.sarig13@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53f757134cdso5782327e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 05:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738674534; x=1739279334; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2J+UmwTGRa8mTtxhISnPL9gKGyfe3dwZQj0PbR9hXvI=;
+        b=msU6WYYZsJ60fWFDz9koO4+g1QMrA3RfQHnXy/bV6cI/LRtZgoESLeK6YqErLVQhnj
+         dgvkAbVDZZZGcED4IRTriQ3dfGUG0i//szXo2CfvYibor6V8NeWwM19n+sGjYgXQgdO4
+         NtfgXsG9VQr6hAxGaKOOnVGsexLBjaJmJQ32sivWKzFxZ5OeRMuzj2piIfvkjPDQ3Ogl
+         1z/0XJFcUEQppsEdqZhjwdhCnaRfPMYWyuv7EogvLke2yT+A3RmCnHZUknKNBqrVrrkK
+         b0QeMXT4JJY0KqCtHFZeLFBFjDaBsw7mrSBnX9lyUuG9M2wQBxNAlTNJ3VWoV+hkEVGx
+         B+mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738674534; x=1739279334;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2J+UmwTGRa8mTtxhISnPL9gKGyfe3dwZQj0PbR9hXvI=;
+        b=qbAOvVrtBIhQ4rN6/7JEfRwdoKMzJ5wRj6b3BpX3IuLrKLXRLNwoTuz/B+7tJ0D/Ja
+         q8wf+o0sVGc55Ujl4z1DZyBKE/vQxm+CaL61UH2OxN5pYtc159oZOaaG0/oQG2Dp7Amy
+         d8MkirOAsrppze2v9eS6YWAYz5fvPihWCNbFUBKfMJNVyg3Hi5DEgQh/6hZ+b8v5i6Ar
+         iEup7XGep98ug4MTEKfwHQ9HAcpcEs/jUltSvwkLUaN7WcF3wSRNlYPLDz/4rTcmlwwI
+         LTd0nlinkkTR2/HAeRVqtGt1lRnFj6ufTsI3lhm2HgBq2VY/sSRo3GwsFKAVOEyxh2fz
+         +UMQ==
+X-Gm-Message-State: AOJu0YxJ3ZlF+4uxycfbMwI1FjZ5DEhNzB9F/sEhM7SsCqgtO50Fqk52
+	fg8cdzBVXtjUxRhgH1kF5NLfmX/kJSMbQ/YH1v07Qm6PWabu+cdlOhWmX9DD+Io=
+X-Gm-Gg: ASbGncvgfwH8YiUnKjoeULtQCkm44aipn2K2mu0VYbi1dx78jZMj8RBscCKb2EN/VWj
+	pZ4e5PER1YJ/PDsJR6t3AMGWPB3XiNm34lJ7KcN3UhVWgRJLegTgGQJ6JHpzCqj9ZxXr8ClanCM
+	3QKrpIvrTejs0KxK9/+m3Kavbtp/0mU/8jqI0jTtSNWbibgCCwHm9xX/ZBUj6mpnXJfQjzqIyKg
+	4Q8+D4rrO0pkgnM7MiXSpreW6ydW2idhqp/RepwsBeTM7O+O7wUNTKe/xpfWAMcJWiPswWOaWt6
+	UhFRWSG3agVz4niky4yCKOoUTu6qOjewov/XauTn2OihnLvdA843Y5qgrHW4AICTRV4gfdFT9w=
+	=
+X-Google-Smtp-Source: AGHT+IHHAsUZBOTs21zQ40frG29w17+W4zBE+gPcLYVhGT+CIdC09kbyWJaCB9ZhiM8zdVRFDvkmBg==
+X-Received: by 2002:a05:6512:3d0:b0:541:8e09:ffad with SMTP id 2adb3069b0e04-543e4c2b422mr6937716e87.33.1738674534307;
+        Tue, 04 Feb 2025 05:08:54 -0800 (PST)
+Received: from omsa-HP-EliteBook-840-14-inch-G9-Notebook-PC.prevas.se ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebe4bdsm1566027e87.214.2025.02.04.05.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 05:08:53 -0800 (PST)
+From: Omri Sarig <omri.sarig13@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Omri Sarig <omri.sarig13@gmail.com>
+Subject: [PATCH v2 2/2] python3: Fix typo in create_manifest3.py
+Date: Tue,  4 Feb 2025 14:08:40 +0100
+Message-ID: <20250204130840.2282237-2-omri.sarig13@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250204130840.2282237-1-omri.sarig13@gmail.com>
+References: <20250204130840.2282237-1-omri.sarig13@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 13:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210785
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 13:08:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210788
 
---NextPart
-Content-Type: text/plain
+Fixed a misspelled "posible" to "possible".
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Omri Sarig <omri.sarig13@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-python3-Fix-typo-in-python3-manifest.json.patch
+ meta/recipes-devtools/python/python3/create_manifest3.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/meta/recipes-devtools/python/python3/create_manifest3.py
+index 045240ea0b..288d5ede3a 100644
+--- a/meta/recipes-devtools/python/python3/create_manifest3.py
++++ b/meta/recipes-devtools/python/python3/create_manifest3.py
+@@ -1,7 +1,7 @@
+ # This script is used as a bitbake task to create a new python manifest
+ # $ bitbake python -c create_manifest
+ #
+-# Our goal is to keep python-core as small as posible and add other python
++# Our goal is to keep python-core as small as possible and add other python
+ # packages only when the user needs them, hence why we split upstream python
+ # into several packages.
+ #
 
