@@ -2,64 +2,62 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B5BDC02198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F04EC02196
 	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 14:17:38 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.117401.1738678653823035679
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.117400.1738678650713321174
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 06:17:34 -0800
+ Tue, 04 Feb 2025 06:17:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=T5kF07WT;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401bd6cdb4so5978260e87.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 06:17:33 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=o9PbkhMm;
+ spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54298ec925bso6512669e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 06:17:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738678652; x=1739283452; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1738678649; x=1739283449; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I4QbAcUJ+q5e/VOrgGXaOh499mh605gDl7BKqNAjjbs=;
-        b=T5kF07WTxw1GPWgWVRiZYbIo7ppINU0ybeYau1DbOUN//pNUc2YBGj5Fm9AsVQVCpY
-         Gd9H6o/PigKVS7DFYRCDQGxt6nkNfsVFkeCl6Uqph2+G6jSr1XYfZ0xAgWd1LrwhbqdC
-         /jxPMNeCdBP/5jNRpJLip6ygd7ld/fCuSgH5WrRv3ab401jwyLyfnwQ91MsNAzOFp8G5
-         6NGKE8xiZlNOrR/DWMdj9/eK/YqUHUsk+fXO8Nx1WbKG86uCqbnwnXk50qV7HxHKTGNX
-         /wsnan+nAwbX4Q3zfE+vRoFQZw5S1PjWz6DjCVEqkH8Yxx5lxQspSJ26YbAhV/xeGxzw
-         bNhw==
+        bh=E86CcozagmLsYaKrTI35C23FsWAcVJRx2zN2PM6uAWY=;
+        b=o9PbkhMmLShVMCGbTBdo97s6do21C8V4D1JT38cj5yAMvlTIJtZ4V6MTdPBV2YcEKM
+         wgEw8bWy5R3eDH/9dIcmbAtgJMjybKgc7yVl71b/JO5Q9a/LyLzhvZmdvLRa6ZlwLX//
+         JwlVCoHsCFqyu8FZSWMwJorZDE383cU+GVZzYPgPoYjKv+0mdGoJZaKNLkWyivgbz9h6
+         0k5VPsHse1bRwYgXykrjjmACj7IZP5wa0u20IWg8S6jjwKkRZqVrRmYW0xRS4S9Qh5RC
+         TNtdjgBJtAwlfzZJyqn27swpWrK6YwCJ5+N+suCOEukFc4p8S7tPhjs+rgEiAIjQJYAo
+         n3JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738678652; x=1739283452;
+        d=1e100.net; s=20230601; t=1738678649; x=1739283449;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I4QbAcUJ+q5e/VOrgGXaOh499mh605gDl7BKqNAjjbs=;
-        b=ZqoDP8UEzfe6Ti6nNYUjpmxFtgW7Lq/5v6JR+bZKRPP/IhN9vIkFXGBORQw+RMYHie
-         t/W7oKR8brL1ddyck/9Iv6aaYZ21c0CV2nNxq7vs/u+CXf8tfZhC8kqvjmd0bxgJ8IC9
-         NreNZyQfWJfCaId0sTOc49yTKkOdM8kKI6egD2zsZNm+glFJw3G2m+IRo916X61PgmUO
-         Pv+t4ulMZJtVcusMVX6s/b8Oc04ENYLGARoCDoQC6Wrv0Y9+aKcrfWpg/Vnba1YC7ZIQ
-         2X+vDZZ4gEIcbei3KRfQnX3k4copfSDuHUdMvc8CHE3gBZvBFAOA6czEdOSGSihAfg0/
-         oATQ==
-X-Gm-Message-State: AOJu0Yy3aV2f9i67VmM5fX2hcotX+upiIN3V79Ae41bxswg4w1FDnnUF
-	aQKBj+7/TBmszBdLW1hoDO29p5uYY957mUFS7w6fx7J+7uQyqeZZ8vnzwy9d/o/HzQigWjkw8KE
-	bQhw=
-X-Gm-Gg: ASbGncvntBib+MTPp6qhQ1n78EK/kdV15At7NZYdktFDfsFjOgYZhEEM34vgg/ndiNm
-	rA2KLrrDaObYSsa0c6JLj3s4pHVs5DRHGBAOzYK8FQxnrm20NeT+UTkY1ahzEmrBSXRCykVU4aU
-	NrdRW+3pxNgAW0cxpSfqq6HzBd+FSvnme84uoXiuOmpdi3UFAO2EnJAu6MLmicrwPmJg9C4oN25
-	ZRGv+m7kDEmojFjo3JKppSErkf/fWYyZ+gJXmLsfn5NPDLkLmhjVlK8Dg01c+Fd5bTmDpqS2sQP
-	5RN4jajKHaZ5f76p1L4jj7CXuxBoTAvPG/vVi6PYvHsoLVjAX1ymvj0GjEjV
-X-Google-Smtp-Source: AGHT+IGISgDRcL2O0kWciZKjqxLTHlzpTklcGFutBdDps3Aklb8Sb6wLulYjZJcXUV6yltZQT2/WHQ==
-X-Received: by 2002:ac2:4c56:0:b0:542:213f:7901 with SMTP id 2adb3069b0e04-543e4c3b982mr8471584e87.44.1738678651893;
-        Tue, 04 Feb 2025 06:17:31 -0800 (PST)
+        bh=E86CcozagmLsYaKrTI35C23FsWAcVJRx2zN2PM6uAWY=;
+        b=WDZg/OB5DYTbBXubDXHJzPyGxIjQdaRG1LKiPtDLvgVoMHibXcjQ6eqB2YdsJKdc7V
+         gIZ8dQR4pci1VT4RgmaqxZgk4eq4qv0eAEGdiAxNhe5mWTUM/m7CgAQ3osefQEd0u2vS
+         entJHKCktgPD8ANQmLMj7oFSYsIEOjSTCp00fgRK8J4+0v7igcb4mJwo6Z1j0L8nas/r
+         BoNHFQi7hFFQBAO9Q7QGGfWqTH/V+Y1Rpm/Xns18/VvrdULjlO6nwpNhRQYB7oNeGnXd
+         f2UjEAxQhb/+vNb1Hrk+puVqMlaOclmQJKDz14FaL89MjKIfHiYb/Hnd/bfkbjr42MeJ
+         Cfog==
+X-Gm-Message-State: AOJu0YyL2lnxNcOWwaZYKiFz1dqSL1lixFIix6esyU5z/BkkN/lDajBf
+	3cNgIRXizEn0fRl3PiQHFZd3TRPSQnTWrGv+HSqsWF6b2KE2J/i0EnOaq2mX5pG1dhvTmmR/RyW
+	oSMI=
+X-Gm-Gg: ASbGnct8P7VEyOfZYeVUCvGFzMwvgyNgIL90aMoPR0XJVEF+rYzgO9ZkY2rmEUiMw4e
+	1jEJDs4lBuL+6jgmg4k7xuv6KHhv070m6IhN6ZrRo7Fd/a6b5lCgKyZD5xXlxvmOPQ1A1Zhxdnk
+	6UjpoOUY2i7wfJCeL8bIht7FNlec4Gl0Lc/R5tTbG99FKamX4VreLlkGCDvLNtqhxTj9uZ+mmBT
+	p+/m1wCvZKZsuaegW5xlxIeNr1YmL4scySsYmcFaeegAGGTQeC4THJ0uKM3JkT6DU1Adc7mX2eB
+	qNgOHEW0/L5ToR9VzyVVjCRfyCU+6DZK1KjHRrNptDs4bcmEUsy3bfzDCP4M
+X-Google-Smtp-Source: AGHT+IEPDxF5qphUlMSTeDaeiVoMhG61EztfrvQ++elhW/BqX9awCCeeN4H3BBUSg9MYm6a7Flm3Ig==
+X-Received: by 2002:ac2:547b:0:b0:540:1a0c:9ba6 with SMTP id 2adb3069b0e04-543e4c32b45mr7754454e87.34.1738678648812;
+        Tue, 04 Feb 2025 06:17:28 -0800 (PST)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebeda2sm1603211e87.247.2025.02.04.06.17.29
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebeda2sm1603211e87.247.2025.02.04.06.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 06:17:31 -0800 (PST)
+        Tue, 04 Feb 2025 06:17:27 -0800 (PST)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
-	Jon Mason <jdmason@kudzu.us>,
-	meta-arm@lists.yoctoproject.org
-Subject: [PATCH v3 3/3] systemd-boot-native: fix kernel signature for secureboot
-Date: Tue,  4 Feb 2025 16:17:04 +0200
-Message-ID: <20250204141705.1222153-3-mikko.rapeli@linaro.org>
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v3 2/3] uki.bbclass: capture ukify command stdout and stderr
+Date: Tue,  4 Feb 2025 16:17:03 +0200
+Message-ID: <20250204141705.1222153-2-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250204141705.1222153-1-mikko.rapeli@linaro.org>
 References: <20250204141705.1222153-1-mikko.rapeli@linaro.org>
@@ -69,183 +67,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 14:17:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210807
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210806
 
-systemd update from 256 to 257 broke kernel secureboot signatures
-inside signed UKI files with u-boot based UEFI firmware, e.g.
-meta-arm and qemuarm64-secureboot machine config and secureboot:
+ukify tool can show important warnings and even errors
+if it fails so capture the logs.
 
-$ cd meta-arm
-$ kas build ci/poky.yml:ci/qemuarm64-secureboot.yml:ci/uefi-secureboot.yml:ci/testimage.yml
-
-systemd-boot itself is secureboot signed and verified by firmware.
-Same for the UKI file which combines kernel, initramfs etc.
-Then kernel from UKI is additionally executed using UEFI firmware calls
-which check signatures so the kernel binary inside signed UKI
-needs to be signed with same keys too. PE file padding added
-to systemd ukify in 257 release broke kernel signature validation
-for u-boot and sbsign/sbverify tools. EDK2 based firmware like
-OVMF may not be affected because systemd-boot is able to disable
-signature checking after a signed UKI has been loaded. This feature
-is not supported by u-boot.
-
-Upstream systemd bug report:
-
-https://github.com/systemd/systemd/issues/35851
-
-Backport of:
-
-https://github.com/systemd/systemd/commit/38801c91292fde004bec0974ed5602984701e03b
-
-Cc: Jon Mason <jdmason@kudzu.us>
-Cc: meta-arm@lists.yoctoproject.org
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- .../systemd/systemd-boot-native_257.1.bb      |   3 +
- ...vert-changes-to-use-SizeOfImage-from.patch | 122 ++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch
+ meta/classes-recipe/uki.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_257.1.bb b/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-index 5b4b63c294..967ac57fc5 100644
---- a/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-+++ b/meta/recipes-core/systemd/systemd-boot-native_257.1.bb
-@@ -1,4 +1,7 @@
- require systemd.inc
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
-+
-+SRC_URI += "file://0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch"
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index 92f690526d..ccda042ab4 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -190,6 +190,7 @@ python do_uki() {
  
- inherit native
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch b/meta/recipes-core/systemd/systemd/0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch
-new file mode 100644
-index 0000000000..3be56cb9c0
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-ukify-measure-Revert-changes-to-use-SizeOfImage-from.patch
-@@ -0,0 +1,122 @@
-+From 60d76dce7b013406412bc9720dbf05fb558ea099 Mon Sep 17 00:00:00 2001
-+From: Daan De Meyer <daan.j.demeyer@gmail.com>
-+Date: Tue, 4 Feb 2025 09:24:26 +0100
-+Subject: [PATCH] ukify/measure: Revert changes to use SizeOfImage from Linux
-+ PE binary
-+
-+With 19812661f1f65ebe777d1626b5abf6475faababc, we make sure at runtime
-+in the stub itself that SizeOfImage from the Linux EFISTUB PE binary is
-+taken into account, so there's no need to take this into account in ukify
-+itself. By reverting the ukify change, we again ensure that Misc_VirtualSize
-+reflects the actual size of the Linux EFISTUB PE binary in the .linux section
-+which lots of tooling depends on. It also makes sure we don't measure a bunch
-+of extra zeroes in the stub which should fix systemd-pcrlock measurements as
-+well.
-+
-+This effectively reverts 2188c759f97e40b97ebe3e94e82239f36b525b10 and
-+0005411352f9bda0d9887c37b9e75a2bce6c1133.
-+
-+Fixes #35851
-+---
-+ src/measure/measure.c | 32 --------------------------------
-+ src/ukify/ukify.py    | 16 ++--------------
-+ 2 files changed, 2 insertions(+), 46 deletions(-)
-+
-+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/38801c91292fde004bec0974ed5602984701e03b]
-+
-+diff --git a/src/measure/measure.c b/src/measure/measure.c
-+index e583444e0bf..2057ce2a0e6 100644
-+--- a/src/measure/measure.c
-++++ b/src/measure/measure.c
-+@@ -544,38 +544,6 @@ static int measure_kernel(PcrState *pcr_states, size_t n) {
-+                         m += sz;
-+                 }
-+ 
-+-                if (c == UNIFIED_SECTION_LINUX) {
-+-                        _cleanup_free_ PeHeader *pe_header = NULL;
-+-
-+-                        r = pe_load_headers(fd, /*ret_dos_header=*/ NULL, &pe_header);
-+-                        if (r < 0)
-+-                                log_warning_errno(r, "Failed to parse kernel image file '%s', ignoring: %m", arg_sections[c]);
-+-                        else if (m < pe_header->optional.SizeOfImage) {
-+-                                memzero(buffer, BUFFER_SIZE);
-+-
-+-                                /* Our EFI stub measures VirtualSize bytes of the .linux section into PCR 11.
-+-                                 * Notably, VirtualSize can be larger than the section's size on disk. In
-+-                                 * that case the extra space is initialized with zeros, so the stub ends up
-+-                                 * measuring a bunch of zeros. To accommodate this, we have to measure the
-+-                                 * same number of zeros here. We opt to measure extra zeros here instead of
-+-                                 * modifying the stub to only measure the number of bytes on disk as we want
-+-                                 * newer ukify + systemd-measure to work with older versions of the stub and
-+-                                 * as of 6.12 the kernel image's VirtualSize won't be larger than its size on
-+-                                 * disk anymore (see https://github.com/systemd/systemd/issues/34578#issuecomment-2382459515).
-+-                                 */
-+-
-+-                                while (m < pe_header->optional.SizeOfImage) {
-+-                                        uint64_t sz = MIN(BUFFER_SIZE, pe_header->optional.SizeOfImage - m);
-+-
-+-                                        for (size_t i = 0; i < n; i++)
-+-                                                if (EVP_DigestUpdate(mdctx[i], buffer, sz) != 1)
-+-                                                        return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to run digest.");
-+-
-+-                                        m += sz;
-+-                                }
-+-                        }
-+-                }
-+-
-+                 fd = safe_close(fd);
-+ 
-+                 if (m == 0) /* We skip over empty files, the stub does so too */
-+diff --git a/src/ukify/ukify.py b/src/ukify/ukify.py
-+index 3f36aa7af6b..08e7622c499 100755
-+--- a/src/ukify/ukify.py
-++++ b/src/ukify/ukify.py
-+@@ -388,7 +388,6 @@ class Section:
-+     tmpfile: Optional[IO[Any]] = None
-+     measure: bool = False
-+     output_mode: Optional[str] = None
-+-    virtual_size: Optional[int] = None
-+ 
-+     @classmethod
-+     def create(cls, name: str, contents: Union[str, bytes, Path, None], **kwargs: Any) -> 'Section':
-+@@ -918,10 +917,7 @@ def pe_add_sections(uki: UKI, output: str) -> None:
-+ 
-+         new_section.set_file_offset(offset)
-+         new_section.Name = section.name.encode()
-+-        if section.virtual_size is not None:
-+-            new_section.Misc_VirtualSize = section.virtual_size
-+-        else:
-+-            new_section.Misc_VirtualSize = len(data)
-++        new_section.Misc_VirtualSize = len(data)
-+         # Non-stripped stubs might still have an unaligned symbol table at the end, making their size
-+         # unaligned, so we make sure to explicitly pad the pointer to new sections to an aligned offset.
-+         new_section.PointerToRawData = round_up(len(pe.__data__), pe.OPTIONAL_HEADER.FileAlignment)
-+@@ -1166,6 +1162,7 @@ def make_uki(opts: UkifyConfig) -> None:
-+         ('.uname',   opts.uname,      True),
-+         ('.splash',  opts.splash,     True),
-+         ('.pcrpkey', pcrpkey,         True),
-++        ('.linux',   linux,           True),
-+         ('.initrd',  initrd,          True),
-+         ('.ucode',   opts.microcode,  True),
-+     ]  # fmt: skip
-+@@ -1182,15 +1179,6 @@ def make_uki(opts: UkifyConfig) -> None:
-+     for section in opts.sections:
-+         uki.add_section(section)
-+ 
-+-    if linux is not None:
-+-        try:
-+-            virtual_size = pefile.PE(linux, fast_load=True).OPTIONAL_HEADER.SizeOfImage
-+-        except pefile.PEFormatError:
-+-            print(f'{linux} is not a valid PE file, not using SizeOfImage.')
-+-            virtual_size = None
-+-
-+-        uki.add_section(Section.create('.linux', linux, measure=True, virtual_size=virtual_size))
-+-
-+     # Don't add a sbat section to profile PE binaries.
-+     if opts.join_profiles or not opts.profile:
-+         if linux is not None:
-+-- 
-+2.43.0
-+
+     # Run the ukify command
+     bb.debug(2, "uki: running command: %s" % (ukify_cmd))
+-    bb.process.run(ukify_cmd, shell=True)
++    out, err = bb.process.run(ukify_cmd, shell=True)
++    bb.debug(2, "%s\n%s" % (out, err))
+ }
+ addtask uki after do_rootfs before do_deploy do_image_complete do_image_wic
 -- 
 2.43.0
 
