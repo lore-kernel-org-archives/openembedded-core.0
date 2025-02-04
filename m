@@ -1,186 +1,98 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7613C02194
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 13:18:27 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.116065.1738675107115826958
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 05:18:27 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7D5C02194
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 13:30:58 +0000 (UTC)
+Received: from esa1.hc324-48.eu.iphmx.com (esa1.hc324-48.eu.iphmx.com [207.54.68.119])
+ by mx.groups.io with SMTP id smtpd.web11.115798.1738675853906228318
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 04 Feb 2025 05:30:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=JexLP9oV;
- spf=pass (domain: linaro.org, ip: 209.85.167.48, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-543e47e93a3so5903859e87.2
-        for <Openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 05:18:26 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=kjJKuoHJ;
+ spf=pass (domain: bmw.de, ip: 207.54.68.119, mailfrom: prvs=12385382e=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738675105; x=1739279905; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gY0L7L5i2m+fAoThlpRZHdKqoSKU6S9whP3E95Li6N4=;
-        b=JexLP9oV0tOccy/pUuP5nFXzCCivWHPlMrilEDCadv4V5f8bEpRlfsoPEVRk/X8wCn
-         1evsIOAggsQALdEHtIVCSKLArpKKHHFR0zo8iUuGOi+xTBDiQW7hAZINcyx+Jo5Jz3Ib
-         bn5G3uD5KwIz817J76gBbzUGHzWyFhnlFc4Qg/iNp7PHTaXbUooNr4hSDr7Nlv0d0bXk
-         nMjNlRvtn/PdYukcb/jFl9MQYoerh5y9Ojon6eYtzCX3g9Kefc/HaPc7ys73UjZon4Lw
-         ztVlVXRt5BMUoM+sKi1hcuuaZUPkB/nYY5CVVZbZbUlu6dIrP9B2jKVEgb7goi5I+P/h
-         OXVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738675105; x=1739279905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gY0L7L5i2m+fAoThlpRZHdKqoSKU6S9whP3E95Li6N4=;
-        b=X2ArOkauV2y/6foTwglqF4JIDjjilQKq87NpERKRyNBh1GqK3uday7rhtYZv0lRaOw
-         Uts6cw076+gszSo2mCQip2a+3htqqHHX/z3OFvyiPk9EIQzdwKs8hD6Zy+SwDnO5cGXR
-         SVHtThklCzMVNg1A3LLGbOThZ3W/QLNk1TMBsV9LTGzQkQqgpY14cH7GWtTHaBFus4Al
-         4NywIjv58ya1FNTB34cnac53h+Ph3LuUMwjYYcqu7tD0VjV1j2NtqGSWrXcSlrRMLrUn
-         vfW6vVSRX9nXaY6PybflHYGfdDzngfNDQKJ81V/MeDl07esR8Z19+fa4IeuJ7pJeM+eb
-         vr2w==
-X-Gm-Message-State: AOJu0YzqxSGesZDjDSf2elyfg+OF2Hb/61jVBhtlJBZK0fWcXhvh9D8L
-	dmsPVobCps6HA5uiKkHHGbLri2WQcZ0mSUByfA5tavGj3AiFqhmKaxBDdE3iAfY=
-X-Gm-Gg: ASbGncuD3j7b9iI3rQeTg8fvWWO3mu3IchcmsJ3lEPhPb4ND8GwxLgc/3HT0J4Ak1pb
-	YfquldpCwy5X1ekIz6e78d2kBXWCAKhNIAoUAq6DX/24EJJMOJgi2bxA9te2XYmlBhr51OiFacT
-	fue4OC8LRhz+7PXjH6MB7G70nGy9IRZV+7MLC5KoXTh2R2F9sTeOkebdrxtoKa1zoWOrUj8q3iR
-	At28mBjVFjXJelH0X4US9Mm6HnXSP+8C8N/8YotYVVLoNNnMhQg2IIs6LdtykI6eE0GY3h50Vqg
-	ZvqasMJT/r1F3+THxP+KsaePv3r0e6nd1LS1VGUR
-X-Google-Smtp-Source: AGHT+IGwV0OUiIsgW6+DRIEPYak/AO5boyp/7fOiqRaBTALFGKnx9V6R98dtiX+1e/mLpwkNDa5png==
-X-Received: by 2002:a05:6512:224d:b0:543:9a5c:1906 with SMTP id 2adb3069b0e04-543e4beab13mr7682499e87.17.1738675104860;
-        Tue, 04 Feb 2025 05:18:24 -0800 (PST)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebeb0795sm1566946e87.149.2025.02.04.05.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 05:18:23 -0800 (PST)
-Date: Tue, 4 Feb 2025 15:18:21 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: uvv.mail@gmail.com
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 3/3] systemd: Build the systemctl executable
-Message-ID: <Z6ITnblSwyvezrQT@nuoska>
-References: <20250204105315.84079-1-uvv.mail@gmail.com>
- <20250204105315.84079-3-uvv.mail@gmail.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1738675854; x=1770211854;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HzVZs24U7n6eeqSNmnA327Di8Swi7w0b2IXmVaNOsSw=;
+  b=kjJKuoHJfBDh5wmhXHPLBiEDbX+SoqKx2GdxLDX3Q0UYQ9OMILEyl8pg
+   UNnv2IN9sYtlqyc/vAovuZpzDFy6JKieEXioYUzx9Rr8rzY/THlZM31Hk
+   +1U30en3quNxHqTb7hUudItR+Vmh65mRfOLC3Usjn0Wyor/I8aPfMu/r3
+   Y=;
+X-CSE-ConnectionGUID: MPlzWdapRAmnQnpUGiOrAw==
+X-CSE-MsgGUID: 1htDVoUTQpi3Mb48P16KlQ==
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa1.hc324-48.eu.iphmx.com with ESMTP/TLS; 04 Feb 2025 14:30:51 +0100
+Received: from esabb1.muc ([160.50.100.31])  by esagw4.muc with ESMTP/TLS;
+ 04 Feb 2025 14:30:51 +0100
+Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
+ by esabb1.muc with ESMTP/TLS; 04 Feb 2025 14:30:51 +0100
+Received: from q1054628.bmw-carit.intra (10.30.85.212) by smucmp12a.europe.bmw.corp
+ (2a03:1e80:a15:58f::1:9) with Microsoft SMTP Server (version=TLS;
+ Tue, 4 Feb 2025 14:30:50 +0100
+X-CSE-ConnectionGUID: ay5oBitZQXa3Lqp9beyuiQ==
+X-CSE-MsgGUID: 6eY/svjhSi+9qVePm80NZg==
+X-CSE-ConnectionGUID: yeX1bVNSQiaR+HpMRrU7bg==
+X-CSE-MsgGUID: 0CQEa7ywRGaCzGMsBIUDYw==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH] meta: Enable '-o pipefail' for the SDK installer
+Date: Tue, 4 Feb 2025 14:30:24 +0100
+Message-ID: <20250204133024.20546-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204105315.84079-3-uvv.mail@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SMUCMP08A.europe.bmw.corp (2a03:1e80:a15:58f::212c) To
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 13:18:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210790
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 13:30:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210791
 
-Hi,
+When testing a Yocto SDK installer on Alpine 3.21, we recently ended up with a
+broken SDK. One of the commands the relocation script calls in a piped
+multi-command chain failed (see [0]), but the installer did not realize that -
+since it doesn't use 'set -o pipefail'. Thus, the error was never reported to
+the user and the installer claimed to have set up the SDK correctly - which
+wasn't the case.
 
-On Tue, Feb 04, 2025 at 11:53:15AM +0100, Vyacheslav Yurkov via lists.openembedded.org wrote:
-> From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> 
-> Instead of the python re-implementation build the actual systemctl from
-> the systemd source tree. The python script was used when systemd didn't
-> provide an option to build individual executables. It is possible in the
-> meantime, so instead of always adapting the script when there's a new
-> functionality, we simply use upstream implementation.
+Given that the SDK installer is a POSIX-compliant shell script and that the
+'pipefail' option used to be missing from the standard, it's not surprising that
+it isn't used. Thankfully however, in June of 2024, a new version of POSIX
+(POSIX.1-2024) was released - and that one finally includes the 'pipefail'
+option (see [1]). A number of shells already support it, so let's enable it if
+available to make the SDK installer more robust.
 
-Good reason, no objections!
+The change has been tested locally using SDK installers for internal projects,
+based on both Kirkstone and Scarthgap.
 
-> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> ---
->  .../systemd/systemd-systemctl-native.bb       |  20 +-
->  ...-meson-add-install-tag-for-systemctl.patch |  25 ++
->  .../systemd/systemd-systemctl/systemctl       | 366 ------------------
->  3 files changed, 33 insertions(+), 378 deletions(-)
->  create mode 100644 meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
->  delete mode 100755 meta/recipes-core/systemd/systemd-systemctl/systemctl
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-systemctl-native.bb b/meta/recipes-core/systemd/systemd-systemctl-native.bb
-> index ffa024caef..57bb1ab830 100644
-> --- a/meta/recipes-core/systemd/systemd-systemctl-native.bb
-> +++ b/meta/recipes-core/systemd/systemd-systemctl-native.bb
-> @@ -1,17 +1,13 @@
-> -SUMMARY = "Wrapper for enabling systemd services"
-> +SUMMARY = "Systemctl executable from systemd"
->  
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> +require systemd.inc
->  
-> +DEPENDS = "gperf-native libcap-native util-linux-native python3-jinja2-native"
->  
-> -inherit native
-> +inherit pkgconfig meson native
->  
-> -SRC_URI = "file://systemctl"
-> +SRC_URI = "file://0001-meson-add-install-tag-for-systemctl.patch"
+[0]: https://gitlab.alpinelinux.org/alpine/aports/-/issues/16797
+[1]: https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/utilities/V3_chap02.html#set
 
-Hmm, doesn't this overwrite SRC_URI from systemd.inc?
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+---
+ meta/files/toolchain-shar-extract.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-SRC_URI += "file://...patch" would amend the patch file.
-
-> -S = "${WORKDIR}/sources"
-> -UNPACKDIR = "${S}"
-> -
-> -do_install() {
-> -	install -d ${D}${bindir}
-> -	install -m 0755 ${S}/systemctl ${D}${bindir}
-> -}
-> +MESON_TARGET = "systemctl:executable"
-> +MESON_INSTALL_TAGS = "systemctl"
-> +EXTRA_OEMESON:append = " -Dlink-systemctl-shared=false"
-
-I wonder why this tag support is needed since MESON_TARGET already
-compiles only the correct executable with static linking. Is it there
-just to let meson handle the install step of a single systemctl
-executable?
-
-Or does it install more files, like config files too?
-
-I'm comparing this to a draft systemd-boot-native recipe for ukify
-which I had and which sets the build target but installs manually:
-
-MESON_TARGET = "ukify"
-
-EXTRA_OEMESON += "-Dnobody-user=nobody \
-    -Dnobody-group=nogroup \
-    -Drootlibdir=${rootlibdir} \
-    -Drootprefix=${rootprefix} \
-    -Ddefault-locale=C \
-    -Dmode=release \
-    -Dsystem-alloc-uid-min=101 \
-    -Dsystem-uid-max=999 \
-    -Dsystem-alloc-gid-min=101 \
-    -Dsystem-gid-max=999 \
-"
-
-do_install() {
-    install -d ${D}${bindir}/
-    install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
-}
-
-So the custom do_install() step could be avoided if systemd meson config
-would have "install_tag" for ukify too?
-
-Current systemd-boot-native recipe installs/copies the unmodified ukify.py
-from source tree and uses that in native. It doesn't run meson build for it
-and thus things like version details are incorrect. Also some additional tools
-like systemd-measure, systemd-sbsign etc are not compiled so some usecases may
-not be supported atm. If those would also include the install tags, then they
-could be compiled and installed too, I presume.
-
-> diff --git a/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch b/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
-> new file mode 100644
-> index 0000000000..a9b3e62708
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-systemctl/0001-meson-add-install-tag-for-systemctl.patch
-> @@ -0,0 +1,25 @@
-> +From fbf1ae3b7bd074a8d3bfb741f54b8539123399f1 Mon Sep 17 00:00:00 2001
-> +From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> +Date: Sun, 2 Feb 2025 10:13:38 +0100
-> +Subject: [PATCH] meson: add install tag for systemctl
-> +
-> +Upstream-Status: Backport
-> +[https://github.com/systemd/systemd/commit/b1e5a7aa3f1e552c56d5adbeed6ff67d88d1e103]
-
-Thanks for getting this upstreamed!
-
-Cheers,
-
--Mikko
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index a5c5d0444e..06934e5a9a 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -1,6 +1,11 @@
+ #!/bin/sh
+ 
+ export LC_ALL=en_US.UTF-8
++
++# The pipefail option is now part of POSIX (POSIX.1-2024) and available in more
++# and more shells. Enable it if available to make the SDK installer more robust.
++(set -o pipefail 2> /dev/null) && set -o pipefail
++
+ #Make sure at least one python is installed
+ INIT_PYTHON=$(command -v python3 2>/dev/null )
+ [ -z "$INIT_PYTHON" ] && INIT_PYTHON=$(command -v python2 2>/dev/null)
 
