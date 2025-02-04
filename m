@@ -1,183 +1,135 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <igor.opaniuk@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26CEEC0218F
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 06:55:36 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.110317.1738652132439724116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C58BC02193
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 07:56:36 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.111341.1738655788620455967
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 22:55:32 -0800
+ Mon, 03 Feb 2025 23:56:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EWhjd0Nj;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38da84c9e4bso215077f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 22:55:32 -0800 (PST)
+ dkim=pass header.i=@foundries.io header.s=google header.b=eRDo+j8a;
+ spf=pass (domain: foundries.io, ip: 209.85.167.46, mailfrom: igor.opaniuk@foundries.io)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53e3a227b82so4867900e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 23:56:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738652130; x=1739256930; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yA8fWFUUj9fP5qlLNDele9HuJM/BWCJfgBeRscOfVFE=;
-        b=EWhjd0Njesf8aeMnD2+fa7skGu8c7+FaBOZYAzenvstpTAcUZxJmsRH49fe4oiCMgD
-         /WoXYZ+ljZwlmPgnr7jSU1JKocEHnPxrssK+O5MZns7ut1X/VYE8yaHW/6cw9IYbyHJg
-         bXobajijjtuNYNzpOyD7zlhHmiskOHUmcAx8OQD1JfqJ2QPrZr/cMHvteJjvJCIG0QuL
-         aAS9VvbWekPevW4SgWty3kVq/7bYwO4bDShyxAgBeWZtsPGKQ5/CJsJXttBQ8zBG0QIg
-         ZP6qnJwST3E4wPXqTYzJgNVA8ZASqd+IJyDw1mr2+89TWSC/bl8GYAoraai7hB+DWI1A
-         TNBQ==
+        d=foundries.io; s=google; t=1738655785; x=1739260585; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6ky1M3yGm3/xChY21LehTgQq2iGzVBmXLd8V7BjfT1U=;
+        b=eRDo+j8a9WOkThPUSJQZf5Yij3pJj56O7TnbEiqvlMPk8d+CMAUw7QN/UFQ2pOP1Hw
+         x+j3yaAU5cNZ4tbBWbeZOsjphueWog8/3mn8L+DXDb6gSMQMVX8fuPO215QJHkyORs05
+         iRhQGimtxpHOwbytkuNYGBg1hM531aFl3+JyZenxD6wu7DCB+oaFqd1a5NhctoJjyywf
+         pYymUppyX2X6ew+9TATV3I3zyHKehwsdWsaWIJVS8yCKqJ35X5T6KkOR/5TGzmisCXw0
+         oThm87U0GNBfwjwSS7PawFBPw0zCbrU6VfCH/5kEqCYQSfkx6K1GJ4H6NkS4nG9gjDvH
+         hSFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738652130; x=1739256930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yA8fWFUUj9fP5qlLNDele9HuJM/BWCJfgBeRscOfVFE=;
-        b=Oo06QUKPWOVGivqrBTcxjjVpqODcCnPNTfuldklisVqFJ1U+gMdxsNMcb735FnolBf
-         bl9yhMdFvoVj1OWbSXp1kciduh0CTa8znUnt/p/Jj1hy6kqTcbXqYEQ60yNMIQ9HeFMc
-         6ObuI9Bj6P1j4f6R5qSK4npXjgakc1PzxGIvhxzZ/irEf8EYnIVcAgNUhRA/FB4R/UP6
-         fHBQkOQwlTqYw0wKiuf9nTVIFovQYI1mgbVUnLKWpG6+tdCXqYRrObY4xC55fsHUy1rS
-         /OgVBbKBksYMvoXek9aVbj69/JT1LE/SQhqeVcxa61VVXnWlr3KXJnJfyJ3W1Xh23UKU
-         IPOA==
-X-Gm-Message-State: AOJu0YzbWkgPVOMpRCoB4mOelPkFaPqgkmLyUNuXhjwgOn6UldWRYrQT
-	8W+x9IiqSORhydVqyXjEumUkmvBqV7BtPoP9wL6leOqNQYWMR6On3oOGANg=
-X-Gm-Gg: ASbGnctkwk80y2upC7vrEPY+TMmeI93s7w3bJe1/bQScqJMZKo6xHZK1fvKMnJphKTN
-	czpS/2ADh4V9AvjRKMBKc917aPVA5ZSDbsvJPi6Myq2urEV+5OCOqg50Sc7ZZ9Xmun86Z/8W5fP
-	UjY6RD36L64orfigdi8mfBUuwAV6HCbBlXvHlgQULCS49sbmw2EeB3x3OJ+xNZG1ZIH3u0oJVAx
-	twpCxZlXi0N4dHrx1ey/S1S3CXTkxrcuYFx6Jz6cUPH+Aa20YMqpwQK7OZd1epBYvmUOtlMd2D0
-	m9LjflIy3+q4DFB56DrOz9vBLiJXlDGU
-X-Google-Smtp-Source: AGHT+IFmAaDzQ3evnupAoaMOMMgF/ib2FAIYed4I8R/674eSpKXPv0GRHhsdrFBQVdxTknyzjxcpqA==
-X-Received: by 2002:a5d:6da7:0:b0:385:fae2:f443 with SMTP id ffacd0b85a97d-38c51e8e145mr19026953f8f.34.1738652130045;
-        Mon, 03 Feb 2025 22:55:30 -0800 (PST)
-Received: from GIW-21.bmw-carit.intra ([212.118.206.70])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b61f1sm15107535f8f.68.2025.02.03.22.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 22:55:29 -0800 (PST)
-From: Nikhil R <nikhilar2410@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	nikhil.r@kpit.com
-Cc: Nikhil R <nikhilr5@kpit.com>
-Subject: [OE-core][kirkstone][PATCH] glibc: Suppress GCC -Os warning on user2netname for sunrpc
-Date: Tue,  4 Feb 2025 07:55:26 +0100
-Message-Id: <20250204065526.3999-1-nikhilar2410@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        d=1e100.net; s=20230601; t=1738655785; x=1739260585;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6ky1M3yGm3/xChY21LehTgQq2iGzVBmXLd8V7BjfT1U=;
+        b=U66X30S6mbw4clcjHI+fndAP3njlwvHmezmIpBaawvBx4aToOS2ZTK2yVzI93BMjvC
+         d9iaz/hyD10lj9/Lj3sXK3tC+oTlzmWGtUcEUGe2SBYDHfUgMaNyrEnT5dzEV8egZc5K
+         vJP2FEGtLxqXySg+tj0l+W9eGbEYtjE+k9PmdqhmAPNDWILBRAY62qnO+KbM9O/uhiLZ
+         Rv5qlssrlBTRagC46AciWYXrATPShXYz5+/pcJNLKRymnfx//oF8OUdv2UlJKjKaicDw
+         oXW2fBSOTT8/D2oFtQxkUnC4+lXxindmubHoMQGfyAlZ6DKrc6f4E8nRZDEWY9lvAktD
+         IJmw==
+X-Gm-Message-State: AOJu0Ywonw8+PcSMmmRcsv6Uo70CsHPMNF7La8p/uZYQnE9ITEfajMOm
+	NA5b8ig35IawNX3pqQBRjNFytwnVr35pbZvFtoYPmJYnT4U8GXCALidQAJktq7ZtR7zlln2cQWj
+	ronCPP28pE1uxivhW4JKEs5CMWnmYxKtFGIKMEZ5IWv1fteJgKESd2CAu
+X-Gm-Gg: ASbGnctllW35F1lnr27DOfR2u1wl6KO7THruTdWeCWboIxn1NfNtYIygh22RQ3W7AvE
+	TKWRghjTYCnOg3+HZk/DbIDw6P+9Pyl2Jzmix1H7GhJtxfkvu/zmxVDTFzTeyKpSI4hcZJ7+8/3
+	A=
+X-Google-Smtp-Source: AGHT+IG5RGecWui9/UIE668QQ/Yx9ron8SXUEaeISO7RrmBuwoVkh3YOF2gAx3nmt7PXI4KrTbnXByRxkf/AO92p8Ok=
+X-Received: by 2002:ac2:4d05:0:b0:540:3579:c363 with SMTP id
+ 2adb3069b0e04-543e4bd958cmr5639976e87.9.1738655785480; Mon, 03 Feb 2025
+ 23:56:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <181F794284A2B40D.27573@lists.openembedded.org>
+In-Reply-To: <181F794284A2B40D.27573@lists.openembedded.org>
+From: Igor Opaniuk <igor.opaniuk@foundries.io>
+Date: Tue, 4 Feb 2025 08:56:13 +0100
+X-Gm-Features: AWEUYZn9pgpOLvt3rs237_IyCe1o89c9J901CIkRUXoO1d2FyJXjrg3tRBWTyaY
+Message-ID: <CAL6CDMGyg8YkYs3z4GZME1mkVE41objV3QVsvGAOesUUKk45vw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wic: bootimg-efi: Support + symbol in filenames
+To: openembedded-core@lists.openembedded.org
+Cc: igor.opaniuk@foundries.io
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 06:55:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210751
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 07:56:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210752
 
-From: Nikhil R <nikhilr5@kpit.com>
+On Thu, Jan 30, 2025 at 1:48=E2=80=AFPM Igor Opaniuk via
+lists.openembedded.org
+<igor.opaniuk=3Dfoundries.io@lists.openembedded.org> wrote:
+>
+> From: Igor Opaniuk <igor.opaniuk@foundries.io>
+>
+> Allow the '+' symbol as a valid character in filenames listed in the
+> IMAGE_EFI_BOOT_FILES variable.
+>
+> The '+' symbol might be used to support boot counting for boot entries,
+> as described in the UAPI Boot Loader Specification [1]:
+>
+> The boot counting data is stored in the name of the boot loader entry.
+> A boot loader entry file name may contain a plus (+) followed by a
+> number. This may optionally be followed by a minus (-)
+> followed by a second number. The dot (.) and file name suffix
+> (conf or efi) must immediately follow.
+> Boot counting is enabled for entries which match this pattern.
+>
+> Example:
+> IMAGE_EFI_BOOT_FILES:append =3D " entry.conf;loader/entries/entry+3.conf"
+>
+> [1] https://uapi-group.org/specifications/specs/boot_loader_specification=
+/#boot-counting
+> Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+> ---
+>  scripts/lib/wic/plugins/source/bootimg-efi.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/=
+wic/plugins/source/bootimg-efi.py
+> index c05f38f229..96c710bf77 100644
+> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
+> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> @@ -252,7 +252,7 @@ class BootimgEFIPlugin(SourcePlugin):
+>
+>              # list of tuples (src_name, dst_name)
+>              deploy_files =3D []
+> -            for src_entry in re.findall(r'[\w;\-\./\*]+', boot_files):
+> +            for src_entry in re.findall(r'[\w;\-\.\+/\*]+', boot_files):
+>                  if ';' in src_entry:
+>                      dst_entry =3D tuple(src_entry.split(';'))
+>                      if not dst_entry[0] or not dst_entry[1]:
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210442): https://lists.openembedded.org/g/openembedde=
+d-core/message/210442
+> Mute This Topic: https://lists.openembedded.org/mt/110896349/6685241
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ig=
+or.opaniuk@foundries.io]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-When building with GCC -Os, a warning is triggered indicating that sprintf might overflow.
+gentle ping, let me know if there is anything else for me to do
 
-Error:
-  netname.c: In function 'user2netname':
-  netname.c:51:28: error: '%s' directive writing up to 255 bytes into a
-  region of size between 239 and 249 [-Werror=format-overflow=]
-     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
-        |                            ^~               ~~~~~~~
-  netname.c:51:3: note: 'sprintf' output between 8 and 273 bytes into a
-  destination of size 256
-     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
-        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
+--=20
+Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
 
-However the code does test prior the sprintf call that dfltdom plus
-the required extra space for OPSYS, uid, and extra character will not
-overflow and return 0 instead.
-
-Upstream-patch: https://github.com/bminor/glibc/commit/6128e82ebe973163d2dd614d31753c88c0c4d645
-
-Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-Tested-by: Carlos O'Donell <carlos@redhat.com>
-Signed-off-by: Nikhil R <nikhilr5@kpit.com>
----
- ...press-gcc-os-warning-on-user2netname.patch | 61 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch b/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
-new file mode 100644
-index 00000000000..7068a81518f
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
-@@ -0,0 +1,61 @@
-+From 6128e82ebe973163d2dd614d31753c88c0c4d645 Mon Sep 17 00:00:00 2001
-+From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-+Date: Wed, 21 Sep 2022 10:51:07 -0300
-+Subject: [PATCH] sunrpc: Suppress GCC -Os warning on user2netname
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+GCC with -Os warns that sprint might overflow:
-+
-+  netname.c: In function â€˜user2netnameâ€™:
-+  netname.c:51:28: error: â€˜%sâ€™ directive writing up to 255 bytes into a
-+  region of size between 239 and 249 [-Werror=format-overflow=]
-+     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
-+        |                            ^~               ~~~~~~~
-+  netname.c:51:3: note: â€˜sprintfâ€™ output between 8 and 273 bytes into a
-+  destination of size 256
-+     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
-+        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+  cc1: all warnings being treated as errors
-+
-+However the code does test prior the sprintf call that dfltdom plus
-+the required extra space for OPSYS, uid, and extra character will not
-+overflow and return 0 instead.
-+
-+Checked on x86_64-linux-gnu and i686-linux-gnu.
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Tested-by: Carlos O'Donell <carlos@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/bminor/glibc/commit/6128e82ebe973163d2dd614d31753c88c0c4d645]
-+Signed-off-by: nikhil <nikhil.r@kpit.com>
-+
-+---
-+ sunrpc/netname.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/sunrpc/netname.c b/sunrpc/netname.c
-+index bf7f0b81c43..c1d1c43e502 100644
-+--- a/sunrpc/netname.c
-++++ b/sunrpc/netname.c
-+@@ -20,6 +20,7 @@
-+ #include <string.h>
-+ #include <rpc/rpc.h>
-+ #include <shlib-compat.h>
-++#include <libc-diag.h>
-+ 
-+ #include "nsswitch.h"
-+ 
-+@@ -48,7 +49,12 @@ user2netname (char netname[MAXNETNAMELEN + 1], const uid_t uid,
-+   if ((strlen (dfltdom) + OPSYS_LEN + 3 + MAXIPRINT) > (size_t) MAXNETNAMELEN)
-+     return 0;
-+ 
-++  /* GCC with -Os warns that sprint might overflow while handling dfltdom,
-++     however the above test does check if an overflow would happen.  */
-++  DIAG_PUSH_NEEDS_COMMENT;
-++  DIAG_IGNORE_Os_NEEDS_COMMENT (8, "-Wformat-overflow");
-+   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
-++  DIAG_POP_NEEDS_COMMENT;
-+   i = strlen (netname);
-+   if (netname[i - 1] == '.')
-+     netname[i - 1] = '\0';
-diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 9400e1e9208..d9cae79ac2f 100644
---- a/meta/recipes-core/glibc/glibc_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -64,6 +64,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            \
-            file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
-            file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
-+           file://0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.17.1
-
+Igor Opaniuk
+Senior Software Engineer, Embedded & Security
+E: igor.opaniuk@foundries.io
+W: www.foundries.io
 
