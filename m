@@ -1,84 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E159C02193
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 19:02:19 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web11.124612.1738695734077575184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D48DBC02198
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 19:51:39 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.126147.1738698690991288084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 11:02:14 -0800
+ Tue, 04 Feb 2025 11:51:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HnHcNi3f;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6dd1962a75bso45999896d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 11:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738695733; x=1739300533; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e/9lSusghevNNdefFX5vkVulI1nnuckJ1GX10pKtWSI=;
-        b=HnHcNi3f9QIDSIgPoapyhuZCuzBTg9t+AF42jKorIoMKcnlVEPte9n5dQY3pzaTs4Q
-         hyEAxQs1s/xj+3Ob1YcSHlv3D7y8N/EiXP1ISPzz0JIo582ctfgZaJurK7ZskCKDp3JC
-         P1MuQmbVR1J/wdnz//XeI6vloBlglsqtoIWCQcO8uRCA4lgky4gy0+8wuwy8rAKt62Lz
-         A8HgDpJ+slm25e6mQpJ6UIyZOEGEh1f3ycm3hULZUmy+wI6r6v2Yr2w3UKNA+volTe4P
-         7f1CXPCMUDLQSlVIL/ojyYqyoDADkNl7GfoSbM93TnssOEk0bF66e5E+rMIgy0q046Gj
-         IR9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738695733; x=1739300533;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e/9lSusghevNNdefFX5vkVulI1nnuckJ1GX10pKtWSI=;
-        b=Yt84ys+a8+oVtVqD2KqckQh1mfr20Ppq1bqW1xgpABH2Cffj0IKUO7+Hq9O1s0ITsB
-         Mtks22cmrRPsupSESUbyxitK2yHd0+bf0bGMl/ncTahbjbKWLXZWZIIPor3GOfKV78rr
-         r1Ul2vEH5P89yJDmCeZuQg7DZEtqpPvlale2YaUvP0fEt3boz8sLDMHu/0wVQUXEiPM8
-         HnKaq/RqfdUblvLqhXU3yl3pvpy8ESZZ46OQYxEHV4aQCFlfgDGJjLqQ8yiawDwkxFZo
-         /+NWEDpW980hiwwVIUfsN67DjZbzDOIARpwtnrZc9Rs1pEOVYPojD74SboRmM+KHZ6t/
-         zC8g==
-X-Gm-Message-State: AOJu0YwIMktidHzNJQ8OqOOGiBOiEJ/zRs9z5SGCs1lXjn6DNfZgxwc9
-	xV0YSmwZnVxs5AyXEnlVfQPkYk37Zx+2R6Ca6HuC9jZRnVjf+959r7Y8UA2M7cFl9Vvc3bNsIJh
-	VJFsK867SqxU4k6Xzi1FqhIY4otQ=
-X-Gm-Gg: ASbGnctj6mVZQKB53Bzev+Iv7icZ/oYiHfrZazUnoAl5ltuVpW1p0glBGAimVEW+rqv
-	FOFqmX/Dq6FQvi1koKNX1t/siV4mIiG/PWKj8CaetWciyGm+AYc6xdWe/nETGAJFNV/o238GF3W
-	ZlxWhgwLCR/jXh/wge5Zo8JMYqVPcUnvk=
-X-Google-Smtp-Source: AGHT+IFHqxdAePKvzeIwm7exSMeB4dzoieonmxes8onWgMM2n4/IweJk2QqjS02gDQ4gdu1uCjwjWL7EWHUUmEjwc4U=
-X-Received: by 2002:ad4:551c:0:b0:6e4:2343:816e with SMTP id
- 6a1803df08f44-6e4234382e7mr38663906d6.39.1738695732984; Tue, 04 Feb 2025
- 11:02:12 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4F4CF40C8F;
+	Tue,  4 Feb 2025 19:51:30 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id n9IVcjwj4ATm; Tue,  4 Feb 2025 19:51:30 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 32DAC407E5;
+	Tue,  4 Feb 2025 19:51:29 +0000 (UTC)
+Received: from thorin.denix (thorin.denix [192.168.30.9])
+	by mail.denix.org (Postfix) with ESMTP id 15D4E164208;
+	Tue,  4 Feb 2025 14:51:28 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Denys Dmytriyenko <denys@konsulko.com>
+Subject: [PATCH 1/3] wayland-protocols: upgrade 1.39 -> 1.40
+Date: Tue,  4 Feb 2025 14:51:23 -0500
+Message-Id: <20250204195125.76033-1-denis@denix.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20250204103744.27883-1-othacehe@gnu.org> <CANNYZj-O24h9m9gG-yHpDX4s9OxrJrfkfKDuETcXFq8X_r99ow@mail.gmail.com>
- <87y0ylga3d.fsf@gnu.org> <CANNYZj9tjKN_Evr3KR7mNDMABXAgbLoCFL=EnoQviXa4+Mg7Kw@mail.gmail.com>
- <87tt99g52h.fsf@gnu.org>
-In-Reply-To: <87tt99g52h.fsf@gnu.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 4 Feb 2025 20:02:01 +0100
-X-Gm-Features: AWEUYZmhNz2zTJx_ac3I0zKER2d5I38dNjJ8SMUA3rxaGDmqaGULHUQRAOVbfTE
-Message-ID: <CANNYZj8vYdZz4-NpYg2hCJ3d9xNvN-Ugrr0cRpKT3-k6j9+Wbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] lib/oe/package: Add strip keep-section support
-To: Mathieu Othacehe <othacehe@gnu.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Quentin Schulz <quentin.schulz@cherry.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 19:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210819
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 19:51:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210822
 
-On Tue, 4 Feb 2025 at 15:25, Mathieu Othacehe <othacehe@gnu.org> wrote:
+From: Denys Dmytriyenko <denys@konsulko.com>
 
-> So minidebuginfo and PACKAGE_KEEP_SECTIONS are two very different
-> things, serving different purposes. Even though the combination of both
-> is required on some architectures to get full backtraces, I don't think
-> that they should be tied together.
+This release includes a new version of the ext-idle-notify protocol, whic=
+h
+allows users of the protocol to track only input device like activity.
 
-Fair enough. What you say should be documented though, perhaps you
-could revise your docs patch to include these things.
+Apart from that, there are the usual clarifications and protocol bug fixe=
+s.
 
-If you figure out how to test, that would be good as well. Ideally
-without adding another image build to the test, but
-adjusting/extending something that already exists.
+https://lists.freedesktop.org/archives/wayland-devel/2025-January/043966.=
+html
 
-Alex
+Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+---
+ .../{wayland-protocols_1.39.bb =3D> wayland-protocols_1.40.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/wayland/{wayland-protocols_1.39.bb =3D> way=
+land-protocols_1.40.bb} (91%)
+
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb b/me=
+ta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+similarity index 91%
+rename from meta/recipes-graphics/wayland/wayland-protocols_1.39.bb
+rename to meta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+index 82c373df21..4efc1bd548 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.39.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.40.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc7b12b6702da=
+38ca028ace54aae3d484 \
+                     file://stable/presentation-time/presentation-time.xm=
+l;endline=3D26;md5=3D4646cd7d9edc9fa55db941f2d3a7dc53"
+=20
+ SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/=
+releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "e1dcdcbbf08e2e0a8a02ee5d9a0be3a6aafc39a4b51fa7e0=
+d2f1a16411cb72fa"
++SRC_URI[sha256sum] =3D "b21711793247c2c42763914392dfa9fcb9e3728ca4b4aa11=
+0adb8d915fc00689"
+=20
+ UPSTREAM_CHECK_URI =3D "https://gitlab.freedesktop.org/wayland/wayland-p=
+rotocols/-/tags"
+ UPSTREAM_CHECK_REGEX =3D "releases/(?P<pver>.+)"
+--=20
+2.25.1
+
 
