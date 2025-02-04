@@ -1,149 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <igor.opaniuk@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6321C02197
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 09:44:36 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.112268.1738662276098409385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF95CC02197
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 10:01:46 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.112525.1738663305841265987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 01:44:36 -0800
+ Tue, 04 Feb 2025 02:01:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YHPSmVIv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so54726315e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 01:44:35 -0800 (PST)
+ dkim=pass header.i=@foundries.io header.s=google header.b=F5RUHdkG;
+ spf=pass (domain: foundries.io, ip: 209.85.218.45, mailfrom: igor.opaniuk@foundries.io)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aab925654d9so992388766b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 02:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738662274; x=1739267074; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QVR5rV9qYqasnbCcvsuoC5fWW5Xhrt1TBNH9vUe1kso=;
-        b=YHPSmVIv0Tc9G5UajQgRX2gZprOikii772pbOl6dW5jDNu0LzeLd8BFQ6LHk0oItuX
-         QJS5m89uBTpYABuTR+85Sfg2SBwPtFcQ2MYlJ6xqghaiH2YfrQ4Ip9/Vn+rB6u1Yo51O
-         kB+MMNvjsG3/pMFDd6nQiE9bkr7eGJ0Sil3OM=
+        d=foundries.io; s=google; t=1738663304; x=1739268104; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/eRMWJW1hCBkYIldoNJMd4OY7dsh1xh5XEMwXb+VeOo=;
+        b=F5RUHdkG7+gxkBj1gP53XzVZLZB9ivVzylPaZGMPVNOIQonOwCUc4xfOoOx/GRDz/R
+         nXb0McckqP0Y65lR80S3fsDvsHNDMnE3z+Udcta97gILGoknWS08kcgSI/rAWmMnETqP
+         rLW+mBqHfNQoZqnAbLSqBtvJlmu+yVPIjqEpJwbUBFI/SE8PueUCgqEHOiLm9pwNiNMO
+         gf8sOm5AVdiaigwGZRl74VdCiU5M6nif+Pcmq+1KE7vyHxOeAqLyCZ02napG5vDyPViM
+         ji3wIDCrtuXRmYUb9A7N6dn0jvuh9A1MIXuaX/pqz99xY+8t5VJYPg+4uP0cqM1gpLy2
+         R8TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738662274; x=1739267074;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QVR5rV9qYqasnbCcvsuoC5fWW5Xhrt1TBNH9vUe1kso=;
-        b=B4ImDarX64GiWtsi6MDGNjaLeVVbAD554rQuvkgddixCYOmwe9ui/xMnZNcydfamu6
-         PXshqlF/feAckBmxrZ5bjLYfAZhp9TqsON1m3NKt8ywsILseTI5r+qfsryg1A4iMukOv
-         qw+gxnyuPlu3zU0o41RxoHIUqvKStHPLVKt1ZiRXLIEGhvd2vOesFjBGQ+9jJFlxUxhz
-         /liMnhCWhFTKwlMUbaIfFh64NDheyHeC8oTuz55ZRraVgPF15udL/RNe05BYuwd00yHc
-         Ie1XG8Q4Cv8/ApHLjl/GsjC3kO3MosSfy3ZWTPR2Natwr0DMULC3W179Lq2imFpUgOgI
-         6cAQ==
-X-Gm-Message-State: AOJu0YzWocBIKwUQY0P4WLInRsdu18pKltT+7b1z/4sWgQB3lF0M9WGW
-	gTz3NUbJmGj6mhuA9BItkQpkIgj3cb2RsI3BpkGI9E+fpmjtgO0X/5RADz7WTGE=
-X-Gm-Gg: ASbGncuWzl0YvJ1GKUZ/SHxcp3WtUNIYJEAvI7TaPx0Q6xe355jEoeQvPy+mmSIf0q0
-	i9iczXXeN00eIZRmqQ2KZ8L26Y5qt4ftA6un7ayBQyCcCrM7WPLGAohh/qUeDhu1LC4Gmj7oIH8
-	Jg2fLZDH3rzTXaVJSZ6eS2SEuge278AEB7n+dYWpJjm5Tipw6E/cWWcwZy1oDOuxnyL1r2Thg/m
-	jVbdpZ5WZk6vTqz7p0KFNuSs9+ziREnWpoy86KGlJgu8wgLktpaR1bPnuhALFfPThSMs0Bo0G+H
-	5DsDK3Tr9g1U7oapVFiPnHshy7KI1Q+G+L/dv8H4Uip5lJtnzQHbrG/9S5JRMMU7VVT3ap2oIo3
-	dsAth
-X-Google-Smtp-Source: AGHT+IHJJzuAabFHhTU//EwRX8g4YxXwX4LLUtdqtWYXXhZwoI4O4zLdRqYWbxbDmTpcF0HZZ9LVvQ==
-X-Received: by 2002:a05:600c:22d9:b0:435:1a2:2633 with SMTP id 5b1f17b1804b1-438dc48a91amr220252775e9.15.1738662274346;
-        Tue, 04 Feb 2025 01:44:34 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b0f0:1828:fe17:cc0d? ([2001:8b0:aba:5f3c:b0f0:1828:fe17:cc0d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23d443esm190306655e9.1.2025.02.04.01.44.33
+        d=1e100.net; s=20230601; t=1738663304; x=1739268104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/eRMWJW1hCBkYIldoNJMd4OY7dsh1xh5XEMwXb+VeOo=;
+        b=mt0mqJ08W3ZlsPe2MaXFKS47LdyerFgJvovCFeSZVjI4ihHY+qZ8LlGVbb7GZ+J4IL
+         ZlE4lRkS79KD+vwp+dIkhs4G2DIFSqa2LC4u2qRkuxev71KcTDU+fs70TPXETks1y8ja
+         ZebcBLj2Z0M5RPlTsiZAXqE9TV5VRJNtI5Wl+eM0p1W9z/ztn4xmkYeXAbrGOJvGml7Z
+         z/SkWdSYrgHl2w5tq2s8mJX/Hg5vl7CzDFr3cfgxgSDtczfRyu9Sq2IVibMKhU/phvcC
+         DXSWscoUfY3nYRwQ6nw2UjIZZV2j4eBUwPBtPn2bQk0MtBxPk4F13Z1SNqqyK0sr4Fpk
+         D/5w==
+X-Gm-Message-State: AOJu0YxvAd0jRzF3zeIpZk1khr3azIJRYN0oeIeeAsmRyQKVgyn1d2oy
+	fna2iPvKa/vzCOmj2AzugWb+vv2g3nIV84Wo4000mZFcx3B1lUIhPYhwVP37QUVJnm40SXWhvdt
+	gi32vdA==
+X-Gm-Gg: ASbGncv5zN7gkjD3TVB6n6bySfti74l6wP3Evx1r1mvKh7SlEgRlWi7IYVEYmwh+VGH
+	MsR2B5wwXEwq4Qx7kJSSzzxQ2wlVlzrecTX6mRlZVa/yeuGhps/ZhQbL4JiR87+wdbRqTdpLACN
+	IIsorVkmUlgQ1Rflp4dLU02RTosalgkUIxhp0l6rSnisMxQs7r80h5PiPMyVfLDnoZGomBcO53m
+	fiJUfmlkCYhT2xXRglyF2AczATsQftGEE9PZ6tucJYCXgAeNlvKDrQje4eATKVl33S/J7Z6q44q
+	qLG1ezE9ObkPqcqCFiwt3vc=
+X-Google-Smtp-Source: AGHT+IFy1nV+hgOyTh6+MIEt0U03Yx4047q0brboaKflIBHj1CKKX83v59hb1AQQ5LN3zuERWszlfQ==
+X-Received: by 2002:a17:907:9726:b0:aa6:b473:8500 with SMTP id a640c23a62f3a-ab6cfda4249mr2800300466b.42.1738663303737;
+        Tue, 04 Feb 2025 02:01:43 -0800 (PST)
+Received: from igor-t14.. ([185.186.156.113])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff724sm899065966b.105.2025.02.04.02.01.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 01:44:33 -0800 (PST)
-Message-ID: <b7cc4bb4c1a3c313bfbd9579a199d5ce702add7b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 0/2] add basic b4 config file
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: quentin.schulz@cherry.de, Khem Raj <raj.khem@gmail.com>, foss@0leil.net
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 04 Feb 2025 09:44:32 +0000
-In-Reply-To: <cd355530-d72b-476e-9c99-bc53f0a3a337@cherry.de>
-References: <20250203-b4-support-v2-0-848008ad29ea@cherry.de>
-	 <CAMKF1sqh0VMORr2ivhz82XVt7EuZ_UmUgtFVHOXb0pQwDesnnw@mail.gmail.com>
-	 <cd355530-d72b-476e-9c99-bc53f0a3a337@cherry.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Tue, 04 Feb 2025 02:01:41 -0800 (PST)
+From: igor.opaniuk@foundries.io
+To: openembedded-core@lists.openembedded.org
+Cc: Igor Opaniuk <igor.opaniuk@foundries.io>
+Subject: [PATCH 3/6] README.qemu.md: fix markdown style issues
+Date: Tue,  4 Feb 2025 11:01:11 +0100
+Message-ID: <20250204100114.3749576-4-igor.opaniuk@foundries.io>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
+References: <20250204100114.3749576-1-igor.opaniuk@foundries.io>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 09:44:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210754
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:01:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210758
 
-On Tue, 2025-02-04 at 10:13 +0100, Quentin Schulz via lists.openembedded.or=
-g wrote:
-> On 2/3/25 8:42 PM, Khem Raj wrote:
-> > On Mon, Feb 3, 2025 at 7:18=E2=80=AFAM Quentin Schulz via
-> > lists.openembedded.org <foss=3D0leil.net@lists.openembedded.org> wrote:
-> > >=20
-> > > This adds very basic support for using b4 in OE-Core. This essentiall=
-y
-> > > just automatically adds the proper mailing list when running b4 prep
-> > > --auto-to-cc.
-> > >=20
-> > > This also adds the b4 wrapper script that poky will need to use in or=
-der
-> > > to identify which mailing list a patch needs to be sent to and do som=
-e
-> > > additional per-patch checks that aren't necessary when running from
-> > > vanilla OE-Core.
-> > >=20
-> > > Once this is merged, poky will need to merge OE-Core into itself and
-> > > override with its own .b4-config that makes use of that script.
-> > >=20
-> > > Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-> > > ---
-> > > Changes in v2:
-> > > - add mention to first patch that running patchtest for b4 prep --che=
-ck
-> > > =C2=A0=C2=A0 is what we're eventually aiming for,
-> > > - add poky b4 wrapper script (it used to be in the patch series for
-> > > =C2=A0=C2=A0 poky, c.f. https://lore.kernel.org/poky/20250123-b4-supp=
-ort-v1-1-4841f52eccbb@cherry.de/T/#m95d6aa25cc42352416da477cf07d7b3cbd67123=
-1
-> > > - poky b4 wrapper script properly identifies patches with files modif=
-ied
-> > > =C2=A0=C2=A0 in both OE-Core and other repos part of poky,
-> > > - poky b4 wrapper script pretty prints when there's more than one
-> > > =C2=A0=C2=A0 project modified by a script, instead of lazily printing=
- a Python
-> > > =C2=A0=C2=A0 list,
-> > > - Link to v1: https://lore.kernel.org/r/20250117-b4-support-v1-1-fe74=
-a5f50eb6@cherry.de
-> > >=20
-> > > ---
-> > > Quentin Schulz (2):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 add basic b4 config file
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 scripts: add b4-wrapper for poky
-> > >=20
-> > > =C2=A0 .b4-config=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
-> > > =C2=A0 scripts/b4-wrapper-poky.py | 170 +++++++++++++++++++++++++++++=
-++++++++++++++++
-> >=20
-> > is there anything specific to poky in this script ? if not then it
-> > should not use that in name, it will
->=20
-> Yes it is poky specific...
->=20
-> > make it confusing. In oe-core we do not refer to particular distros if
-> > not needed.
-> >=20
->=20
-> ...git-repo poky specific, not poky distro specific. Do you have=20
-> something better to suggest than this?
+From: Igor Opaniuk <igor.opaniuk@foundries.io>
 
-To be clear, we could "bury" this b4 helper script in some other
-layer/place. I'm a bit reluctant to do it since I think there are
-things in here which may help anyone else trying to split a repo into
-multiple different submission locations, even just as a reference
-implementation. As such I did suggest it go into core, even if that
-looks slightly unusual.
+Fix markdown style issues using markdownlint tool [1]:
 
-As Quentin says, we're open to better ideas on naming but I do fairly
-strongly believe hiding it somewhere else will just confuse things.
+$ cat README.qemu.md | mdl
+(stdin):8: MD006 Consider starting bulleted lists at the beginning of the line
 
-Cheers,
+[1] https://github.com/markdownlint/markdownlint
+Signed-off-by: Igor Opaniuk <igor.opaniuk@foundries.io>
+---
+ README.qemu.md | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Richard
+diff --git a/README.qemu.md b/README.qemu.md
+index 9f56b7d668..cff0f07914 100644
+--- a/README.qemu.md
++++ b/README.qemu.md
+@@ -5,10 +5,10 @@ To simplify development, the build system supports building images to
+ work with the QEMU emulator in system emulation mode. Several architectures
+ are currently supported in 32 and 64 bit variants:
+ 
+-  * ARM (qemuarm + qemuarm64)
+-  * x86 (qemux86 + qemux86-64)
+-  * PowerPC (qemuppc only)
+-  * MIPS (qemumips + qemumips64)
++* ARM (qemuarm + qemuarm64)
++* x86 (qemux86 + qemux86-64)
++* PowerPC (qemuppc only)
++* MIPS (qemumips + qemumips64)
+ 
+ Use of the QEMU images is covered in the Yocto Project Reference Manual.
+ The appropriate MACHINE variable value corresponding to the target is given
+-- 
+2.43.0
 
 
