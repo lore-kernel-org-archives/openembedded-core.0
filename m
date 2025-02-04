@@ -2,26 +2,28 @@ Return-Path: <rashaadxavant@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD134C0218F
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 05:59:55 +0000 (UTC)
-Subject: iMX6ULL Ethernet on Scarthgap 6.6.52  #bitbake #scarthgap
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBE3C0218F
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 06:00:25 +0000 (UTC)
+Subject: iMX6ULL Ethernet on Scarthgap 6.6.52 #bitbake #scarthgap
 To: openembedded-core@lists.openembedded.org
 From: rashaadxavant@gmail.com
 X-Originating-Location: Johannesburg, Gauteng, ZA (197.245.205.96)
 X-Originating-Platform: Mac Firefox 134
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Mon, 03 Feb 2025 21:59:53 -0800
+Date: Mon, 03 Feb 2025 22:00:24 -0800
 Message-ID: <jxRB.1738648793403095330.T1sX@lists.openembedded.org>
+X-Old-Date: Mon, 03 Feb 2025 21:59:53 -0800
 Content-Type: multipart/alternative; boundary="qtbp8g6ewGCmggJc024Y"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 05:59:55 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 06:00:25 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210750
+Message-ID: <20250204060024.WFXijPovabhS3nWKXVkVaiihHlKInNZbEQUNkxrzwDI@z>
 
 --qtbp8g6ewGCmggJc024Y
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 I have migrated over to a Yocto build with the 6.6.52 kernel, and I am stru=
@@ -68,7 +70,7 @@ reg =3D < 0 >;
 };
 };
 
-The same config worked on version 5.5.15 without these lines:
+The same config worked on version 6.5.15 without these lines:
 
 clocks =3D <&clks IMX6UL_CLK_ENET2_REF>;
 clock-names =3D "rmii-ref";
@@ -122,7 +124,7 @@ status =3D "disabled";
 Thank you for any assistance in advance.
 
 --qtbp8g6ewGCmggJc024Y
-Content-Type: text/html; charset="utf-8"
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div>
@@ -136,9 +138,8 @@ the TX_CLK line is a constant value and not a sinusoidal clock. I have trie=
 d building multiple boards from the meta-3rd-party layer, however I have no=
 t been able to see a clock signal.<br /><br />Please advise if something ne=
 eds to change in my config:<br /><br /></p>
-<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: Menlo=
-, Monaco, 'Courier New', monospace; font-weight: normal; font-size: 12px; l=
-ine-height: 18px; white-space: pre;">
+<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: monos=
+pace; font-weight: normal; font-size: 12px; line-height: 18px;">
 <div><span style=3D"color: #4ec9b0;">pinctrl_enet2</span><span style=3D"col=
 or: #cccccc;">: </span><span style=3D"color: #dcdcaa;">enet2grp</span><span=
  style=3D"color: #cccccc;"> {</span></div>
@@ -177,9 +178,8 @@ c;"> </span><span style=3D"color: #b5cea8;">0x4001b031</span></div>
 <div><span style=3D"color: #cccccc;"> };</span></div>
 </div>
 <p><br /><br /></p>
-<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: Menlo=
-, Monaco, 'Courier New', monospace; font-weight: normal; font-size: 12px; l=
-ine-height: 18px; white-space: pre;">
+<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: monos=
+pace; font-weight: normal; font-size: 12px; line-height: 18px;">
 <div><span style=3D"color: #9cdcfe;">&amp;fec2</span><span style=3D"color: =
 #cccccc;"> {</span></div>
 <div><span style=3D"color: #cccccc;"> pinctrl-names =3D </span><span style=
@@ -228,7 +228,7 @@ or: #b5cea8;">0</span><span style=3D"color: #cccccc;">&gt;;</span></div>
 <div><span style=3D"color: #cccccc;"> };</span></div>
 <div><span style=3D"color: #cccccc;">};</span></div>
 </div>
-<p><br /><br />The same config worked on version 5.5.15 without these lines=
+<p><br /><br />The same config worked on version 6.5.15 without these lines=
 :<br /><br />clocks =3D &lt;&amp;clks IMX6UL_CLK_ENET2_REF&gt;;<br />clock-=
 names =3D "rmii-ref";<br /><br />Further, when reviewing the changes, I not=
 iced that the following changed in the imx6ul.dtsi file between the Yocto r=
