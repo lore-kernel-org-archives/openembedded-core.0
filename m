@@ -1,90 +1,170 @@
-Return-Path: <omri.sarig13@gmail.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF108C02194
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 12:56:57 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.115682.1738673807889380461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1390C02194
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 12:59:37 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.115722.1738673977135272545
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 04:56:48 -0800
+ Tue, 04 Feb 2025 04:59:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RGEhWtDg;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: omri.sarig13@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5401c52000dso6044179e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 04:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738673806; x=1739278606; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tNhtHYaqZbzjt2Uev2fichf33/xR6DuaHQ3Bp+0GTIc=;
-        b=RGEhWtDgTOVhH8VIQr+k9rb2TaNJoU98gJ074RtnC6TPHvUyCJQRAQVd/maxlZVGDH
-         l0PLFPv3fZDHKWiuUqwC0bKIQP8u5G8C7FAxIPaxS/FCCsQTsYMA9krik3dZE2mD6Vdr
-         U593XFZuKD4gBVrsKG+TbZu0Nt0ZXjFCHBuMqw4XiZnzUewiU5iAV/AOrydLT3GaqgRY
-         HuHvpvDhXDijkELfiTcaMvBfzO4uxCDuTRvdYzL6Ui7iIBcCTtDgMTP9225z5oMFneuG
-         g06Yg7EPdgUOVcv+CUOoBcRLRKvhTkCWyq1CRW8WhdqW7jVuDH1RO4VntQEw+WoyHjyV
-         Gj9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738673806; x=1739278606;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tNhtHYaqZbzjt2Uev2fichf33/xR6DuaHQ3Bp+0GTIc=;
-        b=ecobHAuPiUo1Z0jCHrFwJR99AebaigpfZJY5Rrnxs9V9vmhWegf4ixjFAPoB7oay9y
-         hF+q+OflmMXJcM6mII43vVGUNk0t/7RiNQgNGNAnCVFnkQ+Buvd3JrZfTSmmJvQCRnmL
-         p1Qh3dA/uFo0hJi918cxKyDvLFiqlBR5DBFDvv/W4v+L6cTuSrDwUmrUXBB4dQYBGqD8
-         qeauMb4cdRvb1r5v5iAXXb6fXXsdsWtDdby1nDFWnWI1iYNkqAfGMWYWUNEKw1E8s/QM
-         R6QqwBh59QM2b1QkjESjqSP8jbnRBrUjRLUW8QvWFActfFO/1eN69sXY4ZRsAQB7VpcM
-         Hchg==
-X-Gm-Message-State: AOJu0YxPb4y6zJiOmqxF1buQ2jWfc914nq8r8gCVrhYWmhp07p0/e4Sz
-	Uit4C7UelBM0D0nCWawYbPcF4uIEh1Siprq1yjRRhF/ZASU7wHaY713iPA3wp8s=
-X-Gm-Gg: ASbGncv/ll5Erkb1QZukKjwXN7AzaqXdtWIGuTTEy4R70YyKpanQ1OrWRpiy6yDzgHt
-	aukhJISk5PwZUGu1UnKR+bIDyf/CLuiYlv5ebu6ANuOtjRmOhFYsREFc0Qemilop2vPQDorc4Wv
-	YF0675ixA2WxS6fnxH3MjQC4/x2Kr8p8iN61xgiUDDMW2eeiMhc8rdSBPVE6Pxj4rWO9r0rmBYy
-	eM+khsBWII1yrUBpnQ6GWXQblEK1qFdhpdiXJB1YeFq5fImfTy/V3ZxWerp770EWBuId4w+xSzh
-	vdVMPlWJDSxVbd5xlc3m2xUEqEECe761u5BSFzvWqzlW93q7MfSnDau5xk9/iyN6OGwJcz2Vfw=
-	=
-X-Google-Smtp-Source: AGHT+IE9IwZrtJHMA3m/f+SiK2oINm91aFVqQbyhc8uH4glkZKW/iYORX1ho/CKn0b9epTgrxVOExA==
-X-Received: by 2002:a05:6512:3f03:b0:541:cdef:7ca3 with SMTP id 2adb3069b0e04-543e4c00bacmr8932582e87.27.1738673805455;
-        Tue, 04 Feb 2025 04:56:45 -0800 (PST)
-Received: from omsa-HP-EliteBook-840-14-inch-G9-Notebook-PC.prevas.se ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a30890absm18007061fa.38.2025.02.04.04.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 04:56:45 -0800 (PST)
-From: Omri Sarig <omri.sarig13@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Omri Sarig <omri.sarig13@gmail.com>
-Subject: [PATCH 2/2] python3: Fix typo in create_manifest3.py
-Date: Tue,  4 Feb 2025 13:56:19 +0100
-Message-ID: <20250204125619.2278355-2-omri.sarig13@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250204125619.2278355-1-omri.sarig13@gmail.com>
-References: <20250204125619.2278355-1-omri.sarig13@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JfOQeQbA;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: thomas.perrot@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DC091442D7;
+	Tue,  4 Feb 2025 12:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738673975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9X/57+toOkFht0F52aMXx3Ub5yf/1MrRGdwSzgVN7Kw=;
+	b=JfOQeQbADtUQeXAott5UquQkS2LzBSEnnr87mm/pDGrpClhkfYxqLNlSZOSj8kEwEFVtVT
+	ilt3UE9khTQ5d7Vjh8GHlLdXyGTeuTOS4300peDqvD5Ugjip2LOy+t7e/H/96tWrHCD92O
+	y3hKUjnOKi78dniSa+etHWdeFNHtVdCdb2lBhxZXk9FQpMuz8g8wjvWwDrqFRSbq8PkOfn
+	6LdPtnjoJ7iDgVI/gwKf9oxZLYvLPKi5j0vaCLeDHaoCIQsejj4vZ9+1CcsLpaO8jhFAk4
+	7nikMmytVWK4voDefI0TQYfzEjDv+mxcQEh2yJmIJ+A+kuyBP/fRewh/pvJBSg==
+Message-ID: <b8b405601deb235947cde5aaa002752d49b10c5b.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] u-boot: Convert ${UBOOT_ENV}.cmd into
+ ${UBOOT_ENV}.env
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: adrian.freihofer@gmail.com, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: thomas.perrot@bootlin.com, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 04 Feb 2025 13:59:33 +0100
+In-Reply-To: <CAB3asfia=NPV8QJjfpS7jxrk1UJEVoZxNV0YUV8zYAUXQp58nQ@mail.gmail.com>
+References: <20250128145736.2258098-1-thomas.perrot@bootlin.com>
+	 <93d70055fbc62dd0dc765f2d2bd471b73f35df9d.camel@gmail.com>
+	 <43a26c5d6a85866fbf86dfacd5a034416abbd636.camel@linuxfoundation.org>
+	 <CAB3asfia=NPV8QJjfpS7jxrk1UJEVoZxNV0YUV8zYAUXQp58nQ@mail.gmail.com>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
+ O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
+ Gxv6Nypz9qKVn94GM2bR1hXBga0t87vBpebThOHmX5d/0dqIcVxRCM7onNb0dDyRoVgLS5rBhQzrL
+ CMrJaCy39xZUy0J1SOlH4Mgk6EhJIPYY4wlzikGX6urg+Tc9EjGd78ry0e0p5U5qgjFR5QGJDy1Gn
+ U3CfwbT9sowdCASDbQDUoltlv2iWJCLa0xl97KVchCa0pr7HKbFA3J5SLKqFYUBCkFL+5WudYlz2n
+ XxiUgyviMQxyK+ij66kEi6/2zFDAecd43pHV7790ptqZBC3Jc67Emj7Vo3ShX6RXPPxxbeCTOF2uk
+ I45aJ9XcVFH/MFE96NjXj8uahnIsiTPyuCUoJu8tj7TSQyue874qJqVQvqlFyt2aZYJZ8ruq8AEQE
+ AAbQpVGhvbWFzIFBlcnJvdCA8dGhvbWFzLnBlcnJvdEBib290bGluLmNvbT6JAc4EEwEIADgCGwMF
+ CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSHQHfGpqMKIwOoEiGfwAsFcf4K7QUCX79mdwAKCRCfw
+ AsFcf4K7fhbC/wP0kSl6id2E/K3+UdXk6CLMVRbCFLCREzQs5WFpQ6l/I0WGOamhrOgegdszheiVF
+ orlUP8d37XSpFAqydhKGaN78V5Dps0Wmwm4lIlS4MtQXJtSLUHXDJLIZLW0pw8tiPLKsd1o/yDkXE
+ dnpsjJTRG6SdDSHnyOB2/gh4p+yTaLytFdARk/r4/P26+L+FiH0fFl+RnBt19LPklfKgeDc7GwIif
+ ja+nIWpp3W23DAUuI6xduEut25Q89yu7Ci8CliLfAiLy9bIGjBQWU2Y+1/j/7KuPj6VbBsZWLTZY0
+ hUmpJSTnWAqc9SMsNxo7NSQuddgviz5e2tqucaRqxP02FGzNa8U4NAKdWaXrlHG5Dglj9XH0DK+SH
+ +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
+ ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-AlsjcQROXT7LRE0TJ89X"
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdehkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomhepvfhhohhmrghsucfrvghrrhhothcuoehthhhomhgrshdrphgvrhhrohhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedugeetiedvhfevieekvefgffdvgfdvudeffeeftdekffelieeigeetvdeivdeltdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvgedtngdpmhgrihhlfhhrohhmpehthhhomhgrshdrphgvrhhrohhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegpdhrtghpthhtoheprggurhhirghnrdhfrhgvihhhohhfvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpv
+ ghrrhhothessghoohhtlhhinhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: thomas.perrot@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 12:56:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210783
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 12:59:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210784
 
-Signed-off-by: Omri Sarig <omri.sarig13@gmail.com>
----
- meta/recipes-devtools/python/python3/create_manifest3.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/meta/recipes-devtools/python/python3/create_manifest3.py
-index 045240ea0b..288d5ede3a 100644
---- a/meta/recipes-devtools/python/python3/create_manifest3.py
-+++ b/meta/recipes-devtools/python/python3/create_manifest3.py
-@@ -1,7 +1,7 @@
- # This script is used as a bitbake task to create a new python manifest
- # $ bitbake python -c create_manifest
- #
--# Our goal is to keep python-core as small as posible and add other python
-+# Our goal is to keep python-core as small as possible and add other python
- # packages only when the user needs them, hence why we split upstream python
- # into several packages.
- #
+--=-AlsjcQROXT7LRE0TJ89X
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Wed, 2025-01-29 at 23:48 +0100, Adrian Freihofer via
+lists.openembedded.org wrote:
+>=20
+>=20
+> Richard Purdie <richard.purdie@linuxfoundation.org> schrieb am Mi.,
+> 29. Jan. 2025, 23:39:
+> > On Wed, 2025-01-29 at 23:11 +0100, Adrian Freihofer via
+> > lists.openembedded.org wrote:
+> > > Hi Thomas
+> > >=20
+> > > On Tue, 2025-01-28 at 15:57 +0100, Thomas Perrot via
+> > > lists.openembedded.org wrote:
+> > > > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> > > >=20
+> > > > It is U-Boot environment files that contain environment
+> > > > variables
+> > > > in a binary format, that enables compact data storage and
+> > > > allows
+> > > > for faster loading and processing by U-Boot.
+> > >=20
+> > > I'm honestly not able to understand the intent of this change
+> > > from this
+> > > commit message (I'm not a native speaker). But the u-boot and
+> > > fitImage
+> > > related code is already quite complicated because there are so
+> > > many use
+> > > cases that might be supported somehow. So it would be very
+> > > helpful if
+> > > changes were submitted with a clear description of the use case.
+> >=20
+> > I'd add that for new branches in the code like this we really need
+> > new
+> > test cases too.
+> >=20
+> > Here is a branch doing this for the already supported scr script
+> > type:
+> > https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/fitimage-tes=
+t-uboot-env
+> >=20
+
+Can I help you with anything?
+
+Kind regards,
+Thomas
+
+> > Adrian
+>=20
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210420):
+> https://lists.openembedded.org/g/openembedded-core/message/210420
+> Mute This Topic: https://lists.openembedded.org/mt/110859777/5443093
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> thomas.perrot@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+
+--=-AlsjcQROXT7LRE0TJ89X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmeiDzUACgkQn8ALBXH+
+Cu2ycgv+I8gkdQ4HS6EF9yweTK8NcMbSN/0kQDLHB6L9mpa1IUOWLJvmpD3cSaPO
+5ommF4f4ugDyRV1ilzQTbEXH1wGmGfrsnI7jBf7aJXN3CXuh0VH1yodgLo/5ddIp
+kPQd4YVavJUabYd/NykcVqYe9BmNjEwHDXlowEUwv0iBzidNIK3qDr1PqRAIiDSi
+TUvcBPUj9FA54Z58+cy80fFg1Uj/9aAn0m3V1tRmt9o3QYAxXx2sTsUHzJQlstQg
+cc4G8YL5h1rfu+jqpuuknUDBm2LBS10dJh/+NZThgTIvPqZzkuw6MP34GYnwuatN
+bPWIkiyGwJ/1SRPBzJbh0XirSyBNYNWHoSziUqywnHKw1nLLGoxLqNNjW+oV8S30
+7LbnxCTOyKg8rn3vW51MnIbnwIQdYlrq54kF2bNkQN2SXt9n7PVvV1ASkjy1ckwZ
+otj6CE0bFvsDoRbP79TA1daux64oaEsp9pJH8Y8WyWUMR4a+N/BqPmcYXxRL1Z0g
+gsffDCIx
+=/w2p
+-----END PGP SIGNATURE-----
+
+--=-AlsjcQROXT7LRE0TJ89X--
 
