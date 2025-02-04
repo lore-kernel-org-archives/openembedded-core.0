@@ -1,113 +1,262 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rashaadxavant@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D32CC0218F
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 04:20:45 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.108884.1738642844757883797
- for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Feb 2025 20:20:44 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jJWXIZR5;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2a9ef75a20dso2863655fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Feb 2025 20:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738642844; x=1739247644; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eKiSxavo/dRk+w2evZ88MCn6n+nFt3op8NGsmsYhiB0=;
-        b=jJWXIZR5QI/c535rPQOvBY1RUxj+dG+iD9YmB0g7GbLOksrZYePkMM1B4auC4m9qps
-         kFP4fht1ypjXgHwwY5u7jYUxiTw0y7z/5DmhW6sNE6c6FXGkQNL6an80zg3COezX+tEM
-         42c/7NzA8Icz9J93eJW4Ra0CDTdrGgN+BxxNB2b8KApnYMhyPpLwOzPKWH+ECzUItpgu
-         S2AxcyWU/pZk/DKTlP4Bx0kWhEvlZ0HrYB9FoivHqwRyplaT6ZdcvJA5hPfjWFcz3vZL
-         VvcjBLb5644YAwwir5Z6WdQ3Z8aAZSgFcPewFlZcvonjPjN7wlYKOckOvvKz1MqHFkUn
-         4BHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738642844; x=1739247644;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eKiSxavo/dRk+w2evZ88MCn6n+nFt3op8NGsmsYhiB0=;
-        b=g4ZW9Ph9C9qqrm7nDyZa10VbyoFMIxr+jVTh3fFCWaA4QVaRrA3SLYwR/G92q7l4D9
-         bNgurD0T0wRjzLiVc21494PRv7ecQb+Du7stfAyVjFQKpycpQsw9SNfT6UctvumEgj/6
-         l+xOhvYxVj2kQpTe3z9uXxccvmqcQAAykL80qB9umq3FVnNjQiWg4Yf/ThtiLfM4fzLz
-         cvwi53k0Hir+Sr8JNThO6vn8/ojUtTNEaW7rzt3Rh2yb2VeVUeVIdu3j4xOAfRXHLDfs
-         gOF5uBe5cJVV4gRXv9U5Qvo7oqD0kjP3MplH28UHeBx7TEi+8y1exp1kAJkAoJFPrQ0Z
-         2tCg==
-X-Gm-Message-State: AOJu0Yx80y9NuJOhamcLK16pIlccg3nKAydjRtjw8HRhThLMEKnsJNRD
-	AJbYbDl41kZVOXAu+MubY0UamzYOYcB39eevaVvCKk7ytVtu7b0uUFqZtEOaipmaZ7KVq+iSl5H
-	wkpoxrTSCLJD2DwRZvFjjM/r8MiSeudt1nTk=
-X-Gm-Gg: ASbGnct5TTDDusNVoB37Wlv0hd/4aSJoTERgv/lAtZh4zHK78FfdqLNpXwCGYcFYd3+
-	HbdQP1JY8zFeA/gq99evrAuejmtaWvSrMp6B4UV1s7kO0Tkc1pJaRzO2S3quckkJ8znpO6Dk=
-X-Google-Smtp-Source: AGHT+IHJm/Voc82dWU+H7pEismL2iLMQI+EVDG5ETr/OHvyWIBSb70Pt2dlrXpXTR3KpjrTMYH1WHqZm86nwtuayAzU=
-X-Received: by 2002:a05:6871:a6a1:b0:29d:c764:f873 with SMTP id
- 586e51a60fabf-2b32f368b7cmr15463622fac.31.1738642844083; Mon, 03 Feb 2025
- 20:20:44 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD134C0218F
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 05:59:55 +0000 (UTC)
+Subject: iMX6ULL Ethernet on Scarthgap 6.6.52  #bitbake #scarthgap
+To: openembedded-core@lists.openembedded.org
+From: rashaadxavant@gmail.com
+X-Originating-Location: Johannesburg, Gauteng, ZA (197.245.205.96)
+X-Originating-Platform: Mac Firefox 134
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20250204013925.2005184-1-Randy.MacLeod@windriver.com> <20250204013925.2005184-3-Randy.MacLeod@windriver.com>
-In-Reply-To: <20250204013925.2005184-3-Randy.MacLeod@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Feb 2025 20:20:18 -0800
-X-Gm-Features: AWEUYZmuJaAIsAR64qpvddSIh7KIPc3e28-9yCEUO9AN9EzoUVK51heGjH6CZKM
-Message-ID: <CAMKF1so_JhEichRLL7ivxXvYYj8jJGE78_=5FwDdxVeCy5G8KQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ptest-packagelists: remove valgrind
-To: Randy.MacLeod@windriver.com
-Cc: openembedded-core@lists.openembedded.org, alex.kanavin@gmail.com, 
-	mathieu.dubois-briand@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Feb 2025 21:59:53 -0800
+Message-ID: <jxRB.1738648793403095330.T1sX@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="qtbp8g6ewGCmggJc024Y"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 04:20:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210749
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 05:59:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210750
 
-lgtm. I thought of demoting it to PTESTS_PROBLEMS but that will still
-run it and occupy resources
+--qtbp8g6ewGCmggJc024Y
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 3, 2025 at 5:39=E2=80=AFPM <Randy.MacLeod@windriver.com> wrote:
->
-> From: Randy MacLeod <Randy.MacLeod@windriver.com>
->
-> The valgrind-3.24 and glibc-2.41 update result in lots of valgrind ptests
-> failing. Remove all valgrind ptests until that can be fixed.
->
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->  meta/conf/distro/include/ptest-packagelists.inc | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index e2a90c1c2e..f3fdededf6 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -126,17 +126,14 @@ PTESTS_SLOW =3D "\
->      tcl \
->      tcl8 \
->      util-linux \
-> -    valgrind \
->  "
->
->  # python3 ptests hang on qemuriscv64
-> -PTESTS_SLOW:remove:riscv64 =3D "valgrind python3"
-> -PTESTS_PROBLEMS:append:riscv64 =3D " valgrind python3"
-> -PTESTS_SLOW:remove:riscv32 =3D "lttng-tools strace valgrind"
-> -PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools strace valgrind"
-> +PTESTS_SLOW:remove:riscv64 =3D "python3"
-> +PTESTS_PROBLEMS:append:riscv64 =3D " python3"
-> +PTESTS_SLOW:remove:riscv32 =3D "lttng-tools strace "
-> +PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools strace"
->  PTESTS_SLOW:append:libc-musl =3D " libc-test"
-> -PTESTS_SLOW:remove:x86 =3D "valgrind"
-> -PTESTS_PROBLEMS:append:x86 =3D " valgrind"
->
->  #    ruby \ # Timeout
->  #    rt-tests \ # Needs to be checked whether it runs at all
-> --
-> 2.34.1
->
+I have migrated over to a Yocto build with the 6.6.52 kernel, and I am stru=
+ggling to get the Ethernet to work. When migrating, I have noticed that the=
+ TX_CLK line is a constant value and not a sinusoidal clock. I have tried b=
+uilding multiple boards from the meta-3rd-party layer, however I have not b=
+een able to see a clock signal.
+
+Please advise if something needs to change in my config:
+
+pinctrl_enet2 : enet2grp {
+fsl,pins =3D <
+MX6UL_PAD_GPIO1_IO07__ENET2_MDC 0x1b0b0
+MX6UL_PAD_GPIO1_IO06__ENET2_MDIO 0x1b0b0
+MX6UL_PAD_ENET2_RX_EN__ENET2_RX_EN 0x1b0b0
+MX6UL_PAD_ENET2_RX_ER__ENET2_RX_ER 0x1b0b0
+MX6UL_PAD_ENET2_RX_DATA0__ENET2_RDATA00 0x1b0b0
+MX6UL_PAD_ENET2_RX_DATA1__ENET2_RDATA01 0x1b0b0
+MX6UL_PAD_ENET2_TX_EN__ENET2_TX_EN 0x1b0b0
+MX6UL_PAD_ENET2_TX_DATA0__ENET2_TDATA00 0x1b0b0
+MX6UL_PAD_ENET2_TX_DATA1__ENET2_TDATA01 0x1b0b0
+MX6UL_PAD_ENET2_TX_CLK__ENET2_REF_CLK2 0x4001b031
+>;
+};
+
+&fec2 {
+pinctrl-names =3D "default" ;
+pinctrl-0 =3D < &pinctrl_enet2 >;
+phy-mode =3D "rmii" ;
+phy-handle =3D < &ethphy1 >;
+// phy-reset-gpios =3D <&gpio5 8 GPIO_ACTIVE_LOW>;
+// phy-reset-duration =3D <200>;
+status =3D "okay" ;
+mdio {
+#address-cells =3D < 1 >;
+#size-cells =3D < 0 >;
+
+ethphy1 : ethernet-phy@1 {
+compatible =3D "ethernet-phy-ieee802.3-c22" ;
+clocks =3D < &clks IMX6UL_CLK_ENET2_REF >;
+clock-names =3D "rmii-ref" ;
+reg =3D < 0 >;
+};
+};
+};
+
+The same config worked on version 5.5.15 without these lines:
+
+clocks =3D <&clks IMX6UL_CLK_ENET2_REF>;
+clock-names =3D "rmii-ref";
+
+Further, when reviewing the changes, I noticed that the following changed i=
+n the imx6ul.dtsi file between the Yocto releases:
+
+fec2: ethernet@20b4000 {
+compatible =3D "fsl,imx6ul-fec", "fsl,imx6q-fec";
+reg =3D <0x020b4000 0x4000>;
+interrupt-names =3D "int0", "pps";
+interrupts =3D <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
+<GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>;
+clocks =3D <&clks IMX6UL_CLK_ENET>,
+<&clks IMX6UL_CLK_ENET_AHB>,
+<&clks IMX6UL_CLK_ENET_PTP>,
+<&clks IMX6UL_CLK_ENET2_REF_125M>,
+<&clks IMX6UL_CLK_ENET2_REF_125M>;
+clock-names =3D "ipg", "ahb", "ptp",
+"enet_clk_ref", "enet_out";
+fsl,num-tx-queues =3D <1>;
+fsl,num-rx-queues =3D <1>;
+fsl,stop-mode =3D <&gpr 0x10 4>;
+fsl,magic-packet;
+fsl,wakeup_irq =3D <0>;
+status =3D "disabled";
+};
+
+Became:
+
+fec2: ethernet@20b4000 {
+compatible =3D "fsl,imx6ul-fec", "fsl,imx6q-fec";
+reg =3D <0x020b4000 0x4000>;
+interrupt-names =3D "int0", "pps";
+interrupts =3D <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
+<GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>;
+clocks =3D <&clks IMX6UL_CLK_ENET>,
+<&clks IMX6UL_CLK_ENET_AHB>,
+<&clks IMX6UL_CLK_ENET_PTP>,
+<&clks IMX6UL_CLK_ENET2_REF_SEL>;
+clock-names =3D "ipg", "ahb", "ptp",
+"enet_clk_ref";
+fsl,num-tx-queues =3D <1>;
+fsl,num-rx-queues =3D <1>;
+fsl,stop-mode =3D <&gpr 0x10 4>;
+fsl,magic-packet;
+fsl,wakeup_irq =3D <0>;
+status =3D "disabled";
+};
+
+Thank you for any assistance in advance.
+
+--qtbp8g6ewGCmggJc024Y
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>
+<div id=3D"bodyDisplay" class=3D"lia-message-body lia-component-message-vie=
+w-widget-body lia-component-body-signature-highlight-escalation lia-compone=
+nt-message-view-widget-body-signature-highlight-escalation">
+<div class=3D"lia-message-body-content">
+<p>I have migrated over to a Yocto build with the 6.6.52 kernel, and I am s=
+truggling to get the Ethernet to work. When migrating, I have noticed that =
+the TX_CLK line is a constant value and not a sinusoidal clock. I have trie=
+d building multiple boards from the meta-3rd-party layer, however I have no=
+t been able to see a clock signal.<br /><br />Please advise if something ne=
+eds to change in my config:<br /><br /></p>
+<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: Menlo=
+, Monaco, 'Courier New', monospace; font-weight: normal; font-size: 12px; l=
+ine-height: 18px; white-space: pre;">
+<div><span style=3D"color: #4ec9b0;">pinctrl_enet2</span><span style=3D"col=
+or: #cccccc;">: </span><span style=3D"color: #dcdcaa;">enet2grp</span><span=
+ style=3D"color: #cccccc;"> {</span></div>
+<div><span style=3D"color: #cccccc;"> fsl,pins =3D &lt;</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_GPIO1_IO07__ENET2_MDC</span><span style=3D"color: #cccccc;"> </=
+span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_GPIO1_IO06__ENET2_MDIO</span><span style=3D"color: #cccccc;"> <=
+/span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_RX_EN__ENET2_RX_EN</span><span style=3D"color: #cccccc;">=
+ </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_RX_ER__ENET2_RX_ER</span><span style=3D"color: #cccccc;">=
+ </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_RX_DATA0__ENET2_RDATA00</span><span style=3D"color: #cccc=
+cc;"> </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_RX_DATA1__ENET2_RDATA01</span><span style=3D"color: #cccc=
+cc;"> </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_TX_EN__ENET2_TX_EN</span><span style=3D"color: #cccccc;">=
+ </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_TX_DATA0__ENET2_TDATA00</span><span style=3D"color: #cccc=
+cc;"> </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_TX_DATA1__ENET2_TDATA01</span><span style=3D"color: #cccc=
+cc;"> </span><span style=3D"color: #b5cea8;">0x1b0b0</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #b5cea8;=
+">MX6UL_PAD_ENET2_TX_CLK__ENET2_REF_CLK2</span><span style=3D"color: #ccccc=
+c;"> </span><span style=3D"color: #b5cea8;">0x4001b031</span></div>
+<div><span style=3D"color: #cccccc;"> &gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> };</span></div>
+</div>
+<p><br /><br /></p>
+<div style=3D"color: #cccccc; background-color: #1f1f1f; font-family: Menlo=
+, Monaco, 'Courier New', monospace; font-weight: normal; font-size: 12px; l=
+ine-height: 18px; white-space: pre;">
+<div><span style=3D"color: #9cdcfe;">&amp;fec2</span><span style=3D"color: =
+#cccccc;"> {</span></div>
+<div><span style=3D"color: #cccccc;"> pinctrl-names =3D </span><span style=
+=3D"color: #ce9178;">"default"</span><span style=3D"color: #cccccc;">;</spa=
+n></div>
+<div><span style=3D"color: #cccccc;"> pinctrl-0 =3D &lt;</span><span style=
+=3D"color: #9cdcfe;">&amp;pinctrl_enet2</span><span style=3D"color: #cccccc=
+;">&gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> phy-mode =3D </span><span style=3D"co=
+lor: #ce9178;">"rmii"</span><span style=3D"color: #cccccc;">;</span></div>
+<div><span style=3D"color: #cccccc;"> phy-handle =3D &lt;</span><span style=
+=3D"color: #9cdcfe;">&amp;ethphy1</span><span style=3D"color: #cccccc;">&gt=
+;;</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #6a9955;=
+">// phy-reset-gpios =3D &lt;&amp;gpio5 8 GPIO_ACTIVE_LOW&gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #6a9955;=
+">// phy-reset-duration =3D &lt;200&gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> status =3D </span><span style=3D"colo=
+r: #ce9178;">"okay"</span><span style=3D"color: #cccccc;">;</span></div>
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #dcdcaa;=
+">mdio</span><span style=3D"color: #cccccc;"> {</span></div>
+<div><span style=3D"color: #cccccc;"> #address-cells =3D &lt;</span><span s=
+tyle=3D"color: #b5cea8;">1</span><span style=3D"color: #cccccc;">&gt;;</spa=
+n></div>
+<div><span style=3D"color: #cccccc;"> #size-cells =3D &lt;</span><span styl=
+e=3D"color: #b5cea8;">0</span><span style=3D"color: #cccccc;">&gt;;</span><=
+/div>
+<br />
+<div><span style=3D"color: #cccccc;"> </span><span style=3D"color: #4ec9b0;=
+">ethphy1</span><span style=3D"color: #cccccc;">: </span><span style=3D"col=
+or: #dcdcaa;">ethernet-phy@1</span><span style=3D"color: #cccccc;"> {</span=
+></div>
+<div><span style=3D"color: #cccccc;"> compatible =3D </span><span style=3D"=
+color: #ce9178;">"ethernet-phy-ieee802.3-c22"</span><span style=3D"color: #=
+cccccc;">;</span></div>
+<div><span style=3D"color: #cccccc;"> clocks =3D &lt;</span><span style=3D"=
+color: #9cdcfe;">&amp;clks</span><span style=3D"color: #cccccc;"> </span><s=
+pan style=3D"color: #b5cea8;">IMX6UL_CLK_ENET2_REF</span><span style=3D"col=
+or: #cccccc;">&gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> clock-names =3D </span><span style=3D=
+"color: #ce9178;">"rmii-ref"</span><span style=3D"color: #cccccc;">;</span>=
+</div>
+<div><span style=3D"color: #cccccc;"> reg =3D &lt;</span><span style=3D"col=
+or: #b5cea8;">0</span><span style=3D"color: #cccccc;">&gt;;</span></div>
+<div><span style=3D"color: #cccccc;"> };</span></div>
+<div><span style=3D"color: #cccccc;"> };</span></div>
+<div><span style=3D"color: #cccccc;">};</span></div>
+</div>
+<p><br /><br />The same config worked on version 5.5.15 without these lines=
+:<br /><br />clocks =3D &lt;&amp;clks IMX6UL_CLK_ENET2_REF&gt;;<br />clock-=
+names =3D "rmii-ref";<br /><br />Further, when reviewing the changes, I not=
+iced that the following changed in the imx6ul.dtsi file between the Yocto r=
+eleases:<br /><br />fec2: ethernet@20b4000 {<br />compatible =3D "fsl,imx6u=
+l-fec", "fsl,imx6q-fec";<br />reg =3D &lt;0x020b4000 0x4000&gt;;<br />inter=
+rupt-names =3D "int0", "pps";<br />interrupts =3D &lt;GIC_SPI 120 IRQ_TYPE_=
+LEVEL_HIGH&gt;,<br />&lt;GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH&gt;;<br />clocks =
+=3D &lt;&amp;clks IMX6UL_CLK_ENET&gt;,<br />&lt;&amp;clks IMX6UL_CLK_ENET_A=
+HB&gt;,<br />&lt;&amp;clks IMX6UL_CLK_ENET_PTP&gt;,<br />&lt;&amp;clks IMX6=
+UL_CLK_ENET2_REF_125M&gt;,<br />&lt;&amp;clks IMX6UL_CLK_ENET2_REF_125M&gt;=
+;<br />clock-names =3D "ipg", "ahb", "ptp",<br />"enet_clk_ref", "enet_out"=
+;<br />fsl,num-tx-queues =3D &lt;1&gt;;<br />fsl,num-rx-queues =3D &lt;1&gt=
+;;<br />fsl,stop-mode =3D &lt;&amp;gpr 0x10 4&gt;;<br />fsl,magic-packet;<b=
+r />fsl,wakeup_irq =3D &lt;0&gt;;<br />status =3D "disabled";<br />};<br />=
+<br />Became:<br /><br />fec2: ethernet@20b4000 {<br />compatible =3D "fsl,=
+imx6ul-fec", "fsl,imx6q-fec";<br />reg =3D &lt;0x020b4000 0x4000&gt;;<br />=
+interrupt-names =3D "int0", "pps";<br />interrupts =3D &lt;GIC_SPI 120 IRQ_=
+TYPE_LEVEL_HIGH&gt;,<br />&lt;GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH&gt;;<br />clo=
+cks =3D &lt;&amp;clks IMX6UL_CLK_ENET&gt;,<br />&lt;&amp;clks IMX6UL_CLK_EN=
+ET_AHB&gt;,<br />&lt;&amp;clks IMX6UL_CLK_ENET_PTP&gt;,<br />&lt;&amp;clks =
+IMX6UL_CLK_ENET2_REF_SEL&gt;;<br />clock-names =3D "ipg", "ahb", "ptp",<br =
+/>"enet_clk_ref";<br />fsl,num-tx-queues =3D &lt;1&gt;;<br />fsl,num-rx-que=
+ues =3D &lt;1&gt;;<br />fsl,stop-mode =3D &lt;&amp;gpr 0x10 4&gt;;<br />fsl=
+,magic-packet;<br />fsl,wakeup_irq =3D &lt;0&gt;;<br />status =3D "disabled=
+";<br />};<br /><br />Thank you for any assistance in advance.</p>
+</div>
+</div>
+</div>
+
+--qtbp8g6ewGCmggJc024Y--
 
