@@ -2,86 +2,83 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A63E5C02194
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 18:58:59 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.124880.1738695532558048502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E159C02193
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 19:02:19 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web11.124612.1738695734077575184
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 10:58:52 -0800
+ Tue, 04 Feb 2025 11:02:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bBSzQQwa;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6d8a3e99e32so52853716d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 10:58:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HnHcNi3f;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6dd1962a75bso45999896d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 11:02:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738695531; x=1739300331; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1738695733; x=1739300533; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ffTlZ5M7xkAelI5eWHi1pFirPj/inHlruAfrw3b/7bE=;
-        b=bBSzQQwa9a3EYAwhq9bY2K1iATQTwlsHxwiYJRWe9G0nr7m5PCnKsAT7QjKA4C0hgl
-         3mXye429pisCTfb3stAdNlDFQOpmGgfs3n3J+iqz1CuT3kNkIsGsBArCq4VruFzbAvVE
-         sr0KRAcmBsUNjQEuBmpM4BTAo/kqwuRXJWo437uMirQhmaLDrSmquTCi/Y9Uu4IdHEKn
-         ZwxAhuQ2vyTEeZsFs0HcptsLbBxyRv8BtvA09fLA0k0iH5WZwJFKa/9QCtS9+JZa6xVd
-         9VbqbYCF8YJ5ruBzfSEln85qMaKnV8uNt7fxibZqdrLJIZweYwwRdpacJ6SfmYIJ2BSK
-         ggAw==
+        bh=e/9lSusghevNNdefFX5vkVulI1nnuckJ1GX10pKtWSI=;
+        b=HnHcNi3f9QIDSIgPoapyhuZCuzBTg9t+AF42jKorIoMKcnlVEPte9n5dQY3pzaTs4Q
+         hyEAxQs1s/xj+3Ob1YcSHlv3D7y8N/EiXP1ISPzz0JIo582ctfgZaJurK7ZskCKDp3JC
+         P1MuQmbVR1J/wdnz//XeI6vloBlglsqtoIWCQcO8uRCA4lgky4gy0+8wuwy8rAKt62Lz
+         A8HgDpJ+slm25e6mQpJ6UIyZOEGEh1f3ycm3hULZUmy+wI6r6v2Yr2w3UKNA+volTe4P
+         7f1CXPCMUDLQSlVIL/ojyYqyoDADkNl7GfoSbM93TnssOEk0bF66e5E+rMIgy0q046Gj
+         IR9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738695531; x=1739300331;
+        d=1e100.net; s=20230601; t=1738695733; x=1739300533;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ffTlZ5M7xkAelI5eWHi1pFirPj/inHlruAfrw3b/7bE=;
-        b=e148CfwjjJ05jsAzlEdIfu8dFCYoOq1fVQ9GqOeO1mrFpfmWQEt+wOI1g0Vmk1a3wR
-         laQXWv6SjUmD3TMY2VITFmP2+lAgN6NQX8fZS2PC6sqtv3MMjLgjzSRW7VEVwlYLJDml
-         vMD3dkVlUlowhYCimWatjM7eNadz72F6RKVUwxox28QOLjiDXrp+CtIwZwOwEjQi4Iwo
-         XaM7z53Pjm0al9Q9fATUN0cBH0+DpH8utPwDkI/5u1Ab21bZ07hOOHM+lyvA3N0qNYBX
-         26gy/Ajpk7sIWPqo06i/hnQbu2ZbKCu8vqVa2umcrdHB952KhEctUPVaI2diJYvuzofs
-         2ZRA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWGVbjSMB6tIoufC16NxLOqu15/ZP/AhVSYPgKcdiXCiFlXGwNL5FE5kIEpVp4X66bBygGZsH8DlJo6c1MbW2QUA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YylBgKEq7Yz67bQk8H4AkdC+t0Zh6D/KR9sGr16b1FPGPswHOXw
-	QNpX8hE6UB1CLToMJ4jv5s9OJkOvf4SvN4b5Kau3uuJoCoPqt2wqHDp6kv4G3o9ITO9ay8AKDEW
-	+DRNAKxu+SRY2VwFJ5hJCB4TpHTs=
-X-Gm-Gg: ASbGncu2djRioB1ya/+/1G0DswHdepKgyiGMb4vzMhP6Et6vUJOtrFaFyGIFCQKjIb2
-	3xsF/rHjY3wrbOwxrHLzmpNXL5ri0IUx+AJI3jfo6pejZr+i+fq21/vk6NtlVUCFQiDXB1wnmmb
-	kk2fy9unCtfMvQ9jmnfAueJ7+mRJ6hRW0=
-X-Google-Smtp-Source: AGHT+IHLrykbpf9K0l391dMUDaq8sQNaKHSfj4zhA0klM84e8IkvPmay8Anznqsi/qxXzqeoKd+1SQEAioRqslS74g8=
-X-Received: by 2002:ad4:58e4:0:b0:6e4:2bb6:275c with SMTP id
- 6a1803df08f44-6e42bb62863mr27521226d6.19.1738695531614; Tue, 04 Feb 2025
- 10:58:51 -0800 (PST)
+        bh=e/9lSusghevNNdefFX5vkVulI1nnuckJ1GX10pKtWSI=;
+        b=Yt84ys+a8+oVtVqD2KqckQh1mfr20Ppq1bqW1xgpABH2Cffj0IKUO7+Hq9O1s0ITsB
+         Mtks22cmrRPsupSESUbyxitK2yHd0+bf0bGMl/ncTahbjbKWLXZWZIIPor3GOfKV78rr
+         r1Ul2vEH5P89yJDmCeZuQg7DZEtqpPvlale2YaUvP0fEt3boz8sLDMHu/0wVQUXEiPM8
+         HnKaq/RqfdUblvLqhXU3yl3pvpy8ESZZ46OQYxEHV4aQCFlfgDGJjLqQ8yiawDwkxFZo
+         /+NWEDpW980hiwwVIUfsN67DjZbzDOIARpwtnrZc9Rs1pEOVYPojD74SboRmM+KHZ6t/
+         zC8g==
+X-Gm-Message-State: AOJu0YwIMktidHzNJQ8OqOOGiBOiEJ/zRs9z5SGCs1lXjn6DNfZgxwc9
+	xV0YSmwZnVxs5AyXEnlVfQPkYk37Zx+2R6Ca6HuC9jZRnVjf+959r7Y8UA2M7cFl9Vvc3bNsIJh
+	VJFsK867SqxU4k6Xzi1FqhIY4otQ=
+X-Gm-Gg: ASbGnctj6mVZQKB53Bzev+Iv7icZ/oYiHfrZazUnoAl5ltuVpW1p0glBGAimVEW+rqv
+	FOFqmX/Dq6FQvi1koKNX1t/siV4mIiG/PWKj8CaetWciyGm+AYc6xdWe/nETGAJFNV/o238GF3W
+	ZlxWhgwLCR/jXh/wge5Zo8JMYqVPcUnvk=
+X-Google-Smtp-Source: AGHT+IFHqxdAePKvzeIwm7exSMeB4dzoieonmxes8onWgMM2n4/IweJk2QqjS02gDQ4gdu1uCjwjWL7EWHUUmEjwc4U=
+X-Received: by 2002:ad4:551c:0:b0:6e4:2343:816e with SMTP id
+ 6a1803df08f44-6e4234382e7mr38663906d6.39.1738695732984; Tue, 04 Feb 2025
+ 11:02:12 -0800 (PST)
 MIME-Version: 1.0
-References: <CAOSpxdYfp_rjUkofvCQk6VFbJj8TkCv-eWjb=V5U5TavT++Pfg@mail.gmail.com>
- <7067.1738686633751194071@lists.openembedded.org> <CAOSpxdYXfpROfknEGgNGdxmyfekOKgstxgOQZtvMuC015NPQuw@mail.gmail.com>
-In-Reply-To: <CAOSpxdYXfpROfknEGgNGdxmyfekOKgstxgOQZtvMuC015NPQuw@mail.gmail.com>
+References: <20250204103744.27883-1-othacehe@gnu.org> <CANNYZj-O24h9m9gG-yHpDX4s9OxrJrfkfKDuETcXFq8X_r99ow@mail.gmail.com>
+ <87y0ylga3d.fsf@gnu.org> <CANNYZj9tjKN_Evr3KR7mNDMABXAgbLoCFL=EnoQviXa4+Mg7Kw@mail.gmail.com>
+ <87tt99g52h.fsf@gnu.org>
+In-Reply-To: <87tt99g52h.fsf@gnu.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 4 Feb 2025 19:58:40 +0100
-X-Gm-Features: AWEUYZnVIdPlX9Cx0bKmG1dRIYoZMiIzR2KMJ4qNVRU58RkQwvE-oxQ9ksJPXlE
-Message-ID: <CANNYZj8EcX6jHXXmcf_=Hx3-AQStBBdn9FOdv4Oi89OZXooW4A@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] gnupg: upgrade 2.4.4 -> 2.4.5
-To: Steve Sakoman <steve@sakoman.com>
-Cc: gudni.m.g@gmail.com, openembedded-core@lists.openembedded.org
+Date: Tue, 4 Feb 2025 20:02:01 +0100
+X-Gm-Features: AWEUYZmhNz2zTJx_ac3I0zKER2d5I38dNjJ8SMUA3rxaGDmqaGULHUQRAOVbfTE
+Message-ID: <CANNYZj8vYdZz4-NpYg2hCJ3d9xNvN-Ugrr0cRpKT3-k6j9+Wbg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] lib/oe/package: Add strip keep-section support
+To: Mathieu Othacehe <othacehe@gnu.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Quentin Schulz <quentin.schulz@cherry.de>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 18:58:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210818
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 19:02:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210819
 
-On Tue, 4 Feb 2025 at 18:53, Steve Sakoman <steve@sakoman.com> wrote:
-> Understood, but without the patch I get an error free build, and with
-> the patch I get these errors.
->
-> I've tried twice with and without your patch, and the issue is reproducible.
->
-> I'm open to suggestions, copying Alex since he's more familiar with
-> building rust than I am!
+On Tue, 4 Feb 2025 at 15:25, Mathieu Othacehe <othacehe@gnu.org> wrote:
 
-I see
+> So minidebuginfo and PACKAGE_KEEP_SECTIONS are two very different
+> things, serving different purposes. Even though the combination of both
+> is required on some architectures to get full backtraces, I don't think
+> that they should be tied together.
 
-/lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.36' not found
-(required by /srv/pokybuild/yocto-worker/qemux86-tc/build/build-st-2023465/tmp/work/core2-32-poky-linux/rust/1.75.0/recipe-sysroot-native/usr/lib/libexpat.so.1)
+Fair enough. What you say should be documented though, perhaps you
+could revise your docs patch to include these things.
 
-I can't explain what gnupg can possibly have to do with this, I can
-only suggest that the failing test needs to be reproduced locally
-first on the submitter's side.
+If you figure out how to test, that would be good as well. Ideally
+without adding another image build to the test, but
+adjusting/extending something that already exists.
 
 Alex
 
