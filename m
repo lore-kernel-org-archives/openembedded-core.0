@@ -1,979 +1,234 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5FAC02193
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 17:14:29 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.121759.1738689261175442770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3C4C02193
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 17:34:29 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.56])
+ by mx.groups.io with SMTP id smtpd.web11.122346.1738690458471572062
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 09:14:21 -0800
+ Tue, 04 Feb 2025 09:34:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OTBcw0x7;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-215770613dbso80322475ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 09:14:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738689260; x=1739294060; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7YwH9ANRNrJqgZ45OV2SltmRGY3p2UMaXHD5DLhquUI=;
-        b=OTBcw0x7HkdQEwrHVI+7M8knNFv/v1V0eBTfCn5Ik9fFI4YlHvx8c98HHDbzU1kQ8R
-         9k8QmsgPIO/SFgqm3N4toEUcHpf1CqdX1HXs7d7gQJXN8b4b6pq1L6Fv52GGI6S2K1Em
-         ALql2SPy6hy87kew9PHzIPJM1X2rwHFCq8VfSn0B5K3eJpH4eczaeevsTp/xD4h0A7kP
-         T29nRMl2UtuM/faklvn0OVOrFozGSAC0UPwtTp6MHmnz896LlXasIOPrWrhMDpEMqE7i
-         t9+dfp2Ekxnezg1fPCzhIGfv0yg8mGXhX3Pp8GeT6LBN1yTwdrW3bfHu4xC+oT/xqeLz
-         ZaRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738689260; x=1739294060;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7YwH9ANRNrJqgZ45OV2SltmRGY3p2UMaXHD5DLhquUI=;
-        b=hWRdvvEvrSt35NMM+y9ryJSQo/ecLiu8+UTnNAHOsdGr7FquunMmOo1mm1tao6DOwV
-         beRvpOme072OBZMYbOhLwBXLbZ5FTsDD+r/U9nmQ2SzAIGYIGpGllakjdIhI5YdfK+ic
-         37Qu5sTnge8OI54fFgm29j/YrxkWfY2Ep54R7rNGFgTwjBbcYwZFChe+iZ7KdlqO9DQB
-         GKKmKkg0Wq8Kh1z+wF4/VSAlijs2EPK/ASUXssvD8HkdTqJRaWgvl5zBjqWksIYKcxD+
-         M9Ca0Mrtx/L60/lGMirOS629xsOhja1ztMtFzO5r2nOug4OkZVmZfzj/FRFCqvQzKQRr
-         Q5sA==
-X-Gm-Message-State: AOJu0YxkA7VxvxFqNQI0iGlPPJj8O3y8IrAcDCidM5mW8W82LC/ALN8F
-	mcAoJuvH5kwBBfXBLqTm/YUpDNRwbtoYgoWEv/eN+8sfmgsgT1fY+yzebYPa
-X-Gm-Gg: ASbGncuk8udgLopoEKk4J5+CzGefty8hBgI1nulhkXvejL2tm2qbqBVHRh1SMl4nCbd
-	kKZBjnuHzxS1o4hq1TYGAXI1qM1ELtBai/9pQm7BBb21UZMvnOumHQ0BJaFlJOgu0hCx/+QGdtB
-	4UUQwau7y+WFJvGs7EvcsOBePo6LSAn8FkwtKOljqG3z9jddHLF212t77SlWwxeOM/Kk/btw4mg
-	cv3XvVptccdA65ZOCaSNNzBta+BMSW4olrVGkZoGk4qCWgT1H0500Zctf7z7lBUPT6y+iUp//kT
-	Pj7p03A=
-X-Google-Smtp-Source: AGHT+IE+CdDoJEN93ej5x6F/rNq+++YChRjU1dz31RHaD3JeP5peadzwR64ZL2YJGWx4QvXlN6WgbQ==
-X-Received: by 2002:a05:6a20:2d27:b0:1e1:a716:3172 with SMTP id adf61e73a8af0-1ed7a4dcd4cmr40800717637.12.1738689259761;
-        Tue, 04 Feb 2025 09:14:19 -0800 (PST)
-Received: from apollo.localdomain ([2601:646:8201:fd20::c09e])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acebe856951sm10176340a12.34.2025.02.04.09.14.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 09:14:19 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] glibc: Upgrade to 2.41 release
-Date: Tue,  4 Feb 2025 09:14:15 -0800
-Message-ID: <20250204171415.502479-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=hde1oR1I;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=hde1oR1I;
+ spf=pass (domain: arm.com, ip: 40.107.20.56, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=m5XdRVODqn9QWSTGkcF2ICO1v/iYhnIp8oGFf54uXoHErsdcG2EpDPfLR83R56SwVUuGRbh0yVgltwIE2oZAq7Fxd8jfFH2EwpA5bH0xB491WDiF/SCuBWxLDhGZeGBVZd/UPgdvnPDaMj3FpvH3kkmwY05R3//q8F1w70bBSO6g78f/QiZL/2Z4nJtHKJfvVTXaSGmOqgaLXyUkf9fxWM0AIm1YGR8Zstt2YEBzQ3yZMK6aoxd7bazKfdLJFEHw1OYIEuLNWr+hYyuaIZRaoLqVoZa6g2qCIsXev2p0hFOtN6b0lCVRlY1b8XIpPKd5NULmKb7A6g5DRZu/Vq2V6Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OzxLdaaRimhlsXxbAFK6WYpkRboMT0U0/MDZdGfilBI=;
+ b=VoGOil0pwphz7MoDJxbAX/rCl8cp8yZck+kZVTZdmzfnty98TFS9gBECQZJR33vA9Rm1ONc2K01UrjYd3dUQGQp3F1/cjltSOm7aNmuP6OEEF2x5NDLn8wxCjWvj14Pj6nPhJK0wEDBL/0PuR+RFdAL+CudKm2Z9tjumtfjY/KKQlVLBEZp9PtByDS8o6gPRsDIiFb/BnN4pBLlSCr3EA+hX53e14SJdcm1InFjOuW1wDIMls+E86ch/+k+Kixc1AqHlO11iqs/c+WOk8Is5lXXnksx9fIpGRDC/sQ6YI30UDEmCYQLDi4m4rR9+ojkXuYK+6j7LxHrZnGJthTkV0g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OzxLdaaRimhlsXxbAFK6WYpkRboMT0U0/MDZdGfilBI=;
+ b=hde1oR1In8SG0fjBGNWXSLOZw0Nl8cqZYz1pf2F8nyPk5RK6RJgMi3y0R+f/vq1jN1h79UWNK7UL3tXCMMNZ2F8Ou4jSV8aqIlBcWJaSt+VXe04HJpBQOPwMMnHey+eMagdOzXDzEr+qPuajcvTCgQgnzeIZZVPoeLXfokFqpKY=
+Received: from DBBPR09CA0018.eurprd09.prod.outlook.com (2603:10a6:10:c0::30)
+ by GVXPR08MB11096.eurprd08.prod.outlook.com (2603:10a6:150:1ff::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Tue, 4 Feb
+ 2025 17:34:14 +0000
+Received: from DB1PEPF00039231.eurprd03.prod.outlook.com
+ (2603:10a6:10:c0:cafe::46) by DBBPR09CA0018.outlook.office365.com
+ (2603:10a6:10:c0::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.26 via Frontend Transport; Tue,
+ 4 Feb 2025 17:34:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB1PEPF00039231.mail.protection.outlook.com (10.167.8.104) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14
+ via Frontend Transport; Tue, 4 Feb 2025 17:34:12 +0000
+Received: ("Tessian outbound cd7bee7c735c:v560"); Tue, 04 Feb 2025 17:34:12 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: f1b5ad66dd4b244e
+X-TessianGatewayMetadata: pfgVt0z64m68yp0rISGdmms/Mw5CAAXSsbLaBcPLRjOkvwiSZ3aa0+r1mLRJ5bC5z3/YeWhlGbo6qXXZMZvGgGr4fdIbK5QNvykRdD1fdeAH023S0BAhFclkMwFkUEF/t/szs4gVXUiGDll7lqb7Qt0iia1pS3bVzS094WKi9zw=
+X-CR-MTA-TID: 64aa7808
+Received: from L749f5d3bc8d2.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 87E41FC6-B428-45BD-9548-AECA9D57E95C.1;
+	Tue, 04 Feb 2025 17:34:05 +0000
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L749f5d3bc8d2.1
+    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+    Tue, 04 Feb 2025 17:34:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rdntRGFP+bwrhcpUDzS5f3UOWR2JbvXwOnQsl9nHKzHL0tmyGrwXOKqZNychjk8Aoya0wv7t6R7VbQ1j4dAgx6bcs6xx0+DkIgG0jSBD9C2PD2PKn0zc+O3hFqbZg2UVl8X3Nxq9rrCutYa0JMnJFgA+iSmLCSzwMXprUvFDASXSdX4+KHLh2LjYouNIX9/ivgIf8KY6MbM0xvZeWoRnf3t89nybkOjrp9TTQ1nJOOdaD0o3FEUHN3Z4cDhwfvXJAWPIRdg/Qxwbpw6JaaGX/oOsQwRoCFxsGVlULaSJ5we9OQn66oJFxejSWrDiKNdSfJr3ywtSwIsbcI2woNmrKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OzxLdaaRimhlsXxbAFK6WYpkRboMT0U0/MDZdGfilBI=;
+ b=MMnmyj49Nhij+NEm6KwazihqCEosah0yMPFmk0nLLyUY5s6dhI7qwlPSNuLsG//pZKwzus76XgRZ2NMmUFspPA9NlX5ZRtxwMZRMTslm4ITNOGQMAuHJfpggO+ORriUniUMrIF5xYuYHDrnJQUH6ro/MIjMUDWOx9Cj0xnw4ey05zqgyL+auLe7eOSR52Vrl+3KIPvZ2jJ6qHdqdnCQyJK0vyz5zXmsWdJhDc718flVZzdPIX4Wdg4iNpF/WdrgklIFpoJqbkLbdT4523xc9j6m78O8J2vQk6qY+ff33i26neG3z+pJQEka+ykKjlLTLLvO/SZTMrg9ssu8ag5dWXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OzxLdaaRimhlsXxbAFK6WYpkRboMT0U0/MDZdGfilBI=;
+ b=hde1oR1In8SG0fjBGNWXSLOZw0Nl8cqZYz1pf2F8nyPk5RK6RJgMi3y0R+f/vq1jN1h79UWNK7UL3tXCMMNZ2F8Ou4jSV8aqIlBcWJaSt+VXe04HJpBQOPwMMnHey+eMagdOzXDzEr+qPuajcvTCgQgnzeIZZVPoeLXfokFqpKY=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DBAPR08MB5574.eurprd08.prod.outlook.com (2603:10a6:10:1ab::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Tue, 4 Feb
+ 2025 17:34:03 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8398.021; Tue, 4 Feb 2025
+ 17:34:02 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] meson.bbclass: Specify a cross binary for cmake
+Thread-Topic: [OE-core] [PATCH] meson.bbclass: Specify a cross binary for
+ cmake
+Thread-Index: AQHbdx7E+lYOPGVflEiMF6cEQi4yBrM3UuGAgAAFDwCAAA+8AA==
+Date: Tue, 4 Feb 2025 17:34:02 +0000
+Message-ID: <8E4AAAAA-DC4E-4A76-BA8E-EE82FDE0722F@arm.com>
+References: <20250204160609.1646883-1-pkj@axis.com>
+ <15230CB2-3678-46F7-B0AD-705DBB8ADB5A@arm.com>
+ <DB5PR02MB10213F946EC053FBB8266773CEFF42@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: 
+ <DB5PR02MB10213F946EC053FBB8266773CEFF42@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.300.87.4.3)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DBAPR08MB5574:EE_|DB1PEPF00039231:EE_|GVXPR08MB11096:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8322a7b5-8ef0-4e46-9389-08dd45422393
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?S0x2Vys2bDlINUphTlovaGc3SVFhclNBM3grSFoxeFJUby9LVmNacjk0ekxO?=
+ =?utf-8?B?d0hySmJIVGFuaDJFSzJHRi9VRFlZd2xvckJpUlhTaiszU2U3V01LOE1yV2xD?=
+ =?utf-8?B?cXg2RjdodXlwMnhMaHlwcFFsbzRFT0x0ZXByQnZnRnlWeEcxMGlIS2JjUmRr?=
+ =?utf-8?B?VVV1ZUd0Q0lxbzVsNXlMRTR4QTYyVnlDbm51K2trMVlibzFva21xcmhRNUJ5?=
+ =?utf-8?B?QjZuZTNSRnNNOUxMb1VDRnVTMlFIZ1g1T0ZhZEh0OTFZTUtCRXFncVdRcHBG?=
+ =?utf-8?B?b3lhRkFocVRFcWNjOXQwTkZPbEZJdnFrY2dQQjNHQ3hCK05UT0JCZG5PMkJk?=
+ =?utf-8?B?ZjdxWGFXQm5uM1hWUzM3dloyRlp1NjhkT0t2S3FPTUFDSklZelN5NFpMNlpn?=
+ =?utf-8?B?bVBoajlldmZwQjZnTWJrK05OR3NEbW1scXhQaElaNXFlUlZSb1N0TElYV3ZX?=
+ =?utf-8?B?UDk4bXlmeXJhK3ZPSDRIOXFyNWJxOE4yOXVmd3JJb2V6WjRhM2JheHpPeVcx?=
+ =?utf-8?B?MGFSRkx2cDhFV1pkL2dtQ2VLNS9qTUxXY3ZXMG95Y1lyNmdienBFYVZMTjcz?=
+ =?utf-8?B?TTFya3hyVUJFM04xSzgxUURXMWJGZnoyd25nd3hDa0RWT2NCalloZTNnb0pH?=
+ =?utf-8?B?VmxXZkNndk92cVV1SEtuUXdOdjE5NWtBOWlYOWVkMEFWSDhXRCt6QndldVh4?=
+ =?utf-8?B?MnNLM1hKM1RWaytNbThqK08rRVB1R25hemI3OEJnd2lJZTl0dElnWDBuWHhX?=
+ =?utf-8?B?dXRUQVJGOE1qbmJXWUo3TlJJZmJZTjhvMGY3dHZGOEgxMjIzTzRUZ1RkSjlP?=
+ =?utf-8?B?RCtzbjBobi9EcTFMLzJ4TXJrOW1qdXJhNW9OTXo1NlBpRW05VFRQaTFMcFNK?=
+ =?utf-8?B?YXFOckVpM0huN1A2VEhSbzNFZmJmMjREdm85bDBJeU5QSXJmQXVuU3R5dDQz?=
+ =?utf-8?B?Qit5MzZlRUlTZTVLU0FrWVFnTk5pWENoMVkzRUVDbXhXNWNMa0xJMStkbENP?=
+ =?utf-8?B?Y3ZHQWtJNTNXdDdXUnR4dFlDWVNVbWxoQzVadjk4Si96VmtZUnlreS9GVmJk?=
+ =?utf-8?B?M0NLRGorZmtwNzNjbE1SUno5aEJjTjJDWGhOU2FOdFIwMlNUeEdGNWtNbXFu?=
+ =?utf-8?B?WVhUamFQUFovVzJvVlQyWlcrWjIvQXlnbWVMWEtBKzhWcDVPODNVM2dzMStL?=
+ =?utf-8?B?T2xVQVhJRVpSYzc0aWt1VFpLTm9ENk80SXhJVFZSaDdQSnFXSm1NOEp6WG5I?=
+ =?utf-8?B?ME5BZXQ2RmRLZC9tQ0ZUYUhuK04vYWQ0ZkVrc28yWjlwMTBIbk1BUlhiSVNN?=
+ =?utf-8?B?Z2RaTENRRVI3akU2TWZOSDJSQnhkQVZrYnlTaXoxeWgySkUvQXF5Yk9JeXU3?=
+ =?utf-8?B?YkNNVmdZZHp0K1FyQ3hjbmFkVG5rR0ROWkovb2swTW8ySDdUcVVlMUlpdm5n?=
+ =?utf-8?B?T0VuSjJ2eUphTnFxNFF3Vm9Qb0l1WHNBNTJSTWNRQTdKbVQ5aEI2UkNjb0M5?=
+ =?utf-8?B?WjJ2anlySkVSN0d0cmxNMk90bExySWVYTXhxckkwNk9BbkNKTGZYbEI0UG9B?=
+ =?utf-8?B?elNDNCtEMFRRWDZBNVhJRkI1SjNJd2VKU0pvTjRCYTlFRjJYR1BPTEkyUmdK?=
+ =?utf-8?B?VWxlQXVoZFJzQlM4NWp3VE1QY0FNNzljUjBxNktCaEpiczA2T3lyejBIRlZD?=
+ =?utf-8?B?M3l0Zmt6bHB5TmpZa3VPSjdEeGZsZWdFYnJrN0lXWVpRMVVITFVQVUV4ME5x?=
+ =?utf-8?B?UXVLRFhyN09qaWRKQXhsdHdYSHZPM3NHQy93a0FvU210TWxXZ0J4UlZTSWVk?=
+ =?utf-8?B?SnMyeUhwZ25TOXF3Y0V1cldST0laWnMwNXpaK2x0bi82aHkxWm9KZmlldVY1?=
+ =?utf-8?B?R2hsQTlYRG8xNlZDajl4dmt4NTJPZXBCZkFlMTB4WVNoT3BDM2xxRkJES1JE?=
+ =?utf-8?Q?OHZEade/2JQic7T0sj5tj8iivxC9UsdW?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4D6D29E85DF95540A50A2D8E05E70821@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5574
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF00039231.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	7f1b65c3-e30b-4d83-ad0e-08dd45421ddc
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|1800799024|376014|35042699022|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?dnBGUHRVQ0QyUHNIbjRZSnVzOVVHaHJMTkliVDFmdGMrVk1zdDNjeXdyWXhX?=
+ =?utf-8?B?RXZwQ0xvMlB2ZFdOeWlIZ2dwUERhRmM4QTlhRkF0aWx6QzVrUFZxNStKN2la?=
+ =?utf-8?B?RldpNWV1eExxWDJuSEFxQ1NERUtyOXdRbzRQUGJHdmxSTWVBSk0xOTNOV05n?=
+ =?utf-8?B?c2VtbEIvYlRrd29xM08rSHJmaUptRHRkUWpydGloeU8vUk1NTTdJTndMbmZX?=
+ =?utf-8?B?dGhRaTQwa0N4bzluUHRyVXZYSEp3SStQNGYrNzVPWTdkdGdkeWc4MzhoVXNU?=
+ =?utf-8?B?dkFnUHBaNndKRVRNNUpPS2RjUmN6WlkwUW1GbWdYUVZZMStFbzl5YXZDMlRJ?=
+ =?utf-8?B?SXVob3lWQXp1ZmQybDd5WXBXTG8xUGtGQVBOaVVqazg2T1N6ZEZpTldleWpN?=
+ =?utf-8?B?VG90UjNxS0cyM2RzMDBxNHJzRmJZWmF1b2NkV3gvRW1xTkpXMWQ0czhVdVg3?=
+ =?utf-8?B?bXAzMjJVY1BNcy8wQW5EMGRtZ0JvVGk0QU1ZbTFqTXh4QzZTSWM1TFg4R0R5?=
+ =?utf-8?B?Sm1jcStVbE12a2dRc2dtT2ZNYzhnamtTTU8wZndOUzM2RC9CVTBIWFgwNFFE?=
+ =?utf-8?B?NlFLSDhEWVpmRGNtZEJTblhVQlBiT0JwQ1pIemY1UE5xV2RFRDRDSXJiVmJR?=
+ =?utf-8?B?TjlnenJKVTBiK2lzVzVFeWlLc0lmVUpSVU5YUlhndVJxWDEyTUMrQ1JLbkF6?=
+ =?utf-8?B?NG9YNm9zRmJYaFljM3NLeGFkbmlRamNnSXVzMTJTanY3TS9VNHVrUGRsV0FW?=
+ =?utf-8?B?NXUwS0JWSDdpQUlVMlFUMkU0Nm9wNnY2ZjNyZkRvYU10d2VkTXZiNGs2blFC?=
+ =?utf-8?B?dWM4ZS93S2Rta01hajRiQ0RocFNlREFBeDJHbGhvaWxRNTFOOE5CVkk5cGM2?=
+ =?utf-8?B?ejg3Vld2YVVYeEg0MEZ0TFBxckptdWFKRUM0MWkzWDgrNjZ1Yy92emlrclV3?=
+ =?utf-8?B?VTQvSEl5SzNiamxCeGRrcHN5RkFINGp2UHdidERWdHFjeG91SWc2RHJYeEZy?=
+ =?utf-8?B?UWk0THNDK2hRVUxGYnJEcjY4dFp3eTJ4MXhoTy9jcjRaNjdGOFg5QmphclVl?=
+ =?utf-8?B?bDlnK0Q4NDh4SnQ4dlg5ajh5MlNTWlpCbDlhQzZNcWlnUDUwbzdtREFJQVQy?=
+ =?utf-8?B?UVY2bjN5Y2MzbWIyblNzc0lOcTI1Q2k4UEo3ZUpJN2IvM3BpRHowRW01NFV3?=
+ =?utf-8?B?bHhRY0FtWVF2UEZIWVgxeGRMNjY1UHNmREd1R0RlWnVmS3BpUUl3cFBXOXpN?=
+ =?utf-8?B?UUFSUnZyTlJUTjFyT2ZrUktlSk9yTXRpUVl3Z21ZTnRJL3gvcm5pcndGMHJi?=
+ =?utf-8?B?YmxaQVc5YnVvUW9SWWYyQUhEQ28zYWw0MVlvd2tDdzRNamt4SUVlQm8zb0JK?=
+ =?utf-8?B?c1FXVEdUVXI0azNUVFhyNGJDaklIWWc0TXhDVEU3YVFSWFpOYld6N1NnRlEv?=
+ =?utf-8?B?L0hjVk94QmFiMWpKY0x5akMvcjJaY3J1L3ZpTkRja0kzTVNrSUxhc0U0a2g5?=
+ =?utf-8?B?NkFDMHlENG1ObnVOTm84bzE4QWpoY1FYYndkWlZEMXhWcVNYUnZ2ZkdvZW45?=
+ =?utf-8?B?NXcyU3dOWnZpOXFiNmgrQVFHTU5VUkd1NEcrdlhnbFAzbnpZLzhkejFVVnNn?=
+ =?utf-8?B?TVlBWXlrZS9WN1dCcDFNWkZFTGN6S08zNmthZzZ5dzNKSFhzRnA5Uk1jRWFw?=
+ =?utf-8?B?UnpPcTNPaUgrMEE4Rk5VOHJTVzNuSUk4YVRMaVBNQmk4Z240bi93eHNIbVh6?=
+ =?utf-8?B?MnFZRE95SW1vVFowNXVWUGVTd09ONUxXd003WnZKZ1UwRE1JcDhUMURTWGlO?=
+ =?utf-8?B?YnFPOTI1QkFDMU5HVGFob0g4OTBDcmx0dWhYS0RhUlpiRjdqeUZxNUFsczBD?=
+ =?utf-8?B?YVpJNUJVai91WUIrTHZtcTAwZU5OYjk2UlJzcEFydlRqOFFqZUNRSHA5VE95?=
+ =?utf-8?B?V0hxY2dVRi80TURYMFoySjZTNUo5NUZPd3hGdFVJQWJLdk5saW9kT3U5S0Za?=
+ =?utf-8?Q?L1BxKQfkU1GvNdAYAvwfhKTTPzZBlI=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(376014)(35042699022)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 17:34:12.3510
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8322a7b5-8ef0-4e46-9389-08dd45422393
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF00039231.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 17:14:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210815
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 17:34:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210816
 
-License-Update: Added license for e_gammaf_r.c [1]
-                added url of CORE-MATH project [2]
-
-* Testing support with different compilers (series)
-* Remove XXX math functions from installed math.h (patch)
-* Remove "%n" from assert (commit)
-* Improve executable stack handling
-* Compile glibc tests with Clang (series 1, series 2)
-* asprintf should write NULL on failure
-* Revert TCB layout changes
-* Fix ld.so crashes with golang test suite
-* Fixes after GET_ADDR_ARGS removal
-* Extend Rseq Support, plus x32 fixup
-* sh4: ensure FPSCR.PR==0 when executing FRCHG [BZ #27543]
-* affinity-inheritance test: overallocate CPU sets
-* rseq-related aarch64 test failures
-* arc4random test failure under load
-* benchtests: Add dummy in put files cospi, cospif, sinpi, sinpif, tanpi, tanpif
-* pthread condvar missing signal, bug 25847
-* aarch64: Add support for Guarded Control Stack extension
-* testsuite: Make stdio-common/tst-printf-format-*-mem UNSUPPORTED if the mtrace output does not exist
-
-Further Release Notes [3] [4]
-
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=2843e78b30da0aa743fdfb0ac61435c925182c04
-[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=d421d36582281a62e05f96a1bfb085db9d85f40b
-[3] https://sourceware.org/glibc/wiki/Release/2.41
-
-[4] https://sourceware.org/pipermail/libc-announce/2025/000045.html
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Drop accidental libmodule change
-
- meta/conf/distro/include/tcmode-default.inc   |  2 +-
- ...2.40.bb => cross-localedef-native_2.41.bb} |  2 +-
- meta/recipes-core/glibc/glibc-common.inc      |  4 +-
- ...bc-locale_2.40.bb => glibc-locale_2.41.bb} |  0
- ...bc-mtrace_2.40.bb => glibc-mtrace_2.41.bb} |  0
- ...-scripts_2.40.bb => glibc-scripts_2.41.bb} |  0
- ...tsuite_2.40.bb => glibc-testsuite_2.41.bb} |  0
- meta/recipes-core/glibc/glibc-version.inc     |  6 +--
- ...ests_2.40.bb => glibc-y2038-tests_2.41.bb} |  0
- ...dd-hardlink-resolver-from-util-linux.patch |  2 +-
- ...-fix-ups-hardlink-to-make-it-compile.patch |  2 +-
- ...Look-for-host-system-ld.so.cache-as-.patch |  8 ++--
- ...Fix-buffer-overrun-with-a-relocated-.patch |  6 +--
- ...Raise-the-size-of-arrays-containing-.patch | 22 +++++-----
- ...k-glibc-Allow-64-bit-atomics-for-x86.patch |  4 +-
- ...Make-relocatable-install-for-locales.patch | 10 ++---
- ...Fall-back-to-faccessat-on-faccess2-r.patch |  4 +-
- ...the-path-sets-wrong-config-variables.patch | 43 +------------------
- ...ss-building-and-testing-instructions.patch |  2 +-
- ...glibc-Help-bootstrap-cross-toolchain.patch |  4 +-
- ...eglibc-Resolve-__fpscr_values-on-SH4.patch |  4 +-
- ...port-cross-locale-generation-support.patch | 24 +++++------
- ...-archive-uses-a-hard-coded-locale-pa.patch |  4 +-
- ...Do-not-ask-compiler-for-finding-arch.patch |  4 +-
- ...y-the-header-between-arm-and-aarch64.patch |  8 ++--
- ...h-printf-builtin-in-nscd-init-script.patch |  2 +-
- ...igure.ac-Set-libc_cv_rootsbindir-onl.patch |  2 +-
- ...ell-interpreter-overridable-in-tzsel.patch |  6 +--
- ...Use-bin-sh-default-shell-interpreter.patch |  4 +-
- ...d-failed-in-unprivileged-process-BZ-.patch |  4 +-
- ...build-time-paths-in-the-output-binar.patch |  6 +--
- ...u-tests-that-can-hang-in-oe-selftest.patch | 16 +++----
- ...ndomness-in-__gen_tempname-bug-32214.patch | 29 -------------
- .../glibc/{glibc_2.40.bb => glibc_2.41.bb}    |  1 -
- 34 files changed, 83 insertions(+), 152 deletions(-)
- rename meta/recipes-core/glibc/{cross-localedef-native_2.40.bb => cross-localedef-native_2.41.bb} (96%)
- rename meta/recipes-core/glibc/{glibc-locale_2.40.bb => glibc-locale_2.41.bb} (100%)
- rename meta/recipes-core/glibc/{glibc-mtrace_2.40.bb => glibc-mtrace_2.41.bb} (100%)
- rename meta/recipes-core/glibc/{glibc-scripts_2.40.bb => glibc-scripts_2.41.bb} (100%)
- rename meta/recipes-core/glibc/{glibc-testsuite_2.40.bb => glibc-testsuite_2.41.bb} (100%)
- rename meta/recipes-core/glibc/{glibc-y2038-tests_2.40.bb => glibc-y2038-tests_2.41.bb} (100%)
- delete mode 100644 meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
- rename meta/recipes-core/glibc/{glibc_2.40.bb => glibc_2.41.bb} (98%)
-
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 68a9515e0be..6affa6d7184 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -24,7 +24,7 @@ GCCVERSION ?= "14.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.44%"
- GDBVERSION ?= "16.%"
--GLIBCVERSION ?= "2.40%"
-+GLIBCVERSION ?= "2.41%"
- LINUXLIBCVERSION ?= "6.12%"
- QEMUVERSION ?= "9.2%"
- GOVERSION ?= "1.22%"
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.40.bb b/meta/recipes-core/glibc/cross-localedef-native_2.41.bb
-similarity index 96%
-rename from meta/recipes-core/glibc/cross-localedef-native_2.40.bb
-rename to meta/recipes-core/glibc/cross-localedef-native_2.41.bb
-index fed6e4ea970..5aeb84ac800 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.40.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.41.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/libc/libc.html"
- SECTION = "libs"
- LICENSE = "LGPL-2.1-only"
- 
--LIC_FILES_CHKSUM = "file://LICENSES;md5=f77e878d320e99e94ae9a4aea7f491d1 \
-+LIC_FILES_CHKSUM = "file://LICENSES;md5=df6e0948b55669789c30764c5fd9bc41 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
-diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/glibc/glibc-common.inc
-index 72d5dcd74bb..e048f75c5d7 100644
---- a/meta/recipes-core/glibc/glibc-common.inc
-+++ b/meta/recipes-core/glibc/glibc-common.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.gnu.org/software/libc/libc.html"
- SECTION = "libs"
- LICENSE = "GPL-2.0-only & LGPL-2.1-or-later"
- 
--LIC_FILES_CHKSUM ?= "file://LICENSES;md5=f77e878d320e99e94ae9a4aea7f491d1 \
-+LIC_FILES_CHKSUM ?= "file://LICENSES;md5=df6e0948b55669789c30764c5fd9bc41 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
-@@ -22,4 +22,4 @@ ARM_INSTRUCTION_SET:armv6 = "arm"
- #
- COMPATIBLE_HOST:libc-musl:class-target = "null"
- 
--PV = "2.40+git"
-+PV = "2.41+git"
-diff --git a/meta/recipes-core/glibc/glibc-locale_2.40.bb b/meta/recipes-core/glibc/glibc-locale_2.41.bb
-similarity index 100%
-rename from meta/recipes-core/glibc/glibc-locale_2.40.bb
-rename to meta/recipes-core/glibc/glibc-locale_2.41.bb
-diff --git a/meta/recipes-core/glibc/glibc-mtrace_2.40.bb b/meta/recipes-core/glibc/glibc-mtrace_2.41.bb
-similarity index 100%
-rename from meta/recipes-core/glibc/glibc-mtrace_2.40.bb
-rename to meta/recipes-core/glibc/glibc-mtrace_2.41.bb
-diff --git a/meta/recipes-core/glibc/glibc-scripts_2.40.bb b/meta/recipes-core/glibc/glibc-scripts_2.41.bb
-similarity index 100%
-rename from meta/recipes-core/glibc/glibc-scripts_2.40.bb
-rename to meta/recipes-core/glibc/glibc-scripts_2.41.bb
-diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.40.bb b/meta/recipes-core/glibc/glibc-testsuite_2.41.bb
-similarity index 100%
-rename from meta/recipes-core/glibc/glibc-testsuite_2.40.bb
-rename to meta/recipes-core/glibc/glibc-testsuite_2.41.bb
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index b349560a0df..4d28affed90 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
--SRCBRANCH ?= "release/2.40/master"
--PV = "2.40+git"
--SRCREV_glibc ?= "efb710034e4c5e734d100cc4ef1b1e27d4315825"
-+SRCBRANCH ?= "release/2.41/master"
-+PV = "2.41+git"
-+SRCREV_glibc ?= "0a7c7a3e283a55d1bfaa48fdef063a32a4689a2b"
- SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb b/meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
-similarity index 100%
-rename from meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb
-rename to meta/recipes-core/glibc/glibc-y2038-tests_2.41.bb
-diff --git a/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolver-from-util-linux.patch b/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolver-from-util-linux.patch
-index e4fb2a7a285..dbe3ce8c32d 100644
---- a/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolver-from-util-linux.patch
-+++ b/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolver-from-util-linux.patch
-@@ -1,4 +1,4 @@
--From c22fc168dd00cdabcf24a54b4d9383a3f1a7b313 Mon Sep 17 00:00:00 2001
-+From cecd20fa2ff3ee2bd887b1d427088f32678cc04f Mon Sep 17 00:00:00 2001
- From: Jason Wessel <jason.wessel@windriver.com>
- Date: Sat, 7 Dec 2019 09:59:22 -0800
- Subject: [PATCH] localedef: Add hardlink resolver from util-linux
-diff --git a/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-make-it-compile.patch b/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-make-it-compile.patch
-index 1bbd07d3313..59d71a0d8b2 100644
---- a/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-make-it-compile.patch
-+++ b/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-make-it-compile.patch
-@@ -1,4 +1,4 @@
--From fe564c5944621f240dd28a1b4157504384635518 Mon Sep 17 00:00:00 2001
-+From e31f032ae87ba38645c66dd7d2dfaa8606602e70 Mon Sep 17 00:00:00 2001
- From: Jason Wessel <jason.wessel@windriver.com>
- Date: Sat, 7 Dec 2019 10:01:37 -0800
- Subject: [PATCH] localedef: fix-ups hardlink to make it compile
-diff --git a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
-index 650e6087506..0f7db0d5007 100644
---- a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
-+++ b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
-@@ -1,4 +1,4 @@
--From 213a4e5b43369f24d6f07a7c971f3909ec5d26a3 Mon Sep 17 00:00:00 2001
-+From f794ec18764a59ad45e242092e2ae6f5e3b19761 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 3 Feb 2024 13:54:16 -0800
- Subject: [PATCH] nativesdk-glibc: Look for host system ld.so.cache as well
-@@ -30,10 +30,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 8 insertions(+), 8 deletions(-)
- 
- diff --git a/elf/dl-load.c b/elf/dl-load.c
--index 8a89b71016..1ea5415b76 100644
-+index f905578a65..d4dd0fbc2a 100644
- --- a/elf/dl-load.c
- +++ b/elf/dl-load.c
--@@ -2046,6 +2046,14 @@ _dl_map_object (struct link_map *loader, const char *name,
-+@@ -2038,6 +2038,14 @@ _dl_map_object (struct link_map *loader, const char *name,
-  			&loader->l_runpath_dirs, &realname, &fb, loader,
-  			LA_SER_RUNPATH, &found_other_class);
-  
-@@ -48,7 +48,7 @@ index 8a89b71016..1ea5415b76 100644
-  #ifdef USE_LDCONFIG
-        if (fd == -1
-  	  && (__glibc_likely ((mode & __RTLD_SECURE) == 0)
--@@ -2104,14 +2112,6 @@ _dl_map_object (struct link_map *loader, const char *name,
-+@@ -2096,14 +2104,6 @@ _dl_map_object (struct link_map *loader, const char *name,
-  	}
-  #endif
-  
-diff --git a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch b/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
-index b98b6ec5fba..d9731a6fb73 100644
---- a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
-+++ b/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
-@@ -1,4 +1,4 @@
--From c17e485fc4ff3f7f16a824b43372bc9e3fe57dd6 Mon Sep 17 00:00:00 2001
-+From e8af7c91033875cfaf419c840d3283d71eb72d50 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 01:50:00 +0000
- Subject: [PATCH] nativesdk-glibc: Fix buffer overrun with a relocated SDK
-@@ -21,10 +21,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 12 insertions(+)
- 
- diff --git a/elf/dl-load.c b/elf/dl-load.c
--index 1ea5415b76..e149dd7e76 100644
-+index d4dd0fbc2a..0cd5221d6a 100644
- --- a/elf/dl-load.c
- +++ b/elf/dl-load.c
--@@ -1757,7 +1757,19 @@ open_path (const char *name, size_t namelen, int mode,
-+@@ -1749,7 +1749,19 @@ open_path (const char *name, size_t namelen, int mode,
-         given on the command line when rtld is run directly.  */
-      return -1;
-  
-diff --git a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch b/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-index 21c39dce596..0ee03c95d89 100644
---- a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-+++ b/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-@@ -1,4 +1,4 @@
--From 97229d19eca7d93d38ed7893640efe36a57e7bcb Mon Sep 17 00:00:00 2001
-+From d7c4488ff48992631e14a53c27252790eaefe928 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 01:51:38 +0000
- Subject: [PATCH] nativesdk-glibc: Raise the size of arrays containing dl paths
-@@ -26,7 +26,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  8 files changed, 15 insertions(+), 10 deletions(-)
- 
- diff --git a/elf/dl-cache.c b/elf/dl-cache.c
--index 7c7dc58745..0147a281ad 100644
-+index 300aa1b6dd..6df873e08b 100644
- --- a/elf/dl-cache.c
- +++ b/elf/dl-cache.c
- @@ -336,6 +336,10 @@ search_cache (const char *string_table, uint32_t string_table_size,
-@@ -41,10 +41,10 @@ index 7c7dc58745..0147a281ad 100644
-  _dl_cache_libcmp (const char *p1, const char *p2)
-  {
- diff --git a/elf/dl-load.c b/elf/dl-load.c
--index e149dd7e76..c99ce0ee45 100644
-+index 0cd5221d6a..9b9593f8d8 100644
- --- a/elf/dl-load.c
- +++ b/elf/dl-load.c
--@@ -106,8 +106,8 @@ enum { ncapstr = 1, max_capstrlen = 0 };
-+@@ -107,8 +107,8 @@ enum { ncapstr = 1, max_capstrlen = 0 };
-     gen-trusted-dirs.awk.  */
-  #include "trusted-dirs.h"
-  
-@@ -56,7 +56,7 @@ index e149dd7e76..c99ce0ee45 100644
-    SYSTEM_DIRS_LEN
-  };
- diff --git a/elf/dl-usage.c b/elf/dl-usage.c
--index 5baac4ba8e..60097ad0e2 100644
-+index c6d13ac2ee..1dac82102d 100644
- --- a/elf/dl-usage.c
- +++ b/elf/dl-usage.c
- @@ -25,6 +25,8 @@
-@@ -87,7 +87,7 @@ index 5baac4ba8e..60097ad0e2 100644
-    print_hwcaps_subdirectories (state);
-    _exit (EXIT_SUCCESS);
- diff --git a/elf/interp.c b/elf/interp.c
--index 8b705824bf..7d094829f3 100644
-+index cc49e13c86..394c1ce0c5 100644
- --- a/elf/interp.c
- +++ b/elf/interp.c
- @@ -18,5 +18,5 @@
-@@ -98,10 +98,10 @@ index 8b705824bf..7d094829f3 100644
- +const char __invoke_dynamic_linker__[4096] __attribute__ ((section (".interp")))
-    = RUNTIME_LINKER;
- diff --git a/elf/ldconfig.c b/elf/ldconfig.c
--index b64c54b53e..caf7001745 100644
-+index 1432187e9b..0654e02389 100644
- --- a/elf/ldconfig.c
- +++ b/elf/ldconfig.c
--@@ -150,6 +150,8 @@ static struct argp argp =
-+@@ -151,6 +151,8 @@ static struct argp argp =
-    options, parse_opt, NULL, doc, NULL, more_help, NULL
-  };
-  
-@@ -111,7 +111,7 @@ index b64c54b53e..caf7001745 100644
-  static error_t
-  parse_opt (int key, char *arg, struct argp_state *state)
- diff --git a/elf/rtld.c b/elf/rtld.c
--index 6352ba76c5..02316b8b16 100644
-+index f32058bba6..434ea6d0c5 100644
- --- a/elf/rtld.c
- +++ b/elf/rtld.c
- @@ -190,6 +190,7 @@ dso_name_valid_for_suid (const char *p)
-@@ -123,7 +123,7 @@ index 6352ba76c5..02316b8b16 100644
-  static void
-  audit_list_init (struct audit_list *list)
- diff --git a/iconv/gconv_conf.c b/iconv/gconv_conf.c
--index 1063c31a2b..57fa832e52 100644
-+index 41ab0768c9..7c48c2b328 100644
- --- a/iconv/gconv_conf.c
- +++ b/iconv/gconv_conf.c
- @@ -35,7 +35,7 @@
-@@ -136,7 +136,7 @@ index 1063c31a2b..57fa832e52 100644
-  /* Type to represent search path.  */
-  struct path_elem
- diff --git a/sysdeps/generic/dl-cache.h b/sysdeps/generic/dl-cache.h
--index 919e49ffc8..cd3f8ba94b 100644
-+index 0ee6571315..792308c0ab 100644
- --- a/sysdeps/generic/dl-cache.h
- +++ b/sysdeps/generic/dl-cache.h
- @@ -34,10 +34,6 @@
-diff --git a/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch b/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
-index b867ffde482..597923e7929 100644
---- a/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
-+++ b/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patch
-@@ -1,4 +1,4 @@
--From 680ceb8bf43f07884674a08423b8a1c15d1a48b5 Mon Sep 17 00:00:00 2001
-+From 9b408439eb042c4fc5cb33c8929dea419bf25b41 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 31 Dec 2015 14:35:35 -0800
- Subject: [PATCH] nativesdk-glibc: Allow 64 bit atomics for x86
-@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 6 deletions(-)
- 
- diff --git a/sysdeps/x86/atomic-machine.h b/sysdeps/x86/atomic-machine.h
--index cfd395087b..28a937c468 100644
-+index 5452716d22..8c7408feb4 100644
- --- a/sysdeps/x86/atomic-machine.h
- +++ b/sysdeps/x86/atomic-machine.h
- @@ -26,19 +26,14 @@
-diff --git a/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatable-install-for-locales.patch b/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatable-install-for-locales.patch
-index a1d4f077249..2886d461c81 100644
---- a/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatable-install-for-locales.patch
-+++ b/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatable-install-for-locales.patch
-@@ -1,4 +1,4 @@
--From 88c37776dca4603d6618fd7a12a055a15e2a519e Mon Sep 17 00:00:00 2001
-+From 1a57ab6f7d602401396a18b0270498ff9228cf64 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 3 Aug 2018 09:55:12 -0700
- Subject: [PATCH] nativesdk-glibc: Make relocatable install for locales
-@@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  4 files changed, 8 insertions(+), 7 deletions(-)
- 
- diff --git a/locale/findlocale.c b/locale/findlocale.c
--index 43ff7201c1..9684a4249b 100644
-+index e5e2bd3974..bdd9b79f83 100644
- --- a/locale/findlocale.c
- +++ b/locale/findlocale.c
- @@ -55,7 +55,7 @@ struct __locale_data *const _nl_C[] attribute_hidden =
-@@ -41,7 +41,7 @@ index 43ff7201c1..9684a4249b 100644
-    else
-      /* We really have to load some data.  First see whether the name is
- diff --git a/locale/loadarchive.c b/locale/loadarchive.c
--index 452e3eb6e3..c7467aec42 100644
-+index 058a467cde..af62f3c304 100644
- --- a/locale/loadarchive.c
- +++ b/locale/loadarchive.c
- @@ -42,7 +42,7 @@
-@@ -54,7 +54,7 @@ index 452e3eb6e3..c7467aec42 100644
-  /* Size of initial mapping window, optimal if large enough to
-     cover the header plus the initial locale.  */
- diff --git a/locale/localeinfo.h b/locale/localeinfo.h
--index ed698faef1..f7efc288a5 100644
-+index ab1b5e5659..92aef8d58e 100644
- --- a/locale/localeinfo.h
- +++ b/locale/localeinfo.h
- @@ -347,7 +347,7 @@ _nl_lookup_word (locale_t l, int category, int item)
-@@ -67,7 +67,7 @@ index ed698faef1..f7efc288a5 100644
-  /* Load the locale data for CATEGORY from the file specified by *NAME.
-     If *NAME is "", use environment variables as specified by POSIX, and
- diff --git a/locale/programs/locale.c b/locale/programs/locale.c
--index c7ee1874e8..8281e32236 100644
-+index 7e8832dc3b..7fa484f092 100644
- --- a/locale/programs/locale.c
- +++ b/locale/programs/locale.c
- @@ -631,6 +631,7 @@ nameentcmp (const void *a, const void *b)
-diff --git a/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-faccessat-on-faccess2-r.patch b/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-faccessat-on-faccess2-r.patch
-index 09f64421ae0..025ad153d64 100644
---- a/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-faccessat-on-faccess2-r.patch
-+++ b/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-faccessat-on-faccess2-r.patch
-@@ -1,4 +1,4 @@
--From ab38fdad1d435b68ae2d178f2e5d24c77f4e8d98 Mon Sep 17 00:00:00 2001
-+From 789083eea1feb1249ec5817710552dc31653b36e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 6 Mar 2021 14:48:56 -0800
- Subject: [PATCH] nativesdk-glibc: Fall back to faccessat on faccess2 returns
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 5 insertions(+), 1 deletion(-)
- 
- diff --git a/sysdeps/unix/sysv/linux/faccessat.c b/sysdeps/unix/sysv/linux/faccessat.c
--index 2fa57fd63d..4d0d5ff0c4 100644
-+index edb22ebce6..b67684a3ba 100644
- --- a/sysdeps/unix/sysv/linux/faccessat.c
- +++ b/sysdeps/unix/sysv/linux/faccessat.c
- @@ -30,7 +30,11 @@ __faccessat (int fd, const char *file, int mode, int flag)
-diff --git a/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong-config-variables.patch
-index b862b12d669..dbb6d674d59 100644
---- a/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong-config-variables.patch
-+++ b/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong-config-variables.patch
-@@ -1,4 +1,4 @@
--From cac7bbbc82423697f8d3223222db8b787b63f500 Mon Sep 17 00:00:00 2001
-+From 4a1ff3c313645aa425a0a87459c907dad1b9ca4b Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 00:31:06 +0000
- Subject: [PATCH] 'yes' within the path sets wrong config variables
-@@ -20,16 +20,13 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  sysdeps/arm/configure.ac                               | 4 ++--
-  sysdeps/mips/configure                                 | 4 ++--
-  sysdeps/mips/configure.ac                              | 4 ++--
-- sysdeps/nios2/configure                                | 4 ++--
-- sysdeps/nios2/configure.ac                             | 4 ++--
-  sysdeps/unix/sysv/linux/mips/configure                 | 4 ++--
-  sysdeps/unix/sysv/linux/mips/configure.ac              | 4 ++--
-  sysdeps/unix/sysv/linux/powerpc/powerpc64/configure    | 8 ++++----
-  sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac | 8 ++++----
-- 12 files changed, 28 insertions(+), 28 deletions(-)
-+ 10 files changed, 24 insertions(+), 24 deletions(-)
-  mode change 100644 => 100755 sysdeps/arm/configure
-  mode change 100644 => 100755 sysdeps/mips/configure
-- mode change 100644 => 100755 sysdeps/nios2/configure
-  mode change 100644 => 100755 sysdeps/unix/sysv/linux/mips/configure
-  mode change 100644 => 100755 sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
- 
-@@ -139,42 +136,6 @@ index d3cd780d78..250223d206 100644
-  #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
-  if test x$libc_cv_mips_nan2008 = xyes; then
-    AC_DEFINE(HAVE_MIPS_NAN2008)
--diff --git a/sysdeps/nios2/configure b/sysdeps/nios2/configure
--old mode 100644
--new mode 100755
--index d25684d5ad..5801978aee
----- a/sysdeps/nios2/configure
--+++ b/sysdeps/nios2/configure
--@@ -147,12 +147,12 @@ else case e in #(
--   e) cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-- /* end confdefs.h.  */
-- #ifdef __nios2_big_endian__
---                      yes
--+                      is_nios2_be
--                      #endif
-- 
-- _ACEOF
-- if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
---  $EGREP_TRADITIONAL "yes" >/dev/null 2>&1
--+  $EGREP_TRADITIONAL "is_nios2_be" >/dev/null 2>&1
-- then :
--   libc_cv_nios2_be=yes
-- else case e in #(
--diff --git a/sysdeps/nios2/configure.ac b/sysdeps/nios2/configure.ac
--index f738e9a7ed..4085851cbc 100644
----- a/sysdeps/nios2/configure.ac
--+++ b/sysdeps/nios2/configure.ac
--@@ -4,8 +4,8 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-- # Nios II big endian is not yet supported.
-- AC_CACHE_CHECK([for big endian],
--   [libc_cv_nios2_be],
---  [AC_EGREP_CPP(yes,[#ifdef __nios2_big_endian__
---                      yes
--+  [AC_EGREP_CPP(is_nios2_be,[#ifdef __nios2_big_endian__
--+                      is_nios2_be
--                      #endif
--   ], libc_cv_nios2_be=yes, libc_cv_nios2_be=no)])
-- if test $libc_cv_nios2_be = yes; then
- diff --git a/sysdeps/unix/sysv/linux/mips/configure b/sysdeps/unix/sysv/linux/mips/configure
- old mode 100644
- new mode 100755
-diff --git a/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-testing-instructions.patch b/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-testing-instructions.patch
-index 8b79916b81b..b1bed71f2b4 100644
---- a/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-testing-instructions.patch
-+++ b/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-testing-instructions.patch
-@@ -1,4 +1,4 @@
--From 8216e0927262392f3b60a5cc5592d39c9f18ef3c Mon Sep 17 00:00:00 2001
-+From 7d158af5750b351b3b08e78bb6c5fe80e7cb36ba Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 00:42:58 +0000
- Subject: [PATCH] eglibc: Cross building and testing instructions
-diff --git a/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-toolchain.patch b/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-toolchain.patch
-index 02751337904..13190125eb0 100644
---- a/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-toolchain.patch
-+++ b/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-toolchain.patch
-@@ -1,4 +1,4 @@
--From bd4b95bcc335599e736a3554112f1e912a79542b Mon Sep 17 00:00:00 2001
-+From 435b57e8327555b273a52df672b2611050a8c579 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 00:49:28 +0000
- Subject: [PATCH] eglibc: Help bootstrap cross toolchain
-@@ -29,7 +29,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  create mode 100644 include/stubs-bootstrap.h
- 
- diff --git a/Makefile b/Makefile
--index c84f266ce7..790c717958 100644
-+index 97b4328af8..5c20ed3cff 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -79,9 +79,18 @@ subdir-dirs = include
-diff --git a/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-on-SH4.patch b/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-on-SH4.patch
-index 91e52a0db93..780aff1e7d1 100644
---- a/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-on-SH4.patch
-+++ b/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-on-SH4.patch
-@@ -1,4 +1,4 @@
--From ab08ea10e9bc8a91f83fea12ccf40abf1a150326 Mon Sep 17 00:00:00 2001
-+From 46937c30c52cf186609bee1ec927464d395afb30 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 00:55:53 +0000
- Subject: [PATCH] eglibc: Resolve __fpscr_values on SH4
-@@ -33,7 +33,7 @@ index 3ad702e165..931985b5d6 100644
-      # a*
-      alphasort64;
- diff --git a/sysdeps/unix/sysv/linux/sh/sysdep.S b/sysdeps/unix/sysv/linux/sh/sysdep.S
--index d5d8c5e033..f356d02077 100644
-+index db898e9e39..6e2972e814 100644
- --- a/sysdeps/unix/sysv/linux/sh/sysdep.S
- +++ b/sysdeps/unix/sysv/linux/sh/sysdep.S
- @@ -30,3 +30,14 @@ ENTRY (__syscall_error)
-diff --git a/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-locale-generation-support.patch b/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-locale-generation-support.patch
-index ae14ba82dba..8f9bbb6cf37 100644
---- a/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-locale-generation-support.patch
-+++ b/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-locale-generation-support.patch
-@@ -1,4 +1,4 @@
--From ae0b0897228da4c8815061fe57d9b31c2b742dbc Mon Sep 17 00:00:00 2001
-+From 68dcae2527a64a4448334fdfe27c7b6014589aae Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 01:33:49 +0000
- Subject: [PATCH] eglibc: Forward port cross locale generation support
-@@ -23,7 +23,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  create mode 100644 locale/catnames.c
- 
- diff --git a/locale/Makefile b/locale/Makefile
--index 2810f28605..05f847f9a6 100644
-+index 9d9c1a7691..bf271fd0a8 100644
- --- a/locale/Makefile
- +++ b/locale/Makefile
- @@ -30,6 +30,7 @@ headers = \
-@@ -87,7 +87,7 @@ index 0000000000..538f3f5edb
- +    [LC_ALL] = sizeof ("LC_ALL") - 1
- +  };
- diff --git a/locale/localeinfo.h b/locale/localeinfo.h
--index f7efc288a5..6ef082eb25 100644
-+index 92aef8d58e..ae23b2f7fe 100644
- --- a/locale/localeinfo.h
- +++ b/locale/localeinfo.h
- @@ -246,7 +246,7 @@ __libc_tsd_define (extern, locale_t, LOCALE)
-@@ -100,7 +100,7 @@ index f7efc288a5..6ef082eb25 100644
-  # define NL_CURRENT_INDIRECT	1
-  #endif
- diff --git a/locale/programs/charmap-dir.c b/locale/programs/charmap-dir.c
--index 36504f238d..56ee97e61b 100644
-+index e635a01ede..10e34a6da9 100644
- --- a/locale/programs/charmap-dir.c
- +++ b/locale/programs/charmap-dir.c
- @@ -18,7 +18,9 @@
-@@ -146,7 +146,7 @@ index 36504f238d..56ee97e61b 100644
-    return NULL;
-  }
- diff --git a/locale/programs/ld-collate.c b/locale/programs/ld-collate.c
--index 5048adbd9f..4232834ead 100644
-+index 7de3ba064d..3256427d21 100644
- --- a/locale/programs/ld-collate.c
- +++ b/locale/programs/ld-collate.c
- @@ -352,7 +352,7 @@ new_element (struct locale_collate_t *collate, const char *mbs, size_t mbslen,
-@@ -195,7 +195,7 @@ index 5048adbd9f..4232834ead 100644
-  			 == runp->wcnext->wcs[runp->nwcs - 1] + 1));
-  
- diff --git a/locale/programs/ld-ctype.c b/locale/programs/ld-ctype.c
--index eb6e7e145c..14736d1cac 100644
-+index 15fd39c637..d4c5e0c9e7 100644
- --- a/locale/programs/ld-ctype.c
- +++ b/locale/programs/ld-ctype.c
- @@ -914,7 +914,7 @@ ctype_output (struct localedef_t *locale, const struct charmap_t *charmap,
-@@ -277,7 +277,7 @@ index eb6e7e145c..14736d1cac 100644
-  	      srunp = srunp->next;
-  	    }
- diff --git a/locale/programs/ld-time.c b/locale/programs/ld-time.c
--index 1abff3cf53..8a2f2b820a 100644
-+index 9529d7945a..554454b9c1 100644
- --- a/locale/programs/ld-time.c
- +++ b/locale/programs/ld-time.c
- @@ -219,8 +219,10 @@ No definition for %s category found"), "LC_TIME");
-@@ -346,7 +346,7 @@ index 1abff3cf53..8a2f2b820a 100644
-  
-  
- diff --git a/locale/programs/linereader.c b/locale/programs/linereader.c
--index 61373d2657..7ec5726377 100644
-+index 6f40ecf77a..573d051d0a 100644
- --- a/locale/programs/linereader.c
- +++ b/locale/programs/linereader.c
- @@ -776,7 +776,7 @@ get_string (struct linereader *lr, const struct charmap_t *charmap,
-@@ -359,7 +359,7 @@ index 61373d2657..7ec5726377 100644
-    lr_buffer_init (&lrb);
-  
- diff --git a/locale/programs/localedef.c b/locale/programs/localedef.c
--index 907bb5fb25..3106529043 100644
-+index 7b66cd279c..dd0c3f1562 100644
- --- a/locale/programs/localedef.c
- +++ b/locale/programs/localedef.c
- @@ -108,6 +108,7 @@ void (*argp_program_version_hook) (FILE *, struct argp_state *) = print_version;
-@@ -405,7 +405,7 @@ index 907bb5fb25..3106529043 100644
-        force_output = 1;
-        break;
- diff --git a/locale/programs/locfile.c b/locale/programs/locfile.c
--index 6c6ebf2dd6..cc02ab82bf 100644
-+index b54fcbbceb..6110c7b369 100644
- --- a/locale/programs/locfile.c
- +++ b/locale/programs/locfile.c
- @@ -543,6 +543,9 @@ compare_files (const char *filename1, const char *filename2, size_t size,
-@@ -428,7 +428,7 @@ index 6c6ebf2dd6..cc02ab82bf 100644
-  
-  /* Record that FILE's next element is the 32-bit integer VALUE.  */
- diff --git a/locale/programs/locfile.h b/locale/programs/locfile.h
--index 3afb0a8d29..46785374e8 100644
-+index 9103fade14..ecd878563d 100644
- --- a/locale/programs/locfile.h
- +++ b/locale/programs/locfile.h
- @@ -70,6 +70,8 @@ extern void write_all_categories (struct localedef_t *definitions,
-@@ -517,7 +517,7 @@ index 3afb0a8d29..46785374e8 100644
- +
-  #endif /* locfile.h */
- diff --git a/locale/setlocale.c b/locale/setlocale.c
--index 7bd27e5398..2f194bad7c 100644
-+index c04740ca19..12deadeb24 100644
- --- a/locale/setlocale.c
- +++ b/locale/setlocale.c
- @@ -63,35 +63,6 @@ static char *const _nl_current_used[] =
-diff --git a/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch b/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch
-index 94d5abf72f2..9448f360efd 100644
---- a/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch
-+++ b/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch
-@@ -1,4 +1,4 @@
--From ccac9ff221fa08dbe330ae75a570da33edaaac4e Mon Sep 17 00:00:00 2001
-+From 194e83794369783287956fb12c7f8469e6b7d110 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 3 Aug 2018 09:42:06 -0700
- Subject: [PATCH] localedef --add-to-archive uses a hard-coded locale path
-@@ -18,7 +18,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 25 insertions(+), 10 deletions(-)
- 
- diff --git a/locale/programs/locarchive.c b/locale/programs/locarchive.c
--index 8d79a1b6d1..6dc7ecd4e7 100644
-+index 2c19f4fd29..b8495848c3 100644
- --- a/locale/programs/locarchive.c
- +++ b/locale/programs/locarchive.c
- @@ -339,12 +339,24 @@ enlarge_archive (struct locarhandle *ah, const struct locarhead *head)
-diff --git a/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-for-finding-arch.patch b/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-for-finding-arch.patch
-index 51d152f8c04..0e00c046597 100644
---- a/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-for-finding-arch.patch
-+++ b/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-for-finding-arch.patch
-@@ -1,4 +1,4 @@
--From e79835037312f8d58c8c555e1ebf5746e09d10cd Mon Sep 17 00:00:00 2001
-+From 7d7f6fcd4f4b6664bff75addc92bc7b8a86dc22d Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 7 Aug 2020 14:31:16 -0700
- Subject: [PATCH] powerpc: Do not ask compiler for finding arch
-@@ -15,7 +15,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 2 insertions(+), 8 deletions(-)
- 
- diff --git a/sysdeps/powerpc/preconfigure b/sysdeps/powerpc/preconfigure
--index 9e5a07ab6d..a308bdd863 100644
-+index 48b9c9b65a..7eb260fc78 100644
- --- a/sysdeps/powerpc/preconfigure
- +++ b/sysdeps/powerpc/preconfigure
- @@ -29,10 +29,7 @@ esac
-diff --git a/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-index 87bc7a840ec..f40a8eff07a 100644
---- a/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-+++ b/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-@@ -1,4 +1,4 @@
--From 4dd93c44d85ad04343daa9933edfb6ae59863095 Mon Sep 17 00:00:00 2001
-+From 2bd0ea2c8f9595414741ed523c6ca07630a4fc96 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 15 May 2020 17:05:45 -0700
- Subject: [PATCH] wordsize.h: Unify the header between arm and aarch64
-@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  mode change 100644 => 120000 sysdeps/arm/bits/wordsize.h
- 
- diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/aarch64/bits/wordsize.h
--index 118e59172d..c6278c6afa 100644
-+index f56260c2de..391d79d5a8 100644
- --- a/sysdeps/aarch64/bits/wordsize.h
- +++ b/sysdeps/aarch64/bits/wordsize.h
- @@ -17,12 +17,19 @@
-@@ -44,11 +44,11 @@ index 118e59172d..c6278c6afa 100644
- +#endif
- diff --git a/sysdeps/arm/bits/wordsize.h b/sysdeps/arm/bits/wordsize.h
- deleted file mode 100644
--index 6ecbfe7c86..0000000000
-+index be457d84d3..0000000000
- --- a/sysdeps/arm/bits/wordsize.h
- +++ /dev/null
- @@ -1,21 +0,0 @@
---/* Copyright (C) 1999-2024 Free Software Foundation, Inc.
-+-/* Copyright (C) 1999-2025 Free Software Foundation, Inc.
- -   This file is part of the GNU C Library.
- -
- -   The GNU C Library is free software; you can redistribute it and/or
-diff --git a/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-builtin-in-nscd-init-script.patch b/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-builtin-in-nscd-init-script.patch
-index ff60c00102e..2af39799bed 100644
---- a/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-builtin-in-nscd-init-script.patch
-+++ b/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-builtin-in-nscd-init-script.patch
-@@ -1,4 +1,4 @@
--From 0a29c4828c2440bf4768f4342480958a67d58954 Mon Sep 17 00:00:00 2001
-+From 7ef9358bbb184026914fb4d9ff479361b82bf6c9 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 31 Dec 2015 14:33:02 -0800
- Subject: [PATCH] Replace echo with printf builtin in nscd init script
-diff --git a/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch b/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch
-index e4bc40b1238..ca30edd91c5 100644
---- a/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch
-+++ b/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch
-@@ -1,4 +1,4 @@
--From 1b1e654726931c27c86cf9c68371c32410f8d766 Mon Sep 17 00:00:00 2001
-+From c43c1758baddaff1fb82afc118f7dba23af12540 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Mar 2015 00:27:10 +0000
- Subject: [PATCH] sysdeps/gnu/configure.ac: Set libc_cv_rootsbindir only if its
-diff --git a/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interpreter-overridable-in-tzsel.patch b/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interpreter-overridable-in-tzsel.patch
-index 24dd4dad562..2e4c6ced9ed 100644
---- a/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interpreter-overridable-in-tzsel.patch
-+++ b/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interpreter-overridable-in-tzsel.patch
-@@ -1,4 +1,4 @@
--From 99aac9db31f52c3b59b32c424b26d881069aa5df Mon Sep 17 00:00:00 2001
-+From a2179a1a5e0f6ded889d2c88cabb23c92b5a4b1e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 9 Dec 2021 15:14:42 -0800
- Subject: [PATCH] timezone: Make shell interpreter overridable in tzselect.ksh
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 10 insertions(+)
- 
- diff --git a/Makeconfig b/Makeconfig
--index 2d4343b604..1992e19c4e 100644
-+index d0108d2caa..75887b1334 100644
- --- a/Makeconfig
- +++ b/Makeconfig
- @@ -309,6 +309,15 @@ ifndef sysincludedir
-@@ -34,7 +34,7 @@ index 2d4343b604..1992e19c4e 100644
-  # Commands to install files.
-  ifndef INSTALL_DATA
- diff --git a/timezone/Makefile b/timezone/Makefile
--index cf4ef3bf7e..559b9a7e3d 100644
-+index ebe5cf73a1..b5fa38f4d7 100644
- --- a/timezone/Makefile
- +++ b/timezone/Makefile
- @@ -143,6 +143,7 @@ $(objpfx)tzselect: tzselect.ksh $(common-objpfx)config.make
-diff --git a/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch b/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch
-index c294dda29d7..e68e37b1254 100644
---- a/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch
-+++ b/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch
-@@ -1,4 +1,4 @@
--From 4c68d7aa739ebd997db43d73cf2a43b776969c89 Mon Sep 17 00:00:00 2001
-+From c86de3e8b739f20fd7211b66dc3c69b61d28d611 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 15 Dec 2021 21:47:53 -0800
- Subject: [PATCH] tzselect.ksh: Use /bin/sh default shell interpreter
-@@ -16,7 +16,7 @@ Cc: Paul Eggert <eggert@cs.ucla.edu>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/timezone/tzselect.ksh b/timezone/tzselect.ksh
--index 38941bbc55..588bcb9f06 100755
-+index ca3d82c6aa..1be42814fe 100755
- --- a/timezone/tzselect.ksh
- +++ b/timezone/tzselect.ksh
- @@ -1,4 +1,4 @@
-diff --git a/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch b/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
-index 6f7b765accd..f1391a095cb 100644
---- a/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
-+++ b/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
-@@ -1,4 +1,4 @@
--From 5352c59f08d8e5e1f44fb5834d6bbbd3a20bdd36 Mon Sep 17 00:00:00 2001
-+From 06dd2eec0d57e1e2702069ee4c970c68fc4d3bcb Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Sun, 29 Aug 2021 20:49:16 +0800
- Subject: [PATCH] fix create thread failed in unprivileged process [BZ #28287]
-@@ -72,7 +72,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/sysdeps/unix/sysv/linux/clone-internal.c b/sysdeps/unix/sysv/linux/clone-internal.c
--index 40ef30303f..f97b1f6900 100644
-+index 9a1f27d017..9a48340055 100644
- --- a/sysdeps/unix/sysv/linux/clone-internal.c
- +++ b/sysdeps/unix/sysv/linux/clone-internal.c
- @@ -98,7 +98,7 @@ __clone_internal (struct clone_args *cl_args,
-diff --git a/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch b/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch
-index f8e73662e70..a90814c63a5 100644
---- a/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch
-+++ b/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch
-@@ -1,4 +1,4 @@
--From 51694f72b7326d36e51214eb2af0be1d6831c7a4 Mon Sep 17 00:00:00 2001
-+From cd66a5301c4d84e3dbc4e30fdb9e32b341e66b3d Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Sun, 24 Jul 2022 07:07:29 -0700
- Subject: [PATCH] Avoid hardcoded build time paths in the output binaries
-@@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 3 insertions(+), 3 deletions(-)
- 
- diff --git a/support/Makefile b/support/Makefile
--index aa57207bdc..3c66cec6c8 100644
-+index 59a9974539..c3f7302bcb 100644
- --- a/support/Makefile
- +++ b/support/Makefile
--@@ -229,9 +229,9 @@ libsupport-inhibit-o += .o
-+@@ -238,9 +238,9 @@ libsupport-inhibit-o += .o
-  endif
-  
-  CFLAGS-support_paths.c = \
-diff --git a/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch b/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-index 256dab45f99..71777d3f2cb 100644
---- a/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-+++ b/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-@@ -1,4 +1,4 @@
--From 19795af92830251dd03943bda4825def5bf774c4 Mon Sep 17 00:00:00 2001
-+From 5395ccff4478d42fab7f2bd6ba7f7188bec09ddf Mon Sep 17 00:00:00 2001
- From: Yash Shinde <Yash.Shinde@windriver.com>
- Date: Fri, 5 Apr 2024 08:24:36 -0700
- Subject: [PATCH] tests: Skip 2 qemu tests that can hang in oe-selftest
-@@ -20,18 +20,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+), 2 deletions(-)
- 
- diff --git a/sysdeps/unix/sysv/linux/Makefile b/sysdeps/unix/sysv/linux/Makefile
--index ae66590e91..b2f0469273 100644
-+index 8a755293b3..22dafcaad1 100644
- --- a/sysdeps/unix/sysv/linux/Makefile
- +++ b/sysdeps/unix/sysv/linux/Makefile
--@@ -223,7 +223,6 @@ tests += \
--   tst-process_mrelease \
--   tst-quota \
-+@@ -228,7 +228,6 @@ tests += \
-    tst-rlimit-infinity \
-+   tst-sched-affinity-inheritance \
-+   tst-sched_setattr \
- -  tst-scm_rights \
-    tst-sigtimedwait \
-    tst-sync_file_range \
--   tst-sysconf-iov_max \
--@@ -234,6 +233,8 @@ tests += \
-+   tst-syscall-restart \
-+@@ -240,6 +239,8 @@ tests += \
-    tst-timerfd \
-    tst-ttyname-direct \
-    tst-ttyname-namespace \
-@@ -40,7 +40,7 @@ index ae66590e91..b2f0469273 100644
-    # tests
-  
-  # process_madvise requires CAP_SYS_ADMIN.
--@@ -271,9 +272,10 @@ tests-time64 += \
-+@@ -277,9 +278,10 @@ tests-time64 += \
-    tst-ntp_gettimex-time64 \
-    tst-ppoll-time64 \
-    tst-prctl-time64 \
-diff --git a/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch b/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
-deleted file mode 100644
-index c9f3e32f585..00000000000
---- a/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 9d30d58c32fe9d5f8ec6cda79fb11159e6789bcf Mon Sep 17 00:00:00 2001
--From: Andreas Schwab <schwab@suse.de>
--Date: Wed, 25 Sep 2024 11:49:30 +0200
--Subject: [PATCH] Fix missing randomness in __gen_tempname (bug 32214)
--
--Make sure to update the random value also if getrandom fails.
--
--Fixes: 686d542025 ("posix: Sync tempname with gnulib")
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5f62cf88c4530c11904482775b7582bd7f6d80d2]
--
--Signed-off-by: Ola x Nilsson <olani@axis.com>
-----
-- sysdeps/posix/tempname.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/sysdeps/posix/tempname.c b/sysdeps/posix/tempname.c
--index c00fe0c181..fc30958a0c 100644
----- a/sysdeps/posix/tempname.c
--+++ b/sysdeps/posix/tempname.c
--@@ -117,6 +117,8 @@ random_bits (random_value *r, random_value s)
--      succeed.  */
-- #if !_LIBC
--   *r = mix_random_values (v, clock ());
--+#else
--+  *r = v;
-- #endif
--   return false;
-- }
-diff --git a/meta/recipes-core/glibc/glibc_2.40.bb b/meta/recipes-core/glibc/glibc_2.41.bb
-similarity index 98%
-rename from meta/recipes-core/glibc/glibc_2.40.bb
-rename to meta/recipes-core/glibc/glibc_2.41.bb
-index 3e855b19d84..71b89ac9ffb 100644
---- a/meta/recipes-core/glibc/glibc_2.40.bb
-+++ b/meta/recipes-core/glibc/glibc_2.41.bb
-@@ -53,7 +53,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
--           file://0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+T24gNCBGZWIgMjAyNSwgYXQgMTY6NDUsIFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
+cnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gRG9lcyBub3QgbG9vayBsaWtlIGl0LiBJIGd1ZXNz
+IGl0IGlzIHRoZSBzYW1lIGFzIGZvciwgZS5nLiwgcGtnLWNvbmZpZywgDQo+IHdoaWNoIGlzIG9u
+IHRoZSBuZXh0IGxpbmUgaW4gdGhlIG1lc29uLmNyb3NzIGZpbGUuDQoNCkp1c3QgaGFkIGl0IGNv
+bmZpcm1lZCB0aGF0IGluIGNyb3NzIGJ1aWxkcyBtZXNvbiBuZWVkcyBfZXZlcnlfIGJpbmFyeSB0
+byBiZSBzcGVjaWZpZWQsIHNvIHRoaXMgcGF0Y2ggaXMgZW50aXJlbHkgY29ycmVjdC4gU3VycHJp
+c2VkIHdl4oCZZCBnb25lIHNvIGxvbmcgd2l0aG91dCB0aGUgY21ha2UgaW50ZWdyYXRpb24gdG8g
+YmUgaG9uZXN0Lg0KDQpSb3Nz
 
