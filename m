@@ -1,109 +1,134 @@
-Return-Path: <denis@denix.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F06C02194
-	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 20:17:00 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.126794.1738700219068050941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75685C02194
+	for <webhook@archiver.kernel.org>; Tue,  4 Feb 2025 22:09:42 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.689.1738706975127308486
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 12:16:59 -0800
+ Tue, 04 Feb 2025 14:09:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 4749940C88;
-	Tue,  4 Feb 2025 20:16:58 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2WoAGqVp3wqh; Tue,  4 Feb 2025 20:16:58 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2CC66407E5;
-	Tue,  4 Feb 2025 20:16:57 +0000 (UTC)
-Received: from thorin.denix (thorin.denix [192.168.30.9])
-	by mail.denix.org (Postfix) with ESMTP id 6FC261641FA;
-	Tue,  4 Feb 2025 15:16:56 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UtLS3Exs;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2161eb95317so108886005ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 14:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738706974; x=1739311774; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c5CXBp3KXtJLRei/sNe0NtkyV//ulcOKnNl7GyTnD/Q=;
+        b=UtLS3ExsexYQGrmx6e2qjcqzhI5fQZSNZqRTXdwUX+3fDpdLThhxaSKpIxQewRGvlk
+         DVGiSypSVIZRjyHeEwuvCZrpfdO43O+hQUuCtl7xiKZA1NWjHIjJXnXdGWV1qIXrBIuk
+         sXY4VAZwiwxAb1TdyZsGMbVdAFFm5r91XoJoEa14OMepNtQRERdeAFz+fvWPrH+bRMH9
+         r3reFSLasPUziRbsW4AIIVdtkg9B89SzWbIHCILwyqTU8enGtWXxG7q7qcEzGJfv3hBU
+         w2wxxr7+0u8sq6lOaWW7R0Qx1Nz8fXM9Dg2x2kAoT0A3NRbRnhC92wrKh2zYaQ5W0iqA
+         u4Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738706974; x=1739311774;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c5CXBp3KXtJLRei/sNe0NtkyV//ulcOKnNl7GyTnD/Q=;
+        b=PvJAdg5g3FrCeV9M/5nKefJ40uAAx4hnA5n2Gp2ohh7pRg8vAp7bMLryGKtA9sqRkt
+         2vFWkH6qNF/+MiwMCwI/OgPTm7892YYNWlFaad14qMGdb1qnnOT9Nf0U7BgYh0GAnHaa
+         yzgCpkXGOQs6bno5KmpdSM0MmJnXplvGvKtgqDu0uUXAdP9c0KtkFNipiu+LVjGnEwIK
+         khsTpCQeFqCzAJJWt0/9c1OAvkMQPpDBRgbrj/OvP8/IdauMxL6g1xjUorCWNEhF+TJ0
+         IYsn0gJoXGJmEdoqukMuc6WJneD/Nkzekoh0nSQqK3o5kcxCqOVAzYsh50dNFfrgDYwN
+         BTIA==
+X-Gm-Message-State: AOJu0YwassXzRyVI1mgKSgpHujqdmqhP8Xs45wQSwy0sYWK0lAn51fv3
+	IJjV9dngm/8ktdbb2pNsDnx65+9V/3flMliaMZJsYo00AcLz5PfGFfqy0kSu
+X-Gm-Gg: ASbGnctjE1IpzxavhEzdIbEEkLH5peI86wP3K1wr5IKm/ld/Ztex0DllzICZiI2wiTS
+	Wxc4QNWGVOIMs4XwZS5Tu+Zn/ApUzZ/oLE1QR4vjLQFVzRc3mD6ua9KZCELufpc3sVV63PP+vS0
+	gyuYZnS/UhpK9/TJyOZ22RXYRbLGoxXNU2L4PaC8v7dVg0whCIvrJ0UOPo4v1pBdTyK/9RYC61Z
+	5rx70kMypZL7mvg21DXQd+JeYgqgeobGuwuqYFEHCKuctW2Bxgu9iAu6AqwRHubIAhJhf7jinWJ
+	CNdSxw8=
+X-Google-Smtp-Source: AGHT+IE2wLp2CC7jm5Eb97yMArJZ6zhrC+tlMpivdGnv5BUUWfHS7xHHNAJkBOmVn/au1vEvcZX4cw==
+X-Received: by 2002:a17:903:8c4:b0:21d:dae6:d956 with SMTP id d9443c01a7336-21f17e27204mr6746455ad.24.1738706972676;
+        Tue, 04 Feb 2025 14:09:32 -0800 (PST)
+Received: from apollo.localdomain ([2601:646:8201:fd20::c09e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f07651559sm18166795ad.56.2025.02.04.14.09.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 14:09:32 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denys@konsulko.com>
-Subject: [PATCH v2 3/3] lzip: upgrade 1.24.1 -> 1.25
-Date: Tue,  4 Feb 2025 15:16:41 -0500
-Message-Id: <20250204201641.976795-1-denis@denix.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1821193F88B47871.1760@lists.openembedded.org>
-References: <1821193F88B47871.1760@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-cffi: Fix failing ptests with clang
+Date: Tue,  4 Feb 2025 14:09:30 -0800
+Message-ID: <20250204220930.722230-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 20:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210824
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 22:09:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210825
 
-From: Denys Dmytriyenko <denys@konsulko.com>
+Clang finds additional warnings with cffi generated code
 
-Changes in version 1.25:
+_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:587:10: error: non-constant-expression cannot be narrowed from type 'long' to 'size_t' (ak│a 'unsigned long') in initializer list [-Wc++11-narrowing]
 
-* lzip now exits with error status 2 if any empty member is found in a mu=
-ltimember file.
-* lzip now exits with error status 2 if the first byte of the LZMA stream=
- is not 0.
-  * Options '--empty-error' and '--marking-error' have been removed.
-* The chapter 'Syntax of command-line arguments' has been added to the ma=
-nual.
-
-https://lists.nongnu.org/archive/html/lzip-bug/2025-01/msg00012.html
-
-Please note, that there was a minor change in the COPYING file, changing =
-the hash:
-
-* Physical FSF address was replaced with a link to http://fsf.org, licens=
-e is the same
-
-License-Update: FSF address change
-
-Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2 - License-Update: tag added
+ ...ize_t-to-avoid-c-11-narrowing-warnin.patch | 34 +++++++++++++++++++
+ .../python/python3-cffi_1.17.1.bb             |  3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
 
- meta/recipes-extended/lzip/{lzip_1.24.1.bb =3D> lzip_1.25.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lzip/{lzip_1.24.1.bb =3D> lzip_1.25.bb} (88=
-%)
-
-diff --git a/meta/recipes-extended/lzip/lzip_1.24.1.bb b/meta/recipes-ext=
-ended/lzip/lzip_1.25.bb
-similarity index 88%
-rename from meta/recipes-extended/lzip/lzip_1.24.1.bb
-rename to meta/recipes-extended/lzip/lzip_1.25.bb
-index 6eda012734..590e35cb75 100644
---- a/meta/recipes-extended/lzip/lzip_1.24.1.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.25.bb
-@@ -3,12 +3,12 @@ HOMEPAGE =3D "http://lzip.nongnu.org/lzip.html"
- DESCRIPTION =3D "Lzip is a lossless data compressor with a user interfac=
-e similar to the one of gzip or bzip2. Lzip uses a simplified form of the=
- Lempel-Ziv-Markov chain-Algorithm (LZMA) stream format, chosen to maximi=
-ze safety and interoperability."
- SECTION =3D "console/utils"
- LICENSE =3D "GPL-2.0-or-later"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D76d6e300ffd8fb9d18bd9b136a9bb=
-a13 \
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dcca7f74ec83b7a9ce7ccd195aad47=
-1bd \
-                     file://decoder.cc;beginline=3D3;endline=3D16;md5=3D1=
-8c279060cd0be128188404b45837f88 \
-                     "
-=20
- SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
--SRC_URI[sha256sum] =3D "30c9cb6a0605f479c496c376eb629a48b0a1696d167e3c1e=
-090c5defa481b162"
-+SRC_URI[sha256sum] =3D "09418a6d8fb83f5113f5bd856e09703df5d37bae0308c668=
-d0f346e3d3f0a56f"
-=20
- B =3D "${WORKDIR}/build"
- do_configure[cleandirs] =3D "${B}"
---=20
-2.25.1
-
+diff --git a/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch b/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
+new file mode 100644
+index 00000000000..a919f4f6fbf
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
+@@ -0,0 +1,34 @@
++From 2ac63f8765e62f1492ef3ee06791636700bc6cfb Mon Sep 17 00:00:00 2001
++From: triallax <triallax@tutanota.com>
++Date: Sat, 29 Jun 2024 15:25:24 +0100
++Subject: [PATCH] Cast offset to size_t to avoid c++11-narrowing warning (#92)
++
++e.g. with clang 18 on chimera linux:
++
++_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: error: non-constant-expression cannot be narrowed from type 'long' to 'size_t' (aka 'unsigned long') in initializer list [-Wc++11-narrowing]
++  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
++      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: note: insert an explicit cast to silence this issue
++  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
++      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++      |          static_cast<size_t>(                      )
++
++Upstream-Status: Backport [https://github.com/python-cffi/cffi/pull/92]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/cffi/recompiler.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/cffi/recompiler.py b/src/cffi/recompiler.py
++index ac6c163e..14d578ee 100644
++--- a/src/cffi/recompiler.py
+++++ b/src/cffi/recompiler.py
++@@ -953,7 +953,7 @@ class Recompiler:
++                 if cname is None or fbitsize >= 0:
++                     offset = '(size_t)-1'
++                 elif named_ptr is not None:
++-                    offset = '((char *)&((%s)4096)->%s) - (char *)4096' % (
+++                    offset = '(size_t)(((char *)&((%s)4096)->%s) - (char *)4096)' % (
++                         named_ptr.name, fldname)
++                 else:
++                     offset = 'offsetof(%s, %s)' % (tp.get_c_name(''), fldname)
+diff --git a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+index fbe9051a90b..5a3af03d9f6 100644
+--- a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
++++ b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+@@ -6,7 +6,8 @@ DEPENDS += "libffi python3-pycparser"
+ 
+ SRC_URI[sha256sum] = "1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824"
+ 
+-SRC_URI += "file://run-ptest"
++SRC_URI += "file://run-ptest \
++            file://0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch"
+ 
+ inherit pypi python_setuptools_build_meta ptest pkgconfig
+ 
 
