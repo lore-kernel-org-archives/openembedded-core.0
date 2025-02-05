@@ -1,98 +1,100 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2117C02197
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 16:16:28 +0000 (UTC)
-Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [185.125.25.11])
- by mx.groups.io with SMTP id smtpd.web11.16193.1738772179163534365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F05C02198
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 16:32:18 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.16652.1738773134503480794
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 08:16:19 -0800
+ Wed, 05 Feb 2025 08:32:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.11, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10:40ca:feff:fe05:1])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Yp52T1Fb9zkKh;
-	Wed,  5 Feb 2025 17:16:17 +0100 (CET)
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Yp52S4Bzkz3SD;
-	Wed,  5 Feb 2025 17:16:16 +0100 (CET)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Subject: [PATCH v4 0/2] add basic b4 config file
-Date: Wed, 05 Feb 2025 17:15:59 +0100
-Message-Id: <20250205-b4-support-v4-0-ad5f99923977@cherry.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL+Oo2cC/23MSw6CMBSF4a2Qjq3p7QPQkfswDlp6K50AabGRE
- PZuYSIYh+ck3z+TiMFjJNdiJgGTj77v8pCngjSt7p5Ivc2bcMYVA6iokTS+hqEPIwVmUYBwSpi
- KZDAEdP69xe6PvFsfxz5MWzvB+v7NJKBAHVZSK6cYmvLWtBjCdLZI1kziX8qZOFBOGa1lzVitL
- b+g/qViT9WBikxdbUCqUiM0fE+XZfkAvV5cQxoBAAA=
-X-Change-ID: 20250117-b4-support-10de313f53b7
-To: openembedded-core@lists.openembedded.org
-Cc: Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.2
-X-Infomaniak-Routing: alpha
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BUGaI/zs;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uJDCGwMd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010194d6f4794a-179c18c7-9057-4ca1-935b-877ec207c968-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738773133; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=dfTs7AAfAFCWt30RM0bfHSC5UWSDOnxvn91LBhuKt3w=;
+	b=BUGaI/zsUeyJ1fYJNTwwNVtQvenQzP71xufNycgf3jyQ7UvRaYbNXn88BYL3wR/S
+	x+f6pL5xLQX0PuxE7rzq/uIuvsp2kuw2Y/kRtZltuco6Nrw700heexWAoQsA8S/3eR1
+	3kXs9N9kFLkhjus0zO6u7qv3ssayP4c9QZ3bMrMU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738773133;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=dfTs7AAfAFCWt30RM0bfHSC5UWSDOnxvn91LBhuKt3w=;
+	b=uJDCGwMdJ+7jiv99be0TLA7SE4qWyXZEoGwUyEMlgn2XFfaGYZjt+LwvClsCBADz
+	YaVNxQF3+x+Ogi54V8ayeorZ340HCHyOONQRqrLoaUDHXdhUBb69WHPUhyBOiZEpC9K
+	+AF0cZvaDw9HBWxX8jjS9t1ht6bkEniCyPVSQbLQ=
+From: patchtest@automation.yoctoproject.org
+To: Quentin Schulz <foss+yocto@0leil.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v4 1/2] add basic b4 config file
+In-Reply-To: <20250205-b4-support-v4-1-ad5f99923977@cherry.de>
+References: <20250205-b4-support-v4-1-ad5f99923977@cherry.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194d6f4794a-179c18c7-9057-4ca1-935b-877ec207c968-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Feb 2025 16:32:13 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.05-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 16:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210867
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 16:32:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210869
 
-This adds very basic support for using b4 in OE-Core. This essentially
-just automatically adds the proper mailing list when running b4 prep
---auto-to-cc.
+--NextPart
+Content-Type: text/plain
 
-This also adds the b4 wrapper script that poky will need to use in order
-to identify which mailing list a patch needs to be sent to and do some
-additional per-patch checks that aren't necessary when running from
-vanilla OE-Core.
-
-Once this is merged, poky will need to merge OE-Core into itself and
-override with its own .b4-config that makes use of that script.
-
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
----
-Changes in v4:
-- replace subprocess.call calling "which lsdiff" with
-  shutil.which("lsdiff") so it is supported by more systems,
-- Link to v3: https://lore.kernel.org/r/20250205-b4-support-v3-0-f8b1456ae1c2@cherry.de
-
-Changes in v3:
-- populate To recipient list instead of Cc to follow what's asked in our
-  READMEs,
-- put yocto-docs ML in Cc if there's a patch to bitbake/doc directory,
-- the wrapper script needed to be adapted to handle both Cc and To
-  recipient lists,
-- explicit that an address can only appear once and the recipient list
-  it'll make it to is the one appropriate for the first patch that needs
-  to be sent to it,
-- Link to v2: https://lore.kernel.org/r/20250203-b4-support-v2-0-848008ad29ea@cherry.de
-
-Changes in v2:
-- add mention to first patch that running patchtest for b4 prep --check
-  is what we're eventually aiming for,
-- add poky b4 wrapper script (it used to be in the patch series for
-  poky, c.f. https://lore.kernel.org/poky/20250123-b4-support-v1-1-4841f52eccbb@cherry.de/T/#m95d6aa25cc42352416da477cf07d7b3cbd671231
-- poky b4 wrapper script properly identifies patches with files modified
-  in both OE-Core and other repos part of poky,
-- poky b4 wrapper script pretty prints when there's more than one
-  project modified by a script, instead of lazily printing a Python
-  list,
-- Link to v1: https://lore.kernel.org/r/20250117-b4-support-v1-1-fe74a5f50eb6@cherry.de
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
 ---
-Quentin Schulz (2):
-      add basic b4 config file
-      scripts: add b4-wrapper for poky
+Testing patch /home/patchtest/share/mboxes/v4-1-2-add-basic-b4-config-file.patch
 
- .b4-config                 |   3 +
- scripts/b4-wrapper-poky.py | 178 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 181 insertions(+)
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
 ---
-base-commit: 7e2d743e4809d6cbaa8e441dc42624eb65daad63
-change-id: 20250117-b4-support-10de313f53b7
 
-Best regards,
--- 
-Quentin Schulz <quentin.schulz@cherry.de>
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
+--NextPart
+
+
+--NextPart--
 
