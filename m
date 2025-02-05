@@ -1,141 +1,308 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F40EEC02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 07:07:05 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.6576.1738739217614254883
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 23:06:57 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B37BC02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 08:06:46 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.7393.1738742800214691322
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 05 Feb 2025 00:06:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P/1K76Il;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso44450685e9.0
-        for <Openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 23:06:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738739216; x=1739344016; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WZoWkQ0WJWeovfBOSvONiignzgGzbHq/lXDpvAQNKZc=;
-        b=P/1K76IlpDOYcZbHYeRxVppkFr2CFBSFxRcQtZ8GCQPgtbZecR28VefTa44tXAYOFu
-         LrZXZhFrXmvfg5C7utnCVLsPVNbdRupEO4V9y8xIA5/p1hUPiURR8LmfDQ3QUDBA8HQU
-         iQdNv7w72BNhFqXlrcOMRHaPfF+JTV/FKeVO58oSdHk0lT5uZq5PTtl4PmT7EwG6xGIy
-         vWk6jctTyFTPVtMRWU24v211abely2TmZGl6DEy8mWT/Xd3iSQHrm5N5t3h3EkKHlnM1
-         OTbMkR/X6WPKNZ6l5SiNXSZBnINWzhDSdi2lCLYc8k34Sd1bgtssOmVRY87QC/wwKlIE
-         Fx8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738739216; x=1739344016;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WZoWkQ0WJWeovfBOSvONiignzgGzbHq/lXDpvAQNKZc=;
-        b=jyejEFcoeRDpNIo6wKrQdpvRL26foGK8DMspQh2uB4tfSpkLQLXk66GCxac4UktqTJ
-         9UVV5z3sCFU5FKTxTypD+D2yhr9YWBmYlY30wrXYOyyOzHptQkr2Vnfk82EGXoq/JCfq
-         17EVUamrVS2fa8UwUrv0635h+4Z3MaxvOLMUkxmvZ4RfZtVM9Wb6wOI2WAtPtvKeFUC2
-         WCExHRYaVc4U6hZDmCghc0TmQpoln83uCsp05qkKaapd64BAqgWumesf8y5H4kiN5qys
-         sbeu3Y9l9A5HIhcdu44duFIa8Z4NAaDptXforZV0JmHU/j9HhfZyImw1vOqWGYjZbu5H
-         QVkA==
-X-Gm-Message-State: AOJu0YzASQ8G9z1mnVpX2P8wztTYw4PiFTuvWh3guZOU7yGxECa/7O/K
-	l7kS1SdWNw/0d9/moFW8GsCI81PZKyB2GsAACItfIQ3nV61dcGH5
-X-Gm-Gg: ASbGncv6Knd+VfYkQb3QrnLQMvYD+m3RMGK1yiw6bTfmGR2ylrcEUUEgERltcGpuyBd
-	P8NXXEaQn7qn13dRA8qmQZAG7c1qJIfA+TV13TqCBQRkWy4lkXOj5adzjybgrJRIvwQQPkbViqj
-	FPTQR67UcAPbTxZuPGRyyIxXRtTZ+e6TKXbno+rasvg9UVBSsCRz5WgKu1bF/6OMGr/o9oe0j6O
-	yjTnQ68mToBG619S4E/d9GpHIib6AOJoABddmdbeTMrbsujzN0Dkq3VlvBXYjJ3C0q1uX3dY0qv
-	Mk4YALKkNxW1ygSBDGgsXOYXkSRun94p
-X-Google-Smtp-Source: AGHT+IHVDTRFbIVZ9nee+yBaCVF/YgzxEydDqiYrClC82dZBs8IcDlfOC5vD/HBc0BKcIeCNGRz/qA==
-X-Received: by 2002:a05:600c:5127:b0:438:da66:fdf9 with SMTP id 5b1f17b1804b1-4390d43f779mr10111145e9.18.1738739215626;
-        Tue, 04 Feb 2025 23:06:55 -0800 (PST)
-Received: from [10.54.22.119] ([154.47.27.149])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43907f6741esm24586145e9.3.2025.02.04.23.06.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 23:06:54 -0800 (PST)
-Message-ID: <5bc230dd-0480-4a5a-8cac-6137e36538a8@gmail.com>
-Date: Wed, 5 Feb 2025 08:06:52 +0100
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4131e7fe3b=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5156x3AW007030;
+	Wed, 5 Feb 2025 08:06:39 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8bur0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 05 Feb 2025 08:06:38 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 5 Feb 2025 00:06:37 -0800
+Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 5 Feb 2025 00:06:36 -0800
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <steve@sakoman.com>, <liezhi.yang@windriver.com>
+Subject: [scarthgap][PATCH] binutils: File name too long causing failure to open temporary head file in dlltool
+Date: Wed, 5 Feb 2025 16:06:35 +0800
+Message-ID: <20250205080635.2915215-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 3/3] systemd: Build the systemctl executable
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: Openembedded-core@lists.openembedded.org
-References: <20250204105315.84079-1-uvv.mail@gmail.com>
- <20250204105315.84079-3-uvv.mail@gmail.com> <Z6ITnblSwyvezrQT@nuoska>
-Content-Language: en-US
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <Z6ITnblSwyvezrQT@nuoska>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=ecXHf6EH c=1 sm=1 tr=0 ts=67a31c0f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=lmprMifiJBPMbUC0UVYA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: o8cuO2geRty_4yTJBg6wU_78_-L2ueUO
+X-Proofpoint-GUID: o8cuO2geRty_4yTJBg6wU_78_-L2ueUO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-05_03,2025-02-05_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502050064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 07:07:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210830
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 08:06:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210831
 
-On 04.02.2025 14:18, Mikko Rapeli wrote:
-> Hmm, doesn't this overwrite SRC_URI from systemd.inc?
->
-> SRC_URI += "file://...patch" would amend the patch file.
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Good catch!
+During the execution of the command: i686-w64-mingw32-dlltool
+--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
+An error occurred:
+i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
 
->> -S = "${WORKDIR}/sources"
->> -UNPACKDIR = "${S}"
->> -
->> -do_install() {
->> -	install -d ${D}${bindir}
->> -	install -m 0755 ${S}/systemctl ${D}${bindir}
->> -}
->> +MESON_TARGET = "systemctl:executable"
->> +MESON_INSTALL_TAGS = "systemctl"
->> +EXTRA_OEMESON:append = " -Dlink-systemctl-shared=false"
-> I wonder why this tag support is needed since MESON_TARGET already
-> compiles only the correct executable with static linking. Is it there
-> just to let meson handle the install step of a single systemctl
-> executable?
->
-> Or does it install more files, like config files too?
+Due to the path length exceeding the Linux system's file name length
+limit (NAME_MAX=255), the temporary file name generated by the
+i686-w64-mingw32-dlltool command becomes too long to open. To address
+this, a new temporary file name prefix is generated using tmp_prefix =
+prefix_encode ("d", getpid()), ensuring that the file name does not
+exceed the system's length limit.
 
-Correct. It installs much more when no tags specified :)
+Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
+TMP_STUB handling by overwriting a prior nnnnn.o string rather than
+copying the entire name.
 
->
-> I'm comparing this to a draft systemd-boot-native recipe for ukify
-> which I had and which sets the build target but installs manually:
->
-> MESON_TARGET = "ukify"
->
-> EXTRA_OEMESON += "-Dnobody-user=nobody \
->      -Dnobody-group=nogroup \
->      -Drootlibdir=${rootlibdir} \
->      -Drootprefix=${rootprefix} \
->      -Ddefault-locale=C \
->      -Dmode=release \
->      -Dsystem-alloc-uid-min=101 \
->      -Dsystem-uid-max=999 \
->      -Dsystem-alloc-gid-min=101 \
->      -Dsystem-gid-max=999 \
-> "
->
-> do_install() {
->      install -d ${D}${bindir}/
->      install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
-> }
->
-> So the custom do_install() step could be avoided if systemd meson config
-> would have "install_tag" for ukify too?
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../0017-dlltool-file-name-too-long.patch     | 208 ++++++++++++++++++
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
 
-Correct. There's more discussion here 
-https://github.com/systemd/systemd/pull/36243 , but if we need more 
-tags, they can be added.
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 41ed39632d..89c552cf03 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -37,5 +37,6 @@ SRC_URI = "\
+      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
+      file://0015-gprofng-change-use-of-bignum-to-bigint.patch \
+      file://0016-CVE-2024-53589.patch \
++     file://0017-dlltool-file-name-too-long.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+new file mode 100644
+index 0000000000..2b759c1ee8
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+@@ -0,0 +1,208 @@
++From d95d8395b3a533461f46e8b7e55fef540fc2621b Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Tue, 13 Aug 2024 10:31:21 +0800
++Subject: [PATCH] dlltool: file name too long
++
++During the execution of the command: i686-w64-mingw32-dlltool
++--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
++An error occurred:
++i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
++
++Due to the path length exceeding the Linux system's file name length
++limit (NAME_MAX=255), the temporary file name generated by the
++i686-w64-mingw32-dlltool command becomes too long to open. To address
++this, a new temporary file name prefix is generated using tmp_prefix =
++prefix_encode ("d", getpid()), ensuring that the file name does not
++exceed the system's length limit.
++
++Upstream-Status: Backport
++[https://github.com/bminor/binutils-gdb/commit/a253bea8995323201b016fe477280c1782688ab4]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++Reviewed-by: Alan Modra <amodra@gmail.com>
++
++Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
++TMP_STUB handling by overwriting a prior nnnnn.o string rather than
++copying the entire name.
++
++* dlltool.c (TMP_STUB): Add "nnnnn.o" to format.
++(make_one_lib_file): Localise variables.  Don't copy TMP_STUB,
++overwrite suffix instead.
++(gen_lib_file): Similarly.
++(main): Allow for max suffix when testing against NAME_MAX.
++
++Upstream-Status: Backport
++[https://github.com/bminor/binutils-gdb/commit/d0285cdf58adf04e861cd1687f7ecec65937c99d]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ binutils/dlltool.c | 64 +++++++++++++++++-----------------------------
++ 1 file changed, 24 insertions(+), 40 deletions(-)
++
++diff --git a/binutils/dlltool.c b/binutils/dlltool.c
++index 066c99a4..94f6c34b 100644
++--- a/binutils/dlltool.c
+++++ b/binutils/dlltool.c
++@@ -498,7 +498,7 @@ char *tmp_stub_buf;
++ #define TMP_HEAD_O	dlltmp (&tmp_head_o_buf, "%sh.o")
++ #define TMP_TAIL_S	dlltmp (&tmp_tail_s_buf, "%st.s")
++ #define TMP_TAIL_O	dlltmp (&tmp_tail_o_buf, "%st.o")
++-#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ss")
+++#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ssnnnnn.o")
++ 
++ /* This bit of assembly does jmp * ....  */
++ static const unsigned char i386_jtab[] =
++@@ -2401,26 +2401,11 @@ make_imp_label (const char *prefix, const char *name)
++ static bfd *
++ make_one_lib_file (export_type *exp, int i, int delay)
++ {
++-  bfd *      abfd;
++-  asymbol *  exp_label;
++-  asymbol *  iname = 0;
++-  asymbol *  iname2;
++-  asymbol *  iname_lab;
++-  asymbol ** iname_lab_pp;
++-  asymbol ** iname_pp;
++-#ifndef EXTRA
++-#define EXTRA    0
++-#endif
++-  asymbol *  ptrs[NSECS + 4 + EXTRA + 1];
++-  flagword   applicable;
++-  char *     outname = xmalloc (strlen (TMP_STUB) + 10);
++-  int        oidx = 0;
++-
++-
++-  sprintf (outname, "%s%05d.o", TMP_STUB, i);
++-
++-  abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
+++  char *outname = TMP_STUB;
+++  size_t name_len = strlen (outname);
+++  sprintf (outname + name_len - 7, "%05d.o", i);
++ 
+++  bfd *abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
++   if (!abfd)
++     /* xgettext:c-format */
++     fatal (_("bfd_open failed open stub file: %s: %s"),
++@@ -2437,9 +2422,13 @@ make_one_lib_file (export_type *exp, int i, int delay)
++     bfd_set_private_flags (abfd, F_INTERWORK);
++ #endif
++ 
++-  applicable = bfd_applicable_section_flags (abfd);
++-
++   /* First make symbols for the sections.  */
+++  flagword applicable = bfd_applicable_section_flags (abfd);
+++#ifndef EXTRA
+++#define EXTRA    0
+++#endif
+++  asymbol *ptrs[NSECS + 4 + EXTRA + 1];
+++  int oidx = 0;
++   for (i = 0; i < NSECS; i++)
++     {
++       sinfo *si = secdata + i;
++@@ -2466,7 +2455,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
++ 
++   if (! exp->data)
++     {
++-      exp_label = bfd_make_empty_symbol (abfd);
+++      asymbol *exp_label = bfd_make_empty_symbol (abfd);
++       exp_label->name = make_imp_label ("", exp->name);
++       exp_label->section = secdata[TEXT].sec;
++       exp_label->flags = BSF_GLOBAL;
++@@ -2482,6 +2471,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
++   /* Generate imp symbols with one underscore for Microsoft
++      compatibility, and with two underscores for backward
++      compatibility with old versions of cygwin.  */
+++  asymbol *iname = NULL;
++   if (create_compat_implib)
++     {
++       iname = bfd_make_empty_symbol (abfd);
++@@ -2491,25 +2481,24 @@ make_one_lib_file (export_type *exp, int i, int delay)
++       iname->value = 0;
++     }
++ 
++-  iname2 = bfd_make_empty_symbol (abfd);
+++  asymbol *iname2 = bfd_make_empty_symbol (abfd);
++   iname2->name = make_imp_label ("__imp_", exp->name);
++   iname2->section = secdata[IDATA5].sec;
++   iname2->flags = BSF_GLOBAL;
++   iname2->value = 0;
++ 
++-  iname_lab = bfd_make_empty_symbol (abfd);
++-
+++  asymbol *iname_lab = bfd_make_empty_symbol (abfd);
++   iname_lab->name = head_label;
++   iname_lab->section = bfd_und_section_ptr;
++   iname_lab->flags = 0;
++   iname_lab->value = 0;
++ 
++-  iname_pp = ptrs + oidx;
+++  asymbol **iname_pp = ptrs + oidx;
++   if (create_compat_implib)
++     ptrs[oidx++] = iname;
++   ptrs[oidx++] = iname2;
++ 
++-  iname_lab_pp = ptrs + oidx;
+++  asymbol **iname_lab_pp = ptrs + oidx;
++   ptrs[oidx++] = iname_lab;
++ 
++   ptrs[oidx] = 0;
++@@ -3089,29 +3078,26 @@ gen_lib_file (int delay)
++ 
++   if (dontdeltemps < 2)
++     {
++-      char *name;
++-      size_t stub_len = strlen (TMP_STUB);
+++      char *name = TMP_STUB;
+++      size_t name_len = strlen (name);
++ 
++-      name = xmalloc (stub_len + 10);
++-      memcpy (name, TMP_STUB, stub_len);
++       for (i = 0; (exp = d_exports_lexically[i]); i++)
++ 	{
++ 	  /* Don't delete non-existent stubs for PRIVATE entries.  */
++           if (exp->private)
++ 	    continue;
++-	  sprintf (name + stub_len, "%05d.o", i);
+++	  sprintf (name + name_len - 7, "%05d.o", i);
++ 	  if (unlink (name) < 0)
++ 	    /* xgettext:c-format */
++ 	    non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
++ 	  if (ext_prefix_alias)
++ 	    {
++-	      sprintf (name + stub_len, "%05d.o", i + PREFIX_ALIAS_BASE);
+++	      sprintf (name + name_len - 7, "%05d.o", i + PREFIX_ALIAS_BASE);
++ 	      if (unlink (name) < 0)
++ 		/* xgettext:c-format */
++ 		non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
++ 	    }
++ 	}
++-      free (name);
++     }
++ 
++   inform (_("Created lib file"));
++@@ -4096,9 +4082,9 @@ main (int ac, char **av)
++   if (tmp_prefix == NULL)
++     {
++       /* If possible use a deterministic prefix.  */
++-      if (imp_name || delayimp_name)
+++      const char *input = imp_name ? imp_name : delayimp_name;
+++      if (input && strlen (input) + sizeof ("_snnnnn.o") - 1 <= NAME_MAX)
++         {
++-          const char *input = imp_name ? imp_name : delayimp_name;
++           tmp_prefix = xmalloc (strlen (input) + 2);
++           sprintf (tmp_prefix, "%s_", input);
++           for (i = 0; tmp_prefix[i]; i++)
++@@ -4106,9 +4092,7 @@ main (int ac, char **av)
++               tmp_prefix[i] = '_';
++         }
++       else
++-        {
++-          tmp_prefix = prefix_encode ("d", getpid ());
++-        }
+++        tmp_prefix = prefix_encode ("d", getpid ());
++     }
++ 
++   mangle_defs ();
++-- 
++2.34.1
++
+-- 
+2.34.1
 
->
-> Current systemd-boot-native recipe installs/copies the unmodified ukify.py
-> from source tree and uses that in native. It doesn't run meson build for it
-> and thus things like version details are incorrect. Also some additional tools
-> like systemd-measure, systemd-sbsign etc are not compiled so some usecases may
-> not be supported atm. If those would also include the install tags, then they
-> could be compiled and installed too, I presume.
-
-Yes, that would be an option as well
-
-Slava
 
