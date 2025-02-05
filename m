@@ -1,209 +1,324 @@
-Return-Path: <tom.hochstein@oss.nxp.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCEAC02196
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 21:38:00 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.84])
- by mx.groups.io with SMTP id smtpd.web10.24748.1738791470451003754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985CBC02196
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 21:49:30 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.25313.1738792159489956657
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 13:37:51 -0800
+ Wed, 05 Feb 2025 13:49:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=O9zil2h/;
- spf=pass (domain: oss.nxp.com, ip: 40.107.104.84, mailfrom: tom.hochstein@oss.nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k4bzUh3beTSHGF4Sy1hcmctYuzceGLmtfffrb09kA/QzNP+ju7LYidZme9dOBQ91HIAUk6g+aCbR4VnujJdI4Rgnk3eqzc43u9nxQjKkrTmS5QIteed7oMx0/GGNurfqe8ExWBG00fi3ZM9jsCoudqZy+5U2W4JwmQAtBmcXMPnmthqEF1+WQhJE+AHL6ou9JAHTc+MeI2SR1boZ03RGisgGqiCzZ2VMGahXuVz3gFQ9YHdhTtJdy+oGlVQZ+REX6aOEPENmbjeNg7ip/sk8JpeE0R6TLShNjMHu6u2w04IsIvuR0AF6K9O5TbRsgHUbtAA0Y2UtoqGX4aD5OltNbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uQ3arsW2CR3MQaTc4dKLPpaB6h9c/aB43B8Q/jvDo/c=;
- b=Yc4uFImo5oNStJ4kPs3V0eCcZMihUJk1m0CteCWt/qKYU83Dfhb5oiZ/9mgO3bkRPJ8+WUURsy47x8QiRPZ/vTOCn62bjzzEK9EA8m+649aVtplIDFyOWvTaFdIyLFxMKrhE0HxTmKGzLlktV6kaSMaBAGnY923OAD5B9gbN93VaR4pXvLdKHp2r3y1H6eAwHbnU0HnkCTuv1ArNuWNxuXM9lZyO6+E+cyRZT4YcmCelPtXJVgc04/5v48SfBY03RLoSdRlNVM7ORS6dtillY18CQejYJSytoDo4IUFj3ZQ/4JSaLDdpgKLOHi6bHMk3KG9TCLfaJ6Mt64hHPDLXMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uQ3arsW2CR3MQaTc4dKLPpaB6h9c/aB43B8Q/jvDo/c=;
- b=O9zil2h/i6+imEDPrWZCIZnRatbsEhWz+Z0yu30RVNSeBmp3gIb8jbnAd+QIEQsI6nupRYc/rAN9fJ88NlVRIlVUgiyLL47y8sM9SNwYpWYoTwIGGMkuhE8+u4xIuHptneQaWIzMkp3MrAzqhaoCLQzYMG9U7eZdBGk4cwgMu07SxcFJom8Bt64hnqTD334EVkzFN4OqeaXesy/mFyVBVxXQw43GEryB/u22SfCTYFhenA9yIH7rowM4bLX8IzBj3uLsYw1A5N1Yn76g0fb13v+W6u1LIdekDkYS0yZxHaf8MeSe67Ah0EXmEzrGDpbjNF/7fzL/MXbqPmwFyR6rCg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by PA4PR04MB9662.eurprd04.prod.outlook.com (2603:10a6:102:260::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Wed, 5 Feb
- 2025 21:37:46 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%3]) with mapi id 15.20.8398.021; Wed, 5 Feb 2025
- 21:37:46 +0000
-Message-ID: <3358af59-dd76-4d2f-aaaf-ab544f515b4f@oss.nxp.com>
-Date: Wed, 5 Feb 2025 15:37:08 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [PATCH] uboot-config: Fix devtool modify
-To: patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-References: <20250205181015.3064866-1-tom.hochstein@oss.nxp.com>
- <01010194d753be6f-f0a3e7a6-2aea-4b02-8a10-bcc02f54d001-000000@us-west-2.amazonses.com>
-Content-Language: en-US
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
-In-Reply-To: <01010194d753be6f-f0a3e7a6-2aea-4b02-8a10-bcc02f54d001-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0200.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::25) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Pn+9rZ1i;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so95421f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 13:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1738792158; x=1739396958; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KNCEB57m3O9C2QHj1r0EPDsnRkyS9S014LuFPOIveXE=;
+        b=Pn+9rZ1ijSe14h6QJuvU7ll5DxS25EUfrawcOolFGMCINJZisuj7+tjL2I/NuA7quu
+         f20En9G/jTNyIqu3kKpgn2hLHOhZK0L6VubpBfUVLTZpcGVEuVlqIPpZ5gcbWFgyEjkQ
+         z/3OGpfu+JPWEYY6133qln530CZN4qEaWk+Wc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738792158; x=1739396958;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KNCEB57m3O9C2QHj1r0EPDsnRkyS9S014LuFPOIveXE=;
+        b=XgmrrbXq+92LluI8XxI9IxBlifswbkgTi5jqn8YBZUcZB82bdSTCE9SExXrmLkIklJ
+         /Xy9sSFfFi4NCXTfs7u8v6ceBtOrRr1Cp9gmQniI/KCf2Kt4w6FGh93nNll9/NV8MhU8
+         qLDhYv7U6Xfish+WlL3H/inJ8tbi4LL/RxlJk4QDLm6zIhj78BXtUtsTAl/UKuLmcnpM
+         pRWMt2lzwqiGOxDZf+OM/cdbVudjiJ+o6twCRdF3c34zrlm9pt+qRJnhnXo+uHnhbMo8
+         rafEb7m2S2tnyxf5VccFGB6t5wv/bRz2y9wZ2RjStnkWzeUh50GogyQyQUgLCTgPiz4W
+         DsbA==
+X-Gm-Message-State: AOJu0Yyv3IqOET6PHYq8z3muDF80c9APkMLznte/wQcBXluB0uKLwqLv
+	LHV1TXDnelXOH+NAfJG9E1sTQmn5uWdlJ63ZF/00DZn9JWjIgVxY/P9IrpfyeEE5iAh0XgPnc/M
+	HhWrs7mH4AWIeu4q+QOxMF5Z/7AIrdnVlkJJx8w==
+X-Gm-Gg: ASbGncvqdO4FSjS+/v1XRD8QZiByEcO6vCjrZ34eB7Xv8T3RsFE1TY7+9HjZjxeIxv1
+	fsFyxQ4ZdgJtg81NcIC6c5/9FyCY1nOqmH21t3r3EOzv7e09UjbnRAFGA+i82apc6PlYCCzu7zQ
+	sHcrlWd6skm58LPwRqPXTGopPuioALaA==
+X-Google-Smtp-Source: AGHT+IGuCNITf5vcVWdPCP73b49V1Wi6Zz0exjKr+n42Zdk6sPyRtNuAn0Nj8b48DpbS5f3fbJBsAm1tgyv2IIz1pvo=
+X-Received: by 2002:a05:6000:186f:b0:38d:b8d0:a1af with SMTP id
+ ffacd0b85a97d-38db8d0a227mr2505613f8f.40.1738792157836; Wed, 05 Feb 2025
+ 13:49:17 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|PA4PR04MB9662:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee818943-23f8-414e-709e-08dd462d5459
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?OVZGdkd5cFNvTTZsTFhHVTZjak9ITWcySml2aTZIdUZsOW1JcW5xRHJFMlJj?=
- =?utf-8?B?SlJSWU1OcDlvZ1N4c2hwZVFFSEJKWGdWM0xsVllSSjRpYjI2L0JoQ0lqeGMr?=
- =?utf-8?B?WmUxQnk1UW12UmE3eWdkNnZmNzRZajFlTUlXYldpcElEbDNXbWJCNlVOSDBW?=
- =?utf-8?B?ZDB5NXhlUVdHNU94NkVad0t0dmorcUtrSUp4TEpDb0M5ZGRvenloeExZdUlI?=
- =?utf-8?B?OTBuZzZuRFFoWlIvMFJJa0xQc3JseUppUDZyNWk2akF3SlZrakJldGhYVXcx?=
- =?utf-8?B?T1F0U0N4SDhSMlgwa1luMWpSVTg1ZDFOcFM4eU04ZVhnUFFOaWE4Z3JEN2I0?=
- =?utf-8?B?NTIvUlJoM2pyS2pqek9ndmtHb1hEV04zTGUrL0hzRWVSUFhubTNDSENsZG1Z?=
- =?utf-8?B?UEtDaWZHdHlKQWs0K1pZMFdYbGl2dGE1aWhpN2QyRkhTSGZhOGhBbGZIMVU5?=
- =?utf-8?B?L28rdEluekxkUnY4WWdEdTZaWGY4ckxCR0tDSVBPUmVjWXZ6NmdleG1ScHpi?=
- =?utf-8?B?OG4vT3hnTDV5TUFqSE5ZNUh0Vk5IYVdabmR6ZWNTQS9zV2FVdGJiR2Y2MlN0?=
- =?utf-8?B?VEliRG5vbzV0K0VZNlJIcVorZENMTndXS1lzRHhKUVhvK0grZFlrQTRDaFNa?=
- =?utf-8?B?clBYUHNMbmZQTlFVMmlKTVMyNVZnYXhuVlBXUDFrbTA5Z3M2WUhLcmp4YWpZ?=
- =?utf-8?B?RHFTWkJSaGFoYXBNckdEak5nd2lwMExsVWRMUVlQS3RIRkVPcXRVR0gwcDg1?=
- =?utf-8?B?VW16NmZrTEtIeUtSZkRXOFZPL1lnVGRVNVFJQVAxcmVzd2UzZ3FDa0dPQWlu?=
- =?utf-8?B?ZjZRYzFhOWpPZ1BDRjFXcU1wczk4Vjh6bXQ4MTA1bE42UnRDcDZDU0Q5OW9q?=
- =?utf-8?B?NDZ4SUYyaE9nZGZRMGhBb295NFVjUWFXNGl5dFZVbDBuUTZJdWdhT3pVdVJE?=
- =?utf-8?B?b0VMald0UmE0ZlVXUE9kNWtBVFUxR0tpUVQ1TjRFVmk2cXY1YUw1Y2lTQ1ps?=
- =?utf-8?B?b1gwQWZWVzZKTlNjN1c3UjBQODVxY0haV1VReHdFTmtTaDVtcDhuZWFsY3l6?=
- =?utf-8?B?enhEcGI1OGFpM2NhWFczbVl2NnhMT2tXa0hUaDlqVHNjL1hrRGZORXdqVUgx?=
- =?utf-8?B?WEV4alVLdmFSUG4zNTBTMSs3YnA2enhBUXhxZ1VhOHBnaW9od3lGVTRIYjV0?=
- =?utf-8?B?L3ZiMThnN2xuMjZPakF2VTQ0eDMvSmZ3RDVnbzNMTU82cXdITEFOUXpDMG5u?=
- =?utf-8?B?bEsreW0wWW5CeEo4aU1pYVNkVFl1QlhMN3BUVU9CUFQ4TzBxbU9CVTJqNzJh?=
- =?utf-8?B?NU5MZjNUMUJkMXNLR2N5azcxYVNaMVlWajdXZHFhUWN6V1pmcVFLbm9KVVFx?=
- =?utf-8?B?Z0tvSG9YZXBybEtRTjlpNExuVE90QVhkWHNJM2I2MWtLUnZYMmJCSXhRTzFP?=
- =?utf-8?B?SzZlU1BTZnJhK2M2ekxlblozNFc3Yllyd2tDT3RacTQybFVXTDlabkpZLzVT?=
- =?utf-8?B?NXM3T1gwSCtJanFoRkVRRmxHa3ZSQ3piUWVyV3VaQ3l3RUtMZU05T0w3UDNL?=
- =?utf-8?B?S29NZ01UU3hiY2hVMGhGMTVzTmJucklEV0RsaEJVY0p1elNTOVY1ZU5YVmRu?=
- =?utf-8?B?N0Jkc25KN1hMOWI5bG53TFQ4Yi9ENnRHUVZhd204ejY5Ny81LzQzU1B6V0E5?=
- =?utf-8?B?K0xyM3FJZUJFcmtyME5WbzU4Zkg3V0I2RzlvdkdqM1J4aHBWNVlOa0lDbHIr?=
- =?utf-8?Q?j7USTWbMaHr3nLMDZF/2ZamspY2rdzvlS1YAyK8?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NmgyUm1vU1dKRGtyZnpRYXFpTDRvMmxrOFhVT29XdjdZd2k1U3o2TnJEWU1o?=
- =?utf-8?B?eUVpQVJKbE5PSytRSDIrd2lXanZ0Q1ZhYjZ5ZVI4UHlGdjdZdko3bjZHclhT?=
- =?utf-8?B?NXdEVkNCbjlBR1lJRzhRODBPWEg3ZStMOWRCUW9mNXBpTGxObDJ5d2szbGow?=
- =?utf-8?B?OWZ1bjBYQll6Q3JSV0R2bXZIYng5czRROUYrc1dyeDI3WjhEVTVYL0RrQkJQ?=
- =?utf-8?B?T0xzZEt4Umdabk9YYWtrWkZSajRMN1BudGFYTDJGUm9vSHoya0x3OWVPTGhD?=
- =?utf-8?B?STFGNTdka203cWVCMDB3dy9nNFdLNzlqc3YycEordjNVd1FESXdLWGxiVFN5?=
- =?utf-8?B?UDkxM2xVRGt1MjVDV25OTXN4TXp2cXlQM0ZVZktOeVBBc29yQ2pxcitXaXdO?=
- =?utf-8?B?eDZLWit6THJtZnY2K2hPL1J0NU9sMk9yQm16OWtCMnRPU0ZzUVJka2tnQ011?=
- =?utf-8?B?MWI1WHVaS2hhdXBmTnJtTmZtRTNSMkF2TkdNdTIweGlCN01rdmJxZUlGN1Nq?=
- =?utf-8?B?dEJQM2FoV3pGU2VTQ2ZpUFNMY3kvcmtMdFpDaG9kMVgyRjZZUUZIbWFVQVZW?=
- =?utf-8?B?d0JhbnZhOGRucjBkSDJ2aFF6Q0J4TnRSUHVDQnRGWWgyTmE3ZW0wLzVyRVpS?=
- =?utf-8?B?MG1oTmpMMVdvTEFYVytMZkxWSUdDazF4TmM4QXJTU1czQk1TK2o0dWg5WVJN?=
- =?utf-8?B?UVk0emFKN2d6RHFOb1RHT0RSYlFsazdlZ0ZXSFI0NzB0WTRzQndBTHpwZ0Zt?=
- =?utf-8?B?KzZSZW43QklPSDlpZGpONjZkUUFRcnNnZzBqaDNMU3Z3a3Y5WU01eG5LMlV3?=
- =?utf-8?B?Y1MxbTJZKzVQQ25XOWZMVExnVGJ5ZUdXVXN3Y1JjK1hwdzRDWkIrMmJxb0hZ?=
- =?utf-8?B?VzF3bDJQQkVvcXE3aDFtekNmeTVMSmVFdEFQMXVyUzErV3c0VTU3bVFzeWtV?=
- =?utf-8?B?Y1cycG55d3A2SEUzWmdLSEtDck92QWVSM2dYQmxtSmpoY2l2K1M4djdjdzBC?=
- =?utf-8?B?NFFhR3FibjhRMGJtYUdWblJuZ01MUkdpRVkvVG1mV0wyZ1A1cDMwUlorUlJs?=
- =?utf-8?B?N24rNnZScHkwNFdNUk5wZDhWQXNibUsrY2NMSzA5cngzMzgwM0hEVzJROTFO?=
- =?utf-8?B?SHJzd2ZjbDQvMHVTamw0dGZhN2VRTFVCRllWczZkWGQ3UG9CYWdjRmZ4cXRO?=
- =?utf-8?B?WDFyU0tLYy9NMmt4ZTkxcDFFZ1JmZVJGS1RFMEVhWVhGS2xONWs1ci9EWDFl?=
- =?utf-8?B?MFdkTFdjU3dsRGZDejM1bWlhaUsrV0kyM1BPTTlYMWduN2NIV3ZHSFdzWGhO?=
- =?utf-8?B?R3R2Uy9YSFpHYmU4NzhzTWU5ME5JMHFieEd4UU9lSDhGOHNVQnQyUFNPdVNM?=
- =?utf-8?B?dk9ZalpWeDdQRVFNdnpFN1RNMlRWYW15WlBmdGJyaXVLMkpESDc5MlFHdUJ0?=
- =?utf-8?B?cVhuMVlqNktQYnVPWklaLzJEVExTNFR1STdnUEVSUWtPZnZzYWlFVEVPaVRz?=
- =?utf-8?B?RGVvVVROWHdjSUgvK01RZnZySXk1YU0rSWtjVDBXUVozTVY0bHJ2UjBUbWxo?=
- =?utf-8?B?d2s4aDVlOXh4UEJYQVJVTktKQTIxUThoYnQzZ3luWUJUQXo4bWFWbGJkSGJm?=
- =?utf-8?B?VnA3REZ2a2d0ckZCcWNqaVErcnhITldBUDFCaGFFQVViaWlvUnUvKzljUEhJ?=
- =?utf-8?B?L01GOU1tUWl0UFNLa0w5ZWVBWkJKbVlRU1BvaWV4SjRWZ1dMdkNBU3Vab1lt?=
- =?utf-8?B?NkxiaWxDb1hGM0hYM1NQSVpxN09sclgyN3J5ZFMyUDRRWWtGenFOcU4raEJp?=
- =?utf-8?B?Mkk1SjlFbU1OK1h1emR1UEVSUjFaVW1UcmVCZUpQTW42by9LYVJ2S3llUU9M?=
- =?utf-8?B?cVU4Snk5QmNyekZFak8ySnVSL1FKU1dSR3NTOU5HbDhBck5aQ25BZEhyWExy?=
- =?utf-8?B?Qnl1Sm5sNnlQVzRjajZYcmZFSWIxMjJkN0NPN3o0Q1pvZkN3dVFRemNaNzNV?=
- =?utf-8?B?N1VTNUNxcWExcUhZMTFGT2VIemtVWDN3L2U0RmZCbFNINi83Wmtva1hWZUIz?=
- =?utf-8?B?ZTZkVmdTYkhCYW9vcUF4WG9VZkYrRWVPd054Yjk5OGU1T3RINEFKdE14SHpJ?=
- =?utf-8?B?MHJJNTAwcmxjKzlnUEVpa3l0bkNJZW8yNGY2TUt3Q2FQZGtZOGczZnNxWCt4?=
- =?utf-8?B?N3c9PQ==?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee818943-23f8-414e-709e-08dd462d5459
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 21:37:46.3772
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3nR5ZUVok/jvUPVyZEmDX9nP5E8yHRnazvRN8E0qAdKymSfx2//et1e87Pxe9/l6t4/wZf8+uapnHBrboJCg0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9662
+References: <20250205181015.3064866-1-tom.hochstein@oss.nxp.com>
+In-Reply-To: <20250205181015.3064866-1-tom.hochstein@oss.nxp.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Wed, 5 Feb 2025 22:48:51 +0100
+X-Gm-Features: AWEUYZnXoHwDpo5thU1rHws4yLwAHHLpMkeDuDlbpl0EfRwPdUZPRFzxxuV-ye8
+Message-ID: <CAMSfU+4gY0BbXqfdV1Z62JGeesbu2MS5cb+Ect48emZAWcQjfw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uboot-config: Fix devtool modify
+To: tom.hochstein@oss.nxp.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Marcus Flyckt <marcus.flyckt@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000e8124f062d6c185c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 21:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210877
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 21:49:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210878
 
-On 2/5/2025 12:16 PM, patchtest@automation.yoctoproject.org wrote:
-> [You don't often get email from patchtest@automation.yoctoproject.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
-> 
+--000000000000e8124f062d6c185c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le mer. 5 f=C3=A9vr. 2025 =C3=A0 19:10, Tom Hochstein via lists.openembedde=
+d.org
+<tom.hochstein=3Doss.nxp.com@lists.openembedded.org> a =C3=A9crit :
+
+> Fix a problem with `devtool modify` as suggested by Marcus Flyckt on
+> the mailing list:
+> ```
+>     I encountered an issue with `do_config` when using `devtool modify`
+>     on `u-boot-imx`.
+>
+>     ```
+>     [...]
+>     | cp: cannot stat
+> '[...]/u-boot-imx/2024.04/build/imx8mp_wl400s_defconfig/.config': No such
+> file or directory
+>     | WARNING: exit code 1 from a shell command.
+>     ERROR: Task
+> ([...]/sources/poky/../meta-freescale/recipes-bsp/u-boot/u-boot-imx_2024.=
+04.bb:do_configure)
+> failed with exit code '1'
+>     NOTE: Tasks Summary: Attempted 963 tasks of which 962 didn't need to
+> be rerun and 1 failed.
+>     Summary: 1 task failed:
+>
+> [...]/sources/poky/../meta-freescale/recipes-bsp/u-boot/u-boot-imx_2024.0=
+4.bb:
+> do_configure
+>     Summary: There was 1 ERROR message, returning a non-zero exit code
+>     ```
+>
+>     The issue seems to originate from the following lines in
+>     `workspace/appends/u-boot-imx_2024.04.bbappend`:
+>
+>     ```
+>     do_configure:append() {
+>         if [
+> ${@oe.types.boolean(d.getVar("KCONFIG_CONFIG_ENABLE_MENUCONFIG"))} =3D Tr=
+ue
+> ]; then
+>             cp ${KCONFIG_CONFIG_ROOTDIR}/.config ${S}/.config.baseline
+>             ln -sfT ${KCONFIG_CONFIG_ROOTDIR}/.config ${S}/.config.new
+>         fi
+>     }
+>     ```
+>
+>     For some reason `KCONFIG_CONFIG_ROOTDIR` does not point to the
+>     correct directory. It gets its value in `uboot-config.bbclass`:
+>
+>     ```
+>     if len(ubootconfig) =3D=3D 1:
+>                     d.setVar('KCONFIG_CONFIG_ROOTDIR',
+> os.path.join(d.getVar("B"), d.getVar("UBOOT_MACHINE").strip()))
+>     ```
+>
+>     So the main issue is that B gets expanded in this expression, and
+>     then later B gets changed by `externalsrc.bbclass`.
+>     `d.getVar("B", False)` does not solve the issue, however the
+>     proposed change does.
+> ```
+> - https://lists.yoctoproject.org/g/yocto/topic/109254298#msg64152]
+>
+> Suggested-by: Marcus Flyckt <marcus.flyckt@gmail.com>
+> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+>
+
+It looks like this patch fixes this bug :
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15603
+Can you confirm please?
+If that is the case, can you add [YOCTO #15603] to your commit message?
+
+Thanks!
+
+
 > ---
-> Testing patch /home/patchtest/share/mboxes/uboot-config-Fix-devtool-modify.patch
-> 
-> FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
-> 
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-> 
-> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-> 
-> ---
-> 
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
-> 
-> 
+>  meta/classes-recipe/uboot-config.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/uboot-config.bbclass
+> b/meta/classes-recipe/uboot-config.bbclass
+> index bf21961977..74992182c3 100644
+> --- a/meta/classes-recipe/uboot-config.bbclass
+> +++ b/meta/classes-recipe/uboot-config.bbclass
+> @@ -144,7 +144,7 @@ python () {
+>              # Ensure the uboot specific menuconfig settings do not leak
+> into other recipes
+>              if 'u-boot' in recipename:
+>                  if len(ubootconfig) =3D=3D 1:
+> -                    d.setVar('KCONFIG_CONFIG_ROOTDIR',
+> os.path.join(d.getVar("B"), d.getVar("UBOOT_MACHINE").strip()))
+> +                    d.setVar('KCONFIG_CONFIG_ROOTDIR',
+> os.path.join("${B}", d.getVar("UBOOT_MACHINE").strip()))
+>                  else:
+>                      # Disable menuconfig for multiple configs
+>                      d.setVar('KCONFIG_CONFIG_ENABLE_MENUCONFIG', "false"=
+)
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#210872):
+> https://lists.openembedded.org/g/openembedded-core/message/210872
+> Mute This Topic: https://lists.openembedded.org/mt/111017553/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-This failure is a false-positive, entered here: 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15736. Please ignore 
-the failure.
+--=20
+Yoann Congal
+Smile ECS - Tech expert
 
-Tom
+--000000000000e8124f062d6c185c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 5 =
+f=C3=A9vr. 2025 =C3=A0=C2=A019:10, Tom Hochstein via <a href=3D"http://list=
+s.openembedded.org">lists.openembedded.org</a> &lt;tom.hochstein=3D<a href=
+=3D"mailto:oss.nxp.com@lists.openembedded.org">oss.nxp.com@lists.openembedd=
+ed.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Fix a problem with `devtool modify` as suggested by Marc=
+us Flyckt on<br>
+the mailing list:<br>
+```<br>
+=C2=A0 =C2=A0 I encountered an issue with `do_config` when using `devtool m=
+odify`<br>
+=C2=A0 =C2=A0 on `u-boot-imx`.<br>
+<br>
+=C2=A0 =C2=A0 ```<br>
+=C2=A0 =C2=A0 [...]<br>
+=C2=A0 =C2=A0 | cp: cannot stat &#39;[...]/u-boot-imx/2024.04/build/imx8mp_=
+wl400s_defconfig/.config&#39;: No such file or directory<br>
+=C2=A0 =C2=A0 | WARNING: exit code 1 from a shell command.<br>
+=C2=A0 =C2=A0 ERROR: Task ([...]/sources/poky/../meta-freescale/recipes-bsp=
+/u-boot/u-boot-imx_2024.04.bb:do_configure) failed with exit code &#39;1&#3=
+9;<br>
+=C2=A0 =C2=A0 NOTE: Tasks Summary: Attempted 963 tasks of which 962 didn&#3=
+9;t need to be rerun and 1 failed.<br>
+=C2=A0 =C2=A0 Summary: 1 task failed:<br>
+=C2=A0 =C2=A0 =C2=A0 [...]/sources/poky/../meta-freescale/recipes-bsp/u-boo=
+t/u-boot-imx_2024.04.bb:do_configure<br>
+=C2=A0 =C2=A0 Summary: There was 1 ERROR message, returning a non-zero exit=
+ code<br>
+=C2=A0 =C2=A0 ```<br>
+<br>
+=C2=A0 =C2=A0 The issue seems to originate from the following lines in<br>
+=C2=A0 =C2=A0 `workspace/appends/u-boot-imx_2024.04.bbappend`:<br>
+<br>
+=C2=A0 =C2=A0 ```<br>
+=C2=A0 =C2=A0 do_configure:append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ ${@oe.types.boolean(d.getVar(&quot;KCONFIG=
+_CONFIG_ENABLE_MENUCONFIG&quot;))} =3D True ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${KCONFIG_CONFIG_ROOTDIR}/.con=
+fig ${S}/.config.baseline<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sfT ${KCONFIG_CONFIG_ROOTDIR}=
+/.config ${S}/.config.new<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 ```<br>
+<br>
+=C2=A0 =C2=A0 For some reason `KCONFIG_CONFIG_ROOTDIR` does not point to th=
+e<br>
+=C2=A0 =C2=A0 correct directory. It gets its value in `uboot-config.bbclass=
+`:<br>
+<br>
+=C2=A0 =C2=A0 ```<br>
+=C2=A0 =C2=A0 if len(ubootconfig) =3D=3D 1:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.set=
+Var(&#39;KCONFIG_CONFIG_ROOTDIR&#39;, os.path.join(d.getVar(&quot;B&quot;),=
+ d.getVar(&quot;UBOOT_MACHINE&quot;).strip()))<br>
+=C2=A0 =C2=A0 ```<br>
+<br>
+=C2=A0 =C2=A0 So the main issue is that B gets expanded in this expression,=
+ and<br>
+=C2=A0 =C2=A0 then later B gets changed by `externalsrc.bbclass`.<br>
+=C2=A0 =C2=A0 `d.getVar(&quot;B&quot;, False)` does not solve the issue, ho=
+wever the<br>
+=C2=A0 =C2=A0 proposed change does.<br>
+```<br>
+- <a href=3D"https://lists.yoctoproject.org/g/yocto/topic/109254298#msg6415=
+2" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/yo=
+cto/topic/109254298#msg64152</a>]<br>
+<br>
+Suggested-by: Marcus Flyckt &lt;<a href=3D"mailto:marcus.flyckt@gmail.com" =
+target=3D"_blank">marcus.flyckt@gmail.com</a>&gt;<br>
+Signed-off-by: Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@oss.nxp.co=
+m" target=3D"_blank">tom.hochstein@oss.nxp.com</a>&gt;<br></blockquote><div=
+><br></div><div>It looks like this patch fixes this bug : <a href=3D"https:=
+//bugzilla.yoctoproject.org/show_bug.cgi?id=3D15603">https://bugzilla.yocto=
+project.org/show_bug.cgi?id=3D15603</a></div><div>Can you confirm please?</=
+div><div>If that is the case, can you add [YOCTO #15603] to your commit mes=
+sage?</div><div><br></div><div>Thanks!<br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0meta/classes-recipe/uboot-config.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
+/uboot-config.bbclass<br>
+index bf21961977..74992182c3 100644<br>
+--- a/meta/classes-recipe/uboot-config.bbclass<br>
++++ b/meta/classes-recipe/uboot-config.bbclass<br>
+@@ -144,7 +144,7 @@ python () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Ensure the uboot specific=
+ menuconfig settings do not leak into other recipes<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;u-boot&#39; in reci=
+pename:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if len(ubootc=
+onfig) =3D=3D 1:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.se=
+tVar(&#39;KCONFIG_CONFIG_ROOTDIR&#39;, os.path.join(d.getVar(&quot;B&quot;)=
+, d.getVar(&quot;UBOOT_MACHINE&quot;).strip()))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.se=
+tVar(&#39;KCONFIG_CONFIG_ROOTDIR&#39;, os.path.join(&quot;${B}&quot;, d.get=
+Var(&quot;UBOOT_MACHINE&quot;).strip()))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0# Disable menuconfig for multiple configs<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0d.setVar(&#39;KCONFIG_CONFIG_ENABLE_MENUCONFIG&#39;, &quot;false&quot;)<=
+br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#210872): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/210872" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/210872</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111017553/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/111017553/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS - Tech expert<br></font></div></div><=
+/div></div>
+
+--000000000000e8124f062d6c185c--
 
