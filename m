@@ -2,284 +2,163 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53153C02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 14:35:28 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.13323.1738766119098398619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E847C02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 14:38:38 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.13317.1738766309567771398
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 06:35:19 -0800
+ Wed, 05 Feb 2025 06:38:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ResrOExh;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-436281c8a38so48550355e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 06:35:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oy8bt98c;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: rybczynska@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2f9c3ec68c7so2956604a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 06:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738766117; x=1739370917; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WueF30C+PWOTbexapza/hnoThXm3J6jt+zV9/jq2oqU=;
-        b=ResrOExheSkddFxnGAmxGxgNF+KYJGKZU/YoRw1dKTgekM5Oz2FPWgJcrv2XUlGgLp
-         7dIzNYOK0bl3K9upZM0YasPnkzCAGgGtOQ4WL8DaRRUdU6nwWyGVJqqY5X3pNZn74Pp9
-         dx47G7Uuzs4mIrW7OnhK9wcDXhZWq2+x4KU3WvYHnFx2TpbW65WissQTuStgs4jpiMYK
-         I0i83QCT9YqQdJc/g7dF4g3CrTp5a6UoW9B5stLaXtlwXTAqFTgsL27ewDKS6ntfPmxk
-         gJMdo+P3W6Vgyg7CB1vhSPUlvCaLAqJvOLb4q7bstCkzKzSgYy1BncrO98IRke0LWRFY
-         TJgw==
+        d=gmail.com; s=20230601; t=1738766309; x=1739371109; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fc+NcUVK+rVXBDQR7tJp9BvQpRr8wef9eF0ineC4WRw=;
+        b=Oy8bt98cjM1Z+itrcG1B0wxP3Az5qK1Hn+UyP0YxcAsap2q9JCx9EQs7OrLNtzoG2O
+         uIILKfXf1mKyXuJ0Bvo3S3F14iMN8LHmBt6MdbJfwc0P84EMMSUazuMzIKMEiUd9chvz
+         SCG2eOfW+glAmXPQlhxiT4xki+ikmZ9Bwff12P9F4sD71NQZ+Rmj8CkIU81CqthaQk6t
+         J+FJnHDzpNXp9QtGwrAR6t+21iRr+AvQ74mVWmo6CQEid9RvNqOLhSFHdL9018k/jkN0
+         S2FN5NOzl/gjYcdaG/U7eZMOOI5n1A2n0wx/WILlTu8F7xpIsZvJVADst/9oFmOGz5ur
+         T0RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738766117; x=1739370917;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WueF30C+PWOTbexapza/hnoThXm3J6jt+zV9/jq2oqU=;
-        b=Q5o1jrf7OwukfJ/8mcGB2LMBasZe9tHoEoWuYs37uKZspveS2NQZMyxTMUZp+tYdDi
-         /o3nebVXGDgJKLHhVAEKgrU2wDEg+XgVtOT2iuaHTPuKA/W4tK9AJrX99e6ZZuTwc4bT
-         tsGB/bEuPfDiRpOSU/Q3r7KMXPss+kY4Orv/spL/59xS0Z9FZLerQQR5ZdQT4rLNvEH/
-         wBKxlBmGIJPBNUVTkA0FNQvlpieXak+SSoIocWtfLNXvXv2ucLfb3jxsnVi/HSWrfEDg
-         BWt93m9fAUVOnJ9Y+8uIaf7eVvEEzFOHwFDjA1OM3qtbzclpY6MrwkEsM5PEFy9LY6//
-         heIg==
-X-Gm-Message-State: AOJu0Yy8+3VsyveB3mPiBbKWJUOXtI6MshGKixa5yJeWMLsEbWj5LrJp
-	+Ry9POI688MtDHbTEbNle3fu8WQWL9p50teedxCOmPSJiuSGKYf1s7RuxTD9
-X-Gm-Gg: ASbGnctVUWphxrdnY/PZ//A7CHS4nVgbZkn0fYt8kHiMChILMWk7C02QLfDxBv68Orb
-	H97RcpxXPl+EDz/Wp2ZxwiKNe5IrTf4V636o9wRFNrVvHHUgx+BCbPVcV/VWJ7uilYxvzHH3DIs
-	PKLqPJULx3Erb0zHZIU05ggXU3iEz0fUQk5YfALDhbGALt3odW3w89XF+G3HL5qYeHF2JxtjNyp
-	VKL2lcuqMzyCc+6jmP9Ag6Mk3jhoLj4SGqm6o1fO2UNBULk8qX6M1EFcvtt9rhdqtEDWsCJQz1s
-	Eqs1xwQYnXUAFgg8Nf0b1StCkkqmjpaOUmZD3OuL6QHi
-X-Google-Smtp-Source: AGHT+IEtFLGuTObvPwMxva4SxgbD+sbI1BL1h7HwjBnOIiBuRP7N/GEZlGlx2NaVeDWYI47Tv4sMlw==
-X-Received: by 2002:a05:6000:1acf:b0:38d:a945:66ea with SMTP id ffacd0b85a97d-38db4910399mr2004438f8f.50.1738766116794;
-        Wed, 05 Feb 2025 06:35:16 -0800 (PST)
-Received: from localhost.localdomain ([2a04:cec0:10ef:d61d:4bb8:b29b:dacd:c52b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c102bccsm18614600f8f.27.2025.02.05.06.35.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 06:35:16 -0800 (PST)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
-Subject: [PATCH v3][OE-core 3/4] cve-update-db-native: add the fkie source
-Date: Wed,  5 Feb 2025 15:34:12 +0100
-Message-ID: <20250205143439.38233-4-marta.rybczynska@ygreky.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250205143439.38233-1-marta.rybczynska@ygreky.com>
-References: <20250205143439.38233-1-marta.rybczynska@ygreky.com>
+        d=1e100.net; s=20230601; t=1738766309; x=1739371109;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fc+NcUVK+rVXBDQR7tJp9BvQpRr8wef9eF0ineC4WRw=;
+        b=fKDksjDlf/NshOos3bQ0LWVchBsAqxmObV4WIgIKOEAxUGBCR9MEY28KS9xpLwc3+Y
+         jRY/WEld5B19mUvWPAwqqQa6qFeraZ0nZTPglFOq+L3gYdTrFyt/6Uye4gVsUjt6H/p6
+         zPaC8BUXOA51iAe6kyZSgVsv4EWRkIvW6DlXhLKXZvy2sJySHmyNqGO5LRBQCukbi9Ox
+         gqEe5XiU0IkC0SkOCvanIvbVANNp/dNkcX7ql50BQ0BHv1eEBIyoviddcZ3O9Si/NnJ9
+         oNoNASj4ElpfmmjpvlrmHhSLwgiArISx0Vdn6qaZgz7IFNasp7VdMDQ1gjtI4vCDLxWb
+         iR6Q==
+X-Gm-Message-State: AOJu0Yya1r1iH5+qbAFj8007CWdRn8U3r7L8oUp5754ROjAr9RqQCf3G
+	4svkhKwDk6gzNxhel6Zk6k/Sxtcc22WG6I1l+Vn9RKN42t48SEJ05sZ8OmchMZCozkTNYqv9QSE
+	yarvt92MZIT+tkgoCqqjgrXP3OX8tWi1I
+X-Gm-Gg: ASbGncvO7I36zrwA/Rdsw3LIkNlSj0Jjx2asscdvwYQBhshDlK6gPCFlUSSf7swsJUP
+	gC2JpWu+mSbryPD8YYT5JbX7vZVdUfnQCzBXAgwhQxMAXKXSCt5UotiaY7qbuxodh9KS0sAj7
+X-Google-Smtp-Source: AGHT+IEmWl/KYVQXtKC1czClxqLhW8FKQwTrQ8T+ONmyjVia3ynVIjB9jtAId8eEmZwqM2uII2ybiVwXU8S3kIX62l0=
+X-Received: by 2002:a17:90a:d604:b0:2ee:ab29:1a57 with SMTP id
+ 98e67ed59e1d1-2f9e074bccemr5087446a91.2.1738766308924; Wed, 05 Feb 2025
+ 06:38:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241224102557.9300-1-marta.rybczynska@ygreky.com>
+ <20241224102557.9300-5-marta.rybczynska@ygreky.com> <6703A7E3-30BD-44E9-875C-058BD2EAF58C@arm.com>
+In-Reply-To: <6703A7E3-30BD-44E9-875C-058BD2EAF58C@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 5 Feb 2025 15:38:17 +0100
+X-Gm-Features: AWEUYZk004VhTchSlXPZ7RQNnDbnbEp2qmRIiUrbfvBk9FF6QJtb55nLwcKXIds
+Message-ID: <CAApg2=TTyMtTkA9TPY=qRJYqKS35a+G1WBGN8jJdjPWfr97HRw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2][OE-core 4/4] cve-check: allow feed choice
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Marta Rybczynska <marta.rybczynska@ygreky.com>
+Content-Type: multipart/alternative; boundary="00000000000030e68a062d661486"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 14:35:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210852
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 14:38:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210854
 
-Add support for FKIE-CAD reconstruction of NVD feed from
-https://github.com/fkie-cad/nvd-json-data-feeds
+--00000000000030e68a062d661486
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We download this feed directly from github releases.
+I've submitted the v3. It fixes the typo, upgrades the warning to
+erroronce, but still defaults to NVD2.
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
----
- .../recipes-core/meta/cve-update-db-native.bb | 126 ++++++++++++++++--
- 1 file changed, 113 insertions(+), 13 deletions(-)
+One other change is the move to different database file names for each
+feed. There might be slight transitional
+differences between them depending on the synchronization time. A merge
+between sources that are not
+in sync could cause strange errors.
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index f16e79ff58..b889c9e6a7 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -12,6 +12,8 @@ deltask do_install
- deltask do_populate_sysroot
- 
- NVDCVE_URL ?= "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
-+FKIE_URL ?= "https://github.com/fkie-cad/nvd-json-data-feeds/releases/latest/download/CVE-"
-+
- # CVE database update interval, in seconds. By default: once a day (24*60*60).
- # Use 0 to force the update
- # Use a negative value to skip the update
-@@ -109,6 +111,30 @@ def cleanup_db_download(db_file, db_tmp_file):
-     if os.path.exists(db_tmp_file):
-         os.remove(db_tmp_file)
- 
-+def db_file_names(d, year, is_nvd):
-+    if is_nvd:
-+        year_url = d.getVar('NVDCVE_URL') + str(year)
-+        meta_url = year_url + ".meta"
-+        json_url = year_url + ".json.gz"
-+        return json_url, meta_url
-+    year_url = d.getVar('FKIE_URL') + str(year)
-+    meta_url = year_url + ".meta"
-+    json_url = year_url + ".json.xz"
-+    return json_url, meta_url
-+
-+def host_db_name(d, is_nvd):
-+    if is_nvd:
-+        return "nvd.nist.gov"
-+    return "github.com"
-+
-+def db_decompress(d, data, is_nvd):
-+    import gzip, lzma
-+
-+    if is_nvd:
-+        return gzip.decompress(data).decode('utf-8')
-+    # otherwise
-+    return lzma.decompress(data)
-+
- def update_db_file(db_tmp_file, d):
-     """
-     Update the given database file
-@@ -119,6 +145,7 @@ def update_db_file(db_tmp_file, d):
- 
-     YEAR_START = 2002
-     cve_socket_timeout = int(d.getVar("CVE_SOCKET_TIMEOUT"))
-+    is_nvd = d.getVar("NVD_DB_VERSION") == "NVD1"
- 
-     # Connect to database
-     conn = sqlite3.connect(db_tmp_file)
-@@ -129,9 +156,7 @@ def update_db_file(db_tmp_file, d):
-         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
-             bb.debug(2, "Updating %d" % year)
-             ph.update((float(i + 1) / total_years) * 100)
--            year_url = (d.getVar('NVDCVE_URL')) + str(year)
--            meta_url = year_url + ".meta"
--            json_url = year_url + ".json.gz"
-+            json_url, meta_url = db_file_names(d, year, is_nvd)
- 
-             # Retrieve meta last modified date
-             try:
-@@ -140,7 +165,7 @@ def update_db_file(db_tmp_file, d):
-                 cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
-                 bb.warn("Failed to fetch CVE data (%s)" % e)
-                 import socket
--                result = socket.getaddrinfo("nvd.nist.gov", 443, proto=socket.IPPROTO_TCP)
-+                result = socket.getaddrinfo(host_db_name(d, is_nvd), 443, proto=socket.IPPROTO_TCP)
-                 bb.warn("Host IPs are %s" % (", ".join(t[4][0] for t in result)))
-                 return False
- 
-@@ -168,7 +193,7 @@ def update_db_file(db_tmp_file, d):
-                 try:
-                     response = urllib.request.urlopen(json_url, timeout=cve_socket_timeout)
-                     if response:
--                        update_db(conn, gzip.decompress(response.read()).decode('utf-8'))
-+                        update_db(d, conn, db_decompress(d, response.read(), is_nvd))
-                     conn.execute("insert or replace into META values (?, ?)", [year, last_modified]).close()
-                 except urllib.error.URLError as e:
-                     cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
-@@ -200,16 +225,22 @@ def initialize_db(conn):
- 
-         c.close()
- 
--def parse_node_and_insert(conn, node, cveId):
-+def parse_node_and_insert(conn, node, cveId, is_nvd):
-     # Parse children node if needed
-     for child in node.get('children', ()):
--        parse_node_and_insert(conn, child, cveId)
-+        parse_node_and_insert(conn, child, cveId, is_nvd)
-+
-+    def cpe_generator(is_nvd):
-+        match_string = "cpeMatch"
-+        cpe_string = 'criteria'
-+        if is_nvd:
-+            match_string = "cpe_match"
-+            cpe_string = 'cpe23Uri'
- 
--    def cpe_generator():
--        for cpe in node.get('cpe_match', ()):
-+        for cpe in node.get(match_string, ()):
-             if not cpe['vulnerable']:
-                 return
--            cpe23 = cpe.get('cpe23Uri')
-+            cpe23 = cpe.get(cpe_string)
-             if not cpe23:
-                 return
-             cpe23 = cpe23.split(':')
-@@ -260,9 +291,9 @@ def parse_node_and_insert(conn, node, cveId):
-                     # Save processing by representing as -.
-                     yield [cveId, vendor, product, '-', '', '', '']
- 
--    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator()).close()
-+    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator(is_nvd)).close()
- 
--def update_db(conn, jsondata):
-+def update_db_nvdjson(conn, jsondata):
-     import json
-     root = json.loads(jsondata)
- 
-@@ -297,8 +328,77 @@ def update_db(conn, jsondata):
- 
-         configurations = elt['configurations']['nodes']
-         for config in configurations:
--            parse_node_and_insert(conn, config, cveId)
-+            parse_node_and_insert(conn, config, cveId, True)
-+
-+def update_db_fkie(conn, jsondata):
-+    import json
-+    root = json.loads(jsondata)
-+
-+    for elt in root['cve_items']:
-+        if not 'vulnStatus' in elt or elt['vulnStatus'] == 'Rejected':
-+            continue
-+
-+        if not 'configurations' in elt:
-+            continue
-+
-+        accessVector = None
-+        vectorString = None
-+        cvssv2 = 0.0
-+        cvssv3 = 0.0
-+        cvssv4 = 0.0
-+        cveId = elt['id']
-+        cveDesc = elt['descriptions'][0]['value']
-+        date = elt['lastModified']
-+        try:
-+            for m in elt['metrics']['cvssMetricV2']:
-+                if m['type'] == 'Primary':
-+                    accessVector = m['cvssData']['accessVector']
-+                    vectorString = m['cvssData']['vectorString']
-+                    cvssv2 = m['cvssData']['baseScore']
-+        except KeyError:
-+            cvssv2 = 0.0
-+        try:
-+            for m in elt['metrics']['cvssMetricV30']:
-+                if m['type'] == 'Primary':
-+                    accessVector = m['cvssData']['accessVector']
-+                    vectorString = m['cvssData']['vectorString']
-+                    cvssv3 = m['cvssData']['baseScore']
-+        except KeyError:
-+            accessVector = accessVector or "UNKNOWN"
-+            cvssv3 = 0.0
-+        try:
-+            for m in elt['metrics']['cvssMetricV31']:
-+                if m['type'] == 'Primary':
-+                    accessVector = m['cvssData']['accessVector']
-+                    vectorString = m['cvssData']['vectorString']
-+                    cvssv3 = m['cvssData']['baseScore']
-+        except KeyError:
-+            accessVector = accessVector or "UNKNOWN"
-+            cvssv3 = 0.0
-+        try:
-+            for m in elt['metrics']['cvssMetricV40']:
-+                if m['type'] == 'Primary':
-+                    accessVector = m['cvssData']['accessVector']
-+                    vectorString = m['cvssData']['vectorString']
-+                    cvssv4 = m['cvssData']['baseScore']
-+        except KeyError:
-+            accessVector = accessVector or "UNKNOWN"
-+            cvssv4 = 0.0
- 
-+        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?, ?)",
-+                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
-+
-+        for config in elt['configurations']:
-+            # This is suboptimal as it doesn't handle AND/OR and negate, but is better than nothing
-+            for node in config["nodes"]:
-+                parse_node_and_insert(conn, node, cveId, False)
-+
-+
-+def update_db(d, conn, jsondata):
-+    if (d.getVar("NVD_DB_VERSION") == "FKIE"):
-+        return update_db_fkie(conn, jsondata)
-+    else:
-+        return update_db_nvdjson(conn, jsondata)
- 
- do_fetch[nostamp] = "1"
- 
--- 
-2.45.2
+Kind regards,
+Marta
 
+On Tue, Jan 14, 2025 at 6:54=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+
+> On 24 Dec 2024, at 10:25, Marta Rybczynska via lists.openembedded.org
+> <rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> There=E2=80=99s an inconsistency:
+>
+> > Set the NVD_DB_VERSION variable to choose feed:
+> > NVD2 (default) - the NVD feed with API version 2
+> > NVD1 - the NVD JSON feed (deprecated)
+> > FKIE - the FKIE-CAD feed reconstruction
+>
+> =E2=80=9CNVD1=E2=80=9D
+>
+> > +# Possible database sources: NVD1, NVD2, FKIE
+> > +NVD_DB_VERSION ?=3D "NVD2"
+>
+> =E2=80=9CNVD1=E2=80=9D
+>
+> > +    if nvd_database_type not in ("NVD", "NVD2", "FKIE=E2=80=9D):
+>
+> =E2=80=9CNVD=E2=80=9D
+>
+> I=E2=80=99m thinking =E2=80=9CNVD1=E2=80=9D should be used everywhere.
+>
+> If you set it as the documentation says then every recipe throws a
+> warning, which is quite the pastebomb.  Might be better to make it
+> bb.fatal() and tell the user to fix their typo?
+>
+> Ross
+
+--00000000000030e68a062d661486
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I&#39;ve submitted the v3. It fixes the typo, upgrade=
+s the warning to erroronce, but still defaults to NVD2.</div><div><br></div=
+><div>One other change is the move to different database file names for eac=
+h feed. There might be slight transitional</div><div>differences between th=
+em depending on the synchronization time. A merge between sources that are =
+not</div><div>in sync could cause strange errors.</div><div><br></div><div>=
+Kind regards,</div><div>Marta<br></div></div><br><div class=3D"gmail_quote =
+gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14=
+, 2025 at 6:54=E2=80=AFPM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm=
+.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On 24 Dec 2024, at 10:25, Marta Rybczynska via <a =
+href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank"=
+>lists.openembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@li=
+sts.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a=
+>&gt; wrote:<br>
+<br>
+There=E2=80=99s an inconsistency:<br>
+<br>
+&gt; Set the NVD_DB_VERSION variable to choose feed:<br>
+&gt; NVD2 (default) - the NVD feed with API version 2<br>
+&gt; NVD1 - the NVD JSON feed (deprecated)<br>
+&gt; FKIE - the FKIE-CAD feed reconstruction<br>
+<br>
+=E2=80=9CNVD1=E2=80=9D<br>
+<br>
+&gt; +# Possible database sources: NVD1, NVD2, FKIE<br>
+&gt; +NVD_DB_VERSION ?=3D &quot;NVD2&quot;<br>
+<br>
+=E2=80=9CNVD1=E2=80=9D<br>
+<br>
+&gt; +=C2=A0 =C2=A0 if nvd_database_type not in (&quot;NVD&quot;, &quot;NVD=
+2&quot;, &quot;FKIE=E2=80=9D):<br>
+<br>
+=E2=80=9CNVD=E2=80=9D<br>
+<br>
+I=E2=80=99m thinking =E2=80=9CNVD1=E2=80=9D should be used everywhere.<br>
+<br>
+If you set it as the documentation says then every recipe throws a warning,=
+ which is quite the pastebomb.=C2=A0 Might be better to make it bb.fatal() =
+and tell the user to fix their typo?<br>
+<br>
+Ross</blockquote></div>
+
+--00000000000030e68a062d661486--
 
