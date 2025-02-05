@@ -1,191 +1,209 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA35C02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 21:36:10 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web11.24870.1738791365236879381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCEAC02196
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 21:38:00 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.84])
+ by mx.groups.io with SMTP id smtpd.web10.24748.1738791470451003754
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 13:36:05 -0800
+ Wed, 05 Feb 2025 13:37:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PrghuGqv;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e41e17645dso2406276d6.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 13:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738791364; x=1739396164; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zbjWz1uB+cdsCAegSt0OG7+Js8afJAvAZkq93KTSFgE=;
-        b=PrghuGqv9a+742/Nf5d3HCCYcCPeTBvEM6TMbOpE2vPgkgSjhUh1sSGk/JayxLlirv
-         k7BpHpvK+OmuA92GbDOr+Yd94Il7UiP322YCffAgGbMXqYdG8eUYme3X+VC9c4onmcFi
-         V6YWkETFwAxf6MnG/zJkP03tyPPhXIPXIF2OjCNyKuONQGExVxfHEpr3AMtrBs5+V30f
-         uQma2t0OlfscWXnpAKKzhGIIqSOdyp7EIi+iVsXoM3UCFcEacl+Yo668FpaC3X24CAUg
-         A2mEZrXViMaXKrKsB/RvfiNfxZYN7e1j8b2wu3ZbqFTUH8h+iBG/1v3ANrDBbs1TsCEb
-         aMww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738791364; x=1739396164;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zbjWz1uB+cdsCAegSt0OG7+Js8afJAvAZkq93KTSFgE=;
-        b=dtqvT5yaTsA5mjVKiZmn1Fsp5hLMORwUNu/ylaMGWEhVFEO8OTsL9BIBZ6JL+yGjE4
-         n+WxYMg4MkCJi0Zt54ApPdY+pTuUmONaLR6s4SYsMAOLPqip0p5U4K1t2fZlYwUT9gjb
-         O1T9YnAPc/jQi6HwWjmOSy8yW+pztTEVNyorXfZsu1vhsWuVSHxSGT4L/FJM2DqwWRVv
-         kTWudNC3N1EgDxE8WHWVd3FEEx8/zc3i+MPfg034XWOFP9GvIqEE4+KFgR23cFP1Q12V
-         XzLMK55geDWjWCb37SD5BoaQ31jQYiAfbzxcIQ1p3SEXdPqG/Cx+2ETU3AijhdlursYw
-         p0zg==
-X-Gm-Message-State: AOJu0YwG1PETRCIcs4gH9KeMOaOIIIsrepsQn8Lg1k599GiTXlqt8eBq
-	83TCPGbWaribiVx3Z8UGHS9QIDKuOvxwr5+GiSvsXeK5plpNGcwneSUWgCPr1daagHppkwV6aw3
-	giqlfPqDfJrexxtzdwMNEybCesbU=
-X-Gm-Gg: ASbGnctoRs0BAMYESK9ZEGz6Mgix9ndg6wnNa8nPR4L09iu9VcQZgSeqIiUgwJOZMJg
-	rROmPYs67+jR79c0+52eB1rWjVVxf+Wcq2m2AdCrt51ut3C8GdYDKLBVhzThp/LqSzOdcwlekMW
-	QoZ/tgxZzauUnRgqdYdt3iTUOqpRY=
-X-Google-Smtp-Source: AGHT+IHztVq4e7OO80fEtp0mJNvhH0nEzQxrwSCeJZnyzB1+Vhw8Ksk/Ih9QLURYZ2vaa4hBhm7bN+qZ6RQqTkcnJqo=
-X-Received: by 2002:a05:6214:1d2a:b0:6d8:9e16:d07e with SMTP id
- 6a1803df08f44-6e42fb04898mr72586296d6.4.1738791364229; Wed, 05 Feb 2025
- 13:36:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20250205212427.2044310-1-JPEWhacker@gmail.com>
-In-Reply-To: <20250205212427.2044310-1-JPEWhacker@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Feb 2025 22:35:53 +0100
-X-Gm-Features: AWEUYZnGa9BfMaoDNrANyLTFE9rLZk2qa1i7AI5pcAPRqnMKBNLvkiXWDhNWJVk
-Message-ID: <CANNYZj9Ca6cQcFcb_moABSKX5=HtdRAzvL_ayyCg2cnkuEKcqw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] bitbake.conf: Include fragments before local.conf
-To: Joshua Watt <jpewhacker@gmail.com>
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=O9zil2h/;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.104.84, mailfrom: tom.hochstein@oss.nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k4bzUh3beTSHGF4Sy1hcmctYuzceGLmtfffrb09kA/QzNP+ju7LYidZme9dOBQ91HIAUk6g+aCbR4VnujJdI4Rgnk3eqzc43u9nxQjKkrTmS5QIteed7oMx0/GGNurfqe8ExWBG00fi3ZM9jsCoudqZy+5U2W4JwmQAtBmcXMPnmthqEF1+WQhJE+AHL6ou9JAHTc+MeI2SR1boZ03RGisgGqiCzZ2VMGahXuVz3gFQ9YHdhTtJdy+oGlVQZ+REX6aOEPENmbjeNg7ip/sk8JpeE0R6TLShNjMHu6u2w04IsIvuR0AF6K9O5TbRsgHUbtAA0Y2UtoqGX4aD5OltNbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uQ3arsW2CR3MQaTc4dKLPpaB6h9c/aB43B8Q/jvDo/c=;
+ b=Yc4uFImo5oNStJ4kPs3V0eCcZMihUJk1m0CteCWt/qKYU83Dfhb5oiZ/9mgO3bkRPJ8+WUURsy47x8QiRPZ/vTOCn62bjzzEK9EA8m+649aVtplIDFyOWvTaFdIyLFxMKrhE0HxTmKGzLlktV6kaSMaBAGnY923OAD5B9gbN93VaR4pXvLdKHp2r3y1H6eAwHbnU0HnkCTuv1ArNuWNxuXM9lZyO6+E+cyRZT4YcmCelPtXJVgc04/5v48SfBY03RLoSdRlNVM7ORS6dtillY18CQejYJSytoDo4IUFj3ZQ/4JSaLDdpgKLOHi6bHMk3KG9TCLfaJ6Mt64hHPDLXMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uQ3arsW2CR3MQaTc4dKLPpaB6h9c/aB43B8Q/jvDo/c=;
+ b=O9zil2h/i6+imEDPrWZCIZnRatbsEhWz+Z0yu30RVNSeBmp3gIb8jbnAd+QIEQsI6nupRYc/rAN9fJ88NlVRIlVUgiyLL47y8sM9SNwYpWYoTwIGGMkuhE8+u4xIuHptneQaWIzMkp3MrAzqhaoCLQzYMG9U7eZdBGk4cwgMu07SxcFJom8Bt64hnqTD334EVkzFN4OqeaXesy/mFyVBVxXQw43GEryB/u22SfCTYFhenA9yIH7rowM4bLX8IzBj3uLsYw1A5N1Yn76g0fb13v+W6u1LIdekDkYS0yZxHaf8MeSe67Ah0EXmEzrGDpbjNF/7fzL/MXbqPmwFyR6rCg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by PA4PR04MB9662.eurprd04.prod.outlook.com (2603:10a6:102:260::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Wed, 5 Feb
+ 2025 21:37:46 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::51ae:5f12:9744:1abc%3]) with mapi id 15.20.8398.021; Wed, 5 Feb 2025
+ 21:37:46 +0000
+Message-ID: <3358af59-dd76-4d2f-aaaf-ab544f515b4f@oss.nxp.com>
+Date: Wed, 5 Feb 2025 15:37:08 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: Patchtest results for [PATCH] uboot-config: Fix devtool modify
+To: patchtest@automation.yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009a80df062d6be92d"
+References: <20250205181015.3064866-1-tom.hochstein@oss.nxp.com>
+ <01010194d753be6f-f0a3e7a6-2aea-4b02-8a10-bcc02f54d001-000000@us-west-2.amazonses.com>
+Content-Language: en-US
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+In-Reply-To: <01010194d753be6f-f0a3e7a6-2aea-4b02-8a10-bcc02f54d001-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0200.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::25) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|PA4PR04MB9662:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee818943-23f8-414e-709e-08dd462d5459
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?OVZGdkd5cFNvTTZsTFhHVTZjak9ITWcySml2aTZIdUZsOW1JcW5xRHJFMlJj?=
+ =?utf-8?B?SlJSWU1OcDlvZ1N4c2hwZVFFSEJKWGdWM0xsVllSSjRpYjI2L0JoQ0lqeGMr?=
+ =?utf-8?B?WmUxQnk1UW12UmE3eWdkNnZmNzRZajFlTUlXYldpcElEbDNXbWJCNlVOSDBW?=
+ =?utf-8?B?ZDB5NXhlUVdHNU94NkVad0t0dmorcUtrSUp4TEpDb0M5ZGRvenloeExZdUlI?=
+ =?utf-8?B?OTBuZzZuRFFoWlIvMFJJa0xQc3JseUppUDZyNWk2akF3SlZrakJldGhYVXcx?=
+ =?utf-8?B?T1F0U0N4SDhSMlgwa1luMWpSVTg1ZDFOcFM4eU04ZVhnUFFOaWE4Z3JEN2I0?=
+ =?utf-8?B?NTIvUlJoM2pyS2pqek9ndmtHb1hEV04zTGUrL0hzRWVSUFhubTNDSENsZG1Z?=
+ =?utf-8?B?UEtDaWZHdHlKQWs0K1pZMFdYbGl2dGE1aWhpN2QyRkhTSGZhOGhBbGZIMVU5?=
+ =?utf-8?B?L28rdEluekxkUnY4WWdEdTZaWGY4ckxCR0tDSVBPUmVjWXZ6NmdleG1ScHpi?=
+ =?utf-8?B?OG4vT3hnTDV5TUFqSE5ZNUh0Vk5IYVdabmR6ZWNTQS9zV2FVdGJiR2Y2MlN0?=
+ =?utf-8?B?VEliRG5vbzV0K0VZNlJIcVorZENMTndXS1lzRHhKUVhvK0grZFlrQTRDaFNa?=
+ =?utf-8?B?clBYUHNMbmZQTlFVMmlKTVMyNVZnYXhuVlBXUDFrbTA5Z3M2WUhLcmp4YWpZ?=
+ =?utf-8?B?RHFTWkJSaGFoYXBNckdEak5nd2lwMExsVWRMUVlQS3RIRkVPcXRVR0gwcDg1?=
+ =?utf-8?B?VW16NmZrTEtIeUtSZkRXOFZPL1lnVGRVNVFJQVAxcmVzd2UzZ3FDa0dPQWlu?=
+ =?utf-8?B?ZjZRYzFhOWpPZ1BDRjFXcU1wczk4Vjh6bXQ4MTA1bE42UnRDcDZDU0Q5OW9q?=
+ =?utf-8?B?NDZ4SUYyaE9nZGZRMGhBb295NFVjUWFXNGl5dFZVbDBuUTZJdWdhT3pVdVJE?=
+ =?utf-8?B?b0VMald0UmE0ZlVXUE9kNWtBVFUxR0tpUVQ1TjRFVmk2cXY1YUw1Y2lTQ1ps?=
+ =?utf-8?B?b1gwQWZWVzZKTlNjN1c3UjBQODVxY0haV1VReHdFTmtTaDVtcDhuZWFsY3l6?=
+ =?utf-8?B?enhEcGI1OGFpM2NhWFczbVl2NnhMT2tXa0hUaDlqVHNjL1hrRGZORXdqVUgx?=
+ =?utf-8?B?WEV4alVLdmFSUG4zNTBTMSs3YnA2enhBUXhxZ1VhOHBnaW9od3lGVTRIYjV0?=
+ =?utf-8?B?L3ZiMThnN2xuMjZPakF2VTQ0eDMvSmZ3RDVnbzNMTU82cXdITEFOUXpDMG5u?=
+ =?utf-8?B?bEsreW0wWW5CeEo4aU1pYVNkVFl1QlhMN3BUVU9CUFQ4TzBxbU9CVTJqNzJh?=
+ =?utf-8?B?NU5MZjNUMUJkMXNLR2N5azcxYVNaMVlWajdXZHFhUWN6V1pmcVFLbm9KVVFx?=
+ =?utf-8?B?Z0tvSG9YZXBybEtRTjlpNExuVE90QVhkWHNJM2I2MWtLUnZYMmJCSXhRTzFP?=
+ =?utf-8?B?SzZlU1BTZnJhK2M2ekxlblozNFc3Yllyd2tDT3RacTQybFVXTDlabkpZLzVT?=
+ =?utf-8?B?NXM3T1gwSCtJanFoRkVRRmxHa3ZSQ3piUWVyV3VaQ3l3RUtMZU05T0w3UDNL?=
+ =?utf-8?B?S29NZ01UU3hiY2hVMGhGMTVzTmJucklEV0RsaEJVY0p1elNTOVY1ZU5YVmRu?=
+ =?utf-8?B?N0Jkc25KN1hMOWI5bG53TFQ4Yi9ENnRHUVZhd204ejY5Ny81LzQzU1B6V0E5?=
+ =?utf-8?B?K0xyM3FJZUJFcmtyME5WbzU4Zkg3V0I2RzlvdkdqM1J4aHBWNVlOa0lDbHIr?=
+ =?utf-8?Q?j7USTWbMaHr3nLMDZF/2ZamspY2rdzvlS1YAyK8?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NmgyUm1vU1dKRGtyZnpRYXFpTDRvMmxrOFhVT29XdjdZd2k1U3o2TnJEWU1o?=
+ =?utf-8?B?eUVpQVJKbE5PSytRSDIrd2lXanZ0Q1ZhYjZ5ZVI4UHlGdjdZdko3bjZHclhT?=
+ =?utf-8?B?NXdEVkNCbjlBR1lJRzhRODBPWEg3ZStMOWRCUW9mNXBpTGxObDJ5d2szbGow?=
+ =?utf-8?B?OWZ1bjBYQll6Q3JSV0R2bXZIYng5czRROUYrc1dyeDI3WjhEVTVYL0RrQkJQ?=
+ =?utf-8?B?T0xzZEt4Umdabk9YYWtrWkZSajRMN1BudGFYTDJGUm9vSHoya0x3OWVPTGhD?=
+ =?utf-8?B?STFGNTdka203cWVCMDB3dy9nNFdLNzlqc3YycEordjNVd1FESXdLWGxiVFN5?=
+ =?utf-8?B?UDkxM2xVRGt1MjVDV25OTXN4TXp2cXlQM0ZVZktOeVBBc29yQ2pxcitXaXdO?=
+ =?utf-8?B?eDZLWit6THJtZnY2K2hPL1J0NU9sMk9yQm16OWtCMnRPU0ZzUVJka2tnQ011?=
+ =?utf-8?B?MWI1WHVaS2hhdXBmTnJtTmZtRTNSMkF2TkdNdTIweGlCN01rdmJxZUlGN1Nq?=
+ =?utf-8?B?dEJQM2FoV3pGU2VTQ2ZpUFNMY3kvcmtMdFpDaG9kMVgyRjZZUUZIbWFVQVZW?=
+ =?utf-8?B?d0JhbnZhOGRucjBkSDJ2aFF6Q0J4TnRSUHVDQnRGWWgyTmE3ZW0wLzVyRVpS?=
+ =?utf-8?B?MG1oTmpMMVdvTEFYVytMZkxWSUdDazF4TmM4QXJTU1czQk1TK2o0dWg5WVJN?=
+ =?utf-8?B?UVk0emFKN2d6RHFOb1RHT0RSYlFsazdlZ0ZXSFI0NzB0WTRzQndBTHpwZ0Zt?=
+ =?utf-8?B?KzZSZW43QklPSDlpZGpONjZkUUFRcnNnZzBqaDNMU3Z3a3Y5WU01eG5LMlV3?=
+ =?utf-8?B?Y1MxbTJZKzVQQ25XOWZMVExnVGJ5ZUdXVXN3Y1JjK1hwdzRDWkIrMmJxb0hZ?=
+ =?utf-8?B?VzF3bDJQQkVvcXE3aDFtekNmeTVMSmVFdEFQMXVyUzErV3c0VTU3bVFzeWtV?=
+ =?utf-8?B?Y1cycG55d3A2SEUzWmdLSEtDck92QWVSM2dYQmxtSmpoY2l2K1M4djdjdzBC?=
+ =?utf-8?B?NFFhR3FibjhRMGJtYUdWblJuZ01MUkdpRVkvVG1mV0wyZ1A1cDMwUlorUlJs?=
+ =?utf-8?B?N24rNnZScHkwNFdNUk5wZDhWQXNibUsrY2NMSzA5cngzMzgwM0hEVzJROTFO?=
+ =?utf-8?B?SHJzd2ZjbDQvMHVTamw0dGZhN2VRTFVCRllWczZkWGQ3UG9CYWdjRmZ4cXRO?=
+ =?utf-8?B?WDFyU0tLYy9NMmt4ZTkxcDFFZ1JmZVJGS1RFMEVhWVhGS2xONWs1ci9EWDFl?=
+ =?utf-8?B?MFdkTFdjU3dsRGZDejM1bWlhaUsrV0kyM1BPTTlYMWduN2NIV3ZHSFdzWGhO?=
+ =?utf-8?B?R3R2Uy9YSFpHYmU4NzhzTWU5ME5JMHFieEd4UU9lSDhGOHNVQnQyUFNPdVNM?=
+ =?utf-8?B?dk9ZalpWeDdQRVFNdnpFN1RNMlRWYW15WlBmdGJyaXVLMkpESDc5MlFHdUJ0?=
+ =?utf-8?B?cVhuMVlqNktQYnVPWklaLzJEVExTNFR1STdnUEVSUWtPZnZzYWlFVEVPaVRz?=
+ =?utf-8?B?RGVvVVROWHdjSUgvK01RZnZySXk1YU0rSWtjVDBXUVozTVY0bHJ2UjBUbWxo?=
+ =?utf-8?B?d2s4aDVlOXh4UEJYQVJVTktKQTIxUThoYnQzZ3luWUJUQXo4bWFWbGJkSGJm?=
+ =?utf-8?B?VnA3REZ2a2d0ckZCcWNqaVErcnhITldBUDFCaGFFQVViaWlvUnUvKzljUEhJ?=
+ =?utf-8?B?L01GOU1tUWl0UFNLa0w5ZWVBWkJKbVlRU1BvaWV4SjRWZ1dMdkNBU3Vab1lt?=
+ =?utf-8?B?NkxiaWxDb1hGM0hYM1NQSVpxN09sclgyN3J5ZFMyUDRRWWtGenFOcU4raEJp?=
+ =?utf-8?B?Mkk1SjlFbU1OK1h1emR1UEVSUjFaVW1UcmVCZUpQTW42by9LYVJ2S3llUU9M?=
+ =?utf-8?B?cVU4Snk5QmNyekZFak8ySnVSL1FKU1dSR3NTOU5HbDhBck5aQ25BZEhyWExy?=
+ =?utf-8?B?Qnl1Sm5sNnlQVzRjajZYcmZFSWIxMjJkN0NPN3o0Q1pvZkN3dVFRemNaNzNV?=
+ =?utf-8?B?N1VTNUNxcWExcUhZMTFGT2VIemtVWDN3L2U0RmZCbFNINi83Wmtva1hWZUIz?=
+ =?utf-8?B?ZTZkVmdTYkhCYW9vcUF4WG9VZkYrRWVPd054Yjk5OGU1T3RINEFKdE14SHpJ?=
+ =?utf-8?B?MHJJNTAwcmxjKzlnUEVpa3l0bkNJZW8yNGY2TUt3Q2FQZGtZOGczZnNxWCt4?=
+ =?utf-8?B?N3c9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee818943-23f8-414e-709e-08dd462d5459
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 21:37:46.3772
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3nR5ZUVok/jvUPVyZEmDX9nP5E8yHRnazvRN8E0qAdKymSfx2//et1e87Pxe9/l6t4/wZf8+uapnHBrboJCg0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9662
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 21:36:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210876
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 21:38:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210877
 
---0000000000009a80df062d6be92d
-Content-Type: text/plain; charset="UTF-8"
-
-We have discussed this before. With this change, users will no longer be
-able to set fragments from local.conf, as addfragments would be processed
-before that file. You need to use ?= in fragments instead for things that
-are meant to be overridden.
-
-Alex
-
-On Wed 5. Feb 2025 at 22.24, Joshua Watt <jpewhacker@gmail.com> wrote:
-
-> Per some usability assessment and offline discussion, one of the useful
-> use cases of config fragments is that they allow the "default"
-> configuration for some device to be committed to source control and
-> easily selected and used by the end users. However, when doing this,
-> there is still the desire that the user can "override" the provided
-> fragments for their local builds in local.conf
->
-> As a practical example, the configuration for a product can be capture
-> as a config fragment, and an empty local.conf will reproduce the
-> standard build for the product. If the user wants to make "tweaks" to
-> the standard build, they can do so in local.conf
->
-> As such, move the config fragments to be loaded before local.conf
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+On 2/5/2025 12:16 PM, patchtest@automation.yoctoproject.org wrote:
+> [You don't often get email from patchtest@automation.yoctoproject.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+> 
 > ---
->  meta/conf/bitbake.conf | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 8b607088c6e..d0154044f5a 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -826,12 +826,13 @@ FILESOVERRIDES =
-> "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDE
->  require conf/abi_version.conf
->  include conf/site.conf
->  include conf/auto.conf
-> -include conf/local.conf
->
->  OE_FRAGMENTS_PREFIX ?= "conf/fragments"
->  OE_FRAGMENTS_METADATA_VARS ?= "BB_CONF_FRAGMENT_SUMMARY
-> BB_CONF_FRAGMENT_DESCRIPTION"
->  addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS
-> OE_FRAGMENTS_METADATA_VARS
->
-> +include conf/local.conf
-> +
->  require ${@"conf/multiconfig/${BB_CURRENT_MC}.conf" if "${BB_CURRENT_MC}"
-> != "" else ""}
->  include conf/machine/${MACHINE}.conf
->  include conf/machine-sdk/${SDKMACHINE}.conf
-> --
-> 2.47.1
->
->
+> Testing patch /home/patchtest/share/mboxes/uboot-config-Fix-devtool-modify.patch
+> 
+> FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+> 
+> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+> 
+> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+> SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+> SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+> SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+> SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+> 
+> ---
+> 
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
+> 
+> 
 
---0000000000009a80df062d6be92d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This failure is a false-positive, entered here: 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15736. Please ignore 
+the failure.
 
-<div dir=3D"auto">We have discussed this before. With this change, users wi=
-ll no longer be able to set fragments from local.conf, as addfragments woul=
-d be processed before that file. You need to use ?=3D in fragments instead =
-for things that are meant to be overridden.</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote gmail_quot=
-e_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 5. Feb 2025 at 22=
-.24, Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com">jpewhacker@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddi=
-ng-left:1ex;border-left-color:rgb(204,204,204)">Per some usability assessme=
-nt and offline discussion, one of the useful<br>
-use cases of config fragments is that they allow the &quot;default&quot;<br=
->
-configuration for some device to be committed to source control and<br>
-easily selected and used by the end users. However, when doing this,<br>
-there is still the desire that the user can &quot;override&quot; the provid=
-ed<br>
-fragments for their local builds in local.conf<br>
-<br>
-As a practical example, the configuration for a product can be capture<br>
-as a config fragment, and an empty local.conf will reproduce the<br>
-standard build for the product. If the user wants to make &quot;tweaks&quot=
-; to<br>
-the standard build, they can do so in local.conf<br>
-<br>
-As such, move the config fragments to be loaded before local.conf<br>
-<br>
-Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/bitbake.conf | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index 8b607088c6e..d0154044f5a 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -826,12 +826,13 @@ FILESOVERRIDES =3D &quot;${TRANSLATED_TARGET_ARCH}:${=
-MACHINEOVERRIDES}:${DISTROOVERRIDE<br>
-=C2=A0require conf/abi_version.conf<br>
-=C2=A0include conf/site.conf<br>
-=C2=A0include conf/auto.conf<br>
--include conf/local.conf<br>
-<br>
-=C2=A0OE_FRAGMENTS_PREFIX ?=3D &quot;conf/fragments&quot;<br>
-=C2=A0OE_FRAGMENTS_METADATA_VARS ?=3D &quot;BB_CONF_FRAGMENT_SUMMARY BB_CON=
-F_FRAGMENT_DESCRIPTION&quot;<br>
-=C2=A0addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS OE_FRAGMENTS_METADAT=
-A_VARS<br>
-<br>
-+include conf/local.conf<br>
-+<br>
-=C2=A0require ${@&quot;conf/multiconfig/${BB_CURRENT_MC}.conf&quot; if &quo=
-t;${BB_CURRENT_MC}&quot; !=3D &quot;&quot; else &quot;&quot;}<br>
-=C2=A0include conf/machine/${MACHINE}.conf<br>
-=C2=A0include conf/machine-sdk/${SDKMACHINE}.conf<br>
--- <br>
-2.47.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000009a80df062d6be92d--
+Tom
 
