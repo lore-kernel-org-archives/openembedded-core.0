@@ -1,89 +1,82 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B04C02194
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 15:45:18 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.15258.1738770316323204726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C2FC02194
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 15:52:08 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web10.15449.1738770724181320265
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 07:45:16 -0800
+ Wed, 05 Feb 2025 07:52:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eu0XpqGq;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38da940e689so1067985f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 07:45:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LzHBPHWG;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6dd049b5428so52812126d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 07:52:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738770315; x=1739375115; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ExCHcEmhTd2grDZjdO58flxFkyykvt13dPlpvTbUTHQ=;
-        b=eu0XpqGq/x4S+9Xeh+cmRPb40pAR8cI9x+OArOUjV/TbJH+O2VodbQF0KhlXQ8kDsN
-         Pm0iqaqVffIgbOnLc060CtHGF+Tb6LS6ONtmBmnDbMqVEUZJxm1/LL1c/tMzgZhSBCYW
-         AoIgsxORiORmXzfcL9kd5AQrukHLX/pfhhs5DZ5YX2/lnQDE5fa3ciDauT/mKo2nd5DU
-         07BHtrxRbORaX6ZlDTZ1cprRwzL5kLn2sXryuQZtUzYy/W5j6vCBvv6nFqxFx+3QeP+c
-         f79lVbbi2psEQqmeRC+aSVjGUqLuFh0m/9vUodo3MhjJhEQWKsmMOWd0jtJUxdOnDf/8
-         LoUg==
+        d=gmail.com; s=20230601; t=1738770723; x=1739375523; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ae4SQ0RvMVwvk5PM2JrhU25UqvvnwsUTsN2mSU23R6c=;
+        b=LzHBPHWGY+MY15pntpIjIO+takSSFJFchf1NppOY+VGZ/4rlFX2RebURH7/XKPxwnD
+         zzOUop8u/TUEpHHkPEFH4YdqR/OLrJPChihCJz9sMk536cJnTZNAtEZXYEgsYcaNlgdr
+         5yhhdPf4rJoKA8ZvjVbwFMegPnU7R/OpCV9FkCYcubXfu97iD6PmLIjAzi1GZ0cVanld
+         ce8r6VkFVVGUhbEOpdaiPVtplOnpxn+mD+sjDc/EhpuqVaG4yWGmozs/PgnMT5JHOrEB
+         aBydeoe91hZuQR1dBpYxa4w4IVDG1TcU1jebgo77p29dtPGY/yq9gcmaReSajAkp8Nwf
+         hRDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738770315; x=1739375115;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ExCHcEmhTd2grDZjdO58flxFkyykvt13dPlpvTbUTHQ=;
-        b=URTTf7/VDCYAv0FDIlvHXlcMvSKqYR+LFgiZQMCCInTzKA8TEmA83VkbIqjmODM57g
-         Gi/xb+PuOj8E51b/urCqCFIwej9VMSRof13NZ9ehT4CxknOigzttm7bBDt2/QKoyk0Mn
-         yAfgXsshidY5AgqWXh9QfV+Ao7VrdTF8JB8swryYUWRxa/wblqfi/aB2ENHH9RSP78nB
-         fiOG68IC3Bc9tqQZVsvZoIX6A3VffsMDMsD1L7CKf8hRJCVz3AQFe8lt9dj/4G9juPFl
-         stUJDYHl38OGips89OBrpdqVjH9A3z084ofIQ+VuNSp4bBD727XULBi+uauJm+NTAoHa
-         Go3g==
-X-Gm-Message-State: AOJu0YwNIk6e9OR68V5SN8ya7maAKPOq5aP+Bss/7f3XneEVq54x/LBJ
-	h75xn7rLRibdhIJNGi8B/7pDtn3mdw7AV/SS5EYwiBo9FjW6mbhB
-X-Gm-Gg: ASbGncvaQHW4cXBnq9IG/RWCVIO0KV8HtEWe60VyFRyYtEQV4nDsBZfvE09epjywDZ9
-	lVyR+N3ekrPyyV1k0QI2lGu66muswAyP1RiawrgDXVCXFRnGa1Cq/FutSe/PJgzNRbr5qu7aRUa
-	T4l9Z6r3pRweI4DB2U3kWpDW1mFuIxF+TRA1Dt3eMJLYz7TvLs2HrRReiyC+7QErUqwgaDhcJve
-	4WiAcfcDBOqtukdL4GEX7wM5q8PF5ruagrmfUOiq1Q0Ke/2T0RBz0PZSDUr1tb6idulhxZMw2A7
-	P7iLhnnoLOzW1VPk/ucU3afzHKOAFoL5amF21R1zgWl414O5
-X-Google-Smtp-Source: AGHT+IFl7yTcgFS2y5rL/v9u0epZFB6KOL1fuRJzMgkxJXyiIHE3xK35gAASEt0TmXc/r+M3ICjj8A==
-X-Received: by 2002:a05:6000:1547:b0:386:1cf9:b993 with SMTP id ffacd0b85a97d-38db48bd7c1mr2108403f8f.26.1738770314543;
-        Wed, 05 Feb 2025 07:45:14 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dadca52e6sm4791304f8f.0.2025.02.05.07.45.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2025 07:45:13 -0800 (PST)
-Message-ID: <aa957875-3693-4136-8f94-798507ba1a41@gmail.com>
-Date: Wed, 5 Feb 2025 16:45:13 +0100
+        d=1e100.net; s=20230601; t=1738770723; x=1739375523;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ae4SQ0RvMVwvk5PM2JrhU25UqvvnwsUTsN2mSU23R6c=;
+        b=HRjPDELby4b660QSr8dli29dkQit5qShT/O2jZTHBFma49vc3hw7MDpQLJtv883TFP
+         He8+tYEA0u8WgY2OtR2/yWTbX2eh7NfI8mnLQnWvqsm/wkG7SbVCVUusM3AujVfjhWqA
+         d2nsna5s607jdS3hixK9+ANcaMlGsc0QJd50+RrlBgrbFxHSvwWYzVqWk+RZb79g+lw3
+         7VICP7mM+dywS2zQ+IqJAnql1Fvj+3n8LuWOvpVxXIQAoF+Qg67mec6rWAXCSqrbMZf2
+         g9y8JTTJWfT8iluUZyiDHcr0Dxn/WNh/o6QmmFoGgCfnsI+d6yZdSYWCdXXu/b8vochU
+         PARA==
+X-Gm-Message-State: AOJu0Yyjw3XTG3tI6/iG28DnIqHt6hl3GQOf6GOyZv9Kqx4Va4kh7bo3
+	AxPfOnN3ssaRZZHxG5PD2aOlFtWkgZKo8w75UmVrFD4yN72pE37C0aP2HQ2DTDrCqSQ/FGlSKGS
+	zlA3AMGOu7mRa9SOz2EIHVOC7hbQ=
+X-Gm-Gg: ASbGncuNDtJHO7+1z6t+DlB6IaYRmNofQ+GLIZL41B6hrBLcQPBguq9q1y6vDr135HA
+	zt3C9hG4mMnEUeOjSDgHOTlaZeQxOzuXKkgC7IXRHmqbZLflY5Bs0VBLMB8gcXtitYzF7B3atcg
+	TS0cSzSZviknxx/az9VUMBF1sqASx+0Vg=
+X-Google-Smtp-Source: AGHT+IEv/5HnjM7otFhIIjydyQ7yYUtH/SXYcuYWx/PMrQOi+bZhJB356clX7NncwXcpBuy+IJ8XOKIDinkkz0TD4CU=
+X-Received: by 2002:a05:6214:cc4:b0:6d8:e5f4:b977 with SMTP id
+ 6a1803df08f44-6e42fb22b56mr57855356d6.5.1738770723158; Wed, 05 Feb 2025
+ 07:52:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20250205043637.2649428-1-zboszor@gmail.com> <CANNYZj-t=1kCNq4UNLEnqG65n7dFBZBbNVPQYsrAXGoeb=4VMg@mail.gmail.com>
+ <2cf08e42-f322-4d29-9867-85d1723480c4@gmail.com> <CANNYZj_XJzXiBD22C8iTaE2XX4bNVbZ-ScyKSUvW_Qw0r1iSGA@mail.gmail.com>
+ <aa957875-3693-4136-8f94-798507ba1a41@gmail.com>
+In-Reply-To: <aa957875-3693-4136-8f94-798507ba1a41@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 5 Feb 2025 16:51:52 +0100
+X-Gm-Features: AWEUYZnP_IUW3WI9S0H_khTgqSCnl8y7dBa9b0HnY4FbTW-ol3bH67DyTolyrPU
+Message-ID: <CANNYZj8FPnmxv5XyNuX+jR_u7kLcKtPHRjiiY3s8reCQ_OBC-g@mail.gmail.com>
 Subject: Re: [OE-core][PATCH v6 1/3] rpm-sequoia: New recipe for version 1.7.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-References: <20250205043637.2649428-1-zboszor@gmail.com>
- <CANNYZj-t=1kCNq4UNLEnqG65n7dFBZBbNVPQYsrAXGoeb=4VMg@mail.gmail.com>
- <2cf08e42-f322-4d29-9867-85d1723480c4@gmail.com>
- <CANNYZj_XJzXiBD22C8iTaE2XX4bNVbZ-ScyKSUvW_Qw0r1iSGA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj_XJzXiBD22C8iTaE2XX4bNVbZ-ScyKSUvW_Qw0r1iSGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 15:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210862
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 15:52:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210863
 
-2025. 02. 05. 16:34 keltezéssel, Alexander Kanavin írta:
-> On Wed, 5 Feb 2025 at 16:21, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> Okay, how about using a git:// SRC_URI entry for fedora-crypto-policies?
->> That should be self explanatory and no "magic file".
->>
->> However, I had to do this abomination of a workaround to
->> exclude the directory from being manhandled by "cargo build":
-> I'd be ok with a separate recipe for it.
+On Wed, 5 Feb 2025 at 16:45, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
+r@gmail.com> wrote:
+> > I'd be ok with a separate recipe for it.
+>
+> For all of the fedora-crypto-policies contents, or just for the one for r=
+pm-sequoia?
 
-For all of the fedora-crypto-policies contents, or just for the one for rpm-sequoia?
+We can just pick the one file we need out of it in do_install.
 
+Alex
 
