@@ -2,207 +2,107 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43660C02197
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 04:36:55 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.5028.1738730206099746210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B812C02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 04:39:45 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.5061.1738730375249341791
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Feb 2025 20:36:46 -0800
+ Tue, 04 Feb 2025 20:39:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ks+qfX+n;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso43314725e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 20:36:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aXBhPmmA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38da72cc47bso1093780f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Feb 2025 20:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738730204; x=1739335004; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVRrpAmvN6eeaoCvvNv+TbYnu1e45bCSri1erdHFmY4=;
-        b=ks+qfX+njH/XWR1M86wehYs1lwThHPyUGoVxUiD96M8ct9YjbDwRuZTMLisiCVDche
-         W1R+Y52vUo9HXcFeXidJ/DCDG84OOMgf3yKLf8JsEQPTqe1gyYNNKfsteKJ0CbkmoSRh
-         XwgWwBOITb5VYvTx/wmZndLI02cFLKuzs4WpchnhKezMw9y5krJ3Gzjd7xlhmDg1l8O/
-         xSIK9g4v49JLU0ySqioTvsipeJXV+LCn3yPGIhCtZ22qNpDhBHydV6JuG+Zq2UZgWhUK
-         BxCwyVgB55yRU67GfDNi2atO+TNoQwtv7FYaoTkRxTOIPqOKxdNz/LbXWSlyz5ggi4Fv
-         aDxg==
+        d=gmail.com; s=20230601; t=1738730373; x=1739335173; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U/43Iv1oSnz9ah9ZmhopR1qNUkcJeKTsCdeQzd00KOg=;
+        b=aXBhPmmAyYY8wD+VbzOqv5iu3PHT7mvBk0kjWxmwpqdSYluQ5wTcdce0S7jl08NQDl
+         8tHdWMhquDxL75LfirWG0N11OGofNKtXsMYmzoja6/ubB8BqNu2WFZCC6n08WPEboXRl
+         tM9ezGQQrmhTR3ahrPVuYObcewGBEO9MY2AbDTn0zQbfR3fz5evCul62zmnJoyfEHv45
+         Ei4b9LjNgAvXlfc83kYPzmduJCO/QfxhVZYBnpSv3iKOvdaKrKmqNmXGNol7yohbfAA0
+         aC8WE3EkgfY4736zo1f+QFAfbc5dCnne9fNMw06d3GN5IL3g8jN67od/US/+BJQ2AbRQ
+         Bfqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738730204; x=1739335004;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PVRrpAmvN6eeaoCvvNv+TbYnu1e45bCSri1erdHFmY4=;
-        b=bhJ4TIR+3ypCqSnLGZ709vvnc1UwFXEJV2y+m8Tm28U+0zpnI19GCKpTIpsQuy+PoT
-         OgZNHxaI0nLX609zWTpyb2cS2Swe2CZRNguDAaCqzMG0St605lzV9htKB7RFSAqlKTBb
-         Vr17f7CuN9yBSoteKlPDSl8ATKZ5RtWoAp0b3b2GuA0CTmKpLs+H4w6ak9JPNFSycuvp
-         BcbKHLEqJZIhEEYsYybcNZkEZOn1mFw5hoqooCAJ3YVcPtX5TJ+r0jpHd8RuaL4dnYCC
-         mT9gOEeoBOUYYk+FiwWWoih8y4Kd98XBHtXFs1HpcF3CCQriLAIPHUQKJbNKah4hemDJ
-         dIPA==
-X-Gm-Message-State: AOJu0YzuatJQTFCnVxQWLvojwH0Ov7JwQYEtJAG0Uwl2YZIYtMEZPjIZ
-	kSHcewKlNSJg2mZWPRN5Uc3Lg3wVjWo24pR+IY/CX/IFcMMQ6zxhqVLKwQ==
-X-Gm-Gg: ASbGncvC/8SOJEM+Q4QHEg0JlBwy3cO9Cis20cffbF9O5bZtWTUTNyKx9FxgsXsVJjE
-	TwDpCTJNT3sOx+diYzQWtn0k9otRx22Dcg2jM3xRhkGlKZZ+x9mDTRmIddPC+9wS6B6cA7wjFJI
-	Brm/asRxWHvkHTfZo+9mmjPdvEZDwKthRM3rTMuqlXjld46jGx8rWEBYBY2dUoOcEGj+cQ9TrLK
-	jX3QUMNLx8MweaaLuzDP54w8/9gvrKlp2NLOMcneqAWI+VJpxFyv4VhBv4n3v1MaA6ttmjYWjHB
-	+DHL9a4jP5yciV4/VRSpDqwvtNBkuEY/brtwK1YT3Kqkgg==
-X-Google-Smtp-Source: AGHT+IEmIIedEOkkfy6Kvy0VBKPKsEXZxR4/G9YqpZPC5IaGKKzUGRUNm0EP8DWLQgzalhJGUAtMLw==
-X-Received: by 2002:a05:600c:1c91:b0:434:fbda:1f44 with SMTP id 5b1f17b1804b1-4390d56141dmr5279845e9.19.1738730204207;
-        Tue, 04 Feb 2025 20:36:44 -0800 (PST)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390db1150csm8117865e9.39.2025.02.04.20.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 20:36:42 -0800 (PST)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [OE-core][PATCH v6 3/3] oeqa/selftest/cases/signing.py: Re-enable self-test
-Date: Wed,  5 Feb 2025 05:36:37 +0100
-Message-ID: <20250205043637.2649428-3-zboszor@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250205043637.2649428-1-zboszor@gmail.com>
-References: <20250205043637.2649428-1-zboszor@gmail.com>
+        d=1e100.net; s=20230601; t=1738730373; x=1739335173;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U/43Iv1oSnz9ah9ZmhopR1qNUkcJeKTsCdeQzd00KOg=;
+        b=Ic3GNmJWjl/b3gK5/AFEKwEc7MBmM3Y2tFnBMwbuFramKLiDnUiVfxSATdZawJZfTz
+         Y3NonmiPzAPtMbWYQtzrTVfdGRF8tyHc52fPAZh0cxIzdoLmdjPjlwozlLxlhlS0U7zD
+         o/6/bnYCBc9GDsmavJsDtjjz/SyIlnJDblI3QaBU1t01iHvZJRDcSEZmMtL2/9gBWCTI
+         qW7bXNoggO8q2DNqcl75JlP9SAithY3Omwx4vtsgXI84wqY58zV7gpqw4NQG9c6/f5aH
+         ew5yLEeHBrJN7dAAyVwBFvXtpfbQ9EyCwPC3idVqdtOdyjMxi0nGQmOZxJ6qwjWb/IfA
+         T7eA==
+X-Gm-Message-State: AOJu0Yw1qJCNEOj616AD2/ItXy+ixIvIKJMAQABCDxQBE9XVR/zgD8DS
+	7Eaw3Nc2uMvkF258Oe+WmE3C0+dRlKDpR7hqtG9v0Lm0YmbWIrL9
+X-Gm-Gg: ASbGncvJWVUY9hv3mLqLjgo8cJFFpYi8FKjCwS5KJHHO081zuck4D5X+18dOxP84SCh
+	8oxEsa/5yCH5/G3OyMrfY4igvaV8hlKKG0lca3hDmwDuuTttlwJi6TRiyPl1oiD44oLvyxSUv6N
+	15BR2y8mrOlxi1FC91wqcrdduhqs3dO6Q0NGS2VhIFJWvrPChcDUp+PL8SYg+wlJKXy4DCteeeF
+	50HACG2DXYGv0a5X/BgAe53f/o3A+4txFwtgT5CqBNbUXbi30NYJ3td/LWXdkaRYtyaIQIuhgKX
+	sPboYnu8K+Hs2wBoNDIE5UK2clKDEuTnpd1pVjIVEAbKtXvX
+X-Google-Smtp-Source: AGHT+IFKdskGp+HDEpnEb2B76UG7jjIn9NMqjD6R9O9q5X1yb6Iz79Pe18gnOT/4gD6PvPIANLZnuw==
+X-Received: by 2002:a05:6000:1864:b0:385:dffb:4d56 with SMTP id ffacd0b85a97d-38db49766b5mr639335f8f.53.1738730373358;
+        Tue, 04 Feb 2025 20:39:33 -0800 (PST)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390da8a02bsm8279885e9.37.2025.02.04.20.39.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 20:39:32 -0800 (PST)
+Message-ID: <2e5f45d6-41dd-443f-9c45-1d4b66d8f879@gmail.com>
+Date: Wed, 5 Feb 2025 05:39:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH v5 2/2] oeqa/selftest/cases/signing.py: Re-enable
+ self-test
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+References: <D7H6P74CVGDM.3LTRAMF91XPEH@bootlin.com>
+ <20250203122444.1513238-1-zboszor@gmail.com>
+ <20250203122444.1513238-2-zboszor@gmail.com>
+ <CANNYZj--uwXoWM2r-PLz=--6uzd37jnhaqu12vrXcY+pqutO1w@mail.gmail.com>
+ <182100E5D19BBE2E.15786@lists.openembedded.org>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <182100E5D19BBE2E.15786@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 04:36:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210828
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 04:39:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210829
 
-Enable building rpm with rpm-seqouia for the test.
+2025. 02. 04. 13:25 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> 2025. 02. 03. 13:37 keltezéssel, Alexander Kanavin írta:
+>> On Mon, 3 Feb 2025 at 13:24, Zoltán Böszörményi <zboszor@gmail.com> wrote:
+>>> +        # Test rpm-sequoia's default built-in policy
+>>> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
+>>> +
+>>> +        # Test rpm-sequoia's default built-in policy
+>>> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
+>>> +
+>>> +        # Test rpm-sequoia's default built-in policy
+>>> +        os.environ['SEQUOIA_CRYPTO_POLICY'] = ''
+>>> +
+>> This should be set just before the signing actually happens, and not
+>> only in the test.
+>
+> I decided to actually ship a crypto policy file in the rpm-sequoia
+> recipe, so dnf / rpm can use it on the target system. It is also used
+> in sign_rpm.bbclass and in the test case.
+>
+> I have already confirmed on my Fedora build host,
+> that with no policy file present (either at the default path by
+> renaming Fedora's own file in /etc to simulate a non-rpm based
+> host or using a non-existing path in SEQUOIA_CRYPTO_POLICY) the signing test case fails.
+> I will send the new series once the test case succeeds with
+> everything in place properly.
 
-sign_rpm.bbclass already takes care of signing rpm packages.
-
-Add a crypto policy file (identical to the one shipped by
-rpm-sequoia) and use its path in SEQUOIA_CRYPTO_POLICY envvar
-for runCmd('rpmkeys') commands.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- .../files/signing/rpm-sequoia.config          | 51 +++++++++++++++++++
- meta/lib/oeqa/selftest/cases/signing.py       | 11 +++-
- 2 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta-selftest/files/signing/rpm-sequoia.config
-
-diff --git a/meta-selftest/files/signing/rpm-sequoia.config b/meta-selftest/files/signing/rpm-sequoia.config
-new file mode 100644
-index 0000000000..cec1d1550b
---- /dev/null
-+++ b/meta-selftest/files/signing/rpm-sequoia.config
-@@ -0,0 +1,51 @@
-+[hash_algorithms]
-+md5.collision_resistance = "never"
-+md5.second_preimage_resistance = "never"
-+sha1.collision_resistance = "always"
-+sha1.second_preimage_resistance = "always"
-+ripemd160.collision_resistance = "never"
-+ripemd160.second_preimage_resistance = "never"
-+sha224.collision_resistance = "always"
-+sha224.second_preimage_resistance = "always"
-+sha256.collision_resistance = "always"
-+sha256.second_preimage_resistance = "always"
-+sha384.collision_resistance = "always"
-+sha384.second_preimage_resistance = "always"
-+sha512.collision_resistance = "always"
-+sha512.second_preimage_resistance = "always"
-+default_disposition = "never"
-+
-+[symmetric_algorithms]
-+idea = "never"
-+tripledes = "never"
-+cast5 = "never"
-+blowfish = "never"
-+aes128 = "always"
-+aes192 = "never"
-+aes256 = "always"
-+twofish = "never"
-+camellia128 = "always"
-+camellia192 = "never"
-+camellia256 = "always"
-+default_disposition = "never"
-+
-+[asymmetric_algorithms]
-+rsa1024 = "never"
-+rsa2048 = "always"
-+rsa3072 = "always"
-+rsa4096 = "always"
-+dsa1024 = "always"
-+dsa2048 = "always"
-+dsa3072 = "always"
-+dsa4096 = "always"
-+nistp256 = "always"
-+nistp384 = "always"
-+nistp521 = "always"
-+cv25519 = "always"
-+elgamal1024 = "never"
-+elgamal2048 = "never"
-+elgamal3072 = "never"
-+elgamal4096 = "never"
-+brainpoolp256 = "never"
-+brainpoolp512 = "never"
-+default_disposition = "never"
-diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
-index 51d1c3fa64..f01a464d1d 100644
---- a/meta/lib/oeqa/selftest/cases/signing.py
-+++ b/meta/lib/oeqa/selftest/cases/signing.py
-@@ -21,6 +21,7 @@ class Signing(OESelftestTestCase):
-     gpg_dir = ""
-     pub_key_path = ""
-     secret_key_path = ""
-+    sequoia_config_path = ""
- 
-     def setup_gpg(self):
-         bitbake('gnupg-native -c addto_recipe_sysroot')
-@@ -30,6 +31,7 @@ class Signing(OESelftestTestCase):
- 
-         self.pub_key_path = os.path.join(self.testlayer_path, 'files', 'signing', "key.pub")
-         self.secret_key_path = os.path.join(self.testlayer_path, 'files', 'signing', "key.secret")
-+        self.sequoia_config_path = os.path.join(self.testlayer_path, 'files', 'signing', "rpm-sequoia.config")
- 
-         nsysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native")
- 
-@@ -71,7 +73,6 @@ class Signing(OESelftestTestCase):
-         """
-         import oe.packagedata
- 
--        self.skipTest('This test requires rpm-sequoia support in rpm')
-         self.setup_gpg()
- 
-         package_classes = get_bb_var('PACKAGE_CLASSES')
-@@ -84,6 +85,8 @@ class Signing(OESelftestTestCase):
-         feature += 'RPM_GPG_PASSPHRASE = "test123"\n'
-         feature += 'RPM_GPG_NAME = "testuser"\n'
-         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
-+        feature += 'PACKAGECONFIG:append:pn-rpm-native = " sequoia"\n'
-+        feature += 'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'
- 
-         self.write_config(feature)
- 
-@@ -106,6 +109,9 @@ class Signing(OESelftestTestCase):
- 
-         pkg_deploy = os.path.join(deploy_dir_rpm, package_arch, '.'.join((pf, package_arch, 'rpm')))
- 
-+        # Use our crypto policy file for runCmd('rpmkeys')
-+        os.environ['SEQUOIA_CRYPTO_POLICY'] = self.sequoia_config_path
-+
-         # Use a temporary rpmdb
-         rpmdb = tempfile.mkdtemp(prefix='oeqa-rpmdb')
- 
-@@ -118,6 +124,9 @@ class Signing(OESelftestTestCase):
-         self.assertIn('digests signatures OK', ret.output, 'Package signed incorrectly.')
-         shutil.rmtree(rpmdb)
- 
-+        # Make sure SEQUOIA_CRYPTO_POLICY envvar is unset
-+        del os.environ['SEQUOIA_CRYPTO_POLICY']
-+
-         #Check that an image can be built from signed packages
-         self.add_command_to_tearDown('bitbake -c clean core-image-minimal')
-         bitbake('-c clean core-image-minimal')
--- 
-2.48.1
+I just sent the v6 series.
 
 
