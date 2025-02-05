@@ -1,97 +1,98 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC99C02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 17:05:39 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web10.17671.1738775134951440474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D14BC02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 17:52:19 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.19077.1738777929007027425
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 09:05:35 -0800
+ Wed, 05 Feb 2025 09:52:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kEZj3oXU;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: danismostlikely@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-844ce213af6so1076939f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 09:05:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738775134; x=1739379934; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nz4E6aoqnuSY0l5h427r+kmFYXgX+ptIwJ6/t2cwuQI=;
-        b=kEZj3oXU0nRXcCL8y7O0NmYb++y3/zu3KtitcKXnPBUyr6EKPiR8BLMIqu9XbX6UGD
-         QavYHNUXWuCSLmb0sF720NOAAp+855wkadVI4rSW1RNGJ3oXDAMqnsWc2wxuKCjJH8Fg
-         Gg+VW2tPv6GTsuTr/uEuEOtMx86EMlpFc88t8v6J0kQsakExVgLTGS0DoMiCWo1Fi5jo
-         Z48EcJAnw8pfgLbs6sksuF+POwQs0ZmcvJ5kadvL+28xIkwIVki2oUT5I+Q/ERgrsIAt
-         ZRwqJ8ocLFzMgcKFP+OUDXbCsq08VgPPupwuJ+3TKPWhIjQiZ8+xPGc3UxMZ0MK3GGZ1
-         IGAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738775134; x=1739379934;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nz4E6aoqnuSY0l5h427r+kmFYXgX+ptIwJ6/t2cwuQI=;
-        b=EQuLErr+YGisdygk3XirHeMaQj5Nd0o93rXnZJUHCn6fR3HnQNPAy/yadyef2NfJXq
-         XbMjCaNaqoBmoEdDptFVV3X9c35UC5jEcFTAg2kI4biaSXDD0F+OSzmxZUs/UbOl3ryg
-         GJ3YqGRG81IXa5iHWDocLWKwUlu8B42j3KarmiK4Z0KALnP52pEAxmF06Szh3zz6VL5j
-         Q/3/UxCNgTlZ0VskgIVD6YDYXRPmHGgLvhRAon14DuJsBMe+XwxME4ANA36NeohamDIr
-         qcO7cF+LUoTSA4MEmEgcpWE/uys4Cd5wSIC1puIDZDTgR/8Twdzy92KsDPaDvPDHgpyO
-         ay4Q==
-X-Gm-Message-State: AOJu0YyKnTUCOtTGkNt7QwmU9KmIGpF9Alw6W1oM5Y8Km/mdLZqzka+6
-	XPakBDq6+8AJHoZfIKjkuBJcOh4nmvd48BO3Wq6lntrlxYBP6bbH4KkhxQ==
-X-Gm-Gg: ASbGncseTGftIA51DfSIZC5Qoi8W9CvCCWmT3S3WO/QZHRdBez1fM8Y/4QdHH17tTk7
-	Q7VntfhCn2CqFNNElmFGuF3BvUWI8mmsslAI2x3M7QQTi1MZE8Y0BcLzxfSQCRcRxI9YPGA2URB
-	tMmuKs4mpcUYWINpW3kNBeO0Gd6EzTAKvMuzZ7i54uhN1zLj1Tf67zLzpucf6Gl0sf9eC36Md8W
-	hp84Q1/22NTWrCozSx4m322nQAOieBQjSS71jg9FQb9eAMt6rh5KYl8hZGoWxJsS26v44Q2JHIO
-	IATsAMe/4Oscw8PACPhyCqyDab7+OaB2RNMYMTEF
-X-Google-Smtp-Source: AGHT+IET2RfSwsgEROWJexqrdc9ATEz5bTuyyoI8eIRhyrMKqYSuchQVuzLeAwqarD09abqnuqhwQQ==
-X-Received: by 2002:a05:6e02:f:b0:3ce:7fc3:9f76 with SMTP id e9e14a558f8ab-3d04f427293mr38213445ab.6.1738775132134;
-        Wed, 05 Feb 2025 09:05:32 -0800 (PST)
-Received: from nebuchadnezzar.home.arpa ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d00a4fd6aasm34929795ab.15.2025.02.05.09.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 09:05:31 -0800 (PST)
-From: Dan McGregor <danismostlikely@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=fr4NinBf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250205175205f4b2b45fed6d016dbc-rkyzvg@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250205175205f4b2b45fed6d016dbc
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 05 Feb 2025 18:52:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=mVoStZ36d1TyKUM9IvTAovOhr6678lsAI707Ps6qt/k=;
+ b=fr4NinBfN6SyUUUfU/ya25bm1/V7NENlJQSxo4vlNyKiehSahLItPy7vUSAwW1z9ZUa2sg
+ 2bHXcI4qUPdaRT+k9nbBW6zO9/5yXqn7bgbImtlhW9LmiO26mceUwzp6A0jqjHcNk8T2bUF7
+ j/D3HhlVF8D3WTnmU//6WhJY3oVbuj/XuOQAgEqxJtI9R3eRHPzv+iYJ1dAFErqbEzS/zarX
+ WFwMlqUi3o/LrBl2rNYUBMmdhCYR94oO0O+zL02tKkfGBmZAC13G/18hppHwXWXNa5XVTaBV
+ AbXYXZtX1pL80a7f8MlrhQZOYf9Wrk4WsgF6xqBXTE6YK1vEME24VLvg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [PATCH] rpm: add PACKAGECONFIG dependencies
-Date: Wed,  5 Feb 2025 11:05:27 -0600
-Message-ID: <20250205170527.11723-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.47.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] classes: switch p7zip to 7zip
+Date: Wed,  5 Feb 2025 18:51:18 +0100
+Message-Id: <20250205175118.1334967-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 17:05:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210870
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 17:52:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210871
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The cap and acl configs were missing dependency specifications. They
-could get satisfied transitively if archive was also used, but alone
-get missed.
+meta-oe has switched from p7zip to 7zip.
+p7zip recipe does not exist anymore and p7zip is provided and rprovided
+by 7zip recipe.
+Use real provider instead of replaced one.
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.20.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-global/base.bbclass              | 4 ++--
+ meta/classes-recipe/image_types.bbclass       | 2 +-
+ meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.20.0.bb b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
-index 6c995ff50c3..45487ad32c4 100644
---- a/meta/recipes-devtools/rpm/rpm_4.20.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
-@@ -70,8 +70,8 @@ PACKAGECONFIG[testsuite] = "-DENABLE_TESTSUITE=ON,-DENABLE_TESTSUITE=OFF"
- # has replaced openpgp support and is written in rust: https://fedoraproject.org/wiki/Changes/RpmSequoia
- PACKAGECONFIG[sequoia] = "-DWITH_SEQUOIA=ON,-DWITH_SEQUOIA=OFF,rpm-sequoia"
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index 988bdbcf0f..924f319999 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -645,9 +645,9 @@ python () {
+         elif path.endswith('.deb'):
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
  
--PACKAGECONFIG[cap] = "-DWITH_CAP=ON,-DWITH_CAP=OFF"
--PACKAGECONFIG[acl] = "-DWITH_ACL=ON,-DWITH_ACL=OFF"
-+PACKAGECONFIG[cap] = "-DWITH_CAP=ON,-DWITH_CAP=OFF,libcap"
-+PACKAGECONFIG[acl] = "-DWITH_ACL=ON,-DWITH_ACL=OFF,acl"
- PACKAGECONFIG[archive] = "-DWITH_ARCHIVE=ON,-DWITH_ARCHIVE=OFF,libarchive"
- PACKAGECONFIG[selinux] = "-DWITH_SELINUX=ON,-DWITH_SELINUX=OFF,libselinux"
- PACKAGECONFIG[dbus] = "-DWITH_DBUS=ON,-DWITH_DBUS=OFF"
--- 
-2.47.0
-
+-        # *.7z should DEPEND on p7zip-native for unpacking
++        # *.7z should DEPEND on 7zip-native for unpacking
+         elif path.endswith('.7z'):
+-            d.appendVarFlag('do_unpack', 'depends', ' p7zip-native:do_populate_sysroot')
++            d.appendVarFlag('do_unpack', 'depends', ' 7zip-native:do_populate_sysroot')
+ 
+     set_packagetriplet(d)
+ 
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index 87d6effc6c..e6ef0ce11e 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -367,7 +367,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
+ CONVERSION_DEPENDS_lz4 = "lz4-native"
+ CONVERSION_DEPENDS_lzo = "lzop-native"
+ CONVERSION_DEPENDS_zip = "zip-native"
+-CONVERSION_DEPENDS_7zip = "p7zip-native"
++CONVERSION_DEPENDS_7zip = "7zip-native"
+ CONVERSION_DEPENDS_zst = "zstd-native"
+ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+ CONVERSION_DEPENDS_bmap = "bmaptool-native"
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index 98ac723552..f111466b4c 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -94,7 +94,7 @@ python () {
+        # recommand to cd into input dir first to avoid archive with buildpath
+        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDK_ZIP_OPTIONS} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
+     elif d.getVar('SDK_ARCHIVE_TYPE') == '7zip':
+-       d.setVar('SDK_ARCHIVE_DEPENDS', 'p7zip-native')
++       d.setVar('SDK_ARCHIVE_DEPENDS', '7zip-native')
+        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; 7za a -r ${SDK_7ZIP_OPTIONS} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_7ZIP_TYPE} .')
+     elif d.getVar('SDK_ARCHIVE_TYPE') == 'tar.zst':
+        d.setVar('SDK_ARCHIVE_DEPENDS', 'zstd-native')
 
