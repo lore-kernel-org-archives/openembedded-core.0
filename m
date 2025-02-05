@@ -1,308 +1,166 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <esben@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B37BC02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 08:06:46 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7393.1738742800214691322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E55C02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 08:28:36 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web10.7451.1738744101394288545
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 00:06:40 -0800
+ Wed, 05 Feb 2025 00:28:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4131e7fe3b=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5156x3AW007030;
-	Wed, 5 Feb 2025 08:06:39 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8bur0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 05 Feb 2025 08:06:38 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 5 Feb 2025 00:06:37 -0800
-Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 5 Feb 2025 00:06:36 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>, <liezhi.yang@windriver.com>
-Subject: [scarthgap][PATCH] binutils: File name too long causing failure to open temporary head file in dlltool
-Date: Wed, 5 Feb 2025 16:06:35 +0800
-Message-ID: <20250205080635.2915215-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=HLAY+GJt;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: esben@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Type:MIME-Version:Message-ID:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=GWrubvn/e3Ie+DIc4fEFz1jx4wNYEXjWB26TvKvOD5U=; b=HLAY+GJtMAwEp4CK64XiBdbvwB
+	ScbEBf+2WtONJJZ+wnkzydM/WtRlEGP86lXfYV1l9GoYGtgs6oz5qIaKML2pR3/WWYJ7X9bxmPMV0
+	iNKeh0uOzrZU+oLklthf7DPVIS+iKqMnUnYKelP5/BxGOL01n9q3zszpShbkwVbXE1vX85b5PSANW
+	UH//xJWGmLw4Z+LaeeyCURpnifyYerLicslTtPTCbTbn6l/tz08rbs+7d2+JrSnA81dflxfrFtEN+
+	RLnUo60iekEQEB7p0y3mTXjQjTln9RI2cVmz70EWY641Hrl3Rvx3EMbd0jloqV51tXNWMN0xEPPwc
+	I8eweIsw==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <esben@geanix.com>)
+	id 1tfalf-0003Gt-1U;
+	Wed, 05 Feb 2025 09:28:19 +0100
+Received: from [185.17.218.86] (helo=localhost)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <esben@geanix.com>)
+	id 1tfalf-000Jyv-1S;
+	Wed, 05 Feb 2025 09:28:19 +0100
+From: Esben Haabendal <esben@geanix.com>
+To: "Richard Purdie via lists.openembedded.org"
+ <richard.purdie=linuxfoundation.org@lists.openembedded.org>
+Cc: sean@geanix.com,  Ross Burton <Ross.Burton@arm.com>,
+  richard.purdie@linuxfoundation.org,
+  "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] image/populate_sdk: Support usrmerge for
+ nativesdk in SDK builds
+In-Reply-To: <38dd9094715c7221474248449177f995a443eea6.camel@linuxfoundation.org>
+	(Richard Purdie via lists openembedded org's message of "Tue, 04 Feb
+	2025 14:15:05 +0000")
+References: <20250117130851.4055166-1-sean@geanix.com>
+	<C02E5327-1001-4CA9-BA15-E063F862C4AA@arm.com>
+	<3ot3xt22h6idimbs4xrb4cnojyxeswugitvortqlinqdffb76o@tebg2u26fzin>
+	<ygnmol4i3p5iixvkrzw6spgljha7vnx6zjljajqr4q2j6r5mvo@eud25kakycyq>
+	<38dd9094715c7221474248449177f995a443eea6.camel@linuxfoundation.org>
+Date: Wed, 05 Feb 2025 09:28:18 +0100
+Message-ID: <87frksg5i5.fsf@geanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=ecXHf6EH c=1 sm=1 tr=0 ts=67a31c0f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=lmprMifiJBPMbUC0UVYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: o8cuO2geRty_4yTJBg6wU_78_-L2ueUO
-X-Proofpoint-GUID: o8cuO2geRty_4yTJBg6wU_78_-L2ueUO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-05_03,2025-02-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 bulkscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502050064
+X-Authenticated-Sender: esben@geanix.com
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27539/Tue Feb  4 10:37:52 2025)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 08:06:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210831
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 08:28:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210832
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+"Richard Purdie via lists.openembedded.org"
+<richard.purdie=linuxfoundation.org@lists.openembedded.org> writes:
 
-During the execution of the command: i686-w64-mingw32-dlltool
---input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
-An error occurred:
-i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
+> On Tue, 2025-02-04 at 14:59 +0100, Sean Nyekjaer via
+> lists.openembedded.org wrote:
+>> Hi Ross,
+>> 
+>> On Wed, Jan 22, 2025 at 03:04:35PM +0100, Sean Nyekjaer wrote:
+>> > On Wed, Jan 22, 2025 at 01:41:11PM +0100, Ross Burton wrote:
+>> > > Hi Sean,
+>> > > 
+>> > > On 17 Jan 2025, at 13:08, Sean Nyekjaer via
+>> > > lists.openembedded.org <sean=geanix.com@lists.openembedded.org>
+>> > > wrote:
+>> > > > Some recipes(systemd) requires usrmerge. Create the required
+>> > > > symlinks for `/bin`, `/lib` and `/sbin`, when installing
+>> > > > nativesdk
+>> > > > packages.
+>> > > > Enable the symlink creation by setting the `usrmerge` flag in
+>> > > > DISTRO_FEATURES_NATIVESDK.
+>> > > 
+>> > > This implies that there is some layout dependency between the
+>> > > target and the sdk environment. There really shouldn't be, what
+>> > > broke to cause you to send this?
+>> > 
+>> > Hi Ross,
+>> > 
+>> > In order to build and test our rust programs, we need libudev which
+>> > systemd is providing.
+>> > We are running our tests with nativesdk.
+>> > 
+>> > Systemd is requires usrmerge.
+>> > 
+>> > Hope that explains :)
+>> > 
+>> > /Sean
+>> 
+>> Forgot to ask you yesterday at the OE Workshop.
+>> 
+>> Is anything holding this back?
+>
+> Yes, there is.
+>
+> You're using the SDK in a way which it wasn't really intended for and
+> we're seeing "feature creep" where systemd's requirements being pushed
+> into places they don't really belong.
 
-Due to the path length exceeding the Linux system's file name length
-limit (NAME_MAX=255), the temporary file name generated by the
-i686-w64-mingw32-dlltool command becomes too long to open. To address
-this, a new temporary file name prefix is generated using tmp_prefix =
-prefix_encode ("d", getpid()), ensuring that the file name does not
-exceed the system's length limit.
+Applying "usrmerge" to SDK is not a systemd feature as such. In my
+opinion, not splitting binaries in multiple bin dirs in general makes
+sense for an SDK. And throwing in a simple symlink for making stuff
+work, is super innocent in my opinion (for whatever that is worth).
 
-Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
-TMP_STUB handling by overwriting a prior nnnnn.o string rather than
-copying the entire name.
+What is so fundamentally wrong or bad in allowing people to create SDK
+with usrmerge?
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- .../binutils/binutils-2.42.inc                |   1 +
- .../0017-dlltool-file-name-too-long.patch     | 208 ++++++++++++++++++
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+> If systemd was truly "cross", you wouldn't need to force the target
+> layout into the SDK.
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 41ed39632d..89c552cf03 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -37,5 +37,6 @@ SRC_URI = "\
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-      file://0015-gprofng-change-use-of-bignum-to-bigint.patch \
-      file://0016-CVE-2024-53589.patch \
-+     file://0017-dlltool-file-name-too-long.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
-new file mode 100644
-index 0000000000..2b759c1ee8
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
-@@ -0,0 +1,208 @@
-+From d95d8395b3a533461f46e8b7e55fef540fc2621b Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Tue, 13 Aug 2024 10:31:21 +0800
-+Subject: [PATCH] dlltool: file name too long
-+
-+During the execution of the command: i686-w64-mingw32-dlltool
-+--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
-+An error occurred:
-+i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
-+
-+Due to the path length exceeding the Linux system's file name length
-+limit (NAME_MAX=255), the temporary file name generated by the
-+i686-w64-mingw32-dlltool command becomes too long to open. To address
-+this, a new temporary file name prefix is generated using tmp_prefix =
-+prefix_encode ("d", getpid()), ensuring that the file name does not
-+exceed the system's length limit.
-+
-+Upstream-Status: Backport
-+[https://github.com/bminor/binutils-gdb/commit/a253bea8995323201b016fe477280c1782688ab4]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+Reviewed-by: Alan Modra <amodra@gmail.com>
-+
-+Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
-+TMP_STUB handling by overwriting a prior nnnnn.o string rather than
-+copying the entire name.
-+
-+* dlltool.c (TMP_STUB): Add "nnnnn.o" to format.
-+(make_one_lib_file): Localise variables.  Don't copy TMP_STUB,
-+overwrite suffix instead.
-+(gen_lib_file): Similarly.
-+(main): Allow for max suffix when testing against NAME_MAX.
-+
-+Upstream-Status: Backport
-+[https://github.com/bminor/binutils-gdb/commit/d0285cdf58adf04e861cd1687f7ecec65937c99d]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ binutils/dlltool.c | 64 +++++++++++++++++-----------------------------
-+ 1 file changed, 24 insertions(+), 40 deletions(-)
-+
-+diff --git a/binutils/dlltool.c b/binutils/dlltool.c
-+index 066c99a4..94f6c34b 100644
-+--- a/binutils/dlltool.c
-++++ b/binutils/dlltool.c
-+@@ -498,7 +498,7 @@ char *tmp_stub_buf;
-+ #define TMP_HEAD_O	dlltmp (&tmp_head_o_buf, "%sh.o")
-+ #define TMP_TAIL_S	dlltmp (&tmp_tail_s_buf, "%st.s")
-+ #define TMP_TAIL_O	dlltmp (&tmp_tail_o_buf, "%st.o")
-+-#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ss")
-++#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ssnnnnn.o")
-+ 
-+ /* This bit of assembly does jmp * ....  */
-+ static const unsigned char i386_jtab[] =
-+@@ -2401,26 +2401,11 @@ make_imp_label (const char *prefix, const char *name)
-+ static bfd *
-+ make_one_lib_file (export_type *exp, int i, int delay)
-+ {
-+-  bfd *      abfd;
-+-  asymbol *  exp_label;
-+-  asymbol *  iname = 0;
-+-  asymbol *  iname2;
-+-  asymbol *  iname_lab;
-+-  asymbol ** iname_lab_pp;
-+-  asymbol ** iname_pp;
-+-#ifndef EXTRA
-+-#define EXTRA    0
-+-#endif
-+-  asymbol *  ptrs[NSECS + 4 + EXTRA + 1];
-+-  flagword   applicable;
-+-  char *     outname = xmalloc (strlen (TMP_STUB) + 10);
-+-  int        oidx = 0;
-+-
-+-
-+-  sprintf (outname, "%s%05d.o", TMP_STUB, i);
-+-
-+-  abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
-++  char *outname = TMP_STUB;
-++  size_t name_len = strlen (outname);
-++  sprintf (outname + name_len - 7, "%05d.o", i);
-+ 
-++  bfd *abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
-+   if (!abfd)
-+     /* xgettext:c-format */
-+     fatal (_("bfd_open failed open stub file: %s: %s"),
-+@@ -2437,9 +2422,13 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+     bfd_set_private_flags (abfd, F_INTERWORK);
-+ #endif
-+ 
-+-  applicable = bfd_applicable_section_flags (abfd);
-+-
-+   /* First make symbols for the sections.  */
-++  flagword applicable = bfd_applicable_section_flags (abfd);
-++#ifndef EXTRA
-++#define EXTRA    0
-++#endif
-++  asymbol *ptrs[NSECS + 4 + EXTRA + 1];
-++  int oidx = 0;
-+   for (i = 0; i < NSECS; i++)
-+     {
-+       sinfo *si = secdata + i;
-+@@ -2466,7 +2455,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+ 
-+   if (! exp->data)
-+     {
-+-      exp_label = bfd_make_empty_symbol (abfd);
-++      asymbol *exp_label = bfd_make_empty_symbol (abfd);
-+       exp_label->name = make_imp_label ("", exp->name);
-+       exp_label->section = secdata[TEXT].sec;
-+       exp_label->flags = BSF_GLOBAL;
-+@@ -2482,6 +2471,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+   /* Generate imp symbols with one underscore for Microsoft
-+      compatibility, and with two underscores for backward
-+      compatibility with old versions of cygwin.  */
-++  asymbol *iname = NULL;
-+   if (create_compat_implib)
-+     {
-+       iname = bfd_make_empty_symbol (abfd);
-+@@ -2491,25 +2481,24 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+       iname->value = 0;
-+     }
-+ 
-+-  iname2 = bfd_make_empty_symbol (abfd);
-++  asymbol *iname2 = bfd_make_empty_symbol (abfd);
-+   iname2->name = make_imp_label ("__imp_", exp->name);
-+   iname2->section = secdata[IDATA5].sec;
-+   iname2->flags = BSF_GLOBAL;
-+   iname2->value = 0;
-+ 
-+-  iname_lab = bfd_make_empty_symbol (abfd);
-+-
-++  asymbol *iname_lab = bfd_make_empty_symbol (abfd);
-+   iname_lab->name = head_label;
-+   iname_lab->section = bfd_und_section_ptr;
-+   iname_lab->flags = 0;
-+   iname_lab->value = 0;
-+ 
-+-  iname_pp = ptrs + oidx;
-++  asymbol **iname_pp = ptrs + oidx;
-+   if (create_compat_implib)
-+     ptrs[oidx++] = iname;
-+   ptrs[oidx++] = iname2;
-+ 
-+-  iname_lab_pp = ptrs + oidx;
-++  asymbol **iname_lab_pp = ptrs + oidx;
-+   ptrs[oidx++] = iname_lab;
-+ 
-+   ptrs[oidx] = 0;
-+@@ -3089,29 +3078,26 @@ gen_lib_file (int delay)
-+ 
-+   if (dontdeltemps < 2)
-+     {
-+-      char *name;
-+-      size_t stub_len = strlen (TMP_STUB);
-++      char *name = TMP_STUB;
-++      size_t name_len = strlen (name);
-+ 
-+-      name = xmalloc (stub_len + 10);
-+-      memcpy (name, TMP_STUB, stub_len);
-+       for (i = 0; (exp = d_exports_lexically[i]); i++)
-+ 	{
-+ 	  /* Don't delete non-existent stubs for PRIVATE entries.  */
-+           if (exp->private)
-+ 	    continue;
-+-	  sprintf (name + stub_len, "%05d.o", i);
-++	  sprintf (name + name_len - 7, "%05d.o", i);
-+ 	  if (unlink (name) < 0)
-+ 	    /* xgettext:c-format */
-+ 	    non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
-+ 	  if (ext_prefix_alias)
-+ 	    {
-+-	      sprintf (name + stub_len, "%05d.o", i + PREFIX_ALIAS_BASE);
-++	      sprintf (name + name_len - 7, "%05d.o", i + PREFIX_ALIAS_BASE);
-+ 	      if (unlink (name) < 0)
-+ 		/* xgettext:c-format */
-+ 		non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
-+ 	    }
-+ 	}
-+-      free (name);
-+     }
-+ 
-+   inform (_("Created lib file"));
-+@@ -4096,9 +4082,9 @@ main (int ac, char **av)
-+   if (tmp_prefix == NULL)
-+     {
-+       /* If possible use a deterministic prefix.  */
-+-      if (imp_name || delayimp_name)
-++      const char *input = imp_name ? imp_name : delayimp_name;
-++      if (input && strlen (input) + sizeof ("_snnnnn.o") - 1 <= NAME_MAX)
-+         {
-+-          const char *input = imp_name ? imp_name : delayimp_name;
-+           tmp_prefix = xmalloc (strlen (input) + 2);
-+           sprintf (tmp_prefix, "%s_", input);
-+           for (i = 0; tmp_prefix[i]; i++)
-+@@ -4106,9 +4092,7 @@ main (int ac, char **av)
-+               tmp_prefix[i] = '_';
-+         }
-+       else
-+-        {
-+-          tmp_prefix = prefix_encode ("d", getpid ());
-+-        }
-++        tmp_prefix = prefix_encode ("d", getpid ());
-+     }
-+ 
-+   mangle_defs ();
-+-- 
-+2.34.1
-+
--- 
-2.34.1
+There is no pushing of target layout into the SDK. The need or desire
+for having usrmerge in SDK is independent of target layout as such.
+Of-course, if you are having any kind of systemd tools in SDK, chances
+are that you are including some systemd features in target rootfs as
+well. But in theory, it is really independent.
 
+It is totally possible to for example want to include systemd-repart
+command in SDK and not have anything systemd in target rootfs.
+
+> The SDK layout should be independent of the target
+> system and this breaks that understanding.
+
+I agree on the former, and disagree on the latter. What Sean is pushing
+here allows people to build SDK with a usrmerge style layout. If they
+want to use usrmerge layout in rootfs layout or not is a different
+story.
+
+> If we accept this patch, how can one SDK work with different init
+> systems?
+
+Why should it not work with other init systems?
+
+1. Accepting this patch will not change anything for anyone not
+explicity adding usrmerge to DISTRO_FEATURES_NATIVESDK ?
+
+2. Whatever init systems is in rootfs does not rely the use of usrmerge
+in the SDK. Adding systemd utilities might, but it is another thing.
+
+> So I don't really feel it appropriate to merge this change, sorry.
+
+What is your general opinion on using usrmerge in SDK layout? Is it
+something that is not supposed to be working, or will you accept fixes
+for it?
+
+Adding this to local.conf does not produce a working SDK:
+
+DISTRO_FEATURES_NATIVESDK:append = " usrmerge"
+
+Sean is simply trying to fix that.
+
+/Esben
 
