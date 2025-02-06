@@ -1,100 +1,70 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FFCC02194
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 16:46:26 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.46469.1738860380516282918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F94CC02199
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 17:30:36 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.47776.1738863028995078585
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 08:46:20 -0800
+ Thu, 06 Feb 2025 09:30:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=F4czU599;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PM0N6o3l;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010194dc27bdd0-54c538bc-5e8a-4b0e-a6be-fb443d8c5285-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1738860379; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=WkpfST5NHBUTD7uzL6zLyuGMhnv4cl0bpd+2/N7RumI=;
-	b=F4czU5994UEu/fy8s+Yus4MMF0qjjhKSPeoO3m8AN5EGLOEaih6jllz8KHv8Bmzl
-	azuJ1UNWWoruHkB1XP1o6JE5V+xBzREcq7/riqWsA2tvAD5kMYn0zP1qRJgoVVdWmUl
-	qSKNg/GMNwz94/LXmKoRm16O8U5K3tYl3E3QptOQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738860379;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=WkpfST5NHBUTD7uzL6zLyuGMhnv4cl0bpd+2/N7RumI=;
-	b=PM0N6o3l0+zLhCGJMRUgnqlkC01Aw4xyw1At8oaoVOICqCoG/EoBUm24T+WBYf3m
-	wesZml0p0rfG8MrQ+hnp3/jcqzbSjnZI/Kl8OvuNESud3AHtDPryOtaYKOe2qu+JW2v
-	eIJnOeKPVTre5i+6h292etT/t1St4VtxFECRxKIg=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] mpfr: Fix build with glibc 2.41
-In-Reply-To: <20250206163148.2719087-1-raj.khem@gmail.com>
-References: <20250206163148.2719087-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194dc27bdd0-54c538bc-5e8a-4b0e-a6be-fb443d8c5285-000000@us-west-2.amazonses.com>
-Date: Thu, 6 Feb 2025 16:46:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.06-54.240.27.33
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=AfsihdAW;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202502061730248ecc111364c98eb4ba-wj85yl@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202502061730248ecc111364c98eb4ba
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 06 Feb 2025 18:30:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=P/d8ljxnSrOlR0RilmE/NWggfboU0WG4Bnd0lv4e72o=;
+ b=AfsihdAWni4xKHu9/6BpoQUM/IuH2nv4FyGygPrEDW3+kmYbJT42WirkN5c0mVCczp/5Xf
+ iITW5IrfM7FJlAdX+AHaDesEVxXQ8rjVhTGHlySYuf+aQ89cwxrugCa96TTi79c7wCdxx3NI
+ 6rB07fK/lGDvypW+Y996r1UXITZFquiT6EyHa2hFIKRXsSRX2YPvgj5yTcvluo6SaeFFzH51
+ WAMtywS2dgZSfY9E/J58VsdSog4ZOB1HtmE6NnbW8Y1I9bT3kdEFJHIx1kqwEx/kEkIYnIMs
+ 4/tGj9RocKqdzH+bxVUG2/vxSC5VEbh2ahwPII7yYCpEyfBN0RvmldYQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] cmake: apply parallel build settings to ptest tasks
+Date: Thu,  6 Feb 2025 18:29:36 +0100
+Message-Id: <20250206172936.2306926-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 16:46:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210951
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 17:30:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210952
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+ptest compile and install tasks do not have parallel build settings for
+cmake. On powerful build machines this can cause overload situations
+and oomkills.
+Observed when building qtgrpc with ptest generally enabled in distro.
 
+Having this in ptest class is suboptimal, but creating ptest-cmake class
+just for these two variables is probably overkill.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/mpfr-Fix-build-with-glibc-2.41.patch
+ meta/classes-recipe/cmake.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index e1c3d7ddb5..e79f8a7435 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -67,6 +67,8 @@ EXTRA_OECMAKE:append = " ${PACKAGECONFIG_CONFARGS}"
+ export CMAKE_BUILD_PARALLEL_LEVEL
+ CMAKE_BUILD_PARALLEL_LEVEL:task-compile = "${@oe.utils.parallel_make(d, False)}"
+ CMAKE_BUILD_PARALLEL_LEVEL:task-install = "${@oe.utils.parallel_make(d, True)}"
++CMAKE_BUILD_PARALLEL_LEVEL:task-compile-ptest-base = "${@oe.utils.parallel_make(d, False)}"
++CMAKE_BUILD_PARALLEL_LEVEL:task-install-ptest-base = "${@oe.utils.parallel_make(d, True)}"
+ 
+ OECMAKE_TARGET_COMPILE ?= "all"
+ OECMAKE_TARGET_INSTALL ?= "install"
 
