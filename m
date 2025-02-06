@@ -1,569 +1,663 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5563EC02198
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 03:51:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.32195.1738813856086556900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9311EC02196
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 04:43:02 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.32819.1738816981320179165
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 19:50:56 -0800
+ Wed, 05 Feb 2025 20:43:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4132a822a2=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5163atmD007764
-	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 03:50:55 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8cyfr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 03:50:54 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CJU3S4dxBbO2L5V4q590xYMtMTQsgBuFcEitZASEJnFtK8ClpAiFi0qZsLEMvev7VjqfU2QhRaC/GyqTFrJxep7z9F33weCnmjfERb9Iw7Klk3S1xStSljGWBwoORkcPPc6AEhKNI6Esb12xDeGJ/OtVEspLFRdDfbdeCC8s6vevvUERt7HICn9x1RgGJpphLY2qu7+VRCy8AlhbAhBaZ2PdcN6bKy42XefaE/eMJG48WC/Zb1mzEcLCTfuZLcrj5TWQqZZ8VT0CduKyXzkxF7jZpG9cns6s6o4gPe66ziIVUJJuAbv0MOjparRJWzfMWE02XWb1kYD1TpD8ONGqSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NZIKpj92HbrB/8Td1lZ8KcGhuBp4L7f979etQSQSVCY=;
- b=fb7qSlaxvLyhyGI3fSYwnXctxICp8Wp4nCoX/UiRHGGRmVrr8PhtlnCnUhmVfV2KJBDMvqLLvorLlAlNH/HWCsXqKqf1eKIMlK/HmIs50MWniCroALH2M2a0JjYLOT2reAUBy4m/0mhNXqm2QzTGk5NNSgEC4p0PQNfWCvZ2L7CFPmuLlTVrrkeOeF6FDOeH4rG5c41lBWKZOX9sV1Y3C44fxU86YHk1OzfsErD8lMWz2P66YYUnAyMUR1/NBqD8b1VSUrBKPySPRPa/al2HAcq2PpZpsBKb7cDcQ/PJX0k3JxqM1M5RUzdZCFKaZG+BOsSp6cjHhw/4bJdz2DJX6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM8PR11MB5605.namprd11.prod.outlook.com (2603:10b6:8:26::11) by
- CH0PR11MB5236.namprd11.prod.outlook.com (2603:10b6:610:e3::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8422.11; Thu, 6 Feb 2025 03:50:51 +0000
-Received: from DM8PR11MB5605.namprd11.prod.outlook.com
- ([fe80::b868:94:9e07:104a]) by DM8PR11MB5605.namprd11.prod.outlook.com
- ([fe80::b868:94:9e07:104a%3]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
- 03:50:51 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] debugedit: fix build failure when enabling
- DEBUG_BUILD
-Thread-Topic: [OE-core][PATCH] debugedit: fix build failure when enabling
- DEBUG_BUILD
-Thread-Index: AQHbaw2blfSyEMhbb0aSzPnZVDITOLMuK80AgAuSE6A=
-Date: Thu, 6 Feb 2025 03:50:50 +0000
-Message-ID: 
- <DM8PR11MB560547857FB5481F768F36C0EDF62@DM8PR11MB5605.namprd11.prod.outlook.com>
-References: <20250120073321.3859875-1-Qi.Chen@windriver.com>
- <81192744-16be-407a-9d4d-8cad44f31305@windriver.com>
-In-Reply-To: <81192744-16be-407a-9d4d-8cad44f31305@windriver.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5605:EE_|CH0PR11MB5236:EE_
-x-ms-office365-filtering-correlation-id: c01f1a4e-21b8-45de-dedf-08dd466172d9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|4022899009|376014|1800799024|366016|13003099007|8096899003|38070700018|7053199007;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?UktNN1p2dXczVG5hSDFZdDhvMElWVm9rMkxacUpwNHVaV1FFaWVxenRsRm1E?=
- =?utf-8?B?Mmg5R2hkUm1iS3o5S3BxS0RKd0hybDBFNmhHQmhTM1dyQko3V3ZmRzg4ZWZq?=
- =?utf-8?B?MGdmS3ZPMWZ5WTJneXd2TUJ2WmIrbkhQcXBOaWpxMlpqNTRBdlBSNTQ3RjFq?=
- =?utf-8?B?UkNCTmpSczM4OGdZKzhITWRpeU9MQ3NMKzJaZ1p5ZWl3d0JFUnIzd3Z0NWRL?=
- =?utf-8?B?WkFuZjVEbW93SGpUUjlmL0dLMDFFdzNwYWY2SUQwWDE2L044SnlYcm54czhh?=
- =?utf-8?B?TlJoOVNCRHkwQ1h0SkQ4VlY2QnUvWjBSaU9GZ2ViRnJ2VXZBWGN5ZXIwdjQx?=
- =?utf-8?B?OWZnZTFTbGpmQ2U1cm5CQVhYR01wTEJSNGpqVzFZNDlqVEU1TklZNmVSbWlv?=
- =?utf-8?B?cEs3V2FIWTlEQWdwQkFZVk12dmFmMGdXalRhcitzWHRKRkhlV1FXWW5oRlNh?=
- =?utf-8?B?T2JpNFMxMmhKMzlUT3ErUnNSZG82cTU2Q09Wa3dXdFpPbHRrTkFUbVdWd2hr?=
- =?utf-8?B?R2JlTmpHeWwvMVJ6dzE1aEtpK0x4MjZ2dDVieGIwRjNOQ3ZJTjV6a2N5Q3Nq?=
- =?utf-8?B?YmxUdHBkdGpjTlhuZ0liN1I1NEZyNEh1c1Q1OFoxdGIwb201S3paTHJGVUNT?=
- =?utf-8?B?SlFEek5Db2tFUzJaWjFUbjhvZmdJbHBDY0UyZ3VwdmUwdXZnTzhNYW1EeXIx?=
- =?utf-8?B?bXdpRFJHRzYwbmhoK2w3U21ubjNrSVdtYUtjaC81dGllUW1TSFFFSEUwaEhT?=
- =?utf-8?B?K241MTVmRHVYYnE4ZGpUdFhJMmxoTEQveVArdGw2K0VoTDFzcTYrY1ZYa0xa?=
- =?utf-8?B?ZnZCeU9laklwWW0vWlg2d1ZJSGVRNjJNYzcrQnBpN280VW1vUFN4dE9HL1lE?=
- =?utf-8?B?OEtRTFdpYStSdFo2K1FJZ1lOcGl1eHFBMlplUURveEtuZXl6cU1LU2lVUnVy?=
- =?utf-8?B?VUpIWlhJNGQvbllmWGNVeHg5QmF0bndHRlBGR2tRamtXdXJ1RzhiTmtGVUhO?=
- =?utf-8?B?QnFnU0hUeGNXK3lLRHc3OWtTa2JZL3hBeTRJRVRHOGxhZTZyNjlxajZONjZ6?=
- =?utf-8?B?NDNOK29XazVZai8vR2tta3V5bU5jRDc2T042Rk9hZDVhaDgvRjFBamhvbDln?=
- =?utf-8?B?QXNsb0N4Q3FsQno3eFJuRXFyYXdmRitXaTBJWjVxRHhQaTJOZHNLQTBNeEM2?=
- =?utf-8?B?ZnJIaG5BalZZbmtTeVh6OUlQNVVTYkQxS1JHaEZxRjJnZTZkcFZsS1ZBeC90?=
- =?utf-8?B?cDU4SVg4SE4xMTJPbGM5Rkxsbm01elB2dURUSWVDbVFFaU9UOWJjSW9KODNw?=
- =?utf-8?B?dTVtMm9rd01xblRTdHUzZ0duWkpTQ3VZNzJ2NUw4eFU1d2cwMktCQTVFMTVT?=
- =?utf-8?B?MTJ5ZVNhOUdjZjJOb3JlZ1VpaWRLalpaeDMreFRYdHFyTlBEcXNwWmVQVGpC?=
- =?utf-8?B?RHJtdVdMR3RYUWp2MEo0Tlk3ZjFrTWF5Zm1VTVNKeXQxTzBLZk50WTR6WXBX?=
- =?utf-8?B?Q2R5QlBKZnY1Y3EraEZpVTNiZ3JUQStuVmFJdWo1K0s0Z0lrZitJK3Qxek81?=
- =?utf-8?B?WkdsRzgyT0pIK2oxakNhRE1sdEJLdWRtdWEwZ01PbzZxVGMvbXVVczMzWHIw?=
- =?utf-8?B?bGV1V2ZxK2lETjIxdVcwQjNEUUs4b1lCYkEzMmc4ZmI5bEg2RGtYUDhsMFp5?=
- =?utf-8?B?Q3hBQnVtUDQwS3B4MW5sbWJHd3E1cC9ackZ6c0FrYTlCb1p0MHpqbjc3eXR5?=
- =?utf-8?B?bEx2VU12VzBKNmZtUGRzb28zVzVUNHAzZ09QbXdNQ3cvRHRmdVh0bFVUa1dy?=
- =?utf-8?B?WkZ0Z2U2aU0xSityRmhyQWFrMUVUa25PVVVnMXZOWWVFZnl0V1paU1BPR1F2?=
- =?utf-8?B?eDlCNW0zb2RpMGNQbGNUaE04cTRzSnVyYUdCUTBVVWhOQ1E9PQ==?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5605.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(1800799024)(366016)(13003099007)(8096899003)(38070700018)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aENtbFlXTmpsZWlHRUNuaDRsQnlQd1d0T3d6RkRldy8zSUNVWDJjTDdjSWQz?=
- =?utf-8?B?UUFZZG8xMCs5VGVIRUR2YW5FT3J3dFUrT2p2VWY2SWZvdjNvRmRIZXdTS1Uz?=
- =?utf-8?B?YzdrUHdzMm42NGkySm1UaDkwOGdmQmFrcDdLdHljdzdnWTcrQW8wQ2tOQTlN?=
- =?utf-8?B?OGphZlhhSUlOeExjZUxMNzBDK2loVWxUYlFXYzh5Y3d2b0xmWWJneXc4cjdk?=
- =?utf-8?B?SFhaSzdFY0VhQ0RRTVFHRUwvRUk1VHdDdlJkeC9EZDRTejVpR2szSkJOM2hT?=
- =?utf-8?B?dytPLzZkK1BKYnBxOGlVRUxrKzVOVmJNQ3grcGFCMHhxL0ZjTGZLSWVneXJm?=
- =?utf-8?B?bGt5VU40VGV1bDVicUQwdG9kemZENjVKVngrbEVVaTIxT3VaeEo5MEhxRDMw?=
- =?utf-8?B?V2J0MnZRMGVCNkZWNU01Yk5DY1hYZHJ2SzA1ZEkySGRBakFXQjJkWm14Vzhz?=
- =?utf-8?B?cGdPcGY4Y24xZjkwQ3dqdkN1MjhHWE5Eb3VOMS90bFA4RlNlSGpRUVNQdWQ2?=
- =?utf-8?B?ei9GMVJEeDBMMzVWRTVES2g5ZjA1Q3NQK203ZS9MN0tFaEJGT3lXOGdUOExT?=
- =?utf-8?B?azJLL2RSdXNpWGVFSzFTNTZDSmg1MWpkNU0xRk12M0UrY3Fqb2c0R1dkWFdV?=
- =?utf-8?B?MHpJMi92aDl2ODVCS0tIVzdOYjA4OE5sRXdabS9pMVR2ZzNTdXVjNDFvWHZv?=
- =?utf-8?B?b3Bpc0ZyMDg3RGxVdEQya2xnN1B0eDVnMkNsVFZSRzJaRmJialg0bWxMWC9G?=
- =?utf-8?B?UXg5cStLYm9DSVRvbDY2UGZhMHZTZG5mbGpyVHQ1RGZmekxmT1VHRDRMWjhR?=
- =?utf-8?B?RmpoTjAxNUlvRHJLSjV2aXRVbWZJbm9vTysxcGhmaTMrS3VmeUhiMHlPditt?=
- =?utf-8?B?b0hYWEhzUFhVSTUvQ3V5ZGp4bGdva2UySE1GdkFmZ0oxNUl4eGl0d1pBaElh?=
- =?utf-8?B?dnd0elBUTnZmeDNaVWM5TmRFdnNBNTc3SFBoaDhYc2oxdnRtbVY3QldKU0JV?=
- =?utf-8?B?eTY1YytBVG5ZUnFDM0RMYTh3amdlRXZabW0xNDRRa1FEbGUzS3pjVC9DdENO?=
- =?utf-8?B?U3NneGRvcFpIcHFrNEhxblhqM0FXN2F3NndTVmx6d1FIY2l3K0FlS3oxdXFH?=
- =?utf-8?B?U0dtdll4YmtjeWk1SUxQNnZPaGxIQ1k0NDQrUzBUOVJrSE9vcElqMFhWSDg3?=
- =?utf-8?B?bHdQZGt4N3RZWVQ5bkkvNVdMNnpIQXk4Qmg2QnM5QThwY0ZhVGV3Umx2ZzU0?=
- =?utf-8?B?N0NVci9FOW4rWmJKOFZucmNKZXB5Q3B3SDdPVWMvVE16QkE1eGE4eitYN25o?=
- =?utf-8?B?eHlzTW1MTzdJcndhakVQTFlVcjZwMUswNndkMmtMSlFIZ2RxR2tSbmdtdXVN?=
- =?utf-8?B?T1hkbm1wZEwxV01EeDEwU1puYnhhTDg4aVErRk1vNXo5a05DMFZ3RFlWK0c0?=
- =?utf-8?B?SXh0bjB1L3VaWWpSQUtkU3Y4WnA5RVhYbUpMRi94UU0zNXlucGM4aEkvOHVI?=
- =?utf-8?B?MHJJaW42eW5yYTBTK2VTWXBkbjZ3c0lPMjNVN3dHQ1hudVI4SzVRZ29xQm11?=
- =?utf-8?B?M3RhMGwvbnMvWlI1Rkg4SzBaME03UlFPeitmWFRJQzRWbjVzOXlZVEdUSFVP?=
- =?utf-8?B?UHNOeVF5VW1yRGQ1VVNzVEVjOFVmSmF4UUk4a3ZhckRBSm1ZS1E1dG0va0V1?=
- =?utf-8?B?Mk5FWGhZcXd0L01iZmdtYWpwL0JSUTdZYUhxc05DWU1OdEFDWktQcGg0TG5P?=
- =?utf-8?B?cGFtcjhlcDhsNnJDVVZwdDNwNVNhQ0NROVp2aldTRExzRFJkOUJpSXFFUUxx?=
- =?utf-8?B?dkpGUVpjeUcrTkhZeklwODViY3Q5UXY4MGJ2NFZiK09sNUVDR2JzUEtRbFF5?=
- =?utf-8?B?TkNlUlRHenFtYUJLeXpHa24ydlkxVmoydHJCYndVVlFVNmdXWjJtZ3VOK01V?=
- =?utf-8?B?ZFFQMXZvd0xYM3F6VjhvakRJeWdzay9EU0hzY3JSUGtMd1FMbTRlU3pnUXVL?=
- =?utf-8?B?cEhYWmJUOVVxVlNadnNkRk9rQ1FQQ2pCZi9DUkZ2TVNSaGVyZEpzM0JKaWJs?=
- =?utf-8?B?YjJGaVk0S0ZaVkZ2Y3VNczZEODR6TmV5NkdSN1VyMThBNkoxUmRWdjdKM3BH?=
- =?utf-8?Q?VdFRKUBK8IH71DuOXeIBCAGAA?=
-Content-Type: multipart/alternative;
-	boundary="_000_DM8PR11MB560547857FB5481F768F36C0EDF62DM8PR11MB5605namp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HlPkObPz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4362bae4d7dso2729755e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 20:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738816979; x=1739421779; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FUBt1fmgPqW+xjxZis657IWBWht2pO7ae94v7VFKPNs=;
+        b=HlPkObPz9gWLFsdNbE6taXq0J+fbPOmLuYNIq9BGPM8XNX5/zd6yHx2+Q1FQd/w6CN
+         3Y1ie3NFedvAJmcTtQkgej2Y7J5cxOkpKvduDIQeeFXzkELRtGDxjqYhC5WDpZ0Al5rU
+         ObJZWe0KPkHgXo5a9HIQ0U+igx3OPIrmsXwL80VIXB4dXxdjztgAg2Q7qj9vB4VwKE1S
+         hR4n79b+R20S7bR2MDpPmiI2ElnMvzmmMFWntuhMe64nXhrp9zzGLA5p3i+AiKj46FER
+         q1pr2WZFy9QxuAkYxTNffA9FlVa3Rl6XPayPej9reUJzI3JLSjEpzTFEdnW961BxBTVg
+         61Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738816979; x=1739421779;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FUBt1fmgPqW+xjxZis657IWBWht2pO7ae94v7VFKPNs=;
+        b=nflwJu0BqA+LaknKsNXLq4dmC13PDlH8QuOKHO6y+1jCVmmH6bGXG7VDRHeezLc4yD
+         GgFGTr0NYLCxS8oEhhV5JEUknh2pMNAlAfl8PIJHbBy/AtO40X7O0GZFvNu0Am3sjcE7
+         vL/AcDmRnV9KtwKMCU1QUTN7YY3EVWlNP/KdVmH/lDA3UNnantlrhk7iYfNhBJ5RydOw
+         oXx9IU3BaC/lpA2bHJkO5z5dYqKCB3gbBhA3HdZwHaRWYiYMWDteAjr2YZY/FYmcg+qC
+         gp8khcRpaUoSV1LTy5LhrUp+uEEXbxMmt9vBF/pyKXs5vPMqeBARSuQ2jLawNXSWd1+x
+         VuAw==
+X-Gm-Message-State: AOJu0Yx5/7w3Q/zMEgFC0mSkgEjjMk2OST10IszwtQCh5bEvQ8dpCv3v
+	9zhZMruDQCjuPq7RMcKjUeSwIcFQqyCXb/m4eETC+gAImtI1qCWtnzo/JQ==
+X-Gm-Gg: ASbGncvC0WyRqM+/NG8+V+Tnp4wFoBq015CgYJlChrRq1XhG/OiKMYpV3Sv+AnMANEu
+	ioY+4hUitTUwINuphRvjbJpJzATuSarR9FUuhaDqe36zMAeOnJ3wstbD0Ish2NtX0aACTFUsxfH
+	HVv6iUnyJjkfkXqNjwivMswcahz3GRZIwuRKqfBjitsD3p1pQ9l+d/L62gP8yaKNihwONl2R9RX
+	uHxpV3R3XtbGHtzsURvJmfMQpHH1ALAXG1xcWWKVho8r4ZrkA2fZJ9L6iqI0/vmA1zVAVkRPOTB
+	Bxo5aKzVCrUwggLyTA1tF0njUC0FSQyn23hqGsq7TXaeiQ==
+X-Google-Smtp-Source: AGHT+IGcK10v8lmle18xqU+Nc7JyeSdW/pwncVLH3yXW7mb44qXJeqenNHzTDN6Zxgk1D9MsgyGnmQ==
+X-Received: by 2002:a5d:5850:0:b0:385:f1f2:13ee with SMTP id ffacd0b85a97d-38db490f8b3mr3454848f8f.46.1738816978938;
+        Wed, 05 Feb 2025 20:42:58 -0800 (PST)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dca34a8sm5819695e9.16.2025.02.05.20.42.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 20:42:58 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [OE-core][PATCH v7 2/5] rpm-sequoia: New recipe for version 1.7.0
+Date: Thu,  6 Feb 2025 05:42:47 +0100
+Message-ID: <20250206044250.3311711-2-zboszor@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250206044250.3311711-1-zboszor@gmail.com>
+References: <20250206044250.3311711-1-zboszor@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5605.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c01f1a4e-21b8-45de-dedf-08dd466172d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2025 03:50:50.8828
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3vXCRFahNDp3RCjRiH6h/uc0Z7vLfTY6CRLBdMX3I/mbRlhP6Gf1sRz3WmgmQOR735tqTw2T8M+LglPGiIIL4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5236
-X-Authority-Analysis: v=2.4 cv=ecXHf6EH c=1 sm=1 tr=0 ts=67a4319e cx=c_pps a=X8fexuRkk/LHRdmY6WyJkQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10 a=CCpqsmhAAAAA:8
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=UpCTDDHdmDoPTDBhYZcA:9 a=QEXdDO2ut3YA:10 a=jQjflG0nazAA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=4Ls_b26B-8YAIGdG:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10 a=frz4AuCg-hUA:10
- a=lqcHg5cX4UMA:10 a=T1a-OTYGVawA:10 a=ImwWUX5h3JJ3gRE9moBe:22 a=ul9cdbp4aOFLsgKbc677:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: RfGDOeFhM7ott8BZU4UYCv2XnLTcVIOB
-X-Proofpoint-GUID: RfGDOeFhM7ott8BZU4UYCv2XnLTcVIOB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-06_01,2025-02-05_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 bulkscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502060029
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 03:51:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210888
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 04:43:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210890
 
---_000_DM8PR11MB560547857FB5481F768F36C0EDF62DM8PR11MB5605namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+rpm 4.20 removed the built-in code to handle signed packages
+and uses rpm-sequoia as a more feature complete library.
 
-SGkgUmFuZHksDQoNClRoYW5rcyBhIGxvdCBmb3IgdGhlIGluZm9ybWF0aW9uLiBJ4oCZdmUgY3Jl
-YXRlZCBhIGJ1ZyBmb3IgdXBzdHJlYW06IDMyNjQ4IOKAkyBkZWJ1Z2VkaXQgZmFpbHMgdG8gYnVp
-bGQgd2l0aCAnLU9nJyBvcHRpb24gYW5kIGdjYyAxNDxodHRwczovL3NvdXJjZXdhcmUub3JnL2J1
-Z3ppbGxhL3Nob3dfYnVnLmNnaT9pZD0zMjY0OD4NCknigJl2ZSBwdXQgdGhlIGluZm9ybWF0aW9u
-IHlvdSBwcm92aWRlZCB0aGVyZSBhbmQgYWxzbyBhZGRlZCBhIGNvbW1lbnQgdG8gbGluayB0byBt
-eSBwYXRjaC4gSG9wZSB1cHN0cmVhbSB3aWxsIGhhdmUgdGltZSB0byB0YWtlIGEgbG9vayBhdCBp
-dC4NCg0KUmVnYXJkcywNClFpDQoNCkZyb206IE1hY0xlb2QsIFJhbmR5IDxSYW5keS5NYWNMZW9k
-QHdpbmRyaXZlci5jb20+DQpTZW50OiBUaHVyc2RheSwgSmFudWFyeSAzMCwgMjAyNSAzOjA3IEFN
-DQpUbzogQ2hlbiwgUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0hdIGRl
-YnVnZWRpdDogZml4IGJ1aWxkIGZhaWx1cmUgd2hlbiBlbmFibGluZyBERUJVR19CVUlMRA0KDQpP
-biAyMDI1LTAxLTIwIDI6MzMgYS5tLiwgQ2hlbiBRaSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZyB3cm90ZToNCg0KRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPjxtYWlsdG86
-UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KDQoNCg0KV2hlbiBERUJVR19CVUlMRCBpcyBlbmFibGVk
-LCB3ZSB1c2UgIi1PZyAtZyIgZ2NjIG9wdGlvbnMuIEluIHN1Y2gNCg0KY2FzZSwgdGhlIHh4aGFz
-aCBmdW5jdGlvbnMgYXJlIGNvbnNpZGVyZWQgbm90IGlubGluZSwgeWV0IGRlYnVnZWRpdC5jDQoN
-CmRlZmluZWQgWFhIX0lOTElORV9BTEwgdG8gZm9yY2UgaW5saW5lLCB0aHVzIGNhdXNpbmcgYnVp
-bGQgZmFpbHVyZS4NCg0KSSBhc2tlZCBwZW9wbGUgYWJvdXQgdGhpcyBQUiBvbiBJUkMgeWVzdGVy
-ZGF5IGFuZCB0aGV5IHNhaWQgdGhleSB3YW50ZWQgdG8gaGVhciB3aGF0DQp1cHN0cmVhbSBoYWQg
-dG8gc2F5LiBTbyBmYXIgdGhlcmUgaXMgbm8gcmVwbHkgdG8geW91ciBlbWFpbC4gTWF5YmUgY3Jl
-YXRlIGEgZGVmZWN0IGluOg0KDQogICBodHRwczovL3NvdXJjZXdhcmUub3JnL2J1Z3ppbGxhL2J1
-Z2xpc3QuY2dpP3F1aWNrc2VhcmNoPWRlYnVnZWRpdA0KdG8gZ2V0IHRoZSB1cHN0cmVhbSBkZXZz
-IGF0dGVudGlvbj8NCg0KVGhpcyBpbmxpbmluZyBnY2MtMTQgY29tcGlsZSBlcnJvciBoYXMgYmVl
-biBkaXNjdXNzZWQgaW4gdGhlIGNvbnRleHQgb2YgeHhoYXNoLg0KDQpJbiB0aGUgQmluYXJ5IFNp
-emUgY29udHJvbCBzZWN0aW9uIG9mIHRoZSBSRUFETUUubWQgZm9yOg0KICAgaHR0cHM6Ly9naXRo
-dWIuY29tL0N5YW40OTczL3h4SGFzaA0KDQp3ZSBoYXZlOg0KDQpYWEhfTk9fSU5MSU5FX0hJTlRT
-Og0KQnkgZGVmYXVsdCwgeHhIYXNoIHVzZXMgX19hdHRyaWJ1dGVfXygoYWx3YXlzX2lubGluZSkp
-IGFuZCBfX2ZvcmNlaW5saW5lIHRvIGltcHJvdmUgcGVyZm9ybWFuY2UgYXQgdGhlIGNvc3Qgb2Yg
-Y29kZSBzaXplLg0KRGVmaW5pbmcgdGhpcyBtYWNybyB0byAxIHdpbGwgbWFyayBhbGwgaW50ZXJu
-YWwgZnVuY3Rpb25zIGFzIHN0YXRpYywgYWxsb3dpbmcgdGhlIGNvbXBpbGVyIHRvIGRlY2lkZSB3
-aGV0aGVyIHRvDQppbmxpbmUgYSBmdW5jdGlvbiBvciBub3QuIFRoaXMgaXMgdmVyeSB1c2VmdWwg
-d2hlbiBvcHRpbWl6aW5nIGZvciBzbWFsbGVzdCBiaW5hcnkgc2l6ZSwgYW5kIGlzIGF1dG9tYXRp
-Y2FsbHkgZGVmaW5lZA0Kd2hlbiBjb21waWxpbmcgd2l0aCAtTzAsIC1PcywgLU96LCBvciAtZm5v
-LWlubGluZSBvbiBHQ0MgYW5kIENsYW5nLg0KSXQgbWF5IGFsc28gYmUgcmVxdWlyZWQgdG8gc3Vj
-Y2Vzc2Z1bGx5IGNvbXBpbGUgIHVzaW5nIC1PZywgZGVwZW5kaW5nIG9uIGNvbXBpbGVyIHZlcnNp
-b24uDQoNCg0KDQpUaGlzIHdhcyB1cGRhdGVkIGluOg0KICAgaHR0cHM6Ly9naXRodWIuY29tL0N5
-YW40OTczL3h4SGFzaC9jb21taXQvNTc0YWFiYWQ4N2IyYWI5NDQwNDAzZTkyZTEwNzVlZjQ4NTU0
-ZWI4Nw0KDQphbmQgbWVudGlvbmVkIGluOg0KICAgaHR0cHM6Ly9naXRodWIuY29tL0N5YW40OTcz
-L3h4SGFzaC9pc3N1ZXMvOTQzI2lzc3VlY29tbWVudC0yNTYzMjA1MTMwDQoNCg0KDQpIb3BlIHRo
-YXQgaGVscHMgcHVzaCB0aGluZ3MgYWxvbmcgd2hlbiB5b3UncmUgYmFjayBmcm9tIGhvbGlkYXkg
-YW5kDQpoYXZlIHRpbWUgdG8gd29yayBvbiB0aGlzIFFpLg0KDQoNCg0KLi4vUmFuZHkNCg0KDQoN
-Cg0KDQoNCg0KVGhpcyBwYXRjaCBmaXhlcyB0aGlzIGlzc3VlIGJ5IG5vdCBhc3N1bWluZyB0aG9z
-ZSBhcmUgYWx3YXlzIGlubGluZSBhbmQNCg0KaW5zdGVhZCBsaW5rIHRoZSB4eGhhc2ggbGlicmFy
-eS4NCg0KDQoNClRoZSAwMDAzLU1ha2VmaWxlLmFtLWRvLW5vdC11cGRhdGUtbWFudWFsLnBhdGNo
-IGlzIG1vdmVkIGZyb20gbXVzbA0KDQpzcGVjaWZpYyBwYXRjaCB0byBTUkNfVVJJLCBiZWNhdXNl
-IHdlIG5vdyBoYXZlIGEgcGF0Y2ggdG8gbW9kaWZ5IGRlYnVnZWRpdC5jDQoNCmFuZCB0aGlzIHdp
-bGwgY2F1c2UgbWFudWFsIHRvIGJlIGdlbmVyYXRlZCBhZ2Fpbi4gVGhpcyBpcyB1bm5lY2Vzc2Fy
-eSBhbmQNCg0Kd2lsbCByZXBvcnQgaGVscDJtYW4gbWlzc2luZy4NCg0KDQoNClNpZ25lZC1vZmYt
-Ynk6IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT48bWFpbHRvOlFpLkNoZW5Ad2luZHJp
-dmVyLmNvbT4NCg0KLS0tDQoNCiAuLi4vZGVidWdlZGl0L2RlYnVnZWRpdF81LjEuYmIgICAgICAg
-ICAgICAgICAgfCAgNCArLQ0KDQogLi4uLW5vdC1hc3N1bWUteHhoYXNoLWNhbi1hbHdheXMtaW5s
-aW5lLnBhdGNoIHwgNDggKysrKysrKysrKysrKysrKysrKw0KDQogMiBmaWxlcyBjaGFuZ2VkLCA0
-OSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KDQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZmlsZXMvMDAwMS1Eby1ub3QtYXNzdW1lLXh4
-aGFzaC1jYW4tYWx3YXlzLWlubGluZS5wYXRjaA0KDQoNCg0KZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZGVidWdlZGl0XzUuMS5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9kZWJ1Z2VkaXQvZGVidWdlZGl0XzUuMS5iYg0KDQppbmRleCAwMGM0MDQ3M2M0Li4w
-MjQyOWFmY2RhIDEwMDY0NA0KDQotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVidWdlZGl0
-L2RlYnVnZWRpdF81LjEuYmINCg0KKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RlYnVnZWRp
-dC9kZWJ1Z2VkaXRfNS4xLmJiDQoNCkBAIC0xMCw5ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTU5NTMwYmRmMzM2NTliMjllNzNkNGFkYjlmOWY2NTUyIFw8
-ZmlsZTovL0NPUFlJTkc7bWQ1PTU5NTMwYmRmMzM2NTliMjllNzNkNGFkYjlmOWY2NTUyL2ZpbGU6
-L0NPUFlJTkczO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0N2ZhZTUwND4NCg0KICAgICAg
-ICAgICAgICAgICAgICAgZmlsZTovL0NPUFlJTkczO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4
-MGQ0N2ZhZTUwNCI8ZmlsZTovL0NPUFlJTkc7bWQ1PTU5NTMwYmRmMzM2NTliMjllNzNkNGFkYjlm
-OWY2NTUyL2ZpbGU6L0NPUFlJTkczO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0N2ZhZTUw
-ND4NCg0KDQoNCiBTUkNfVVJJID0gImh0dHBzOi8vc291cmNld2FyZS5vcmcvZnRwL2RlYnVnZWRp
-dC8ke1BWfS9kZWJ1Z2VkaXQtJHtQVn0udGFyLnh6IFw8aHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9m
-dHAvZGVidWdlZGl0LyQlN2JQViU3ZC9kZWJ1Z2VkaXQtJCU3YlBWJTdkLnRhci54ei8tPg0KDQot
-ICAgICAgICAgICAiPGh0dHBzOi8vc291cmNld2FyZS5vcmcvZnRwL2RlYnVnZWRpdC8kJTdiUFYl
-N2QvZGVidWdlZGl0LSQlN2JQViU3ZC50YXIueHovLT4NCg0KLQ0KDQotU1JDX1VSSTphcHBlbmQ6
-bGliYy1tdXNsID0gIlwNCg0KKyAgICAgICAgICAgZmlsZTovLzAwMDEtRG8tbm90LWFzc3VtZS14
-eGhhc2gtY2FuLWFsd2F5cy1pbmxpbmUucGF0Y2ggXA0KDQogICAgICAgICAgICBmaWxlOi8vMDAw
-My1NYWtlZmlsZS5hbS1kby1ub3QtdXBkYXRlLW1hbnVhbC5wYXRjaCBcDQoNCiAgICAgICAgICAg
-ICINCg0KDQoNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVidWdlZGl0L2Zp
-bGVzLzAwMDEtRG8tbm90LWFzc3VtZS14eGhhc2gtY2FuLWFsd2F5cy1pbmxpbmUucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVidWdlZGl0L2ZpbGVzLzAwMDEtRG8tbm90LWFzc3VtZS14
-eGhhc2gtY2FuLWFsd2F5cy1pbmxpbmUucGF0Y2gNCg0KbmV3IGZpbGUgbW9kZSAxMDA2NDQNCg0K
-aW5kZXggMDAwMDAwMDAwMC4uOGU5MjU2ZWMwMQ0KDQotLS0gL2Rldi9udWxsDQoNCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZmlsZXMvMDAwMS1Eby1ub3QtYXNzdW1lLXh4
-aGFzaC1jYW4tYWx3YXlzLWlubGluZS5wYXRjaA0KDQpAQCAtMCwwICsxLDQ4IEBADQoNCitGcm9t
-IDc2ZWI2Y2U2OTM0OWEwNWQwZmYwNjkwNjIxODI1NTBlYmQ4OGYxNDYgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxDQoNCitGcm9tOiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+PG1haWx0
-bzpRaS5DaGVuQHdpbmRyaXZlci5jb20+DQoNCitEYXRlOiBTdW4sIDE5IEphbiAyMDI1IDIyOjU2
-OjM2IC0wODAwDQoNCitTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCBhc3N1bWUgeHhoYXNoIGNhbiBh
-bHdheXMgaW5saW5lDQoNCisNCg0KK1doZW4gYnVpbGRpbmcgd2l0aCAiLU9nIC1nIiwgd2UnbGwg
-Z2V0IGVycm9ycyBsaWtlIGJlbG93Og0KDQorDQoNCisgIGluY2x1ZGUveHhoYXNoLmg6NTIxMDox
-OiBlcnJvcjogaW5saW5pbmcgZmFpbGVkIGluIGNhbGwgdG8NCg0KKyAgJ2Fsd2F5c19pbmxpbmUn
-ICdYWEgzX3NjcmFtYmxlQWNjX3NzZTInOiBmdW5jdGlvbiBub3QgY29uc2lkZXJlZCBmb3IgaW5s
-aW5pbmcNCg0KKw0KDQorVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vc291cmNl
-d2FyZS5vcmcvcGlwZXJtYWlsL2RlYnVnZWRpdC8yMDI1LUphbnVhcnkvMDAwMzU5Lmh0bWxdDQoN
-CisNCg0KK1NpZ25lZC1vZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT48bWFp
-bHRvOlFpLkNoZW5Ad2luZHJpdmVyLmNvbT4NCg0KKy0tLQ0KDQorIE1ha2VmaWxlLmFtICAgICAg
-IHwgNCArKy0tDQoNCisgdG9vbHMvZGVidWdlZGl0LmMgfCAxIC0NCg0KKyAyIGZpbGVzIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCg0KKw0KDQorZGlmZiAtLWdpdCBh
-L01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0NCg0KK2luZGV4IGM1OTBlZGYuLjM1ZmQ5NDcgMTAw
-NjQ0DQoNCistLS0gYS9NYWtlZmlsZS5hbQ0KDQorKysrIGIvTWFrZWZpbGUuYW0NCg0KK0BAIC00
-Miw4ICs0Miw4IEBAIGZpbmQtZGVidWdpbmZvOiAkKHRvcF9zcmNkaXIpL3NjcmlwdHMvZmluZC1k
-ZWJ1Z2luZm8uaW4gTWFrZWZpbGUNCg0KKw0KDQorIGRlYnVnZWRpdF9TT1VSQ0VTID0gdG9vbHMv
-ZGVidWdlZGl0LmMgXA0KDQorICAgICAgICAgICAgICAgICAgICB0b29scy9oYXNodGFiLmMNCg0K
-Ky1kZWJ1Z2VkaXRfQ0ZMQUdTID0gQExJQkVMRl9DRkxBR1NAIEBMSUJEV19DRkxBR1NAICQoQU1f
-Q0ZMQUdTKQ0KDQorLWRlYnVnZWRpdF9MREFERCA9IEBMSUJFTEZfTElCU0AgQExJQkRXX0xJQlNA
-DQoNCisrZGVidWdlZGl0X0NGTEFHUyA9IEBMSUJFTEZfQ0ZMQUdTQCBATElCRFdfQ0ZMQUdTQCBA
-WFhIQVNIX0NGTEFHU0AgJChBTV9DRkxBR1MpDQoNCisrZGVidWdlZGl0X0xEQUREID0gQExJQkVM
-Rl9MSUJTQCBATElCRFdfTElCU0AgQFhYSEFTSF9MSUJTQA0KDQorDQoNCisgc2VwZGVidWdjcmNm
-aXhfU09VUkNFUyA9IHRvb2xzL3NlcGRlYnVnY3JjZml4LmMNCg0KKyBzZXBkZWJ1Z2NyY2ZpeF9D
-RkxBR1MgPSBATElCRUxGX0NGTEFHU0AgJChBTV9DRkxBR1MpDQoNCitkaWZmIC0tZ2l0IGEvdG9v
-bHMvZGVidWdlZGl0LmMgYi90b29scy9kZWJ1Z2VkaXQuYw0KDQoraW5kZXggYmVlZmQ2NS4uNDNm
-OWNlZSAxMDA2NDQNCg0KKy0tLSBhL3Rvb2xzL2RlYnVnZWRpdC5jDQoNCisrKysgYi90b29scy9k
-ZWJ1Z2VkaXQuYw0KDQorQEAgLTgyLDcgKzgyLDYgQEAgdHlwZWRlZiBzdHJ1Y3QgRWJsX1N0cnRh
-YiAgICAgICBTdHJ0YWI7DQoNCisNCg0KKyAjaW5jbHVkZSAidG9vbHMvaGFzaHRhYi5oIg0KDQor
-DQoNCistI2RlZmluZSBYWEhfSU5MSU5FX0FMTA0KDQorICNpbmNsdWRlICJ4eGhhc2guaCINCg0K
-Kw0KDQorICNkZWZpbmUgRFdfVEFHX3BhcnRpYWxfdW5pdCAweDNjDQoNCistLQ0KDQorMi4yNS4x
-DQoNCisNCg0KDQoNCi09LT0tPS09LT0tPS09LT0tPS09LT0tDQoNCkxpbmtzOiBZb3UgcmVjZWl2
-ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KDQpWaWV3L1JlcGx5IE9ubGluZSAo
-IzIxMDAyMyk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
-b3JlL21lc3NhZ2UvMjEwMDIzDQoNCk11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL210LzExMDcxMTQ4Mi8zNjE2NzY1DQoNCkdyb3VwIE93bmVyOiBvcGVuZW1i
-ZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRk
-ZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KDQpVbnN1YnNjcmliZTogaHR0
-cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIgW3Jh
-bmR5Lm1hY2xlb2RAd2luZHJpdmVyLmNvbTxtYWlsdG86cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIu
-Y29tPl0NCg0KLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCg0KDQoNCg0KDQotLQ0KDQojIFJhbmR5
-IE1hY0xlb2QNCg0KIyBXaW5kIFJpdmVyIExpbnV4DQo=
+Runtime-depend on rpm-sequoia-crypto-policy.
 
---_000_DM8PR11MB560547857FB5481F768F36C0EDF62DM8PR11MB5605namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../rpm-sequoia/rpm-sequoia-crates.inc        | 486 ++++++++++++++++++
+ .../rpm-sequoia/rpm-sequoia_1.7.0.bb          |  60 +++
+ 3 files changed, 547 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crates.inc
+ create mode 100644 meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkFwdG9zO30NCkBmb250
-LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q29uc29sYXM7DQoJcGFub3NlLTE6MiAxMSA2IDkgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDnrYnnur8iOw0KCXBhbm9zZS0x
-OjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9y
-bWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJBcHRvcyIsc2Fucy1zZXJpZjt9DQphOmxpbmssIHNw
-YW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0K
-CXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KY29kZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6
-OTk7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpwcmUNCgl7bXNvLXN0eWxlLXByaW9y
-aXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsNCgltYXJn
-aW46MGluOw0KCWZvbnQtc2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9
-DQpzcGFuLkhUTUxQcmVmb3JtYXR0ZWRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJIVE1MIFByZWZv
-cm1hdHRlZCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6
-IkhUTUwgUHJlZm9ybWF0dGVkIjsNCglmb250LWZhbWlseTpDb25zb2xhczt9DQpzcGFuLkVtYWls
-U3R5bGUyMg0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
-QXB0b3MiLHNhbnMtc2VyaWY7DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0K
-CXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0Ow0KCW1zby1s
-aWdhdHVyZXM6bm9uZTt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47
-DQoJbWFyZ2luOjEuMGluIDEuMjVpbiAxLjBpbiAxLjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0K
-CXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1s
-Pg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1s
-PjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpl
-eHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVs
-YXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGlu
-az0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4NCjxk
-aXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdCI+SGkgUmFuZHksPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0Ij5UaGFua3MgYSBsb3QgZm9yIHRoZSBpbmZvcm1hdGlvbi4gSeKAmXZl
-IGNyZWF0ZWQgYSBidWcgZm9yIHVwc3RyZWFtOg0KPGEgaHJlZj0iaHR0cHM6Ly9zb3VyY2V3YXJl
-Lm9yZy9idWd6aWxsYS9zaG93X2J1Zy5jZ2k/aWQ9MzI2NDgiPjMyNjQ4IOKAkyBkZWJ1Z2VkaXQg
-ZmFpbHMgdG8gYnVpbGQgd2l0aCAnLU9nJyBvcHRpb24gYW5kIGdjYyAxNDwvYT48bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdCI+SeKAmXZlIHB1dCB0aGUgaW5mb3JtYXRpb24geW91IHByb3ZpZGVkIHRoZXJlIGFu
-ZCBhbHNvIGFkZGVkIGEgY29tbWVudCB0byBsaW5rIHRvIG15IHBhdGNoLiBIb3BlIHVwc3RyZWFt
-IHdpbGwgaGF2ZSB0aW1lIHRvIHRha2UgYSBsb29rIGF0IGl0LjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdCI+UmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+UWk8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXYg
-c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5n
-OjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IE1hY0xlb2QsIFJhbmR5ICZs
-dDtSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20mZ3Q7DQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1
-cnNkYXksIEphbnVhcnkgMzAsIDIwMjUgMzowNyBBTTxicj4NCjxiPlRvOjwvYj4gQ2hlbiwgUWkg
-Jmx0O1FpLkNoZW5Ad2luZHJpdmVyLmNvbSZndDs7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXVtQQVRDSF0g
-ZGVidWdlZGl0OiBmaXggYnVpbGQgZmFpbHVyZSB3aGVuIGVuYWJsaW5nIERFQlVHX0JVSUxEPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDIw
-MjUtMDEtMjAgMjozMyBhLm0uLCBDaGVuIFFpIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdy
-b3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0ibWFyZ2luLXRv
-cDo1LjBwdDttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxwcmU+RnJvbTogQ2hlbiBRaSA8YSBocmVm
-PSJtYWlsdG86UWkuQ2hlbkB3aW5kcml2ZXIuY29tIj4mbHQ7UWkuQ2hlbkB3aW5kcml2ZXIuY29t
-Jmd0OzwvYT48bzpwPjwvbzpwPjwvcHJlPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0K
-PHByZT5XaGVuIERFQlVHX0JVSUxEIGlzIGVuYWJsZWQsIHdlIHVzZSAmcXVvdDstT2cgLWcmcXVv
-dDsgZ2NjIG9wdGlvbnMuIEluIHN1Y2g8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5jYXNlLCB0aGUg
-eHhoYXNoIGZ1bmN0aW9ucyBhcmUgY29uc2lkZXJlZCBub3QgaW5saW5lLCB5ZXQgZGVidWdlZGl0
-LmM8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5kZWZpbmVkIFhYSF9JTkxJTkVfQUxMIHRvIGZvcmNl
-IGlubGluZSwgdGh1cyBjYXVzaW5nIGJ1aWxkIGZhaWx1cmUuPG86cD48L286cD48L3ByZT4NCjwv
-YmxvY2txdW90ZT4NCjxwPkkgYXNrZWQgcGVvcGxlIGFib3V0IHRoaXMgUFIgb24gSVJDIHllc3Rl
-cmRheSBhbmQgdGhleSBzYWlkIHRoZXkgd2FudGVkIHRvIGhlYXIgd2hhdDxicj4NCnVwc3RyZWFt
-IGhhZCB0byBzYXkuIFNvIGZhciB0aGVyZSBpcyBubyByZXBseSB0byB5b3VyIGVtYWlsLiBNYXli
-ZSBjcmVhdGUgYSBkZWZlY3QgaW46PG86cD48L286cD48L3A+DQo8cD4mbmJzcDsmbmJzcDsgPGEg
-aHJlZj0iaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9idWd6aWxsYS9idWdsaXN0LmNnaT9xdWlja3Nl
-YXJjaD1kZWJ1Z2VkaXQiPg0KaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9idWd6aWxsYS9idWdsaXN0
-LmNnaT9xdWlja3NlYXJjaD1kZWJ1Z2VkaXQ8L2E+PGJyPg0KdG8gZ2V0IHRoZSB1cHN0cmVhbSBk
-ZXZzIGF0dGVudGlvbj88YnI+DQo8YnI+DQpUaGlzIGlubGluaW5nIGdjYy0xNCBjb21waWxlIGVy
-cm9yIGhhcyBiZWVuIGRpc2N1c3NlZCBpbiB0aGUgY29udGV4dCBvZiB4eGhhc2guPG86cD48L286
-cD48L3A+DQo8cD5JbiB0aGUgQmluYXJ5IFNpemUgY29udHJvbCBzZWN0aW9uIG9mIHRoZSBSRUFE
-TUUubWQgZm9yOjxicj4NCiZuYnNwOyZuYnNwOyA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20v
-Q3lhbjQ5NzMveHhIYXNoIj5odHRwczovL2dpdGh1Yi5jb20vQ3lhbjQ5NzMveHhIYXNoPC9hPjxv
-OnA+PC9vOnA+PC9wPg0KPHA+d2UgaGF2ZTo8YnI+DQo8YnI+DQo8Y29kZT48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjEwLjBwdCI+WFhIX05PX0lOTElORV9ISU5UUzwvc3Bhbj48L2NvZGU+OiA8YnI+
-DQpCeSBkZWZhdWx0LCB4eEhhc2ggdXNlcyA8Y29kZT48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEw
-LjBwdCI+X19hdHRyaWJ1dGVfXygoYWx3YXlzX2lubGluZSkpPC9zcGFuPjwvY29kZT4gYW5kDQo8
-Y29kZT48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdCI+X19mb3JjZWlubGluZTwvc3Bhbj48
-L2NvZGU+IHRvIGltcHJvdmUgcGVyZm9ybWFuY2UgYXQgdGhlIGNvc3Qgb2YgY29kZSBzaXplLg0K
-PGJyPg0KRGVmaW5pbmcgdGhpcyBtYWNybyB0byAxIHdpbGwgbWFyayBhbGwgaW50ZXJuYWwgZnVu
-Y3Rpb25zIGFzIDxjb2RlPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0Ij5zdGF0aWM8L3Nw
-YW4+PC9jb2RlPiwgYWxsb3dpbmcgdGhlIGNvbXBpbGVyIHRvIGRlY2lkZSB3aGV0aGVyIHRvDQo8
-YnI+DQppbmxpbmUgYSBmdW5jdGlvbiBvciBub3QuIFRoaXMgaXMgdmVyeSB1c2VmdWwgd2hlbiBv
-cHRpbWl6aW5nIGZvciBzbWFsbGVzdCBiaW5hcnkgc2l6ZSwgYW5kIGlzIGF1dG9tYXRpY2FsbHkg
-ZGVmaW5lZA0KPGJyPg0Kd2hlbiBjb21waWxpbmcgd2l0aCA8Y29kZT48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjEwLjBwdCI+LU8wPC9zcGFuPjwvY29kZT4sIDxjb2RlPg0KPHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMC4wcHQiPi1Pczwvc3Bhbj48L2NvZGU+LCA8Y29kZT48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjEwLjBwdCI+LU96PC9zcGFuPjwvY29kZT4sIG9yDQo8Y29kZT48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjEwLjBwdCI+LWZuby1pbmxpbmU8L3NwYW4+PC9jb2RlPiBvbiBHQ0MgYW5kIENs
-YW5nLiA8YnI+DQo8Yj5JdCBtYXkgYWxzbyBiZSByZXF1aXJlZCB0byBzdWNjZXNzZnVsbHkgY29t
-cGlsZSZuYnNwOyB1c2luZyA8L2I+PGNvZGU+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4w
-cHQiPi1PZzwvc3Bhbj48L2I+PC9jb2RlPjxiPiwgZGVwZW5kaW5nIG9uIGNvbXBpbGVyIHZlcnNp
-b24uPC9iPjxvOnA+PC9vOnA+PC9wPg0KPHA+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cD5UaGlz
-IHdhcyB1cGRhdGVkIGluOjxicj4NCiZuYnNwOyZuYnNwOyA8YSBocmVmPSJodHRwczovL2dpdGh1
-Yi5jb20vQ3lhbjQ5NzMveHhIYXNoL2NvbW1pdC81NzRhYWJhZDg3YjJhYjk0NDA0MDNlOTJlMTA3
-NWVmNDg1NTRlYjg3Ij4NCmh0dHBzOi8vZ2l0aHViLmNvbS9DeWFuNDk3My94eEhhc2gvY29tbWl0
-LzU3NGFhYmFkODdiMmFiOTQ0MDQwM2U5MmUxMDc1ZWY0ODU1NGViODc8L2E+PG86cD48L286cD48
-L3A+DQo8cD5hbmQgbWVudGlvbmVkIGluOjxicj4NCiZuYnNwOyZuYnNwOyA8YSBocmVmPSJodHRw
-czovL2dpdGh1Yi5jb20vQ3lhbjQ5NzMveHhIYXNoL2lzc3Vlcy85NDMjaXNzdWVjb21tZW50LTI1
-NjMyMDUxMzAiPg0KaHR0cHM6Ly9naXRodWIuY29tL0N5YW40OTczL3h4SGFzaC9pc3N1ZXMvOTQz
-I2lzc3VlY29tbWVudC0yNTYzMjA1MTMwPC9hPjxvOnA+PC9vOnA+PC9wPg0KPHA+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8cD5Ib3BlIHRoYXQgaGVscHMgcHVzaCB0aGluZ3MgYWxvbmcgd2hlbiB5
-b3UncmUgYmFjayBmcm9tIGhvbGlkYXkgYW5kPGJyPg0KaGF2ZSB0aW1lIHRvIHdvcmsgb24gdGhp
-cyBRaS48bzpwPjwvbzpwPjwvcD4NCjxwPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHA+Li4vUmFu
-ZHk8bzpwPjwvbzpwPjwvcD4NCjxwPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUg
-c3R5bGU9Im1hcmdpbi10b3A6NS4wcHQ7bWFyZ2luLWJvdHRvbTo1LjBwdCI+DQo8cHJlPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPlRo
-aXMgcGF0Y2ggZml4ZXMgdGhpcyBpc3N1ZSBieSBub3QgYXNzdW1pbmcgdGhvc2UgYXJlIGFsd2F5
-cyBpbmxpbmUgYW5kPG86cD48L286cD48L3ByZT4NCjxwcmU+aW5zdGVhZCBsaW5rIHRoZSB4eGhh
-c2ggbGlicmFyeS48bzpwPjwvbzpwPjwvcHJlPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJl
-Pg0KPHByZT5UaGUgMDAwMy1NYWtlZmlsZS5hbS1kby1ub3QtdXBkYXRlLW1hbnVhbC5wYXRjaCBp
-cyBtb3ZlZCBmcm9tIG11c2w8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5zcGVjaWZpYyBwYXRjaCB0
-byBTUkNfVVJJLCBiZWNhdXNlIHdlIG5vdyBoYXZlIGEgcGF0Y2ggdG8gbW9kaWZ5IGRlYnVnZWRp
-dC5jPG86cD48L286cD48L3ByZT4NCjxwcmU+YW5kIHRoaXMgd2lsbCBjYXVzZSBtYW51YWwgdG8g
-YmUgZ2VuZXJhdGVkIGFnYWluLiBUaGlzIGlzIHVubmVjZXNzYXJ5IGFuZDxvOnA+PC9vOnA+PC9w
-cmU+DQo8cHJlPndpbGwgcmVwb3J0IGhlbHAybWFuIG1pc3NpbmcuPG86cD48L286cD48L3ByZT4N
-CjxwcmU+PG86cD4mbmJzcDs8L286cD48L3ByZT4NCjxwcmU+U2lnbmVkLW9mZi1ieTogQ2hlbiBR
-aSA8YSBocmVmPSJtYWlsdG86UWkuQ2hlbkB3aW5kcml2ZXIuY29tIj4mbHQ7UWkuQ2hlbkB3aW5k
-cml2ZXIuY29tJmd0OzwvYT48bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4tLS08bzpwPjwvbzpwPjwv
-cHJlPg0KPHByZT4gLi4uL2RlYnVnZWRpdC9kZWJ1Z2VkaXRfNS4xLmJiJm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7IHwmbmJzcDsgNCArLTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiAu
-Li4tbm90LWFzc3VtZS14eGhhc2gtY2FuLWFsd2F5cy1pbmxpbmUucGF0Y2ggfCA0OCArKysrKysr
-KysrKysrKysrKysrPG86cD48L286cD48L3ByZT4NCjxwcmU+IDIgZmlsZXMgY2hhbmdlZCwgNDkg
-aW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSk8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4gY3Jl
-YXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZmlsZXMvMDAw
-MS1Eby1ub3QtYXNzdW1lLXh4aGFzaC1jYW4tYWx3YXlzLWlubGluZS5wYXRjaDxvOnA+PC9vOnA+
-PC9wcmU+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVidWdlZGl0L2RlYnVnZWRpdF81LjEuYmIgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZGVidWdlZGl0L2RlYnVnZWRpdF81LjEuYmI8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT5pbmRleCAwMGM0MDQ3M2M0Li4wMjQyOWFmY2RhIDEwMDY0NDxvOnA+PC9vOnA+PC9w
-cmU+DQo8cHJlPi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZGVidWdlZGl0
-XzUuMS5iYjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9kZWJ1Z2VkaXQvZGVidWdlZGl0XzUuMS5iYjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPkBAIC0x
-MCw5ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSA8YSBocmVmPSJmaWxlOi8vQ09QWUlORztt
-ZDU9NTk1MzBiZGYzMzY1OWIyOWU3M2Q0YWRiOWY5ZjY1NTIvZmlsZTovQ09QWUlORzM7bWQ1PWQz
-MjIzOWJjYjY3MzQ2M2FiODc0ZTgwZDQ3ZmFlNTA0Ij4mcXVvdDtmaWxlOi8vQ09QWUlORzttZDU9
-NTk1MzBiZGYzMzY1OWIyOWU3M2Q0YWRiOWY5ZjY1NTIgXDxvOnA+PC9vOnA+PC9hPjwvcHJlPg0K
-PHByZT48c3BhbiBjbGFzcz0iTXNvSHlwZXJsaW5rIj48YSBocmVmPSJmaWxlOi8vQ09QWUlORztt
-ZDU9NTk1MzBiZGYzMzY1OWIyOWU3M2Q0YWRiOWY5ZjY1NTIvZmlsZTovQ09QWUlORzM7bWQ1PWQz
-MjIzOWJjYjY3MzQ2M2FiODc0ZTgwZDQ3ZmFlNTA0Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgZmlsZTovL0NPUFlJTkczO21k
-NT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0N2ZhZTUwNCZxdW90OzwvYT48L3NwYW4+PG86cD48
-L286cD48L3ByZT4NCjxwcmU+IDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiZuYnNwO1NSQ19VUkkg
-PSA8YSBocmVmPSJodHRwczovL3NvdXJjZXdhcmUub3JnL2Z0cC9kZWJ1Z2VkaXQvJCU3YlBWJTdk
-L2RlYnVnZWRpdC0kJTdiUFYlN2QudGFyLnh6Ly0iPiZxdW90O2h0dHBzOi8vc291cmNld2FyZS5v
-cmcvZnRwL2RlYnVnZWRpdC8ke1BWfS9kZWJ1Z2VkaXQtJHtQVn0udGFyLnh6IFw8bzpwPjwvbzpw
-PjwvYT48L3ByZT4NCjxwcmU+PHNwYW4gY2xhc3M9Ik1zb0h5cGVybGluayI+PGEgaHJlZj0iaHR0
-cHM6Ly9zb3VyY2V3YXJlLm9yZy9mdHAvZGVidWdlZGl0LyQlN2JQViU3ZC9kZWJ1Z2VkaXQtJCU3
-YlBWJTdkLnRhci54ei8tIj4tJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZxdW90OzwvYT48L3NwYW4+PG86cD48L286cD48L3ByZT4N
-CjxwcmU+LTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPi1TUkNfVVJJOmFwcGVuZDpsaWJjLW11c2wg
-PSAmcXVvdDtcPG86cD48L286cD48L3ByZT4NCjxwcmU+KyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyA8YSBocmVmPSJmaWxlOi8vMDAw
-MS1Eby1ub3QtYXNzdW1lLXh4aGFzaC1jYW4tYWx3YXlzLWlubGluZS5wYXRjaCI+ZmlsZTovLzAw
-MDEtRG8tbm90LWFzc3VtZS14eGhhc2gtY2FuLWFsd2F5cy1pbmxpbmUucGF0Y2g8L2E+IFw8bzpw
-PjwvbzpwPjwvcHJlPg0KPHByZT4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAwMDMtTWFrZWZp
-bGUuYW0tZG8tbm90LXVwZGF0ZS1tYW51YWwucGF0Y2giPmZpbGU6Ly8wMDAzLU1ha2VmaWxlLmFt
-LWRvLW5vdC11cGRhdGUtbWFudWFsLnBhdGNoPC9hPiBcPG86cD48L286cD48L3ByZT4NCjxwcmU+
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7ICZxdW90OzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiA8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT5kaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RlYnVnZWRpdC9maWxl
-cy8wMDAxLURvLW5vdC1hc3N1bWUteHhoYXNoLWNhbi1hbHdheXMtaW5saW5lLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2RlYnVnZWRpdC9maWxlcy8wMDAxLURvLW5vdC1hc3N1bWUteHho
-YXNoLWNhbi1hbHdheXMtaW5saW5lLnBhdGNoPG86cD48L286cD48L3ByZT4NCjxwcmU+bmV3IGZp
-bGUgbW9kZSAxMDA2NDQ8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5pbmRleCAwMDAwMDAwMDAwLi44
-ZTkyNTZlYzAxPG86cD48L286cD48L3ByZT4NCjxwcmU+LS0tIC9kZXYvbnVsbDxvOnA+PC9vOnA+
-PC9wcmU+DQo8cHJlPisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZWJ1Z2VkaXQvZmlsZXMv
-MDAwMS1Eby1ub3QtYXNzdW1lLXh4aGFzaC1jYW4tYWx3YXlzLWlubGluZS5wYXRjaDxvOnA+PC9v
-OnA+PC9wcmU+DQo8cHJlPkBAIC0wLDAgKzEsNDggQEA8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4r
-RnJvbSA3NmViNmNlNjkzNDlhMDVkMGZmMDY5MDYyMTgyNTUwZWJkODhmMTQ2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPitGcm9tOiBDaGVuIFFpIDxhIGhy
-ZWY9Im1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20iPiZsdDtRaS5DaGVuQHdpbmRyaXZlci5j
-b20mZ3Q7PC9hPjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPitEYXRlOiBTdW4sIDE5IEphbiAyMDI1
-IDIyOjU2OjM2IC0wODAwPG86cD48L286cD48L3ByZT4NCjxwcmU+K1N1YmplY3Q6IFtQQVRDSF0g
-RG8gbm90IGFzc3VtZSB4eGhhc2ggY2FuIGFsd2F5cyBpbmxpbmU8bzpwPjwvbzpwPjwvcHJlPg0K
-PHByZT4rPG86cD48L286cD48L3ByZT4NCjxwcmU+K1doZW4gYnVpbGRpbmcgd2l0aCAmcXVvdDst
-T2cgLWcmcXVvdDssIHdlJ2xsIGdldCBlcnJvcnMgbGlrZSBiZWxvdzo8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT4rPG86cD48L286cD48L3ByZT4NCjxwcmU+KyZuYnNwOyBpbmNsdWRlL3h4aGFzaC5o
-OjUyMTA6MTogZXJyb3I6IGlubGluaW5nIGZhaWxlZCBpbiBjYWxsIHRvPG86cD48L286cD48L3By
-ZT4NCjxwcmU+KyZuYnNwOyAnYWx3YXlzX2lubGluZScgJ1hYSDNfc2NyYW1ibGVBY2Nfc3NlMic6
-IGZ1bmN0aW9uIG5vdCBjb25zaWRlcmVkIGZvciBpbmxpbmluZzxvOnA+PC9vOnA+PC9wcmU+DQo8
-cHJlPis8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQg
-WzxhIGhyZWY9Imh0dHBzOi8vc291cmNld2FyZS5vcmcvcGlwZXJtYWlsL2RlYnVnZWRpdC8yMDI1
-LUphbnVhcnkvMDAwMzU5Lmh0bWwiPmh0dHBzOi8vc291cmNld2FyZS5vcmcvcGlwZXJtYWlsL2Rl
-YnVnZWRpdC8yMDI1LUphbnVhcnkvMDAwMzU5Lmh0bWw8L2E+XTxvOnA+PC9vOnA+PC9wcmU+DQo8
-cHJlPis8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rU2lnbmVkLW9mZi1ieTogQ2hlbiBRaSA8YSBo
-cmVmPSJtYWlsdG86UWkuQ2hlbkB3aW5kcml2ZXIuY29tIj4mbHQ7UWkuQ2hlbkB3aW5kcml2ZXIu
-Y29tJmd0OzwvYT48bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rLS0tPG86cD48L286cD48L3ByZT4N
-CjxwcmU+KyBNYWtlZmlsZS5hbSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB8
-IDQgKystLTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisgdG9vbHMvZGVidWdlZGl0LmMgfCAxIC08
-bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCAzIGRlbGV0aW9ucygtKTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPis8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT4rZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW08bzpwPjwvbzpw
-PjwvcHJlPg0KPHByZT4raW5kZXggYzU5MGVkZi4uMzVmZDk0NyAxMDA2NDQ8bzpwPjwvbzpwPjwv
-cHJlPg0KPHByZT4rLS0tIGEvTWFrZWZpbGUuYW08bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rKysr
-IGIvTWFrZWZpbGUuYW08bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rQEAgLTQyLDggKzQyLDggQEAg
-ZmluZC1kZWJ1Z2luZm86ICQodG9wX3NyY2Rpcikvc2NyaXB0cy9maW5kLWRlYnVnaW5mby5pbiBN
-YWtlZmlsZTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisgPG86cD48L286cD48L3ByZT4NCjxwcmU+
-KyBkZWJ1Z2VkaXRfU09VUkNFUyA9IHRvb2xzL2RlYnVnZWRpdC5jIFw8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT4rICZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDt0b29scy9oYXNodGFiLmMgPG86cD48L286cD48L3ByZT4NCjxwcmU+Ky1kZWJ1Z2VkaXRf
-Q0ZMQUdTID0gQExJQkVMRl9DRkxBR1NAIEBMSUJEV19DRkxBR1NAICQoQU1fQ0ZMQUdTKTxvOnA+
-PC9vOnA+PC9wcmU+DQo8cHJlPistZGVidWdlZGl0X0xEQUREID0gQExJQkVMRl9MSUJTQCBATElC
-RFdfTElCU0A8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rK2RlYnVnZWRpdF9DRkxBR1MgPSBATElC
-RUxGX0NGTEFHU0AgQExJQkRXX0NGTEFHU0AgQFhYSEFTSF9DRkxBR1NAICQoQU1fQ0ZMQUdTKTxv
-OnA+PC9vOnA+PC9wcmU+DQo8cHJlPisrZGVidWdlZGl0X0xEQUREID0gQExJQkVMRl9MSUJTQCBA
-TElCRFdfTElCU0AgQFhYSEFTSF9MSUJTQDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisgPG86cD48
-L286cD48L3ByZT4NCjxwcmU+KyBzZXBkZWJ1Z2NyY2ZpeF9TT1VSQ0VTID0gdG9vbHMvc2VwZGVi
-dWdjcmNmaXguYzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisgc2VwZGVidWdjcmNmaXhfQ0ZMQUdT
-ID0gQExJQkVMRl9DRkxBR1NAICQoQU1fQ0ZMQUdTKTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPitk
-aWZmIC0tZ2l0IGEvdG9vbHMvZGVidWdlZGl0LmMgYi90b29scy9kZWJ1Z2VkaXQuYzxvOnA+PC9v
-OnA+PC9wcmU+DQo8cHJlPitpbmRleCBiZWVmZDY1Li40M2Y5Y2VlIDEwMDY0NDxvOnA+PC9vOnA+
-PC9wcmU+DQo8cHJlPistLS0gYS90b29scy9kZWJ1Z2VkaXQuYzxvOnA+PC9vOnA+PC9wcmU+DQo8
-cHJlPisrKysgYi90b29scy9kZWJ1Z2VkaXQuYzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPitAQCAt
-ODIsNyArODIsNiBAQCB0eXBlZGVmIHN0cnVjdCBFYmxfU3RydGFiJm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7IFN0cnRhYjs8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rIDxvOnA+
-PC9vOnA+PC9wcmU+DQo8cHJlPisgI2luY2x1ZGUgJnF1b3Q7dG9vbHMvaGFzaHRhYi5oJnF1b3Q7
-PG86cD48L286cD48L3ByZT4NCjxwcmU+KyA8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rLSNkZWZp
-bmUgWFhIX0lOTElORV9BTEw8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rICNpbmNsdWRlICZxdW90
-O3h4aGFzaC5oJnF1b3Q7PG86cD48L286cD48L3ByZT4NCjxwcmU+KyA8bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT4rICNkZWZpbmUgRFdfVEFHX3BhcnRpYWxfdW5pdCAweDNjPG86cD48L286cD48L3By
-ZT4NCjxwcmU+Ky0tIDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPisyLjI1LjE8bzpwPjwvbzpwPjwv
-cHJlPg0KPHByZT4rPG86cD48L286cD48L3ByZT4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4N
-Cjxicj4NCjxvOnA+PC9vOnA+PC9wPg0KPHByZT4tPS09LT0tPS09LT0tPS09LT0tPS09LTxvOnA+
-PC9vOnA+PC9wcmU+DQo8cHJlPkxpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0
-byB0aGlzIGdyb3VwLjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPlZpZXcvUmVwbHkgT25saW5lICgj
-MjEwMDIzKTogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVt
-YmVkZGVkLWNvcmUvbWVzc2FnZS8yMTAwMjMiPmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMjEwMDIzPC9hPjxvOnA+PC9vOnA+PC9wcmU+
-DQo8cHJlPk11dGUgVGhpcyBUb3BpYzogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL210LzExMDcxMTQ4Mi8zNjE2NzY1Ij5odHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvbXQvMTEwNzExNDgyLzM2MTY3NjU8L2E+PG86cD48L286cD48L3ByZT4NCjxwcmU+R3JvdXAg
-T3duZXI6IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnIj5vcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnPC9hPjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPlVuc3Vic2NyaWJlOiA8YSBocmVmPSJodHRw
-czovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiI+aHR0
-cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWI8L2E+
-IFs8YSBocmVmPSJtYWlsdG86cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIuY29tIj5yYW5keS5tYWNs
-ZW9kQHdpbmRyaXZlci5jb208L2E+XTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPi09LT0tPS09LT0t
-PS09LT0tPS09LT0tPG86cD48L286cD48L3ByZT4NCjxwcmU+PG86cD4mbmJzcDs8L286cD48L3By
-ZT4NCjwvYmxvY2txdW90ZT4NCjxwPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHByZT4tLSA8bzpw
-PjwvbzpwPjwvcHJlPg0KPHByZT4jIFJhbmR5IE1hY0xlb2Q8bzpwPjwvbzpwPjwvcHJlPg0KPHBy
-ZT4jIFdpbmQgUml2ZXIgTGludXg8bzpwPjwvbzpwPjwvcHJlPg0KPC9kaXY+DQo8L2JvZHk+DQo8
-L2h0bWw+DQo=
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 648c8fceb8..24c8a850ec 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -744,6 +744,7 @@ RECIPE_MAINTAINER:pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-rpm = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-rpm-sequoia = "Zoltán Böszörményi <zboszor@gmail.com>"
+ RECIPE_MAINTAINER:pn-rpm-sequoia-crypto-policy = "Zoltán Böszörményi <zboszor@gmail.com>"
+ RECIPE_MAINTAINER:pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-rt-tests = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crates.inc b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crates.inc
+new file mode 100644
+index 0000000000..2764030ec7
+--- /dev/null
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crates.inc
+@@ -0,0 +1,486 @@
++# Autogenerated with 'bitbake -c update_crates rpm-sequoia'
++
++# from Cargo.lock
++SRC_URI += " \
++    crate://crates.io/aead/0.5.2 \
++    crate://crates.io/aes/0.8.4 \
++    crate://crates.io/aes-gcm/0.10.3 \
++    crate://crates.io/aho-corasick/1.1.3 \
++    crate://crates.io/android-tzdata/0.1.1 \
++    crate://crates.io/android_system_properties/0.1.5 \
++    crate://crates.io/anstyle/1.0.7 \
++    crate://crates.io/anyhow/1.0.86 \
++    crate://crates.io/ascii-canvas/3.0.0 \
++    crate://crates.io/assert_cmd/2.0.14 \
++    crate://crates.io/autocfg/1.3.0 \
++    crate://crates.io/base16ct/0.2.0 \
++    crate://crates.io/base64/0.22.1 \
++    crate://crates.io/base64ct/1.6.0 \
++    crate://crates.io/bindgen/0.68.1 \
++    crate://crates.io/bit-set/0.5.3 \
++    crate://crates.io/bit-vec/0.6.3 \
++    crate://crates.io/bitflags/2.6.0 \
++    crate://crates.io/block-buffer/0.10.4 \
++    crate://crates.io/block-padding/0.3.3 \
++    crate://crates.io/blowfish/0.9.1 \
++    crate://crates.io/botan/0.10.7 \
++    crate://crates.io/botan-sys/0.10.5 \
++    crate://crates.io/bstr/1.9.1 \
++    crate://crates.io/buffered-reader/1.3.1 \
++    crate://crates.io/bumpalo/3.16.0 \
++    crate://crates.io/byteorder/1.5.0 \
++    crate://crates.io/camellia/0.1.0 \
++    crate://crates.io/cast5/0.11.1 \
++    crate://crates.io/cc/1.0.106 \
++    crate://crates.io/cdylib-link-lines/0.1.5 \
++    crate://crates.io/cexpr/0.6.0 \
++    crate://crates.io/cfb-mode/0.8.2 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/chrono/0.4.38 \
++    crate://crates.io/cipher/0.4.4 \
++    crate://crates.io/clang-sys/1.8.1 \
++    crate://crates.io/cmac/0.7.2 \
++    crate://crates.io/const-oid/0.9.6 \
++    crate://crates.io/core-foundation-sys/0.8.6 \
++    crate://crates.io/cpufeatures/0.2.12 \
++    crate://crates.io/crunchy/0.2.2 \
++    crate://crates.io/crypto-bigint/0.5.5 \
++    crate://crates.io/crypto-common/0.1.6 \
++    crate://crates.io/ctr/0.9.2 \
++    crate://crates.io/curve25519-dalek/4.1.3 \
++    crate://crates.io/curve25519-dalek-derive/0.1.1 \
++    crate://crates.io/dbl/0.3.2 \
++    crate://crates.io/der/0.7.9 \
++    crate://crates.io/des/0.8.1 \
++    crate://crates.io/difflib/0.4.0 \
++    crate://crates.io/digest/0.10.7 \
++    crate://crates.io/dirs-next/2.0.0 \
++    crate://crates.io/dirs-sys-next/0.1.2 \
++    crate://crates.io/displaydoc/0.2.5 \
++    crate://crates.io/doc-comment/0.3.3 \
++    crate://crates.io/dsa/0.6.3 \
++    crate://crates.io/dyn-clone/1.0.17 \
++    crate://crates.io/eax/0.5.0 \
++    crate://crates.io/ecb/0.1.2 \
++    crate://crates.io/ecdsa/0.16.9 \
++    crate://crates.io/ed25519/2.2.3 \
++    crate://crates.io/ed25519-dalek/2.1.1 \
++    crate://crates.io/either/1.13.0 \
++    crate://crates.io/elliptic-curve/0.13.8 \
++    crate://crates.io/ena/0.14.3 \
++    crate://crates.io/equivalent/1.0.1 \
++    crate://crates.io/errno/0.3.9 \
++    crate://crates.io/fastrand/2.1.0 \
++    crate://crates.io/ff/0.13.0 \
++    crate://crates.io/fiat-crypto/0.2.9 \
++    crate://crates.io/fixedbitset/0.4.2 \
++    crate://crates.io/foreign-types/0.3.2 \
++    crate://crates.io/foreign-types-shared/0.1.1 \
++    crate://crates.io/generic-array/0.14.7 \
++    crate://crates.io/generic-array/1.1.0 \
++    crate://crates.io/getrandom/0.2.15 \
++    crate://crates.io/ghash/0.5.1 \
++    crate://crates.io/glob/0.3.1 \
++    crate://crates.io/group/0.13.0 \
++    crate://crates.io/hashbrown/0.14.5 \
++    crate://crates.io/hkdf/0.12.4 \
++    crate://crates.io/hmac/0.12.1 \
++    crate://crates.io/iana-time-zone/0.1.60 \
++    crate://crates.io/iana-time-zone-haiku/0.1.2 \
++    crate://crates.io/icu_collections/1.5.0 \
++    crate://crates.io/icu_locid/1.5.0 \
++    crate://crates.io/icu_locid_transform/1.5.0 \
++    crate://crates.io/icu_locid_transform_data/1.5.0 \
++    crate://crates.io/icu_normalizer/1.5.0 \
++    crate://crates.io/icu_normalizer_data/1.5.0 \
++    crate://crates.io/icu_properties/1.5.1 \
++    crate://crates.io/icu_properties_data/1.5.0 \
++    crate://crates.io/icu_provider/1.5.0 \
++    crate://crates.io/icu_provider_macros/1.5.0 \
++    crate://crates.io/idea/0.5.1 \
++    crate://crates.io/idna/1.0.2 \
++    crate://crates.io/indexmap/2.2.6 \
++    crate://crates.io/inout/0.1.3 \
++    crate://crates.io/itertools/0.11.0 \
++    crate://crates.io/js-sys/0.3.69 \
++    crate://crates.io/lalrpop/0.20.2 \
++    crate://crates.io/lalrpop-util/0.20.2 \
++    crate://crates.io/lazy_static/1.5.0 \
++    crate://crates.io/lazycell/1.3.0 \
++    crate://crates.io/libc/0.2.155 \
++    crate://crates.io/libloading/0.8.4 \
++    crate://crates.io/libm/0.2.8 \
++    crate://crates.io/libredox/0.1.3 \
++    crate://crates.io/linux-raw-sys/0.4.14 \
++    crate://crates.io/litemap/0.7.3 \
++    crate://crates.io/lock_api/0.4.12 \
++    crate://crates.io/log/0.4.22 \
++    crate://crates.io/md-5/0.10.6 \
++    crate://crates.io/memchr/2.7.4 \
++    crate://crates.io/memsec/0.7.0 \
++    crate://crates.io/minimal-lexical/0.2.1 \
++    crate://crates.io/nettle/7.4.0 \
++    crate://crates.io/nettle-sys/2.3.0 \
++    crate://crates.io/new_debug_unreachable/1.0.6 \
++    crate://crates.io/nom/7.1.3 \
++    crate://crates.io/num-bigint-dig/0.8.4 \
++    crate://crates.io/num-integer/0.1.46 \
++    crate://crates.io/num-iter/0.1.45 \
++    crate://crates.io/num-traits/0.2.19 \
++    crate://crates.io/once_cell/1.19.0 \
++    crate://crates.io/opaque-debug/0.3.1 \
++    crate://crates.io/openssl/0.10.64 \
++    crate://crates.io/openssl-macros/0.1.1 \
++    crate://crates.io/openssl-sys/0.9.102 \
++    crate://crates.io/p256/0.13.2 \
++    crate://crates.io/p384/0.13.0 \
++    crate://crates.io/p521/0.13.3 \
++    crate://crates.io/parking_lot/0.12.3 \
++    crate://crates.io/parking_lot_core/0.9.10 \
++    crate://crates.io/peeking_take_while/0.1.2 \
++    crate://crates.io/pem-rfc7468/0.7.0 \
++    crate://crates.io/petgraph/0.6.5 \
++    crate://crates.io/phf_shared/0.10.0 \
++    crate://crates.io/pkcs1/0.7.5 \
++    crate://crates.io/pkcs8/0.10.2 \
++    crate://crates.io/pkg-config/0.3.30 \
++    crate://crates.io/polyval/0.6.2 \
++    crate://crates.io/ppv-lite86/0.2.17 \
++    crate://crates.io/precomputed-hash/0.1.1 \
++    crate://crates.io/predicates/3.1.0 \
++    crate://crates.io/predicates-core/1.0.6 \
++    crate://crates.io/predicates-tree/1.0.9 \
++    crate://crates.io/primeorder/0.13.6 \
++    crate://crates.io/proc-macro2/1.0.86 \
++    crate://crates.io/quote/1.0.36 \
++    crate://crates.io/rand/0.8.5 \
++    crate://crates.io/rand_chacha/0.3.1 \
++    crate://crates.io/rand_core/0.6.4 \
++    crate://crates.io/redox_syscall/0.5.2 \
++    crate://crates.io/redox_users/0.4.5 \
++    crate://crates.io/regex/1.10.5 \
++    crate://crates.io/regex-automata/0.4.7 \
++    crate://crates.io/regex-syntax/0.8.4 \
++    crate://crates.io/rfc6979/0.4.0 \
++    crate://crates.io/ripemd/0.1.3 \
++    crate://crates.io/rsa/0.9.6 \
++    crate://crates.io/rustc-hash/1.1.0 \
++    crate://crates.io/rustc_version/0.4.0 \
++    crate://crates.io/rustix/0.38.34 \
++    crate://crates.io/rustversion/1.0.17 \
++    crate://crates.io/same-file/1.0.6 \
++    crate://crates.io/scopeguard/1.2.0 \
++    crate://crates.io/sec1/0.7.3 \
++    crate://crates.io/semver/1.0.23 \
++    crate://crates.io/sequoia-openpgp/1.21.1 \
++    crate://crates.io/sequoia-policy-config/0.6.0 \
++    crate://crates.io/serde/1.0.204 \
++    crate://crates.io/serde_derive/1.0.204 \
++    crate://crates.io/sha1collisiondetection/0.3.4 \
++    crate://crates.io/sha2/0.10.8 \
++    crate://crates.io/shlex/1.3.0 \
++    crate://crates.io/signature/2.2.0 \
++    crate://crates.io/siphasher/0.3.11 \
++    crate://crates.io/smallvec/1.13.2 \
++    crate://crates.io/spin/0.9.8 \
++    crate://crates.io/spki/0.7.3 \
++    crate://crates.io/stable_deref_trait/1.2.0 \
++    crate://crates.io/string_cache/0.8.7 \
++    crate://crates.io/subtle/2.6.1 \
++    crate://crates.io/syn/2.0.70 \
++    crate://crates.io/synstructure/0.13.1 \
++    crate://crates.io/tempfile/3.10.1 \
++    crate://crates.io/term/0.7.0 \
++    crate://crates.io/termtree/0.4.1 \
++    crate://crates.io/thiserror/1.0.61 \
++    crate://crates.io/thiserror-impl/1.0.61 \
++    crate://crates.io/tiny-keccak/2.0.2 \
++    crate://crates.io/tinystr/0.7.6 \
++    crate://crates.io/toml/0.5.11 \
++    crate://crates.io/twofish/0.7.1 \
++    crate://crates.io/typenum/1.17.0 \
++    crate://crates.io/unicode-ident/1.0.12 \
++    crate://crates.io/unicode-xid/0.2.4 \
++    crate://crates.io/universal-hash/0.5.1 \
++    crate://crates.io/utf16_iter/1.0.5 \
++    crate://crates.io/utf8_iter/1.0.4 \
++    crate://crates.io/vcpkg/0.2.15 \
++    crate://crates.io/version_check/0.9.4 \
++    crate://crates.io/wait-timeout/0.2.0 \
++    crate://crates.io/walkdir/2.5.0 \
++    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++    crate://crates.io/wasm-bindgen/0.2.92 \
++    crate://crates.io/wasm-bindgen-backend/0.2.92 \
++    crate://crates.io/wasm-bindgen-macro/0.2.92 \
++    crate://crates.io/wasm-bindgen-macro-support/0.2.92 \
++    crate://crates.io/wasm-bindgen-shared/0.2.92 \
++    crate://crates.io/win-crypto-ng/0.5.1 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-util/0.1.8 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/windows-core/0.52.0 \
++    crate://crates.io/windows-sys/0.52.0 \
++    crate://crates.io/windows-targets/0.52.6 \
++    crate://crates.io/windows_aarch64_gnullvm/0.52.6 \
++    crate://crates.io/windows_aarch64_msvc/0.52.6 \
++    crate://crates.io/windows_i686_gnu/0.52.6 \
++    crate://crates.io/windows_i686_gnullvm/0.52.6 \
++    crate://crates.io/windows_i686_msvc/0.52.6 \
++    crate://crates.io/windows_x86_64_gnu/0.52.6 \
++    crate://crates.io/windows_x86_64_gnullvm/0.52.6 \
++    crate://crates.io/windows_x86_64_msvc/0.52.6 \
++    crate://crates.io/write16/1.0.0 \
++    crate://crates.io/writeable/0.5.5 \
++    crate://crates.io/x25519-dalek/2.0.1 \
++    crate://crates.io/xxhash-rust/0.8.11 \
++    crate://crates.io/yoke/0.7.4 \
++    crate://crates.io/yoke-derive/0.7.4 \
++    crate://crates.io/zerofrom/0.1.4 \
++    crate://crates.io/zerofrom-derive/0.1.4 \
++    crate://crates.io/zeroize/1.8.1 \
++    crate://crates.io/zeroize_derive/1.4.2 \
++    crate://crates.io/zerovec/0.10.4 \
++    crate://crates.io/zerovec-derive/0.10.3 \
++"
++
++SRC_URI[aead-0.5.2.sha256sum] = "d122413f284cf2d62fb1b7db97e02edb8cda96d769b16e443a4f6195e35662b0"
++SRC_URI[aes-0.8.4.sha256sum] = "b169f7a6d4742236a0a00c541b845991d0ac43e546831af1249753ab4c3aa3a0"
++SRC_URI[aes-gcm-0.10.3.sha256sum] = "831010a0f742e1209b3bcea8fab6a8e149051ba6099432c8cb2cc117dec3ead1"
++SRC_URI[aho-corasick-1.1.3.sha256sum] = "8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916"
++SRC_URI[android-tzdata-0.1.1.sha256sum] = "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
++SRC_URI[android_system_properties-0.1.5.sha256sum] = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
++SRC_URI[anstyle-1.0.7.sha256sum] = "038dfcf04a5feb68e9c60b21c9625a54c2c0616e79b72b0fd87075a056ae1d1b"
++SRC_URI[anyhow-1.0.86.sha256sum] = "b3d1d046238990b9cf5bcde22a3fb3584ee5cf65fb2765f454ed428c7a0063da"
++SRC_URI[ascii-canvas-3.0.0.sha256sum] = "8824ecca2e851cec16968d54a01dd372ef8f95b244fb84b84e70128be347c3c6"
++SRC_URI[assert_cmd-2.0.14.sha256sum] = "ed72493ac66d5804837f480ab3766c72bdfab91a65e565fc54fa9e42db0073a8"
++SRC_URI[autocfg-1.3.0.sha256sum] = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
++SRC_URI[base16ct-0.2.0.sha256sum] = "4c7f02d4ea65f2c1853089ffd8d2787bdbc63de2f0d29dedbcf8ccdfa0ccd4cf"
++SRC_URI[base64-0.22.1.sha256sum] = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
++SRC_URI[base64ct-1.6.0.sha256sum] = "8c3c1a368f70d6cf7302d78f8f7093da241fb8e8807c05cc9e51a125895a6d5b"
++SRC_URI[bindgen-0.68.1.sha256sum] = "726e4313eb6ec35d2730258ad4e15b547ee75d6afaa1361a922e78e59b7d8078"
++SRC_URI[bit-set-0.5.3.sha256sum] = "0700ddab506f33b20a03b13996eccd309a48e5ff77d0d95926aa0210fb4e95f1"
++SRC_URI[bit-vec-0.6.3.sha256sum] = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
++SRC_URI[bitflags-2.6.0.sha256sum] = "b048fb63fd8b5923fc5aa7b340d8e156aec7ec02f0c78fa8a6ddc2613f6f71de"
++SRC_URI[block-buffer-0.10.4.sha256sum] = "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71"
++SRC_URI[block-padding-0.3.3.sha256sum] = "a8894febbff9f758034a5b8e12d87918f56dfc64a8e1fe757d65e29041538d93"
++SRC_URI[blowfish-0.9.1.sha256sum] = "e412e2cd0f2b2d93e02543ceae7917b3c70331573df19ee046bcbc35e45e87d7"
++SRC_URI[botan-0.10.7.sha256sum] = "350081af1a3c6883f8a1f863ac553bfe6922589aad60008a70947765ed57c53e"
++SRC_URI[botan-sys-0.10.5.sha256sum] = "9f49dde1b8ebd2996cc41c55c39f6ef8b54e38148d8973aeba0792b87b1621ca"
++SRC_URI[bstr-1.9.1.sha256sum] = "05efc5cfd9110c8416e471df0e96702d58690178e206e61b7173706673c93706"
++SRC_URI[buffered-reader-1.3.1.sha256sum] = "cd098763fdb64579407a8c83cf0d751e6d4a7e161d0114c89cc181a2ca760ec8"
++SRC_URI[bumpalo-3.16.0.sha256sum] = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
++SRC_URI[byteorder-1.5.0.sha256sum] = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
++SRC_URI[camellia-0.1.0.sha256sum] = "3264e2574e9ef2b53ce6f536dea83a69ac0bc600b762d1523ff83fe07230ce30"
++SRC_URI[cast5-0.11.1.sha256sum] = "26b07d673db1ccf000e90f54b819db9e75a8348d6eb056e9b8ab53231b7a9911"
++SRC_URI[cc-1.0.106.sha256sum] = "066fce287b1d4eafef758e89e09d724a24808a9196fe9756b8ca90e86d0719a2"
++SRC_URI[cdylib-link-lines-0.1.5.sha256sum] = "d98eabef08bbdf5afd0b9c0cabb1ac335f7c70447ef095eed85dffd9628b20bc"
++SRC_URI[cexpr-0.6.0.sha256sum] = "6fac387a98bb7c37292057cffc56d62ecb629900026402633ae9160df93a8766"
++SRC_URI[cfb-mode-0.8.2.sha256sum] = "738b8d467867f80a71351933f70461f5b56f24d5c93e0cf216e59229c968d330"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[chrono-0.4.38.sha256sum] = "a21f936df1771bf62b77f047b726c4625ff2e8aa607c01ec06e5a05bd8463401"
++SRC_URI[cipher-0.4.4.sha256sum] = "773f3b9af64447d2ce9850330c473515014aa235e6a783b02db81ff39e4a3dad"
++SRC_URI[clang-sys-1.8.1.sha256sum] = "0b023947811758c97c59bf9d1c188fd619ad4718dcaa767947df1cadb14f39f4"
++SRC_URI[cmac-0.7.2.sha256sum] = "8543454e3c3f5126effff9cd44d562af4e31fb8ce1cc0d3dcd8f084515dbc1aa"
++SRC_URI[const-oid-0.9.6.sha256sum] = "c2459377285ad874054d797f3ccebf984978aa39129f6eafde5cdc8315b612f8"
++SRC_URI[core-foundation-sys-0.8.6.sha256sum] = "06ea2b9bc92be3c2baa9334a323ebca2d6f074ff852cd1d7b11064035cd3868f"
++SRC_URI[cpufeatures-0.2.12.sha256sum] = "53fe5e26ff1b7aef8bca9c6080520cfb8d9333c7568e1829cef191a9723e5504"
++SRC_URI[crunchy-0.2.2.sha256sum] = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
++SRC_URI[crypto-bigint-0.5.5.sha256sum] = "0dc92fb57ca44df6db8059111ab3af99a63d5d0f8375d9972e319a379c6bab76"
++SRC_URI[crypto-common-0.1.6.sha256sum] = "1bfb12502f3fc46cca1bb51ac28df9d618d813cdc3d2f25b9fe775a34af26bb3"
++SRC_URI[ctr-0.9.2.sha256sum] = "0369ee1ad671834580515889b80f2ea915f23b8be8d0daa4bbaf2ac5c7590835"
++SRC_URI[curve25519-dalek-4.1.3.sha256sum] = "97fb8b7c4503de7d6ae7b42ab72a5a59857b4c937ec27a3d4539dba95b5ab2be"
++SRC_URI[curve25519-dalek-derive-0.1.1.sha256sum] = "f46882e17999c6cc590af592290432be3bce0428cb0d5f8b6715e4dc7b383eb3"
++SRC_URI[dbl-0.3.2.sha256sum] = "bd2735a791158376708f9347fe8faba9667589d82427ef3aed6794a8981de3d9"
++SRC_URI[der-0.7.9.sha256sum] = "f55bf8e7b65898637379c1b74eb1551107c8294ed26d855ceb9fd1a09cfc9bc0"
++SRC_URI[des-0.8.1.sha256sum] = "ffdd80ce8ce993de27e9f063a444a4d53ce8e8db4c1f00cc03af5ad5a9867a1e"
++SRC_URI[difflib-0.4.0.sha256sum] = "6184e33543162437515c2e2b48714794e37845ec9851711914eec9d308f6ebe8"
++SRC_URI[digest-0.10.7.sha256sum] = "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292"
++SRC_URI[dirs-next-2.0.0.sha256sum] = "b98cf8ebf19c3d1b223e151f99a4f9f0690dca41414773390fc824184ac833e1"
++SRC_URI[dirs-sys-next-0.1.2.sha256sum] = "4ebda144c4fe02d1f7ea1a7d9641b6fc6b580adcfa024ae48797ecdeb6825b4d"
++SRC_URI[displaydoc-0.2.5.sha256sum] = "97369cbbc041bc366949bc74d34658d6cda5621039731c6310521892a3a20ae0"
++SRC_URI[doc-comment-0.3.3.sha256sum] = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
++SRC_URI[dsa-0.6.3.sha256sum] = "48bc224a9084ad760195584ce5abb3c2c34a225fa312a128ad245a6b412b7689"
++SRC_URI[dyn-clone-1.0.17.sha256sum] = "0d6ef0072f8a535281e4876be788938b528e9a1d43900b82c2569af7da799125"
++SRC_URI[eax-0.5.0.sha256sum] = "9954fabd903b82b9d7a68f65f97dc96dd9ad368e40ccc907a7c19d53e6bfac28"
++SRC_URI[ecb-0.1.2.sha256sum] = "1a8bfa975b1aec2145850fcaa1c6fe269a16578c44705a532ae3edc92b8881c7"
++SRC_URI[ecdsa-0.16.9.sha256sum] = "ee27f32b5c5292967d2d4a9d7f1e0b0aed2c15daded5a60300e4abb9d8020bca"
++SRC_URI[ed25519-2.2.3.sha256sum] = "115531babc129696a58c64a4fef0a8bf9e9698629fb97e9e40767d235cfbcd53"
++SRC_URI[ed25519-dalek-2.1.1.sha256sum] = "4a3daa8e81a3963a60642bcc1f90a670680bd4a77535faa384e9d1c79d620871"
++SRC_URI[either-1.13.0.sha256sum] = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
++SRC_URI[elliptic-curve-0.13.8.sha256sum] = "b5e6043086bf7973472e0c7dff2142ea0b680d30e18d9cc40f267efbf222bd47"
++SRC_URI[ena-0.14.3.sha256sum] = "3d248bdd43ce613d87415282f69b9bb99d947d290b10962dd6c56233312c2ad5"
++SRC_URI[equivalent-1.0.1.sha256sum] = "5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5"
++SRC_URI[errno-0.3.9.sha256sum] = "534c5cf6194dfab3db3242765c03bbe257cf92f22b38f6bc0c58d59108a820ba"
++SRC_URI[fastrand-2.1.0.sha256sum] = "9fc0510504f03c51ada170672ac806f1f105a88aa97a5281117e1ddc3368e51a"
++SRC_URI[ff-0.13.0.sha256sum] = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
++SRC_URI[fiat-crypto-0.2.9.sha256sum] = "28dea519a9695b9977216879a3ebfddf92f1c08c05d984f8996aecd6ecdc811d"
++SRC_URI[fixedbitset-0.4.2.sha256sum] = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
++SRC_URI[foreign-types-0.3.2.sha256sum] = "f6f339eb8adc052cd2ca78910fda869aefa38d22d5cb648e6485e4d3fc06f3b1"
++SRC_URI[foreign-types-shared-0.1.1.sha256sum] = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
++SRC_URI[generic-array-0.14.7.sha256sum] = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
++SRC_URI[generic-array-1.1.0.sha256sum] = "96512db27971c2c3eece70a1e106fbe6c87760234e31e8f7e5634912fe52794a"
++SRC_URI[getrandom-0.2.15.sha256sum] = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
++SRC_URI[ghash-0.5.1.sha256sum] = "f0d8a4362ccb29cb0b265253fb0a2728f592895ee6854fd9bc13f2ffda266ff1"
++SRC_URI[glob-0.3.1.sha256sum] = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
++SRC_URI[group-0.13.0.sha256sum] = "f0f9ef7462f7c099f518d754361858f86d8a07af53ba9af0fe635bbccb151a63"
++SRC_URI[hashbrown-0.14.5.sha256sum] = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
++SRC_URI[hkdf-0.12.4.sha256sum] = "7b5f8eb2ad728638ea2c7d47a21db23b7b58a72ed6a38256b8a1849f15fbbdf7"
++SRC_URI[hmac-0.12.1.sha256sum] = "6c49c37c09c17a53d937dfbb742eb3a961d65a994e6bcdcf37e7399d0cc8ab5e"
++SRC_URI[iana-time-zone-0.1.60.sha256sum] = "e7ffbb5a1b541ea2561f8c41c087286cc091e21e556a4f09a8f6cbf17b69b141"
++SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
++SRC_URI[icu_collections-1.5.0.sha256sum] = "db2fa452206ebee18c4b5c2274dbf1de17008e874b4dc4f0aea9d01ca79e4526"
++SRC_URI[icu_locid-1.5.0.sha256sum] = "13acbb8371917fc971be86fc8057c41a64b521c184808a698c02acc242dbf637"
++SRC_URI[icu_locid_transform-1.5.0.sha256sum] = "01d11ac35de8e40fdeda00d9e1e9d92525f3f9d887cdd7aa81d727596788b54e"
++SRC_URI[icu_locid_transform_data-1.5.0.sha256sum] = "fdc8ff3388f852bede6b579ad4e978ab004f139284d7b28715f773507b946f6e"
++SRC_URI[icu_normalizer-1.5.0.sha256sum] = "19ce3e0da2ec68599d193c93d088142efd7f9c5d6fc9b803774855747dc6a84f"
++SRC_URI[icu_normalizer_data-1.5.0.sha256sum] = "f8cafbf7aa791e9b22bec55a167906f9e1215fd475cd22adfcf660e03e989516"
++SRC_URI[icu_properties-1.5.1.sha256sum] = "93d6020766cfc6302c15dbbc9c8778c37e62c14427cb7f6e601d849e092aeef5"
++SRC_URI[icu_properties_data-1.5.0.sha256sum] = "67a8effbc3dd3e4ba1afa8ad918d5684b8868b3b26500753effea8d2eed19569"
++SRC_URI[icu_provider-1.5.0.sha256sum] = "6ed421c8a8ef78d3e2dbc98a973be2f3770cb42b606e3ab18d6237c4dfde68d9"
++SRC_URI[icu_provider_macros-1.5.0.sha256sum] = "1ec89e9337638ecdc08744df490b221a7399bf8d164eb52a665454e60e075ad6"
++SRC_URI[idea-0.5.1.sha256sum] = "075557004419d7f2031b8bb7f44bb43e55a83ca7b63076a8fb8fe75753836477"
++SRC_URI[idna-1.0.2.sha256sum] = "bd69211b9b519e98303c015e21a007e293db403b6c85b9b124e133d25e242cdd"
++SRC_URI[indexmap-2.2.6.sha256sum] = "168fb715dda47215e360912c096649d23d58bf392ac62f73919e831745e40f26"
++SRC_URI[inout-0.1.3.sha256sum] = "a0c10553d664a4d0bcff9f4215d0aac67a639cc68ef660840afe309b807bc9f5"
++SRC_URI[itertools-0.11.0.sha256sum] = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
++SRC_URI[js-sys-0.3.69.sha256sum] = "29c15563dc2726973df627357ce0c9ddddbea194836909d655df6a75d2cf296d"
++SRC_URI[lalrpop-0.20.2.sha256sum] = "55cb077ad656299f160924eb2912aa147d7339ea7d69e1b5517326fdcec3c1ca"
++SRC_URI[lalrpop-util-0.20.2.sha256sum] = "507460a910eb7b32ee961886ff48539633b788a36b65692b95f225b844c82553"
++SRC_URI[lazy_static-1.5.0.sha256sum] = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
++SRC_URI[lazycell-1.3.0.sha256sum] = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
++SRC_URI[libc-0.2.155.sha256sum] = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
++SRC_URI[libloading-0.8.4.sha256sum] = "e310b3a6b5907f99202fcdb4960ff45b93735d7c7d96b760fcff8db2dc0e103d"
++SRC_URI[libm-0.2.8.sha256sum] = "4ec2a862134d2a7d32d7983ddcdd1c4923530833c9f2ea1a44fc5fa473989058"
++SRC_URI[libredox-0.1.3.sha256sum] = "c0ff37bd590ca25063e35af745c343cb7a0271906fb7b37e4813e8f79f00268d"
++SRC_URI[linux-raw-sys-0.4.14.sha256sum] = "78b3ae25bc7c8c38cec158d1f2757ee79e9b3740fbc7ccf0e59e4b08d793fa89"
++SRC_URI[litemap-0.7.3.sha256sum] = "643cb0b8d4fcc284004d5fd0d67ccf61dfffadb7f75e1e71bc420f4688a3a704"
++SRC_URI[lock_api-0.4.12.sha256sum] = "07af8b9cdd281b7915f413fa73f29ebd5d55d0d3f0155584dade1ff18cea1b17"
++SRC_URI[log-0.4.22.sha256sum] = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
++SRC_URI[md-5-0.10.6.sha256sum] = "d89e7ee0cfbedfc4da3340218492196241d89eefb6dab27de5df917a6d2e78cf"
++SRC_URI[memchr-2.7.4.sha256sum] = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
++SRC_URI[memsec-0.7.0.sha256sum] = "c797b9d6bb23aab2fc369c65f871be49214f5c759af65bde26ffaaa2b646b492"
++SRC_URI[minimal-lexical-0.2.1.sha256sum] = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
++SRC_URI[nettle-7.4.0.sha256sum] = "44e6ff4a94e5d34a1fd5abbd39418074646e2fa51b257198701330f22fcd6936"
++SRC_URI[nettle-sys-2.3.0.sha256sum] = "b495053a10a19a80e3a26bf1212e92e29350797b5f5bdc58268c3f3f818e66ec"
++SRC_URI[new_debug_unreachable-1.0.6.sha256sum] = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
++SRC_URI[nom-7.1.3.sha256sum] = "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
++SRC_URI[num-bigint-dig-0.8.4.sha256sum] = "dc84195820f291c7697304f3cbdadd1cb7199c0efc917ff5eafd71225c136151"
++SRC_URI[num-integer-0.1.46.sha256sum] = "7969661fd2958a5cb096e56c8e1ad0444ac2bbcd0061bd28660485a44879858f"
++SRC_URI[num-iter-0.1.45.sha256sum] = "1429034a0490724d0075ebb2bc9e875d6503c3cf69e235a8941aa757d83ef5bf"
++SRC_URI[num-traits-0.2.19.sha256sum] = "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
++SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
++SRC_URI[opaque-debug-0.3.1.sha256sum] = "c08d65885ee38876c4f86fa503fb49d7b507c2b62552df7c70b2fce627e06381"
++SRC_URI[openssl-0.10.64.sha256sum] = "95a0481286a310808298130d22dd1fef0fa571e05a8f44ec801801e84b216b1f"
++SRC_URI[openssl-macros-0.1.1.sha256sum] = "a948666b637a0f465e8564c73e89d4dde00d72d4d473cc972f390fc3dcee7d9c"
++SRC_URI[openssl-sys-0.9.102.sha256sum] = "c597637d56fbc83893a35eb0dd04b2b8e7a50c91e64e9493e398b5df4fb45fa2"
++SRC_URI[p256-0.13.2.sha256sum] = "c9863ad85fa8f4460f9c48cb909d38a0d689dba1f6f6988a5e3e0d31071bcd4b"
++SRC_URI[p384-0.13.0.sha256sum] = "70786f51bcc69f6a4c0360e063a4cac5419ef7c5cd5b3c99ad70f3be5ba79209"
++SRC_URI[p521-0.13.3.sha256sum] = "0fc9e2161f1f215afdfce23677034ae137bbd45016a880c2eb3ba8eb95f085b2"
++SRC_URI[parking_lot-0.12.3.sha256sum] = "f1bf18183cf54e8d6059647fc3063646a1801cf30896933ec2311622cc4b9a27"
++SRC_URI[parking_lot_core-0.9.10.sha256sum] = "1e401f977ab385c9e4e3ab30627d6f26d00e2c73eef317493c4ec6d468726cf8"
++SRC_URI[peeking_take_while-0.1.2.sha256sum] = "19b17cddbe7ec3f8bc800887bab5e717348c95ea2ca0b1bf0837fb964dc67099"
++SRC_URI[pem-rfc7468-0.7.0.sha256sum] = "88b39c9bfcfc231068454382784bb460aae594343fb030d46e9f50a645418412"
++SRC_URI[petgraph-0.6.5.sha256sum] = "b4c5cc86750666a3ed20bdaf5ca2a0344f9c67674cae0515bec2da16fbaa47db"
++SRC_URI[phf_shared-0.10.0.sha256sum] = "b6796ad771acdc0123d2a88dc428b5e38ef24456743ddb1744ed628f9815c096"
++SRC_URI[pkcs1-0.7.5.sha256sum] = "c8ffb9f10fa047879315e6625af03c164b16962a5368d724ed16323b68ace47f"
++SRC_URI[pkcs8-0.10.2.sha256sum] = "f950b2377845cebe5cf8b5165cb3cc1a5e0fa5cfa3e1f7f55707d8fd82e0a7b7"
++SRC_URI[pkg-config-0.3.30.sha256sum] = "d231b230927b5e4ad203db57bbcbee2802f6bce620b1e4a9024a07d94e2907ec"
++SRC_URI[polyval-0.6.2.sha256sum] = "9d1fe60d06143b2430aa532c94cfe9e29783047f06c0d7fd359a9a51b729fa25"
++SRC_URI[ppv-lite86-0.2.17.sha256sum] = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
++SRC_URI[precomputed-hash-0.1.1.sha256sum] = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
++SRC_URI[predicates-3.1.0.sha256sum] = "68b87bfd4605926cdfefc1c3b5f8fe560e3feca9d5552cf68c466d3d8236c7e8"
++SRC_URI[predicates-core-1.0.6.sha256sum] = "b794032607612e7abeb4db69adb4e33590fa6cf1149e95fd7cb00e634b92f174"
++SRC_URI[predicates-tree-1.0.9.sha256sum] = "368ba315fb8c5052ab692e68a0eefec6ec57b23a36959c14496f0b0df2c0cecf"
++SRC_URI[primeorder-0.13.6.sha256sum] = "353e1ca18966c16d9deb1c69278edbc5f194139612772bd9537af60ac231e1e6"
++SRC_URI[proc-macro2-1.0.86.sha256sum] = "5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77"
++SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
++SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++SRC_URI[rand_chacha-0.3.1.sha256sum] = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
++SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
++SRC_URI[redox_syscall-0.5.2.sha256sum] = "c82cf8cff14456045f55ec4241383baeff27af886adb72ffb2162f99911de0fd"
++SRC_URI[redox_users-0.4.5.sha256sum] = "bd283d9651eeda4b2a83a43c1c91b266c40fd76ecd39a50a8c630ae69dc72891"
++SRC_URI[regex-1.10.5.sha256sum] = "b91213439dad192326a0d7c6ee3955910425f441d7038e0d6933b0aec5c4517f"
++SRC_URI[regex-automata-0.4.7.sha256sum] = "38caf58cc5ef2fed281f89292ef23f6365465ed9a41b7a7754eb4e26496c92df"
++SRC_URI[regex-syntax-0.8.4.sha256sum] = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
++SRC_URI[rfc6979-0.4.0.sha256sum] = "f8dd2a808d456c4a54e300a23e9f5a67e122c3024119acbfd73e3bf664491cb2"
++SRC_URI[ripemd-0.1.3.sha256sum] = "bd124222d17ad93a644ed9d011a40f4fb64aa54275c08cc216524a9ea82fb09f"
++SRC_URI[rsa-0.9.6.sha256sum] = "5d0e5124fcb30e76a7e79bfee683a2746db83784b86289f6251b54b7950a0dfc"
++SRC_URI[rustc-hash-1.1.0.sha256sum] = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
++SRC_URI[rustc_version-0.4.0.sha256sum] = "bfa0f585226d2e68097d4f95d113b15b83a82e819ab25717ec0590d9584ef366"
++SRC_URI[rustix-0.38.34.sha256sum] = "70dc5ec042f7a43c4a73241207cecc9873a06d45debb38b329f8541d85c2730f"
++SRC_URI[rustversion-1.0.17.sha256sum] = "955d28af4278de8121b7ebeb796b6a45735dc01436d898801014aced2773a3d6"
++SRC_URI[same-file-1.0.6.sha256sum] = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
++SRC_URI[scopeguard-1.2.0.sha256sum] = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
++SRC_URI[sec1-0.7.3.sha256sum] = "d3e97a565f76233a6003f9f5c54be1d9c5bdfa3eccfb189469f11ec4901c47dc"
++SRC_URI[semver-1.0.23.sha256sum] = "61697e0a1c7e512e84a621326239844a24d8207b4669b41bc18b32ea5cbf988b"
++SRC_URI[sequoia-openpgp-1.21.1.sha256sum] = "b870b0275eeae174058fcf0ce5affccaaafeb7eceeabce8d6c7f51fbe6a41e2a"
++SRC_URI[sequoia-policy-config-0.6.0.sha256sum] = "757d45d308f2bd9c0d6fdd640f320998ad24856bdf2890ddd28d3c3b85808274"
++SRC_URI[serde-1.0.204.sha256sum] = "bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12"
++SRC_URI[serde_derive-1.0.204.sha256sum] = "e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222"
++SRC_URI[sha1collisiondetection-0.3.4.sha256sum] = "1f606421e4a6012877e893c399822a4ed4b089164c5969424e1b9d1e66e6964b"
++SRC_URI[sha2-0.10.8.sha256sum] = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
++SRC_URI[shlex-1.3.0.sha256sum] = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
++SRC_URI[signature-2.2.0.sha256sum] = "77549399552de45a898a580c1b41d445bf730df867cc44e6c0233bbc4b8329de"
++SRC_URI[siphasher-0.3.11.sha256sum] = "38b58827f4464d87d377d175e90bf58eb00fd8716ff0a62f80356b5e61555d0d"
++SRC_URI[smallvec-1.13.2.sha256sum] = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
++SRC_URI[spin-0.9.8.sha256sum] = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
++SRC_URI[spki-0.7.3.sha256sum] = "d91ed6c858b01f942cd56b37a94b3e0a1798290327d1236e4d9cf4eaca44d29d"
++SRC_URI[stable_deref_trait-1.2.0.sha256sum] = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
++SRC_URI[string_cache-0.8.7.sha256sum] = "f91138e76242f575eb1d3b38b4f1362f10d3a43f47d182a5b359af488a02293b"
++SRC_URI[subtle-2.6.1.sha256sum] = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
++SRC_URI[syn-2.0.70.sha256sum] = "2f0209b68b3613b093e0ec905354eccaedcfe83b8cb37cbdeae64026c3064c16"
++SRC_URI[synstructure-0.13.1.sha256sum] = "c8af7666ab7b6390ab78131fb5b0fce11d6b7a6951602017c35fa82800708971"
++SRC_URI[tempfile-3.10.1.sha256sum] = "85b77fafb263dd9d05cbeac119526425676db3784113aa9295c88498cbf8bff1"
++SRC_URI[term-0.7.0.sha256sum] = "c59df8ac95d96ff9bede18eb7300b0fda5e5d8d90960e76f8e14ae765eedbf1f"
++SRC_URI[termtree-0.4.1.sha256sum] = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
++SRC_URI[thiserror-1.0.61.sha256sum] = "c546c80d6be4bc6a00c0f01730c08df82eaa7a7a61f11d656526506112cc1709"
++SRC_URI[thiserror-impl-1.0.61.sha256sum] = "46c3384250002a6d5af4d114f2845d37b57521033f30d5c3f46c4d70e1197533"
++SRC_URI[tiny-keccak-2.0.2.sha256sum] = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
++SRC_URI[tinystr-0.7.6.sha256sum] = "9117f5d4db391c1cf6927e7bea3db74b9a1c1add8f7eda9ffd5364f40f57b82f"
++SRC_URI[toml-0.5.11.sha256sum] = "f4f7f0dd8d50a853a531c426359045b1998f04219d88799810762cd4ad314234"
++SRC_URI[twofish-0.7.1.sha256sum] = "a78e83a30223c757c3947cd144a31014ff04298d8719ae10d03c31c0448c8013"
++SRC_URI[typenum-1.17.0.sha256sum] = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
++SRC_URI[unicode-ident-1.0.12.sha256sum] = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
++SRC_URI[unicode-xid-0.2.4.sha256sum] = "f962df74c8c05a667b5ee8bcf162993134c104e96440b663c8daa176dc772d8c"
++SRC_URI[universal-hash-0.5.1.sha256sum] = "fc1de2c688dc15305988b563c3854064043356019f97a4b46276fe734c4f07ea"
++SRC_URI[utf16_iter-1.0.5.sha256sum] = "c8232dd3cdaed5356e0f716d285e4b40b932ac434100fe9b7e0e8e935b9e6246"
++SRC_URI[utf8_iter-1.0.4.sha256sum] = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
++SRC_URI[vcpkg-0.2.15.sha256sum] = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
++SRC_URI[version_check-0.9.4.sha256sum] = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
++SRC_URI[wait-timeout-0.2.0.sha256sum] = "9f200f5b12eb75f8c1ed65abd4b2db8a6e1b138a20de009dacee265a2498f3f6"
++SRC_URI[walkdir-2.5.0.sha256sum] = "29790946404f91d9c5d06f9874efddea1dc06c5efe94541a7d6863108e3a5e4b"
++SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
++SRC_URI[wasm-bindgen-0.2.92.sha256sum] = "4be2531df63900aeb2bca0daaaddec08491ee64ceecbee5076636a3b026795a8"
++SRC_URI[wasm-bindgen-backend-0.2.92.sha256sum] = "614d787b966d3989fa7bb98a654e369c762374fd3213d212cfc0251257e747da"
++SRC_URI[wasm-bindgen-macro-0.2.92.sha256sum] = "a1f8823de937b71b9460c0c34e25f3da88250760bec0ebac694b49997550d726"
++SRC_URI[wasm-bindgen-macro-support-0.2.92.sha256sum] = "e94f17b526d0a461a191c78ea52bbce64071ed5c04c9ffe424dcb38f74171bb7"
++SRC_URI[wasm-bindgen-shared-0.2.92.sha256sum] = "af190c94f2773fdb3729c55b007a722abb5384da03bc0986df4c289bf5567e96"
++SRC_URI[win-crypto-ng-0.5.1.sha256sum] = "99abfb435a71e54ab2971d8d8c32f1a7e006cdbf527f71743b1d45b93517bb92"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-util-0.1.8.sha256sum] = "4d4cc384e1e73b93bafa6fb4f1df8c41695c8a91cf9c4c64358067d15a7b6c6b"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
++SRC_URI[windows-core-0.52.0.sha256sum] = "33ab640c8d7e35bf8ba19b884ba838ceb4fba93a4e8c65a9059d08afcfc683d9"
++SRC_URI[windows-sys-0.52.0.sha256sum] = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
++SRC_URI[windows-targets-0.52.6.sha256sum] = "9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973"
++SRC_URI[windows_aarch64_gnullvm-0.52.6.sha256sum] = "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3"
++SRC_URI[windows_aarch64_msvc-0.52.6.sha256sum] = "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469"
++SRC_URI[windows_i686_gnu-0.52.6.sha256sum] = "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b"
++SRC_URI[windows_i686_gnullvm-0.52.6.sha256sum] = "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66"
++SRC_URI[windows_i686_msvc-0.52.6.sha256sum] = "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66"
++SRC_URI[windows_x86_64_gnu-0.52.6.sha256sum] = "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78"
++SRC_URI[windows_x86_64_gnullvm-0.52.6.sha256sum] = "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d"
++SRC_URI[windows_x86_64_msvc-0.52.6.sha256sum] = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
++SRC_URI[write16-1.0.0.sha256sum] = "d1890f4022759daae28ed4fe62859b1236caebfc61ede2f63ed4e695f3f6d936"
++SRC_URI[writeable-0.5.5.sha256sum] = "1e9df38ee2d2c3c5948ea468a8406ff0db0b29ae1ffde1bcf20ef305bcc95c51"
++SRC_URI[x25519-dalek-2.0.1.sha256sum] = "c7e468321c81fb07fa7f4c636c3972b9100f0346e5b6a9f2bd0603a52f7ed277"
++SRC_URI[xxhash-rust-0.8.11.sha256sum] = "63658493314859b4dfdf3fb8c1defd61587839def09582db50b8a4e93afca6bb"
++SRC_URI[yoke-0.7.4.sha256sum] = "6c5b1314b079b0930c31e3af543d8ee1757b1951ae1e1565ec704403a7240ca5"
++SRC_URI[yoke-derive-0.7.4.sha256sum] = "28cc31741b18cb6f1d5ff12f5b7523e3d6eb0852bbbad19d73905511d9849b95"
++SRC_URI[zerofrom-0.1.4.sha256sum] = "91ec111ce797d0e0784a1116d0ddcdbea84322cd79e5d5ad173daeba4f93ab55"
++SRC_URI[zerofrom-derive-0.1.4.sha256sum] = "0ea7b4a3637ea8669cedf0f1fd5c286a17f3de97b8dd5a70a6c167a1730e63a5"
++SRC_URI[zeroize-1.8.1.sha256sum] = "ced3678a2879b30306d323f4542626697a464a97c0a07c9aebf7ebca65cd4dde"
++SRC_URI[zeroize_derive-1.4.2.sha256sum] = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
++SRC_URI[zerovec-0.10.4.sha256sum] = "aa2b893d79df23bfb12d5461018d408ea19dfafe76c2c7ef6d4eba614f8ff079"
++SRC_URI[zerovec-derive-0.10.3.sha256sum] = "6eafa6dfb17584ea3e2bd6e76e0cc15ad7af12b09abdd1ca55961bed9b1063c6"
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
+new file mode 100644
+index 0000000000..57062b100a
+--- /dev/null
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
+@@ -0,0 +1,60 @@
++SUMMARY = "An OpenPGP backend for rpm using Sequoia PGP"
++HOMEPAGE = "https://sequoia-pgp.org/"
++
++# The license line is taken verbatim from Fedora's specfile
++# with formatting differences for Yocto. (AND -> &, OR -> |)
++# https://src.fedoraproject.org/rpms/rust-rpm-sequoia/blob/rawhide/f/rust-rpm-sequoia.spec
++LICENSE = "LGPL-2.0-or-later & Apache-2.0 & BSL-1.0 & MIT & Unicode-DFS-2016 & (Apache-2.0 | MIT) & (MIT | Apache-2.0 | Zlib) & (Unlicense | MIT)"
++
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ff5ff7747cf7d394079c6ae87f5f0c"
++
++DEPENDS = "openssl"
++
++inherit pkgconfig rust cargo cargo-update-recipe-crates
++
++SRC_URI = "git://github.com/rpm-software-management/rpm-sequoia.git;protocol=https;branch=main"
++
++SRCREV = "0667e04ae7fb8cf0490919978d69883d16400e41"
++
++S = "${UNPACKDIR}/git"
++
++require ${BPN}-crates.inc
++
++CARGO_BUILD_FLAGS += "--no-default-features --features crypto-openssl"
++CARGO_INSTALL_LIBRARIES = "1"
++
++do_compile:prepend () {
++	# rpm-sequoia.pc is generated in the source directory
++	# but the target directory does not exist there.
++	mkdir -p ${S}/target/release
++
++	# From rpm-sequoia's README.md:
++	#
++	# We also set two environment variables when calling `cargo build`:
++	# * `PREFIX` is the prefix that will be used in the generated
++	#   `rpm-sequoia.pc` file. It defaults to `/usr/local`.
++	# * `LIBDIR` is the installed library path listed in the generated
++	#   metadata. It can be an absolute path or one based on `${prefix}`,
++	#   and defaults to `${prefix}/lib`.
++
++	export PREFIX="${prefix}"
++	export LIBDIR="${libdir}"
++}
++
++do_install:append () {
++	# Move the library to the correct location expected by rpm-sequoia.pc
++	mkdir -p ${D}${libdir}
++	mv ${D}${rustlibdir}/librpm_sequoia.so ${D}${libdir}/librpm_sequoia.so.1
++	ln -s librpm_sequoia.so.1 ${D}${libdir}/librpm_sequoia.so
++
++	rmdir -p --ignore-fail-on-non-empty ${D}${rustlibdir}
++
++	# rpm-sequoia does not install its pkgconfig file. Do it manually.
++	mkdir -p ${D}${libdir}/pkgconfig
++	install -m644 ${S}/target/release/rpm-sequoia.pc ${D}${libdir}/pkgconfig
++}
++
++RDEPENDS:${PN} = "rpm-sequoia-crypto-policy"
++PACKAGE_WRITE_DEPS += "rpm-sequoia-crypto-policy-native"
++
++BBCLASSEXTEND = "native"
+-- 
+2.48.1
 
---_000_DM8PR11MB560547857FB5481F768F36C0EDF62DM8PR11MB5605namp_--
 
