@@ -1,116 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E315C02194
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 12:53:55 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web11.40129.1738846430426239042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AC1C02194
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 13:02:25 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.40154.1738846939074108262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 04:53:50 -0800
+ Thu, 06 Feb 2025 05:02:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aMNYA1DN;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6dd049b5428so6431336d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 04:53:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738846429; x=1739451229; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+G5WZfZMj73qA+ZA4VueqqDtSXEisLAeG1iSZdPVp0=;
-        b=aMNYA1DNGFtAs0IEC0Xw29g6Opa7+h3I3dGMu0iMTLFcFU124y2jclbL1JRwnde8qu
-         FHrESNU99kELiqVJxFXmkN6D5N1gor+MwyRmrcGloFUrMYuuwbyIjVsNIT1+1w/iworO
-         TTaAtNZew9T6/p3zz9JSGi+jMTxnfbBjUL+HOaJ+DWSDeCvNncMQZEyrLJRIitPjE8Xj
-         wUcSyHuN7WPG5VU+fU+cRuPUQoymnotUW2t1uF05R/O/WPuVO13Z1OCm9znVZk2ccvnk
-         jI4U9HJjUU62VTJScRGfxZ3pRE9ld29WnY0c5XfAdBn2mTOr/b3S5GQVAstm6PP2vz69
-         CveQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738846429; x=1739451229;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W+G5WZfZMj73qA+ZA4VueqqDtSXEisLAeG1iSZdPVp0=;
-        b=lNDtuTn6dnQu09OMOFhOlF2Pg2Vwlvj3Xm8ea8VN286HG1pxJlXmaDnBhniaJabd2i
-         RtaFf97Iskfy1VRAyJydZk2cs+pfNNUU5sVVwo5k2k5Vtr/PRMOHd0zIn4Z8/EEGfqTo
-         nymE+oKSE2nIGs7gRJjpjNQEH8BMCUGoyqKshDUcFmMBYhggs5G+FfBoSe77YZ5KlXik
-         skSibxyaJhflGO1z/a7RQPXl+n/Hf6Zg1XAsiCbd1fg/mCndOnQZ1/QwdxgDcKL9n8GG
-         omsC/ftq/X8QgiAldQKfZDprX+r/9ya8zmFFj1x2iTb75m13RMUP/8foEB2Xb6Brh2xf
-         JJBQ==
-X-Gm-Message-State: AOJu0Yz03Yl7DYHOlBIVxdXG0LQP5LFnmLZMDRUHXgmgkeejgCTxVZCP
-	CulAAglz5wDGdzo5m5+HjrE5Zuuh8i0KrL9yEraUvjcjzBwxvBfjWt3aSQBvwnAPpqlI25V/6y5
-	DgoHQNRhXYWIsnzF/c/IU3LKV4D4=
-X-Gm-Gg: ASbGnctcVBiAkwJqRyV6uw1F/3Y9CuPy/nlqXzBKcFyJPUCYSxP7r5TVNW6sY7oNLDn
-	DGS2lVAgsEFSyvGTXEuG7tQUV6Ust6NaoOWYZtkLhKik9FVWhrphGIE8VfwQXOo5lLK74RKDrc8
-	BFm7/Jd8Y6YILHlDdTPFzIrGR0NGAur1o=
-X-Google-Smtp-Source: AGHT+IGFoGXmB4RaJmytlyrav+gapDYF5HcBXOjn326KBrdjJYNh/oiNBs7pyWH3iy2GY7ayKC2QVhFWVtfXvLPjds0=
-X-Received: by 2002:a05:6214:4a05:b0:6dc:d101:2baf with SMTP id
- 6a1803df08f44-6e42fb95c61mr96730626d6.17.1738846429338; Thu, 06 Feb 2025
- 04:53:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20250206124941.342980-1-pascal.weisser.ext@karlstorz.com> <20250206124941.342980-2-pascal.weisser.ext@karlstorz.com>
-In-Reply-To: <20250206124941.342980-2-pascal.weisser.ext@karlstorz.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 6 Feb 2025 13:53:37 +0100
-X-Gm-Features: AWEUYZmPj0ydGynmn5Q0PhpgEGbBlrZCP8twj6lkRmRiuSqeyqyXSNe3Gi8s85c
-Message-ID: <CANNYZj8xHUcyrcRk6XMu0nYw0YC3tVbtHFpSsHRqjbz_suqHxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] bitbake.conf: Add weak default value for IMAGE_ROOTFS_MAXSIZE
-To: Pascal.Weisser.ext@karlstorz.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gtUbAfxF;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=p7VE3EX0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010194db5aa432-ccf21179-0c2b-4a02-8544-99c6633dd2f5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738846938; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=rDmDO69+YkpEnPyYpxJc/s87slzZbb/RYj2+9/3AVsw=;
+	b=gtUbAfxFsOP1r8EIfcAN0Gv0CetfMvHQcTmFyK23t1UetJ9wp0luV6k9pBkuJaDk
+	CA9FhIh+8vnPscoBiwAAF8y+s56QZ7iVguGweaeugV++Rh6mEktQtg8+6RjfIe2w9w7
+	p87oBobyXmf3w4g6bTFuvSvCdKl+ObzZNaIhdm4s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738846938;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=rDmDO69+YkpEnPyYpxJc/s87slzZbb/RYj2+9/3AVsw=;
+	b=p7VE3EX0B+6ph+gEdnH5+0UNyl1rvET+N0o1fTRJPY61ysIvQDGb4AysURG382SJ
+	NRKazc8CUScvTP3w0RlLjqy9fSexBei9ozMclwbFTF8pzDz5tCBHDsOq4LGEgWwftPR
+	EeHdJ3rDoJAP0nF0K8G/avAk3ym+o63rt62q+s30=
+From: patchtest@automation.yoctoproject.org
+To: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] documentation.conf: Add description for
+ IMAGE_ROOTFS_MAXSIZE variable
+In-Reply-To: <20250206124941.342980-3-pascal.weisser.ext@karlstorz.com>
+References: <20250206124941.342980-3-pascal.weisser.ext@karlstorz.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194db5aa432-ccf21179-0c2b-4a02-8544-99c6633dd2f5-000000@us-west-2.amazonses.com>
+Date: Thu, 6 Feb 2025 13:02:18 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.06-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 12:53:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210933
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 13:02:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210934
 
-I'm sorry, but we do not endorse that linter, and do not accommodate
-its (sometimes strange) demands. You need to fix the linter, not
-oe-core.
+--NextPart
+Content-Type: text/plain
 
-Alex
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-On Thu, 6 Feb 2025 at 13:50, Weisser, Pascal.ext via
-lists.openembedded.org
-<Pascal.Weisser.ext=karlstorz.com@lists.openembedded.org> wrote:
->
-> This would help the recipe linter oelint-adv from meta-sca layer to add
-> the variable IMAGE_ROOTFS_MAXSIZE to the list of known variables.
->
-> See https://github.com/priv-kweihmann/oelint-adv/issues/695By for details.
->
-> Setting the weak default value to the empty string actually imposes no
-> limit on the image size per default.
->
-> Signed-off-by: Weisser, Pascal <pascal.weisser.ext@karlstorz.com>
-> ---
->  meta/conf/bitbake.conf | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 8b607088c6..0a9e27a27f 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -866,6 +866,10 @@ MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
->  # and no effect if less than it.
->  IMAGE_ROOTFS_SIZE ??= "65536"
->
-> +# The maximum size in Kbytes for the generated image.
-> +# Per default no limit is imposed.
-> +IMAGE_ROOTFS_MAXSIZE ??= ""
-> +
->  # Forcefully set CACHE now so future changes to things like
->  # MACHINE don't change the path to the cache
->  CACHE := "${CACHE}"
-> --
-> 2.48.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#210931): https://lists.openembedded.org/g/openembedded-core/message/210931
-> Mute This Topic: https://lists.openembedded.org/mt/111030916/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+---
+Testing patch /home/patchtest/share/mboxes/2-2-documentation.conf-Add-description-for-IMAGE_ROOTFS_MAXSIZE-variable.patch
+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
