@@ -1,262 +1,154 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <oobitots@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C87EDC02194
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 14:49:15 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.42780.1738853354773710070
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AD4C02194
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 14:49:25 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.web10.42781.1738853356422626473
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 06:49:15 -0800
+ Thu, 06 Feb 2025 06:49:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CXWCh8sH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38daf14018eso744336f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 06:49:14 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=crsnWH4C;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: oobitots@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738853353; x=1739458153; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oQ3XIeCBYQMmZX4mcH/tsdHjfkzGGdnXiKU6nUCYPro=;
-        b=CXWCh8sHmIBMdVOZGq28QrFa/qCDOfzG/BlGzzvtwW9tyxPK72eazG2u2jjMI96PaF
-         hLhfnH36Gypqd+c3QM4Dnn/Qq9MOva8G1Z1ZksjKn+kDD2cpMjsFkpwv3ZieiFZLGBdP
-         OJGuoOQYg6W4shtpS4TKXRYFPlGmAr0SrYP1g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738853353; x=1739458153;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oQ3XIeCBYQMmZX4mcH/tsdHjfkzGGdnXiKU6nUCYPro=;
-        b=GQzv7KhtiUZnU4eo8V1MUlsHc/aheuZ0YZrfLGlpxzeqjOQUpjdCdfl2ISvdsYJPTn
-         ii7jew9nbpAilogKVWNPyaIONwO59sPrVu6+f44BmBLZGDbbaFsRaq8aBiNFhK4NUtlz
-         AAjoia+ytO0LVJ53ScVIhen4pzxiQBn2vfFqe5P/V8jiSyZ8b2yH/RMqe0/2MFME0xQn
-         gjY48sbhzLjq3F/6sN/MUYe2YmB0o7Wiz3J1LyMoAJnxGCEa1sWcNWTRDoKzUvSY1bmB
-         8nldfP9RdgDJAqEuulihI3pjWwHCwpz5shO4N5/efa5pZOJFOJ4OHBm6ZkPm6ocGnLCE
-         itZA==
-X-Gm-Message-State: AOJu0YwPKNKch2SIMeb5mYDIGNOS3YdGZGOgSu9tRN2i6LYo09pS2Dod
-	xbYFw+I+N2tIvlNHHc8VaRDZbaAPikh/bUJccNCGQvnLtDYZVv0LH6t18tCmY6FWjcpzB+GSOk8
-	F
-X-Gm-Gg: ASbGncsfsuKrv45KCmkpW1+s7Fw79RrFFyzHeAirnpeGNK1WaFNh7VHB7H6xhBnTq0f
-	HM9QRiLGV6aBBqMBCVftKddq7eBoHEkaZJpL23gAPqDEGPh9368IW/YEu8DBPrNdc+5YXjTT5RT
-	00Uqslbc4e69/g8SO4kHfOlu8qJ09O4IF1+4ii7roYf3krunk07k5aYW6w3YvJ6BVJU92QzR5uV
-	1ZwWPwCWsaeoQYq8Awi13Oi4Q2u2DMxgV2A70rYGHOq5CaK/dZoX5WVfsZFwkg8nPtfIXBKN18G
-	C8uQ3Zc1IRGPCtwF2cwd5fZlCcUxDe8D1ohf+roq9NYi
-X-Google-Smtp-Source: AGHT+IHQM+Rbsq01O3wUJtEjU72KLrX6EQD8nGqwebxQvDMBMDpfMzhUZPIcSLL+TP+fruW25+1+7w==
-X-Received: by 2002:a5d:64a1:0:b0:386:42a6:21f2 with SMTP id ffacd0b85a97d-38db48b42d5mr6136536f8f.10.1738853352482;
-        Thu, 06 Feb 2025 06:49:12 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b5a2:dd41:ad93:d97c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390d93374csm59784645e9.8.2025.02.06.06.49.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 06:49:11 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+  d=cisco.com; i=@cisco.com; l=2747; q=dns/txt; s=iport;
+  t=1738853356; x=1740062956;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9V5uQlqEBw9EndXmqjt7om+MfKYTdw3WAUMm1vkfZUs=;
+  b=crsnWH4Cq/mv4FKLStciq1+yhzS2ZS+wkVYWpUeDmWsceKAxRPChbxat
+   4PMdiCV2x+rmKDjCPRulGaggrHlRP4UhFw+asdGnN564U5/mfXc1vH7VP
+   Z/rD7PgnmpO3CaawyuQWcO5ujfU2MPtjKxBXuhYe5IyiIyZNt6jqYIfeX
+   A=;
+X-CSE-ConnectionGUID: jx9VOH+bT/Snrsx9YnPCYw==
+X-CSE-MsgGUID: E5XYYTdcSXikbM+bGbvnsA==
+X-IPAS-Result: =?us-ascii?q?A0ApAAC/yqRn/5X/Ja1aHAECAgEHARQBBAQBggAHAQwBg?=
+ =?us-ascii?q?kp2WkJIjHKVSZIhgSUDVg8BAQEPNQ8EAQGFB4sCAiY0CQ4BAgQBAQEBAwIDA?=
+ =?us-ascii?q?QEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4YIhl02AUaBDESDAgGCZAIBr1uCL?=
+ =?us-ascii?q?IEBhHzZOIFugUgBjUqFZycbgUlEhH2FEIV3BIdeonZIgSEDWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFxAzUMCzAVgUZ7gkdpSToCDQI1gh58giuEWoRDhE2FW4ISgg6IQkADCxgNS?=
+ =?us-ascii?q?BEsNxQbBj5uB51OATyEGIEOAYFGgRELkyezLYQlhG+HKZUuGjOqUQGYfKRIh?=
+ =?us-ascii?q?GaBZzyBWXAVgyIJSRkP2gVDNTwCBwsBAQMJkXoBAQ?=
+IronPort-Data: A9a23:+OwZbq0pvwjzepPrZfbD5YJwkn2cJEfYwER7XKvMYLTBsI5bpzYPm
+ DYfUG3TOfvbYzD3fdlxPYmzpxhV6p7VmoJmTlNv3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmE4E/watANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU4
+ rsen+WFYAX4g2QsbDpEg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGDlFnA6o4uexLRlpI7
+ +cIeQELVjuymLfjqF67YrEEasULNsLnOsYb/3pn1zycVKxgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUiRC/FMEg9/5JYWm+Cih2X4byZwo1OOrq1x6G/WpOB0+OO0bYuMJIDQHq25mG61+
+ 1L3zlj1CSoqNd+V7HmP3XiygPTmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/DQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:37/y1aPVuNKzz8BcTsqjsMiBIKoaSvp037Dk7S9MoHtuA6mlfq
+ +V/cjzuSWYtN9zYgBDpTnjAsm9qBrnnPYfi7X5Vo3NYOCJggeVxflZnOjfK/mKIVyYygabvp
+ 0QF5RDNA==
+X-Talos-CUID: 9a23:7i0YQGOO3UB24e5DWjk2ymk0WcoZNUbb1mzAcn6+MU1YV+jA
+X-Talos-MUID: 9a23:cyzQIwq6LqeAy+9l3tEezxw/BPZZ36ilM3AMkp8j+MOrPzJ2IB7I2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.13,264,1732579200"; 
+   d="scan'208";a="315916423"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Feb 2025 14:49:15 +0000
+Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id A0944180001DC;
+	Thu,  6 Feb 2025 14:49:15 +0000 (GMT)
+Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
+	id 36F0ACBEF83; Thu,  6 Feb 2025 06:49:15 -0800 (PST)
+From: Oleksiy Obitotskyy <oobitots@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] recipes: Drop ld-is-gold support
-Date: Thu,  6 Feb 2025 14:49:11 +0000
-Message-ID: <20250206144911.3776785-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] systemd: move systemctl utility to separate subpackage
+Date: Thu,  6 Feb 2025 14:49:07 +0000
+Message-ID: <20250206144907.1924993-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 14:49:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210940
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 14:49:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210941
 
-Gold hasn't seen development in some time and is being dropped from binutils
-releases. Drop the small number of special cases for it we were carrying.
+Move systemctl into separate subpackage to minimize
+dependencies from core systemd package.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc            |  6 +-----
- meta/recipes-devtools/binutils/binutils.inc   | 20 +------------------
- .../recipes-devtools/rust/libstd-rs_1.81.0.bb |  5 -----
- meta/recipes-devtools/rust/rust_1.81.0.bb     |  5 -----
- meta/recipes-extended/ltp/ltp_20240930.bb     |  9 ++++-----
- meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb  |  4 ----
- meta/recipes-sato/webkit/webkitgtk_2.46.5.bb  |  9 +++------
- .../libunwind/libunwind_1.6.2.bb              |  2 +-
- 8 files changed, 10 insertions(+), 50 deletions(-)
+ meta/recipes-core/systemd/systemd_257.1.bb | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 3270c22e8d4..9464736b841 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -10,7 +10,7 @@ inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kerne
- DEPENDS += "swig-native"
+diff --git a/meta/recipes-core/systemd/systemd_257.1.bb b/meta/recipes-core/systemd/systemd_257.1.bb
+index cdf72a5015..2d4d3e0a7f 100644
+--- a/meta/recipes-core/systemd/systemd_257.1.bb
++++ b/meta/recipes-core/systemd/systemd_257.1.bb
+@@ -429,6 +429,7 @@ PACKAGE_BEFORE_PN = "\
+     ${PN}-mime \
+     ${PN}-networkd \
+     ${PN}-rpm-macros \
++    ${PN}-systemctl \
+     ${PN}-udev-rules \
+     ${PN}-vconsole-setup \
+     ${PN}-zsh-completion \
+@@ -678,13 +679,8 @@ CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
+ "
  
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} V=1'
--EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)} ${DEBUG_PREFIX_MAP}"'
-+EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}"'
- EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
- EXTRA_OEMAKE += 'STAGING_INCDIR=${STAGING_INCDIR_NATIVE} STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
+ FILES:${PN} = " ${base_bindir}/* \
+-                ${base_sbindir}/shutdown \
+-                ${base_sbindir}/halt \
+-                ${base_sbindir}/poweroff \
+-                ${base_sbindir}/runlevel \
+                 ${base_sbindir}/telinit \
+                 ${base_sbindir}/resolvconf \
+-                ${base_sbindir}/reboot \
+                 ${base_sbindir}/init \
+                 ${datadir}/dbus-1/services \
+                 ${datadir}/dbus-1/system-services \
+@@ -749,9 +745,19 @@ FILES:${PN} = " ${base_bindir}/* \
  
-@@ -35,10 +35,6 @@ require u-boot-configure.inc
+ FILES:${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
  
- UBOOT_ARCH_DIR = "${@'arm' if d.getVar('UBOOT_ARCH').startswith('arm') else d.getVar('UBOOT_ARCH')}"
- do_compile () {
--    if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
--        sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
--    fi
--
-     unset LDFLAGS
-     unset CFLAGS
-     unset CPPFLAGS
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 81443105f69..00b13012585 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -56,12 +56,6 @@ GPROFNG_ALTS:x86 = "${GPROFNGS}"
- GPROFNG_ALTS:x86-64 = "${GPROFNGS}"
- GPROFNG_ALTS:aarch64 = "${GPROFNGS}"
++FILES:${PN}-systemctl = " \
++                ${bindir}/systemctl \
++                ${base_sbindir}/shutdown \
++                ${base_sbindir}/halt \
++                ${base_sbindir}/poweroff \
++                ${base_sbindir}/runlevel \
++                ${base_sbindir}/reboot \
++"
++
+ RDEPENDS:${PN} += "kmod dbus util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) systemd-udev-rules util-linux-agetty util-linux-fsck util-linux-swaponoff"
+ RDEPENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+ RDEPENDS:${PN} += "volatile-binds"
++RDEPENDS:${PN} += "${PN}-systemctl"
  
--LDGOLD_ALTS ?= "ld.gold dwp"
--LDGOLD_ALTS:riscv64 = ""
--LDGOLD_ALTS:riscv32 = ""
--LDGOLD_ALTS:loongarch64 = ""
--LDGOLD_ALTS:libc-glibc:mipsarch = ""
--
- USE_ALTERNATIVES_FOR = " \
- 	addr2line \
- 	ar \
-@@ -72,7 +66,6 @@ USE_ALTERNATIVES_FOR = " \
- 	${GPROFNG_ALTS} \
- 	ld \
- 	ld.bfd \
--	${LDGOLD_ALTS} \
- 	nm \
- 	objcopy \
- 	objdump \
-@@ -104,7 +97,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
-                 --disable-libdecnumber \
-                 --disable-readline \
-                 --disable-sim \
--                ${LDGOLD} \
-+                --disable-gold \
-                 ${EXTRA_TARGETS} \
-                 ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
- 
-@@ -112,12 +105,6 @@ EXTRA_TARGETS = ""
- EXTRA_TARGETS:x86-64 = " --enable-targets=x86_64-pe,x86_64-pep "
- EXTRA_TARGETS:class-native = ""
- 
--LDGOLD:class-native = ""
--LDGOLD:class-crosssdk = ""
--LDGOLD:libc-glibc:mipsarch = ""
--LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
--
--
- # This is necessary due to a bug in the binutils Makefiles
- # EXTRA_OEMAKE = "configure-build-libiberty all"
- 
-@@ -204,8 +191,3 @@ inherit update-alternatives
- ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE:${PN}:class-target = "${USE_ALTERNATIVES_FOR}"
--
--python () {
--    if bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', True, False, d) and bb.utils.contains_any('TARGET_ARCH', 'riscv32 riscv64 loongarch64', True, False, d):
--        bb.fatal("Gold linker does not _yet_ support RISC-V and LoongArch architecture please remove ld-is-gold from DISTRO_FEATURES")
--}
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
-index 14161714f2b..06a2889b92c 100644
---- a/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
-+++ b/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
-@@ -48,8 +48,3 @@ do_install () {
+ RRECOMMENDS:${PN} += "${PN}-extra-utils \
+                       udev-hwdb \
+@@ -867,14 +873,15 @@ python do_warn_musl() {
  }
+ addtask warn_musl before do_configure
  
- BBCLASSEXTEND = "nativesdk"
--
--# Since 1.70.0 upgrade this fails to build with gold:
--# http://errors.yoctoproject.org/Errors/Details/708194/
--# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
--LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
-diff --git a/meta/recipes-devtools/rust/rust_1.81.0.bb b/meta/recipes-devtools/rust/rust_1.81.0.bb
-index 1038c275f6d..c4f8ee7108f 100644
---- a/meta/recipes-devtools/rust/rust_1.81.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.81.0.bb
-@@ -377,8 +377,3 @@ RUSTLIB_DEP:class-nativesdk = ""
- INSANE_SKIP:${PN} = "staticdev"
+-ALTERNATIVE:${PN} = "halt reboot shutdown poweroff \
+-                     ${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'runlevel', '', d)} \
++ALTERNATIVE:${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'runlevel', '', d)} \
+                      ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
  
- BBCLASSEXTEND = "native nativesdk"
--
--# Since 1.70.0 upgrade this fails to build with gold:
--# http://errors.yoctoproject.org/Errors/Details/708196/
--# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
--LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
-diff --git a/meta/recipes-extended/ltp/ltp_20240930.bb b/meta/recipes-extended/ltp/ltp_20240930.bb
-index 3fe8772ea71..0760170c7b0 100644
---- a/meta/recipes-extended/ltp/ltp_20240930.bb
-+++ b/meta/recipes-extended/ltp/ltp_20240930.bb
-@@ -36,19 +36,18 @@ S = "${WORKDIR}/git"
+ ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
+ ALTERNATIVE_PRIORITY[resolv-conf] ?= "50"
  
- inherit autotools-brokensep pkgconfig
- 
--# Version 20220527 added KVM test infrastructure which currently fails to build with gold due to
-+# Version 20220527 added KVM test infrastructure which currently fails to build with lld due to
- # SORT_NONE in linker script which isn't supported by gold:
- # https://sourceware.org/bugzilla/show_bug.cgi?id=18097
- # https://github.com/linux-test-project/ltp/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36
--LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
- LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=bfd', '', d)}"
- 
- # After 0002-kvm-use-LD-instead-of-hardcoding-ld.patch
- # https://github.com/linux-test-project/ltp/commit/f94e0ef3b7280f886384703ef9019aaf2f2dfebb
--# it fails with gold also a bit later when trying to use *-payload.bin
-+# it fails with lld also a bit later when trying to use *-payload.bin
- # http://errors.yoctoproject.org/Errors/Details/663094/
--# work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
--KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-gold ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
-+# work around this by forcing .bfd linked in LD when ld-is-lld is in DISTRO_FEATURES
-+KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
-index 1c72d503d3c..c8f226ff3ae 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
-@@ -142,10 +142,6 @@ EXTRA_OECONF:append:powerpc = " --extra-libs=-latomic"
- EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
- EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
- 
--# gold crashes on x86, another solution is to --disable-asm but thats more hacky
--# ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
--
--LDFLAGS:append:x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
- LDFLAGS:append:x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd ', '', d)}"
- 
- EXTRA_OEMAKE = "V=1"
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-index d8b91d66c71..8c6ffdc8a73 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-@@ -118,12 +118,9 @@ EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
- 
--EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
--EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
--
--# JIT and gold linker does not work on RISCV
--EXTRA_OECMAKE:append:riscv32 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
--EXTRA_OECMAKE:append:riscv64 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
-+# JIT does not work on RISCV
-+EXTRA_OECMAKE:append:riscv32 = " -DENABLE_JIT=OFF"
-+EXTRA_OECMAKE:append:riscv64 = " -DENABLE_JIT=OFF"
- 
- # JIT not supported on MIPS either
- EXTRA_OECMAKE:append:mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
-diff --git a/meta/recipes-support/libunwind/libunwind_1.6.2.bb b/meta/recipes-support/libunwind/libunwind_1.6.2.bb
-index c7b1604b611..b2e7ec77190 100644
---- a/meta/recipes-support/libunwind/libunwind_1.6.2.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.6.2.bb
-@@ -30,7 +30,7 @@ EXTRA_OECONF = "--enable-static"
- ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- 
--LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
-+LDFLAGS += "-Wl,-z,relro,-z,now"
- 
- SECURITY_LDFLAGS:append:libc-musl = " -lssp_nonshared"
- CACHED_CONFIGUREVARS:append:libc-musl = " LDFLAGS='${LDFLAGS} -lucontext'"
++ALTERNATIVE:${PN}-systemctl = "halt reboot shutdown poweroff runlevel"
++
+ ALTERNATIVE_TARGET[halt] = "${base_bindir}/systemctl"
+ ALTERNATIVE_LINK_NAME[halt] = "${base_sbindir}/halt"
+ ALTERNATIVE_PRIORITY[halt] ?= "300"
+-- 
+2.44.0
+
 
