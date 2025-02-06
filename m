@@ -2,54 +2,56 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F17F8C02196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9EFC02194
 	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 11:54:04 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.38922.1738842839630350318
+ by mx.groups.io with SMTP id smtpd.web10.38751.1738842841991357097
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 03:53:59 -0800
+ Thu, 06 Feb 2025 03:54:02 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=41326f0d9a=harish.sadineni@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5166YtcP003865
-	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 11:53:58 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516AWXiG025996
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 11:54:01 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8dbjp-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8dbjs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 11:53:58 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 11:54:01 +0000 (GMT)
 Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 516Bkl7s005132
-	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 11:53:58 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8dbjk-1
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 516BoJWR009530
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 11:54:00 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hak8dbjq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Feb 2025 11:53:58 +0000 (GMT)
+	Thu, 06 Feb 2025 11:54:00 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UjnZBUQDcUgev+j4zlhbMSOsb8SxqPg0Evw20BwPdLx9mwGf3WMvmTbi7PdW7IBEBiXnibHdfuPEjXFrqd1wMZPLXWaaeSy5H3xNjG7xGhFrh2QUtCQv62yuiJFdEY3BC9T1hr9BbDmz109IwtvjpNyTAJNEheM2xAdvl8zW+5hX7zJe9B2kj7kewn02ouqUxJN1NqUXbr0c6G7yqvp4KzxEgC6Oh5Ino5rzmXBSat0kW/6oLbwa1YSMQ+cpZOEORgNBMl8os7xp7Yut2wK9kEnAZv0xk086PGhD5jSyRLs4evpu7yfP+M7v7KkPoJzRtebXTkCS47JQUeNs6w+dYg==
+ b=F3sJ6ws3VQZEvvvfTZEBnYIz3O2ivBkyDy84NGzA832UFgWggdQnCEcKc/fdS58g/9eDfFPnq+Ymk90Rx5sFFEkNOqUCN0roszSj8zCLNUnOUy2ZcIodqYla5qWSzm3G7tWWRL6anOHDA13EUUAH3v02YYeO0nQch5jtycwu8KbWU0MkgyBOqG7oRAGnKcRN88RoHtl06m/vDAus235iGogWSFHRuZOi79T4uTEOqk6R5wDCfJc/lnaOD4hYD/qts4cWiPe3G8t/iAK6plQ0ZtbiTjQy5i7keWg0ZRR0++mmHw027CaEWRZQFd532USSppA4AYewxzfQjyUUy8hVSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HTD1oZdkzIw7KtSCqCfWtnUtRarHKW4JasgcJYfsUpc=;
- b=ewUfVhFYBQwRIOURz0yQ+IhzviWAZr1oo5Cx/LH736rys9ZrJpsRIpE5e7v9qDGWxpsm8UY2i/knUA7CzPYjRdYp+t5FIISCkrl/vP1H+nSKwUGXDyC5aXRNov9Xv4InTaRqvux+pgbTjUrO9Bu7hdk9gw24vS1pn2EK8yUIsvh2ORFqsaBzrHRT6LRp3JhrDa0/0THGnIUIaiAdMeWtU9daiHIilVURc3y2ikG66zB3cCj5wmkX2aEulfl2lvf2nF8l0TpTGeo/eZTybsGkdXTjona8VQhWDph0CW2ZjRmlmlwmjPw2QMbk1/9lsUPuMd0IeDjFO27fwj+PeDrKlg==
+ bh=kqZKiIljy5VKoWUic2oA8HnX8l7bOiKtEq7cfE5dP84=;
+ b=joweohCJzNnJ66XXdlx3QuwEJMRgbUG2ANoXRED3tMhx10IC+VDxmn/F9Z4Rjod6/1xTRbzyCawS37YOnCT7EGxWTWTXq7dXicjqIkBqhxqy3FE+LNY3lQqOPTiA6wV+5jkL+T0BxyFXJMEIlukI/lPtoCPNV/E/HYu5qQE+/0AmcBgHJsqSfTs3olmgVscll8y9VpIyLwXqSvdph6juWQclXl4bVoHNnJXcJGxPvs8tqxlOlrBBkTfrkoywgb1dHuIc8PNspw71+FAf7v0wdzJ0rBFaRr3swk2iHDy3bZSpsYPctJWjMCNjTYCXy2hlUPGU5AfO81qcDUlXgRAp9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by CH3PR11MB7938.namprd11.prod.outlook.com (2603:10b6:610:12f::19) with
+ by DS0PR11MB8665.namprd11.prod.outlook.com (2603:10b6:8:1b8::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
- 2025 11:53:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.10; Thu, 6 Feb
+ 2025 11:53:58 +0000
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::f440:269f:9645:29c0%5]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
- 11:53:53 +0000
+ 11:53:58 +0000
 From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, steve@sakoman.com
-Subject: [scarthgap][PATCH 1/3] rust: fix for rust multilib sdk configuration
-Date: Thu,  6 Feb 2025 03:53:17 -0800
-Message-ID: <20250206115319.2604977-1-Harish.Sadineni@windriver.com>
+Subject: [scarthgap][PATCH 3/3] oeqa/sdk/context: fix for gtk3 test failure during do_testsdk
+Date: Thu,  6 Feb 2025 03:53:19 -0800
+Message-ID: <20250206115319.2604977-3-Harish.Sadineni@windriver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250206115319.2604977-1-Harish.Sadineni@windriver.com>
+References: <20250206115319.2604977-1-Harish.Sadineni@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR03CA0056.namprd03.prod.outlook.com
@@ -57,89 +59,89 @@ X-ClientProxiedBy: SJ0PR03CA0056.namprd03.prod.outlook.com
  (2603:10b6:510:e2::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|CH3PR11MB7938:EE_
-X-MS-Office365-Filtering-Correlation-Id: d79b11b6-2341-4217-3386-08dd46a4ed6a
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DS0PR11MB8665:EE_
+X-MS-Office365-Filtering-Correlation-Id: e23371be-0491-40b7-51e3-08dd46a4f0cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
+	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?gGQT1ge7zUGCyWbObej05oxFm91TnrpqClGPe1o3er7cSObaFOEN3QoYj+qL?=
- =?us-ascii?Q?Dcm+8UMHIcPzxrakMTTR0w6aylimeR4BNsM4+jO+cXSrLsvffAdK/oS4BmZv?=
- =?us-ascii?Q?nvOBzUTKh67NzKfdbkcVq4HMRs7mLfHlXKu07GzgcPOKP8/XPOuqQNG0CP5R?=
- =?us-ascii?Q?/pTjwY1lJNJ1SuoCvISGTVqis4Mi7J6tD6AIKwKQq6SpdSnLMWqtdPuAZole?=
- =?us-ascii?Q?OvqfPlB++RHBVUof00dZ3bsYIUdDu3bxSi04PXN1WbSWSs/lTI9vigqIJ5wy?=
- =?us-ascii?Q?thxrb/Ng+u5CeeZAji/Rzr0rYhk9aF53BBN50fQaqomCfq0s3gSt0sy1PeS8?=
- =?us-ascii?Q?i1Z+Uvhia7YODefwo7t/3VQEHmcJ2j5oTxRKkFJdAb8ISCQ6uN7kjpCwYjIY?=
- =?us-ascii?Q?2wD++H0D5i3UUigWYFSP03PP6VMU3G4sFrwjgMmK/6smmmS5MYenLywSrVg0?=
- =?us-ascii?Q?BKglsOBRmBZ9tmVuF/MJGrZF7FlRv/PHjulqyzAWC9QwQsMIIXbDikqr+ArX?=
- =?us-ascii?Q?1hLs/Q0+CkmKCWET5KHEqbJ6PuK8WQeon9lPTbV2eiArfef55MGyZBgNQafK?=
- =?us-ascii?Q?ET/WkybvBxZrR63LTot4axvFMIai94YnPDNm597lwLPGh/AOialYMWMAcwkC?=
- =?us-ascii?Q?RGLQjMJmlU3W2xHurW47hnRntwhJ6alNf4K3eK5e+iVkTmZPepMUBazI/+qk?=
- =?us-ascii?Q?usya0JdwRxV6PzQHplwIZbHnWxSr4sWxYFJnU5lQmpxYe9GkcjdvEsD8IfQ/?=
- =?us-ascii?Q?k4KBtMRFTR0qb6SuT1lV9fUx2hfMSbMvIIRRd/J6PDjOIs8Pkj+8zeXx7SUm?=
- =?us-ascii?Q?sDdlB79nSaePKWmfQV+h2D6t/a549W7/1MVWdKeq7a7OeCcCIFuZFvPcMvsZ?=
- =?us-ascii?Q?3GcOscdbP/r16ulyRFXg12zD77le2YrC9S6b55/wMeSTpbP774LniFx5Q6+I?=
- =?us-ascii?Q?0hGR0NoqVgnVkjl/0jJp7pbWN/5dfRIhEYQX4DU0EV8dXZd5jFo76AamUeTC?=
- =?us-ascii?Q?xWB2AHVfoK4nPEOTha5RtyshKi3O31w3/NOoiETZja8DHX97DEdTFLBi1nP7?=
- =?us-ascii?Q?cFD4bIF11/scUfjPHHtaHAA1G0F+xU1U5kjEMRlXde6BetfCfovty4Fm/UBo?=
- =?us-ascii?Q?JlVKfiWlksQLQk6J94mpIDtvdKKodccJEcFAjVKFHpT7jleWUd7yEfCsgDV5?=
- =?us-ascii?Q?qklQFu0qPin/suYvHJb50taGSA8u3LmFVb3rrY7QP2Jwe0hssma0do1M8ygP?=
- =?us-ascii?Q?EhPSjGhzIhBUhhQzD5bmWIkAunaTlFlplHeN8QtwsTpUIuCfGAfpAe4WgLm1?=
- =?us-ascii?Q?957uc41jlDPGML8yaLB2MqLV/iL5DaDcfCP5W4Ur6kxJq6liySaltXuaMut+?=
- =?us-ascii?Q?a6ZTjdFHX/FJTOSYu0uqEEMWDWeHipr+10L8F826N7qr7HkSaw=3D=3D?=
+	=?us-ascii?Q?1V0x9GpkRLXws0ep4fDmVpsc2jC9sNDGh5EADg9/rwbnTaHH752otAETP6Tx?=
+ =?us-ascii?Q?5qC7+0atVBSPaNdm+TzvgXHwskJ9SRcGYZnKUbNwCkPzFlNIRJKmQzvj3CjY?=
+ =?us-ascii?Q?hMsNQnNKsNUHrHBQn05tHo3FB505uLJN/21CpMqRXCdMSiFQ22qiIDKk42B4?=
+ =?us-ascii?Q?didmdGDgul8zZ1W+A5BKqKMgdOTP4WkE3Ty3dj2JdGc5RpUjug6+iGEnpA+o?=
+ =?us-ascii?Q?fILyQ7xmmE4NAqOZT0DSCozkkoEjD9pFKDSvOml4kJPqYELulvIXKtiN3iV/?=
+ =?us-ascii?Q?vX6EhTMJaOEUFdqRQbASFB7Jo1YYcIxuGax+K28MxsXEibwl5kGuxY5RTMBA?=
+ =?us-ascii?Q?HjLM1zHi0hOFAofKAeFC6BwXsN6h4bvPVNaTbqFsaYtSoXcGR7Mgdh7YfK+V?=
+ =?us-ascii?Q?wJUEdjHmWXCxtLbYU3eGadqh2gNgBV7JD/QuMJ9vtGNP9insIutRYJlve8ig?=
+ =?us-ascii?Q?9AjIvNaPumkI5WoGng3gJJuxq/KIS8bi2FlbE1DrM3twMkY4dpwJ9mhB3i8V?=
+ =?us-ascii?Q?Wvaal0dr8tR9+wkLbsFIE0Nj/pEONF/NdsdxrWhQ7kKmcCzgp+gB28Jwwk1s?=
+ =?us-ascii?Q?QTzOCPhtyC2gkY0cDUsEXNrJK9QH/VaQiU2FS+iFEjw1njLYpgW/gjYMJniY?=
+ =?us-ascii?Q?GIhoz0ZCoDktRSC4RQl0Ndm0hUy5lVDy3eZC/QnbGf3FCMaB1j83VnEHmA1o?=
+ =?us-ascii?Q?DfbrCGLj/Ho6MxXT0uYY0oejlXO14PlO98FLBh7+980dsv8+m/uwDSjXdJYG?=
+ =?us-ascii?Q?A1XSbsSvGxQ2gwOzmM+34bhVNsehuVf2WvUUuFoZ1Z843xIsjR0qZTIfLMpm?=
+ =?us-ascii?Q?bLDhjiUSTL1T8QlJlMWflkhpyLi9eEYJlrHm10E2yGprIx1bNhx0wuFcQWba?=
+ =?us-ascii?Q?Nur1qC+YmNJ2WB+tp2NTr/5KGir31vqnBCSgkypToc0BSX/uEMXKc83rEO+B?=
+ =?us-ascii?Q?83tVAOOGcixVzmhNmLExb+pnXc2wSwRohSJRzmgP0fqQMeZHTZd31Laeu5+o?=
+ =?us-ascii?Q?FdnPLSGvlIXE5VXVXf/W/nekgvVAI710eesz3uzhFPJL3UIXDCHDQmIXFmgS?=
+ =?us-ascii?Q?TbEqjDaVua648puf6ZC08HjZx9mr1LtiZGBlc1xzfmAd7cv5msQVIONXh5C2?=
+ =?us-ascii?Q?VLcOstkjyFfOCsxu4EwqjLbLiEy8Reg3a59vB094rvifMTmo70su75E+0gTs?=
+ =?us-ascii?Q?Ui+vMiLKjwZ+XSo+phOODonsuS6ImMBxsRXiRAgC9VLroxDFnkxDEElmnuCB?=
+ =?us-ascii?Q?QjpvXsOzWx0AQM8C9xoGCSulARB8ekeVU0C9AczrK5liwy2pprCMhyYxODPf?=
+ =?us-ascii?Q?wqOJLXaisy3gST0qJt9qsMhddgSobQthZNuWDTEgfErRC5XQtP70krG62RvK?=
+ =?us-ascii?Q?72CWckJkzSy6Yk0LalBajsCLt0nA?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?DW3koJOQZaOWqvrXDNkySgqMwBh8FWRlUCd+J+43m5tIjZD4bYT1/CAuZfwu?=
- =?us-ascii?Q?mOPni+F24aYsgKMWM1t0QA8L56TW4yGqDQ+Iy8JgKAbJ1InGuZMxCXkYDczv?=
- =?us-ascii?Q?QoHULNHRxIK4tOFiF6EBHNRlCZMJ7z7j3ohFtsoXVIMhLPWqbV2F90Kzifyq?=
- =?us-ascii?Q?19fUMybwhOaZHdZYItee6sE2QJJhvv5mtJWxUXSRG6jvTq11XX7zgpaHI3PP?=
- =?us-ascii?Q?ycPhpwfRe/jwK2OjuxG/ZE+6X4LXQFkiAryq5YAnwKj+xx3QtlyiBXWuFiX0?=
- =?us-ascii?Q?BjeXvsBfHE7Zht5xXZvnU81eF+Ig+ZMRwv9DmvBnkOTy4wKdjC5/Nz8EYkOq?=
- =?us-ascii?Q?msqe4a1JotY5Afjr3gtbFGUsm3+xtLCgNQg5aMbrrFa0ozmlO/BHQ+4JG7go?=
- =?us-ascii?Q?y1ot/qt61j+fgsLg8K1pnmeYhRiSkaBhzFVKubxVpk+JmCy1f3DhpLnMvV6u?=
- =?us-ascii?Q?vijlJXrlAqJvgW6GV6ZBuEa5AYpPiLF54cDhVSJNASXVk8F++BgB3jPbzxiz?=
- =?us-ascii?Q?xWF2VmhZDSdCdy596phNmm7S31If+IgaPsxaDmpjPaa3gJhCWYZg4ey3vUrN?=
- =?us-ascii?Q?u5kejDuvmYYXw6flegq9uQj9OqtY57ankIZfSOpWXUzL/KVpp1ZBDhWNhNzp?=
- =?us-ascii?Q?wbDi2/v9igQd+UWx7/6bxWE0Le36tOJ39pbXOWiDBIlNOjpB5JQXO176uY6P?=
- =?us-ascii?Q?Pz3v+odVI60PywRtOwPKbZjVYtc+F/lmrLBjKfiDBLwGH/diIL5aeQlFmKxG?=
- =?us-ascii?Q?a76SP0dEq2NFj76y4pykgfowXogR3Sd43C81WL8V09kRgDoSn0u3Hb628wa9?=
- =?us-ascii?Q?uexrZXofLimnhVZIhSvYLtkExygiBlyP9PEIMLYWPVLbtaCDm+kpslqEOxah?=
- =?us-ascii?Q?DTWeAFX7WUnAVDjArxnZESH4mQ+kC4+OTIHUm7SjX8Q7plrw7ybTJteyKGnN?=
- =?us-ascii?Q?jZfxzU8MzkjxcWyOa9W+AQAmxa6k3vF5a8ukOhcXWb9IhiNQ6zdek24fBRtl?=
- =?us-ascii?Q?3lMRiucLcAYqmtSC7vKfxDN4686b6hW/hkzyYraQq0WOf2fhQQwhHmE4yeRL?=
- =?us-ascii?Q?SA1xdfg+xZghRwiiee/lZsjgzhNAeeK2L7vYMR/k3ilspmS8VyWUX/X/jjAI?=
- =?us-ascii?Q?e8MOGcQDPcwMUHrpo7zvTeljf+LrtFcCTvGp1ly4X/o3WpaMi82IyzcEkNOR?=
- =?us-ascii?Q?7gFiFZxIjyLoGAlhULRWZM0gb8CclKPylKWahQG8qcM21YjziJ9a7wMlSwXD?=
- =?us-ascii?Q?J82FOqQJd6URNmJ9PkE2krP60s3ErUaBb6+c7xibZiy+EsaYFLP3XgZHJ8+n?=
- =?us-ascii?Q?L+6obJ8OTkqgMI+px8u6UCmDGf+1n8en+w6ZEQl6RT71BWMn82g8bPAS21BX?=
- =?us-ascii?Q?EBYanYIRYUS4v3k4dEh6nIhEV4QMsnQBH+saCM3GPJ5k+wQRlhOL9yZva7Y2?=
- =?us-ascii?Q?V2U/hqAjDzAAPvwaqUeFzRpR6a+Dvp4TRjOhJ5CXCPolOlCiLPuxyJBzTrhJ?=
- =?us-ascii?Q?B78KhILoPdTCAkntl3OsRsoD8jFtMSy+ZoNOWGctXIgxDew8QIDRP8rYjpnW?=
- =?us-ascii?Q?71Xc2MzmWPiC0ZclmmZmQb9rFE0XZeSC3k8WkqbZh9jX15r9UFS+0fotM6Pd?=
- =?us-ascii?Q?QpxohvwhVnUEH3s2BBFNy3M=3D?=
+	=?us-ascii?Q?75VK+VANwP2gESECUZ3RrMxrcn2e3BLZi4CJK0OeAHqt3kI9mLUynjW9+sSL?=
+ =?us-ascii?Q?gcSdjdmrA7p5varIA1fQ+VIO8zZ+Wi019bliuIqh/iQPoPNX/JjqHMWDpr1+?=
+ =?us-ascii?Q?xmMZtZ83y7Gwiru/kx9YMzyFpZFmZr95OGZx0jnz5uVYtmEqON+E7XMoilM+?=
+ =?us-ascii?Q?XCHnE9JnCMRiKcA2DvL3mzEtm0b3xCePvYhW91umgGDs/6Rpdy4GwczY5fLM?=
+ =?us-ascii?Q?o3tLvhRZsRqNsSPWFAR6V2E/vnmlwTwGvR/yrB9FB8DaIhU502BEQtDuozAT?=
+ =?us-ascii?Q?Cs3PwuaO3UTevZuiHd+FPbRxOLsoq/iY6BtzMsoDQGZW7Crkvh4wwH19rnGw?=
+ =?us-ascii?Q?0WM0brcyxgE50NM7AIGZQuBdv3FXoDn6NHG7n8YfjTu1/qILvROp3myCiMXy?=
+ =?us-ascii?Q?B8h4Z5tZCsfw+GojVi0boWwJpVmdLauG5uY2Q+lFDESp02NGoMpFM5FL7K2i?=
+ =?us-ascii?Q?0e5AivpmIzQDaeDiwYMPHQVz2BZLjLsAF4Wxb5IQ0D75aENgViXuopGNbLd7?=
+ =?us-ascii?Q?Xj7TMuRA2sdjdEUgF5NaVTWv/pfxiBL29y/5l2rWk0ip8sDeppnxznZEcHes?=
+ =?us-ascii?Q?ITi6Pl/gXI4uyqJczlYShTXM+5aCSddfG2Sho91YUl/BAUSt7PkTfobuseO9?=
+ =?us-ascii?Q?Rr8meRDVqQ532IqruTM1MJFM9SKnx//SpLZ2CDGppS20OChrf4E4cmbh9G/t?=
+ =?us-ascii?Q?+1Zy9+/RGkyKee6bKIf0NMPQGP8NaVGBFgiI19NA6ZjWWOPUvsVicOfh43Xj?=
+ =?us-ascii?Q?XYVJmZmMjnNHBup2CRD/SwymQi0p6CqIk+c4JvF1UZoJF/06KkY5gYjxtW5O?=
+ =?us-ascii?Q?O2DVDKcUctaWEVB+ydklSNJE5YBa6tWF+MkvK9cgzvuBb6kTjG6VqPm6mhv+?=
+ =?us-ascii?Q?PBzr2baiRRDr3dlU5tJZe3YjVWRwg6Zlw5QWpTocD6gtwoALfH6p1/qU6xl0?=
+ =?us-ascii?Q?fHyw0eXUeSfiK0F+ntdW2cepvD6/5Nnmx4i2MbZi/n/NDnWK6eT+6eWfqQr4?=
+ =?us-ascii?Q?W4dU34OaHCNKoBXeWBwgn/QkTo8KKrDyX+DSP8zFh6t9OXd8bsAuDS2QURgy?=
+ =?us-ascii?Q?1znoxoly+S/gaD8HW7PqcFXexiU6ePGfd9sNYv1KPA6rwCqZvyJ8Ke7yXhmn?=
+ =?us-ascii?Q?pwODfucnLeaZRF44UHlToR5OEM5wo5YZLwCxhp17LihiJtb+tgK4fJCajCff?=
+ =?us-ascii?Q?dVD3ZzbOnVwbjeGv+y9oa+SUIsrVl4PbB4qrUhLoMIg9UGlHs8tSaWyiU+EN?=
+ =?us-ascii?Q?HFDOszLgy35Sn38OitA1E2qrlQjpuhiwdzhIA04lW1FeIrACMrC1kE1l30sr?=
+ =?us-ascii?Q?62COvp7RmNo1JJxa1dY9KWAYLropNGOSpju6nrh78iQ8sXL6vyhIzpt7OPPi?=
+ =?us-ascii?Q?qSM8fbU3fFApsFO0uYVLRNI6irpObMLZPev3TGwTFNnW6rzo8ng1lg0buZBo?=
+ =?us-ascii?Q?qVJyvraPaIWIw8k1zuvU53IdpwhdsfNKi22THHt5p5Rgpv+79kPNbYGwuyWh?=
+ =?us-ascii?Q?PK2OZ6nfNw0lSWGo7mAF4lzFToLzPDhJo9VOD0xUPlRaV5FWhy4GVNjXf2JB?=
+ =?us-ascii?Q?W6y9mwy9zxmcUP5CFA2uotf3nJs3gkjCT+Pz3Nn7ZpK1Tsp0Z2OKJUdfjQD6?=
+ =?us-ascii?Q?iO+H8H8HC1Shg9wLHKL+aKY=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d79b11b6-2341-4217-3386-08dd46a4ed6a
+X-MS-Exchange-CrossTenant-Network-Message-Id: e23371be-0491-40b7-51e3-08dd46a4f0cf
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 11:53:52.9984
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 11:53:58.6378
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c7sT/gS3U/eIQ3xqt7/oYtLfuulfsg3gkmmbWZEtAcrU6EPJibeQ2qdpxBfKnoBSrboD7t2LDFZ3jZ4uWIDK0OUq92JauaNWjDiIChOMXa4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7938
-X-Authority-Analysis: v=2.4 cv=ecXHf6EH c=1 sm=1 tr=0 ts=67a4a2d6 cx=c_pps a=AuG0SFjpmAmqNFFXyzUckA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8
- a=NEAV23lmAAAA:8 a=7mOBRU54AAAA:8 a=t7CeM3EgAAAA:8 a=odh8dF34rSFhGQUbVcYA:9 a=9H3Qd4_ONW2Ztcrla5EB:22 a=wa9RWnbW_A1YIeRBVszw:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 2O5h7pXO-6R-8Gp2neIDxJzlYZ-KPkUF
-X-Proofpoint-GUID: _W9ZEtJQ6XtcNQcN9amWLqnUyF4RZa-P
+X-MS-Exchange-CrossTenant-UserPrincipalName: OIgRyL0qxAvkMipt8zNXXsYJzQk0bnqUHyEKHdJz9N8MA4qsBaFAd0h5h40o/Z4WL95+KDQd9eZ1ZnJaYvrPr5fZeObKwlXjfBS9v6sfUBk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8665
+X-Authority-Analysis: v=2.4 cv=ecXHf6EH c=1 sm=1 tr=0 ts=67a4a2d9 cx=c_pps a=pa2+2WWV+ihErLhOOf7pAQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=6Vxr1PFL7nVDcE-punIA:9 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: CDYheGF3QZiCwTTm8gN1D9VDBcBMesOs
+X-Proofpoint-GUID: a509PiZPU3ME-goDYRbjEzBSrh2K3Xiq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-06_03,2025-02-05_03,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ adultscore=0 malwarescore=0 mlxlogscore=997 priorityscore=1501
  impostorscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 bulkscore=0
  phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
  adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
@@ -148,122 +150,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 11:54:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210925
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210926
 
 From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-YOCTO [#15061]
-The rust sdk installs both 'rust.sh' and 'cargo.sh' for lib32 and lib64 in the same location.
-This causes below error while installing the lib32 & lib64 binaries:
+The do_testsdk for lib32-core-image-sato aborts with below error:
+configure: error: Package requirements (gtk+-3.0) were not met:
+No package 'gtk+-3.0' found
+Consider adjusting the PKG_CONFIG_PATH environment variable if you installed software in a non-standard prefix.
 
-Error: Transaction test error:
-  file /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/environment-setup.d/cargo.sh
-conflicts between attempted installs of rust-cross-canadian-arm-1.67.1-r0.x86_64_nativesdk and
- rust-cross-canadian-aarch64-1.67.1-r0.x86_64_nativesdk
-  file /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/environment-setup.d/rust.sh
-conflicts between attempted installs of rust-cross-canadian-arm-1.67.1-r0.x86_64_nativesdk and
-rust-cross-canadian-aarch64-1.67.1-r0.x86_64_nativesdk
-ERROR: Task (virtual:multilib:lib32:/media/build/poky/meta/recipes-sato/images/core-image-sato.bb:do_populate_sdk)
-failed with exit code '1'
+This causes due to an absolute path name in 'sdk_env', which is now stripped to have only the environment name.
 
-The change includes:
-- Prepending '${RUST_TARGET_SYS}' to 'rust.sh' to differentiate between target systems.
-- Moving the non-target-specific environment variables to 'nativesdk-cargo' and 'nativesdk-rust',
-instead of being managed by the cross-canadian recipe.
-
-Backport from oe-core master: https://git.openembedded.org/openembedded-core/commit/?id=40eb4bfe2f100ba5301046ca25110fcc55a640bb
+Backport from oe-core master: https://git.openembedded.org/openembedded-core/commit/?id=386e4132a9ced75599d92610cf5c0e8fe907c3b6
 
 Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/recipes-devtools/rust/cargo_1.75.0.bb         | 13 +++++++++++++
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 10 +---------
- meta/recipes-devtools/rust/rust_1.75.0.bb          | 12 ++++++++++++
- 3 files changed, 26 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/sdk/context.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/cargo_1.75.0.bb b/meta/recipes-devtools/rust/cargo_1.75.0.bb
-index 50b7e7c7b4..a6d3f1754b 100644
---- a/meta/recipes-devtools/rust/cargo_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.75.0.bb
-@@ -50,8 +50,21 @@ do_install:append:class-nativesdk() {
- 	# sets to libdir but not base_libdir leading to symbol mismatches depending on the
- 	# host OS. Fully set LD_LIBRARY_PATH to contain both to avoid this.
- 	create_wrapper ${D}/${bindir}/cargo LD_LIBRARY_PATH=${libdir}:${base_libdir}
-+	
-+	ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-+	mkdir "${ENV_SETUP_DIR}"
-+	CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
-+	
-+	cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
-+	# Keep the below off as long as HTTP/2 is disabled.
-+	export CARGO_HTTP_MULTIPLEXING=false
-+	
-+	export CARGO_HTTP_CAINFO="\$OECORE_NATIVE_SYSROOT/etc/ssl/certs/ca-certificates.crt"
-+	EOF
- }
+diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
+index 01c38c24e6..77e6a98f39 100644
+--- a/meta/lib/oeqa/sdk/context.py
++++ b/meta/lib/oeqa/sdk/context.py
+@@ -41,11 +41,13 @@ class OESDKTestContext(OETestContext):
  
-+FILES:${PN} += "${base_prefix}/environment-setup.d"
-+
- # Disabled due to incompatibility with libgit2 0.28.x (https://github.com/rust-lang/git2-rs/issues/458, https://bugs.gentoo.org/707746#c1)
- # as shipped by Yocto Dunfell.
- # According to https://github.com/rust-lang/git2-rs/issues/458#issuecomment-522567539, there are no compatibility guarantees between
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index 8a51a02293..4e2e051f1d 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -53,15 +53,12 @@ do_install () {
+     def hasTargetPackage(self, pkg, multilib=False, regex=False):
+         if multilib:
+-            # match multilib according to sdk_env
+-            mls = self.td.get('MULTILIB_VARIANTS', '').split()
+-            for ml in mls:
+-                if ('ml'+ml) in self.sdk_env:
+-                    pkg = ml + '-' + pkg
++            stripped_sdk_env = os.path.basename(self.sdk_env)
++            if stripped_sdk_env.startswith('environment-setup-'):
++                # match multilib according to sdk_env
++                mls = self.td.get('MULTILIB_VARIANTS', '').split()
++                for ml in mls:
++                    if ('ml'+ml) in stripped_sdk_env:
++                        pkg = ml + '-' + pkg
+         return self._hasPackage(self.target_pkg_manifest, pkg, regex=regex)
  
-     ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-     mkdir "${ENV_SETUP_DIR}"
--    RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
-+    RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/${RUST_TARGET_SYS}_rust.sh"
- 
-     RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
--    RUST_HOST_TRIPLE=`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
--    SDKLOADER=${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'i686', 'ld-linux.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'aarch64', 'ld-linux-aarch64.so.1', '', d)}${@bb.utils.contains('SDK_ARCH', 'ppc64le', 'ld64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'riscv64', 'ld-linux-riscv64-lp64d.so.1', '', d)}
- 
-     cat <<- EOF > "${RUST_ENV_SETUP_SH}"
- 	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
--	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER="\$OECORE_NATIVE_SYSROOT/lib/${SDKLOADER}"
- 	export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
- 	EOF
- 
-@@ -80,11 +77,6 @@ do_install () {
- 		echo '[target.'${RUST_TARGET_SYS}']' >> "\$CARGO_HOME/config"
- 		echo 'linker = "target-rust-ccld"' >> "\$CARGO_HOME/config"
-     fi
--
--	# Keep the below off as long as HTTP/2 is disabled.
--	export CARGO_HTTP_MULTIPLEXING=false
--
--	export CARGO_HTTP_CAINFO="\$OECORE_NATIVE_SYSROOT/etc/ssl/certs/ca-certificates.crt"
- 	EOF
- }
- 
-diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
-index b041a5f8e4..b9348bf050 100644
---- a/meta/recipes-devtools/rust/rust_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
-@@ -270,8 +270,20 @@ rust_do_install:class-nativesdk() {
-     rm ${D}${libdir}/rustlib/uninstall.sh
-     rm ${D}${libdir}/rustlib/install.log
-     rm ${D}${libdir}/rustlib/manifest*
-+
-+    ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-+    mkdir "${ENV_SETUP_DIR}"
-+    RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
-+    RUST_HOST_TRIPLE=`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-+    SDKLOADER=${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'i686', 'ld-linux.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'aarch64', 'ld-linux-aarch64.so.1', '', d)}${@bb.utils.contains('SDK_ARCH', 'ppc64le', 'ld64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'riscv64', 'ld-linux-riscv64-lp64d.so.1', '', d)}
-+
-+    cat <<- EOF > "${RUST_ENV_SETUP_SH}"
-+	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER="\$OECORE_NATIVE_SYSROOT/lib/${SDKLOADER}"
-+	EOF
- }
- 
-+FILES:${PN} += "${base_prefix}/environment-setup.d"
-+
- EXTRA_TOOLS ?= "cargo-clippy clippy-driver rustfmt"
- rust_do_install:class-target() {
-     export PSEUDO_UNLOAD=1
+ class OESDKTestContextExecutor(OETestContextExecutor):
 -- 
 2.43.0
 
