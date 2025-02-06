@@ -1,108 +1,75 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60655C0219B
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 07:40:13 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.34631.1738827603041686600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E2EC02196
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 08:55:33 +0000 (UTC)
+Received: from mx08-0040c702.pphosted.com (mx08-0040c702.pphosted.com [185.183.31.154])
+ by mx.groups.io with SMTP id smtpd.web11.35590.1738830461624174169
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Feb 2025 23:40:03 -0800
+ Thu, 06 Feb 2025 00:27:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V4yBOnns;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-38da72cc47bso413111f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Feb 2025 23:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738827601; x=1739432401; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4tB19UkTxF3sLcKBmuImmBfhQ3EyNA2ToydicyV8C+g=;
-        b=V4yBOnnsNqEnt0xefSLZ527XitzlgMz/0rACteG7g4hEZbHN4kSJGuK0dRP7vcR3yQ
-         ERPjzOwIqfMQhIo9W0CcF2v/r9JugSC5yFVJk0gkBLh6B1HMcXv55fLzsCzy55ujs3a4
-         HvfCKglvYI5Ga92dbYZAOVZ//tUd+6WKh7ymw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738827601; x=1739432401;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4tB19UkTxF3sLcKBmuImmBfhQ3EyNA2ToydicyV8C+g=;
-        b=vXhj5jT+W+wj3/HjGnUETsx7uqGIUOPHKutYBNalcwSVub/eQBaOkL+YjT9fSLYHIQ
-         FMuIqtaGxfzUV6liHWpmoBnaUDGgWAUgnLQrP30dUv69ivmVOVNBRyPhwpl2SwSdnVzs
-         GvjpTK2R8c9T6KREjm0r94HX7G1vPFRurQh1yI3QAx5wWd0btSSa+pmEquH7+XEYPdRX
-         72RWm0soPZi67jBtXtbuBpn1SHZ9RoCffSuH1lipwBwpeXoitGmMtff8upWwObcmcOzA
-         soPbwU98vEsG6OGkV3MR9p2BHk0HJlEDBdcL2IqAi3DA0SqPqNqsDYRIYAXuMI7Zxm+C
-         AZGw==
-X-Gm-Message-State: AOJu0YzB5sjww50vt905lPvU1BGGxVm92l8/njBKGXHCD4Fu9ZgK4qLd
-	ke0EFrwXd4thFEEhbM1pOcfqdqqUQr+cVRSKPbh2gw0g0Epcjrpn+BdsAvIu59E=
-X-Gm-Gg: ASbGncuF322id0H8amNETzX8KLiMU3yTvQ5yXLBmRBQ+eZbE6WQ2jdr+RTLVGkrpHgq
-	35rTOpRu/CnUWdkSU3l/UKCnWnjy03q4ikoKv3QA7GZpQ9L+S+PSgVJeW+Fb5xHTcatCfZPHb2J
-	tnPu69vSa263I+HVvC1T+qzRaz8JELJqu6tlYYNuXOWpSosNUr1i5h24ECFlU8u9Mm+cSM2VX+V
-	ASuP3l/jxg4o1xEFmp4FkTGX/8R8GYTdgj8SSRU/eHFuyQxrPEiyTk7vAam8J6amus4nrGVW8Vk
-	qp78PrcLn+UeTzmYi2HYplYwsJLPhFX3ctdBnSsn3sqXI2mzb9VojmwYoMVUsDGfeDlpeNbZylY
-	=
-X-Google-Smtp-Source: AGHT+IG4XDJbsdWBE/tA3UJP3/0QGeak7I2UAQpl1Fq+lce5wVfgUo+4VMOp0aqw0AE7DraDhzKClA==
-X-Received: by 2002:a5d:5f55:0:b0:38d:b2e4:6d97 with SMTP id ffacd0b85a97d-38db493efb2mr4788467f8f.41.1738827601362;
-        Wed, 05 Feb 2025 23:40:01 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:96a5:f4:cb3c:d62a? ([2001:8b0:aba:5f3c:96a5:f4:cb3c:d62a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dc9ff10sm10160235e9.12.2025.02.05.23.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 23:39:59 -0800 (PST)
-Message-ID: <b029a8a84294c6cad08dae46a5cfec398bc04a6d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/9] multilib_header.bbclass: need multilib
- headers for nativesdk builds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, "hongxu.jia@eng.windriver.com"
-	 <hongxu.jia@eng.windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 06 Feb 2025 07:39:57 +0000
-In-Reply-To: <3AEDB7FD-6C36-4B80-9E24-0030B4A54E47@arm.com>
-References: <20250121085526.1370937-1-hongxu.jia@windriver.com>
-	 <20250121085526.1370937-2-hongxu.jia@windriver.com>
-	 <3AEDB7FD-6C36-4B80-9E24-0030B4A54E47@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=V/mAtpSN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: karlstorz.com, ip: 185.183.31.154, mailfrom: pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267678.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5168K0YF021548
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 08:27:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=eU7R7
+	OkSKVi91/wgHfhY2xz6tRAfXRLP6ctna/1Yorw=; b=V/mAtpSNc/gE1Lm764k5U
+	snnWur9BpDlUGw757WPLdkWPiKUfWBwo14huTuk9wfNhJ1QtiWZxy5OuJqcq36v6
+	Mxa1Lsrex+VNbg7rwOMa3zZHxMxnyvHbtDNCrdfwU9rPPtkmmVeG4xR5Xl6yrnXy
+	lHyFiaTR4Tm0IfFe/+5WA6nQ94NbHJ89mUD1UkUfDmOt+vqM5qKBIH4pxBGchmz6
+	OF1EagOga4j1/GbU5A1fyqdlImAyMLZpMlpuTrd6QzD0iuYAsyu4mslJUF2h1h03
+	Yst0sa/ylJuqIAi/JDJJ1ENZuVQZ3iHEuyWujHS0RnTSfPHbKtHQauxq5DZdVykh
+	w==
+Received: from tut-ex23-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 44mqcegp3a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 08:27:39 +0000 (GMT)
+Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX23-PV.KSTG.corp
+ (10.0.10.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 6 Feb
+ 2025 09:27:38 +0100
+Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Thu, 6 Feb 2025 09:27:38 +0100
+From: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH 0/2] This patch series improves the kernel-fitimage.bbclass.
+Date: Thu, 6 Feb 2025 09:26:55 +0100
+Message-ID: <20250206082657.209052-1-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+X-Proofpoint-ORIG-GUID: GWd2QNVht5wb3hZY0a_MR93WX_iBduwt
+X-Proofpoint-GUID: GWd2QNVht5wb3hZY0a_MR93WX_iBduwt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-06_01,2025-02-05_03,2024-11-22_01
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 07:40:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210907
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 08:55:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210908
 
-On Wed, 2025-01-29 at 16:58 +0000, Ross Burton via
-lists.openembedded.org wrote:
-> On 21 Jan 2025, at 08:55, hongxu via lists.openembedded.org
-> <hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
-> > The nativesdk multilib support required it to fix multilib headers
-> > conflict
->=20
-> So the context here is that luajit apparently needs to be able to
-> build native code with the same word size as the target.=C2=A0 But this
-> demonstrates nicely that nobody has tried to build a 32-bit luajit on
-> a 64-bit non-x86 machine, for example:
->=20
-> > gcc: error: unrecognized command-line option =E2=80=98-m32=E2=80=99
->=20
-> So if the goal is =E2=80=9Cbuild luajit everywhere=E2=80=9D then this doe=
-sn=E2=80=99t solve
-> that problem.
+First, it takes into account that the initramfs might
+be built with another multiconfig.
 
-I've been giving this a lot of. Part of me does like this solution but
-equally, it is complicating something which is already quite complex
-for a comparatively isolated problem. As Ross mentions, it only fixes
-this for a small subsection there too, it isn't a universal fix.
+Second, an unnecessary dependency is dropped in case the
+initramfs is already bundled into the kernel.
 
-Some of the patches in the series are simple/trivial but others have
-what looks like quite fragile logic (e.g. the libgcc paths).
+Weisser, Pascal (2):
+  kernel-fitImage: Take possible multiconfig into account.
+  kernel-fitImage: Remove dependeny on initramfs image when bundled.
 
-I'm not convinced merging this and trying to support multilib
-nativesdk-gcc is in our best interests unfortunately.
+ meta/classes-recipe/kernel-fitimage.bbclass | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+-- 
+2.48.1
 
 
