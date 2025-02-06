@@ -1,87 +1,96 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Pascal.Weisser.ext@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A49EC02194
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 12:09:15 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.38994.1738843747287490744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424AEC02196
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 12:50:25 +0000 (UTC)
+Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
+ by mx.groups.io with SMTP id smtpd.web11.40003.1738846223678361765
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 04:09:07 -0800
+ Thu, 06 Feb 2025 04:50:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dU4CShpM;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7b6eb531e13so38437585a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 04:09:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738843746; x=1739448546; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcE7kGhatpY672dPoL+9oJBxmnBb2+IY4v+IqerusGI=;
-        b=dU4CShpMUnq2iH4vqHDUpAGWRtTGaAsblS9xDTip+D4fFXCR55u5kY3YRbIhLLXsyx
-         KuLP9WKFZEdkIdSghubH2qBJQrdjH2kpzKX8hTqNu6FDh5EwAg1miM/z9kWQIKFhwtSM
-         oZdsLM9V9OWEHr+5bUU6+9m82Dh91AC1Wg4rA6UUX8BeUk5xZMkFjFoM16L2lQMJzHNg
-         pw/CQuMFGpubiUwZQaNgnAuKn4rQaSZRqnhn2C2OtEOxLyJmq6zABIWwUVrtuAILAGjw
-         4oeFmiL2f5s/uHW/TaSkscNKyyXD2Ys7J5u1ANfwvROdmIxKQ7Xuvfzd69vzYWq5Vf8v
-         3Miw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738843746; x=1739448546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HcE7kGhatpY672dPoL+9oJBxmnBb2+IY4v+IqerusGI=;
-        b=bqSp5BGXdbWXx5yPdclNp9gEKmj/qWZQ6OM1+0WnSLlqTcHBlIDtwYCsCSSgEoOJS/
-         pHizju/nqIF3H1E5ywAcSQ3HdIRBkEtfJFkAAhXiHVcq/LHLCveBH/Tda2Wtl3hOQT1j
-         dM3I+Qt7S3WxsAweS+bYRPsqW4DTGnuKttReIzECYRJagZ8hexR7/g8IJHzzBBuMNrms
-         2I3QJ/Iv+RDcqgE8LCWxBwQ5S5AxbFfW3dVSKMy8S1dFOtbG8uOq5a5TeXt0YyYCt2ke
-         ONoQf181CamjcIf/By8B8n22JKvzp0hod51bGv3PftIPz7cKWq+U7WRazY3WycAoF/Dv
-         uqgg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4lmldykC0vwfBZ5bf1YlsGiqBLQJwJyluHiXS+/w8m2vtX8lLIFj2UydYVrkMrPIef3FiRcqjMdMjokHeXgCz/g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyF21YQuelq1wrS/TA7cqtdAZtxIX85G0zlTrlQTeoMoy+mTsla
-	jfG2EskZPa0T+4WDPucan3jeMmp5vsFFSzGwS193kgjY+b/tjU5UUe3rzMwDmRXrjNv+6g+wBWC
-	1frf71QwqnBmBVd4nmfAMdPLTJ+g=
-X-Gm-Gg: ASbGncsmzxHtSulRiUW+VqFFeLG564sTYs5EQBoXjAzLWBZa9NCLEwO6oQv3YkM5R6G
-	P+Jo4uuP+tMQvit3R646BOh+mZx2ZgmxMsQf3WNKIn3Ws0h8tTyz8/wg2HNJZBPg6pEgk4hGCu2
-	Iexiy+R7t4zNG+IbYqna2khcDM2VQwUUg=
-X-Google-Smtp-Source: AGHT+IHvsXGTCXtAXTMrnt2xHLSAHisFNgmjDYUa4qWaumcgeZNk8ACP8hY8TeDny2B55WWBzjcYWthtGPdDaWG29bI=
-X-Received: by 2002:a05:6214:20a5:b0:6e4:3c52:d684 with SMTP id
- 6a1803df08f44-6e43c52db5cmr21106726d6.19.1738843746270; Thu, 06 Feb 2025
- 04:09:06 -0800 (PST)
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=eFwbtpTw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516BKUN2020693
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Feb 2025 12:50:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	S-DKIM-20210427; bh=QVtGvtMi3KKW9KrzttBO9AkdaOxSh/xtuJa7Vo1QNTM=; b=
+	eFwbtpTwFgtgTmCg9y0G4xkQ6AtjHwhaB3M/mux/vGaDOJHYbj5DSjNBG95cGcwg
+	9SgAuOj7WNH1SUSQpWkVhllixwiEo6j6f6ndVUHG+JiUVzs+g/fOy75sSbzd5Osb
+	BYpGN0WeJYrf0O2P17/oq8XdSr0lsVjYnN+TAWL68/mv4v0J4+uCnFRmugqZIhEd
+	2hzcZyzRr5d5+jabS9ZTnGMIRXZG1OP8KTDy28aiGjBWLVLlEQ5p1g8uV1OK7NAl
+	ssOeg6ev9LKW1f89+7xnNu+QdxzswiulMcHq9fKM9c/Ess/5r59joaqQootU2LEf
+	ZyzB2c3B9X0WsyXuKxa9yA==
+Received: from tut-ex22-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 44mv18rkbv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 12:50:21 +0000 (GMT)
+Received: from TUT-EX20-PV.KSTG.corp (10.0.10.224) by TUT-EX22-PV.KSTG.corp
+ (10.0.10.226) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 6 Feb
+ 2025 13:50:21 +0100
+Received: from TUT-EX22-PV.KSTG.corp (10.0.10.226) by TUT-EX20-PV.KSTG.corp
+ (10.0.10.224) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 6 Feb
+ 2025 13:50:21 +0100
+Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.226) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Thu, 6 Feb 2025 13:50:21 +0100
+From: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH 1/2] bitbake.conf: Add weak default value for IMAGE_ROOTFS_MAXSIZE
+Date: Thu, 6 Feb 2025 13:49:40 +0100
+Message-ID: <20250206124941.342980-2-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250206124941.342980-1-pascal.weisser.ext@karlstorz.com>
+References: <20250206124941.342980-1-pascal.weisser.ext@karlstorz.com>
 MIME-Version: 1.0
-References: <20250206055222.3319167-1-zboszor@gmail.com> <D7LA9XGPGG5H.287DBDA93AM2K@bootlin.com>
- <07b393e5-06c0-45c2-8864-9a9251eef30d@gmail.com> <182198F3C56EC291.752@lists.openembedded.org>
- <CANNYZj_BrS8MMwzqrxehg91SFp6OFHEjOyfzcxdZ4wnH2TV7Vg@mail.gmail.com> <90e2e812-27e3-4828-b6c7-6d374e3cfe34@gmail.com>
-In-Reply-To: <90e2e812-27e3-4828-b6c7-6d374e3cfe34@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 6 Feb 2025 13:08:55 +0100
-X-Gm-Features: AWEUYZlRzJ7WX_KHFsknqDvl_P2HqdN9Z1ivtS4GWYEDamIzG11zncr_b9zOQB4
-Message-ID: <CANNYZj8akDdXKQRqo83z-VxaN=B7Nod74GihYSt8e47+07zatQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v8 1/5] rpm-sequoia-crypto-policy: New recipe
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: zIIAjaZHwtoKBurU06y1MzDUEVqaY7hh
+X-Proofpoint-ORIG-GUID: zIIAjaZHwtoKBurU06y1MzDUEVqaY7hh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-06_03,2025-02-05_03,2024-11-22_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 12:09:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210929
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 12:50:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210931
 
-On Thu, 6 Feb 2025 at 12:49, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
-r@gmail.com> wrote:
-> I patched the Makefile in a way that's already in its mindset.
-> asciidoc can already be overridden, I just made the same with xlstproc.
-> The PR against the upstream sources was created, it's referenced
-> in the patches in the recipe.
->
-> I just sent the v9 series with the two patches, hopefully it will work no=
-w.
+This would help the recipe linter oelint-adv from meta-sca layer to add
+the variable IMAGE_ROOTFS_MAXSIZE to the list of known variables.
 
-Thanks, if there are no further autobuilder fails, then the patchset is fin=
-e.
+See https://github.com/priv-kweihmann/oelint-adv/issues/695By for details.
 
-Alex
+Setting the weak default value to the empty string actually imposes no
+limit on the image size per default.
+
+Signed-off-by: Weisser, Pascal <pascal.weisser.ext@karlstorz.com>
+---
+ meta/conf/bitbake.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8b607088c6..0a9e27a27f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -866,6 +866,10 @@ MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
+ # and no effect if less than it.
+ IMAGE_ROOTFS_SIZE ??= "65536"
+ 
++# The maximum size in Kbytes for the generated image.
++# Per default no limit is imposed.
++IMAGE_ROOTFS_MAXSIZE ??= ""
++
+ # Forcefully set CACHE now so future changes to things like
+ # MACHINE don't change the path to the cache
+ CACHE := "${CACHE}"
+-- 
+2.48.1
+
 
