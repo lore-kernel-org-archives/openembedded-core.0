@@ -1,190 +1,262 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A566EC02196
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 14:44:35 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.42923.1738853067662755841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C87EDC02194
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 14:49:15 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.42780.1738853354773710070
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 06:44:28 -0800
+ Thu, 06 Feb 2025 06:49:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=UJZinSR4;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5440d5aae5cso1098217e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 06:44:27 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CXWCh8sH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38daf14018eso744336f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 06:49:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738853066; x=1739457866; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v3k2E360cSwEGwtHk2vivgdYS88g5eIEgAPvtq9morc=;
-        b=UJZinSR405YVYPHUtqe2Wj4g2ERLw3d/6Ja69RtwHSXmBJ0M90cBn0iX+sIdGTpiJC
-         k6v2s+x2ScJiFmOfM8LMS8UM7JlPxDqoUdDRkagnSYEDEyOUWbmVXX5PneZGJ1Bu8JD7
-         Kdz8myx/w4KgUlqyqY36jp2Uft//F5mpSQuNZDNjhB+C+kLgsBnqvGB0t4oBXe5n2plu
-         O4PoENNFTsMEaO8lThf9m9Jl0epUzhyioZ2q7Rl/bFRrhfxtGHsyR9Wb24wmuS0l39N+
-         OTglyFLvoA03z64QGTDmGo8hX5ydtaeaC3+hebH/CQcIRP8Hrmfp/4fDI235aRVyMzFP
-         aWow==
+        d=linuxfoundation.org; s=google; t=1738853353; x=1739458153; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oQ3XIeCBYQMmZX4mcH/tsdHjfkzGGdnXiKU6nUCYPro=;
+        b=CXWCh8sHmIBMdVOZGq28QrFa/qCDOfzG/BlGzzvtwW9tyxPK72eazG2u2jjMI96PaF
+         hLhfnH36Gypqd+c3QM4Dnn/Qq9MOva8G1Z1ZksjKn+kDD2cpMjsFkpwv3ZieiFZLGBdP
+         OJGuoOQYg6W4shtpS4TKXRYFPlGmAr0SrYP1g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738853066; x=1739457866;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v3k2E360cSwEGwtHk2vivgdYS88g5eIEgAPvtq9morc=;
-        b=nx9IsoZ04y7cud9MHX2IHikyHpnxMX8K89WqnwwXwwfPzTI9KYukWmrbQl91cvK6A8
-         72z3+x6JtS6eeNJo8bCR650s439WwXynXddIRrWBrfzJsv66JxlUVWlbm71y6PWE72GI
-         X8gWG0r+pSSyNCg1RngKr19AEusowwObVpp/VRXI1+E/28kZ+d/3SmMv9aMxSzAebcjT
-         PuGclkXljcsh845zZHpEXqx5S36OGHCCt75exbj8V+XV3Qqh0/nE1G3pJZ8IviOj5elB
-         T7aroXHg8RwHKb5Angp6wP8ZH/s4F0/I5QhgN+1Ggqj5ub2psJxQEKlDVfq2aMWrlX4t
-         0Lag==
-X-Gm-Message-State: AOJu0YxMyfsEJtSdJj/C6Igty2Q+d+WqaV4NeEToL4ip2IV3feZ9dR9M
-	mrLqUaJaAmBHaYrIrR/66rb9/XnnY8nbYUjOICOClJmnLSb2hjKIL2NdUDXqLpMIRVfXFMdCzej
-	YPKI=
-X-Gm-Gg: ASbGncsOfqOwKGn2o2+OxxVphR8uAG0nwe+nQSozY6NV7bvmnW3cJclmMXTE61K8ZiO
-	NOnBYYNHJJSd6zPwS3Y8C9Ch8fwe6PiMgftMCCEzKmA34i25e3rAj49+mQMmVyu8PoP/FwMkMZL
-	FZhup0CpjmGYcjzQEPXZalKryZWHAhIH+K+riyzQ5quRAFGQZn695uqc1gTvmx5EQbITObLML32
-	lU2Yy7MIF+t+ZIhICwKtjTV9QNsPnpsQvbRqsDFTcMXRlPIMJtfJMcr/eGPWMu+T2X0sTRkF+44
-	Ixbs1ABU8Pptk7ThneG0eglTfDKOBTjfKKbceztZetb71FhdASvmmoYPTUD3
-X-Google-Smtp-Source: AGHT+IERrxwf2DNCzpqbtls71TRCy0winpdXF5GRM2YVfyvUct8KHx/NOrq34AlHL6F/IdgA5o4t6A==
-X-Received: by 2002:a05:6512:2343:b0:544:124f:1721 with SMTP id 2adb3069b0e04-544124f1842mr614312e87.6.1738853065750;
-        Thu, 06 Feb 2025 06:44:25 -0800 (PST)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-544106040b4sm147434e87.226.2025.02.06.06.44.22
+        d=1e100.net; s=20230601; t=1738853353; x=1739458153;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oQ3XIeCBYQMmZX4mcH/tsdHjfkzGGdnXiKU6nUCYPro=;
+        b=GQzv7KhtiUZnU4eo8V1MUlsHc/aheuZ0YZrfLGlpxzeqjOQUpjdCdfl2ISvdsYJPTn
+         ii7jew9nbpAilogKVWNPyaIONwO59sPrVu6+f44BmBLZGDbbaFsRaq8aBiNFhK4NUtlz
+         AAjoia+ytO0LVJ53ScVIhen4pzxiQBn2vfFqe5P/V8jiSyZ8b2yH/RMqe0/2MFME0xQn
+         gjY48sbhzLjq3F/6sN/MUYe2YmB0o7Wiz3J1LyMoAJnxGCEa1sWcNWTRDoKzUvSY1bmB
+         8nldfP9RdgDJAqEuulihI3pjWwHCwpz5shO4N5/efa5pZOJFOJ4OHBm6ZkPm6ocGnLCE
+         itZA==
+X-Gm-Message-State: AOJu0YwPKNKch2SIMeb5mYDIGNOS3YdGZGOgSu9tRN2i6LYo09pS2Dod
+	xbYFw+I+N2tIvlNHHc8VaRDZbaAPikh/bUJccNCGQvnLtDYZVv0LH6t18tCmY6FWjcpzB+GSOk8
+	F
+X-Gm-Gg: ASbGncsfsuKrv45KCmkpW1+s7Fw79RrFFyzHeAirnpeGNK1WaFNh7VHB7H6xhBnTq0f
+	HM9QRiLGV6aBBqMBCVftKddq7eBoHEkaZJpL23gAPqDEGPh9368IW/YEu8DBPrNdc+5YXjTT5RT
+	00Uqslbc4e69/g8SO4kHfOlu8qJ09O4IF1+4ii7roYf3krunk07k5aYW6w3YvJ6BVJU92QzR5uV
+	1ZwWPwCWsaeoQYq8Awi13Oi4Q2u2DMxgV2A70rYGHOq5CaK/dZoX5WVfsZFwkg8nPtfIXBKN18G
+	C8uQ3Zc1IRGPCtwF2cwd5fZlCcUxDe8D1ohf+roq9NYi
+X-Google-Smtp-Source: AGHT+IHQM+Rbsq01O3wUJtEjU72KLrX6EQD8nGqwebxQvDMBMDpfMzhUZPIcSLL+TP+fruW25+1+7w==
+X-Received: by 2002:a5d:64a1:0:b0:386:42a6:21f2 with SMTP id ffacd0b85a97d-38db48b42d5mr6136536f8f.10.1738853352482;
+        Thu, 06 Feb 2025 06:49:12 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b5a2:dd41:ad93:d97c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390d93374csm59784645e9.8.2025.02.06.06.49.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 06:44:24 -0800 (PST)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+        Thu, 06 Feb 2025 06:49:11 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: poky@lists.yoctoproject.org,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 2/2] psplash: start via udev if framebuffer device detected
-Date: Thu,  6 Feb 2025 16:44:06 +0200
-Message-ID: <20250206144406.1328276-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.47.1
+Subject: [PATCH] recipes: Drop ld-is-gold support
+Date: Thu,  6 Feb 2025 14:49:11 +0000
+Message-ID: <20250206144911.3776785-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 14:44:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210939
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 14:49:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210940
 
-psplash-start.service expected to find /dev/fb0 and failed
-if device was not found. This failure breaks systemd
-oeqa runtime test with "runqemu nographic". Starting
-psplash based on detected framebuffer device fixes systemd
-boot status and systemd oeqa runtime tests for qemu
-boots with and without graphics support.
+Gold hasn't seen development in some time and is being dropped from binutils
+releases. Drop the small number of special cases for it we were carrying.
 
-Note that psplash-systemd.service still depends on /dev/fb0
-so startup with multiple framebuffer devices may not work
-correctly. I don't have devices with multiple framebuffer
-devices to test with.
-
-On qemu machine with graphics, psplash displays yocto
-logo correctly and boot progress bar as well. Once boot completes
-to systemd "running" state, the logo is replaced by login prompt.
-On qemu machine without graphics, boot completes without psplash
-or failures and login over serial console works normally.
-Tested with genericarm64 machine poky-altcfg distro and core-image-base
-image on qemu. AMD kv260 tested as well but graphics stack is not yet
-working there so boot is similar to qemu without graphics.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/psplash/files/fb.rules                 | 1 +
- .../{psplash-start.service => psplash-start@.service}    | 5 ++---
- meta/recipes-core/psplash/files/psplash-systemd.service  | 8 +++-----
- meta/recipes-core/psplash/psplash_git.bb                 | 9 ++++++---
- 4 files changed, 12 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-core/psplash/files/fb.rules
- rename meta/recipes-core/psplash/files/{psplash-start.service => psplash-start@.service} (84%)
+ meta/recipes-bsp/u-boot/u-boot.inc            |  6 +-----
+ meta/recipes-devtools/binutils/binutils.inc   | 20 +------------------
+ .../recipes-devtools/rust/libstd-rs_1.81.0.bb |  5 -----
+ meta/recipes-devtools/rust/rust_1.81.0.bb     |  5 -----
+ meta/recipes-extended/ltp/ltp_20240930.bb     |  9 ++++-----
+ meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb  |  4 ----
+ meta/recipes-sato/webkit/webkitgtk_2.46.5.bb  |  9 +++------
+ .../libunwind/libunwind_1.6.2.bb              |  2 +-
+ 8 files changed, 10 insertions(+), 50 deletions(-)
 
-diff --git a/meta/recipes-core/psplash/files/fb.rules b/meta/recipes-core/psplash/files/fb.rules
-new file mode 100644
-index 0000000000..accdb8386c
---- /dev/null
-+++ b/meta/recipes-core/psplash/files/fb.rules
-@@ -0,0 +1 @@
-+SUBSYSTEM=="graphics", KERNEL=="fb[0-9]*", TAG+="systemd", ENV{SYSTEMD_WANTS}+="psplash-start@%k.service psplash-systemd.service"
-diff --git a/meta/recipes-core/psplash/files/psplash-start.service b/meta/recipes-core/psplash/files/psplash-start@.service
-similarity index 84%
-rename from meta/recipes-core/psplash/files/psplash-start.service
-rename to meta/recipes-core/psplash/files/psplash-start@.service
-index bec9368427..1bc3642fc2 100644
---- a/meta/recipes-core/psplash/files/psplash-start.service
-+++ b/meta/recipes-core/psplash/files/psplash-start@.service
-@@ -3,11 +3,10 @@ Description=Start psplash boot splash screen
- DefaultDependencies=no
- RequiresMountsFor=/run
- ConditionFileIsExecutable=/usr/bin/psplash
-+After=dev-%i.device
-+Wants=dev-%i.device
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 3270c22e8d4..9464736b841 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -10,7 +10,7 @@ inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kerne
+ DEPENDS += "swig-native"
  
- [Service]
- Type=notify
- ExecStart=/usr/bin/psplash
- RemainAfterExit=yes
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} V=1'
+-EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)} ${DEBUG_PREFIX_MAP}"'
++EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}"'
+ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
+ EXTRA_OEMAKE += 'STAGING_INCDIR=${STAGING_INCDIR_NATIVE} STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
+ 
+@@ -35,10 +35,6 @@ require u-boot-configure.inc
+ 
+ UBOOT_ARCH_DIR = "${@'arm' if d.getVar('UBOOT_ARCH').startswith('arm') else d.getVar('UBOOT_ARCH')}"
+ do_compile () {
+-    if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
+-        sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
+-    fi
 -
--[Install]
--WantedBy=sysinit.target
-diff --git a/meta/recipes-core/psplash/files/psplash-systemd.service b/meta/recipes-core/psplash/files/psplash-systemd.service
-index e93e3deb35..f9aaa2db3d 100644
---- a/meta/recipes-core/psplash/files/psplash-systemd.service
-+++ b/meta/recipes-core/psplash/files/psplash-systemd.service
-@@ -1,14 +1,12 @@
- [Unit]
- Description=Start psplash-systemd progress communication helper
- DefaultDependencies=no
--After=psplash-start.service
--Requires=psplash-start.service
-+After=psplash-start@fb0.service
-+Requires=psplash-start@fb0.service
- RequiresMountsFor=/run
- ConditionFileIsExecutable=/usr/bin/psplash
-+ConditionFileExists=/run/psplash_fifo
+     unset LDFLAGS
+     unset CFLAGS
+     unset CPPFLAGS
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 81443105f69..00b13012585 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -56,12 +56,6 @@ GPROFNG_ALTS:x86 = "${GPROFNGS}"
+ GPROFNG_ALTS:x86-64 = "${GPROFNGS}"
+ GPROFNG_ALTS:aarch64 = "${GPROFNGS}"
  
- [Service]
- ExecStart=/usr/bin/psplash-systemd
- RemainAfterExit=yes
+-LDGOLD_ALTS ?= "ld.gold dwp"
+-LDGOLD_ALTS:riscv64 = ""
+-LDGOLD_ALTS:riscv32 = ""
+-LDGOLD_ALTS:loongarch64 = ""
+-LDGOLD_ALTS:libc-glibc:mipsarch = ""
 -
--[Install]
--WantedBy=sysinit.target
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 30cf61a2cb..fce5995efe 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -11,8 +11,9 @@ PV = "0.1+git"
+ USE_ALTERNATIVES_FOR = " \
+ 	addr2line \
+ 	ar \
+@@ -72,7 +66,6 @@ USE_ALTERNATIVES_FOR = " \
+ 	${GPROFNG_ALTS} \
+ 	ld \
+ 	ld.bfd \
+-	${LDGOLD_ALTS} \
+ 	nm \
+ 	objcopy \
+ 	objdump \
+@@ -104,7 +97,7 @@ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --disable-libdecnumber \
+                 --disable-readline \
+                 --disable-sim \
+-                ${LDGOLD} \
++                --disable-gold \
+                 ${EXTRA_TARGETS} \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
  
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https \
-            file://psplash-init \
--           file://psplash-start.service \
-+           file://psplash-start@.service \
-            file://psplash-systemd.service \
-+           file://fb.rules \
-            ${SPLASH_IMAGES}"
- UPSTREAM_CHECK_COMMITS = "1"
+@@ -112,12 +105,6 @@ EXTRA_TARGETS = ""
+ EXTRA_TARGETS:x86-64 = " --enable-targets=x86_64-pe,x86_64-pep "
+ EXTRA_TARGETS:class-native = ""
  
-@@ -112,8 +113,10 @@ do_install:append() {
+-LDGOLD:class-native = ""
+-LDGOLD:class-crosssdk = ""
+-LDGOLD:libc-glibc:mipsarch = ""
+-LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
+-
+-
+ # This is necessary due to a bug in the binutils Makefiles
+ # EXTRA_OEMAKE = "configure-build-libiberty all"
  
- 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
- 		install -d ${D}${systemd_system_unitdir}
--		install -m 644 ${UNPACKDIR}/psplash-start.service ${D}/${systemd_system_unitdir}
-+		install -m 644 ${UNPACKDIR}/psplash-start@.service ${D}/${systemd_system_unitdir}
- 		install -m 644 ${UNPACKDIR}/psplash-systemd.service ${D}/${systemd_system_unitdir}
-+		install -d ${D}${sysconfdir}/udev/rules.d
-+		install -m 0644 ${UNPACKDIR}/fb.rules ${D}${sysconfdir}/udev/rules.d/
- 	fi
+@@ -204,8 +191,3 @@ inherit update-alternatives
+ ALTERNATIVE_PRIORITY = "100"
  
- 	install -d ${D}${bindir}
-@@ -124,7 +127,7 @@ do_install:append() {
+ ALTERNATIVE:${PN}:class-target = "${USE_ALTERNATIVES_FOR}"
+-
+-python () {
+-    if bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', True, False, d) and bb.utils.contains_any('TARGET_ARCH', 'riscv32 riscv64 loongarch64', True, False, d):
+-        bb.fatal("Gold linker does not _yet_ support RISC-V and LoongArch architecture please remove ld-is-gold from DISTRO_FEATURES")
+-}
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
+index 14161714f2b..06a2889b92c 100644
+--- a/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
++++ b/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb
+@@ -48,8 +48,3 @@ do_install () {
  }
  
- SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
--SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'psplash-start.service psplash-systemd.service', '', d)}"
-+SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'psplash-start@.service psplash-systemd.service', '', d)}"
+ BBCLASSEXTEND = "nativesdk"
+-
+-# Since 1.70.0 upgrade this fails to build with gold:
+-# http://errors.yoctoproject.org/Errors/Details/708194/
+-# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
+-LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
+diff --git a/meta/recipes-devtools/rust/rust_1.81.0.bb b/meta/recipes-devtools/rust/rust_1.81.0.bb
+index 1038c275f6d..c4f8ee7108f 100644
+--- a/meta/recipes-devtools/rust/rust_1.81.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.81.0.bb
+@@ -377,8 +377,3 @@ RUSTLIB_DEP:class-nativesdk = ""
+ INSANE_SKIP:${PN} = "staticdev"
  
- INITSCRIPT_NAME = "psplash.sh"
- INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
--- 
-2.43.0
-
+ BBCLASSEXTEND = "native nativesdk"
+-
+-# Since 1.70.0 upgrade this fails to build with gold:
+-# http://errors.yoctoproject.org/Errors/Details/708196/
+-# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
+-LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
+diff --git a/meta/recipes-extended/ltp/ltp_20240930.bb b/meta/recipes-extended/ltp/ltp_20240930.bb
+index 3fe8772ea71..0760170c7b0 100644
+--- a/meta/recipes-extended/ltp/ltp_20240930.bb
++++ b/meta/recipes-extended/ltp/ltp_20240930.bb
+@@ -36,19 +36,18 @@ S = "${WORKDIR}/git"
+ 
+ inherit autotools-brokensep pkgconfig
+ 
+-# Version 20220527 added KVM test infrastructure which currently fails to build with gold due to
++# Version 20220527 added KVM test infrastructure which currently fails to build with lld due to
+ # SORT_NONE in linker script which isn't supported by gold:
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18097
+ # https://github.com/linux-test-project/ltp/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36
+-LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fuse-ld=bfd', '', d)}"
+ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=bfd', '', d)}"
+ 
+ # After 0002-kvm-use-LD-instead-of-hardcoding-ld.patch
+ # https://github.com/linux-test-project/ltp/commit/f94e0ef3b7280f886384703ef9019aaf2f2dfebb
+-# it fails with gold also a bit later when trying to use *-payload.bin
++# it fails with lld also a bit later when trying to use *-payload.bin
+ # http://errors.yoctoproject.org/Errors/Details/663094/
+-# work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
+-KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-gold ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
++# work around this by forcing .bfd linked in LD when ld-is-lld is in DISTRO_FEATURES
++KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+index 1c72d503d3c..c8f226ff3ae 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+@@ -142,10 +142,6 @@ EXTRA_OECONF:append:powerpc = " --extra-libs=-latomic"
+ EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ 
+-# gold crashes on x86, another solution is to --disable-asm but thats more hacky
+-# ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+-
+-LDFLAGS:append:x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+ LDFLAGS:append:x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd ', '', d)}"
+ 
+ EXTRA_OEMAKE = "V=1"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
+index d8b91d66c71..8c6ffdc8a73 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
+@@ -118,12 +118,9 @@ EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
+ 
+-EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
+-EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
+-
+-# JIT and gold linker does not work on RISCV
+-EXTRA_OECMAKE:append:riscv32 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
+-EXTRA_OECMAKE:append:riscv64 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
++# JIT does not work on RISCV
++EXTRA_OECMAKE:append:riscv32 = " -DENABLE_JIT=OFF"
++EXTRA_OECMAKE:append:riscv64 = " -DENABLE_JIT=OFF"
+ 
+ # JIT not supported on MIPS either
+ EXTRA_OECMAKE:append:mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
+diff --git a/meta/recipes-support/libunwind/libunwind_1.6.2.bb b/meta/recipes-support/libunwind/libunwind_1.6.2.bb
+index c7b1604b611..b2e7ec77190 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.6.2.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.6.2.bb
+@@ -30,7 +30,7 @@ EXTRA_OECONF = "--enable-static"
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+ ARM_INSTRUCTION_SET:armv5 = "arm"
+ 
+-LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
++LDFLAGS += "-Wl,-z,relro,-z,now"
+ 
+ SECURITY_LDFLAGS:append:libc-musl = " -lssp_nonshared"
+ CACHED_CONFIGUREVARS:append:libc-musl = " LDFLAGS='${LDFLAGS} -lucontext'"
 
