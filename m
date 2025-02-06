@@ -1,121 +1,100 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB170C02196
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 14:53:05 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.43122.1738853582729345073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D638AC02194
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 15:03:15 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.43396.1738854186641209410
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 06:53:02 -0800
+ Thu, 06 Feb 2025 07:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49FAE1CE0
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Feb 2025 06:53:25 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A8B993F58B
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Feb 2025 06:53:01 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: fix register trampling on aarch64
-Date: Thu,  6 Feb 2025 14:52:55 +0000
-Message-ID: <20250206145255.4091151-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UPkaQQjw;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=eNBz+ox2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010194dbc93ad9-81526b27-407a-4733-b0c2-675386c36db4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1738854185; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=mBThHkm9doDjn4JCnAB9G2S1Y4i05tl+gSXznqi6BTI=;
+	b=UPkaQQjwTz//HqDGd+bQcOdzclnWNRMGSWMPVJtpv21BumFVsDeWs4RpcbfjccLV
+	EkMjJB4LpiMJBltMdngZwqZZguWGC5xSkF7c6QKfo6EVzH2JdrtQR/SJnDhJYT2aLnE
+	PibYVZYLKwEuJYDd6xEC8Ak8enhi4+ycF9pZPJYY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1738854185;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=mBThHkm9doDjn4JCnAB9G2S1Y4i05tl+gSXznqi6BTI=;
+	b=eNBz+ox2D+0EKgvc22U8tew8Ewx4JnScqmX7Ad8efe3+pH47SRUF1a5QgRtAwSeu
+	VI8k/GeqahjYUmscDHC3Tf+9DWl0LHPGe6uYpH6Van77WWW7ZoMWyjg+ZDBWYe18peU
+	LjQTzxRMQ5or9ITynCZ0P1NCMeJaY52rTNA0+3NQ=
+From: patchtest@automation.yoctoproject.org
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] systemd: use serial-getty-generator on genericarm64
+In-Reply-To: <20250206144312.1328179-1-mikko.rapeli@linaro.org>
+References: <20250206144312.1328179-1-mikko.rapeli@linaro.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194dbc93ad9-81526b27-407a-4733-b0c2-675386c36db4-000000@us-west-2.amazonses.com>
+Date: Thu, 6 Feb 2025 15:03:05 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.06-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 14:53:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210942
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 15:03:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210943
 
-Backport a patch from upstream to fix register tramping on aarch64.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../openssl/openssl/aarch64-regs.patch        | 52 +++++++++++++++++++
- .../openssl/openssl_3.4.0.bb                  |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/aarch64-reg=
-s.patch
+Testing patch /home/patchtest/share/mboxes/1-2-systemd-use-serial-getty-generator-on-genericarm64.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/aarch64-regs.patch=
- b/meta/recipes-connectivity/openssl/openssl/aarch64-regs.patch
-new file mode 100644
-index 00000000000..f9773a6183d
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/aarch64-regs.patch
-@@ -0,0 +1,52 @@
-+From 3ad2277e4522d363ae31a1888531915bb68964dc Mon Sep 17 00:00:00 2001
-+From: Julian Andres Klode <julian.klode@canonical.com>
-+Date: Sat, 18 Jan 2025 21:12:45 +0100
-+Subject: [PATCH] Restore correct registers in aarch64 AES-CTR code
-+
-+Commit 1d1ca79fe35dbe5c05faed5a2ef8c4de9c5adc49 introduced
-+save and restore for the registers, saving them as
-+
-+	stp		d8,d9,[sp, #16]
-+	stp		d10,d11,[sp, #32]
-+	stp		d12,d13,[sp, #48]
-+	stp		d14,d15,[sp, #64]
-+
-+But the restore code was inadvertently typoed:
-+
-+	ldp		d8,d9,[sp, #16]
-+	ldp		d10,d11,[sp, #32]
-+	ldp		d12,d13,[sp, #48]
-+	ldp		d15,d16,[sp, #64]
-+
-+Restoring [sp, #64] into d15,d16 instead of d14,d15.
-+
-+Fixes: #26466
-+
-+CLA: trivial
-+
-+Reviewed-by: Kurt Roeckx <kurt@roeckx.be>
-+Reviewed-by: Paul Dale <ppzgs1@gmail.com>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/26469)
-+
-+(cherry picked from commit 5261f3ca41cda7ad5767e399e9a2dc008bbad5d6)
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ crypto/aes/asm/aesv8-armx.pl | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/crypto/aes/asm/aesv8-armx.pl b/crypto/aes/asm/aesv8-armx.pl
-+index 33a2dd53dae19..dc019b04ccd25 100755
-+--- a/crypto/aes/asm/aesv8-armx.pl
-++++ b/crypto/aes/asm/aesv8-armx.pl
-+@@ -2493,7 +2493,7 @@ ()
-+ 	ldp		d8,d9,[sp, #16]
-+ 	ldp		d10,d11,[sp, #32]
-+ 	ldp		d12,d13,[sp, #48]
-+-	ldp		d15,d16,[sp, #64]
-++	ldp		d14,d15,[sp, #64]
-+ 	ldr		x29,[sp],#80
-+ 	ret
-+ .size	${prefix}_ctr32_encrypt_blocks_unroll12_eor3,.-${prefix}_ctr32_en=
-crypt_blocks_unroll12_eor3
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.4.0.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.4.0.bb
-index 9d99c21c208..cc413e39ba5 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.4.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.4.0.bb
-@@ -13,6 +13,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
-}.tar.gz \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails=
-.patch \
-            file://0001-Fix-builds-on-riscv64-using-musl.patch \
-+           file://aarch64-regs.patch \
-            "
-=20
- SRC_URI:append:class-nativesdk =3D " \
---=20
-2.43.0
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
