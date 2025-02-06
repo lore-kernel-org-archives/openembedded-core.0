@@ -1,180 +1,170 @@
-Return-Path: <chris.laplante@agilent.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C49C02194
-	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 15:44:35 +0000 (UTC)
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.68])
- by mx.groups.io with SMTP id smtpd.web10.44323.1738856672287665507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5CAC02199
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 15:57:06 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.44670.1738857421553015390
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 07:44:32 -0800
+ Thu, 06 Feb 2025 07:57:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@agilent.com header.s=selector1 header.b=xHNiUdKK;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.93.68, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jwQIr37UfeNOIQOBkfzcepJ0FgvrUpB40dAyMYjWW21Y4yQ2FA6xc+Qo1r3XJrcxXyzCDllxdf6xP4Gr6q8XxCYWQHb996510eitLYtmPgV1mXs1/rgmox3GfPBWKYRITebrQvFjBxVDtmPuO6+5Pkk2ibsc8gAUwCJVsvlZBt8DSKtZEViWJnbHHD/e5hjS9cvJSGugF8NrlbaZM88eSmb+DowAlrixlUWler+9U8HDBCuV8Oa2SzVsHI9GdUYe+OxE6oUF8GJZjwZcd2ZMkJ5TMusxS8V/h1QUKVN2cDV9qpw32KJGUvf0RLWNQIG2RomvPAqaiZXJuR4MuGlDFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=huSE4AlNhA4iOauohemXseBLkNuKePKh2ne2Sd9vyYQ=;
- b=oIvg+taOaaxoFFEh53A2p9/2KIYzPLhdPDmB2s61KJBUGFl0yMBihjMXnJpOWxXAKDP9/KMeV2T1JMxjULu50cvHaQC5qTH49lSnKTH023VFTXKbmBEuj2Ww3q/tmpqb79T/OBjZEdUGoJLXQ0GNuS5I4FTQR9RCSBbQYaLFBu/q9fs3kxdWIc96qCUViKabc+zW3xlVZ/1LGCdtfsAabo6O1VKLnvPqMAIpVt9GRgOFOmTfi6J1iKpISD+HAxab0dcOndSd/1zBnZJ38dSW+SPh5+3nIUEIKwbRH/O5D5+1/az+jaSFWzYCI+3hz7pymiKdliyfyR0zAyt/ehSVfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.41) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=huSE4AlNhA4iOauohemXseBLkNuKePKh2ne2Sd9vyYQ=;
- b=xHNiUdKKCQkZ98maoC+gZ2jEpWkz3zRxn6gPFbUpDbGXxHdhFSOouFvBhK0gwLEi8D0PukErg13hu3NiTRQAXkM59V49h/IGnd4e7O3e6ro6M6hhROYvSvHcnKUzeU+mQZlbqYm7/0OaTltk6r1m9DUTp25t5ehUcUVjRrfLASA5zhC5gxD7kLNx/H774enFLsVuYFDpNm6hxeMW28srJgGTE6QWokdHDJrZ+5DJsniGjKzfKgGgVUOOv8etGABWet+S88YKpBpbCifxqmfWKGQ0UuZgxKIGxBzxw8yfbGLkXwXEJRKjs+r4Il8VrOBMv5XLAutpYPcqhnd4elhtMQ==
-Received: from SJ0PR13CA0084.namprd13.prod.outlook.com (2603:10b6:a03:2c4::29)
- by CH3PR12MB9456.namprd12.prod.outlook.com (2603:10b6:610:1c2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
- 2025 15:44:28 +0000
-Received: from SJ1PEPF000026C5.namprd04.prod.outlook.com
- (2603:10b6:a03:2c4:cafe::2c) by SJ0PR13CA0084.outlook.office365.com
- (2603:10b6:a03:2c4::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8445.6 via Frontend Transport; Thu, 6
- Feb 2025 15:44:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.41)
- smtp.mailfrom=agilent.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.41 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.41; helo=edgeappmail.agilent.com; pr=C
-Received: from edgeappmail.agilent.com (192.25.218.41) by
- SJ1PEPF000026C5.mail.protection.outlook.com (10.167.244.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.14 via Frontend Transport; Thu, 6 Feb 2025 15:44:27 +0000
-Received: from laplante-B650.lfs.agilent.com (192.25.126.5) by
- edgeappmail.agilent.com (192.25.218.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 6 Feb 2025 08:44:19 -0700
-From: <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Alexander Kanavin <alex@linutronix.de>, Mathieu Dubois-Briand
-	<mathieu.dubois-briand@bootlin.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Chris Laplante
-	<chris.laplante@agilent.com>
-Subject: [scarthgap][PATCH 1/1] pkg-config-native: pick additional search paths from $EXTRA_NATIVE_PKGCONFIG_PATH
-Date: Thu, 6 Feb 2025 10:44:02 -0500
-Message-ID: <20250206154402.694264-2-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250206154402.694264-1-chris.laplante@agilent.com>
-References: <20250206154402.694264-1-chris.laplante@agilent.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MiIdqwHE;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7b6e9317a2aso182316985a.0;
+        Thu, 06 Feb 2025 07:57:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738857420; x=1739462220; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=WzEP1fxuynaR4wInkViQnMpnhlEj0y9duxmOsMFPp7o=;
+        b=MiIdqwHEIbLAfh6xcGLR7gjvdvWxweQ/tUz938gEiFJ5FgJ0a84zRa1Wk/1ZiiuAY2
+         uPTlsjRGRYKny6b6StP5J5jBRMeDbWD+ujPaFBbb0BK2btPB0S61TmEWIOi9lUyrjL3k
+         XATLMq0stRBeRutndCZx3hxQFCVL9Ed2qVKfE1C3G3vvW8cK/fQIxRWvJ3rlSrWB7dkw
+         ls3uWywx8CP2pGYyYaUzVpuGkE9XlTNOYiSpEFZ/awWhd4ai0Wl5HYOTO3nuAxeySnEt
+         AP5pF37SLxjkz8jJmqNf8EMJ0NPquK8j9xUpUIFbmRHQ7X9RTww55vndkNKPq+j5FXRw
+         i8TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738857420; x=1739462220;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WzEP1fxuynaR4wInkViQnMpnhlEj0y9duxmOsMFPp7o=;
+        b=RgI6rCEAiwz05ax+irxixXwPGd01Ycc6kgO6yHg8Cym6q4oDT/S2y9b7K24NYj1mFu
+         KWL17NY12vEaSsJiuVLiM7payNfqzXN/YrnEAim6AT9TMiC15K/FiaEthbNnovTcX2+4
+         uFY6wU9lsPy+VlINuoEvfEWeCqtnfH1Shf3s3cWXw9pLSQ8SqKpceqBniP2NVWoUihw7
+         n3ZOqHcK/Bi0GkALJ9zGcav+4QDj7uqBN8/7jZxSsDTt0DaRSF3iKRaOB1XUUlfpWEl5
+         Eq0xlrJBI4qaUDrhS8+7LntARWGfxQkym+7rnMTi/tjV0/hgaz7XVhWyA5akd7Agok4J
+         MgPA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzxAJo9PeJekM3IoxGxoqxpd5pCtmV7sl0so6hMXgW1LwLEWq5qofY2lM0UhvWpzXLfbMAs+2rZfqsG5LTbaqHiQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyEK8zy6z5CWLm1GqEa97+btKNyXSZs3dcTXy4hfBY+UOsNb8Gh
+	i2670ZTsTL5DEwIfdgZdH7nce/XFF62oaELJvMZ+EEKujxUDptbOcKKSwVtS0vy1x6ic8F+WYoT
+	OPls5pPpuTRGQmbZfznJh20kVX8PrSQ==
+X-Gm-Gg: ASbGncvkYxTXwHjwJVo3Nt2bgjGx9Yqbhf8AAnyKCiVvhBC+9Jv65zrgekgDwj1208C
+	0h73fgkqc1FbH/ET1AIFE3g/BbRFrFsNRd/iVwrxJVfYkHyaziA3Z+hDkzGF8xNwk1WcvLjOl
+X-Google-Smtp-Source: AGHT+IHA7bu0zBFcr4bFnOjAgPJacBniVDtaJg1nlDmOTVdbqLyXLwr7grPp1yRxmqVQFYlw6O8fyUobmhVMLu8UyCQ=
+X-Received: by 2002:a05:6214:1d2b:b0:6e2:4da9:4e2d with SMTP id
+ 6a1803df08f44-6e439b0eb2fmr59398236d6.9.1738857420304; Thu, 06 Feb 2025
+ 07:57:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C5:EE_|CH3PR12MB9456:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e844459-4e5a-4c2c-1378-08dd46c523c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?RZAk0V9I5uvKtQ8NA+vUSyPQVghnIgOAbZFXYQVhj6YGKTMFwIE58B+eTssV?=
- =?us-ascii?Q?H2MuX01u5DuqHhOCGITm1NEpPlyBh2S1akg5b8XWfHM+f2GKSkH6vJP+dt0M?=
- =?us-ascii?Q?bbUX5Ue6TylDmnXcKCtF/MJ5X9quq8/Mloa5OqfqvXo52fjN+adhzcZFxt1a?=
- =?us-ascii?Q?gr0zVQ0F+u7jQKxbYxC8J9m4dKZbStgaUJM4mArLcOTadTKOp6FIk8khMOB/?=
- =?us-ascii?Q?BBUSWsda8gns4eaI6ZuyA4HQBZPLv8mMMvDD3CE99pw5+Gwxa2k45/VMZa7z?=
- =?us-ascii?Q?hSlvot2XGvteSG4JoDu5A2qevo9M0uRm7GHMbO7c2obhlu195MbBVlSy75YZ?=
- =?us-ascii?Q?w3T7SuG35VnaqysXaCM+31TkBuQ0EJWi00MCS3Ks8wfv80AcD5p+PGCs5JA8?=
- =?us-ascii?Q?UHAwSKKzjobL3oEw5Ph68nRMpjiGkwWi32GRRIvZfImA7ixc+CJSKlGhUOvl?=
- =?us-ascii?Q?BAspbDVkaJBt1MSEbveyyYSd82FzzewMtsZYpzzPLj7dLqgveJAdiCR/9Onj?=
- =?us-ascii?Q?51Z2P+aYoBpoYeeVtvc2p6GcMxmcNkgeHSnb8qp4fAs81m2IL4l4zUp28qQQ?=
- =?us-ascii?Q?j0DK4bXYGowA0kny88tqq3b9WocNDqWDXYkGeZGF0MNKZB3dn/PuhoSxc+B3?=
- =?us-ascii?Q?J5R6TfRYcoqGSB6tC6XEomYqtS7H4WyEsblcXqUW7obIkiv5o10FO4SftWAe?=
- =?us-ascii?Q?Ju7yYPG52tCD5kfvnzQyaaL7pR2wf9LL+3+ut4S/lyf/jHvmTfmLts5IY1+l?=
- =?us-ascii?Q?9tKserDdYFgmHoK6GAYu+iBXq1r9PIx4eG7fHMHutuqyjoeULSP2i1eJZagO?=
- =?us-ascii?Q?OZ6wtlBs+vhEPXpt14RErsJfREPcM5BA1ztJG4T0kSC4Bug5gpZnGHn4Z0ya?=
- =?us-ascii?Q?PFOCdwuBa0Q/4qzAJYWHsCxmP5iWRkmBjU/CChG7bt8zB4NlerchBsKWRGIr?=
- =?us-ascii?Q?/SOGWGExmJ9wzpTBHMueh10PUKBhYj2TXZUQF4lo2KN3ouLReHeodiAFdQip?=
- =?us-ascii?Q?69Y7WYWvf1D5bDoj91Vm1/R/UIA4qaOKIuwUPPBBKGOhY/nyV6osZQYXSqRS?=
- =?us-ascii?Q?K/T64EGA5+N3aCmb8BkeTFmIJP1EXGtA/B2xkRxMRSaTby9PPH5ynkokNhfx?=
- =?us-ascii?Q?XbNQud4byeLSy6GIproWyjbCDm4YAEsH9LnO8rzq5h6CTkd6W8y1+p7xJ+3r?=
- =?us-ascii?Q?3L+Eh5p3J5mX/gjbIcoCQCC63+qcZyzl1FTEx+rSicCYWwCpDIUZHWjib65W?=
- =?us-ascii?Q?9x2wyN9MSYu/1u0HE0zSSy5WjqEKwrBdfUSQsAOYKE3mqLNVAYfBeInoOuWh?=
- =?us-ascii?Q?UxTwBJaxg7sZqYIP8M2q4w2H20Lprc1ugxI+5mJuOzPW277RC2ADIcAUg9ck?=
- =?us-ascii?Q?pH/EQ4Bz4laQEmUxf7gJFI/jJduVVsaLWGvpKWv//q+sTjTxWOYcFK5boBca?=
- =?us-ascii?Q?KfDsOXP9vEeDzBXHOs1XRaIwNV5MC2Yabsv0Wc9YhUBFueenMBmCR5W9ZJoc?=
- =?us-ascii?Q?Nn72HMtO96sit0Y=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.41;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:exch.smtp.agilent.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 15:44:27.6934
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e844459-4e5a-4c2c-1378-08dd46c523c3
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.41];Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000026C5.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9456
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 6 Feb 2025 16:56:48 +0100
+X-Gm-Features: AWEUYZkZ8-3NuhkADxcUJruMU-KUu1_EQE465HfqgObmmUeO66nOj0FaY5VNK5w
+Message-ID: <CANNYZj85xWewvktp1OXPK71CGe4i=p80LYxLuU0cyQUOCH3Zcw@mail.gmail.com>
+Subject: proposal/plan for taking bitbake-setup into use - official
+ configurations (with guaranteed sstate)
+To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 15:44:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210947
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 15:57:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210948
 
-From: Alexander Kanavin <alex@linutronix.de>
+Hello all,
 
-This was prompted by working on librsvg update: the new meson-driven
-version wants to query values from .pc files residing in its own
-build directory, and modifies PKG_CONFIG_PATH accordingly.
+the current revision of bitbake-setup
+(https://github.com/kanavin/bitbake/commits/akanavin/bitbake-setup/)
+is now as good as I can make it (given the currently implemented
+features), so here's the plan to take it into use for setting up Yocto
+builds. Step by step:
 
-When using the pkg-config-native wrapper such modifications
-have no effect, and we have to pass them in manually
-from the recipe via EXTRA_NATIVE_PKGCONFIG_PATH variable.
+0. Terminology used:
 
-This variable is already defined (with an empty value) and
-appended to PKG_CONFIG_PATH export in the native class, so this
-simply extends its use to the wrapper.
+https://lists.openembedded.org/g/openembedded-architecture/topic/terminology_for_bitbake_setup/110775384
 
-(Appending to PKG_CONFIG_PATH in the wrapper, instead of resetting it,
-is not an option as that can lead to contamination with the cross values).
+1. What are the configurations that Yocto project should offer?
 
-(From OE-Core rev: 2bc050146d47b14d890a1b0db2b55f9057a08b65)
+The official configuration registry (in a repository called
+yocto-configurations, hosted on git.yoctoproject.org) would contain
+configurations for tip of master, and tips of all stable branches from
+some future release onward. E.g.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in     | 2 +-
- meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+yocto-master.conf
+yocto-5.2-walnascar.conf
+yocto-5.3-xomething.conf
+and so on.
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in b/m=
-eta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
-index 9ed30a0d80..fd5ab6b1fa 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
-+++ b/meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
-@@ -1,6 +1,6 @@
- #! /bin/sh
-=20
--PKG_CONFIG_PATH=3D"@PATH_NATIVE@"
-+PKG_CONFIG_PATH=3D"$EXTRA_NATIVE_PKGCONFIG_PATH@PATH_NATIVE@"
- unset PKG_CONFIG_SYSROOT_DIR
-=20
- pkg-config "$@"
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in=
- b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
-index a9324de4cf..d4bb4f8c06 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
-@@ -1,6 +1,6 @@
- #! /bin/sh
-=20
--export PKG_CONFIG_PATH=3D"@PATH_NATIVE@"
-+export PKG_CONFIG_PATH=3D"$EXTRA_NATIVE_PKGCONFIG_PATH@PATH_NATIVE@"
- export PKG_CONFIG_LIBDIR=3D"@LIBDIR_NATIVE@"
- unset PKG_CONFIG_SYSROOT_DIR
-=20
---=20
-2.43.0
+Stable release configurations are never removed from the registry even
+when they become archaic. Rather, they contain a field with their
+expiry date, and when that date passes bitbake-setup will hide them
+from 'list' output, and politely note that the respective release is
+no longer supported or maintained upstream when its status is queried.
 
+There will be no configurations with specific point releases; it's too
+much ever-growing clutter (especially for LTS) and not what people
+really need when they get started. At some point they'll create their
+own private configurations, and then they can pin layer revisions as
+they please.
+
+Each configuration checks out bitbake/oe-core/meta-yocto/yocto-docs
+repos separately. Poky repository will not be used. Note that there's
+an issue here described separately in [1].
+
+[1] https://lists.openembedded.org/g/openembedded-architecture/topic/layer_layout_poky_vs/111010762
+
+2. What bitbake configurations should each configuration offer?
+
+This is sort of subject to debate, but here's the starting point:
+
+- qemux86-64 and qemuarm64 as machines. No retro computing, no
+unsupportive vendors.
+- poky, poky-altcfg, poky-tiny as distros
+
+That makes for six configurations.
+
+Targets for each of them (except tiny) would be the images: minimal,
+full-cmdline, weston, sato-sdk.
+
+Each bitbake configuration is defined as 'blank' template (e.g. empty
+local.conf) provided in meta-poky (this needs to be added there) plus
+fragments that set machine and distro, and sstate mirror or anything
+else needed for a good first experience.
+
+Each configuration is guaranteed to come with pre-built sstate. This
+is the killer feature of the whole project.
+
+3. Containerized builds?
+
+Not at the moment. This is a future project. I tend to dislike
+containers, and think we should rather detect if buildtools-tarball is
+needed, and pull that in if so.
+
+4. How is sstate availability guaranteed?
+
+There would be an autobuilder job, part of a-full, that would use
+bitbake-setup to set up a build matching the branch being tested, and
+use that setup to run builds that populate sstate.
+
+Then, bitbake-setup would be used again to set up the same build, but
+instead it would run a selftest inside that setup that checks that
+sstate mirror has been properly populated. We already have such a
+test, and such a job, but they work directly in the bitbake build set
+up by the autobuilder.
+
+Note that master-next (or somerelease-next) doesn't always match what
+then gets added to master (or somerelease); for testing exactly master
+there are nightly a-full jobs. There could be a short window of not
+yet provided sstate until that nightly job runs, but I'm not sure how
+to address that, short of asking maintainers to run the sstate
+population job from staging branch before they push that staging
+branch to master/stable branch.
+
+5. Is cloning poky and using oe-init-build-env deprecated?
+
+Yes... but in the softest, gentlest manner possible. Documentation
+should put using bitbake-setup first, and explain why it is better.
+
+6. Should autobuilder use bitbake-setup?
+
+Yes, for credibility and validation reasons, but it's a much higher
+hanging fruit. There are a lot of tightly coupled moving pieces there,
+and bitbake builds are also distributed between multiple workers,
+something bitbake-setup doesn't currently account for. It's a
+separate, future project.
+
+Thanks,
+Alex
 
