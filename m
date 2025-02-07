@@ -1,135 +1,80 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F71C02192
-	for <webhook@archiver.kernel.org>; Fri,  7 Feb 2025 07:57:40 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.64346.1738915050953166722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1114BC02192
+	for <webhook@archiver.kernel.org>; Fri,  7 Feb 2025 08:42:31 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web10.64926.1738917743406041909
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Feb 2025 23:57:31 -0800
+ Fri, 07 Feb 2025 00:42:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hIvhpVlF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436a03197b2so11542965e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Feb 2025 23:57:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mHEFuZET;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b6f8524f23so230196385a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 00:42:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1738915049; x=1739519849; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U22DKyMSSfN8hutAWXXqKrsLDKB3TAUguaCl5QQXXF0=;
-        b=hIvhpVlFVleN/xFkdOoaksJoa0Nhnv9EXXS6bhYdUL03SuWrj9I1pK0Vp7XvHZT12q
-         7f+r7iB00LU07DzOPhOMFT2Ogk32eK0SadLUVMb8o2kXoAgT2GMN2vyahEuApGHYZ9tS
-         4lM5sk80sV4OhRanJQ5ULfG7yXhfNvy79fm+g=
+        d=gmail.com; s=20230601; t=1738917742; x=1739522542; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lxcVqXFbf7DnLo2Qbo+qpvk/DInEb54vnpzkLqt+6Q4=;
+        b=mHEFuZETk3ca+3FVUVIvKVO0MAhaA3yky2/lAjdqmS5eY8S1bhufnSqvmVuFA2szxM
+         yV8zjYXkXVc7cODKNaEvkrQfnqZ1s290yv6UtKteTyAsUp1Nlt99QQBllPIrKp+8Hb4u
+         ta5Lh0Z1dCmr9m0PN0S8rG34dEtr2Pm6xCcemYu/Awn+BQfE9juATRr/LReHwEZx1k10
+         O7sVN+q0PLFslhb4tHVL/dCQzGKEybCSBL/gAl7AzFhEko1sMOpIhYgvBeRFFJ0xa2LO
+         qycwKKIoE3cdZoZW00LIlC4ISKzg9aTJUOrYCnzYC6WZOcRZW6GovsKGpoV5Ee1BAXcg
+         MHpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738915049; x=1739519849;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=U22DKyMSSfN8hutAWXXqKrsLDKB3TAUguaCl5QQXXF0=;
-        b=wUxQ8gMn3t7hcd4OgG13HiOXqmIcut0dgE+zBwNlevk9reFyndcqiaLz41S1diHtW8
-         3h8bMZ+gB6bWCZ5zJv1PIy5cFHxgeYve5kMzjJZx+FqAwSqJfHxInDseoncWZ+zv6PHf
-         WfW+IrrEASZ1Xu9OVL7zdoNn/8da+YR5cc/fZCVbgJggLvY74v2MErjZOiW0JSyX2JE+
-         SiNiU2bdJNVL6WBaMvGBD4fYZZ/8UhMhd+un7AsRd8DyQBytAon5g+nQKYdkJQL7+XW2
-         DOtLZyJXAjp5l1xlDDgSnRetYNcY2B62HZLDoMOnax6J7udHzQP6OeydywoNfo8GwGoo
-         l6DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUsqmuWehN2sm2rcjKcjgWoGOBoUOQUvzicj4KtYUmgsbLXCHxmmijWlwQ3eNn6OlvF0GvUKWHlxiQJNpuM7re1Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxdg0Mfbzjp+8CcgljqBAwj/rtbQ2bt8UadQQoFyguq9EwjtmU0
-	CnyJ3xDY1VtSRF/aYS8598dOd0vO55dRJml4PQcCHfNTWdbHv/a8+3BSglKM6eHNLlH4O3QGE2v
-	G
-X-Gm-Gg: ASbGncuzHdHdIpvx1veVyTD5vm+iu/5kY+wVuxyhsbAiVaHubq50LgLgXtgmg2uVBx0
-	oO6RzE3QWZZGq0Mq/giLFbRCfIjOygwpdCMCIjHvfE6szPcb7OzKKT973KHXBLzmxUFfOBBVT8J
-	xAUvHpf0Xv16nWZigOwxcrgsqDhAQ81j4IKmQms+r5Qxz08ptAVITpLNTB5KtXc9ED861IR0ODE
-	amR6ZWuT331woGgdbAp9KI6/dTeuMpcOqF/B0+M+QhCiXRu8rPFaVg2OjIyFO68YG8MEtug0a4M
-	5cYWthBvMU1QT3uj4x3jiFZgwgZ/vD1lcUijdhdCfWoQin8Qzx0KrXs1+UeRG2rKonwOO3gOwdU
-	tbRH8
-X-Google-Smtp-Source: AGHT+IFKpfHBgWG5eS6XiSqqtHWKQV7Rmyo2LIWiUraDDcfmL3zvfXirUpb0aW5GIOBZwQlxThWxWg==
-X-Received: by 2002:a05:600c:b93:b0:434:f270:a513 with SMTP id 5b1f17b1804b1-439249caf5emr17781905e9.29.1738915049295;
-        Thu, 06 Feb 2025 23:57:29 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dcae:28d1:c97a:4196? ([2001:8b0:aba:5f3c:dcae:28d1:c97a:4196])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390d933523sm82955425e9.1.2025.02.06.23.57.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 23:57:27 -0800 (PST)
-Message-ID: <ae812ff716ce8a858b27ad65e31f1f36fa62d3e4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/3] nfs-utils: clean up sbin installation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Fri, 07 Feb 2025 07:57:26 +0000
-In-Reply-To: <20250206133114.2974225-2-ross.burton@arm.com>
-References: <20250206133114.2974225-1-ross.burton@arm.com>
-	 <20250206133114.2974225-2-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1738917742; x=1739522542;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lxcVqXFbf7DnLo2Qbo+qpvk/DInEb54vnpzkLqt+6Q4=;
+        b=WdUin5SD8WbemaF+qF+txG3ul7iY5aaiVsvExZ+fHW+TjvoTRvi3tDecx4ZwbJwvAa
+         d2w0At9c5LQ2Aahpp+28o1kTRdJqzfMbFVabOCOgSUFSOoCn/oc2T3BgNZDCza7gjH/P
+         Ef6Ki5jbeDfzNAMM5tev4zWL6m3FNWXYDPfCII076lS5gZ40qgbWme/D2DFYMSSb4Hmi
+         buFL2Cn92W4CKTVFPPoAsOmxnBUpn7rcG03EG2xqhwUr6Z0v5NwIX7X0rfMhttmooHG8
+         fPj3rWmCXTTdB1abABBqXb0HcTIYy+73TgMg5TrJNKr+uWAlC5bFaQVaOEgr7n74VP0A
+         41sg==
+X-Forwarded-Encrypted: i=1; AJvYcCVccTHCnu3+5ppt9xLeyvr8cWTAHQxGVY5FoD8vs1ab1FgDI/yGR+Jxqcfnkp08SV9WpwwFeiRBv06r3z+JSMtFTw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzQ9gK6xe4MNHwiv36xDQ4oR8TRKAwTncpMShOOhtsEWPnFls5/
+	HTTNiWBostEZQcY6G8+p05xLgdRdKRRH42NMBJY3AD6aVrsujMS57sXsE/m2PBPHbCx12Z9T3Z0
+	2gSBWS0BsHXfRvpWJafdUeOjKChM=
+X-Gm-Gg: ASbGncualtRD2mCKgfOikVCcMJKAr1lpb0Yv9EgZ7I4+sLtW7f9VTtC3vhTKJkvkpSo
+	hjjT4APgto1lIDSG+bsl4u4lnq8peTBDb0t66oQ0PvIHM2XkSFCO1SDkNFW6dOopAdutpK38=
+X-Google-Smtp-Source: AGHT+IFpVSpPJ5XTHpHamDaGcZUSJH/jzfRRbZUaQuFumc5eIJsvlmqxmsX0PWuYLgwBnk/0VMrDPgcLjQEQrmC4sbE=
+X-Received: by 2002:a05:6214:1d24:b0:6e4:2e12:3a0c with SMTP id
+ 6a1803df08f44-6e445701c9cmr28939396d6.39.1738917742303; Fri, 07 Feb 2025
+ 00:42:22 -0800 (PST)
 MIME-Version: 1.0
+References: <1736986779-18213-1-git-send-email-wangmy@fujitsu.com>
+ <B0D54F55-821C-42B5-8EF6-285E7055A9D8@arm.com> <CANNYZj8Lbz7s6JeQzrXu=MCbyQ5bC6RZcyLYLMc6MyHvcXLc6g@mail.gmail.com>
+ <TYWPR01MB118610AE7185CEB27A28AFD98DCE12@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+ <CANNYZj_zmLZnyPPKoRs5GdUe4sS_Uw7dtgET39=r7g12-3UF8A@mail.gmail.com> <TYWPR01MB1186150CCA7356A0F8E211977DCF12@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYWPR01MB1186150CCA7356A0F8E211977DCF12@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 7 Feb 2025 09:42:12 +0100
+X-Gm-Features: AWEUYZmiUITnIYyGGtuasB2qXVjK75SSWuP0ecme66_2Z7UAr7gLnXdG-bHcj6M
+Message-ID: <CANNYZj_O4OQtAXnzMAB2H7vH27zGApga-T=q4kLFiKzqyNXrNw@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [PATCH v3] ncurses: Fix install conflict when
+ enable multilib.
+To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+Cc: "ross.burton@arm.com" <ross.burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 07:57:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210974
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 08:42:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210975
 
-On Thu, 2025-02-06 at 13:31 +0000, Ross Burton via lists.openembedded.org w=
-rote:
-> There's no need to sed the Makefiles as there's an option to simply
-> respect sbindir.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb | 6 +-----
-> =C2=A01 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb b/met=
-a/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> index ff02a3aea01..4683939bff5 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.8.2.bb
-> @@ -60,6 +60,7 @@ EXTRA_OECONF =3D "--with-statduser=3Drpcuser \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --disable-nfsdcltrack \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --with-statdpath=3D/var/lib/nfs/statd \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --with-rpcgen=3D${HOSTTOOLS_DIR}/rpcgen \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 --disable-sbin-override \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 "
-> =C2=A0
-> =C2=A0LDFLAGS +=3D "-lsqlite3 -levent"
-> @@ -107,11 +108,6 @@ FILES:${PN}-staticdev +=3D "${libdir}/libnfsidmap/*.=
-a"
-> =C2=A0
-> =C2=A0FILES:${PN} +=3D "${systemd_unitdir} ${libdir}/libnfsidmap/ ${nonar=
-ch_libdir}/modprobe.d"
-> =C2=A0
-> -do_configure:prepend() {
-> -	sed -i -e 's,sbindir =3D /sbin,sbindir =3D ${base_sbindir},g' \
-> -		${S}/utils/mount/Makefile.am
-> -}
-> -
-> =C2=A0# Make clean needed because the package comes with
-> =C2=A0# precompiled 64-bit objects that break the build
-> =C2=A0do_compile:prepend() {
+On Fri, 7 Feb 2025 at 03:03, Mingyu Wang (Fujitsu) <wangmy@fujitsu.com> wrote:
+> I discussed this issue directly with the maintainer through email, so he only mentioned it in the changelog and did not leave a record of the discussion on the web.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/962/step=
-s/11/logs/stdio
+That's ok; generally it's preferred to hold such discussions through a
+public channel. If it was via private email, please mention that
+explicitly in the future.
 
-Error:=20
- Problem: package packagegroup-core-full-cmdline-sys-services-1.0-r0.noarch=
- from oe-repo requires nfs-utils, but none of the providers can be installe=
-d
-  - package packagegroup-core-full-cmdline-1.0-r0.noarch from oe-repo requi=
-res packagegroup-core-full-cmdline-sys-services, but none of the providers =
-can be installed
-  - package nfs-utils-2.8.2-r0.core2_32 from oe-repo requires nfs-utils-cli=
-ent, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides nfs-utils-mount needed by nfs-utils-client-2.8.2-r0.co=
-re2_32 from oe-repo
-(try to add '--skip-broken' to skip uninstallable packages)
-
-Cheers,
-
-Richard
+Alex
 
