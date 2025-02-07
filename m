@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 194F7C0219E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F97C021A0
 	for <webhook@archiver.kernel.org>; Fri,  7 Feb 2025 22:07:04 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.1168.1738966019521569556
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.1169.1738966020841919744
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Feb 2025 14:06:59 -0800
+ Fri, 07 Feb 2025 14:07:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qa6FoVpz;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f49837d36so25899565ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 14:06:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eM+6yYuX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f5660c2fdso21494405ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 14:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738966019; x=1739570819; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738966020; x=1739570820; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dq5tgPrmSLlMrvvs0SFGnfM9qKsf8PryjOwPh1rRQJU=;
-        b=qa6FoVpze51g1iaOYAIpNS5b18PBIxcac5p/0hjWDGHXmp+WZBh3JjXXzCX+73zTaj
-         3zqwDDhFvxsBA7yKLDTJXjgmKoNU6gCKtWsziyMz3EAllE34mLHCfEcp+axKodQZhy9A
-         SjVOZzRYqIlgAWsrFBc9eJpDdgJx7+2QS3iXA/75j69b7aZRy/BwOQ9K5n/gh5yZDy2+
-         Lp1pNQmRjK7NctllUqqJ2r3IPK9mWMavcggvY1H+M9qqEyM6TVn1w29Lh6qJ5lIe1gkB
-         hT0kVvUg/3KBAfkcRNUuiEGNXbqpSTTRsXwMhab5D/xnhtp08C6sTEl5/7R3jc5lJvFw
-         GFOw==
+        bh=73MpmddYYjDSR9iz3hSiyfWixSzWJEUFikTIG8C1BY8=;
+        b=eM+6yYuXwKHC9sQUZ/1GPZ0qY511LYLtIHQcsanADIvmY3cKT+22z/Ql2SpbE5uYm7
+         Omeebb0DPlJZpeNYSQKRq8sai4gjoUxLj7gwa/tVwU/ZpKBEEwRCa5GJmaERKdejBeUT
+         AZbIB0BL/hjIak2xX03muy/ddBCuHCsFCM8Yng3DmXyeuA1STl8pkBnfKItxOnPbVdj4
+         s9gYMnjNii01hmMKwJMnCLC3xft7Nxlwe/82PoI4WxTCu3rsyVoP2YZbT+SFo5JA5unQ
+         yoz/CU7pTaMgvutgKsCdnLEnL/1vQoElsSd+gz9D/nApPKH7TohwUGK63/yrV0livVzX
+         W1Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738966019; x=1739570819;
+        d=1e100.net; s=20230601; t=1738966020; x=1739570820;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Dq5tgPrmSLlMrvvs0SFGnfM9qKsf8PryjOwPh1rRQJU=;
-        b=wiGIV4AoBSXFEmV1lGMk1Hju4AU9yYXwjSmPJvPYfUKABFRwEmXbegzhpJ5UMg1phY
-         JoJlOaEsxeM8VAlz5SGSaXcZhXYEjUeSMyCRQJOVGLdNVUvwROcrmmQ/LgyY2XD4iSIG
-         uwQlUtOZj1tYi4UkUD9CfQ10dATjTgX3gLxo9OUZBO6o02hcY3ih4Nlirkc83CNrzRoV
-         f8YuHi9SARKw+1gC9O9+pFrBFwWepS1KDJMsE1VYh70DHaDxuKEDE0nMP1CCwxwCv6Fr
-         AO+B/6wRvo2maCJEz5HLRe710hP7jkWOKa3Iw2vrLp38H9O3xjVIPshGFFL1Zr1sCAUK
-         v/ZQ==
-X-Gm-Message-State: AOJu0Yy6U26HF3QQ1VAJAEMOxdS+jnky040f/C5g+g8+gE2vHVFcrJpd
-	fV/UE42mZWPMb6k0c0bdjFygqMR1L1aoRSZ8n/hiT+bhqv1SlVLT+/KPEURigUEY+G4bRB4MJDk
-	r
-X-Gm-Gg: ASbGnct3p0uq4B38gO4f/TnxBY20ZFBV6uxaH6HLuETaMw9vvJ24hLyKKB55wmoVgEq
-	W/8h01dnwB7a0lbPB3Cn9aJXssz5AF1IPMOYGM4qczzmwv5QTpiH2HvhQf5O4WncSGnGf6YC6po
-	3sXLSJ21EhMFadarcfIdOwxo4eid/KUylQyRFFQhAV53Ya/1mwV36LzymCEbqglBpC5uLTx2YM2
-	RfZiIBYf9KuRxbsCuRoNNm+Only7ikL+HknNDS6VQzkmCXblJlUMrV4R9Oa38ZZIX/uPH1AfCNX
-	Ijo8
-X-Google-Smtp-Source: AGHT+IH0Ft+D/PZ0vAbm3l/hbre7yvQSgStQeMVos0+m+Gy39RSUqrj6PYRCxUnoonZ1gVuTaGQZPw==
-X-Received: by 2002:a05:6a20:394c:b0:1e1:ca91:b0e3 with SMTP id adf61e73a8af0-1ee03bc591dmr8752452637.36.1738966018749;
-        Fri, 07 Feb 2025 14:06:58 -0800 (PST)
+        bh=73MpmddYYjDSR9iz3hSiyfWixSzWJEUFikTIG8C1BY8=;
+        b=QoWc09Q889eg8HG5wH/1VeJ32Ag8mhe3HkHyxaFSlt5x+l9Wd1K0DLkzGW8+pg6wVO
+         jUdAvsPXxHEMV2WxSpgeIm4yXjBy8nhVIF2oeZYzNmpIQdCMLfFfhWoYzr2cQma/vZ5X
+         4efEF7+rJWn/kwoXY7NiMJk4KY+U4I61JEnyWxr08h8Emvmm/kT72PSvU4FAW6vav5W6
+         s190xsnw5JEruj48Q6jkKDFGRkKqiZIKXe2jLDTxWeJrVGDoKgMDY6s73xaMOb+OqXfL
+         zP8va5A8qsA9cDatYo8lIeuv8UP0vienD6H5h/VBNN+c5ctVV4z+0c8Jvllp/LW3coEf
+         dbsA==
+X-Gm-Message-State: AOJu0YwfAYwQ7xFSJId9XPUJPkDJaiUY5MbBkBIa80YGH2IBGVPaeDRu
+	jHEg2Tmz7doU5+joMhVh/hEU32QJZs846iRJeKeBaJZCX0PhyJ/FfZoZaK2Qyv6u8h0mxTgueA/
+	T
+X-Gm-Gg: ASbGnctK5BJKcCHpTmC0fP+HSjm5VtyyBGCGE8iqkeHf5JbO2kbIhUtPrWQ7fuwrMw6
+	6z9Ylbh1fdy2s2rE4S2gqPSNv3v3sRBULwRNXhm6q98+wZWjj8xNintQSVS2hCIv68HtxTd8a5k
+	CG0rrFE4KPzWy5UXRwnjz35NmP79jHk6QIE4b+xXS6tJW+GaHpxWHDxa0T2xrVzMJfaN2tD4hFZ
+	wuVX9HbQDlrMosXD6JOp9P9ZFsO94xzTMAHUwIvtM7BTyaI9z540JuiJE4i5i4J8sCULRjo2fyj
+	lnMB
+X-Google-Smtp-Source: AGHT+IGp2G0ZkWQJHIADu6Vdhv5QVm+8WF1FRT6tSaMg67WwSvDF9JGD21Gh97x3nZvA+4a7hn2PDw==
+X-Received: by 2002:a05:6a20:9f8e:b0:1e1:94a2:275c with SMTP id adf61e73a8af0-1ee03a3f4camr9666927637.18.1738966020108;
+        Fri, 07 Feb 2025 14:07:00 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af65a31sm3586737a12.53.2025.02.07.14.06.58
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af65a31sm3586737a12.53.2025.02.07.14.06.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 14:06:58 -0800 (PST)
+        Fri, 07 Feb 2025 14:06:59 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 01/12] libnsl2: set CVE_PRODUCT
-Date: Fri,  7 Feb 2025 14:06:42 -0800
-Message-ID: <c8e9cde342e935b309aeab06029fc5a46ef89028.1738965898.git.steve@sakoman.com>
+Subject: [OE-core][styhead 02/12] cve-check: restore CVE_CHECK_SHOW_WARNINGS functionality
+Date: Fri,  7 Feb 2025 14:06:43 -0800
+Message-ID: <3cf7c6bcd569cb19ac2b9c05f1134fdda6e9e714.1738965898.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1738965898.git.steve@sakoman.com>
 References: <cover.1738965898.git.steve@sakoman.com>
@@ -67,36 +67,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 22:07:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211001
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Our libnsl2 recipe is just libnsl version 2.x, so set the CVE vendor and
-product pair appropriately as per:
+Commit 05ef4f2a7b225c8d230eaca8d333ffb921729d79 removed this
+functionality by accident. It was implemented in text exporter, while it
+should have been a global feature independent on exporter type to avoid
+such accidental deletion.
 
-https://www.cvedetails.com/version/1177013/Libnsl-Project-Libnsl-2.0.0.html
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d0e77d3f9217b96f1c77ba65fc9b8420f413c401)
+(cherry picked from commit 2996b11596afca288a6b7f409a5287063d331f3b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/libnsl/libnsl2_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/cve-check.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-index 8cc1f7cec3..082c888be2 100644
---- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-@@ -10,6 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS = "libtirpc"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 0c92b87f52..33d41b912d 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -422,6 +422,11 @@ def check_cves(d, cve_data):
+     if not cves_in_recipe:
+         bb.note("No CVE records for products in recipe %s" % (pn))
  
-+CVE_PRODUCT = "libnsl_project:libnsl"
++    if d.getVar("CVE_CHECK_SHOW_WARNINGS") == "1":
++        unpatched_cves = [cve for cve in cve_data if cve_data[cve]["abbrev-status"] == "Unpatched"]
++        if unpatched_cves:
++            bb.warn("Found unpatched CVE (%s)" % " ".join(unpatched_cves))
 +
- PV = "2.0.1"
+     return (cve_data, cves_status)
  
- SRCREV = "d4b22e54b5e6637a69b26eab5faad2a326c9b182"
+ def get_cve_info(d, cve_data):
 -- 
 2.43.0
 
