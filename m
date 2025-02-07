@@ -2,122 +2,102 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 150A7C0219D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F23AC021A3
 	for <webhook@archiver.kernel.org>; Fri,  7 Feb 2025 22:07:04 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.1165.1738966017911511794
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.1175.1738966023343243579
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Feb 2025 14:06:58 -0800
+ Fri, 07 Feb 2025 14:07:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CBmMxu13;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21f6a47d617so2077405ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 14:06:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1YAmv4JK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fa21145217so3038285a91.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 14:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738966017; x=1739570817; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X0evliIaUysBWKGnucc9sVc4b0+Sc4WA1D+XGLWx67k=;
-        b=CBmMxu139N9BbOW94VS3KzsY+Ou9OmdDuQy6PE+DNgDOwsNknECAwR11srarUPD7vl
-         Fb40Sbt1oEf9EDTnFNscp7g0ur2aO4vdmFlnAwEym0SFQDTY9mKhVUjipieBCXdySUpr
-         POqimgfA3v6yO+MWtkZ/qF/8YAkDrbuuOAhy1y0LHJCeqxVC7wFwZDUmvpvycU2qbYLZ
-         JAAzXVlAXYnHM91p5RLDoAxr/8mcNaLIE3WBu80BXOUfdjodAffRkmj0zc21w+oFCCEh
-         qMCurLdpOTjQn1JZPG4MKTS2mHJj6U2N4ZMMeXkh6COpmNZ6Aq6608fMYkXb5l5tNHBG
-         A0Lw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1738966022; x=1739570822; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zbRbIkBXaexix201pgmR9UwXbgn5I5hAvrwHU+OCvX0=;
+        b=1YAmv4JK3H3PvK3wCkhRHoslE4Fcz7gHavV2rZISpKtNUfynfqKAAQu17YCMVh5wT+
+         F0EKu1kyZMYKPuEdVF/hFP5Xat9sSyka9MRwOPS7IlBjPtWRu5P0q/uQdM2xARPxkKBd
+         FYmHTSE6E9LzNA9TTQx1Fu34NCAGC0WhwdLNZl5o9/tpsZtAdIK8jTamRpqdCSL8zmt3
+         y5Q+WNgXXy3N6VYzXtoplsr/aed3OATevUybOtSSXcjegdssyEIChEj/7yy0NqrQzzxX
+         VQHBVSfeSmZ7oXZWqUUubliPeVDkGQbBqaMGF1VtH1SqLVUtax4k62wxFtORkJ7oUY43
+         UxJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738966017; x=1739570817;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X0evliIaUysBWKGnucc9sVc4b0+Sc4WA1D+XGLWx67k=;
-        b=HCetugGiKiDxK46iyIjf8IfX/dSzGBTOmupy7Gb2JERMecTT4I7CLY8FqgfzS5jfhq
-         jPv5h3xbNGS2jbVX6SN7HvrqrlgTGYcxcIW9e/SrlcMmIinJxvmjW3wd5MR/B4e4w5dw
-         ODgbgwbxc27JpEh0zGqXrZusqLTUI9VvNaYHtVc2KTXNslymCPsfrIXkoCWJ66JIb+6o
-         LnxD24nTUJORfDSzH559hISECZ7FBLqTxJaA1ib6ay+X/84zS7yDL/mB0RnEV3gc/9My
-         qgPIffqlbXQevgm6hurIy0KNHgTef4pPLqu0uTlF0Q9UpbTU9qcoM0JsBLeaX6aXG4t8
-         R8bw==
-X-Gm-Message-State: AOJu0YwUPKUMtsA3iIVIqD/+FMBtHmfW28mzx9NYa5/+nybAM35OLIDM
-	QpAA9sAG0Kmvb1NTbS8uMHkF9361jEPYscZ/PmLxnSy1v51SsSj49uKnjyGh5/Xnvt8enJ6p2Kd
-	x
-X-Gm-Gg: ASbGncsaw/DWkBTqN6Aycj+hslAiFn2PIfb4/rXGBdqhSpmfwMZh6tlqYv6jheXg/B/
-	BR88npiIM2jwqIotC/wvbb5Waj3DwiCA1eZb8EYyp9WWNXkULZPeTirgk+o9ICS2TCOZOv+wiwS
-	O2nwMTCeawxqaMVFTIDRXL7JuQcmKuC9Jd8Qhu0tLopIi19uThiK0Ekd4miuldrMYd3Mib8X8fU
-	vQUId9UVpLOOxqo3BTK2RUbDIB7LlFycn+ocoTvE1KQx1cpMhkmGcewg5Y/5d5xeu6ZZ6GeKvuG
-	EZ6V
-X-Google-Smtp-Source: AGHT+IGuDvDxpJUHiim9YTZHJKv76opoNQLuaJHE+tvmHXleudAq32PRijCQ/MiJjGMBOYoJM3QOaw==
-X-Received: by 2002:a17:902:ef51:b0:215:6995:1ef3 with SMTP id d9443c01a7336-21f4e6a1125mr75508635ad.3.1738966016872;
-        Fri, 07 Feb 2025 14:06:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738966022; x=1739570822;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zbRbIkBXaexix201pgmR9UwXbgn5I5hAvrwHU+OCvX0=;
+        b=WOYcGhhUMiasmyhcuzT2igQw5M101+UyOFxE28dfIxCmMC+5glslmUrl4YiM/nO/vP
+         nMqsIWDIkzMDPYtxHYWcAIY84XODma8LYGYlqNqmwvljX0Q9+PjZXykvpAGU8iEDet5o
+         xYPlXo9WXD3wNxXOVNkVmIG9mS/RpOszb1+TD4CWFbp9AmZT/E+q/9j10csRVnOXXv+u
+         90ErP0f/tgAB9Dvw3qnoA6vJx3WnXU9MDTOlruwPTHAHU0eJBj0PaxFKUqQjAQS++cB8
+         Mu7vfXSxksx4gVlSUB8TG591ch5knlh6/y3zaLZ/+WFuF9G3hsJdvKfpEkosDnYs6rE5
+         sSkQ==
+X-Gm-Message-State: AOJu0Yzr4sm3JCMyxD75cFVtxq7iHRknYgmy9LS3jmIH6MTnmk8ixT6o
+	uvnviLKQpcUSUnl2Oy/DaEbaBkki5SCfQtoofqf2wNZKvECWDYoRVS+//K8hQBNgzrPZVBjkP41
+	u
+X-Gm-Gg: ASbGncv0Dk+rVzmvLYHwI/S1zl6mjDuvbUiVXiPvFrvbh+t7N4LCsQlpP/s/u8qIq2w
+	37p9TVM8r4AfOPcTQN2T7N8Xb/7e2oAgVHOJOJRUI3jxl4XMyZNILHC+KRQJE/SM1WqmAlYEleu
+	7qWZrtPZ4dhWxRyXEeE6sqs/xWLjMYoaNjPPHTDh5ypkLBOkPkcqCEjiaAA1Dwlnq7HCr4ROk35
+	g9xpkrF+3M5hEK2UtZM62Q9VFP2FYKRUH82siceEKjbLbRhN5hOEktRvmVP5SAG8AIOMpOHUT2o
+	+e7k
+X-Google-Smtp-Source: AGHT+IGDuk2W8ZUaewtDl49eJugiAKlo29Ed9yo5Li1cUZuubjNNlYdn2/KyeQUT2cBTKH/jcK1Yyw==
+X-Received: by 2002:a05:6a00:3e0b:b0:72a:bc54:84f7 with SMTP id d2e1a72fcca58-7305d481396mr8200718b3a.12.1738966022603;
+        Fri, 07 Feb 2025 14:07:02 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af65a31sm3586737a12.53.2025.02.07.14.06.56
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af65a31sm3586737a12.53.2025.02.07.14.07.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 14:06:56 -0800 (PST)
+        Fri, 07 Feb 2025 14:07:02 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 00/12] Patch review
-Date: Fri,  7 Feb 2025 14:06:41 -0800
-Message-ID: <cover.1738965898.git.steve@sakoman.com>
+Subject: [OE-core][styhead 04/12] systemd: set CVE_PRODUCT
+Date: Fri,  7 Feb 2025 14:06:45 -0800
+Message-ID: <d92c1ca1c89f140a731aec9f3389c2dad2f59829.1738965898.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1738965898.git.steve@sakoman.com>
+References: <cover.1738965898.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Feb 2025 22:07:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/210999
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211003
 
-Please review this set of changes for styhead and have comments back by
-end of day Tuesday, February 11
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Passed a-full on autobuilder:
+systemd.inc is used by systemd, systemd-boot and
+systemd-tools-native recipes so make sure all
+match to "systemd" product in CVE database. The
+split between systemd, systemd-boot and
+systemd-tools-native is specific to oe-core and
+upstream just refers to systemd. Not limiting
+to "systemd_project" vendor since multiple
+vendor names have been used in the past.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/976
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit eb46ad379170f0a80ac2d061fa02c118f5ed1d31)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-core/systemd/systemd.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The following changes since commit a5e7ff4424a68335fc768e49a232a58011a5b160:
-
-  devtool: ide-sdk remove the plugin from eSDK installer (2025-01-29 06:42:16 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Alexander Kanavin (2):
-  enchant2: correct SRC_URI and other uris
-  libxml-parser-perl: correct SRC_URI
-
-Bruce Ashfield (3):
-  linux-yocto/6.6: update to v6.6.71
-  linux-yocto/6.6: update to v6.6.72
-  linux-yocto/6.6: update to v6.6.74
-
-Mikko Rapeli (1):
-  systemd: set CVE_PRODUCT
-
-Peter Marko (2):
-  cve-check: restore CVE_CHECK_SHOW_WARNINGS functionality
-  cve-check: fix cvesInRecord
-
-Richard Purdie (2):
-  resulttool/store: Fix permissions of logarchive
-  oeqa/gitarchive: Fix syntax warning
-
-Ross Burton (2):
-  libnsl2: set CVE_PRODUCT
-  lrzsz: update SRC_URI to avoid redirect
-
- meta/classes/cve-check.bbclass                | 16 +++++++----
- meta/lib/oeqa/utils/gitarchive.py             |  2 +-
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  6 ++--
- meta/recipes-core/systemd/systemd.inc         |  2 ++
- .../perl/libxml-parser-perl_2.47.bb           |  2 +-
- meta/recipes-extended/libnsl/libnsl2_git.bb   |  2 ++
- .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
- .../recipes-support/enchant/enchant2_2.8.2.bb |  6 ++--
- scripts/lib/resulttool/store.py               |  1 +
- 11 files changed, 44 insertions(+), 33 deletions(-)
-
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 83dcd65a83..4e75725caf 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -20,3 +20,5 @@ SRCBRANCH = "v256-stable"
+ SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
++
++CVE_PRODUCT = "systemd"
 -- 
 2.43.0
 
