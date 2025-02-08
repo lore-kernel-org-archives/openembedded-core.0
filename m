@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B95C4C02198
-	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 22:11:55 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.18875.1739052709688786304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30924C02198
+	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 23:24:16 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web10.20266.1739057050605452300
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 14:11:50 -0800
+ Sat, 08 Feb 2025 15:24:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=T49r8LEl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250208221146ddf38900fa3a6a3144-hwa4ol@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250208221146ddf38900fa3a6a3144
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=IwFBZvsJ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202502082324069f5ec3bebfa87b7042-s8l0g1@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202502082324069f5ec3bebfa87b7042
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 08 Feb 2025 23:11:46 +0100
+        Sun, 09 Feb 2025 00:24:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=gStWyaoFeyTzLyCplRwIENvx0H1d0ulXS6UitHgdHRU=;
- b=T49r8LElGoGBNyMNzdZnYCIBfGid2fTsYzv99J4nHWaMdB0Mkt/iciDUeXV1u8p5h+NJPp
- yabHdWN1dflzRenh8gsRjFByW+PjL6lgkcyLJQakcNaLbDMyhO/a6PvYlnVe5UxuJfJaeED6
- H2RvTOCndUm8Cgd4i+wWHm7CEmqkmD/MGtYukHNksbeZb+YwOYpHOnx63j55sKgquAflE/r/
- tCO8NxfNCxTwami2ZTUH+7RnI/HeDTMT5NrM4Pwj+1pXHUKiwfTAk8y6z7LrqbguBK6/g+Ia
- lhdpJjCjFwcO3/so59NLM9eHDlHzobbSUVjaB+R2OOgct9XC/5Arn74g==;
+ bh=WABBkYbb21PZCgAozNqgAVJPUIEfOiyll5vGKmbRBi8=;
+ b=IwFBZvsJ/qLQyO8RHHy5PlMK31yVmPZ9lVFP5kHMFVHBbIb+cMXWDgR7BP5VkM7/otavu/
+ gkKLWiEl1Q+gLXc6E7RBvh29vACE7Q8ajiadvEnpOLAObjNNSeY5iezFPODBC6aCLaDeEESl
+ xW2rWaJFmf4OB3+wWWZutFoUCbZrlJt+VXMh5wWDemY/Qadbgg8Y4nmI1qpnaqdWaevt140c
+ C5+8w4/RVeYQ9rD+H3dwU4zx3QV8Cb8AuS4MYe4KxySgekxtfx7vatyNjU05EnJSf6UH2moz
+ 6TtHOiL0FlxfQywrvSUJcahntwSPyCst3ek0hjeg2Dmxl63diZCeynAw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] python3: upgrade 3.13.1 -> 3.13.2
-Date: Sat,  8 Feb 2025 23:10:57 +0100
-Message-Id: <20250208221057.3480821-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][styhead][PATCH] python3: upgrade 3.12.8 -> 3.12.9
+Date: Sun,  9 Feb 2025 00:23:19 +0100
+Message-Id: <20250208232319.3602940-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,226 +37,182 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 22:11:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211043
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 23:24:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211044
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Release notes:
-https://docs.python.org/release/3.13.2/whatsnew/changelog.html#python-3-13-2
+https://docs.python.org/release/3.12.9/whatsnew/changelog.html#python-3-12-9
 
 Solves CVE-2025-0938, CVE-2024-12254 and 3 other vulnerabilities without
 CVE number assigment.
 
-Remove patch which is included in new release.
+Add a patch to fix failure of a new test.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  ...shebang-overflow-on-python-config.py.patch |  2 +-
- ...r-OpenSSL-3.4-and-add-it-to-multissl.patch |  2 +-
- ...-use-prefix-value-from-build-configu.patch |  2 +-
- ...sts-due-to-load-variability-on-YP-AB.patch | 10 ++--
- ...est_sysconfig-for-posix_user-purelib.patch |  2 +-
- ...01-ssl-Raise-OSError-for-ERR_LIB_SYS.patch | 51 -------------------
- ...ctive_children-skip-problematic-test.patch |  2 +-
- ...le.py-correct-the-test-output-format.patch |  2 +-
+ ...sts-due-to-load-variability-on-YP-AB.patch |  4 +-
+ ...001-ctypes-correct-gcc-check-in-test.patch | 53 +++++++++++++++++++
+ ...asename-to-replace-CC-for-checking-c.patch | 10 ++--
  ...t_readline-skip-limited-history-test.patch |  4 +-
+ ...up.py-do-not-add-a-curses-include-pa.patch |  2 +-
  .../python/python3/makerace.patch             |  2 +-
- .../{python3_3.13.1.bb => python3_3.13.2.bb}  |  3 +-
- 11 files changed, 15 insertions(+), 67 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch
- rename meta/recipes-devtools/python/{python3_3.13.1.bb => python3_3.13.2.bb} (99%)
+ .../{python3_3.12.8.bb => python3_3.12.9.bb}  |  3 +-
+ 8 files changed, 67 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
+ rename meta/recipes-devtools/python/{python3_3.12.8.bb => python3_3.12.9.bb} (99%)
 
 diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index d2246327f2..81a613c151 100644
+index 3311a90bda..6e4930b9ec 100644
 --- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
 +++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
 @@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 9ec3a71..f7d5382 100644
+ index 2d235d2..1ac2263 100644
  --- a/Makefile.pre.in
  +++ b/Makefile.pre.in
--@@ -2606,6 +2606,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2578,6 +2578,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+-@@ -2354,6 +2354,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2355,6 +2355,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
   	@ # Substitution happens here, as the completely-expanded BINDIR
   	@ # is not available in configure
   	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch b/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch
-index d8ad803d50..075737e7d1 100644
---- a/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch
-@@ -34,7 +34,7 @@ diff --git a/Modules/_ssl.c b/Modules/_ssl.c
- index b6b5ebf094c..e5b8bf21002 100644
- --- a/Modules/_ssl.c
- +++ b/Modules/_ssl.c
--@@ -122,7 +122,7 @@ static void _PySSLFixErrno(void) {
-+@@ -121,7 +121,7 @@ static void _PySSLFixErrno(void) {
-  
-  /* Include generated data (error codes) */
-  #if (OPENSSL_VERSION_NUMBER >= 0x30100000L)
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index 45094481a8..ca72ebc899 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-@@ -17,7 +17,7 @@ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
- index f8e1c7d..0882526 100644
- --- a/Lib/sysconfig/__init__.py
- +++ b/Lib/sysconfig/__init__.py
--@@ -481,6 +481,11 @@ def _init_config_vars():
-+@@ -494,6 +494,11 @@ def _init_config_vars():
-          _CONFIG_VARS['VPATH'] = sys._vpath
-      if os.name == 'posix':
-          _init_posix(_CONFIG_VARS)
 diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-index 230e847d2b..c8537db1fd 100644
+index 6779dd515a..ec3bb9cbbd 100644
 --- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
 +++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-@@ -26,7 +26,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 5dae370..23eb971 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -682,6 +682,7 @@ class _TestProcess(BaseTestCase):
-+@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
-          close_queue(q)
-  
-      @support.requires_resource('walltime')
-@@ -34,7 +34,7 @@ index 5dae370..23eb971 100644
-      def test_many_processes(self):
-          if self.TYPE == 'threads':
-              self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2083,6 +2084,7 @@ class _TestBarrier(BaseTestCase):
-+@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
-          except threading.BrokenBarrierError:
-              results.append(True)
-  
-@@ -42,7 +42,7 @@ index 5dae370..23eb971 100644
-      def test_timeout(self):
-          """
-          Test wait(timeout)
--@@ -5171,6 +5173,7 @@ class TestWait(unittest.TestCase):
-+@@ -5299,6 +5301,7 @@ class TestWait(unittest.TestCase):
-          time.sleep(period)
-  
-      @support.requires_resource('walltime')
 @@ -54,7 +54,7 @@ diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
- index 293799f..1dbb623 100644
+ index 9463add..4e0f39d 100644
  --- a/Lib/test/test_time.py
  +++ b/Lib/test/test_time.py
--@@ -504,6 +504,7 @@ class TimeTestCase(unittest.TestCase):
-+@@ -548,6 +548,7 @@ class TimeTestCase(unittest.TestCase):
+-@@ -527,6 +527,7 @@ class TimeTestCase(unittest.TestCase):
++@@ -536,6 +536,7 @@ class TimeTestCase(unittest.TestCase):
       @unittest.skipIf(
           support.is_wasi, "process_time not available on WASI"
       )
-@@ -62,7 +62,7 @@ index 293799f..1dbb623 100644
+@@ -62,7 +62,7 @@ index 9463add..4e0f39d 100644
       def test_process_time(self):
           # process_time() should not include time spend during a sleep
           start = time.process_time()
--@@ -517,6 +518,7 @@ class TimeTestCase(unittest.TestCase):
-+@@ -561,6 +562,7 @@ class TimeTestCase(unittest.TestCase):
+-@@ -540,6 +541,7 @@ class TimeTestCase(unittest.TestCase):
++@@ -549,6 +550,7 @@ class TimeTestCase(unittest.TestCase):
           self.assertTrue(info.monotonic)
           self.assertFalse(info.adjustable)
   
-diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-index b967a36e49..ab433d1836 100644
---- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
-@@ -25,7 +25,7 @@ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
- index 1ade492..4e94889 100644
- --- a/Lib/test/test_sysconfig.py
- +++ b/Lib/test/test_sysconfig.py
--@@ -414,7 +414,7 @@ class TestSysConfig(unittest.TestCase):
-+@@ -423,7 +423,7 @@ class TestSysConfig(unittest.TestCase):
-                  expected = os.path.normpath(global_path.replace(base, user, 1))
-                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
-                  # whereas posix_prefix does.
-diff --git a/meta/recipes-devtools/python/python3/0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch b/meta/recipes-devtools/python/python3/0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch
-deleted file mode 100644
-index 18e0f208c7..0000000000
---- a/meta/recipes-devtools/python/python3/0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 11e0523eb363b7def4bc64d24a04e88d8670a691 Mon Sep 17 00:00:00 2001
--From: Petr Viktorin <encukou@gmail.com>
--Date: Thu, 28 Nov 2024 13:32:30 +0100
--Subject: [PATCH] ssl: Raise OSError for ERR_LIB_SYS
--
--From the ERR_raise manpage:
--
--    ERR_LIB_SYS
--
--        This "library code" indicates that a system error is
--        being reported.  In this case, the reason code given
--        to `ERR_raise()` and `ERR_raise_data()` *must* be
--        `errno(3)`.
--
--Upstream-Status: Submitted [https://github.com/python/cpython/pull/127361]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- Modules/_ssl.c | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
--
--diff --git a/Modules/_ssl.c b/Modules/_ssl.c
--index e5b8bf21002..a243ba4b9bc 100644
----- a/Modules/_ssl.c
--+++ b/Modules/_ssl.c
--@@ -667,6 +667,11 @@ PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
--                         ERR_GET_REASON(e) == SSL_R_CERTIFICATE_VERIFY_FAILED) {
--                     type = state->PySSLCertVerificationErrorObject;
--                 }
--+                if (ERR_GET_LIB(e) == ERR_LIB_SYS) {
--+                    // A system error is being reported; reason is set to errno
--+                    errno = ERR_GET_REASON(e);
--+                    return PyErr_SetFromErrno(PyExc_OSError);
--+                }
--                 p = PY_SSL_ERROR_SYSCALL;
--             }
--             break;
--@@ -692,6 +697,11 @@ PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
--                 errstr = "EOF occurred in violation of protocol";
--             }
-- #endif
--+            if (ERR_GET_LIB(e) == ERR_LIB_SYS) {
--+                // A system error is being reported; reason is set to errno
--+                errno = ERR_GET_REASON(e);
--+                return PyErr_SetFromErrno(PyExc_OSError);
--+            }
--             break;
--         }
--         default:
---- 
--2.30.2
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-index 7749fcbe7d..5f60c60b5b 100644
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-@@ -17,7 +17,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 23eb971..b1295b2 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -579,6 +579,7 @@ class _TestProcess(BaseTestCase):
-+@@ -585,6 +585,7 @@ class _TestProcess(BaseTestCase):
-          self.assertTrue(type(cpus) is int)
-          self.assertTrue(cpus >= 1)
+diff --git a/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch b/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
+new file mode 100644
+index 0000000000..3dd762e519
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
+@@ -0,0 +1,53 @@
++From 2e2a0c8593a38f2020cc2baeeaa7972eb86773f9 Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Sat, 8 Feb 2025 23:57:17 +0100
++Subject: [PATCH] ctypes: correct gcc check in test
++
++In case gcc is not available, it will throw exception and test fails.
++So chatch the exception to skip the test correctly.
++
++======================================================================
++ERROR: test_null_dlsym (test.test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "/usr/lib/python3.12/test/test_ctypes/test_dlerror.py", line 61, in test_null_dlsym
++    retcode = subprocess.call(["gcc", "--version"],
++              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  File "/usr/lib/python3.12/subprocess.py", line 391, in call
++    with Popen(*popenargs, **kwargs) as p:
++         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  File "/usr/lib/python3.12/subprocess.py", line 1028, in __init__
++    self._execute_child(args, executable, preexec_fn, close_fds,
++  File "/usr/lib/python3.12/subprocess.py", line 1963, in _execute_child
++    raise child_exception_type(errno_num, err_msg, err_filename)
++FileNotFoundError: [Errno 2] No such file or directory: 'gcc'
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/129872]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ Lib/test/test_ctypes/test_dlerror.py | 11 +++++++----
++ 1 file changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/Lib/test/test_ctypes/test_dlerror.py b/Lib/test/test_ctypes/test_dlerror.py
++index 6bf492399cb..56eb7622b4d 100644
++--- a/Lib/test/test_ctypes/test_dlerror.py
+++++ b/Lib/test/test_ctypes/test_dlerror.py
++@@ -58,11 +58,14 @@ def test_null_dlsym(self):
++         import subprocess
++         import tempfile
++ 
++-        retcode = subprocess.call(["gcc", "--version"],
++-                                  stdout=subprocess.DEVNULL,
++-                                  stderr=subprocess.DEVNULL)
++-        if retcode != 0:
+++        try:
+++            retcode = subprocess.call(["gcc", "--version"],
+++                                      stdout=subprocess.DEVNULL,
+++                                      stderr=subprocess.DEVNULL)
+++        except:
++             self.skipTest("gcc is missing")
+++        if retcode != 0:
+++            self.skipTest("gcc is not working")
++ 
++         pipe_r, pipe_w = os.pipe()
++         self.addCleanup(os.close, pipe_r)
+diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+index c9ef409018..5a1f9ffccf 100644
+--- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
++++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+@@ -73,7 +73,7 @@ index 9270b5f..955daad 100644
+    *clang*)
+      # Any changes made here should be reflected in the GCC+Darwin case below
+      PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
+-@@ -2158,7 +2159,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
++@@ -2179,7 +2180,7 @@ AC_MSG_RESULT([$BOLT_APPLY_FLAGS])
+  # compiler and platform.  BASECFLAGS tweaks need to be made even if the
+  # user set OPT.
   
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index 7f03cf105f..2cca004b57 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -34,7 +34,7 @@ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
- index da4bd79..fd9e67d 100644
- --- a/Lib/test/test_locale.py
- +++ b/Lib/test/test_locale.py
--@@ -568,7 +568,7 @@ class TestMiscellaneous(unittest.TestCase):
-+@@ -572,7 +572,7 @@ class TestMiscellaneous(unittest.TestCase):
-              self.skipTest('test needs Turkish locale')
-          loc = locale.getlocale(locale.LC_CTYPE)
-          if verbose:
+@@ -82,7 +82,7 @@ index 9270b5f..955daad 100644
+      *clang*)
+          cc_is_clang=1
+          ;;
+-@@ -2430,7 +2431,7 @@ yes)
++@@ -2451,7 +2452,7 @@ yes)
+  
+      # ICC doesn't recognize the option, but only emits a warning
+      ## XXX does it emit an unused result warning and can it be disabled?
+@@ -91,7 +91,7 @@ index 9270b5f..955daad 100644
+              [*icc*], [ac_cv_disable_unused_result_warning=no]
+              [PY_CHECK_CC_WARNING([disable], [unused-result])])
+      AS_VAR_IF([ac_cv_disable_unused_result_warning], [yes],
+-@@ -2676,7 +2677,7 @@ yes)
++@@ -2697,7 +2698,7 @@ yes)
+      ;;
+  esac
+  
+@@ -100,7 +100,7 @@ index 9270b5f..955daad 100644
+  *mpicc*)
+      CFLAGS_NODIST="$CFLAGS_NODIST"
+      ;;
+-@@ -3511,7 +3512,7 @@ then
++@@ -3532,7 +3533,7 @@ then
+  		then
+  			LINKFORSHARED="-Wl,--export-dynamic"
+  		fi;;
+@@ -109,7 +109,7 @@ index 9270b5f..955daad 100644
+  		  *gcc*)
+  		    if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
+  		    then
+-@@ -6832,7 +6833,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
++@@ -6853,7 +6854,7 @@ if test "$ac_cv_gcc_asm_for_x87" = yes; then
+      # Some versions of gcc miscompile inline asm:
+      # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
+      # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
 diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-index d63c73e334..337e69cce0 100644
+index 3568d92bda..f9dc0ddcda 100644
 --- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
 +++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
 @@ -20,7 +20,7 @@ diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
- index 50e77cb..09b644a 100644
+ index fab124a..291dd48 100644
  --- a/Lib/test/test_readline.py
  +++ b/Lib/test/test_readline.py
 -@@ -133,6 +133,7 @@ class TestHistoryManipulation (unittest.TestCase):
@@ -264,48 +220,61 @@ index d63c73e334..337e69cce0 100644
           self.assertEqual(readline.get_history_item(1), "entrée 1")
           self.assertEqual(readline.get_history_item(2), "entrée 22")
   
-@@ -28,7 +28,7 @@ index 50e77cb..09b644a 100644
+@@ -28,7 +28,7 @@ index fab124a..291dd48 100644
       def test_write_read_limited_history(self):
           previous_length = readline.get_history_length()
           self.addCleanup(readline.set_history_length, previous_length)
--@@ -374,6 +375,7 @@ readline.write_history_file(history_file)
-+@@ -382,6 +383,7 @@ readline.write_history_file(history_file)
+-@@ -371,6 +372,7 @@ readline.write_history_file(history_file)
++@@ -379,6 +380,7 @@ readline.write_history_file(history_file)
           self.assertIn(b"done", output)
   
   
+diff --git a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
+index f5e500b146..e917c8bdf0 100644
+--- a/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
++++ b/meta/recipes-devtools/python/python3/0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch
+@@ -18,7 +18,7 @@ diff --git a/configure.ac b/configure.ac
+ index 6e465a4..13c4835 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -6537,12 +6537,6 @@ AS_VAR_IF([have_panel], [no], [
++@@ -6558,12 +6558,6 @@ AS_VAR_IF([have_panel], [no], [
+    AC_MSG_RESULT([$have_panel (CFLAGS: $PANEL_CFLAGS, LIBS: $PANEL_LIBS)])
+  ])
+  
 diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index f63c230747..b115a6fa65 100644
+index f420404f34..862b648685 100644
 --- a/meta/recipes-devtools/python/python3/makerace.patch
 +++ b/meta/recipes-devtools/python/python3/makerace.patch
 @@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index be1b9ea..9ec3a71 100644
+ index dce36a5..2d235d2 100644
  --- a/Makefile.pre.in
  +++ b/Makefile.pre.in
--@@ -2513,7 +2513,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2485,7 +2485,7 @@ COMPILEALL_OPTS=-j0
+-@@ -2265,7 +2265,7 @@ COMPILEALL_OPTS=-j0
++@@ -2266,7 +2266,7 @@ COMPILEALL_OPTS=-j0
   TEST_MODULES=@TEST_MODULES@
   
   .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.13.1.bb b/meta/recipes-devtools/python/python3_3.13.2.bb
+diff --git a/meta/recipes-devtools/python/python3_3.12.8.bb b/meta/recipes-devtools/python/python3_3.12.9.bb
 similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.13.1.bb
-rename to meta/recipes-devtools/python/python3_3.13.2.bb
-index d7a3bcc4bb..52fac76c00 100644
---- a/meta/recipes-devtools/python/python3_3.13.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -30,14 +30,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-test_active_children-skip-problematic-test.patch \
+rename from meta/recipes-devtools/python/python3_3.12.8.bb
+rename to meta/recipes-devtools/python/python3_3.12.9.bb
+index 94e0f24f89..8e03ff5f2b 100644
+--- a/meta/recipes-devtools/python/python3_3.12.8.bb
++++ b/meta/recipes-devtools/python/python3_3.12.9.bb
+@@ -34,13 +34,14 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
             file://0001-test_readline-skip-limited-history-test.patch \
-            file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch \
--           file://0001-ssl-Raise-OSError-for-ERR_LIB_SYS.patch \
++           file://0001-ctypes-correct-gcc-check-in-test.patch \
             "
  
  SRC_URI:append:class-native = " \
             file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
             "
  
--SRC_URI[sha256sum] = "9cf9427bee9e2242e3877dd0f6b641c1853ca461f39d6503ce260a59c80bf0d9"
-+SRC_URI[sha256sum] = "d984bcc57cd67caab26f7def42e523b1c015bbc5dc07836cf4f0b63fa159eb56"
+-SRC_URI[sha256sum] = "c909157bb25ec114e5869124cc2a9c4a4d4c1e957ca4ff553f1edc692101154e"
++SRC_URI[sha256sum] = "7220835d9f90b37c006e9842a8dff4580aaca4318674f947302b8d28f3f81112"
  
  # exclude pre-releases for both python 2.x and 3.x
  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
