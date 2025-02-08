@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F45C0219E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEF3C021A1
 	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:05:22 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.9244.1739023513807402402
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.9253.1739023519223708626
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 06:05:13 -0800
+ Sat, 08 Feb 2025 06:05:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=F5QKhpJ/;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f53ad05a0so25452915ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TMrFDms9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f2cfd821eso53990595ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023513; x=1739628313; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023518; x=1739628318; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0nUbjzO+uibPSou0iM5ZF18jQduMZM+NjO/jWqvtLWI=;
-        b=F5QKhpJ/PlqNDF4/SlRpYsDt0OX+OvLIXgB6Seuj6D9cnJ0t4GVVgyyocO8yi1BX9z
-         70EV0mcyeefbgliWpLvjzWwgBYcEOk+UHzTb33duTni81kaQthL2A/Varle9mFhk24MJ
-         BWygXFeFj9cynwLDT79c11snY6uAvsrm8ZPthoudocVwVD8Me8YHptXq/oRHBNif9XGp
-         gWxyv3LoVUORyKmoN2tja5dTw3DwJpWV31GKuIkz8RZfJ6gvxAws+IZm+Td4azHfOLWX
-         9sYbHVRz8+N0OxGrWtHQkpdqaZC3gXnf4Hw1rpmZJoRoJCSxA1xoqVm3AGgqNFc8ubsI
-         7XAQ==
+        bh=xO2OKrIZu1l/Eq8vXAiijOldCHT7nWzD2E8t64LAQhU=;
+        b=TMrFDms9XENkq2b/2g8uqaIjDzI6O9g8pqcd2X2ugPFONem2TCLrsBktNitHvgn3LB
+         MwYF2WN/bDK2SOoN9Yr0Ds0QLCAeGE7JESGJmxIswvc1jJhjWeq9431xOJtef1rT86Ij
+         /1rqiukSxCXAZ2ifOXtLxRyc13gqIljmWKIeqQjuOlct7J9OPguN8wC4QkdK35fuNjzl
+         4Ng8ilM2lper418J/XEOeiz7P/Pii2KiNZ9IrdBqKOA41biEih+/HA9YLvXlCPrZC4A5
+         DmHHHOuLSb9u8plAgWmjliHXaR1q4aDE1BGfj1zEdd56AYgl7z588Jktt/NyJnkjZdAo
+         mcNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739023513; x=1739628313;
+        d=1e100.net; s=20230601; t=1739023518; x=1739628318;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0nUbjzO+uibPSou0iM5ZF18jQduMZM+NjO/jWqvtLWI=;
-        b=Xoo561o5inJ9NqsUEyfipAGxidnKqInw0fJrLCLuRgtkMPwZNoI+LG2F9/qQ40a30k
-         MULTLPg/5+enoNBXmrNWXEEDDH0P2YST1DN2VLTV0eLYK4cIMIQpATeKfunjIOFFP2JR
-         miUjIULLFnco/kAwVcTfemHjMfK/JxUZvAjSFIchEPe64+Z+d3jKYI/SwmV2QjDLiDFC
-         GHX+iCT4DAKcD6jDbX+PGbpS8i8Kg5LcBj9eiWla703CUe8B98/hMZ+k4PD4tkdftMI8
-         Ru3PNoK4ZAFbDuAbusMdsdNq0xFC8xmen4GRZcKCo+OyggLW7ub01ZJbmdi8MWJhfd02
-         arXg==
-X-Gm-Message-State: AOJu0YzTRpDSzShWx4Z1BYS9dF0NcaEGRkR34ncVTqnApddXp9llTs4V
-	QLUFLWLomVoQZuWqBnYZ0NQDUYIx0e+x1RUO1GeIDuh37KHzKoqswftEsEzNZqkMJ+Kxsic5wJ5
-	u
-X-Gm-Gg: ASbGncu6jQ0z+cjetSi7XPKeD7m+Ww6LinSGSuG52ZP555dA/QX9x8G9o5vCmMBl2mC
-	epECnbQnT0SgxIxqmz5GGDcj9e8Z8UtsA4TWzIU41oJX8NyPWE1+VPc6XFZPkffdDlxPlsDm64o
-	E5EvJf21NUlKWj0creRxbNTEOv/QwX3+BKPP7/9xVOOFdz8AAa904rfOJ6/JbsLWv2kxJ1nKoS5
-	8a9Doq0vRCVYcORJxSeRxRsdPQ/kGXdMTg0XF8AnW719fJyvlJ9ghojyAWXD7NaxKU5QsEXg9Yg
-	eZCy
-X-Google-Smtp-Source: AGHT+IF7r73T4oEC3xkTrFMR0FbQr9icZZRbyOby22QMHB3Zdsd9pnc4OhAWNMYdb0lsaPQQtVPDNA==
-X-Received: by 2002:a17:903:13c6:b0:21a:8300:b9ce with SMTP id d9443c01a7336-21f4e7772e2mr127868565ad.49.1739023512841;
-        Sat, 08 Feb 2025 06:05:12 -0800 (PST)
+        bh=xO2OKrIZu1l/Eq8vXAiijOldCHT7nWzD2E8t64LAQhU=;
+        b=Vi8A4R5Z8C/aozdUbnR/qKX3hXex75QmZE4YnarTkB+oWGSSrau4yZtYubQpDyM66J
+         DDAc5K8XmT3i+fgKmssdHPiv6lwa455u7nZ9rdgt9evNSgkgujtiHFXueuX7NmvYNxYS
+         U87HiqfLWEvhhOvF2eLCS5UOFv2KLuWUaeAf3sun2rZl8KSpn1ovD/pOWI4QLvllzThh
+         +qHLvDIfkHXLTR7kulZQ91wY5E1Ymgv6U2VyrJa0fGxbKanUQAp9PW/Nx5Twwzi1WHiN
+         yCB9PrqyPI9Adnnf7gI2Ea3beZoLmw8xQGb+8aEkV/5iBZDs4+Zm8kFVaxSRTAQFU+CQ
+         LCtQ==
+X-Gm-Message-State: AOJu0YxWj6FnG8g7EimL6sOJWUse6jndj1Btcxueig2nb8JveSBlJizO
+	05nZaArwYTbjyH2GA490hW5fMdZZhlirgUPgMiHXpP+Om3ZQ9OxQxOeQr0RJPW+s9LQpim4Qlcl
+	a
+X-Gm-Gg: ASbGnctTz4jZXPiHoHbvFT7uVJkkplboaRnneiqavkl6/+d32OoO3CBmYdkeB3Ru/za
+	jwRrjhHht99c4s8rddpygVRTDAySO7iEpIc3IQ3eHjjoAcVa4qcZ//djBPs3XSKQGKQd6EuIw9u
+	yTjOmwgRUC4CATZCDD6guiOPhIjyHVEzOAvVYr4qi2q5Nb6mmG1tL6FypJQxT5I3T5Izdm3S0AR
+	TGU094izmQn45Y8JSGwj2/fAEyJM/g/dcaqw4fIV9n6A+rY5v97P1WNghbOuY50/FVPT6/WdWyx
+	rP4o
+X-Google-Smtp-Source: AGHT+IHs1KQ5CemlY88773xa1xJttv5ntHfzQqj3fOM9rxYkFgbyu+g6MUeuBCKTAprJ0AqBh3kJzw==
+X-Received: by 2002:a17:902:c40c:b0:21c:e34:c8c3 with SMTP id d9443c01a7336-21f4e70430emr125314435ad.24.1739023518496;
+        Sat, 08 Feb 2025 06:05:18 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 06:05:12 -0800 (PST)
+        Sat, 08 Feb 2025 06:05:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/13] binutils: File name too long causing failure to open temporary head file in dlltool
-Date: Sat,  8 Feb 2025 06:04:53 -0800
-Message-ID: <617df4ee1d6523ded43f156af8206dfca2c0c8ee.1739023409.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 10/13] rust: remove redundant cargo config file
+Date: Sat,  8 Feb 2025 06:04:57 -0800
+Message-ID: <12fd08cf4009d0284ab951cc48a479dcbc74db42.1739023409.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739023409.git.steve@sakoman.com>
 References: <cover.1739023409.git.steve@sakoman.com>
@@ -67,259 +67,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211026
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211030
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-During the execution of the command: i686-w64-mingw32-dlltool
---input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
-An error occurred:
-i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
+YOCTO [#15061]
+The rust target and linker are getting setting from the sdk environment and
+so the config file is not needed. The redundant config file geneartion is removed.
 
-Due to the path length exceeding the Linux system's file name length
-limit (NAME_MAX=255), the temporary file name generated by the
-i686-w64-mingw32-dlltool command becomes too long to open. To address
-this, a new temporary file name prefix is generated using tmp_prefix =
-prefix_encode ("d", getpid()), ensuring that the file name does not
-exceed the system's length limit.
+Backport from oe-core master: https://git.openembedded.org/openembedded-core/commit/?id=d5f78816d2ad0f3e43ce883eef199d1683cfcbb4
 
-Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
-TMP_STUB handling by overwriting a prior nnnnn.o string rather than
-copying the entire name.
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.42.inc                |   1 +
- .../0017-dlltool-file-name-too-long.patch     | 208 ++++++++++++++++++
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+ meta/recipes-devtools/rust/rust-cross-canadian.inc | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 3784d26f48..8bccf8c56a 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -37,5 +37,6 @@ SRC_URI = "\
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-      file://0015-gprofng-change-use-of-bignum-to-bigint.patch \
-      file://0016-CVE-2024-53589.patch \
-+     file://0017-dlltool-file-name-too-long.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
-new file mode 100644
-index 0000000000..2b759c1ee8
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
-@@ -0,0 +1,208 @@
-+From d95d8395b3a533461f46e8b7e55fef540fc2621b Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Tue, 13 Aug 2024 10:31:21 +0800
-+Subject: [PATCH] dlltool: file name too long
-+
-+During the execution of the command: i686-w64-mingw32-dlltool
-+--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
-+An error occurred:
-+i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
-+
-+Due to the path length exceeding the Linux system's file name length
-+limit (NAME_MAX=255), the temporary file name generated by the
-+i686-w64-mingw32-dlltool command becomes too long to open. To address
-+this, a new temporary file name prefix is generated using tmp_prefix =
-+prefix_encode ("d", getpid()), ensuring that the file name does not
-+exceed the system's length limit.
-+
-+Upstream-Status: Backport
-+[https://github.com/bminor/binutils-gdb/commit/a253bea8995323201b016fe477280c1782688ab4]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+Reviewed-by: Alan Modra <amodra@gmail.com>
-+
-+Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
-+TMP_STUB handling by overwriting a prior nnnnn.o string rather than
-+copying the entire name.
-+
-+* dlltool.c (TMP_STUB): Add "nnnnn.o" to format.
-+(make_one_lib_file): Localise variables.  Don't copy TMP_STUB,
-+overwrite suffix instead.
-+(gen_lib_file): Similarly.
-+(main): Allow for max suffix when testing against NAME_MAX.
-+
-+Upstream-Status: Backport
-+[https://github.com/bminor/binutils-gdb/commit/d0285cdf58adf04e861cd1687f7ecec65937c99d]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ binutils/dlltool.c | 64 +++++++++++++++++-----------------------------
-+ 1 file changed, 24 insertions(+), 40 deletions(-)
-+
-+diff --git a/binutils/dlltool.c b/binutils/dlltool.c
-+index 066c99a4..94f6c34b 100644
-+--- a/binutils/dlltool.c
-++++ b/binutils/dlltool.c
-+@@ -498,7 +498,7 @@ char *tmp_stub_buf;
-+ #define TMP_HEAD_O	dlltmp (&tmp_head_o_buf, "%sh.o")
-+ #define TMP_TAIL_S	dlltmp (&tmp_tail_s_buf, "%st.s")
-+ #define TMP_TAIL_O	dlltmp (&tmp_tail_o_buf, "%st.o")
-+-#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ss")
-++#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ssnnnnn.o")
-+ 
-+ /* This bit of assembly does jmp * ....  */
-+ static const unsigned char i386_jtab[] =
-+@@ -2401,26 +2401,11 @@ make_imp_label (const char *prefix, const char *name)
-+ static bfd *
-+ make_one_lib_file (export_type *exp, int i, int delay)
-+ {
-+-  bfd *      abfd;
-+-  asymbol *  exp_label;
-+-  asymbol *  iname = 0;
-+-  asymbol *  iname2;
-+-  asymbol *  iname_lab;
-+-  asymbol ** iname_lab_pp;
-+-  asymbol ** iname_pp;
-+-#ifndef EXTRA
-+-#define EXTRA    0
-+-#endif
-+-  asymbol *  ptrs[NSECS + 4 + EXTRA + 1];
-+-  flagword   applicable;
-+-  char *     outname = xmalloc (strlen (TMP_STUB) + 10);
-+-  int        oidx = 0;
-+-
-+-
-+-  sprintf (outname, "%s%05d.o", TMP_STUB, i);
-+-
-+-  abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
-++  char *outname = TMP_STUB;
-++  size_t name_len = strlen (outname);
-++  sprintf (outname + name_len - 7, "%05d.o", i);
-+ 
-++  bfd *abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
-+   if (!abfd)
-+     /* xgettext:c-format */
-+     fatal (_("bfd_open failed open stub file: %s: %s"),
-+@@ -2437,9 +2422,13 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+     bfd_set_private_flags (abfd, F_INTERWORK);
-+ #endif
-+ 
-+-  applicable = bfd_applicable_section_flags (abfd);
-+-
-+   /* First make symbols for the sections.  */
-++  flagword applicable = bfd_applicable_section_flags (abfd);
-++#ifndef EXTRA
-++#define EXTRA    0
-++#endif
-++  asymbol *ptrs[NSECS + 4 + EXTRA + 1];
-++  int oidx = 0;
-+   for (i = 0; i < NSECS; i++)
-+     {
-+       sinfo *si = secdata + i;
-+@@ -2466,7 +2455,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+ 
-+   if (! exp->data)
-+     {
-+-      exp_label = bfd_make_empty_symbol (abfd);
-++      asymbol *exp_label = bfd_make_empty_symbol (abfd);
-+       exp_label->name = make_imp_label ("", exp->name);
-+       exp_label->section = secdata[TEXT].sec;
-+       exp_label->flags = BSF_GLOBAL;
-+@@ -2482,6 +2471,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+   /* Generate imp symbols with one underscore for Microsoft
-+      compatibility, and with two underscores for backward
-+      compatibility with old versions of cygwin.  */
-++  asymbol *iname = NULL;
-+   if (create_compat_implib)
-+     {
-+       iname = bfd_make_empty_symbol (abfd);
-+@@ -2491,25 +2481,24 @@ make_one_lib_file (export_type *exp, int i, int delay)
-+       iname->value = 0;
-+     }
-+ 
-+-  iname2 = bfd_make_empty_symbol (abfd);
-++  asymbol *iname2 = bfd_make_empty_symbol (abfd);
-+   iname2->name = make_imp_label ("__imp_", exp->name);
-+   iname2->section = secdata[IDATA5].sec;
-+   iname2->flags = BSF_GLOBAL;
-+   iname2->value = 0;
-+ 
-+-  iname_lab = bfd_make_empty_symbol (abfd);
-+-
-++  asymbol *iname_lab = bfd_make_empty_symbol (abfd);
-+   iname_lab->name = head_label;
-+   iname_lab->section = bfd_und_section_ptr;
-+   iname_lab->flags = 0;
-+   iname_lab->value = 0;
-+ 
-+-  iname_pp = ptrs + oidx;
-++  asymbol **iname_pp = ptrs + oidx;
-+   if (create_compat_implib)
-+     ptrs[oidx++] = iname;
-+   ptrs[oidx++] = iname2;
-+ 
-+-  iname_lab_pp = ptrs + oidx;
-++  asymbol **iname_lab_pp = ptrs + oidx;
-+   ptrs[oidx++] = iname_lab;
-+ 
-+   ptrs[oidx] = 0;
-+@@ -3089,29 +3078,26 @@ gen_lib_file (int delay)
-+ 
-+   if (dontdeltemps < 2)
-+     {
-+-      char *name;
-+-      size_t stub_len = strlen (TMP_STUB);
-++      char *name = TMP_STUB;
-++      size_t name_len = strlen (name);
-+ 
-+-      name = xmalloc (stub_len + 10);
-+-      memcpy (name, TMP_STUB, stub_len);
-+       for (i = 0; (exp = d_exports_lexically[i]); i++)
-+ 	{
-+ 	  /* Don't delete non-existent stubs for PRIVATE entries.  */
-+           if (exp->private)
-+ 	    continue;
-+-	  sprintf (name + stub_len, "%05d.o", i);
-++	  sprintf (name + name_len - 7, "%05d.o", i);
-+ 	  if (unlink (name) < 0)
-+ 	    /* xgettext:c-format */
-+ 	    non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
-+ 	  if (ext_prefix_alias)
-+ 	    {
-+-	      sprintf (name + stub_len, "%05d.o", i + PREFIX_ALIAS_BASE);
-++	      sprintf (name + name_len - 7, "%05d.o", i + PREFIX_ALIAS_BASE);
-+ 	      if (unlink (name) < 0)
-+ 		/* xgettext:c-format */
-+ 		non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
-+ 	    }
-+ 	}
-+-      free (name);
-+     }
-+ 
-+   inform (_("Created lib file"));
-+@@ -4096,9 +4082,9 @@ main (int ac, char **av)
-+   if (tmp_prefix == NULL)
-+     {
-+       /* If possible use a deterministic prefix.  */
-+-      if (imp_name || delayimp_name)
-++      const char *input = imp_name ? imp_name : delayimp_name;
-++      if (input && strlen (input) + sizeof ("_snnnnn.o") - 1 <= NAME_MAX)
-+         {
-+-          const char *input = imp_name ? imp_name : delayimp_name;
-+           tmp_prefix = xmalloc (strlen (input) + 2);
-+           sprintf (tmp_prefix, "%s_", input);
-+           for (i = 0; tmp_prefix[i]; i++)
-+@@ -4106,9 +4092,7 @@ main (int ac, char **av)
-+               tmp_prefix[i] = '_';
-+         }
-+       else
-+-        {
-+-          tmp_prefix = prefix_encode ("d", getpid ());
-+-        }
-++        tmp_prefix = prefix_encode ("d", getpid ());
-+     }
-+ 
-+   mangle_defs ();
-+-- 
-+2.34.1
-+
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+index 4e2e051f1d..dbf997560b 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -64,20 +64,6 @@ do_install () {
+ 
+     chown -R root.root ${D}
+ 
+-    CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
+-    cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
+-	export CARGO_HOME="\$OECORE_TARGET_SYSROOT/home/cargo"
+-	mkdir -p "\$CARGO_HOME"
+-        # Init the default target once, it might be otherwise user modified.
+-	if [ ! -f "\$CARGO_HOME/config" ]; then
+-		touch "\$CARGO_HOME/config"
+-		echo "[build]" >> "\$CARGO_HOME/config"
+-		echo 'target = "'${RUST_TARGET_SYS}'"' >> "\$CARGO_HOME/config"
+-		echo '# TARGET_SYS' >> "\$CARGO_HOME/config"
+-		echo '[target.'${RUST_TARGET_SYS}']' >> "\$CARGO_HOME/config"
+-		echo 'linker = "target-rust-ccld"' >> "\$CARGO_HOME/config"
+-    fi
+-	EOF
+ }
+ 
+ FILES:${PN} += "${base_prefix}/environment-setup.d"
 -- 
 2.43.0
 
