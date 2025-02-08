@@ -2,126 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7648C02198
-	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:05:32 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.9212.1739023522518808742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9045C0219E
+	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:08:22 +0000 (UTC)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+ by mx.groups.io with SMTP id smtpd.web11.9313.1739023699588221142
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 06:05:22 -0800
+ Sat, 08 Feb 2025 06:08:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pGqkLQI+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21f48ab13d5so44054225ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:22 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jgcgoLw0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.180, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e461015fbd4so2338310276.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023522; x=1739628322; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kbbxrql7Iutj/myx14Cfcalewu+8I3McCY+wQyizWHk=;
-        b=pGqkLQI+hy+dgfFANMjmfjpZAychFoz1uRrxf+4fp9VxGvIIGNyMRy0F6jgDxUv7uJ
-         E5jNVEAHI4JwHxTZ3+nddenjxyAdSN5YzhrS2OScpcRcywtLz48ahOBH7AaY97roVikr
-         2yoGE1NUTKORb0SKBk+L1fM5RhV+KSIVGurONa6zAxU+TxxmUHthkSfCb68cD0f5RXd0
-         TmAcHpSB3Ac9Uq1P4/uhY+TfxoDyYb16NCbVTVa+gMNOQjAk1kNHZxqku6U9XDvoQYiY
-         aglMxrTD6tO95t3bcPZcSqe8AfevRnmUGj72AaMQTL4BVd23ia0DjrP9NO18VNPXfPb4
-         YtQQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023699; x=1739628499; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YsqUXwDJDKsaBP10rFS09FFzJ4y3Uu5zXYYGV25Efx4=;
+        b=jgcgoLw0nz+BMHejNQy8Sxsac4c4TDBatFuP9zvaxXkOxygdDdaNT757cTVddZ/nGb
+         dXJGC1ggvJIEzJjqsWOWR34OLCXdV6Xy7AitpqhLTjtnjUGiKJM0XEOt+hUHPKw7if93
+         HbnoaeOnSdzHKlm33hovk4atqQ5tCidTPlpXL3go4T65JjIywla4Xl5nWXn52J4cziis
+         LA6G7gaHKY2rKq6Wxp6+BBfbhuvRTdcBwuP8X9u60Cwx8BYPRAjV/TRA0knwwSyHRALZ
+         iQu1kFrRfWnTxj8zpAT4ivtRWjBvkQFs23pKR894C4X7fosau9n8TYSy2mvybvW43+ks
+         r6kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739023522; x=1739628322;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1739023699; x=1739628499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kbbxrql7Iutj/myx14Cfcalewu+8I3McCY+wQyizWHk=;
-        b=ie5RZrZakl67LAB6EZOMzdPylDrCpjsyfACm6vMVpnxc69Fl67FSLCM6J/V4V8UhSy
-         yvfHqG3fhoyLD6uwQUd0lfj7wCwzVFHFzVAoLjUY3e8F+FULEnN7M30wNkAfW392PGIG
-         qGnyWDtTl+9PJlWYim8YcRMEi3cSfWmaIvDq8vkNbnrfEVmso9PT7IHDQPKFK+cDUKBs
-         SuWxF4dVk8NaITNrDGdz9rP1pnb2mEJs66pA/9DR8aADB0YKpoSfZ5TMSDEqFq+ZtHU4
-         P4vAkUAPXJv1hVroqZkQLiwG550DqbR5D+k2yBe3Auy3pAL6Q+PZvp2q5oeZIKNKBI+p
-         gtUw==
-X-Gm-Message-State: AOJu0YxQu81+MIGWOAF96MN3sQY8hZ0TBdgpCXD9gIwKj1TDZCtaibaf
-	1BzLUDJ3BS9Iv5La9HnKahfDdmfD1EVrf6G7XbLHzZ6KfhCA1QpqxZwrkXzTOY8sLY2g5RBJ7cN
-	E
-X-Gm-Gg: ASbGncsSocArjpRsbkePGpRq5Wg/HDRNCR6pJG3rkFZMH6QwPilDhlOq6yBD0uGh/qy
-	k7CMl9T/dgBhEKZxG29TQjGchUzijt2Ng5nCN2ZgYU8KqjD9Rr4JD8XW/GdfqLAOs0RW1ziabaA
-	l6Drut75azY3t9YfnFulrK34sqGwKRTXfhgiZ/XGJ1H0fwz8NCX428LRPPXMna6D+s462HRn3EZ
-	ObV7iKIl30ooJHjWYGe5kvoWL/fCuBP8Edjyb/FCnNeyf4c42i3ceC3301dXzBWqtpZpaCWZJn7
-	0E1g
-X-Google-Smtp-Source: AGHT+IH3fGPq4U7UVGohhRDAZH9HoqupStnxggBsipFTb2KX7B2XVOSCBdIMfXTuxHkxth8ejPI7Nw==
-X-Received: by 2002:a17:902:f790:b0:21f:6896:f80 with SMTP id d9443c01a7336-21f68961121mr42538235ad.9.1739023521841;
-        Sat, 08 Feb 2025 06:05:21 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 06:05:21 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/13] oeqa/selftest/rust: skip on all MIPS platforms
-Date: Sat,  8 Feb 2025 06:04:59 -0800
-Message-ID: <681f5ea8d6a5050aebfb1f656da9ba679433e366.1739023409.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1739023409.git.steve@sakoman.com>
-References: <cover.1739023409.git.steve@sakoman.com>
+        bh=YsqUXwDJDKsaBP10rFS09FFzJ4y3Uu5zXYYGV25Efx4=;
+        b=RMNdqwwHmZuOY8BGgQN2k+HmyPd76FbC5WslMOPLUpndAC6GGHFwgOmxIyBdZMWEgJ
+         dxWEuTaOUBiOi+5S4xw4H0t/FnRh/ZFglYifj9a8oCHlTI49t5X1GflSUakRJunMF2aA
+         xk5C+uM+6q+MQQd/JXlN8ux/pyT4GARJeV+vZTEBNIMo8MkYG5AlNDx2u+sp+uOJS3pS
+         iA47lm5nh62SMz7b0xLkyGGgZnp6+dnMgnkbps0Qv4CXRl6NzsHBezo4kYqpEw1pkkVE
+         t+LJOXw/M9mUGkBRUIFbV93S9ZsrvAyCACLuMSl6rPas0Xm+ion/TZOfx2GCql/+B9N0
+         QsFA==
+X-Gm-Message-State: AOJu0YxRgDVp/iPS7uk+8SMvvHD+e4wrt0SRebSmLaEcE1rtAq1p69ZG
+	rWdoInRBZ1eoBlCMvypTfjGR0rfC5BWsmFi/2bwCojAaoG5Kqd5LErlFxdfKq2PVKNryoE/Xcu6
+	x8KY3iGzG6wh8JzU31PyeFGZCXTj/bgvwELhRyw==
+X-Gm-Gg: ASbGncvFf9kZtdyBZkUXfpeJxvZF+A7kN55ottYDpD0KdNdSKqHw5N1IRgSajHJfBqU
+	fMpXcJhd/zZbY4mVaeHEErnjUV8fXhBzFFGEf4aBhbKTR+dqHoMBZ2fmvxl7GGlV0962KIAnL
+X-Google-Smtp-Source: AGHT+IHYQjtXG7kAqXXLb6Pmf/LB1Zj4mwwSwrtd2i412zXZGePifwx5G9gHVGeaB01f18KDyQG23DLm/ZprZDq9T+Y=
+X-Received: by 2002:a05:690c:6c10:b0:6f9:ac35:4489 with SMTP id
+ 00721157ae682-6f9b29a85e9mr59924927b3.34.1739023698772; Sat, 08 Feb 2025
+ 06:08:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOSpxdYfp_rjUkofvCQk6VFbJj8TkCv-eWjb=V5U5TavT++Pfg@mail.gmail.com>
+ <7067.1738686633751194071@lists.openembedded.org> <CAOSpxdYXfpROfknEGgNGdxmyfekOKgstxgOQZtvMuC015NPQuw@mail.gmail.com>
+In-Reply-To: <CAOSpxdYXfpROfknEGgNGdxmyfekOKgstxgOQZtvMuC015NPQuw@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sat, 8 Feb 2025 06:08:08 -0800
+X-Gm-Features: AWEUYZkOkOmgsRWCVETj6oBBU2dxApJicbCaQO2XZOAAspTl0UtY02Ol8tBbGzI
+Message-ID: <CAOSpxdYMRrqo_GapdqNbAhwyosP7X1O=+2QN_bgdC9FNUyD43A@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] gnupg: upgrade 2.4.4 -> 2.4.5
+To: gudni.m.g@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:05:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211032
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:08:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211034
 
-From: Ross Burton <ross.burton@arm.com>
+On Tue, Feb 4, 2025 at 9:53=E2=80=AFAM Steve Sakoman <steve@sakoman.com> wr=
+ote:
+>
+> On Tue, Feb 4, 2025 at 8:30=E2=80=AFAM Gu=C3=B0ni M=C3=A1r Gilbert via
+> lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > Hi Steve, It's not clear to me how this error relates to gnupg. It seem=
+s to be related to rust somehow. gnupg isn't mentioned anywhere in the log.
+>
+> Understood, but without the patch I get an error free build, and with
+> the patch I get these errors.
+>
+> I've tried twice with and without your patch, and the issue is reproducib=
+le.
+>
+> I'm open to suggestions, copying Alex since he's more familiar with
+> building rust than I am!
 
-As per "The rustc book"[1], mips*-unknown-linux-* are "tier 3" targets:
+After taking a number of rust fixes I retried this patch and the
+problem no longer occurs.
 
-  Tier 3 targets are those which the Rust codebase has support for, but
-  which the Rust project does not build or test automatically, so they
-  may or may not work.
+So I've included this patch in the set currently out for review.
 
-We already skip qemumips in this selftest, but we're now also seeing
-failures with qemumips64 so refactor the test to skip all machines where
-the architecture is mips or mips64.
+Steve
 
-[1] https://doc.rust-lang.org/nightly/rustc/platform-support.html
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 177e268811c04260923ac4b16fa047315304add0)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/selftest/cases/rust.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index ad14189c6d..ca98f8c0fd 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -3,6 +3,7 @@ import os
- import subprocess
- import time
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.decorator.data import skipIfArch
- from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
-@@ -38,15 +39,12 @@ def parse_results(filename):
- @OETestTag("toolchain-user")
- @OETestTag("runqemu")
- class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-+
-+    @skipIfArch(['mips', 'mips64'])
-     def test_rust(self, *args, **kwargs):
-         # Disable Rust Oe-selftest
-         #self.skipTest("The Rust Oe-selftest is disabled.")
- 
--        # Skip mips32 target since it is unstable with rust tests
--        machine = get_bb_var('MACHINE')
--        if machine == "qemumips":
--            self.skipTest("The mips32 target is skipped for Rust Oe-selftest.")
--
-         # build remote-test-server before image build
-         recipe = "rust"
-         start_time = time.time()
--- 
-2.43.0
-
+> > rust.RustSelfTestSystemEmulated.test_rust: FAILED (499.08s)
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#210811): https://lists.openembedded.org/g/openembed=
+ded-core/message/210811
+> > Mute This Topic: https://lists.openembedded.org/mt/110922127/3620601
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+steve@sakoman.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
