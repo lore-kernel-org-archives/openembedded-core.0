@@ -1,103 +1,127 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E119FC02198
-	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:21:42 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.9551.1739024496236431944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA901C02198
+	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:27:22 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.9655.1739024834694042734
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 06:21:36 -0800
+ Sat, 08 Feb 2025 06:27:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=P5Zsk5ai;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oJEXu6to;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010194e5eff245-e73499c0-013f-487d-999c-398b6ab55132-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739024495; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=7f+UC7crJjkDwZ5LI5yoJAsf9WYll7FaOioIM3jlTrY=;
-	b=P5Zsk5ai63idfa15hajTABnI4URw/Alfq+FREIOpoy8ZT8XHadzzQM6zMH5KjtC7
-	Iel4iXpv1cp2oALCKthx6zHraoXiN2VqLUnCwpmnDsI4SOhbDW89eOH7ekFKdJ003DV
-	vMrciFlulA5/nupoWOFYKiHcQiUROi9bTgseqGl0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739024495;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=7f+UC7crJjkDwZ5LI5yoJAsf9WYll7FaOioIM3jlTrY=;
-	b=oJEXu6towYX6LWRq/IVdyISn29iIQ7w2MfIa01KFQcM4IXsgtFchuDHGnJVGHS5c
-	h/zA3PDpvRsUuFW1pXVmELyftyPlyxbiFxtc8PUMoTzXqN+cwIcQM6+Juyt39LlHMy6
-	9LGFkcPwuPt7tasckk2YQj3g7wsXFHZYbiN1Qcrg=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][scarthgap 09/13] rust: fix for rust multilib sdk
- configuration
-In-Reply-To: 
- <889cda30baccd43e5c82b38752b462aef4ce626c.1739023409.git.steve@sakoman.com>
-References: 
- <889cda30baccd43e5c82b38752b462aef4ce626c.1739023409.git.steve@sakoman.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194e5eff245-e73499c0-013f-487d-999c-398b6ab55132-000000@us-west-2.amazonses.com>
-Date: Sat, 8 Feb 2025 14:21:35 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.08-54.240.27.45
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R1t1DHTO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso1487449f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1739024833; x=1739629633; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C++RIAhy3xHY7Iu/cFf0ziOecw/uoS6k7J86MRqINMU=;
+        b=R1t1DHTONHYB9Pmd5QNrD582rDlOJqqmr3JjpjA7myObMR+m7SqKOtCDCQorqQhvuy
+         GZKcOcvameYY/RqQG/QgsZbgrTWKhkOdQ/6wxxuvXk2Id88v5elLgzvr+Mvd6pR94/u4
+         Clu+k8tEDCXVA4njsiX637EBTErQVf8li3iP8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739024833; x=1739629633;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C++RIAhy3xHY7Iu/cFf0ziOecw/uoS6k7J86MRqINMU=;
+        b=G8jvVUXmQ6cCRwORnJ6ooeuVKOq11Yn48IOY6zYiNh37KAriHU4q117t1aaBhlp9YT
+         12/Dlfa5qDktRhTwMbtft36Ce6tyFKxpWsFNlRE4Wa1N6h92K2/7d7ZyNGAQuFXKMaJc
+         8kJJqqx8832aJVvIHjfi0A6b4hKT8i+5whtWc4cB8pZ3+HRtq9K8FmOGGfgjXPkxXo1q
+         rmzWZWMRr1nw8O+uplZWzinU7sst1Elzk3HR9W4bk19wpFYbo8a+M6TVkgieNzAe3KZX
+         eCYAILiZa4W6sbL8zkv3bAu7qu0bO5RieTeQ94rhRr8+thjdvd1Xf5KWHcHWeMdaVh3W
+         de8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW7rT+grLul1z4F34HnXd/vKS4w8LTh09TfkSRfVFI2/4Dqjq52oit6pkVruPDVZsM0Yaozuxnh/NNLU6itC2Sy/w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwBNwp3ch4nOoZuU8DcJb+x60LeOxe5pDMLIvP9o2Dc43fV0AKD
+	GcJd2wEpnWQ8IpjJUaf/XRwENtkx9bcRDJ7/hJNgx1b/S0nEkimNb3sAvoe9Gk8=
+X-Gm-Gg: ASbGncvrl9+Hv41qkttETjWowQL/IpNSUDyHfwsWAhEqr/Ddgv/290tg/1TWXGnEF/W
+	d989L249rQHdBfB28755AlyQVQy7UfMUIq2jMJlvTeMjWTNnlnCYiKG0EaRvcPMlqZi4+nvirDW
+	Ss5wIE8/1RBv1Gs7r6+TzfUWICRF+dLhirVnywmgPLO0oYRyORAO958jqq/2LuTTP8P28SMI6Xw
+	AJALUIacTcXK0Z9AhcgByhlny3I8TAZQVwOcqMQrIVaB1N08NIuGAdh73MN7p1oldzZE1NAH3xj
+	rr9vsJP9I7JXwKxFUzu4UYIV6CZnBJpHWm3+9zCDH6MkigrM/PbRXA9TTkoZELstXtHXF0J8PA0
+	fT5OG
+X-Google-Smtp-Source: AGHT+IFyRRQzlmAV+dt93ZVBFRozkRtTRCUDsOighbheCi6ljUGOkTR9KC+IxGppzfNSjVsIEBepKw==
+X-Received: by 2002:a5d:64ce:0:b0:386:366d:5d03 with SMTP id ffacd0b85a97d-38dc8dc1461mr5568453f8f.16.1739024832875;
+        Sat, 08 Feb 2025 06:27:12 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1b4e:9b51:38ac:64cf? ([2001:8b0:aba:5f3c:1b4e:9b51:38ac:64cf])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43907f6741esm81530085e9.3.2025.02.08.06.27.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Feb 2025 06:27:11 -0800 (PST)
+Message-ID: <56d49621808fc61f0dec8c739d6870cb00083f19.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] curl: upgrade 8.11.1 -> 8.12.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+Date: Sat, 08 Feb 2025 14:27:10 +0000
+In-Reply-To: <20250207202537.2137371-1-peter.marko@siemens.com>
+References: <20250207202537.2137371-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211035
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:27:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211037
 
---NextPart
-Content-Type: text/plain
+On Fri, 2025-02-07 at 21:25 +0100, Peter Marko via lists.openembedded.org w=
+rote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> Solves CVE-2025-0167, CVE-2025-0665 and CVE-2025-0725.
+>=20
+> License-Update: copyright year refreshed
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+> =C2=A0meta/recipes-support/curl/{curl_8.11.1.bb =3D> curl_8.12.0.bb} | 4 =
+++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0rename meta/recipes-support/curl/{curl_8.11.1.bb =3D> curl_8.12.0.b=
+b} (97%)
+>=20
+> diff --git a/meta/recipes-support/curl/curl_8.11.1.bb b/meta/recipes-supp=
+ort/curl/curl_8.12.0.bb
+> similarity index 97%
+> rename from meta/recipes-support/curl/curl_8.11.1.bb
+> rename to meta/recipes-support/curl/curl_8.12.0.bb
+> index b4d80e9643..0d9457db93 100644
+> --- a/meta/recipes-support/curl/curl_8.11.1.bb
+> +++ b/meta/recipes-support/curl/curl_8.12.0.bb
+> @@ -7,7 +7,7 @@ HOMEPAGE =3D "https://curl.se/"
+> =C2=A0BUGTRACKER =3D "https://github.com/curl/curl/issues"
+> =C2=A0SECTION =3D "console/network"
+> =C2=A0LICENSE =3D "curl"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deed2e5088e1ac619c9a1c747da291=
+d75"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D72f4e9890e99e68d77b7e40703d78=
+9b8"
+> =C2=A0
+> =C2=A0SRC_URI =3D " \
+> =C2=A0=C2=A0=C2=A0=C2=A0 https://curl.se/download/${BP}.tar.xz=C2=A0\
+> @@ -15,7 +15,7 @@ SRC_URI =3D " \
+> =C2=A0=C2=A0=C2=A0=C2=A0 file://disable-tests=C2=A0\
+> =C2=A0=C2=A0=C2=A0=C2=A0 file://no-test-timeout.patch=C2=A0\
+> =C2=A0"
+> -SRC_URI[sha256sum] =3D "c7ca7db48b0909743eaef34250da02c19bc61d4f1dcedd66=
+03f109409536ab56"
+> +SRC_URI[sha256sum] =3D "9a4628c764be6b1a9909567c13e8e771041609df43b2158f=
+cac4e05ea7097e5d"
+> =C2=A0
+> =C2=A0# Curl has used many names over the years...
+> =C2=A0CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libc=
+url:libcurl daniel_stenberg:curl"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Thanks for the upgrade. There does look to be a host search path issue on m=
+ingw:
 
----
-Testing patch /home/patchtest/share/mboxes/scarthgap-09-13-rust-fix-for-rust-multilib-sdk-configuration.patch
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/builds/1003/step=
+s/12/logs/stdio
 
-FAIL: test max line length: Patch line too long (current length 375, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+Cheers,
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Richard
 
