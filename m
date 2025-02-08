@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F11C02198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F45C0219E
 	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:05:22 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.9210.1739023520985416079
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.9244.1739023513807402402
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 06:05:21 -0800
+ Sat, 08 Feb 2025 06:05:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P0xVAcYd;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21c2f1b610dso73818695ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=F5QKhpJ/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f53ad05a0so25452915ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023520; x=1739628320; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023513; x=1739628313; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Lz3lCphABrK8uEgEYlE4ALNbLEAjfLwc5iKkAv5oV7I=;
-        b=P0xVAcYdAqQ1BsbWtuuY/2AU+EuAdJt9xPnin+zJsCklcPezr/ZnsHvq6NkRLgH7+a
-         j9XzLqYztiSTcp228hhevV84oYVJW26qOrUGofnqCTSOpfCBz2oDcVDDYdrh02r3KrPP
-         0cKcq+D5N0AnUTrDpmJhOhNDEKZkpr07CCn9uQ5BoitsQD78GYqEbDFz0McTjpDWowXC
-         //nMQlSs1XmZDbKBzhX3IhC7l7Ule3BO1avOvUljuAIg/58EWHGqQ4v9UyjPdRuV5FlH
-         VstpwqCWrIAMo1XqaRzKa+FOTwrWG9zC46Qe9FWRZlFqGf5/BbA5aurtCwjIeJ2ea4zP
-         8+oQ==
+        bh=0nUbjzO+uibPSou0iM5ZF18jQduMZM+NjO/jWqvtLWI=;
+        b=F5QKhpJ/PlqNDF4/SlRpYsDt0OX+OvLIXgB6Seuj6D9cnJ0t4GVVgyyocO8yi1BX9z
+         70EV0mcyeefbgliWpLvjzWwgBYcEOk+UHzTb33duTni81kaQthL2A/Varle9mFhk24MJ
+         BWygXFeFj9cynwLDT79c11snY6uAvsrm8ZPthoudocVwVD8Me8YHptXq/oRHBNif9XGp
+         gWxyv3LoVUORyKmoN2tja5dTw3DwJpWV31GKuIkz8RZfJ6gvxAws+IZm+Td4azHfOLWX
+         9sYbHVRz8+N0OxGrWtHQkpdqaZC3gXnf4Hw1rpmZJoRoJCSxA1xoqVm3AGgqNFc8ubsI
+         7XAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739023520; x=1739628320;
+        d=1e100.net; s=20230601; t=1739023513; x=1739628313;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Lz3lCphABrK8uEgEYlE4ALNbLEAjfLwc5iKkAv5oV7I=;
-        b=b7Gwqcqd8iZSN6SxOqjuYmSXZlMrqWbNHxkrBcrdsA2Ver8tvoAxcLRzeIXlcJn44v
-         fCvJP9Q3jJa0AGwehOhQrWPpHzaURX5iMSEGRUYcE63+2snUG4AsJChDJklkfAkZkjlC
-         4qOoJnKxPmap++b2c/jD8MH62V0X837Na54P5pdo9HfJCMFBjMOgTLZMRvXFzcaDBtEA
-         C13w3Ja4bMzV59xjXJZBx9ZuzTLB6z58Sfroz4DKFYV/PaSRdA3JwSUkRTMRgAUJA8Ym
-         siMIeaj982a9oy0WPSdqXQoOZ5FP4d/OG+31zi4XCErzfJ9c/VqsbTyU6iV4qPRQhvkk
-         OrgQ==
-X-Gm-Message-State: AOJu0YxEX3IA1h9fD7H6qzZN/ElsxxPWQbX03gcXjRl4z0B8amBCc9S5
-	J1KFQ625iimJTzuhbh2iEzFuKWJGAkMuWnHNfOd9+RbRqISNzmFXVnNGBX4x+5YcmTTgP9aSv3H
-	f
-X-Gm-Gg: ASbGncsW7sDuxr2SRPN4JehUOfqk97aQKaEGhPIPandj1R0YDwyjhgGqPssbfsLftJb
-	V3mX5ZX3XYTazC/CbCyzXK4reRsA9t54gXH387yJ+naJ1O0zrxliRf73TWInrUNxpgIbuqxCrEq
-	qlRg59S+ZsMooE37qyJMiQt7a28UrEV5aPsfUJOJCrId9dH8MhpW9QgkKGcgpVaqTVEyn7BlQkb
-	fBD8hHFDyDbjyLshEt4kBe+ExpxV4wLtZoZHoIxdyLcBvs4+Z1VEsbDZRe09JxPj8cIFjRKTzaw
-	02MK
-X-Google-Smtp-Source: AGHT+IEY6Q9uHovtgAAHNyzSuOIAH2S8Srm2XIfdz57SGXZN04qWwwkiDigP17/siSgDGVRYnLZlNA==
-X-Received: by 2002:a17:902:e946:b0:21f:f3d:d533 with SMTP id d9443c01a7336-21f4e6ca8bemr118476045ad.2.1739023520219;
-        Sat, 08 Feb 2025 06:05:20 -0800 (PST)
+        bh=0nUbjzO+uibPSou0iM5ZF18jQduMZM+NjO/jWqvtLWI=;
+        b=Xoo561o5inJ9NqsUEyfipAGxidnKqInw0fJrLCLuRgtkMPwZNoI+LG2F9/qQ40a30k
+         MULTLPg/5+enoNBXmrNWXEEDDH0P2YST1DN2VLTV0eLYK4cIMIQpATeKfunjIOFFP2JR
+         miUjIULLFnco/kAwVcTfemHjMfK/JxUZvAjSFIchEPe64+Z+d3jKYI/SwmV2QjDLiDFC
+         GHX+iCT4DAKcD6jDbX+PGbpS8i8Kg5LcBj9eiWla703CUe8B98/hMZ+k4PD4tkdftMI8
+         Ru3PNoK4ZAFbDuAbusMdsdNq0xFC8xmen4GRZcKCo+OyggLW7ub01ZJbmdi8MWJhfd02
+         arXg==
+X-Gm-Message-State: AOJu0YzTRpDSzShWx4Z1BYS9dF0NcaEGRkR34ncVTqnApddXp9llTs4V
+	QLUFLWLomVoQZuWqBnYZ0NQDUYIx0e+x1RUO1GeIDuh37KHzKoqswftEsEzNZqkMJ+Kxsic5wJ5
+	u
+X-Gm-Gg: ASbGncu6jQ0z+cjetSi7XPKeD7m+Ww6LinSGSuG52ZP555dA/QX9x8G9o5vCmMBl2mC
+	epECnbQnT0SgxIxqmz5GGDcj9e8Z8UtsA4TWzIU41oJX8NyPWE1+VPc6XFZPkffdDlxPlsDm64o
+	E5EvJf21NUlKWj0creRxbNTEOv/QwX3+BKPP7/9xVOOFdz8AAa904rfOJ6/JbsLWv2kxJ1nKoS5
+	8a9Doq0vRCVYcORJxSeRxRsdPQ/kGXdMTg0XF8AnW719fJyvlJ9ghojyAWXD7NaxKU5QsEXg9Yg
+	eZCy
+X-Google-Smtp-Source: AGHT+IF7r73T4oEC3xkTrFMR0FbQr9icZZRbyOby22QMHB3Zdsd9pnc4OhAWNMYdb0lsaPQQtVPDNA==
+X-Received: by 2002:a17:903:13c6:b0:21a:8300:b9ce with SMTP id d9443c01a7336-21f4e7772e2mr127868565ad.49.1739023512841;
+        Sat, 08 Feb 2025 06:05:12 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 06:05:19 -0800 (PST)
+        Sat, 08 Feb 2025 06:05:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/13] oeqa/sdk/context: fix for gtk3 test failure during do_testsdk
-Date: Sat,  8 Feb 2025 06:04:58 -0800
-Message-ID: <83c3e40e2361d771a724062e38a1349b87059c75.1739023409.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/13] binutils: File name too long causing failure to open temporary head file in dlltool
+Date: Sat,  8 Feb 2025 06:04:53 -0800
+Message-ID: <617df4ee1d6523ded43f156af8206dfca2c0c8ee.1739023409.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739023409.git.steve@sakoman.com>
 References: <cover.1739023409.git.steve@sakoman.com>
@@ -67,48 +67,259 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211031
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211026
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-The do_testsdk for lib32-core-image-sato aborts with below error:
-configure: error: Package requirements (gtk+-3.0) were not met:
-No package 'gtk+-3.0' found
-Consider adjusting the PKG_CONFIG_PATH environment variable if you installed software in a non-standard prefix.
+During the execution of the command: i686-w64-mingw32-dlltool
+--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
+An error occurred:
+i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
 
-This causes due to an absolute path name in 'sdk_env', which is now stripped to have only the environment name.
+Due to the path length exceeding the Linux system's file name length
+limit (NAME_MAX=255), the temporary file name generated by the
+i686-w64-mingw32-dlltool command becomes too long to open. To address
+this, a new temporary file name prefix is generated using tmp_prefix =
+prefix_encode ("d", getpid()), ensuring that the file name does not
+exceed the system's length limit.
 
-Backport from oe-core master: https://git.openembedded.org/openembedded-core/commit/?id=386e4132a9ced75599d92610cf5c0e8fe907c3b6
+Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
+TMP_STUB handling by overwriting a prior nnnnn.o string rather than
+copying the entire name.
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/sdk/context.py | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../0017-dlltool-file-name-too-long.patch     | 208 ++++++++++++++++++
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
 
-diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
-index 01c38c24e6..77e6a98f39 100644
---- a/meta/lib/oeqa/sdk/context.py
-+++ b/meta/lib/oeqa/sdk/context.py
-@@ -41,11 +41,13 @@ class OESDKTestContext(OETestContext):
- 
-     def hasTargetPackage(self, pkg, multilib=False, regex=False):
-         if multilib:
--            # match multilib according to sdk_env
--            mls = self.td.get('MULTILIB_VARIANTS', '').split()
--            for ml in mls:
--                if ('ml'+ml) in self.sdk_env:
--                    pkg = ml + '-' + pkg
-+            stripped_sdk_env = os.path.basename(self.sdk_env)
-+            if stripped_sdk_env.startswith('environment-setup-'):
-+                # match multilib according to sdk_env
-+                mls = self.td.get('MULTILIB_VARIANTS', '').split()
-+                for ml in mls:
-+                    if ('ml'+ml) in stripped_sdk_env:
-+                        pkg = ml + '-' + pkg
-         return self._hasPackage(self.target_pkg_manifest, pkg, regex=regex)
- 
- class OESDKTestContextExecutor(OETestContextExecutor):
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 3784d26f48..8bccf8c56a 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -37,5 +37,6 @@ SRC_URI = "\
+      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
+      file://0015-gprofng-change-use-of-bignum-to-bigint.patch \
+      file://0016-CVE-2024-53589.patch \
++     file://0017-dlltool-file-name-too-long.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+new file mode 100644
+index 0000000000..2b759c1ee8
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-dlltool-file-name-too-long.patch
+@@ -0,0 +1,208 @@
++From d95d8395b3a533461f46e8b7e55fef540fc2621b Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Tue, 13 Aug 2024 10:31:21 +0800
++Subject: [PATCH] dlltool: file name too long
++
++During the execution of the command: i686-w64-mingw32-dlltool
++--input-def $def_filepath --output-delaylib $filepath --dllname qemu.exe
++An error occurred:
++i686-w64-mingw32-dlltool: failed to open temporary head file: ..._w64_mingw32_nativesdk_qemu_8_2_2_build_plugins_libqemu_plugin_api_a_h.s
++
++Due to the path length exceeding the Linux system's file name length
++limit (NAME_MAX=255), the temporary file name generated by the
++i686-w64-mingw32-dlltool command becomes too long to open. To address
++this, a new temporary file name prefix is generated using tmp_prefix =
++prefix_encode ("d", getpid()), ensuring that the file name does not
++exceed the system's length limit.
++
++Upstream-Status: Backport
++[https://github.com/bminor/binutils-gdb/commit/a253bea8995323201b016fe477280c1782688ab4]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++Reviewed-by: Alan Modra <amodra@gmail.com>
++
++Allow for "snnnnn.o" suffix when testing against NAME_MAX, and tidy
++TMP_STUB handling by overwriting a prior nnnnn.o string rather than
++copying the entire name.
++
++* dlltool.c (TMP_STUB): Add "nnnnn.o" to format.
++(make_one_lib_file): Localise variables.  Don't copy TMP_STUB,
++overwrite suffix instead.
++(gen_lib_file): Similarly.
++(main): Allow for max suffix when testing against NAME_MAX.
++
++Upstream-Status: Backport
++[https://github.com/bminor/binutils-gdb/commit/d0285cdf58adf04e861cd1687f7ecec65937c99d]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ binutils/dlltool.c | 64 +++++++++++++++++-----------------------------
++ 1 file changed, 24 insertions(+), 40 deletions(-)
++
++diff --git a/binutils/dlltool.c b/binutils/dlltool.c
++index 066c99a4..94f6c34b 100644
++--- a/binutils/dlltool.c
+++++ b/binutils/dlltool.c
++@@ -498,7 +498,7 @@ char *tmp_stub_buf;
++ #define TMP_HEAD_O	dlltmp (&tmp_head_o_buf, "%sh.o")
++ #define TMP_TAIL_S	dlltmp (&tmp_tail_s_buf, "%st.s")
++ #define TMP_TAIL_O	dlltmp (&tmp_tail_o_buf, "%st.o")
++-#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ss")
+++#define TMP_STUB	dlltmp (&tmp_stub_buf, "%ssnnnnn.o")
++ 
++ /* This bit of assembly does jmp * ....  */
++ static const unsigned char i386_jtab[] =
++@@ -2401,26 +2401,11 @@ make_imp_label (const char *prefix, const char *name)
++ static bfd *
++ make_one_lib_file (export_type *exp, int i, int delay)
++ {
++-  bfd *      abfd;
++-  asymbol *  exp_label;
++-  asymbol *  iname = 0;
++-  asymbol *  iname2;
++-  asymbol *  iname_lab;
++-  asymbol ** iname_lab_pp;
++-  asymbol ** iname_pp;
++-#ifndef EXTRA
++-#define EXTRA    0
++-#endif
++-  asymbol *  ptrs[NSECS + 4 + EXTRA + 1];
++-  flagword   applicable;
++-  char *     outname = xmalloc (strlen (TMP_STUB) + 10);
++-  int        oidx = 0;
++-
++-
++-  sprintf (outname, "%s%05d.o", TMP_STUB, i);
++-
++-  abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
+++  char *outname = TMP_STUB;
+++  size_t name_len = strlen (outname);
+++  sprintf (outname + name_len - 7, "%05d.o", i);
++ 
+++  bfd *abfd = bfd_openw (outname, HOW_BFD_WRITE_TARGET);
++   if (!abfd)
++     /* xgettext:c-format */
++     fatal (_("bfd_open failed open stub file: %s: %s"),
++@@ -2437,9 +2422,13 @@ make_one_lib_file (export_type *exp, int i, int delay)
++     bfd_set_private_flags (abfd, F_INTERWORK);
++ #endif
++ 
++-  applicable = bfd_applicable_section_flags (abfd);
++-
++   /* First make symbols for the sections.  */
+++  flagword applicable = bfd_applicable_section_flags (abfd);
+++#ifndef EXTRA
+++#define EXTRA    0
+++#endif
+++  asymbol *ptrs[NSECS + 4 + EXTRA + 1];
+++  int oidx = 0;
++   for (i = 0; i < NSECS; i++)
++     {
++       sinfo *si = secdata + i;
++@@ -2466,7 +2455,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
++ 
++   if (! exp->data)
++     {
++-      exp_label = bfd_make_empty_symbol (abfd);
+++      asymbol *exp_label = bfd_make_empty_symbol (abfd);
++       exp_label->name = make_imp_label ("", exp->name);
++       exp_label->section = secdata[TEXT].sec;
++       exp_label->flags = BSF_GLOBAL;
++@@ -2482,6 +2471,7 @@ make_one_lib_file (export_type *exp, int i, int delay)
++   /* Generate imp symbols with one underscore for Microsoft
++      compatibility, and with two underscores for backward
++      compatibility with old versions of cygwin.  */
+++  asymbol *iname = NULL;
++   if (create_compat_implib)
++     {
++       iname = bfd_make_empty_symbol (abfd);
++@@ -2491,25 +2481,24 @@ make_one_lib_file (export_type *exp, int i, int delay)
++       iname->value = 0;
++     }
++ 
++-  iname2 = bfd_make_empty_symbol (abfd);
+++  asymbol *iname2 = bfd_make_empty_symbol (abfd);
++   iname2->name = make_imp_label ("__imp_", exp->name);
++   iname2->section = secdata[IDATA5].sec;
++   iname2->flags = BSF_GLOBAL;
++   iname2->value = 0;
++ 
++-  iname_lab = bfd_make_empty_symbol (abfd);
++-
+++  asymbol *iname_lab = bfd_make_empty_symbol (abfd);
++   iname_lab->name = head_label;
++   iname_lab->section = bfd_und_section_ptr;
++   iname_lab->flags = 0;
++   iname_lab->value = 0;
++ 
++-  iname_pp = ptrs + oidx;
+++  asymbol **iname_pp = ptrs + oidx;
++   if (create_compat_implib)
++     ptrs[oidx++] = iname;
++   ptrs[oidx++] = iname2;
++ 
++-  iname_lab_pp = ptrs + oidx;
+++  asymbol **iname_lab_pp = ptrs + oidx;
++   ptrs[oidx++] = iname_lab;
++ 
++   ptrs[oidx] = 0;
++@@ -3089,29 +3078,26 @@ gen_lib_file (int delay)
++ 
++   if (dontdeltemps < 2)
++     {
++-      char *name;
++-      size_t stub_len = strlen (TMP_STUB);
+++      char *name = TMP_STUB;
+++      size_t name_len = strlen (name);
++ 
++-      name = xmalloc (stub_len + 10);
++-      memcpy (name, TMP_STUB, stub_len);
++       for (i = 0; (exp = d_exports_lexically[i]); i++)
++ 	{
++ 	  /* Don't delete non-existent stubs for PRIVATE entries.  */
++           if (exp->private)
++ 	    continue;
++-	  sprintf (name + stub_len, "%05d.o", i);
+++	  sprintf (name + name_len - 7, "%05d.o", i);
++ 	  if (unlink (name) < 0)
++ 	    /* xgettext:c-format */
++ 	    non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
++ 	  if (ext_prefix_alias)
++ 	    {
++-	      sprintf (name + stub_len, "%05d.o", i + PREFIX_ALIAS_BASE);
+++	      sprintf (name + name_len - 7, "%05d.o", i + PREFIX_ALIAS_BASE);
++ 	      if (unlink (name) < 0)
++ 		/* xgettext:c-format */
++ 		non_fatal (_("cannot delete %s: %s"), name, strerror (errno));
++ 	    }
++ 	}
++-      free (name);
++     }
++ 
++   inform (_("Created lib file"));
++@@ -4096,9 +4082,9 @@ main (int ac, char **av)
++   if (tmp_prefix == NULL)
++     {
++       /* If possible use a deterministic prefix.  */
++-      if (imp_name || delayimp_name)
+++      const char *input = imp_name ? imp_name : delayimp_name;
+++      if (input && strlen (input) + sizeof ("_snnnnn.o") - 1 <= NAME_MAX)
++         {
++-          const char *input = imp_name ? imp_name : delayimp_name;
++           tmp_prefix = xmalloc (strlen (input) + 2);
++           sprintf (tmp_prefix, "%s_", input);
++           for (i = 0; tmp_prefix[i]; i++)
++@@ -4106,9 +4092,7 @@ main (int ac, char **av)
++               tmp_prefix[i] = '_';
++         }
++       else
++-        {
++-          tmp_prefix = prefix_encode ("d", getpid ());
++-        }
+++        tmp_prefix = prefix_encode ("d", getpid ());
++     }
++ 
++   mangle_defs ();
++-- 
++2.34.1
++
 -- 
 2.43.0
 
