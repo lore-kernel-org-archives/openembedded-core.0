@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A20C0219E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7648C02198
 	for <webhook@archiver.kernel.org>; Sat,  8 Feb 2025 14:05:32 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.9257.1739023523967568141
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.9212.1739023522518808742
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Feb 2025 06:05:24 -0800
+ Sat, 08 Feb 2025 06:05:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iOjbSLG4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2fa40c0bab2so1342779a91.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:23 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pGqkLQI+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21f48ab13d5so44054225ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 06:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023523; x=1739628323; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739023522; x=1739628322; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/dZ3JWAaYbfh4j2RC+59bngKfB21w5HylHTVVUDLzr0=;
-        b=iOjbSLG4GBf2WTyQjvprClM/fuT6o5hUizsD2PDxSNfnjOPQiDPIC4uwq4hnyNxmfP
-         /gaLS6kyFslCbYUS8Pp6+7pOYYfhqRZ+FFM8XqvX7J8UqBmnnL06hlDFRjzRQBWOL+ee
-         /baJEMTW1P9jJE04rZLKsGegsGM5vvcuIxgZBrbM8HjBQQwiXcSvgZPU2nXg1+/YSDgd
-         D0Rq4mf5Vthrr+MaF7LNKFGfwau5figKQqhAJp5ldD0vazr2JgQEXiB+l8xtZS8Td6lp
-         rd+G7T4hTRxFJGasLHXIAW7dnpxqfh+DstIdrmrNTOKUBlQfTrptdqCa2uejdhb3Crhz
-         4qXg==
+        bh=kbbxrql7Iutj/myx14Cfcalewu+8I3McCY+wQyizWHk=;
+        b=pGqkLQI+hy+dgfFANMjmfjpZAychFoz1uRrxf+4fp9VxGvIIGNyMRy0F6jgDxUv7uJ
+         E5jNVEAHI4JwHxTZ3+nddenjxyAdSN5YzhrS2OScpcRcywtLz48ahOBH7AaY97roVikr
+         2yoGE1NUTKORb0SKBk+L1fM5RhV+KSIVGurONa6zAxU+TxxmUHthkSfCb68cD0f5RXd0
+         TmAcHpSB3Ac9Uq1P4/uhY+TfxoDyYb16NCbVTVa+gMNOQjAk1kNHZxqku6U9XDvoQYiY
+         aglMxrTD6tO95t3bcPZcSqe8AfevRnmUGj72AaMQTL4BVd23ia0DjrP9NO18VNPXfPb4
+         YtQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739023523; x=1739628323;
+        d=1e100.net; s=20230601; t=1739023522; x=1739628322;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/dZ3JWAaYbfh4j2RC+59bngKfB21w5HylHTVVUDLzr0=;
-        b=uGNTjj8TE5uLItaN2oeMnvZ9oEQ8WvXOawX93E547eW3eN/w1PFw2NCeBQABwI9EPM
-         /WFmBj3jPohnnXymgND6ko38fNDB7r1ruRKVvNyB3M2WzNnjBafo9g1YWbOgf1i9LzK6
-         5DaHQHrjWb58P6tB2Hx7w9sn+tNpQ+Kbhr3APmz5cvG2+/fbHAXF6aDMMkdg3jMu/sOc
-         clbplQbZABbuXUDNjEWz6h4bFtLHcbcVfVfor/tyQE+SY7IcFjhg0tyNKMjDUrDg65LF
-         jlBzgMrAgIpN0myjg04TPH29Fv7ktcXHazshO2+GeKL1MbCg6sw/meUCZz3Zw+0xGccr
-         dlgg==
-X-Gm-Message-State: AOJu0Yw2OU2qeYDpfw5t5bYNlVomBIhJ0dXlIUCOUBBvmD10s1RNPZo5
-	tSyBK4Jb0xRZl+lqugqWhzU0Zf+QsekrSzn/qptzdBXkujQi8EhL4pBOwh2uDKooPHiwytnOPSk
-	T
-X-Gm-Gg: ASbGncvjF1jxewk7nGPzn+309ePwrFWoGrjYCRlGkNXfMbVSOO8u9zB1xq6shl5u7/h
-	CGE669iXOvXbnEx1/gkJufN9xyQakXz5LleigTlWNdY5zpEXloJ3B4FD7YsY76WfJ+f+1jJkcIE
-	PVOQPkRJ+ZEH5Q8f3/CC8ffUZBU6rEcJ4lf4N3xo+3FNRhUhlO1VLERyJbNn049BzvCsiaWdbZo
-	NO7hEmr0gOlrlROqZYLg2eI5t7H+y8STXY3WICmuvTvWfnJafRgqa2JpwX3hrbfBHLTaEctnRIG
-	Svsp
-X-Google-Smtp-Source: AGHT+IHLViJDNJorUrRbHoNKiCxeH47m8HKuk8261mrXYuaHBzgFZ+IzIxyMDj8RzyWTKYxeNKz+ZA==
-X-Received: by 2002:a17:90a:ec86:b0:2fa:13ce:bf16 with SMTP id 98e67ed59e1d1-2fa24068f50mr11042673a91.11.1739023523261;
-        Sat, 08 Feb 2025 06:05:23 -0800 (PST)
+        bh=kbbxrql7Iutj/myx14Cfcalewu+8I3McCY+wQyizWHk=;
+        b=ie5RZrZakl67LAB6EZOMzdPylDrCpjsyfACm6vMVpnxc69Fl67FSLCM6J/V4V8UhSy
+         yvfHqG3fhoyLD6uwQUd0lfj7wCwzVFHFzVAoLjUY3e8F+FULEnN7M30wNkAfW392PGIG
+         qGnyWDtTl+9PJlWYim8YcRMEi3cSfWmaIvDq8vkNbnrfEVmso9PT7IHDQPKFK+cDUKBs
+         SuWxF4dVk8NaITNrDGdz9rP1pnb2mEJs66pA/9DR8aADB0YKpoSfZ5TMSDEqFq+ZtHU4
+         P4vAkUAPXJv1hVroqZkQLiwG550DqbR5D+k2yBe3Auy3pAL6Q+PZvp2q5oeZIKNKBI+p
+         gtUw==
+X-Gm-Message-State: AOJu0YxQu81+MIGWOAF96MN3sQY8hZ0TBdgpCXD9gIwKj1TDZCtaibaf
+	1BzLUDJ3BS9Iv5La9HnKahfDdmfD1EVrf6G7XbLHzZ6KfhCA1QpqxZwrkXzTOY8sLY2g5RBJ7cN
+	E
+X-Gm-Gg: ASbGncsSocArjpRsbkePGpRq5Wg/HDRNCR6pJG3rkFZMH6QwPilDhlOq6yBD0uGh/qy
+	k7CMl9T/dgBhEKZxG29TQjGchUzijt2Ng5nCN2ZgYU8KqjD9Rr4JD8XW/GdfqLAOs0RW1ziabaA
+	l6Drut75azY3t9YfnFulrK34sqGwKRTXfhgiZ/XGJ1H0fwz8NCX428LRPPXMna6D+s462HRn3EZ
+	ObV7iKIl30ooJHjWYGe5kvoWL/fCuBP8Edjyb/FCnNeyf4c42i3ceC3301dXzBWqtpZpaCWZJn7
+	0E1g
+X-Google-Smtp-Source: AGHT+IH3fGPq4U7UVGohhRDAZH9HoqupStnxggBsipFTb2KX7B2XVOSCBdIMfXTuxHkxth8ejPI7Nw==
+X-Received: by 2002:a17:902:f790:b0:21f:6896:f80 with SMTP id d9443c01a7336-21f68961121mr42538235ad.9.1739023521841;
+        Sat, 08 Feb 2025 06:05:21 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.22
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c820sm47278345ad.173.2025.02.08.06.05.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 06:05:23 -0800 (PST)
+        Sat, 08 Feb 2025 06:05:21 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/13] selftest/rust: correctly form the PATH environment variable
-Date: Sat,  8 Feb 2025 06:05:00 -0800
-Message-ID: <72156282059aa5a013a386eb95f89dc38726326e.1739023409.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 12/13] oeqa/selftest/rust: skip on all MIPS platforms
+Date: Sat,  8 Feb 2025 06:04:59 -0800
+Message-ID: <681f5ea8d6a5050aebfb1f656da9ba679433e366.1739023409.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739023409.git.steve@sakoman.com>
 References: <cover.1739023409.git.steve@sakoman.com>
@@ -67,45 +67,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Feb 2025 14:05:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211033
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211032
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Ross Burton <ross.burton@arm.com>
 
-There were two issues here:
+As per "The rustc book"[1], mips*-unknown-linux-* are "tier 3" targets:
 
-- the path to native python was not included, so the test
-suite was running with host python, causing failures due to
-host python being given native libraries:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/1711/steps/12/logs/stdio
-(rust recipe uses native python throughout)
+  Tier 3 targets are those which the Rust codebase has support for, but
+  which the Rust project does not build or test automatically, so they
+  may or may not work.
 
-- tmp/hosttools was listead ahead of native-sysroot/usr/bin
+We already skip qemumips in this selftest, but we're now also seeing
+failures with qemumips64 so refactor the test to skip all machines where
+the architecture is mips or mips64.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+[1] https://doc.rust-lang.org/nightly/rustc/platform-support.html
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit aec96b5aec8d6b4a5ae8a719ca05bb727a6197cb)
+(cherry picked from commit 177e268811c04260923ac4b16fa047315304add0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/rust.py | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index ca98f8c0fd..26f132edc4 100644
+index ad14189c6d..ca98f8c0fd 100644
 --- a/meta/lib/oeqa/selftest/cases/rust.py
 +++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -208,9 +208,8 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-             tmpdir = get_bb_var("TMPDIR", "rust")
+@@ -3,6 +3,7 @@ import os
+ import subprocess
+ import time
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.decorator.data import skipIfArch
+ from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
+@@ -38,15 +39,12 @@ def parse_results(filename):
+ @OETestTag("toolchain-user")
+ @OETestTag("runqemu")
+ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
++
++    @skipIfArch(['mips', 'mips64'])
+     def test_rust(self, *args, **kwargs):
+         # Disable Rust Oe-selftest
+         #self.skipTest("The Rust Oe-selftest is disabled.")
  
-             # Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
--            cmd = " export PATH=%s/recipe-sysroot-native/usr/bin:$PATH;" % rustlibpath
--            cmd = cmd + " export TARGET_VENDOR=\"-poky\";"
--            cmd = cmd + " export PATH=%s/recipe-sysroot-native/usr/bin/%s:%s/hosttools:$PATH;" % (rustlibpath, tcpath, tmpdir)
-+            cmd = "export TARGET_VENDOR=\"-poky\";"
-+            cmd = cmd + " export PATH=%s/recipe-sysroot-native/usr/bin/python3-native:%s/recipe-sysroot-native/usr/bin:%s/recipe-sysroot-native/usr/bin/%s:%s/hosttools:$PATH;" % (rustlibpath, rustlibpath, rustlibpath, tcpath, tmpdir)
-             cmd = cmd + " export RUST_TARGET_PATH=%s/rust-targets;" % rustlibpath
-             # Trigger testing.
-             cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
+-        # Skip mips32 target since it is unstable with rust tests
+-        machine = get_bb_var('MACHINE')
+-        if machine == "qemumips":
+-            self.skipTest("The mips32 target is skipped for Rust Oe-selftest.")
+-
+         # build remote-test-server before image build
+         recipe = "rust"
+         start_time = time.time()
 -- 
 2.43.0
 
