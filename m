@@ -1,171 +1,131 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FB2C0219B
-	for <webhook@archiver.kernel.org>; Sun,  9 Feb 2025 23:28:12 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.39844.1739143688112976528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F976C0219B
+	for <webhook@archiver.kernel.org>; Sun,  9 Feb 2025 23:56:23 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web10.40275.1739145378633687949
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Feb 2025 15:28:08 -0800
+ Sun, 09 Feb 2025 15:56:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=hwzyviY8;
- spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54504f29000so1431949e87.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 15:28:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FrkPsul1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4717bb7e7deso12405501cf.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 15:56:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739143686; x=1739748486; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WkQ1p4YBS92ZEBO1wA2nmy0qeDF/Ya8paDQ3Li8seFU=;
-        b=hwzyviY8WzdEXS0XyrX5dOTXCGshJhWENbagvpvK1QZxQsd5p8e268yC+ltZ2Hrkck
-         xYfuC2N91+2cOI47Ny0gyBIUp8heBi63iK39YEw4eLcBJVjD0ygGWtbU+cTkqDgz0NYj
-         ktKKyu685pxeHPg+HpE0jstbOgOZJy7PuDuScifxxyYnVs06p7JPyF+EmsLkgbpTQgOZ
-         q5i9R+ffRFA5guXXWJ93zNGKuKMColeoGszjsDiar0QMH6CmBxNAlDbwKAVDjiZ3a4tB
-         a1nte072g4lxJq5X8+rdNbRLFIgtx6shp9cnrAYYO0UVPNlMVFnwsNLAHM0rU8x7iGV2
-         ElHw==
+        d=gmail.com; s=20230601; t=1739145377; x=1739750177; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rlTEd03pLfvq5jqiHgH178PzVMSGkD1J4/s8QrXiYvw=;
+        b=FrkPsul1DYqF34BOOPjB/BU9UrAUrRrcL0ybhiUjX+FS8eW9ef7RZHkfbj2EJ1lG8c
+         CU4+3OKOr5riDNRKxP2AYovyrfcEF1P87ANkmNiC2A8eF9KYGOVtM4EJRnlLlAkoFoVD
+         eW/w6D/LJhNw+QexFyx1J99voTZA/K5FBO+DMD8V72Aajhphw0N2PI9T97hxLdySYBU9
+         TG+VONrpXcF1nbKJVSkkZ9qfHqqh8Ib+O8A+qBbn65Npd9o18GOskcC6oiCHiXPESHd1
+         RQLIoP6nzIbfoG5diHm8iFixEQNSobpRsezzgYh6TIXK5NekFBj+lmZFunHgQImO0j5r
+         r2rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739143686; x=1739748486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WkQ1p4YBS92ZEBO1wA2nmy0qeDF/Ya8paDQ3Li8seFU=;
-        b=L0PJrzeYSgqftSo0YmPDdZLpiu4pLBZOlF3FJHXNa13kVv4nVAsiicS1NhAa+7zdee
-         w3fwa4UFcNDbwg/KGHdh9Imal79h+Tm2799O8wFqxLVTbMdqaiyAhqapYmC6hbvSluhu
-         +kuXTLZEhzyVwyzeakgNA9Wtnx8TqaTrnc2pur+Q+pKwkYlWi978lb5Hz5SquHo4fRDF
-         W3sBnTIddzjAWiUQRoiZ2DW5K6PmRzgA9OieXtaZUk9mQytrM3f9+UxO4iWU7Z1mlExX
-         zyyAKA7KKBFpwvXKqXGjIofZ6n6YdZPtA891EtMPb4cRdY4AXD0SK/+7TOZ9iC2s89oy
-         rGkw==
-X-Gm-Message-State: AOJu0YxO6luz55xcaSPuMr2OqX0miqr+JRCzBVKDBFCsSHNK8Qwwz+AA
-	HoGUtBBTRghSOmf5YYHsJ+llMXNIQFfszQ86BXYtd2SAne2as0lBWQ5ozttlZyGOBvPrvXVnpXX
-	HncA=
-X-Gm-Gg: ASbGnctKKmSzu+UUEVhJlAnu5/Jp6Xi9ChtstnRe8ZrMVtnpw51RC8pPrfNs/YYHBbv
-	8HKWamPWYNk61wF/416OLY46OP2F9C7DfG0WoNsqJkyuT6X6ccPvpGY0G82Ggyc3j+V65oDtCyU
-	yHc4geb+z683xEueGBwLTNuXdpXflhzPqmI+4xltxQ1rHmJpDaBMNv05hTGPwIPcQ+NqwoT5G8S
-	fHSzZBjGaE5CDalD9Rwyo2VsqL+JQwh0/OxfEsU4tIVhpxd4lSBxKc/fy6Jd0EVXbx/GlPg/vsw
-	bP72I0MJ5A4XxOJA3bHMdbUamRQIBIk=
-X-Google-Smtp-Source: AGHT+IH41bNswJoEgtCpeWwFA/ElnQre9vyFhYpcYIs91yK3czq5ui/8JSg8hzJ3+izvWJljv/Pbvg==
-X-Received: by 2002:a19:6410:0:b0:545:9e:beda with SMTP id 2adb3069b0e04-545009ebf53mr2041144e87.49.1739143685845;
-        Sun, 09 Feb 2025 15:28:05 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5441060412fsm1088782e87.230.2025.02.09.15.28.03
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1739145377; x=1739750177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rlTEd03pLfvq5jqiHgH178PzVMSGkD1J4/s8QrXiYvw=;
+        b=uYArMzQuaGQ6ZBkWVatvPdCOmjco3MW5iqHaqqYNVGsGXeO8WABa3axCr2ckZE2QyA
+         ZPDVZU+s0famPAdRL41JPnHVs+p2r+L0Tu5O4BUn0mnFmmQRD5wd4TJuG/HKp9yUeGrb
+         0l41HiWpQK91q5goO4AYIoVn4z94Jlgrf+eyyuQF5VMqZXLyuHZirLuwR22TBkfhYaPa
+         IeIJWWEAUzit8svzdplrNPyAStPxGONPgb8J//4meECAe751h0Vhi1Kz05CW9EDqZMly
+         scrxRa/lIPe41lYHnwvofNMhe2wg7mOMEqwgozCFRhDj2izaw5yeL+n09SFc4ag+pR7T
+         QhOA==
+X-Gm-Message-State: AOJu0YwuJlQG/ucRPBj4YhawW3E5MNhprn+yGYuvH+64j8/YQ8J2XaYi
+	rNaQVnRuG9A5kcCRCHEKAKugLRf9+acevBHRJ0b9517pz3ccHcYwq865jIVwvpQ=
+X-Gm-Gg: ASbGnctWjRPTj7YNhtI3CDhnybdTjue+PW0OR2JjUOHNGJ0lsjfGjyZMlAEurRGq08j
+	hO+7oyUh7hbpKFsiWCgCcJT6DVvDb70l30/EW/bfAk60QW7aPEGeM0i8Ghb6LU+loog3FnWPFIk
+	mW1BjgCl1ZpUxk0StmLxILCOLbLT1+nEPn6qKUFiosLKlzT/kEkw8n+72WlYD2iKUG+66ezV3e0
+	nA469iZ4Lwj4SyAS0xiTIld1zfWadoE2rSakfTTUL98pEGpqy6/uv4acJhP4p41P7h5p3Afrf6T
+	EeTzzbciPCB4lfGOUkXf0AJD0wmfO2kuBOE3HeMLIp5EvalLsXlEf/6xwjI/BNFZyqGo3kQEXLG
+	LHpYsKLL0GfcEBYNk
+X-Google-Smtp-Source: AGHT+IHq3yqzR0wbuQGjLSbjjdUBHMbQP58Oybx8aLUYa54UXnC8csueb3h9xoXIEom/PDKJa990sg==
+X-Received: by 2002:a05:622a:4296:b0:467:5f2f:4a9f with SMTP id d75a77b69052e-471687bf6f2mr141869561cf.3.1739145377601;
+        Sun, 09 Feb 2025 15:56:17 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47153beaa5csm40754181cf.68.2025.02.09.15.56.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 15:28:04 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-firmware: further split qca61x4 package
-Date: Mon, 10 Feb 2025 01:28:03 +0200
-Message-Id: <20250209232803.539008-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.5
+        Sun, 09 Feb 2025 15:56:16 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] kernel-yocto: consolidated pull request
+Date: Sun,  9 Feb 2025 18:56:09 -0500
+Message-Id: <cover.1739145061.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 23:28:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211056
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 23:56:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211057
 
-Separate linux-firmware-qca-qca61x4 package into two independent pieces:
-serial and USB. Serial part is going to be used for Qualcomm
-Dragonboard820c and similar devices, where QCA6174 is attached over a
-serial line, while USB package is required for devices where BT part of
-the QCA chip is attached over USB.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../linux-firmware/linux-firmware_20250109.bb | 57 +++++--------------
- 1 file changed, 13 insertions(+), 44 deletions(-)
+Richard,
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-index 80c94c5db3b5..b9323007420c 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-@@ -398,7 +398,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-ath12k-wcn7850 \
-              ${PN}-ath12k-misc \
-              ${PN}-qca \
--             ${PN}-qca-qca61x4 \
-+             ${PN}-qca-qca61x4-serial \
-+             ${PN}-qca-qca61x4-usb \
-              ${PN}-qca-qca6390 \
-              ${PN}-qca-wcn3988 \
-              ${PN}-qca-wcn399x \
-@@ -591,7 +592,8 @@ LICENSE:${PN}-ath12k = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k-qcn9274 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k-wcn7850 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k-misc = "Firmware-qualcommAthos_ath10k"
--LICENSE:${PN}-qca-qca61x4 = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-qca-qca61x4-serial = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-qca-qca61x4-usb = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-qca6390 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-wcn3988 = "Firmware-qcom"
- LICENSE:${PN}-qca-wcn399x = "Firmware-qualcommAthos_ath10k"
-@@ -646,47 +648,13 @@ ALLOW_EMPTY:${PN}-ath12k = "1"
- # firmwares that are not already included in other -ath12k- packages.
- ALLOW_EMPTY:${PN}-ath12k-misc = "1"
- 
--FILES:${PN}-qca-qca61x4 = " \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000201.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000200.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000300.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000302.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00130300.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00130302.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00230302.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000200.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000201.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000300.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00000302.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_00130300.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_00130302.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_00230302.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00440302.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_00440302.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00440302_eu.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_00440302_i2s_eu.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00000302_eu.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00130200.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0104.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0105.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0106.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0107.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0109.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130200_0110.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00130201.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_010a.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_010b.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_0303.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_010a.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_010b.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00130201_gf_0303.bin \
--  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_00190200.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200_010e.bin \
--  ${nonarch_base_libdir}/firmware/qca/nvm_usb_00190200_0112.bin \
-+FILES:${PN}-qca-qca61x4-serial = " \
-+  ${nonarch_base_libdir}/firmware/qca/nvm_0*.bin \
-+  ${nonarch_base_libdir}/firmware/qca/rampatch_0*.bin \
-+"
-+FILES:${PN}-qca-qca61x4-usb = " \
-+  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_*.bin \
-+  ${nonarch_base_libdir}/firmware/qca/rampatch_usb_*.bin \
- "
- FILES:${PN}-qca-qca6390 = " \
-   ${nonarch_base_libdir}/firmware/qca/htbtfw20.tlv \
-@@ -786,7 +754,8 @@ RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-misc += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
--RDEPENDS:${PN}-qca-qca61x4 += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-qca-qca61x4-serial += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-qca-qca61x4-usb += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-qca6390 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-wcn3988 += "${PN}-qcom-license"
- RDEPENDS:${PN}-qca-wcn399x += "${PN}-ath10k-license"
+Here's the final preparation patch for the LTS release and
+reference kernel versions.
+
+I've tested 6.13 in linux-yocto-dev and it passed, I've moved
+onto 6.14, so I'll update to it for the dev kernel in the
+release, but that comes later this week as my testing has a
+few issues I need to look into.
+
+I removed the 6.6 references I found, and updated thing to
+6.12 .. but I could have missed something, but they are an
+easy fix if the AB does trip over something.
+
+I also found a stale 6.10 cve file, so I'm removing it in this
+series.
+
+These are on top of poky and a single series, since it is
+easier than two separate sends on top of OE core and poky,
+but if we'd rather they be split, I can do that.
+
+Bruce
+
+The following changes since commit 4f6b1440af3eb7c4b659d9b0329592180ccea5fe:
+
+  scripts/buildperf: Add chart tabs for commit count/time (2025-02-09 18:42:48 -0500)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  kernel: drop 6.6 reference kernels
+  kernel: remove unused 6.10 CVE exclusion file
+  linux-yocto/6.12: update to v6.12.12
+  poky-alt: switch preferred kernel to 6.12
+  yocto-bsp: drop linux-yocto 6.6 bbappend
+
+ .../include/poky-distro-alt-test-config.inc   |    2 +-
+ .../linux/linux-yocto_6.6.bbappend            |   21 -
+ .../linux/cve-exclusion_6.10.inc              | 6660 -----------------
+ .../linux/cve-exclusion_6.6.inc               | 6660 -----------------
+ .../linux/linux-yocto-rt_6.12.bb              |    6 +-
+ .../linux/linux-yocto-rt_6.6.bb               |   48 -
+ .../linux/linux-yocto-tiny_6.12.bb            |    6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |   33 -
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb |   28 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   74 -
+ 10 files changed, 21 insertions(+), 13517 deletions(-)
+ delete mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
+ delete mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.10.inc
+ delete mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_6.6.bb
+
 -- 
-2.39.5
+2.39.2
 
 
