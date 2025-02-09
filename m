@@ -2,129 +2,96 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F976C0219B
-	for <webhook@archiver.kernel.org>; Sun,  9 Feb 2025 23:56:23 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web10.40275.1739145378633687949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D30CC021A2
+	for <webhook@archiver.kernel.org>; Sun,  9 Feb 2025 23:56:33 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web10.40277.1739145387521035766
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Feb 2025 15:56:18 -0800
+ Sun, 09 Feb 2025 15:56:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FrkPsul1;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4717bb7e7deso12405501cf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 15:56:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E6VqYP1g;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4718d989c1cso12882491cf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 15:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739145377; x=1739750177; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rlTEd03pLfvq5jqiHgH178PzVMSGkD1J4/s8QrXiYvw=;
-        b=FrkPsul1DYqF34BOOPjB/BU9UrAUrRrcL0ybhiUjX+FS8eW9ef7RZHkfbj2EJ1lG8c
-         CU4+3OKOr5riDNRKxP2AYovyrfcEF1P87ANkmNiC2A8eF9KYGOVtM4EJRnlLlAkoFoVD
-         eW/w6D/LJhNw+QexFyx1J99voTZA/K5FBO+DMD8V72Aajhphw0N2PI9T97hxLdySYBU9
-         TG+VONrpXcF1nbKJVSkkZ9qfHqqh8Ib+O8A+qBbn65Npd9o18GOskcC6oiCHiXPESHd1
-         RQLIoP6nzIbfoG5diHm8iFixEQNSobpRsezzgYh6TIXK5NekFBj+lmZFunHgQImO0j5r
-         r2rQ==
+        d=gmail.com; s=20230601; t=1739145386; x=1739750186; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gcJJPYch1xmbjM/1GmmlhuNd9LKjfp09OzWIvrtW6b0=;
+        b=E6VqYP1gxg96yo2BpM5jnAoDsixiIdMmOSfzSSIrHbxZglC3hX5Z+0O390a8xWOR+R
+         vtV0DBCuESRzA9TrjPbAXFEsHJhEDorphbTebSbFKG7bzO/jwu9Ogerx0uBmPOryAgXK
+         haurOi/djEj6CRSbqo9prOm/Os5mNkOIlL9fwJqw7ZEziunHzdfhxchcfC4PUCnojORg
+         MVnqxmROKvnanSkolwSrD6wK/YSlrmmEYblvV8EaIYKe6jfPMbO7+TW8atxUmCw6CYqi
+         Oj4gLt078CeODxkE0LdI/ZK/d3cdH0ZEAenc3j45qUM88ZNa0p6L5BCbvTJ6bU4wDoEm
+         3fQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739145377; x=1739750177;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rlTEd03pLfvq5jqiHgH178PzVMSGkD1J4/s8QrXiYvw=;
-        b=uYArMzQuaGQ6ZBkWVatvPdCOmjco3MW5iqHaqqYNVGsGXeO8WABa3axCr2ckZE2QyA
-         ZPDVZU+s0famPAdRL41JPnHVs+p2r+L0Tu5O4BUn0mnFmmQRD5wd4TJuG/HKp9yUeGrb
-         0l41HiWpQK91q5goO4AYIoVn4z94Jlgrf+eyyuQF5VMqZXLyuHZirLuwR22TBkfhYaPa
-         IeIJWWEAUzit8svzdplrNPyAStPxGONPgb8J//4meECAe751h0Vhi1Kz05CW9EDqZMly
-         scrxRa/lIPe41lYHnwvofNMhe2wg7mOMEqwgozCFRhDj2izaw5yeL+n09SFc4ag+pR7T
-         QhOA==
-X-Gm-Message-State: AOJu0YwuJlQG/ucRPBj4YhawW3E5MNhprn+yGYuvH+64j8/YQ8J2XaYi
-	rNaQVnRuG9A5kcCRCHEKAKugLRf9+acevBHRJ0b9517pz3ccHcYwq865jIVwvpQ=
-X-Gm-Gg: ASbGnctWjRPTj7YNhtI3CDhnybdTjue+PW0OR2JjUOHNGJ0lsjfGjyZMlAEurRGq08j
-	hO+7oyUh7hbpKFsiWCgCcJT6DVvDb70l30/EW/bfAk60QW7aPEGeM0i8Ghb6LU+loog3FnWPFIk
-	mW1BjgCl1ZpUxk0StmLxILCOLbLT1+nEPn6qKUFiosLKlzT/kEkw8n+72WlYD2iKUG+66ezV3e0
-	nA469iZ4Lwj4SyAS0xiTIld1zfWadoE2rSakfTTUL98pEGpqy6/uv4acJhP4p41P7h5p3Afrf6T
-	EeTzzbciPCB4lfGOUkXf0AJD0wmfO2kuBOE3HeMLIp5EvalLsXlEf/6xwjI/BNFZyqGo3kQEXLG
-	LHpYsKLL0GfcEBYNk
-X-Google-Smtp-Source: AGHT+IHq3yqzR0wbuQGjLSbjjdUBHMbQP58Oybx8aLUYa54UXnC8csueb3h9xoXIEom/PDKJa990sg==
-X-Received: by 2002:a05:622a:4296:b0:467:5f2f:4a9f with SMTP id d75a77b69052e-471687bf6f2mr141869561cf.3.1739145377601;
-        Sun, 09 Feb 2025 15:56:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739145386; x=1739750186;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gcJJPYch1xmbjM/1GmmlhuNd9LKjfp09OzWIvrtW6b0=;
+        b=TAZPf2UwKjRfHA79kKrjwgC9sAQITGVa5NXhA07uj5l/mzY9/2FwZ2LS55bu7MbGyB
+         IaylomVseWb7kFA9a4wLgbHbvkUqNy21y6YwFATD2ccS2eDygg32aZujOOs2ENMbibM0
+         YcL6HgNRLvgTbf+eDVJufO6y8b/wV56Tn5pSbHYozZ7GpNojEVjWWBi6FjiiEPH7Glta
+         I/8xbT7RUUuu5jT4kljeWQKeK3Wtdxny4gScA48phd9LMs+olebKtQ2sgcrvRJ1PvZf3
+         +i04+TNz8GD9tpiqvOHi8ZyhZdSE5aZ9lcCW49JhGPKftkRYnwSDI3NYYAxe8QnZbjUL
+         H67Q==
+X-Gm-Message-State: AOJu0Yw7U931eLQJsoFV13KSmY1ce17MPu6bspwvHF1xZ7zE9qoLbYeF
+	tuG3yRfmGR1VfzKkd39nirQ2vNqGecHvEexWwvW1HyOkI7GUsY3n/vtA0j5vVgk=
+X-Gm-Gg: ASbGncv1rnJ+bI+E9x7tYNnNJhkNupmI4EKzGOOqtClR69T4e0MNKorF+gvxJI0OcQv
+	JnwwEBE+a3ehL8KoTEZJqBLHOjPygX8wFvGKbT8+j6+iJDAahtjB7AY+wFzOkUH6OSprgouX02y
+	lcpewGU9566JpmubqJK3dwvUJc5gpLJGzaLkGzMo2qc8bu5Wy23m9b0yDnKonsCqZ9c+Ihp8Qb3
+	JgucXiqDve8Mfr3bD8RHHgKeutpl0voguIZtNmKuoDfwRKZa1WCFgu3BPl76YuK80ypVWkjSS4z
+	Er30nVaJEZ4Z0G1EeX5AX2sOs68rEKxOGqbrG5CZKjCdiDAL5sG+i/g99itkLywz5903f8ZMi7w
+	98i3MhcWNJ5+Vwumm
+X-Google-Smtp-Source: AGHT+IGiFr7Yhjk4CYmt0URkAgGCOylJ/PiI3CfFvtYEpcDUbQB14MDrJCFSIl25DshJ85TKkKXheQ==
+X-Received: by 2002:a05:622a:1882:b0:46c:791f:bf3e with SMTP id d75a77b69052e-47167b244ddmr143538861cf.48.1739145386586;
+        Sun, 09 Feb 2025 15:56:26 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47153beaa5csm40754181cf.68.2025.02.09.15.56.15
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47153beaa5csm40754181cf.68.2025.02.09.15.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 15:56:16 -0800 (PST)
+        Sun, 09 Feb 2025 15:56:25 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/5] kernel-yocto: consolidated pull request
-Date: Sun,  9 Feb 2025 18:56:09 -0500
-Message-Id: <cover.1739145061.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 4/5] poky-alt: switch preferred kernel to 6.12
+Date: Sun,  9 Feb 2025 18:56:13 -0500
+Message-Id: <dbc453ced8c538af94f7ab658b64dc071e1173a2.1739145061.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1739145061.git.bruce.ashfield@gmail.com>
+References: <cover.1739145061.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 23:56:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211057
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 23:56:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211061
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+6.6 is being removed from the upcoming LTS release, so we
+adjust the alt config to use the 6.12 reference.
 
-Here's the final preparation patch for the LTS release and
-reference kernel versions.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta-poky/conf/distro/include/poky-distro-alt-test-config.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've tested 6.13 in linux-yocto-dev and it passed, I've moved
-onto 6.14, so I'll update to it for the dev kernel in the
-release, but that comes later this week as my testing has a
-few issues I need to look into.
-
-I removed the 6.6 references I found, and updated thing to
-6.12 .. but I could have missed something, but they are an
-easy fix if the AB does trip over something.
-
-I also found a stale 6.10 cve file, so I'm removing it in this
-series.
-
-These are on top of poky and a single series, since it is
-easier than two separate sends on top of OE core and poky,
-but if we'd rather they be split, I can do that.
-
-Bruce
-
-The following changes since commit 4f6b1440af3eb7c4b659d9b0329592180ccea5fe:
-
-  scripts/buildperf: Add chart tabs for commit count/time (2025-02-09 18:42:48 -0500)
-
-are available in the Git repository at:
-
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (5):
-  kernel: drop 6.6 reference kernels
-  kernel: remove unused 6.10 CVE exclusion file
-  linux-yocto/6.12: update to v6.12.12
-  poky-alt: switch preferred kernel to 6.12
-  yocto-bsp: drop linux-yocto 6.6 bbappend
-
- .../include/poky-distro-alt-test-config.inc   |    2 +-
- .../linux/linux-yocto_6.6.bbappend            |   21 -
- .../linux/cve-exclusion_6.10.inc              | 6660 -----------------
- .../linux/cve-exclusion_6.6.inc               | 6660 -----------------
- .../linux/linux-yocto-rt_6.12.bb              |    6 +-
- .../linux/linux-yocto-rt_6.6.bb               |   48 -
- .../linux/linux-yocto-tiny_6.12.bb            |    6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   33 -
- meta/recipes-kernel/linux/linux-yocto_6.12.bb |   28 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   74 -
- 10 files changed, 21 insertions(+), 13517 deletions(-)
- delete mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
- delete mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.10.inc
- delete mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.6.inc
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_6.6.bb
-
+diff --git a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
+index 3e10251e8b..a24d5e15ab 100644
+--- a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
++++ b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
+@@ -2,7 +2,7 @@
+ DISTRO_FEATURES:append = " pam usrmerge"
+ 
+ # Use our alternate kernel version
+-PREFERRED_VERSION_linux-yocto = "6.6%"
++PREFERRED_VERSION_linux-yocto = "6.1%"
+ 
+ # Ensure the kernel nfs server is enabled
+ KERNEL_FEATURES:append:pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
 -- 
 2.39.2
 
