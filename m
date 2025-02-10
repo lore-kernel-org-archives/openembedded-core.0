@@ -2,61 +2,61 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A02AC0219D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E07FC021A3
 	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 13:38:30 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.50302.1739192840280874008
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.49707.1739191862039661114
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Feb 2025 05:07:20 -0800
+ Mon, 10 Feb 2025 04:51:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hovzZEuK;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: pio.lobacz@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ab7d58aa674so25575366b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 05:07:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J6yGmO8W;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: pio.lobacz@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ab795ebaa02so472817566b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 04:51:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739192838; x=1739797638; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739191860; x=1739796660; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=pgXvXubrYD3i9brG6daJcLZELBOOY0cfe59iAc0HJOU=;
-        b=hovzZEuKc6mqDmCKDZ+3mRGk/Q+5b605WxN/kYpjqpyrdzJ5tLyJK8jJjNcq4e0A3G
-         SGLqDyd+SbfADDQi9Vl/YStT43uAvjVHpVuHO0uEfammhsntrmEp/m8eoud+9PRuO11P
-         J9RL+xqFzoSLrxFMwadwB12BzAs+XFm/KxlkVRieKcsBnpzbT0bHNpxoOcnPxAuXz75l
-         eoANGrSRarcP00+R4q6dReTo+NsObH0yq4aNpLAQaFriSpJ963/46n7rQk5ZMogPuP9U
-         VGm0e/9G9ODc6NZFpw5wypVFPouXShbNJm9532yImy0lczYg1K820e6qACCp4O1D3fip
-         4ipg==
+        b=J6yGmO8Wl42nP3oRQ9MNGxUPBJiqbZvrpT8oxuRuBLZmuZ+xEJ8Wf/NKCcXXwxucFp
+         U7BuveeLlFWPT3wRB4+YglOAYQHsft8vIJ14pE1jQDwP/iPOxPo+YhOmxNQ9trbSxDDh
+         NmcSmauKHRGLPHL16erhJomRO781AxBEA9ScKiXl/Mts5WGXIH9eC6m75BPyqvSxNePw
+         Wd0QzTdO2mtqcrS1eNmvLlEULx0la8BQbIWMj713jEcQXD/IL3qLdNjvT+HxMeE7AkbI
+         fQy4m/GaCZE3wB8qbfQm5ZAH292ZIWNrf+uyAVXZEE1e4KCD3PRc6iU113zBbIhZHuzL
+         +Rjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739192838; x=1739797638;
+        d=1e100.net; s=20230601; t=1739191860; x=1739796660;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=pgXvXubrYD3i9brG6daJcLZELBOOY0cfe59iAc0HJOU=;
-        b=HX3A/mj3XJknz5IJIeHv7Ye9fuXWAEdOBxPPRvJyUfv3Gz4F/5NTBtEKfBbGqP0/zN
-         Uwth9mQ0V2K0SgusEh0+yV+dvNq8nEHJjdIS87Jwmeyy2056UL1GND31krMGy+ps0tj+
-         FrsBpD8J4dpRmKXd7IvrHueqTzb+yRXjeXBk85nubosOS+gH8ksEa9ERsM1phunA7kN9
-         f+j/y7bQvR/32JtH5GOSZr4tAxD5+QXDElzaR5JN0hXZVvMQu6mhIeqksT6MQgQOTX61
-         j8G0w9D74j1f1BJNZGjOWBsizad44N70w8n3thV4aMFetiJRRyfjcy5hEmuEPFXXqPUL
-         NbBg==
-X-Gm-Message-State: AOJu0YyaAXzak74pHegnKpxYr5caJGl4NHq21MRxBwNsvZpYIkL6aDNb
-	52ArpL125BmQMmMN0sw6mY8pPTCff9ZFNF4yxTEUHHXvc36oMOM8ihaa/A==
-X-Gm-Gg: ASbGnctPK7y2sYJpyDnk5U/cNEDhh736OFDUMpdSrsH9vSzekrao7SM9PAVLxdXZoRw
-	CabQci4ZIKIO0hqXCPDWt4rYjqkSsv3ZtQnSlsg/lQLeYdJFKAP+NnZgXtnssE4oIHyS0GmF4fR
-	SyxshKWhiymslzQ8IFjpUccvxkgfHUUJKrZcdyMFlcJYDcl+kNMVTny180m8YuV27X0f/4Q8xlW
-	hR2VYLvv10Jgd7hctqrmye9wlcy2hziLBKX8lJmzLn0t3wyyqZO3mI03YPIQGS4u+9fI5fUfsYz
-	uF2nPYTq8g0qSlb6LQ==
-X-Google-Smtp-Source: AGHT+IEa9cZljgBKitycftiOjMfJaxfRsZJGE+pINsj3m1JZMU6Ty8rcW6yDuIVRF27U9CHeZHAYEQ==
-X-Received: by 2002:a17:907:7ea3:b0:aae:c159:9e10 with SMTP id a640c23a62f3a-ab789c3dce6mr1408156366b.42.1739192838343;
-        Mon, 10 Feb 2025 05:07:18 -0800 (PST)
+        b=ZJAypWPKnTHnkqleY8X2PzaKNY2l6o/8Tx+0+W/5pHzBtrubcCaT62KX2QxTD/QNJ3
+         U2Eq9vHSgFvy4+piLm1m9g2l6wLf4FJDPZnJXDBiD/hlz/mRbnTiYDXVZQWBetgxYYw6
+         in7TDgTddkutVzFW+7/Vb2C5PAHMuXRlua6kWR6AVzNn1b0nxicXWxv4v73Pu3rL0iRI
+         fLmrkNbbOUT7b4jXmW9bLQ/zH8Yd83oZy2kBo5Tm/rJLyap/AwW9L0wz6tAu5l7jM4XG
+         AUQRx3dz/9+RlI7nFh1NevcmK/R/9c5wrc084oMKaUVYiIllShz71o9O3oYXzTDmG/4n
+         cOzA==
+X-Gm-Message-State: AOJu0YzJXoDaFnHkQBp/KzCn0HocSR5alz7v26j6qwVrp140yyrbuE02
+	iWNlBDeeW30Kxl8+tvD0IVRgrmaAyx15yCAN5jGSmW4VuEl1jtethOKE0IjH
+X-Gm-Gg: ASbGnctZiWCNr2VD6Jituh2M5V0ssB+5W0rtnU+ZUFS0hugraWGJOVFCGUEGySZ7QKx
+	BIPirxutPPmB1mqpOyM9emtQ25c9rbACcEHQ7ugOpkWjUutHmohzBj4xKxvnwAKPExzG4S87Tac
+	I2cr09m8yYNICnLCXFgIFXuYsevMxB+2QBifg40pqhqt2JMZls9sv/1sWK+OYzLxM1eY328eZ/b
+	qimwUTgb02LJSXtGP3fJ1MipKzTH6wOrXOhKY0lXGHBR6xVEedyKKgjZZuTZB1Jqtwc05zB36/j
+	Siac55WzLmXGTMasZA==
+X-Google-Smtp-Source: AGHT+IGfV8WLzPN2N04SjIRNhD8ljTXWagJMLvnXt7x6NTYHrQU01v2ySm7suK1YvzgZ+mUkjJ9RFQ==
+X-Received: by 2002:a17:907:360c:b0:ab7:63fa:e4a8 with SMTP id a640c23a62f3a-ab7897b37ffmr1199798966b.0.1739191860120;
+        Mon, 10 Feb 2025 04:51:00 -0800 (PST)
 Received: from latitude.lan ([185.53.145.148])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7c15cad87sm221191566b.144.2025.02.10.05.07.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7c15cad87sm218559766b.144.2025.02.10.04.50.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 05:07:17 -0800 (PST)
-From: pio.lobacz@gmail.com
+        Mon, 10 Feb 2025 04:50:59 -0800 (PST)
+From: =?UTF-8?q?Piotr=20=C5=81obacz?= <pio.lobacz@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	JPEWhacker@gmail.com
 Cc: =?UTF-8?q?Piotr=20=C5=81obacz?= <pio.lobacz@gmail.com>
-Subject: [OE-core][scarthgap][PATCH] classes/create-spdx-2.2: Fix SPDXDIR affecting multiconfig machines
-Date: Mon, 10 Feb 2025 14:07:00 +0100
-Message-ID: <20250210130700.2656678-1-pio.lobacz@gmail.com>
+Subject: [OE-core][PATCH] classes/create-spdx-2.2: Fix SPDXDIR affecting multiconfig machines
+Date: Mon, 10 Feb 2025 13:50:47 +0100
+Message-ID: <20250210125047.2644290-1-pio.lobacz@gmail.com>
 X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -65,7 +65,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 13:38:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211097
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211096
 
 Currently SPDXDIR is pointing to `${WORKDIR}/spdx` which means that the by-id
 and by-namespace SPDX files are created without differentiation between machines.
