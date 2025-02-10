@@ -2,50 +2,50 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BA9C0219B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57505C0219D
 	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 00:03:13 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.40402.1739145789301420160
+ by mx.groups.io with SMTP id smtpd.web10.40400.1739145788993186577
  for <openembedded-core@lists.openembedded.org>;
  Sun, 09 Feb 2025 16:03:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ii6uyrKb;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SFmA+WgV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010194ed2abd1b-0727370c-6e85-45c6-b5a4-85cbb51a7b87-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TLMkEMvb;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UuGPSLoJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010194ed2ab9f0-3de4c3e9-049d-4b14-b589-6ffc02cb881c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1739145788; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ezcrpwgApkDmEJL/XOK3nCd9kSiLio7JZjbjZteyJZg=;
-	b=ii6uyrKbI7tbC/6bcUeT2IXQAJ1KdDukO4j5de7M3oWS50yiWQ+cRj7VlNqcsiKn
-	q1asEqIik9Z8tUrkRywDNYpiijBMy8S1PCnvVXQxBoSt7yuS5878x9AeSz/h6zpAw2l
-	Cq3KbwqMjXjaJXKlnssLCFnyRZn+zq6kHGgqVZIM=
+	bh=wCllWS97Y3HVmoLnT6bIY02ID1zYjeDwA8hae2tLSUM=;
+	b=TLMkEMvbM3qg/w+u8pTjAumXfKVcA2PuaM8mLz8uV8bCc+9/GDHqR+O1qDV1Kuew
+	d9rnJW/ld/I3dWJ2TUqnQdx0C9URBNN74TKDGWC5v07dXZGyPztHUwU1usrLwpAo+/R
+	qOeFZOlSmApidfW2Nuc+EHl+opz1Ds8aV8K9P6Z0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739145788;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ezcrpwgApkDmEJL/XOK3nCd9kSiLio7JZjbjZteyJZg=;
-	b=SFmA+WgVz36fSk3PB3yb0fE8Yz9lmJJREeZYWQ512om0UaePyUT7cWM5p/7LrBij
-	MmOMSCGXOgDjlKe5sX90XxNdeQvCTRyeeM8B3TRVrJJ+R4nlcxvhnMBoJnQ46Qj+hNr
-	37AReDfKIVfzdFO4+9ksicJImGtMKsnIdh5s4Bmc=
+	bh=wCllWS97Y3HVmoLnT6bIY02ID1zYjeDwA8hae2tLSUM=;
+	b=UuGPSLoJ9PGg8BdyowKegkEYsU5/ZoHQDRv9IzxT1B2aEZtC2AVWMqgN+I9rwHRW
+	OaJ3F1Bozlbd/kPuq/ZPDdye8CpFJi9CGP8zVI56Sm77gYsUIToQS07wwaap8K9U5xx
+	v0FDrzwS7I0DTz58eZ4GWjTvC+QezG6y7LSNGMXQ=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 5/5] yocto-bsp: drop linux-yocto 6.6 bbappend
+Subject: Patchtest results for [PATCH 4/5] poky-alt: switch preferred kernel to 6.12
 In-Reply-To: 
- <5916791defee3381e969e526baadc5163ada9f33.1739145061.git.bruce.ashfield@gmail.com>
+ <dbc453ced8c538af94f7ab658b64dc071e1173a2.1739145061.git.bruce.ashfield@gmail.com>
 References: 
- <5916791defee3381e969e526baadc5163ada9f33.1739145061.git.bruce.ashfield@gmail.com>
+ <dbc453ced8c538af94f7ab658b64dc071e1173a2.1739145061.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194ed2abd1b-0727370c-6e85-45c6-b5a4-85cbb51a7b87-000000@us-west-2.amazonses.com>
-Date: Mon, 10 Feb 2025 00:03:08 +0000
+Message-ID: <01010194ed2ab9f0-3de4c3e9-049d-4b14-b589-6ffc02cb881c-000000@us-west-2.amazonses.com>
+Date: Mon, 10 Feb 2025 00:03:07 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.02.10-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 00:03:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211065
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211064
 
 --NextPart
 Content-Type: text/plain
@@ -55,7 +55,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/5-5-yocto-bsp-drop-linux-yocto-6.6-bbappend.patch
+Testing patch /home/patchtest/share/mboxes/4-5-poky-alt-switch-preferred-kernel-to-6.12.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
