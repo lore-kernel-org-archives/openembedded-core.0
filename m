@@ -1,138 +1,136 @@
-Return-Path: <philip@balister.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744D3C02198
-	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 17:25:41 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.56955.1739206724065239216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 876C4C0219B
+	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 17:31:01 +0000 (UTC)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.web11.57812.1739208658250086651
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Feb 2025 08:58:44 -0800
+ Mon, 10 Feb 2025 09:30:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f1mmoK3A;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: pio.lobacz@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab7a6758b7fso374380366b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 08:58:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AFCq/+D+;
+ spf=pass (domain: gmail.com, ip: 209.85.161.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5fa2685c5c0so2050984eaf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 09:30:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739206722; x=1739811522; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739208657; x=1739813457; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jB0sHxJOZI6hv4uLakWu6aIM7d41TpHLBgETbm8oJ2Q=;
-        b=f1mmoK3AJGPc6kh1ZEjrhSPCYYBMGvohEcGK13n8FxTZIsyCvDLwwERLu4mEXjLrmJ
-         gDv0aiidWlTlKA3fGluM5QmzF6xXepIog3yU6vbivqBgTSx9dPlbzjdZ/SfKKc6EvjKA
-         Uzd6Hg/Z5ksvCdng+IiN3zZpPtnsE61uoFVEmCN3ezca2lN2o0yY9U6F/YdfH0J/7eIW
-         tkeAn4PSVd2MBJ8QsRkbH/SCM7V9MEsM3Fg9Ly7mhHOAwowFReukUi2ctaxYHN7mQq55
-         vOXcp9lHJhZlEsu9dA8/NnjFpjSa3UKxh3uwYM9tRuMaaxGJNzj/hW7sRNR3rWZY2rYm
-         tW8g==
+        bh=iGld15aKDP3TiOJRtOxKq1j2NttppN3Ts9KMPpegNj4=;
+        b=AFCq/+D+4ZIge0zVNWzcR/8a/ZWbG8GGbwPdqk9SixWi1YTG8fx18Z4uOam6wxI8f/
+         CLi1WBGBVINrJB5I5YipMyMc2k6slkypSyMzxiAunK4dPdDBTQ+Uy9yd5/mDt03dgLbG
+         a42KNcNGLk5ftz+3/0HQX3nEstARAw9yLqFLFj7iLFEHQc+SVrhdsul0+mZ7Tmxbo5T8
+         n57qoyAY50RnzQE9MPjuSRzwoXLFkVoqHggBQ/7Zs5FLyC6oa4ajjZDsZYWRdzux4HnB
+         OBSubEcVgLDoJDf/KP1UDMjPJZPQK1T+LMuNaa2CCVi6CWBc8i6On/hcACaAr6Sx2xgW
+         ZIIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739206722; x=1739811522;
+        d=1e100.net; s=20230601; t=1739208657; x=1739813457;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jB0sHxJOZI6hv4uLakWu6aIM7d41TpHLBgETbm8oJ2Q=;
-        b=iLCvWT3JzvyK+SvyMLbuV9VrMeyBb29wX2HWZqBlH/IyPZkebsViSkx7WkMoW6/9l8
-         WYUOIZ3GA7LyOtKl2rVqGZ5N2dk0I3jQ13DNicQ9KU4iV+nO3dJp7NyfMQ3wWmCfQgb6
-         54kc4bP7uZkps7ro8URVSaMrcYkruaM5aympDVX2WHd+obVsObrwiRmsB65P0/hwV+mE
-         i5kFtHORfgpHQ9cF3bDWQGmjBgMghxfZ9JUSh7i05J1JjiYhFuWzZdreJKxYtaEfguM1
-         hUNFgbIaErTeyd9eWwTxbDpctn8KDolw1LvS0D12tq69b3j80gNXEIoH+8KBdcoHEv4y
-         Rlow==
-X-Gm-Message-State: AOJu0YxcmRvO8gsJUgJextCanz0rfm0PvoxvIZ2iI1aQXbPYIiwL0byr
-	smn6Asb0To7HXX1iqcDYKrbWYZoTtvXYvgt+G2HNixtIDSpzVpLOu2hTAAvb4Fwt/KNzdrZ9ZVL
-	tltnXXzxgyU7BAMUNPI7rBvCqwPE=
-X-Gm-Gg: ASbGncsJ6Oa0Mg5AEUpqFkDDxd1YicCmAUli8epEtaxMm7TaP16Rt3U9PeEsDxGuWsS
-	00fFr4vjK3+MYW3l4lRnCm6nEMfgGkKaEjofanzP0Tb7Ls4J356E4MRhR4CD/hKXoEqd1d5MLog
-	==
-X-Google-Smtp-Source: AGHT+IEMDUi2MmBY0zCmeBk1ls+ArV8LozHPX45Q4wxFmvgRLfrpnz/PgsE3YLqxXb11Q8AeoRjaUMwbz1y6WzjKdlw=
-X-Received: by 2002:a17:906:9c8d:b0:ab7:6e14:c03f with SMTP id
- a640c23a62f3a-ab789b862d9mr1439088766b.21.1739206722247; Mon, 10 Feb 2025
- 08:58:42 -0800 (PST)
+        bh=iGld15aKDP3TiOJRtOxKq1j2NttppN3Ts9KMPpegNj4=;
+        b=TLvvkHhdzB0WIMqDcp0X2hWxsPYmvTM+UkC8nXqDEGb9Kk/mz9pZ9oG6bLXE91gH4l
+         72Smto/rPdJwJvIDCnG6uk1X73Tz5jMRc2e/Kiv3ulCup8lID4EW/hmB9+5V9AocWp/7
+         QoLikpQRGm8fX3CMseYKQsG0N54oRZEUmxomOvbk85XD+DaX6GY/zguQ/06iK4PSylwi
+         f5KiPFEZZ1W+31a6PM/XelNSSHRoMYSCh9Am4bV36vMwODlZFKmgWaCRMOCvjzi3RprQ
+         pchoY1qlwZ1v5yaarbqnWhrJsrL3txzCeEDHrK97CoqK0ByppNonv0hOKGa66rsDvkug
+         gMJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVA/WsSLwK4N17ShVs3zqWpGpAjIS7h3nCTtsjk//KqYkQmDZGPrFJCTIwHqgZgTtg9aHDiwZHgyurtWVlsGMkKmQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzNcH1zfPM0txWfJGzohF0ODpTk54QCKkt8ExM+m5bJSs/Yn16D
+	62Z9BG/1DkliDLazWdHAUrRtjx1LvDql5nLa36RsrL0TvFDqU0ribrfjoNbAv/1nPfUEgCbcPiy
+	XzwKVGCdrtkhtPfqh+EJdmjyhIR0=
+X-Gm-Gg: ASbGncteYxkZQgiReZEy1Vo2m19RPEo2IWj599HqnJBUxYHCGzCNMMjMC6OXJPImDjw
+	iKjbotVjAAXlDKnKiSf4xqS3AU6jKb4u13kojzzS/t3fcpJeIz78WzI2oyNCvIIfIWbGeIf5I6a
+	duG+YS8YsbU2Q5x6KYEEH7Q6ieWUbwVQ==
+X-Google-Smtp-Source: AGHT+IG2AHOtc7szaWeiSqGYmfowE9kD+nSGx3z6/q85cf2V9czkiL738u4L03UAB8ltzpHnRuTzHMDoWjnQUHHIFoA=
+X-Received: by 2002:a05:6871:284:b0:297:285e:f9f4 with SMTP id
+ 586e51a60fabf-2b83ef8ee93mr9775215fac.34.1739208657392; Mon, 10 Feb 2025
+ 09:30:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20250210125047.2644290-1-pio.lobacz@gmail.com> <3980bb85057c3c2402714d4c51676d628bf2ef52.camel@linuxfoundation.org>
-In-Reply-To: <3980bb85057c3c2402714d4c51676d628bf2ef52.camel@linuxfoundation.org>
-From: =?UTF-8?B?UGlvdHIgxYFvYmFjeg==?= <pio.lobacz@gmail.com>
-Date: Mon, 10 Feb 2025 17:58:31 +0100
-X-Gm-Features: AWEUYZmQG0L4ivG__PCCQlZfZ1vc7OBFJgf6rCpmUIJwaXildaHhsMMyO-YVGbE
-Message-ID: <CAH6NA5u+8U6ZWFFas0-S=Faq+7tiSs650MR7k9W_80Uxm=gOWg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/create-spdx-2.2: Fix SPDXDIR affecting multiconfig machines
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com
+References: <20250210154958.1119250-1-ecordonnier@snap.com> <1745112bfecddf072b229f0c0b26fcb3d96fc053.camel@linuxfoundation.org>
+In-Reply-To: <1745112bfecddf072b229f0c0b26fcb3d96fc053.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 10 Feb 2025 09:30:31 -0800
+X-Gm-Features: AWEUYZmEgSiR_RtZjPeu-B9FtwjHPXF8TxA4ZyRaoSa1kLj22N6S4Ob06qRz3GU
+Message-ID: <CAMKF1sq0ooW+T2m72grkMRH5nOiuuASx=-t+oEfwkqjzv=NpwQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gdb-cross: remove duplicated PACKAGECONFIG
+To: richard.purdie@linuxfoundation.org
+Cc: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 17:25:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211109
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 17:31:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211110
 
-Actually this was just an issue with the path to the deps.json file.
-which was containing all the dependencies and in case of different
-machine
-for packages like e.g. base-files this file was containing bad
-dependency, meaning that if i'm building first machine A, than B,
-the spdx files from A for base-files are being moved to B but are
-searched still in A directory.
-
-We were discussing this issue with Joshua, but i'm not an expert in
-this matter...
-
-BR
-Piotr
-
-pon., 10 lut 2025 o 14:42 Richard Purdie
-<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
+On Mon, Feb 10, 2025 at 8:21=E2=80=AFAM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
 >
-> On Mon, 2025-02-10 at 13:50 +0100, Piotr =C5=81obacz via lists.openembedd=
-ed.org wrote:
-> > Currently SPDXDIR is pointing to `${WORKDIR}/spdx` which means that the=
- by-id
-> > and by-namespace SPDX files are created without differentiation between=
- machines.
-> > This means that for two machines using a common package architecture
-> > (e.g. genericx86-64 and qqemux86-64), there would be overlapping files.=
- This means
-> > that the build of one can remove files from the other leading to build =
-failures. An
-> > example would be:
+> On Mon, 2025-02-10 at 16:49 +0100, Etienne Cordonnier via lists.openembed=
+ded.org wrote:
+> > From: Etienne Cordonnier <ecordonnier@snap.com>
 > >
-> > MACHINE=3Dqemux86-64 bitbake core-image-minimal
-> > MACHINE=3Dgenericx86-64 bitbake core-image-minimal
-> > MACHINE=3Dqemux86-64 bitbake linux-yocto -c clean
-> > MACHINE=3Dgenericx86-64 bitbake core-image-minimal -C rootfs
+> > Duplicating the PACKAGECONFIG variable in gdb-cross and gdb-common make=
+s
+> > it easy to forget updating one definition without updating the other.
+> > However at the moment there is no need for two different definitions.
 > >
-> > To fix this, add MACHINE_ARCH to the SPDXDIR path used for the files in=
- order
-> > to differentiate packages' dependencies between machines.
+> > xz is also useful for gdb-cross when minidebuginfo is enabled, so it al=
+so needs
+> > to be in the definition of PACKAGECONFIG in gdb-cross.inc
 > >
-> > This commit fixes issue repored by Khem [1]
+> > Let's remove the definition from gdb-cross.inc to make maintenance easi=
+er.
+> > This enables xz for gdb-cross as side-effect.
 > >
-> > [1] https://patchwork.yoctoproject.org/comment/13577/
-> >
-> > Signed-off-by: Piotr =C5=81obacz <pio.lobacz@gmail.com>
+> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 > > ---
-> >  meta/classes/create-spdx-2.2.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create=
--spdx-2.2.bbclass
-> > index ade1a04be3..9e228891ab 100644
-> > --- a/meta/classes/create-spdx-2.2.bbclass
-> > +++ b/meta/classes/create-spdx-2.2.bbclass
-> > @@ -11,7 +11,7 @@ DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx"
-> >  CVE_PRODUCT ??=3D "${BPN}"
-> >  CVE_VERSION ??=3D "${PV}"
-> >
-> > -SPDXDIR ??=3D "${WORKDIR}/spdx"
-> > +SPDXDIR ??=3D "${WORKDIR}/spdx/${MACHINE_ARCH}"
-> >  SPDXDEPLOY =3D "${SPDXDIR}/deploy"
-> >  SPDXWORK =3D "${SPDXDIR}/work"
-> >  SPDXIMAGEWORK =3D "${SPDXDIR}/image-work"
+> >  meta/recipes-devtools/gdb/gdb-cross.inc | 1 -
+> >  1 file changed, 1 deletion(-)
 >
-> I suspect this is going to cause other challenges since the task stamp
-> isn't machine specific as far as I know but this change would require
-> it to be and force all of the SPDX tasks to be machine specific.
+> At the very least this commit message needs to be a bit clearer as
+> there is a change of behaviour here.
+>
+> To be clear, this change adds:
+>
+> ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'xz', '', d)}
+>
+> to the default PACKAGECONFIG for gdb-cross. You can't tell that from
+> the patch.
+>
+> I'd also mention that there is still a different definition for gdb-
+> cross-canadian and if we do this, they should all probably match.
+>
+> Whether we should do this, I'm unsure. It might be worth just adding xz
+> unconditionally at this point by default to be honest, it isn't a huge
+> dependency. gdb is a debugging tool, not for a minimal system.
+
+target gdb where the size and dependencies might matter, for cross and
+cross-canadian
+IIRC it won't matter as much from size perspective. we can let the
+defaults be controlled from
+bb itself or from inc and then add/remove as needed in bb files.
+Status quo is a mix of both
+so we should do something. Perhaps this patch with updated commit log
+is a good one
+
 >
 > Cheers,
 >
 > Richard
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211104): https://lists.openembedded.org/g/openembedde=
+d-core/message/211104
+> Mute This Topic: https://lists.openembedded.org/mt/111104210/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
