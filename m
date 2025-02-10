@@ -2,111 +2,86 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24A07C0219B
-	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 16:21:51 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.55434.1739204502148432740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC4DC02198
+	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 16:47:01 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.56181.1739206013386892909
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Feb 2025 08:21:42 -0800
+ Mon, 10 Feb 2025 08:46:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fhbDsb1L;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4362f61757fso45540485e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 08:21:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JgcPv6Ge;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4394a823036so5837525e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 08:46:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739204500; x=1739809300; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ymG4S8pIpie9PxbSorZ/WMQNDdRX5jHqY+lGd81unME=;
-        b=fhbDsb1LEs8ucFeXF88fMvmLK/xP+EryKrGMb8FdeiRp9UPi4rvMtB1c4/id4S68vz
-         GH2h/w8vbEUXHcjvKM2QCkvDRx4ZMUskq5GfxCeQCXOlW88Ry5yPZF/fvZUpeoN0v7sA
-         PW66m/Z17YAxzcIi54HuGvd0rwmU1D6cTPVlE=
+        d=linuxfoundation.org; s=google; t=1739206011; x=1739810811; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FYwVoh7b98dk+LTFrTbcPrKe0yACCDk/mRry7OiDgcU=;
+        b=JgcPv6Ge4I/4EkqBVhdezILoaNcheg3OiXgN0OH8hfRGcoWKMxoM4cf5pRu8gy/0AQ
+         bsr+ekutN57gNqud2PSz/qAP7lgZ9HI2LOiR1NjTeFqlhsLjKn/VP0v2MwDwKfubZcKA
+         1tD+QBMWQjQKr0TJfcLp+MG2i+badqhrvvT44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739204500; x=1739809300;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ymG4S8pIpie9PxbSorZ/WMQNDdRX5jHqY+lGd81unME=;
-        b=aSuLtMC/t94ChNJ1JuhNfAWLqN650AYiuiNRrA/OVjR4BijtEKgnwDfbF5ZoihL+JL
-         3ePecw9pRE7oDfcvD2yXBtO3Jf9A7xz0RjtDLq5/Jy5AQQrnmaLzmlNAmaqPwMgT004v
-         HjzkF2N+uCLF0eI62V9wdRrUC5FX4o/vPPGNu2kL1shT3pQBn+lQ6C7CwGPif/uGCa9F
-         rFQt5TOgn711Wirvgh5q+cv0Egl8Tyy/14YTVa0AsaQQ45F5R00vZXKZcRser/DhXCJ4
-         zsr0V2nQr04Yz8RkaRFSAaGYAzuc2qA6RR298YGhflWwJ6O/VtyC2bhqNXPMF/jvtYwR
-         1O3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWh9UaUF7d2D8W++Es6N0MawKX6eS4M6/mmlMzIwK5Hx/mB27MLhOClwpVDnaW3AMu6b0uV2ewV2h6qtN/AOzvuJQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwxP0vySN4cF+/H5zSa80q62z951nxh2Q8m65CP5ojoCwna9Z0R
-	zCc7lBkUn32HLvFrvhks56XXZKH4cdCMty0LVqlK+BjQBB/i0iXjoF1eIPR7O6fpBrtYjvudb+Z
-	l
-X-Gm-Gg: ASbGncsdsH1fSi6AIeUDlOpypulY16f/6enlPsgakqXgUe2r/7vmLUAaJ1loAWj5m5b
-	xIYpMIqH/ofQKi7C8n18SNEqXLyqcjYAnGFVmPthcTyJup42WbSJQ70sJA8lrnIhdZy51R3TC+z
-	zGIf8/w9MRPDKe0q7C/s6jp7Jhp/QFCTzlhrhWFCJjg+LNdookfDyqNjUE9OzziarvbXXh4Arkc
-	YVa/N8SHJL0PTJKicPh6G+AmKaSnI+kFBQ29YVsbsFhU/KYDsc45zQab4KjhgXSjs01XxyP4vGa
-	EcbOrVevS41EKlSi5PYnXlaeYw6z9LeoI719XFdfmPM8QXjr8ZqDiwwxPC3yw6WPNSbCie7PLao
-	KVw==
-X-Google-Smtp-Source: AGHT+IFkOUUrc+xvJFA+k9eOaC3X7ti+JjXJzVczoRXXnaeBegrJ2NoOQMYzongP1ejUVCwVOWfaMw==
-X-Received: by 2002:a05:600c:4e89:b0:439:45ce:15e9 with SMTP id 5b1f17b1804b1-43945ce19a1mr26446425e9.26.1739204500617;
-        Mon, 10 Feb 2025 08:21:40 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d33a:26d6:1846:991? ([2001:8b0:aba:5f3c:d33a:26d6:1846:991])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dca004esm148286885e9.13.2025.02.10.08.21.39
+        d=1e100.net; s=20230601; t=1739206011; x=1739810811;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FYwVoh7b98dk+LTFrTbcPrKe0yACCDk/mRry7OiDgcU=;
+        b=SaWFckvnmBu/PhdkaqsU1ruSH2ahCyQhvqzjB2G8d4IYvoGeiBWlYy2A2zuZxGz4Q8
+         n67LZayb6i7dTNCB93ev+Qwc8zY6U9Joy7TW51fGioKe3vKn+GYjiQLH9GkQ0cKX/Ctq
+         /fvDLG4vcjFvurCKb+pbHHVVm5zffJ21VcILfiSSYnqL8NhpqKf0padlTZytl+JTNVLq
+         Ijjn65JsDDlgdDeL46cu86oa0qU2bU2fIbD1eJWRQ3M9sAvr8WWCsbJhEb2JFFC/JttR
+         u/agvimdmXwG0Cem0OWITToMi0csNiHu4z4iva0WpO6MNPCogXkTiTkqhK6W2gHmCgoy
+         4yLg==
+X-Gm-Message-State: AOJu0Yx+OGVjykdgSkeSBnPnqrbmr+Eg05B41n/jniu2xw3DrqCfnwKR
+	UitTceNxgZC76rIL8bwLaS6B2lpQSK9pttDtT5ci7Scj7EH5FCP3IK0TXTFvQ5oucxYnUiIqRD/
+	3
+X-Gm-Gg: ASbGncvkXviNzdRdzql8p6H04I0NieKivK+UAripasLFvE4hrXByxQJ4sBsbetcBU0u
+	luWcgUKtlxD5HGPSzfWoo2RxRmsEpFsuuuLh+vxMcONGjQjDFb7hyORYFKdw+Lc/OSQsX3WxeGZ
+	1rHErFTtA3hBSi2i1hwfJ5Bcf7I6rI/ymuf6p/GLK0JMOvyADptzXqrvAfwNzLAxgr7hRWejw3o
+	+Zlwt02j6VvEXBAq1EibROJdNtsYly4Lxi6nrRpNlIMIyZIc/LDRM3eu1V2Xr0kgi792iFpKgTs
+	qLBTfdSWbk5Ndyiw0/k5mjH6B6cUzLBKKDQoAgIOypA=
+X-Google-Smtp-Source: AGHT+IHOiwuhtRlyQ4EIkqTmdiwVLSQ7VfxaDjvr12HZguEqGanQh3oEpg+ked4gcQz96hy161e7Zg==
+X-Received: by 2002:a05:600c:3552:b0:438:a1f5:3e38 with SMTP id 5b1f17b1804b1-439249c75c3mr136387145e9.30.1739206011273;
+        Mon, 10 Feb 2025 08:46:51 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d33a:26d6:1846:991])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dd093e1ffsm8328259f8f.100.2025.02.10.08.46.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 08:21:40 -0800 (PST)
-Message-ID: <1745112bfecddf072b229f0c0b26fcb3d96fc053.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gdb-cross: remove duplicated PACKAGECONFIG
+        Mon, 10 Feb 2025 08:46:50 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2025 16:21:39 +0000
-In-Reply-To: <20250210154958.1119250-1-ecordonnier@snap.com>
-References: <20250210154958.1119250-1-ecordonnier@snap.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] package_ipk: Use preferred for of --force-postinstall
+Date: Mon, 10 Feb 2025 16:46:49 +0000
+Message-ID: <20250210164649.395225-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 16:21:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211104
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 16:47:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211105
 
-On Mon, 2025-02-10 at 16:49 +0100, Etienne Cordonnier via lists.openembedde=
-d.org wrote:
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->=20
-> Duplicating the PACKAGECONFIG variable in gdb-cross and gdb-common makes
-> it easy to forget updating one definition without updating the other.
-> However at the moment there is no need for two different definitions.
->=20
-> xz is also useful for gdb-cross when minidebuginfo is enabled, so it also=
- needs
-> to be in the definition of PACKAGECONFIG in gdb-cross.inc
->=20
-> Let's remove the definition from gdb-cross.inc to make maintenance easier=
-.
-> This enables xz for gdb-cross as side-effect.
->=20
-> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> ---
-> =C2=A0meta/recipes-devtools/gdb/gdb-cross.inc | 1 -
-> =C2=A01 file changed, 1 deletion(-)
+opkg accepts both - and _ in its options but use the help text
+preferred format. From https://github.com/yoctoproject/poky/pull/14
+from Philipp-Alexander Blum <blum@gessler.de>.
 
-At the very least this commit message needs to be a bit clearer as
-there is a change of behaviour here.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/package_ipk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To be clear, this change adds:
-
-${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'xz', '', d)}=20
-
-to the default PACKAGECONFIG for gdb-cross. You can't tell that from
-the patch.
-
-I'd also mention that there is still a different definition for gdb-
-cross-canadian and if we do this, they should all probably match.
-
-Whether we should do this, I'm unsure. It might be worth just adding xz
-unconditionally at this point by default to be honest, it isn't a huge
-dependency. gdb is a debugging tool, not for a minimal system.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+index 209568ae5f1..3e72c4c4941 100644
+--- a/meta/classes-global/package_ipk.bbclass
++++ b/meta/classes-global/package_ipk.bbclass
+@@ -17,7 +17,7 @@ PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
+ # Program to be used to build opkg packages
+ OPKGBUILDCMD ??= 'opkg-build -Z zstd -a "${ZSTD_DEFAULTS}"'
+ 
+-OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
++OPKG_ARGS += "--force-postinstall --prefer-arch-to-version"
+ OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+ OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKAGE_EXCLUDE') or "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() != ""]}"
+ 
 
