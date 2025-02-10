@@ -1,104 +1,100 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93565C0219B
-	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 00:36:53 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.40891.1739147803951377022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EBAC0219B
+	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 00:46:33 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.40892.1739148381558307707
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Feb 2025 16:36:44 -0800
+ Sun, 09 Feb 2025 16:46:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mRpiA+8r;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c05c30e0aaso69511885a.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Feb 2025 16:36:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739147803; x=1739752603; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0n1d4524DR0+Z8121bXgsgNaLM0dk8qYXXm7/YEvtg=;
-        b=mRpiA+8rQZMb3ny/WmB64WtmjTCjgXspGrQEK+/exelpgXLgIGyT00XZmVnzO+CaV+
-         dib1kJw7XYCVNH5DU0YCPIM0pXg1RwzvNt1UekHXAB7/7NAzjNwGcbmTkt+G3h/G9BkD
-         zv4oX5ALLMfJniHzypc/RmvD8T92BOXPweIuYiLUZLQW6A+DzEQm0EDAmb3pVMQUOZcf
-         NHA6nVALDAELBEXdEmFTxKWL/BRqxkgm6Qkb/34aLwqG7I91Rc38F0+H932t5Wg9XL4v
-         N8USG9FRU0QoZ5FhioOuZOcgfKyz+JfWMIgEgb73ylR0TZojCgSNiezeLnksw30XzESG
-         pA7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739147803; x=1739752603;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I0n1d4524DR0+Z8121bXgsgNaLM0dk8qYXXm7/YEvtg=;
-        b=J5+7HGwCieVi7gL+5zvXmXJT5VZptBaUuSVrpliqM2F6niYhwNwCIkeUOOEBhz5J4q
-         G9r3ay1irZIY6U1cFdbbpAVofgXOeBLUz4d0OiZAEE1bEyhPFcg3tvpcKg9p5QAQ/teQ
-         ALaZz6Zkt+qJhhuvijRlEIoVyPGCyeeiwksQos9gqcz/FsNaAdaAxlMFBMej3a/nNRVv
-         87YhbKs6Mb/G4TlaVPqMP9gWItdKtSr4s7jUxb2f24XW2ky63Q8G1vfZCXAXzQ2twseB
-         YA9KvHyCqnMpIfXmnPfpk3IoxuUeWwXfcH4M5QBV9owWPOot0cuHBFEbWTUU6oKeI5n6
-         GrBQ==
-X-Gm-Message-State: AOJu0YzJX8g5IjRz8DhEuimlsze87waRX3yFetwanP4LLcK694Qa/zqU
-	WlvS0Qoa3+9z1R2LK+XWmJyfu3byxs0cPYygMNuXLwzTwDoNKUl7
-X-Gm-Gg: ASbGncvS72YzhempccIprlYrXQpFojdO9LDRYw3/KOx/B3Oj2RF6pgA+q8BslliUMA+
-	ytqB4zuP7fF6i8J+6nH307Y2eR+2Gn23zEcgHhm1Hb90bsphFnNdleUGWmlFjmCbI568lFQ8t6U
-	+yKr3A4guzT+ulVtZEGUEWCQTj8k06u/MsTENU2UGQrvVz8HCyDEjBh6y0c52IXpKIjiuZqmFVm
-	ETCtwyJ0E2AharrltY/BY5SgO/45C+iNlhZ8IyqKuVTu/EMRePONoftSgGMH7yFMgdFX8QAKm0Q
-	+oBcSdC6HLOqpotp8IiNKLAVbubU3cxiCOXcrDGBbauZ4i2RtlRQg3nsjb/B8VGQiEhBCFpRttb
-	MboTAPa27mPuyx5aX
-X-Google-Smtp-Source: AGHT+IFGlR4glS8oqmnCph0kJiQ4q72WdjkF3e8Qcpjupqo2/UO9Q9y3ybOeVdQ3Wxel4yvudD2izA==
-X-Received: by 2002:ad4:5caf:0:b0:6d8:a1fe:7293 with SMTP id 6a1803df08f44-6e44576b912mr190998116d6.42.1739147803000;
-        Sun, 09 Feb 2025 16:36:43 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e454130846sm19176976d6.114.2025.02.09.16.36.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 16:36:42 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH][v2] poky-alt: switch preferred kernel to 6.12
-Date: Sun,  9 Feb 2025 19:36:40 -0500
-Message-Id: <20250210003640.67945-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TYONCOuP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BWSIkPu9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010194ed52485f-ae4c2add-3585-457b-970e-0d8ec73b799b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1739148380; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=aEq5P3HqZPNFRQ1rsDX8ytXjAy4766Y13VH55gkTn80=;
+	b=TYONCOuP06WDfRkFNK5TInRq36CMmpgXQNT4tCzJmnAed3MwVbdID1+KGp0/ko9W
+	WAM20pnPhaphkx1NJhKqqIlq2ntu7fRCj0OYQggDxi9qMrJUjlnKsEisxUlhB9T8zof
+	fjl45nQ5G6fG9rvhFcIjo6fckneVZO4zL5dN+qDo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739148380;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=aEq5P3HqZPNFRQ1rsDX8ytXjAy4766Y13VH55gkTn80=;
+	b=BWSIkPu9g6RdFtJZIjglf3MCo9VpAwIyxvFgtRcEToW3UlBRc1MRDc8uDB8umxKG
+	PHyzHyqF7cwUm45cwrmEQellh7gvWD2woONVFzY/rMIcdz/DKXzMTNFtIvBQTEMPKfH
+	HqWqMy08qSg1N8gjCHjAg0aou5DJOfMKM3zCxE/Q=
+From: patchtest@automation.yoctoproject.org
+To: bruce.ashfield@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH][v2] poky-alt: switch preferred kernel to 6.12
+In-Reply-To: <20250210003640.67945-1-bruce.ashfield@gmail.com>
+References: <20250210003640.67945-1-bruce.ashfield@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194ed52485f-ae4c2add-3585-457b-970e-0d8ec73b799b-000000@us-west-2.amazonses.com>
+Date: Mon, 10 Feb 2025 00:46:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.10-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 00:36:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211073
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 00:46:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211074
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--NextPart
+Content-Type: text/plain
 
-6.6 is being removed from the upcoming LTS release, so we
-adjust the alt config to use the 6.12 reference.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+Testing patch /home/patchtest/share/mboxes/v2-poky-alt-switch-preferred-kernel-to-6.12.patch
+
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
 ---
 
-v1 was missing the 2, in "12", but was working since the
-wildcard happily matches 6.12 in the available kernels
-in master.
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-We of course need to be more specific, so v2 fixes that up.
+--NextPart
 
-Bruce
 
- meta-poky/conf/distro/include/poky-distro-alt-test-config.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-index 3e10251e8b..da9199dcd4 100644
---- a/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-+++ b/meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-@@ -2,7 +2,7 @@
- DISTRO_FEATURES:append = " pam usrmerge"
- 
- # Use our alternate kernel version
--PREFERRED_VERSION_linux-yocto = "6.6%"
-+PREFERRED_VERSION_linux-yocto = "6.12%"
- 
- # Ensure the kernel nfs server is enabled
- KERNEL_FEATURES:append:pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
--- 
-2.39.2
-
+--NextPart--
 
