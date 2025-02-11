@@ -2,258 +2,168 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E8CC021AF
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 15:01:04 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.114])
- by mx.groups.io with SMTP id smtpd.web11.1129.1739286053053355666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B003C021B6
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 15:01:15 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.127])
+ by mx.groups.io with SMTP id smtpd.web10.1101.1739286068172146538
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 07:00:54 -0800
+ Tue, 11 Feb 2025 07:01:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=p566mb0V;
- spf=pass (domain: weidmueller.com, ip: 40.107.20.114, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=8HeG65gE;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.127, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tSTmfIqliBH4jarx/QkbPLXvbvaoiShCmtP63vjoZ08h9PAO0kdSOjIkDlJb6WB4q5rdkuJE01mnHXzwJS6YQ1GAuMnqiJoTeYTTCIqAaH2Yu2+DcOjayBa5+cDHCjnAxGdzkA8Sz+EdBHVo6Y9+Ko1nN4J4ZM9U+jnyl4iztqRzVCsa8aAaXsswsc5xIBJgSryt/C1e4wtteijA8/NqcBUpW6SwrVNOo2HSqzNPrXey1UCi+VtEt/yl/8ouRXqNlqjM5wiOdLyRJy9tXu5t/lWyEre/mBh9ngwGAAAy6zd/1lMwlwlnFLB5h/mIZgKTOSOXS+nlzHXV8yoWAHtJAg==
+ b=gy3zMRq4P0lF8BUNYTwZTw8fVvHr+spH9vgxePaKI0xFxrOQSBV7mHu1YylY+j7eDsmB2DGO1eV5TiN4DjxLqCQIhiMduqqxoJDKHQGBrPNOyGztnr56KVv4TWOHZAAD1nY1eFq3ybmaFEsPph9yH9dYVxPY/s5Zk38L7AcQg+GWqUB5q3kGsEz0NnoWHaVEFU+a1UuygiCo9Coo1vPfelg6KbXdBmzZ5EcKBKtxfpPjc1oYVmAWfJq/7a41fPyvcPlakn2yQYtRqWQ2emmpSp3stg3w+Ke46D6mLLrGxKuxqMYPcrdv1wz4QwUNGyZMLt8WN12cv5LRVGE96Wi8xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BGN3YPCE/fZyPFoFez808nQbHnz7Tt6QB3XAt1LwNhk=;
- b=uxU4OMhsXq6psWUwvZm3Ma0IDFugWm7M6JzROBCXzHakwzFzC+7TvgIV4m33XfWuZVCWpfRJMM9tja3GNLX7ePIFQzoF7lEMLAoCQlYoyjOINdurWfRJTylomqzr6ki7jjuTZQmuSRKkbH2F0NieK/RMASneatnFUyEaL89vnlww8sseTIwwTDmSmNP0rSRN468fgzgMASBD7Vzxrdt1kxQ4mFuO2k9Jo2mHbheObQpYzJKc/9kGDN8Vb7Ld337ZpMQPSQJHE4LusoKl/BQg+JoEuG+g/7slb2PzTpRkrojps780gJDUILQ1neaN8ObUpFRJbboDBzdv2zmnRznleQ==
+ bh=iNQSq2TZ5fHV3TglKJy56roaGAubbivjiHE5kUTXXiQ=;
+ b=qSSwQFrN0iyG2izL1UyteG1tnM2SA7LksFCTql3BtvYzprbH6PZPpNbWkwtg71Oa7+NYBPKv1llWyjMXcTrnZTyzbDJPUOUE0AW2OZdUBmV/3H1uHOElgDgtLx/eXA/RwjGvgQ+opQuqu2lx4Lh0dXqZ1ElxNUAS0CgcLy/By7756GKK0KFbwuJk31rL6/pYJ73Sr8VU3aSsp3Okx+ttgvtYgzIh8SjN8nL2VpWKof+jGiov8sw5g8lBbxLOXGmP5q5/ZpXC4uglxXcpwWeu5FY8QPTEw3qUApTXaKpw2cexqZvjnUXjS/uiSTI9tXN0e5OzWx8VI7YlHxDG9xKhyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BGN3YPCE/fZyPFoFez808nQbHnz7Tt6QB3XAt1LwNhk=;
- b=p566mb0Vw4fwgbL1xlE625PtTQaeCPyqHnrViUmFpbAj1Hh1YPRudoDEWYolQc7fB3aiciCmuoW8FRo/F31ks+wNezyIDsyqqR2DiqU6G4e/rmrOp2vQGSdtwFOxOVbh1QUd0FGWni5P6SAtkXbWmtf3fdlT4rpcpItZjePbfZRzZvBO+fEo69P9dNyWX2ZKuuzYXONafYHxB2p33QX86gu4dYs3lEEl201FWR6cL8ZtyFEvVt0FjI5aj4NwHuY//c1uXUGzUK7rlRt7mJb8FOOiS4qNESAR64Xd78yXIVaR6J+rAKV+0ikgo1r6ZWs0ZanLgHOsv8RX5IbCPjwHJA==
+ bh=iNQSq2TZ5fHV3TglKJy56roaGAubbivjiHE5kUTXXiQ=;
+ b=8HeG65gEEopfpsMRW5vCJNUyikRquvl2fzii5AVfGvQNfgcwQEXAgSL8zqofxMK1lF4OGKoGdmGmp/M5k5v9zrw5DS83EWbhk16bPn7z2B0HAUuLm0hmVWFxGe6o4JSv/2VqflwKz6JoC45mfn2PRi5EmfKTsc1V63zxPGjdp5iu5l6ys37Mnmkm7xNIFoy+NymslTK/du515cpLaKmNNbRy/erkSefmJAa97Lt//VBcnHWHSmNslJFvLrbHWkNYQ6l6mTCblQHa18HOPpx/wAfCRrqJgUo830hfPYeFBS6uZnfOvepaQage9qpUVG5FXSTa9fiO2nMSbvlJNzrUYQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
- by AS8PR08MB9840.eurprd08.prod.outlook.com (2603:10a6:20b:613::14) with
+ by AM7PR08MB5399.eurprd08.prod.outlook.com (2603:10a6:20b:104::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.17; Tue, 11 Feb
- 2025 15:00:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.19; Tue, 11 Feb
+ 2025 15:01:06 +0000
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
- 15:00:45 +0000
+ 15:01:06 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
-CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
-	bitbake-devel@lists.openembedded.org
-Subject: [RFC PATCH 00/30] Add vendor support for go, npm and rust
-Date: Tue, 11 Feb 2025 16:00:04 +0100
-Message-ID: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [RFC PATCH 29/30] [DO NOT MERGE] recipes: add nucleoidai npm demo
+Date: Tue, 11 Feb 2025 16:00:33 +0100
+Message-ID: <20250211150034.18696-29-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.39.5
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:a9::16) To GV1PR08MB8426.eurprd08.prod.outlook.com
  (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|AS8PR08MB9840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b8fb428-812e-42bf-1af1-08dd4aacdcac
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|AM7PR08MB5399:EE_
+X-MS-Office365-Filtering-Correlation-Id: 301ee0ed-3c91-4458-9fcf-08dd4aace59b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?T1V5HufOdOuwE+3uKOI0eTM13k1Keyu/6TQZOKbjAqzes5xIe14v1vnoVDfc?=
- =?us-ascii?Q?b//KW+Y6DKUKanNcjbSdF9n0t7x8kMaHEh347MEQdxnBl57FiHt6czfThPVw?=
- =?us-ascii?Q?iEI9rXHxF8kDfN0CvZqyBwk7E8FlE2j4lcCMYTGV0F/2mXJ+3dGnBrSd9pfp?=
- =?us-ascii?Q?bNzLjWkEchSYf3Z34AjksnsOAqB7XeltxCwRVQSb3aiZ9ySPYYwoC4YLQwLj?=
- =?us-ascii?Q?0Xv6nxUoJzOEY+FsVfiliWJVHnsbIo4/5+U9FT7t+Tht71KjSqfCKjRmwX9Q?=
- =?us-ascii?Q?EZ32jLei1TCI9HFjxhhxfP2JWxYFzB08bO9FriDMq93DUJyIKW0mzlL9iQmN?=
- =?us-ascii?Q?wTbX/Hs3FoTQutgifoCmctZazTfowQrth86gaxTJf7O9nEWMDHPA0LwqJ868?=
- =?us-ascii?Q?HnvhA0RZ7gQb0zekpONAn9uSXc1EpDaFk7diXqpIfcrzgLjPH3BpdeyVmBTm?=
- =?us-ascii?Q?bprdh68Cy3GSXddbpfbXSaCyF3JJtmwn7wJ/QcHIpS/JX04m6NxCTFpRu7SB?=
- =?us-ascii?Q?g178gbHSeUidksDPClvwkobSpFAjYK0mi332qL7J53BBdppG6ql19ew3RMi7?=
- =?us-ascii?Q?uV7JQtqPL9NT1FxoJMHt3bVk9YRWwIEfYj8O0he0nD2CfHqCMexNYwXWwhtu?=
- =?us-ascii?Q?EvQfanImTeoQKzAAdj0/h+aawwuThFJx1uqGSidWy6cmJL+mWIDyZRQnwKdB?=
- =?us-ascii?Q?y4Ez8e8+Iu+TPCQhfkDWDl663PwSyGN9N/Det2/sFXX2ys6BiWnspReNAbR0?=
- =?us-ascii?Q?MIpcijMoQZea59VWD5rV1af46Giv5XWsDsv8rJcZwHM+zJ1EH0LQfEenJDqT?=
- =?us-ascii?Q?NxW5wOlzh7UfMoa+Lgv+QWtJx0aQp1eF9+AkLaDAtA1LvjmZHc1gxaN8/xD9?=
- =?us-ascii?Q?+aDiOJlW5eqCYH2nRdrvnywK7TYDj96IO7lmRKQ3FB19QYSXndIH60jx40o1?=
- =?us-ascii?Q?SnNrD6ONOWcBjQHNiR3zzE+5BnzBf5v0n03ga8O+ud/42ZuKcEyiSz2+NE3j?=
- =?us-ascii?Q?6xAZdhHJ4i6qp8u2z48XRn2puKGzNZEcXmswOk30w3YR7vhwJcbNg5nfCG4h?=
- =?us-ascii?Q?8GRopHGdqc3Le7+E4kKeVrXYatvheUaHESwlIemv3kLMBv5BZjnANuO9fTJJ?=
- =?us-ascii?Q?/KRS1rCsC1iOQfX4K6TqYI8mIHaJIpZg2jfD8cfLT6PuESO/jgV2ZxBwidFl?=
- =?us-ascii?Q?YhpdaSkcVuQx79e0hjO5l837EcSajlYUfSIxNYris31xI2ZFGep5itFxXPhP?=
- =?us-ascii?Q?QyfWitZOklkBpUWZsLKetJQnqQLAp76h9RD+IBBe+YNR6rjftfRUpaFd4fwJ?=
- =?us-ascii?Q?+aQavVfSkHfa0pNbzsnIFGHPC54+ZIQ2z7//DD3XJHTkq/hc9DD0klVmH/mB?=
- =?us-ascii?Q?F9KqxjbDVEn8intXp0BHQKABG9PFQm8sKByxmp4SYwPCXq0m+5DSXaFU1QbC?=
- =?us-ascii?Q?XL7BmAeDsLcoNSUOTM6ZNjZpqjekyB1g?=
+	=?us-ascii?Q?+8+ELaMJXmpAuxlVTqoIMSy5eObHDb73x0RjEdgwuzW2SSjSSdXexwQT304c?=
+ =?us-ascii?Q?s35Inmt2n18rgbcbxHfv6EnmcDX8DTxflahfANxvNpYVI1ruSsRijH1uqb6U?=
+ =?us-ascii?Q?E0i1SW81DAq+nFCd5Qu51lesuhOdMaNUqAb1XEIO7AfPDgxsbWum6L4BcCTU?=
+ =?us-ascii?Q?NP5AI1EXIXD1IK+qBGND5hxHv5jQKaCcee4vGOdWbtSxs24Qbymry7dr5oub?=
+ =?us-ascii?Q?KkVd2DqVzHQk0hngmsYeNDezZsFZjPj3sAy2yftp9zJvS6on8rzGec1UPy1L?=
+ =?us-ascii?Q?q+2aZs6eF03BPLfZ563JsQb0FYfNduQY3BaI8MrsWgLrsXw53WbC4Mpup77z?=
+ =?us-ascii?Q?HekcOmvkXiiE0MDrhTFsXBDPyr+1eUJesXQuQag6StsVrIGxithn00gyWWl8?=
+ =?us-ascii?Q?gwEDd+5iUz2kMnNapBjZdACk92dlt1/lhh6fjrqbYZcbDoIX0e4OvvPiTXsp?=
+ =?us-ascii?Q?tSyVBwzwATO9pA3Pko/T/MvseBcQHzISGsQ8VHrfo/A9UArnJXAtbCqwXqCl?=
+ =?us-ascii?Q?0jF+67yyz0B4myPYhwh/m81Oubp/BlyhSvc4eYugauY03rieovsyGI4Vlz+2?=
+ =?us-ascii?Q?utk0BZ/yi5GbbcEemxjMhn6Ykl4csij3xWdgnZ1iQE178AnxZUl1fE3inkRD?=
+ =?us-ascii?Q?YgbbYh1m/J/kOcX9iYkoTUrYxyFeFOHb+RxPPWc0KjuNGlFx9BKmycrS0rqb?=
+ =?us-ascii?Q?wx8tVQJxeiALGK4l2p0rGQYQ3z5G98+59/AFbyDksneF4M9ayRwZokvHpqZN?=
+ =?us-ascii?Q?UW0pRBRHRGrPR/UR+2RIPxzl1Upq9eTUt9gIzSHrhHaB817rn9GjYrB8N5Vj?=
+ =?us-ascii?Q?fAY+WIetSN0iqdpVH/LIWukIW4+Cr4FtstDX99On1CGKdgEpJGuo0izuqMeH?=
+ =?us-ascii?Q?PuO+vGbX7ICyhl67Z4dILoJn5V8HfVF2taTehdE4Yi6qLQs/95WZpxzfbqvS?=
+ =?us-ascii?Q?yTwhtyTBVbVUJWV5SBPwHu8mAXprnaizuT3IV+TAKl/Q77yp67lZtw/JH3+U?=
+ =?us-ascii?Q?5JsdWWUhOyLTf0tblb1GJ9uOt8sH16rSUAJ1lMi0NxvkiA0KzVlWrpumvWIB?=
+ =?us-ascii?Q?6lMyfB0uUXRgN7yJuMhRsBNOUl+FXhoJexS1JnMl/K+Gu859nFdOyj6NvNik?=
+ =?us-ascii?Q?kgHYJwbkOMhcaPssjxvG7IxyDlU9PAH3myV2I4e6vesNJrvsQbqGa3H/WRor?=
+ =?us-ascii?Q?fDz5ZiGADAUun5MeCffExr6NvSFbcLybOHiRjD0S1p6J+T6sJc89VUgBrYaI?=
+ =?us-ascii?Q?V+Nzhawg7Ut1ydGpnDW+tiH+qRACghm5GHIFajPKcSswyHwLbMbHvNoE1E7z?=
+ =?us-ascii?Q?wgQwcYuOKUC/CdOuejH71S76OzwsvPW0fgWiNH5MChPVKELyQNSUl2JV8umO?=
+ =?us-ascii?Q?kCbf+oWmKRKJEFOYpiC22Rop2GQc?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?FPQYZqTqw9wgSVFbVsEJXgs9L8LUStZN6MlZ+RxajvW7JrMUiBT09x0SBI0f?=
- =?us-ascii?Q?raiDGIPlwRDZtl8hQUe4jQ39f8hVm7Eu50B7+fcvAbW49SkXbIvn53iPBuM6?=
- =?us-ascii?Q?5d3qiEuacoCVApAWLjV3TWiajqBmNBtUGzNE2cPncQaR079lK34/BXjKJJuc?=
- =?us-ascii?Q?g6jhpU6jzN755Zk/eiLTBUCPrY/T+jYaQVdAZUKOS3VeShc40g9+ffgLgLUc?=
- =?us-ascii?Q?BcAEervqGJzghFs874DDCZ0V99ol7tkmHV1PcqX1jFHZVMvgHfSucoYE+mL1?=
- =?us-ascii?Q?FG124EMbbLW0Z+Pwb8NY7Zff3GPf+oVoQnXodw19Bf1VGff4TePTZixdG+YV?=
- =?us-ascii?Q?fyNsWWuRaUUFUKDrbFEVB2yFhZ/Svbk5jKTiGy+opYxbqKqxj/eOL2QGTvV1?=
- =?us-ascii?Q?FWNdCEAyni0EUV84dqwwAvbDvxdxq+eVIq3ELSJ67UpwatzGf34CB1TpeYRL?=
- =?us-ascii?Q?drP323p3OrLBESANftErIrV/DyyN++fOON4ikev89tMafhk0YQMHxUUgZMMc?=
- =?us-ascii?Q?k2kR4LlS9dzBk9ByTyqm+YOfkGgml5J70QRMIoDwaNbU2C3ZImXxDY4z9LKd?=
- =?us-ascii?Q?OZn2WYqQWoSFSSSy4K7MbhUfYUrbWhTKlo1WHqNfU21FBXttbgQa9jkuBnY4?=
- =?us-ascii?Q?GXuNoCTi2wHj2VLNNBbcLbRmbWs5+qvOppgD5PKKnu70TSNW6FDwXf8t7R1m?=
- =?us-ascii?Q?7XJSTV3aCk8znF0REKOl2qML1GDMK8ZzHLHGNAZYLOjDWoij1faxbdoNNFll?=
- =?us-ascii?Q?oUeNyUehV7TpTrrfeb3+vX3Zd5vhQg0n38xEWtc6dX8Dg8oV2tY0kVCjFkJ6?=
- =?us-ascii?Q?l+hCYcWSzEtv/4pFMa+0ubcSxWTIBE02iGBRZQ53tzIJ1mRZRDIBOvNzegbv?=
- =?us-ascii?Q?KSMpxZIi5wTtqBKHiXr/vTnES+GIXzWqh23yFkjtNVLMRzUbtb3zjrv1gpFC?=
- =?us-ascii?Q?SCoCapsWsZW1tuTM3ppuKprPpMtGm77LJknQlFHqCgnG4nPnbS5vIE48VVr5?=
- =?us-ascii?Q?jN8VkZOGCU0P9EPt0rnuzrOZztMljhFCbbVLKhX0zf6eXEodXYXO5D4Vm1mn?=
- =?us-ascii?Q?18Vlovpa46y/ymjRabWeG9BHQ1kjQxymdJSUB9ZFsUHBYGjStCttaUbE3Tlc?=
- =?us-ascii?Q?wj5QRO8mWewO6Xu+jfV2XRgRoQMMRVY+FESbV+rNXShCr8lQvmRr1m9qwWi4?=
- =?us-ascii?Q?GM46+34ftrdHSULI7rRVJZU3LuJuZ/Q+M959jo5RiQtZ6anX0oPef/ODYQ5y?=
- =?us-ascii?Q?f5HhvY6GbDjhWKX2fsTAnaBgL5gSonx+MA3jV0UPanRHxtdfpwkLvwduN0B4?=
- =?us-ascii?Q?Kv5vN9A/rSlKVuTnwsh6xh80TSd4Xv2pzR0VE8weXME4ay8t3YfIkUPcX9Ro?=
- =?us-ascii?Q?JZgEJo60rR8r7V5PMBM+YlIWL49OUEQ1dZNPqsLoZkTo7fHSNnmbRSg4oPY0?=
- =?us-ascii?Q?G7O3FDQ/xtx7Zl2ERY0tmxO28qXlNah2hdehM+5KDWqLeYGcximrcO7dG0CB?=
- =?us-ascii?Q?NygSMmUL72FrR/8UpVbhByl/L1VjA2oCqppYg+CgwauT/QKX1Vs2xfuRCeOV?=
- =?us-ascii?Q?7dnzsh/wys4o1fI9MCnMBqIzvZK+dUh4OWWbMDdnx58kfwQ2bBuyupi0pTkE?=
- =?us-ascii?Q?6Q=3D=3D?=
+	=?us-ascii?Q?GOKp+iMEHFAq++Dj4PlulbgHNZGVe4N6b1nYvsCjUgwIHh6hrUHr5M9ScSur?=
+ =?us-ascii?Q?tRF6fkiuepEOvuCMoukNcySWgxnHd3ZJcas58i15owqJAmc2A4sfhiHweVsI?=
+ =?us-ascii?Q?um3beFZ1j/uBXABQjWvGqa9WpXBNd9eVd2DppKKmVtjOg9n2sWu5tz73PzPg?=
+ =?us-ascii?Q?j3mwOK113wxuiNCOv63LrnVNNOT6hZu/Yc3EhIXYq8fs8355YOWliJEQ5LnJ?=
+ =?us-ascii?Q?6lq8g3ObjivwZCXzKJ10CesKw0aQdZE7G+ZIJR3jESsl3z0j7mNJX1WCV86E?=
+ =?us-ascii?Q?Z7VIZ5z5kUEq4HPpPoMS3nA/1/tZBH0i9iabEP5QAc5Ho90t+ji+94Om9q7s?=
+ =?us-ascii?Q?1k9w4R5IbzAJ5tD3pfH58zY8aM93KwHqW0SSOWE5qQTJ/L7mzjlbZztNqOSO?=
+ =?us-ascii?Q?AUL7eAzKmJbwm4Rfvz2b0vp2KvBYIdqHVSeH6zalYviU4eErkixHC1Q4JqUc?=
+ =?us-ascii?Q?GT8a4OEXSAnZJy4DudjLHS4ONzd6LUWZHrsRWhbeIQG6BpXcgkXc7dRXM22g?=
+ =?us-ascii?Q?GHrLAZwg5aTvEeV/hLUTV4GthEX4c7KzmD9AGc4NbINSak4TGvie96sx6E1W?=
+ =?us-ascii?Q?ciyPrLDLjNd41zpZZcUdy0GfrT8+HCPjsH8xtHZVW67DMcoQaNXaGDAZxs7q?=
+ =?us-ascii?Q?HdF0Cgf1/nh0H5xao89asuIOzKMHX/q9tpvVM9OKZhQVqVmiD/ZS8WPW7qXv?=
+ =?us-ascii?Q?8cp2l5F5/Mp7mANZVFenuDK9ZoigZpRM1bQMzj1obXm/9/BfKRx86jF99sqm?=
+ =?us-ascii?Q?57IZLiZCTz/wMFMFze0y8R1LnKIsr0ps2shzs3+vLKGud+9zrVTr9tPhMcpq?=
+ =?us-ascii?Q?dpVXWqYHSXdH0APjhfbuxLWJv6owjWasSRPXVMu8xk3vJm2RcYiRyyAGCIIR?=
+ =?us-ascii?Q?yqtGZknANCEEzvjXVcdA+XnfRUOGY1vc9wIXa3K0sb8GtI13mp/i/g0I3yNk?=
+ =?us-ascii?Q?WKuRc0UPPfJgWrwzzUBafiPn44iZUmt8Sl26J88/usytmw6ARPLx6oOB0Kvt?=
+ =?us-ascii?Q?K/F5Mk5xtP/2UNm+1JOncCZsLXmdLMBlb7a6XvPKL7uJBgWGv4ebngt1PwGb?=
+ =?us-ascii?Q?CugLl7oOiVJftc/vYM6nfPH5j+qjJ5cGPByadPzCEzm8bEsp3feJuQbaokZk?=
+ =?us-ascii?Q?h6YwPbHGnv1PPSIZJ05yz1znqcSG1CQ3m22G/qnyyd7j7Vi4qXiexyL6Wn+D?=
+ =?us-ascii?Q?LIe4aBzMmsNUAqECWB9X0p7cuG9lukc04Vz1TzlD44gfVv0xFjdytffCM/Rv?=
+ =?us-ascii?Q?hkF5hxAQte5tkqSlHfAzx7uXM/TuZV8VwYhPJ5u3kjWwhNN3HO68BeZehQza?=
+ =?us-ascii?Q?LxE3qcub9StpNDMCvkZrMMQxeXxAXYYfO1KASyfTkNH+g3EqEpXzywbClIBj?=
+ =?us-ascii?Q?gFTToOLdQ84B10cPcyVirjXxM+7Q+VWUcbFLsvJimgqyJ0gJJejNJ3KKOPLs?=
+ =?us-ascii?Q?W67vDn4OWCu9GOYbD9ALUtGCGIHTUi6vv6C6aBiGmG6FDYWuoEgHO5Bk9aZ+?=
+ =?us-ascii?Q?d+pwB8VZyrxx5q4ohffxWXDpaCLY6ul0RTKx7BCVFZKpk7rsU9pHOSRVpBTT?=
+ =?us-ascii?Q?T8FqsPMd1q132eIQwIVG+St8bPcqE5PCETMKSulq+HpInfPKuHy0NYcnQz36?=
+ =?us-ascii?Q?Rw=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b8fb428-812e-42bf-1af1-08dd4aacdcac
+X-MS-Exchange-CrossTenant-Network-Message-Id: 301ee0ed-3c91-4458-9fcf-08dd4aace59b
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:00:45.5859
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:01:00.5672
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CM06+ARnz9Q0sFV1NaGBGOcdHQ4jnwXQkIY7LdCrVxCiCir7TP6vIw3OaG+uMd4VXerMcjUj783b7l0WfrNDVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9840
+X-MS-Exchange-CrossTenant-UserPrincipalName: UybCQx/kBRvBBGtumdGmR/f7JzFjHnIx2lsYEylIwvIxCXt0Ue81wn+3qEJTiQ4/MydbLTPZKGwd3idPMyq4AA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5399
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:01:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211127
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:01:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211154
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-The series adds on-the-fly support for package manager specific
-dependencies and vendor directories. It contains the following changes:
-1. Adds an early fetch, unpack and patch task to unpack and patch source
-   code with an embedded lock file for dependencies.
-2. Parse the go.sum, Cargo.lock and package-lock.json lock files and
-   resolve the dependencies to SRC_URIs.
-3. Save the SRC_URIs in a file and adapt all SRC_URIs users to handle
-   the SRC_URI files beside the SRC_URIs in the recipe.
-4. Create a package manager specific vendor directory during unpack to
-   support additional patching of the dependencies.
-5. Add the dependency name and version to the SBOM.
-6. Simplify the npm support
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+---
 
-
-Stefan Herbrechtsmeier (30):
-  classes: create-spdx-2.2: use expanded FetchData for downloaded
-    packages
-  lib: spdx30_tasks: use expanded FetchData for download files
-  classes: create-spdx-2.2: use name and version for download
-    dependencies
-  lib: bb: fetch2: add support to unpack .crate files
-  lib: oe: add vendor module
-  lib: oe: vendor: add cargo support
-  lib: oe: vendor: add go support
-  lib: oe: vendor: add npm support
-  oeqa: oelib: add vendor tests
-  conf: bitbake: add SRC_URI_FILES variable
-  classes: go: make source directory configurable
-  classes: go-mod: make class customizable
-  classes: add nodejs-arch class
-  classes: base: add get_src_uris and unpack_src_uris functions
-  classes: add early fetch, unpack and patch support
-  classes: add vendor class
-  classes: add vendor class for cargo
-  classes: add vendor class for go
-  classes: add vendor class for npm
-  classes: add vendor_npm_build class
-  python3-bcrypt: mirgrate to vendor cargo class
-  python3-cryptography: mirgrate to vendor cargo class
-  python3-maturin: mirgrate to vendor cargo class
-  python3-rpds-py: mirgrate to vendor cargo class
-  librsvg: mirgrate to vendor cargo class
-  librsvg: update dependecies to fix RUSTSEC-2024-0421
-  [DO NOT MERGE] recipes: add crucible go demo
-  [DO NOT MERGE] recipes: add node-red npm demo
-  [DO NOT MERGE] recipes: add nucleoidai npm demo
-  [DO NOT MERGE] classes: spdx: use version 2.2
-
- bitbake/lib/bb/fetch2/__init__.py             |    2 +-
- .../crucible/crucible2_2023.11.02.bb          |   18 +
- .../node-red/node-red/package-lock.json       | 6096 +++++++++++++++++
- .../node-red/node-red_4.0.8.bb                |   14 +
- .../nucleoidai/nucleoidai_0.7.10.bb           |   11 +
- meta/classes-global/base.bbclass              |   47 +-
- meta/classes-global/patch.bbclass             |   17 +-
- meta/classes-recipe/early.bbclass             |   61 +
- meta/classes-recipe/go-mod.bbclass            |   10 +-
- meta/classes-recipe/go.bbclass                |   22 +-
- meta/classes-recipe/nodejs-arch.bbclass       |   15 +
- meta/classes-recipe/vendor.bbclass            |   28 +
- meta/classes-recipe/vendor_cargo.bbclass      |   46 +
- meta/classes-recipe/vendor_go.bbclass         |   59 +
- meta/classes-recipe/vendor_npm.bbclass        |  115 +
- meta/classes-recipe/vendor_npm_build.bbclass  |   50 +
- meta/classes/archiver.bbclass                 |    4 +-
- meta/classes/buildhistory.bbclass             |    4 +-
- meta/classes/copyleft_compliance.bbclass      |    2 +-
- meta/classes/create-spdx-2.2.bbclass          |   14 +-
- meta/classes/create-spdx.bbclass              |    2 +-
- meta/classes/externalsrc.bbclass              |    2 +-
- meta/conf/bitbake.conf                        |    1 +
- meta/lib/oe/patch.py                          |   10 +-
- meta/lib/oe/spdx30_tasks.py                   |    5 +-
- meta/lib/oe/vendor/__init__.py                |   28 +
- meta/lib/oe/vendor/cargo.py                   |  121 +
- meta/lib/oe/vendor/go.py                      |   96 +
- meta/lib/oe/vendor/npm.py                     |  141 +
- meta/lib/oeqa/selftest/cases/oelib/vendor.py  |  237 +
- .../python/python3-bcrypt-crates.inc          |   84 -
- .../python/python3-bcrypt_4.2.1.bb            |    4 +-
- .../python/python3-cryptography-crates.inc    |   76 -
- .../python/python3-cryptography.bb            |    4 +-
- .../python/python3-maturin-crates.inc         |  712 --
- .../python/python3-maturin_1.8.1.bb           |    4 +-
- .../python/python3-rpds-py-crates.inc         |   54 -
- .../python/python3-rpds-py_0.22.3.bb          |    4 +-
- meta/recipes-gnome/librsvg/librsvg-crates.inc |  590 --
- ...-to-get-an-updated-idna-rustsec-2024.patch |  398 ++
- meta/recipes-gnome/librsvg/librsvg_2.59.2.bb  |    7 +-
- 41 files changed, 7633 insertions(+), 1582 deletions(-)
- create mode 100644 meta-selftest/recipes-support/crucible/crucible2_2023.1=
-1.02.bb
- create mode 100644 meta-selftest/recipes-support/node-red/node-red/package=
--lock.json
- create mode 100644 meta-selftest/recipes-support/node-red/node-red_4.0.8.b=
-b
+ .../recipes-support/nucleoidai/nucleoidai_0.7.10.bb   | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
  create mode 100644 meta-selftest/recipes-support/nucleoidai/nucleoidai_0.7=
 .10.bb
- create mode 100644 meta/classes-recipe/early.bbclass
- create mode 100644 meta/classes-recipe/nodejs-arch.bbclass
- create mode 100644 meta/classes-recipe/vendor.bbclass
- create mode 100644 meta/classes-recipe/vendor_cargo.bbclass
- create mode 100644 meta/classes-recipe/vendor_go.bbclass
- create mode 100644 meta/classes-recipe/vendor_npm.bbclass
- create mode 100644 meta/classes-recipe/vendor_npm_build.bbclass
- create mode 100644 meta/lib/oe/vendor/__init__.py
- create mode 100644 meta/lib/oe/vendor/cargo.py
- create mode 100644 meta/lib/oe/vendor/go.py
- create mode 100644 meta/lib/oe/vendor/npm.py
- create mode 100644 meta/lib/oeqa/selftest/cases/oelib/vendor.py
- delete mode 100644 meta/recipes-devtools/python/python3-bcrypt-crates.inc
- delete mode 100644 meta/recipes-devtools/python/python3-cryptography-crate=
-s.inc
- delete mode 100644 meta/recipes-devtools/python/python3-maturin-crates.inc
- delete mode 100644 meta/recipes-devtools/python/python3-rpds-py-crates.inc
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg-crates.inc
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-update-url-crat=
-e-to-get-an-updated-idna-rustsec-2024.patch
 
+diff --git a/meta-selftest/recipes-support/nucleoidai/nucleoidai_0.7.10.bb =
+b/meta-selftest/recipes-support/nucleoidai/nucleoidai_0.7.10.bb
+new file mode 100644
+index 0000000000..c4645a73d1
+--- /dev/null
++++ b/meta-selftest/recipes-support/nucleoidai/nucleoidai_0.7.10.bb
+@@ -0,0 +1,11 @@
++SUMMARY =3D "Declarative (Logic) Runtime Environment"
++HOMEPAGE =3D "https://nucleoid.com/"
++LICENSE =3D "Apache-2.0"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db60cddf6d0f2277da4bda65332fe232=
+e"
++
++SRC_URI =3D "git://github.com/NucleoidAI/Nucleoid.git;protocol=3Dhttps;nob=
+ranch=3D1"
++SRCREV =3D "f1d480bce6e13a64cba29e31d904c5559a0b8f82"
++
++S =3D "${WORKDIR}/git"
++
++inherit vendor_npm
 --=20
 2.39.5
 
