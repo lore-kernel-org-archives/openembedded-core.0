@@ -1,428 +1,186 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0214C02198
-	for <webhook@archiver.kernel.org>; Mon, 10 Feb 2025 22:33:52 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.6383.1739226825677438833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B798C02198
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 02:00:06 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.2295.1739239203787826321
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Feb 2025 14:33:46 -0800
+ Mon, 10 Feb 2025 18:00:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WSrMH202;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso7536915e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 14:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739226824; x=1739831624; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vDl5qaTAE5smbNY1JfMR+DMZ2IYDVHGUpnaw+Ypzp7A=;
-        b=WSrMH202ADO+AWN1dZS9aphno0YbiNEtcxa5qZKL6SDeTT603sK+rX0NgkXLdpMV6e
-         FOOgC/9Te7wo0o7hi9YWqmwkfYXokfGLcJryxdHXrTY+4M4sronejRaP/SMFC9psW458
-         u9rOMYkaLwFgh15apioYgSj63/iy3WkcQT9x/Kud5KFrMRft3nqrwDQvc/BM7IFxSfK3
-         zrQsXsVM+CcrdGXFZBl1vex4aW343IdYe0SYQl7MuI+unEUJm5CR/Y5Rr2Fzi6B0c0F2
-         eqGG8e8jZWSchxahSt2NMl2qS2kzEbP+PeOYn/jNBvEEGEfBYoJCkO29kLyEyKNwSO25
-         4BRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739226824; x=1739831624;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vDl5qaTAE5smbNY1JfMR+DMZ2IYDVHGUpnaw+Ypzp7A=;
-        b=CG3ZRroIRjLuKfyuE/ZA7NqwlPqFiRamycj00lVWaH0aOl4FklCEsdZQBrgcWUEYqu
-         5lme9Mmp9bKRXQDtp39+I1bosT7aJg1bswnxERdDyr9veTJcoN6gpRJelpNi1GJ3Askc
-         iHf9m528NGBpnuKzcu30CRwFauys+2jxqw5jUO4qhK8JP7gm8XTxBk+4Ild3J9npw6if
-         19nhUwn13kGgrf0QrOcZDHTZ7y9aIuYVb9DshBR6cIu5TTw9MkDMDYZ+4vUJXPbITmVm
-         6Jyyff58V2CX0K9XvmSet9EeVZbXWDktXqGpE0+awmlVgodvrX/W+KJGfGCyRalz5/x9
-         T8zA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBuw8hnIrFFssuTTGsq39xGb3qriCL0de1npp0rHEnfYBH+x7TXaglYIzqShW7SX2erleBFyGpONQXrWugw7GUQA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YySQ9nuA1RApyXm3+VEXJWrgcR4n1xBw+DANRav/Ox+Yg/+emdg
-	fY7r7k4k00RimP8QJDQn/OCKrMXIdxROzBtTXcpo3h66L+tIhObq
-X-Gm-Gg: ASbGncuFCsFAzGC4CJPlwDqrAN/F62pvsi5wpYV1ng6UcGnzldHkr8Hv6pQp1A47h6a
-	9Vu3bTfGoet3J5CaPaVwrpkJknlWMnrw5ZKb9e6HjULJZDbK4fq5V/eS4ZiiZpY5e1BOfnXw2Pm
-	R34y2muAfx+Z2OrP8//72+4F6ceiNJRC8cr/xAcj3rSE+x+45ru+eJHCITQiSV8bynHfriOqilf
-	Th5a0QGbbIEdYEFSis8CN1tSnkn8FUKxx4Ifw0ZPS7VG8P1VQTtF+rY1QZtqzp/Pwv64fHV3bJ+
-	3FxWRl3WSeyHOha/iGtuveANaeaqUoT2sCzZMI0B+NRHwKiw5iccCpCDKY40nXEr
-X-Google-Smtp-Source: AGHT+IG6+K2+iVKNfKwdR8KmegcUJIF0Lp3HQwPeJ2LNiE3epbmFvkhudjs6ugJfWLLIzq0Gwb65Ww==
-X-Received: by 2002:a05:600c:3b86:b0:439:4696:c071 with SMTP id 5b1f17b1804b1-4394696c404mr38542505e9.19.1739226823805;
-        Mon, 10 Feb 2025 14:33:43 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dca34a8sm157103105e9.16.2025.02.10.14.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 14:33:42 -0800 (PST)
-Message-ID: <008427b1b6e750333275ec65c902f4cc3b827cef.camel@gmail.com>
-Subject: Re: [OE-core] Request for discussion: Kernel version for LTS
- releases
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: steve@sakoman.com, Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Feb 2025 23:33:41 +0100
-In-Reply-To: <CADkTA4OHKxnGwHTmMpnVQRoEaN5Ly-7ygCr1Vn2UkgsOdAra7g@mail.gmail.com>
-References: 
-	<CAOSpxdbC-=6htz0g8i8NpcrmTsTpDXM0AkxtAO334KHEmKgu5Q@mail.gmail.com>
-	 <CADkTA4MDZb+_MBBNvKCMKm6xT_V_z_+C-pVj=xG8Ua-zSA3aZQ@mail.gmail.com>
-	 <CAB3asfgTmXaE9a=wC7wnT09ZbcwHeiVGNtadkYH9rZVi_pZjoQ@mail.gmail.com>
-	 <CADkTA4OHKxnGwHTmMpnVQRoEaN5Ly-7ygCr1Vn2UkgsOdAra7g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41app1) 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4137ca8e2b=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51ANs3Fs006719
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 18:00:03 -0800
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44p7ns2c8r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 18:00:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vFHabWRm36i3UwmoFUdrM3jRMOcoYX5P04wFy831xIa75sKsvnCXFCdcccAnpMegKmZldCaQQh5IAMByrZhgpi4glaltTAA2czf/XQYtXu+UL56mad+WZrmlWGZNvl3zW+GsK9la33dw13WeDOb+tIAtlW41TQJjq3V0mFPTQvnqQ0ZihSaltK2zi5wgRUipQZZDhDchr93x9PQW75gJxKHWqhy5morNuFImNnc0dppmcEO0QxC+Sdw8li3sIcQ6udhJgw2vbatMdq8aPX/cQqdEIJ09zkSDI2LbIGiVFRgqBZODVpvyONgSepf/zYeSSHNdi1Hz9ak4/naQH5GtXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SgJ/t53ILiOMz4SnKwBqSg4Nhpxp+6OgeCnzRMlI/2M=;
+ b=qiQgJ3n7H5cHxZKpmzTIbKDFIbWJnGpFSs3aiBszO4wqNK6QKI6Dn1sgU5oesN676jVXwe7kftMZoVgdovjUpce73rKJCPyelFiOT7lDsN1otIh4O7F4tMOi6GOufIrgLB26aWQgb3+m+fQlyGtpZ3YvVqBmFXHNJkhRT0mAgruvJ/QUxP20prsMUjCfwTiBa09XJGWQjzWx8I82tb5NPtJzsEh1jY1YP6dPka9yzBQlu+ynCOUFCDKW832a23/VSkONWygoOJ73+urPmoYdQ9B5P0taWs50nMUlnRWw8IgwknXhTaJPqMi3y5CT4FppgOXZwLrbgDqNomybdGzI6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
+ by IA1PR11MB7247.namprd11.prod.outlook.com (2603:10b6:208:42d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Tue, 11 Feb
+ 2025 02:00:00 +0000
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::9ea3:51c1:edff:4d3a]) by PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::9ea3:51c1:edff:4d3a%6]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
+ 01:59:59 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] glibc: fix header file conflict in case of multilib
+Date: Mon, 10 Feb 2025 17:59:49 -0800
+Message-Id: <20250211015949.1197510-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR17CA0046.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::23) To PH0PR11MB5611.namprd11.prod.outlook.com
+ (2603:10b6:510:ed::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:EE_|IA1PR11MB7247:EE_
+X-MS-Office365-Filtering-Correlation-Id: 051ba1e1-a25e-4bd2-5b2e-08dd4a3fca81
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?W9IrcVQVDU63Y5WIKM6hjTeT72/30jKezBMdybiKJ9+ZsNOwQWOCHp8h8G6V?=
+ =?us-ascii?Q?yuNwB2ewinSLlibztB7yS5McNiTYqP07m8t+B5orOfthZixZ6/2rHHS2ai+S?=
+ =?us-ascii?Q?zo1aq5zzFv9KSdP+tGAD9sgoFu9zQSj3EdEd+t0GGrzGyWM6PdMoJ/5G9Ig1?=
+ =?us-ascii?Q?69kvlijm36BzFRJRMQ3xiQjzo8ebyx++mmhI7pYKH38zKPsv5Cu9nAK4+lre?=
+ =?us-ascii?Q?t+eo4ks1cpeVt7AxHNS/R6Fn0M1IJJWrvlBmpuZXs+TmLajxDPjBxbg+KMxn?=
+ =?us-ascii?Q?ZXqL+jLJF5h2iRgnyJVlMwo4tMb2pp72Jzt8Hxx682n1Bqb6MHNMduD6TZBP?=
+ =?us-ascii?Q?bziATGY+VT7dnyKK0NLiVjGco2L0uXEnystfilXysUJf2sJ8KmF5ribiS+OT?=
+ =?us-ascii?Q?XSIp44dWJGLPV92SsEQjfcDmqTtB8qrl2ZuyKUJhaP71Ynxm4Aka60MhXCBA?=
+ =?us-ascii?Q?FB30WlS8ynoVvrTIljeoGzF/EV5OXZsHGyGC+GV4JNy0Q3azukxvdjyJJcFU?=
+ =?us-ascii?Q?XdomeqdJwVIYQBWqfSnUM0t6G6e7FbMnFyBLEShGU8AXlST/piN1WLETUVkc?=
+ =?us-ascii?Q?iDw2cVpyarXoCqYZoC8xIiTN/2hzwTmbDWQJGhbB7ukJ3pFd6Ch5p93bKiwi?=
+ =?us-ascii?Q?OlC3fSnfpxV6+m4Zf9Y/zspTcaCSOw6Im3StON4QkcqFMdte8k1z/J457I6w?=
+ =?us-ascii?Q?qhXT+NmLfz7e7zzh2FzNqXBCPyy1DlueYqfv6ANlUHNEpz6mbHSV9KADW4kx?=
+ =?us-ascii?Q?JQgc5zlqpTREDABpqZ79swaj5WQRc8FInesAncqtpbtW4JLOj1cCCgDZx4t6?=
+ =?us-ascii?Q?DB9A9aWjeegOUxYseU+omDt9MMSaOu5dp2Bt7IReRCnvmkkUoWyHVL9aECkS?=
+ =?us-ascii?Q?lCgcNNAwJ4SBpWzJ8qLElDbkmxiBxKAdgRbEP+PWPTFy9+3lJ2fzkrnRAITo?=
+ =?us-ascii?Q?O/WZJZgB8a6bmUbYCjPz3VNjRmDs0t+fmJMw2s5ix77c17edI6f8rgVK6o4k?=
+ =?us-ascii?Q?2eB+t4dcWokwHIof+3OE6P2BTC45BaMVmJwOxY+8Q80jqjvEbiRjcvzANLxq?=
+ =?us-ascii?Q?SWRG3Z33avjpdcNNGsVHLNNfAlRc1aucE5qIdJVKnUzJJ2VUek4HXreLSp3d?=
+ =?us-ascii?Q?81C9xYrokn98PHs3lHu2O0Rr5i3E49a6hJggkR9emdBjcfQ3J+EMdVdd+5B5?=
+ =?us-ascii?Q?oNZgWGd2jiHWqbWuWq76JIvSdlXMcJg9LePbe6DuEZau53pR65Gx1FyYRHFL?=
+ =?us-ascii?Q?+iJyLpvMiIZSFbcBUEm8MAfgtHtC4LkiiqIQ3R92EQeWBXHrHrpL15iSitRd?=
+ =?us-ascii?Q?fkFG6ZrDbr4Gs3XBdANDZRdH4pvX08zuUnrKRVveFxR5fApFOK/oauyZCqvV?=
+ =?us-ascii?Q?vcCmJpEAuPrtxVJb2TRqwI5htE1Nd5hxU6cSrFTkFzp5hod+XTCM/61uTljv?=
+ =?us-ascii?Q?XwOkuElsJq4eXmgBOPmShWJyDrksFC3y?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?8jo7Scoh4I53EVj4kekOvC415tTJIZ1pRPRVWQErw4nktSm38O7Yt3r+LsrN?=
+ =?us-ascii?Q?RpKbzW6yf03n9vM0yWuPReBn/lxKEN3ygnZUyQGQq6wzRcqoODsksoi0KKLi?=
+ =?us-ascii?Q?1oD9N21wrfE3rgNQ/vkaDil6lE/ieHJ6om+LZ+liWb0jEnQx2XZ+i6kIOeAk?=
+ =?us-ascii?Q?PpvtY70c5OdOjqWSK0sP/03sUB5hzoAW/1hoTPDNhdgmTCpysOqyyievhV/+?=
+ =?us-ascii?Q?vHjZ8EpQJSV9ET4O65seCJfNBKhnn30QeKbhmsa+E3a2jAzivJ7vTnpiKGGc?=
+ =?us-ascii?Q?T0nBtTkz+8qGnxyYGglXxmQQcTd77yXNm6H4ab+2ZbrIzhR8o/UjirJiGTYy?=
+ =?us-ascii?Q?ToSiUWCAKHSuk9ubuo38LmckdhOYcgr6+WHPxPm0fi4KLbVtf3yjCeEBq/Ox?=
+ =?us-ascii?Q?AGcTgm5orDVMymH3NgUR8GfHClAPAk/hCrMJi4MBvUm35eso1VKdzhOR8meM?=
+ =?us-ascii?Q?Jp3G5ChKoWIBRNqjUgFLEDuIXJaT8PJSMZw8TsV/Et+AtrrAibx5J4Urfsm+?=
+ =?us-ascii?Q?DqdAq1ltITkswlTQEhw5cMllC+Mz1ojgnvIiD8HFOwIVGReHz5gkgQh6qK3H?=
+ =?us-ascii?Q?IjKV0ZvckZuYzFqu4YSmimA3U0GAz+dvAhMv4dOTbNzkm9ts8HWs8A95A+2m?=
+ =?us-ascii?Q?i/uf/laV1gkjIFx46TQJDzHhIdqluZex7R02HKCuO7jEVVBBgI2NMBF9ngOn?=
+ =?us-ascii?Q?r7w+fjNSQ/0CvbbvTlpPqPeL4qqJoOx7NTqvTN07xfREOD3PESGPFL/5xHYS?=
+ =?us-ascii?Q?sb3C0FerE+8FT/e+a9+FQb1Emnji1sB6j0p74NBnj+VBY4shGC6oE/GRlQ88?=
+ =?us-ascii?Q?h1INIVmBZRatqC/NSsV/cvVQUiBCnrYhGKCj6KB2YxB7Q/t5yDMrJ1CEPjTj?=
+ =?us-ascii?Q?ugksi5vgNXLHkJ0hfGRelmbCk5/n8D1jXGOz+HDtnoQ7LCzGoa3xwwqPwHCv?=
+ =?us-ascii?Q?PziGePgNl/aqTdrmM2PgJb76HvvmZimPThGzkZ57NLWiWCFjnd2/CDKFDJ0l?=
+ =?us-ascii?Q?v60C+5kV69hb0xO937VzRCCoK2BL8R2d8KfRrdkIKnBlu5Wjm3O1tRJn1wCZ?=
+ =?us-ascii?Q?uiGIa+bmWKGJqJqWGMY8prdmTYMUDJptRW+AfO25FbNCP7wQGYDF7MZEFwll?=
+ =?us-ascii?Q?rjnJ/fPGd/7k6WBGK51BtV+n+FFZQ8PF217gQL6KKP0odwkLliHpS/V5mwJc?=
+ =?us-ascii?Q?Z1rCCX5yB5XpW6axDzQETTspsGPLfYdk+tCP5V6Nd5ywMhVHfZPEZGQc0GED?=
+ =?us-ascii?Q?A7kueVBCIF+7XlNIXidXduLjRgpCaOuONwgnvazyu7DdvVa2Q1/QJZVl8y0n?=
+ =?us-ascii?Q?inDTy4pJI1HsQ6HgW4hzMTpxAJrf12P6ubVahbKKq0V/kq5JRPtnwvQhWduD?=
+ =?us-ascii?Q?g+4nK/t252+nRGHd84Q9E/zs8VyQIZ0L1o+dx2hac1kXvdpGb5qBlFMMwiwG?=
+ =?us-ascii?Q?5dTInZ4OxGFEXqgLuGI2sr9tamryvmv+sM1Ql4W/ZI+Mm19kUjK4cvzN7Y40?=
+ =?us-ascii?Q?oN4VHfIjzLoY3vCvokAf6Uri73D8TpqTK1hSbw9IHNQqDB/ksAplYzOq9h7f?=
+ =?us-ascii?Q?eN0g+8jCXe8UF+QCQBqXMffKJ6rmP0YGOtztdXgog6rZFTaaSMG2zFc12+z3?=
+ =?us-ascii?Q?SA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 051ba1e1-a25e-4bd2-5b2e-08dd4a3fca81
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 01:59:59.8268
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BrD4LwcYwfMle5+oFEA/7gTHKVbFSZSXDZzDnfK6j+UpDjI6HUg/9s92NELs2obanYPvxUibC5QoOH3WaTDdHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7247
+X-Proofpoint-GUID: hQeomJ4ODM-O278kEi2xCZwr7dk2co11
+X-Proofpoint-ORIG-GUID: hQeomJ4ODM-O278kEi2xCZwr7dk2co11
+X-Authority-Analysis: v=2.4 cv=ULwnHDfy c=1 sm=1 tr=0 ts=67aaaf23 cx=c_pps a=7lEIVCGJCL/qymYIH7Lzhw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=BUnYEMDkf738sqtPpc0A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-11_01,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ phishscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502110010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Feb 2025 22:33:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211122
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 02:00:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211123
 
-On Sun, 2025-02-09 at 18:27 -0500, Bruce Ashfield wrote:
->=20
->=20
-> On Sun, Feb 9, 2025 at 5:58=E2=80=AFPM Adrian Freihofer
-> <adrian.freihofer@gmail.com> wrote:
-> > Hi Bruce
-> >=20
-> > Am Do., 30. Jan. 2025 um 15:48=C2=A0Uhr schrieb Bruce Ashfield via
-> > lists.openembedded.org
-> > <bruce.ashfield=3Dgmail.com@lists.openembedded.org>:
-> > >=20
-> > >=20
-> > > On Thu, Jan 30, 2025 at 9:31=E2=80=AFAM Steve Sakoman via
-> > > lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-> > > wrote:
-> > > > As you may be aware, the support period for Linux kernel LTS
-> > > > releases
-> > > > has changed to two years. This presents a challenge for our
-> > > > Yocto LTS
-> > > > releases, which have 4 year support periods.
-> > > >=20
-> > > > In light of this, Richard sent an email to the Yocto
-> > > > architecture list
-> > > > in January of 2024 outlining the project's plans for kernel
-> > > > support in
-> > > > future LTS releases (copied below)
-> > > >=20
-> > > > TLDR: Around the midpoint of the Yocto Scarthgap LTS lifecycle
-> > > > we will
-> > > > backport the then current LTS kernel version and make it the
-> > > > default
-> > > > kernel version. The linux-libc-headers version would remain at
-> > > > the
-> > > > released version.
-> > > >=20
-> > > > At a recent Yocto Project Technical Team Meeting there was some
-> > > > discussion around the growing kernel CVE counts in the stable
-> > > > branches:
-> > > >=20
-> > > > kirkstone: 552
-> > > > scarthgap: 225
-> > > >=20
-> > > >=20
-> > >=20
-> > >=20
-> > > I hope these aren't based on the fact that I haven't sent the -
-> > > stable
-> > > updates to the list yet. I do the older branches on a monthly
-> > > cadence, but can increase it. I have all active upstream kernels
-> > > on their latest -stable in linux-yocto already.
-> > >=20
-> >=20
-> >=20
-> > Given the increasing importance of timely security updates and the
-> > rising
-> > frequency of new CVEs, staying as close as possible to the latest
-> > upstream
-> > kernels from kernel.org is becoming more essential than it was a
-> > few years ago.
-> > Additionally, patchsets such as preempt-RT, which were conveniently
-> > offered by
-> > the linux-yocto kernel, are now mainline.
-> >=20
->=20
->=20
-> We are creeping away from the question that Steve was asking,
-> not that these aren't valid things to ponder, but they have been
-> thought about many times and are revisited periodically .. that
-> being said, I'll offer some context below.
->=20
-> If you take an extremely narrow view of what we do with linux-yocto,
-> then sure (I won't repeat things here, since I've done no less than
-> three presentations on this in the past).
->=20
-> Not to mention there are still parts of -rt that are not mainline,
-> and
-> early access BSPs, as well as SDKs that are part of linux-yocto,
-> kept on their own branches so as to not inflict themselves on all
-> users.
->=20
-> linux-yocto has almost no delta from upstream timing wise when it is
-> available, and it isn't like we'd be doing a rolling release, the
-> only lag
-> is our own embedded specific testing and validation. So there's
-> nothing=C2=A0
-> to be gained on that front. I only asked that question to be sure
-> that it
-> wasn't related to that (and it wasn't).
+From: Chen Qi <Qi.Chen@windriver.com>
 
-I took some time today to understand what you are describing here in
-the linux-yocto git repository. Your pointers have helped me to start
-my git tool with sensible parameters, so I now understand exactly what
-the difference is between linux-yocto and linux-stable.
+When enabling multilib for qemuarm64, populate_sdk would fail with
+the following error:
 
-I agree that the way the linux-yocto git repository is maintained is
-the best approach for maintaining a downstream kernel repo. It's at
-least as transparent as it can be if you know how to look at the
-overwhelming number of branches and merge commits. Basically, it's
-about creating a new branch for each major upstream release. Then all
-downstream patches are rebased and applied to the new branch of the new
-major release. Finally, the branch is maintained by merging the minor
-upstream updates into the downstream release branch. Since the merging
-of minor updates can probably be automated to a large extent, it should
-be possible to follow the stable git repo quickly. And yes, the two
-repos were at the same commit when I compared them.
+  Error: Transaction test error: file /usr/include/bits/indirect-return.h
+  conflicts between installs of lib32-libc6-dev-2.41 and libc6-dev-2.41+
 
-At least from that point of view, it would be possible to run the CVE
-checker with ${AUTOREV} for the linux-yocto kernel and get the same
-results as if the linux-stable tree would be used. It's not the linux-
-yocto git repository which adds the delay it's just the recipe which is
-not updated in "real-time" which is also understandable.
+The problem could be reproduced by adding the following lines in
+local.conf and then run 'bitbake core-image-minimal -c populate_sdk':
 
-> =C2=A0
-> >=20
-> > This raises the question: Is a downstream linux-yocto kernel git
-> > repository still
-> > needed? From my naive user's perspective, it would be simpler and
-> > more transparent
-> > if the kernel were handled like any other recipe. Instead of a
-> > linux-yocto recipe
-> > referring to a downstream git repository, there should be a linux
-> > and/or a linux-stable
-> > recipe referring to the corresponding git repositories from
-> > kernel.org.
-> >=20
->=20
->=20
-> Again, I'd refer to the various previous works on what we do with
-> linux-yocto, and we want fewer, not more reference kernels so we
-> can have the momentum around specific versions. (i.e. there would
-> be no advantage to splitting out -stable)
->=20
-> linux-yocto is bit for bit the same as upstream in the /base branches
-> exactly where it is fetched is the only difference.
+  MACHINE ?= "qemuarm64"
+  require conf/multilib.conf
+  MULTILIBS ?= "multilib:lib32"
+  DEFAULTTUNE:virtclass-multilib-lib32 ?= "armv7athf-neon"
 
-Yes, got it!
+Use oe_multilib_header to handle bits/indrect-return.h to fix this
+issue.
 
->=20
-> >=20
-> > Ideally also the workflows for updating the kernel and testing the
-> > kernel would
-> > be possible with the Yocto standard workflows like devtool update
-> > and running
-> > oe-selftest.
-> >=20
->=20
->=20
-> That's already possible now, but how we use linux-yocto as a
-> collection
-> point for contributions, BSPs, managing the versions, the workflow,
-> etc
-> don't scale to slinging around directories full of patches (again,
-> covered
-> in the various presentations).
->=20
-> We heavily test linux-yocto, so obviously oe-*test works, and you
-> don't
-> chuck out a workflow that has scaled and worked for 15 years (and
-> predates devtool significantly if=C2=A0 devtool doesn't work (I have no
-> idea, I
-> =C2=A0don't use it and probably never will, but if it is important to
-> folks, I can
-> dive in and fix what is broken (I just need to know what is broken).
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, the standard recipe tools should work as for any other recipe. The
-magic is how the linux-yocto git repo is maintained and that's a
-special non standard tool topic. I see.
-
->=20
-> Back to Steve's question, and one of the other follow ups. We use
-> linux-yocto
-> as a point of momentum for versions, fixes, releases, etc. It always
-> has been
-> and always will be opt-in for people's distros and projects, so they
-> are free
-> to ignore it, or use it.=C2=A0
-
-Got it. linux-yocto is in sync with linux-stable.
-
-Thank you!
-Adrian
-
->=20
-> Bruce
->=20
-> =C2=A0
-> >=20
-> > Thank you and regards,
-> > Adrian
-> > > =C2=A0
-> > > > For comparison the master branch CVE count for the kernel is 18
-> > > >=20
-> > > > The suggestion was made that we do this kernel version update
-> > > > sooner
-> > > > rather than later, and also include the Kirkstone LTS branch in
-> > > > order
-> > > > to deal with its large number of CVEs.=C2=A0 The original plan was
-> > > > to only
-> > > > do this version bump for Scarthgap, so this would be a change
-> > > > to the
-> > > > plan of record.
-> > > >=20
-> > >=20
-> > >=20
-> > > I don't think we should be updating kirstone to a new kernel
-> > > while the
-> > > upstream kernel's are active. Both 5.15 and 5.10 are still active
-> > > on=C2=A0
-> > > kernel.org and I'm still updating them, or am I missing something
-> > > ?
-> > >=20
-> > > That was the primary trigger around the updates: EOL on k.org
-> > >=20
-> > > If we are now questioning the -stable process=C2=A0on k.org that it
-> > > can't
-> > > keep up on these still active LTS kernels, that is a different
-> > > question.
-> > >=20
-> > > If we are questioning it, I have other suggestions around the
-> > > reference kernel versions.
-> > >=20
-> > > But in the end, as long as the kernel we jump to is actively
-> > > maintained
-> > > in our newer releases, there's not a lot of extra work so it is
-> > > fine
-> > > with me. I just want to understand why we'd move kirkstone as
-> > > well.
-> > >=20
-> > > Cheers,
-> > >=20
-> > > Bruce
-> > > =C2=A0
-> > > >=20
-> > > > Please consider the above and respond to this email with any
-> > > > thoughts
-> > > > or concerns you may have about implementing this version bump
-> > > > in both
-> > > > LTS branches in the coming weeks.
-> > > >=20
-> > > > Thanks!
-> > > >=20
-> > > > Steve
-> > > >=20
-> > > >=20
-> > > > Full text of Richard's email:
-> > > >=20
-> > > > The project is aware that the kernel versions that ship in our
-> > > > next LTS
-> > > > in April will likely not have support for the full lifetime of
-> > > > our LTS
-> > > > (four years). We've been asked a few questions about this so we
-> > > > wanted
-> > > > to write down what our plan is.
-> > > >=20
-> > > > Our intent is to support the versions we ship with for as long
-> > > > as is
-> > > > practical. If they become end of life around the mid point of
-> > > > the LTS
-> > > > as expected, our plan is to backport a current LTS kernel at
-> > > > that time
-> > > > into the release and make it the default, leaving the older
-> > > > recipes
-> > > > there for anyone who still needs to use them. It would be based
-> > > > on the
-> > > > kernel in one of our future releases, as appropriate.
-> > > >=20
-> > > > The linux-libc-headers version would remain at the released
-> > > > version.
-> > > > This is used to control the features in the toolchain/userspace
-> > > > and
-> > > > there is no need to upgrade this to work with a newer kernel
-> > > > version.
-> > > > Upgrading it would potentially change the toolchain and
-> > > > userspace
-> > > > functionality and this is not desirable in the LTS. To be
-> > > > clear, this
-> > > > does mean bleeding edge features in the newer kernel may not be
-> > > > available but that is desirable in the context of the purpose
-> > > > of the
-> > > > LTS.
-> > > >=20
-> > > > The only reason the headers version would change would be to
-> > > > address a
-> > > > security issue in the toolchain or kernel/userspace interface.
-> > > >=20
-> > > > Since we don't know what the upstream kernel will do, or when
-> > > > exactly,
-> > > > it is hard to make a definitive plan beyond this.
-> > > >=20
-> > > > We appreciate this isn't our usual policy of "no upgrades",
-> > > > however if
-> > > > everyone knows this is the plan from the start, we believe that
-> > > > is
-> > > > different and everyone can plan accordingly, hence wanting to
-> > > > make this
-> > > > clear now.
-> > > >=20
-> > > > Since the project is planning to execute the full QA process
-> > > > against
-> > > > this new version, it is putting a plan in place to switch from
-> > > > the
-> > > > start and it plans not to test against any other version beyond
-> > > > that
-> > > > point, it makes most sense to directly integrate the changes
-> > > > rather
-> > > > than the mix in layer approach which is there for unplanned
-> > > > changes.
-> > > >=20
-> > > > To be clear, we may also update this plan if/as things develop
-> > > > in the
-> > > > other dependent ecosystems such as kernel as we can't know what
-> > > > will
-> > > > happen in these on the timescales involved.
-> > > >=20
-> > > > Cheers,
-> > > >=20
-> > > > Richard
-> > > > (on behalf of the Yocto Project TSC, LTS and kernel
-> > > > maintainers)
-> > > >=20
-> > > >=20
-> > > >=20
-> > >=20
-> > >=20
-> > > --=20
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness
-> > > await thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> > >=20
-> > >=20
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#210448):
-> > > https://lists.openembedded.org/g/openembedded-core/message/210448
-> > > Mute This Topic:
-> > > https://lists.openembedded.org/mt/110897884/4454582
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-
-> > > core/unsub [adrian.freihofer@gmail.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >=20
->=20
->=20
-> --=20
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->=20
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index bba9449d34..21f2200d19 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -88,7 +88,7 @@ do_install() {
+ 		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+ 	fi
+ 
+-	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h bits/endianness.h bits/struct_rwlock.h bits/math-vector.h
++	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h bits/endianness.h bits/struct_rwlock.h bits/math-vector.h bits/indirect-return.h
+ 
+ 	if [ -f ${D}${bindir}/mtrace ]; then
+ 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' -e '2s,exec.*perl,exec ${USRBINPATH}/env perl,' ${D}${bindir}/mtrace
+-- 
+2.25.1
 
 
