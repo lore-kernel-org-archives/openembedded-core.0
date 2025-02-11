@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE46C0219B
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 18:37:07 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.793.1739299024561085800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F15C5C0219B
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 18:37:36 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.777.1739299054441759415
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 10:37:05 -0800
+ Tue, 11 Feb 2025 10:37:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=gSiu75Ca;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250211183701e9f4eab94b658e389e-zzshil@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250211183701e9f4eab94b658e389e
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=HXMKQPIP;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202502111837316017d2829b09d0ec7a-h7y_n_@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202502111837316017d2829b09d0ec7a
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Feb 2025 19:37:02 +0100
+        Tue, 11 Feb 2025 19:37:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=YuEHnpwE/Y1t0QC1hkb6GINtRPO9xv+hwI8Ri+i2oms=;
- b=gSiu75CaCOXKggbgG0KAe4lPQcH32FmwzRsDCpvUSZIb0ZezBe8pnEWzyuLVFosbjDwybE
- FvVmPyXe+CuGzNh8AgojKUGjHrFbeR4z9dKiGWwyiER6zvk7bcMztU3teJy790LXi8/9p22E
- a/xIlfv7S33bNg59P7o4YILl/Jpvo3XtgFMulQbkpk08nXB7rtZkTg9x6TJ1SfzUnXMp2CbK
- I1S5YWmXYn3pWBvddqpRWKGSlpS/hrNbS4kjip/c3id0XduIbV/iCiNPHsHXvfWYt2mFHk38
- Cw+8sn5Zn+djlTf8gMOTkMmr01nHPqHUZnMVqxwDJZdp/AGLU9fKVVSQ==;
+ bh=edeEwgEnhEEBvshny3urUTpQ9LT8P8LQfrdykW+3tM8=;
+ b=HXMKQPIP/fCGm2Itw+tScY/DCCQydWGEqkvV7LKqNKAK+UisJsVsEvgihOyVNIQHoCzf5T
+ q9NdvcpT4BYt+RdD4Uz1QWwH+ZGMhQlOPPE82krmh+IjcWhOBjmlnG+ZSNS0SDc3H0gGkiNR
+ 8vTUcDW0a3lob2y3oA62MhfpwGW9a1WedjH8jHLA8JgIz+ZiAOvZ7k+iYJ/uQW9YbO0llSC8
+ 3iFDbE4DOppkc673k4S4NQkjKmzbmRkdf4LnO6kOxjxWDI43YnGm0GnvC5pZ0jUzC3kSKmuJ
+ SCeK+neMI519HrQ0uhjb0byqU3tomCIrgJWNvn8KvOqhW+xpQm3AtZIA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: upgrade 3.0.15 -> 3.0.16
-Date: Tue, 11 Feb 2025 19:36:14 +0100
-Message-Id: <20250211183614.1573374-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] openssl: upgrade 3.2.3 -> 3.2.4
+Date: Tue, 11 Feb 2025 19:36:20 +0100
+Message-Id: <20250211183620.1574061-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,35 +36,210 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 18:37:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211162
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 18:37:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211163
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Release information:
-https://github.com/openssl/openssl/blob/openssl-3.0/NEWS.md#major-changes-between-openssl-3015-and-openssl-3016-11-feb-2025
+https://github.com/openssl/openssl/blob/openssl-3.2/NEWS.md#major-changes-between-openssl-323-and-openssl-324-11-feb-2025
 
-All CVEs were already patched, so this upgrade fixes only minor bugs.
+Handles CVE-2024-12797 in addition to already patched CVEs.
 
-Remove CVE patches included in the new version.
+Refresh patches and remove CVE patches included in the new version.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../openssl/openssl/CVE-2024-13176.patch      | 125 -----------
+ ...ke-history-reporting-when-test-fails.patch |  40 ++--
+ ...1-Configure-do-not-tweak-mips-cflags.patch |   2 +-
+ ...sysroot-and-debug-prefix-map-from-co.patch |   4 +-
+ .../openssl/openssl/CVE-2024-13176.patch      | 126 -----------
  .../openssl/openssl/CVE-2024-9143.patch       | 202 ------------------
- .../{openssl_3.0.15.bb => openssl_3.0.16.bb}  |   4 +-
- 3 files changed, 1 insertion(+), 330 deletions(-)
+ .../{openssl_3.2.3.bb => openssl_3.2.4.bb}    |   4 +-
+ 6 files changed, 24 insertions(+), 354 deletions(-)
  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
  delete mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.15.bb => openssl_3.0.16.bb} (98%)
+ rename meta/recipes-connectivity/openssl/{openssl_3.2.3.bb => openssl_3.2.4.bb} (98%)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 9baa0c2d75..b05d7abf7c 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+@@ -8,10 +8,10 @@ Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/22481]
+ Signed-off-by: William Lyu <William.Lyu@windriver.com>
+ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+ ---
+- test/helpers/handshake.c | 139 +++++++++++++++++++++++++++++----------
++ test/helpers/handshake.c | 137 +++++++++++++++++++++++++++++----------
+  test/helpers/handshake.h |  70 +++++++++++++++++++-
+  test/ssl_test.c          |  44 +++++++++++++
+- 3 files changed, 218 insertions(+), 35 deletions(-)
++ 3 files changed, 217 insertions(+), 34 deletions(-)
+ 
+ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+ index e0422469e4..ae2ad59dd4 100644
+@@ -20,7 +20,7 @@ index e0422469e4..ae2ad59dd4 100644
+ @@ -24,6 +24,102 @@
+  #include <netinet/sctp.h>
+  #endif
+-
++ 
+ +/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
+ +/* Maps string names to various enumeration type */
+ +typedef struct {
+@@ -120,10 +120,10 @@ index e0422469e4..ae2ad59dd4 100644
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+  {
+      HANDSHAKE_RESULT *ret;
+-@@ -719,15 +815,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
++@@ -725,15 +821,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
+          SSL_set_post_handshake_auth(client, 1);
+  }
+-
++ 
+ -/* The status for each connection phase. */
+ -typedef enum {
+ -    PEER_SUCCESS,
+@@ -136,10 +136,10 @@ index e0422469e4..ae2ad59dd4 100644
+  /* An SSL object and associated read-write buffers. */
+  typedef struct peer_st {
+      SSL *ssl;
+-@@ -1074,17 +1161,6 @@ static void do_shutdown_step(PEER *peer)
++@@ -1080,17 +1167,6 @@ static void do_shutdown_step(PEER *peer)
+      }
+  }
+-
++ 
+ -typedef enum {
+ -    HANDSHAKE,
+ -    RENEG_APPLICATION_DATA,
+@@ -154,10 +154,10 @@ index e0422469e4..ae2ad59dd4 100644
+  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+  {
+      switch (test_ctx->handshake_mode) {
+-@@ -1162,19 +1238,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
++@@ -1168,19 +1244,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
+      }
+  }
+-
++ 
+ -typedef enum {
+ -    /* Both parties succeeded. */
+ -    HANDSHAKE_SUCCESS,
+@@ -174,10 +174,10 @@ index e0422469e4..ae2ad59dd4 100644
+  /*
+   * Determine the handshake outcome.
+   * last_status: the status of the peer to have acted last.
+-@@ -1539,6 +1602,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+-
++@@ -1545,6 +1608,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++ 
+      start = time(NULL);
+-
++ 
+ +    save_loop_history(&(ret->history),
+ +                      phase, status, server.status, client.status,
+ +                      client_turn_count, client_turn);
+@@ -185,10 +185,10 @@ index e0422469e4..ae2ad59dd4 100644
+      /*
+       * Half-duplex handshake loop.
+       * Client and server speak to each other synchronously in the same process.
+-@@ -1560,6 +1627,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1566,6 +1633,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+                                        0 /* server went last */);
+          }
+-
++ 
+ +        save_loop_history(&(ret->history),
+ +                          phase, status, server.status, client.status,
+ +                          client_turn_count, client_turn);
+@@ -208,9 +208,9 @@ index 78b03f9f4b..b9967c2623 100644
+   * Licensed under the Apache License 2.0 (the "License").  You may not use
+   * this file except in compliance with the License.  You can obtain a copy
+ @@ -12,6 +12,11 @@
+-
++ 
+  #include "ssl_test_ctx.h"
+-
++ 
+ +#define MAX_HANDSHAKE_HISTORY_ENTRY_BIT 4
+ +#define MAX_HANDSHAKE_HISTORY_ENTRY (1 << MAX_HANDSHAKE_HISTORY_ENTRY_BIT)
+ +#define MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK \
+@@ -222,7 +222,7 @@ index 78b03f9f4b..b9967c2623 100644
+ @@ -22,6 +27,63 @@ typedef struct ctx_data_st {
+      char *session_ticket_app_data;
+  } CTX_DATA;
+-
++ 
+ +typedef enum {
+ +    HANDSHAKE,
+ +    RENEG_APPLICATION_DATA,
+@@ -290,12 +290,12 @@ index 78b03f9f4b..b9967c2623 100644
+ +    /* handshake loop history */
+ +    HANDSHAKE_HISTORY history;
+  } HANDSHAKE_RESULT;
+-
++ 
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
+ @@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX *server_ctx, SSL_CTX *server2_ctx,
+                                      CTX_DATA *server2_ctx_data,
+                                      CTX_DATA *client_ctx_data);
+-
++ 
+ +const char *handshake_connect_phase_name(connect_phase_t phase);
+ +const char *handshake_status_name(handshake_status_t handshake_status);
+ +const char *handshake_peer_status_name(peer_status_t peer_status);
+@@ -308,7 +308,7 @@ index ea608518f9..9d6b093c81 100644
+ @@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx = NULL;
+  /* Currently the section names are of the form test-<number>, e.g. test-15. */
+  #define MAX_TESTCASE_NAME_LENGTH 100
+-
++ 
+ +static void print_handshake_history(const HANDSHAKE_HISTORY *history)
+ +{
+ +    size_t first_idx;
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+index 502a7aaf32..3f6ab97795 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+@@ -20,7 +20,7 @@ diff --git a/Configure b/Configure
+ index 4569952..adf019b 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1422,16 +1422,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
++@@ -1485,16 +1485,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
+          push @{$config{shared_ldflag}}, "-mno-cygwin";
+          }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+index bafdbaa46f..ce2acb2462 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+@@ -38,7 +38,7 @@ Index: openssl-3.0.4/Configurations/unix-Makefile.tmpl
+ ===================================================================
+ --- openssl-3.0.4.orig/Configurations/unix-Makefile.tmpl
+ +++ openssl-3.0.4/Configurations/unix-Makefile.tmpl
+-@@ -472,13 +472,23 @@ BIN_LDFLAGS={- join(' ', $target{bin_lfl
++@@ -481,13 +481,23 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
+                           '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
+  BIN_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
+  
+@@ -67,7 +67,7 @@ Index: openssl-3.0.4/crypto/build.info
+ ===================================================================
+ --- openssl-3.0.4.orig/crypto/build.info
+ +++ openssl-3.0.4/crypto/build.info
+-@@ -109,7 +109,7 @@ DEFINE[../libcrypto]=$UPLINKDEF
++@@ -115,7 +115,7 @@ DEFINE[../libcrypto]=$UPLINKDEF
+  
+  DEPEND[info.o]=buildinf.h
+  DEPEND[cversion.o]=buildinf.h
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
 deleted file mode 100644
-index 0076003db1..0000000000
+index 28d4dd706a..0000000000
 --- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
 +++ /dev/null
-@@ -1,125 +0,0 @@
--From 07272b05b04836a762b4baa874958af51d513844 Mon Sep 17 00:00:00 2001
+@@ -1,126 +0,0 @@
+-From 4b1cb94a734a7d4ec363ac0a215a25c181e11f65 Mon Sep 17 00:00:00 2001
 -From: Tomas Mraz <tomas@openssl.org>
 -Date: Wed, 15 Jan 2025 18:27:02 +0100
 -Subject: [PATCH] Fix timing side-channel in ECDSA signature computation
@@ -86,9 +261,10 @@ index 0076003db1..0000000000
 -(Merged from https://github.com/openssl/openssl/pull/26429)
 -
 -(cherry picked from commit 63c40a66c5dc287485705d06122d3a6e74a6a203)
+-(cherry picked from commit 392dcb336405a0c94486aa6655057f59fd3a0902)
 -
 -CVE: CVE-2024-13176
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/07272b05b04836a762b4baa874958af51d513844]
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/4b1cb94a734a7d4ec363ac0a215a25c181e11f65]
 -Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
 - crypto/bn/bn_exp.c  | 21 +++++++++++++++------
@@ -97,7 +273,7 @@ index 0076003db1..0000000000
 - 3 files changed, 22 insertions(+), 9 deletions(-)
 -
 -diff --git a/crypto/bn/bn_exp.c b/crypto/bn/bn_exp.c
--index 598a592ca1397..d84c7de18a6b6 100644
+-index b876edbfac36e..af52e2ced6914 100644
 ---- a/crypto/bn/bn_exp.c
 -+++ b/crypto/bn/bn_exp.c
 -@@ -606,7 +606,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBUF(BIGNUM *b, int top,
@@ -150,18 +326,18 @@ index 0076003db1..0000000000
 -                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 - {
 -diff --git a/crypto/ec/ec_lib.c b/crypto/ec/ec_lib.c
--index b1696d93bd6dd..1f0bf1ec795fa 100644
+-index c92b4dcb0ac45..a79fbb98cf6fa 100644
 ---- a/crypto/ec/ec_lib.c
 -+++ b/crypto/ec/ec_lib.c
--@@ -20,6 +20,7 @@
-- #include <openssl/err.h>
+-@@ -21,6 +21,7 @@
 - #include <openssl/opensslv.h>
+- #include <openssl/param_build.h>
 - #include "crypto/ec.h"
 -+#include "crypto/bn.h"
 - #include "internal/nelem.h"
 - #include "ec_local.h"
 - 
--@@ -1262,10 +1263,10 @@ static int ec_field_inverse_mod_ord(const EC_GROUP *group, BIGNUM *r,
+-@@ -1261,10 +1262,10 @@ static int ec_field_inverse_mod_ord(const EC_GROUP *group, BIGNUM *r,
 -     if (!BN_sub(e, group->order, e))
 -         goto err;
 -     /*-
@@ -176,7 +352,7 @@ index 0076003db1..0000000000
 - 
 -     ret = 1;
 -diff --git a/include/crypto/bn.h b/include/crypto/bn.h
--index c5f328156d3a9..59a629b9f6288 100644
+-index 302f031c2ff1d..499e1d10efab0 100644
 ---- a/include/crypto/bn.h
 -+++ b/include/crypto/bn.h
 -@@ -73,6 +73,9 @@ int bn_set_words(BIGNUM *a, const BN_ULONG *words, int num_words);
@@ -191,11 +367,11 @@ index 0076003db1..0000000000
 - int bn_from_mont_fixed_top(BIGNUM *r, const BIGNUM *a, BN_MONT_CTX *mont,
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 deleted file mode 100755
-index c72a4193c6..0000000000
+index 99c16cd573..0000000000
 --- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 +++ /dev/null
 @@ -1,202 +0,0 @@
--From 72ae83ad214d2eef262461365a1975707f862712 Mon Sep 17 00:00:00 2001
+-From bc7e04d7c8d509fb78fc0e285aa948fb0da04700 Mon Sep 17 00:00:00 2001
 -From: Viktor Dukhovni <viktor@openssl.org>
 -Date: Thu, 19 Sep 2024 01:02:40 +1000
 -Subject: [PATCH] Harden BN_GF2m_poly2arr against misuse.
@@ -260,7 +436,7 @@ index c72a4193c6..0000000000
 -(cherry picked from commit 8e008cb8b23ec7dc75c45a66eeed09c815b11cd2)
 -
 -CVE: CVE-2024-9143
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/72ae83ad214d2eef262461365a1975707f862712]
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/bc7e04d7c8d509fb78fc0e285aa948fb0da04700]
 -Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
 - crypto/bn/bn_gf2m.c     | 28 +++++++++++++++-------
@@ -268,7 +444,7 @@ index c72a4193c6..0000000000
 - 2 files changed, 71 insertions(+), 8 deletions(-)
 -
 -diff --git a/crypto/bn/bn_gf2m.c b/crypto/bn/bn_gf2m.c
--index c811ae82d6b15..bcc66613cc14d 100644
+-index 444c5ca7a3755..ae7e9d751c29c 100644
 ---- a/crypto/bn/bn_gf2m.c
 -+++ b/crypto/bn/bn_gf2m.c
 -@@ -15,6 +15,7 @@
@@ -279,7 +455,7 @@ index c72a4193c6..0000000000
 - 
 - /*
 -  * Maximum number of iterations before BN_GF2m_mod_solve_quad_arr should
--@@ -1140,16 +1141,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
+-@@ -1130,16 +1131,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
 - /*
 -  * Convert the bit-string representation of a polynomial ( \sum_{i=0}^n a_i *
 -  * x^i) into an array of integers corresponding to the bits with non-zero
@@ -310,7 +486,7 @@ index c72a4193c6..0000000000
 -         return 0;
 - 
 -     for (i = a->top - 1; i >= 0; i--) {
--@@ -1167,12 +1178,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
+-@@ -1157,12 +1168,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
 -         }
 -     }
 - 
@@ -329,7 +505,7 @@ index c72a4193c6..0000000000
 - 
 - /*
 -diff --git a/test/ec_internal_test.c b/test/ec_internal_test.c
--index 8c2cd05631696..02cfd4e9d8858 100644
+-index 5076f9894d5b8..92904cfc42b20 100644
 ---- a/test/ec_internal_test.c
 -+++ b/test/ec_internal_test.c
 -@@ -155,6 +155,56 @@ static int field_tests_ecp_mont(void)
@@ -397,17 +573,17 @@ index c72a4193c6..0000000000
 -     ADD_TEST(field_tests_ec2_simple);
 - #endif
 -     ADD_ALL_TESTS(field_tests_default, crv_len);
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb b/meta/recipes-connectivity/openssl/openssl_3.0.16.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
 similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.16.bb
-index 295f05729f..a9fffd18ba 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.16.bb
+rename from meta/recipes-connectivity/openssl/openssl_3.2.3.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.2.4.bb
+index 0b47bab550..bada192fe9 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
 @@ -12,15 +12,13 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
 -           file://CVE-2024-9143.patch \
 -           file://CVE-2024-13176.patch \
             "
@@ -416,9 +592,9 @@ index 295f05729f..a9fffd18ba 100644
             file://environment.d-openssl.sh \
             "
  
--SRC_URI[sha256sum] = "23c666d0edf20f14249b3d8f0368acaee9ab585b09e1de82107c66e1f3ec9533"
-+SRC_URI[sha256sum] = "57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86"
+-SRC_URI[sha256sum] = "52b5f1c6b8022bc5868c308c54fb77705e702d6c6f4594f99a0df216acf46239"
++SRC_URI[sha256sum] = "b23ad7fd9f73e43ad1767e636040e88ba7c9e5775bfa5618436a0dd2c17c3716"
  
- inherit lib_package multilib_header multilib_script ptest perlnative
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
