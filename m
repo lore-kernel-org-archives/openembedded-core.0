@@ -1,113 +1,110 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45113C0219B
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 21:23:48 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web11.5270.1739309018293869990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67896C0219B
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 21:31:51 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.72.1739309505216343951
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 13:23:38 -0800
+ Tue, 11 Feb 2025 13:31:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=CEcghGIE;
- spf=pass (domain: linaro.org, ip: 209.85.128.169, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6f9cc6fefa8so26270717b3.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 13:23:38 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J9ujuqcu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4395560cc13so10550665e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 13:31:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739309017; x=1739913817; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8w3vCreIOl+iCVdzBsE7PTkgsC0UKwgelZHaho3mQ/o=;
-        b=CEcghGIE9x9OWPuLfbJjQmC//T2u2hzDapByttDqNIZc1NWt3dyo8ZOcs6kcFuaZLN
-         2tdRjccOloxZllf4kzrICxufugZO+kF67aVDgisiJY/p6tQ4qDnIUhFx7HV46UV6OWhM
-         F5iVvkRYL8m6LMsYGRhsKOvAoxY/brGR03+oU3PnbbjT95xDuX7IMjYECEY1ZGOzuEPx
-         hOdayw0pXjghkKb/ElWp4PUmhXMe7Ho86QanK+lr4upV6ix5mFBdp5Npr4coJkoALJZT
-         MZSWjb7gOr33BAwW6FatFqRlPIqnfHYez6GGAwOhXLgWXXSvspeG0et9dc8XVt5esbeN
-         zu7w==
+        d=linuxfoundation.org; s=google; t=1739309503; x=1739914303; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HYgtLgx5HjWGK6OeMBugpHZjUDKuiHt0g9OdKoJTT0c=;
+        b=J9ujuqcuq8rb7qTOcZ69cbrWZOtbCcgFVF7HrpKxtA+0yVlxnB2yXkAR3DfE3yRFPg
+         sJ/Me1L37T0YzFaEOVnPKxi92dmEx8LmfDHBWnVrdTthPPMOeqxWHJ36i04EV0idh13H
+         ot+lOz/PgTpqwkByM9KvkdIXH0w8CweNnPVMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739309017; x=1739913817;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8w3vCreIOl+iCVdzBsE7PTkgsC0UKwgelZHaho3mQ/o=;
-        b=RuUtnRYUnvfEitDMzaz/7yrh/A5wJv3K03hg9dtYpUADIed7IHWgujzYJln0b6ZjBG
-         npjoavhmp/ZRinz0O0poAvpA4v/tTIBsjgxNNTYrOUvRUf+86kSsEafqeD4tMy/0aVKH
-         1IuLPOwvpDgqTMWetPwJMhgNfhCR8s9rLrpRzR+cbnpVwypeDCdESorjPlMnPsPzcnMx
-         Cgeoay+bXcVZBxJSqDFz8q0AHp7ZvrL+cmgF9wazhYL6FFOqgQLJcoC8VowcUT18AMdc
-         XRLHTCrPyL1KZCxRVQ6bJFiXN3G2Z7TKEhs5GeXMkf2PcRszidUWWUF09QXe6LeieXj2
-         HG+A==
-X-Gm-Message-State: AOJu0YxE9HOJWBPJ4tX89whLX6+v0hqsMgFmc2QN4Z8aNoi66nVtnIeo
-	bIu2lPKcDhPci6STBZXKkQmDrpA7gPZbe5/tZXZgKvS3xydUVwfEBrMsu02++38+EAETM3+ZWMs
-	3BTlIWJk794Y4no7PngwjrPOz+gEYYh0FEAngGQ==
-X-Gm-Gg: ASbGncveSvtRbbpW1viMn1jaqGrswHNAM/6IdHx4t12+1QlfZWr5+7PKzjDyyRkg8EZ
-	CTPLA8VJCgLNirtKFzccCueGCnZzROxM8eYauUnw8QM8yZ4hvI1usQcx9gJEYLYjdG+m3YBXq/p
-	8/HJF1Dn3mDHcj2jcFG/GFmZCqaQhA
-X-Google-Smtp-Source: AGHT+IEUW68o6MtaKawpeL1pv6GL4ENAAvfcnFqzy2N6Dc+aEax/HT2rqREq2Wt0TEdE9jxcKIr67mDdSgQKWKbAOoo=
-X-Received: by 2002:a05:690c:7246:b0:6f9:447d:d1a2 with SMTP id
- 00721157ae682-6fb1f24f99dmr15832267b3.29.1739309017436; Tue, 11 Feb 2025
- 13:23:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20250211185151.995828-1-quic_vpuar@quicinc.com>
-In-Reply-To: <20250211185151.995828-1-quic_vpuar@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 11 Feb 2025 23:23:26 +0200
-X-Gm-Features: AWEUYZkgIMvWXjoQAs6RyMgRzXUX2uyY354cncI979pozsu9X2MaCnlpTfDqtrs
-Message-ID: <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: upgrade 20250109 -> 20250211
-To: Vivek Puar <quic_vpuar@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1739309503; x=1739914303;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HYgtLgx5HjWGK6OeMBugpHZjUDKuiHt0g9OdKoJTT0c=;
+        b=jf4FDomU2f1d5FP9fzPY9ib+9pj5r3c1gjyGBYxUb0yQ6lvGE2UndyOlwApoK6SqbF
+         zD+W+1EOIMpC5TXKCmPhMJ5PFuDLx2xRGKheKYtgnuMNfUg8Hj++ESZ/vCBRLvMO/ZTw
+         5NJXILWUwS1wadCxRRio4XbnlR2NPgjAj1Kg02BL3wZvAXY7un17AMj56Jtdu1Ltjxat
+         uHEn9mocXAgfBgeF16KUkbiFRw0TSg8jmBXzglUUpsqVuvS+GsyTiTCpTwgeYIRhW01F
+         5Qb//BjhKf/tvX3lLRVdAuw0sbm7UIY9e1LD4PhnuHb9NT1WiPLFAiSFJ1SH4mmfXUVt
+         2/zA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhE91C4kG97eG3E0dNK9EWgxTAtt9vwqQOcerdZXRPUMr3743wEwl7w0qaqi9SN0yaTTi/8EmZeFZ0YiYmXNBasg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz+8565d7CrOpKydkkKTc8fKOPUGtAzcL1sW00pO80L3K9FSqDJ
+	nrl56UvlLIYsrU4grTyyJXeO/dl4u6iRMF+1J5ulBP3YOv80nfrMm/OdeHuOQ0c=
+X-Gm-Gg: ASbGncsc5+gfKBNhQjoXh5kpNV1WdTEYCP6tDHHiwU0Fx+qiOVs40twegO5ZYARDzGj
+	1d19lQH3SYZkqYRe1PQk3IXa3JtIa+vDv0ITDRNspXufyvvjVmmwM25czJhexWOmMzSoARX/gxI
+	E0RdGSvhHOLALd4cplpusYzOhC7LLgsXpv7oPn1kTgwkdxliHYIx5Ime3MSMjpJF8yHofk5WUgH
+	bBLFrQesBoX9Fwzxc9gXB37VlqU1kMCeUUmto12adUUPd4xjkoltbmThLgQ7w912cgYxHX4V87m
+	Ix5i9liLhV23zk0JlEIxuCcKD9b4GdDdCslPp+XNrLsTPAtn9XpwYrLM/tuIsNoPB5fncvRJaLT
+	Et0c0
+X-Google-Smtp-Source: AGHT+IGrIcQFcN6U2c5lHHSIuh5EvkqjihiwzQlYkOeS8HJkrMXJQvEQ5OcYIYR3TOlrKg6OEfRawA==
+X-Received: by 2002:a05:600c:444d:b0:439:3d0e:f10e with SMTP id 5b1f17b1804b1-439581beecbmr6813085e9.28.1739309503407;
+        Tue, 11 Feb 2025 13:31:43 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:679f:b1ce:de17:3648? ([2001:8b0:aba:5f3c:679f:b1ce:de17:3648])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04f8c1sm174625e9.8.2025.02.11.13.31.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Feb 2025 13:31:41 -0800 (PST)
+Message-ID: <0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 05/30] lib: oe: add vendor module
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: stefan.herbrechtsmeier-oss@weidmueller.com, 
+	openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Date: Tue, 11 Feb 2025 21:31:40 +0000
+In-Reply-To: <20250211150034.18696-6-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: 
+	<20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+	 <20250211150034.18696-6-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 21:23:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211186
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 21:31:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211187
 
-On Tue, 11 Feb 2025 at 20:52, Vivek Puar <quic_vpuar@quicinc.com> wrote:
-
-> License-Update: additional files
-
-Not only "additional files", there is a new Qualcomm licence, which is
-not caught by this patch, NAK
-
-While taking care of the new Qualcomm licence, please also note new
-ath*, qca and qcom/ firmware. Please extend corresponding split
-packages.
-
->
-> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Tue, 2025-02-11 at 16:00 +0100, Stefan Herbrechtsmeier via lists.openemb=
+edded.org wrote:
+> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+>=20
+> Add a vendor package as base for package manager specific
+> implementations to resolve dependencies and populate vendor directories.
+> Add common dump and load function for SRC_URI files.
+>=20
+> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller=
+.com>
 > ---
->  ...{linux-firmware_20250109.bb => linux-firmware_20250211.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (99%)
->
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> similarity index 99%
-> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> index b932300742..6cadf99d47 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> @@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      "
->  # WHENCE checksum is defined separately to ease overriding it if
->  # class-devupstream is selected.
-> -WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
-> +WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
->
->  # These are not common licenses, set NO_GENERIC_LICENSE for them
->  # so that the license files will be copied from fetched source
-> @@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
->  # Pin this to the 20220509 release, override this in local.conf
->  SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
->
-> -SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
-> +SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
->
->  inherit allarch
+>=20
+> =C2=A0meta/lib/oe/vendor/__init__.py | 28 ++++++++++++++++++++++++++++
+> =C2=A01 file changed, 28 insertions(+)
+> =C2=A0create mode 100644 meta/lib/oe/vendor/__init__.py
 
--- 
-With best wishes
-Dmitry
+Initially I was going to ask there to be a "fetch" or "download" in the
+namespacing. That then made me wonder if in the interests of clarity
+and namepacing, these vendor classes should go into
+lib/bb/fetch2/vendor in bitbake?
+
+I appreciate the class in OE will use them and separation into bitbake
+can be a bit awkward but it would mean we don't confuse this with any
+other kind of vendoring, it becomes fetch specific and it places them
+alongside the fetch code, which it will need to remain tied to.
+
+I do feel we need to namespace them though as vendor is not specific
+enough to be directly in lib/oe.
+
+Cheers,
+
+Richard
+
+
+
+
 
