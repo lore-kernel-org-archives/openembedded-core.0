@@ -2,137 +2,136 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64988C021B5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CE4C021B8
 	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 15:01:15 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.127])
- by mx.groups.io with SMTP id smtpd.web10.1101.1739286068172146538
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.137])
+ by mx.groups.io with SMTP id smtpd.web11.1143.1739286064813401053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 07:01:08 -0800
+ Tue, 11 Feb 2025 07:01:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=J79WWgAH;
- spf=pass (domain: weidmueller.com, ip: 40.107.22.127, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=zAI5GEY6;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.137, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wdAYJMIuBwEBNtO6/FBHh1npw9+BdLfWwu4Cx65B6bYKZOLVwB40iMfPTBWSxKGApcOABI5BIjvUh40Z/m+4zM17DcUv/wFL1fF0t2/XgN/UapWDUtotjtJG1RMEmUV6U4dCLZNDMtYo2U3oFfyUTNlCriYUhF5h2M1SaOP3N9ckyF5e67+CHByJ9+OHlvUt38e9aGg/bZAtJyAECrD0+9Q6gNkhIDtWP0e9xC//z7cO8mogrG3pa75vs7cPa6rbZskHGj+YT78NzmfI61D7BQMR7LHqDQ5RtwodNpvpBvu1TjHHZp03wABtGNTJJATA7StWMNv6a+HyAw174s3vSQ==
+ b=NucbVqxIUOs4IQExcILbIVdNCD8TLUxglzxzY4Jf6bOxiZkB3xEHbXuIUoa1Oo7LmcNPmMfe/YqzuQotDOIH6V13rpaBQa0AF9EzttnxfpI0w71Q58bbiyXP6FAF4mqD8paAHUYScY2j3gkCH3wBfIBq9Qjg897JJDIXZWDQRojivV1FBqowp7U6NeTzIwj3kZxstsx6tUyNW7Roxw8w5gjQlauwFg59VakqSBYRL1C+/1V2/MUNJxywFf8nCJR/4vrZ7KbBHLtqvucbc5YMWPtnJv+LgQzE6HESlMVDXdeasr2NCEwYZOnVaJfd9ERJs5SWg/a6hBrlM1MiPvMhKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hNkf5BhJbf/gYgJNicNTJmId46lHF6p5nlnmEsni/j0=;
- b=aM/TIQkbqu9Qmh4ApsJplOrsazw3gxBjKLUhuhc1m4WfS3WU+OL9ASqOYND3yxeDy5lAFy1vYmqZkkLJHHhV2c0ZB1zEDpw67MolCYoNiFMejQrim4OkyjtDIcDsxQCmhs6m93YuIS9fFW/vkU+tTsR+8bjqeDkaDQ1Jh+tUtCeKVbRIJIvv+Cfhhh6StvI/GTpbxtOwbeMiNYQdHlBZGwE/nQv++jbRkeJd65tlBeewv2qeEuE6k+ZKPcKPw5GZJ8P/w3YyA+z+C3PCKPUat0WuJN0W4KVkvLf8ukGrbReX4bwwZWqT9Hf9lN9giFqQCXyDoqRsau+t8grIjaXSWg==
+ bh=ytSG7gwpnEooTI6mEPraE8SYJ9vkYk+9DXA4SrQA2P4=;
+ b=CMoYJs6HUwi2Tu8zFOGtrS93VDf4WlihVCgZhIuTL1gDmqm14OXPEelmG1XFt8YmkMUBMg1+Q70TNUbsrUFe7aL7b6Nem+Q5E14fWxkZWYAACB4jfH8Cijd+dAzcPYj/Ju6Xz4zFUsYzRvzUvU2+UJfX8hI5ROCgEwQROF11plpbY1NSWbwPqx7iW/GTYtoVqgLpHVy61o0+Z/1JQW5UEEY56me9q8bskZJSW4EAf/MnFcviv87e278ncjdMFhy3c/MmeQwHEEzGWf8IE3LcIn7tLfYVhVCPXbrpQHwrO5ZIezqciUFihTv7Llhe3twz2lLOYW+iIB1bf0SF1XBEmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hNkf5BhJbf/gYgJNicNTJmId46lHF6p5nlnmEsni/j0=;
- b=J79WWgAHm7Vy4AoypljP8Qr5C1axfO20SRp3SnQDaSpW7daWiIM8lWqfw4HX7rywx5njEGP9npM6qAtoBlt1IAEvzw7wkGh92ATkKjGSL2n90Cm3/ny+tOJj0z9ajFzq1XCMBali2pkaXVa6/SidG8xXinMplaEiN9nL4+2jGJ/msn0H6wL4QpRzkGa5OzxFs3lUT4xbeQQXiBYF1C//JEHM9ZiI9mBAR9KIwmc3IRjsJrj9dszTyQrm1hJm8Swk8yMix3/O4292j1BxWtxBm35FarLVHDe0qGrEuPrpzXT8z7lbW2uYT3vvc2loomdlemcnv38hQ4E5/FNiAbVUgQ==
+ bh=ytSG7gwpnEooTI6mEPraE8SYJ9vkYk+9DXA4SrQA2P4=;
+ b=zAI5GEY6EanaiOhSPZuGdOlv2UpB6kAobYGePnWsYnKvIel0RWUpnsRaSv6u4s1Z6Cd2Wc9zzGYaOHxclpzcRmuFtpBCieZmCH0WtYadbAUBZJOww1CyDOfchB9LVo1DkQZVtgco9lMNkDfPSWiuUvM2N5ZU2BVbchGPUaf8a7u8dG96dGjUafVviJMeGL5hpPYikPHmPkfFJHclAahZxzixLMVbG1ALie4/Hh2lmZaqIgTno6Sr3BYT9iitPi+pJRsJnpAv0irkyfPHaDHunPgKyoA4s3mhBGRGXkTB0DlyxcY+1LDhy7iRiEckt451XhEoD77xIrwv3ai+/Qd0VQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
  by AM7PR08MB5399.eurprd08.prod.outlook.com (2603:10a6:20b:104::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.19; Tue, 11 Feb
- 2025 15:01:02 +0000
+ 2025 15:01:05 +0000
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
- 15:01:02 +0000
+ 15:01:05 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [RFC PATCH 21/30] python3-bcrypt: mirgrate to vendor cargo class
-Date: Tue, 11 Feb 2025 16:00:25 +0100
-Message-ID: <20250211150034.18696-21-stefan.herbrechtsmeier-oss@weidmueller.com>
+Subject: [RFC PATCH 26/30] librsvg: update dependecies to fix RUSTSEC-2024-0421
+Date: Tue, 11 Feb 2025 16:00:30 +0100
+Message-ID: <20250211150034.18696-26-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:a9::16) To GV1PR08MB8426.eurprd08.prod.outlook.com
  (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|AM7PR08MB5399:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb9172b3-cb45-436d-4075-08dd4aace2fc
+X-MS-Office365-Filtering-Correlation-Id: 4b49011a-385b-4cf3-3aa0-08dd4aace4a3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|13003099007|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?gktWW8+c8YJRo7xe2J7IRIFkEO7aZm4c/EcFyo5VXqMAnXrJvN2mQOsbqJIC?=
- =?us-ascii?Q?FAXnxIuwaU1iGZ5OwxjF6TQxaMUfLYpkV/y59Fa2XErt0N3otdkmNENHCtAf?=
- =?us-ascii?Q?kGMJYSeEvnehi6ZTK5c3YOud6x0PXoLT9o8clCvF05M6qo8Y/o4PhRcC7TOG?=
- =?us-ascii?Q?zDJosxHyrx42qcshZAbzc/r5CBHNHd29a/yBYtTzIPKOewJuMFBVEGQ9p/2w?=
- =?us-ascii?Q?i6A7jb47vnRzzRi1Key3BRoqbo5RY3/ApR7vJVA2R24c+9BCcZ/P36Elb7IN?=
- =?us-ascii?Q?/h1qgasj8FNY4BspvwA5Yf1yekmdZgqpwcACHw0A7sxyIJhncvEnFEaqx1pD?=
- =?us-ascii?Q?bkBN2nlcQaXcAslQ5fO6sO0JcskoNJNPsNJohD3e0jLopdjl7s9J0o4Zyy/x?=
- =?us-ascii?Q?3yjeb0kqoNxPCoHS3Qsw3cOHvV0abSz0/P0WWXpOKtGX27HsTmiQwgTNtmWA?=
- =?us-ascii?Q?s+zHkVlt9K6VHAghSK24OLKZc6hFlEORRQmpPC41VNtyE6VhG5PD4wgxa4T/?=
- =?us-ascii?Q?fOmQGfTSsH1qiUq0qDaNGqXt5VtQxqbWU6nhqZH+6y/0/A/oC500J3jmVMPP?=
- =?us-ascii?Q?LyOIvl2gBKYjLXN93d46PiNanXi6yqVSeAWAtve6oRynZc1cvZwE6JIacAU8?=
- =?us-ascii?Q?pEYO3joow4/kbCiIBdrJ8HPhTNSKV2tHYesHKb9N6H/Ks+Q8qWot4wFHKKAY?=
- =?us-ascii?Q?/DR79ozRDiblgJe6w6W+vpyai/QTcD1q8JiDE05s9GcgYEDxT1F6Dv4kj1qh?=
- =?us-ascii?Q?ER6BMVEi8DukMP8fiDnrwW42NVIain5EaiRQSKWGLZgdfUMTdE1a9BllwoXU?=
- =?us-ascii?Q?iHewy3mr8fI3ld67+So88UeUtGmpKMa0VrXKUQ/veJHUY9RuzDAzZGffUQQU?=
- =?us-ascii?Q?dtT5YPoxuxUqrVTPanEbX5ZX88lzgd+PXFCyqP5p5NUffZtnJZ7n3UtLaT+o?=
- =?us-ascii?Q?rsf9O7LBGWYEKB6oc4a6waIS1vAFr5Ygtf7ONprDVzvMYMVnEfvBbAMTzvAz?=
- =?us-ascii?Q?oR8Ps8/hSndiIbDhAR9XAHvyBP7eiuMqve9aDdLrvSN/CbWVJ9yJgHR6VT8U?=
- =?us-ascii?Q?jDzjbeAmim0YbkXxXYxvGtFlUD1+0KqplUM7YqVweZGkJ6HfXOuy7wzHV/hY?=
- =?us-ascii?Q?dXBB1SR5XIZ1MUYYX2OTcHegqxhtcDq15MOL5EhgzjFSX+FbVy4P3MVOlK3A?=
- =?us-ascii?Q?GSYODpFYO4lxgCaiKKYXbI8eS7YtFRgdb8VAFbiruJw6Bi5Ehj+W2qCp43pL?=
- =?us-ascii?Q?7ZeqMtrXw//toaAUP4N/Zsf9dmGtFsGbN0E6Fp5dx2d4isR/3WRWdi43Qxpq?=
- =?us-ascii?Q?6X/ejuyNgVYBIxLOio97QMzbma8NWOIl4Nr3z+hl/AwjtW14x+HblGG2ddaL?=
- =?us-ascii?Q?Tlb4pf1q+MUdZdoU4BG4t/hCSy9jK051a2/Y8I2/3JtynjmyI12qzzs74D7G?=
- =?us-ascii?Q?DCUfSro5BNavQcetY7zN3M5MDtJY2GAY?=
+	=?us-ascii?Q?NnvFZ5DNyR+AMf0QA1kCZva/ySHJe9c1n6yiVeSIJ49zyceymGMuOeUILboa?=
+ =?us-ascii?Q?8n6Znf0gk+gFJDMt/IUjoytB1DQUlexVFR+B6pdwWxHQyOzI+4GzRNTHzErC?=
+ =?us-ascii?Q?jE6WYhIH5Evb9wv9Y1cX53C8DpThjguTEW5UDRGBhcrIRaeknsK7zhD2ZJZv?=
+ =?us-ascii?Q?1gioeovR+WLYJ/E3UfPL5L0w59PEu4FAxJ0IJ0aMeggPKa/Nrl6PnepP6nIL?=
+ =?us-ascii?Q?GzlNm1cnkEE28ryo2lVW00hx2xke40TQFXcZoltFJVrCHyblMMyUN/DYImjh?=
+ =?us-ascii?Q?npCgUWWT0gYufnlj8jCm1u2/LGpreqSJOvbHUVuG4zibPO6K/myJuc8sBeZs?=
+ =?us-ascii?Q?bAH1pazwlnPAK+g/MDouTak5Y1/peDBhabJAS4NZZatWrWLKrkSyUo82H6rs?=
+ =?us-ascii?Q?xlDv69duAh3ZSWsmk3ecZ2HXQGaOYHYhhqW3c3SzkVNtSfJ4pl7gOYrvWyPg?=
+ =?us-ascii?Q?rk5Wpr6FYVtE8J357HatSVPEgsZoukFPTwAfOl/tIFClUxkb+BGIqb2OWxZi?=
+ =?us-ascii?Q?MhhAJjds3jkKiz1MmVElu0slVOM5zVl4LnBJBqX6UfMALYOLv84iryky9ty1?=
+ =?us-ascii?Q?NlHuBL0l+ahq3sHxkFq0EQxfFcQ5kZO5Vtz5mnYf0RHByrylP8DhHzGWlPZQ?=
+ =?us-ascii?Q?3v7cz1o6nf4KPZCoYNMoQLeyDGhsQD3OsRosQNpu4yoSNdtF5+YhKnm0LMR4?=
+ =?us-ascii?Q?Z+8cGYjSmUvK8JoVVhyMZMSYojRs5tpRPPmZiyuDOHjioGwmEAfyEWSEQzOt?=
+ =?us-ascii?Q?IOa/Mli6AdIhYJEqK6QpR5OifFOyKvKkvLCvGn0j5dTC89Pvg5xyAWVrL5et?=
+ =?us-ascii?Q?N/avxHU+NSP6yv1ab+K4HJuuByaKc3F+6xmeLwpu1u+JXK1bIoOtTRQjqqRK?=
+ =?us-ascii?Q?l5YZn8RIGoibrpCTrLQuJgGewURMCISDS6EcJKyyyWp9DzsYblbMOrWvE7kf?=
+ =?us-ascii?Q?Wu6KpHjm+rt5MiceIuxl1i1LMH/NVr48cnWaors041bVyWpvqDHdAEZba/2h?=
+ =?us-ascii?Q?PeaTO7/51Wz8R+mGBLaEFzK+oRdbxdhb5/97ieGmYhqQNi8l/Gc5cV6ldIw7?=
+ =?us-ascii?Q?8Tk84mo2tmcJ5g4AVSfBoXu09NGFQq+80k3HPSV/55r8XuvZZZDyQnlf83zF?=
+ =?us-ascii?Q?FJtz5gqRrD1LeFuoPUZMiTJ/Q1OsTYS6Zx9A/FsagIh1Ct+WeDK4aRh1ZCF3?=
+ =?us-ascii?Q?phAqDtEcmBtGxB64cCkGj+WHKf+Yb2CdUfsDRm5iaSNX1SIzoGimZr8TSSGN?=
+ =?us-ascii?Q?FtExUAnnry4W9KhJyyPJLiRP+bpzmC6Z8xr7m/E+zqyctwgf9DMoGbIEpiMc?=
+ =?us-ascii?Q?WdJUYhkQfRQSd9Q/Z9f1Yn/HVi4T93y7HAFhaNUVLJKb2I21Y1nIDOXuK4P8?=
+ =?us-ascii?Q?cF7B5LREXLB7y5k2pN1QbGPqqMGQ?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:sl;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(13003099007)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3z9hCJVlqJ5mHLhnREvZjEqKJeIw/1MGub42q3y+m9RWnRYHnps49qRbEEbb?=
- =?us-ascii?Q?Yudqi4T0iIxH6/bYXHhotgUo4Xuam8rIQs1PLjX6F8ejAxXz8tZtPukxur6u?=
- =?us-ascii?Q?O1svljmQ+jCC2ZG55pKcixuw08Rd5dqLArg443PH3kPYy13rUwfZJfrIjxrF?=
- =?us-ascii?Q?DYcCEIbROyNGf69s+f7Xrb9Vti76o1eDu3pVbH/zBbvY51e+/YWh3PJoU35p?=
- =?us-ascii?Q?/LSJ/mnarF49JQemq9RR9iXquvY1j715n3fRS14704TVfBSUYRSgek/ikHik?=
- =?us-ascii?Q?rLWZr7EsF80h7NfoWtQSVm3wUjJApTZvJo9zG9WFIFVx1Z4NEistqdEiRLuh?=
- =?us-ascii?Q?Z41wmXDNrHifbN1pgOcdM63Xt5/6v/f9k3ega0J02d6Bz/Bc/leLoBQ66pwF?=
- =?us-ascii?Q?XZaiMVqEYZhwrx6FhIy+jxJWZDB0a/i+aYOjdIUQdxX2uHDLVsEjyyueH33a?=
- =?us-ascii?Q?pOFhL/Sq+89HzuiRYsL/ZFbyddeMYz11oYbt7rMKsiL1chb3saYi+owfsAOv?=
- =?us-ascii?Q?5UDoZ/1P0LOjUzXN+WPKWzoUHmfdOk7sm6JFirtYTNkz85iKTik+dQjtHW9H?=
- =?us-ascii?Q?rLOa1QpJ45CBjqoVH4cEdvjT81qmqhhL4jk058AR7Yo4bR3oN7WGNAtnyDso?=
- =?us-ascii?Q?8GZYdlcs+A69btEUIu9GWASZ3YAD2nWuhuOmYxJ/b7Avw2SfM3xUK3pbekVV?=
- =?us-ascii?Q?5TjH2J6aVxySwT2dK6SbuHqG8zXEAs4EwOgtSs4GSP2TuL4tLXvnTdNZdjKA?=
- =?us-ascii?Q?z0NXVBPKtHBUXYp5ZXm4qdrcvKqj2SNUrO7sP805xd56dgb+CrXqRvqBa1pN?=
- =?us-ascii?Q?bi0kSSQih6KK7BWCtbeaoJ3TcBUGf8aygRyC81Ae36uRf0MyeBDQzkbSUbhY?=
- =?us-ascii?Q?ChpQf8r5TDbbOUTcZ4YCanRvtk+1q7+mljozmNML5WfsY9cGTFBk4M3lVLmQ?=
- =?us-ascii?Q?b742RFFstQ4QUT5hK47mtPf3OJ/a1tDsCEjquh8eaX+eAxaLGxP5ENkSRcq6?=
- =?us-ascii?Q?GKsSt9Sdl8nKEmgOGk0aP1QG2rttHnni+qn6Ut/I09DHu4reb+Ruvsi1T6Tf?=
- =?us-ascii?Q?xlgqAKw5Q8VW2iEDeWCx+vEfctvM7L8d5uLCQZhhfDTMxnX6ShetIAc0a7Q+?=
- =?us-ascii?Q?c831pnYWkgEfdaoLVi6w9P6Dzilbhk2KsulRzX1c0qGFouOZ4LNjP6kjxSz/?=
- =?us-ascii?Q?GofEfJj83cIJ7JkLdMLo/BXEn1QsFyrHZj/NSkpe1hjN6MJHoQDaow1cksjU?=
- =?us-ascii?Q?wdFqZdtNwl39J3S/b3ZlV5B+zUIahWniYfgInpjaRILHY1Q1tFEI2XRCLr6z?=
- =?us-ascii?Q?5aEp8LgZL+Uyuj/H17lxb6H8qWfB3HCtpJ8stM8ovGtVGtp/ZkUvMgKsBW02?=
- =?us-ascii?Q?YQuSrGcOoWujwtzcJA3YxQ5dwwQ+SwWH1WJq4aii4fRR9VUKIAymiptjX28W?=
- =?us-ascii?Q?Dk9qbkA4NrTuf5DJ6B2gdwDIyr/vuSu8PPEaZSBfqyIo/7pYZWzmbjBKMPWh?=
- =?us-ascii?Q?HplumzNO3I4mpFpqhiCW6Sw8sswEzXcIM311rUf0ECh2wo2aka9gO4tl1jc0?=
- =?us-ascii?Q?WofHyg/fSY3dgl/zkQmMAbo0jQhyNKsFOjchi4iH/90g/vc3DUtS59uLMHFZ?=
- =?us-ascii?Q?zQ=3D=3D?=
+	=?us-ascii?Q?3NGvydwRmY2aedHle5JgJTr/AXqANNRpcHYN6kK+1qcTzqJXwamZ54vsBzuL?=
+ =?us-ascii?Q?sQmLwrFlM0/XT2EdJn6BxWVUUQQ9NrwBojexeab4OXUoWPeGMF+ViPRx/vV9?=
+ =?us-ascii?Q?WtcF1ZILFWhel/HFvTVZeONLr3ub2YvCFLJeUooKr2PYf8a5Ps3rlkEqwFE+?=
+ =?us-ascii?Q?G2ZpHm3jDat/TPhVdB6Hr1TpcPP3Q9eSTVSIARIAg5AgA+yLWHWoALVQC2Th?=
+ =?us-ascii?Q?FiPuA4qBhbeBbhdtuIcTUXC69SSv5qZ/tpnYRL+v7VU3zKWL2Dfz6pk4/9tK?=
+ =?us-ascii?Q?/d8/cwvA1qiiKPSC5hNm41h9CobSbh4Dj34ExDXxqRXjrwXZ6K1FmmO3K6ye?=
+ =?us-ascii?Q?74b/pbkq8IV0qVnPfp29YuLGwBZjqW/iricGeanVUQ2g1BSxwEirDkuEWNPA?=
+ =?us-ascii?Q?1SDHsa1eM4hL7Td8oq747twjz+xGuPkXvmVK7jdGoi3LLkFX4K8E3rrqOHqX?=
+ =?us-ascii?Q?4t3hbG5Qhxuy4yUxwiuzjmFKI93mkOmR7r46aHcJbZPFfajS6NhJgVAnoLMr?=
+ =?us-ascii?Q?wIgOKegwC/bh0TMUkXwqtVvib833ow/lm3go1k+cJOhOtzinVoXms596Kgvl?=
+ =?us-ascii?Q?xjtM4a+tEQE4shEyzSHKyYRqWmyGAqnDEU7Uzh6ezNhH3uo7iV0zx7fr3PXF?=
+ =?us-ascii?Q?IsafdZSdfGIUvpTr1do3M/ihYxxNjBFhaRfidKVF/ZHM51HQYy4AzNJEDZqc?=
+ =?us-ascii?Q?odLKUNKEgv7lUdfsGXVLduM1EbhGe673gD2v4u/NfNpfyv7y2FFu6bJQS0kF?=
+ =?us-ascii?Q?73vy8DLTxiKHHHg4R05HnPp879oIjQJxdwmrRTVvS+sd4Azvem6ZTJE3BmuX?=
+ =?us-ascii?Q?f00YMJmxggsuxzca7j+wedycftCrcFzBgO0fjItfLfr7548vorsmceSX9j0R?=
+ =?us-ascii?Q?b9k+JHTMCZynPAoHxhfQauogd8ySEXasVr3e2YMylcZlj0qVYkQlEtqjgpUn?=
+ =?us-ascii?Q?AR1f79FbfnSRmFpr+BrRmaBDp3tAcqxTrARf1L8mxnp06EsU8ztwYql6DXii?=
+ =?us-ascii?Q?dmZSQYY5/Tkt5ystAXbeVFvyz6joeV5FPC80BDz6PDBbUYSKFNLBGJfd+Q9u?=
+ =?us-ascii?Q?16egxjyMYWAKkSxzcOn4BgTMG4j/l7+hVR0eXe0xtupoZIfIrezz7g91BsQT?=
+ =?us-ascii?Q?yDE0id0EVPG9gewBPeHSR+lr7IiDPLdJi0+dsk8TzGgNLfiJz0r8V5ojFi8w?=
+ =?us-ascii?Q?oH1Xz9arRe/VwwEevgQroB1jrqOEWmy1XrHKOxDvp9pvafQ0Yy52p1M+4ARJ?=
+ =?us-ascii?Q?fvIS0vrreAwft83jv3z98dojgTdeiI8YvzWK9vFRhklrForSN2DxT9XVuOhC?=
+ =?us-ascii?Q?hhGATGuJbwBdQuMtr9jCdEDi5cOE1fa4flTuVBVMZyS/vYR6srSts86jk5WG?=
+ =?us-ascii?Q?4IjQcDoUe9yCE3UXpH/FGX/Gby2DaNd2njUEeNtR2LWo4uyVQS+drQAQ5B+w?=
+ =?us-ascii?Q?V6qDSBl0dniJZONoGDYqotFFjklfkMib/EKPLl+je6HSOdCq8hv13pJ/Vnns?=
+ =?us-ascii?Q?ckbci78CAjvizSw9SqkPBOleRokYJuyMLlwYy9GXnkA8eWL8EETpXLdAZT0J?=
+ =?us-ascii?Q?YXLooqM8X1OEAVPW/w9LML+OZdP04sF1nIo01mUSQpdUDZO11Wi8LjQduDp0?=
+ =?us-ascii?Q?AQ=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb9172b3-cb45-436d-4075-08dd4aace2fc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b49011a-385b-4cf3-3aa0-08dd4aace4a3
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:00:56.0628
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:00:58.8737
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WhV543jztu/DUnx3p1ca17ANeHQExM1Wt4e5h0LjEx7hjBPc0FTblktzPjl//UP4Rx/r6S1b72s84X81ZzVRxA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: x/cDhRaZm2WdzsuvUobEvdJV18/ZSjTB9WXmMgbQN/5tcWJefy+wnA97JO1Q3iSJ/qc3obYEOt3Rx+8/eHKeCQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5399
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:01:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211149
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211151
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
@@ -140,163 +139,486 @@ Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
 
- .../python/python3-bcrypt-crates.inc          | 84 -------------------
- .../python/python3-bcrypt_4.2.1.bb            |  4 +-
- 2 files changed, 1 insertion(+), 87 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-bcrypt-crates.inc
+ ...-to-get-an-updated-idna-rustsec-2024.patch | 398 ++++++++++++++++++
+ meta/recipes-gnome/librsvg/librsvg_2.59.2.bb  |   3 +-
+ 2 files changed, 400 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-update-url-crat=
+e-to-get-an-updated-idna-rustsec-2024.patch
 
-diff --git a/meta/recipes-devtools/python/python3-bcrypt-crates.inc b/meta/=
-recipes-devtools/python/python3-bcrypt-crates.inc
-deleted file mode 100644
-index 576abcd7cb..0000000000
---- a/meta/recipes-devtools/python/python3-bcrypt-crates.inc
-+++ /dev/null
-@@ -1,84 +0,0 @@
--# Autogenerated with 'bitbake -c update_crates python3-bcrypt'
--
--# from src/_bcrypt/Cargo.lock
--SRC_URI +=3D " \
--    crate://crates.io/autocfg/1.4.0 \
--    crate://crates.io/base64/0.22.1 \
--    crate://crates.io/bcrypt/0.16.0 \
--    crate://crates.io/bcrypt-pbkdf/0.10.0 \
--    crate://crates.io/block-buffer/0.10.4 \
--    crate://crates.io/blowfish/0.9.1 \
--    crate://crates.io/byteorder/1.5.0 \
--    crate://crates.io/cfg-if/1.0.0 \
--    crate://crates.io/cipher/0.4.4 \
--    crate://crates.io/cpufeatures/0.2.15 \
--    crate://crates.io/crypto-common/0.1.6 \
--    crate://crates.io/digest/0.10.7 \
--    crate://crates.io/generic-array/0.14.7 \
--    crate://crates.io/getrandom/0.2.15 \
--    crate://crates.io/heck/0.5.0 \
--    crate://crates.io/indoc/2.0.5 \
--    crate://crates.io/inout/0.1.3 \
--    crate://crates.io/libc/0.2.164 \
--    crate://crates.io/memoffset/0.9.1 \
--    crate://crates.io/once_cell/1.20.2 \
--    crate://crates.io/pbkdf2/0.12.2 \
--    crate://crates.io/portable-atomic/1.9.0 \
--    crate://crates.io/proc-macro2/1.0.89 \
--    crate://crates.io/pyo3/0.23.1 \
--    crate://crates.io/pyo3-build-config/0.23.1 \
--    crate://crates.io/pyo3-ffi/0.23.1 \
--    crate://crates.io/pyo3-macros/0.23.1 \
--    crate://crates.io/pyo3-macros-backend/0.23.1 \
--    crate://crates.io/quote/1.0.37 \
--    crate://crates.io/sha2/0.10.8 \
--    crate://crates.io/subtle/2.6.1 \
--    crate://crates.io/syn/2.0.87 \
--    crate://crates.io/target-lexicon/0.12.16 \
--    crate://crates.io/typenum/1.17.0 \
--    crate://crates.io/unicode-ident/1.0.13 \
--    crate://crates.io/unindent/0.2.3 \
--    crate://crates.io/version_check/0.9.5 \
--    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
--    crate://crates.io/zeroize/1.8.1 \
--"
--
--SRC_URI[autocfg-1.4.0.sha256sum] =3D "ace50bade8e6234aa140d9a2f552bbee1db4=
-d353f69b8217bc503490fc1a9f26"
--SRC_URI[base64-0.22.1.sha256sum] =3D "72b3254f16251a8381aa12e40e3c4d2f0199=
-f8c6508fbecb9d91f575e0fbb8c6"
--SRC_URI[bcrypt-0.16.0.sha256sum] =3D "2b1866ecef4f2d06a0bb77880015fdf2b89e=
-25a1c2e5addacb87e459c86dc67e"
--SRC_URI[bcrypt-pbkdf-0.10.0.sha256sum] =3D "6aeac2e1fe888769f34f05ac343bbe=
-f98b14d1ffb292ab69d4608b3abc86f2a2"
--SRC_URI[block-buffer-0.10.4.sha256sum] =3D "3078c7629b62d3f0439517fa394996=
-acacc5cbc91c5a20d8c658e77abd503a71"
--SRC_URI[blowfish-0.9.1.sha256sum] =3D "e412e2cd0f2b2d93e02543ceae7917b3c70=
-331573df19ee046bcbc35e45e87d7"
--SRC_URI[byteorder-1.5.0.sha256sum] =3D "1fd0f2584146f6f2ef48085050886acf35=
-3beff7305ebd1ae69500e27c67f64b"
--SRC_URI[cfg-if-1.0.0.sha256sum] =3D "baf1de4339761588bc0619e3cbc0120ee582e=
-bb74b53b4efbf79117bd2da40fd"
--SRC_URI[cipher-0.4.4.sha256sum] =3D "773f3b9af64447d2ce9850330c473515014aa=
-235e6a783b02db81ff39e4a3dad"
--SRC_URI[cpufeatures-0.2.15.sha256sum] =3D "0ca741a962e1b0bff6d724a1a0958b6=
-86406e853bb14061f218562e1896f95e6"
--SRC_URI[crypto-common-0.1.6.sha256sum] =3D "1bfb12502f3fc46cca1bb51ac28df9=
-d618d813cdc3d2f25b9fe775a34af26bb3"
--SRC_URI[digest-0.10.7.sha256sum] =3D "9ed9a281f7bc9b7576e61468ba615a66a5c8=
-cfdff42420a70aa82701a3b1e292"
--SRC_URI[generic-array-0.14.7.sha256sum] =3D "85649ca51fd72272d7821adaf274a=
-d91c288277713d9c18820d8499a7ff69e9a"
--SRC_URI[getrandom-0.2.15.sha256sum] =3D "c4567c8db10ae91089c99af84c68c38da=
-3ec2f087c3f82960bcdbf3656b6f4d7"
--SRC_URI[heck-0.5.0.sha256sum] =3D "2304e00983f87ffb38b55b444b5e3b60a884b5d=
-30c0fca7d82fe33449bbe55ea"
--SRC_URI[indoc-2.0.5.sha256sum] =3D "b248f5224d1d606005e02c97f5aa4e88eeb230=
-488bcc03bc9ca4d7991399f2b5"
--SRC_URI[inout-0.1.3.sha256sum] =3D "a0c10553d664a4d0bcff9f4215d0aac67a639c=
-c68ef660840afe309b807bc9f5"
--SRC_URI[libc-0.2.164.sha256sum] =3D "433bfe06b8c75da9b2e3fbea6e5329ff87748=
-f0b144ef75306e674c3f6f7c13f"
--SRC_URI[memoffset-0.9.1.sha256sum] =3D "488016bfae457b036d996092f6cb448677=
-611ce4449e970ceaf42695203f218a"
--SRC_URI[once_cell-1.20.2.sha256sum] =3D "1261fe7e33c73b354eab43b1273a57c8f=
-967d0391e80353e51f764ac02cf6775"
--SRC_URI[pbkdf2-0.12.2.sha256sum] =3D "f8ed6a7761f76e3b9f92dfb0a60a6a6477c6=
-1024b775147ff0973a02653abaf2"
--SRC_URI[portable-atomic-1.9.0.sha256sum] =3D "cc9c68a3f6da06753e9335d63e27=
-f6b9754dd1920d941135b7ea8224f141adb2"
--SRC_URI[proc-macro2-1.0.89.sha256sum] =3D "f139b0662de085916d1fb67d2b4169d=
-1addddda1919e696f3252b740b629986e"
--SRC_URI[pyo3-0.23.1.sha256sum] =3D "7ebb0c0cc0de9678e53be9ccf8a2ab53045e6e=
-3a8be03393ceccc5e7396ccb40"
--SRC_URI[pyo3-build-config-0.23.1.sha256sum] =3D "80e3ce69c4ec34476534b490e=
-412b871ba03a82e35604c3dfb95fcb6bfb60c09"
--SRC_URI[pyo3-ffi-0.23.1.sha256sum] =3D "3b09f311c76b36dfd6dd6f7fa6f9f18e7e=
-46a1c937110d283e80b12ba2468a75"
--SRC_URI[pyo3-macros-0.23.1.sha256sum] =3D "fd4f74086536d1e1deaff99ec038748=
-1fb3325c82e4e48be0e75ab3d3fcb487a"
--SRC_URI[pyo3-macros-backend-0.23.1.sha256sum] =3D "9e77dfeb76b32bbf069144a=
-5ea0a36176ab59c8db9ce28732d0f06f096bbfbc8"
--SRC_URI[quote-1.0.37.sha256sum] =3D "b5b9d34b8991d19d98081b46eacdd8eb58c6f=
-2b201139f7c5f643cc155a633af"
--SRC_URI[sha2-0.10.8.sha256sum] =3D "793db75ad2bcafc3ffa7c68b215fee268f5379=
-82cd901d132f89c6343f3a3dc8"
--SRC_URI[subtle-2.6.1.sha256sum] =3D "13c2bddecc57b384dee18652358fb23172fac=
-b8a2c51ccc10d74c157bdea3292"
--SRC_URI[syn-2.0.87.sha256sum] =3D "25aa4ce346d03a6dcd68dd8b4010bcb74e54e62=
-c90c573f394c46eae99aba32d"
--SRC_URI[target-lexicon-0.12.16.sha256sum] =3D "61c41af27dd6d1e27b1b16b489d=
-b798443478cef1f06a660c96db617ba5de3b1"
--SRC_URI[typenum-1.17.0.sha256sum] =3D "42ff0bf0c66b8238c6f3b578df37d0b7848=
-e55df8577b3f74f92a69acceeb825"
--SRC_URI[unicode-ident-1.0.13.sha256sum] =3D "e91b56cd4cadaeb79bbf1a5645f6b=
-4f8dc5bde8834ad5894a8db35fda9efa1fe"
--SRC_URI[unindent-0.2.3.sha256sum] =3D "c7de7d73e1754487cb58364ee906a499937=
-a0dfabd86bcb980fa99ec8c8fa2ce"
--SRC_URI[version_check-0.9.5.sha256sum] =3D "0b928f33d975fc6ad9f86c8f283853=
-ad26bdd5b10b7f1542aa2fa15e2289105a"
--SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] =3D "9c8d87e72b64a3b=
-4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
--SRC_URI[zeroize-1.8.1.sha256sum] =3D "ced3678a2879b30306d323f4542626697a46=
-4a97c0a07c9aebf7ebca65cd4dde"
-diff --git a/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb b/meta/re=
-cipes-devtools/python/python3-bcrypt_4.2.1.bb
-index 004e8ce8b1..9117637744 100644
---- a/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb
-+++ b/meta/recipes-devtools/python/python3-bcrypt_4.2.1.bb
-@@ -8,12 +8,10 @@ LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pt=
-est', '-fuse-ld=3Dbfd', '',
+diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-update-url-crate-to-ge=
+t-an-updated-idna-rustsec-2024.patch b/meta/recipes-gnome/librsvg/librsvg/0=
+001-update-url-crate-to-get-an-updated-idna-rustsec-2024.patch
+new file mode 100644
+index 0000000000..4f9796d0b9
+--- /dev/null
++++ b/meta/recipes-gnome/librsvg/librsvg/0001-update-url-crate-to-get-an-up=
+dated-idna-rustsec-2024.patch
+@@ -0,0 +1,398 @@
++From aaaa6b68b024b2adbfdf5f8493dfce1f60e5e331 Mon Sep 17 00:00:00 2001
++From: Federico Mena Quintero <federico@gnome.org>
++Date: Mon, 9 Dec 2024 13:26:02 -0600
++Subject: [PATCH] Update url crate to get an updated idna, RUSTSEC-2024-042=
+1
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++error[vulnerability]: `idna` accepts Punycode labels that do not produce a=
+ny non-ASCII when decoded
++   =E2=94=8C=E2=94=80 /builds/GNOME/librsvg/Cargo.lock:99:1
++   =E2=94=82
++99 =E2=94=82 idna 0.5.0 registry+https://github.com/rust-lang/crates.io-in=
+dex
++   =E2=94=82 =E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81 security=
+ vulnerability detected
++   =E2=94=82
++   =E2=94=9C ID: RUSTSEC-2024-0421
++   =E2=94=9C Advisory: https://rustsec.org/advisories/RUSTSEC-2024-0421
++
++Part-of: <https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/1069>
++
++CVE: RUSTSEC-2024-0421
++
++Upstream-Status: Backport [https://github.com/GNOME/librsvg/commit/aaaa6b6=
+8b024b2adbfdf5f8493dfce1f60e5e331]
++---
++ Cargo.lock | 285 +++++++++++++++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 264 insertions(+), 21 deletions(-)
++
++diff --git a/Cargo.lock b/Cargo.lock
++index 1ee688577..01c3bf550 100644
++--- a/Cargo.lock
+++++ b/Cargo.lock
++@@ -588,6 +588,17 @@ dependencies =3D [
++  "crypto-common",
++ ]
++=20
+++[[package]]
+++name =3D "displaydoc"
+++version =3D "0.2.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "97369cbbc041bc366949bc74d34658d6cda5621039731c6310521892a3a=
+20ae0"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++]
+++
++ [[package]]
++ name =3D "dlib"
++ version =3D "0.5.2"
++@@ -992,14 +1003,143 @@ dependencies =3D [
++  "cc",
++ ]
++=20
+++[[package]]
+++name =3D "icu_collections"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "db2fa452206ebee18c4b5c2274dbf1de17008e874b4dc4f0aea9d01ca79=
+e4526"
+++dependencies =3D [
+++ "displaydoc",
+++ "yoke",
+++ "zerofrom",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_locid"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "13acbb8371917fc971be86fc8057c41a64b521c184808a698c02acc242d=
+bf637"
+++dependencies =3D [
+++ "displaydoc",
+++ "litemap",
+++ "tinystr",
+++ "writeable",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_locid_transform"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "01d11ac35de8e40fdeda00d9e1e9d92525f3f9d887cdd7aa81d72759678=
+8b54e"
+++dependencies =3D [
+++ "displaydoc",
+++ "icu_locid",
+++ "icu_locid_transform_data",
+++ "icu_provider",
+++ "tinystr",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_locid_transform_data"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "fdc8ff3388f852bede6b579ad4e978ab004f139284d7b28715f773507b9=
+46f6e"
+++
+++[[package]]
+++name =3D "icu_normalizer"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "19ce3e0da2ec68599d193c93d088142efd7f9c5d6fc9b803774855747dc=
+6a84f"
+++dependencies =3D [
+++ "displaydoc",
+++ "icu_collections",
+++ "icu_normalizer_data",
+++ "icu_properties",
+++ "icu_provider",
+++ "smallvec",
+++ "utf16_iter",
+++ "utf8_iter",
+++ "write16",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_normalizer_data"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "f8cafbf7aa791e9b22bec55a167906f9e1215fd475cd22adfcf660e03e9=
+89516"
+++
+++[[package]]
+++name =3D "icu_properties"
+++version =3D "1.5.1"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "93d6020766cfc6302c15dbbc9c8778c37e62c14427cb7f6e601d849e092=
+aeef5"
+++dependencies =3D [
+++ "displaydoc",
+++ "icu_collections",
+++ "icu_locid_transform",
+++ "icu_properties_data",
+++ "icu_provider",
+++ "tinystr",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_properties_data"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "67a8effbc3dd3e4ba1afa8ad918d5684b8868b3b26500753effea8d2eed=
+19569"
+++
+++[[package]]
+++name =3D "icu_provider"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "6ed421c8a8ef78d3e2dbc98a973be2f3770cb42b606e3ab18d6237c4dfd=
+e68d9"
+++dependencies =3D [
+++ "displaydoc",
+++ "icu_locid",
+++ "icu_provider_macros",
+++ "stable_deref_trait",
+++ "tinystr",
+++ "writeable",
+++ "yoke",
+++ "zerofrom",
+++ "zerovec",
+++]
+++
+++[[package]]
+++name =3D "icu_provider_macros"
+++version =3D "1.5.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "1ec89e9337638ecdc08744df490b221a7399bf8d164eb52a665454e60e0=
+75ad6"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++]
+++
++ [[package]]
++ name =3D "idna"
++-version =3D "0.5.0"
+++version =3D "1.0.3"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "686f825264d630750a544639377bae737628043f20d38bbc029e8f29ea9=
+68a7e"
+++dependencies =3D [
+++ "idna_adapter",
+++ "smallvec",
+++ "utf8_iter",
+++]
+++
+++[[package]]
+++name =3D "idna_adapter"
+++version =3D "1.2.0"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++-checksum =3D "634d9b1461af396cad843f47fdba5597a4f9e6ddd4bfb6ff5d85028c25c=
+b12f6"
+++checksum =3D "daca1df1c957320b2cf139ac61e7bd64fed304c5040df000a745aa1de3b=
+4ef71"
++ dependencies =3D [
++- "unicode-bidi",
++- "unicode-normalization",
+++ "icu_normalizer",
+++ "icu_properties",
++ ]
++=20
++ [[package]]
++@@ -1229,6 +1369,12 @@ version =3D "0.4.14"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++ checksum =3D "78b3ae25bc7c8c38cec158d1f2757ee79e9b3740fbc7ccf0e59e4b08d79=
+3fa89"
++=20
+++[[package]]
+++name =3D "litemap"
+++version =3D "0.7.4"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "4ee93343901ab17bd981295f2cf0026d4ad018c7c31ba84549a4ddbb47a=
+45104"
+++
++ [[package]]
++ name =3D "locale_config"
++ version =3D "0.3.0"
++@@ -2258,6 +2404,17 @@ dependencies =3D [
++  "unicode-ident",
++ ]
++=20
+++[[package]]
+++name =3D "synstructure"
+++version =3D "0.13.1"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "c8af7666ab7b6390ab78131fb5b0fce11d6b7a6951602017c35fa828007=
+08971"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++]
+++
++ [[package]]
++ name =3D "system-deps"
++ version =3D "6.2.2"
++@@ -2371,6 +2528,16 @@ dependencies =3D [
++  "time-core",
++ ]
++=20
+++[[package]]
+++name =3D "tinystr"
+++version =3D "0.7.6"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "9117f5d4db391c1cf6927e7bea3db74b9a1c1add8f7eda9ffd5364f40f5=
+7b82f"
+++dependencies =3D [
+++ "displaydoc",
+++ "zerovec",
+++]
+++
++ [[package]]
++ name =3D "tinytemplate"
++ version =3D "1.2.1"
++@@ -2453,32 +2620,17 @@ version =3D "0.1.4"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++ checksum =3D "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480a=
+b9a94"
++=20
++-[[package]]
++-name =3D "unicode-bidi"
++-version =3D "0.3.15"
++-source =3D "registry+https://github.com/rust-lang/crates.io-index"
++-checksum =3D "08f95100a766bf4f8f28f90d77e0a5461bbdb219042e7679bebe79004fe=
+d8d75"
++-
++ [[package]]
++ name =3D "unicode-ident"
++ version =3D "1.0.12"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++ checksum =3D "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0=
+fee4b"
++=20
++-[[package]]
++-name =3D "unicode-normalization"
++-version =3D "0.1.23"
++-source =3D "registry+https://github.com/rust-lang/crates.io-index"
++-checksum =3D "a56d1686db2308d901306f92a263857ef59ea39678a5458e7cb17f01415=
+101f5"
++-dependencies =3D [
++- "tinyvec",
++-]
++-
++ [[package]]
++ name =3D "url"
++-version =3D "2.5.2"
+++version =3D "2.5.4"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++-checksum =3D "22784dbdf76fdde8af1aeda5622b546b422b6fc585325248a2bf9f5e41e=
+94d6c"
+++checksum =3D "32f8b686cadd1473f4bd0117a5d28d36b1ade384ea9b5069a1c40aefed7=
+fda60"
++ dependencies =3D [
++  "form_urlencoded",
++  "idna",
++@@ -2491,6 +2643,18 @@ version =3D "0.7.6"
++ source =3D "registry+https://github.com/rust-lang/crates.io-index"
++ checksum =3D "09cc8ee72d2a9becf2f2febe0205bbed8fc6615b7cb429ad062dc7b7ddd=
+036a9"
++=20
+++[[package]]
+++name =3D "utf16_iter"
+++version =3D "1.0.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "c8232dd3cdaed5356e0f716d285e4b40b932ac434100fe9b7e0e8e935b9=
+e6246"
+++
+++[[package]]
+++name =3D "utf8_iter"
+++version =3D "1.0.4"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d5=
+2b6be"
+++
++ [[package]]
++ name =3D "utf8parse"
++ version =3D "0.2.2"
++@@ -2754,6 +2918,18 @@ dependencies =3D [
++  "memchr",
++ ]
++=20
+++[[package]]
+++name =3D "write16"
+++version =3D "1.0.0"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "d1890f4022759daae28ed4fe62859b1236caebfc61ede2f63ed4e695f3f=
+6d936"
+++
+++[[package]]
+++name =3D "writeable"
+++version =3D "0.5.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "1e9df38ee2d2c3c5948ea468a8406ff0db0b29ae1ffde1bcf20ef305bcc=
+95c51"
+++
++ [[package]]
++ name =3D "xml5ever"
++ version =3D "0.18.1"
++@@ -2776,6 +2952,30 @@ dependencies =3D [
++  "pkg-config",
++ ]
++=20
+++[[package]]
+++name =3D "yoke"
+++version =3D "0.7.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "120e6aef9aa629e3d4f52dc8cc43a015c7724194c97dfaf45180d2daf2b=
+77f40"
+++dependencies =3D [
+++ "serde",
+++ "stable_deref_trait",
+++ "yoke-derive",
+++ "zerofrom",
+++]
+++
+++[[package]]
+++name =3D "yoke-derive"
+++version =3D "0.7.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "2380878cad4ac9aac1e2435f3eb4020e8374b5f13c296cb75b4620ff8e2=
+29154"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++ "synstructure",
+++]
+++
++ [[package]]
++ name =3D "zerocopy"
++ version =3D "0.7.35"
++@@ -2797,6 +2997,49 @@ dependencies =3D [
++  "syn",
++ ]
++=20
+++[[package]]
+++name =3D "zerofrom"
+++version =3D "0.1.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "cff3ee08c995dee1859d998dea82f7374f2826091dd9cd47def953cae44=
+6cd2e"
+++dependencies =3D [
+++ "zerofrom-derive",
+++]
+++
+++[[package]]
+++name =3D "zerofrom-derive"
+++version =3D "0.1.5"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "595eed982f7d355beb85837f651fa22e90b3c044842dc7f2c2842c086f2=
+95808"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++ "synstructure",
+++]
+++
+++[[package]]
+++name =3D "zerovec"
+++version =3D "0.10.4"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "aa2b893d79df23bfb12d5461018d408ea19dfafe76c2c7ef6d4eba614f8=
+ff079"
+++dependencies =3D [
+++ "yoke",
+++ "zerofrom",
+++ "zerovec-derive",
+++]
+++
+++[[package]]
+++name =3D "zerovec-derive"
+++version =3D "0.10.3"
+++source =3D "registry+https://github.com/rust-lang/crates.io-index"
+++checksum =3D "6eafa6dfb17584ea3e2bd6e76e0cc15ad7af12b09abdd1ca55961bed9b1=
+063c6"
+++dependencies =3D [
+++ "proc-macro2",
+++ "quote",
+++ "syn",
+++]
+++
++ [[package]]
++ name =3D "zune-core"
++ version =3D "0.4.12"
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb b/meta/recipes-gn=
+ome/librsvg/librsvg_2.59.2.bb
+index 2bd8f7bf2b..36aaaf20e8 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb
+@@ -22,7 +22,8 @@ GIDOCGEN_MESON_ENABLE_FLAG =3D 'enabled'
+ GIDOCGEN_MESON_DISABLE_FLAG =3D 'disabled'
 =20
- SRC_URI[sha256sum] =3D "6765386e3ab87f569b276988742039baab087b2cdb01e809d7=
-4e74503c2faafe"
+ SRC_URI +=3D "file://0001-meson.build-do-not-force-disable-introspection-a=
+nd-v.patch \
+-            file://0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-=
+pi.patch"
++            file://0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-=
+pi.patch \
++            file://0001-update-url-crate-to-get-an-updated-idna-rustsec-20=
+24.patch;early=3D1"
+ SRC_URI[archive.sha256sum] =3D "ecd293fb0cc338c170171bbc7bcfbea6725d041c95=
+f31385dc935409933e4597"
 =20
--inherit pypi python_setuptools3_rust cargo-update-recipe-crates ptest-pyth=
-on-pytest
-+inherit pypi python_setuptools3_rust ptest-python-pytest vendor_cargo
-=20
- CARGO_SRC_DIR =3D "src/_bcrypt"
-=20
--require ${BPN}-crates.inc
--
- RDEPENDS:${PN}:class-target +=3D "\
-     python3-cffi \
-     python3-ctypes \
+ UPSTREAM_CHECK_REGEX =3D "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
 --=20
 2.39.5
 
