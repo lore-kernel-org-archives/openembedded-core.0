@@ -2,30 +2,30 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1037C021A8
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 15:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B78EC021AB
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 15:01:04 +0000 (UTC)
 Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.76])
  by mx.groups.io with SMTP id smtpd.web11.1128.1739286052946746079
  for <openembedded-core@lists.openembedded.org>;
  Tue, 11 Feb 2025 07:00:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=hD998XQx;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=q56IapI8;
  spf=pass (domain: weidmueller.com, ip: 52.101.66.76, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hujFoomGitZYlo7hC21R97EQQzg7Evn+iWwZTIk8+5OyJWcS5OItM+FhvIiLYtt52zA47682te+VqE6vWPNa7P8TAMgW/lmoJwaXCawcYjDWV2RdPU+XqP8Hkt64HnjbQEDTe2mN1DvGLUe+nOlug4RKFvAYFelVPbWfEDPQNMBDIcVnpxoSf8qoDD8R+7omEix8VGUSV/X8ZWItS4w8lbWFncm0dIk3G63ilE2RRf927SulH7OGm/T1aVrn4/64Z7fh+TyZbgs19b/QrYqUmrEF32p3/nzpwqrAXNdparo3PGUmSYkOk25it0RxE5ershTUjNB0GW/NmIKv+i0iwQ==
+ b=vwa7obfkBDVgg52R7//6N5RzJOqcm/K2xgKpf95WWXr061Hg3CyExVetNdc9jMZGRqYVo9RvY8Gu/y/K8mbj8EN/vUwhKsNMJsbapSmIChxMBul5YFrnVTk7cXrUuXLWyzkexxyU6vXitJ+cnVBD2EdGYfQOPGkFpsDGd40BXRVmKQMUvo2EgZMWirbrQiMhtKKRAo3roZzPlkIJ4wTN1elOU1/I1WvEtwIU5QUERq82AIPETMf9vLHlDxw5OjiSsZM9Pknkwe3goHV9CP7Aam2dWC4XEI3OzFYX0tQvWqH0DIg9k43VhR7m9j7TfR3drElQsCiQAr4vibFqig2CtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T1deegp1Z+WeOn3GWoZStnqVXh0olY1VIPn/1fi4qH0=;
- b=OC3GR/hBuhNcn2fQIitO2sQhO+Z6dJ9df5kj+cZ+VhAo5Ka0jX5ziBNWM0uMgSdiV+1tdb6dMN4roBXjQIWQnWEn1JDC8NTmOivtxdG8eLyGke/vNHCgWxtskRM6Hu2peov/0ABTdMBRn9gdPZerV+KlnGd4Uo1wBGy1f/wnZNBObG2ykXrEMeePfWLxcpjmY0Lya+Ro6CzGxmS8YonNgM5vbmP4TSsIkqjG18dP5D0pO2j30dHN2FokIfYjlxcPWW7vIAiLJutvATkGwUMepQW4sRpIP1sSKYt16W35270a4weaFlCz3OFmd7IGQUQGCWMoDvqJf4EdZWkojd4ZXQ==
+ bh=J4JXh/EGRc4IpqrK0PJnmUqNSOFgHWS6OMviH3LpTAU=;
+ b=HZp/gJZE2P8la17x+ZGQE4RisbMd6LjqmlXAzOdtMir3gSlAQJvR8hBtrfK6MYxmKAA1/R50AhcQNd3+5wSSpcFpc04LWFrUI/3jr/7OkQNukQ4Lc6FYjAeBX0oysOq8Pjs3E0qxw+rtIbPuZGjuM5U7eRnpOhTU+LuTDJIx4mgP1MKUDe2Z8tudhvomYWd/Zqy1GEja8P8er7Ky/HovwjRyI9jwf+pOF9AfhUPXjrV2+B16jOOteRmm+KXV/QY8GiVMK33sdP1L9zEOvVMABCCM7Ry4S3K+oVEMmZF4wcyBkN29eH/HLsbeF+WilL8wFF5wt0UnX/NuqrTYmrtMBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T1deegp1Z+WeOn3GWoZStnqVXh0olY1VIPn/1fi4qH0=;
- b=hD998XQxSr6jUssSQk7gUgQdc9mnWs3wpG5wE2XU5nNDnsi7mq6nHQ2rDXYxZG3MOLqv6zk+HsOVyFusTou8qhrJNh7iPAsulE2mCpybmE2z5/K+lsAIMpjwi90oZ26Y0JFKoXOm4G7dgPzxyDeI8itN4IMznitBxylagmjZVsYhyOhCSBbtaZLiTSL80KOmUt2IJmMDuUqrsRU20TjVTLz24U7FQvs98qtZzyxPpBAx6Argf/wECA9XFk2qAO3WkHZpyxeiqebCUMAV8vNQmSgEp7vFwSEu5SbFVV/5NA6RhMElCS+cR7Em+Vm8ePVSwID+r0vD4mee9zAzEFJxmQ==
+ bh=J4JXh/EGRc4IpqrK0PJnmUqNSOFgHWS6OMviH3LpTAU=;
+ b=q56IapI8Gf14cPk3Bny1XZoFqACQ5mbYo6g2DqMmJNJ/+jI231/yph3H2q4TgUZYZz5CxJHfe+ywgi2Kky+kNqoYsRHGRL1asqUOMIyU2gQj/usqtEzppTOoVxEULYA+IeMckwp94sGq7neWlejJ/6ob/1+LUPJIZLSOh1kM73WkYSoWT2cCiGn2s7sDyynWNBes8PTnVTVL32TVhz8fybPOEldIrhBiVqqmO2YVNyUtKc+Mrx5NGrSwgyVUySwiybAT6AIjnk8q4JMNrwy9I5KCrPmKsiJwbT4gAwelxPmHhV8rdrypQu8v0a8Zx8CKqdlxDDDu8u+YpzZN15zZrA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
@@ -40,9 +40,9 @@ Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [RFC PATCH 09/30] oeqa: oelib: add vendor tests
-Date: Tue, 11 Feb 2025 16:00:13 +0100
-Message-ID: <20250211150034.18696-10-stefan.herbrechtsmeier-oss@weidmueller.com>
+Subject: [RFC PATCH 08/30] lib: oe: vendor: add npm support
+Date: Tue, 11 Feb 2025 16:00:12 +0100
+Message-ID: <20250211150034.18696-9-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
@@ -54,383 +54,249 @@ X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|DU0PR08MB9396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 623c1584-9e4e-4494-d0ee-08dd4aacdf65
+X-MS-Office365-Filtering-Correlation-Id: a2d05ec9-f981-4936-1fbf-08dd4aacdf25
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|13003099007|38350700014;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?WteyXqQ/i6UIh7HsHzjVHP9rUqfgA8I3B/tFFyAvFkAPbV+JKuN3D5Vekp8c?=
- =?us-ascii?Q?gAamv2Iq60kO7BqHkkOVeoMKrTcD5ChC7db8m+e3k+v/OfuFtFjIeIZWZLUp?=
- =?us-ascii?Q?MlVak/QjGZqCyQxFRdBkXI5DjbaHATYGlLy9RkRxmuhxjRyq3DtX8ELYhsRy?=
- =?us-ascii?Q?G/cZXERJVOGPXIT7Obkvz1ZmBrblyNx+UjxWMcy503AyF/frGDC0C3DbrM+D?=
- =?us-ascii?Q?ro41NIXjqZvL5bfU8/YIc0OsGaVEVcWBmjyu9JmFP06S3WX+KqdCcaQvvLrt?=
- =?us-ascii?Q?z8yDCTE3qDctj2E2AJ55z6LD0XOjZ0Qqk8kjVm+leO/OcKVVHRXvBWt3MzQb?=
- =?us-ascii?Q?YVSJV//wi18vszu4dfssuiUKz1VpAfNxvfiB+61wIquHKVGYP9HC/kAPJ/Sy?=
- =?us-ascii?Q?X0x8JfiLlrZ5SGNTPJGvvx9B71DBAcw1ZAeOHsyexXJWwvkYsPaU1nzRdi44?=
- =?us-ascii?Q?7Wj9/by6xtuTcSRrltMHxY0oMk4poyoXFvB34ZqP2hcBAzu9kMQHAH+SYo5M?=
- =?us-ascii?Q?npCRxvOof3748q5qpaMhDq5A0Mgzparrgkl5ef4Yk+TWeDb1ul/C414aYWrf?=
- =?us-ascii?Q?IG8hkcAuRvQYyPIvTpGVa0a8U2x4u7DQvFT/V8Mwh7K1xy/dSVoZ4qTb+Vte?=
- =?us-ascii?Q?AAeQrIpAtL6NcYg6XqixpxQ6ykUX/s1qlwtkRk+1SFn4vOiDeqqNEt2mbLVH?=
- =?us-ascii?Q?g0uBDuScVr7TzeBPCAxBwhsLEUpH3iTHCvi57AMTmvGUBNxiheiQf4Xqaoy6?=
- =?us-ascii?Q?D0PM3g9feSvKqsIGisnhVQyP7uUtF3/ITHpppMYmvB2D1v2LGXYLWoMGdQPO?=
- =?us-ascii?Q?Bhrgau2RuuqL5mwVAAna2yRZyIRNjM0bPG+mXBOjmpfzjfscFsmmgDEdCd1u?=
- =?us-ascii?Q?2mtFqA4Iqife/bNBMVlXRQ3jAcQFdTJmZlu4rUQwCmw1WV6nxTvSNVPALbls?=
- =?us-ascii?Q?Jefi2QYNU7xOW7Pne0fTcpdxQJYdBqstXrhJp8GaD6c1wgnCAZg9WTIo3gqG?=
- =?us-ascii?Q?2WszQxINxcWLgDE30Z3HSS71+mV72kixAqsEmqlQW1n5uv3L/gvRAijvdfJD?=
- =?us-ascii?Q?WYUIyK17ZKaQQtMY2famm9ZpoMhplq42OCYK/AVz8ZIxzAP6mOJDaG56UQlB?=
- =?us-ascii?Q?b2rJ1BXtsbSed1q6tW7ywns3r9LbDDngupIFrKkn20oM2k9Pm4nd+Pth5i5S?=
- =?us-ascii?Q?ORWFOeGri/CJDiIa7PeLsGQ+8r1csnAVRCMfNJpCiT/IuInZppn97sYXvcR4?=
- =?us-ascii?Q?wPRIUklxwvX3MVFvWwILwhPqE77iFV9BBRiN7QlfIHVUBISnHq5mxEcqxvwn?=
- =?us-ascii?Q?T1H7ON2YukdBgwmclgVjfR2dJoAJ9b3nux3XYxUdSrRb3fCs0NPKxRduPEcV?=
- =?us-ascii?Q?qc46YeWTZ4gKBlYB8pOQhsPez7kT?=
+	=?us-ascii?Q?gs9O+HQleI0pGDxaXi4ci04E5PJyFUnK/NHXbEErt6+5lHG3dwWSbWm0CpH7?=
+ =?us-ascii?Q?RLmZFlmmeJuVsH9W7HGYApAJ8L1YS6mleAhX66iLli27lC0fV8DwwRNs4Yss?=
+ =?us-ascii?Q?IkxYpUImxguoIfwkLMbiVyPZXzlZ7iJ9XiAnl8Ud+Eyht0+dLlNJ+MwB95Vt?=
+ =?us-ascii?Q?tHuJOBBM/be1HB4sLZstoljBDbiZSWk80WT7xK33NLc9YsRz055OkdMj0OYs?=
+ =?us-ascii?Q?1KFBWnG9R6jEc/b9CRHWxWsx36zKzt44kqTu6MFH7SW6FWAwgTjlzrjsizwK?=
+ =?us-ascii?Q?XqCfb3b/PzcvjlQPeVYb6wqlPHBBcTwxhgoXM1TZgn5amuf0TPz6Dz5MG6B2?=
+ =?us-ascii?Q?om5EaMiSM7s/cnJiU4A8NpLepwpC93K+GSO+KV0npt+QwPvGu7WtQ0j+mXXT?=
+ =?us-ascii?Q?eIghqqcsLEpw/mlkNT+oqPA3vfyK4RgvrlW/qAf8n9+56yMWzwYvoU5YFA+1?=
+ =?us-ascii?Q?CrSeyepd4Ol0iab9F5qWNKLq1W97RrclCqHNiKHveKr9kqoMS49WJKB2Eh7t?=
+ =?us-ascii?Q?BD/l5bw8KRbkI1RlQJc4+Iq0pxhCPyyNbdZqqcs+sLG0d9q2X5KN+HpswQyk?=
+ =?us-ascii?Q?8/vQDEXoNMQzWk80+aotPPv2ch4Y+KNwPK4IOlvlOwhWlTLajOFHD0ytMmlk?=
+ =?us-ascii?Q?iQwzN7pPxtdbszbLFeIQyYltBGGDsFR4uhf4Uo/YkwVEVJOABgCtB4Funzgz?=
+ =?us-ascii?Q?31zUWQXXBwLkkHSqZz5/MOLQqf+snpMby08e79BIaaBxmF4gaSpgjGIfgTSU?=
+ =?us-ascii?Q?uFc2uPsW/PfA5VP1K+o9CTfMngvBBuUYUTvc+T5FaleCTkh2v/OsLKyhBXQW?=
+ =?us-ascii?Q?x+MP4NCvN5q2Hud1eTum0PB1s1N2zFdWjvCIKbWqrJtLNuTG2FTKJklDjKLx?=
+ =?us-ascii?Q?WBdVptpD8OvWL8dKKr+BhvIUyRkMW9JrvTEwOGckAmjBxLaYmrVLGgOkeFw5?=
+ =?us-ascii?Q?aQ3jfbZBmB7HUIE2beCTwFcKqZzD/nD928r9DhsRS4cjdCtt29u3sCnjFxXK?=
+ =?us-ascii?Q?fPQ1HdbViAPh53Q6OturOjepp3m8ZEX5I5NTQaggoza4vvEz0HQoWkjay1bc?=
+ =?us-ascii?Q?QJG6q/6M1JAIHq2Poettv5s+XjkM9GSUOzdGaZdyVtYx1mMsZO4OYkoJ1TwJ?=
+ =?us-ascii?Q?cqIJapYQCfqbnpiuZnkDPFvuYMdj6MDVxei659BYFj8h2+Wzi+QZxVAvqk7X?=
+ =?us-ascii?Q?YoBpBXOrm2c9mv+MiaAMYbK4Lavt/jSbSUgrAXwSQ87wJ+cJMhkTNMGmH0JW?=
+ =?us-ascii?Q?em832z85M8AWh52mTopFshgSYp7IC7tKJ0j8Qp6jGviTqbTqzM3jZSdGgiFl?=
+ =?us-ascii?Q?Zcq1j1mXQrsnwcR9ABlQy/Z+c3FT6mqXHo128OBRigcyFzuiwL4qSO8AcuD/?=
+ =?us-ascii?Q?GBujMvClCzKGF/kpoVSRfLJnvIGm?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(13003099007)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1LRiCCkhPGb9tJWaHcJu5/oteH6NKGna9jM/JQtmns1h+UEoQe92XZKupYHs?=
- =?us-ascii?Q?lcUCn9+ACHkarM/Xn457Cr9WPnx2KZnjVfu3SnyEFFzhiZNDiXedEKamaXCh?=
- =?us-ascii?Q?r7/wpz1m/Pp2kzIUOkjm6ZqGDlBHPxNWRv+2ncm2R2/7m0fZOm4//O546N78?=
- =?us-ascii?Q?tRlgwi+U43Rx1gXy+9PJPlyWdez2gejcR4LIPRwIzan6kxiHNtynKbV3nk4a?=
- =?us-ascii?Q?zEtW7GeKQZiL8FJmWVNK3StVOtSm8uXw3re9qIUvpjENKVdNEs8e0F3qpiUj?=
- =?us-ascii?Q?dvKT4F9SNhIlbILqlRvFeHSTgG2enFAosL5ojL3zHdtxsO3ucf9X3ISJU05W?=
- =?us-ascii?Q?E1RobJJgVeWHBpFeO+pQH3jCkCR4XxQH/QuDcQOtmrIWN8VPwWJzocFbkMYT?=
- =?us-ascii?Q?0quUIrRtdMECaCs2XuXlYForNMcNCrl5AHGgWWlSAe602YbnWCYiS60TGzPg?=
- =?us-ascii?Q?dgg9WFR1izH6pe0YdWkPzbBHwGc1TjPZdvMQHTNFdm62p2a9uDtysG2EuvXy?=
- =?us-ascii?Q?txcujagIe7Oq0tdRhxvas9pDW93nBeFtkBp/cK9LpBq5OPDb1GYDi3Gv6L8+?=
- =?us-ascii?Q?KEGIASrph0ym+S5P9Lg9PHNRMtB9pMetcLF4xlRFZpnn74mUm0sxXx4+3gHQ?=
- =?us-ascii?Q?BjdHKbPrebPCNpWjHWR0AlhPGFasjBRLJ2U5TR0uukvtAWCxjC4DHEnQDGAx?=
- =?us-ascii?Q?JaVvsgslVGDmXGnIqUEg9nNh68UAjZQO22Z22B0Nsw4wVX/VFcdLVEaDHUyw?=
- =?us-ascii?Q?BuCTpzAwzC5aKpzfthlfz4krYHQHPXvUEieqz4OcE+yTwz7rG01GyfV2Xwrf?=
- =?us-ascii?Q?Qenh1OEJ5EFN52VoprzgDncbcAyxo8tsvuuLlA0dU68tgPBgLKfkV6KIxS7P?=
- =?us-ascii?Q?yJ26pxh7bLohSyEmMpWiZmuNG4uJB3/gXAwMWogHRu9/43VngcH3Y0pJQ1Mg?=
- =?us-ascii?Q?SjmJhb1pFSccp2cNZ+6Gffp0WKCNOkTe8ghyfNKLl4TGEhqjXXJixfm9kqMT?=
- =?us-ascii?Q?2mmCq6bJvgkwv0af6qgoktl0xiYXVlwobCz+CHhcaHuziEvsL/q/MpyWMRCI?=
- =?us-ascii?Q?EEsoHYdJONLsQuk0YbGKl9Pk+pf0evR2LqMJrf/qyY+I7hO7i1YblssJAoUP?=
- =?us-ascii?Q?XlRNCJwOEYcs2241jhqChsf/DlbA9zRxixq51pPRn03oLd044hGkksYD9D13?=
- =?us-ascii?Q?EBB4qPERTmk3fdPPYRm1Ith7wZdwgSBXJrNNd6XNlwbzwQVLxYuZ6fULP3Co?=
- =?us-ascii?Q?TF1UnVAy0OS4DELvM4ZD58EAWeuHNe0h9KLq30K2Mw05sTGSXYpIKROllpxF?=
- =?us-ascii?Q?5BwOpww0wQlNFlj2npmJEe0AK2XtKf2in7p0K19sfLb6eIry9gnZdHKyar8/?=
- =?us-ascii?Q?ZMSo1GTcUXOf63qx8wsNdUHWsb49WngDRyGOEkT16ZObT/gHI9j8XMY7/eku?=
- =?us-ascii?Q?YoJMqhHIUZiNdy25KZ7NqY7Gt6u06qj/w6gu+JEs0SVgh2jjHmpHHGdwPsND?=
- =?us-ascii?Q?Qb9YKicXaAtSIn8bMWJR2zfRjY2rVo5+XdBq7mAOlmCWtLqhY4x6LTYEBLH8?=
- =?us-ascii?Q?GBy0bP2IV0aKRSHc5mQw4cFiblc07kswwL+H8UNlMCBt79X5ZchieLBO2PIZ?=
- =?us-ascii?Q?hg=3D=3D?=
+	=?us-ascii?Q?97NdLSPiXn5f3XfXLtIKFgMfJYa/Q4wyqYl7giiHZKekXB/pBZRYoyymF5wk?=
+ =?us-ascii?Q?653QRQQBPSQun/QAvO5idtN4LgPWCinLszyG26RTUu+nkuP/zhHccKW/TIGK?=
+ =?us-ascii?Q?F5a/qj/d1W933O+pjwEikaMPhdA/5dH/kIjrnzfbrEG9ZRybTqn+y1wimG7Y?=
+ =?us-ascii?Q?jILmMPazXCe/+jlaossaWL8Awrpg5/VwYmr1Iwnsy3XLqAHl8aL+pTLrr0KD?=
+ =?us-ascii?Q?WU04kwLG6lleP5Z15ORUHwgrozn3KprlRasj90Hajmmz1k18cUN5qLlrx1Xb?=
+ =?us-ascii?Q?4xdzxHUh4ii/iYJnl5k2amGmOCAqoRv1LmACMefhYE9UK7I6KsbYaGP6//Zl?=
+ =?us-ascii?Q?yvX3C7BLezwyKAkCUs5L/ie+dvJ/I5vdlscZWb9Gb2nP5W7238XuhF4LAFIE?=
+ =?us-ascii?Q?uFkM2XYVTLDWfZzeMfd/NrZQ3lwr2A4cEJnpPNII4BX3mJTnvX9XX5XGqAw8?=
+ =?us-ascii?Q?ZT5L+786Wb0Jhlor2XiCRvHlyURVPWHs/qyMFh4tShQjqz78fFSt86SEUT3F?=
+ =?us-ascii?Q?PmFmHYmEhPtkoRXNmBNomuyesZfgYAayuNTo0/7HMPiT7fscL7ZpQ0RrJjtO?=
+ =?us-ascii?Q?HvhDdnF+kK95SEtrduAbQJeFiuzonPf4Db1Nym/X5bn4AbxBwqTAva5H7MhE?=
+ =?us-ascii?Q?g3WWa0KL4Clwd0HbzqkXOYBl6fjixJjq6FDNJ7kX0NUhh4OlDXpuwsxoaQlv?=
+ =?us-ascii?Q?SJqhhB+8jYsKOYfbjxA+9mTvL+E7pFfx8wYb1RnwZVcgGMtmOesoL+ZhuC59?=
+ =?us-ascii?Q?CfPv0dNpA8KrNVC5sVMKuifyjUMEEFfEiEjb+evW8SPQJSxrvMA2f1fxgHq8?=
+ =?us-ascii?Q?r5DHL93ggnC8Fp3YQ+XdCVG+qKgW1Xcz7By4GGtU2dfa7NoGcAgn5AvX/Lah?=
+ =?us-ascii?Q?/yPiQpVM8/pkHQJ4tEnXTzv9SzXRbpdH+ix7GOG1OQAtgdPcg91UTMVbZzqs?=
+ =?us-ascii?Q?an2TxUnOgav2TdZV3ElTFapDC6fY+FohcXt8PvEmnUmD1UzTxmCbDNrw1sKH?=
+ =?us-ascii?Q?9Gz7TJKxQITbL2jfpS3PJHM9qTzUm+l824p5kQM3cl4FHJZdX1xvr1Wx/krO?=
+ =?us-ascii?Q?fIhQWfp50FSrFkdC7jTBxPi220KIG04UgTNHZnYQAC7p9uAd/Ra7aDPeJvfL?=
+ =?us-ascii?Q?CkYizoRU17TAKPNx8rW5wAy2A1TyefcmE7z4vcBhCDhhpPOYdEIrKfjxuVfX?=
+ =?us-ascii?Q?G+k1qWWeXgketyknXhUpYNcy+t8iaH7iFH2PoUeX120fthW7JHMxK6jdYm8K?=
+ =?us-ascii?Q?jHTzyaN4MnYTbSYwmDpIiMIjYt+5V3+9/bQOyjxOYNNiUDE/6XzS+xA1sjG8?=
+ =?us-ascii?Q?xNAMVLcRbpbGY62acxhALn1cDNzWfrEssNtYpbDSOdgGogN+8UFxA4OvXcFg?=
+ =?us-ascii?Q?O0Q63Ao+QD3cg3nybU91HJE0Szhy7+T0uSDRkZEMthAJvdjW2oOMHtdyN4A/?=
+ =?us-ascii?Q?byf2ki6/en7wgNxvq5NzFMkfbF1rakfvDICQhS0HExjMU+TPtrZELxC2YhfS?=
+ =?us-ascii?Q?nAfpqYWMOONZG77dUbajkMPBcqaFY4O2reP0LuTtBeRQV7fRm2rbQjo4OoLd?=
+ =?us-ascii?Q?+TZz9bkyrA1PNOhePpqLLSRSY7hmeq2ZOoARBD7s2jcpz3L88G9FbO5U8QY4?=
+ =?us-ascii?Q?IQ=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 623c1584-9e4e-4494-d0ee-08dd4aacdf65
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2d05ec9-f981-4936-1fbf-08dd4aacdf25
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:00:50.0642
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 15:00:49.6329
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3hp8Uf7LHkbZp70XxfbSSXZVU6qdsu+5eYRVA8Vc1VIgb3b6WkXPHz/y1rokb5q8QveSWtOXdwdJgK3FHn6RXQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: qrWE5IO3dQWqhBznBQlGMaknLGXl9FrSzD9IUNCTcTmxoVgQIJQ58jZduzpnph2gcBLXQuIuH5zYFRbRrHwQuw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9396
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:01:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211135
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:01:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211133
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Add tests for the vendor package
+Add a vendor module for npm to resolve dependencies from a
+package-lock.json file.
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
 
- meta/lib/oeqa/selftest/cases/oelib/vendor.py | 237 +++++++++++++++++++
- 1 file changed, 237 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/oelib/vendor.py
+ meta/lib/oe/vendor/npm.py | 141 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 141 insertions(+)
+ create mode 100644 meta/lib/oe/vendor/npm.py
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/vendor.py b/meta/lib/oeqa/s=
-elftest/cases/oelib/vendor.py
+diff --git a/meta/lib/oe/vendor/npm.py b/meta/lib/oe/vendor/npm.py
 new file mode 100644
-index 0000000000..e245b25098
+index 0000000000..6dcd756dcd
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/oelib/vendor.py
-@@ -0,0 +1,237 @@
-+#
-+# Copyright OpenEmbedded Contributors
++++ b/meta/lib/oe/vendor/npm.py
+@@ -0,0 +1,141 @@
++# Copyright (C) 2024-2025 Weidmueller Interface GmbH & Co. KG
++# Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 +#
 +# SPDX-License-Identifier: MIT
 +#
++import base64
++import glob
++import json
++import os
++import shutil
++import urllib.parse
++import bb
++import oe.vendor
++from bb.fetch2 import URI
++from . import ResolveError
 +
-+import io
-+import tempfile
++DEFAULT_REGISTRY =3D "https://registry.npmjs.org"
++VENDOR_TYPE =3D "npm"
 +
-+from unittest.case import TestCase
-+from oe.vendor import cargo, go, npm
++def determine_uri_path(path, name, version):
++    return f"{path.rstrip('/')}/{name}/-/{name.split('/')[-1]}-{version}.t=
+gz"
 +
-+class VendorTestCase(TestCase):
-+    def setUp(self):
-+        self._t =3D tempfile.TemporaryDirectory()
-+        self.tmpdir =3D self._t.name
-+        self.addCleanup(self._t.cleanup)
++def determine_downloadfilename(name, version):
++    filename =3D f"{name.replace('/', '-')}-{version}.tgz"
++    return oe.vendor.determine_downloadfilename(VENDOR_TYPE, filename)
 +
-+class TestCargoVendor(VendorTestCase):
-+    def create_cargo_lock_file(self, data):
-+        import tomllib
-+        filename =3D os.path.join(self.tmpdir, "Cargo.lock")
-+        with open(filename, "w") as f:
-+            for package in data.get("package", []):
-+                f.write("\n[[package]]\n")
-+                for key in package.keys():
-+                    f.write(f'{key} =3D "{package[key]}"\n')
-+        return filename
++def extend_uri(uri, name, version, subdir, checksum_name=3DNone,
++               checksum_value=3DNone):
++    params =3D uri.params
++    params["subdir"] =3D subdir
++    params["downloadfilename"] =3D determine_downloadfilename(name, versio=
+n)
++    params["striplevel"] =3D "1"
++    if checksum_name and checksum_value:
++        params[checksum_name] =3D checksum_value
 +
-+    def test_valid(self):
-+        filename =3D self.create_cargo_lock_file({
-+            "package": [
-+                {
-+                    "name": "regex",
-+                    "version": "1.4.0",
-+                    "source": "registry+https://github.com/rust-lang/crate=
-s.io-index",
-+                    "checksum": "36f45b719a674bf4b828ff318906d6c133264c793=
-eff7a41e30074a45b5099e2"
-+                }, {
-+                    "name": "regex",
-+                    "version": "1.5.0",
-+                    "source": "git+https://github.com/rust-lang/regex.git#=
-9f9f693768c584971a4d53bc3c586c33ed3a6831"
-+                }
-+            ]
-+        })
-+        expected_uris =3D [
-+            "https://proxy.com/cargo/api/v1/crates/regex/1.4.0/download;"
-+                "name=3Dregex;"
-+                "version=3D1.4.0;"
-+                "type=3Dcargo;"
-+                "subdir=3Ddummy-4.5.6/vendor;"
-+                "downloadfilename=3Dcargo/regex-1.4.0.crate;"
-+                "sha256sum=3D36f45b719a674bf4b828ff318906d6c133264c793eff7=
-a41e30074a45b5099e2",
-+            "git://github.com/rust-lang/regex.git;"
-+                "protocol=3Dhttps;"
-+                "nobranch=3D1;"
-+                "subdir=3Ddummy-4.5.6/vendor/regex-1.5.0;"
-+                "rev=3D9f9f693768c584971a4d53bc3c586c33ed3a6831"
-+        ]
-+        uris =3D cargo.resolve_src_uris(filename, "https://proxy.com/cargo=
-",
-+                                      "dummy-4.5.6", "vendor")
-+        self.assertListEqual(uris, expected_uris)
++def determine_src_uri(registry, name, version, subdir):
++    uri =3D URI(registry)
++    uri.path =3D determine_uri_path(uri.path, name, version)
++    extend_uri(uri, name, version, subdir)
++    return str(uri)
 +
-+#
-+# Go
-+#
-+class TestGoVendor(VendorTestCase):
-+    def create_go_sum_file(self, data):
-+        filename =3D os.path.join(self.tmpdir, "go.sum")
-+        with open(filename, 'w') as f:
-+            for module_path, version, hash in data:
-+                f.write(f"{module_path} {version} {hash}\n")
-+        return filename
++def parse_lock_file(lock_file, function, dev, bundle):
++    try:
++        with open(lock_file, "r") as f:
++            package_lock =3D json.load(f)
++    except Exception as e:
++        raise ResolveError(f"Invalid file: {str(e)}", lock_file)
 +
-+    def test_resolve_src_uris(self):
-+        filename =3D self.create_go_sum_file([
-+            (
-+                "github.com/Azure/azure-sdk-for-go/sdk/storage/azblob",
-+                "v1.0.0",
-+                "h1:u/LLAOFgsMv7HmNL4Qufg58y+qElGOt5qv0z1mURkRY=3D"
-+            ), (
-+                "gopkg.in/ini.v1",
-+                "v1.67.0/go.mod",
-+                "h1:pNLf8WUiyNEtQjuu5G5vTm06TEv9tsIgeAvK8hOrP4k=3D"
-+            )
-+        ])
-+        expected_src_uris =3D [
-+            "https://proxy.com/go/github.com/!azure/azure-sdk-for-go/sdk/s=
-torage/azblob/@v/v1.0.0.zip;"
-+                "name=3Dgithub.com/Azure/azure-sdk-for-go/sdk/storage/azbl=
-ob;"
-+                "version=3Dv1.0.0;"
-+                "vendor=3Dgo;"
-+                "subdir=3Ddummy-cache/cache/download/github.com/!azure/azu=
-re-sdk-for-go/sdk/storage/azblob/@v;"
-+                "downloadfilename=3Dgo/github.com/!azure/azure-sdk-for-go/=
-sdk/storage/azblob/@v/v1.0.0.zip;"
-+                "unpack=3D0;"
-+                "goh1sum=3Dbbf2cb00e160b0cbfb1e634be10b9f839f32faa12518eb7=
-9aafd33d665119116",
-+            "https://proxy.com/go/gopkg.in/ini.v1/@v/v1.67.0.mod;"
-+                "name=3Dgopkg.in/ini.v1;"
-+                "version=3Dv1.67.0;"
-+                "subdir=3Ddummy-cache/cache/download/gopkg.in/ini.v1/@v;"
-+                "downloadfilename=3Dgo/gopkg.in/ini.v1/@v/v1.67.0.mod;"
-+                "unpack=3D0;"
-+                "goh1sum=3Da4d2dff16522c8d12d423baee46e6f4e6d3a4c4bfdb6c22=
-0780bcaf213ab3f89"
-+        ]
-+        src_uris =3D go.resolve_src_uris(filename, "https://proxy.com/go",
-+                                       "dummy-cache")
-+        self.assertListEqual(src_uris, expected_src_uris)
++    packages =3D package_lock.get("packages")
++    if not packages:
++        raise ResolveError("Invalid file format", lock_file)
 +
-+#
-+# npm
-+#
-+class TestNpmVendor(VendorTestCase):
-+    def create_package_lock_file(self, data):
-+        import json
-+        filename =3D os.path.join(self.tmpdir, "package-lock.json")
-+        with open(filename, 'w') as f:
-+            json.dump(data, f)
-+        return filename
++    for location, data in packages.items():
++        # Skip empty main and local link target packages
++        if not location.startswith('node_modules/'):
++            continue
++        elif not dev and data.get("dev", False):
++            continue
++        elif not bundle and data.get("inBundle", False):
++            continue
++        name =3D location.split('node_modules/')[-1]
++        function(name, data, location)
 +
-+    def test_resolve_src_uris(self):
-+        filename =3D self.create_package_lock_file({
-+            "packages": {
-+                "node_modules/array-flatten": {
-+                    "version": "1.1.1",
-+                    "resolved": "https://registry.npmjs.org/array-flatten/=
--/array-flatten-1.1.1.tgz",
-+                    "integrity": "sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=3D"
-+                },
-+                "node_modules/array-flatten/node_modules/@nodelib/fs.stat"=
-: {
-+                    "version": "2.0.5",
-+                    "resolved": "https://registry.npmjs.org/@nodelib/fs.st=
-at/-/fs.stat-2.0.5.tgz",
-+                    "integrity": "sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhI=
-p7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A=3D=3D"
-+                },
-+                "node_modules/cookie": {
-+                    "resolved": "git+https://github.com/jshttp/cookie.git#=
-aec1177c7da67e3b3273df96cf476824dbc9ae09"
-+                },
-+                "node_modules/jsdoc-nr-template": {
-+                    "version": "1.0.0",
-+                    "resolved": "git+ssh://git@github.com/node-red/jsdoc-n=
-r-template.git#3c7c8f96d585c7c5918a2e63519310e1297e162d"
-+                },
-+                "node_modules/accepts": {
-+                    "version": "1.3.8",
-+                    "resolved": "https://registry.npmjs.org/accepts/-/acce=
-pts-1.3.8.tgz",
-+                    "integrity": "sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LA=
-uT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw=3D=3D",
-+                    "inBundle": True
-+                },
-+                "node_modules/string-width-cjs": {
-+                    "name": "string-width",
-+                    "version": "4.2.3",
-+                    "resolved": "https://registry.npmjs.org/string-width/-=
-/string-width-4.2.3.tgz",
-+                    "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRN=
-ihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=3D=3D"
-+                },
-+                "node_modules/example-package": {
-+                    "name": "example-package",
-+                    "version": "1.2.3",
-+                    "resolved": "https://example.com/npm/example-package/-=
-/example-package-1.2.3.tgz",
-+                    "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRN=
-ihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=3D=3D"
-+                },
-+                "node_modules/tarball": {
-+                    "name": "tarball",
-+                    "resolved": "https://example.com/tarball.tgz",
-+                    "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRN=
-ihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=3D=3D"
-+                },
-+                "node_modules/content-type": {
-+                    "version": "1.0.4",
-+                    "resolved": "https://registry.npmjs.org/content-type/-=
-/content-type-1.0.4.tgz",
-+                    "integrity": "sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob=
-89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA=3D=3D",
-+                    "dev": True
-+                },
-+                "node_modules/karma": {
-+                    "resolved": "",
-+                    "link": True
-+                },
-+            }
-+        })
-+        expected_common_src_uris =3D [
-+            "https://registry.com/npm/array-flatten/-/array-flatten-1.1.1.=
-tgz;"
-+                "name=3Darray-flatten;"
-+                "version=3D1.1.1;"
-+                "vendor=3Dnpm;"
-+                "subdir=3Ddummy-4.5.6/node_modules/array-flatten;"
-+                "downloadfilename=3Dnpm/array-flatten-1.1.1.tgz;"
-+                "striplevel=3D1;"
-+                "sha1sum=3D9a5f699051b1e7073328f2a008968b64ea2955d2",
-+            "https://registry.com/npm/@nodelib/fs.stat/-/fs.stat-2.0.5.tgz=
-;"
-+                "name=3D@nodelib/fs.stat;"
-+                "version=3D2.0.5;"
-+                "vendor=3Dnpm;"
-+                "subdir=3Ddummy-4.5.6/node_modules/array-flatten/node_modu=
-les/@nodelib/fs.stat;"
-+                "downloadfilename=3Dnpm/@nodelib-fs.stat-2.0.5.tgz;"
-+                "striplevel=3D1;"
-+                "sha512sum=3D46484f3e9db3aea0c0400ff68cd867ced70f025bfae17=
-761229edaef8e78039a2f23b06e93182decc5fbb9dc00bb7ce0d437293d4d2bcf7555d5279a=
-aaf638f8",
-+            "git://github.com/jshttp/cookie.git;"
-+                "protocol=3Dhttps;nobranch=3D1;"
-+                "subdir=3Ddummy-4.5.6/node_modules/cookie;"
-+                "rev=3Daec1177c7da67e3b3273df96cf476824dbc9ae09",
-+            "git://github.com/node-red/jsdoc-nr-template.git;"
-+                "protocol=3Dhttps;nobranch=3D1;"
-+                "subdir=3Ddummy-4.5.6/node_modules/jsdoc-nr-template;"
-+                "rev=3D3c7c8f96d585c7c5918a2e63519310e1297e162d",
-+            "https://registry.com/npm/string-width/-/string-width-4.2.3.tg=
-z;"
-+                "name=3Dstring-width;"
-+                "version=3D4.2.3;"
-+                "vendor=3Dnpm;"
-+                "subdir=3Ddummy-4.5.6/node_modules/string-width-cjs;"
-+                "downloadfilename=3Dnpm/string-width-4.2.3.tgz;"
-+                "striplevel=3D1;"
-+                "sha512sum=3Dc0ac90450a63274b08a7ad84ad265d1ac8cc256b1aa79=
-a1136284786ee86ec954effd8c807a5327af2feb57b8eaab9e0f23fdcc4a4d6c96530bd24eb=
-8a2673fe",
-+            "https://example.com/npm/example-package/-/example-package-1.2=
-.3.tgz;"
-+                "name=3Dexample-package;"
-+                "version=3D1.2.3;"
-+                "vendor=3Dnpm;"
-+                "subdir=3Ddummy-4.5.6/node_modules/example-package;"
-+                "downloadfilename=3Dnpm/example-package-1.2.3.tgz;"
-+                "striplevel=3D1;"
-+                "sha512sum=3Dc0ac90450a63274b08a7ad84ad265d1ac8cc256b1aa79=
-a1136284786ee86ec954effd8c807a5327af2feb57b8eaab9e0f23fdcc4a4d6c96530bd24eb=
-8a2673fe",
-+            "https://example.com/tarball.tgz;"
-+                "name=3Dtarball;"
-+                "subdir=3Ddummy-4.5.6/node_modules/tarball;"
-+                "striplevel=3D1;"
-+                "sha512sum=3Dc0ac90450a63274b08a7ad84ad265d1ac8cc256b1aa79=
-a1136284786ee86ec954effd8c807a5327af2feb57b8eaab9e0f23fdcc4a4d6c96530bd24eb=
-8a2673fe"
-+        ]
-+        expected_dev_src_uris =3D [
-+            "https://registry.com/npm/content-type/-/content-type-1.0.4.tg=
-z;"
-+                "name=3Dcontent-type;"
-+                "version=3D1.0.4;"
-+                "vendor=3Dnpm;"
-+                "subdir=3Ddummy-4.5.6/node_modules/content-type;"
-+                "downloadfilename=3Dnpm/content-type-1.0.4.tgz;"
-+                "striplevel=3D1;"
-+                "sha512sum=3D8483f71043ecf2d07d013d4bf8d52ab70380a6ce26936=
-6686fcf4c5973078c75a0f668a517f8f8a2c9e740b5c108114193fb6f206fed51cf66394262=
-3c184f5c"
-+        ]
-+        for dev in [False, True]:
-+            src_uris =3D npm.resolve_src_uris(filename,
-+                                            "https://registry.com/npm",
-+                                            "dummy-4.5.6", dev)
-+            expected_src_uris =3D expected_common_src_uris
-+            if dev:
-+                expected_src_uris +=3D expected_dev_src_uris
-+            self.assertListEqual(src_uris, expected_src_uris)
++def resolve_src_uris(lock_file, registry, base_subdir, dev=3DFalse):
++    src_uris =3D []
++
++    def resolve_src_uri(name, data, location):
++        integrity =3D data.get("integrity")
++        resolved =3D data.get("resolved")
++        name =3D data.get("name", name)
++        version =3D data.get("version")
++        link =3D data.get("link", False)
++
++        if integrity:
++            algorithm, value =3D integrity.split("-", maxsplit=3D1)
++            checksum_name =3D f"{algorithm}sum"
++            checksum_value =3D base64.b64decode(value).hex()
++
++        if resolved.startswith(DEFAULT_REGISTRY):
++            resolved =3D resolved.replace(DEFAULT_REGISTRY, registry)
++
++        subdir =3D os.path.join(base_subdir, location)
++
++        # Skip link sources
++        if link:
++            return
++
++        # Handle registry sources
++        elif version and integrity:
++            # Handle duplicate dependencies without url
++            if not resolved:
++                return
++
++            uri =3D URI(resolved)
++            params =3D uri.params
++            params["name"] =3D name
++            params["version"] =3D version
++            params["vendor"] =3D VENDOR_TYPE
++            extend_uri(uri, name, version, subdir, checksum_name,
++                       checksum_value)
++
++        # Handle http tarball sources
++        elif resolved.startswith("http") and integrity:
++            uri =3D URI(resolved)
++            params =3D uri.params
++            params["name"] =3D name
++            params["subdir"] =3D subdir
++            params["striplevel"] =3D "1"
++            params[checksum_name] =3D checksum_value
++
++        # Skip local tarball
++        elif resolved.startswith("file"):
++            return
++
++        # Handle git sources
++        elif resolved.startswith("git"):
++            resolved =3D resolved.replace("+ssh://git@github.com", "+https=
+://github.com")
++            repository, _, revision =3D resolved.partition("#")
++            uri =3D URI(repository)
++            params =3D uri.params
++            scheme, _, protocol =3D uri.scheme.partition("+")
++            if protocol:
++                if protocol =3D=3D "ssh" and uri.user =3D=3D "git":
++                    protocol =3D "https"
++                    uri.user =3D ""
++                params["protocol"] =3D protocol
++                uri.scheme =3D scheme
++            params["nobranch"] =3D "1"
++            params["subdir"] =3D subdir
++            params["rev"] =3D revision
++
++        else:
++            raise ResolveError(f"Unsupported dependency: {name}", lock_fil=
+e)
++
++        src_uri =3D str(uri)
++        src_uri =3D urllib.parse.unquote(src_uri)
++        src_uris.append(src_uri)
++
++    parse_lock_file(lock_file, resolve_src_uri, dev, False)
++
++    return src_uris
 --=20
 2.39.5
 
