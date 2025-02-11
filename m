@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA5AC021A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E8FC021A5
 	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 20:09:37 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.3299.1739304573837627028
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.3296.1739304571837564487
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 12:09:33 -0800
+ Tue, 11 Feb 2025 12:09:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DcVFMXMg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f2339dcfdso1976405ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 12:09:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wZdWMhA7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21f6a47d617so61484875ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 12:09:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739304573; x=1739909373; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739304571; x=1739909371; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jiB1/BcROFpN3yTcfi0VW6wrbhccI+j6dwF7VYeLvb8=;
-        b=DcVFMXMgTbqwT6n2dYbTXXfDgWhD09AKUD7SnAjnz0mhXn1uY61EPPphZIIxfq+Ni6
-         QTaxeJQEvCOvG9wdhUEr1bY4THn2jgTmZBE8E1pCrcEEI9p7SJhs68+TutuR3ohDZ8Kk
-         dV8cvuiQbVN7B//gGVDSLD3kO2U12xoRpnyqUCPTo9VwyzlNLgS/z5mVaI7jfT4AnUG1
-         tT+3xSL3BzJWe5swtyKmfjLLfqsOndKVbLg9GntwS/tV+8OnRAxlQUwaTHgF5DRV/Xnh
-         pwHZ2lKYlH6nglK+MpHbn0mbnKzqTjwuZdP9JOi8U4LjPy9ye91A68ctmCVfAuDHQDrK
-         uv7g==
+        bh=4U5XBBbVi8atKGTNTp2CMT0NzmYGcpm2NQ5BNyIhOj8=;
+        b=wZdWMhA77bEG9z2q92mRlEB22Bhc68vewg3+FdTwFiCNfoCvZH/1GAiyhUNJ94PoUg
+         HRE0X8mWnbG84RjXwCTLir1ljlB0+LDERSr7r/m9qNpvwIwtj0z9dCHnvL1DZa2p3q8D
+         tpDAPSLqs8GfyTvaKiku9esbzBi6lzxmH6lHDgNHXsCKS/E5OFwbX29KphLxR5UT46K+
+         3DUtXPSAUdKBFGXm9oAzEXT7B6XJQ+qsJGMXIHOMJMimZFN3dSlNk6Owi68jYMAwtcBj
+         nTrLCQ4j1fnFIpypuz9JxLbWwQBxUYZtgS5LuHFQskFoyvmdej8PphkMFCjsUdQILQHZ
+         tj3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739304573; x=1739909373;
+        d=1e100.net; s=20230601; t=1739304571; x=1739909371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jiB1/BcROFpN3yTcfi0VW6wrbhccI+j6dwF7VYeLvb8=;
-        b=iPLSnYT4bbYx8HPF7IozUaSs0GpOt1Zsl0roPHH2W1nyF/VTmARTn3oJYt7BoMEYQ9
-         hvhVc5QL5/vCDxK62ySf8H9T/cIOOvsMErKEHiV6DLeNl2YTAK/00D0XuS3GoMn7wyw3
-         6iVXAohY2j/BnCrR8i9yZgFmSIadT/5zgQPmRblwyaT4g+gxeT+mmofr1zrXTZxnNy1V
-         7tEmWCgAIuVCCT3WLFXjQgLLbc2qgcR4YMmWub55wruJAydy8kju15fzGN32SyEH07X8
-         1B0Iy9x4S2hASPJKv3oYyTIlPaqvki4e/OJ+4bnmxRpR1nHaMz8NcJ4I8/08PI7/jRRs
-         b6Ng==
-X-Gm-Message-State: AOJu0YyYLs2zC2FX/m4N6gW4X1xn9gao4i470Lj5wbSIhmzxaQ5Wo0iq
-	gQFINOoaVOVUgqlWByGQsqMGO/soSjN4RXe6Bp8vbEUgUmS9/NuyCwYSMG6bh8TUhkp+P5IyUU+
-	Q
-X-Gm-Gg: ASbGncvScLt63IiMlJ0FhkEg1zMm1VdU3+I88i9UIuHOqH1j5UZFpYcmPRf7J+aklaW
-	e4BI6yh73gu6QGa7wNnhqdiXYspmzGD3ZU0EVTfMKhJPMTO9V3cQ8sD8pFZBwHHj6zof7gNbUHT
-	/a3GxV6GUxVa7pqd/DMcDMz2MsZ+VAvu5kcrTDVHX9qU2IKwA+4zEAOJPKhAbIglyybXSMOa+H3
-	vnC4Ukz7yVX5TVNf0SeSllAq2ia/vqE+HCQJWn2YxjlJPj3ShiGYqQfqrP0FLRfgClbH6C1TD1y
-	UO9r
-X-Google-Smtp-Source: AGHT+IFYumU8mHv4c7aKaz6V3VnEymJxZ5/415k0dkmypdJfMziKM+CMnSfZUBQW/GxD8BteoypFMQ==
-X-Received: by 2002:a17:902:d2cc:b0:21f:6167:183a with SMTP id d9443c01a7336-21fb6f1219cmr76668905ad.15.1739304572994;
-        Tue, 11 Feb 2025 12:09:32 -0800 (PST)
+        bh=4U5XBBbVi8atKGTNTp2CMT0NzmYGcpm2NQ5BNyIhOj8=;
+        b=V9GEkt7yypY2p4lkWSNV83v8l0Bg3deBcl4pHlJosFo/sFeMW+WpbpeHDFQwRLvKOX
+         E+ssDf+EW62H5iIaXvF0QDXzmBjKMXWL/385i6ghT/AHzLqe32blXn0w8Fx7EHLAjCnn
+         dR9AIVUHcdcrOG8MiSWZjT7avTmw4iKEk2gwdIE75VQUAwBMFae0HWm1wjLuP4RT95At
+         vThCJcUMQ+Vj4ddc8xaowICSDadfnbxBpGOmKJ6TImEBRQXxRIsLoHwodAOoroyVxsKf
+         1VS2doDVb1uPD3PHICqUWfFVfDiPml9hHYf1n+JyDhCfbO6ABakvIhIJzzMOkoy1GQB2
+         jJrQ==
+X-Gm-Message-State: AOJu0YxfcrXMdnMpB7X1Ewj3QjJJPUl3UbjKln4krwjOkV8XBX8fQA7f
+	onAq1/G7Hrpk6oSLdXr/+r9Y+ll4pDEpIlRQMKJHYLuGPw/kA/5Y7quGZTEcDnr9vfQ4EISmc4V
+	Z
+X-Gm-Gg: ASbGncuFezyVe1FJXB4iwZgEgzBxLX4f2aXpFrWbqWKMsCK/B/H68RJcajBLhZtLnYR
+	2nzyoKAgQZ0EAKaiKq75LergSybq7KKFI1WTRQtAU7VshDM4Y8vBlnTyafbu44ShlfcwBSA9opM
+	Er0pE2x/kI2QsmoGwF8g4gOfP9bQUMJhwi/HFpC2QcKNknPWwgZTojXkLmSmjPskHic4FklavoZ
+	B8ffqHhAR/5Bu8wFN6mkE9F0YsSd/mlzwv3sOfFc0zQLRgh5q6Qby1JO9Mhl6pEK9T0y75EEq6Z
+	liok
+X-Google-Smtp-Source: AGHT+IEt19Vgx13KgfjPWLQyA36i611KWEDam3L0/bE8Ty3Ezuj78GvRrawvZLM82DU9xihqnl4bvA==
+X-Received: by 2002:a17:902:ce02:b0:21f:93be:8b12 with SMTP id d9443c01a7336-220bbb1cf46mr9526745ad.30.1739304571028;
+        Tue, 11 Feb 2025 12:09:31 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687e696sm100486485ad.209.2025.02.11.12.09.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687e696sm100486485ad.209.2025.02.11.12.09.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 12:09:32 -0800 (PST)
+        Tue, 11 Feb 2025 12:09:30 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/14] gstreamer1.0-rtsp-server: fix CVE-2024-44331
-Date: Tue, 11 Feb 2025 12:09:07 -0800
-Message-ID: <3e7b7697ec32b0fa2808efcff4a6bd544261b3fe.1739304425.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/14] ffmpeg: fix CVE-2024-35369
+Date: Tue, 11 Feb 2025 12:09:06 -0800
+Message-ID: <c46bb37a76582ee7352f2bc027920e8ba76e5c15.1739304425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739304425.git.steve@sakoman.com>
 References: <cover.1739304425.git.steve@sakoman.com>
@@ -67,87 +67,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 20:09:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211177
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211176
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Incorrect Access Control in GStreamer RTSP server 1.25.0 in gst-rtsp-server/rtsp-media.c
-allows remote attackers to cause a denial of service via a series of specially crafted
-hexstream requests.
+In FFmpeg version n6.1.1, specifically within the avcodec/speexdec.c module,
+a potential security vulnerability exists due to insufficient validation
+of certain parameters when parsing Speex codec extradata. This vulnerability
+could lead to integer overflow conditions, potentially resulting in undefined
+behavior or crashes during the decoding process.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2024-44331.patch                      | 44 +++++++++++++++++++
- .../gstreamer1.0-rtsp-server_1.22.12.bb       |  4 +-
- 2 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/CVE-2024-44331.patch
+ .../ffmpeg/ffmpeg/CVE-2024-35369.patch        | 37 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35369.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/CVE-2024-44331.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/CVE-2024-44331.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35369.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35369.patch
 new file mode 100644
-index 0000000000..eea58d3538
+index 0000000000..72dc8d14a7
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/CVE-2024-44331.patch
-@@ -0,0 +1,44 @@
-+From aa3e97d67c05d4648ea58c7ff7675e24a81ca72b Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 24 Oct 2024 20:12:55 +0300
-+Subject: [PATCH] rtsp-server: Remove pointless assertions that can happen if
-+ client provides invalid rates
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35369.patch
+@@ -0,0 +1,37 @@
++From 0895ef0d6d6406ee6cd158fc4d47d80f201b8e9c Mon Sep 17 00:00:00 2001
++From: James Almer <jamrial@gmail.com>
++Date: Sat, 17 Feb 2024 09:45:57 -0300
++Subject: [PATCH] avcodec/speexdec: further check for sane frame_size values
 +
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3731
-+Fixes CVE-2024-44331
++Prevent potential integer overflows.
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7739>
++Signed-off-by: James Almer <jamrial@gmail.com>
 +
-+CVE: CVE-2024-44331
++CVE: CVE-2024-35369
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/aa3e97d67c05d4648ea58c7ff7675e24a81ca72b]
++Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/0895ef0d6d6406ee6cd158fc4d47d80f201b8e9c]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ gst/rtsp-server/rtsp-media.c | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
++ libavcodec/speexdec.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
 +
-+diff --git a/gst/rtsp-server/rtsp-media.c b/gst/rtsp-server/rtsp-media.c
-+index 8c62b0d..cbdc9f9 100644
-+--- a/gst/rtsp-server/rtsp-media.c
-++++ b/gst/rtsp-server/rtsp-media.c
-+@@ -2755,15 +2755,13 @@ gst_rtsp_media_get_rates (GstRTSPMedia * media, gdouble * rate,
-+           first_stream = FALSE;
-+         } else {
-+           if (save_rate != *rate || save_applied_rate != *applied_rate) {
-+-            /* diffrent rate or applied_rate, weird */
-+-            g_assert (FALSE);
-++            /* different rate or applied_rate, weird */
-+             result = FALSE;
-+             break;
-+           }
-+         }
-+       } else {
-+-        /* complete stream withot rate and applied_rate, weird */
-+-        g_assert (FALSE);
-++        /* complete stream without rate and applied_rate, weird */
-+         result = FALSE;
-+         break;
-+       }
++diff --git a/libavcodec/speexdec.c b/libavcodec/speexdec.c
++index 23b8605..a034009 100644
++--- a/libavcodec/speexdec.c
+++++ b/libavcodec/speexdec.c
++@@ -1420,9 +1420,10 @@ static int parse_speex_extradata(AVCodecContext *avctx,
++         return AVERROR_INVALIDDATA;
++     s->bitrate = bytestream_get_le32(&buf);
++     s->frame_size = bytestream_get_le32(&buf);
++-    if (s->frame_size < NB_FRAME_SIZE << s->mode)
+++    if (s->frame_size < NB_FRAME_SIZE << (s->mode > 0) ||
+++        s->frame_size >     INT32_MAX >> (s->mode > 0))
++         return AVERROR_INVALIDDATA;
++-    s->frame_size *= 1 + (s->mode > 0);
+++    s->frame_size <<= (s->mode > 0);
++     s->vbr = bytestream_get_le32(&buf);
++     s->frames_per_packet = bytestream_get_le32(&buf);
++     if (s->frames_per_packet <= 0 ||
 +--
 +2.40.0
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-index c89c22f334..3cd21e7181 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-@@ -8,7 +8,9 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index dff78ccc53..91ee6c6b0d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -46,6 +46,7 @@ SRC_URI = " \
+     file://CVE-2024-36617.patch \
+     file://CVE-2024-36618.patch \
+     file://CVE-2024-36619.patch \
++    file://CVE-2024-35369.patch \
+ "
  
- PNREAL = "gst-rtsp-server"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
-+           file://CVE-2024-44331.patch \
-+          "
- 
- SRC_URI[sha256sum] = "bf6c7871e7cf3528e4ec87ddc2f2949691cd269f98e536482ae744c1405cf451"
- 
+ SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
 -- 
 2.43.0
 
