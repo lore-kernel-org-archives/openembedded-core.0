@@ -2,109 +2,185 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAF6C021A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6904DC3DA4A
 	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 14:21:57 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.16901.1739370115765141060
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.16898.1739370113580949097
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 06:21:55 -0800
+ Wed, 12 Feb 2025 06:21:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KMbM6hPG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2fa2eb7eb45so1447642a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 06:21:55 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NQ5qwDv7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-220c8f38febso6595755ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 06:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739370115; x=1739974915; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739370113; x=1739974913; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hHQWmEnk8ItbS3GvwNNcepmJE3U4xYNANJ6odoVN4UM=;
-        b=KMbM6hPGBLJF6RCnOQWpdWG4PHrlIxhl9ld0u+DRrpze9xqRLc+YjxDbJQm3AFyQYu
-         9oWhRtzwxcrWYHi0RW/++h3mg4Yi1QL4WcV6LkDj0zZVxQR77SvMZsfUIexQ21hRNIzG
-         qlXjM2mrBWDdqucNY1swwJxpjjztB9aXsa8WyBFhFvIq7ViWuI2RLSaFyeKVCJI5hKoB
-         TmcOBfiF5whARvwWVrMn2+yQJ15FDGHhuS5CmdI3so5cuwjJNzdXoK8naygZvi0xDvDt
-         xMkLhwb56kdPxULkiKMqsMa0IAkQTyofCl/D19f1y+Yw3yeNaJWIiJTP0aRBzzUUmdMq
-         mnGQ==
+        bh=3+sbI0dexhEgTFFYw/HTdE/liY9C1c6ldEmidt5c2U0=;
+        b=NQ5qwDv7lg21VMysTAPulS6YP5VeKr7RFgA2/h5dokBRctJKesMHYd6D91Nt807Ty0
+         4e2zwSwSLWZ9jeq7cAY1pe5iWj46+xw0pmGKrEGiEyQEB3iW3EgEyEJrSnt9JcGZEi4D
+         FkdgZLr+OvOaGFL90+SGc9SaOYwwUBr73RNu//iT5O0LcsyIRhDVi0+IBioW7BHDPbGR
+         bahRnksBOWdSPTJltvj/JJHd39UhJ/rg6u645ZYZpML9WaJKUAGWVrJpyv5+kEzwyyqt
+         s76hxSrEhG30Eu/mS9He/QSxsBL3DRNPL2mCiGlDQH87D4rd5EK62igdEi8mtY5mmjMT
+         wlsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739370115; x=1739974915;
+        d=1e100.net; s=20230601; t=1739370113; x=1739974913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hHQWmEnk8ItbS3GvwNNcepmJE3U4xYNANJ6odoVN4UM=;
-        b=mn8pG9hHv3E4Iq93OgPEJJvCAaIr752UDPWqcM5Y6pUSKGral6ppPCw5FHKcM2P67A
-         NuqKpy6jy+L7npK2mRdM6gOE0VJpgKwbVu0mh5+IcmeYqeSEY2Z/uT+B9J54hkvtr7tq
-         FR0I7yMY/EizG1DCaTIXjibQJHaEPDtYWAnGiVWRSQRKzkrs7mvc7HxSsRlRr2yIgo0F
-         ohoYzlfYchPCvMu54RHYEf3jIYIRG6K1NT8QgmqYWtqwZnWhDFkimH1Uft9cnf1Ss/wT
-         7xktcGZ/0szNOkrV+7+e3pq3FHQq6L3dELJq+9jPlJjw6l2I2ELHGLtm+rfBMTR/UrZk
-         2Vrw==
-X-Gm-Message-State: AOJu0YzNL1mIIVZEK/QIfv4mbayLpsP0cQpB+tLGMVaXb7IWZJEAFT3E
-	m0hhP3x8IilY1B1IRhohWsT16l36XLGRPt553vmUB2H1cxUxlfZVWtj78hF5IojjJj+sMDA8N5c
-	h
-X-Gm-Gg: ASbGncvGiOoUrv6lorE+VfrVeTYDir6Lom6fnT8e89TesDpIp0lOF/uEPO+zq7qt1/5
-	WH8HzMhcMfKvLwLjNXoN5e9Cy9xr/mop5JmAnb91SAb1nAr9GK9WS5kLTO716WLYlNv4qSxCnSW
-	qyYAnc/kgBy0djH534dPV5hZPTAPa+Ws4PFOgdU5LbCDQ43ZvJKT1dVdN73xsX/qAXkAFu49Sqg
-	0mklA+X1b6zgdq3qFWqEgesPdkkFSddJTUUXNoT9g5dTvhjRznAb3mizEPTJYXgg6DRaqDEusNx
-	IFTv
-X-Google-Smtp-Source: AGHT+IFSqgZGkHXE32VPkHSUPhrbAwe2wXu1PHM+WK0B7ADGYQKHKcfL7WnFGm+dDYcLO3p/pmbn7A==
-X-Received: by 2002:a05:6a00:af1d:b0:730:89bc:f80d with SMTP id d2e1a72fcca58-73218bdd074mr9342046b3a.6.1739370114631;
-        Wed, 12 Feb 2025 06:21:54 -0800 (PST)
+        bh=3+sbI0dexhEgTFFYw/HTdE/liY9C1c6ldEmidt5c2U0=;
+        b=Ew7swWmeIJK1aRGJQfcRxxH8++LoqtqNSgFoNzUpYjQpKYAppkqwxg0pdnrAzc9AgR
+         rYyS5bz3wslnj/6CozanXFk3yU6gVVfhIz9tWXU9sZlkk3Z/ODBtqBinIJNvHFmfpzPu
+         sHD0KzwFc4AFxe3BOfItBEAHE9s5J9XFtuR0maVUEijWk5n49rIKYg53bcUOsrW7v9NL
+         VP2SNO3+7iFSocB6uluIExHDt+GaLTLex3atHftzVn4QaFRZ/BQn2V0w8HPY7ih5i9nz
+         dEQs3Y6py6ctcTZiN1j1q0hkEEf9p+v7/fMKl9BNbbknsX4f0TX/e4/31/jSZDNHeMMn
+         +a8Q==
+X-Gm-Message-State: AOJu0YwlXi0wvp9CJdVotXkIRBi3KeX0MZP1zToKqYkNgwy3GvzfzI84
+	7pv1eGIhEonR6cqR3cVRb0FLyaGUlXWXEWheNXozAgxkDdEgH2Bi1dZfw1l/cCfg19Ik+F93Swb
+	j
+X-Gm-Gg: ASbGncuuXUbVen2DFwPe3TXQ9jEt1BVSkjjKy4gPg0ojeMwpZO1sCuWxu5SMqfLDYOG
+	ZW2tbsd3IIg0ZWueHkxGnawk/ds/WphH35k8d9FAh/Fuo+9n3oOf/4rZz0qGooVBbuBjBqilDwk
+	C2og70vpPFKrGLGkWzyJmCOzLmJMqlEshAkVkAU/fWkpcqVr6Ph52/BUr8738M5ETZPG6nYMNK/
+	R3NBbu/sSLi3BqbbJyBnLT2Cm2bAXB34J3WxGS2mX6V+TyTtDFFhlLBlLiGQrlpffMxUpTmwZVh
+	F0Ux
+X-Google-Smtp-Source: AGHT+IF+B+tBBNa9Vjmtsj1kcpTZJaixydRRlz+nnHLmvuDELshm6R2rklPRUnHVhdrBWEbE+M0byA==
+X-Received: by 2002:aa7:88c5:0:b0:725:e4b9:a600 with SMTP id d2e1a72fcca58-7322c5febe0mr3533756b3a.16.1739370112822;
+        Wed, 12 Feb 2025 06:21:52 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73079facc59sm7445260b3a.123.2025.02.12.06.21.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73079facc59sm7445260b3a.123.2025.02.12.06.21.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 06:21:54 -0800 (PST)
+        Wed, 12 Feb 2025 06:21:52 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/7] rust-common.bbclass: soft assignment for RUSTLIB path
-Date: Wed, 12 Feb 2025 06:21:35 -0800
-Message-ID: <d8ccc3ad338a8020c998566249af2019baaa6e44.1739369945.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/7] glibc: Suppress GCC -Os warning on user2netname for sunrpc
+Date: Wed, 12 Feb 2025 06:21:34 -0800
+Message-ID: <78fac0f623e01bd52b2ea3a597d056726deca8a4.1739369945.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739369945.git.steve@sakoman.com>
 References: <cover.1739369945.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 14:21:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211239
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211238
 
-From: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+From: Nikhil R <nikhilr5@kpit.com>
 
-As a user i want to override `RUSTLIB` path on a bbclass, lets
-call it `XYZ.bbclass`.
+When building with GCC -Os, a warning is triggered indicating that sprintf might overflow.
 
-If a certain recipe inherits `cargo.bbclass` and `XYZ.bbclass` the
-value of `RUSTLIB` is dependent on the order of the inherit.
+Error:
+  netname.c: In function 'user2netname':
+  netname.c:51:28: error: '%s' directive writing up to 255 bytes into a
+  region of size between 239 and 249 [-Werror=format-overflow=]
+     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+        |                            ^~               ~~~~~~~
+  netname.c:51:3: note: 'sprintf' output between 8 and 273 bytes into a
+  destination of size 256
+     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
 
-If `cargo.bbclass` is inherit before `XYZ.bbclass` this will reflect
-the desired value of `RUSTLIB`, on the oposite, if the `XYZ.bbclass`
-is inherit before `cargo.bbclass` then the `RUSTLIB` defined on
-`rust-common.bbclass` will prevail.
+However the code does test prior the sprintf call that dfltdom plus
+the required extra space for OPSYS, uid, and extra character will not
+overflow and return 0 instead.
 
-Changed definition of `RUSTLIB` to soft assignment to make it overridable.
+Upstream-patch: https://github.com/bminor/glibc/commit/6128e82ebe973163d2dd614d31753c88c0c4d645
 
-Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 6eeb832f73ffb48f5f05dc47191f60e4599e640f)
+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+Tested-by: Carlos O'Donell <carlos@redhat.com>
+Signed-off-by: Nikhil R <nikhilr5@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/rust-common.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...press-gcc-os-warning-on-user2netname.patch | 61 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
 
-diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
-index cb811ac5da..1c34d4c8b9 100644
---- a/meta/classes/rust-common.bbclass
-+++ b/meta/classes/rust-common.bbclass
-@@ -6,7 +6,7 @@ FILES:${PN} += "${rustlibdir}/*.so"
- FILES:${PN}-dev += "${rustlibdir}/*.rlib ${rustlibdir}/*.rmeta"
- FILES:${PN}-dbg += "${rustlibdir}/.debug"
- 
--RUSTLIB = "-L ${STAGING_LIBDIR}/rust"
-+RUSTLIB ?= "-L ${STAGING_LIBDIR}/rust"
- RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
- RUSTFLAGS += "${RUSTLIB} ${RUST_DEBUG_REMAP}"
- RUSTLIB_DEP ?= "libstd-rs"
+diff --git a/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch b/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
+new file mode 100644
+index 0000000000..7068a81518
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch
+@@ -0,0 +1,61 @@
++From 6128e82ebe973163d2dd614d31753c88c0c4d645 Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
++Date: Wed, 21 Sep 2022 10:51:07 -0300
++Subject: [PATCH] sunrpc: Suppress GCC -Os warning on user2netname
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++GCC with -Os warns that sprint might overflow:
++
++  netname.c: In function â€˜user2netnameâ€™:
++  netname.c:51:28: error: â€˜%sâ€™ directive writing up to 255 bytes into a
++  region of size between 239 and 249 [-Werror=format-overflow=]
++     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
++        |                            ^~               ~~~~~~~
++  netname.c:51:3: note: â€˜sprintfâ€™ output between 8 and 273 bytes into a
++  destination of size 256
++     51 |   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
++        |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++  cc1: all warnings being treated as errors
++
++However the code does test prior the sprintf call that dfltdom plus
++the required extra space for OPSYS, uid, and extra character will not
++overflow and return 0 instead.
++
++Checked on x86_64-linux-gnu and i686-linux-gnu.
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
++Tested-by: Carlos O'Donell <carlos@redhat.com>
++
++Upstream-Status: Backport [https://github.com/bminor/glibc/commit/6128e82ebe973163d2dd614d31753c88c0c4d645]
++Signed-off-by: nikhil <nikhil.r@kpit.com>
++
++---
++ sunrpc/netname.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/sunrpc/netname.c b/sunrpc/netname.c
++index bf7f0b81c43..c1d1c43e502 100644
++--- a/sunrpc/netname.c
+++++ b/sunrpc/netname.c
++@@ -20,6 +20,7 @@
++ #include <string.h>
++ #include <rpc/rpc.h>
++ #include <shlib-compat.h>
+++#include <libc-diag.h>
++ 
++ #include "nsswitch.h"
++ 
++@@ -48,7 +49,12 @@ user2netname (char netname[MAXNETNAMELEN + 1], const uid_t uid,
++   if ((strlen (dfltdom) + OPSYS_LEN + 3 + MAXIPRINT) > (size_t) MAXNETNAMELEN)
++     return 0;
++ 
+++  /* GCC with -Os warns that sprint might overflow while handling dfltdom,
+++     however the above test does check if an overflow would happen.  */
+++  DIAG_PUSH_NEEDS_COMMENT;
+++  DIAG_IGNORE_Os_NEEDS_COMMENT (8, "-Wformat-overflow");
++   sprintf (netname, "%s.%d@%s", OPSYS, uid, dfltdom);
+++  DIAG_POP_NEEDS_COMMENT;
++   i = strlen (netname);
++   if (netname[i - 1] == '.')
++     netname[i - 1] = '\0';
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 9400e1e920..d9cae79ac2 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -64,6 +64,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            \
+            file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
+            file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
++           file://0003-sunrpc-suppress-gcc-os-warning-on-user2netname.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.43.0
 
