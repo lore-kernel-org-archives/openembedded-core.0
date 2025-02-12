@@ -1,167 +1,131 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <quic_vpuar@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C11C021A0
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 01:55:53 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.5506.1739325351534835733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0E4C02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 04:14:03 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.7695.1739333639487192632
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 17:55:51 -0800
+ Tue, 11 Feb 2025 20:13:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=EhCUlKVp;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-307c13298eeso3699051fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 17:55:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739325349; x=1739930149; darn=lists.openembedded.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bgtD3HH8b0gim73nXDLqMEJlgTEwdCe9bz22ggBU9iA=;
-        b=EhCUlKVpNh2W5iHfcHWx6qwlt4Q8GxN4CXKeKJlxmPXp6wD8x+w2ENnfG0OCir3kD8
-         1nw5CyGjf++/Cz87HkSJvQYGGDp694yzwnq9ozMDrDAovLzTA+uAipYrosrPpzk+dBKH
-         CTHcJmFLsC1Kw4E8/32/r+U4GvwQvKO9zwQKHcGPakJvDxTOtfP9CJggobCnqudc1diy
-         fW1m1/eDtFId+WXB9Y37Ut4u0vC3RKk2iGXG5k9lsd0drLcxksNNDyqlb0AwtifoKitz
-         VgWi3WsI/27ZR1YJMC13E5SMYzY86nNrwsEDkfousEiDdWU61+mXSn7eJc0VA3U3mA34
-         b1TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739325349; x=1739930149;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bgtD3HH8b0gim73nXDLqMEJlgTEwdCe9bz22ggBU9iA=;
-        b=Jkl7PquISHXSlowH8DkuAUQ/W//63D4vqDHMBZlQbZoXH/r6KuHtkUZNUYYlFW5la7
-         YvJjjsfiuxtSjzLcOgmdyOzmD2siBnHcaMKYV5RNUJfF5ryRKU0IxLCXqXUSKGe+SMjx
-         YUPyc6wkAKnhj2AoLtiV3bwiIdI7pzsouI3cqN1ryRkDGXWC34ixAqlFwsYCA+2gmHtJ
-         DkB+VOsC+SIWdKA9UzXguy1eUi/UyX4AdVmPzdpmXSmq+a5sNP5E3esruQpPZVq3ifT2
-         /9cR3ZiBZ+sVCNR503/OKpyDsPbN4qG+vIctQzOsDRhFDr3TE4GwkpMoaLZcynOBktDK
-         DKVg==
-X-Gm-Message-State: AOJu0YwYTNU0WB2oBiAnG35dZW0dliXNkvfa8IyQN9TV2iJtkleluEGx
-	Nhn/3Jnir0kCO7oV9+11cS2qOuwVi2mvliwCrxynl+gJBWNxcrBAxuPhF4JqeKTn6xG7ZGSaVmw
-	BOOk=
-X-Gm-Gg: ASbGnctc3Tq30AAAxo7pG2XY9Vv02B7P7K/1J+GMRPopHtSZ5HIFn7ZFmghSOLodYyJ
-	l6F06BWPplY/pzZhHfOwTI4sd8oRNZvPaSQUaO4YySrXJtzgdQUWtxVDTLe+UGw2GSZ95U15KJh
-	tZ7/EthDyw0KvYLDULW0VcX0Y/1UbUb+CZmPRZ/UlN4pwey2X1Hc0g6pjOpQrmcXXnNpNEcyy40
-	BhkRHa/ufS6ATgxi4dAnbvDxiSMT6rQmdILRkoWm0SyeUufZBI7U+frimRPEpY4C6EHVhoRG0rD
-	MwX+CqVGmVSeoQZkEMfB5J1gVNQ5TGF8BmDQeokgs8jzbRWufg+M0ZMvWGPuo/zTBT3sekw=
-X-Google-Smtp-Source: AGHT+IFtTbNo4jAa11suhLXPOYaCbcOo1c7M0tCdo5NcZASwafNsAARao2Px79jRwh2Jg+TEUPeNxw==
-X-Received: by 2002:a05:651c:150c:b0:308:eabd:297b with SMTP id 38308e7fff4ca-309045634b2mr3921261fa.4.1739325349096;
-        Tue, 11 Feb 2025 17:55:49 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30902a20e74sm1953731fa.2.2025.02.11.17.55.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 17:55:47 -0800 (PST)
-Date: Wed, 12 Feb 2025 03:55:45 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: xserver-xorg: do_create_spdx broken if xvfb is enabled
-Message-ID: <pl27ux3migesky5u5sefbcoitrfqoeole6yf2pagm7punjqut3@jgy2vmmf63ta>
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=peuw/LFj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vpuar@quicinc.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51BGed5d006184;
+	Wed, 12 Feb 2025 04:13:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	T57nxood88ZmS9MCkDL65Y422WLWAh0qJ72s54aoS0o=; b=peuw/LFjpa4pgY1N
+	mVoD7B0r5jY3sVcHuIGqEqBuSeC3SGsNqaGTLimmjTgtqgsiTA+SZSRhGt9F6MRF
+	ejHF0ni5Jhz9VQF359r1qRHZW+KmiYPH3qaBwrUNgGF3GyJAKSoeTLLi7mkvThMQ
+	nEoH27p07xoKFQlHmBMaNyaY18uR4Ze0JpNtOvXjyWa1I2uixvMPV2eIN6vaSom3
+	qSmTmae/PzMkIcwboZr10w8L5aBGtyvcjsEVcPgqLZN+KD7JMtEMaFE5d7ehbxEp
+	z+zB1wJ2DzqZQXYomKcwlxPtcbBPM2nyNmq4OrDno3oACHMoWT4+mUyjeGkUX+aI
+	loDVpw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qe5mx7hq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Feb 2025 04:13:57 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C4DuDl019257
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Feb 2025 04:13:56 GMT
+Received: from [10.216.34.210] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
+ 2025 20:13:54 -0800
+Message-ID: <939d34c0-9c5a-4339-a74c-013263240dc1@quicinc.com>
+Date: Wed, 12 Feb 2025 09:43:25 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] linux-firmware: upgrade 20250109 -> 20250211
+To: <dbaryshkov@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+References: <20250211185151.995828-1-quic_vpuar@quicinc.com>
+ <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
+Content-Language: en-US
+From: Vivek Puar <quic_vpuar@quicinc.com>
+In-Reply-To: <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: NrG3g5td0lyqGHYkr2spNDab2zJ-bjIz
+X-Proofpoint-ORIG-GUID: NrG3g5td0lyqGHYkr2spNDab2zJ-bjIz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-12_01,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2501170000 definitions=main-2502120030
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 01:55:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211200
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 04:14:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211201
 
-Hello,
-
-For some time the the do_create_spdx is broken for xserver-xorg if
-PACKAGECONFIG includes xvfb. I failed to find a proper way to fix it,
-and now I'm open for suggestions.
-
-ERROR: Error executing a python function in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_create_spdx(d)
-     0003:
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/classes/create-spdx-3.0.bbclass', lineno: 135, function: do_create_spdx
-     0131:    "
-     0132:
-     0133:python do_create_spdx() {
-     0134:    import oe.spdx30_tasks
- *** 0135:    oe.spdx30_tasks.create_spdx(d)
-     0136:}
-     0137:do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_BUILD_HOST"
-     0138:do_create_spdx[vardeps] += "\
-     0139:    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30_tasks.py', lineno: 751, function: create_spdx
-     0747:                debug_source_ids |= set(
-     0748:                    oe.sbom30.get_element_link_id(d) for d in debug_sources
-     0749:                )
-     0750:
- *** 0751:            oe.sbom30.write_recipe_jsonld_doc(
-     0752:                d, pkg_objset, "packages-staging", deploydir, create_spdx_id_links=False
-     0753:            )
-     0754:
-     0755:    if include_sources:
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/sbom30.py', lineno: 1004, function: write_recipe_jsonld_doc
-     1000:
-     1001:    finally:
-     1002:        # It is really helpful for debugging if the JSON document is written
-     1003:        # out, so always do that even if there is an error making the links
- *** 1004:        write_jsonld_doc(d, objset, dest)
-     1005:
-     1006:
-     1007:def find_root_obj_in_jsonld(d, subdir, fn_name, obj_type, **attr_filter):
-     1008:    objset, fn = find_jsonld(d, subdir, fn_name, required=True)
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/sbom30.py', lineno: 956, function: write_jsonld_doc
-     0952:        serializer = oe.spdx30.JSONLDInlineSerializer()
-     0953:
-     0954:    objset.objects.add(objset.doc)
-     0955:    with dest.open("wb") as f:
- *** 0956:        serializer.write(objset, f, force_at_graph=True)
-     0957:    objset.objects.remove(objset.doc)
-     0958:
-     0959:
-     0960:def write_recipe_jsonld_doc(
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 1938, function: write
-     1934:        h.write(",")
-     1935:
-     1936:        h.write('"@graph":')
-     1937:
- *** 1938:        objectset.encode(h, True)
-     1939:        h.write("}")
-     1940:        return sha1.hexdigest()
-     1941:
-     1942:
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 1278, function: encode
-     1274:                for o in objects:
-     1275:                    # Allow this specific object to be written now
-     1276:                    state.written_objects.remove(o)
-     1277:                    with list_s.write_list_item() as item_s:
- *** 1278:                        o.encode(item_s, state)
-     1279:
-     1280:        elif objects:
-     1281:            objects[0].encode(encoder, state)
-     1282:
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 758, function: encode
-     0754:            self,
-     0755:            state.get_object_id(self),
-     0756:            bool(self._id) or state.is_refed(self),
-     0757:        ) as obj_s:
- *** 0758:            self._encode_properties(obj_s, state)
-     0759:
-     0760:    def _encode_properties(self, encoder, state):
-     0761:        for iri, prop, min_count, max_count, pyname, compact in self.__iter_props():
-     0762:            value = self.__dict__["_obj_data"][iri]
-File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 765, function: _encode_properties
-     0761:        for iri, prop, min_count, max_count, pyname, compact in self.__iter_props():
-     0762:            value = self.__dict__["_obj_data"][iri]
-     0763:            if prop.elide(value):
-     0764:                if min_count:
- *** 0765:                    raise ValueError(
-     0766:                        f"Property '{pyname}' in {self.__class__.__name__} ({id(self)}) is required (currently {value!r})"
-     0767:                    )
-     0768:                continue
-     0769:
-Exception: ValueError: Property 'security_actionStatement' in security_VexAffectedVulnAssessmentRelationship (139779141101712) is required (currently None)
+Sure will cover all and send the patch.
+I was going to upload a new patch covering them.
 
 
--- 
-With best wishes
-Dmitry
+On 2/12/2025 2:53 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
+> On Tue, 11 Feb 2025 at 20:52, Vivek Puar <quic_vpuar@quicinc.com> wrote:
+>
+>> License-Update: additional files
+> Not only "additional files", there is a new Qualcomm licence, which is
+> not caught by this patch, NAK
+>
+> While taking care of the new Qualcomm licence, please also note new
+> ath*, qca and qcom/ firmware. Please extend corresponding split
+> packages.
+>
+>> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   ...{linux-firmware_20250109.bb => linux-firmware_20250211.bb} | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>   rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (99%)
+>>
+>> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+>> similarity index 99%
+>> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+>> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+>> index b932300742..6cadf99d47 100644
+>> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+>> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+>> @@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+>>                       "
+>>   # WHENCE checksum is defined separately to ease overriding it if
+>>   # class-devupstream is selected.
+>> -WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
+>> +WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
+>>
+>>   # These are not common licenses, set NO_GENERIC_LICENSE for them
+>>   # so that the license files will be copied from fetched source
+>> @@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+>>   # Pin this to the 20220509 release, override this in local.conf
+>>   SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+>>
+>> -SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
+>> +SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
+>>
+>>   inherit allarch
+Regards,
+Vivek
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211186): https://lists.openembedded.org/g/openembedded-core/message/211186
+> Mute This Topic: https://lists.openembedded.org/mt/111128390/8903276
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [quic_vpuar@quicinc.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
