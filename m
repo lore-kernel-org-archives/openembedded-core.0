@@ -1,354 +1,202 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <sven.kalmbach@loewensteinmedical.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE2AAC021A0
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 14:41:07 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.117])
- by mx.groups.io with SMTP id smtpd.web10.17303.1739371259628995989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF73EC02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 14:53:27 +0000 (UTC)
+Received: from mx08-00640e01.pphosted.com (mx08-00640e01.pphosted.com [143.55.148.42])
+ by mx.groups.io with SMTP id smtpd.web10.17655.1739371996785269101
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 06:41:00 -0800
+ Wed, 12 Feb 2025 06:53:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=0jzVFDUv;
- spf=pass (domain: weidmueller.com, ip: 40.107.21.117, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ dkim=pass header.i=@loewensteinmedical.com header.s=pplm042024 header.b=MGSpXyni;
+ spf=pass (domain: loewensteinmedical.com, ip: 143.55.148.42, mailfrom: sven.kalmbach@loewensteinmedical.com)
+Received: from pps.filterd (m0376841.ppops.net [127.0.0.1])
+	by mx08-00640e01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C4oGaK010472
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 15:53:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	loewensteinmedical.com; h=content-transfer-encoding:content-type
+	:date:from:message-id:mime-version:subject:to; s=pplm042024; bh=
+	MrHZ8HJFc4LIhPbNGHNT6p0lE+fkvE9ChQJ+VcsBvrU=; b=MGSpXyniSGHYHKcv
+	ML5yJD+AZzkBz+1ptqXtTuIq0WsOlHW3mia/3LIMVU9nZMlendTVzy6vkGoZF0fm
+	PargiEEtPdYfmHQGC3oppyoC/I24EvoAe8Z/f3S/B+uyAjkfklth8NtGqSKZVb0/
+	iGQNKysibBI08yfq8gH4x/VtdOllh1iFQyNvGC4WgKY+esTvxY1HkZHDYMnZmXYR
+	p+KFDtWVoMnZtuvyqDVsoWgm0exXVDZjwAqkvgfvuLS/F/FSqus2IwGKMSOMKf0t
+	zW+1thAEJlvLSUNRl6Hn42tscrlB9NPuthMkbBVkBcKvWmA9zn2CZa3C2A98oy5i
+	9kfIXg==
+Received: from outlook.salvia-medical.de ([91.26.250.91])
+	by mx08-00640e01.pphosted.com (PPS) with ESMTPS id 44qx14s6u2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 15:53:14 +0100 (CET)
+Received: from LMI-EX02.Salvia-Lifetec.inh (192.168.202.2) by
+ LMI-EX02.Salvia-Lifetec.inh (192.168.202.2) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 12 Feb 2025 15:53:14 +0100
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (40.93.64.21) by
+ LMI-EX02.Salvia-Lifetec.inh (192.168.202.2) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 12 Feb 2025 15:53:14 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ggUp5SLymYDH0aYyHJZY9Xc2tpvjLkAqNLmxuyKTz31SwrPMKzzwTWPapnEAs+MQYnrr4M7EfAIn5CqfIFoPAcjUb6/Ldu0Vja4ykIpyCMVmnQRJPEB3o4c4aoQu79RJGAx2prj6I0j3K4VO6+FF46i6XgTc0KrSzY9fzc2eVmDIvBoXPZRmmg4Y3rPzq4h7v1Idg3KSt5DiVte1r7dP2RBdHQnPMvqja+SZgZg56WixcHAyG2IPSpAGXGb34qcR+7Okf9kJ9Lrnpp3sKclZB5Umk2U+OMzSBg1/3opWLPCSsUEhx+ZcowdE6wcMaVKYvgmjDZXF5cy3yHBEMqPhXg==
+ b=ICFtfjZa2YGFoY7FCf5wX9LYZ0/0F4xnV/skV/06brDIN9pnNOPt2wPVt4MyExzbWxifiD4OnDEMttk0xuDPbAMqTj6HM0Fwz6dwlaLcUBDx/fcGd6OXGbB2WvkNN8A4MzH9AHpli01W4cONj5wsG49y7Sl8vII+NJr4K+jCJR7y7PVTdIQqGFb1Cilsyb4/a9CZF97a2kKkwMq9S+e1VaJrnIhe7gfLw3QKhOTVObMSCWDAo3obE7uyA2mh2m1jUBm1hPFXBFpoCJ4dFIkAhVLjBenv8uA9S99EScjmRb1TnskB7lIuN/QBZxhOZyFpxPSr/H0lFdzM4LL8N53dmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZNf4DMnuOWGyPwGvLnnoM1ANl5NFr4v5/B+yGVofebw=;
- b=SUYcK2cQBSrif7gYzfTWQHotW13PNGIdMbraztg3ZuDSviB/atRUlXsH4v7u4S5do7nljsN6wf0OyO2ba9vpGFRWeemmXqywwyOGJR0Zk4FtvoC/A4OvtWb5+iwVgFm7ztVNz570DzBmqKoMx8pBIbZ9MHUaA0R+MBJ+6vfoo3brx7FR8/mvOsKxNJaXjsc7xqkiJBQ9vRPJy4+ASeLN97qTs63DLldblWJ2CkC67qXYtNtd2PbJQlrNlS9HU7HilEYlFNHuEio58Ir1KuiE5u0ruE/WWoWMzITd77aFh7jk7HJ0npU1+nz50OBj2++8uGuqDNHTn0o362D5TfoRtw==
+ bh=MrHZ8HJFc4LIhPbNGHNT6p0lE+fkvE9ChQJ+VcsBvrU=;
+ b=Zn1JLOKB6GL1EYIrjxQSngWZz0+Oz8uJgn0TcEvddf3gszWjqrxp/sWn6ysN2bDy2jnUO8inF9x0w0Rxa+B6US3+wXAjPgHn1oW3Hl7BkuV0txNlFKvbjTZAKxBW4Lq5wLMirfOB+BfmLeA6fI/WpQ6JwFqxrA3hzztL9Z+5bTcbhNMa8828O4dMiODRsXdP7PX9j6h53DVEJpXaLNolUKOGQ1iX+6BjlgbvCzixSYzJK5o5YYn240bChEL9q7/hSFkaJfeD9C69Yo5lD0+yrH+q9lPx3WBjbSJH7r/D+md6UFE24HhSXiGkVgN0hAysNcgzUlEG4R6tgkz3BfXVcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZNf4DMnuOWGyPwGvLnnoM1ANl5NFr4v5/B+yGVofebw=;
- b=0jzVFDUv3x61o1MSOp4xcHssyKQxlDmUvF9xpFtyZT0ATqzOv2v4zX6WL6Q7dw3nZTdESg3AZO4MnqxNWA+Uy3lDKSHHxst6g/xgUYIZBbLDC7ipVYVaHRbwG+bj+GIGzIO3Ib12M/1k9w6xGPp4IqE71hLMJsIJvF6ITcLBvxY9jd/yqn0ifKR+IdTOKAXyd5OqPyaHkY5WwiJsXKDmxRpYF0buEwEz02pYJ2H6QiEjDGKA4Q6OQfYLPnrF2gPKSjugtAsun+IClfWAISEwEdSX1I2T09ylzPKaWKKcI/DCqe7J5lGqfpgeL58tuJLR/OEXgW2ztw3pKs7CQM18rg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
- by GV1PR08MB8058.eurprd08.prod.outlook.com (2603:10a6:150:96::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Wed, 12 Feb
- 2025 14:40:56 +0000
-Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
- ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
- ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
- 14:40:56 +0000
-Content-Type: multipart/alternative;
- boundary="------------v3oNx2aw3JP917D5do0Bw2ML"
-Message-ID: <f1effd92-1148-4a8b-9c9b-79b86e58fdc2@weidmueller.com>
-Date: Wed, 12 Feb 2025 15:40:55 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC PATCH 15/30] classes: add early fetch, unpack and
- patch support
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20250211150034.18696-16-stefan.herbrechtsmeier-oss@weidmueller.com>
- <Z6vQDT6LkF9JMQ+S@gmail.com>
- <1c055ff2-cf06-4e21-8c8a-a4f09d037d5f@weidmueller.com>
- <CADkTA4P31j6diWt_Qa5BjYksQktMGxRhy4KgdX_imdkf0vrY0w@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: <CADkTA4P31j6diWt_Qa5BjYksQktMGxRhy4KgdX_imdkf0vrY0w@mail.gmail.com>
-X-ClientProxiedBy: FR0P281CA0255.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:af::18) To GV1PR08MB8426.eurprd08.prod.outlook.com
- (2603:10a6:150:8a::17)
+ smtp.mailfrom=loewensteinmedical.com; dmarc=pass action=none
+ header.from=loewensteinmedical.com; dkim=pass
+ header.d=loewensteinmedical.com; arc=none
+Received: from PA4PR01MB7568.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:c8::11) by VI1PR01MB6590.eurprd01.prod.exchangelabs.com
+ (2603:10a6:800:18b::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Wed, 12 Feb
+ 2025 14:53:10 +0000
+Received: from PA4PR01MB7568.eurprd01.prod.exchangelabs.com
+ ([fe80::3120:42a:d1fb:90e3]) by PA4PR01MB7568.eurprd01.prod.exchangelabs.com
+ ([fe80::3120:42a:d1fb:90e3%5]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
+ 14:53:10 +0000
+From: Sven Kalmbach <Sven.Kalmbach@loewensteinmedical.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] Fixes [YOCTO 15731]
+Thread-Topic: [PATCH] Fixes [YOCTO 15731]
+Thread-Index: AQHbfV1PaDW2xcdraEue4U5qvp7pkQ==
+Date: Wed, 12 Feb 2025 14:53:10 +0000
+Message-ID: <PA4PR01MB7568995480429852AF9AF6B782FC2@PA4PR01MB7568.eurprd01.prod.exchangelabs.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR01MB7568:EE_|VI1PR01MB6590:EE_
+x-ms-office365-filtering-correlation-id: 3004bb94-f300-4334-47be-08dd4b74f82b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?YPwVdfzPUUp3mu54ueqDFuk0ZFqz0UFM2iTm6PJC+wXOAqK7P9cSc23VK1?=
+ =?iso-8859-1?Q?v7KvzMMeOL+6V0hPCuKUiUFZ3YMkNNQfgn3x714r7yGePNGoQfCqf+ZcRl?=
+ =?iso-8859-1?Q?mp6TiSnuLLMkt3ZpP6t+GFaKhrlF5c+tciUGfsE4lvoCLlB5xkb4mRf7rG?=
+ =?iso-8859-1?Q?LVI19BFUjEJDMKQSsFKLEDO12g39ecC9WrTBxdLSBGzLz8CjS5BRvPaqwQ?=
+ =?iso-8859-1?Q?i3kRJUcpXlJLQye06Xu40F1UHMxrNHgpg5h2TIklvXE81Nm3yLn4W+oxrM?=
+ =?iso-8859-1?Q?5LHshnJ3abMWB05jVxJBCa4iOEPjSW+1ByNOc3pT3EIXfvQoT2sEMVCGy6?=
+ =?iso-8859-1?Q?RgQ5CH9MX10WqiQwyLM3F9bC/qhspKBIUL6muSFoPHy1F6e71SE7rwi4oP?=
+ =?iso-8859-1?Q?CWBnVQDJnb+QEiVwzn4LVAzUJbofH4Q8qW0JV66WmGDbxEf4KwmcgxxRVp?=
+ =?iso-8859-1?Q?J80Ayl8rXthNdL67WYhckZaRbR81lG1gJIUHqu2NVGAE2pI8MGKwHIDFyK?=
+ =?iso-8859-1?Q?nd2LoxVxG4dNim3HiVzr4HoPoRQ7ni/a8Dsm3yp0H6CiQUaOPpvapXrIhe?=
+ =?iso-8859-1?Q?4VnzFTlj7T88mH8a15C+OVjb9plpJNemxl6ASIQFTJLZ0m6IybkOqzUrQx?=
+ =?iso-8859-1?Q?2+r44Wo6n6twNxCmLnE2ssotcMloQk44711EeW3emqt8QgqYplabAa3FYJ?=
+ =?iso-8859-1?Q?0q07UANYzDzMVGvY6nqed+zD6zfGt6lq3PspPybFQO7JFkSYe65uFXZMLX?=
+ =?iso-8859-1?Q?2bMD8jmSljc9wpB7Xo49fseXh4+r1sTQkvuEjdvHuonuvUUgCTxuUwv9sB?=
+ =?iso-8859-1?Q?kycxMLeZzt0Kv63pPOnXuQMvEXOQ93ThSSdQSsbQCn6ufjCC/dT0NEGIRB?=
+ =?iso-8859-1?Q?DpoFwlxDPDI+Z0leyF7HZprKas+MnIyBVbeySRigIE18ShwHsppuPYzglz?=
+ =?iso-8859-1?Q?nG8Fm3kDSqY0b/ougKfWo/hzlbu/CQJdBCZd03XytFIV5NdlLWRlhN+38d?=
+ =?iso-8859-1?Q?nZiIRUJIHUa04ZRvwu4i8wHUIu+lMaHkDLJDL7pro1zJxbQSZ2OA2UaDpV?=
+ =?iso-8859-1?Q?m0+lg4CGbPb1gyuk7CPzytzy2ztFb4ML0w5gx705hr+HL2NiUnvAZXX4Bx?=
+ =?iso-8859-1?Q?pOL7ckP4NuRVv3Uu7LruVJNYfsqyfoCIt4H5l+Rnkc3jRJoX6V8T+U91d4?=
+ =?iso-8859-1?Q?cRz9S73GH8P79CrJ/do5l3kG37VdDmlKxRiaibo/CnyKQtluEG6qWpDxse?=
+ =?iso-8859-1?Q?Un0XqASRDOo+K1nfgO5GKReAB1Kd7TZF5H5QZMxRw3e4m1FY32pCTj/b7H?=
+ =?iso-8859-1?Q?fBPHzjXwQEfEbkcQ4e7OyIvnlDLZE0tMGRO1S9r47UgarYmi0Chga1OIfO?=
+ =?iso-8859-1?Q?miSCrh6ipSZY6BvS0ZtDiNWELYQdveu8eybOpAIhhdh6ced3EZIbsEvyvr?=
+ =?iso-8859-1?Q?04z/fr6cVroQkcmLqh1lRP4lstdzjzNAoWgkFokusYn8y5JGlggqRNd2H2?=
+ =?iso-8859-1?Q?sXCoa9l/7dZTvqOxuOsAng?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR01MB7568.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?PeoEHpeyAXwk3KZejY2E7buaBTwqT15s/zS7RRxsUs4YQiQjffv8RTUh3a?=
+ =?iso-8859-1?Q?feifE1KGt2VlKx+JTI1avYh+Qr20QT+UHGGi8EFH50OAyijn1/V5KIIx9t?=
+ =?iso-8859-1?Q?To6zQNcZ/fQ+5dhZezAgFov7tbD+KkciRSwPBauQA5pTM0GwjVd8pzwd/x?=
+ =?iso-8859-1?Q?TUCEnvLhgDIsh0Cvk3GRbZrgGa7TNB1GEgOXfCno4hCkcTy1j8tMV1O3GI?=
+ =?iso-8859-1?Q?572U8AYS+8UWeZFKegCEtK2eer6FI9gXl2BTTP4dypb8xPRVi/+cXo0Emh?=
+ =?iso-8859-1?Q?PxtTpWyX+V9NLy1LWA3vjaO2HgOIo6LK9GiSkQqeQBUanTbWd8AC5m3V/5?=
+ =?iso-8859-1?Q?Okec2TgnPOut5UEhbaErQrDOUrb2WkRzxAtBzDNWfhY54CiV1NZcKQW9/C?=
+ =?iso-8859-1?Q?In73W61BO5ShrrVtszDRrJ9f371D6WseTal6KREGQc+eKraxDJp8jp5mC6?=
+ =?iso-8859-1?Q?kI/6NJ3KnkWVFrUbphWZKhlNLeelwIqB/VvupJnvBLMtBdtQewfbKm3/gA?=
+ =?iso-8859-1?Q?BoxS2bCHC5dnOqmVV6VoXiwr77yslBHJUBlRent2iSzM1XpWxTFVw8zl+r?=
+ =?iso-8859-1?Q?9F4U+9Ky1NK6pkuwIo+nRGCLx8UgticDQCPeztfqYwW/9OxOnOaWs/dRCZ?=
+ =?iso-8859-1?Q?HW2gUtqFCp+UBGxeoAAuQWBmZc9elwzzTJJUV2r4PIB6WtqrBDr7vB5FTE?=
+ =?iso-8859-1?Q?qZIt5QeKMgbusdhIpLRQActvW1xR6VjImyfcqRNtZvXDHbWZdcHwuy0XKE?=
+ =?iso-8859-1?Q?hf2ewyEUdhc28oYkJBLQG7hV+esukifNpK3KKPrk1OLHZsKaxQdtePis3+?=
+ =?iso-8859-1?Q?keKfz6VZZ+Llq+JMh1+GP3pcpzDzIQFCTN4Onu8/vw8ndDVpoPfKYDy0vk?=
+ =?iso-8859-1?Q?1VWH5ROoeT1p+/IY9VNWTTnoHFr6L/8VAVpbSU5TxDa5vhXXSHIsg8Gn20?=
+ =?iso-8859-1?Q?fwMn5lH5FZRfi89Gn5tQvVMig2HZuPyHPnf3YMFEK1AL67NLPRuk2M1hKe?=
+ =?iso-8859-1?Q?zo0L7sn7YThuxOxDkYtfu6x5H3Bdh/MGuEcCMpnpPh3q2jPCtVx25k2m4W?=
+ =?iso-8859-1?Q?SqRqW0xqkxfL/TcMycexmqYQBtJW+L4JI5bLyruIDRGbVcLJoA7kdatHgS?=
+ =?iso-8859-1?Q?5kFpMrLQxw5luE+qifPTcps13kEKhKJUhshAvLr98vmHWBrmyBGAhU/iWj?=
+ =?iso-8859-1?Q?QYdK2vl36XbhzaYTHOA2B1Z9CEhEWdUd3r3/HcExSDNNFhxGsMbjS3h4pE?=
+ =?iso-8859-1?Q?umomUUZ5PQu6/BkOODWBWk4ndYcZXgqafR4Yd9I7tKOirrwfIvOwZiLVtW?=
+ =?iso-8859-1?Q?oPWPS7uDQiVy1w48KfpUaN6yrM00UZ6yBp/dwpe9Cnfs5u16KiOksYifKc?=
+ =?iso-8859-1?Q?DhF2wa498HcKCr1PzVxgPkqCd/qCyLuN96rwTunqhkK7AcmVgpBhiY/Xa/?=
+ =?iso-8859-1?Q?zB4uLUu8tnxIgseZYde9joDtbuu/0mVW17QchO2VLxYmqGuaI7mS1+txZL?=
+ =?iso-8859-1?Q?YiVQG0dJGmLlUBjuuJVw54vQ8hexi00pBhAlII4jusM2y9O5jyDVAguhRB?=
+ =?iso-8859-1?Q?cphargGBzj2aODD3Hr1qMTnREesqpUHM/7Ka1C9ZUwv+gTNiztAtaOK6ol?=
+ =?iso-8859-1?Q?XIno7xgWOt1lbto9/kBfrYSX5dltzpjK80BIZ7DtDgwZMO+CZTeT/adw?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|GV1PR08MB8058:EE_
-X-MS-Office365-Filtering-Correlation-Id: e84de32c-7ea3-4912-4480-08dd4b73424a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|13003099007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?QllHaDFUUWZ0SXRrZkFaQlJxWDRVckZsVG52R29pZm4rb2JKRjJBc3ozUjc0?=
- =?utf-8?B?SmFCajI2RThxSkFJV1h4S3pRRXNqakxQSVBpcGRjcWJWaExBc050Ym5aOHZv?=
- =?utf-8?B?dnZKa0JqN3dIQU4wT2l4NXFzc2lFL1pJb3RReHVsMDFvUGx5bkl6Um8xenNy?=
- =?utf-8?B?eUJkejM0UytDc1poK1ZxOUQvQmFCeWtGdjhveThpdzBpckh6MmxwakhSUlNI?=
- =?utf-8?B?S0pOOHRSMDZ4cEl3Z2FaOXlNTjRsMFlWUnVkZlFtdzhNOVBVTzAyaWJJak54?=
- =?utf-8?B?NlRmblFFMHljNy95MDIyQ0x5cVl1cUpuOG5DT2g4RVVmcjFtNmtqd2lQOFVp?=
- =?utf-8?B?VFQwdXQyaUVmalkwR2R6aU5HK09nK3dzamc5ZXZnQWszK0dRSHBiY1k5Ulky?=
- =?utf-8?B?Y0hFS21xRytxdkhnNm84K3JuQ1c0Nmk3YlVwRVlKQTRERHBpelZycURadGlC?=
- =?utf-8?B?ZmgwQ0M1OUpXWDVpSVIzSk1hMTNaeUR5aFh1M1FRTlpsNDhVamJQbE9yajQ1?=
- =?utf-8?B?blM1bnpLQXNGSGF0ZVpYRTJOWWtiMklZUEV1WHlXTTJxME8yMWxqQytmNHA4?=
- =?utf-8?B?NjZmOHFzd3A3dDVaMUhrNE9yb1RRYWFsWnhuSDh0TjcxOWY0K3IrWFZYK2x2?=
- =?utf-8?B?NWdESjJxcUh5TE1sRlNhMlZZdDViUUcvV0NUYmg5aU4xend1b0dGNzNlV2ph?=
- =?utf-8?B?R281Uy9lN1c4anpKUC9VTmNXRG14SERQdFpoOS9xeTFJU1dGR3EwNmlUV1dT?=
- =?utf-8?B?SzYwbHVZRk95OGEvTUpmRFBIQ0VZazg3YURuMVRJNG9XemltRWZUdVpFNi9j?=
- =?utf-8?B?VUhvWjM3K2lDY0xEN2hncmdWQTRhamNRYnhqdnhyaFpsQStoeXYvbDhTVk5l?=
- =?utf-8?B?ZGJZQkNOTmtWM3Y5bmFJWVp2alppak5LcVZSKzhMSThnNk1zT3VuUWVxdWhN?=
- =?utf-8?B?eTQ5YzJQR3FzNFN4c0laTEQxSDFTdllDY3laWURZTGNqVGtTcW1ERUMxWjFh?=
- =?utf-8?B?RmJiV245ang3SUdwK3R2UTAwN3NVU2pYSXRBOGhTUHNtemNHR3RRbFJQdk5w?=
- =?utf-8?B?ZGJ3U2UvbUU5Q05QcGJpL2hkWUFUaktGSHQrQVZvVC9pUVFSY0FoMS9hajN4?=
- =?utf-8?B?Q1AzVyswbzh3blUxTURLemtwUEFWSkhxQVBpUHNNZER1dU8yWHlNM0NMZ2NP?=
- =?utf-8?B?UFU0VWx0SWtoUE5lTmJYUVJnaG9ObW1UallGMDc3cWhBNzdoVmJOZ3l6VVdi?=
- =?utf-8?B?NmhObU4wcGMrY2JySTJVVHphS0NTUDFKWDR5VSt0S2hsSEZOUXUwaDkzUFVE?=
- =?utf-8?B?dEZLaGVCOXBraUI3SVFUOUI0WUhKTnNmdy9GN2c3L1UzdloxSjdhQmExWGJZ?=
- =?utf-8?B?Y1FuOGtrZ0JQbUxKeWFVaDBrR1ozWFFJa2M1djVFQkcwUHNaTDlnWnJVaSs2?=
- =?utf-8?B?Vk9LZHdWY3VhUnJqc2pVbEwzTWhVUkx2cWZlTVFHQmdvZ1RmZnhKaG4va0pw?=
- =?utf-8?B?QktqWVFrc1QyYnUwTVhvdFZLd0p6M0ZkZE5XOVdNbGI5RWl2T2ZoajgvbHpX?=
- =?utf-8?B?Q2tZOXJhYzJSZXZ6NndPcXFsbUpjYjlHMmxHVUpVaWhXT1cwREZobDVBTG5B?=
- =?utf-8?B?YkRyR2pheWcweE1JREcwcjM4MWZ3aDVtYzVqMSt2T1JCSk05NUdUdkxPaXJx?=
- =?utf-8?B?VWorSkJOdFNGVkNtQ2h2VnNsSE55OVN2SDJIajRYSWJXbmVWbWtkSzlrMW1x?=
- =?utf-8?Q?IlIO9BnAA2RkotPfq92gHmzw6sDcGWR6qkEG+TF?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007)(8096899003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?OVQ4cDNJajFGdHNzY2t1V2dObkxzSXE2Q0pMcU41SnF6MjNHSHJCSjJCd3JE?=
- =?utf-8?B?dnMrTHcwRnd5T1NFZzQ3V2E4Nmo0bFBFRVVIYWFxTDJ5WUpLbHFldGR0U1Ro?=
- =?utf-8?B?ZDhJR200Z2p4YksrY2crOUEvVDZSSi9aNGxCNGNHQVlQbzlRazVYcVlXTVJ5?=
- =?utf-8?B?bURwVmVVZHF5VG96TWlEUndNYklNeVF0cnp2d0swdVRGVHZtQlplOUZvUTU1?=
- =?utf-8?B?VUoyOWM0YVhZQzlzOTdDYm01eXZoa09RdzVhYWRVN0hQTXdtOXRaVjMzQXRX?=
- =?utf-8?B?cnBKMENyYXE5S2NuNlJVcU05KzRDOS9qK2JERTB0WXV0V1lUTWJReTFJbm5r?=
- =?utf-8?B?ODJ0b1VzOS9abzFUMmFINndraUZrK3RMbjFaWDM2eW1SeVRDRENwT3hMUEZW?=
- =?utf-8?B?czB2N2dwWExuYmtZYUc1Z0JSajRyYlgveGxZM09CN0VZYW5iNlBmeUg2ZzFN?=
- =?utf-8?B?aDFzRC9adHVmMXNVSXlya2ZHanlVYzQ1eExqY2J1T0orclZPYU84R1oxL0Uy?=
- =?utf-8?B?bTVRcmRMWW41KzNWbGUrc1pLdkNTTkV5ZkFBYitidmFxZy81SXlla0drUTBG?=
- =?utf-8?B?ZkJ2QUlpaFBiMUxnc1JsK2xkWjM5Ym9vcWM1VnEwSjdHTUpVV0lMTGIwZ1dV?=
- =?utf-8?B?VDExK21LMjFYTkJDaDh2TjVzNWxvdk94SVJCdC9LZDdKZERWOHVYdzA3eE9v?=
- =?utf-8?B?cnVxRVF5bDJqOWxvM0dwU1hMbnVCbVdqY3lvMk5JMEhNeVFEb29EbC9kbEJF?=
- =?utf-8?B?d2dSUFA0RU1vS29QKzEwM3hoZ3BjaURvN2E1eWNyZnJBUE9MZStBS3d4VUhz?=
- =?utf-8?B?V1gzdWM4VzVrL2RuUytYMytiNnFpQUIzZm1pYVdmMjVUSzNQMVNOM0ZxV2o0?=
- =?utf-8?B?Q1dvT1hjR01Mb3NVNERRV1M4TVlFWW56aDQ5eFRHeVA2TnpjRzFmLzNBZVQ2?=
- =?utf-8?B?Q09NR1RTck96UTBsKzRoNVFEYXF6UDhsVVZXSHV1WmZSR1IyQkdvelA0aDNi?=
- =?utf-8?B?MHh0MDlmekYxMHV4TW5UN3JmN05Hb1Zvd1h2ckd4NzlrSHlDZEx2MnY1cHlV?=
- =?utf-8?B?SEczQ3laMUVCYlFRQkJMYy9sS0U2VUZEU0RTWGZVcDRmbnBOMzNFS2ZlZnB1?=
- =?utf-8?B?a3NTVUhzbCttT2pETFh1UHZ0bVI2SGZSbmpCSEx5MjZZUDdOUm1KS3BTbExo?=
- =?utf-8?B?bHF3TWtHK1ZMcGNtTnVBdDU2UGZZbFRXTFZnNWoyaXBUeDBCM2ducEFsSVpG?=
- =?utf-8?B?aXdMaStleXlxajVKakVibzhyUVZHS3E3SC9ob1F4NHhnNWtNS2RNM1kzazRB?=
- =?utf-8?B?MmNZaG1hQWE3QTFSZWxYMUFNTXBwaUJjaW9TQTlvWnczdXJCaWxEOVRkZFFD?=
- =?utf-8?B?UWdTSllXVUl1VmxiN0hsVHNySHFvbzVsQVh2czQ2MkEyaGI1WDlNMWQvTUVN?=
- =?utf-8?B?QjVia3NvNEp5YVhNMEF2bFJ4OFlFZGVrNU9hbUpTVTNNdDgxSzAwTHNSV1dF?=
- =?utf-8?B?b2tWdjgxUk9Ici9wdlBveGQxT3VvS3dCbVA5MFF6cHY4bGo1N2N5eS9QcFB1?=
- =?utf-8?B?QWhvWG94dHp4S1V4ekh3OEJ0MXVHOTYxdStXSk56ZkR1ZVVEL0c4Sit3WDNJ?=
- =?utf-8?B?T1hxc1pOUkJTb0s1emxzZXpZcnk2QzZjOGpXVWpQVm1sbHpQWGV3Wk9wM2Ri?=
- =?utf-8?B?disrWVhNdVVrOUNjME1VblBteWxqUVZCOUZnQWw4ZE9MUFB5cmhDUHhSUnZY?=
- =?utf-8?B?ekFVY08vUnlPUHNKbG1jOU96Qk4vWXY0UEViZGxJcmpoMTlMNDRGT3ArcWw4?=
- =?utf-8?B?Q21HWlZRQWgxem01QXhtYkNYcDlUNkVpMlJ2SHJnQWRnMXEzV3U1am1PM2VB?=
- =?utf-8?B?RkJwUWQ5ZTMvZTBWVVZ2T1RDeGtXeHVhd2ZIQzFmK2ZSZmpNMEM1OERYVGJV?=
- =?utf-8?B?WFc0eVp6MitPVTBKYmFZcDBpSEkwU1cvYWdYNFhZb1J5NU93NWNzT1FLM0Zo?=
- =?utf-8?B?YUpiKzhQZnQ4Lzh5RkFyN3VPUlFwR0ZBNXJpTjFEcTg5R1R3RWJVQUp3eFRH?=
- =?utf-8?B?Q25uN0xkSzZvbE5rR3Q1YWt1N3hJOW1IcytvQmNMSUlQNHNYSUtFU3J4WWpE?=
- =?utf-8?B?WFp1ZjZ4SG5RKzc0d2x5dllGWWhCVWxyRXg1MHRmOHRWRWh6RUZHMzRQbDg5?=
- =?utf-8?B?OEE9PQ==?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e84de32c-7ea3-4912-4480-08dd4b73424a
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: sM0YVIxrpRJOBLpB7uVP+pF+P/ks8qVfxIWGqQgQlWg0pc+L0q3Hmzok+DBl8pmh9woU28T8SKco2mjbAFSKe/KDwF4LnOKxpVR+kKw/R7zFsJrQVamE669Bv7LRuWJOs8a0n4iLJbCrWVgrOPgFv0YVpFR4KcxGi+msKqYHpNZD4jPg8a5HZwE9mUSV/c6pgvCvwsRwpuKFlAH2sE3nRkkczHOyH2MJM6jQSOtuLki05dHb7y9EIPWL3MpLgcI/p3BmChUYEJiZNar2bApp91idJem+sOUx9TydvWjV047XUO7nLg5MNtNtOdDOrIP5I2Hgl4I7AmuL4KIlIRkgNd3GYBbGeFGKEsONW7ZrhjZqA7UPOQ9byQv6wRopShpTcHUZPiH3oiJX83Yjynzjt/cRv5GMguyikvZuU1u1g5Xz5NC9EVjvFgVtiuC93M2q6et+Zaei15hwk2qr5fxEfy8rvWvEFnYYGZBWy/g2R4N5D9AmFtYatnKDkYmuuUiAdp798WFkXjkVsyhxq2LT33CV81Zxs6IewC5uv8o1vrHh6+jdnlDB5Cm3tNypWX3YaRzsDyJ1q60oArlX3SBRHGEzJOfVhgXdWizQ/1GM9GGMF4phlTrz/yLZmiS0YUAR
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 14:40:56.3495
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR01MB7568.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3004bb94-f300-4334-47be-08dd4b74f82b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2025 14:53:10.8340
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AIOb59eGDrqnpTnZDKqp/V2s/uuV0GWUkjS/mypFbi2DRAL4ZzDdGXzQljeBo9Ohaib/aqCLuMu7VIcSL8X4bg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8058
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4620751a-8ca3-4df9-92a7-6fb9b06279d3
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mYS7B2nfOZGWZ4OWhdC1Dz82UhowQNkYqFSwGi7Fhlvfc2MBY9tO8CG5mg2ByVacd/Yq54apEHP9UD5Z1qlW9Ci/gE2uiSVej6djP0Do0tMwR9wfCCWGF9IHyTjDc7p4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR01MB6590
+X-Proofpoint-GUID: eyLw8iz9ZQNVzEyYk32cWdm2Qcs1HzNu
+X-Authority-Analysis: v=2.4 cv=ZfnnNtVA c=1 sm=1 tr=0 ts=67acb5da cx=c_pps a=FEALSKi4AvoWtY0syLDQ7w==:117 a=FEALSKi4AvoWtY0syLDQ7w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=T2h4t0Lz3GQA:10 a=pnnnEMm-AAAA:8 a=_507QEmVszEgESBbCqIA:9 a=wPNLvfGTeEIA:10 a=71_3R1wvw0rBZWdj5NaC:22 a=L1VgJ4hi7dtVfwbEAIjz:22
+X-Proofpoint-ORIG-GUID: eyLw8iz9ZQNVzEyYk32cWdm2Qcs1HzNu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-12_04,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502120113
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 14:41:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211244
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 14:53:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211245
 
---------------v3oNx2aw3JP917D5do0Bw2ML
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Am 12.02.2025 um 14:55 schrieb Bruce Ashfield:
->
->
-> On Wed, Feb 12, 2025 at 7:42 AM Stefan Herbrechtsmeier 
-> <stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
->
->
->     Am 11.02.2025 um 23:32 schrieb Bruce Ashfield via
->     lists.openembedded.org <http://lists.openembedded.org>:
->>     In message: [OE-core] [RFC PATCH 15/30] classes: add early fetch, unpack and patch support
->>     on 11/02/2025 Stefan Herbrechtsmeier vialists.openembedded.org <http://lists.openembedded.org> wrote:
->>
->>>     From: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com> <mailto:stefan.herbrechtsmeier@weidmueller.com>
->>>
->>>     Add support for early fetch, unpack and patches task which run before
->>>     normal patch task. This feature is useful to fetch additional
->>>     dependencies based on a patched source before the normal unpack and
->>>     patch tasks. The patch are marked as early via an early=1 parameter. An
->>>     example use case is a patch for a package manager lock file (Cargo.lock,
->>>     go.sum, package-lock.json).
->>     I understand why you need to do the above, but there's now multiple
->>     fetch and patch tasks running throughout the pipeline of the
->>     build and that's just more complexity to maintain.
->
->     The tasks call the same functions and the difference is really
->     low. The early task simple use a filtered list of the SRC_URI. At
->     the moment the gitsm fetcher is doing the same but without a
->     possibility to patch a dependency.
->
->>     This is what I was asking about in some of my first replies
->>     to the RFC series. When I've done this in the past, I'd just
->>     suggest something simpler like the recipe provide a complete
->>     "lock file" in the layer/recipe-space and have it overlayed
->>     in the source.
->
->     This was already supported by my first patch series. The
->     disadvantage is a lot of noise during each update.
->
->>     Of course that means it is in the same fetch task as what
->>     will be fetching the vendor bits, but coordinating within
->>     the single task is simpler in my experience (and it can
->>     be checked on the SRC_URI). I haven't fully thought through
->>     how to manage it, but wanted to reply to this while it was
->>     fresh in my mind.
->
->     It is simpler because you manual fetch the lock file, remove the
->     possibility to patch the file and skip the unpack. But you still
->     need a manual fetch, unpack and maybe patch the source and copy
->     the file into the meta layer.
->
->
-> That's a completely different type of complexity. Richard and I are 
-> only talking
-> about the complexity after "bitbake <foo>" has been called.
->
->
->     It is also possibility to integrate the early and resolve task
->     into fetch task but I'm unsure if this simplify the complexity.
->
->
-> Having direct calls to additional routines via conditional is less 
-> complex than
-> tasks (dealing with timing, scheduling, code maintenance, etc), so that is
-> preferable from at least my point of view.
-Okay, I thought separate tasks are preferred. What is the alternative to 
-the EXPORT_FUNCTIONS in this case. I need to call different functions 
-depending on the inherit class.
-
---------------v3oNx2aw3JP917D5do0Bw2ML
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Am 12.02.2025 um 14:55 schrieb Bruce
-      Ashfield:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CADkTA4P31j6diWt_Qa5BjYksQktMGxRhy4KgdX_imdkf0vrY0w@mail.gmail.com">
-      
-      <div dir="ltr">
-        <div dir="ltr">
-          <div class="gmail_default" style="font-size:small"><br>
-          </div>
-        </div>
-        <br>
-        <div class="gmail_quote gmail_quote_container">
-          <div dir="ltr" class="gmail_attr">On Wed, Feb 12, 2025 at
-            7:42 AM Stefan Herbrechtsmeier &lt;<a href="mailto:stefan.herbrechtsmeier-oss@weidmueller.com" moz-do-not-send="true" class="moz-txt-link-freetext">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p><br>
-              </p>
-              <div>Am 11.02.2025 um 23:32 schrieb Bruce Ashfield via <a href="http://lists.openembedded.org" target="_blank" moz-do-not-send="true">lists.openembedded.org</a>:<br>
-              </div>
-              <blockquote type="cite">
-                <pre>In message: [OE-core] [RFC PATCH 15/30] classes: add early fetch, unpack and patch support
-on 11/02/2025 Stefan Herbrechtsmeier via <a href="http://lists.openembedded.org" target="_blank" moz-do-not-send="true">lists.openembedded.org</a> wrote:
-
-</pre>
-                <blockquote type="cite">
-                  <pre>From: Stefan Herbrechtsmeier <a href="mailto:stefan.herbrechtsmeier@weidmueller.com" target="_blank" moz-do-not-send="true">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
-
-Add support for early fetch, unpack and patches task which run before
-normal patch task. This feature is useful to fetch additional
-dependencies based on a patched source before the normal unpack and
-patch tasks. The patch are marked as early via an early=1 parameter. An
-example use case is a patch for a package manager lock file (Cargo.lock,
-go.sum, package-lock.json).
-</pre>
-                </blockquote>
-                <pre>I understand why you need to do the above, but there's now multiple
-fetch and patch tasks running throughout the pipeline of the
-build and that's just more complexity to maintain.
-</pre>
-              </blockquote>
-              <p>The tasks call the same functions and the difference is
-                really low. The early task simple use a filtered list of
-                the SRC_URI. At the moment the gitsm fetcher is doing
-                the same but without a possibility to patch a
-                dependency.<br>
-                <br>
-              </p>
-              <blockquote type="cite">
-                <pre>This is what I was asking about in some of my first replies
-to the RFC series. When I've done this in the past, I'd just
-suggest something simpler like the recipe provide a complete
-&quot;lock file&quot; in the layer/recipe-space and have it overlayed
-in the source.
-</pre>
-              </blockquote>
-              <p>This was already supported by my first patch series.
-                The disadvantage is a lot of noise during each update.<br>
-                <br>
-              </p>
-              <blockquote type="cite">
-                <pre>Of course that means it is in the same fetch task as what
-will be fetching the vendor bits, but coordinating within
-the single task is simpler in my experience (and it can
-be checked on the SRC_URI). I haven't fully thought through
-how to manage it, but wanted to reply to this while it was
-fresh in my mind.</pre>
-              </blockquote>
-              <p>It is simpler because you manual fetch the lock file,
-                remove the possibility to patch the file and skip the
-                unpack. But you still need a manual fetch, unpack and
-                maybe patch the source and copy the file into the meta
-                layer.<br>
-              </p>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div class="gmail_default">That's a completely different type
-            of complexity. Richard and I are only talking</div>
-          <div>about the complexity after &quot;bitbake &lt;foo&gt;&quot; has been
-            called.&nbsp;</div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p> <br>
-                It is also possibility to integrate the early and
-                resolve task into fetch task but I'm unsure if this
-                simplify the complexity.<br>
-              </p>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>
-            <div class="gmail_default" style="font-size:small">Having
-              direct calls to additional routines via conditional is
-              less complex than</div>
-            <div class="gmail_default" style="font-size:small">tasks
-              (dealing with timing, scheduling, code maintenance, etc),
-              so that is</div>
-            <div class="gmail_default" style="font-size:small">preferable
-              from at least my point of view.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Okay, I thought separate tasks are preferred. What is the
-    alternative to the EXPORT_FUNCTIONS in this case. I need to call
-    different functions depending on the inherit class.<br>
-    <br>
-  </body>
-</html>
-
---------------v3oNx2aw3JP917D5do0Bw2ML--
+From aa2176cbd1438b72f22129421edd8f7979330a56 Mon Sep 17 00:00:00 2001=0A=
+From: Sven Kalmbach <Sven.Kalmbach@loewensteinmedical.com>=0A=
+Date: Wed, 5 Feb 2025 16:11:33 +0100=0A=
+Subject: [PATCH] Fixes [YOCTO 15731]=0A=
+=0A=
+Remove incorrectly escaped exit value, which causes error=0A=
+handling logic not to run.=0A=
+=0A=
+Signed-off-by: Sven Kalmbach <Sven.Kalmbach@loewensteinmedical.com>=0A=
+---=0A=
+=A0meta/classes-recipe/cml1.bbclass | 2 +-=0A=
+=A01 file changed, 1 insertion(+), 1 deletion(-)=0A=
+=0A=
+diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bb=
+class=0A=
+index 0bf171a668..d18b008aec 100644=0A=
+--- a/meta/classes-recipe/cml1.bbclass=0A=
++++ b/meta/classes-recipe/cml1.bbclass=0A=
+@@ -58,7 +58,7 @@ python do_menuconfig() {=0A=
+=A0 =A0 =A0# ensure that environment variables are overwritten with this ta=
+sks 'd' values=0A=
+=A0 =A0 =A0d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_P=
+ATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")=0A=
+=0A=
+- =A0 =A0oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Comman=
+d failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.get=
+Var('KCONFIG_CONFIG_COMMAND'),=0A=
++ =A0 =A0oe_terminal("sh -c 'make %s; if [ $? -ne 0 ]; then echo \"Command =
+failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVa=
+r('KCONFIG_CONFIG_COMMAND'),=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0d.getVar('PN') + ' Configuration', d)=0A=
+=0A=
+=A0 =A0 =A0try:=0A=
 
