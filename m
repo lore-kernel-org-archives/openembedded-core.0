@@ -1,100 +1,292 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB85C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 16:16:38 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.20002.1739376997474960323
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF43C021A0
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 16:19:08 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web11.20048.1739377143565610432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 08:16:37 -0800
+ Wed, 12 Feb 2025 08:19:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aBvr7Tkl;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hUXFE0kG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010194faf2b078-d3e26dbe-8942-4af1-b3f3-7e32a327da82-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739376996; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=kwbPGWEjlvcoxtUUddvOn/XLSyB40GPRo35Gv1NgO1c=;
-	b=aBvr7TklHP7UFrbNvcFf93/kL2ae0W8qbt0lQ4ajmH3kktm+53RyINzyQzFUN1bm
-	9N3iRxAzXE6DtbSRhYJMGirR+Siryf1s5Gn03xz7DrqbD8iv59VsUJSpmuHK8fTLguA
-	1OgFz/xOOeESYLRYIOKkedS2NvygdWLqeSfPEcec=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739376996;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=kwbPGWEjlvcoxtUUddvOn/XLSyB40GPRo35Gv1NgO1c=;
-	b=hUXFE0kGwzwh05U74I2jSiNn1bUDJuvGmf8/homIH6Y0iO6YFGuV//1rjNI6sQg3
-	WA186ESQx468GC9ZMM9q8Lu7Q8kLcbPsfRfnbUXzMjfanwA/WHczgARt0AiooAoRKus
-	n6t+i2hxWkFSbR0r5GUXUyARfjkXBiofOCN5FSNo=
-From: patchtest@automation.yoctoproject.org
-To: Dan McGregor <danismostlikely@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] busybox: fix menuconfig on newer hosts
-In-Reply-To: <20250212161128.1933320-1-danismostlikely@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iBllG5ca;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c0155af484so912453785a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 08:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739377142; x=1739981942; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sYJbs6gh308NO5usxbvX6gYYuqeoEdcDHhxgRzfSMxA=;
+        b=iBllG5caS1PsbwbCe2XTnd2fwQ2yrggd/Hi3Nfp+nnZP5/P8ODkU2j6ZBmnYkXVLIa
+         Fjzo7+xVJP3ekhWQGN3Y1sybAEwJiYZl28KA0ZR82ysscSeIu+52S39DUQFpcJ2moE13
+         QDk22TJsCK7kxMCpvGUjlLvCxDn5KUt37liS7GJ9Q48JBfygJAUW7vMN6wWKwXayJvuy
+         pT9aGO6GgkBr1x9a/jO2A2unOa3LZcMaV6EGo89Dwjwq618BYYVaFN9Pv2qs3pUjk3hK
+         CBC11S6uT/8Bf7xdLuLfYctc3PIRTG2f5Sh1Icx6rKbaeRZk4IfZyaoEtfq3LXTV3I4g
+         HINw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739377142; x=1739981942;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sYJbs6gh308NO5usxbvX6gYYuqeoEdcDHhxgRzfSMxA=;
+        b=jHoGFwrRinfHcjlpAVEodtZi4jBYSrYgKOKGcqWCHzaIFuPaeDzACo+zvrlmc/7iYh
+         t8x1U0fsrrdrCD5Va4jtGUH/hdlZLXGQK/B2sOiZ0Ekiv1cusi0F++kj5jAm/J1TNo6V
+         6sty0ZAEA0mtxG/OQE8Mww8kfHNOph6ONSXN7LuEShCkkfEdI1SfbgNEzKfsLlLpm3WK
+         LKcPI5OdxXcO50tQc0YRF/Bg4oTIwpEJvSIhcue3R8nrUklXqh0dA/Mh1jla2daBguw8
+         vKAL1J/1sm1F89/d5UHlyisTrKsWnY0llujed0fHJltQVM0KGID96qBFJ8ycZgLESLHz
+         Y0Aw==
+X-Gm-Message-State: AOJu0YwY9j+TfsdvkynjAT+IVndOqJLlmz0lc6vQcMVCX56lju75ZKVK
+	XCwsIuXZesXjwPBMITtOEj46lc72/pFcp3eW9ZxIkRWUYfr8Att1b149IBx30YGk5mmZh2PkDOz
+	M8pmUe0WshKLKq4TrO1Pa7tsUXPk=
+X-Gm-Gg: ASbGnctpiZU4Wp6lHNgLGWwBs3lE13WKk2BWOwdNelbTtroq35Aoqo6TgyeNFJ707k1
+	fiPxyaPlKLl44WnXSWbpCIokB2HajtTaxmaJ31NWI/tYJkKA+aEXRrLSUqox/p3ZVJO8hDOWigp
+	ZXKc/3itkOp61K90myRCTEecdh0Gc=
+X-Google-Smtp-Source: AGHT+IEk89rUurs4dtNTR/t9ZIilP3CJIrLhQ6bH6GYdxjZiE4OBMFfIGytWMX+p7QSXWBPxSTOW/eIAujuN1bCZsd8=
+X-Received: by 2002:a05:6214:529e:b0:6e2:4e1a:bc82 with SMTP id
+ 6a1803df08f44-6e65c18575bmr743566d6.35.1739377142366; Wed, 12 Feb 2025
+ 08:19:02 -0800 (PST)
+MIME-Version: 1.0
 References: <20250212161128.1933320-1-danismostlikely@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010194faf2b078-d3e26dbe-8942-4af1-b3f3-7e32a327da82-000000@us-west-2.amazonses.com>
-Date: Wed, 12 Feb 2025 16:16:36 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.12-54.240.27.33
+In-Reply-To: <20250212161128.1933320-1-danismostlikely@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Feb 2025 17:18:49 +0100
+X-Gm-Features: AWEUYZmhdI2dHnaOjnNRxPDO8Ge5JVGY5UfJ8TgceSMvWIj5KZJgjMFDnfqB1AU
+Message-ID: <CANNYZj_5vqaMb283jQALj20mPwAbcec61qVOWXbB3gwhMm9jrA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] busybox: fix menuconfig on newer hosts
+To: danismostlikely@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Dan McGregor <dan.mcgregor@usask.ca>
+Content-Type: multipart/alternative; boundary="000000000000b38836062df44c96"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 16:16:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211258
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 16:19:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211259
 
---NextPart
-Content-Type: text/plain
+--000000000000b38836062df44c96
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/busybox-fix-menuconfig-on-newer-hosts.patch
-
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'busybox-menuconfig-fix-lxdialog-gcc-warning.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+No new pending patches please, especially without a reason for it. Submit
+upstream first.
 
 
---NextPart--
+Alex
+
+On Wed 12. Feb 2025 at 17.11, Dan McGregor via lists.openembedded.org
+<danismostlikely=gmail.com@lists.openembedded.org> wrote:
+
+> From: Dan McGregor <dan.mcgregor@usask.ca>
+>
+> The lxdialog.sh script compiles a short program as a link test. That
+> test program relied on an implicit return type of the main function,
+> but gcc >= 14 now warns on that by default. This caused the test
+> to fail and prevented menuconfig from starting.
+>
+> Use a full function declaration to fix this, allowing menuconfig to
+> once again run on a newer host.
+>
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> ---
+>  ...-menuconfig-fix-lxdialog-gcc-warning.patch | 29 +++++++++++++++++++
+>  meta/recipes-core/busybox/busybox_1.37.0.bb   |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644
+> meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdialog-gcc-warning.patch
+>
+> diff --git
+> a/meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdialog-gcc-warning.patch
+> b/meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdialog-gcc-warning.patch
+> new file mode 100644
+> index 00000000000..42be243af86
+> --- /dev/null
+> +++
+> b/meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdialog-gcc-warning.patch
+> @@ -0,0 +1,29 @@
+> +From 3386123c87a3398c1f1426bf72dd3707e74167c9 Mon Sep 17 00:00:00 2001
+> +From: Dan McGregor <dan.mcgregor@usask.ca>
+> +Date: Wed, 12 Feb 2025 09:47:22 -0600
+> +Subject: [PATCH] menuconfig,check-lxdiaglog.sh: Fix gcc warning
+> +
+> +New gcc warns by default if a function is declared without a return
+> +type. Use a full c99 function declaration for main in the test.
+> +
+> +Upstream-Status: Pending
+> +---
+> + scripts/kconfig/lxdialog/check-lxdialog.sh | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh
+> b/scripts/kconfig/lxdialog/check-lxdialog.sh
+> +index 7003e02..4808b21 100755
+> +--- a/scripts/kconfig/lxdialog/check-lxdialog.sh
+> ++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
+> +@@ -55,7 +55,7 @@ trap "rm -f $tmp" 0 1 2 3 15
+> + check() {
+> +         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+> + #include CURSES_LOC
+> +-main() {}
+> ++int main(void) {}
+> + EOF
+> +       if [ $? != 0 ]; then
+> +           echo " *** Unable to find the ncurses libraries or the"
+>  1>&2
+> +--
+> +2.47.0
+> +
+> diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb
+> b/meta/recipes-core/busybox/busybox_1.37.0.bb
+> index c3131eb4531..83efe991033 100644
+> --- a/meta/recipes-core/busybox/busybox_1.37.0.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+> @@ -26,6 +26,7 @@ SRC_URI = "
+> https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>             file://login-utilities.cfg \
+>             file://recognize_connmand.patch \
+>             file://busybox-cross-menuconfig.patch \
+> +           file://busybox-menuconfig-fix-lxdialog-gcc-warning.patch \
+>             file://mount-via-label.cfg \
+>             file://sha1sum.cfg \
+>             file://sha256sum.cfg \
+> --
+> 2.47.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211256):
+> https://lists.openembedded.org/g/openembedded-core/message/211256
+> Mute This Topic: https://lists.openembedded.org/mt/111145318/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b38836062df44c96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">No new pending patches please, especially without a reaso=
+n for it. Submit upstream first.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmai=
+l_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed=
+ 12. Feb 2025 at 17.11, Dan McGregor via <a href=3D"http://lists.openembedd=
+ed.org">lists.openembedded.org</a> &lt;danismostlikely=3D<a href=3D"mailto:=
+gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
+der-left-color:rgb(204,204,204)">From: Dan McGregor &lt;<a href=3D"mailto:d=
+an.mcgregor@usask.ca" target=3D"_blank">dan.mcgregor@usask.ca</a>&gt;<br>
+<br>
+The lxdialog.sh script compiles a short program as a link test. That<br>
+test program relied on an implicit return type of the main function,<br>
+but gcc &gt;=3D 14 now warns on that by default. This caused the test<br>
+to fail and prevented menuconfig from starting.<br>
+<br>
+Use a full function declaration to fix this, allowing menuconfig to<br>
+once again run on a newer host.<br>
+<br>
+Signed-off-by: Dan McGregor &lt;<a href=3D"mailto:dan.mcgregor@usask.ca" ta=
+rget=3D"_blank">dan.mcgregor@usask.ca</a>&gt;<br>
+---<br>
+=C2=A0...-menuconfig-fix-lxdialog-gcc-warning.patch | 29 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-core/busybox/<a href=3D"http://busybox_1.37.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.37.0.bb</a>=C2=A0 =C2=A0|=C2=A0 1 =
++<br>
+=C2=A02 files changed, 30 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-core/busybox/busybox/busybox-menuconf=
+ig-fix-lxdialog-gcc-warning.patch<br>
+<br>
+diff --git a/meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdia=
+log-gcc-warning.patch b/meta/recipes-core/busybox/busybox/busybox-menuconfi=
+g-fix-lxdialog-gcc-warning.patch<br>
+new file mode 100644<br>
+index 00000000000..42be243af86<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/busybox/busybox/busybox-menuconfig-fix-lxdialog-gcc=
+-warning.patch<br>
+@@ -0,0 +1,29 @@<br>
++From 3386123c87a3398c1f1426bf72dd3707e74167c9 Mon Sep 17 00:00:00 2001<br>
++From: Dan McGregor &lt;<a href=3D"mailto:dan.mcgregor@usask.ca" target=3D"=
+_blank">dan.mcgregor@usask.ca</a>&gt;<br>
++Date: Wed, 12 Feb 2025 09:47:22 -0600<br>
++Subject: [PATCH] menuconfig,check-lxdiaglog.sh: Fix gcc warning<br>
++<br>
++New gcc warns by default if a function is declared without a return<br>
++type. Use a full c99 function declaration for main in the test.<br>
++<br>
++Upstream-Status: Pending<br>
++---<br>
++ scripts/kconfig/lxdialog/check-lxdialog.sh | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/=
+lxdialog/check-lxdialog.sh<br>
++index 7003e02..4808b21 100755<br>
++--- a/scripts/kconfig/lxdialog/check-lxdialog.sh<br>
+++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh<br>
++@@ -55,7 +55,7 @@ trap &quot;rm -f $tmp&quot; 0 1 2 3 15<br>
++ check() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$cc -x c - -o $tmp 2&gt;/dev/null &lt;&l=
+t;&#39;EOF&#39;<br>
++ #include CURSES_LOC<br>
++-main() {}<br>
+++int main(void) {}<br>
++ EOF<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? !=3D 0 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot; *** Unable to find th=
+e ncurses libraries or the&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A01&gt;&amp;2<br>
++-- <br>
++2.47.0<br>
++<br>
+diff --git a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.37.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">busybox_1.37.0.bb</a> b/meta/recipes-=
+core/busybox/<a href=3D"http://busybox_1.37.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">busybox_1.37.0.bb</a><br>
+index c3131eb4531..83efe991033 100644<br>
+--- a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.37.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.37.0.bb</a><br>
++++ b/meta/recipes-core/busybox/<a href=3D"http://busybox_1.37.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.37.0.bb</a><br>
+@@ -26,6 +26,7 @@ SRC_URI =3D &quot;<a href=3D"https://busybox.net/download=
+s/busybox-$%7BPV%7D.tar.bz2;name=3Dtarball" rel=3D"noreferrer" target=3D"_b=
+lank">https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball</a=
+> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://login-utilities.cfg \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://recognize_connmand.patch \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://busybox-cross-menuconfig.p=
+atch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://busybox-menuconfig-fix-lxd=
+ialog-gcc-warning.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://mount-via-label.cfg \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://sha1sum.cfg \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://sha256sum.cfg \<br>
+-- <br>
+2.47.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#211256): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/211256" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/211256</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111145318/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/111145318/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b38836062df44c96--
 
