@@ -1,177 +1,119 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 204B6C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 22:07:19 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web10.846.1739398032822574186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D23C02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 22:57:29 +0000 (UTC)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.web11.1928.1739401040698716310
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 14:07:13 -0800
+ Wed, 12 Feb 2025 14:57:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NPnLGYdx;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54504bf07cdso138706e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 14:07:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=B+ASVm/8;
+ spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2b8d604063eso119046fac.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 14:57:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739398031; x=1740002831; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739401040; x=1740005840; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yo26Is22DjDqtiTH5v3/VG+EX7DBATgJmmtLtj8nqHk=;
-        b=NPnLGYdxaZzOEkJHk/6znrCc4pJ4EY/U8FDQSOitNQ5ZxEusSwASX+jmMVjC2S3ukZ
-         mA0OlrVnqIFD2QoNWwXL+emn0C9Zpg1Vym/R3ZFf2pc6HDfkwHnfy1Mt9XuYYWDzeepY
-         0Og8vLEi8tAFSQGP3mWHyrHEBaVJ7XgkkTzOUSrxznqXto9X+aNqMKFjIdOt2sCdbCDK
-         RlPkwWG9QagiYl8LOOFncoapGwg1v0gOd7C48UdHWAT3anJyYmrY1ka8FsuYkIx8mi0C
-         zBuxuXuQ2fXhaKyzBkzIiG0ClG6Fyw85rWfoLkj7BLt8/CCrKx8o+hLFm2+TSOIpKgQa
-         DpnA==
+        bh=KtjOPXfCr5Tx9cgrJz47yUzgoFrM4cgftOFhVbeE7M8=;
+        b=B+ASVm/8PdvwSDDIdPkkEUSsFn0fMgKJZ3TY2egz/HtMymF8HVvtIfnHAAQHlBlHNE
+         PH5cMe/kQzyr6gUjk+Il5Zlk3weQ8H2rKQwpfI9+VZLVx6XKuFoUVIsdOBXF0a20kQoE
+         vztex3Arzoc8eqxhX8b8Fva4uTqqnXgxYh+Wje9CBtQzgc/oRT1rmOy7xxMltNmfL1GW
+         8ptNVaBQkU4g5Vz7JQg3ex2y/fzbZTCD7+R9yFysRnJSlG4Vc7qAFnveMLMLD60LHbma
+         Qrg/V/8IJte7c9eKnwkpusRqDwX3vXFPxSvunHdICvEHFQ5BLkspCgc/HsetVoRssds4
+         NMew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739398031; x=1740002831;
+        d=1e100.net; s=20230601; t=1739401040; x=1740005840;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yo26Is22DjDqtiTH5v3/VG+EX7DBATgJmmtLtj8nqHk=;
-        b=rlhZLnlzYWAbYmHq9y7v6gNX/luxtpyCECgxh+xMzLDagKixty+5839rfUi+JQNl+c
-         tr16J6QJ/BCbSYIgdNrnrFGtHTDBey7F5eCcKf9FGHXalYpU3DvHfsQwFtVpgscoaXWg
-         jznV3pZzaC7LnESK81VV/DxmnBs9jRVfccawDuLYHXMTa7K/qV82NEWkDBWXNZ8/tYjM
-         cMjMumbJS5TEFzqjTGpDo4SV/nvsmp+M9TAmBBK2C2HrsWe4wS+Lp5RnW2a6DG1vuulp
-         hZytSP/lcfKwXVErQgT+Teskgi/rkCe3QwHzEpsMSwp2R7gWajvbqyUqcoi/xGmDNGWl
-         bAcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUn9gxVBBNwig2GlCk/jBK4tiE3Z2hvPsrs4yW7QJRYfM8Jm7/uTQ9mdDS5m7h9gl/otqBz13YCJPcr4D8hO2682Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwIVQhvXWQf71jZ5rcP69E6Xjf5IAESDKQBj7aAenltCb8VWIXJ
-	gZI+x/OmgxhkavQzEbpZ6ODHXfli+3gdYtLtmM3QdZ6Wk09VPVzpl6c3H1M92sizw1wHzVLlDah
-	ca0jW6ZrBUIZXBbk6q294+SArTB4=
-X-Gm-Gg: ASbGncuneOJ6ityX8HBart/qkTvD8j+5fWNDcFilIY9nOXNSKbQa/QxGxpei2/QL/A8
-	TV688XXBR8AhSgeTOvXorXm94hlH4YRC1umANEfKPOYwzAvi9qcfWJ60Bz54/vZHJNcfB9DNU2Z
-	dPjmv2fI9gPmo=
-X-Google-Smtp-Source: AGHT+IGbd1qgOeCZqMN/v4sqDtF9CbSAxrE+JRduShuTBNmCuxRAByTw07R3/lDZX67wrA9cdr3hTD+DC7GIHqEsQzQ=
-X-Received: by 2002:a05:6512:3988:b0:545:aa5:d455 with SMTP id
- 2adb3069b0e04-5451810917dmr1635250e87.15.1739398030527; Wed, 12 Feb 2025
- 14:07:10 -0800 (PST)
+        bh=KtjOPXfCr5Tx9cgrJz47yUzgoFrM4cgftOFhVbeE7M8=;
+        b=WXK9Bszqq9AZK6IUFrAJ+yuc/kHsubJgso5TanBwibVvyyzdnFALUVzIN//enEPS9x
+         aTJ84qDZfOZBrMZdEdeoA6oT7MBoiXPplwEyitEdlVLHSMPWb6OxAhTQOuWVKQqTBJH5
+         mvNCTB76U9/N+tiWLWkQksdgbkHdj9Kbpw1VWC1iEF71ga0bgFXuV+dKAa1rZGVbHAvH
+         q8UKhvIj4ypvh2DbyhG+lnczEEET1V9sYe1g1hEKhKjOfxqjV5+hHfS/KXeoSTs3oqot
+         jqvz8aYazvrSRHFZWYS5RP9SWnrrz7tLC2+q+RB3hnppMgJtGCxwiouYKNRt6wTbWrHg
+         9gDg==
+X-Gm-Message-State: AOJu0YzF0J6N1mMhNi1EtnKnk/ylzbVOw3eyrHp3DBVpd+aAUiFo96Mb
+	iLA3Jc9GMm1yVKwJxt2+ilgvEhkeL6Ez100ViPSHRm6ihlckETTjlRPpBhnwAVAc5+3R1JxtIl/
+	7CEDrkTWbETV02/zYvaiCrWLLPTs=
+X-Gm-Gg: ASbGnctJZZqpJdYhKg6JK/aHSdJ6OP1aVSIkgPVaN4ayE1z9ZZVfdXeWuUihXBT2LGB
+	OAoWexRSZF1oCs2teLXVs0/plvteRCySbaKAsZf8lU8Njr53WbqfAKRF4abP8KcRqezIcJCgGAd
+	N7oarKVY2loYtIHsfim/GX8HTiUg==
+X-Google-Smtp-Source: AGHT+IGiVE5xo+eMDM7i04TnqCcJqLGIQp8OLI0YMbnJnWv+fd5YjmJUnUYzTcVpl9GOa1S/nge5TWUceqv9OoV6lsc=
+X-Received: by 2002:a05:6870:c18d:b0:2b8:1d18:6f1 with SMTP id
+ 586e51a60fabf-2b8d65257ebmr3364336fac.10.1739401039917; Wed, 12 Feb 2025
+ 14:57:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20250210125047.2644290-1-pio.lobacz@gmail.com>
- <3980bb85057c3c2402714d4c51676d628bf2ef52.camel@linuxfoundation.org>
- <CAH6NA5u+8U6ZWFFas0-S=Faq+7tiSs650MR7k9W_80Uxm=gOWg@mail.gmail.com>
- <CAJdd5GbUo6ckemc6GEsf=TdaMKPbK+V-zCNqPSWTV1_x3PdrdA@mail.gmail.com> <CAH6NA5tx+P0cTcG05rUPxD3+shAdWD9kbsL=+KQ8BY3Wq7=aLg@mail.gmail.com>
-In-Reply-To: <CAH6NA5tx+P0cTcG05rUPxD3+shAdWD9kbsL=+KQ8BY3Wq7=aLg@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 12 Feb 2025 15:06:58 -0700
-X-Gm-Features: AWEUYZnd98Kk_de_BeyI2QkFiyccSbwad_ABYsMwdoaftyOO1a1I1l7BmBjPGUk
-Message-ID: <CAJdd5GZk8Q3cvGO6rdCSj2UzdvFhZ=wr=WHBiHHXJUe_fQu0ug@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/create-spdx-2.2: Fix SPDXDIR affecting
- multiconfig machines
-To: =?UTF-8?Q?Piotr_=C5=81obacz?= <pio.lobacz@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
+References: <20250212203113.398422-1-ross.burton@arm.com>
+In-Reply-To: <20250212203113.398422-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 12 Feb 2025 14:56:54 -0800
+X-Gm-Features: AWEUYZmtPrbEJpk9IHVhZRy_0vdPerQ31Mnkva68tUj5DjJP5FYPFV979T5OMdg
+Message-ID: <CAMKF1sqocgsbxwbn4FrxHXDLk2tKJYLWOA0zA=gh_UzusuUB7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-license-expression: fix ptest installation
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 22:07:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211280
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 22:57:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211281
 
-Based on this patch, I'm guessing you're not working off of master?
-The patch doesn't apply to the latest master version because a lot of
-the variables in create-spdx-2.2 were moved to spdx-common.bbclass.
+On Wed, Feb 12, 2025 at 12:31=E2=80=AFPM Ross Burton via
+lists.openembedded.org <ross.burton=3Darm.com@lists.openembedded.org>
+wrote:
+>
+> This recipe was overriding do_install_ptest which is provided by the
+> ptest-python-pytest class, so there was no tests or run-ptest installed.
+>
+> Use an append override, and minimise the installed files: use a symlink
+> so that scancode-licensedb-index.json is found and install setup.cfg.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  .../python/python3-license-expression_30.4.1.bb            | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-license-expression_30.4=
+.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.4.1.bb
+> index 649b53ea492..ec613f6eaac 100644
+> --- a/meta/recipes-devtools/python/python3-license-expression_30.4.1.bb
+> +++ b/meta/recipes-devtools/python/python3-license-expression_30.4.1.bb
+> @@ -22,8 +22,9 @@ RDEPENDS:${PN} +=3D "\
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+>
+> -do_install_ptest() {
+> +do_install_ptest:append() {
+> +    # The tests need some files from the source tree
+>      install -d ${D}${PTEST_PATH}/src
+> -    cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
+> -    cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
+> +    ln -s ${PYTHON_SITEPACKAGES_DIR}/license_expression/ ${D}${PTEST_PAT=
+H}/src/
 
-I tried the reproduction steps on master and it seems to work OK, but
-I'll keep trying; can you provide what branch/commit you are working
-on and we can possible figure out what fix might be needed if it is
-already fixed on master?
+should this be ln -sf ?
 
-On Mon, Feb 10, 2025 at 1:51=E2=80=AFPM Piotr =C5=81obacz <pio.lobacz@gmail=
-.com> wrote:
+> +    install -m644 ${S}/setup.cfg ${D}${PTEST_PATH}/
+>  }
+> --
+> 2.43.0
 >
-> Sure Joshua,
-> I hope it won't be much extra work, as I have this patch already applied
-> and it is working for me without any issues.
 >
-> BR
-> Piotr
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211278): https://lists.openembedded.org/g/openembedde=
+d-core/message/211278
+> Mute This Topic: https://lists.openembedded.org/mt/111150628/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
-> pon., 10 lut 2025 o 18:51 Joshua Watt <jpewhacker@gmail.com> napisa=C5=82=
-(a):
-> >
-> > Piotr,
-> >
-> > I think with the provided example I can look into this. I suspect it
-> > will be a little more involved than adding MACHINE_ARCH
-> >
-> > On Mon, Feb 10, 2025 at 9:58=E2=80=AFAM Piotr =C5=81obacz <pio.lobacz@g=
-mail.com> wrote:
-> > >
-> > > Actually this was just an issue with the path to the deps.json file.
-> > > which was containing all the dependencies and in case of different
-> > > machine
-> > > for packages like e.g. base-files this file was containing bad
-> > > dependency, meaning that if i'm building first machine A, than B,
-> > > the spdx files from A for base-files are being moved to B but are
-> > > searched still in A directory.
-> > >
-> > > We were discussing this issue with Joshua, but i'm not an expert in
-> > > this matter...
-> > >
-> > > BR
-> > > Piotr
-> > >
-> > > pon., 10 lut 2025 o 14:42 Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> napisa=C5=82(a):
-> > > >
-> > > > On Mon, 2025-02-10 at 13:50 +0100, Piotr =C5=81obacz via lists.open=
-embedded.org wrote:
-> > > > > Currently SPDXDIR is pointing to `${WORKDIR}/spdx` which means th=
-at the by-id
-> > > > > and by-namespace SPDX files are created without differentiation b=
-etween machines.
-> > > > > This means that for two machines using a common package architect=
-ure
-> > > > > (e.g. genericx86-64 and qqemux86-64), there would be overlapping =
-files. This means
-> > > > > that the build of one can remove files from the other leading to =
-build failures. An
-> > > > > example would be:
-> > > > >
-> > > > > MACHINE=3Dqemux86-64 bitbake core-image-minimal
-> > > > > MACHINE=3Dgenericx86-64 bitbake core-image-minimal
-> > > > > MACHINE=3Dqemux86-64 bitbake linux-yocto -c clean
-> > > > > MACHINE=3Dgenericx86-64 bitbake core-image-minimal -C rootfs
-> > > > >
-> > > > > To fix this, add MACHINE_ARCH to the SPDXDIR path used for the fi=
-les in order
-> > > > > to differentiate packages' dependencies between machines.
-> > > > >
-> > > > > This commit fixes issue repored by Khem [1]
-> > > > >
-> > > > > [1] https://patchwork.yoctoproject.org/comment/13577/
-> > > > >
-> > > > > Signed-off-by: Piotr =C5=81obacz <pio.lobacz@gmail.com>
-> > > > > ---
-> > > > >  meta/classes/create-spdx-2.2.bbclass | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/=
-create-spdx-2.2.bbclass
-> > > > > index ade1a04be3..9e228891ab 100644
-> > > > > --- a/meta/classes/create-spdx-2.2.bbclass
-> > > > > +++ b/meta/classes/create-spdx-2.2.bbclass
-> > > > > @@ -11,7 +11,7 @@ DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx"
-> > > > >  CVE_PRODUCT ??=3D "${BPN}"
-> > > > >  CVE_VERSION ??=3D "${PV}"
-> > > > >
-> > > > > -SPDXDIR ??=3D "${WORKDIR}/spdx"
-> > > > > +SPDXDIR ??=3D "${WORKDIR}/spdx/${MACHINE_ARCH}"
-> > > > >  SPDXDEPLOY =3D "${SPDXDIR}/deploy"
-> > > > >  SPDXWORK =3D "${SPDXDIR}/work"
-> > > > >  SPDXIMAGEWORK =3D "${SPDXDIR}/image-work"
-> > > >
-> > > > I suspect this is going to cause other challenges since the task st=
-amp
-> > > > isn't machine specific as far as I know but this change would requi=
-re
-> > > > it to be and force all of the SPDX tasks to be machine specific.
-> > > >
-> > > > Cheers,
-> > > >
-> > > > Richard
 
