@@ -2,59 +2,59 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBACDC02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 10:32:55 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.12588.1739356368415744578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA2FC02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 10:37:25 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web11.12654.1739356641435254101
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 02:32:48 -0800
+ Wed, 12 Feb 2025 02:37:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EAHAkA83;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6e45dd13b24so28377516d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 02:32:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bSokPYa+;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-471a5c6ae77so13274851cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 02:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739356367; x=1739961167; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739356640; x=1739961440; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gso0wpR/A61554xJfMozWh0WJeehZv3v9fzadgj1abA=;
-        b=EAHAkA83D7a5VgAWlasOVUJfUGIoF2mZm/uZnnUUcCbzUyorzHUZXVYeAc631fmBbA
-         jDwIq6AfujCwnq6XFoz2NwiXngY8o3NLXUcDHWhnEm972xsXwgctbJNjGlCLtzXQ+UfE
-         i+0wGyqs5W0jVHiGA1pH1IrBc+X43z2wpdbx+FJVkjNFd2dsShe+WgPkUw3ZHIucQaMy
-         RIBqhDmHvWXALWYgJ4ochJMC1VxgglLTtFaySwk0XOeCx5EUrTwq8ThKNpY5XL7jVEUD
-         ANXhytELKLEWh+zxzm4zTng4l91ptyo63ZJVIQyQow1/a64Jo5NRhXLFdCQunoV/CO/J
-         3w7Q==
+        bh=4BHeWlAsBtMwjX3aEErVeCcVlC+VD8zYn3HERA3zqpg=;
+        b=bSokPYa+jyQ8Z7p1m8Z77t2wtDY3/JspfKqdaGYSdmvfssMI8eVWDXxVGtClA5lWmh
+         7Cu7/OKO/huj1nt8UPXu9XUu2OG8yZFc2rWjaHu+7HJDUnNBYRSffwfrcyUJkFgPffEX
+         mthGe+n/2iuBb6tgnpuj1rvCEPKR0xY1cG/cKAzV9yM1d1+1TnTqosAdoSO7dpDHY+mh
+         NiJ/m7F8uIy5lUhbn1Soohn2ZGnF2NSJUPVnpSmU7HL012hPySw4PZi7ZcAOfoICmpbu
+         yj+J8BDMzlFzykT3XQu5jI8m+CSHwMbI4RmjxKmRLSfwzaJbo52pG2c2pie4mCqjuv3m
+         m7Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739356367; x=1739961167;
+        d=1e100.net; s=20230601; t=1739356640; x=1739961440;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gso0wpR/A61554xJfMozWh0WJeehZv3v9fzadgj1abA=;
-        b=JhhrLn9M9L3yz+z9h2n4mNAn96R7dbiHqXvqkTd96MqrLtLtZZ5ufuvv3PWdU/W0/k
-         489p4HZUohh82NYIiY2sZZVys9pHQYUqH9gNqh4AfBnSHbvJGx+q40TdHT5Gw73KPMOA
-         J5FkFxPHXhA0FNRgZuJdjtISmpFSRlT/mwmctYMMzC7YJUvX9MccjXXIeiscjpHEv2In
-         JglTii7vQQCUUv14IwmCn2cMKx9DVYV+1M7mLEE9QqZ7/xQlHUQBRlDoQqtRn1zSWuSJ
-         sNU2v/0CB6HjXHBCweYI3j8G8H8SWNoLIbn4LlQjO2vm38NRcm65VMbr0Z8S85zCkjVf
-         Ppfg==
-X-Gm-Message-State: AOJu0YzcMCLUXTZwIw7yV2u9U7RUDS2vqM0izjznxtS529ID5xz7PHF+
-	aM7NWLht34g8ArFLnrwh7rNJw54ss/sKB2ohsBJuYMa30/Oqz4b6H4t7oSmz54sZfMrp9emf2C6
-	QZI7OV0p4Oo2L8R7IaTE5EtFMq70=
-X-Gm-Gg: ASbGncskXgzoNY/UsO8AhAaUoz+g+/z7+ftffUPmbJ+vywRg8GJFhHdJYBkr0NIt0JH
-	ed83W2/UkweCzWM9E5G5cwD/flTp6X9iWodL6RKxy2opXCMA3pBhTaT05/Vcj6nZMm9Qe6O12zx
-	11SeWttEYeyMRyd8WG7u/tJ0MbTUnAtHw=
-X-Google-Smtp-Source: AGHT+IFnPx1onSS5zhjx+NO6MhMG5n+Nv7rRHtU5wPTBU6koIw73miIMnIKdx/YnRLfjsebamcUK4j134V2pWjLB/0w=
-X-Received: by 2002:a0c:c481:0:b0:6e4:4484:f357 with SMTP id
- 6a1803df08f44-6e46edaba29mr30102316d6.30.1739356367507; Wed, 12 Feb 2025
- 02:32:47 -0800 (PST)
+        bh=4BHeWlAsBtMwjX3aEErVeCcVlC+VD8zYn3HERA3zqpg=;
+        b=HQpcZUqd6pghSLXye2S0k8qBeN4g4For4ybH2EnkTcDWrOx3yn3EQ39mEtkWKlofUt
+         T1oke5B4NmiLCSivqOgRgeJeiiuMqhlgjoBT26Ojt94FCbmm8IAGChAb9y1cchlta9p2
+         D3KVASDzPFPfYcGyRnjlnu4hHWjFCT7KzGC/WCDBjcyNd88GrE7fIJBAu5e0QMIFtnTl
+         WlDMsjO16+Tz+IBGxHtTGjLcARiVpwbh3F1HjqHW/Yo7qOAiZHVo/SzfmznkYKpEtln5
+         GPdHCpf4eXJs2lhsiYM4NTtMszMjrlnMnF/d+7BhybUzDLjS1ErFHiTMdZVqrl+Ps7Se
+         d5sQ==
+X-Gm-Message-State: AOJu0YxWudSc9uL/B3iIp2C3Gqg0V+3DIj0XGGCU8LiZAOXJYfJoCoV7
+	7GOC/gBI3SMbk1lP8Y/L9AjpXZoSPMef8ALGzBFbgkp+juS1fR7L6yt1tD9XXKI4AKeiqDC1jO3
+	cjGxyhl2FVmL5L2x1LRTU17vtzLxYEg==
+X-Gm-Gg: ASbGnctB9C5NSXKDBPPGxqSTReoE0RZl77ipgLJEZsFM9mSNAh9DA9hfjjhTv0VLN7H
+	x/3VkmddKuQpP8kNTjK1bL7icjWrsz4K/Ry3W7vM7CrcS4X0pS7aTpr/dYmtEdomGXp6sYIbLA7
+	1y/VbmPz6j0fUjOoflH3gg+sDtyd29dVY=
+X-Google-Smtp-Source: AGHT+IGudn/l4Kfp0hBQbGcVx1/HgEM7fQhswHDPVMv72vtGgiB9TyKAsnlD8Hj+wGWBEifmzAzyHK4b6uj1xJXegQQ=
+X-Received: by 2002:ad4:5fcc:0:b0:6d1:9f29:2e3b with SMTP id
+ 6a1803df08f44-6e46ed8344bmr46251366d6.13.1739356640502; Wed, 12 Feb 2025
+ 02:37:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20250211150034.18696-7-stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: <20250211150034.18696-7-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20250211150034.18696-14-stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: <20250211150034.18696-14-stefan.herbrechtsmeier-oss@weidmueller.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Feb 2025 11:32:36 +0100
-X-Gm-Features: AWEUYZkuYTtxkgBx2DT_eP6RmEUboOaYl2CA4O25QJX87Ax0qWMohddd-RWLZ_8
-Message-ID: <CANNYZj9sk7Ex98MuBABRrDv5LKYNi2FJRt2XXFtWGv7tig5thA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 06/30] lib: oe: vendor: add cargo support
+Date: Wed, 12 Feb 2025 11:37:09 +0100
+X-Gm-Features: AWEUYZl5asjqZidIsWPeVdQpyeRfEvAo9A2-dhlUmTV6YfM9YF6lTy5ttClSSro
+Message-ID: <CANNYZj_DtLgrV1vY_YfniQhrUct1YHL2JAqdL=xz0QBRi9SZ3w@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 13/30] classes: add nodejs-arch class
 To: stefan.herbrechtsmeier-oss@weidmueller.com
 Cc: openembedded-core@lists.openembedded.org, 
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
@@ -62,23 +62,37 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 10:32:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211221
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 10:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211222
 
 On Tue, 11 Feb 2025 at 16:01, Stefan Herbrechtsmeier via
 lists.openembedded.org
 <stefan.herbrechtsmeier-oss=weidmueller.com@lists.openembedded.org>
 wrote:
->
-> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
->
-> Add a vendor module for cargo to resolve dependencies and populate
-> vendor directories from a Cargo.lock file.
+> diff --git a/meta/classes-recipe/nodejs-arch.bbclass b/meta/classes-recipe/nodejs-arch.bbclass
+> new file mode 100644
+> index 0000000000..144eaf8409
+> --- /dev/null
+> +++ b/meta/classes-recipe/nodejs-arch.bbclass
+> @@ -0,0 +1,15 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +def map_nodejs_arch(a, d):
+> +    import re
+> +
+> +    if   re.match('i.86$', a): return 'ia32'
+> +    elif re.match('x86_64$', a): return 'x64'
+> +    elif re.match('aarch64$', a): return 'arm64'
+> +    elif re.match('(powerpc64|powerpc64le|ppc64le)$', a): return 'ppc64'
+> +    elif re.match('powerpc$', a): return 'ppc'
+> +    return a
 
-It isn't clear what is a public API here and what is internal to the
-module. Perhaps you could nest the internal functions and constants
-into the public functions that use them? Or use the _ prefix in their
-names.
+Why does this need to be in a bbclass, and not in a library function?
+Are there multiple users, what are they?
 
 Alex
 
