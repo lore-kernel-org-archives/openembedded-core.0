@@ -2,365 +2,226 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0A8C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 17:24:38 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.136])
- by mx.groups.io with SMTP id smtpd.web11.21853.1739381071182316966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9862AC02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 17:27:18 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.103])
+ by mx.groups.io with SMTP id smtpd.web10.21965.1739381234285373900
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 09:24:32 -0800
+ Wed, 12 Feb 2025 09:27:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=CcD9XvLY;
- spf=pass (domain: weidmueller.com, ip: 40.107.22.136, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=oU88gAk7;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.103, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ooHc8Ba8I2ebGtoNPwwuC9QpBGLVo+9Gu70+4R99lUWQtNiMdDgQR5GiIDo0slWAgSOq+rzpxqtbzpQ7S1Rz5nRTsZlQ+Bqhe0L3Tz3kEOS1E3aQ8CCSRJ4RL/yyHpJTp5YHQrKa/jOiKHYKnVSTapG+EPrvTb0C/NjXQoZa4uD5uCr+Ft5GaMQbEs7uFGni5Bj6BmGDdnOu2hAkH3Tvdsfq6b5G7aypHxTkBhCF36hJnrir51XxBS7UyGHUVlLe5uBghB6Y1r/i5V8SHFxrn4oFQztqacniKM0R1oovgMox7bb5YV+f9HWdx9L/QV/JFpiGG8dLyRMA0Yu0rTKSCw==
+ b=ISgYcBvDVlgHrI3QtJ1Y7DVL/TusNNWb8UsxfX100e1G88L9C0Di/GpJdWtTq+r5EOMsF1jboj96uEG0uJPkl2dBnQV3LWo2p0z32en2JmBzeoKxGYs6ORJTZpYtHy4ZwE7vcy8JCcXLnRiZv/sCHhdQCcRHMYjyT8bsN+xVju+v/ajCJh47wOnkNflbpThiadnHwHXe6g9iahAdpZo5F0f3YXURWjjMSngYrvJb5A0MUzC/xclao6XpXE8d+nV+LjsM9NhauBhn6PyH95x7bCHKbb15xh2ngBecGpdaFAjgX/FmTt93CdvTp0dIGX7YsOxd6xkdeMxezTBU2K/9UQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LOSOIsYED0rG2dmL7kFBwj1fQzlUIHeaRf3sVtf7WRw=;
- b=YrFLRWDekIoYvhs/HnnhQuGj8l/hUYPVxrdyuklpsSzqodcqPK9Shn6rWFOqKAO4zYLp9iNA/uKPpDFCxHXTyMtbRqWlJnHrzxgmbqcAqIvK9mzhHF4Lu9INt6nlsnWLANSG+EK123mjfTjk+MVIrDDZ+3t1LNXGe5IZ03gG3JDbhja33oEyVxnmgYqv4QmT2kR99kjIDRsJch5QkoF9LmZ1ANkviiIe/WdmZno+0C9v6T149z9Oc8kOXNIc1Ak10oXlGXDgEGPSLwFhmCPD63y+0iz3P1SBy+HdW7AqlKLYZ+BakwgsBAfi4gG926IVllTSNlzq5cwrkmPdAeR2cg==
+ bh=lakXzqo5sZOTgbuXoFPVcGecie/0PWSRmbSe9jBX85w=;
+ b=i8eZpigsTqBKV3EMMBAsXoaRTHPosqGR3t8TZQAGmVr3PY/AZU2CNEXP8xw9PjJnqaSoyGgK3r4hLaFe1bjZ8fyYwbYGNUMX0IHOSAP3aQfENUDIYQtHaf4DJRJPjm70ZOZP8Chb7w0WSk/SOg2EtqG5/W/AQbrjnnWadWbFlSMvvo6DF9HALmGcJtzIYV5pu/9HRRl5N/QK3x9jh4QpLBWKT61O8Zr3UOgKCsl80Cfh5v3k2XoWg5IE8iM9ktMMhPttheKMY7h0FaI/ILNI9dMUeZeld/KhKI4owfrcHCZnYEciOeOKBaX6YgH8ag1Kg63pOt7bkIVfHWPAmiuNSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LOSOIsYED0rG2dmL7kFBwj1fQzlUIHeaRf3sVtf7WRw=;
- b=CcD9XvLY61LqWWjzPlia/n/zlgGuHxTeRPeAH9wQ/IcsO6JKeOPx5S2H1hDLmlb4G3xiSIZExcLiTF0YA9of24WfYDdJTf4z6n6sqjMNlseBgKSuhBdEp9aQRZNtUtuy0faRDXkQdU3YjELcTqXcQ0X+kZBWfLnIbv6cTkhTDZvMSTIASiMSYn5OnWTs+N5rSGcRYE2DW0dRGkSAJvN1lOjyeo1aQNr5vfrHrF4dYTgchyuvUSMq25fjHDvq7xgKGDLVa9fA3ay5zAfgK8w0z1erzoX6rxrxoI7e6gtqxacxct6guaXFNLTZVedRGrlxoywbNl+JauxVNypoLyf2Og==
+ bh=lakXzqo5sZOTgbuXoFPVcGecie/0PWSRmbSe9jBX85w=;
+ b=oU88gAk7RxLa5nxXy8B4EMxMfpe+mlH0s6A0TF1f7HcX9AaL9rg+hARiFHXMWU0npe6pMaH7cYoaMvdL0dpX2By41dUyN2dGJU9bLg106XOLKe73VpEBgPuHQp6xxZKA/plW8i7Hrh7JuwidzT0zFjOo9lMy/wqmA0jhdCrlhZDpcIhLUR9Eg/sO9oUS+PSQJ2KYZtsD1eSNIn+pC5b5+yPYmHQ3+roTW0WhjLyQD5Rz5vR2uPbNiMZ2d7EHiTkK7seJPyPB1VStVx+V0AihF75xSHh5Enkz4ZUP6qN21IZ6PpCcYTNMakLfemGeoeajj2Ar3hNw6mD8XCj9tDnHdQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
- by VI1PR08MB10244.eurprd08.prod.outlook.com (2603:10a6:800:1bd::7) with
+ by DB9PR08MB6665.eurprd08.prod.outlook.com (2603:10a6:10:2ad::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Wed, 12 Feb
- 2025 17:24:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.12; Wed, 12 Feb
+ 2025 17:27:10 +0000
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
- 17:24:25 +0000
+ 17:27:07 +0000
 Content-Type: multipart/alternative;
- boundary="------------ASIXTKnWsJWmptAHU7aC2p73"
-Message-ID: <7848a428-7193-4597-9b85-84e7dd4d3b32@weidmueller.com>
-Date: Wed, 12 Feb 2025 18:24:23 +0100
+ boundary="------------dR00lyIKp1lhCGG0FuDqAjLl"
+Message-ID: <d38daeed-c58e-4425-85b0-75a2889f6daa@weidmueller.com>
+Date: Wed, 12 Feb 2025 18:27:06 +0100
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [RFC PATCH 21/30] python3-bcrypt: mirgrate to vendor
  cargo class
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org,
- Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
  <20250211150034.18696-21-stefan.herbrechtsmeier-oss@weidmueller.com>
  <d933e37f2be3e98c72f99191b504efe607d50c96.camel@linuxfoundation.org>
  <f2a970ab-14da-4108-a050-04851a7bd480@weidmueller.com>
- <CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com>
+ <8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org>
 Content-Language: en-US
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: <CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com>
-X-ClientProxiedBy: FR4P281CA0010.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c8::9) To GV1PR08MB8426.eurprd08.prod.outlook.com
+In-Reply-To: <8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org>
+X-ClientProxiedBy: FR0P281CA0081.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::7) To GV1PR08MB8426.eurprd08.prod.outlook.com
  (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|VI1PR08MB10244:EE_
-X-MS-Office365-Filtering-Correlation-Id: 822bebac-ab9c-492b-9885-08dd4b8a18d7
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|DB9PR08MB6665:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7445828-99da-4a6f-797c-08dd4b8a7998
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|8096899003;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?N25WRzlxaVAva2NoMGZxMzEyK1B2SXpVaXIxQVlINXlUeGlPUXNSalhLUXFa?=
- =?utf-8?B?akdWblhDUEZSUjdUSTRZZGFSdExiaXVXTGZBUlg5RSt3Ui9jSkxRYVg4em5Z?=
- =?utf-8?B?MnI1NldLWFZ3bEdWSXVPS3VLTitWWUJyek9LeDRUYVkrcmNxcW1LdW5oZ21B?=
- =?utf-8?B?SDJzV0xRYzRJN2hrSSthNGpjQVpnZmI1blUwcUZvVlk1eDhCcnZySHhlWDZi?=
- =?utf-8?B?cVdYZUltZXdSTU9ONUJxZGFnL044bHpuV0p0RnFIeGlTQ21DTUxqWTVKaHNW?=
- =?utf-8?B?MXVaK3RUelB1N29mRnNhWHMyWlZhOHo4MUkwRDIrRVdYcWFzdnhXVVdBcUFp?=
- =?utf-8?B?TURmaE96bUZHcWU2TkQ3NG5oZmZ3UTdjUTdXckhnVXVsbzNmT1M1aUpYUEhr?=
- =?utf-8?B?TGVpeVVHRzk2L3NKblFqSndxODc4TVhxSk9PNUY0eGhYOUpwcUcvV1ZVMHpW?=
- =?utf-8?B?WW9CUUNOVDRlN3Z3bjlqMXZVUjV5aWw1d2pxaWJQaC9QYXBCeFlUL1BoY1RD?=
- =?utf-8?B?QS9haEpoMEdCcGFITE1RcFlTb0tYQWJjTkVBQVZSUXB3RjJsMEU0ckhmcjg1?=
- =?utf-8?B?S0hQS28rWVdEcmE1OVVCVXhQZ0hyQnY4MUlvSllwWER0THVtSG9CYVVQSjJs?=
- =?utf-8?B?OVBWanNNWXEwc1JFT0tyc1BkY2FxRFNVdWpOZUcreGpVUjM2QXNlb0ltYm5S?=
- =?utf-8?B?SWE5bEx4WFJDRGQrcFBlOU9RZkh5eU9kaURaV21QVWVaQkswS0dqWlgvejlr?=
- =?utf-8?B?VUhYeDBTTW0rdy9wS1Q5Sklxakxsd1BKTlNMVEN5aUI0YXJJemk0U2J5Qkpj?=
- =?utf-8?B?WkJ3VWFKem4vbUhWVy9SWEpoeDVhZktLQnpkRytCeDVUWERaQ2FkN3VIZGZm?=
- =?utf-8?B?ZlNGRzdaV2RObzNtL200Wnl2UHcrblU1Um9rSXA5OVRwN2JCa2w5QVU5d2to?=
- =?utf-8?B?OFk4bDkyc2ZPNkhVeXpuY3NVdHR1UWsxNTJZWjZOSzhra2ZzZVl0SHNGWStZ?=
- =?utf-8?B?M0o3R050OFh1WkVWaGpDbTRKdVFpQ2FwNVkzRXZZZmFaYTBkcE9jbEJ0UXIw?=
- =?utf-8?B?dHJyYUpaWis1QXprSzh1SEFFZEZsYlk1L2krbkZTZndRSTEyREpPTmJYWG5s?=
- =?utf-8?B?ZnlwYjNaMHNBODVtM0tiS0NNK3FLSDc2ZEhQYUh2R0NIc1FaU3VlOHZHSjl6?=
- =?utf-8?B?MTVpT1cwWnVxR3NIcUg2VzhjOEZ5c2tEZmFNNk1yamhVUEhEU0lZbDJodk5y?=
- =?utf-8?B?SEQxdEZIV2lHL0czQ3ZMbFpjaWEvelNLcTM4OVBQa0lWNnVrMjVUeExWTkcx?=
- =?utf-8?B?R0ExZm1XR0EyaGtxMWhaWHYxOWtqMGFLVjZwZHFwclhwSEppdlJKd0hGeWRX?=
- =?utf-8?B?K2plY2dvNmluSk9UdEZyQ1dyUlF3T2pjNER6UWdQcGRQZktLRUYzaWNranZ0?=
- =?utf-8?B?aGpFRkpHeWxBeGtVSGJRSUdlNnJEWGVWcmh4TDc4N0tNMjdqUDYxQ01SWkR1?=
- =?utf-8?B?MHN4UVF4RWJpVDRVSjZjRUdNK0pzQmVhaHRRalRmYURiajd1ZDVxRm9yNng2?=
- =?utf-8?B?eko0QTlReFUzVUJQM1dTOVEzQlZCL2xTMHJmd1czNjdxTTdTSENwaHU2OC9V?=
- =?utf-8?B?aTkwS2NNZVo3eXE3UDc5T2lSby9hR0kvM2NrRXFlT3E0QklPYWY3NkNGUklr?=
- =?utf-8?B?V1dwWHZzYU5TWjhiMERPL1Z0NWd6a1QrcGo4enZ4RHFtY1Arakk5VUFxeU5F?=
- =?utf-8?Q?UQcpDLnfGmE48IxnGilM2GGB+2huzufoRKGfNlU?=
+	=?utf-8?B?d2VUTCtWOXc2WGRjd290clJKcHBITkpZUHBWMDdScFRlRGhKUTRrZmVkU0c5?=
+ =?utf-8?B?ZncwZkdzMFNwb2dMNGJaSFd6UVNEakpabzJ6R0NYWWdFdG9pQlRkeDc1RjhL?=
+ =?utf-8?B?TURtcGRXZXZpeUozd0RzYW5wR2Y3ZTJjMVlZTnQvRFAyYzB4cGw1SFlTOXFx?=
+ =?utf-8?B?Z01UVXlKMTV6dGpSTFBETC9IUE1zalE3MnpXVGZDN2NydDdxUG4wd0hXMEF1?=
+ =?utf-8?B?UUt6YzhlbjE5Rm1aZFY0SEM0KzZBQ0ZGdXA3TUFwM1dzc1Y5NktCRzhRcnVu?=
+ =?utf-8?B?bWx3cUlDOFJYbTJkeE9LTTZZd1QzQXVLRUhFZXNaZWlwVXFkeTExdHlhaENa?=
+ =?utf-8?B?cys2MWpTdUQ4dm1WamVTVnBJbkw5WCtVVGZsdEkzcXBMRkdqdGE2bU5IbXBX?=
+ =?utf-8?B?WTBTZk0vQ2tBM3g1VXpVZXV0c0Z0eno2NWJESGdJendLdDNOMWs2YVdkRDFo?=
+ =?utf-8?B?R0ZCbHhtQk9wY2xzWVVDSW9HaHlGakVQUVBDaWtOaEw5RHJWQWhEZ3hvbjQ3?=
+ =?utf-8?B?bnRWckdEbTZrVFJWN0Jkam8rbXd4bTB3eVVXc2VvbFJnT1Y5S01aQndzSERz?=
+ =?utf-8?B?WjQrL2JKdTRhT0t4U0pmajJyWXNGSTYrWGFkS2JScm84WllnQ21KL0FIWk5G?=
+ =?utf-8?B?U3M0Mm1IT0RRNmhDNk54RVNRaVNFU3FzZ2pRai9kV2IraE1SUUMyL3BnVkdD?=
+ =?utf-8?B?MmNsdjU4aGNlWEl2em5hbHpicmxvNjZlR1VlSDdtY0JkTmF1NzFZaGxFbWxJ?=
+ =?utf-8?B?QlA5WnZsN3paMnRXaUdkSXBEalpKTnVVcE14UEgrM1lTZW5rZ0wwMHdzTHow?=
+ =?utf-8?B?Q3pvWTFXeVhJYWlhV0gxazlaV3ZTY1NNMzdsQWJNQ2ErdUpvajRqTWFHUGVK?=
+ =?utf-8?B?cjNIbzFEekdYWVdjT3NhOUFLaXRsdXhPVGtNdEhXN1VnUVF5QkNkM1hYSkFE?=
+ =?utf-8?B?aUczQStJWnpMUWx6eVdwWjg2S3p1K0RUV1RLd3cvTE1aU3VpY3ZZaGViVFVX?=
+ =?utf-8?B?SHVzaTJKcytqbm40NGtmdGtxcmdpeWovMDBpSEpyOWE0akF5QVBGdXhDb24z?=
+ =?utf-8?B?MjI1Sm9DclFNK2txL1M0LzZ1OFNqbkNYamg5OHdPbzY2d1VrN1dSaHhRZytH?=
+ =?utf-8?B?VzhkUkZEcXN2VDgwZ2Q4LzNrbTVCOEgwbVhXa0dzTW02NDI3VmRwanFtcVda?=
+ =?utf-8?B?WWNhWmZsWmxlQ3pkOXZsb1hjdDRidVRweTJkVVhGWWxFQXdGWWRFSXFyWmw3?=
+ =?utf-8?B?bjhpWTRGVTdIWm01MFhmUytNN2VPVXR5NzRsTkJpQjJpdFhndjMrRnJBVnpD?=
+ =?utf-8?B?NlhSYnZoWTRIRzFadkpxQ04wb1ptNXR4Mm1wWTRjWGd1NnZwL09OQ1lUcCsr?=
+ =?utf-8?B?WWhaYnVZU0pTV3VsUEpZb3FDaktiWllHY25ZTXNDUFBWU1B6SGZNRTczNE5Q?=
+ =?utf-8?B?N01PNitTMkZFMHJrbDFHSWJ2ZDJmazRNSVhCellpaVZrVDcrVTBSVWM2dmI5?=
+ =?utf-8?B?UXF2UFdWMG1Qd2lIVXUwYXBFaTBudzE0cmJPK20rMmluTE9nMlJJbU9jZHUv?=
+ =?utf-8?B?cjNRWldMMjluMU10c29DTUpRUFBkRXhwUHJQdlNkMUkvQ21jbk9LWXB2eGEr?=
+ =?utf-8?B?SGl6K1pIVmttK0ZPTFVPUnhMZWFFVlVSclJJMUNtVjZEVzZJMmpxRHRuL1c1?=
+ =?utf-8?B?T2JpNERoQk9HQUlwRVptZGJDb3dBdW1VcFd5RXVXaDZYYmgzcmFHbGh4UDNr?=
+ =?utf-8?B?UGRjVjVPY2d5SjRZVXVXVk1sQ1BKamN4MFRqUHU4REhLaTExQlBmOE5ISS9j?=
+ =?utf-8?B?VnlJY1FTem81cVhESzJ5Y2FOL05wUUJzd2pBMzE4S0toSGdrdU9LOVRTcU9U?=
+ =?utf-8?Q?fupvENFnKmWTs?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(8096899003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?L2hSWDFlSElJclhSZTZINytONytuSG40cWo3ZWlwTERxNVVvekIyeU44em5S?=
- =?utf-8?B?Szd2c3M4YXdBajhMN2x5Mmw2UFRiV2NSbyszdHFCdkZzSkpGVHhrbWVtbXdT?=
- =?utf-8?B?alJSUnA5RkM1cjRuTGY0SFo1Vk5nb3M2U2FhQngwWnFGbDJjb0NrVVR3OGVs?=
- =?utf-8?B?NW1MempMcTlyb0prMURKczJMWm9iUkZNdFVoL2JrcW5QNjFBMlBaK3Mycnk0?=
- =?utf-8?B?SkNNcCtHOWRwN0xkOWdQWXFGeGkwNklFMUVEdC9scCtiTHljcDh0ODdhTDJE?=
- =?utf-8?B?T1NkcFh4cDlGK2lNOUFIRysrZEJJUDJpbzVwOVdidW96Z3JnNUswVnJUdEdx?=
- =?utf-8?B?S2VJdTBpVXorSU1uOVpRTG41ZllQSmZ2eTRkU0dTdENmMFF2dGMrWTVJbXlB?=
- =?utf-8?B?R0xVWVZxaWU1eHdZRHdUSUdMT0Z5a0NIWlordDFtZTVhTkd4N09WZVZJN2ww?=
- =?utf-8?B?MmVXcGJwNDBNb2I2dExiVlBNdmhoZnNpNmtTTHlqRkNRQ1dvRDRjbC9tcnQ1?=
- =?utf-8?B?MkhOUUtGVWNiclptcU9Ed0w1bXNHUE5DTGF5RGtDZHJXcGRDTHVBazdIWExw?=
- =?utf-8?B?VzZuWGdFb1doWnNLMlcrZGJ1aEZCRVNWcGdGYWtwY0tzNXdWdUM3UHY0ajM4?=
- =?utf-8?B?ejhKY1phR2hjbE83THZaKy84OXNNSkJPT1A4QStaWXNXeWlaUW9RbGg0WjZi?=
- =?utf-8?B?S3FnSnNPZGRpM1ZZZm9Jb1FWNjNsaExqMFFYZTZNUHJhVk1KMDcyMW1IS0R0?=
- =?utf-8?B?ME1yQVdDNE9jOG9FQ3krU2Jpeld1NEZHT0grL04rMkQyZkRIdWNzYzVDV3hM?=
- =?utf-8?B?Z3ZLRmVQTitUU3BmeFBvR0JraXU1YkNrM1ptVzROczM5SStIenhPT1VjbDlh?=
- =?utf-8?B?QjdDUUt2Vi83Y2xTM21mUGlXUDFLZGQvc3FOVjlxUW1zWWNZTE1WQm4rY2Zw?=
- =?utf-8?B?WjZuWWdaN21HM0gweXIwSlEyR0tiTVRnTlJZbE5RUlgremVLeXo0Yy9QaENU?=
- =?utf-8?B?b1ZXNzBtSk45YWpoUGFZTHJvRFlKb21SZUIyZG1JM1BwbmhXRHR0WnRsT2xB?=
- =?utf-8?B?cVVOeVZwTlIxK1lnUVRGUnZvbVdZQ1lpVTFyM2tVS1JwZlpqK0pwTk9PdUNL?=
- =?utf-8?B?ZG5pV0Q2eVN1b01nQ3g1VFhQeHNXUVo1VEkzQ1NGVEpNUkxRQTJKUTBYb0ZC?=
- =?utf-8?B?MTZFTFE2K1gvaVlDeTlwQkZZYUV3elhJaWtFQUxMbjVEa1FCSTZYVm93YnJQ?=
- =?utf-8?B?b3lVQ1Nod3pYM2JBeFowbjZaU0hGOWhEclpGc0JweUNrd2pQK1RadEIrbW11?=
- =?utf-8?B?MDl2SzRSZEFjZnZYOHM4SWFxamF2SmJNam5LYWJ3L2poT2U0Q1EzVG12alR3?=
- =?utf-8?B?RkkwK1Q0SWc4Y2VSWnNVRzNNY3I2aVlQQk1YZ3FsU1lJbEtETWFkdHpobFVH?=
- =?utf-8?B?ZjJwU0J3NS9xQU9FYnpUMUhkenl6amxjRWxiaUhLa0xvTGtWQUJMRVhjaVNq?=
- =?utf-8?B?aVgramlMTjVVY0ZHZjdrVS94S1c2d1g1NXduNmZoZ1FmQWQ4UytTZVRiWUhW?=
- =?utf-8?B?d0l3eXRZMHB2ZWR4aHBUeUdLcWp0RmhnYTJ2RmphaUJBaHFTczdQRlJiWk5R?=
- =?utf-8?B?dDBsUXRDRitsUDNPTWRSN2xUUGRJeDIxZWZTTjN3WXlSdnl1OVRFcTNuaXhu?=
- =?utf-8?B?dmE0YW1xNnNYMDlMRXh2NmpQVjJIaUV0RE9MQWxVeDlZWC9nWS9FV2pFYW0r?=
- =?utf-8?B?aTh4VVNJRW1EQlRZbFhKK3V5cXBzcXV2UkFhVWFtcUxmT2NSNUVVNnRHZkRq?=
- =?utf-8?B?VVFQYUpid0R5QWVGK04yeFFWejZFaHByVzVGTXN0RW8vdUI0ZlFIdDZXb0o2?=
- =?utf-8?B?MWtFM1IwaDN0eGJ5T2c3czNDMXJadkJmK1F5a25tTmo3U0p6YTBTOG0rUEtj?=
- =?utf-8?B?WlVNOEViR25CMUlYN1hKNmt1enZtcDFqWFJ3NUtYUTkrWlJWekFKczJ5RFdH?=
- =?utf-8?B?MWdtMU1IL1drODFkOE14QndDNXpJeDRIVENxZjBxZG1mSmhIS3RvQ1o3b0pp?=
- =?utf-8?B?U2tTS1ZtZE5tL3ArdkN6REhueFlwZWVKbXAxVXcvOXFSc2lXL1d5U2lML0FJ?=
- =?utf-8?B?dUhwVkx2YU12TTZSakFyaXJkd01yQjM5UzVpMHBoQVdmV3A5L2J0NlYwd3lt?=
- =?utf-8?B?UVE9PQ==?=
+	=?utf-8?B?MG1TUVY2WWpmMGV5b3ZPWnVlSGVXK3g1S1grQnhyRjNXbGhUNUd0aGtKMlht?=
+ =?utf-8?B?aFUxL0NwSWdyUHBXZ1kxNU1qS2ttWVdTazNOVldKakFwRkhoK0VaV3d5SlpJ?=
+ =?utf-8?B?dWd5U1F5ZE9pSG1ESTl1WVVCMjA0SXkxc1Q1RFp1T3NGOUdXR0JKa2gxL2ov?=
+ =?utf-8?B?VGJzUkVBNWIvbENVTTdHMSs4Q3RBQUtDNGRZeEI0ZjF1QmpoSDF6YmFQYmpt?=
+ =?utf-8?B?OGs5bm8vQktnQ1hVVHZKVGJ3cGEzWmx2K0Q4NkRvUnE2WjdWdUJRQkRlVEdx?=
+ =?utf-8?B?Y1RtNGx0aUZtSVpUMDBHUnYyc2dpckdmQmFQQUwrRjQrSU5GdkdrWHdNbzZQ?=
+ =?utf-8?B?SVBjRjlyMjNSUjdUaStPb21xczhWK3RiQ0lNeGdDU0VuOUI5SmF1WnV5UWN3?=
+ =?utf-8?B?bWppRzZWVFNwYUlHQUFmOStsbDZ6K2Jpb2hFWWhMSlNrbEpKWkRwWWcrZXJF?=
+ =?utf-8?B?clVUUklLbHdZMEU4RFh2Nk93MXlhaVBqUk9KYU1aUjhxdUtacUk0QkFzcUtX?=
+ =?utf-8?B?ekcyUFNUa1M5cFN1bEk4c05pWXlnb0V1ZmJFL3VlUzAzZUQyMU14QlpNSC8y?=
+ =?utf-8?B?SVFNUEtRQkdybFM1ajhWYm9JdWlveFAwMUtvVVRyYmwwRnlnenBIOXRGK290?=
+ =?utf-8?B?eS9RMUZQWEFxV2ZhMTF2dUZCY2Vkc3l5Y2R1dHFTT1lPYmNRNFJCY1dzRHNT?=
+ =?utf-8?B?QWZVVXR4Y3hxMmVFZTlZTUFtSUI3alV4VmhOMURNSlZGWUUzMEt0eFlIdVpE?=
+ =?utf-8?B?bUx0SnlLSUUxbzdRak85TFY0TDZ1ZkZYSnZBVThrWFQwYjdCRHRYNW00RUZp?=
+ =?utf-8?B?WU9Uakp4SXpDelIyMFhDcFhIbytINTVRY3A3MXVEZ0xMdDFJTjY4WDRqSXhl?=
+ =?utf-8?B?ZXBaSFp0QjluM2lmR3JjSm43MmJsMzkwby9wcmh0Sy9SdDVIelpOT0hiS2lK?=
+ =?utf-8?B?SWZ5S2NXTXRrWUZFbGZwdzF6dXkyZ2hDNDJyR3lHNUdQaU1GQUgwc1hzT2Z1?=
+ =?utf-8?B?V0VPQWY0TGZUYVVwQVhiODNjdGQ0aStFOWJ1b0R4bVFVVFQ4U2IrWEREVy9W?=
+ =?utf-8?B?dkN1eWJwWlg5WXpqSy9xZ0xiNk9GdUVpTFhQRkJNNjhrV2RGazNxbVJwUlBO?=
+ =?utf-8?B?b204VGRwbDE2WkgyVTBZUDdaOXlEaXJ2djY2SnB2RTVoUzVOZVJlYjVLeHNR?=
+ =?utf-8?B?WFg0R1RXMjRMWnF1U2ZMRVlDRjhuTStpNEtjd0czZmRya1lhdUNPdVdma2dE?=
+ =?utf-8?B?L0ZPU2FOZEl0c0c0bnNuV3B0UmU2aUcyUkR5Y09UdWFDZXRPMzBKZ3dsMk5P?=
+ =?utf-8?B?cC91RjZjelE5c1dUM3hGZ29pV0lXN3oxMG1iNlZsK1owZWR2bTN3U1hFY3Fl?=
+ =?utf-8?B?Rm9kUjNjK2hjTndyQWYzTTBGeEFIR1AvdUJ5ZHNvR3lRYkI3S3UxOFM4Vlhm?=
+ =?utf-8?B?NG5qQ0hxYWRsUm9oeTFZVTd6MElVYTY1UHFlczQ2UG1lNUIrUEVrY0srMG0z?=
+ =?utf-8?B?OFlXc2VKenpZb0trc0QrTUM4ek5WYmpvWkJwTkFHQWVxaWtpeXVSZE85SHlZ?=
+ =?utf-8?B?VHIwRnQ3aGV6ZERXVFBZR0d1a01kQkRHWEx4MnZ4dm9IRVNHL2hhYlJSdER3?=
+ =?utf-8?B?ZTFVck11V1FkN3U4dXFreGtYZE9HeEpQRjNsMGNHZHFabURqUmd5OFpmcHgv?=
+ =?utf-8?B?aXVzS0g1bGptREh2c2QxTWh5Ym8yRU55TmNJUThuQnd2a2p5Q2hUOGQrZ25X?=
+ =?utf-8?B?NEtXYXcvYjFhVTg0VlMwcVF5WThYeWJEbzZsRzI4YnNKdXpFbmw4RUpZcmFa?=
+ =?utf-8?B?LzBxWHRhd0ZSc0NHZG5xL0ZoK0Q4MFdIQUs0dUFjcG1CRkwzVkpBamhvOVJh?=
+ =?utf-8?B?RVoza3JtNXNRTGlnNTBRaU1CZXpUeTdpYWRBZDBEeVF2dncxVW9ZZ3QzQ1c4?=
+ =?utf-8?B?ZVlsR0s4THpqYlBPKzZHNVlHWGdFbzhDcHptUDNwM1BIQTdNNzJBZ1RNRFc0?=
+ =?utf-8?B?bVphOWNBN1oybCtnem42RmZuc21NMldjcTdKalR3VnBScXJvVXY2SVp1T2VF?=
+ =?utf-8?B?dkxOekpkVU9oY29sTTZEZTdXNDNLZ1dFMElaczRuN1IrUTM2UGdnalBSQi9M?=
+ =?utf-8?B?MjJRaTFxNDdqN0NYUEFCNjh6Y2RWVnllczZ3cXlocTloRi9hdmNmUFREVm1G?=
+ =?utf-8?B?TUE9PQ==?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 822bebac-ab9c-492b-9885-08dd4b8a18d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7445828-99da-4a6f-797c-08dd4b8a7998
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 17:24:25.2476
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 17:27:07.5393
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A7l+H71SBFv4VfaQ1tuUJ3qVxUVr4tzzSa9yVMCWKJHjtijHfw+RycYSqkLbaGOjX8ilo0faQ3CZa/IfwKv1GA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10244
+X-MS-Exchange-CrossTenant-UserPrincipalName: bu4Cd3gSy9njKK5TRkqWyZkrNtGVEXzkrciZoezb8e91FefngivhGk4Mtj8Xlv6ZO3creebHJ5DMV8YinTk0Ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6665
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 17:24:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211262
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 17:27:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211263
 
---------------ASIXTKnWsJWmptAHU7aC2p73
+--------------dR00lyIKp1lhCGG0FuDqAjLl
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Am 12.02.2025 um 16:07 schrieb Bruce Ashfield:
-> On Wed, Feb 12, 2025 at 9:36 AM Stefan Herbrechtsmeier via 
-> lists.openembedded.org <http://lists.openembedded.org> 
-> <stefan.herbrechtsmeier-oss=weidmueller.com@lists.openembedded.org> wrote:
+Am 12.02.2025 um 16:06 schrieb Richard Purdie:
+> On Wed, 2025-02-12 at 15:36 +0100, Stefan Herbrechtsmeier wrote:
+>> My problem is the double standards. We support a fetcher which
+>> dynamic resolve dependencies and without manual update step since
+>> years. Nobody suggests to make the gitsm fetcher obsolete and
+>> requests the users to run an update task after a SRC_URI change to
+>> create a .inc file with the SRC_URIs of all the recursive submodules.
+>> Nobody complains about the missing components in the recipe.
+> FWIW there have been problems and complaints about gitsm. There were
+> some people who explicitly converted gitsm recipes into git urls due to
+> issues with the fetcher.
 >
->     Am 11.02.2025 um 22:46 schrieb Richard Purdie:
->>     On Tue, 2025-02-11 at 16:00 +0100, Stefan Herbrechtsmeier vialists.openembedded.org <http://lists.openembedded.org> wrote:
->>>     From: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com> <mailto:stefan.herbrechtsmeier@weidmueller.com>
->>>
->>>     Signed-off-by: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com> <mailto:stefan.herbrechtsmeier@weidmueller.com>
->>>     ---
->>>
->>>       .../python/python3-bcrypt-crates.inc          | 84 -------------------
->>>       .../python/python3-bcrypt_4.2.1.bb <http://python3-bcrypt_4.2.1.bb>            |  4 +-
->>>       2 files changed, 1 insertion(+), 87 deletions(-)
->>>       delete mode 100644 meta/recipes-devtools/python/python3-bcrypt-crates.inc
->>     So let me as the silly question. This removes the crates.inc file and
->>     doesn't appear to add any kind of new list of locked down modules.
->     The list is generated on the fly like gitsm and doesn't require an
->     extra step.
+> We have on the most part dealt with the worst issues in gitsm now but
+> there are still some who don't use it.
 >
->>     This means that inspection tools just using the metadata can't see
->>     "into" this recipe any longer for component information.
+> With git there is at least a relatively wide understanding of the
+> technology. With many other areas like node, go and rust, the tools are
+> much younger without some of the features we sometimes need, at least
+> in the past and people's overall trust is much lower as a result.
 >
->     We support and use python code inside the variables and thereby
->     need a preprocessing of the metadata in any case.
->
->     What do you mean by "component information"?
->
->>     This was
->>     something that some people felt strongly that was a necessary part of
->>     recipe metadata, for license, security and other manifest activities.
->
->     Why can't they use the SBOM for this?
->
->>     Are we basically saying that information is now only available after
->>     the build takes place?
->     They are only available after a special task run.
->
->>     I'm very worried that the previous discussions didn't reach a
->>     conclusion and this is moving the "magic" out of bitbake and into some
->>     vendor classes without addressing the concerns previously raised about
->>     transparency into the manifests of what is going on behind the scenes.
->
->     I try to address the concerns but don't realize that the missing
->     information in the recipe is a blocker.
->
->     This version gives the user the possibility to influence the
->     dependencies via patches or alternative lock file. It creates a
->     vendor folder for easy patch and debug. It integrates the
->     dependencies into the SBOM for security tracking.
->
->     I skipped the license topic for now because the package managers
->     don't handle license integrity. We have to keep the information in
->     the recipe but hopefully the license information doesn't change
->     with each update.
->
->     I don't understand the requirement for the plain inspection. In my
->     opinion external tools should always use a defined output and
->     shouldn't depend on the project internal details. I adapt the
->     existing users of the SRC_URI to include the dynamic SRC_URIs.
->
->>     I appreciate some of the requirements are conflicting.
+> At this point I'm not sure there would be demand to change gitsm but
+> there are still the concerns about that approach.
+
+>>   Whether we have hard requirements and introduce a git submodule
+>> support which satisfy the requirements or we accept the advantages of
+>> a simple user interface and minimize the disadvantages.
 >>
->>     For the record in some recent meetings, I was promised that help would
->>     be forthcoming in helping guide this discussion. I therefore left
->>     things alone in the hope that would happen. It simply hasn't, probably
->>     due to time/work issues, which I can sympathise with but it does mean
->>     I'm left doing a bad job of trying to respond to your patches whilst
->>     trying to do too many other things badly too. That leaves us both very
->>     frustrated.
->>
->>     I really want to see you succeed in reworking this and I appreciate the
->>     time and effort put into the patches. To make this successful, I know
->>     there are key stakeholders who need to buy into it and right now,
->>     they're more likely just to keep doing their own things as it is easier
->>     since this isn't going the direction they want. A key piece of making
->>     this successful is negotiating something which can work for a
->>     significant portion of them. I'm spelling all this out since I do at
->>     least want to make the situation clear.
->>
->>     Yes, I'm very upset the OE community is putting me in this position
->>     despite me repeatedly asking for help and that isn't your fault, which
->>     just frustrates me more.
->
->     My problem is the double standards. We support a fetcher which
->     dynamic resolve dependencies and without manual update step since
->     years. Nobody suggests to make the gitsm fetcher obsolete and
->     requests the users to run an update task after a SRC_URI change to
->     create a .inc file with the SRC_URIs of all the recursive
->     submodules. Nobody complains about the missing components in the
->     recipe.
->
-> There's no double standard, I'd simply say that design decisions of 
-> the past doesn't mean that there aren't better ways to do something new.
->
-> Richard went out of his way to explain the status and what sort of 
-> review needs to happen, I'll add that while getting frustrated with it 
-> is natural, pushing back on people doing reviews isn't going to help 
-> get things merged, it will do the opposite.
->
-> There have been plenty of complaints and issues with the gitsm 
-> fetcher, but the reality is that if someone wants to get at the base 
-> components of what it is doing, they can do so. I've had to take 
-> several of my maintained recipes out of gitsm and back to the base git 
-> fetches. The submodules were simply fetching code that didn't build 
-> and there was no way to fetch it.  The gitsm fetcher is also 
-> relatively lightly used, much less complicated and doesn't need much 
-> extra in infrastructure to support it.
+>>   It doesn't matter if we run the resolve function inside a resolve,
+>> fetch or update task. The questions is do we want to support dynamic
+>> SRC_URIs or do we want an manual update task. The task needs to be
+>> manual run after a SRC_URI change and can produces a lot of noise in
+>> the update commit. In any case the manual editing of the SRC_URI
+>> isn't practical and the users will use the package manager to update
+>> dependencies and its recursive dependencies.
+>>   
+>> As a compromise we could add a new feature to generate .inc cache
+>> files before the main bitbake run. This would eliminate the manual
+>> update run and the commit noise as well as special fetch, unpack and
+>> patch task.
+> I've partly being trying to channel some of the feelings I've been
+> hearing expressed in different places, as I do want any new solution to
+> meet the needs of the widest group we can. If the .inc is generated but
+> not checked in (to remove the commit noise), I suspect it loses some of
+> the value that people have wanted.
 
-Thanks for your insides. There a two main solutions for the problem. Add 
-patch support to gitsm so that you could use the git submodule command 
-and create a patch or generate a .inc file and manipulate the SRCREVs. I 
-assume you would prefer a .inc file. What do you think is the downside 
-of a patch?
+It would be helpful if more people participation in the discussion. It 
+is hard to understand why the .inc is needed if the lock file contains 
+the same information and common tools exists to manipulate the lock file.
 
->
->     Whether we have hard requirements and introduce a git submodule
->     support which satisfy the requirements or we accept the advantages
->     of a simple user interface and minimize the disadvantages.
->
-> Unfortunately in my experience the simple interfaces hiding complexity 
-> don't help when things go wrong. That's how I ended up where I am with 
-> my go recipes, and why I ended up tearing my gitsm recipe back into 
-> its components. There was no way to influence / fix the build 
-> otherwise, and they didn't support bleeding edge development very well.
-Do you have a good example for a problematic go recipe to test my approach?
+> I'm personally very torn. I get pushed many different ways, which
+> include robustness, simplicity and complexity reduction, performance
+> and various extremes of auditing. I feel I'm doing a bad job of trying
+> to represent everything :(.
+I'm sorry for that.
 
-> I'm definitely one of the people Richard is mentioning as a 
-> stakeholder, and one that could likely just ignore all of this .. but 
-> I'm attempting to wade into it again.
+> I do see that there are basically two conflicting approaches and I'm
+> not sure everyone is going to be happy with either. This does worry me
+> a lot and puts me in a difficult place too.
 
-I am very grateful for that.
+Would you accept both solutions?
 
->
-> None of us have the hands on, daily experience with the components at 
-> play as you do right now, so patience on your part will be needed as 
-> we ask many not-so-intelligent questions.
-
-That's no problem.
-
->
->     It doesn't matter if we run the resolve function inside a resolve,
->     fetch or update task. The questions is do we want to support
->     dynamic SRC_URIs or do we want an manual update task. The task
->     needs to be manual run after a SRC_URI change and can produces a
->     lot of noise in the update commit. In any case the manual editing
->     of the SRC_URI isn't practical and the users will use the package
->     manager to update dependencies and its recursive dependencies.
->
-> I don't understand the series quite enough yet to say "why can't we do 
-> both", if there was a way to abstract / componentize what is 
-> generating those dynamic SCR_URIS in such a way that an external tool 
-> or update task could generate them, and if they were already in place 
-> the dynamic generation wouldn't run at build time, that should keep 
-> both modes working.
-If it is desired I can add both variants.
-
-
-> I admit to not understanding why we'd be overly concerned about noise 
-> in the commits (for the dependencies) if they are split into separate 
-> files in the recipe. More information is always better when I'm 
-> dealing with the updates. I just scroll past it if I'm not interested 
-> and filter it if I am.
-The problem is to identify the relevant parts. Lets say you update a 
-dependency because of an security issue. Afterwards you update the 
-project with a lot of dependency changes. You have to review the 
-complete noise to determine if your updated dependency doesn't go 
-backward in its version. It is much easier to use a patch. After the 
-project update the patch will fail or not. If it fails you have a direct 
-focus on the affected dependency. If you back port the patch from the 
-project you could simple drop it with the next update.
-
-> I feel the pain (and your pain) of this after supporting complicated 
-> go/mixed language recipes through multiple major releases (and through 
-> go's changing dependency model + bleeding edge code, etc) and needing 
-> to track what has changed, so I definitely encourage you to keep 
-> working on this.
->
->     As a compromise we could add a new feature to generate .inc cache
->     files before the main bitbake run. This would eliminate the manual
->     update run and the commit noise as well as special fetch, unpack
->     and patch task.
->
-> Can you elaborate on what you mean by before the main bitbake run ? 
-> Would it be still under a single bitbake invokation or would it be 
-> multiple runs (I support multiple runs, so don't take that as a 
-> leading question).
-
-I can't answer this questions and need Richard guidance to implement 
-such a feature. I would assume that bitbake already track file changes 
-and can update its state. The behavior should be similar to a change in 
-the .inc file. Bitbake will detect that a "include_cache" file is 
-missing and run an update_cache task on the recipe. Afterwards bitbake 
-detect a file change on the "include_cache" file and parse it. We need a 
-possibility to mark patches which shouldn't be applied if the 
-"include_cache" file is missing because the dependencies are missing. We 
-need to run the fetch, unpack and patch task before the update_cache 
-task to generate the .inc file.
-
---------------ASIXTKnWsJWmptAHU7aC2p73
+--------------dR00lyIKp1lhCGG0FuDqAjLl
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -368,337 +229,90 @@ Content-Transfer-Encoding: 8bit
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">Am 12.02.2025 um 16:07 schrieb Bruce
-      Ashfield:<br>
+    <div class="moz-cite-prefix">Am 12.02.2025 um 16:06 schrieb Richard
+      Purdie:<br>
     </div>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div dir="ltr" class="gmail_attr">On Wed, Feb 12, 2025 at
-            9:36 AM Stefan Herbrechtsmeier via <a href="http://lists.openembedded.org" moz-do-not-send="true">lists.openembedded.org</a>
-            &lt;stefan.herbrechtsmeier-oss=<a href="mailto:weidmueller.com@lists.openembedded.org" moz-do-not-send="true" class="moz-txt-link-freetext">weidmueller.com@lists.openembedded.org</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <div>Am 11.02.2025 um 22:46 schrieb Richard Purdie:<br>
-              </div>
-              <blockquote type="cite">
-                <pre>On Tue, 2025-02-11 at 16:00 +0100, Stefan Herbrechtsmeier via <a href="http://lists.openembedded.org" target="_blank" moz-do-not-send="true">lists.openembedded.org</a> wrote:
+    <blockquote type="cite" cite="mid:8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">On Wed, 2025-02-12 at 15:36 +0100, Stefan Herbrechtsmeier wrote:
 </pre>
-                <blockquote type="cite">
-                  <pre>From: Stefan Herbrechtsmeier <a href="mailto:stefan.herbrechtsmeier@weidmueller.com" target="_blank" moz-do-not-send="true">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">My problem is the double standards. We support a fetcher which
+dynamic resolve dependencies and without manual update step since
+years. Nobody suggests to make the gitsm fetcher obsolete and
+requests the users to run an update task after a SRC_URI change to
+create a .inc file with the SRC_URIs of all the recursive submodules.
+Nobody&nbsp;complains about the missing components in the recipe.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+FWIW there have been problems and complaints about gitsm. There were
+some people who explicitly converted gitsm recipes into git urls due to
+issues with the fetcher.
 
-Signed-off-by: Stefan Herbrechtsmeier <a href="mailto:stefan.herbrechtsmeier@weidmueller.com" target="_blank" moz-do-not-send="true">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
----
+We have on the most part dealt with the worst issues in gitsm now but
+there are still some who don't use it.
 
-&nbsp;.../python/python3-bcrypt-crates.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 84 -------------------
-&nbsp;.../python/<a href="http://python3-bcrypt_4.2.1.bb" target="_blank" moz-do-not-send="true">python3-bcrypt_4.2.1.bb</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 4 +-
-&nbsp;2 files changed, 1 insertion(+), 87 deletions(-)
-&nbsp;delete mode 100644 meta/recipes-devtools/python/python3-bcrypt-crates.inc
-</pre>
-                </blockquote>
-                <pre>So let me as the silly question. This removes the crates.inc file and
-doesn't appear to add any kind of new list of locked down modules.
-</pre>
-              </blockquote>
-              The list is generated on the fly like gitsm and doesn't
-              require an extra step.<br>
-              <br>
-              <blockquote type="cite">
-                <pre>This means that inspection tools just using the metadata can't see
-&quot;into&quot; this recipe any longer for component information.
-</pre>
-              </blockquote>
-              <p>We support and use python code inside the variables and
-                thereby need a preprocessing of the metadata in any
-                case.<br>
-                <br>
-                What do you mean by &quot;component information&quot;?<br>
-                <br>
-              </p>
-              <blockquote type="cite">
-                <pre>This was
-something that some people felt strongly that was a necessary part of
-recipe metadata, for license, security and other manifest activities.</pre>
-              </blockquote>
-              <p>Why can't they use the SBOM for this?<br>
-                <span style="white-space:pre-wrap">
+With git there is at least a relatively wide understanding of the
+technology. With many other areas like node, go and rust, the tools are
+much younger without some of the features we sometimes need, at least
+in the past and people's overall trust is much lower as a result.
 
+At this point I'm not sure there would be demand to change gitsm but
+there are still the concerns about that approach.</pre>
+    </blockquote>
+    <br>
+    <blockquote type="cite" cite="mid:8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org">
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">&nbsp;Whether we have hard requirements and introduce a git submodule
+support which satisfy the requirements or we accept the advantages of
+a simple user interface and minimize the disadvantages.
+
+&nbsp;It doesn't matter if we run the resolve function inside a resolve,
+fetch or&nbsp;update task. The questions is do we want to support dynamic
+SRC_URIs or do we want an manual update task. The task needs to be
+manual run after a SRC_URI change and can produces a lot of noise in
+the update commit. In any case the manual editing of the SRC_URI
+isn't practical and the users will use the package manager to update
+dependencies and its recursive dependencies.
+&nbsp;
+As a compromise we could add a new feature to generate .inc cache
+files before the main bitbake run. This would eliminate the manual
+update run and the commit noise as well as special fetch, unpack and
+patch task.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I've partly being trying to channel some of the feelings I've been
+hearing expressed in different places, as I do want any new solution to
+meet the needs of the widest group we can. If the .inc is generated but
+not checked in (to remove the commit noise), I suspect it loses some of
+the value that people have wanted.</pre>
+    </blockquote>
+    <p>It would be helpful if more people participation in the
+      discussion. It is hard to understand why the .inc is needed if the
+      lock file contains the same information and common tools exists to
+      manipulate the lock file.<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">I'm personally very torn. I get pushed many different ways, which
+include robustness, simplicity and complexity reduction, performance
+and various extremes of auditing. I feel I'm doing a bad job of trying
+to represent everything :(.</pre>
+    </blockquote>
+    I'm sorry for that.<br>
+    <br>
+    <blockquote type="cite" cite="mid:8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">I do see that there are basically two conflicting approaches and I'm
+not sure everyone is going to be happy with either. This does worry me
+a lot and puts me in a difficult place too.
+</pre>
+    </blockquote>
+    <p>Would you accept both solutions?</p>
+    <p><span style="white-space: pre-wrap">
 </span></p>
-              <blockquote type="cite">
-                <pre>Are we basically saying that information is now only available after
-the build takes place?
-</pre>
-              </blockquote>
-              They are only available after a special task run.<br>
-              <br>
-              <blockquote type="cite">
-                <pre>I'm very worried that the previous discussions didn't reach a
-conclusion and this is moving the &quot;magic&quot; out of bitbake and into some
-vendor classes without addressing the concerns previously raised about
-transparency into the manifests of what is going on behind the scenes.
-</pre>
-              </blockquote>
-              <p>I try to address the concerns but don't realize that
-                the missing information in the recipe is a blocker.<br>
-                <br>
-                This version gives the user the possibility to influence
-                the dependencies via patches or alternative lock file.
-                It creates a vendor folder for easy patch and debug. It
-                integrates the dependencies into the SBOM for security
-                tracking.<br>
-                <br>
-                I skipped the license topic for now because the package
-                managers don't handle license integrity. We have to keep
-                the information in the recipe but hopefully the license
-                information doesn't change with each update.<br>
-                <br>
-                I don't understand the requirement for the plain
-                inspection. In my opinion external tools should always
-                use a defined output and shouldn't depend on the project
-                internal details. I adapt the existing users of the
-                SRC_URI to include the dynamic SRC_URIs. <br>
-                <br>
-              </p>
-              <blockquote type="cite">
-                <pre>I appreciate some of the requirements are conflicting.
-
-For the record in some recent meetings, I was promised that help would
-be forthcoming in helping guide this discussion. I therefore left
-things alone in the hope that would happen. It simply hasn't, probably
-due to time/work issues, which I can sympathise with but it does mean
-I'm left doing a bad job of trying to respond to your patches whilst
-trying to do too many other things badly too. That leaves us both very
-frustrated.
-
-I really want to see you succeed in reworking this and I appreciate the
-time and effort put into the patches. To make this successful, I know
-there are key stakeholders who need to buy into it and right now,
-they're more likely just to keep doing their own things as it is easier
-since this isn't going the direction they want. A key piece of making
-this successful is negotiating something which can work for a
-significant portion of them. I'm spelling all this out since I do at
-least want to make the situation clear.
-
-Yes, I'm very upset the OE community is putting me in this position
-despite me repeatedly asking for help and that isn't your fault, which
-just frustrates me more.
-</pre>
-              </blockquote>
-              <p>My problem is the double standards. We support a
-                fetcher which dynamic resolve dependencies and without
-                manual update step since years. Nobody suggests to make
-                the gitsm fetcher obsolete and requests the users to run
-                an update task after a SRC_URI change to create a .inc
-                file with the SRC_URIs of all the recursive submodules.
-                Nobody&nbsp;complains about the missing components in the
-                recipe.<br>
-              </p>
-            </div>
-          </blockquote>
-          <div>
-            <div class="gmail_default" style="font-size:small">There's
-              no double standard, I'd simply say that design decisions
-              of the past doesn't mean that there aren't better ways to
-              do something new.</div>
-            <div class="gmail_default" style="font-size:small"><br>
-            </div>
-            <div class="gmail_default" style="font-size:small">Richard
-              went out of his way to explain the status and what sort of
-              review needs to happen, I'll add that while getting
-              frustrated with it is natural, pushing back on people
-              doing reviews isn't going to help get things merged, it
-              will do the opposite.</div>
-            <div class="gmail_default" style="font-size:small"><br>
-            </div>
-            <div class="gmail_default" style="font-size:small">There
-              have been plenty of complaints and issues with the gitsm
-              fetcher, but the reality is that if someone wants to get
-              at the base components of what it is doing, they can do
-              so. I've had to take several of my maintained recipes out
-              of gitsm and back to the base git fetches. The submodules
-              were simply fetching code that didn't build and there was
-              no way to fetch it.&nbsp; The gitsm fetcher is also relatively
-              lightly used, much less complicated and doesn't need much
-              extra in infrastructure to support it.<br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>Thanks for your insides. There a two main solutions for the
-      problem. Add patch support to gitsm so that you could use the git
-      submodule command and create a patch or generate a .inc file and
-      manipulate the SRCREVs. I assume you would prefer a .inc file. What
-      do you think is the downside of a patch?<br>
-      <br>
-    </p>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p> <br>
-                Whether we have hard requirements and introduce a git
-                submodule support which satisfy the requirements or we
-                accept the advantages of a simple user interface and
-                minimize the disadvantages.<br>
-              </p>
-            </div>
-          </blockquote>
-          <div>
-            <div class="gmail_default" style="font-size:small">Unfortunately
-              in my experience the simple interfaces hiding complexity
-              don't help when things go wrong. That's how I ended up
-              where I am with my go recipes, and why I ended up tearing
-              my gitsm recipe back into its components. There was no way
-              to influence / fix the build otherwise, and they didn't
-              support bleeding edge development very well.<br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Do you have a good example for a problematic go recipe to test my
-    approach?<br>
-    <br>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div>
-            <div class="gmail_default" style="font-size:small">I'm
-              definitely one of the people Richard is mentioning as a
-              stakeholder, and one that could likely just ignore all of
-              this .. but I'm attempting to wade into it again.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>I am very grateful for that.<br>
-      <br>
-    </p>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div class="gmail_default" style="font-size:small"><br>
-          </div>
-          <div class="gmail_default" style="font-size:small">None of us
-            have the hands on, daily experience with the components at
-            play as you do right now, so patience on your part will be
-            needed as we ask many not-so-intelligent questions.<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>That's no problem.<br>
-      <br>
-    </p>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p> <br>
-                It doesn't matter if we run the resolve function inside
-                a resolve, fetch or&nbsp;update task. The questions is do we
-                want to support dynamic SRC_URIs or do we want an manual
-                update task. The task needs to be manual run after a
-                SRC_URI change and can produces a lot of noise in the
-                update commit. In any case the manual editing of the
-                SRC_URI isn't practical and the users will use the
-                package manager to update dependencies and its recursive
-                dependencies.<br>
-              </p>
-            </div>
-          </blockquote>
-          <div>
-            <div class="gmail_default" style="font-size:small">I don't
-              understand the series quite enough yet to say &quot;why can't
-              we do both&quot;, if there was a way to abstract /
-              componentize&nbsp;what is generating those dynamic&nbsp;SCR_URIS in
-              such a way that an external tool or update task could
-              generate them, and if they were already in place the
-              dynamic generation wouldn't run at build time, that should
-              keep both modes working.<br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    If it is desired I can add both variants. <br>
-    <br>
-    <br>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div>
-            <div class="gmail_default" style="font-size:small">I admit
-              to not understanding why we'd be overly concerned about
-              noise in the commits (for the dependencies) if they are
-              split into separate files in the recipe. More information
-              is always better when I'm dealing with the updates. I just
-              scroll past it if I'm not interested and filter it if I
-              am.<br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    The problem is to identify the relevant parts. Lets say you update a
-    dependency because of an security issue. Afterwards you update the
-    project with a lot of dependency changes. You have to review the
-    complete noise to determine if your updated dependency doesn't go
-    backward in its version. It is much easier to use a patch. After the
-    project update the patch will fail or not. If it fails you have a
-    direct focus on the affected dependency. If you back port the patch
-    from the project you could simple drop it with the next update. <br>
-    <br>
-    <blockquote type="cite" cite="mid:CADkTA4MZozK1oBwM6-=FShj2N-kke4w9=FDkTrd668XkvjsTbw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div class="gmail_default" style="font-size:small">I feel the
-            pain (and your pain) of this after supporting complicated
-            go/mixed language recipes through multiple&nbsp;major releases
-            (and through go's changing dependency model + bleeding edge
-            code, etc) and needing to track what has changed, so I
-            definitely encourage you to keep working on this.</div>
-          <div class="gmail_default" style="font-size:small"><br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p> </p>
-              <p>As a compromise we could add a new feature to generate
-                .inc cache files before the main bitbake run. This would
-                eliminate the manual update run and the commit noise as
-                well as special fetch, unpack and patch task.<br>
-                <br>
-              </p>
-            </div>
-          </blockquote>
-          <div class="gmail_default" style="font-size:small">Can you
-            elaborate on what you mean by before the main bitbake run ?
-            Would it be still under a single bitbake invokation or would
-            it be multiple runs (I support multiple runs, so don't take
-            that as a leading question).<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>I can't answer this questions and need Richard guidance to
-      implement such a feature. I would assume that bitbake already
-      track file changes and can update its state. The behavior should
-      be similar to a change in the .inc file. Bitbake will detect that
-      a &quot;include_cache&quot; file is missing and run an update_cache task on
-      the recipe. Afterwards bitbake detect a file change on the
-      &quot;include_cache&quot; file and parse it. We need a possibility to mark
-      patches which shouldn't be applied if the &quot;include_cache&quot; file is
-      missing because the dependencies are missing. We need to run the
-      fetch, unpack and patch task before the update_cache task to
-      generate the .inc file.</p>
   </body>
 </html>
 
---------------ASIXTKnWsJWmptAHU7aC2p73--
+--------------dR00lyIKp1lhCGG0FuDqAjLl--
 
