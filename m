@@ -1,276 +1,191 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2EABC02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 17:47:58 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.22515.1739382466341833859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD6DC021A0
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 17:48:48 +0000 (UTC)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+ by mx.groups.io with SMTP id smtpd.web11.22514.1739382527271572233
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 09:47:46 -0800
+ Wed, 12 Feb 2025 09:48:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=aTUygnhJ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C8K8SZ008889;
-	Wed, 12 Feb 2025 17:47:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=HRcQz4U5A1mNYTqtrX6P4L
-	iPqJlrkEJ4/x6RDgXmfAs=; b=aTUygnhJH0pXq3Gs4JZmHCCLLhLV85MGzs4dju
-	xoGX9r+MvywHs/wK+QOg1op5lfJw0fNxJIGvKiT91dFe7D4pWpcQsS3mOgDETKbr
-	JXHrOV1/goej309N9eoNT9I+1mVyg7DzekM/N8bhqjNhmR8l4z9Awhc+FuJ2jsMJ
-	6RFjARBPe/K+/4Oucf25yyrzuzU0+Mp3cctA3A7b14X1ibPz1lT7UGLMugp6lrHy
-	Q703frFnIh4PLzAv+nST8OKu7188+MSOGnLCxXp/Uh7xR/bJblLs0CsBZTLyX/Ip
-	PyxYbSWNebe3eMOXiaiDezi0miToFk5/PQsV3usuvVNLcJ1A==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rr1qsfph-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 17:47:44 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51CHliRR025265
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 17:47:44 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 12 Feb 2025 09:47:42 -0800
-From: Vivek Puar <quic_vpuar@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <quic_vpuar@quicinc.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2] linux-firmware: upgrade 20250109 -> 20250211
-Date: Wed, 12 Feb 2025 23:17:26 +0530
-Message-ID: <20250212174726.1533501-1-quic_vpuar@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A6NP1vZy;
+ spf=pass (domain: gmail.com, ip: 209.85.221.181, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-52054c55991so670406e0c.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 09:48:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739382526; x=1739987326; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W6H4m1mWEf2sVTBQWrlCoJkXEkmiLBp3Ek1TjaibZ1Q=;
+        b=A6NP1vZyVF5bpxFm7R6/hC/vDZUlTUeR+9j8YD9I4kit1C0nIyeZtN+GxuiPyeksrm
+         LL+fF6zPKJFyVm9XIAzLKgf7djYq+S86fKTF7oM0WnPJiNdnvVJ9plWi/LgHUtS1Zvwu
+         0GeX3j9RdHxQcf/iaQiSADSbCsfYByHp6kZeOUUgrRgcLYyFr9+xRHy5gTCOugBIQ4oz
+         8MhZ5W9dFxvD3KBrliX/pBhoWC/KaMui6pEbaD6L+a73VGR05cxxlV6R+crDws0gwKHV
+         dggywMn0QAvph89uV6verpfJOtTsZHwsuLBEKQS1EgVPWgej+zC7ZroPIPUhEicLsjsh
+         acfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739382526; x=1739987326;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W6H4m1mWEf2sVTBQWrlCoJkXEkmiLBp3Ek1TjaibZ1Q=;
+        b=GERz4DSYsV64TuNdOLWpMfrqaCdxieKEZvz7I70Te61P2MJPqpi44kLkDyphXQnMWu
+         Qb5lWY8UnXHKT5O8pifMRJQu93Z6+FxSRNL2vCL3Z37sytOM+7oH4XXlFVqU4i/vR/UQ
+         Ii4JwpxJzYLtT5Bp+ZQgqtVJUNyUpZ/KyXXQgPJqXOpFeDDoUhoMHk2bJYscClUXvL93
+         LePZgD0hxN1S9c2ArRUxF1xhm6bSzUTTmO2RfPidW/cycnvBNmKDbVwwiH6M2iwxy7BH
+         nzVm3SiOFG9NYmMAFK3r/WItjeXZqOGvikEwl/GSR9TMa/w/0aV+NNZhqSOuBcJ8FfhG
+         vZIw==
+X-Gm-Message-State: AOJu0YzpB8Xmp7oeoQ55ejK9IYm8V84AAHVXhovpAVe+c0W5BegsWZel
+	35YlzlB1AOYQIweRVbpjoDBQVr/U7m5xCowGRKy/VgS91DLL4OLl52hq0Hd0VdT1EQYPFm6UnNc
+	I6D+3XSJfps5xOQaAIkBFjk0W8gusWg==
+X-Gm-Gg: ASbGncu4xxIbQvMuUvZy5kSJPBfYt3+1efuRz/V7B3AiYGq6d9FiJNIL4iK3IVXAbAp
+	YEef9TEvGZb2PugKVBEf2/emw8vhBrMwfX2hop5vwTlmccYQKTaOHI85aYDH91RSRdFNqTXc4zf
+	1HYKRmvuQqhHda6xma9AF8OvpxCrxe
+X-Google-Smtp-Source: AGHT+IGXEXK+e5ZN4oc7Ms6M2RZ5wcB1FgcEj1GEQD8skjmTHWwDbGGqnQfC9czJNKGXUvwpjYp95HvyoyD7A76u750=
+X-Received: by 2002:a05:6122:2c34:b0:515:25f5:46f6 with SMTP id
+ 71dfb90a1353d-52077a9315amr263102e0c.4.1739382526208; Wed, 12 Feb 2025
+ 09:48:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: dcN_f8hvA1pv9S1GqPRqSBvN8DkFr_mI
-X-Proofpoint-ORIG-GUID: dcN_f8hvA1pv9S1GqPRqSBvN8DkFr_mI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_05,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502120129
+References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20250211150034.18696-7-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <CA+cAkep+TSaFr5pqKDjxRh07ApMTwtnspTvYAMVOU_ax3kP3Ug@mail.gmail.com> <ed0bd088-529c-4e37-81b5-2749b0da3934@weidmueller.com>
+In-Reply-To: <ed0bd088-529c-4e37-81b5-2749b0da3934@weidmueller.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Wed, 12 Feb 2025 18:48:34 +0100
+X-Gm-Features: AWEUYZlxQnDyY1IXP4NmZ-fc6Yas_FP9aJor6HXnVcR7XGuuOO1Zqgm7YaZMNAQ
+Message-ID: <CA+cAkercP7YUsVTXLWDEV+oya9NNf4Uj_ge4xg0KtYLcXERciQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 06/30] lib: oe: vendor: add cargo support
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Content-Type: multipart/alternative; boundary="0000000000009a731d062df58dae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 17:47:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211267
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 17:48:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211268
 
-Add DSP firmware for Qualcomm SA8775P / QCS9100
-platforms to ${PN}-qcom-sa8775p-{audio, compute, generalpurpose}
-packages, and updating it with correct license information.
+--0000000000009a731d062df58dae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add QCA6698AQ package ${PN}-ath11k-qca6698aq
-to ath11k firmware.
+Le mer. 12 f=C3=A9vr. 2025, 17:29, Stefan Herbrechtsmeier <
+stefan.herbrechtsmeier-oss@weidmueller.com> a =C3=A9crit :
 
-Add bluetooth WCN3950 package ${PN}-qca-wcn3950
-to qca firmware.
+> Am 12.02.2025 um 13:45 schrieb Fr=C3=A9d=C3=A9ric Martinsons:
+>
+>
+> On Tue, 11 Feb 2025 at 16:01, Stefan Herbrechtsmeier via
+> lists.openembedded.org <stefan.herbrechtsmeier-oss=3D
+> weidmueller.com@lists.openembedded.org> wrote:
+>
+>> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+>>
+>> Add a vendor module for cargo to resolve dependencies and populate
+>> vendor directories from a Cargo.lock file.
+>>
+>>
+>>
+> Hello,
+>
+> Have you looked at vendor subcommand of cargo :
+> https://doc.rust-lang.org/cargo/commands/cargo-vendor.html ?
+> I didn't read the series but the commit message makes me think that "carg=
+o
+> vendor" already exists for resolving dependencies
+> and populating a vendor directory.
+>
+> The class uses the bitbake fetcher (wget / git) to create a vendor
+> directory and emulate the cargo vendor command.
+>
 
-License-Update: additional files
+Yes, I understood that. Let me rephrase my question.
+Is it desirable/needed to mimick an existing (upstream and maintained)
+command, considering that we already use native cargo to build rust
+binaries?
 
-Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- ...20250109.bb => linux-firmware_20250211.bb} | 36 ++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (98%)
+Is the new flow you suggest can use the "cargo vendor" call?
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-index b932300742..e3a29a284f 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-@@ -55,6 +55,7 @@ LICENSE = "\
-     & Firmware-powervr \
-     & Firmware-qat \
-     & Firmware-qcom \
-+    & Firmware-qcom-2 \
-     & Firmware-qcom-yamato \
-     & Firmware-qla1280 \
-     & Firmware-qla2xxx \
-@@ -132,6 +133,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
-                     file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
-                     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
-+                    file://LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
-                     file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
-                     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
-                     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
-@@ -158,7 +160,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
-+WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -212,6 +214,7 @@ NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
- NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSE.powervr"
- NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
- NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
-+NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSE.qcom-2"
- NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
- NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
- NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
-@@ -247,7 +250,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
-+SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d" 
- 
- inherit allarch
- 
-@@ -389,6 +392,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-ath11k-ipq8074 \
-              ${PN}-ath11k-qca2066 \
-              ${PN}-ath11k-qca6390 \
-+             ${PN}-ath11k-qca6698aq \
-              ${PN}-ath11k-qcn9074 \
-              ${PN}-ath11k-wcn6750 \
-              ${PN}-ath11k-wcn6855 \
-@@ -401,6 +405,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qca-qca61x4-serial \
-              ${PN}-qca-qca61x4-usb \
-              ${PN}-qca-qca6390 \
-+             ${PN}-qca-wcn3950 \
-              ${PN}-qca-wcn3988 \
-              ${PN}-qca-wcn399x \
-              ${PN}-qca-wcn6750 \
-@@ -461,7 +466,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-prestera \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qed \
--             ${PN}-qcom-license ${PN}-qcom-yamato-license \
-+             ${PN}-qcom-license ${PN}-qcom-2-license ${PN}-qcom-yamato-license \
-              ${PN}-qcom-aic100 ${PN}-qcom-qdu100 \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
-              ${PN}-qcom-vpu \
-@@ -476,7 +481,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-qcs615-adreno \
-              ${PN}-qcom-qrb4210-adreno \
-              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
--             ${PN}-qcom-sa8775p-adreno \
-+             ${PN}-qcom-sa8775p-adreno ${PN}-qcom-sa8775p-audio ${PN}-qcom-sa8775p-compute \
-+             ${PN}-qcom-sa8775p-generalpurpose \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-@@ -584,6 +590,7 @@ LICENSE:${PN}-ath11k-ipq6018 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-ipq8074 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-qca2066 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-qca6390 = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-ath11k-qca6698aq = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-qcn9074 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-wcn6750 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-wcn6855 = "Firmware-qualcommAthos_ath10k"
-@@ -595,6 +602,7 @@ LICENSE:${PN}-ath12k-misc = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-qca61x4-serial = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-qca61x4-usb = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-qca6390 = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-qca-wcn3950 = "Firmware-qcom"
- LICENSE:${PN}-qca-wcn3988 = "Firmware-qcom"
- LICENSE:${PN}-qca-wcn399x = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-wcn6750 = "Firmware-qualcommAthos_ath10k"
-@@ -629,6 +637,7 @@ FILES:${PN}-ath11k-ipq6018 = "${nonarch_base_libdir}/firmware/ath11k/IPQ6018"
- FILES:${PN}-ath11k-ipq8074 = "${nonarch_base_libdir}/firmware/ath11k/IPQ8074"
- FILES:${PN}-ath11k-qca2066 = "${nonarch_base_libdir}/firmware/ath11k/QCA2066"
- FILES:${PN}-ath11k-qca6390 = "${nonarch_base_libdir}/firmware/ath11k/QCA6390"
-+FILES:${PN}-ath11k-qca6698aq = "${nonarch_base_libdir}/firmware/ath11k/QCA6698AQ"
- FILES:${PN}-ath11k-qcn9074 = "${nonarch_base_libdir}/firmware/ath11k/QCN9074"
- FILES:${PN}-ath11k-wcn6750 = "${nonarch_base_libdir}/firmware/ath11k/WCN6750"
- FILES:${PN}-ath11k-wcn6855 = "${nonarch_base_libdir}/firmware/ath11k/WCN6855"
-@@ -660,6 +669,12 @@ FILES:${PN}-qca-qca6390 = " \
-   ${nonarch_base_libdir}/firmware/qca/htbtfw20.tlv \
-   ${nonarch_base_libdir}/firmware/qca/htnv20.bin \
- "
-+FILES:${PN}-qca-wcn3950 = " \
-+  ${nonarch_base_libdir}/firmware/qca/cmbtfw12.tlv \
-+  ${nonarch_base_libdir}/firmware/qca/cmbtfw13.tlv \
-+  ${nonarch_base_libdir}/firmware/qca/cmnv12.bin \
-+  ${nonarch_base_libdir}/firmware/qca/cmnv13.bin \
-+"
- FILES:${PN}-qca-wcn3988 = " \
-   ${nonarch_base_libdir}/firmware/qca/apbtfw10.tlv \
-   ${nonarch_base_libdir}/firmware/qca/apbtfw11.tlv \
-@@ -745,6 +760,7 @@ RDEPENDS:${PN}-ath11k-ipq6018 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-ipq8074 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-qca2066 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-qca6390 += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-ath11k-qca6698aq += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-qcn9074 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-wcn6750 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-wcn6855 += "${PN}-ath10k-license"
-@@ -757,6 +773,7 @@ RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
- RDEPENDS:${PN}-qca-qca61x4-serial += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-qca61x4-usb += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-qca6390 += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-qca-wcn3950 += "${PN}-qcom-license"
- RDEPENDS:${PN}-qca-wcn3988 += "${PN}-qcom-license"
- RDEPENDS:${PN}-qca-wcn399x += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-wcn6750 += "${PN}-ath10k-license"
-@@ -1739,6 +1756,7 @@ FILES:${PN}-linaro-license   = "${nonarch_base_libdir}/firmware/LICENCE.linaro"
- 
- # For QCOM VPU/GPU and SDM845
- LICENSE:${PN}-qcom-license = "Firmware-qcom"
-+LICENSE:${PN}-qcom-2-license = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-yamato-license = "Firmware-qcom-yamato"
- LICENSE:${PN}-qcom-aic100 = "Firmware-qcom"
- LICENSE:${PN}-qcom-qdu100 = "Firmware-qcom"
-@@ -1778,6 +1796,9 @@ LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-modem = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-wifi = "Firmware-qcom"
- LICENSE:${PN}-qcom-sa8775p-adreno = "Firmware-qcom"
-+LICENSE:${PN}-qcom-sa8775p-audio = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-sa8775p-compute = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-sa8775p-generalpurpose = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
-@@ -1797,6 +1818,7 @@ LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
- 
- FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
-+FILES:${PN}-qcom-2-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom-2"
- FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
- 
- FILES:${PN}-qcom-aic100 = "${nonarch_base_libdir}/firmware/qcom/aic100/*"
-@@ -1842,6 +1864,9 @@ FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210
- FILES:${PN}-qcom-qrb4210-modem = "${nonarch_base_libdir}/firmware/qcom/qrb4210/modem*.*"
- FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qrb4210/*"
- FILES:${PN}-qcom-sa8775p-adreno = "${nonarch_base_libdir}/firmware/qcom/sa8775p/a663_zap.mbn*"
-+FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.*"
-+FILES:${PN}-qcom-sa8775p-compute = "${nonarch_base_libdir}/firmware/qcom/sa8775p/cdsp*.*"
-+FILES:${PN}-qcom-sa8775p-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/sa8775p/gpdsp*.*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn*"
-@@ -1906,6 +1931,9 @@ RDEPENDS:${PN}-qcom-qrb4210-modem = "${PN}-qcom-license"
- # c.f. https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=650e88378e76d5fad3997a5398f1ade47a74d924
- RDEPENDS:${PN}-qcom-qrb4210-wifi = "${PN}-qcom-license ${PN}-qcom-qcm2290-wifi"
- RDEPENDS:${PN}-qcom-sa8775p-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-sa8775p-compute = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-sa8775p-generalpurpose = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
--- 
-2.34.1
+Maybe there is room for less custom code here. Sorry if I missed something
+obvious, I just react to some keywords in area that I contributed 2 years
+ago.
 
+--0000000000009a731d062df58dae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">Le mer. 12 f=C3=A9vr. 2025, 17:2=
+9, Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@=
+weidmueller.com">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt; a =C3=
+=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+u></u>
+
+ =20
+  <div>
+    <div>Am 12.02.2025 um 13:45 schrieb Fr=C3=A9d=C3=A9ric
+      Martinsons:<br>
+    </div>
+    <blockquote type=3D"cite">
+     =20
+      <div dir=3D"ltr">
+        <div dir=3D"ltr"><br>
+        </div>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Tue, 11 Feb 2025 at
+            16:01, Stefan Herbrechtsmeier via <a href=3D"http://lists.opene=
+mbedded.org" target=3D"_blank" rel=3D"noreferrer">lists.openembedded.org</a=
+>
+            &lt;stefan.herbrechtsmeier-oss=3D<a href=3D"mailto:weidmueller.=
+com@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">weidmuelle=
+r.com@lists.openembedded.org</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:
+            Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsm=
+eier@weidmueller.com" target=3D"_blank" rel=3D"noreferrer">stefan.herbrecht=
+smeier@weidmueller.com</a>&gt;<br>
+            <br>
+            Add a vendor module for cargo to resolve dependencies and
+            populate<br>
+            vendor directories from a Cargo.lock file.<br>
+            <br>
+            <br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Hello,=C2=A0</div>
+          <div><br>
+          </div>
+          <div>Have you looked at vendor subcommand of cargo :=C2=A0<a href=
+=3D"https://doc.rust-lang.org/cargo/commands/cargo-vendor.html" target=3D"_=
+blank" rel=3D"noreferrer">https://doc.rust-lang.org/cargo/commands/cargo-ve=
+ndor.html</a>
+            ?</div>
+          <div>I didn&#39;t read the series but the commit message makes me
+            think that &quot;cargo vendor&quot; already exists for resolvin=
+g
+            dependencies</div>
+          <div>and populating a vendor directory.<br>
+            <br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p>The class uses the bitbake fetcher (wget / git) to create a
+      vendor directory and emulate the cargo vendor command.<br>
+      </p></div></blockquote></div></div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">Yes, I understood that. Let me rephrase my question.=C2=A0</div=
+><div dir=3D"auto">Is it desirable/needed to mimick an existing (upstream a=
+nd maintained) command, considering that we already use native cargo to bui=
+ld rust binaries?=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+Is the new flow you suggest can use the &quot;cargo vendor&quot; call?=C2=
+=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Maybe there is room =
+for less custom code here. Sorry if I missed something obvious, I just reac=
+t to some keywords in area that I contributed 2 years ago.</div></div>
+
+--0000000000009a731d062df58dae--
 
