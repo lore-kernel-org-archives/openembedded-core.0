@@ -1,262 +1,147 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9DFC021A1
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 11:20:06 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.13375.1739359204233899454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28ABDC021A0
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 11:57:16 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web10.13995.1739361425516975840
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 03:20:04 -0800
+ Wed, 12 Feb 2025 03:57:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0ZklMJ7V;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38ddfee3ba9so2608694f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 03:20:04 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Fdb2/+7b;
+ spf=pass (domain: linaro.org, ip: 209.85.208.176, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-308ee953553so33597751fa.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 03:57:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1739359202; x=1739964002; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=P1MFb0uWMBwcayTjzFruv+sTsW1m5ogzZR695U4s9Og=;
-        b=0ZklMJ7VzUyB07IW/wwZvD/lapVM4SW/BR+5A1ujSK3+JBpU3HOONihW4n6y8NguaI
-         GozHpB6F1A6S5WE21+wVfSHoNzKSqXhiS3VINXMtusS2H0iz99L4Zkty7qjRjemq/qvd
-         Pt2yBZZBAmsB5Z5aeiFdyTPFCt3Ym3Zl5uQrQ=
+        d=linaro.org; s=google; t=1739361423; x=1739966223; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=y5WdO8Q9QpTKdRzeH6dvC5bad/Wc0Qph3hivAL8kIcY=;
+        b=Fdb2/+7b5rlWJYxsq6mZ7H/Wq0TiEXZtorVs/aqejI1QVo/b0WfBMFocsKJ4pDQyIq
+         6c/cOh7CVItFbXd/4tcVIjBVsMuqp5YHGore+GWG0TnvEvpnYAA5JfyvcZUwPISnMF/p
+         FAjUKMRmHxOJQlRyQ4NWrjMvVPCvigggkBO5t7eaRccbYW6TqCJld4H8lWOBWrhyaoWv
+         I7y1osjIJQ+d1vCM1fx/iAi/LMLoWH7jgVffOC9oLyRCNa33tZHQnAnu3NQpWHZkaTqd
+         Vp292vaQr2QsNa0PgATTBm1m8A2+eLGjT6Glx1gSegT7lI6fz98cWbUbsvsRmRsVAYPd
+         wRxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739359202; x=1739964002;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P1MFb0uWMBwcayTjzFruv+sTsW1m5ogzZR695U4s9Og=;
-        b=pXL8Ur4NjZFlZpfgdlpYArMbYE9rjQtyeooY93BPoK6kEBF7bU++GiLJ/aysb8dTVQ
-         rqiaV6i0YTsVYNsmcJwSf19AF27tGm1F11LnAgbcnn7+jPxq4cOTHhKaIhpw6g/NPfKK
-         NLFe3AJdpV2C6dXAqYWBzpXyS4xV43etXs+DBBgPCcI7D9KgYXHfxQHI1LFkGgRRJCVU
-         2nphwdUjpwHxbGnTBoMMxadM9XRbl9VAd6DCVmllAh+ABGLgRHrJz8nBEVExT07+DCZF
-         /phE8F6lzYjh11aADQzooI31iiSlu7iunrV3A/jRtEFDzZS43W+3jgQiIIzRCfVjOp97
-         DCFw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7uiA48ecvmynH6O75fTfzKOmo7EPbcSNf5I+5Y3EPq2fhnyddt3GG4B6Wjxb7SuN5ggdaGdtni//2AZlcipHPxQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxlYTnbIAvOLxEoZ0l8EZjgmeixQWoMR5fkDGV6kB+wr+Qdi0Jr
-	wbI2uuyuDQ5wimYfuYhoWBs0A3oCwOAI1RmUx/Fesa9WPfBC1QEz7VOP72QvJsq4x/X0wuGDU7w
-	N0m5U98/0E7nS3I32MPwymPnFivkSmkRxvJjP8w==
-X-Gm-Gg: ASbGnctwnMAUc4htxtU7lv+JLGsmdSYJrqMfB9BkP4A/xfCNyBlLgR0AWl04Ig0PTqS
-	X2TSw0hi1J4UQsBE8CLyHVsxLvxyFidKhqT66SfPBvRPepNvq5SWgytJ5FPGjmvrUGDIxrrtROp
-	UPJOgZ3kYUNLeI8SW+nHqnQcU6sdwP
-X-Google-Smtp-Source: AGHT+IGU0Vpkvc07s5q97hy4xo+1DhJLKEfYYCy8l6W2/WHU0CTPmmbyAFyLC8M1zquyJArQrkG7nl0W7PuhlSXidkk=
-X-Received: by 2002:a5d:64cd:0:b0:385:deca:f7cf with SMTP id
- ffacd0b85a97d-38dea25bb44mr2372222f8f.8.1739359202597; Wed, 12 Feb 2025
- 03:20:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739361423; x=1739966223;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y5WdO8Q9QpTKdRzeH6dvC5bad/Wc0Qph3hivAL8kIcY=;
+        b=u+6JQF08jm/hBLDf/RqNG8+Xqn1gwfFpStjAODwMSgGjKZDxaZ5voFpjPh/Dh7jzSF
+         TFZ3kZAixzUYj7tC+W1oC6NXDs2ccKU8H6GW0NPgsdTDxxmXOnt+GrFo6VtF+ps1NQKt
+         n4KdLcQNeIrRJoMwCWr2Ug5Dk/EjLGHQJPQUNUcKd0ARmWPUoWyOvnsh2YM9jXhNcmB8
+         6PIWb5B0x/CPKtIc4o1kCs78CaB7SjDxTD49WbtTZw0LvTbsiS5Uk7xWxooX2U4cOM3a
+         sqzVP2RzDvBMDEWPedkZOwBD6jqIxelqT8oe5QjVNorzCPUCiPhBwitgHbahlZLf+leP
+         MpHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzAkxyH1w/ESiFMMXaMJOAUiT9qjFsWhkkwj0osPc34FEyOb7+Mtpw7hCBTm5OOWq/295LradKDlgtlLDWB+DZMg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyzDuzCdhN1vDDRJNMM9ksC58QrzfWA7vE1Zwz6ILprAYbOzz5a
+	4mFtdn3tjPTNhJF2/RQjdEJwkutuadwPAOigHLLAkbIdRmijoQqWVyPIPhzYbGE=
+X-Gm-Gg: ASbGncsKkoqYSWShSa5iw/HwB3CwaBqQ3ejSOis6o4uyt3E8lRGxLYaZj1kyVbQAYex
+	++nI74ztPRfcD0xZsGPpbPLWQXD8G7LooGKgc0xfSQ36+EP6E8IWmX8jdIQWo0iL6bFB7FssYN2
+	dksIeUxY9gmh8ynNQK0vbsU1VCwIuzKxqZNWU/GftS7yY6azYmBUcxX7RRDtko7dXlByFrehjQD
+	gX7Xy+ZWh6gprxwvlW22grToSVDu4V9CrA6zeWXo40mty4Q9r/lH+QVw4dYqEIJXavMS3EcHFLp
+	qNQOgnalPv15op5pE7QrzRKAV3BoInp/bIuc1LE+GKCYuoaWBCSbvoyi/pqqKhYEgVNpYMc=
+X-Google-Smtp-Source: AGHT+IEKtjdpTnJY0pHOkHyY17F5eZfh/pv3Ws0S0izV1A/hKImrV6V7mxad+j8foWrLkSGBifk39Q==
+X-Received: by 2002:a05:651c:211f:b0:2ff:a89b:4210 with SMTP id 38308e7fff4ca-3090379d3f6mr8412381fa.8.1739361423444;
+        Wed, 12 Feb 2025 03:57:03 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de2baaf7sm19007711fa.81.2025.02.12.03.57.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 03:57:03 -0800 (PST)
+Date: Wed, 12 Feb 2025 13:57:00 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vivek Puar <quic_vpuar@quicinc.com>
+Cc: dbaryshkov@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] linux-firmware: upgrade 20250109 -> 20250211
+Message-ID: <mjolgpv57qoavutvrtvplojja7n5xbdavt4ftajsqthmdg6atj@k3skobhh6zua>
+References: <20250211185151.995828-1-quic_vpuar@quicinc.com>
+ <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
+ <a998340b-25e0-4459-a9a7-8e864f6f62c5@quicinc.com>
 MIME-Version: 1.0
-References: <CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
- <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
- <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
- <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com> <4e883a56eb9b74a5663d7ad258194d16b1c79912.camel@linuxfoundation.org>
-In-Reply-To: <4e883a56eb9b74a5663d7ad258194d16b1c79912.camel@linuxfoundation.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 12 Feb 2025 12:19:49 +0100
-X-Gm-Features: AWEUYZmxHXjgDwYiGrlj_mLdnuEet_PwPA1RKLb2ME_a3dqAJ3ntKi9Z509vtn0
-Message-ID: <CAMSfU+44qwScnoDP4As37TNHYvwx5mBmTdGEQgq_VVz7woh6sQ@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Yocto Mailing list <yocto@lists.yoctoproject.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000686f67062df01f39"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a998340b-25e0-4459-a9a7-8e864f6f62c5@quicinc.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 11:20:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211226
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 11:57:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211227
 
---000000000000686f67062df01f39
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 12, 2025 at 12:40:44PM +0530, Vivek Puar wrote:
+> 
+> On 2/12/2025 2:53 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
+> > On Tue, 11 Feb 2025 at 20:52, Vivek Puar<quic_vpuar@quicinc.com> wrote:
+> > 
+> > > License-Update: additional files
+> > Not only "additional files", there is a new Qualcomm licence, which is
+> > not caught by this patch, NAK
+> > 
+> > While taking care of the new Qualcomm licence, please also note new
+> > ath*, qca and qcom/ firmware. Please extend corresponding split
+> > packages.
+> 
+> 1) Now as qca firmware for WCN3950 chips comes from the RB1 firmware release
+> through Linaro,
+> 
+> ��� a) so does it mean we will be adding "Firmware-qcom" to
+> "*LICENSE:${PN}-qca*"?
+> ��� b) or do we need to split� ${PN}-qca into multiple packages?
+> ��� c) or the firmware needs to be added as separate package, for example:
+> ${PN}-qca-wcn3950, but in this case how to exclude the firmware from
+> ${PN}-qca?
 
-Le mer. 12 f=C3=A9vr. 2025 =C3=A0 10:51, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+If I haven't seen Git's index line in your email, I'd have questioned if
+you are working on an older branch or just not up-to-date tip. However
+your patch proves that you've seen the commit that was merged yesterday.
+And as you've seen it, you could have noticed that Marc Ferland has
+already split the qca package (and that change was comitted more than
+two weeks ago).
 
-> On Wed, 2025-02-12 at 09:08 +0100, Yoann Congal wrote:
-> > Le mer. 12 f=C3=A9vr. 2025 =C3=A0 00:36, Richard Purdie via lists.yocto=
-project.org
-> <richard.purdie=3Dlinuxfoundation.org@lists.yoctoproject.org> a =C3=A9cri=
-t :
-> > > The repositories were added to try and share bandwidth costs, give
-> > > people easier mirrors and various other justifications. I warned
-> > > strongly about the pull request problems at the time, I was told it
-> > > would get handled and people would help and I was over reacting. Some
-> > > of the people who made those offers aren't active with the project an=
-y
-> > > more, other things just drifted with time. At one point I ended up
-> > > having to add those mirrors to my own push scripts and maintain them
-> > > because nobody else was willing and we had complaints they were not u=
-p
-> > > to date.
-> > >
-> > > You used to be able to disable pull requests for six month periods, i=
-t
-> > > looks like you can no longer do that and it was a pain having to try
-> > > and remember anyway.
-> > >
-> > > The bandwidth/mirror/backup benefits are valid and I'd be reluctant t=
-o
-> > > delete them as some people can only discover things through github to=
-o.
-> > > Google indexing doesn't work well with our own server.
-> > >
-> > > So I guess I made my own peace with their existence. I know touching
-> > > them will make it look more like a condoned submission method but I
-> > > really don't see many good options here. Removing them is a simple ea=
-sy
-> > > option but life sometimes isn't easy/simple.
-> >
-> > We can try things to push users out of github :
-> > * Leaving a fake PR at the top of the list with a title along the
-> > line of "Please don't open a PR but instead go to <contributing guide
-> > link>"
-> > * using the PR template (the text pre-filled for the new PR
-> > description) to convey the same info
-> > * A bot that automatically answer the PRs with a comment with the
-> > same idea (the bot could also close the PR but that might be a bit
-> > harsh)
->
-> If anyone has experience of setting this up I'd welcome help. The
-> things I did learn briefly looking yesterday are that:
->
-> * the template requires putting .git* files in the repo which is a bit
-> annoying
->
-> * there is a way to do it in a separate repo but that would apply to
-> all repos, not just oe-core and bitbake, at least from what I read
->
-> * our type of account may or may not have some of the features needed
-> for bots and so on
->
-> So I'm not against any of these but it could do with someone with some
-> experience. I can probably learn what is needed but I have time
-> challenges like everyone else.
->
-> There will probably be a need to maintain any bot going forward too.
->
+> 2) ath11k depends on "*ath10k-license*", so is there any split or change
+> required for the new QCA6698AQ firmware?
 
-I volunteer to setup a PoC in my repos to see what is possible given those
-constraints.
+ath11k packages are already split. Please follow the established style.
 
-I'm more experienced in Gitlab than GitHub but I should be able to
-translate.
+> > > Signed-off-by: Vivek Puar<quic_vpuar@quicinc.com>
+> > > Cc: Dmitry Baryshkov<dmitry.baryshkov@linaro.org>
+> > > ---
+> > >   ...{linux-firmware_20250109.bb => linux-firmware_20250211.bb} | 4 ++--
+> > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > >   rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (99%)
+> > > 
+> > > diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+> > > similarity index 99%
+> > > rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+> > > rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+> > > index b932300742..6cadf99d47 100644
+> > > --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
+> > > +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
+> > > @@ -158,7 +158,7 @@ LIC_FILES_CHKSUM ="file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \ "
+> > >   # WHENCE checksum is defined separately to ease overriding it if
+> > >   # class-devupstream is selected.
+> > > -WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
+> > > +WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
+> > > 
+> > >   # These are not common licenses, set NO_GENERIC_LICENSE for them
+> > >   # so that the license files will be copied from fetched source
+> > > @@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+> > >   # Pin this to the 20220509 release, override this in local.conf
+> > >   SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+> > > 
+> > > -SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
+> > > +SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
+> > > 
+> > >   inherit allarch
+> Regards,
+> Vivek
+> > 
 
-Obviously, if anyone has direct experience on that, don't hesitate to speak
-up.
-
-What kind of account does the yocto project has on GitHub?
-
-Cheers,
->
-> Richard
->
->
->
->
-
---000000000000686f67062df01f39
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><br><div class=3D"gmail_quote gmail_quote_co=
-ntainer"><div dir=3D"ltr" class=3D"gmail_attr">Le mer. 12 f=C3=A9vr. 2025 =
-=C3=A0 10:51, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoun=
-dation.org">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2025-02-=
-12 at 09:08 +0100, Yoann Congal wrote:<br>
-&gt; Le=C2=A0mer. 12 f=C3=A9vr. 2025 =C3=A0=C2=A000:36, Richard Purdie via =
-<a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">lists.yoctoproject.org</a> &lt;richard.purdie=3D<a href=3D"m=
-ailto:linuxfoundation.org@lists.yoctoproject.org" target=3D"_blank" rel=3D"=
-noreferrer">linuxfoundation.org@lists.yoctoproject.org</a>&gt; a =C3=A9crit=
-=C2=A0:<br>
-&gt; &gt; The repositories were added to try and share bandwidth costs, giv=
-e<br>
-&gt; &gt; people easier mirrors and various other justifications. I warned<=
-br>
-&gt; &gt; strongly about the pull request problems at the time, I was told =
-it<br>
-&gt; &gt; would get handled and people would help and I was over reacting. =
-Some<br>
-&gt; &gt; of the people who made those offers aren&#39;t active with the pr=
-oject any<br>
-&gt; &gt; more, other things just drifted with time. At one point I ended u=
-p<br>
-&gt; &gt; having to add those mirrors to my own push scripts and maintain t=
-hem<br>
-&gt; &gt; because nobody else was willing and we had complaints they were n=
-ot up<br>
-&gt; &gt; to date.<br>
-&gt; &gt; <br>
-&gt; &gt; You used to be able to disable pull requests for six month period=
-s, it<br>
-&gt; &gt; looks like you can no longer do that and it was a pain having to =
-try<br>
-&gt; &gt; and remember anyway.<br>
-&gt; &gt; <br>
-&gt; &gt; The bandwidth/mirror/backup benefits are valid and I&#39;d be rel=
-uctant to<br>
-&gt; &gt; delete them as some people can only discover things through githu=
-b too.<br>
-&gt; &gt; Google indexing doesn&#39;t work well with our own server.<br>
-&gt; &gt; <br>
-&gt; &gt; So I guess I made my own peace with their existence. I know touch=
-ing<br>
-&gt; &gt; them will make it look more like a condoned submission method but=
- I<br>
-&gt; &gt; really don&#39;t see many good options here. Removing them is a s=
-imple easy<br>
-&gt; &gt; option but life sometimes isn&#39;t easy/simple.<br>
-&gt; <br>
-&gt; We can try things to push users out of github :<br>
-&gt; * Leaving a fake PR at the top of the list with a title along the<br>
-&gt; line of &quot;Please don&#39;t open a PR but instead go to &lt;contrib=
-uting guide<br>
-&gt; link&gt;&quot;<br>
-&gt; * using the PR template (the text pre-filled for the new PR<br>
-&gt; description) to convey the same info<br>
-&gt; * A bot that automatically answer the PRs with a comment with the<br>
-&gt; same idea (the bot could also close the PR but that might be a bit<br>
-&gt; harsh)<br>
-<br>
-If anyone has experience of setting this up I&#39;d welcome help. The<br>
-things I did learn briefly looking yesterday are that:<br>
-<br>
-* the template requires putting .git* files in the repo which is a bit<br>
-annoying<br>
-<br>
-* there is a way to do it in a separate repo but that would apply to<br>
-all repos, not just oe-core and bitbake, at least from what I read<br>
-<br>
-* our type of account may or may not have some of the features needed<br>
-for bots and so on<br>
-<br>
-So I&#39;m not against any of these but it could do with someone with some<=
-br>
-experience. I can probably learn what is needed but I have time<br>
-challenges like everyone else.<br>
-<br>
-There will probably be a need to maintain any bot going forward too.<br></b=
-lockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I volun=
-teer to setup a PoC in my repos to see what is possible given those constra=
-ints.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m more exper=
-ienced in Gitlab than GitHub but I should be able to translate.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Obviously, if anyone has direct exp=
-erience on that, don&#39;t hesitate to speak up.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">What kind of account does the yocto project has on=
- GitHub?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"g=
-mail_quote gmail_quote_container"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000686f67062df01f39--
+-- 
+With best wishes
+Dmitry
 
