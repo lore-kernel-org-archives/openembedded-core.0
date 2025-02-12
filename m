@@ -1,131 +1,97 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0E4C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 04:14:03 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.7695.1739333639487192632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4534C0219E
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 04:35:33 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.8003.1739334927650375316
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 20:13:59 -0800
+ Tue, 11 Feb 2025 20:35:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=peuw/LFj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51BGed5d006184;
-	Wed, 12 Feb 2025 04:13:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	T57nxood88ZmS9MCkDL65Y422WLWAh0qJ72s54aoS0o=; b=peuw/LFjpa4pgY1N
-	mVoD7B0r5jY3sVcHuIGqEqBuSeC3SGsNqaGTLimmjTgtqgsiTA+SZSRhGt9F6MRF
-	ejHF0ni5Jhz9VQF359r1qRHZW+KmiYPH3qaBwrUNgGF3GyJAKSoeTLLi7mkvThMQ
-	nEoH27p07xoKFQlHmBMaNyaY18uR4Ze0JpNtOvXjyWa1I2uixvMPV2eIN6vaSom3
-	qSmTmae/PzMkIcwboZr10w8L5aBGtyvcjsEVcPgqLZN+KD7JMtEMaFE5d7ehbxEp
-	z+zB1wJ2DzqZQXYomKcwlxPtcbBPM2nyNmq4OrDno3oACHMoWT4+mUyjeGkUX+aI
-	loDVpw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qe5mx7hq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 04:13:57 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C4DuDl019257
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 04:13:56 GMT
-Received: from [10.216.34.210] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
- 2025 20:13:54 -0800
-Message-ID: <939d34c0-9c5a-4339-a74c-013263240dc1@quicinc.com>
-Date: Wed, 12 Feb 2025 09:43:25 +0530
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=N07+zKFL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4394036c0efso20302895e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 20:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739334926; x=1739939726; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oQrMp/P0XXKb9+Ahr6j94suL1nGBOyb3g2YM13p2NlA=;
+        b=N07+zKFLr9ULlB7S/zeXoXAqEIPhL8UnT1ign/T/WrGQozU5a3G8+pk+XXvj3q+mRD
+         1CxKJIclVP6fnbsa3LlrrV0dXRMo20AQV1wrLzP4tAsKWb2AqzU32FLC4k0icb7ChDj0
+         XjIfrHeETPcg0rpIyisH5Rl0TG26jlWKKiLUStS/pW2g6qqhicabhmN3P96uAZTQRshv
+         8vHgYgz12z9dN5wUYMdnobF/uCape7fTloW87YBJLPhHENKJOkRLd8aMYnqkBWhqfCu0
+         pZ1pGUnE7UUgGA5/86t08KH+sC+S7JlsOx2JsSfLH3JJyKVyBA4rlAq5gmZTuWm/eEGg
+         W2Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739334926; x=1739939726;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oQrMp/P0XXKb9+Ahr6j94suL1nGBOyb3g2YM13p2NlA=;
+        b=vzS396Ah0CKA///oT7EKKLeD+yFj+6fuI2x2n4toR6tnBknvrFSL1LtoKr1B0x2Gc1
+         iYV2dHhg/04CUg7HkN8w4HK22Ab7jY6FnzEqt17J6IlApRb3oalmFdi9c03683PSPmAn
+         O8ZFe9bf4hlLNtkoCd9pjr09Qunx9nKjltkCU396tUAsTi5pZ1laTo1pmDPqFx2v3/5O
+         +Wo8ELfCQYMx0m3sjGD5lgjVBNZgS48lsgTttkfUjQQX6lHk64bdhEgzpc2EsV6c2Gs7
+         Ezi7/EdO8H8LUkfdBM9kRIxO0IcS9TG7chSuyBc/qrQDQkFi+PF4Wt4ZHvVE+Dm5qvjO
+         KHTg==
+X-Gm-Message-State: AOJu0YzNWqdvz+RSSm0iw/P34BEt6nAL6kRo1As+pORcEW9SfnBH8b3X
+	abQgeezb+v5d/5CFo8rMDNZunmidM/rhnUsZn3pUS1SOvJ+IM3N1
+X-Gm-Gg: ASbGnculqdfF7pP8fIJBMEtz0Vb1OjNoEI22A60zqHAjX90qRzeFQ79997dOfpwEpf1
+	CAaba8WOCBJ1qz0Uhvb0fyUfOM6gQo2CofjZXrgCYbbCyZcgWOUgXOh2lQLS6iQUiR9TnzHjksn
+	tH51l4enJj8xtINOjo2o0vDYAcYtzo65P709VrPIr5dF25EQKWP3GXxGVoia72Qcd9RbrC8k+DR
+	T+GZbsEEuLsbp/TfPLY/Kl4d0aUU+mvsODxWKV+UWAnzG1/aFYb1zxibZgEGEah806LkJxRCMcz
+	Spg+74HokRNbgCGzEhEeJXqhR1mcc3VJCHKx91R9JGyvoPiF
+X-Google-Smtp-Source: AGHT+IHXX1rpcDH+HRuf5zwcwbhYjqeSmiGYbah4Iyv5V9lMJZYcslmVCxeybSZ2AuzD+P8norz3eg==
+X-Received: by 2002:a05:600c:5487:b0:439:4a10:48e8 with SMTP id 5b1f17b1804b1-4395815f530mr15216255e9.6.1739334925727;
+        Tue, 11 Feb 2025 20:35:25 -0800 (PST)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a058930sm7467865e9.17.2025.02.11.20.35.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Feb 2025 20:35:25 -0800 (PST)
+Message-ID: <bd635513-bf80-471e-984b-1d04e82f4b15@gmail.com>
+Date: Wed, 12 Feb 2025 05:35:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] linux-firmware: upgrade 20250109 -> 20250211
-To: <dbaryshkov@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-References: <20250211185151.995828-1-quic_vpuar@quicinc.com>
- <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v10 1/5] rpm-sequoia-crypto-policy: New recipe
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20250208072445.986573-1-zboszor@gmail.com>
+ <CANNYZj_fcDG+PAoLNcEnKOD3+ooiiSS0acLOrT+j5yqZHjr8ww@mail.gmail.com>
+ <1822D4A7D4324BD6.32551@lists.openembedded.org>
 Content-Language: en-US
-From: Vivek Puar <quic_vpuar@quicinc.com>
-In-Reply-To: <CAA8EJpr+ffQvF0DaA5YHS43=_goPtheRE8y9mLCDUfgFH9MiZg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NrG3g5td0lyqGHYkr2spNDab2zJ-bjIz
-X-Proofpoint-ORIG-GUID: NrG3g5td0lyqGHYkr2spNDab2zJ-bjIz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_01,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502120030
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <1822D4A7D4324BD6.32551@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 04:14:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211201
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 04:35:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211202
 
-Sure will cover all and send the patch.
-I was going to upload a new patch covering them.
+2025. 02. 10. 12:17 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> 2025. 02. 10. 10:03 keltezéssel, Alexander Kanavin írta:
+>> On Sat, 8 Feb 2025 at 08:24, Zoltán Böszörményi <zboszor@gmail.com> wrote:
+>>> +Assume that the policies are good as they are committed.
+>>> +The CI for fedora-crypto-policies ensures this.
+>>> +
+>>> +Upstream-Status: Inappropriate [Yocto specific]
+>> The patch as it is is indeed not suitable, but perhaps you can open a
+>> ticket, describe the issue, and see if upstream would be willing to
+>> take a configuration option instead?
+>>
+>> We generally ask that Inappropriate patches still come with ticket
+>> links, so upstreams are aware of the problems we face. Sometimes
+>> solutions come out of that, and if not
+>> this documents their response.
 
+The upstream discussion happened, my patches were
+merged into fedora-crypto-policies. v12 series is on its way.
 
-On 2/12/2025 2:53 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
-> On Tue, 11 Feb 2025 at 20:52, Vivek Puar <quic_vpuar@quicinc.com> wrote:
->
->> License-Update: additional files
-> Not only "additional files", there is a new Qualcomm licence, which is
-> not caught by this patch, NAK
->
-> While taking care of the new Qualcomm licence, please also note new
-> ath*, qca and qcom/ firmware. Please extend corresponding split
-> packages.
->
->> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
->> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   ...{linux-firmware_20250109.bb => linux-firmware_20250211.bb} | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>   rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (99%)
->>
->> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
->> similarity index 99%
->> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
->> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
->> index b932300742..6cadf99d47 100644
->> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
->> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
->> @@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->>                       "
->>   # WHENCE checksum is defined separately to ease overriding it if
->>   # class-devupstream is selected.
->> -WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
->> +WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
->>
->>   # These are not common licenses, set NO_GENERIC_LICENSE for them
->>   # so that the license files will be copied from fetched source
->> @@ -247,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
->>   # Pin this to the 20220509 release, override this in local.conf
->>   SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
->>
->> -SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
->> +SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
->>
->>   inherit allarch
-Regards,
-Vivek
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#211186): https://lists.openembedded.org/g/openembedded-core/message/211186
-> Mute This Topic: https://lists.openembedded.org/mt/111128390/8903276
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [quic_vpuar@quicinc.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
