@@ -1,280 +1,366 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F7DC02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 08:08:54 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.10166.1739347731377766636
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CC3C02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 08:41:55 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.120])
+ by mx.groups.io with SMTP id smtpd.web11.10552.1739349705817126536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 00:08:52 -0800
+ Wed, 12 Feb 2025 00:41:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZYZlH9tR;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38dcae0d6dcso2866096f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 00:08:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1739347730; x=1739952530; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WsS4ocerA+h0AQd2ikVM3lqOK87TXUoZCV/UvDWk/BA=;
-        b=ZYZlH9tRnnUNnW+bPm4yyeJ5QQUl1LvHY27bQET0OH8vosm05PrOQR1TaZGAyPhg69
-         9FNo/3DkeuvaMiQ+aFnNXCySaU1NHD4wJYGOo60CI8pJpBAJbB7uBECHVob47ncDe2u4
-         Drs7d6mE4dk+rdX4eJD7hSK9A7CZ8dh/Eocj4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739347730; x=1739952530;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WsS4ocerA+h0AQd2ikVM3lqOK87TXUoZCV/UvDWk/BA=;
-        b=TVieGXR2nFZ34lv9//ASYQtaB4jy+Domml8uFkOHLIASS7nwTciWi3sVzfk14tgHl/
-         /CT9jShs88+FQ1kdCYxVgy1Ib9cLLGNBufCuZMP60nwHhJVOU4PvJMuRPEHYjoUGraQy
-         jNUnv9ihRy+1TvoHHYX7plepM2tiDaVRbyhbzo7Egb7Q1efn3bsDnT7iNBjSl6dFi2Py
-         BoTUPaRzYsLAEDh5hgNbpH69wSUa2831fSFFo4kiAalfEE3pTajMY4hD9igWotYk9tCp
-         5+eQzifKoiYztCKMgLPJZN3PWCCoVvzo6lMtg13zluHudYOxbbHHKKCPfVfGCWUzGWKd
-         p+Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPTHsiFITkn+o9plPKpQfezdUTsZrBbLsjOVtqbHcm9e7ozT7ZDt4t3TZ6NrPKN4dJTw4CFw2ptKcBlA6uTrdlOA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy1whRVvUy2c8vROyJh2Uxu/zYJdzqCMVQP6/m+vlT5cm5zPnEX
-	Evh4AkNXZ4L9Nd9GZdkBrLnlHw5WxamvIBLZo/url4CyyosmDHVjFOxH6RK8foagO3f9ivrd0m+
-	hRY+QzXKkY6ewclndQh8qilgvuUY5eRPR+/JbFA==
-X-Gm-Gg: ASbGnct9aXbPEUyV4NkENRvzPVPkeylJmFIRelVLKu/zLnA/mc7plbXXT5s6GtJ5Y4s
-	2ewX6OIhydcsDtETc9m2UCd2wMN7XOpZPQsBgUqR27L+IiHFJ/Hka/dxGZ6QENGCW6F83WE+cHz
-	al9bq61FQK/FdEE5mt+3JfYZTzIyrz
-X-Google-Smtp-Source: AGHT+IEyqLdJHZ59TAp6P1uOsPmwXSlo5GFuDtMKVP7xhOIH8Bixdrhq/KAew/xCCwaRLvnWXvZJfz4QVzk1G6zv8e0=
-X-Received: by 2002:a5d:6d88:0:b0:38d:b28f:564a with SMTP id
- ffacd0b85a97d-38dea26f160mr1607779f8f.21.1739347729315; Wed, 12 Feb 2025
- 00:08:49 -0800 (PST)
+ dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=YhNztrKD;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.120, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bYCCVJVR7pjS46GuRWtYLki4jEqFONcX+lwkyMI34LBwJVUdJm7UiCdpqkQclEooVxhD7BaA0mzXk/PblEyCt6t9t7XiQJlqTZ+vPwXcds3HkpJv6Cg+/FD8VvUyBSaYdh1F3T8DYAFsSvcCh7Z+Cx+vBTE35au+0BfNekCP/6VM1oVs0CDNvF+Z1pSoWhm8m4IsH8HZ6vCUfN5w3sl66FJ8PsrT1LXS7yJFwbs+lNX+U5fTseGvTQ6uAdQ1fBwcjZwkOxX7hHbQb6bJ5jpvB8JIghkDlZgYcNvDfzUTTIt4CSMyOWZezD0egMGndBdZbNOZSSHl8UZebWndMwiu6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gaS24//2W8j3l68CVV+510bOedS6CQDT7z+ydJbe9Ec=;
+ b=IOrSOK61ev+V2TnjeJ4AnNT8oCvhrnwkBrkLd9RzCpJ0703W9S9hyIP2Owyqo5Sb8WG1bb3jp4J3vRrD7nNilcCWatXQGTYgPPF8ffTPZbsIW+Oo2aDUKdK6fOXctNAuz7gK4JYVQCvFOHTPfd+C4nnuVDMzBTBoDTymRWzuyLJ8I6x/QmWkN6T644kHolEvTqVPs9I4Iy3xUHZesyTPhOMCUfB+eUFM36YmmweMEDKYutGOoPaSe9uj9C6Jul0RkPm2UNMF8L+58451meT4WmANS1gvtejKMFt/f0qANQ4BlBok5RGqoVb+KIv9tZNVQjYHnN0iYVrrYDCFHneHxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gaS24//2W8j3l68CVV+510bOedS6CQDT7z+ydJbe9Ec=;
+ b=YhNztrKDNU2+b+8UgQNN+GHoxHKJV8PeUEawFqUPPrMt2mLh9MTiKvPz8hL7Y40abK07zaZ0uNsXZqcYWqCSQ3hpKWT3u2S4SKzrEJslDnq5i8HtSH1g/6sAOr0MW0UrwMDe8FAbfc6lcYDvigqqimK7+TCNNJHCpPAx1zsCXR0ruI0dGWBUJEhC/IeNbSU3y8lrQgBJEzDYPst+7dPBlRcbX0saGmmi+hOeGL/wkREhu9//VM+CZNfUDoSgI8HxZ1/R026YAj+s4t5CXnK4mjAgpSOhoyNCFWuzG2LMx5vwuuGjP6qutQMFQtfm2XCDLR3MsplBsbdn0i+YhdfwUA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
+ by AS8PR08MB8996.eurprd08.prod.outlook.com (2603:10a6:20b:5b1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Wed, 12 Feb
+ 2025 08:41:40 +0000
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
+ 08:41:39 +0000
+Content-Type: multipart/alternative;
+ boundary="------------EK08eaO6la56BKlqqFA1jRKm"
+Message-ID: <40f8d1d9-5bd3-4ac6-a107-32482d06d17b@weidmueller.com>
+Date: Wed, 12 Feb 2025 09:41:38 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bitbake-devel] [RFC PATCH 00/30] Add vendor support for go, npm
+ and rust
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org,
+ Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
+ bitbake-devel@lists.openembedded.org
+References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <Z6vZ8m8zZLgQKyVg@gmail.com>
+Content-Language: en-US
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: <Z6vZ8m8zZLgQKyVg@gmail.com>
+X-ClientProxiedBy: FR0P281CA0121.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::19) To GV1PR08MB8426.eurprd08.prod.outlook.com
+ (2603:10a6:150:8a::17)
 MIME-Version: 1.0
-References: <CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
- <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com> <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
-In-Reply-To: <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 12 Feb 2025 09:08:23 +0100
-X-Gm-Features: AWEUYZlpAmFyNPP6aqQp0femxgy-wP9ttx0wd-YuSKgrjCQg_W3PzcrpcRKmwI0
-Message-ID: <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-To: yocto@lists.yoctoproject.org, richard.purdie@linuxfoundation.org
-Cc: alex.kanavin@gmail.com, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	yocto-status@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000008c0f7b062ded7399"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|AS8PR08MB8996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f34186a-f117-4456-bddf-08dd4b411194
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?WTN3K3ZvTjNrYlRudTJpWk5HNHNhaytRUFRrcjV5dHkyVUZLMDlPOCttaTh5?=
+ =?utf-8?B?TnJCUU9sRjkreDhzc3F4dFd6d2NsZFBFenRvTTdwTklIVXljcHB4bDJlRmdK?=
+ =?utf-8?B?MXZoRTJrNWo5a0xDQkVNem9Xa0RnYWdVaUQ5ckhUREJOaHc3Q0NONGwrdUtn?=
+ =?utf-8?B?UE5sU2g4ajZ2dWVDMjRUOS9PcWxPRDJVK05kWWM4NExIVk9teEx5WFI5Rms4?=
+ =?utf-8?B?WjNsbVh0RW1BQWM3RUdoSmpDbnpRcFV1TStwclpMelU1SmhmNCtZSFlBZ1d2?=
+ =?utf-8?B?cHJiUzFha2ZpWnlKaGIzZ0hwSmN6TVlDVk0vS1BkQzZWdHBHeXZJUldMamF0?=
+ =?utf-8?B?UzVDdFlGT0RuZC8rR0lVaFRmMGtxeWo5OHVXM0JQZWZsUWtIR1lHeEhudW1U?=
+ =?utf-8?B?NjZMbytrR2dITCt0R1NpYVZTbVM2czlETEJFV1paZHE4VXVzdURXM3pacGhh?=
+ =?utf-8?B?UFR5WEphU05jTTI5MUZRdGNzNndEYVZySTVGQThFNVEwS1dsV1pGc1Q1aUxG?=
+ =?utf-8?B?S1hSKzF3Wk8rbU1sK3ZiYzg3ckp5TDd4d0lpbTVyMHNieWVpckcxTGV4Ujk0?=
+ =?utf-8?B?R1QycVVWUDFsa3c0RUhkTllFeUNGcGx3d2NPZWQ2alAvMkRwZXBGK2Vrcm5p?=
+ =?utf-8?B?bEpYWWgxS1dqMG44N05KOVUzZUs3ZCtjRWhlMklRSjdYb2l2OVZwQmVPaFpa?=
+ =?utf-8?B?L0ZublBDR3FQTXdNNTU2VDZ6bEZNNUZieFRnaFJ3WGtQbTlrcEpRcjRMSjB3?=
+ =?utf-8?B?OVBzRmMyK1paVzBLOHJSL0RmMEUxVVZ6MlpXbDFNeHJTK3B0bWZRQ2dIbnpZ?=
+ =?utf-8?B?dkRKQUdjSDRyU21ITVl4MjNyb3kyMzJMbng0V0FHL0lIMmhVVXphQUdsOUtM?=
+ =?utf-8?B?Z2E0NDRLV2wvZWJKZVIyUmVnZUJaeEVMVTd5dVFaOXJpeXMrMlBFcVlxbk12?=
+ =?utf-8?B?M1V3ZzlpQ2YvK01tZG9CbTUyZ1ZyVmdTZkp0djErb3dTc2xTYyszVkZHeFZZ?=
+ =?utf-8?B?NVpOcklTeHUram9nY2JkbmVvZm42d1ZtbmgyY0JvRXJFeEtQaDVpdHM5dzNQ?=
+ =?utf-8?B?aGdyMXdnZnVPL1gvSm5NNE5LcnkxUHNWQmNMQWFkTjJlbC83Y295UlZYYmdV?=
+ =?utf-8?B?VmQ1cVozak5QTkx4eU9naDY2UmxWVXAweFh5Y3YxblpjTmg3ZExCRGlIM1Er?=
+ =?utf-8?B?WjhnMksyZnZLOWNPakJPb1UyKzdWYTBCM0s3RUpEVHN1NENxV3ZUQzIrMzlD?=
+ =?utf-8?B?eHFIN2JoaXFCRHJuV044ZVpMc3ZROW9zK25udGdvTTBPN3JhaStTeGsxS2Vm?=
+ =?utf-8?B?L291ZDViNzhaU3hMTitsa3pHcU00TTVlb201NGJydEZWL0ZIeW5sZ2cvUG9K?=
+ =?utf-8?B?NWhhT3Vkc29lSnhnSEJSWmZVR3VHNURQN0pNZHFGUG9qelVNcEQzRHJ5WTJz?=
+ =?utf-8?B?dlJQUXlzZURnbG9tUVRCS1E2YWVQc1ByeldMbGpBeWM5czBRNDE5RDc1dk1F?=
+ =?utf-8?B?cnVjNCs3dHF5Ky9ybThjMWkzYkJJYWxkNXJ4blg0UmM0RDBBemJXd0ErWG9X?=
+ =?utf-8?B?K21WdThtenJZT0ZTOWpMaXNnNERWZU4rUS8vSnR2d3JRZjh5RURJVWI2WUYv?=
+ =?utf-8?B?NXVrTUxVd0duUFRFZm5TRTNFRXhNa0hzb01LNEJMTUZXT0ZXSDMwdnFCK3p4?=
+ =?utf-8?B?clZGbnV2ZS9uMXZRRU51RkJPMXFYREw2MXBZR09iNjFCUVJhOEVCTG94ckkz?=
+ =?utf-8?B?bVpZZWl4MjZzYmpOdEJsWWlKeW50MmRsZnZQaFkvVzZhYWJIUVJ4VjRteCs1?=
+ =?utf-8?B?MzFqMy9WZjJCS2kvN2c0ZWl5R2p5bTFmSjhNSkRIWGZtMUZ2TXZPNjFXSDhN?=
+ =?utf-8?Q?vyAW/5E4g65Ru?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(8096899003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RFBOQUYxVWl2MUFtZ1hGc2lxRmJ4eldQZ1E1Nlh1YTZaYkNEcjBGNHFLNitN?=
+ =?utf-8?B?ZWxGWmJxaFZBZ0h4R29oYklzeFNBTnc3WmtUSElXZkNqREhoMGxwV3phd29n?=
+ =?utf-8?B?ZER4aHVVYVJZMlBiZWpiTDcvcHlwZXUxelg1YTBaVWhkR0Z2Q21JdFhjTGxE?=
+ =?utf-8?B?MHF5RFJ6WEh6dm1mbUtNQ3lCTzFHbGg3SCtrQkZWREZoTktTOUhGaGwyV1NK?=
+ =?utf-8?B?MFpaV09XNU51T2NxVU52SnhuUUdEeTFnS3RaSkVnandNNlBqUTNtTDlQM2ZC?=
+ =?utf-8?B?UjZWMmtndCtuaW5UQy9vcUZnMVB3SjZPUXZ4T2NQa3pmZDBxbmk0NlRrU29R?=
+ =?utf-8?B?QmF2cnBua3NDUFRHTndFdEF6cXd1U1Z4VWxlYXVkSnVRNldqNndNVnRVRys3?=
+ =?utf-8?B?YUVPUDh1UlU0QnBMbit5MnA4R0wya3F4eVRtUGtPTnUvNDQ0cVJSQzZUQytP?=
+ =?utf-8?B?NGo5RUphQld1T0RDbGx0VitsaGlvdzNpM0c1ckxtY0xUelJhRVFzRG5pMUdy?=
+ =?utf-8?B?ck1FcHVGcDQ1enFBTnZtUFFTTnU3ZDBweGZqektWZERTREd2ZW9wVUZaNlM2?=
+ =?utf-8?B?WHV5bEhwV3FMR3RhekFMYjdYb0lHeHpvVjJHM1hDN2EyaTNSSXJGWWQwZXdE?=
+ =?utf-8?B?MFdkN01mQVZkMnhyU1lyaGNtUC9BTTlCb1h4V3R0VXBJa2ZRQWtPcmcrZUti?=
+ =?utf-8?B?aGxZWVpMQzNocWcrS3NuWjVhR0pPR29LbWYzclJhdUFyOStNeFlXeGhQc29P?=
+ =?utf-8?B?Mm12ZXBmZ2haVHdaZDFyZmhYVFVyQWlqbzI4Uk56SW1BZHErMzBpajZMYWF4?=
+ =?utf-8?B?b2ZYNTJpY1ZXVkJOTGV2L2ZYWGQydHVCNHVKajQvRXMva216bUFPYnd1Vm85?=
+ =?utf-8?B?bEJiSzRVNEVNbEVsanFia0pVVFZ2aWdubXpudDYrOXFlcHRoZWFiZ2lwV0ow?=
+ =?utf-8?B?Q0pZRDU4eEswTE1xTFh5cWhBUWhoMTJBVGRmakhYbncrYXpYZk1ESmdYMHB3?=
+ =?utf-8?B?cnJyYmZsUEE5TEJMSW5MMTVOVEVxYTRtTWR4ejd3ZUwwbUR0UVhBd00xN2lh?=
+ =?utf-8?B?VHJkQTZpcHh5dXh1NVFuTm8vM1NoODNuL1JvRkJ5VlBqT2QvVGdndXQ4ZzdT?=
+ =?utf-8?B?T1VaTUNIOFZiYVNlZUZMNWdjOFBXZmdRSTNHQS9ZS2FsTnlIbXRZclY0UnFm?=
+ =?utf-8?B?OHJ4d1Radm5zcGovR1I0allTWTZVTzZFOE9NVGo5QVorVWNnYWFkandnc3pP?=
+ =?utf-8?B?UXlvWEp1VkpJdCtzei85Rk5IMTN3Y2NhVWovUmJKVU5WLzFaUjFYei82RU5M?=
+ =?utf-8?B?V082ZWFKcU5jYmllSHpTbW94R1lEekVLb25POGFJWnZieVRtOGF3c1ZRT2Vv?=
+ =?utf-8?B?bGJOYjZWM1FaUytWN05RSmNlN0ZMd0VjVkFXbjBtK3N2OTVkQ1ZDcWk5SFdO?=
+ =?utf-8?B?L0tiNmhabENrYjlqQzhzSkp4M0hrUHM0NHVrVHhDUTdmRWFnSmFTZThlVXNC?=
+ =?utf-8?B?Q3dLNFdLK0U0MEZRYnlVdmpNckQyNHBPcTJGWTBDZTQrM0xxdlRvd0YrNm1E?=
+ =?utf-8?B?cmZtaXRGYVBGU2E2cG4xOVRWR3BKZjM3cndPaVBtVWlkV1M4dkVtUlY4aVZZ?=
+ =?utf-8?B?ZWhYcEloTldPVmh3UHRoelY2d2xyUEF1T3FGWmFodmZlOVpINUF5ZlVjSWRp?=
+ =?utf-8?B?ZXhuSGFIRWZuQTNCeXQ2cHVja1kyV0JPaXJPZUhJeVR3MTVaZWNpSFhDRER3?=
+ =?utf-8?B?bW9rR01WS1kyTkhkNzBtaWxrNUZ0QVNsNndFZHMwQ2Z5U1czdTAxMDBnclhr?=
+ =?utf-8?B?cThwNzl5YmhOaXhiVDVkODg3TTF4MTRFN0hpNEt6V3VaTG1TV3J2ekYyWFVE?=
+ =?utf-8?B?WFJ6eGJOVjlTQSswR1VMMUlraktLN1RZZy9kUTI0cm5vbzNRV3pKUVk4d1Ew?=
+ =?utf-8?B?K3JpZTcrVTcrYkhrTjdrbjIxbVFvaGNkNGVKc0Q3a0tBV0FsWldhVU5NK0VL?=
+ =?utf-8?B?b0l6ZkZRY25VMm4zMVZIL0FIbld0RUQrd0V1OThtN3MxUFVPYUUvWHprME1I?=
+ =?utf-8?B?ejBoRVREK3FDYWQzcFN3VnVqZFgvSk5uZEI1eDdLY1RoTHRnOFRCRGQ0dlB1?=
+ =?utf-8?B?QjB4VTA5bFJxQlRrTm51QndDWmxYK051K0M2a3RVWG84Q2VuTXc5ZFFBRzVH?=
+ =?utf-8?B?NlE9PQ==?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f34186a-f117-4456-bddf-08dd4b411194
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 08:41:39.8048
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YstgulmG+e9TVsV88NyPicwVG5X4e2woajpKBbj6O71Zh97l0N2wYD/pQikr8M02YAAuuRMlJdr7pIvownuAMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8996
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 08:08:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211211
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 08:41:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211212
 
---0000000000008c0f7b062ded7399
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------EK08eaO6la56BKlqqFA1jRKm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Le mer. 12 f=C3=A9vr. 2025 =C3=A0 00:36, Richard Purdie via lists.yoctoproj=
-ect.org
-<richard.purdie=3Dlinuxfoundation.org@lists.yoctoproject.org> a =C3=A9crit =
-:
+Am 12.02.2025 um 00:14 schrieb Bruce Ashfield via lists.openembedded.org:
+> In message: [bitbake-devel] [RFC PATCH 00/30] Add vendor support for go, npm and rust
+> on 11/02/2025 Stefan Herbrechtsmeier via lists.openembedded.org wrote:
+>
+>> From: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com>
+>>
+>> The series adds on-the-fly support for package manager specific
+>> dependencies and vendor directories. It contains the following changes:
+>> 1. Adds an early fetch, unpack and patch task to unpack and patch source
+>>     code with an embedded lock file for dependencies.
+>> 2. Parse the go.sum, Cargo.lock and package-lock.json lock files and
+>>     resolve the dependencies to SRC_URIs.
+>> 3. Save the SRC_URIs in a file and adapt all SRC_URIs users to handle
+>>     the SRC_URI files beside the SRC_URIs in the recipe.
+> I made a few comments, and will have another / better look at the
+> series tomorrow. There's a lot here, and it is hard to wrap my head
+> around everything that is changing.
+>
+> I have one specific question below (from the point of view of go).
+>
+> I've been looking through the series, and can't pick out where #3 is
+> done.
 
-> On Tue, 2025-02-11 at 19:42 +0100, Alexander Kanavin via
-> lists.openembedded.org wrote:
-> > On Tue, 11 Feb 2025 at 16:57, Stephen Jolley via
-> > lists.openembedded.org
-> > <sjolley.yp.pm=3Dgmail.com@lists.openembedded.org> wrote:
-> > > We=E2=80=99d like to request help to process the open github pull req=
-uests for
-> openembedded-core and bitbake:
-> > >
-> > > https://github.com/openembedded/openembedded-core/pulls
-> > >
-> > > https://github.com/openembedded/bitbake/pulls
-> > >
-> > > Having these open doesn=E2=80=99t look good for the projects and we c=
-an=E2=80=99t
-> disable them, some have been open for a long time. We did already clean u=
-p
-> the poky pull requests.
-> >
-> > I'm sorry but I have to say a couple of unpleasant things. Here goes.
-> >
-> > The only processing I would be willing to do is mass-closing these
-> > pull requests with a polite note to submit them according to the
-> > official process. Otherwise this tacitly admits github as a valid way
-> > to contribute, and we're not ready for that, and possible will never
-> > be.
->
-> There are potentially useful bug reports and fixes buried in there and
-> I am reluctant to turn people away so I'd prefer to not mass close.
->
-> > While we're at it, how were these repositories created in the first
-> > place, and what was the plan for the pull requests they would attract?
-> > Should we delete these repositories now?
->
-> The repositories were added to try and share bandwidth costs, give
-> people easier mirrors and various other justifications. I warned
-> strongly about the pull request problems at the time, I was told it
-> would get handled and people would help and I was over reacting. Some
-> of the people who made those offers aren't active with the project any
-> more, other things just drifted with time. At one point I ended up
-> having to add those mirrors to my own push scripts and maintain them
-> because nobody else was willing and we had complaints they were not up
-> to date.
->
-> You used to be able to disable pull requests for six month periods, it
-> looks like you can no longer do that and it was a pain having to try
-> and remember anyway.
->
-> The bandwidth/mirror/backup benefits are valid and I'd be reluctant to
-> delete them as some people can only discover things through github too.
-> Google indexing doesn't work well with our own server.
->
-> So I guess I made my own peace with their existence. I know touching
-> them will make it look more like a condoned submission method but I
-> really don't see many good options here. Removing them is a simple easy
-> option but life sometimes isn't easy/simple.
->
+The files are created in the package manager specific vendor classes (17 
+- 19) in the do_vendor_resolve task. The parsing is implemented in the 
+package manager specific modules in the vendor package (6-8).
 
-We can try things to push users out of github :
-* Leaving a fake PR at the top of the list with a title along the line of
-"Please don't open a PR but instead go to <contributing guide link>"
-* using the PR template (the text pre-filled for the new PR description) to
-convey the same info
-* A bot that automatically answer the PRs with a comment with the same idea
-(the bot could also close the PR but that might be a bit harsh)
+>   I see patch 14 using SRC_URI_FILES, but where are those files
+> written ? Is that in patch 18 (vendor_go_do_vendor_resolve ?)  What is
+> written to those files ?
 
-Regards,
+The file is written into the vendor directory below WORKDIR. The 
+approach is similar to other classes which need to share data between tasks.
 
-Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#64775):
-> https://lists.yoctoproject.org/g/yocto/message/64775
-> Mute This Topic: https://lists.yoctoproject.org/mt/111128176/4316185
-> Group Owner: yocto+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+The files contain individual SRC_URIs per line.
 
---=20
-Yoann Congal
-Smile ECS - Tech expert
+> The concept that I'm not understanding (and that's just me not being
+> familiar with things, I'll continue reading the series) is that when
+> we suggested we'd like to have a mode where the dependencies could
+> clearly be listed in the SRC_URI, at least I was just thinking about a
+> way run the fetch/module elements that you were adding, write them to
+> a file and then have the recipe include it.
 
---0000000000008c0f7b062ded7399
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The additional SRC_URIs are dynamically added to the recipe without the 
+indirection over an include file. The generated SRC_URIs could be 
+inspected via the SRC_URI_FILES and manipulated via patches for the lock 
+files or an separated lock file.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 12=
- f=C3=A9vr. 2025 =C3=A0=C2=A000:36, Richard Purdie via <a href=3D"http://li=
-sts.yoctoproject.org">lists.yoctoproject.org</a> &lt;richard.purdie=3D<a hr=
-ef=3D"mailto:linuxfoundation.org@lists.yoctoproject.org">linuxfoundation.or=
-g@lists.yoctoproject.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Tue, 2025-02-11 at 19:42 +0100, Ale=
-xander Kanavin via <a href=3D"http://lists.openembedded.org" rel=3D"norefer=
-rer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; On Tue, 11 Feb 2025 at 16:57, Stephen Jolley via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; &lt;<a href=3D"http://sjolley.yp.pm" rel=3D"noreferrer" target=3D"_bla=
-nk">sjolley.yp.pm</a>=3D<a href=3D"mailto:gmail.com@lists.openembedded.org"=
- target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; &gt; We=E2=80=99d like to request help to process the open github pull=
- requests for openembedded-core and bitbake:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://github.com/openembedded/openembedded-core/pull=
-s" rel=3D"noreferrer" target=3D"_blank">https://github.com/openembedded/ope=
-nembedded-core/pulls</a><br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://github.com/openembedded/bitbake/pulls" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/openembedded/bitbake/pulls=
-</a><br>
-&gt; &gt; <br>
-&gt; &gt; Having these open doesn=E2=80=99t look good for the projects and =
-we can=E2=80=99t disable them, some have been open for a long time. We did =
-already clean up the poky pull requests.<br>
-&gt; <br>
-&gt; I&#39;m sorry but I have to say a couple of unpleasant things. Here go=
-es.<br>
-&gt; <br>
-&gt; The only processing I would be willing to do is mass-closing these<br>
-&gt; pull requests with a polite note to submit them according to the<br>
-&gt; official process. Otherwise this tacitly admits github as a valid way<=
-br>
-&gt; to contribute, and we&#39;re not ready for that, and possible will nev=
-er<br>
-&gt; be.<br>
-<br>
-There are potentially useful bug reports and fixes buried in there and<br>
-I am reluctant to turn people away so I&#39;d prefer to not mass close.<br>
-<br>
-&gt; While we&#39;re at it, how were these repositories created in the firs=
-t<br>
-&gt; place, and what was the plan for the pull requests they would attract?=
-<br>
-&gt; Should we delete these repositories now?<br>
-<br>
-The repositories were added to try and share bandwidth costs, give<br>
-people easier mirrors and various other justifications. I warned<br>
-strongly about the pull request problems at the time, I was told it<br>
-would get handled and people would help and I was over reacting. Some<br>
-of the people who made those offers aren&#39;t active with the project any<=
-br>
-more, other things just drifted with time. At one point I ended up<br>
-having to add those mirrors to my own push scripts and maintain them<br>
-because nobody else was willing and we had complaints they were not up<br>
-to date.<br>
-<br>
-You used to be able to disable pull requests for six month periods, it<br>
-looks like you can no longer do that and it was a pain having to try<br>
-and remember anyway.<br>
-<br>
-The bandwidth/mirror/backup benefits are valid and I&#39;d be reluctant to<=
-br>
-delete them as some people can only discover things through github too.<br>
-Google indexing doesn&#39;t work well with our own server.<br>
-<br>
-So I guess I made my own peace with their existence. I know touching<br>
-them will make it look more like a condoned submission method but I<br>
-really don&#39;t see many good options here. Removing them is a simple easy=
-<br>
-option but life sometimes isn&#39;t easy/simple.<br></blockquote><div><br><=
-/div><div>We can try things to push users out of github :</div><div>* Leavi=
-ng a fake PR at the top of the list with a title along the line of &quot;Pl=
-ease don&#39;t open a PR but instead go to &lt;contributing guide link&gt;&=
-quot;<br></div><div>* using the PR template (the text pre-filled for the ne=
-w PR description) to convey the same info</div><div>* A bot that automatica=
-lly answer the PRs with a comment with the same idea (the bot could also cl=
-ose the PR but that might be a bit harsh)</div><div>=C2=A0</div><div>Regard=
-s,</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#64775): <a href=3D"https://lists.yoctoproject.org/g/yoc=
-to/message/64775" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctop=
-roject.org/g/yocto/message/64775</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/111128176/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/111128176/4316185</a><br>
-Group Owner: <a href=3D"mailto:yocto%2Bowner@lists.yoctoproject.org" target=
-=3D"_blank">yocto+owner@lists.yoctoproject.org</a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto/unsub" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/yocto/un=
-sub</a> [<a href=3D"mailto:yoann.congal@smile.fr" target=3D"_blank">yoann.c=
-ongal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS - Tech expert<br></font></div></div><=
-/div></div>
+> I can't tell if in the series those files are written each time, and
+> that there would be no way to edit those SRC_URI_FILES .. but I'll
+> look again tomorrow.
 
---0000000000008c0f7b062ded7399--
+The files are written if the do_vendor_resolve task need to be rerun. It 
+isn't possible to edit the generated SRC_URIs. Instead the lock file 
+could be patched.
+
+> That file would manipulate the standard SRC_URI. In other words still
+> support a mode that is like the .inc files with crate://. So someone
+> could either have the lockfile parsed and fetched, or have a way to
+> run the parsing and fetching via a task, write a file and include the
+> file in their recipe to short circuit the processing of the lockfile.
+> (meaning the expanded and end fetches that are done once you've
+> processed the file are simply listed as a series of fetches that are
+> carried out without extra processing .. and "unrolled" dependency
+> file pointing at the "sources" git, crate, mod, whatever)
+
+What is the motivation "to short circuit the processing of the 
+lockfile"? Like any task the processing and its output are cached via 
+the sstate cache.
+
+It is possible to use the vendor package to create a include file but we 
+should have good reasons to support two solutions for the same problem.
+
+> If that just doesn't make sense, then if there was a way to copy
+> the lockfile out of the recipe and have it overlayed onto the fetched
+> one .. maybe breaking out the individual fetch lines isn't required,
+> since they could be individually manipulated in that lockfile.
+
+I haven't test it but this should be possible. You can place a lock file 
+beside the recipe, add it to the SRC_URI and change the XXX_LOCK_PATH.
+Regards Stefan
+
+--------------EK08eaO6la56BKlqqFA1jRKm
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Am 12.02.2025 um 00:14 schrieb Bruce
+      Ashfield via lists.openembedded.org:<br>
+    </div>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre">In message: [bitbake-devel] [RFC PATCH 00/30] Add vendor support for go, npm and rust
+on 11/02/2025 Stefan Herbrechtsmeier via lists.openembedded.org wrote:
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">From: Stefan Herbrechtsmeier <a class="moz-txt-link-rfc2396E" href="mailto:stefan.herbrechtsmeier@weidmueller.com">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
+
+The series adds on-the-fly support for package manager specific
+dependencies and vendor directories. It contains the following changes:
+1. Adds an early fetch, unpack and patch task to unpack and patch source
+   code with an embedded lock file for dependencies.
+2. Parse the go.sum, Cargo.lock and package-lock.json lock files and
+   resolve the dependencies to SRC_URIs.
+3. Save the SRC_URIs in a file and adapt all SRC_URIs users to handle
+   the SRC_URI files beside the SRC_URIs in the recipe.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I made a few comments, and will have another / better look at the
+series tomorrow. There's a lot here, and it is hard to wrap my head
+around everything that is changing.
+
+I have one specific question below (from the point of view of go).
+
+I've been looking through the series, and can't pick out where #3 is
+done.</pre>
+    </blockquote>
+    <p>The files are created in the package manager specific vendor
+      classes (17 - 19) in the do_vendor_resolve task. The parsing is
+      implemented in the package manager specific modules in the vendor
+      package (6-8).<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre"> I see patch 14 using SRC_URI_FILES, but where are those files
+written ? Is that in patch 18 (vendor_go_do_vendor_resolve ?)  What is
+written to those files ?</pre>
+    </blockquote>
+    <p>The file is written into the vendor directory below WORKDIR. The
+      approach is similar to other classes which need to share data
+      between tasks.<br>
+      <br>
+      The files contain individual SRC_URIs per line.<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre">The concept that I'm not understanding (and that's just me not being
+familiar with things, I'll continue reading the series) is that when
+we suggested we'd like to have a mode where the dependencies could
+clearly be listed in the SRC_URI, at least I was just thinking about a
+way run the fetch/module elements that you were adding, write them to
+a file and then have the recipe include it.</pre>
+    </blockquote>
+    <p>The additional SRC_URIs are dynamically added to the recipe
+      without the indirection over an include file. The generated
+      SRC_URIs could be inspected via the SRC_URI_FILES and manipulated
+      via patches for the lock files or an separated lock file.<br>
+      <br>
+      <span style="white-space: pre-wrap">
+</span></p>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre">I can't tell if in the series those files are written each time, and
+that there would be no way to edit those SRC_URI_FILES .. but I'll
+look again tomorrow.</pre>
+    </blockquote>
+    <p>The files are written if the do_vendor_resolve task need to be
+      rerun. It isn't possible to edit the generated SRC_URIs. Instead
+      the lock file could be patched.<br>
+      <span style="white-space: pre-wrap">
+
+</span></p>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre">That file would manipulate the standard SRC_URI. In other words still
+support a mode that is like the .inc files with crate://. So someone
+could either have the lockfile parsed and fetched, or have a way to
+run the parsing and fetching via a task, write a file and include the
+file in their recipe to short circuit the processing of the lockfile.
+(meaning the expanded and end fetches that are done once you've
+processed the file are simply listed as a series of fetches that are
+carried out without extra processing .. and &quot;unrolled&quot; dependency
+file pointing at the &quot;sources&quot; git, crate, mod, whatever)
+</pre>
+    </blockquote>
+    <p>What is the motivation &quot;to short circuit the processing of the
+      lockfile&quot;? Like any task the processing and its output are cached
+      via the sstate cache.<br>
+      <br>
+      It is possible to use the vendor package to create a include file
+      but we should have good reasons to support two solutions for the
+      same problem.<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:Z6vZ8m8zZLgQKyVg@gmail.com">
+      <pre wrap="" class="moz-quote-pre">If that just doesn't make sense, then if there was a way to copy
+the lockfile out of the recipe and have it overlayed onto the fetched
+one .. maybe breaking out the individual fetch lines isn't required,
+since they could be individually manipulated in that lockfile.</pre>
+    </blockquote>
+    <p>I haven't test it but this should be possible. You can place a
+      lock file beside the recipe, add it to the SRC_URI and change the
+      XXX_LOCK_PATH.<br>
+      <span style="white-space: pre-wrap">
+Regards
+  Stefan
+
+
+</span></p>
+  </body>
+</html>
+
+--------------EK08eaO6la56BKlqqFA1jRKm--
 
