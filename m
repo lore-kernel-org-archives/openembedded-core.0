@@ -2,270 +2,279 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FBB6C021A4
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 08:58:55 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.138])
- by mx.groups.io with SMTP id smtpd.web11.10707.1739350549196357810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1AFC02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 09:28:05 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.134])
+ by mx.groups.io with SMTP id smtpd.web11.11163.1739352476285047461
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 00:55:50 -0800
+ Wed, 12 Feb 2025 01:27:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=gw2vv3lz;
- spf=pass (domain: weidmueller.com, ip: 40.107.241.138, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=LVS+cfMq;
+ spf=pass (domain: weidmueller.com, ip: 40.107.20.134, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KafJlMo+teHrJVmxuaxtw9rR8x58WgIukJZqZZb+c3HVJGFPgvkUFZvNKUdaN50pLEEAdOHJ+0IyaP3eX35x6dIVJpGEfVIbL4zEbc9MYytPjLBNALrwvvn+ELVL9QvRfINOfkGb9DDELPQNI2ivuw90z9iBLT82gkAxQ2cLRts9VbtyHQhLyvUU+LqL3I4m00w6lXXEzK/bQwthJT1aoDeKHMzZ8Xh3sB3yLds5hETtFHo3r2/s4SB7ys6VdHeKj2sR1LR0t/cwpFFkOt+BlH/IXsBd1OMmpRNLNphKtwwTijl00UC98xYqyrG0ODMRWjVgR1WYhyeis6KG8YPzDw==
+ b=UG4zjRObgupwkGP4/sZbhO1A/7A4lMaGNvrgZWS1yq5c53bG2eRvnw3tQjx6E0pVv6TxFpUJPIScG90u+vq10RqeOUqCTJgrYK7ycdhneDTW4YwqkZB4qUD1B8maF17/gyaLTG1SudlSo+2eo32+t4UZuqurvB7VJpBQjl/rw7ESfB/K8RF1aYhB5tbTKTvN8R+ygmZvTgqAjBHasft42ShKPw9S1nUMUT5whs3pRjGniZ/evamVGf+u6b0fPWja9sOA+McmDaWQY+KCSp5iSPh0IsD8mTQX7blP7N4hr0SUuEIsyM8LFeJd2xKf7nFcvTeIvHVbzMdqZo9xRz64TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=duKtdFoPydlvxv9kKsa5dVZODVs0DJQCpGwQ+Qsho9c=;
- b=sNuJm3yOXM5dyeqGtApeXP4d/c670VxNRha47xO5d2gf7AIUmJB7/gLC6arl10jrAHutAEVH62ATjQWf/VO3kUXnHuT+QnTIgvnlxvGzHyTChmCARuN/PBvtDVNDiGpveIIkuRZYuy2WgAhuoVxFNI8AUX4Nt7h/NKiDN97qiSvUHk0E5C3vtszj5Aqs++Bimig0SbBD88Q5OBTTc5k8xIu365jPgvH9I5U3cyF+G2kx/M/TIhW35TquANXGMzCzsERBJN+uQ4zcHajnQbzZP/0S9sTSUvs77i5HOOg3ze56lz64g2u7pFCeZAGpAjkRumXuSDFvEAetdr4C+fCD8w==
+ bh=lzZHc74ZjP7Qxu7uZ9UU2QomAv013fddETyNkCjOdls=;
+ b=S8cEcd9EqJjY3m/cbc56wMeWuxR8hq6sKD0OXGN8RwxDjs578mQLt36ED/RmMW5mhx+FHYbU06kBAg/9Bb3Z7Jhohw8NGPvxsPbjt8Bw+tdZ7vGnvDdpuSbFMY8hpDbPmGGrGcq7MWaVZJgXaAGa+tKhECoE+P5E5zpOQvqyvT3x55qeD+m5F1OzYfve1ER94c5T97Hih2x6DSeU5aymbR5H5Pr9MjMYj7selhoWbGyqLA6z5HMS2rWCWUQsYGr40T6p6+x+YAgbZeMvQZljfGLX9xgtc6acT++TyrqvtiHjDdo4WRl5tPc9qr+x7FI3X4/xNh+G/qbfTXU89agFRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=duKtdFoPydlvxv9kKsa5dVZODVs0DJQCpGwQ+Qsho9c=;
- b=gw2vv3lzwLCsNitdrCeWREUbBCCAlkUHPhUFhs2dQ6WSV67R+aMSumAmyb1AZDP0YmOjSWmE0OfwtVJoshCRHkioZeH/PcsuWrXfvJ4DHn/7vAGTi5RhTu/huR8HlMgPI97rr4gRfkx97hRlsr2UCWTGRWRQkzPBmAipSxo39XPw6XFPEazcK/HlI8Syrl/nFq6Hnx8FvxjfH5jnOmjAYTRPvXl4u8EV3KuB2TsE6KP6tWpr6YwyQobPFsTNoVbsKeP304cDqr0J8JPQ6aWcNsBS5fzQ+UkgIkxSbVubDT9Q9tIPBSDG6AoObOixB7TFdqHIV3pLVcZEK9mp66ALFA==
+ bh=lzZHc74ZjP7Qxu7uZ9UU2QomAv013fddETyNkCjOdls=;
+ b=LVS+cfMqqV3yVB4yUPFL/flN/wRVSckzbzBSCI3i3nZ9jsfVZCUPjTV1YiUKA1mrFtWiCcFDjomWoM6jyLGjzaPjyWvn9EmdYxLUHmGOVPHhUbfVkbZ7wfkM0Suq++mI1nywNfJ2C9XI6V848dIVXxRJiNmVmFG0orPwyto9G0TF2qAa9bLtFPyPgW4Y615bZKTVZxWJJbYS/tacZsaVaEWu7UzNL6zCZGViHUHV4gOjjODJRfdKdH3zm9V/lOwxlQOQuMtWGlqkQx3vforg+oobrbUcyOuMTp8tluvyIjJZpmBtYMvY/02hG6rSetVxd0oEak+B0bs22FpymrYVoA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
- by DB9PR08MB6651.eurprd08.prod.outlook.com (2603:10a6:10:26e::21) with
+ by PA4PR08MB6077.eurprd08.prod.outlook.com (2603:10a6:102:e7::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Wed, 12 Feb
- 2025 08:55:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Wed, 12 Feb
+ 2025 09:27:53 +0000
 Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
  ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
- 08:55:44 +0000
+ 09:27:53 +0000
 Content-Type: multipart/alternative;
- boundary="------------ZcNi2HFnZDraFwSd4Q6BsCXl"
-Message-ID: <81801173-8a60-4278-a8b1-70715fa5accc@weidmueller.com>
-Date: Wed, 12 Feb 2025 09:55:42 +0100
+ boundary="------------VOTEVDFPXGK1v1wq5vxufOW0"
+Message-ID: <db370fd9-a390-46c2-bf5b-250110bb0c96@weidmueller.com>
+Date: Wed, 12 Feb 2025 10:27:52 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [bitbake-devel] [RFC PATCH 10/30] conf: bitbake: add
- SRC_URI_FILES variable
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
- "bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
+Subject: Re: [OE-core] [RFC PATCH 05/30] lib: oe: add vendor module
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20250211150034.18696-11-stefan.herbrechtsmeier-oss@weidmueller.com>
- <DB5PR02MB10213E77A6A5281EE044BA688EFFD2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <20250211150034.18696-6-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org>
 Content-Language: en-US
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: <DB5PR02MB10213E77A6A5281EE044BA688EFFD2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-X-ClientProxiedBy: FR2P281CA0010.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::20) To GV1PR08MB8426.eurprd08.prod.outlook.com
+In-Reply-To: <0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org>
+X-ClientProxiedBy: FR4P281CA0188.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ca::13) To GV1PR08MB8426.eurprd08.prod.outlook.com
  (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|DB9PR08MB6651:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a39ff40-b2b0-481c-a13a-08dd4b4308db
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|PA4PR08MB6077:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98191861-8004-40dc-c5dc-08dd4b4786ba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RmRWeHh1VmtUU3ZGRXh6Vkp0cksrdnp3WVpVN0l0RnBjTCtSTk1WRjZxcTQ3?=
- =?utf-8?B?b3VBclI3Ykt3elVsUGQ1YUJVOTQ3eUtzaVhucis1bENYWnRZUnIySjBPZ2p6?=
- =?utf-8?B?bnRUWW1BUHVmbHNMOEZFcU5IcDlURVZGZWV1SnpZbWVWTk9EMUFrcUNKNVBI?=
- =?utf-8?B?Q3NqRWRBTzR4ZlI0Z0xsbFBFY3dwV1dwS3FhVXlPV2NBanpnbHRtS01ESlJM?=
- =?utf-8?B?dFk2OE9LWHQrNFBsLzFpSFlMb2dKRFNQZ21lT05rYUc5OVpUbEl2VTRjeWtl?=
- =?utf-8?B?L1ZIazhVL1U1UFpLcWNIa2tPeUdPOFlTYlM4VW1oRmx2WUhUaStodk9KemVt?=
- =?utf-8?B?WDdVUFlQcEVFdDJyelNSM2dqVzMyZ1JlT0FLM2tWc3hOWERjNFdWc2pNWFMx?=
- =?utf-8?B?UFpySDdpNGhqcTQ0ZWJjZW5laTY2NWxiK1Fka1RSSFRIaWNvc2RQUTdSSFdB?=
- =?utf-8?B?YjJNNkcrN3Z2N3dTdlh2dmI2bnl5QVM5eEhpVzNoVVVJeHNmUERkdysrbHd1?=
- =?utf-8?B?ajZjSmJhUE41L1FONnFqMTdHcVg5MGtoLzhlUVhtNEh5eXdtZTcyWGVyeG9s?=
- =?utf-8?B?WGlxVDB5bEoySUU4ajZBeGdJSTRHMStQRXlZWjRaYjZYSXpHRnVOZHg4RG92?=
- =?utf-8?B?VVRyb21QN1htbmZ6SzRObHdYWVVkd3VEU2hyS2lXVzZVWmlXL1hPOXhFZDJ3?=
- =?utf-8?B?dUx4YWw3QnlUeGZQUUsyYTg2Lzk1WEtJWWZSRHcxRjUyTnI0bDBiVHpDM2xs?=
- =?utf-8?B?bkJaMm5JTmErSGpGSGp0aGFWdnRMdnJraUZwZXVtK1lSeTliUEZ1RkJacXlD?=
- =?utf-8?B?ZDVHbVFaSkFCdzA0NTd4NWhOazY2Q3NZbVRzbCtyUzBGQnRTakljcThRci9M?=
- =?utf-8?B?aldvZjA2MXkrK1kxc0dUMXZjWVc4MStmcCtRWDdkcjFGMFQzQzNITEJGTktZ?=
- =?utf-8?B?cHJWWnd2cTBjYk4rc3VldHFnNkdORklWLzdZdVZtRzVzc2gwK3htRnI2ZU5S?=
- =?utf-8?B?bSt4alpFNEN4dDhhUlI2ZFhtZjRGSThIM2hlSk16WnMzTlhRL2lTSFlHVjhJ?=
- =?utf-8?B?cEl0WkZNQjFobmZmcmQ3eEdkTUF5WDd0SFNoU2xvWGNtVEVDL1dYalZybkJZ?=
- =?utf-8?B?UXpHT3JWUlVTZlJoem52NHBNYWI4cGFFZWZiK0hIRDJSaWJsdTZhS3pyOEtx?=
- =?utf-8?B?S0pOWXF2SmNhNWptZW5tMW9MTUNFUFRJWTM2NVNlQ0dTT2c5NzNJeTNoQWM3?=
- =?utf-8?B?UnB3eEJJcmh6S21MVndrKzY0aEJJNmpUVlV4eE5MK25rdUZhcml4L24vbGpa?=
- =?utf-8?B?K3Vra0VObThqY0VlY0J3c01HZXZudHg2VXRUaDNxZEFKWkZQakgzdGkvQ0Yw?=
- =?utf-8?B?aHV5UlJXSnFxN3F6bmtEcjhSMHN4QnNGdlN6RDA3SEl0RVNPakFyaU4zaWl2?=
- =?utf-8?B?NWdXZkNaMlFNdi9LYThZU1VLdUFFNUtQaHVpdnB0a0dFU2hhbWhvTHBVZWJG?=
- =?utf-8?B?WnJyNDNSSTRwcDRXS2xNREpDYXlWdEROMlcvQlcxUWpiTUdhUkdRVUMwUzRi?=
- =?utf-8?B?YVlqRGxzbm8wTk1PR2xSdWR6Vmd4RzdUSGJkcTZhN1ovRWg1MmN5UkxaeGta?=
- =?utf-8?B?TGZnYUErQm44VXV0UDk4SUZsSjJFNGRQMGFHajhyN01JeXVvbjhLWGxwOTZS?=
- =?utf-8?B?MG5mUDVaOHRWcWVXSnNWeFBQQnRVVlU5SWd1blBZR25uSG9Qdi9GSzJQcmRw?=
- =?utf-8?B?ZUZRc3IxR3RZQUt5d05HdURYV3dZT2lOeXZSbWxGVzdBVmlONEd0UldHbXlR?=
- =?utf-8?B?MnRuVlZaK1EvUDlRK3piL3IxSmFORmhWODVrTi9ISnRrZW5SUitWNGszdDZ3?=
- =?utf-8?Q?etluDMX/hxbuk?=
+	=?utf-8?B?aytobE54RnpMQUhWL09sSzZtZ1M0UDA3YldRZjZaSFZoOGdTV1pUcXpjWE9G?=
+ =?utf-8?B?OVZiNUpYemtNcno0RXJtNkZoN0ZnNXdtblRDdWs3L0RIbW9hbzdHakZpbUZs?=
+ =?utf-8?B?SFdBSk56RGFaZ3h6dEQ3Z1lzVExPUXJYNjBmeUVrSzY5cHFqeFhlZWFzTmpO?=
+ =?utf-8?B?Y2gvVXNXSFBwT0JXelJYYmpUbEcxbC8yd2R5OVlZRk9ZVVRiaGFKVEtRditn?=
+ =?utf-8?B?MEZVbzRrMzZFM0J1YXdiRkRHWDdNNFVkbk9PQVhJZzU4ZE8rcXJ0UmdhMjBw?=
+ =?utf-8?B?dDRWMFpQalJYRHNua2F3SG5QRFZVTnNhN2FMSzVqYTl6RVBHSThaVnJBVHVO?=
+ =?utf-8?B?SzZkVXhXSE12YW1DQzZiblhtZE1tRlE5eGFnUXBSTTZBcXRIeU0vTGx6eU9h?=
+ =?utf-8?B?aTJzMzgyU3k5eFJHVXN6VkFzQXlzejFybXRIUG14QW9PZ1ZPSDVvd3NvMGVW?=
+ =?utf-8?B?SitzUkFId1JRRFhLWHBFbkt4SFN3dGl4SnN3Z29GV1I5MXZiejNvUlNUZWlK?=
+ =?utf-8?B?dWs5VGNCNXFEZmdyQ2o3Y1NaZStwMGRvMVR4aHZvdGtuN1p2bEhycURhcUlz?=
+ =?utf-8?B?YWVGeEkwQStEb1ZqVk5Ca3g2QnZIaTZrTE5HODAwVW4vUWRpSnNhU3krVG9P?=
+ =?utf-8?B?blBOUWU5cDZGaTUxUDJjSEhOU09xMWczU1V0VUtiYk8rOUhNYXlnVXVFNHEw?=
+ =?utf-8?B?S1ZTUzR5ZXNsMmdDNFJyMUpoTXgyajU0Z0poQ1loU0VCbGRNK2ZwSHRydVdi?=
+ =?utf-8?B?TWF0V29ZajNiYm1JZkJtZnNCZ09xNWdOUGtzaEgyWEZJcTRmYWkxcTk1Y3k1?=
+ =?utf-8?B?WTVLaFZoQk5acFIxL1hXRHluOE01RmdTNDd4ZitIRXJUZGV4QVJSWllxRWVl?=
+ =?utf-8?B?VVRXa0J1YTlWL3Z3OWxWR2hSUjZHK1AwdThWdWxocG9MRTZaU3Y4bTRPaFVO?=
+ =?utf-8?B?VkxVNit6Zno3UC9qYUxueTNVbXBrY2J2ZjZVUHZnMnE5LzdROGNsRWFHRWU3?=
+ =?utf-8?B?dHlOVHZndUJ6U2tmT25pVlRnTWhicUU2dWJVNC9wNnpuNnVJRFNSNEkyUm44?=
+ =?utf-8?B?elhUcVpIYU9oMmZGRWpKT1pDRHBKQUpWWlNSQ0x0QmVQZWRYZ0ZyaUZjVW1J?=
+ =?utf-8?B?TEJYTmlBMm5sbzdkeHVDS25TMFAzWlUrMTY3TnRrQ1JxSStvVm0vSGlock9p?=
+ =?utf-8?B?T3FvVVlldUhYUlNTcXRYengzSSs1cU93OXZiU21tTnMvamF6Rmo3WU1UUVlF?=
+ =?utf-8?B?RXV2dm84c1g3cEtOM0dHRCsvbVZtdGI1c0x4SFFBRHFqOFpNV3EvZEJKRFF0?=
+ =?utf-8?B?WkIzRTNUMU8xNkdzNEx0bVhJT0xDNUxyajlSYlU0UzMrWWlkQ3dWUFhqOTRt?=
+ =?utf-8?B?K3JKWkpPRXdheUV0RThKVUlzYitSamVXamZLeDNuUFRHajRtVTB6aCtuKzFn?=
+ =?utf-8?B?REU4ZWFoL0svTHlUaWl1RGovcTUrYXJJK3BMa0VJL3BUQTZNMHV0TnQ4a3pr?=
+ =?utf-8?B?V0hYWXFpdmtPbTdyczZUSTdwY1dtNFZKTnBGVEF1K2FsTjdnbFgzeEZ5NEkx?=
+ =?utf-8?B?bUpjQjl0L2R6cEk4bUY4dkM1cHFUOG5lWjY5VnZ4VllHTmE1dkNjb0JQV0lC?=
+ =?utf-8?B?ZElJUHNCaUFzOEk4UlZINHl4NVhncFA4R2QwUXdWN2NKR1drTzlrSTM5ZEdU?=
+ =?utf-8?B?ckFNcWZKTkR6VUt4NWNKL3JpVmhkaHFZVGtJMnRHeDZzYSt5RVFGbDVwdFo2?=
+ =?utf-8?B?b3BQcVNaYXhHb2tsdmZuMUpKbGUvZTBZMTF3cUFOOEsrU3hrZzhzZjAvNi9h?=
+ =?utf-8?B?akhPSmg3Mk5lQmlJdnhJVW5zekkyMy9aU1RDK2tncmFKWWV5N0xxN1pHa2ZB?=
+ =?utf-8?Q?/LFlktkoSkYf4?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(8096899003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZGIwS3dRUkFUR3pYMWFYb2lVcmNJTDlsOGVHc0VZOXdMRTdJNWE5cXVSV1Nq?=
- =?utf-8?B?eDJlU0MzM0FwUFJaTEJ1SFpZbTFBZGxzM0I1SHVMMVlUZ2tVM0UwakFHcHF2?=
- =?utf-8?B?bHAwRnRrOVovOUo3N0k2MVkxODQ4UHdlbzVGTTVBaDNkYldmQmVEVmpSbENt?=
- =?utf-8?B?bk1uN1dxMXdSZlQ4aWxVeEl6SEpIVVRkMW9selpwOWJaS05OMm5MNXgrSlFt?=
- =?utf-8?B?RlI1ZFhGWHVaTFFoVE5oQ3RUUDdMQmZza1RpK21oUkMvK2l2dmpFeVB4bDho?=
- =?utf-8?B?TGEwQW5nNmFhNDJUTWhNY00wd1RndFowOWY4b0R2Y0hDcjBmNkdwQWtSMS9J?=
- =?utf-8?B?WWVoZXdDbFNYNEFvQ0ovS0FWNXlmb2k5NUVhVVFhL212YUNxSHM0QTlETmtP?=
- =?utf-8?B?TkJJZ1dlb2ZQL1VCTGVIRU9tWmxrelhob2plc3JiOHVDMUU4Z0h0elBVcGov?=
- =?utf-8?B?UnFlM1FDZmJHdjl1R1VMZEJZUlIrdFBsWUFOU2tJM21ROFhlUDVIQVFJQS9U?=
- =?utf-8?B?dElNaXlGTFJKZTVzNFNhUkhlOTJhUjNvL1VFNHB4S3RLY2tmNU45SnFDbXNS?=
- =?utf-8?B?blVGR1o3Y1lqMGw1Qzg1Y0s0MkkrTkNDUEh2ck01RlphcjdEMFBqeG8wUkhY?=
- =?utf-8?B?SUFKZndLUFpmRkJwNnB6YURpbWg4Y3BnaXdaZHAvdUtvUGF6UTZDUE9wcjRI?=
- =?utf-8?B?cnVjWCtDSDBpUU9LY2xSM04vWHU1bjJyRy9jbGFqOHlUWUNOeVZNakdhS1lZ?=
- =?utf-8?B?YjlJcU5vb3RETUlEcXNYK0oxem5iS2lVZm81eDFFWWRVc1hZNVNvUlNqVEE3?=
- =?utf-8?B?UjZYRDk4WnBuN055N1VxL3hpVE91d3ZOTFcyQXlXajF1cm9zK1ZjUjR1RGY4?=
- =?utf-8?B?QUx6UWhyeEw1T1JLbCtFQmVQT21TTlFZRFhia0RFNVFSdVQ1Vll5Tk56VEJk?=
- =?utf-8?B?OFowWWV3bHhhMjJ6NGNBcm42MTVkRmMrNnFpa1lXeThDd0ZtdnIvQ2hOMGFG?=
- =?utf-8?B?ZnBrOUV3NWUxd2tNNldMU2xiOGYvbmpCWm1SWVhUbDNiVGRmeTZWV3A4R1pu?=
- =?utf-8?B?UDdjVFRzUUhnU1FIT0RvRzJjN2NGN0JTdXg3MURlNktFVVp2aEFDOUhVMyt0?=
- =?utf-8?B?MEpQcHcwZzhQdHhrU05NRDNwT1NwdmMrNU11Z0pBR2VZbXpGbHhDbzA2a0hR?=
- =?utf-8?B?d0VDa3JDbEE3UmF0dVE5aE5xL3c3Y0lGUkdteGFaRFNiRVRTV0JBLzJlMDJI?=
- =?utf-8?B?Uzk4Z0NkanRaZDl3elZpdHFrQ3JOVU9GV1RaaG1TeVo1Y0FLUFpLclk3MG9i?=
- =?utf-8?B?cXg0eEZaM2Vxb2JmMmRobjB6UXVsQVRpN3I5eVA2VmNKaVUxVGdBN0Z4WXV3?=
- =?utf-8?B?Mm9KelR3dWY3ZmFiVlE5Tm00WU1KVTJva01rMzF3cnFaWkgvRWY4UjZ2akpP?=
- =?utf-8?B?RndEMzJBcHdFWDYxeDNTRE4wbjR6ekFLREp4NVhzdUlEaFBoOEtlNW15Smo0?=
- =?utf-8?B?MWtyS1d4T2lpZHpkc2YySUxoWmhReUJsdmF5Vmd0b0ZtS3N1N0RXcDVZOHpD?=
- =?utf-8?B?MVdad2pNMlhObnYyNnBydXNzR0pYUkI5a3FmcElsWmxpRm1Xdy9JUVF4Z213?=
- =?utf-8?B?M2ttb2ZOaFd3S1JGRGJScU4zZFpHancvU0cwWCtHbFFkYzdRZmhCTDJheWV5?=
- =?utf-8?B?S3V6YlliQVpUVGxHOVIxOFlIdzdEbXBYWDlrcnA1QUhWMjV5ejFzaTVpMDFm?=
- =?utf-8?B?Vlo2d3NGRndZazNDM0plSnB4bk8za0wrYmRnMGFPTG1BYVZ6VUpoMjZub00y?=
- =?utf-8?B?cERTd0sya0ltQmRtOHVrRkpUMjNqZXhUY0VqZUlsN2pOdllBRThjekx0OFov?=
- =?utf-8?B?T1J3Y2M5UTQxdzlvQzVkMDVRVTdEeHZKWWJiTU0xR1VNVnVrdFBMdlRWaWJ1?=
- =?utf-8?B?MkNvOEJsVDRGeW9nZzkybDB4RzU0Y1NUM1g5c0dFeGJEcERkdVkwdUVqcW5P?=
- =?utf-8?B?YkVrNHRpcDU3Z2VsbytLZDhja3pCMGc3VXZYWFdJQnRUeDh0ZUhUeTkwWTA0?=
- =?utf-8?B?OXM4Y2NzeDZESlR6djBqdzJJdVJyb2xYdWFqT0Q0b0V4VDQvby9VQW10cktR?=
- =?utf-8?B?SEhnNjh2WVhrNWpTK3lzckd5ZHN5UHVpMEF3M0tYOWljNFFZaXpEcGZqMDk1?=
- =?utf-8?B?Mmc9PQ==?=
+	=?utf-8?B?YncvL2ZkYXJKZmJZSlJncE1jeHJIYThsUlhFdy9SQ0MvNEpEdnBMTnVtVXZP?=
+ =?utf-8?B?TTBzNjFNNkpJV1QwQ1BVdWtlcHRmRFJxeHB5WWpsMWIvNFlxVHpsaHZ0cGFS?=
+ =?utf-8?B?VHhONDJIdmRqWmlxRVVvUGN1ZU5BWFVsWXNKTEY4VldkQ0hwVEFUVmI3VUpJ?=
+ =?utf-8?B?dlhRbFRGMHdodExjdGpZRUVDa0laR3VnSDBTd1FHRkRNQmhEU0Y3MU91RHVN?=
+ =?utf-8?B?NXFwYUtPTHc5dGxwY2pNemRSSG94Q3J0UlovNWRrb2tCYkFkMjhkOURuei81?=
+ =?utf-8?B?YUcwdmJPS1NKUnN6T0JaSmt3SkZQMTlLdnc0bEVOZXJabE5QNjl6YytJeG5m?=
+ =?utf-8?B?RkJLVjVnd1ExTGVrQ3VEMVREeU1oL0creHdaZ21jVE9TVXRhbmRTMEZzMzBq?=
+ =?utf-8?B?OG0vd2p3c1NkTXZacTlUTko5UmFKZUp6NFZtdjNNaU9BVE94cGhzR1M5ZlBO?=
+ =?utf-8?B?bGxsaWtkOWZuaUlIM0FHNTZoVXZ2blg4QkE4NVVCaEVOYlAxZnpxbE9iRTBK?=
+ =?utf-8?B?T0ZlNnhIWVU0dUhSRVk4MGlrVitOdDJ3RXpEdUxnOUcramg5UndzTkdqREdn?=
+ =?utf-8?B?R2ZuQ080aVl0djJOU2VMWWVrZVhTeTVlN0ZBcW5pYUd5VFZINkx0SUhZSzJa?=
+ =?utf-8?B?dXkvd3VqS0FHQ0traXRDK0d5cTBvczg0YTg0MWFrUXF2anlKY0o5Rnp1QUcx?=
+ =?utf-8?B?SXNDcGhiaWFWZFloOWhLQjU2VnFBU1NvYWhwZCt0UjlOY1N5a3lIelRZejRw?=
+ =?utf-8?B?NFZWL3RKejhlZzlRUVhPNkNpWmQxbnlzNUlyREFhVEc3U3BMZU1DazFyb2dH?=
+ =?utf-8?B?YWdYUzNGcTU3OHdJR1NHaUlRaVJBdWtEMy95WFhLTWlXY1QrUkNvTzkwd0g4?=
+ =?utf-8?B?UGdFcUJBTkhnTFB2amZwK2VMdlgvaGlsQU55L2dCRkcyVlhRSG5CTzV4czdV?=
+ =?utf-8?B?UjlFUlZQbTlmU1h4TmErQ3VORUJkRFloZlY3UDVSMGpKaVgzaGJ0b3N5OEgx?=
+ =?utf-8?B?elU5WHFJcFZIanFvU3FuZy9EdDNGYmxnZHlqYmpYTWZHTW9udkxYVUVDZU1z?=
+ =?utf-8?B?RWhrTXBxSFBQSjRadlFZR2VxQitHZlhuM2JXTUp0K0lVOUYwbDBFS2ZtZ0FP?=
+ =?utf-8?B?WCtWSGt0bWwzTmVZdkNFaDNjQUVza2FBdHpxTGxGK1FnYUlVYUEySG9OYUwz?=
+ =?utf-8?B?UldUZVBSRENrUTBzV3h5RnNZVmxUbWRYMHJ5VmRTSklpUnBiNmhrTzg4QUgz?=
+ =?utf-8?B?YlVHVGg2aVh6MkJGSzNsUzN5TDNwYnhaUzhiRmkxVHFzaTAyQ3hyRklDamVs?=
+ =?utf-8?B?ZlJ0cEc3QXQxc3RJVmJQZ25NQnNCY3kwajk0SHE3UUZ6MkdXbUNZYWt6ZHBP?=
+ =?utf-8?B?eU9QUzhBUys0ckxobmZ4Sk4yaWdSSjhld2ZhM1RjMlBQZkc1bEJYdWFtZVJI?=
+ =?utf-8?B?UGYzVnNaZWcxSWZKRTUrM3RrMmhHQlY3amcxZVRkcWRtR3p0czRtb0lmNXI3?=
+ =?utf-8?B?NGJ4Q2lYVENOdG5Tak9DN0l0UE1HTmp5V1RRbGV1ZEhBdkVKVGdIMGJsM2ph?=
+ =?utf-8?B?UEdYNDZuQlFvb2JkZCs3aHZZem9mUGFqQVdrSEFla0l3NkRHZ2hZRWtFZS8x?=
+ =?utf-8?B?WngvZnk1OFFBVWtzWnk0RHNyNHpRQm9lY1hOSnRPYWtxUGg5aTRXMzFDZzMz?=
+ =?utf-8?B?SG9lK3VvZnpuM0g1dHZpUHBzM3pQaXMvSTV1RmMwNTJJQ1VzMkg2OWw0bXgx?=
+ =?utf-8?B?ZnpncUtRbmUrZjgyMHRRRGVWWkh4aDdZTk5qSjZxS0lJalBFNjErMTIyVy9E?=
+ =?utf-8?B?aEtWaGt3VURBSmVRODRtMSt6aXQvdG0xOEIvOGRUWEpQZWdXeDlyQW9HQ3h6?=
+ =?utf-8?B?cld1TDNYUmxWdTc4YnQ0SUU0bTZHQ3lTMEZuZHVaQ1RIa3p6dmF2UGJPbEdR?=
+ =?utf-8?B?NFI4TmRsRjJDeDdoNU1XdHByVUZOMTd3UzI3WnVSdEhsdFZLWXBiakVNVWQr?=
+ =?utf-8?B?ckpxTXU4ZHNSOTJjdmduQmlnb1FVbVhVNXJqUndONkFuQjltWm8yZFhsalpZ?=
+ =?utf-8?B?Y1F3SXBueU4zR2Ftc2RmQi9qN21RUHF2dnFlMHdvYVhyZGZsVDVGR2JkVnN0?=
+ =?utf-8?B?L3ozS0t1SmJHM1BCQ1FaQ3NtY20vSlRVMnVpSjEydEZueVZvRHJSeFFsbU4x?=
+ =?utf-8?B?bVE9PQ==?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a39ff40-b2b0-481c-a13a-08dd4b4308db
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98191861-8004-40dc-c5dc-08dd4b4786ba
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 08:55:44.1882
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 09:27:53.3295
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FVg4WclXl7TvgXpbr1lO5JzLx6g8YAGqYTTuKa8QQ3GNXhFVAbaaLCfRo4mhfZILk3k7pgPsaqqsUnBD1l4+cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6651
+X-MS-Exchange-CrossTenant-UserPrincipalName: b0zkQQmveUVJGVvfhGZqT27Q8TsIfo6kxZkeq5HY2hjA1EnIpqHcs76PfIQoYOYlpDPSz10aG33PiEr8tREegA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 08:58:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211213
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 09:28:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211214
 
---------------ZcNi2HFnZDraFwSd4Q6BsCXl
+--------------VOTEVDFPXGK1v1wq5vxufOW0
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Am 11.02.2025 um 17:22 schrieb Peter Kjellerstedt:
->> -----Original Message-----
->> From:bitbake-devel@lists.openembedded.org <bitbake-devel@lists.openembedded.org> On Behalf Of Stefan Herbrechtsmeier via lists.openembedded.org
->> Sent: den 11 februari 2025 16:00
->> To:openembedded-core@lists.openembedded.org
->> Cc: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com>;bitbake-devel@lists.openembedded.org
->> Subject: [bitbake-devel] [RFC PATCH 10/30] conf: bitbake: add SRC_URI_FILES variable
->>
+Am 11.02.2025 um 22:31 schrieb Richard Purdie:
+> On Tue, 2025-02-11 at 16:00 +0100, Stefan Herbrechtsmeier via lists.openembedded.org wrote:
 >> From: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com>
 >>
->> Add the variable SRC_URI_FILES to collect files whichs contains
->> additional SRC_URI lines.
+>> Add a vendor package as base for package manager specific
+>> implementations to resolve dependencies and populate vendor directories.
+>> Add common dump and load function for SRC_URI files.
 >>
 >> Signed-off-by: Stefan Herbrechtsmeier<stefan.herbrechtsmeier@weidmueller.com>
 >> ---
 >>
->>   meta/conf/bitbake.conf | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 8b607088c6..ed67500ba7 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -745,6 +745,7 @@ AUTOREV ="${@bb.fetch2.get_autorev(d)}"
->>   SRCPV = ""
->>
->>   SRC_URI = ""
->> +SRC_URI_FILES = ""
-> Do we really need a new variable for this? Can't you add some parameter
-> instead to the URIs that should be handled separately?
+>>   meta/lib/oe/vendor/__init__.py | 28 ++++++++++++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>   create mode 100644 meta/lib/oe/vendor/__init__.py
+> Initially I was going to ask there to be a "fetch" or "download" in the
+> namespacing. That then made me wonder if in the interests of clarity
+> and namepacing, these vendor classes should go into
+> lib/bb/fetch2/vendor in bitbake?
 
-The variable holds paths to files which contains dynamic generated 
-SRC_URIs. The dynamic SRC_URIs are unknown at parse time and only the 
-file paths are fix. The files are filled with generated SRC_URIs via a 
-separate task.
+The package isn't limited to fetch / download. In some cases it populate 
+the vendor directory and could be used for the license extraction in future.
 
-> If a parameter is not appropriate, then the name of the variable should
-> be reconsidered. Based on the name it is unclear what is expected to go
-> in SRC_URI and what should go in SRC_URI_FILES.
+I think it is a bad idea to move code into bitbake which isn't used by 
+bitbake. It will complicate future development without any benefit.
 
-Would SRC_URI_MANIFESTS or SRC_URI_MANIFEST_FILES fit better?
+> I appreciate the class in OE will use them and separation into bitbake
+> can be a bit awkward but it would mean we don't confuse this with any
+> other kind of vendoring
 
---------------ZcNi2HFnZDraFwSd4Q6BsCXl
+What do you mean by "any other kind of vendoring"?
+
+> , it becomes fetch specific and it places them
+> alongside the fetch code, which it will need to remain tied to.
+
+It isn't fetch specific. The modules in the package parse lock files and 
+extract it content or populate the vendor directory.
+
+> I do feel we need to namespace them though as vendor is not specific
+> enough to be directly in lib/oe.
+
+I chose vendor because it is the common name in the package manager to 
+create a folder which contains all package manager specific dependencies.
+
+--------------VOTEVDFPXGK1v1wq5vxufOW0
 Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 <!DOCTYPE html><html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">Am 11.02.2025 um 17:22 schrieb Peter
-      Kjellerstedt:<br>
+    <div class="moz-cite-prefix">Am 11.02.2025 um 22:31 schrieb Richard
+      Purdie:<br>
     </div>
-    <blockquote type="cite" cite="mid:DB5PR02MB10213E77A6A5281EE044BA688EFFD2@DB5PR02MB10213.eurprd02.prod.outlook.com">
+    <blockquote type="cite" cite="mid:0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">On Tue, 2025-02-11 at 16:00 +0100, Stefan Herbrechtsmeier via lists.openembedded.org wrote:
+</pre>
       <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">-----Original Message-----
-From: <a class="moz-txt-link-abbreviated" href="mailto:bitbake-devel@lists.openembedded.org">bitbake-devel@lists.openembedded.org</a> <a class="moz-txt-link-rfc2396E" href="mailto:bitbake-devel@lists.openembedded.org">&lt;bitbake-devel@lists.openembedded.org&gt;</a> On Behalf Of Stefan Herbrechtsmeier via lists.openembedded.org
-Sent: den 11 februari 2025 16:00
-To: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
-Cc: Stefan Herbrechtsmeier <a class="moz-txt-link-rfc2396E" href="mailto:stefan.herbrechtsmeier@weidmueller.com">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>; <a class="moz-txt-link-abbreviated" href="mailto:bitbake-devel@lists.openembedded.org">bitbake-devel@lists.openembedded.org</a>
-Subject: [bitbake-devel] [RFC PATCH 10/30] conf: bitbake: add SRC_URI_FILES variable
+        <pre wrap="" class="moz-quote-pre">From: Stefan Herbrechtsmeier <a class="moz-txt-link-rfc2396E" href="mailto:stefan.herbrechtsmeier@weidmueller.com">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
 
-From: Stefan Herbrechtsmeier <a class="moz-txt-link-rfc2396E" href="mailto:stefan.herbrechtsmeier@weidmueller.com">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
-
-Add the variable SRC_URI_FILES to collect files whichs contains
-additional SRC_URI lines.
+Add a vendor package as base for package manager specific
+implementations to resolve dependencies and populate vendor directories.
+Add common dump and load function for SRC_URI files.
 
 Signed-off-by: Stefan Herbrechtsmeier <a class="moz-txt-link-rfc2396E" href="mailto:stefan.herbrechtsmeier@weidmueller.com">&lt;stefan.herbrechtsmeier@weidmueller.com&gt;</a>
 ---
 
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8b607088c6..ed67500ba7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -745,6 +745,7 @@ AUTOREV = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.fetch2.get_autorev(d)}">&quot;${@bb.fetch2.get_autorev(d)}&quot;</a>
- SRCPV = &quot;&quot;
-
- SRC_URI = &quot;&quot;
-+SRC_URI_FILES = &quot;&quot;
+&nbsp;meta/lib/oe/vendor/__init__.py | 28 ++++++++++++++++++++++++++++
+&nbsp;1 file changed, 28 insertions(+)
+&nbsp;create mode 100644 meta/lib/oe/vendor/__init__.py
 </pre>
       </blockquote>
       <pre wrap="" class="moz-quote-pre">
-Do we really need a new variable for this? Can't you add some parameter 
-instead to the URIs that should be handled separately?
-</pre>
+Initially I was going to ask there to be a &quot;fetch&quot; or &quot;download&quot; in the
+namespacing. That then made me wonder if in the interests of clarity
+and namepacing, these vendor classes should go into
+lib/bb/fetch2/vendor in bitbake?</pre>
     </blockquote>
-    <p>The variable holds paths to files which contains dynamic
-      generated SRC_URIs. The dynamic SRC_URIs are unknown at parse time
-      and only the file paths are fix. The files are filled with
-      generated SRC_URIs via a separate task.<br>
+    <p>The package isn't limited to fetch / download. In some cases it
+      populate the vendor directory and could be used for the license
+      extraction in future.<br>
+      <br>
+      I think it is a bad idea to move code into bitbake which isn't
+      used by bitbake. It will complicate future development without any
+      benefit.<br>
       <br>
     </p>
-    <blockquote type="cite" cite="mid:DB5PR02MB10213E77A6A5281EE044BA688EFFD2@DB5PR02MB10213.eurprd02.prod.outlook.com">
-      <pre wrap="" class="moz-quote-pre">If a parameter is not appropriate, then the name of the variable should 
-be reconsidered. Based on the name it is unclear what is expected to go 
-in SRC_URI and what should go in SRC_URI_FILES.
+    <blockquote type="cite" cite="mid:0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">I appreciate the class in OE will use them and separation into bitbake
+can be a bit awkward but it would mean we don't confuse this with any
+other kind of vendoring
 </pre>
     </blockquote>
-    <p>Would SRC_URI_MANIFESTS or SRC_URI_MANIFEST_FILES fit better?<br>
+    <p>What do you mean by &quot;any other kind of vendoring&quot;?<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">, it becomes fetch specific and it places them
+alongside the fetch code, which it will need to remain tied to.</pre>
+    </blockquote>
+    <p>It isn't fetch specific. The modules in the package parse lock
+      files and extract it content or populate the vendor directory.<br>
       <span style="white-space: pre-wrap">
+
 </span></p>
+    <blockquote type="cite" cite="mid:0e8a6ac372068e4f9eb73b2170a50cef5e7d8232.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">I do feel we need to namespace them though as vendor is not specific
+enough to be directly in lib/oe.
+</pre>
+    </blockquote>
+    <p>I chose vendor because it is the common name in the package
+      manager to create a folder which contains all package manager
+      specific dependencies.<br>
+    </p>
+    <span style="white-space: pre-wrap">
+</span>
   </body>
 </html>
 
---------------ZcNi2HFnZDraFwSd4Q6BsCXl--
+--------------VOTEVDFPXGK1v1wq5vxufOW0--
 
