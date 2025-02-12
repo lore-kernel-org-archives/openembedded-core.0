@@ -1,136 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0842C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 15:09:57 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.18005.1739372811100771791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CB5C021A0
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 15:18:58 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.18315.1739373533598455023
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 07:06:51 -0800
+ Wed, 12 Feb 2025 07:18:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TnlJfgnv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43946b5920cso23176995e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 07:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739372809; x=1739977609; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=d/1vQkg8rV0XVgENekp25MzLlueor1wS311z4W8nAFA=;
-        b=TnlJfgnv7erhTO4Rszu1vNKJq/fsIWc/m/FSzkvoIcOmg1+3uDPwsmnpRjetvkuCbr
-         PIYPbyfBDhIWFop+WMcEu61yu3+2Sa4YF7fs++kmWRcGdSM3SL6BTcJyLHI8uD0dfS4z
-         lR5/gN6DbPBwCNO4XOP7Gq3HM+7mAP2b/E6w0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739372809; x=1739977609;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d/1vQkg8rV0XVgENekp25MzLlueor1wS311z4W8nAFA=;
-        b=tu4nHCqcjWMZuW6EaIzize7F2v1MO2De/WfguU/rdL8WnqdwyskBmuMxCR5Mw1ieIM
-         fj6BVa/VZTo7+Fg2bAK9sR+K92RBtshso+mt4C/0I6ImxBKOZXYS4ewBFMFI/G8+SslT
-         JEhjS4fIPGd0VtHAu6UXoHEejrr2pcRkPK2fwEQ+v59pUFLA3wXGehKoQ7RKuK2zj1Sh
-         ioGK6EBpxI8IQMTmVxu2jb+GDBls0C6k0oiVcDVOS7vHQNmP6OLRACHdZVaPMWx1x4TS
-         phV4k1RJ7LtcE0g7dZwL/iu/78EWMzXuV8RtTm+89O85FkKNPmxbrnEQ6V/lSX/E8Paj
-         vfGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrTAla3gc4mO2lQJM1CsHhRbVYkSX8x/5Smp1uB05aw7QyksJadQ0kFdAaRLMw8TRiCPI508vltNfnPmG0TDa8tQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwjpOLeQOjRWlbkzxY9HmON6aPx6BMYlSfdHdVDRBSfaGeuJWVH
-	GazK5Q93Xw/FHPEIPNxeuoZptiEhQv+a4/lWYJQtLWo8WsdUofZbLCsQfx6I9xo=
-X-Gm-Gg: ASbGncstE6JckqwAJlm3UQVpl1JvnlaCg9qN4dAPwey4b/FLbMKiJugmslW4X1R7pMX
-	lQ+z9hB2PeMC6Vs/c4Wtdvp4pXBcQvqGYCCcXQHO4yqAhJnFr+EpMJ8AtLFAKSTG11O36YgDsWl
-	l0lY4bT9IVFwSTuxVfU6I8wfBRyWDM+HCxdVyW6+0GOY9KJumSLdoNFOhDxn2A+Q/Vwr751JpcY
-	fAHYBIdbw6jS+LLcFVGnFHrVcXvWsVT1KSTLnCmS7t7Igm50e/L+GOud6uy42agmjc9tDq9EbqU
-	SyAePDUo03C27fjmdatv/p763K0QzRttBoasQOa1yz5GsykCWlu4e9r+uL6F88xyPu+mvBM7adx
-	rGg==
-X-Google-Smtp-Source: AGHT+IGMcGLYhCJvvS1+G86CikNNVkFqJ+q/5ErfPHFz3MxQyt5BRI80Nlk2V3fBVqfl9WRpF/gALA==
-X-Received: by 2002:a05:600c:310a:b0:439:4d00:3ade with SMTP id 5b1f17b1804b1-439581ca5ffmr29838285e9.26.1739372809266;
-        Wed, 12 Feb 2025 07:06:49 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:af16:73ba:601:d9ae? ([2001:8b0:aba:5f3c:af16:73ba:601:d9ae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395f0451ffsm6751335e9.15.2025.02.12.07.06.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 07:06:48 -0800 (PST)
-Message-ID: <8b9a69f0ac59c31a8048387a5ebbaeca92a966c7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 21/30] python3-bcrypt: mirgrate to vendor
- cargo class
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Date: Wed, 12 Feb 2025 15:06:47 +0000
-In-Reply-To: <f2a970ab-14da-4108-a050-04851a7bd480@weidmueller.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZHNxNW+5;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=j6cVrWqE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010194fabdd612-b1192c4b-03d9-4c22-b8ab-a6fda4ad70b7-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1739373532; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=vQP3gjBH5aKLh48lDZctjgjOe9Moebln5Tl55RYKj98=;
+	b=ZHNxNW+5leFnDWHb/BOOwYCHqt5n+tLHkPjpt4jfDspJwJLXy53nSTERdRd71gkt
+	zxg5lN5ddfOVUJRp71d5ZQfb3E+f1Hbsazq+xCh9R3CUHpqhWD8RHD6bNeu50fs0SO6
+	GHtRJMP798NiXeQSg0SNcXoxSQCXqWiHoDPgTQA0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739373532;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=vQP3gjBH5aKLh48lDZctjgjOe9Moebln5Tl55RYKj98=;
+	b=j6cVrWqEFoKnmQWeAyUhsc/5iuG0jgTUqrDfONvpu+M7vEynJFRbyik0jsv3QUeY
+	vsyQvn0U6X6NItNeiq7Y5KYYaBRSqNbtBVjiclaieZn3vpv7AOrNeHULzGab4sHswhi
+	HfJj3D+62Nx720/fbkh0344cv8AorjLrvw250Jh0=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone 2/7] linux-yocto/5.15: update to v5.15.176
+In-Reply-To: 
+ <b39adc1b4d9e705b1801684020a0bc12217f6db8.1739369945.git.steve@sakoman.com>
 References: 
-	<20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-	 <20250211150034.18696-21-stefan.herbrechtsmeier-oss@weidmueller.com>
-	 <d933e37f2be3e98c72f99191b504efe607d50c96.camel@linuxfoundation.org>
-	 <f2a970ab-14da-4108-a050-04851a7bd480@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
-MIME-Version: 1.0
+ <b39adc1b4d9e705b1801684020a0bc12217f6db8.1739369945.git.steve@sakoman.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010194fabdd612-b1192c4b-03d9-4c22-b8ab-a6fda4ad70b7-000000@us-west-2.amazonses.com>
+Date: Wed, 12 Feb 2025 15:18:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.12-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 15:09:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211247
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 15:18:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211249
 
-On Wed, 2025-02-12 at 15:36 +0100, Stefan Herbrechtsmeier wrote:
-> My problem is the double standards. We support a fetcher which
-> dynamic resolve dependencies and without manual update step since
-> years. Nobody suggests to make the gitsm fetcher obsolete and
-> requests the users to run an update task after a SRC_URI change to
-> create a .inc file with the SRC_URIs of all the recursive submodules.
-> Nobody=C2=A0complains about the missing components in the recipe.
+--NextPart
+Content-Type: text/plain
 
-FWIW there have been problems and complaints about gitsm. There were
-some people who explicitly converted gitsm recipes into git urls due to
-issues with the fetcher.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-We have on the most part dealt with the worst issues in gitsm now but
-there are still some who don't use it.
+---
+Testing patch /home/patchtest/share/mboxes/kirkstone-2-7-linux-yocto-5.15-update-to-v5.15.176.patch
 
-With git there is at least a relatively wide understanding of the
-technology. With many other areas like node, go and rust, the tools are
-much younger without some of the features we sometimes need, at least
-in the past and people's overall trust is much lower as a result.
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
-At this point I'm not sure there would be demand to change gitsm but
-there are still the concerns about that approach.
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-> =C2=A0Whether we have hard requirements and introduce a git submodule
-> support which satisfy the requirements or we accept the advantages of
-> a simple user interface and minimize the disadvantages.
->
-> =C2=A0It doesn't matter if we run the resolve function inside a resolve,
-> fetch or=C2=A0update task. The questions is do we want to support dynamic
-> SRC_URIs or do we want an manual update task. The task needs to be
-> manual run after a SRC_URI change and can produces a lot of noise in
-> the update commit. In any case the manual editing of the SRC_URI
-> isn't practical and the users will use the package manager to update
-> dependencies and its recursive dependencies.
-> =C2=A0
-> As a compromise we could add a new feature to generate .inc cache
-> files before the main bitbake run. This would eliminate the manual
-> update run and the commit noise as well as special fetch, unpack and
-> patch task.
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-I've partly being trying to channel some of the feelings I've been
-hearing expressed in different places, as I do want any new solution to
-meet the needs of the widest group we can. If the .inc is generated but
-not checked in (to remove the commit noise), I suspect it loses some of
-the value that people have wanted.
+---
 
-I'm personally very torn. I get pushed many different ways, which
-include robustness, simplicity and complexity reduction, performance
-and various extremes of auditing. I feel I'm doing a bad job of trying
-to represent everything :(.
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-I do see that there are basically two conflicting approaches and I'm
-not sure everyone is going to be happy with either. This does worry me
-a lot and puts me in a difficult place too.
+--NextPart
 
-Cheers,
 
-Richard
-
+--NextPart--
 
