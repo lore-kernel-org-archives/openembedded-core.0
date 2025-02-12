@@ -1,96 +1,88 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62AB5C02198
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 09:47:15 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.11429.1739353600651784510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DFFC021A1
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 09:50:05 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.11426.1739353796183906734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 01:46:41 -0800
+ Wed, 12 Feb 2025 01:49:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JAToMPYf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38a8b17d7a7so3430225f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 01:46:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jAVC8/8u;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e4554e1c26so7188416d6.0;
+        Wed, 12 Feb 2025 01:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739353599; x=1739958399; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ii+F7yxrwXHqH1Q5bgBsR4+NI8/Lx0G+3vPUyagEgPQ=;
-        b=JAToMPYfl73pyCcOffvPKeg3ZI4C91ZZQG20IbMVXRCIZzwq+UtkPHic4KANHZHRZj
-         eIFKAK6K1svmsCWlU1BmmSvA9GSSjZQkl843oCTbUkYSuPTZ7eIToowb6JwmuPHaDCMK
-         lr6QqAVrO6mbeoZnf3daKS+3/KPJQ2H6CZf5Y=
+        d=gmail.com; s=20230601; t=1739353795; x=1739958595; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5KQ8TPoyLPj56jctqzBkIjn5eR1qAoevIaen95/9evo=;
+        b=jAVC8/8uhsb1l0FoZef/MkIQo7a0gntAM+xoO4GXVHbwNGiZEgj7s+DW+5F9ivGzbH
+         UcGiLU7jIwJwFmHq+BLuXO2PNy/dguYUvvwCX5gyQHSP3Z+bvaCsgsu2O6rsKXNjaWfL
+         YH7E6XM/lsFqU7XC5eP3LuahaNAamRHg+mJ0tCN+uXU/MH/dZU9IN9du5JQbHzD7OIrJ
+         dH0D/5hFSYqJWyw0ciz21r8irawPmDT63WoltEcoMIJFisUa3JGLbzfXZXfiQuErF1ot
+         oBdGjwqdqUoNQs0GRACAQTx7i1r1rPoP+mpFwvHgyqI6f3WpgqlGPOi9AiL4ioYHqVDW
+         72TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739353599; x=1739958399;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ii+F7yxrwXHqH1Q5bgBsR4+NI8/Lx0G+3vPUyagEgPQ=;
-        b=vEd/4JE+WMcwGU8qzivbRM/e2rK2MsnCtMUrHEZ0nVpo+zLo4A1lmDA9sGcyaDLw+s
-         6aiIpkYwt/eA0HRAy+zH7FJ9bgFdBBsrwnRBHx4gCSyO4fauloc7yeTIs4CbD/Z9+aZr
-         gD06Ve/8hFZqaCHTyPHs8T6adTWESfWzywDfAiwjdKZ/+RsIZ5ZMvbrtVFLBu12Hy+jZ
-         mePrQRwPIlMXYO0HzBVQvSX23epghY0s3nhM7EnCJGRI46SEusBp4Y4YboV7q2JofJWH
-         6rHHV8E53uyOLzBODdyLyfbhoZHpQXBrdq5BOvzosC+U2GmH0SVF7eAcXnMh39dHbBI2
-         +zGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBMi5i0Ue+QYuI6LYCwNFLh/hn4ZmH9bnDVaRbYolTtNun2D6FnQtkzUnUPqw1hvykL2wj9K0YXBfqbzXGLBlP5w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwftGz2pc2UXqGB7HKQExinSFZDt8sJtSMioKfd1WCLmuNJ7MFf
-	nb2ctBzDsdda9PH1MKxxBPBgWdvV5SukUsSLaMcQuk8uRO9VSPZI4oAHuuCRyMA=
-X-Gm-Gg: ASbGncuNJkgv8ucDRlgINll2qDbjwiYVKe6mPxHKnAGLwtEXVhXaqV4hZ2zjgPtGTC8
-	cq2khKYisvGI0xcRYkQvNrlxujNN1T6leEhF96M3waAc9d1ht52DzsfbOnlrtozdRfGLmqB7Wd/
-	WpztGd2zSaA20/PZJ8wYzO4exagv/aJd7+qt6US2aUof3koQId1xEPcSdCsYCgXDKz4pmxfVM47
-	9nB9GeuF/l64cFGygbqCzS8FO8iPcbAT9DmJ8zhaN8NishKtfP5TnqO5EDtMBwiF1uD98jRf3O5
-	Avf0kQ51bEeeMKAC317PySyj6xUnZHQsLjTSQsD79Azsrwoa43Et45FC1YtiC4SUe5JwQhFIhMt
-	kJQ==
-X-Google-Smtp-Source: AGHT+IEx9NbV7BIWeO9NYk/qrsCWuXJzq0ieF0XQ5Ca3S7wtLejVfY9CpVbd8cmuFEUPDG7A8vcDxQ==
-X-Received: by 2002:adf:e390:0:b0:388:da10:ff13 with SMTP id ffacd0b85a97d-38dea26e7e4mr1761154f8f.21.1739353598815;
-        Wed, 12 Feb 2025 01:46:38 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:af16:73ba:601:d9ae? ([2001:8b0:aba:5f3c:af16:73ba:601:d9ae])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dca0b4237sm14177779f8f.85.2025.02.12.01.46.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 01:46:38 -0800 (PST)
-Message-ID: <0a17e5adbc72d205aa1cd512873ba4a72a252cc0.camel@linuxfoundation.org>
-Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Yoann Congal
-	 <yoann.congal@smile.fr>
-Cc: yocto@lists.yoctoproject.org,
- ",openembedded-core@lists.openembedded.org"	
- <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Feb 2025 09:46:37 +0000
-In-Reply-To: <CANNYZj-ijxTudoYuU5g=_QH5D5ce4zC=EW2rNbiMKY3iBktisw@mail.gmail.com>
-References: 
-	<CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
-	 <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
-	 <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
-	 <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com>
-	 <CANNYZj-ijxTudoYuU5g=_QH5D5ce4zC=EW2rNbiMKY3iBktisw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1739353795; x=1739958595;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5KQ8TPoyLPj56jctqzBkIjn5eR1qAoevIaen95/9evo=;
+        b=chYKrnMk0pIzerkZadU46yfSpwlgIfmYIF4uHb7x639C1fDM6B220JV1ntlK2BfEF1
+         Idg4aXExVFmYTlmbwUlz27JZvhigSYg8VDVSIXbVEM9k1ghGoX8N95Q7MyqS+pM2iFmV
+         Rw/hTYjybPE2yn+uxQAB/lL99lPF+aeOFn046x3712tkwQennNrR5HA/4/yK0E/6ucpO
+         +QxctpLOCOA7SvkntbBvWXydQ54Vd0QaYtKb/UDEwv6PKcnCe6hYXYPZLMQyEfzcT8C/
+         tSb5y9WyUl5tWp/T0/aj17uDziDzulg6AIdxFPq7G+TkHWC3rfZUFrGQFDVnL2vRXesb
+         /9gw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4Z/6+HggKT7FrMsnUDymjxT3t16uORRS1dEkU+6x3e92Za4rNkt7YtBj4BIJXb/lvpRAGJp9hDsNK4xGcouHEvyA=@lists.openembedded.org, AJvYcCXWOTzkxBxBaWHRlmNWpFcOG5qhO5Lp9BeO84WO6rHo1ycQ/NUiptvahBefWohVSdA0szxev+Tp+Zk+MEwi@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxUzNL5g8+hRhgBowEZKu4otLnNxeWA5MXhxgEiGPhj2HwfVDUC
+	KcDhM1ydikbmRSjj77VTa4nb3MNdvJtuMNA7WwdCJkZTEr3WhU5QvBGTc0IJ+6qul/epWrWOceG
+	m7DnD+k/2MGG3fXkUliu4yvdOO5I=
+X-Gm-Gg: ASbGnctjTXfLgCYaRsaOahvTBZITAL9aJ7x6cL7rVC8KXkYzKkVHsuw7MVD+rC/qo9H
+	NeY8OkWhUSX7aW/IWWKjQvktWBWMBSw6B+CcOMpSkiXVlm4w1q8aqdq778mSfrIREIEFUSqtFNq
+	+eCBPG3O2CVKTfzWgYsIWLimBcI/FeC1A=
+X-Google-Smtp-Source: AGHT+IHAoCc6nEpf0l9G6eGa74AgDz9UpqUYS/9w5dk2vaYF9LMhTiDX1syytTVvpv7rcS5tOV7HgJpgBhVCWxu8qGo=
+X-Received: by 2002:a05:6214:5096:b0:6e2:49eb:fb7 with SMTP id
+ 6a1803df08f44-6e46802e37amr85190986d6.3.1739353795283; Wed, 12 Feb 2025
+ 01:49:55 -0800 (PST)
 MIME-Version: 1.0
+References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20250211150034.18696-11-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <DB5PR02MB10213E77A6A5281EE044BA688EFFD2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <81801173-8a60-4278-a8b1-70715fa5accc@weidmueller.com>
+In-Reply-To: <81801173-8a60-4278-a8b1-70715fa5accc@weidmueller.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Feb 2025 10:49:42 +0100
+X-Gm-Features: AWEUYZka2dEI2yWaqOcMjBYfdLIZbHt9qm-4veF6FAXMKeQTpFa1_Qv_nDKgSf4
+Message-ID: <CANNYZj-D--g+ChmBH-9kP7vj7cSNrJ=fKVmSUi8zHoLJ_EUZ3w@mail.gmail.com>
+Subject: Re: [OE-core] [bitbake-devel] [RFC PATCH 10/30] conf: bitbake: add
+ SRC_URI_FILES variable
+To: stefan.herbrechtsmeier-oss@weidmueller.com
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, 
+	"bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 09:47:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211217
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 09:50:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211218
 
-On Wed, 2025-02-12 at 10:38 +0100, Alexander Kanavin wrote:
+On Wed, 12 Feb 2025 at 09:55, Stefan Herbrechtsmeier via
+lists.openembedded.org
+<stefan.herbrechtsmeier-oss=weidmueller.com@lists.openembedded.org>
+wrote:
 
-> I also do dislike that all of this discussion around creating those
-> mirrors happened behind closed doors, at least I have no recollection
-> of it.
+> The variable holds paths to files which contains dynamic generated SRC_URIs. The dynamic SRC_URIs are unknown at parse time and only the file paths are fix. The files are filled with generated SRC_URIs via a separate task.
 
-I don't think any of it was a secret and that isn't a fair
-characterisation although I don't remember all the detail. The oldest
-pull requests are from 2013 so it may have been before you were
-involved with the project!
+This doesn't explain why we need this separate new variable to begin
+with. In what scenarios it would be useful? How does the
+implementation rely on it?
 
-The YP github was newer than OE, mainly as we ended up having to
-protect the namespace and there was pressure to match what OE had done.
+I'd suggest SRC_URI_DYNAMIC, we have a precedent in PACKAGES_DYNAMIC.
 
-Cheers,
-
-Richard
+Alex
 
