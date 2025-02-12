@@ -1,140 +1,92 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F06C021A0
-	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 11:06:55 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.13174.1739358414148789561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBDECC02198
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 11:08:55 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.13213.1739358525948514367
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 03:06:54 -0800
+ Wed, 12 Feb 2025 03:08:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4138ef1d53=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C9KhqT006594
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 03:06:53 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwy6hn2c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 03:06:53 -0800 (PST)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 12 Feb 2025 03:06:50 -0800
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH 1/1] webkitgtk: upgrade 2.46.5 -> 2.46.6
-Date: Wed, 12 Feb 2025 11:06:29 +0000
-Message-ID: <20250212110629.3446172-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aAA+FDh9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e45af17a2eso1806556d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 03:08:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739358525; x=1739963325; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qArZiQN6wj7P9IogGQ1xMnJnJloQZ37wNU3MeVGqD0=;
+        b=aAA+FDh9x6Z5ubjC9RotOd87fqht3VcxAY7C3LxI25Xkl5fTmEfLG1yuiNmMloDk29
+         ONcK5bbvERiPqKZ6xDn0eqSi+lArvz0ZadzcKG+ZSOBfvdyVqsME40C9ZW5D48L+RSJ9
+         +315tUMzywZbHO2lTB53KKSakvv9pC0xxF1O29eME7SY/HLRf+WsDypP2syEQpHbH5Uh
+         8lMiMiKVggVe/PAOJiQ+9hHe6IsBfCv0khSGloAuYIYU9X0SkiwY0Wpb5AB3ij9KREyV
+         CiGB3jiNvOlAk+1JIbaJj4O0sS4lRgYmWvqIdDdGZTvveFUaQ7OoEL0R4Bgw+wIMh34H
+         ja6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739358525; x=1739963325;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+qArZiQN6wj7P9IogGQ1xMnJnJloQZ37wNU3MeVGqD0=;
+        b=kSZkTHlcrwSvCnfruia21+YwZ/Mqo4M9axI5ojEJrCSuZiiRKBVDGLOuE+LWxMAHn2
+         gChMx34I4B9AMQUN7tobi+5Z7WBnIYREAd5R/bAZxe70J2/XH8NTBNrbkmS8plOi6bAh
+         XOBfmvpHwVyMZ8Y/qI64Dm/Lq4NwNNq3aNJfXVPrcGvbOrg2SggHexRENZP0qfAXc6y7
+         okdxlh/XzAzsxf0nde41fM7RueRQhgYC45WF5Gqb2Jdyw97M9K5Xk/D/SN0dCm3qYwX9
+         5bPMwp5McjgUN05XparifBoXydRRotNmSK29pf+84JAj8LEB+lvtiohNNPhK+V8G2AzB
+         ciYg==
+X-Gm-Message-State: AOJu0YzYNgVY971Jayk1KduOBrZBhBCxrBRVdzmZy/fDUcIJ3VHzK+VR
+	QMk2kP04WCnfq3R0s2cCKUyZZBIMNfBjBjPfipOfS6jQ9c96KlBImfosa4LeSYJWUx8umzLZhz4
+	UCCcATqhz9wRaTS/7RC5E9U+nH8SNBQ==
+X-Gm-Gg: ASbGncs+gmOHK3dg2L5xKhy3zj0s5YsEddefDwwYJWZFxgDgHfpI9M44fs64tpP1SCR
+	MtTU3d7k/G52j7I4gmYSLx89G92me4ZHU+/xPaDJ3dPD0zA/PyfLvzoqKGvxMypo2sZkcduo51Y
+	L1rv4iS5roPX9ivoX/c+Riwme5259lHSU=
+X-Google-Smtp-Source: AGHT+IHuJ8f7rqRllbx/3vOYW10TvouqCt/6OTMqyVOqK4Uev4aj6KxexeK0ATvAW3zFk2UIEqozehOMtAAikQ64/K8=
+X-Received: by 2002:a05:6214:21ae:b0:6e4:442c:2888 with SMTP id
+ 6a1803df08f44-6e46edb5199mr39064046d6.39.1739358525083; Wed, 12 Feb 2025
+ 03:08:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: -pd4ec3nHyiMU2R-GNEH1XmR0PG4jUXm
-X-Proofpoint-ORIG-GUID: -pd4ec3nHyiMU2R-GNEH1XmR0PG4jUXm
-X-Authority-Analysis: v=2.4 cv=G8nmE8k5 c=1 sm=1 tr=0 ts=67ac80cd cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=T2h4t0Lz3GQA:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=RbZJXlvMX2_mMPPoKosA:9 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_03,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
- impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- phishscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502120086
+References: <20250211150034.18696-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20250211150034.18696-16-stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: <20250211150034.18696-16-stefan.herbrechtsmeier-oss@weidmueller.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Feb 2025 12:08:34 +0100
+X-Gm-Features: AWEUYZlfopx5vUJnbFwpmJcgy713s3LP2WzL-qslXl1CpgZ0-n3TSwsZeXf8sL8
+Message-ID: <CANNYZj_NRnwCXUm3zA4QX9pTdF_d9xOi=x8CVW=1XCtSSWo4ug@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 15/30] classes: add early fetch, unpack and
+ patch support
+To: stefan.herbrechtsmeier-oss@weidmueller.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 11:06:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211224
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 11:08:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211225
 
-From: Yogita Urade <yogita.urade@windriver.com>
+On Tue, 11 Feb 2025 at 16:01, Stefan Herbrechtsmeier via
+lists.openembedded.org
+<stefan.herbrechtsmeier-oss=weidmueller.com@lists.openembedded.org>
+wrote:
+> Add support for early fetch, unpack and patches task which run before
+> normal patch task. This feature is useful to fetch additional
+> dependencies based on a patched source before the normal unpack and
+> patch tasks. The patch are marked as early via an early=1 parameter. An
+> example use case is a patch for a package manager lock file (Cargo.lock,
+> go.sum, package-lock.json).
 
-Includes fix for CVE-2025-24143, CVE-2025-24150, CVE-2025-24158 and
-CVE-2025-24162
+Why there is a need for additional tasks running before regular tasks?
+Can't we do regular fetch/unpack/patch for the root item, then run
+fetch_vendor_dependencies, unpack_vendor_dependencies,
+patch_vendor_dependencies?
 
-Drop 0001-Support-ICU-76.1-build.patch fix is part of upgrade.
+I see that others expressed dislike for any additional tasks in
+principle, but I don't think that can be avoided? You can't know what
+else needs to be fetched until the root item is unpacked and
+inspected. I'm ok with that if the additional tasks are clearly named,
+and implementations are short, sweet and obvious.
 
-Changelog:
-==========
-- Fix a crash when enabling Skia CPU rendering.
-- Fix several crashes and rendering issues.
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../0001-Support-ICU-76.1-build.patch         | 36 -------------------
- ...ebkitgtk_2.46.5.bb => webkitgtk_2.46.6.bb} |  3 +-
- 2 files changed, 1 insertion(+), 38 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.46.5.bb => webkitgtk_2.46.6.bb} (98%)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
-deleted file mode 100644
-index 24f484e5e3..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 8b0ff0f2e2882f200f1c21ec76fa679444cb1c43 Mon Sep 17 00:00:00 2001
--From: Jason Schonberg <schonm@gmail.com>
--Date: Wed, 20 Nov 2024 11:05:52 -0500
--Subject: [PATCH] Support ICU 76.1 build
--
--https://bugs.webkit.org/show_bug.cgi?id=282120
--
--Reviewed by Yusuke Suzuki.
--
--In ICU 76.1 an additional macro `U_SHOW_CPLUSPLUS_HEADER_API` was added to
--control visibility of the C++ API within ICU. Set this value to `0` since WebKit
--wants to only use the C API.
--
--* Source/WTF/wtf/Platform.h:
--
--Canonical link: https://commits.webkit.org/285727@main
--
--Upstream-Status: Backport [ from webkitgtk-2.47.1 https://github.com/WebKit/WebKit/commit/63f7badbada070ebaadd318b2801818ecf7e7ea0 ]
--
--Signed-off-by: Jason Schonberg <schonm@gmail.com>
-----
-- Source/WTF/wtf/Platform.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Source/WTF/wtf/Platform.h b/Source/WTF/wtf/Platform.h
--index 23070df2..51a8dce9 100644
----- a/Source/WTF/wtf/Platform.h
--+++ b/Source/WTF/wtf/Platform.h
--@@ -115,6 +115,7 @@
-- /* ICU configuration. Some of these match ICU defaults on some platforms, but we would like them consistently set everywhere we build WebKit. */
-- #define U_HIDE_DEPRECATED_API 1
-- #define U_SHOW_CPLUSPLUS_API 0
--+#define U_SHOW_CPLUSPLUS_HEADER_API 0
-- #ifdef __cplusplus
-- #define UCHAR_TYPE char16_t
-- #endif
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-index 8c6ffdc8a7..d1f24bbbf7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-@@ -15,11 +15,10 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
-            file://no-musttail-arm.patch \
-            file://t6-not-declared.patch \
--           file://0001-Support-ICU-76.1-build.patch \
-            file://bmalloc-fix.patch \
-            file://sys_futex.patch \
-            "
--SRC_URI[sha256sum] = "bad4020bb0cfb3e740df3082c2d9cbf67cf4095596588a56aecdde6702137805"
-+SRC_URI[sha256sum] = "f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
--- 
-2.40.0
-
+Alex
 
