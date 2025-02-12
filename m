@@ -1,131 +1,167 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2EAC0219B
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 23:36:42 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.2836.1739316995294584702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C11C021A0
+	for <webhook@archiver.kernel.org>; Wed, 12 Feb 2025 01:55:53 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.5506.1739325351534835733
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Feb 2025 15:36:35 -0800
+ Tue, 11 Feb 2025 17:55:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OlMxEUpL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-439566c991dso6590775e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 15:36:35 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=EhCUlKVp;
+ spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-307c13298eeso3699051fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 17:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739316994; x=1739921794; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GF0sKmP/wtuokfZyO2H5xYougf0mU30pN13yB3YvReI=;
-        b=OlMxEUpLlRlgpEX3io81O8xV0R5PYd8nWp0bU4vWUklYFKr8YwJ7+j/7D64TfD3G8o
-         NwS6PJQWhCOsOUSGoRCXRqm15adKvuDMmqLJ8se1oezIFmbGKsBZJMndSSOwl2uB4cAW
-         1QT4aV5gcqJQFAlkZyiaEWzoYUsyJH6vAcbSk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739316994; x=1739921794;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=linaro.org; s=google; t=1739325349; x=1739930149; darn=lists.openembedded.org;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GF0sKmP/wtuokfZyO2H5xYougf0mU30pN13yB3YvReI=;
-        b=f4nUgZlGrx7R1LvCYCv2975/BEbBuMSSLjCZqXKA2ehtzrw+8Ur1cdZod1tpUJOGHB
-         fNPLhbyiIHNh9Cn8RM7p4HSpOljw1tVKJH7kQaVfIJgvnR18b0uOwQKlaI4aCbWhnmJv
-         P9CSv/T9W061qRFyprrpvs6niw3oBPdL5htocTG76sWwm0juqET7vSC3P2zhuWTrGNWk
-         UHFWX30qpaUkNjz9dbl7umKnJt2NnqOlvIPfyierW2CfImwKjlZNB2IgR+GxgLd3V6Xx
-         uM8ToeRqX+iWb56+lq+b0sxpEcEc8w0yKng+fMAPS7y2Y9yJIN8TvkGKe7dvpqHGPmTB
-         jZWQ==
-X-Gm-Message-State: AOJu0YyfAYh6LjnbmPMAQlW0fwBkOUTZwqu2BPL0YJ8xU2yqSsNYXo//
-	EZjswH0Sye28Qy5LWzWCku3hiDr6vLu01MFmcAauuazi8kBEckiT2VbIWmYKOG0=
-X-Gm-Gg: ASbGnctdTfKq1fUoMP5ZA8RF5lxyMP8i7l8J9Zw/sxrk3yY6R5bXxdQrYr7wi+9lYgU
-	Y9lMxRy+PLH/qNbo7PqipwheCWWHBB4u532/QvrdKC7nsuT32enakdBdunqrMXVTxxxuUOP4Wf9
-	RMgNemXjXjlPavMRfPB9r/4ydQrSPSkRzC1pVRUhcRhj/WGvwcNBF/rvGqqRp7I5vxGgaDOZoKE
-	9/Oh3ggli4m+VuONjKtmlyoXU7uVHsEWZtTHkzm2CL94kWQev5NX29OZ2lVJyouYrbmpMuYz1Ro
-	rBPXXT7c8Ugs8BhTih45GOd1ImMIVK7+qh3LG4/8u18K9A/Bl1hprNo0xhkJd1uSnqwcBLF+4Us
-	/WisR
-X-Google-Smtp-Source: AGHT+IGR5nX0IkDo2XcVJDLNimW9BMsYhoMJIZwoAjcHqlOxrZ5P4SfHGVv36INdfKeXHKcBlbT3Wg==
-X-Received: by 2002:a05:600c:1d01:b0:434:a923:9310 with SMTP id 5b1f17b1804b1-43958188e7bmr9682345e9.15.1739316993627;
-        Tue, 11 Feb 2025 15:36:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:679f:b1ce:de17:3648? ([2001:8b0:aba:5f3c:679f:b1ce:de17:3648])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a06b879sm2339865e9.23.2025.02.11.15.36.31
+        bh=bgtD3HH8b0gim73nXDLqMEJlgTEwdCe9bz22ggBU9iA=;
+        b=EhCUlKVpNh2W5iHfcHWx6qwlt4Q8GxN4CXKeKJlxmPXp6wD8x+w2ENnfG0OCir3kD8
+         1nw5CyGjf++/Cz87HkSJvQYGGDp694yzwnq9ozMDrDAovLzTA+uAipYrosrPpzk+dBKH
+         CTHcJmFLsC1Kw4E8/32/r+U4GvwQvKO9zwQKHcGPakJvDxTOtfP9CJggobCnqudc1diy
+         fW1m1/eDtFId+WXB9Y37Ut4u0vC3RKk2iGXG5k9lsd0drLcxksNNDyqlb0AwtifoKitz
+         VgWi3WsI/27ZR1YJMC13E5SMYzY86nNrwsEDkfousEiDdWU61+mXSn7eJc0VA3U3mA34
+         b1TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739325349; x=1739930149;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bgtD3HH8b0gim73nXDLqMEJlgTEwdCe9bz22ggBU9iA=;
+        b=Jkl7PquISHXSlowH8DkuAUQ/W//63D4vqDHMBZlQbZoXH/r6KuHtkUZNUYYlFW5la7
+         YvJjjsfiuxtSjzLcOgmdyOzmD2siBnHcaMKYV5RNUJfF5ryRKU0IxLCXqXUSKGe+SMjx
+         YUPyc6wkAKnhj2AoLtiV3bwiIdI7pzsouI3cqN1ryRkDGXWC34ixAqlFwsYCA+2gmHtJ
+         DkB+VOsC+SIWdKA9UzXguy1eUi/UyX4AdVmPzdpmXSmq+a5sNP5E3esruQpPZVq3ifT2
+         /9cR3ZiBZ+sVCNR503/OKpyDsPbN4qG+vIctQzOsDRhFDr3TE4GwkpMoaLZcynOBktDK
+         DKVg==
+X-Gm-Message-State: AOJu0YwYTNU0WB2oBiAnG35dZW0dliXNkvfa8IyQN9TV2iJtkleluEGx
+	Nhn/3Jnir0kCO7oV9+11cS2qOuwVi2mvliwCrxynl+gJBWNxcrBAxuPhF4JqeKTn6xG7ZGSaVmw
+	BOOk=
+X-Gm-Gg: ASbGnctc3Tq30AAAxo7pG2XY9Vv02B7P7K/1J+GMRPopHtSZ5HIFn7ZFmghSOLodYyJ
+	l6F06BWPplY/pzZhHfOwTI4sd8oRNZvPaSQUaO4YySrXJtzgdQUWtxVDTLe+UGw2GSZ95U15KJh
+	tZ7/EthDyw0KvYLDULW0VcX0Y/1UbUb+CZmPRZ/UlN4pwey2X1Hc0g6pjOpQrmcXXnNpNEcyy40
+	BhkRHa/ufS6ATgxi4dAnbvDxiSMT6rQmdILRkoWm0SyeUufZBI7U+frimRPEpY4C6EHVhoRG0rD
+	MwX+CqVGmVSeoQZkEMfB5J1gVNQ5TGF8BmDQeokgs8jzbRWufg+M0ZMvWGPuo/zTBT3sekw=
+X-Google-Smtp-Source: AGHT+IFtTbNo4jAa11suhLXPOYaCbcOo1c7M0tCdo5NcZASwafNsAARao2Px79jRwh2Jg+TEUPeNxw==
+X-Received: by 2002:a05:651c:150c:b0:308:eabd:297b with SMTP id 38308e7fff4ca-309045634b2mr3921261fa.4.1739325349096;
+        Tue, 11 Feb 2025 17:55:49 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30902a20e74sm1953731fa.2.2025.02.11.17.55.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 15:36:31 -0800 (PST)
-Message-ID: <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, Yocto-mailing-list <yocto@lists.yoctoproject.org>
-Cc: ",openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, 
-	yocto-status@lists.yoctoproject.org
-Date: Tue, 11 Feb 2025 23:36:31 +0000
-In-Reply-To: <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
-References: 
-	<CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
-	 <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Tue, 11 Feb 2025 17:55:47 -0800 (PST)
+Date: Wed, 12 Feb 2025 03:55:45 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: xserver-xorg: do_create_spdx broken if xvfb is enabled
+Message-ID: <pl27ux3migesky5u5sefbcoitrfqoeole6yf2pagm7punjqut3@jgy2vmmf63ta>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Feb 2025 23:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211199
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 01:55:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211200
 
-On Tue, 2025-02-11 at 19:42 +0100, Alexander Kanavin via lists.openembedded=
-.org wrote:
-> On Tue, 11 Feb 2025 at 16:57, Stephen Jolley via
-> lists.openembedded.org
-> <sjolley.yp.pm=3Dgmail.com@lists.openembedded.org> wrote:
-> > We=E2=80=99d like to request help to process the open github pull reque=
-sts for openembedded-core and bitbake:
-> >=20
-> > https://github.com/openembedded/openembedded-core/pulls
-> >=20
-> > https://github.com/openembedded/bitbake/pulls
-> >=20
-> > Having these open doesn=E2=80=99t look good for the projects and we can=
-=E2=80=99t disable them, some have been open for a long time. We did alread=
-y clean up the poky pull requests.
->=20
-> I'm sorry but I have to say a couple of unpleasant things. Here goes.
->=20
-> The only processing I would be willing to do is mass-closing these
-> pull requests with a polite note to submit them according to the
-> official process. Otherwise this tacitly admits github as a valid way
-> to contribute, and we're not ready for that, and possible will never
-> be.
+Hello,
 
-There are potentially useful bug reports and fixes buried in there and
-I am reluctant to turn people away so I'd prefer to not mass close.
+For some time the the do_create_spdx is broken for xserver-xorg if
+PACKAGECONFIG includes xvfb. I failed to find a proper way to fix it,
+and now I'm open for suggestions.
 
-> While we're at it, how were these repositories created in the first
-> place, and what was the plan for the pull requests they would attract?
-> Should we delete these repositories now?
+ERROR: Error executing a python function in exec_func_python() autogenerated:
 
-The repositories were added to try and share bandwidth costs, give
-people easier mirrors and various other justifications. I warned
-strongly about the pull request problems at the time, I was told it
-would get handled and people would help and I was over reacting. Some
-of the people who made those offers aren't active with the project any
-more, other things just drifted with time. At one point I ended up
-having to add those mirrors to my own push scripts and maintain them
-because nobody else was willing and we had complaints they were not up
-to date.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_create_spdx(d)
+     0003:
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/classes/create-spdx-3.0.bbclass', lineno: 135, function: do_create_spdx
+     0131:    "
+     0132:
+     0133:python do_create_spdx() {
+     0134:    import oe.spdx30_tasks
+ *** 0135:    oe.spdx30_tasks.create_spdx(d)
+     0136:}
+     0137:do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_BUILD_HOST"
+     0138:do_create_spdx[vardeps] += "\
+     0139:    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30_tasks.py', lineno: 751, function: create_spdx
+     0747:                debug_source_ids |= set(
+     0748:                    oe.sbom30.get_element_link_id(d) for d in debug_sources
+     0749:                )
+     0750:
+ *** 0751:            oe.sbom30.write_recipe_jsonld_doc(
+     0752:                d, pkg_objset, "packages-staging", deploydir, create_spdx_id_links=False
+     0753:            )
+     0754:
+     0755:    if include_sources:
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/sbom30.py', lineno: 1004, function: write_recipe_jsonld_doc
+     1000:
+     1001:    finally:
+     1002:        # It is really helpful for debugging if the JSON document is written
+     1003:        # out, so always do that even if there is an error making the links
+ *** 1004:        write_jsonld_doc(d, objset, dest)
+     1005:
+     1006:
+     1007:def find_root_obj_in_jsonld(d, subdir, fn_name, obj_type, **attr_filter):
+     1008:    objset, fn = find_jsonld(d, subdir, fn_name, required=True)
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/sbom30.py', lineno: 956, function: write_jsonld_doc
+     0952:        serializer = oe.spdx30.JSONLDInlineSerializer()
+     0953:
+     0954:    objset.objects.add(objset.doc)
+     0955:    with dest.open("wb") as f:
+ *** 0956:        serializer.write(objset, f, force_at_graph=True)
+     0957:    objset.objects.remove(objset.doc)
+     0958:
+     0959:
+     0960:def write_recipe_jsonld_doc(
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 1938, function: write
+     1934:        h.write(",")
+     1935:
+     1936:        h.write('"@graph":')
+     1937:
+ *** 1938:        objectset.encode(h, True)
+     1939:        h.write("}")
+     1940:        return sha1.hexdigest()
+     1941:
+     1942:
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 1278, function: encode
+     1274:                for o in objects:
+     1275:                    # Allow this specific object to be written now
+     1276:                    state.written_objects.remove(o)
+     1277:                    with list_s.write_list_item() as item_s:
+ *** 1278:                        o.encode(item_s, state)
+     1279:
+     1280:        elif objects:
+     1281:            objects[0].encode(encoder, state)
+     1282:
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 758, function: encode
+     0754:            self,
+     0755:            state.get_object_id(self),
+     0756:            bool(self._id) or state.is_refed(self),
+     0757:        ) as obj_s:
+ *** 0758:            self._encode_properties(obj_s, state)
+     0759:
+     0760:    def _encode_properties(self, encoder, state):
+     0761:        for iri, prop, min_count, max_count, pyname, compact in self.__iter_props():
+     0762:            value = self.__dict__["_obj_data"][iri]
+File: '<PATH>/build/conf/../../layers/openembedded-core/meta/lib/oe/spdx30.py', lineno: 765, function: _encode_properties
+     0761:        for iri, prop, min_count, max_count, pyname, compact in self.__iter_props():
+     0762:            value = self.__dict__["_obj_data"][iri]
+     0763:            if prop.elide(value):
+     0764:                if min_count:
+ *** 0765:                    raise ValueError(
+     0766:                        f"Property '{pyname}' in {self.__class__.__name__} ({id(self)}) is required (currently {value!r})"
+     0767:                    )
+     0768:                continue
+     0769:
+Exception: ValueError: Property 'security_actionStatement' in security_VexAffectedVulnAssessmentRelationship (139779141101712) is required (currently None)
 
-You used to be able to disable pull requests for six month periods, it
-looks like you can no longer do that and it was a pain having to try
-and remember anyway.
 
-The bandwidth/mirror/backup benefits are valid and I'd be reluctant to
-delete them as some people can only discover things through github too.
-Google indexing doesn't work well with our own server.
-
-So I guess I made my own peace with their existence. I know touching
-them will make it look more like a condoned submission method but I
-really don't see many good options here. Removing them is a simple easy
-option but life sometimes isn't easy/simple.
-
-Cheers,
-
-Richard
+-- 
+With best wishes
+Dmitry
 
