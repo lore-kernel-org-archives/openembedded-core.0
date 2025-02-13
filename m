@@ -1,94 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3DCC0219D
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 09:57:20 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.7601.1739440633290076760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C240C0219D
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:00:00 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.7626.1739440792002549465
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 01:57:13 -0800
+ Thu, 13 Feb 2025 01:59:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XvMIt1AH;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e65a00556aso6148486d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 01:57:13 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=nQR5pJ7X;
+ spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54504a6955aso492315e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 01:59:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739440632; x=1740045432; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0fVCrV5FFdxdok8aaQSegNUPwguafdJf2R6TbJA35uM=;
-        b=XvMIt1AHl1vScPr6KUMz/kvNUsp72XSosdVTnuqAywKBS+3j7lfU4erUu9YEvrnjoL
-         UtpSSk3e8A6F03PR1EvPIK5UcT23vLzBHqE3Lls4Ib9CluaoaYpPJreIcSLRCBFj9xT1
-         HmEcDX6EOGmvQJkexkC3G15Qrw79ZPN30bwKv8vS5yjkpSc6DbovaPq2XjpuHL4mym+Z
-         DrmRy0peR7mE4M9PUe2bqmtTlFzUTL4XCGXdwz5ZglttUtxSgo6vH/6Icj4a2Sd38Uvi
-         bSJQFPhBU1qL5lkd+03qsnyJ26jtJGarqpYFN0huwrDWXRz4b1hbY7sa6xs7M5ndd0io
-         tDdw==
+        d=linaro.org; s=google; t=1739440790; x=1740045590; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iFyhnmGaK9gMn6EryG9xa9Px7MhFo5ywXr6RzfdTKOA=;
+        b=nQR5pJ7Xs4cnZUfRnLjazwWbSNo0BBwje4wFsJE98tGC9mYDTr4P791AHSu4v6ifno
+         R71kN4Oi7XQDSqaXDHC4OCnSPZxTAvD0lsLWKSjupsUdg9J8+iDbdiIm2Q7c/k0o4Qoq
+         E/moc1YmezyedAUcZIZmHPEArq1ROO3TWTeZJsB9xOfcTJHiKxXGkI4cvQGZ1+GIm+cE
+         D5nvk4vYJZwxG3k7qvnl7yQ4FfUgUmEAsB7nWE/fH2ex6UOWsaHXR3sLIw2GnTEtmwRP
+         HCAIjH9sGp9xXY1elSaTCOFVR95KiT1RTERO8eBQQ0L9RzCR+SwiymNlkgt5I00sh03N
+         kwFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739440632; x=1740045432;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0fVCrV5FFdxdok8aaQSegNUPwguafdJf2R6TbJA35uM=;
-        b=wsCY/wkbSpZNywiGm/sr/UT+46Ci5DYoYeMZ95cOjrmAUeu15KdRpyDPoKkHqJEU3D
-         QIA22/SkqZR8UGTpCxCC/1CAoOIKaGnNQRBH9u93B2c7u7tOd8iHwpDkGSvCe2TcJkIL
-         +rinaHjSSzDcOuDiSMMzok3WZcelZ2Z4wWLmNuEmjy45ma2qiQDuhoNutzUcBf61MksS
-         HRTG8yd/CZTgGv36fUwgvuecNHlaD5xfMV2RY/uAXUe2rowcNoSEJab5hjc+hy67Zt0W
-         CPh8SN0WdkNuo4/lEd17fpQ4iLCKBPnTLt5Lh1aRfT8x0d2nAYszluq9kb59RYU1kbU8
-         sluQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrhH5FjNF8bOBhGFeOGCBBZ09DQqqq7PuNawABkzvNGwdIQB+MLdbwhK7EiB4YKP5xIxYYwQkyvsTkA3sKLf7Oxg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyyZgqBG85glfYs9hyCQH6UbfSY1cC8pjOiHBdZccEFdMVvX8Ar
-	uI1k8gE9miFPidwn/FfH9BuHS/IdXpzD7ZIaiPp4phJu97azomdRqfPPYGGNcc5OqOhlCImKIZF
-	w6xZrAfmUZ/RzMiJpcmVHa17E9O0xJA==
-X-Gm-Gg: ASbGnctBAgadZ2+isQVZv/aAKaMNgwZdr8daIMuTdqXQ8SNDbDYj8I24hK7emsLEwOl
-	Tg8XfNDha2Jm32oiSTH8BXSImVEZgwF9Xt7YWoUov3xddUoreDSXsrOYI2OkgyWz84UjLiYQzPF
-	OZ1Qz6KWeyI6qADLUYMTD4vxZQ3hON+1Q=
-X-Google-Smtp-Source: AGHT+IHxKCX9sSbKkUAn8Y4OFSy9hx5dnyVmmu5J05YBJoxJLi6j+MvCVN8Z3W3pZCgvFzvWxq7SsbgdRQQncATSpJk=
-X-Received: by 2002:a05:6214:f03:b0:6e4:4331:aae4 with SMTP id
- 6a1803df08f44-6e65bf0cde5mr46984666d6.1.1739440632328; Thu, 13 Feb 2025
- 01:57:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739440790; x=1740045590;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iFyhnmGaK9gMn6EryG9xa9Px7MhFo5ywXr6RzfdTKOA=;
+        b=ONY2yZpGVMSgDmTunFqnP1QBQBSm9qDy7eE1gVXpc6VWN7/0alYOj8wvJdOWMvOmyU
+         KSWhxF4znBvUe5Wh9ZEZUrcCCyQsFwxjy97id6EIWOq8QAOgBaSWwE64NDh3qXl3M/Lw
+         wOHVny9JH8gTN34nNlkcbYLYDaRQ0AkmveF1f0nV8+8XAtDY0QqZ4V94R/h73n0zsz5v
+         C9ar54IyP1eCWGTc1InwzDFV/6hBlx4Opwp5tnjhpcEMvVkRzZaug+hH240MBZBsrmHm
+         06VDWyPi5F2LeSKIdmShmSo20owBJS7gVnZqRSVkAv+CsAPQuM2VkXjqgyNWst3lJDwg
+         nCbw==
+X-Gm-Message-State: AOJu0YyAXbD5nM8Nb2QEzWuNWZ7mhHD/wwFSGDLWvErTbzvgRH9wZ3V1
+	PS+n2iAbwD6H3jTQBsMtjYEw3S2bwEjdcRq6Xzn4bTlgmexdEVrv5/mW241cM0c+EsBjsa8wU8V
+	4Mmw=
+X-Gm-Gg: ASbGncsN7OVqdrGbSW1IIl/tt8/Ww1ztpGhgpvGYQRH2L5+nT1YeGNeknactR7NZWGA
+	sKzgwKsrow3jioU1WfIkckiJhIFwu9Gdde2OvzTYt4nL62iMjHsje6l6QVL69zqmC5Vki85W5U5
+	AL5d34kFmAJTZ/xFgkEqWgeFPFyDzHO8UrjwbdhAdRcaC5ObUtEI+zf+LzMJaPUGGwuLWa5W4Rn
+	e73CK1hoowQ2cc6Mhi9ydXYhvsLXTuaFz9ItVPZdfdK81QqNKkK0IQ4F+LXulwsIDSxzwq0tEiq
+	n43EovQwxfWjpbgekLb9jw0lqXBuh/WrtbpXdtxpMGpMIv/WpsMVQ2NmecUzKGrkh0OPjcM=
+X-Google-Smtp-Source: AGHT+IHACaf9GqfRYL8Nk8FvFnxvkuSyWDbE5QEy4URPJgSk2Yt6cWmMtCIjb/lGL3t41FtlsbeLGA==
+X-Received: by 2002:a05:6512:3995:b0:545:842:fd32 with SMTP id 2adb3069b0e04-5451dd92bb7mr873366e87.19.1739440790077;
+        Thu, 13 Feb 2025 01:59:50 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5451f10cb33sm125255e87.170.2025.02.13.01.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 01:59:48 -0800 (PST)
+Date: Thu, 13 Feb 2025 11:59:47 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vivek Puar <quic_vpuar@quicinc.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] linux-firmware: upgrade 20250109 -> 20250211
+Message-ID: <brzznd6fgfndbawy75ylrpzbqwpuc5rg24v4xyc3fbdcrkiuzz@vx3ovob66wxn>
+References: <20250213064618.1907931-1-quic_vpuar@quicinc.com>
 MIME-Version: 1.0
-References: <20250206144907.1924993-1-oobitots@cisco.com> <E631A283-5721-4E5C-A65B-5A8CC986A600@arm.com>
- <PH0PR11MB4902635E1BEC8DB84E6D6C88D7F22@PH0PR11MB4902.namprd11.prod.outlook.com>
- <CANNYZj8rSuhpT6eoWA5eudSkKZFkqcfcSWgL6YogcX1f1qjLFQ@mail.gmail.com>
- <PH0PR11MB49027CBF82294C3F722688C0D7F22@PH0PR11MB4902.namprd11.prod.outlook.com>
- <CANNYZj_BoKLY1dgiAW72Tuc+EF6BFCSfKozN2X8ibdCGqbgifw@mail.gmail.com>
- <DB5PR02MB102130601D165773C901753C1EFF22@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <PH0PR11MB4902EB32CF27A37CD32A2938D7FD2@PH0PR11MB4902.namprd11.prod.outlook.com>
- <CANNYZj8kdZ1Stvu-OqakXhShp4easJXsYbaW0hg=T-ALGQj6zA@mail.gmail.com>
- <SA2PR11MB49064A61A32F35C2E519AA36D7FC2@SA2PR11MB4906.namprd11.prod.outlook.com>
- <CANNYZj8khhZ0EEeJ7W=epDWNKC6tTHPfd7Xk__G1M6T=ij6oOQ@mail.gmail.com>
- <PH0PR11MB49026C46CD70272E73A7C688D7FC2@PH0PR11MB4902.namprd11.prod.outlook.com>
- <CANNYZj-nec7b3k8GjrJTvuhfhZaJy3t3QZPcoT-ybfDVd+cMxA@mail.gmail.com> <PH0PR11MB49023C8B3C8FCDD4532DC0ECD7FF2@PH0PR11MB4902.namprd11.prod.outlook.com>
-In-Reply-To: <PH0PR11MB49023C8B3C8FCDD4532DC0ECD7FF2@PH0PR11MB4902.namprd11.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 13 Feb 2025 10:57:01 +0100
-X-Gm-Features: AWEUYZkQ0qsvhCkrfru1O1oDULKHERmQnDlt198tfDSqvsIdpAm6hIc409PtaWw
-Message-ID: <CANNYZj8K2jQO3bZes+wjKDxXbO-OVzM626ibT6PKrS-0ZdDXCA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: move systemctl utility to separate subpackage
-To: "Oleksiy Obitotskyy -X (oobitots - GLOBALLOGIC INC at Cisco)" <oobitots@cisco.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Ruslan Bilovol (rbilovol)" <rbilovol@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213064618.1907931-1-quic_vpuar@quicinc.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 09:57:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211314
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:00:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211315
 
-On Thu, 13 Feb 2025 at 08:00, Oleksiy Obitotskyy -X (oobitots -
-GLOBALLOGIC INC at Cisco) <oobitots@cisco.com> wrote:
->
-> > Is it trying to save space on target device, or trying to save space
-> > on the build host? You really do need to describe your process in more
-> > detail.
->
-> It's attempt to save space on build host.
+On Thu, Feb 13, 2025 at 12:16:18PM +0530, Vivek Puar wrote:
+> Add DSP firmware for Qualcomm SA8775P / QCS9100
+> platforms to ${PN}-qcom-sa8775p-{audio, compute, generalpurpose}
+> packages, and updating it with correct license information.
+> 
+> Add QCA6698AQ package ${PN}-ath11k-qca6698aq
+> to ath11k firmware.
+> 
+> Add bluetooth WCN3950 package ${PN}-qca-wcn3950,
+> bluetooth QCA6698 package ${PN}-qca-qca6698
+> to qca firmware.
+> 
+> Add two more WCN3950 1.3 NVM files to
+> ${PN}-qca-wcn3950 package.
+> 
+> Add device specific ath11k firmware to QCM6490
+> boards in ${PN}-qcom-qcm6490-wifi package.
+> 
+> Add Firmware files for Lenovo T14s G6 Qualcomm platform
+> to ${PN}-qcom-x1e80100-lenovo-t14s-g6-{adreno, audio, compute}
+> packages.
+> 
+> License-Update: additional files
+> 
+> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  ...20250109.bb => linux-firmware_20250211.bb} | 68 +++++++++++++++++--
+>  1 file changed, 63 insertions(+), 5 deletions(-)
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (96%)
+> 
+> @@ -1861,6 +1904,10 @@ FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm855
+>  FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin*"
+>  FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
+>  FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
+> +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compat = "${nonarch_base_libdir}/firmware/qcom/21N1"
 
-I wonder if you can special-case this in your scripts, e.g. remove the
-bulk of systemd, except systemctl and libsystemd-shared, after the
-'sysroot' has been made?
+Nit: this is unused and not required for T14. The rest LGTM.
 
-Alex
+> +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/qcdxkmsuc8380.mbn*"
+> +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/battmgr.jsn*"
+> +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*cdsp*.*"
+>  
+>  RDEPENDS:${PN}-qcom-aic100 = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-qdu100 = "${PN}-qcom-license"
+
+-- 
+With best wishes
+Dmitry
 
