@@ -1,119 +1,167 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yuanxiaofeng@eswincomputing.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C86C0219D
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 09:45:30 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.7465.1739439924655631204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76420C0219D
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 09:48:40 +0000 (UTC)
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+ by mx.groups.io with SMTP id smtpd.web10.7511.1739440117420101311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 01:45:25 -0800
+ Thu, 13 Feb 2025 01:48:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K9ndIuPk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f265c6cb0so195894f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 01:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739439923; x=1740044723; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5Lq+wdJAgy65VtQEVXM0Xp1rH7CuE+rdiJO8OxFNGGA=;
-        b=K9ndIuPk+QUSS6zGq/YFIFav+p7cJREGhKEFb/rAjJEjhjhkT5yjTwcxE49+ZBtyED
-         U+Or7FmbmHZNo/83MMpe77Pt94wsrUC3sgM6uRl3uCR/baLSmavXWP0CeKmGxo+XIYBA
-         Lxmgrewdkw6c0rvTNi+2T4ed1joJMFdxXveYo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739439923; x=1740044723;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5Lq+wdJAgy65VtQEVXM0Xp1rH7CuE+rdiJO8OxFNGGA=;
-        b=c7ujgJz1gB2TNpRsPw0n2Cw+LfOIJ+KFkVLuL6cBBOVqUiuDAeAuN8pArYOjYShJyh
-         lWKY1p9IH0WJ3vyFiiGh1QtJXT84WGZUTeQsokSW8kMTwPQ+7VyRvxfQe7f2IUwloq6n
-         wtps+fsJzVJAA+2aD11qcmWGhVKlGDLriA8UPb6dQn6RUlgFE6U5ScCixqP7oQnVM727
-         B22GedKJ7ufJaSSVAsqB7EVeAD5u9/OMmlgThvY60593H4kUIJ2fUlznLxFY8Szz4WW6
-         RyqQu/uJfOdDaWCdmvJLYT8HJ5Z1VD4C4ab1cyeVJn5oT6AuoPQO7F+XVATBRcelYrNx
-         T0Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVQY/dqcn4jMch4ABPgHftAK0vWnCYrnTt8X89Wy2Zxmbo6xahTYvg9mQ3wzybpyhH/FNYj+xCw3QToKoFcami7w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzW27TB97Md66gsIJ0M+PJHkbsFso+44fNPl/MEr6esTru5RvBt
-	5hRaSzMQJTRmcV7eQhKzEuGHQwonm5IEIwOZBzBeSYYtI/yGE8yWlGUVKvq43eY=
-X-Gm-Gg: ASbGncsdd9MzNZH83MOo2Zsoo63tV7nBU2hSNxOy0OUWY0sWY8m32aPlLIuXsE0MQO1
-	3VkB2ME/9IG9YbfiTH8dTA0i2Dt3XrZxcjMtRBlp6hec7cFMm3ZGf+BIab7mwRHMkZtoOUmsyDT
-	4+pdDOaTRqdEmeWm58DlYNiAhXh5oQ/WNyN5AEq65OquLrqrMF/wvYkbvS1lkOBZi/7s+SBDaOw
-	yMCcFHDHsh0hoqXolk9SbSZoH9ooiorCfszjrr2dwfDo+rPviA2nhAIfCHd7f3udF1GPu9A6bva
-	85tCWSw+5MsxuUAlcP27/lvrP+4iBkN5FzlKiaqIf+NaJicr0P65ylO7tby3jyFvqVRgAAkkK/m
-	9O7/g
-X-Google-Smtp-Source: AGHT+IGbfkmkx4Y0Ysc6m1om3h1jevdOm5Vaebv2OcWWYrRyEX4BU4Re6YvCRWQi5yiC7DW3ovt1XQ==
-X-Received: by 2002:a5d:584e:0:b0:38d:d79a:f82a with SMTP id ffacd0b85a97d-38dea256f8emr4987034f8f.7.1739439922847;
-        Thu, 13 Feb 2025 01:45:22 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:62a1:585d:a736:8828? ([2001:8b0:aba:5f3c:62a1:585d:a736:8828])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f2591513bsm1385992f8f.55.2025.02.13.01.45.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 01:45:22 -0800 (PST)
-Message-ID: <2c1bcbb1d5b75b925d9af2bd300d376a973e314e.camel@linuxfoundation.org>
-Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Yoann Congal
-	 <yoann.congal@smile.fr>
-Cc: Yocto Mailing list <yocto@lists.yoctoproject.org>, 
- ",openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Feb 2025 09:45:21 +0000
-In-Reply-To: <CANNYZj_8o=SHOn-kRBxzwc8vp3omCL290SA-jKkL_En1m2SWEA@mail.gmail.com>
-References: 
-	<CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
-	 <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
-	 <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
-	 <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com>
-	 <4e883a56eb9b74a5663d7ad258194d16b1c79912.camel@linuxfoundation.org>
-	 <CAMSfU+44qwScnoDP4As37TNHYvwx5mBmTdGEQgq_VVz7woh6sQ@mail.gmail.com>
-	 <CAMSfU+4MY-JVmWPUixJYiUrtKd2CXHrJuQ0sMJJrrkLzrvAuvA@mail.gmail.com>
-	 <CANNYZj_8o=SHOn-kRBxzwc8vp3omCL290SA-jKkL_En1m2SWEA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=none (message not signed); spf=fail (domain: eswincomputing.com, ip: 129.150.39.64, mailfrom: yuanxiaofeng@eswincomputing.com)
+Received: from yuanxiaofeng$eswincomputing.com ( [10.12.96.78] ) by
+ ajax-webmail-app2 (Coremail) ; Thu, 13 Feb 2025 17:48:22 +0800 (GMT+08:00)
+X-Originating-IP: [10.12.96.78]
+Date: Thu, 13 Feb 2025 17:48:22 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6KKB5pmT5bOw?= <yuanxiaofeng@eswincomputing.com>
+To: "Khem Raj" <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	"Jason Wessel" <jason.wessel@windriver.com>
+Subject: Re: Re: [PATCH] cross-localedef-native : fixup filesystem check
+ error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.2-cmXT6 build
+ 20241010(a2f59183) Copyright (c) 2002-2025 www.mailtech.cn
+ mispb-72143050-eaf5-4703-89e0-86624513b4ce-eswincomputing.com
+In-Reply-To: <CAMKF1sokDS6Qm04iEpPGNvQ-9G20C+G8dG6CoytpOQJBU8YJug@mail.gmail.com>
+References: <20250213064207.2663813-1-yuanxiaofeng@eswincomputing.com>
+ <CAMKF1sokDS6Qm04iEpPGNvQ-9G20C+G8dG6CoytpOQJBU8YJug@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
+Message-ID: <7f8597e5.cd7.194feb59db5.Coremail.yuanxiaofeng@eswincomputing.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: TQJkCgAXt5Xmv61nYogLAA--.1277W
+X-CM-SenderInfo: h1xd05xldrwv1qj6v25zlqu0xpsx3x1qjou0bp/1tbiAgEME2eszT
+	QeiAAAs4
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 09:45:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211309
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 09:48:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211310
 
-On Thu, 2025-02-13 at 09:48 +0100, Alexander Kanavin wrote:
-> On Thu, 13 Feb 2025 at 00:04, Yoann Congal <yoann.congal@smile.fr>
-> wrote:
->=20
-> > I did not find a magic silver bullet that would solve everything (I
-> > discovered that Gitlab is way more flexible on this subject).
-> > I guess we need to find a compromise between what a github user
-> > sees and the effort we are willing to put into it.
->=20
-> So as I understand, there are no 'settings' in github openembedded
-> organization we can tweak and everything is through repos?
-
-As I understand it.
-
-> Then here's the plan:
-> - someone with rights to manage overall
-> https://github.com/openembedded=C2=A0org creates an empty .github repo an=
-d
-> gives Yoann rights to manage it.
-> - Yoann opens pull requests to that repo, and notifies of them here
-> - any needed github specific tweaks to individual repos are proposed
-> and merged through the standard mailing list process.
-
-I don't think the github repo is going to work for either YP or OE
-since there are repositories in both that use pull requests and we
-can't have a one size fits all message. I think that means we would
-have to do this with a .github directory in the repos themselves.
-
-Also note, the global repos probably need TSC agreement. On a per repo
-basis it would fall to the maintainer.
-
-Yoann: Thanks for looking into this!
-
-Cheers,
-
-Richard
-
+SGkgS2hlbe+8jAogICAgIEknbSBnbGFkIHRvIGRvIHRoZSBmb3JtYXQgYW5kIFBSLiBCdXQgSSBu
+ZWVkIHNvbWUgaGVscC4gClRoaXMgaXMgbXkgZmlyc3QgdGltZSBzdWJtaXR0aW5nIGEgcGF0Y2gs
+IGFuZCBteSBFbmdsaXNoIGlzIG5vdCB2ZXJ5IGdvb2QsIApzbyBJIG1pZ2h0IGhhdmUgbWFkZSBz
+b21lIG1pc3Rha2VzLCBidXQgSSdtIG5vdCBzdXJlLgogICAgIEkgcmVhZCBodHRwczovL2RvY3Mu
+eW9jdG9wcm9qZWN0Lm9yZy9kZXYvY29udHJpYnV0b3ItZ3VpZGUvcmVjaXBlLXN0eWxlLWd1aWRl
+Lmh0bWwKYW5kIGh0dHBzOi8vZG9jcy55b2N0b3Byb2plY3Qub3JnL2Rldi9jb250cmlidXRvci1n
+dWlkZS9zdWJtaXQtY2hhbmdlcy5odG1sI3NlbmRpbmctdGhlLXBhdGNoZXMtdmlhLWVtYWlsIAp0
+byBkbyB0aGUgZm9ybWF0IHdvaywgIGFuZCBkbyB0aGUgcGFjdGhzZXQgdGVzdC4gU28gY2FuIHlv
+dSB0ZWxsIG1lIG1vcmUgZGV0YWlscywgb3IgZ2l2ZSBtZSBzb21lIEludHJvZHVjdGlvbiBQYWdl
+IAp0byBoZWxwIGRvIHRoZSBmb3JtYXQgd29yay4gCiAgICBBbmQgSSBjYW4gcmVhZCBzZWN0aW9u
+IDQuNiBvZiBodHRwczovL2RvY3MueW9jdG9wcm9qZWN0Lm9yZy9kZXYvY29udHJpYnV0b3ItZ3Vp
+ZGUvc3VibWl0LWNoYW5nZXMuaHRtbCNzZW5kaW5nLXRoZS1wYXRjaGVzLXZpYS1lbWFpbCB0byBj
+cmVhdGUgYSBQUiBvbiBnaXRodWIgZm9yIGNyb3NzLWxvY2FsZWRlZi4gSSdtIHJpZ2h0PyAgCiAg
+ICAgICAgICAgICAgICAgICAgICBUaGFua3PvvIEKICAgICAKCj4gLS0tLS3ljp/lp4vpgq7ku7Yt
+LS0tLQo+IOWPkeS7tuS6ujogIktoZW0gUmFqIiA8cmFqLmtoZW1AZ21haWwuY29tPgo+IOWPkemA
+geaXtumXtDoyMDI1LTAyLTEzIDE1OjUxOjEzICjmmJ/mnJ/lm5spCj4g5pS25Lu25Lq6OiAiWGlh
+b2ZlbmcgWXVhbiIgPHl1YW54aWFvZmVuZ0Blc3dpbmNvbXB1dGluZy5jb20+Cj4g5oqE6YCBOiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnLCAiSmFzb24gV2Vzc2VsIiA8
+amFzb24ud2Vzc2VsQHdpbmRyaXZlci5jb20+Cj4g5Li76aKYOiBSZTogW1BBVENIXSBjcm9zcy1s
+b2NhbGVkZWYtbmF0aXZlIDogZml4dXAgZmlsZXN5c3RlbSBjaGVjayBlcnJvcgo+IAo+IENhbiB5
+b3UgZm9ybWF0IHRoZSBwYXRjaCB0byBtYXRjaCB0aGUgc3R5bGUgYW5kIGFsc28gY3JlYXRlIGEg
+UFIgb24KPiBnaXRodXQgZm9yIGNyb3NzLWxvY2FsZWRlZj8KPiAKPiBPbiBXZWQsIEZlYiAxMiwg
+MjAyNSBhdCAxMDo0MuKAr1BNIFhpYW9mZW5nIFl1YW4KPiA8eXVhbnhpYW9mZW5nQGVzd2luY29t
+cHV0aW5nLmNvbT4gd3JvdGU6Cj4gPgo+ID4gY29tcGlsZSBnbGliYy1sb2NhbGUgdHJpZ2VyIGVy
+cm9yLCB0aGUgZXJyb3IgaW5mbwo+ID4gaXMgImNyb3NzLWxvY2FsZWRlZi1uYXRpdmU6IC94eHgv
+Z2xpYmMtbG9jYWxlLzIuNDArZ2l0Lwo+ID4gbG9jYWxlLXRyZWUvTWFrZWZpbGUgaXMgb24gZGlm
+ZmVyZW50IGZpbGVzeXN0ZW0gdGhhbiByZXN0Cj4gPiAodXNlIC1mIG9wdGlvbiB0byBvdmVycmlk
+ZSkuIiBCdXQgY2hlY2sgdGhlIGZpbGUsIGZpbmQgaXQncwo+ID4gZmlsZXN5c3RlbSBpcyBzYW1l
+IGFzIHRoZSByZXN0LiBOb3cgdXNlIHRoZSBmX3R5cGUgaW5zdGVhZCBvZgo+ID4gZGV2X3QgdG8g
+Y2hlY2sgdGhlIGZpbGVzeXN0ZW0uCj4gPgo+ID4gQ2hhbmdlLUlkOiBJNjJkODQwZGQ3NDQ2N2U4
+ZTFhZmQ2ZTMyMmIwNWNlMDEyZDM1NDU4Ywo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFhpYW9mZW5n
+IFl1YW4gPHl1YW54aWFvZmVuZ0Blc3dpbmNvbXB1dGluZy5jb20+Cj4gPgo+ID4gQ0M6IEphc29u
+IFdlc3NlbCA8amFzb24ud2Vzc2VsQHdpbmRyaXZlci5jb20+Cj4gPiBDQzogS2hlbSBSYWogPHJh
+ai5raGVtQGdtYWlsLmNvbT4KPiA+IENoYW5nZS1JZDogSTBjZjhmMTQzZGM0YTM4ZmMxODM1NDM5
+ZjRkNWU3NjQxODMyYjdhODEKPiA+IC0tLQo+ID4gIC4uLi9nbGliYy9jcm9zcy1sb2NhbGVkZWYt
+bmF0aXZlXzIuNDAuYmIgICAgICB8ICAxICsKPiA+ICAuLi5peHVwLWhhcmRsaW5rLWZpbGVzeXN0
+ZW0tY2hlY2stZXJyb3IucGF0Y2ggfCA3OCArKysrKysrKysrKysrKysrKysrCj4gPiAgMiBmaWxl
+cyBjaGFuZ2VkLCA3OSBpbnNlcnRpb25zKCspCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEv
+cmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLzAwMDEtbG9jYWxlZGVmLWZpeHVwLWhhcmRsaW5rLWZp
+bGVzeXN0ZW0tY2hlY2stZXJyb3IucGF0Y2gKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYmMvY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZV8yLjQwLmJiIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYmMvY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZV8yLjQwLmJiCj4gPiBpbmRleCBm
+ZWQ2ZTRlYTk3Li4xNTIwNGYzNzQ0IDEwMDY0NAo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+Z2xpYmMvY3Jvc3MtbG9jYWxlZGVmLW5hdGl2ZV8yLjQwLmJiCj4gPiArKysgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9nbGliYy9jcm9zcy1sb2NhbGVkZWYtbmF0aXZlXzIuNDAuYmIKPiA+IEBAIC0zMiw2
+ICszMiw3IEBAIFNSQ19VUkkgPSAiJHtHTElCQ19HSVRfVVJJfTticmFuY2g9JHtTUkNCUkFOQ0h9
+O25hbWU9Z2xpYmMgXAo+ID4gICAgICAgICAgICAgZmlsZTovLzAwMTQtbG9jYWxlZGVmLWFkZC10
+by1hcmNoaXZlLXVzZXMtYS1oYXJkLWNvZGVkLWxvY2FsZS1wYS5wYXRjaCBcCj4gPiAgICAgICAg
+ICAgICBmaWxlOi8vMDAxNy1SZXBsYWNlLWVjaG8td2l0aC1wcmludGYtYnVpbHRpbi1pbi1uc2Nk
+LWluaXQtc2NyaXB0LnBhdGNoIFwKPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDE5LXRpbWV6b25l
+LU1ha2Utc2hlbGwtaW50ZXJwcmV0ZXItb3ZlcnJpZGFibGUtaW4tdHpzZWwucGF0Y2ggXAo+ID4g
+KyAgICAgICAgICAgZmlsZTovLzAwMDEtbG9jYWxlZGVmLWZpeHVwLWhhcmRsaW5rLWZpbGVzeXN0
+ZW0tY2hlY2stZXJyb3IucGF0Y2ggXAo+ID4gICAgICAgICAgICAgIgo+ID4gICMgTWFrZXMgZm9y
+IGEgcmF0aGVyIGxvbmcgcmV2ICgyMiBjaGFyYWN0ZXJzKSwgYnV0Li4uCj4gPiAgIwo+ID4gZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLzAwMDEtbG9jYWxlZGVmLWZp
+eHVwLWhhcmRsaW5rLWZpbGVzeXN0ZW0tY2hlY2stZXJyb3IucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Y29yZS9nbGliYy9nbGliYy8wMDAxLWxvY2FsZWRlZi1maXh1cC1oYXJkbGluay1maWxlc3lzdGVt
+LWNoZWNrLWVycm9yLnBhdGNoCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+ID4gaW5kZXggMDAw
+MDAwMDAwMC4uYTdiM2UwMTI1OQo+ID4gLS0tIC9kZXYvbnVsbAo+ID4gKysrIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAwMS1sb2NhbGVkZWYtZml4dXAtaGFyZGxpbmstZmlsZXN5
+c3RlbS1jaGVjay1lcnJvci5wYXRjaAo+ID4gQEAgLTAsMCArMSw3OCBAQAo+ID4gK0Zyb20gYWY2
+ZmExYzUyZDFmODNmN2ExNmFkZjZmYTYyNDEyNjllMDAzNGIwYiBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKPiA+ICtGcm9tOiBYaWFvZmVuZyBZdWFuIDx5dWFueGlhb2ZlbmdAZXN3aW5jb21wdXRp
+bmcuY29tPgo+ID4gK0RhdGU6IFRodSwgMTMgRmViIDIwMjUgMTE6NDY6NTkgKzA4MDAKPiA+ICtT
+dWJqZWN0OiBbUEFUQ0hdIGNyb3NzLWxvY2FsZWRlZi1uYXRpdmUgOiBmaXh1cCBmaWxlc3lzdGVt
+IGNoZWNrIGVycm9yCj4gPiArCj4gPiArU2luY2Ugb3JkaW5hcnkgZmlsZXMgYW5kIGRpcmVjdG9y
+aWVzIHdpdGhpbiB0aGUgc2FtZQo+ID4gK2RpcmVjdG9yeSBidXQgb24gdGhlIHNhbWUgZmlsZXN5
+c3RlbSBtYXkgaGF2ZSBkaWZmZXJlbnQgZGV2X3QsCj4gPiArdXNpbmcgZGV2X3QgdG8gZGV0ZXJt
+aW5lIHdoZXRoZXIgZmlsZXMgKGluY2x1ZGluZyBkaXJlY3RvcmllcykKPiA+ICtiZWxvbmcgdG8g
+dGhlIHNhbWUgZmlsZSBzeXN0ZW0gaXMgdW5yZWxpYWJsZSBhbmQgbWF5IGxlYWQgdG8KPiA+ICtp
+bmNvcnJlY3QgcmVzdWx0cy4gVG8gYWRkcmVzcyB0aGlzIGlzc3VlLCBzdGF0ZnMgaXMgdXNlZCB0
+bwo+ID4gK3JldHJpZXZlIHRoZSBmaWxlc3lzdGVtIGluZm9ybWF0aW9uLCBhbGxvd2luZyB0aGUg
+ZGV0ZXJtaW5hdGlvbgo+ID4gK29mIHdoZXRoZXIgZmlsZXMgYmVsb25nIHRvIHRoZSBzYW1lIGZp
+bGUgc3lzdGVtLgo+ID4gKwo+ID4gK1Vwc3RyZWFtLVN0YXR1czogUGVuZGluZwo+ID4gKwo+ID4g
+K1NpZ25lZC1vZmYtYnk6IFhpYW9mZW5nIFl1YW4gPHl1YW54aWFvZmVuZ0Blc3dpbmNvbXB1dGlu
+Zy5jb20+Cj4gPiArLS0tCj4gPiArIGxvY2FsZS9wcm9ncmFtcy9jcm9zcy1sb2NhbGVkZWYtaGFy
+ZGxpbmsuYyB8IDMyICsrKysrKysrKysrKystLS0tLS0tLS0KPiA+ICsgMSBmaWxlIGNoYW5nZWQs
+IDE5IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQo+ID4gKwo+ID4gK2RpZmYgLS1naXQg
+YS9sb2NhbGUvcHJvZ3JhbXMvY3Jvc3MtbG9jYWxlZGVmLWhhcmRsaW5rLmMgYi9sb2NhbGUvcHJv
+Z3JhbXMvY3Jvc3MtbG9jYWxlZGVmLWhhcmRsaW5rLmMKPiA+ICtpbmRleCA3MjZlNmRkOTQ4Li5h
+NTFmMDc2OTIzIDEwMDY0NAo+ID4gKy0tLSBhL2xvY2FsZS9wcm9ncmFtcy9jcm9zcy1sb2NhbGVk
+ZWYtaGFyZGxpbmsuYwo+ID4gKysrKyBiL2xvY2FsZS9wcm9ncmFtcy9jcm9zcy1sb2NhbGVkZWYt
+aGFyZGxpbmsuYwo+ID4gK0BAIC00Miw2ICs0Miw3IEBACj4gPiArICNpbmNsdWRlICJ4YWxsb2Mu
+aCIKPiA+ICsgLy8jaW5jbHVkZSAibmxzLmgiCj4gPiArIC8vI2luY2x1ZGUgImNsb3Nlc3RyZWFt
+LmgiCj4gPiArKyNpbmNsdWRlIDxzeXMvc3RhdGZzLmg+Cj4gPiArCj4gPiArICNkZWZpbmUgTkhB
+U0ggICAoMTw8MTcpICAvKiBNdXN0IGJlIGEgcG93ZXIgb2YgMiEgKi8KPiA+ICsgI2RlZmluZSBO
+QlVGICAgIDY0Cj4gPiArQEAgLTkzLDYgKzk0LDcgQEAgc3RydWN0IGhhcmRsaW5rX2N0bCB7Cj4g
+PiArICAgICAgICAgICAgICAgbm9fbGluazoxLAo+ID4gKyAgICAgICAgICAgICAgIGNvbnRlbnRf
+b25seToxLAo+ID4gKyAgICAgICAgICAgICAgIGZvcmNlOjE7Cj4gPiArKyAgICAgIGxvbmcgZl90
+eXBlOwo+ID4gKyB9Owo+ID4gKyAvKiBjdGwgaXMgaW4gZ2xvYmFsIHNjb3BlIGR1ZSB1c2UgaW4g
+YXRleGl0KCkgKi8KPiA+ICsgc3RydWN0IGhhcmRsaW5rX2N0bCBnbG9iYWxfY3RsOwo+ID4gK0BA
+IC0xODUsMjAgKzE4NywyNCBAQCBzdGF0aWMgdm9pZCBncm93c3RyKHN0cnVjdCBoYXJkbGlua19k
+eW5zdHIgKnN0ciwgc2l6ZV90IG5ld2xlbikKPiA+ICsKPiA+ICsgc3RhdGljIHZvaWQgcHJvY2Vz
+c19wYXRoKHN0cnVjdCBoYXJkbGlua19jdGwgKmN0bCwgY29uc3QgY2hhciAqbmFtZSkKPiA+ICsg
+ewo+ID4gKy0gICAgICBzdHJ1Y3Qgc3RhdCBzdCwgc3QyLCBzdDM7Cj4gPiArLSAgICAgIGNvbnN0
+IHNpemVfdCBuYW1lbGVuID0gc3RybGVuKG5hbWUpOwo+ID4gKysgICAgICAgIHN0cnVjdCBzdGF0
+IHN0LCBzdDIsIHN0MzsKPiA+ICsrICAgICAgICBzdHJ1Y3Qgc3RhdGZzIHN0ZnM7Cj4gPiArKyAg
+ICAgICAgY29uc3Qgc2l6ZV90IG5hbWVsZW4gPSBzdHJsZW4obmFtZSk7Cj4gPiArKwo+ID4gKysg
+ICAgICAgIGN0bC0+bm9iamVjdHMrKzsKPiA+ICsrICAgICAgICBpZiAobHN0YXQobmFtZSwgJnN0
+KSkKPiA+ICsrICAgICAgICAgICAgICAgIHJldHVybjsKPiA+ICsrICAgICAgICBpZiAoc3RhdGZz
+KG5hbWUsICZzdGZzKSkKPiA+ICsrICAgICAgICAgICAgICAgIHJldHVybjsKPiA+ICsrCj4gPiAr
+KyAgICAgICAgaWYgKHN0ZnMuZl90eXBlICE9IGN0bC0+Zl90eXBlICYmICFjdGwtPmZvcmNlKSB7
+Cj4gPiArKyAgICAgICAgICAgICAgICBpZiAoY3RsLT5mX3R5cGUpCj4gPiArKyAgICAgICAgICAg
+ICAgICAgICAgICAgIGVycngoRVhJVF9GQUlMVVJFLAo+ID4gKysgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICgiJXMgaXMgb24gZGlmZmVyZW50IGZpbGVzeXN0ZW0gdGhhbiB0aGUgcmVzdCAi
+Cj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiKHVzZSAtZiBvcHRpb24gdG8g
+b3ZlcnJpZGUpLiIpLCBuYW1lKTsKPiA+ICsrICAgICAgICAgICAgICAgIGN0bC0+Zl90eXBlID0g
+c3Rmcy5mX3R5cGU7Cj4gPiArKyAgICAgICAgfQo+ID4gKwo+ID4gKy0gICAgICBjdGwtPm5vYmpl
+Y3RzKys7Cj4gPiArLSAgICAgIGlmIChsc3RhdChuYW1lLCAmc3QpKQo+ID4gKy0gICAgICAgICAg
+ICAgIHJldHVybjsKPiA+ICstCj4gPiArLSAgICAgIGlmIChzdC5zdF9kZXYgIT0gY3RsLT5kZXYg
+JiYgIWN0bC0+Zm9yY2UpIHsKPiA+ICstICAgICAgICAgICAgICBpZiAoY3RsLT5kZXYpCj4gPiAr
+LSAgICAgICAgICAgICAgICAgICAgICBlcnJ4KEVYSVRfRkFJTFVSRSwKPiA+ICstICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgKCIlcyBpcyBvbiBkaWZmZXJlbnQgZmlsZXN5c3RlbSB0aGFuIHRo
+ZSByZXN0ICIKPiA+ICstICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiKHVzZSAtZiBvcHRp
+b24gdG8gb3ZlcnJpZGUpLiIpLCBuYW1lKTsKPiA+ICstICAgICAgICAgICAgICBjdGwtPmRldiA9
+IHN0LnN0X2RldjsKPiA+ICstICAgICAgfQo+ID4gKyAgICAgICBpZiAoU19JU0RJUihzdC5zdF9t
+b2RlKSkgewo+ID4gKyAgICAgICAgICAgICAgIHN0cnVjdCBoYXJkbGlua19kaXIgKmRwID0geG1h
+bGxvYyhhZGQzKHNpemVvZigqZHApLCBuYW1lbGVuLCAxKSk7Cj4gPiArICAgICAgICAgICAgICAg
+bWVtY3B5KGRwLT5uYW1lLCBuYW1lLCBuYW1lbGVuICsgMSk7Cj4gPgo=
 
