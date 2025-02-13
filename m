@@ -1,149 +1,207 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A8CC021A9
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 20:02:24 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.3753.1739476938939129083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC6BC021A0
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 20:32:34 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.4206.1739478746760600742
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 12:02:19 -0800
+ Thu, 13 Feb 2025 12:32:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27BAC1682
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 12:02:39 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 37BD23F58B
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 12:02:18 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] systemd-serialgetty: use existing unit files in systemd
-Date: Thu, 13 Feb 2025 20:02:10 +0000
-Message-ID: <20250213200212.1694055-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250213200212.1694055-1-ross.burton@arm.com>
-References: <20250213200212.1694055-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c1nFT3gP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso9131865e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 12:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1739478745; x=1740083545; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YcHl2lyGdeuULGqfAcuuF9yRJOWMBR7rFwJnJAt+xyI=;
+        b=c1nFT3gP1Z4osLBS01J3FgEoZKJMrKPfkq3uLFFhwvJKUpGKDk7AJXbmu3zyAJwyI5
+         lujK6IQsgAdMJwJ2NDab/dcO6Etxq4rr3ZcMARBKM9df9wCWzh5TvtvGpsFAl9bOZkL2
+         CNg9bmVmJp9T1sax73HaMbxPQXUZftl2rRP2A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739478745; x=1740083545;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YcHl2lyGdeuULGqfAcuuF9yRJOWMBR7rFwJnJAt+xyI=;
+        b=CMJuPhlncpcEKQWBGTrqF0mnCgs/LVJg0itDlCWw9RvgJcgRlSHMPk2Lvt69mJ3Bt1
+         fjy2F4PbhhPvndFEfE9zz/o9XGbtfl5r02rqNRsASb5aJdJwxJE3949qhFqSjnp4IJhg
+         Juei9xnlaVRSjhgXtDy+CIqH6bROC6P2X2fb4StZhdNSZVakT9tNYAKbsMRJirvfN748
+         YpRY8r22yHM1KaLGgKRKtlP+ZezvONjAyvvJUpFKLOP3D00DjjAhcIO2iKY34UiOQwLN
+         98OFihXluJSomzB6iGOP9Wr7AYWlpyRiwHG5AoKEqwnd0cVG/qlXpkqJvbGPfwzysli1
+         GAVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZOoD6v+zpACuLk4T7S1QlJPFKR6RFayWmWHfzHL2CRvKM2x1pKuXcoU+NrpzUlMHQu2rIMG9wh+KHkhnzR2y6qg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzwsud4a5unS5+lrisHUzoFrUBBcrxZSw36tXathG/CZZ4P2d4w
+	zD8P2ce6/ZGDcFmZeEgFLxIw/4hXCFimBozPSKZYzjBaw3Z9et2MN+WOK5t9xaQ=
+X-Gm-Gg: ASbGnctMAdLqSY79cTTfdEJjZ8JLVc8fTMOIXw1XajwiRwe9SRDeO9STKnD+ePosjJz
+	FkmZ5t3iBrM892jGolZrLfmho+QXLj6CXt5XQ2cEVaHa0fLN85Kzvjqp8plM6VvemxDAkrqaYB5
+	OOGTxwY1Ptx6e0iOra0GwAVgqx0Zw6yeb9ZChVD/EDn1mXTCaagzqSYymfS8tOTP1Dn2x+3FBi5
+	tpy9bcJX0MUTR1dpaC5+KBxlr1NBKcl1ZioDQY2vYgQA7JLzFeyw5TddICqPteF4DnsffTYMfgL
+	8unUF99SKHLfySx2IDlXk4XUD0aFAcAUXQg2EMDL6jFlz7Hdr+9ZeAsDEH3YwSbyLiVDyDNnkzv
+	v67O9
+X-Google-Smtp-Source: AGHT+IGx7MQ3/RRWew/QLaMDBPEuVSAvTkrTwVtEvQeZagg1X2n88RQITr/7RntOAIokxunwvPeAuQ==
+X-Received: by 2002:a05:600c:a4a:b0:439:57b5:f8a0 with SMTP id 5b1f17b1804b1-439601ab838mr59792765e9.24.1739478744945;
+        Thu, 13 Feb 2025 12:32:24 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4bd7:b79c:cc4d:93dd? ([2001:8b0:aba:5f3c:4bd7:b79c:cc4d:93dd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43961884f88sm26446955e9.28.2025.02.13.12.32.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 12:32:23 -0800 (PST)
+Message-ID: <977d6eb4f27c47c19a7a9852fe61bea9e5af0968.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org, Bruce Ashfield	
+ <bruce.ashfield@gmail.com>, bitbake-devel
+ <bitbake-devel@lists.openembedded.org>
+Date: Thu, 13 Feb 2025 20:32:21 +0000
+In-Reply-To: <f0f37aa4-8a69-4340-87ad-18f39bb4f43d@weidmueller.com>
+References: 
+	<4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
+	 <f0f37aa4-8a69-4340-87ad-18f39bb4f43d@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 20:02:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211366
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 20:32:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211369
 
-Now that systemd isn't deleting the serial-getty@.service unit template
-files, we can simply symlink to the files provided by systemd instead of
-shipping a copy of them in this recipe.
+On Thu, 2025-02-13 at 17:33 +0100, Stefan Herbrechtsmeier wrote:
+> =C2=A0Am 13.02.2025 um 11:43 schrieb Richard Purdie via lists.openembedde=
+d.org:
+>=20
+> > Most of the concerns I've seen are about how easy it is to understand
+> > what is going on behind the scenes. The move of code to OE and
+> > splitting everything into multiple tasks/stages does do that to some
+> > extent but it does it in a way which I think is going to create a new
+> > and different set of problems.
+> > =C2=A0
+> >=20
+> >=20
+> >=20
+> =C2=A0Okay, but please keep in mind that some of my oe patches are
+> reasonable independent of the native bitbake fetcher and it is
+> possible to integrate the steps from the early class into the fetch
+> task.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../systemd/systemd-serialgetty.bb            | 12 +----
- .../systemd-serialgetty/serial-getty@.service | 45 -------------------
- 2 files changed, 1 insertion(+), 56 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-=
-getty@.service
+I appreciate that and I appreciate the desire to push things into OE as
+it appears easier. It can lead to much looser APIs and less structured
+code and I'm wary of it here as we create a two layered system which I
+think will be harder to understand (and hence harder to debug and use).
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/reci=
-pes-core/systemd/systemd-serialgetty.bb
-index 7b525b10f0c..3798b07b1a8 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -10,12 +10,6 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/co=
-mmon-licenses/GPL-2.0-only;m
- # should only be used if the generator is not appropriate.
-=20
- SERIAL_CONSOLES ?=3D "115200;ttyS0"
--SERIAL_TERM ?=3D "linux"
--
--SRC_URI =3D "file://serial-getty@.service"
--
--S =3D "${WORKDIR}/sources"
--UNPACKDIR =3D "${S}"
-=20
- # As this package is tied to systemd, only build it when we're also buil=
-ding systemd.
- inherit features_check
-@@ -25,11 +19,7 @@ REQUIRED_DISTRO_FEATURES +=3D "usrmerge"
- do_install() {
- 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
- 		default_baudrate=3D`echo "${SERIAL_CONSOLES}" | sed 's/\;.*//'`
--		install -d ${D}${systemd_system_unitdir}/
- 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
--		install -m 0644 ${S}/serial-getty@.service ${D}${systemd_system_unitdi=
-r}/
--		sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ${D}${systemd_system_un=
-itdir}/serial-getty@.service
--		sed -i -e "s/\@TERM\@/${SERIAL_TERM}/g" ${D}${systemd_system_unitdir}/=
-serial-getty@.service
-=20
- 		tmp=3D"${SERIAL_CONSOLES}"
- 		for entry in $tmp ; do
-@@ -52,7 +42,7 @@ do_install() {
- }
-=20
- # This is a machine specific file
--FILES:${PN} =3D "${systemd_system_unitdir}/*.service ${sysconfdir}"
- PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-+FILES:${PN} =3D "${sysconfdir}"
-=20
- ALLOW_EMPTY:${PN} =3D "1"
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.=
-service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.ser=
-vice
-deleted file mode 100644
-index b16fe1188e7..00000000000
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-+++ /dev/null
-@@ -1,45 +0,0 @@
--#  SPDX-License-Identifier: LGPL-2.1+
--#
--#  This file is part of systemd.
--#
--#  systemd is free software; you can redistribute it and/or modify it
--#  under the terms of the GNU Lesser General Public License as published=
- by
--#  the Free Software Foundation; either version 2.1 of the License, or
--#  (at your option) any later version.
--
--[Unit]
--Description=3DSerial Getty on %I
--Documentation=3Dman:agetty(8) man:systemd-getty-generator(8)
--Documentation=3Dhttp://0pointer.de/blog/projects/serial-console.html
--PartOf=3Ddev-%i.device
--ConditionPathExists=3D/dev/%i
--After=3Ddev-%i.device systemd-user-sessions.service plymouth-quit-wait.s=
-ervice getty-pre.target
--After=3Drc-local.service
--
--# If additional gettys are spawned during boot then we should make
--# sure that this is synchronized before getty.target, even though
--# getty.target didn't actually pull it in.
--Before=3Dgetty.target
--IgnoreOnIsolate=3Dyes
--
--# IgnoreOnIsolate causes issues with sulogin, if someone isolates
--# rescue.target or starts rescue.service from multi-user.target or
--# graphical.target.
--Conflicts=3Drescue.service
--Before=3Drescue.service
--
--[Service]
--Environment=3D"TERM=3D@TERM@"
--ExecStart=3D-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
--Type=3Didle
--Restart=3Dalways
--UtmpIdentifier=3D%I
--TTYPath=3D/dev/%I
--TTYReset=3Dyes
--TTYVHangup=3Dyes
--KillMode=3Dprocess
--IgnoreSIGPIPE=3Dno
--SendSIGHUP=3Dyes
--
--[Install]
--WantedBy=3Dgetty.target
---=20
-2.43.0
+=C2=A0=C2=A0
+> > I'm therefore wondering if there is a different way. The changes
+> > I'm
+> > wondering about would be to:
+> >=20
+> > a) embrace the single SRC_URI entry
+> >=20
+> > b) require a checksum of the internal "URL list" that is included
+> > in=C2=A0SRC_URI, much in the same way that we have checksums of
+> > tarballs.
+> > =C2=A0
+> =C2=A0The list isn't fix because it depends on the configured package
+> manager proxy or registry. We have to remove this feature. But the
+> user could use a PREMIRROR to redirect the upstream proxy to its
+> private proxy.
+
+If that is true we have a huge problem.
+
+By list I mean a list of something like (component, version) pairs
+where component uniquely identifies the component and version is a
+specific verifiable version of that component. If we can create that
+list, we can checksum it and use it as above. If we can't create that
+list, we have no idea what is in our builds and we may as well give up
+as it isn't reproducible.
+
+> > For better or worse, we have low trust in the underlying tools to
+> > get this right (they are getting better).
+> > =C2=A0
+> =C2=A0
+> We don't need to trust the tools. We parse the lock file and enrich
+> it with fix values. The resolve is deterministic. The output only
+> depends on the resolve function, variable values and lock file
+> content.
+
+This assumes the "resolve" always does the same thing. I'm afraid
+experience shows these can have issues. I'd much rather we have some
+kind of backup in the system which tells whether we did get the same
+resolution which is what this checksum represents.
+
+> > c) if the checksum doesn't match, we know something went wrong and
+> > error
+> > =C2=A0
+> Can you please elaborate this point. We already check the integrity
+> of the lock file and we have deterministically resolve the SRC_URIs.
+
+See above. I'd like to know that the list of components and versions we
+resolve everything to matches what we expect it to look like.
+
+> > d) require the new modules to write the URL list into a known
+> > location as part of unpack
+> >=20
+> =C2=A0Why is this needed? The generated SRC_URIs could be resolved via
+> fetcher.expanded_urldata().
+
+If someone is trying to debug what the code did or resolved things too,
+suggesting they run python functions to work it out will be a poor user
+experience. If on the other hand they know the result is always stored
+in WORKDIR/xyz/ABC, the know where and what to look at.
+
+The user experience of using this code will make or break it's
+adoption.
+
+> > e) add the ability to add custom hooks in the fetch process to
+> > handle
+> > the cases of needing to alter the flow for patching the components
+> > list
+> > =C2=A0
+> =C2=A0I'm afraid this will be complicated since PATCH is applied in S and
+> not in UNPACKDIR.
+
+Then we should work out how to handle that. We could allow the recipes
+to specify the top level dir to apply patches from for example?
+
+
+> > f) create new tools that allow the fetcher to be stepped through
+> > and
+> > for example partially run, or run with clear debug output showing
+> > what
+> > was happening at each stage (show the list of components?). This
+> > may be
+> > standalone tools, maybe a devtool module, I don't know. We may want
+> > to
+> > make the fetch/unpack logs more useful in general as right now you
+> > don't get much useful data about what it is doing.
+> >=20
+> >=20
+> > If we do those things, where does that get us? How much buy in do
+> > our
+> > different stakeholders have?
+> >=20
+> > FWIW I am leaning towards having this code in the bitbake fetcher
+> > as a
+> > first class citizen as to do otherwise is going to create layers of
+> > abstraction and we probably have enough of those already.
+> > =C2=A0
+> =C2=A0
+> The advantage is that the SRC_URI still contains the dependencies if
+> you expand the urldata. On the other side the integration of the
+> patches in the fetcher sounds complicated.
+
+Patches would stay where they are in the system in do_patch and use the
+code in OE-Core. I'm just thinking we could add some hooks in the fetch
+process to allow adjustment of things like the resolved component list.
+It doesn't have to be a patch, it could be a function passed data.
+
+Cheers,
+
+Richard
 
 
