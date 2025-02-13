@@ -1,185 +1,156 @@
-Return-Path: <philip@balister.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D8EC021A4
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:32:40 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.6926.1739436996395464793
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E6BC0219D
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:43:50 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.8163.1739443429795055016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 00:56:36 -0800
+ Thu, 13 Feb 2025 02:43:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jQ+YjFVN;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: pio.lobacz@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5ded1395213so502165a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 00:56:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D8kCsnur;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43932b9b09aso7560045e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 02:43:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739436995; x=1740041795; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8kvgs1gVapgPXh2afooyMULKhttSyt3X4RUhhKXh4G4=;
-        b=jQ+YjFVN1CTGZGSsOysEicc9YPBfhiti6hCcSAt8f1W0Yz93OX4pYRaxvYhmwaU+N1
-         Vp48eXCk5ChaFxZ+vbvN8H9HWwIxTvX2OkFM2oDQHRUllcX+4JCImbXUJqwwEGrhQijv
-         VklOGMgO7fk1Cyp/kTCKF3bdMYkxWqN3dT+RPdf/3fkXgC2e94zfSD4/hHGBgXAVZu2Y
-         lOVIXSuCWMmQE5SwWZPnZyVIGLhw9JsBcQlRWT8w9DeEIJHMcX9Rty1zspjHBh7O4pAY
-         AEDcN+lmB6JvgxMc8RzhJuqx4wdiSbH1JTKsKx/NvnQhDcGmvv/DH/ZDL2ut0nwk4eGC
-         ho1Q==
+        d=linuxfoundation.org; s=google; t=1739443427; x=1740048227; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=r1BzbStemz16D8JHS6MPvjEAMJXrW4U+WBejc/r1AoI=;
+        b=D8kCsnurigVHpGNNdrVHRSd0pIVMGinn4YsG1ySvaMZNX9PsubgS94epZy7P7JNsTA
+         /1CDqt89a7gPZlxYCEot9pCVMAYM/jzifSEQBfbr/WV0B4GQNzLAxHfTjiMYm3XU2Vyk
+         QjLwd1yixDherI/7bU4GkiYmRk//JrULPsER0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739436995; x=1740041795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8kvgs1gVapgPXh2afooyMULKhttSyt3X4RUhhKXh4G4=;
-        b=ZzhECleCHlkrceDzZhw2osxTLItOM5ygWm4G2Zfry5LmLfdbPu30mBS8rJgaBNhr8+
-         PieZluWUfs7Fi6OvK+t57gkbzMhq25lqZ8y9HPnLch0hbql0+jjhgcEib+20jrAze61L
-         X7mQQbdyZ0FkMdu3pP5v0IPIp//4G9OksW9ZymRUu2HCmlK8S1tzSvDtTM0sU4oom8vl
-         jOrKEOBktswOF8IhnQjr5ztjGiUB0gdQwAAsU9Ats1IA6NIiGvH8Cy7bodDY4gW59IVi
-         NR/QdwkEHaDf75tl2MDDSg/L3MOpEpjjjN9VLKYY7v2xihzaogVEhXKfj4vVj0sA2Gox
-         3uDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVN2N18IiaZGlQrB6plKRaiN+EOW8hmcKmjG4SS/1CYG2Ye6h3lswhCcG+85MRKr/ylRX0LpAgQbrxW/QGRdxsBkQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz3Z/fsswNga1HUyzdWbIKQQOJ4EHLE0AKtE32hpS/2+gI7cEDy
-	O9otvaUNTHUKKvOqmzUlc3Kwl3uVLFlt42E6NuB/qvTN8YElEsut3jSPdx0p7DusKFqy2/LuY3R
-	WDUZUms5HSLxUv1q0qUBLQGoMO41Dgg==
-X-Gm-Gg: ASbGnctrPahi4+aWqNS+7ZGmikoozeWQtgYGRnc4LTAc2jzeCzj94i4+qQMvN2l5rr8
-	+zq3kBe8IwVnwTMmduNt/xpxZXuxJAzm7dsdvmdRj5Ek7skeR1fFfZph4ubhq0RB4OuQ6g3FaBg
-	==
-X-Google-Smtp-Source: AGHT+IFbSU3OxkILXNerdwkTytS9Uiv0YBCtZEcIyVD98QVkpbVrzVAQf2ScfXSv/jPdJZ6oxQbtL+dE5QcH5vumJU8=
-X-Received: by 2002:a05:6402:3490:b0:5dc:cf9b:b034 with SMTP id
- 4fb4d7f45d1cf-5dec9e7b75dmr1797895a12.14.1739436994232; Thu, 13 Feb 2025
- 00:56:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20250210125047.2644290-1-pio.lobacz@gmail.com>
- <3980bb85057c3c2402714d4c51676d628bf2ef52.camel@linuxfoundation.org>
- <CAH6NA5u+8U6ZWFFas0-S=Faq+7tiSs650MR7k9W_80Uxm=gOWg@mail.gmail.com>
- <CAJdd5GbUo6ckemc6GEsf=TdaMKPbK+V-zCNqPSWTV1_x3PdrdA@mail.gmail.com>
- <CAH6NA5tx+P0cTcG05rUPxD3+shAdWD9kbsL=+KQ8BY3Wq7=aLg@mail.gmail.com> <CAJdd5GZk8Q3cvGO6rdCSj2UzdvFhZ=wr=WHBiHHXJUe_fQu0ug@mail.gmail.com>
-In-Reply-To: <CAJdd5GZk8Q3cvGO6rdCSj2UzdvFhZ=wr=WHBiHHXJUe_fQu0ug@mail.gmail.com>
-From: =?UTF-8?B?UGlvdHIgxYFvYmFjeg==?= <pio.lobacz@gmail.com>
-Date: Thu, 13 Feb 2025 09:56:23 +0100
-X-Gm-Features: AWEUYZmR9gf37pkw4mgfsL6PwbFHzm4vvo13t049vRTVCzImcSWGGELCfaMZ0cA
-Message-ID: <CAH6NA5se_XfH5VWguTp2uGoqUNqUViJgKkJqzXbk=VkS3BN12A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/create-spdx-2.2: Fix SPDXDIR affecting multiconfig machines
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1739443427; x=1740048227;
+        h=mime-version:user-agent:content-transfer-encoding:date:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r1BzbStemz16D8JHS6MPvjEAMJXrW4U+WBejc/r1AoI=;
+        b=H1uhqwP1GlZP/zcT409DsGmmq6UJF014ELl4aht/TRGasUA4HqAXf5yMzVLCBcq5f5
+         nORM9uDqkXcqyTqYf1PpvVIZCYFSF7+EGhamZSMuYFqFdadkyTNxbQWRcBg0Cba+8H7e
+         pL7UppV4qWcYoncG9Br7XOG1srTyB9fbxdRfljY0x5gaGeMCHADR1uAPhNnHbb/x7BWC
+         Ofdo0PPipWDrdMJkQK8j3ICE65nJjQ+nXyyGlYkzvYomFPbP685dZoMVYMSswKqxa9lv
+         VKHmGOBJWYFtuEr/abGrR6kF7kD1a9JxUyccWN4KJovfiI/t7O2uxfJ0nWG+yxhwVZMS
+         nRYA==
+X-Gm-Message-State: AOJu0YzmcAjGcHsxkePfkhKXdE3d8G1HidurtKwdZysa3KpDHW5FM71H
+	fJorWoUmguZcK6kaU2Yt7vAGEh6feWIjn4bNzFekW4h73VWKLerpQbainM1fOtHrpI4tKfJ5bZl
+	Z
+X-Gm-Gg: ASbGncuGf/PgCu+Uqcp1qNq6WRUB5QQ+OpBxEZLTMQpwJLqb4Hq8FJXbRLVVKGemmsL
+	C/7AmuwzoxOEmsnRAu797y05ZVk/NlX5ecS3mDCealu0HRNAjVRR38Cy1xnIGOP22sn1xY1Qbhf
+	mYIfjgjIHJtLGcsf0VcxsEOhsRNp6h8CELD32xyIXlzEYrBzccIvQ8acn3honjUqaim8EYlaXO4
+	5HODsorO+QA3w5VdgvJr8b0s2fmV79aF7wsAmJJHONje9G4i0qihlHxYN2FgiQN7VHeoXkydQi6
+	1DSxb9fELyfhPbu5cgSXEhe2eLj+kldMu8eYZH76QUQKp5ik74Ub7HL2lEXZFAze8gTDX28CoVF
+	qGaYL
+X-Google-Smtp-Source: AGHT+IFye9CUds+oSEcqqTib2gjgvaOMLAQRPYAlNs73lJIJPwFhxUXQSq6XjCcCkc9Bk7wT59+1Gg==
+X-Received: by 2002:a05:600c:3b9e:b0:439:40c1:1343 with SMTP id 5b1f17b1804b1-43960191549mr33645555e9.15.1739443427505;
+        Thu, 13 Feb 2025 02:43:47 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:62a1:585d:a736:8828? ([2001:8b0:aba:5f3c:62a1:585d:a736:8828])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04f8c1sm45476695e9.8.2025.02.13.02.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 02:43:46 -0800 (PST)
+Message-ID: <4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
+Subject: 'vendor' fetching discussion cont.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org, Stefan Herbrechtsmeier	
+ <stefan.herbrechtsmeier-oss@weidmueller.com>, Bruce Ashfield	
+ <bruce.ashfield@gmail.com>, bitbake-devel
+ <bitbake-devel@lists.openembedded.org>
+Date: Thu, 13 Feb 2025 10:43:44 +0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:32:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211322
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:43:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211324
 
-Nope. It is on the scarthgap and I have set it in the subject when git
-send-mail, but somehow it has been cut...
+I've pulled this to a separate email/thread since I'd like to take a
+slight step back and put some different ideas into the mix as well as
+explain where my own thoughts are right now. I'm also doing this so
+that we can focus the discussion and give others a place to catch up
+from. For that reason I may restate some information below.
 
-=C5=9Br., 12 lut 2025 o 23:07 Joshua Watt <jpewhacker@gmail.com> napisa=C5=
-=82(a):
->
-> Based on this patch, I'm guessing you're not working off of master?
-> The patch doesn't apply to the latest master version because a lot of
-> the variables in create-spdx-2.2 were moved to spdx-common.bbclass.
->
-> I tried the reproduction steps on master and it seems to work OK, but
-> I'll keep trying; can you provide what branch/commit you are working
-> on and we can possible figure out what fix might be needed if it is
-> already fixed on master?
->
-> On Mon, Feb 10, 2025 at 1:51=E2=80=AFPM Piotr =C5=81obacz <pio.lobacz@gma=
-il.com> wrote:
-> >
-> > Sure Joshua,
-> > I hope it won't be much extra work, as I have this patch already applie=
-d
-> > and it is working for me without any issues.
-> >
-> > BR
-> > Piotr
-> >
-> > pon., 10 lut 2025 o 18:51 Joshua Watt <jpewhacker@gmail.com> napisa=C5=
-=82(a):
-> > >
-> > > Piotr,
-> > >
-> > > I think with the provided example I can look into this. I suspect it
-> > > will be a little more involved than adding MACHINE_ARCH
-> > >
-> > > On Mon, Feb 10, 2025 at 9:58=E2=80=AFAM Piotr =C5=81obacz <pio.lobacz=
-@gmail.com> wrote:
-> > > >
-> > > > Actually this was just an issue with the path to the deps.json file=
-.
-> > > > which was containing all the dependencies and in case of different
-> > > > machine
-> > > > for packages like e.g. base-files this file was containing bad
-> > > > dependency, meaning that if i'm building first machine A, than B,
-> > > > the spdx files from A for base-files are being moved to B but are
-> > > > searched still in A directory.
-> > > >
-> > > > We were discussing this issue with Joshua, but i'm not an expert in
-> > > > this matter...
-> > > >
-> > > > BR
-> > > > Piotr
-> > > >
-> > > > pon., 10 lut 2025 o 14:42 Richard Purdie
-> > > > <richard.purdie@linuxfoundation.org> napisa=C5=82(a):
-> > > > >
-> > > > > On Mon, 2025-02-10 at 13:50 +0100, Piotr =C5=81obacz via lists.op=
-enembedded.org wrote:
-> > > > > > Currently SPDXDIR is pointing to `${WORKDIR}/spdx` which means =
-that the by-id
-> > > > > > and by-namespace SPDX files are created without differentiation=
- between machines.
-> > > > > > This means that for two machines using a common package archite=
-cture
-> > > > > > (e.g. genericx86-64 and qqemux86-64), there would be overlappin=
-g files. This means
-> > > > > > that the build of one can remove files from the other leading t=
-o build failures. An
-> > > > > > example would be:
-> > > > > >
-> > > > > > MACHINE=3Dqemux86-64 bitbake core-image-minimal
-> > > > > > MACHINE=3Dgenericx86-64 bitbake core-image-minimal
-> > > > > > MACHINE=3Dqemux86-64 bitbake linux-yocto -c clean
-> > > > > > MACHINE=3Dgenericx86-64 bitbake core-image-minimal -C rootfs
-> > > > > >
-> > > > > > To fix this, add MACHINE_ARCH to the SPDXDIR path used for the =
-files in order
-> > > > > > to differentiate packages' dependencies between machines.
-> > > > > >
-> > > > > > This commit fixes issue repored by Khem [1]
-> > > > > >
-> > > > > > [1] https://patchwork.yoctoproject.org/comment/13577/
-> > > > > >
-> > > > > > Signed-off-by: Piotr =C5=81obacz <pio.lobacz@gmail.com>
-> > > > > > ---
-> > > > > >  meta/classes/create-spdx-2.2.bbclass | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classe=
-s/create-spdx-2.2.bbclass
-> > > > > > index ade1a04be3..9e228891ab 100644
-> > > > > > --- a/meta/classes/create-spdx-2.2.bbclass
-> > > > > > +++ b/meta/classes/create-spdx-2.2.bbclass
-> > > > > > @@ -11,7 +11,7 @@ DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx"
-> > > > > >  CVE_PRODUCT ??=3D "${BPN}"
-> > > > > >  CVE_VERSION ??=3D "${PV}"
-> > > > > >
-> > > > > > -SPDXDIR ??=3D "${WORKDIR}/spdx"
-> > > > > > +SPDXDIR ??=3D "${WORKDIR}/spdx/${MACHINE_ARCH}"
-> > > > > >  SPDXDEPLOY =3D "${SPDXDIR}/deploy"
-> > > > > >  SPDXWORK =3D "${SPDXDIR}/work"
-> > > > > >  SPDXIMAGEWORK =3D "${SPDXDIR}/image-work"
-> > > > >
-> > > > > I suspect this is going to cause other challenges since the task =
-stamp
-> > > > > isn't machine specific as far as I know but this change would req=
-uire
-> > > > > it to be and force all of the SPDX tasks to be machine specific.
-> > > > >
-> > > > > Cheers,
-> > > > >
-> > > > > Richard
+We have two fundamentally different approaches:
+
+a) a single entry in SRC_URI with magic behind the scenes expanding
+this into a list of dependencies
+
+b) multiple entries in SRC_URI generated with tooling
+
+gitsm is similar to a), partly because it can contain recursive
+references to other submodules so the second approach wouldn't work.
+crates are handled with the b) approach today.
+
+Developers in general are more comfortable with b) since they can more
+easily see what is going on but it is also the harder one since it
+deviates most from the underlying tools and has two sets of data that
+require to be in sync.
+
+Some feel the .inc files enabling b) are effectively machine generated
+and could be removed with the work happening transparently instead,
+simplifying the recipes and commits. This allows easier use of the
+underlying tooling too.
+
+I think firstly, we need to document some key principles. Behind the
+scenes, any given url should expand to a defined list of components and
+that list has to be deterministic and not "floating", i.e. always the
+same regardless of changes in any registry or other upstream. If there
+are changes, they need to be detected and there needs to be a hard
+error. Also, if the code sees things declared in a way they could vary,
+that also needs to be a hard error.
+
+Most of the concerns I've seen are about how easy it is to understand
+what is going on behind the scenes. The move of code to OE and
+splitting everything into multiple tasks/stages does do that to some
+extent but it does it in a way which I think is going to create a new
+and different set of problems.
+
+I'm therefore wondering if there is a different way. The changes I'm
+wondering about would be to:
+
+a) embrace the single SRC_URI entry
+
+b) require a checksum of the internal "URL list" that is included
+in=C2=A0SRC_URI, much in the same way that we have checksums of tarballs.
+For better or worse, we have low trust in the underlying tools to get
+this right (they are getting better).
+
+c) if the checksum doesn't match, we know something went wrong and
+error
+
+d) require the new modules to write the URL list into a known location
+as part of unpack
+
+e) add the ability to add custom hooks in the fetch process to handle
+the cases of needing to alter the flow for patching the components list
+
+f) create new tools that allow the fetcher to be stepped through and
+for example partially run, or run with clear debug output showing what
+was happening at each stage (show the list of components?). This may be
+standalone tools, maybe a devtool module, I don't know. We may want to
+make the fetch/unpack logs more useful in general as right now you
+don't get much useful data about what it is doing.
+
+
+If we do those things, where does that get us? How much buy in do our
+different stakeholders have?
+
+FWIW I am leaning towards having this code in the bitbake fetcher as a
+first class citizen as to do otherwise is going to create layers of
+abstraction and we probably have enough of those already.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+
+
 
