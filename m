@@ -1,111 +1,104 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAEEDC0219D
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 14:20:21 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.12070.1739456414245214004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD4BC021A0
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 14:26:41 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.12083.1739456796947435892
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 06:20:14 -0800
+ Thu, 13 Feb 2025 06:26:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G/0mrSAX;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38dc6d55ebaso1357002f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:20:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ump8aVqP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220c4159f87so12534975ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:26:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739456412; x=1740061212; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=emYwfJ1Z47WH+ykpojbWqScayTYM5F9aDnPeL4keGOs=;
-        b=G/0mrSAX0xMaNTXScjVTQYoz4nrHtfIXdADF3CGHTc4ERzL0SdVs6NuDFmrc7jJ0k/
-         bys0GAMH3YnKs7f9sFJQofVygCL3EZD8kVZy6WyxTUnE6EU742oBzHOian0pFeJCvhW+
-         Pm+SuhHOvEMeTavgiGJxuHzJrI3f7imgkieAi8R/fpUIPZzMDOV6RlLU3etNPqygGrMU
-         Idkks8UP+vXgK6YIjnHpJO8bYoY6twuBAqF7G51h3IobUW7bONbcoxD3p9x155MG/nTl
-         Jel5aY21/DdmGVtNXAEet67hnDoWKkxGxLdmHQymaNa2HCBLqLtNcrERX8SkiByLZwHg
-         H4Bw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739456796; x=1740061596; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6kqyZ6+UA9PdBnDh2VY1knT89TeNlxPJOkDoB9e2lo=;
+        b=ump8aVqPfKiF0PgB9JKscyNspdDUSj/hABXbUItyFoV6DG8wIJOgt+HAByu2LB757B
+         JwV26C44YrE7wG4C8EMKLl9NwxFrsiNRxt4ceK4rQ51JLbgqP+a9Mn+v1dJAgvnIX6eQ
+         jH+rOo44Jl0Xb7enypeklALd8sYuaq6q6OSyIHPpBlCV7c9mDhe95JsPds8BrnFdwNxn
+         2lRoaUr4WQFdayOOS3n1KLCRfAUmbrElkgP1fjEmkvX28PcJzUZgSOycwajKbAfpxC7O
+         tOFIbJSZmE0gO/PldG303baqAZZ6FmZzFnxn1bmHwvpDtPdadwivLn6frNUu506WsMYa
+         QhBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739456412; x=1740061212;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=emYwfJ1Z47WH+ykpojbWqScayTYM5F9aDnPeL4keGOs=;
-        b=mn1EIeyiNjoBCJecbC4GJYi84PVdiXv1h3EmEyGWm8SbE6K2WmtpuajhMhfTVpovVm
-         rDJupQx66kuNmYoCWlFHYx43X7yITPXGLprwP2Z0zy/bN/JewjzelZRWXTOFyzzJfa/y
-         /QERbKZvgDYVQIpqOiSHNzEa+Sxed12vTOhqU4ggvftlKLwuZ1oiX9JmZ+g4ZMQpUfo8
-         MNk6uUpGQ7+gsTfV5/N4NI0eM7U6SsgRD7NF/rgiVEs8AG8e7hznMHib0Bd8Ngm9NJsr
-         Vq2qBW0daRLWq+4YDFAOOOvU/bf5mdManB0gYamkI682UYvjys3eEPxsM1zumlHmAeDN
-         ztsA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJo6aZC8EBrbHWKd6gdhsUPb1Pr7yJZu/DuWW0q8FlQGcaXJj5Pb24CIExXCPEvbb6gqpqFhYLQmbK6WFPBMzxAA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yykqs0uiyV36G+yz6mXOeh4yTy9VdTxtTFDyIJIYGlwBHUzKwB6
-	IhfnHjMYkFawOA/TD5t54+Z8tljCVryfZ47ufTycJJGqj7NmHwjm
-X-Gm-Gg: ASbGncsB7glQXcwg0nEYdBw/nUW/9n/IhoZHdOd8/jKQG1rYzMrXFzotDl8wLtXqV0N
-	pHzIvRUKxjjvQYw2OrMz9LyANljUqiRPLrbXOYOW0R8rsJKTb9ijMg3xwsEfFVQkvLJ18tY+ZUr
-	l7ZJgCz79PzrnE8TmGsWZ/ExjAYhCHi7U5fAb1Tjw+XefBDcSHsBRCk615eqsztqNXFb69zbFBT
-	4inSzK8pJsRINHa+/D/bEy6DPCCNf0x1yLDRhT59fmnK6RK4JnNdR8WWQad7jyrf0NDQvHpboGy
-	C6qaT2826B83ktmQWhYt6cowNmEndiD0jxMwwfJl+60DjzFP
-X-Google-Smtp-Source: AGHT+IGnKKDfEceHPjFn7Nhc6IlJRtQGw5T1rfzG3Qp/uGaOi8MX9Upc7/jfIefjV1ZwT8rEtOtFRA==
-X-Received: by 2002:a5d:59c8:0:b0:38e:dcd1:3366 with SMTP id ffacd0b85a97d-38f24d74705mr3429562f8f.20.1739456412338;
-        Thu, 13 Feb 2025 06:20:12 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915785sm2080080f8f.58.2025.02.13.06.20.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2025 06:20:12 -0800 (PST)
-Message-ID: <eb47ba1c-fac3-49a1-9d5c-d56168c39595@gmail.com>
-Date: Thu, 13 Feb 2025 15:20:11 +0100
+        d=1e100.net; s=20230601; t=1739456796; x=1740061596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6kqyZ6+UA9PdBnDh2VY1knT89TeNlxPJOkDoB9e2lo=;
+        b=WoXlgnDJxyBOkg9Fbs6B7yhSUdyVwUz82Urj+Lp/31d7CSRCgJ0aWkkZklM/XTS/rR
+         bXNgG6wFWonWW8scHsIcRlsLfqD8ot3bXvfDn1dan3GD0Y5LUSD/OfOE8dVx60mXwEEF
+         LLMwRONpueWY1DLmH7LchN7T07YtFsmHbRF2+gYLfxKHZuFdiSunbNmbOC6slm4SfnC3
+         mDqRLMNWM+2cZCOoZcsZbdvk5yhDIUYuK2ebNo6TnEDmNC4nBc85ETAIkhbabQ/mxJhO
+         A8DF2We1rXz63GDFiUKwvgeGF0z2l3//UJQ+EC8fzwTv/+cyNSe7vXGGPUpsKQQH55kf
+         dn7Q==
+X-Gm-Message-State: AOJu0YwI9b6Kr77xF4Yy90NPcV50ycnBb7JR6Z5Fgh6AF4uLm1LQZmak
+	/aVlQwUq7UvDH426BczcxrQonwgJKt//Bp7nKbv+f2/gb/q7Dj5E1g0smauBg9mRJT0lRVny0eV
+	C
+X-Gm-Gg: ASbGnctMiFG/ne0XAW2OxPuR1pSdnhzz6aHh88hp4P7vpgXZ2U7LqhE6U6Xdqu5mgJe
+	UEGBoAwgo7vyGieo3Ln0TRDF/pDLzGiCvjCVB11OLSpb0IhQeI3CyIwuALm39bew/OBCjiwtkxT
+	VItHY6CbOObuoTD2/tIbp7v3QT6eDkXmBP77SFGOyGfOWfpdl0iA5ws6HGOMxOueYloAfTneuYm
+	Gmto/zPATTAKPm+So9NdaApml9uCYquRBblD3YawlRdtzkdJurNvMvI+E9GZiQTIqo3C7ng9mOB
+	IsIC
+X-Google-Smtp-Source: AGHT+IGXCvZnGz74pKwYSR7NmhBX3bxy2sJqrImXJsN84aX2kG6t0kNH6dWh7iKtk2/RYkSJL1mh7g==
+X-Received: by 2002:a05:6a00:1a93:b0:730:8526:5db4 with SMTP id d2e1a72fcca58-7323c1444dbmr4994385b3a.13.1739456796164;
+        Thu, 13 Feb 2025 06:26:36 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm1342377b3a.30.2025.02.13.06.26.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 06:26:35 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/3] Patch review
+Date: Thu, 13 Feb 2025 06:26:28 -0800
+Message-ID: <cover.1739455358.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v12 1/5] rpm-sequoia-crypto-policy: New recipe
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- Randy MacLeod <randy.macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20250212043532.1258912-1-zboszor@gmail.com>
- <D7RCWUM2L2UY.1XEGKH8ENRDW0@bootlin.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <D7RCWUM2L2UY.1XEGKH8ENRDW0@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 14:20:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211336
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 14:26:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211337
 
-2025. 02. 13. 14:36 keltezéssel, Mathieu Dubois-Briand írta:
-> On Wed Feb 12, 2025 at 5:35 AM CET, Zoltán Böszörményi wrote:
->> This ships a crypto policy file for rpm-sequoia.
->>
->> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->> ---
-> Hi Zoltán,
->
-> I believe we have a new issue with this version:
->
-> | python/build-crypto-policies.py --reloadcmds policies output
-> | /tmp/tmpqvyryz80: line 5: Bad configuration option: pubkeyacceptedalgorithms
-> | /tmp/tmpqvyryz80: line 6: Bad configuration option: hostbasedacceptedalgorithms
-> | /tmp/tmpqvyryz80: line 8: Bad configuration option: requiredrsasize
-> | /tmp/tmpqvyryz80: terminating, 3 bad configuration options
-> | There is an error in OpenSSH server generated policy
->
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/3/builds/1027/steps/11/logs/stdio
->
-> Can you have a look at this error please?
+Please review this set of changes for kirkstone and have comments back by
+end of day Friday, February 14
 
-I tested the recipe on Fedora 41 with:
-* nss 3.107.0 installed with /usr/bin/nss-policy-check present, and
-* faking uninstalling it by renaming /usr/bin/nss-policy-check
+Passed a-full on autobuilder:
 
-Both worked.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1003
 
-Some of your build hosts where nss was not installed complained
-about executing nss-policy-check unconditionally, which is now fixed.
+The following changes since commit bd12abeff6ee14385fba63fa5ba15d9fadec4d0e:
 
-I think this is on a build host with a very old nss version installed.
-Can you uninstall it?
+  cmake: apply parallel build settings to ptest tasks (2025-02-11 05:34:41 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Joshua Watt (2):
+  lib/packagedata.py: Add API to iterate over rprovides
+  classes-global/insane: Look up all runtime providers for file-rdeps
+
+Peter Marko (1):
+  openssl: upgrade 3.0.15 -> 3.0.16
+
+ meta/classes/insane.bbclass                   |  30 ++-
+ meta/lib/oe/packagedata.py                    |  15 ++
+ .../openssl/openssl/CVE-2024-13176.patch      | 125 -----------
+ .../openssl/openssl/CVE-2024-9143.patch       | 202 ------------------
+ .../{openssl_3.0.15.bb => openssl_3.0.16.bb}  |   4 +-
+ 5 files changed, 28 insertions(+), 348 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
+ delete mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.15.bb => openssl_3.0.16.bb} (98%)
+
+-- 
+2.43.0
 
 
