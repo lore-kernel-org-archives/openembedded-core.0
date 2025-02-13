@@ -1,208 +1,172 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <mhalstead@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD9C8C02198
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 02:47:17 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web11.2755.1739414828945849957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C5AC021A4
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 03:49:48 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.3628.1739418581340681110
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 18:47:09 -0800
+ Wed, 12 Feb 2025 19:49:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=dqLZLowR;
- spf=pass (domain: linaro.org, ip: 209.85.128.177, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6efe4e3d698so3801367b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 18:47:08 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MFyDvhBu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.172, mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30795988ebeso4456781fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 19:49:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739414828; x=1740019628; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1739418579; x=1740023379; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5kxkb5SXzuW5nrMSS16AjhBvuZPHo3pjEYWjZd2DLNo=;
-        b=dqLZLowRKq9b4mP1b7qzC2DdHv1duSJijYKTajS1Emw/RoXhuv41JT2W8gpjCAmct1
-         E7S1X308pln/bBuRY7shbhkqq1iIKb6TD8hX//A9ZL+kY0rAuogkOZOxAoCAYrCLyFkX
-         8sctfSL7Lz3q57VUrIPDQ575SdNN7RsgeXooIZc68/41hAYQgP5/nNl1qNdw1paGOu0r
-         3VleLcc8TlIWZ+bJQ6S7hRL1rvQZ/hqm5DkVqs2OLrJVLfRK2oKas6tZuTpSoGskpu4M
-         sQ+LZGffirzxero/W5FK0U22d8JCkJTiAu59TOqjvDnHlgSYVR/E+3m6mj/NH0XFwD+c
-         WcYQ==
+        bh=GQ9UBycuT1nZoARM7Y7g7UifdR3Nuq5PGZ3AMvTPzkQ=;
+        b=MFyDvhBuvSJ3a2IbbN6b+lz3/B2dcOYmclh07uPmox2Bp6/i7SjMLrjAMrrPvjrpNu
+         gGQ7+8lBEVn0/YAKdzRAmXJB7OkEm3ih9yKHlA7FHl8nuXn3Ry9CseU9FqavTN+uB/m7
+         Co+TGmiHRkIIN+kXkYOA7MUIa3YQiCYtqfnuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739414828; x=1740019628;
+        d=1e100.net; s=20230601; t=1739418579; x=1740023379;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5kxkb5SXzuW5nrMSS16AjhBvuZPHo3pjEYWjZd2DLNo=;
-        b=pZVr6B2qBkZXSVbOWYVpUw38cxu6raHp08qHCJcOfkFIlC9NxQ5EJVmndY8BrEamHm
-         6hTo8Yct3pqnGxEDu6LOIv3JoBi6kuMuvAq7RAta4wAfsF3TjVhZm7Y0COJsAm+Zs+Lh
-         ErZD3mU9Y+wwh9Fa0O1Jy2JdbkcXzlWgSooiaIytVIDQzfH/8uowR59pjCg4vGSL6F8y
-         g8v1sRvLQmvIr940/QyCDaSqAe9dHzciJIE7jmSinN+IHpKxczqo6omwIi6DxAiN0TkX
-         nuwjphzP2IHzPnffnHAOLjgxFfKF4yDB7WdnxjBDGJDwU2k84U/00ISaZ07+gzgmyfNX
-         2YOw==
-X-Gm-Message-State: AOJu0Yy23+XEcDaNtG1f6DQZtTJvZgyBfAnmw/H5K5H6JPcoQ5FOSHKI
-	cf8u2ZyzM/5eq3nshGUDc0KcNXI+6tA6/aFwncCP+u91I74Fx2AN3iJ/2gK9qmb7/L9rXqcDaje
-	9PEAsC/5ktNvPKlr8Qthkgfusg+3tpBOcUfvQZQ==
-X-Gm-Gg: ASbGnctKW83m3N9hGh6ChQFbniXFH1MrtAjqE0u1hakgCDKDy9Nu9nu1LwR7pcR/SDP
-	I+F3Xdq6DyWQTFLg8bpBnxylYZN2+cXH2bgkLCeiLfPriJkuihDBho4jnhjxgDaL4MKXp6h30xJ
-	NrKwuj4TZRC3pykwSs14ca8AS3vbju
-X-Google-Smtp-Source: AGHT+IGgLEIVebgkBquHUP0f+CrfdcLtpdvMEsE42TEIgzioYUoKbqHzudZVHRgwYLw4Z+uHaor1sWXyr+KKjamUvRc=
-X-Received: by 2002:a05:690c:9692:b0:6f9:544f:67dc with SMTP id
- 00721157ae682-6fb1f171e84mr64115347b3.1.1739414828030; Wed, 12 Feb 2025
- 18:47:08 -0800 (PST)
+        bh=GQ9UBycuT1nZoARM7Y7g7UifdR3Nuq5PGZ3AMvTPzkQ=;
+        b=fUOXwiuSxd+WRLb/1TTxy23GS0iwhrxRDobVUEga2ZWQJkLEMg3LQW6Ax5eCI4Haft
+         zabQwYOdkqWGr/xGIwEX5RLJ1AydmzyYVy2DZ3NRYoKruiqmRZ+dPa8PhbOLduLva51U
+         3ombFBeDElMJKbvgZaCN/dy5o/Fs+jMl3klTvYFsVGfX2BSh57oYPYWNaxz0Rs9gTjYU
+         JBlTI5yVFxs2xkJ8Hobbx+Rn9fr9Xi9XIDrN+UMhonjutdpyyK66fMda1ziztaAOTVqy
+         2szGrRr27YCuU4vhenN60vRy9xA+hZdaD/qEEK+658ZMaRZj5G4+f7MgfSfjSB45icL2
+         pwCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqEscqlMoIBppL4+e7rRG9k+kB5AlM4JsT+V2aJ8xPkSYalrXXOAWVo+GOsmT+Q68v3iOmkYgYVJ5FyTAfNUgwDw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw38V/mqKLTvsqeV7QsG9aJMrsSxEMnk2IKIFee/6ANBJeTETpi
+	Lkl8lUh71YJLbiNsB8RqNKRUEmtfdHggHAxA+IfIt08adewtpkUJu7epN5rDmVLwejUhnqVUQds
+	JoSUwUkaFkW5mCrlFyHfZ6yKVpxqaBC1fYX1x4g==
+X-Gm-Gg: ASbGnctNaB9Z9Z8y1vFTotJ2UbGhF9iFxj9c2rccTip/lJAVt6ywYaNVN4TFczPVKdY
+	H1p7v1JiJS/KZ0nCXWwp37+uF516zNFBa4auA/ZlaeAXow6Eugd6mwXedmn/UqQRZ8Db5XgS/lF
+	0ZnnEI
+X-Google-Smtp-Source: AGHT+IFnh+PKqL3+ql/QhxP8qcXmtk1zkNy/2ir+jLPubqcwwqJwBMUGJy5ohV9LsAZUE7V1WuZI1N6fxwhEdJ+GdzY=
+X-Received: by 2002:a05:651c:2109:b0:309:bc3:36b4 with SMTP id
+ 38308e7fff4ca-3090dcb7181mr4607451fa.6.1739418579294; Wed, 12 Feb 2025
+ 19:49:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20250212174726.1533501-1-quic_vpuar@quicinc.com>
- <3euq5c44kceeu4uowy3xoom6mp7bfameofky24u5fecpsvj7jh@p4dbwfnpctci> <52ed2610-bd10-4f3b-999d-7d6afe08b772@quicinc.com>
-In-Reply-To: <52ed2610-bd10-4f3b-999d-7d6afe08b772@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 13 Feb 2025 04:46:57 +0200
-X-Gm-Features: AWEUYZn2hOPXa3tBQ8gMA4F8ZYBXG73TMVgmygnm_Ox_V7jX_pbgXkK3E_kKTa4
-Message-ID: <CAA8EJpoLs1zi3sqead-a8C07A4mGd8YZwQJmZdeO2p0B8z14hg@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-firmware: upgrade 20250109 -> 20250211
-To: Vivek Puar <quic_vpuar@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <ceec6a83-58cd-40ac-ba16-06115217f4d8@app.fastmail.com> <CAOMZO5BGuBrf2XQLcnVSTMeGoJ8bPEF+FF6xQmP=p+PJXbz1Zw@mail.gmail.com>
+In-Reply-To: <CAOMZO5BGuBrf2XQLcnVSTMeGoJ8bPEF+FF6xQmP=p+PJXbz1Zw@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Wed, 12 Feb 2025 19:49:27 -0800
+X-Gm-Features: AWEUYZmB0CtkpuOXfFcXx5DIP6bC2tqQ1gCMdRP6kgCzDNvGPqZ9s2mS-FDOR_0
+Message-ID: <CADfgfoaz_Qy0EjBaduJ-4PhacLd04oZS3mdK7pGNS4POZ46nXg@mail.gmail.com>
+Subject: Re: [OE-core] Unable to access 'https://git.openembedded.org/meta-openembedded/'
+To: festevam@gmail.com, Philip Balister <philip@balister.org>
+Cc: javier.tia@linaro.org, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000890c2e062dfdf28b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 02:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211287
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 03:49:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211288
 
-On Thu, 13 Feb 2025 at 04:41, Vivek Puar <quic_vpuar@quicinc.com> wrote:
+--000000000000890c2e062dfdf28b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please don't ever compose or send HTML email to the public mailing
-lists. Your response has killed all quotation levels.
+We are currently experiencing issues with the Oregon mirror certificate. To
+ensure uninterrupted service, I've temporarily redirected all traffic to
+the Amsterdam mirror, which is fully operational.
 
->
-> On 2/13/2025 1:53 AM, Dmitry Baryshkov wrote:
->
-> On Wed, Feb 12, 2025 at 11:17:26PM +0530, Vivek Puar wrote:
->
-> Add DSP firmware for Qualcomm SA8775P / QCS9100
-> platforms to ${PN}-qcom-sa8775p-{audio, compute, generalpurpose}
-> packages, and updating it with correct license information.
->
-> Add QCA6698AQ package ${PN}-ath11k-qca6698aq
-> to ath11k firmware.
->
-> Add bluetooth WCN3950 package ${PN}-qca-wcn3950
-> to qca firmware.
->
-> You've missed several other files:
->
-> $ dpkg-deb -c tmp-rpb/deploy/ipk/all/linux-firmware_20250211-r0_all.ipk | grep qcom
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/qcm6490/
-> lrwxrwxrwx root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/qcm6490/wpss.mbn -> ../../ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/qcs6490/
-> lrwxrwxrwx root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/qcs6490/wpss.mbn -> ../../ath11k/WCN6750/hw1.0/qcm6490/wpss.mbn
+I will resolve the Oregon mirror issue tomorrow and restore all mirrors to
+active status.
 
-These two files should go to linux-firmware-qcom-qcm6490-wifi package.
-
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/
-> -rw-r--r-- root/root     73528 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/adsp_dtbs.elf
-> -rw-r--r-- root/root       697 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/adspr.jsn
-> -rw-r--r-- root/root       536 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/adsps.jsn
-> -rw-r--r-- root/root       731 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/adspua.jsn
-> -rw-r--r-- root/root       537 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/battmgr.jsn
-> -rw-r--r-- root/root     40760 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/cdsp_dtbs.elf
-> -rw-r--r-- root/root       534 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/cdspr.jsn
-> -rw-r--r-- root/root  22043064 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/qcadsp8380.mbn
-> -rw-r--r-- root/root   3072424 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/qccdsp8380.mbn
-> -rw-r--r-- root/root     12088 2025-02-10 14:55 ./usr/lib/firmware/qcom/x1e80100/LENOVO/21N1/qcdxkmsuc8380.mbn
-
-And these files belong to 'Lenovo T14 G6'. They should be handled in a
-way similar to the existing Lenovo X13s packages.
-
->
-> $ dpkg-deb -c tmp-rpb/deploy/ipk/all/linux-firmware-qca-misc_20250211-r0_all.ipk
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qca/
-> drwxr-xr-x root/root         0 2025-02-10 14:55 ./usr/lib/firmware/qca/QCA6698/
-> -rw-r--r-- root/root    161716 2025-02-10 14:55 ./usr/lib/firmware/qca/QCA6698/hpbtfw21.tlv
-> -rw-r--r-- root/root      6614 2025-02-10 14:55 ./usr/lib/firmware/qca/QCA6698/hpnv21.b206
-> -rw-r--r-- root/root      6702 2025-02-10 14:55 ./usr/lib/firmware/qca/QCA6698/hpnv21.b207
-> -rw-r--r-- root/root      6614 2025-02-10 14:55 ./usr/lib/firmware/qca/QCA6698/hpnv21.bin
-> -rw-r--r-- root/root      1641 2025-02-10 14:55 ./usr/lib/firmware/qca/cmnv13s.bin
-> -rw-r--r-- root/root      1641 2025-02-10 14:55 ./usr/lib/firmware/qca/cmnv13t.bin
->
-> Will add these files.
-
-Thanks!
-
->
-> License-Update: additional files
->
-> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  ...20250109.bb => linux-firmware_20250211.bb} | 36 ++++++++++++++++---
->  1 file changed, 32 insertions(+), 4 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (98%)
->
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> similarity index 98%
-> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> index b932300742..e3a29a284f 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250109.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250211.bb
-> @@ -55,6 +55,7 @@ LICENSE = "\
->      & Firmware-powervr \
->      & Firmware-qat \
->      & Firmware-qcom \
-> +    & Firmware-qcom-2 \
->      & Firmware-qcom-yamato \
->      & Firmware-qla1280 \
->      & Firmware-qla2xxx \
-> @@ -132,6 +133,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      file://LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
->                      file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
->                      file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
-> +                    file://LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
->                      file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
->                      file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
->                      file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
-> @@ -158,7 +160,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      "
->  # WHENCE checksum is defined separately to ease overriding it if
->  # class-devupstream is selected.
-> -WHENCE_CHKSUM  = "c90a25ccbd027eb8d61b2943ab68447c"
-> +WHENCE_CHKSUM  = "65c2919e6511a0d348a009ac419375b7"
->
->  # These are not common licenses, set NO_GENERIC_LICENSE for them
->  # so that the license files will be copied from fetched source
-> @@ -212,6 +214,7 @@ NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
->  NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSE.powervr"
->  NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
->  NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
-> +NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSE.qcom-2"
->  NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
->  NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
->  NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
-> @@ -247,7 +250,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
->  # Pin this to the 20220509 release, override this in local.conf
->  SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
->
-> -SRC_URI[sha256sum] = "a12cb38f4793394bf56c6702be29b6e4f09deca0714943bba98a492030651570"
-> +SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
->
-> Applying: linux-firmware: upgrade 20250109 -> 20250211
-> <PATH>/layers/openembedded-core/.git/rebase-apply/patch:51: trailing whitespace.
-> SRC_URI[sha256sum] = "2de1345897bf839d532c5de0fdb348770ca2a5f4edfb21971582597abb45297d"
->
-> Will remove these whitespace warning.
->
->
->  inherit allarch
->
->
-> Regards,
-> Vivek
+Please reply if issues continue,
+Michael Halstead
 
 
+On Wed, Feb 12, 2025 at 4:17=E2=80=AFPM Fabio Estevam via lists.openembedde=
+d.org
+<festevam=3Dgmail.com@lists.openembedded.org> wrote:
 
--- 
-With best wishes
-Dmitry
+> On Wed, Feb 12, 2025 at 8:41=E2=80=AFPM Javier Tia via lists.openembedded=
+.org
+> <javier.tia=3Dlinaro.org@lists.openembedded.org> wrote:
+> >
+> > Hi,
+> >
+> > Getting Git error accessing
+> https://git.openembedded.org/meta-openembedded/.
+>
+> Yes, it seems to be down.
+>
+> Try accessing https://github.com/openembedded/meta-openembedded as an
+> alternative.
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211284):
+> https://lists.openembedded.org/g/openembedded-core/message/211284
+> Mute This Topic: https://lists.openembedded.org/mt/111153974/1003190
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> mhalstead@linuxfoundation.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Michael Halstead
+Linux Foundation / Yocto Project
+Systems Operations Engineer
+
+--000000000000890c2e062dfdf28b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>We are currently experiencing issues with the Oregon =
+mirror certificate.  To ensure uninterrupted service, I&#39;ve temporarily =
+redirected all traffic to the Amsterdam mirror, which is fully operational.=
+ </div><div><br></div><div>I will resolve the Oregon mirror issue tomorrow =
+and restore all mirrors to active status.</div><div><br></div><div>Please r=
+eply if issues continue,</div><div>Michael Halstead</div><div><br></div></d=
+iv><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Wed, Feb 12, 2025 at 4:17=E2=80=AFPM Fabio Estevam vi=
+a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
+festevam=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@li=
+sts.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Wed, Feb 12, 2025 at 8:41=E2=80=AFPM Javier Tia via =
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a><br>
+&lt;javier.tia=3D<a href=3D"mailto:linaro.org@lists.openembedded.org" targe=
+t=3D"_blank">linaro.org@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; Getting Git error accessing <a href=3D"https://git.openembedded.org/me=
+ta-openembedded/" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
+dded.org/meta-openembedded/</a>.<br>
+<br>
+Yes, it seems to be down.<br>
+<br>
+Try accessing <a href=3D"https://github.com/openembedded/meta-openembedded"=
+ rel=3D"noreferrer" target=3D"_blank">https://github.com/openembedded/meta-=
+openembedded</a> as an<br>
+alternative.<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#211284): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/211284" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/211284</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111153974/100=
+3190" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/111153974/1003190</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:mhalstead@linuxfoundation.=
+org" target=3D"_blank">mhalstead@linuxfoundation.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Pr=
+oject</div><div>Systems Operations Engineer</div></div></div>
+
+--000000000000890c2e062dfdf28b--
 
