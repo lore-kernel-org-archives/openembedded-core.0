@@ -1,156 +1,188 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E6BC0219D
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:43:50 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.8163.1739443429795055016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05866C021A0
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 11:17:21 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.8919.1739445434711484303
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 02:43:50 -0800
+ Thu, 13 Feb 2025 03:17:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D8kCsnur;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43932b9b09aso7560045e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 02:43:49 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Cv2toLG/;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38dc5764fc0so632823f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 03:17:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739443427; x=1740048227; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=r1BzbStemz16D8JHS6MPvjEAMJXrW4U+WBejc/r1AoI=;
-        b=D8kCsnurigVHpGNNdrVHRSd0pIVMGinn4YsG1ySvaMZNX9PsubgS94epZy7P7JNsTA
-         /1CDqt89a7gPZlxYCEot9pCVMAYM/jzifSEQBfbr/WV0B4GQNzLAxHfTjiMYm3XU2Vyk
-         QjLwd1yixDherI/7bU4GkiYmRk//JrULPsER0=
+        d=smile.fr; s=google; t=1739445433; x=1740050233; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wCH6aeYuqW/GN3wVcRxvQ3z6cjsevq29drBpo/H0/4k=;
+        b=Cv2toLG/1tMW280ZxH4GOYf4IBlx58HGFexaZU+uNb2QIvWy5yGb7aHxdc5WCT5HCZ
+         sAxnbBsTkSUBDjKRxUXxUifralnBbfWhQ816uX1zaN4FXVBMbJbYuwxjm1OnmYc9+5VS
+         c4XqGGxKzlkevYNa2rMOK9MuWte38vQpIJ4xI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739443427; x=1740048227;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r1BzbStemz16D8JHS6MPvjEAMJXrW4U+WBejc/r1AoI=;
-        b=H1uhqwP1GlZP/zcT409DsGmmq6UJF014ELl4aht/TRGasUA4HqAXf5yMzVLCBcq5f5
-         nORM9uDqkXcqyTqYf1PpvVIZCYFSF7+EGhamZSMuYFqFdadkyTNxbQWRcBg0Cba+8H7e
-         pL7UppV4qWcYoncG9Br7XOG1srTyB9fbxdRfljY0x5gaGeMCHADR1uAPhNnHbb/x7BWC
-         Ofdo0PPipWDrdMJkQK8j3ICE65nJjQ+nXyyGlYkzvYomFPbP685dZoMVYMSswKqxa9lv
-         VKHmGOBJWYFtuEr/abGrR6kF7kD1a9JxUyccWN4KJovfiI/t7O2uxfJ0nWG+yxhwVZMS
-         nRYA==
-X-Gm-Message-State: AOJu0YzmcAjGcHsxkePfkhKXdE3d8G1HidurtKwdZysa3KpDHW5FM71H
-	fJorWoUmguZcK6kaU2Yt7vAGEh6feWIjn4bNzFekW4h73VWKLerpQbainM1fOtHrpI4tKfJ5bZl
-	Z
-X-Gm-Gg: ASbGncuGf/PgCu+Uqcp1qNq6WRUB5QQ+OpBxEZLTMQpwJLqb4Hq8FJXbRLVVKGemmsL
-	C/7AmuwzoxOEmsnRAu797y05ZVk/NlX5ecS3mDCealu0HRNAjVRR38Cy1xnIGOP22sn1xY1Qbhf
-	mYIfjgjIHJtLGcsf0VcxsEOhsRNp6h8CELD32xyIXlzEYrBzccIvQ8acn3honjUqaim8EYlaXO4
-	5HODsorO+QA3w5VdgvJr8b0s2fmV79aF7wsAmJJHONje9G4i0qihlHxYN2FgiQN7VHeoXkydQi6
-	1DSxb9fELyfhPbu5cgSXEhe2eLj+kldMu8eYZH76QUQKp5ik74Ub7HL2lEXZFAze8gTDX28CoVF
-	qGaYL
-X-Google-Smtp-Source: AGHT+IFye9CUds+oSEcqqTib2gjgvaOMLAQRPYAlNs73lJIJPwFhxUXQSq6XjCcCkc9Bk7wT59+1Gg==
-X-Received: by 2002:a05:600c:3b9e:b0:439:40c1:1343 with SMTP id 5b1f17b1804b1-43960191549mr33645555e9.15.1739443427505;
-        Thu, 13 Feb 2025 02:43:47 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:62a1:585d:a736:8828? ([2001:8b0:aba:5f3c:62a1:585d:a736:8828])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04f8c1sm45476695e9.8.2025.02.13.02.43.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 02:43:46 -0800 (PST)
-Message-ID: <4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
-Subject: 'vendor' fetching discussion cont.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org, Stefan Herbrechtsmeier	
- <stefan.herbrechtsmeier-oss@weidmueller.com>, Bruce Ashfield	
- <bruce.ashfield@gmail.com>, bitbake-devel
- <bitbake-devel@lists.openembedded.org>
-Date: Thu, 13 Feb 2025 10:43:44 +0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        d=1e100.net; s=20230601; t=1739445433; x=1740050233;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wCH6aeYuqW/GN3wVcRxvQ3z6cjsevq29drBpo/H0/4k=;
+        b=Afsg48kmuLn7Q+Y67M/xjoxrjWDJGJ6XQLzDgr+bNY+5YRU7XGP+MjnsGy35ZKV93S
+         H1hU2W/yGusqYlSf0uSXVYyZ67xYx399X9aqA7Eg1CTQD5Hsgel3DoDHitiY2uXofCc9
+         HxY8kgrovdpG+Mxb4HogzvKAjEQF4lMvUrFGnOQzhD+sf6nY3itjcXJjT0wzw76Do6Gw
+         ZEFyP9XXT4UZmQFj7oroHvL92VEeFhZs1g5OAuXIEBPvle4LFHu+WhbVtNnDHeJ+EMFz
+         4YPnjbwu8RKkTNY7Ykap/hI0cF9qsGQqmJvGosCSozqMcIJr1lZ8luLzMjKcOrKfRiCX
+         RkGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXlUcCMY4jwAYeV3Cqnyxzjkms3Ttvzq2hCB17iZydamfNeQmsWNN+Z7ZJCNNV2Zj5FV7EK39WHlsyam5W/TskEgQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxtajMFLIto3WlepjHszUTQHrn9fuLg1QmXtf0EZLOfi66SQyUI
+	4LrfySr09c9Lsv8X4zBmb8xit1+Bp1cfw3EYkjWEdm0YQWdpZEQfgi5J4pAPKA3cdbfAwbFLaJx
+	8dx0zFUiAUwkjGRRDqwlFpSqwm9ciu6FbqB9lVg==
+X-Gm-Gg: ASbGnctlci/pVSLoISc3AcEA6MAJFBPV66mf0QMozbj5MmDDB50FC7IXQPoDux3c7QF
+	+0TxxgI+S2KZndjFOhuTUC0XqQl8gWVov9SiyJ3GlGZCzbA2UlmDK9JENZ4IW+bVuEaeEM4FZ
+X-Google-Smtp-Source: AGHT+IGjStHhDD40GEr3Pbpi3LTRvczOGOvPVy2bZdMPiQBkdMgcB3ibT6l3VnIxJclrCX9rjJSVwZMTrJq4x7edtgU=
+X-Received: by 2002:a5d:5f89:0:b0:38d:e572:4dc2 with SMTP id
+ ffacd0b85a97d-38dea2e9439mr7475744f8f.40.1739445428437; Thu, 13 Feb 2025
+ 03:17:08 -0800 (PST)
 MIME-Version: 1.0
+References: <CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
+ <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
+ <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
+ <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com>
+ <4e883a56eb9b74a5663d7ad258194d16b1c79912.camel@linuxfoundation.org>
+ <CAMSfU+44qwScnoDP4As37TNHYvwx5mBmTdGEQgq_VVz7woh6sQ@mail.gmail.com>
+ <CAMSfU+4MY-JVmWPUixJYiUrtKd2CXHrJuQ0sMJJrrkLzrvAuvA@mail.gmail.com>
+ <CANNYZj_8o=SHOn-kRBxzwc8vp3omCL290SA-jKkL_En1m2SWEA@mail.gmail.com>
+ <2c1bcbb1d5b75b925d9af2bd300d376a973e314e.camel@linuxfoundation.org>
+ <CANNYZj88RSkyChK6NwJU2OVxmGXzD2W8UcGyYe92ii8v8hdFqQ@mail.gmail.com>
+ <CAMSfU+5Af0=w0N_kK1HLx4nNnQqGOv54C2qC-e7Q0Lm5NQ0Vrw@mail.gmail.com>
+ <CANNYZj_8qPoOjhR=uR_7WRZu0V0YdhbcN43fA6mbnQBU5198fw@mail.gmail.com> <14a350e52c4e567fa995b08978b418fe1e43831e.camel@linuxfoundation.org>
+In-Reply-To: <14a350e52c4e567fa995b08978b418fe1e43831e.camel@linuxfoundation.org>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 13 Feb 2025 12:16:41 +0100
+X-Gm-Features: AWEUYZlFJg4F9nNDA_Lh9ae1YewCMJQsaGyZtv8WxFRM5SwhM5Cz0PuldGjDVak
+Message-ID: <CAMSfU+6s3fLkwGfK=5esnnW9yJd7Ln9WiULJ8TUP2gxhZaz1Sg@mail.gmail.com>
+Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Yocto Mailing list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000de5434062e043289"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:43:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211324
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 11:17:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211325
 
-I've pulled this to a separate email/thread since I'd like to take a
-slight step back and put some different ideas into the mix as well as
-explain where my own thoughts are right now. I'm also doing this so
-that we can focus the discussion and give others a place to catch up
-from. For that reason I may restate some information below.
+--000000000000de5434062e043289
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We have two fundamentally different approaches:
+Le jeu. 13 f=C3=A9vr. 2025 =C3=A0 11:03, Richard Purdie <
+richard.purdie@linuxfoundation.org> a =C3=A9crit :
 
-a) a single entry in SRC_URI with magic behind the scenes expanding
-this into a list of dependencies
+> On Thu, 2025-02-13 at 10:54 +0100, Alexander Kanavin wrote:
+> > On Thu, 13 Feb 2025 at 10:53, Yoann Congal <yoann.congal@smile.fr>
+> wrote:
+> > > > > I don't think the github repo is going to work for either YP or O=
+E
+> > > > > since there are repositories in both that use pull requests and w=
+e
+> > > > > can't have a one size fits all message. I think that means we wou=
+ld
+> > > > > have to do this with a .github directory in the repos themselves.
+> >
+> > > That would mean to create a ".github/" directory in those. Are we
+> ready
+> > > to do this?
+> >
+> > I think so. RP pretty much confirmed this just above?
+>
+> I said that it was probably the only viable way we've seen so far. I'm
+> not happy at the idea. I've not said "yes we should" as yet.
+>
+> I'm wondering if we should set up that default repo saying "no pull
+> requests" then ask repos that do accept them to override the message
+> with their own pull request file? The default repo is only used as a
+> fallback. Does an empty file do the right thing just to remove the
+> default message?
+>
 
-b) multiple entries in SRC_URI generated with tooling
-
-gitsm is similar to a), partly because it can contain recursive
-references to other submodules so the second approach wouldn't work.
-crates are handled with the b) approach today.
-
-Developers in general are more comfortable with b) since they can more
-easily see what is going on but it is also the harder one since it
-deviates most from the underlying tools and has two sets of data that
-require to be in sync.
-
-Some feel the .inc files enabling b) are effectively machine generated
-and could be removed with the work happening transparently instead,
-simplifying the recipes and commits. This allows easier use of the
-underlying tooling too.
-
-I think firstly, we need to document some key principles. Behind the
-scenes, any given url should expand to a defined list of components and
-that list has to be deterministic and not "floating", i.e. always the
-same regardless of changes in any registry or other upstream. If there
-are changes, they need to be detected and there needs to be a hard
-error. Also, if the code sees things declared in a way they could vary,
-that also needs to be a hard error.
-
-Most of the concerns I've seen are about how easy it is to understand
-what is going on behind the scenes. The move of code to OE and
-splitting everything into multiple tasks/stages does do that to some
-extent but it does it in a way which I think is going to create a new
-and different set of problems.
-
-I'm therefore wondering if there is a different way. The changes I'm
-wondering about would be to:
-
-a) embrace the single SRC_URI entry
-
-b) require a checksum of the internal "URL list" that is included
-in=C2=A0SRC_URI, much in the same way that we have checksums of tarballs.
-For better or worse, we have low trust in the underlying tools to get
-this right (they are getting better).
-
-c) if the checksum doesn't match, we know something went wrong and
-error
-
-d) require the new modules to write the URL list into a known location
-as part of unpack
-
-e) add the ability to add custom hooks in the fetch process to handle
-the cases of needing to alter the flow for patching the components list
-
-f) create new tools that allow the fetcher to be stepped through and
-for example partially run, or run with clear debug output showing what
-was happening at each stage (show the list of components?). This may be
-standalone tools, maybe a devtool module, I don't know. We may want to
-make the fetch/unpack logs more useful in general as right now you
-don't get much useful data about what it is doing.
+Just tested, it does : with an empty ".github/pull_request_template.md" a
+repo following the github workflow gets the global default "Add your
+description here..." template.
 
 
-If we do those things, where does that get us? How much buy in do our
-different stakeholders have?
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
 
-FWIW I am leaning towards having this code in the bitbake fetcher as a
-first class citizen as to do otherwise is going to create layers of
-abstraction and we probably have enough of those already.
+--=20
+Yoann Congal
+Smile ECS - Tech expert
 
-Cheers,
+--000000000000de5434062e043289
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 13=
+ f=C3=A9vr. 2025 =C3=A0=C2=A011:03, Richard Purdie &lt;<a href=3D"mailto:ri=
+chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
+; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Thu, 2025-02-13 at 10:54 +0100, Alexander Kanavin wrote:<br>
+&gt; On Thu, 13 Feb 2025 at 10:53, Yoann Congal &lt;<a href=3D"mailto:yoann=
+.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>&gt; wrote:<br=
+>
+&gt; &gt; &gt; &gt; I don&#39;t think the github repo is going to work for =
+either YP or OE<br>
+&gt; &gt; &gt; &gt; since there are repositories in both that use pull requ=
+ests and we<br>
+&gt; &gt; &gt; &gt; can&#39;t have a one size fits all message. I think tha=
+t means we would<br>
+&gt; &gt; &gt; &gt; have to do this with a .github directory in the repos t=
+hemselves.<br>
+&gt; <br>
+&gt; &gt; That would mean to create a &quot;.github/&quot; directory in tho=
+se. Are we ready=C2=A0<br>
+&gt; &gt; to do this?<br>
+&gt; <br>
+&gt; I think so. RP pretty much confirmed this just above?<br>
+<br>
+I said that it was probably the only viable way we&#39;ve seen so far. I&#3=
+9;m<br>
+not happy at the idea. I&#39;ve not said &quot;yes we should&quot; as yet.<=
+br>
+<br>
+I&#39;m wondering if we should set up that default repo saying &quot;no pul=
+l<br>
+requests&quot; then ask repos that do accept them to override the message<b=
+r>
+with their own pull request file? The default repo is only used as a<br>
+fallback. Does an empty file do the right thing just to remove the<br>
+default message?<br></blockquote><div><br></div><div>Just tested, it does :=
+ with an empty &quot;.github/pull_request_template.md&quot; a repo followin=
+g the github workflow gets the global default &quot;Add your description he=
+re...&quot; template.</div><div>=C2=A0 <br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS - Tech expert<br></font></div></div><=
+/div></div>
 
-
-
-
-
-
-
-
+--000000000000de5434062e043289--
 
