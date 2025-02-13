@@ -1,93 +1,132 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92510C0219D
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:09:40 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.7738.1739441373705250264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C95C021A0
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 10:21:00 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.7875.1739442058856759043
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 02:09:33 -0800
+ Thu, 13 Feb 2025 02:20:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XMZKXmBs;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6dd01781b56so8562156d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 02:09:33 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=zoBKGV4X;
+ spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5450cc1669eso572686e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 02:20:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739441373; x=1740046173; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1FfHJW33S6EMsIpaCsjU3DVDsQ/59Eut27FoN+xeRU4=;
-        b=XMZKXmBsfG9J6nEazxilOb2F5fStW5iOYrT5wThh0LpMUmxSOwLczfayRErKXqmhhQ
-         YzOClVJTWrm9ApgV6D7R+0JU7GoBM6BVIAjls9WX1UCTn0eQJIeISJvqYwx7dLLSMz5H
-         FUSTAYnuwK8tnuIjFJxg9bxLNLYd2SWHCjRheLOu270xwxNybBiugtR74/VLNScymn11
-         YpJWsWuo/0GCSo7lhM2oV9xvNRW1f0vfAQn8DN8m61P8LrRrBhpM503hgZRQeL0uvdhz
-         uCZ+hIKUPXs63mNiXkZ48EhtwGh2k97y09nxp2ENUHUpugl3UCnT66BfMdVz+IJRDKBB
-         JHOg==
+        d=linaro.org; s=google; t=1739442057; x=1740046857; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONnSH29pUExhr/0vlIeTh5pQhqjFFP8GLzbU4y0tbAY=;
+        b=zoBKGV4XAmxYZcSk4FA4VZiBsbTjjS6YKSDItytSPM2nU/bsic82iynGJkIUgl3BHK
+         cCr7sJ2Qu2HS/p1JZQkH+lPIby7qIH3Au2L8kPZIN4MO4KfuYlpiAOPlHBoFuF7XsLKc
+         fAkoe4wK0thrVC6tLaGse06zq/ZbRdR/RehUle+8531urUN7ah8w+/WXPpaCZ5u4AIKw
+         4ynORwonSiGpF0cW7amilIRZdmlwj70bpY1d5gLaJvp2HNkS8umEyRQqQZ28c2OFDY32
+         +pyNOhK/G3nTg2NLIQpv7hm5N2+X9CZEqDbuTEAHnfOoRATnnjn1d1QirU6aXWcQ92R3
+         95tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739441373; x=1740046173;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1FfHJW33S6EMsIpaCsjU3DVDsQ/59Eut27FoN+xeRU4=;
-        b=BewMXcMNl7MZ4q6F5iHIA1iYiNS0x9BUc2EboQ5fL2T/pKwfCYEi3lxcsRoXxHUW26
-         rWhJFkHlCLc6zvP96A2kdiEWyaGRiLnDmflUFcE5U3F/eTbp13pyAV595y537EubHr4k
-         Q8AyYCTsC2W6VPr4GZcBKIdsEAEhawm2ihiW5bIloirLmNsktfra4nsA3TWscbjfzwX+
-         ZmnO0W/k4qpF/jWMbKlMvm1ylS70bwYsA9/6DrPwcbEJSICPgVZcMO+NAFE6CHfRTcaq
-         b6ef1jfJIjRHBAZEY2Y3AKp8FhwZn1TnRTeDltViQBZ7z+83XZ+ZBe11hOpNB+Mgr3+j
-         H+JA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpdgGR2mXtWdEC+eQPNjT6Ugxw0MociZ0ETnpwDDB05W7LXLl8jxspLPB4If8Hln7nrYsRaGwMTPT7FGiAGkf4iA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YztfICIXEFzUAYEgdb+lGea9C3zqAT+GfhSAVwHeOh5k7WKGdld
-	Y/m/B9gRA4p14jzFrWxNwksjMtuCfktCBGx+Lt45IPEGsmZWBOcmJpF0/ggC76JsLz0Ja+o27TO
-	uFvaFoUTV4hsT68FrYDuAK9zATXs=
-X-Gm-Gg: ASbGncu53uRCrnWUz+biQISt/AxCFjkhZP/mqJplDbNVUvztfoC4Ow/dkbH2FBQU5k6
-	XegrOzdit8cKgVBq0Ytjag4Xl+toaSK2PtjfT1FyOXjNiH9geY3BF/2ZzkIMg9dEe4L4OVn3KVN
-	dwZJjEsETconCRwP4zOHh/ufiaAhPGKZE=
-X-Google-Smtp-Source: AGHT+IHKLGznaByVA3zsK6AleSsQvKW5dRlQjl8FYNbzjPZcUxLO5fzFkQE4YRlGttRh22WaIbwDDafsm9SyECzQmNY=
-X-Received: by 2002:a05:6214:2464:b0:6e4:2f4c:f2d2 with SMTP id
- 6a1803df08f44-6e65c1832edmr46709516d6.31.1739441372667; Thu, 13 Feb 2025
- 02:09:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739442057; x=1740046857;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONnSH29pUExhr/0vlIeTh5pQhqjFFP8GLzbU4y0tbAY=;
+        b=t+ys36R+W3znosJJUlHx3gSSc06HzTKEVfa2ylyVL5IMvrpGrEMdZT5lLkiz03ZXO5
+         Oy2scL+sU2QRdgIOmlu9UTLM8rrCD31a/huFF9uMJlXNmxzvA96god9PrVhUhKUKc6Tt
+         uyC5yTuWwTJIf/kCqo6YaYoweGr0JmkytkYxtWXzxOLI7i2ky491bEZBMjAK4yPZlXw3
+         dQIIba0Dt4MNtIY4eBMH5d50UDEzcPUtGuoSW7JrbwHxCzrzJq+DgciaRUzgOL2e22fO
+         mw1cXyWBig7NVkRnL4E8xOo5sRFWPZUjTkk1oNdyC16utiRhFYl3OCZ2MZyoeM+FjjXp
+         h9BQ==
+X-Gm-Message-State: AOJu0YyDKY8a5Baj/JDi7SXoiGf8Jg0WC9TKCiVHe28eG84OpsRdbdpQ
+	xsrjda2JcziXZjXqxW0/T4M9/fuSr067gFMj+LGlgIp7eYCLRCYfefuA2sfKs0Y=
+X-Gm-Gg: ASbGncsU6L0QLOTn+EwADDDPB87c08jwTX82FI47hjQ03D/6uxq9x1uXQuBRozrwheM
+	9Qhhq/kI3xBSCrLhAZZsCTv6N8P9PlvX4W9OiRNcwtkcDldgKeqJJ0qc7c9sflwnv3tcefVyr80
+	vtrSCXKLZOpzk7zPJWI5SE2rK5ZyyrCfwwIdCcN0nNglx/DOPpX13y2qpjARoZ2IL0Hdk10KjFz
+	9lJipe4t5LBsCvrMJ9+m1xvKnIM83ARks3/LmsS4xKt8zrEFD5er/N5yGAr7X4N7ltvE9XfxCeQ
+	219nV3OXTeUHSTjM1Aaj/Zbx61bUg+6DMYCjq3GpxQS4mUAmORtdryswAHYEp5O+nk8ZmOw=
+X-Google-Smtp-Source: AGHT+IFHdpFFUT1iErvJmC+cMtstXd+TlU03+9MNRLhuwZ41uxoMC+bkRqPnOImsokedqgp75XuxWw==
+X-Received: by 2002:ac2:5f50:0:b0:542:2190:9d99 with SMTP id 2adb3069b0e04-5451dd8c572mr733891e87.6.1739442056699;
+        Thu, 13 Feb 2025 02:20:56 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5451f11ec95sm127141e87.233.2025.02.13.02.20.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 02:20:55 -0800 (PST)
+Date: Thu, 13 Feb 2025 12:20:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vivek Puar <quic_vpuar@quicinc.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] linux-firmware: upgrade 20250109 -> 20250211
+Message-ID: <ncraxnrtqpnxbv35hnpuggckf7tgzixs3bsdsfpjxavbjkiswb@5yhok7verjni>
+References: <20250213064618.1907931-1-quic_vpuar@quicinc.com>
+ <brzznd6fgfndbawy75ylrpzbqwpuc5rg24v4xyc3fbdcrkiuzz@vx3ovob66wxn>
+ <69ce9ddf-2c14-4857-919c-3ec4b23a0751@quicinc.com>
 MIME-Version: 1.0
-References: <CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
- <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
- <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
- <CAMSfU+6d7gvYkjC5sbUPu6D_hOOF43ZUnM_NMEwmLUxZn6ysSA@mail.gmail.com>
- <4e883a56eb9b74a5663d7ad258194d16b1c79912.camel@linuxfoundation.org>
- <CAMSfU+44qwScnoDP4As37TNHYvwx5mBmTdGEQgq_VVz7woh6sQ@mail.gmail.com>
- <CAMSfU+4MY-JVmWPUixJYiUrtKd2CXHrJuQ0sMJJrrkLzrvAuvA@mail.gmail.com>
- <CANNYZj_8o=SHOn-kRBxzwc8vp3omCL290SA-jKkL_En1m2SWEA@mail.gmail.com>
- <2c1bcbb1d5b75b925d9af2bd300d376a973e314e.camel@linuxfoundation.org>
- <CANNYZj88RSkyChK6NwJU2OVxmGXzD2W8UcGyYe92ii8v8hdFqQ@mail.gmail.com>
- <CAMSfU+5Af0=w0N_kK1HLx4nNnQqGOv54C2qC-e7Q0Lm5NQ0Vrw@mail.gmail.com>
- <CANNYZj_8qPoOjhR=uR_7WRZu0V0YdhbcN43fA6mbnQBU5198fw@mail.gmail.com> <14a350e52c4e567fa995b08978b418fe1e43831e.camel@linuxfoundation.org>
-In-Reply-To: <14a350e52c4e567fa995b08978b418fe1e43831e.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 13 Feb 2025 11:09:21 +0100
-X-Gm-Features: AWEUYZnMZUyPIZqYQiIYrKRL2YGO5UtdoDrwtMO8yotn5fN4Kj_TPxeEsllz1_I
-Message-ID: <CANNYZj9hU1g+uyGAgy=02jtX9a-QdO=b6t3zG1OgshJkfdyhCQ@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] Yocto Project Status 11 Feb. 2025 (WW07)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
-Cc: Yoann Congal <yoann.congal@smile.fr>, 
-	Yocto Mailing list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69ce9ddf-2c14-4857-919c-3ec4b23a0751@quicinc.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:09:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211318
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 10:21:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211319
 
-On Thu, 13 Feb 2025 at 11:03, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm wondering if we should set up that default repo saying "no pull
-> requests" then ask repos that do accept them to override the message
-> with their own pull request file? The default repo is only used as a
-> fallback. Does an empty file do the right thing just to remove the
-> default message?
+On Thu, Feb 13, 2025 at 03:38:14PM +0530, Vivek Puar wrote:
+> On 2/13/2025 3:29 PM, Dmitry Baryshkov wrote:
+> > On Thu, Feb 13, 2025 at 12:16:18PM +0530, Vivek Puar wrote:
+> > > Add DSP firmware for Qualcomm SA8775P / QCS9100
+> > > platforms to ${PN}-qcom-sa8775p-{audio, compute, generalpurpose}
+> > > packages, and updating it with correct license information.
+> > > 
+> > > Add QCA6698AQ package ${PN}-ath11k-qca6698aq
+> > > to ath11k firmware.
+> > > 
+> > > Add bluetooth WCN3950 package ${PN}-qca-wcn3950,
+> > > bluetooth QCA6698 package ${PN}-qca-qca6698
+> > > to qca firmware.
+> > > 
+> > > Add two more WCN3950 1.3 NVM files to
+> > > ${PN}-qca-wcn3950 package.
+> > > 
+> > > Add device specific ath11k firmware to QCM6490
+> > > boards in ${PN}-qcom-qcm6490-wifi package.
+> > > 
+> > > Add Firmware files for Lenovo T14s G6 Qualcomm platform
+> > > to ${PN}-qcom-x1e80100-lenovo-t14s-g6-{adreno, audio, compute}
+> > > packages.
+> > > 
+> > > License-Update: additional files
+> > > 
+> > > Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+> > > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >   ...20250109.bb => linux-firmware_20250211.bb} | 68 +++++++++++++++++--
+> > >   1 file changed, 63 insertions(+), 5 deletions(-)
+> > >   rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250109.bb => linux-firmware_20250211.bb} (96%)
+> > > 
+> > > @@ -1861,6 +1904,10 @@ FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm855
+> > >   FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin*"
+> > >   FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
+> > >   FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
+> > > +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compat = "${nonarch_base_libdir}/firmware/qcom/21N1"
+> > Nit: this is unused and not required for T14. The rest LGTM.
+> Should "FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compat" be removed or
 
-I think the only repo under openembedded we need to carefully
-coordinate with is https://github.com/openembedded/meta-openembedded
-so let's add Khem and ensure this doesn't step on his workflows.
+Yes. There is nothing to be compatible with.
 
-Alex
+Nevertheless, this patch is in master-next. Unless RP drops it, I'd
+suggest sending a simple fixup on top of it.
+
+> ${PN}-qcom-x1e80100-lenovo-t14s-g6-compat is not required for T14sand only
+> keep${PN}-qcom-x1e80100-lenovo-t14s-g6-{adreno, audio, compute} packages?
+> > > +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/qcdxkmsuc8380.mbn*"
+> > > +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/battmgr.jsn*"
+> > > +FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*cdsp*.*"
+> > >   RDEPENDS:${PN}-qcom-aic100 = "${PN}-qcom-license"
+> > >   RDEPENDS:${PN}-qcom-qdu100 = "${PN}-qcom-license"
+> Regards,
+> Vivek
+> 
+
+-- 
+With best wishes
+Dmitry
 
