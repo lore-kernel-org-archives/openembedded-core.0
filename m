@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0C3C021A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE175C3DA4A
 	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 14:26:41 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.12087.1739456801108327516
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.12202.1739456799778955484
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 06:26:41 -0800
+ Thu, 13 Feb 2025 06:26:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=corahBoo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220c4159f87so12536145ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:26:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3HcxIpRL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21f3c119fe6so22275755ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739456800; x=1740061600; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739456799; x=1740061599; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n6UPa5EYmSiz6djPcwLz4pyVwq+uC9v1SMG7coN8Wt4=;
-        b=corahBooAaxbcAYcb4pSI3XfMl60NFYyq98dEVOL1iwf4NQXhfz8yomW+BLEAG4abI
-         F82VtIs+byXzAPUTsw03fnqaPSjaNDXlvXH26EJbCSIypdGClOlYsJLRrCYnIkGnr+82
-         YLIcb3OhLK8xMuOQhOlMpL3hhSQBS0MNW//UkdZQ6EL9IMcL/3qfbavrW2T4xx9OgHii
-         XSNYDV5F8GvAy0Xjxx+BTrNc7B7uursBqohn6JCuenIGeIN7CjJlfFeaRTLcq4+lEQ1b
-         pNrS3V/Ltska8mnYu4fCcyInAt2Q952p3yxvbLcA8rgd24Y1rbqLYJVSKkLLUP6f7guB
-         GCeg==
+        bh=ljOT/4vMaRXZ0pUg9IGukepS1UmOAlNeuEPW0/qcLA4=;
+        b=3HcxIpRLFczm29VMwUo3n0iQNS7LfS9l5uNj1S+jiZOtw1MwwCYKmt3Ho61qS6vI4H
+         fSVbIUubgWwJDuvM/4r+BwrpYn1irGAcFZQkklJH7PWY2Qj+Cz3eVm/mAdEHLmEHF8od
+         +XEXiEzSwMoyULzbl+vqqCN+AIY5q1m489Rto1OnzE+QapxgDnDp1QWx4kaGMVE/uxsn
+         S97ldpQi+127p2PitkR29sbCyhjj38SPpKce/RqTz3IA6GhtTtIg90rwMIo2Ce7zt3Jr
+         4RmV4ZQwEsQwon34BEBwrSaeQF6XLEacWiiOeZKvM7gw8DcvTaQ6vw20+yPYC5lXLoGg
+         OZ2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739456800; x=1740061600;
+        d=1e100.net; s=20230601; t=1739456799; x=1740061599;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n6UPa5EYmSiz6djPcwLz4pyVwq+uC9v1SMG7coN8Wt4=;
-        b=uhMVICxi+SuUOOodebAO9DaK40G/enwpDWTJsFeFZ4wG6vjs8THWZcHiJUhlil/bYP
-         8NiSfgGekXceQe5FyqeKrdME5pdGtdzwyRFMXD4dDfQl4bjvYGKBL51YMYRK711m7N6E
-         yH/HSileuNFemebBW1ksWKzz0RKvZvuTilE2Yg8GKuTxc//DAncEhYOthV0Gg/++jrd8
-         T7ieEv+qbM2p4xvQl09HiBGnNRQR8Z/VwQg+pNwz8cy/ndpN8ESGa15m2efYit7OYuJN
-         +TWT7xACB7BZbWTl0Ufuzqnqh9pI7QA9gSGslfSVzGKePFOiaLjeJO5MHQ8O3gzz1XwS
-         KHHQ==
-X-Gm-Message-State: AOJu0YyRrnTrYVQsGIXr+S3HZyD8gynGibH4liH9R8jb5yaZ277ed2Nc
-	EZnZIqUw3fTwAQtoK2eJ+sBf0l+b6k6tx5dapbvaeMTUBw1pwT/bt2FZtMmlCznLATx2pvpUVN8
-	9
-X-Gm-Gg: ASbGncvUMfwlNksFk+i35SqivNpmKwtZc1ZkfMm9raupW9fs3jOi7ShQB/yX7/CXHwJ
-	9BTi9vj1XYnhMu/hceBCm5AQlr0bVEhL+0dAdb1rdmyQCrAR11lwxat8jVh6n+cbLH9KmpgBMyN
-	XgT6w3mg9RbsHaqY3l4z6dOOxx+PwclJNLH2Gng2/J1i8FmuXISb1Rt3H43Hg3EZT5VWOssZv2O
-	qHISUnYe/d6/xAX6YWfjIYMzY0ZW/7yUKKPeu8BOuLhGf0i6LtPyu/CP5jJNOOSkP0Z9+CUGRXb
-	pc06
-X-Google-Smtp-Source: AGHT+IGFjEwJJaB61UAyX062ZKUNMoO6YhIVMF8VQBjnoLHbWifin6Mfzi858dgSISMwNsFeLOA9HA==
-X-Received: by 2002:a05:6a20:244a:b0:1ee:65eb:73ef with SMTP id adf61e73a8af0-1ee6b2fe357mr5378504637.12.1739456800364;
-        Thu, 13 Feb 2025 06:26:40 -0800 (PST)
+        bh=ljOT/4vMaRXZ0pUg9IGukepS1UmOAlNeuEPW0/qcLA4=;
+        b=Ga+u24O1kie+ImsQAA9gFxS9bjuHNX/YcPrjXcGcF0kQiod9u00amGBFjh9ae6gM31
+         Tl/pzKyGmdkNMYlHD3ib7m/ZpThWpda7yDX/t/MZMjbRdmA1tO//JPRUy5V71WGbd9Cx
+         e4UwYcb0pTIr1ufr3U1KUV0ofsRlVRG81awKV/aATo3UBOGnAt7PDzZjMWRMH6Aig/+X
+         k0a4w/YeJsd8x81qYm+UT7wC2y+O9B5GhKH+NZhexJRXeL4y+60j9jQ61bESjUOLM5O6
+         A2+BIvQeHGp17xSxzXlug9Ecb3pqPm8praB0lxb+BAE3MfH/4jD23p0/zGO1aK+LyRXk
+         4+Mg==
+X-Gm-Message-State: AOJu0YzF/v3ITfcYU7g2oBzT1mK4cKCKB030ecKhhQJ1Peqz62QG/Sda
+	ImF2Es3fGeE2MLPXHbW4CsN3tccQeKe24ZKUKB9t8U8y1ASDQz/uwcDpO2kRjotprwdnUjMFIQa
+	W
+X-Gm-Gg: ASbGncujXjxNhcnAZ37+oEx3J0/ijHqKeAJFwNQrTkbZjzXowhBlXHwUxv1hTdxhlCr
+	yjk3vfw2dT/1GmTTcfyNq/ivAvICZCtNFB6z5DBqTGqYJv5nxt5GwxQaZP6mvs1fZ0sRCSxGZ1H
+	uTldoeRkCHURP/oM+R+ag2GQ1lNO+0+8lH7v3psNDEJ7vzQKkK8WilwfXu1VaA2EgNa8s9NtRqK
+	mDIzZO2gmi+WVMZbSXBoYsXQGm/uEC6O2iD/PwmtIgOccoyGgUaoVOL6BA2pvWlK2ChuUcMXS3o
+	qGCg
+X-Google-Smtp-Source: AGHT+IGuSqGWbMppMLcxrKNg1Us6132h6eKlAoNcHHQUvIh4Eh8HN7ObdMGykjOlJ33AiPirzg2t+A==
+X-Received: by 2002:a05:6a00:b95:b0:730:8a0a:9ef9 with SMTP id d2e1a72fcca58-7322c417953mr12351526b3a.22.1739456799006;
+        Thu, 13 Feb 2025 06:26:39 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm1342377b3a.30.2025.02.13.06.26.39
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm1342377b3a.30.2025.02.13.06.26.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 06:26:40 -0800 (PST)
+        Thu, 13 Feb 2025 06:26:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/3] classes-global/insane: Look up all runtime providers for file-rdeps
-Date: Thu, 13 Feb 2025 06:26:31 -0800
-Message-ID: <0ff31972b60dda5d8bada2ffb428cc54bb49e8cf.1739455358.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/3] lib/packagedata.py: Add API to iterate over rprovides
+Date: Thu, 13 Feb 2025 06:26:30 -0800
+Message-ID: <579717212ba2892e32315788ccd65320556d32a3.1739455358.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739455358.git.steve@sakoman.com>
 References: <cover.1739455358.git.steve@sakoman.com>
@@ -67,72 +67,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 14:26:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211340
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211339
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-Uses the new foreach_runtime_provider_pkgdata() API to look up all
-possible runtime providers of a given dependency when resolving
-file-rdeps. This allows the check to correctly handle RPROVIDES for
-non-virtual dependencies
+Adds an API that makes it easier to iterate over the package data for a
+all providers of a runtime dependency.
 
-(From OE-Core rev: 018fa1b7cb5e6a362ebb45b93e52b0909a782ac9)
+(From OE-Core rev: 68bdc219a4a819e83217f5b54c463624af8d3b9e)
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/insane.bbclass | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ meta/lib/oe/packagedata.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index dfda70bad6..f4b4c05e3d 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -761,13 +761,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
-                         continue
-                     if not rdep_data or not 'PN' in rdep_data:
--                        pkgdata_dir = d.getVar("PKGDATA_DIR")
--                        try:
--                            possibles = os.listdir("%s/runtime-rprovides/%s/" % (pkgdata_dir, rdepend))
--                        except OSError:
--                            possibles = []
--                        for p in possibles:
--                            rdep_data = oe.packagedata.read_subpkgdata(p, d)
-+                        for _, rdep_data in oe.packagedata.foreach_runtime_provider_pkgdata(d, rdepend):
-                             if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
-                                 break
-                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
-@@ -811,17 +805,17 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                     # perl
-                     filerdepends.pop(rdep,None)
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index 212f048bc6..205800a407 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -108,3 +108,18 @@ def recipename(pkg, d):
+     """Return the recipe name for the given binary package name."""
  
--                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
--                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
--                    for key in rdep_data:
--                        if key.startswith("FILERPROVIDES:") or key.startswith("RPROVIDES:"):
--                            for subkey in bb.utils.explode_deps(rdep_data[key]):
--                                filerdepends.pop(subkey,None)
--                        # Add the files list to the rprovides
--                        if key.startswith("FILES_INFO:"):
--                            # Use eval() to make it as a dict
--                            for subkey in eval(rdep_data[key]):
--                                filerdepends.pop(subkey,None)
-+                    for _, rdep_data in oe.packagedata.foreach_runtime_provider_pkgdata(d, rdep, True):
-+                        for key in rdep_data:
-+                            if key.startswith("FILERPROVIDES:") or key.startswith("RPROVIDES:"):
-+                                for subkey in bb.utils.explode_deps(rdep_data[key]):
-+                                    filerdepends.pop(subkey,None)
-+                            # Add the files list to the rprovides
-+                            if key.startswith("FILES_INFO:"):
-+                                # Use eval() to make it as a dict
-+                                for subkey in eval(rdep_data[key]):
-+                                    filerdepends.pop(subkey,None)
+     return pkgmap(d).get(pkg)
 +
-                     if not filerdepends:
-                         # Break if all the file rdepends are met
-                         break
++def foreach_runtime_provider_pkgdata(d, rdep, include_rdep=False):
++    pkgdata_dir = d.getVar("PKGDATA_DIR")
++    possibles = set()
++    try:
++        possibles |= set(os.listdir("%s/runtime-rprovides/%s/" % (pkgdata_dir, rdep)))
++    except OSError:
++        pass
++
++    if include_rdep:
++        possibles.add(rdep)
++
++    for p in sorted(list(possibles)):
++        rdep_data = read_subpkgdata(p, d)
++        yield p, rdep_data
 -- 
 2.43.0
 
