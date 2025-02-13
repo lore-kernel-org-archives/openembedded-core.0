@@ -1,82 +1,111 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <jsbronder@cold-front.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8255C021A0
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 18:57:13 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.2017.1739473026282338366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5F6C021A0
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 19:13:13 +0000 (UTC)
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by mx.groups.io with SMTP id smtpd.web10.2459.1739473993361765250
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 10:57:07 -0800
+ Thu, 13 Feb 2025 11:13:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=GnyJUM5S;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202502131857027764e900a1f7a602b8-vfa2g7@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202502131857027764e900a1f7a602b8
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 13 Feb 2025 19:57:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=LzFMaV1EKUqLC9HRv0mM10NTJBdKgEEMs03AWRvIqkE=;
- b=GnyJUM5SoVOo20OjmZvtKBIprkyR/BE3XcS2y2JaauvI/SMpoZqnBKGU1kzqpNSiF1rq3N
- lB3C0iw2l7WjLssmSS42NXqNW6uLusgsEBUq913loQGFTcVPIyjutqqxVE6erCNjv/Avp45p
- 14C5C/8sGbUqlhxQtnyzfCzVqba2OV79SwMKCx+eaWXZcWSY49/SFbytoSJ9+d8vIixAKWt5
- WOJVwYCy5zK+0xk6MJEQKwyo3+0PrhVbqEdoOyC8iUPSk1iwY6ypt07a7t9AgOSWIHMwXPpi
- E2bkW60M4qXw4n/XpGkJiI0PiURLW+kzwH1O3nsZ+P73Ytz5cR1DgOtQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] curl: upgrade 8.12.0 -> 8.12.1
-Date: Thu, 13 Feb 2025 19:56:09 +0100
-Message-Id: <20250213185609.1873389-1-peter.marko@siemens.com>
+ dkim=pass header.i=@cold-front.org header.s=fm2 header.b=FkVH52tQ;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=XY9HmAHS;
+ spf=pass (domain: cold-front.org, ip: 202.12.124.159, mailfrom: jsbronder@cold-front.org)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 80D95254011C;
+	Thu, 13 Feb 2025 14:13:12 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 13 Feb 2025 14:13:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1739473992; x=
+	1739560392; bh=3NWk+f9Uxd1pjZVJFq5WWILeRutvAoCb6V7zRyrBUBM=; b=F
+	kVH52tQ4qdeXGNVSHJfEMwcf+yDIRRd5NyZrn0RVvBQHA6Uj0xDLwDuhypyhK6qL
+	feEOz4TTMcESthsi2WqgVf0dWTU1aVML2P1mtIyMDD8C3m/rnHY9oawYB/zhozIw
+	vteELz1LEL9CmslJQyQfJNh8YPQdW9rltDEpLto3yn+j/lPKVM+gaWCNcOou4afD
+	ym93YNqBsuJlbWp3q98rFI7N5gzB1gBOinFK8+gfmfSKF3zZMg4WsESGCcUjCMB/
+	44gNCLtXx7Zz5vBMWFp3+HZt6fM8wRRD+nJDEzuhCyoyzv+XuJS9Zk9+PoB3aEV3
+	9OZNL70onZX02auZWqUUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1739473992; x=1739560392; bh=3NWk+f9Uxd1pjZVJFq5WWILeRutvAoCb6V7
+	zRyrBUBM=; b=XY9HmAHSZzh0R6zVO0UNXcznKu2yoZkBbRBkzrVOdiqllrmhfWf
+	IwP3yrxUf1J/iftD0CLnjTfgLoB6uKNuJaXxOWMzdL9r+B8LrtTg4jj4WjY7vw+J
+	C1QOwMbSxPnxkdzHGmiBGoiCtcAs6ay7qoNF2+RodEeC8Q7l/aB4moB1+WlY7qD8
+	dJXwTfRbSefztXp0rWHKvzbHcgRaZRr1B/eUt4FA8xYIGc9Ksp6p3QctI6JrHk3n
+	QX/jOgWSBmXBD8ok6dtuyrLi5Oyk48smUK6GlAsuzcP20g5CKj34ECukmDr951Kg
+	njORNA0aCAeew8kcRx+FgiPo17Gz46i5Aug==
+X-ME-Sender: <xms:R0SuZ6xOF68AdCr9OFvpP2saSX_uzjhPfF55wkRsV-1gDmk3JuKzew>
+    <xme:R0SuZ2QjIXRmcNeECDqmKYe9W3rubJcZGOlFJJ1gq4nVFZpTZo_RPx8etr4JwUxnr
+    rQPn6tRM0uY6ik_xA>
+X-ME-Received: <xmr:R0SuZ8VBeIcw32RnR2jwSL--v49Xf397RfPFqLtEa6kaD-oLjf0t1CoWB7JmgFubSMdx3MC06KA2_VBlyunxT1tz>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegjeehkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpefluhhsthhinhcuuehrohhnuggvrhcuoehjshgsrhhonhguvghrsegtoh
+    hlugdqfhhrohhnthdrohhrgheqnecuggftrfgrthhtvghrnhepgeduieevgfevvdegieeg
+    keegueevheejfffhudeugedtudffffejjeevjedtteelnecuffhomhgrihhnpehophgvnh
+    gvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhssghrohhnuggvrhestgholhguqd
+    hfrhhonhhtrdhorhhgpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinhhugihfohhunhgurghtih
+    honhdrohhrghdprhgtphhtthhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtgho
+    mhdprhgtphhtthhopeihohgtthhosehlihhsthhsrdihohgtthhophhrohhjvggtthdroh
+    hrghdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdho
+    phgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopeihohgtthhoqdhsthgrthhush
+    eslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
+X-ME-Proxy: <xmx:SESuZwhrynVSCWuGuiXhIEGP0DaCYScj30UBvFwm7EbPtOSIaww0dA>
+    <xmx:SESuZ8CG_NrH8-cm5LIn63oO7Erz5oWtOodqjVixGGFhQumrrqKVlQ>
+    <xmx:SESuZxJ8fFhTB_xB2YSbdGD9svuHg-O0nzHMrCAqomjX1DzkG2eoIw>
+    <xmx:SESuZzCRrvMVtZ-VRCID7xhNfr4f2CLxfp2rtRhz9XyqzzvADLAHCg>
+    <xmx:SESuZ75tDCbH3A7i8jVwT8OhJDyvOCrFhvSJA9DEdmgb3yWrkrNcRrKb>
+Feedback-ID: iea0042cb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Feb 2025 14:13:11 -0500 (EST)
+Date: Thu, 13 Feb 2025 14:13:11 -0500
+From: Justin Bronder <jsbronder@cold-front.org>
+To: richard.purdie@linuxfoundation.org
+Cc: alex.kanavin@gmail.com,
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>,
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
+	yocto-status@lists.yoctoproject.org
+Subject: Re: Yocto Project Status 11 Feb. 2025 (WW07)
+Message-ID: <Z65ER5YO6Ci2MAK0@ravine.members.linode.com>
+References: <CAK5yBb9Fr9MFy5uub2_pTRWmVbt96OWBJ5ty+eAB9Qn+LYa_Wg@mail.gmail.com>
+ <CANNYZj-PbWQDa5hAc5X6sqHVMvJ0QE01XXwytya8rprwvSsqag@mail.gmail.com>
+ <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d22a4cec5e317e62f1f44d8d9a810cf4745ccb48.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 18:57:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211363
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 19:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211364
 
-From: Peter Marko <peter.marko@siemens.com>
+On 11/02/25 23:36 +0000, Richard Purdie via lists.openembedded.org wrote:
+> You used to be able to disable pull requests for six month periods, it
+> looks like you can no longer do that and it was a pain having to try
+> and remember anyway.
 
-Rebase patch which needs it.
+Isn't this just 'Settings -> Moderation Options -> Interaction Limits'?  It looks like you can restrict it to repository collaborators (which is a list under the repo owner's control) to 6 months.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-support/curl/curl/no-test-timeout.patch         | 2 +-
- meta/recipes-support/curl/{curl_8.12.0.bb => curl_8.12.1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_8.12.0.bb => curl_8.12.1.bb} (98%)
+It's also exposed on the REST API, https://docs.github.com/en/rest/interactions/repos?apiVersion=2022-11-28#set-interaction-restrictions-for-a-repository, which if you're willing to pull down the official github cli tool, gh, could go into a cron job fairly easily:
 
-diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
-index fe8efbe612..677d177302 100644
---- a/meta/recipes-support/curl/curl/no-test-timeout.patch
-+++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
-@@ -14,7 +14,7 @@ diff --git a/tests/servers.pm b/tests/servers.pm
- index d4472d5..9999938 100644
- --- a/tests/servers.pm
- +++ b/tests/servers.pm
--@@ -122,7 +122,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-+@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-  my $sshderror;   # for socks server, ssh daemon version error
-  my %doesntrun;    # servers that don't work, identified by pidfile
-  my %PORT = (nolisten => 47); # port we use for a local non-listening service
-diff --git a/meta/recipes-support/curl/curl_8.12.0.bb b/meta/recipes-support/curl/curl_8.12.1.bb
-similarity index 98%
-rename from meta/recipes-support/curl/curl_8.12.0.bb
-rename to meta/recipes-support/curl/curl_8.12.1.bb
-index 7b5e6350ba..1e9e5a0229 100644
---- a/meta/recipes-support/curl/curl_8.12.0.bb
-+++ b/meta/recipes-support/curl/curl_8.12.1.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
- "
--SRC_URI[sha256sum] = "9a4628c764be6b1a9909567c13e8e771041609df43b2158fcac4e05ea7097e5d"
-+SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
- 
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+gh api -X PUT \
+    /repos/openembedded/openembedded-core/interaction-limits \
+    -f 'limit=collaborators_only' \
+    -f 'expiry=six_months'
+
+I obviously couldn't test in the OpenEmbedded Org, but this worked both on my personal repos and in a private (paid) organization.
+
+-- 
+Justin Bronder
 
