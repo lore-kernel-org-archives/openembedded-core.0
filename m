@@ -2,102 +2,456 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD4BC021A0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCACFC021A4
 	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 14:26:41 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.12083.1739456796947435892
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.12200.1739456798686074007
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 06:26:37 -0800
+ Thu, 13 Feb 2025 06:26:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ump8aVqP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220c4159f87so12534975ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:26:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VF+kp3Pq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fbfe16cc39so1822559a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 06:26:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739456796; x=1740061596; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a6kqyZ6+UA9PdBnDh2VY1knT89TeNlxPJOkDoB9e2lo=;
-        b=ump8aVqPfKiF0PgB9JKscyNspdDUSj/hABXbUItyFoV6DG8wIJOgt+HAByu2LB757B
-         JwV26C44YrE7wG4C8EMKLl9NwxFrsiNRxt4ceK4rQ51JLbgqP+a9Mn+v1dJAgvnIX6eQ
-         jH+rOo44Jl0Xb7enypeklALd8sYuaq6q6OSyIHPpBlCV7c9mDhe95JsPds8BrnFdwNxn
-         2lRoaUr4WQFdayOOS3n1KLCRfAUmbrElkgP1fjEmkvX28PcJzUZgSOycwajKbAfpxC7O
-         tOFIbJSZmE0gO/PldG303baqAZZ6FmZzFnxn1bmHwvpDtPdadwivLn6frNUu506WsMYa
-         QhBQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739456798; x=1740061598; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GWXGl0vlB9YNvSl/XoTyYjD3TWkzpDfXhsy+Eqa02do=;
+        b=VF+kp3PqBpYaAYCL+qzi7S6vFUIFHmObIFK4q+oWdhPRw5BVi7G3SjL8IG0i2ILWYx
+         wsFgMb5pmQWlJ607i+TJ+zXEcefA7brG4U44+kmvJymZw5IPFvlNQbgcAV6MVQFW5Acg
+         F3D7ydnaRKNoWKtpKlU9+o5lgo9C176dqmZR1bKjJb12VBJHNiIz19hQi2RobytqCLuM
+         5Hgm0iJDkRlYOp/cLjuD0G3ziSqhfdX1jDJPMhp8RELy3bkV7V4HL5CE1OIL2K7/v2B7
+         6KxgRhXrCh3Xb1mUODPQ6qsCY2Xt9pCJ30UhFqBQ34hMC2ATB2nQox7MRo70veuEvopz
+         MNyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739456796; x=1740061596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a6kqyZ6+UA9PdBnDh2VY1knT89TeNlxPJOkDoB9e2lo=;
-        b=WoXlgnDJxyBOkg9Fbs6B7yhSUdyVwUz82Urj+Lp/31d7CSRCgJ0aWkkZklM/XTS/rR
-         bXNgG6wFWonWW8scHsIcRlsLfqD8ot3bXvfDn1dan3GD0Y5LUSD/OfOE8dVx60mXwEEF
-         LLMwRONpueWY1DLmH7LchN7T07YtFsmHbRF2+gYLfxKHZuFdiSunbNmbOC6slm4SfnC3
-         mDqRLMNWM+2cZCOoZcsZbdvk5yhDIUYuK2ebNo6TnEDmNC4nBc85ETAIkhbabQ/mxJhO
-         A8DF2We1rXz63GDFiUKwvgeGF0z2l3//UJQ+EC8fzwTv/+cyNSe7vXGGPUpsKQQH55kf
-         dn7Q==
-X-Gm-Message-State: AOJu0YwI9b6Kr77xF4Yy90NPcV50ycnBb7JR6Z5Fgh6AF4uLm1LQZmak
-	/aVlQwUq7UvDH426BczcxrQonwgJKt//Bp7nKbv+f2/gb/q7Dj5E1g0smauBg9mRJT0lRVny0eV
-	C
-X-Gm-Gg: ASbGnctMiFG/ne0XAW2OxPuR1pSdnhzz6aHh88hp4P7vpgXZ2U7LqhE6U6Xdqu5mgJe
-	UEGBoAwgo7vyGieo3Ln0TRDF/pDLzGiCvjCVB11OLSpb0IhQeI3CyIwuALm39bew/OBCjiwtkxT
-	VItHY6CbOObuoTD2/tIbp7v3QT6eDkXmBP77SFGOyGfOWfpdl0iA5ws6HGOMxOueYloAfTneuYm
-	Gmto/zPATTAKPm+So9NdaApml9uCYquRBblD3YawlRdtzkdJurNvMvI+E9GZiQTIqo3C7ng9mOB
-	IsIC
-X-Google-Smtp-Source: AGHT+IGXCvZnGz74pKwYSR7NmhBX3bxy2sJqrImXJsN84aX2kG6t0kNH6dWh7iKtk2/RYkSJL1mh7g==
-X-Received: by 2002:a05:6a00:1a93:b0:730:8526:5db4 with SMTP id d2e1a72fcca58-7323c1444dbmr4994385b3a.13.1739456796164;
-        Thu, 13 Feb 2025 06:26:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739456798; x=1740061598;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GWXGl0vlB9YNvSl/XoTyYjD3TWkzpDfXhsy+Eqa02do=;
+        b=kNmFd3hKkCAQ1CXJ+nclc6avDUcb7f7gDIsjs5trUam/Uedfm3URwPocO6cjwsY9MF
+         f2IDVWMouaZW6bxdo8MS6P61e9Gj9E7mxAfVYWr9WS4V7B6ZBBjWxQmmh2u52marqo5/
+         N4hA/thqN0UuxdkiPgG2ZU1GRVBOVBvdkesqPJCiwFCN9tuhrpIQAaSYUsp1WIpKiSVm
+         JIGhU1k5A0ZV82YuRyYdYacNVLNVYXqq2IRYJWrb/dUENvLEkX9/rooldZHVNLo19WoP
+         VlNOc5cUPXXfE64jWTyIp5vM4sOmmmds+44OeNj4o1yFeQNmJlFb1HaZu0+/JNoBxlrL
+         7M6Q==
+X-Gm-Message-State: AOJu0Yx1NsY77MSOmJMAfvEnJui5QjXid26xuaw8G3vJwqcNBub5TGaJ
+	NQY8I07FMzo72acAztspSzwwUL3iyXtwsCbj+iQjyNvrvF6qPUnUCvQ0H50NacosbI5X5rixEYx
+	5
+X-Gm-Gg: ASbGnctW4kQezkztgoYwzcIaNhN4/X53CjORp3d4BB0ul/Ud9jncQJRbJrIZge2Lk2B
+	tgMzDuSWnj9zKRVC3tSVIDkoNtMuk5ew3WuoQLqLsU75pKNyRyNO31qMwtL/vI/I5afZE4lzMOF
+	7mKm2WEsOoIIIhxpGousWZbWPXhB3vLj1ZaXAyJIUjth1SetzrFrdI5dZR8wp/EUB1biqzp3oAE
+	j3SZ5vxIVKSTvXvHRZviEL80NZGZUT8Fp29BRIcUFWsJ4fb14kx07ZrDLTWkmVFLe3lMTpy/pSR
+	QP7S
+X-Google-Smtp-Source: AGHT+IGNoH3oPPliLVWndF6faYdG4wKYPEC93kMmNgV/2sF/qJsHYMN5V3w1E6qEaGanZt8Xh2pdiQ==
+X-Received: by 2002:a05:6a00:841:b0:730:8a5b:6e61 with SMTP id d2e1a72fcca58-7322c376935mr11164540b3a.2.1739456797687;
+        Thu, 13 Feb 2025 06:26:37 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm1342377b3a.30.2025.02.13.06.26.35
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm1342377b3a.30.2025.02.13.06.26.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 06:26:35 -0800 (PST)
+        Thu, 13 Feb 2025 06:26:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/3] Patch review
-Date: Thu, 13 Feb 2025 06:26:28 -0800
-Message-ID: <cover.1739455358.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/3] openssl: upgrade 3.0.15 -> 3.0.16
+Date: Thu, 13 Feb 2025 06:26:29 -0800
+Message-ID: <68c01710e3522af317f8fe09465b56e6aca01615.1739455358.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1739455358.git.steve@sakoman.com>
+References: <cover.1739455358.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 14:26:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211337
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211338
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Friday, February 14
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Release information:
+https://github.com/openssl/openssl/blob/openssl-3.0/NEWS.md#major-changes-between-openssl-3015-and-openssl-3016-11-feb-2025
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1003
+All CVEs were already patched, so this upgrade fixes only minor bugs.
 
-The following changes since commit bd12abeff6ee14385fba63fa5ba15d9fadec4d0e:
+Remove CVE patches included in the new version.
 
-  cmake: apply parallel build settings to ptest tasks (2025-02-11 05:34:41 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Joshua Watt (2):
-  lib/packagedata.py: Add API to iterate over rprovides
-  classes-global/insane: Look up all runtime providers for file-rdeps
-
-Peter Marko (1):
-  openssl: upgrade 3.0.15 -> 3.0.16
-
- meta/classes/insane.bbclass                   |  30 ++-
- meta/lib/oe/packagedata.py                    |  15 ++
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../openssl/openssl/CVE-2024-13176.patch      | 125 -----------
  .../openssl/openssl/CVE-2024-9143.patch       | 202 ------------------
  .../{openssl_3.0.15.bb => openssl_3.0.16.bb}  |   4 +-
- 5 files changed, 28 insertions(+), 348 deletions(-)
+ 3 files changed, 1 insertion(+), 330 deletions(-)
  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
  delete mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
  rename meta/recipes-connectivity/openssl/{openssl_3.0.15.bb => openssl_3.0.16.bb} (98%)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
+deleted file mode 100644
+index 0076003db1..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-13176.patch
++++ /dev/null
+@@ -1,125 +0,0 @@
+-From 07272b05b04836a762b4baa874958af51d513844 Mon Sep 17 00:00:00 2001
+-From: Tomas Mraz <tomas@openssl.org>
+-Date: Wed, 15 Jan 2025 18:27:02 +0100
+-Subject: [PATCH] Fix timing side-channel in ECDSA signature computation
+-
+-There is a timing signal of around 300 nanoseconds when the top word of
+-the inverted ECDSA nonce value is zero. This can happen with significant
+-probability only for some of the supported elliptic curves. In particular
+-the NIST P-521 curve is affected. To be able to measure this leak, the
+-attacker process must either be located in the same physical computer or
+-must have a very fast network connection with low latency.
+-
+-Attacks on ECDSA nonce are also known as Minerva attack.
+-
+-Fixes CVE-2024-13176
+-
+-Reviewed-by: Tim Hudson <tjh@openssl.org>
+-Reviewed-by: Neil Horman <nhorman@openssl.org>
+-Reviewed-by: Paul Dale <ppzgs1@gmail.com>
+-(Merged from https://github.com/openssl/openssl/pull/26429)
+-
+-(cherry picked from commit 63c40a66c5dc287485705d06122d3a6e74a6a203)
+-
+-CVE: CVE-2024-13176
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/07272b05b04836a762b4baa874958af51d513844]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- crypto/bn/bn_exp.c  | 21 +++++++++++++++------
+- crypto/ec/ec_lib.c  |  7 ++++---
+- include/crypto/bn.h |  3 +++
+- 3 files changed, 22 insertions(+), 9 deletions(-)
+-
+-diff --git a/crypto/bn/bn_exp.c b/crypto/bn/bn_exp.c
+-index 598a592ca1397..d84c7de18a6b6 100644
+---- a/crypto/bn/bn_exp.c
+-+++ b/crypto/bn/bn_exp.c
+-@@ -606,7 +606,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBUF(BIGNUM *b, int top,
+-  * out by Colin Percival,
+-  * http://www.daemonology.net/hyperthreading-considered-harmful/)
+-  */
+--int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-+int bn_mod_exp_mont_fixed_top(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-                               const BIGNUM *m, BN_CTX *ctx,
+-                               BN_MONT_CTX *in_mont)
+- {
+-@@ -623,10 +623,6 @@ int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-     unsigned int t4 = 0;
+- #endif
+- 
+--    bn_check_top(a);
+--    bn_check_top(p);
+--    bn_check_top(m);
+--
+-     if (!BN_is_odd(m)) {
+-         ERR_raise(ERR_LIB_BN, BN_R_CALLED_WITH_EVEN_MODULUS);
+-         return 0;
+-@@ -1146,7 +1142,7 @@ int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-             goto err;
+-     } else
+- #endif
+--    if (!BN_from_montgomery(rr, &tmp, mont, ctx))
+-+    if (!bn_from_mont_fixed_top(rr, &tmp, mont, ctx))
+-         goto err;
+-     ret = 1;
+-  err:
+-@@ -1160,6 +1156,19 @@ int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-     return ret;
+- }
+- 
+-+int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-+                              const BIGNUM *m, BN_CTX *ctx,
+-+                              BN_MONT_CTX *in_mont)
+-+{
+-+    bn_check_top(a);
+-+    bn_check_top(p);
+-+    bn_check_top(m);
+-+    if (!bn_mod_exp_mont_fixed_top(rr, a, p, m, ctx, in_mont))
+-+        return 0;
+-+    bn_correct_top(rr);
+-+    return 1;
+-+}
+-+
+- int BN_mod_exp_mont_word(BIGNUM *rr, BN_ULONG a, const BIGNUM *p,
+-                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
+- {
+-diff --git a/crypto/ec/ec_lib.c b/crypto/ec/ec_lib.c
+-index b1696d93bd6dd..1f0bf1ec795fa 100644
+---- a/crypto/ec/ec_lib.c
+-+++ b/crypto/ec/ec_lib.c
+-@@ -20,6 +20,7 @@
+- #include <openssl/err.h>
+- #include <openssl/opensslv.h>
+- #include "crypto/ec.h"
+-+#include "crypto/bn.h"
+- #include "internal/nelem.h"
+- #include "ec_local.h"
+- 
+-@@ -1262,10 +1263,10 @@ static int ec_field_inverse_mod_ord(const EC_GROUP *group, BIGNUM *r,
+-     if (!BN_sub(e, group->order, e))
+-         goto err;
+-     /*-
+--     * Exponent e is public.
+--     * No need for scatter-gather or BN_FLG_CONSTTIME.
+-+     * Although the exponent is public we want the result to be
+-+     * fixed top.
+-      */
+--    if (!BN_mod_exp_mont(r, x, e, group->order, ctx, group->mont_data))
+-+    if (!bn_mod_exp_mont_fixed_top(r, x, e, group->order, ctx, group->mont_data))
+-         goto err;
+- 
+-     ret = 1;
+-diff --git a/include/crypto/bn.h b/include/crypto/bn.h
+-index c5f328156d3a9..59a629b9f6288 100644
+---- a/include/crypto/bn.h
+-+++ b/include/crypto/bn.h
+-@@ -73,6 +73,9 @@ int bn_set_words(BIGNUM *a, const BN_ULONG *words, int num_words);
+-  */
+- int bn_mul_mont_fixed_top(BIGNUM *r, const BIGNUM *a, const BIGNUM *b,
+-                           BN_MONT_CTX *mont, BN_CTX *ctx);
+-+int bn_mod_exp_mont_fixed_top(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
+-+                              const BIGNUM *m, BN_CTX *ctx,
+-+                              BN_MONT_CTX *in_mont);
+- int bn_to_mont_fixed_top(BIGNUM *r, const BIGNUM *a, BN_MONT_CTX *mont,
+-                          BN_CTX *ctx);
+- int bn_from_mont_fixed_top(BIGNUM *r, const BIGNUM *a, BN_MONT_CTX *mont,
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+deleted file mode 100755
+index c72a4193c6..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
++++ /dev/null
+@@ -1,202 +0,0 @@
+-From 72ae83ad214d2eef262461365a1975707f862712 Mon Sep 17 00:00:00 2001
+-From: Viktor Dukhovni <viktor@openssl.org>
+-Date: Thu, 19 Sep 2024 01:02:40 +1000
+-Subject: [PATCH] Harden BN_GF2m_poly2arr against misuse.
+-
+-The BN_GF2m_poly2arr() function converts characteristic-2 field
+-(GF_{2^m}) Galois polynomials from a representation as a BIGNUM bitmask,
+-to a compact array with just the exponents of the non-zero terms.
+-
+-These polynomials are then used in BN_GF2m_mod_arr() to perform modular
+-reduction.  A precondition of calling BN_GF2m_mod_arr() is that the
+-polynomial must have a non-zero constant term (i.e. the array has `0` as
+-its final element).
+-
+-Internally, callers of BN_GF2m_poly2arr() did not verify that
+-precondition, and binary EC curve parameters with an invalid polynomial
+-could lead to out of bounds memory reads and writes in BN_GF2m_mod_arr().
+-
+-The precondition is always true for polynomials that arise from the
+-standard form of EC parameters for characteristic-two fields (X9.62).
+-See the "Finite Field Identification" section of:
+-
+-    https://www.itu.int/ITU-T/formal-language/itu-t/x/x894/2018-cor1/ANSI-X9-62.html
+-
+-The OpenSSL GF(2^m) code supports only the trinomial and pentanomial
+-basis X9.62 forms.
+-
+-This commit updates BN_GF2m_poly2arr() to return `0` (failure) when
+-the constant term is zero (i.e. the input bitmask BIGNUM is not odd).
+-
+-Additionally, the return value is made unambiguous when there is not
+-enough space to also pad the array with a final `-1` sentinel value.
+-The return value is now always the number of elements (including the
+-final `-1`) that would be filled when the output array is sufficiently
+-large.  Previously the same count was returned both when the array has
+-just enough room for the final `-1` and when it had only enough space
+-for non-sentinel values.
+-
+-Finally, BN_GF2m_poly2arr() is updated to reject polynomials whose
+-degree exceeds `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against
+-CPU exhausition attacks via excessively large inputs.
+-
+-The above issues do not arise in processing X.509 certificates.  These
+-generally have EC keys from "named curves", and RFC5840 (Section 2.1.1)
+-disallows explicit EC parameters.  The TLS code in OpenSSL enforces this
+-constraint only after the certificate is decoded, but, even if explicit
+-parameters are specified, they are in X9.62 form, which cannot represent
+-problem values as noted above.
+-
+-Initially reported as oss-fuzz issue 71623.
+-
+-A closely related issue was earlier reported in
+-<https://github.com/openssl/openssl/issues/19826>.
+-
+-Severity: Low, CVE-2024-9143
+-
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+-Reviewed-by: Paul Dale <ppzgs1@gmail.com>
+-Reviewed-by: Tomas Mraz <tomas@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/25639)
+-
+-(cherry picked from commit 8e008cb8b23ec7dc75c45a66eeed09c815b11cd2)
+-
+-CVE: CVE-2024-9143
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/72ae83ad214d2eef262461365a1975707f862712]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- crypto/bn/bn_gf2m.c     | 28 +++++++++++++++-------
+- test/ec_internal_test.c | 51 +++++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 71 insertions(+), 8 deletions(-)
+-
+-diff --git a/crypto/bn/bn_gf2m.c b/crypto/bn/bn_gf2m.c
+-index c811ae82d6b15..bcc66613cc14d 100644
+---- a/crypto/bn/bn_gf2m.c
+-+++ b/crypto/bn/bn_gf2m.c
+-@@ -15,6 +15,7 @@
+- #include "bn_local.h"
+- 
+- #ifndef OPENSSL_NO_EC2M
+-+# include <openssl/ec.h>
+- 
+- /*
+-  * Maximum number of iterations before BN_GF2m_mod_solve_quad_arr should
+-@@ -1140,16 +1141,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
+- /*
+-  * Convert the bit-string representation of a polynomial ( \sum_{i=0}^n a_i *
+-  * x^i) into an array of integers corresponding to the bits with non-zero
+-- * coefficient.  Array is terminated with -1. Up to max elements of the array
+-- * will be filled.  Return value is total number of array elements that would
+-- * be filled if array was large enough.
+-+ * coefficient.  The array is intended to be suitable for use with
+-+ * `BN_GF2m_mod_arr()`, and so the constant term of the polynomial must not be
+-+ * zero.  This translates to a requirement that the input BIGNUM `a` is odd.
+-+ *
+-+ * Given sufficient room, the array is terminated with -1.  Up to max elements
+-+ * of the array will be filled.
+-+ *
+-+ * The return value is total number of array elements that would be filled if
+-+ * array was large enough, including the terminating `-1`.  It is `0` when `a`
+-+ * is not odd or the constant term is zero contrary to requirement.
+-+ *
+-+ * The return value is also `0` when the leading exponent exceeds
+-+ * `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against CPU exhaustion attacks,
+-  */
+- int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
+- {
+-     int i, j, k = 0;
+-     BN_ULONG mask;
+- 
+--    if (BN_is_zero(a))
+-+    if (!BN_is_odd(a))
+-         return 0;
+- 
+-     for (i = a->top - 1; i >= 0; i--) {
+-@@ -1167,12 +1178,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
+-         }
+-     }
+- 
+--    if (k < max) {
+-+    if (k > 0 && p[0] > OPENSSL_ECC_MAX_FIELD_BITS)
+-+        return 0;
+-+
+-+    if (k < max)
+-         p[k] = -1;
+--        k++;
+--    }
+- 
+--    return k;
+-+    return k + 1;
+- }
+- 
+- /*
+-diff --git a/test/ec_internal_test.c b/test/ec_internal_test.c
+-index 8c2cd05631696..02cfd4e9d8858 100644
+---- a/test/ec_internal_test.c
+-+++ b/test/ec_internal_test.c
+-@@ -155,6 +155,56 @@ static int field_tests_ecp_mont(void)
+- }
+- 
+- #ifndef OPENSSL_NO_EC2M
+-+/* Test that decoding of invalid GF2m field parameters fails. */
+-+static int ec2m_field_sanity(void)
+-+{
+-+    int ret = 0;
+-+    BN_CTX *ctx = BN_CTX_new();
+-+    BIGNUM *p, *a, *b;
+-+    EC_GROUP *group1 = NULL, *group2 = NULL, *group3 = NULL;
+-+
+-+    TEST_info("Testing GF2m hardening\n");
+-+
+-+    BN_CTX_start(ctx);
+-+    p = BN_CTX_get(ctx);
+-+    a = BN_CTX_get(ctx);
+-+    if (!TEST_ptr(b = BN_CTX_get(ctx))
+-+        || !TEST_true(BN_one(a))
+-+        || !TEST_true(BN_one(b)))
+-+        goto out;
+-+
+-+    /* Even pentanomial value should be rejected */
+-+    if (!TEST_true(BN_set_word(p, 0xf2)))
+-+        goto out;
+-+    if (!TEST_ptr_null(group1 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+-+        TEST_error("Zero constant term accepted in GF2m polynomial");
+-+
+-+    /* Odd hexanomial should also be rejected */
+-+    if (!TEST_true(BN_set_word(p, 0xf3)))
+-+        goto out;
+-+    if (!TEST_ptr_null(group2 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+-+        TEST_error("Hexanomial accepted as GF2m polynomial");
+-+
+-+    /* Excessive polynomial degree should also be rejected */
+-+    if (!TEST_true(BN_set_word(p, 0x71))
+-+        || !TEST_true(BN_set_bit(p, OPENSSL_ECC_MAX_FIELD_BITS + 1)))
+-+        goto out;
+-+    if (!TEST_ptr_null(group3 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+-+        TEST_error("GF2m polynomial degree > %d accepted",
+-+                   OPENSSL_ECC_MAX_FIELD_BITS);
+-+
+-+    ret = group1 == NULL && group2 == NULL && group3 == NULL;
+-+
+-+ out:
+-+    EC_GROUP_free(group1);
+-+    EC_GROUP_free(group2);
+-+    EC_GROUP_free(group3);
+-+    BN_CTX_end(ctx);
+-+    BN_CTX_free(ctx);
+-+
+-+    return ret;
+-+}
+-+
+- /* test EC_GF2m_simple_method directly */
+- static int field_tests_ec2_simple(void)
+- {
+-@@ -443,6 +493,7 @@ int setup_tests(void)
+-     ADD_TEST(field_tests_ecp_simple);
+-     ADD_TEST(field_tests_ecp_mont);
+- #ifndef OPENSSL_NO_EC2M
+-+    ADD_TEST(ec2m_field_sanity);
+-     ADD_TEST(field_tests_ec2_simple);
+- #endif
+-     ADD_ALL_TESTS(field_tests_default, crv_len);
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb b/meta/recipes-connectivity/openssl/openssl_3.0.16.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.15.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.16.bb
+index 295f05729f..a9fffd18ba 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.16.bb
+@@ -12,15 +12,13 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://CVE-2024-9143.patch \
+-           file://CVE-2024-13176.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "23c666d0edf20f14249b3d8f0368acaee9ab585b09e1de82107c66e1f3ec9533"
++SRC_URI[sha256sum] = "57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.43.0
 
