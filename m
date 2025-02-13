@@ -1,86 +1,91 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83468C021A7
-	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 04:55:38 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4331.1739422527771822540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE967C021A7
+	for <webhook@archiver.kernel.org>; Thu, 13 Feb 2025 05:58:28 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.5165.1739426305939094059
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Feb 2025 20:55:27 -0800
+ Wed, 12 Feb 2025 21:58:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4139f9b3b5=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51D403iG013538
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 04:55:27 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwvdjjwg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 04:55:26 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 12 Feb 2025 20:55:20 -0800
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] vim: Upgrade 9.1.0764 -> 9.1.1043
-Date: Thu, 13 Feb 2025 04:54:56 +0000
-Message-ID: <20250213045456.3722211-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cDa8qobq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38dc0cd94a6so207135f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Feb 2025 21:58:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739426304; x=1740031104; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o8VyK+/K2wgBttKy3LyA6ijkSnUwmtdFqkSla9wH2Jg=;
+        b=cDa8qobqBaPCc0VLn1bk29d1LqN2SXqLuS5vPQoFp0NzqUIJm3nEg1Fz6E6Nu6n1qm
+         N8os6ZeUzfNmf+Sk6p6XRnR7/ku/SxUmUjaGq+Dihh7llbbg4bLtRIIwTQ7AA0AatnZb
+         ZfPfTtFbAvsrXICY5RnBrrrIjC0YOYL7nzJfvzYE0iyHphnk0OFDJ69UkCy5ZPcjWiMN
+         CRqm8f2bIS/HTX6l3LvNLeKg1+REn4SEAoaLoTJ0HZ36mtDIzJSUHIa+sLRC9BGBXKPd
+         5eP7+Cgh7xGV4/LgcPeOR18HDC5QyBqmpqiogGBwjY5eOPUjy4wFqnI61r+VTeonp5YX
+         q9wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739426304; x=1740031104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o8VyK+/K2wgBttKy3LyA6ijkSnUwmtdFqkSla9wH2Jg=;
+        b=dmKGBEhtyfrLTqQQydm/Xtr+kw+usRzNm09SW1870rQhZXLaNVa8+A4zd4HEA2J7Fp
+         R3CTdDQxY0WQx1XVqHZIMTqH0VtQyw0Q+nwLy4tQiOluP+j+k7ULHUsdD0y9Lh3e8l9Y
+         kvLIOh9EYq6gEkRyWM2GPoB+vFivnH/W/YypwdzUQe/VD2l2lz4NnXOCt4d60OeFQCD5
+         E4GBuiXA0LpL4cYii1AgoP8WpoAYEdRY16DnfHvbImdIXsYr9OrGwKKSK6CoKuLRrPSu
+         yIGoSHAYSvqf8IlfJ6Pb23O+9GKrMXlxrIO+OQAJwPcFCHXRjxV3WugTu6cvcGfSgxR4
+         JO1w==
+X-Gm-Message-State: AOJu0YzozoyAFN7PoP4xvPW9QFOo1G6XaGvZUlFeLW87AHoaVFyN6UOn
+	G4XgYiKh2yJEctPpjYFAqyjtkcWJNdUghif5uXVZ1yEfqKJlOfYN76YwCw==
+X-Gm-Gg: ASbGncu0Z6vmc5xwUfRAqzLyJ+AX9Zo+nzwYZ3UsnjQpWydZXctDTbkIYm8vy9hfAUR
+	SUFYR7HFqAmVA1OyMhKdXiEvocycNUK9Zmw1fgEtrRHx64qkybIjw5CEsbCLng/BGBbBB7I6YPi
+	ahU20/Y5sCosY+Nx1VotdLFLmhbKPcRWY4qMkZHl/lvkRmZmhkD87p9ndrbOQzGaE2FH5n/j13w
+	sIfJf5U6RCbBOVrxjmHTDD+FAuNNgHSCYi+9VawFp2jUwk4c8/r7ZkEiZy8WItJDdiay1RkcjQp
+	kmKRQUsTP1OURCuLDQrHDGSYg1Y=
+X-Google-Smtp-Source: AGHT+IG/xBEhjmhDN1IlWW6uTC69xB/tHKso6K+dR30LGYEAd7FfYW1ACrr4kC2SjFaq6YF5Y1F2Dg==
+X-Received: by 2002:a05:6000:1562:b0:38d:e378:20f7 with SMTP id ffacd0b85a97d-38f24519c03mr1778784f8f.41.1739426303345;
+        Wed, 12 Feb 2025 21:58:23 -0800 (PST)
+Received: from voyage.lan ([2a0d:3341:cd51:2e10:d277:cf7f:82d1:a7d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fc885sm7466515e9.9.2025.02.12.21.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 21:58:22 -0800 (PST)
+From: Marta Rybczynska <rybczynska@gmail.com>
+X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Subject: [PATCH v4][OE-core 0/4] cve-check: allow feed selection
+Date: Thu, 13 Feb 2025 06:57:49 +0100
+Message-ID: <20250213055811.6873-1-marta.rybczynska@ygreky.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: bUUtSqrF2uKND_wc1Egu4U9LOwQc5o6S
-X-Proofpoint-ORIG-GUID: bUUtSqrF2uKND_wc1Egu4U9LOwQc5o6S
-X-Authority-Analysis: v=2.4 cv=K5bYHzWI c=1 sm=1 tr=0 ts=67ad7b3e cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=qx_yR4XOc8-HUud59pgA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-13_01,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 adultscore=0
- priorityscore=1501 spamscore=0 phishscore=0 mlxlogscore=916 bulkscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502130035
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 04:55:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211289
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 05:58:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211290
 
-From: Divya Chellam <divya.chellam@windriver.com>
+This series is allowing choice of the NVD feed to use, you can
+configure them using the NVD_DB_VERSION variable in local.conf
 
-This includes CVE-fix for CVE-2025-22134 and CVE-2025-24014
+Available feeds:
+- NVD2 (default) - the current NVD API v2 feed
+- NVD1 - the old NVD feed (deprecated, but still working)
+- FKIE - the NVD feed restoration from FKIE-CAD
 
-Changes between 9.1.0764 -> 9.1.1043
-====================================
-https://github.com/vim/vim/compare/v9.1.0764...v9.1.1043
+Marta Rybczynska (4):
+  cve-update-db-native: restore
+  cve-update-db-native: update structure
+  cve-update-db-native: add the fkie source
+  cve-check: allow feed choice
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/cve-check.bbclass                |  14 +-
+ .../recipes-core/meta/cve-update-db-native.bb | 405 ++++++++++++++++++
+ 2 files changed, 417 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/meta/cve-update-db-native.bb
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 582eddcb9d..4ac9c58c80 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".0764"
--SRCREV = "51b62387be93c65fa56bbabe1c3c1ea5df187641"
-+PV .= ".1043"
-+SRCREV = "9d1bed5eccdbb46a26b8a484f5e9163c40e63919"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
-2.40.0
+2.45.2
 
 
