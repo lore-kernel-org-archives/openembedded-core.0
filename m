@@ -1,127 +1,159 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <madmarri@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FEACC021A4
-	for <webhook@archiver.kernel.org>; Fri, 14 Feb 2025 10:49:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.18162.1739530181108701894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4012C02198
+	for <webhook@archiver.kernel.org>; Fri, 14 Feb 2025 11:07:48 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.web10.18592.1739531258850961157
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Feb 2025 02:49:41 -0800
+ Fri, 14 Feb 2025 03:07:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4140afe1ed=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E8abYJ026385
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 02:49:41 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwtqc6pt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 02:49:40 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 14 Feb 2025 02:49:39 -0800
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Fri, 14 Feb 2025 02:49:38 -0800
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 5/5] ffmpeg: fix CVE-2024-36617
-Date: Fri, 14 Feb 2025 10:49:29 +0000
-Message-ID: <20250214104929.3039901-5-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20250214104929.3039901-1-archana.polampalli@windriver.com>
-References: <20250214104929.3039901-1-archana.polampalli@windriver.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=KFVgh3bb;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: madmarri@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2653; q=dns/txt; s=iport;
+  t=1739531258; x=1740740858;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ywko0KVHj3QLmK/cAOJsH8AWW3WRATua/snuuOfvPFc=;
+  b=KFVgh3bbmxpxJc8IYLD86UPGwIl8UNhPj3yxsvUqQf6Jj/taf2ByD2Qc
+   iGIerq5uKdYb1DFitwpSizGC8bL5CflKEfGNUT51CtDfrwtiH5i+HPZ0N
+   V21lbHeIez/ysz8eZXgkxBwspi9s2lEJ+NrGqA38TdIL+VZKdUNw9IK3K
+   4=;
+X-CSE-ConnectionGUID: qc+vWnEHTtywkfVhfsVfDQ==
+X-CSE-MsgGUID: jCPLgLV4TyesymDspLi9jQ==
+X-IPAS-Result: =?us-ascii?q?A0ASAAAiI69n/4z/Ja1aGwEBAQEBAQEBBQEBARIBAQEDA?=
+ =?us-ascii?q?wEBAYF/BgEBAQsBAYJJdllDSIxyiVOaEoQFgSUDVg8BAQEPOQsEAQGFB4sMA?=
+ =?us-ascii?q?iY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4V7DUkBD?=
+ =?us-ascii?q?AGGAwECASoLAUYsAwECWiMhgwIBgmQDEQauKRo3gXkzgQGDWgUJAkNP2TiBa?=
+ =?us-ascii?q?AaBSAGNSm8BhHcnG4FJRIJQgi2BBYFcAQSCKoV3BIQegz+HLoN6mXxIgSEDW?=
+ =?us-ascii?q?SwBVRMNCgsHBYFxAzUMCzAVgUZDN4JHaUk6Ag0CNYIefIIrhFiEQ14vAwMDA?=
+ =?us-ascii?q?4M0hViCEoIOiUqBBEADCxgNSBEsNxQbBj5uB55pATyEKgGBAwoBKyKBL1uTD?=
+ =?us-ascii?q?BQQAZIroQSEJYRvhymVLxozqlKYfYoHg32WRIRmgWc8gUcLBzMaCBsVgyJSG?=
+ =?us-ascii?q?Q+OLQsLg1iBf4MUxH4lMjwCBwsBAQMJjUCEMwEB?=
+IronPort-Data: A9a23:d1X8rKvqchSXjvWGR92FEDPAI+fnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKWrSMv7YZTekf4tzPYy/ph8PvcDVx4djTAc4qH8xFCwWgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav656yEhjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuGYzdJ5xYuajhJs/ja9Esz1BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw4+00H15I2
+ NwkNCESbR69h+yt/ryXc7w57igjBJGD0II3oHpsy3TdSP0hW52GG/6M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtPYH49tL/Aan3XdjRUrVuPv6sf6GnIxws327/oWDbQUoDRHJgJzxfA+
+ Aoq+Uz7KSk+O/ihlQaU/2m9g8PUhQf6CYArQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YaLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:3CkQj65igehhCpB+tgPXwMPXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBEDjexPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7d8+mUzJ876U
+ +mGJIObOHNMQ==
+X-Talos-CUID: 9a23:TnXfUm5/w1LCeImRltss7UVXBP8jX13h0GbPIEGGCWhydrO5cArF
+X-Talos-MUID: 9a23:Cuko9wQLhar0UcUHRXTurwlGO+NWv5i/BVsclLkdo+2FZC5JbmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.13,285,1732579200"; 
+   d="scan'208";a="431549906"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 14 Feb 2025 11:07:38 +0000
+Received: from sjc-ads-7373.cisco.com (sjc-ads-7373.cisco.com [10.30.220.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 08328180001EC;
+	Fri, 14 Feb 2025 11:07:38 +0000 (GMT)
+Received: by sjc-ads-7373.cisco.com (Postfix, from userid 1839049)
+	id 852C1CC12B5; Fri, 14 Feb 2025 03:07:37 -0800 (PST)
+From: Madhu Marri <madmarri@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	madmarri@cisco.com
+Subject: [OE-core] [scarthgap] [PATCH] qemu 8.2.7: Fix CVE-2024-8354
+Date: Fri, 14 Feb 2025 03:07:27 -0800
+Message-ID: <20250214110728.966806-1-madmarri@cisco.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: NKBu3WnkbHNuFAuvJGDeqH7YiYN8WdAQ
-X-Authority-Analysis: v=2.4 cv=DNd14zNb c=1 sm=1 tr=0 ts=67af1fc4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=emhf11hzAAAA:8 a=t7CeM3EgAAAA:8 a=BjvQEwEvunn342MFDgYA:9 a=HLUCug_QN4oeKp6PugZw:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: NKBu3WnkbHNuFAuvJGDeqH7YiYN8WdAQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-14_04,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- bulkscore=0 phishscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502140078
+X-Outbound-SMTP-Client: 10.30.220.158, sjc-ads-7373.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 10:49:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211384
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 11:07:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211385
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+Upstream Repository: https://gitlab.com/qemu-project/qemu.git
 
-FFmpeg n6.1.1 has an integer overflow vulnerability in the FFmpeg CAF decoder.
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-8354
+Type: Security Fix
+CVE: CVE-2024-8354
+Score: 5.5
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Madhu Marri <madmarri@cisco.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2024-36617.patch        | 38 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36617.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2024-8354.patch             | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36617.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36617.patch
-new file mode 100644
-index 0000000000..8b4928d1ca
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36617.patch
-@@ -0,0 +1,38 @@
-+From f0e780370cc1c437d64f10d326b1d656ef490b5f Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 30 Sep 2023 00:38:17 +0200
-+Subject: [PATCH 4/4] avformat/cafdec: dont seek beyond 64bit
-+
-+Fixes: signed integer overflow: 64 + 9223372036854775807 cannot be represented in type 'long long'
-+Fixes: 51896/clusterfuzz-testcase-minimized-ffmpeg_dem_CAF_fuzzer-6418242730328064
-+Fixes: 62276/clusterfuzz-testcase-minimized-ffmpeg_dem_CAF_fuzzer-6418242730328064
-+
-+Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit d973fcbcc2f944752ff10e6a76b0b2d9329937a7)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+
-+CVE: CVE-2024-36617
-+
-+Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/f0e780370cc1c437d64f10d326b1d656ef490b5f]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ libavformat/cafdec.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libavformat/cafdec.c b/libavformat/cafdec.c
-+index d5668bf..aa56a5e 100644
-+--- a/libavformat/cafdec.c
-++++ b/libavformat/cafdec.c
-+@@ -220,7 +220,7 @@ static int read_pakt_chunk(AVFormatContext *s, int64_t size)
-+         }
-+     }
-+
-+-    if (avio_tell(pb) - ccount > size) {
-++    if (avio_tell(pb) - ccount > size || size > INT64_MAX - ccount) {
-+         av_log(s, AV_LOG_ERROR, "error reading packet table\n");
-+         return AVERROR_INVALIDDATA;
-+     }
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index fc92bb2ec0..b5b11496f4 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -46,6 +46,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2025-0518.patch \
-            file://CVE-2024-36613.patch \
-            file://CVE-2024-36616.patch \
-+           file://CVE-2024-36617.patch \
-           "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4dc6c104c7..8ab8adca9e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -40,6 +40,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-self-.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
++           file://CVE-2024-8354.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
+new file mode 100644
+index 0000000000..0f64f46bac
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
+@@ -0,0 +1,42 @@
++From d96e157675eace2326955921be17133c0a8b7966 Mon Sep 17 00:00:00 2001
++From: Madhu Marri <madmarri@cisco.com>
++Date: Thu, 13 Feb 2025 12:19:44 +0000
++Subject: [PATCH] usb: Check USB_TOKEN_SETUP in usb_ep_get(CVE-2024-8354)
++
++USB_TOKEN_SETUP packet not being handled in usb_ep_get function.
++This causes the program to hit the assertion that checks for only
++USB_TOKEN_IN or USB_TOKEN_OUT, leading to the failure and core
++dump when the USB_TOKEN_SETUP packet is processed.
++
++Added a check for USB_TOKEN_SETUP to avoid triggering an assertion
++failure and crash.
++
++Fixes: CVE-2024-8354
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2548
++
++Upstream-Status: Submitted [qemu-devel@nongnu.org]
++Signed-off-by: Madhu Marri <madmarri@cisco.com>
++---
++ hw/usb/core.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/hw/usb/core.c b/hw/usb/core.c
++index 975f76250a..df2aec5aca 100644
++--- a/hw/usb/core.c
+++++ b/hw/usb/core.c
++@@ -741,6 +741,12 @@ struct USBEndpoint *usb_ep_get(USBDevice *dev, int pid, int ep)
++     if (ep == 0) {
++         return &dev->ep_ctl;
++     }
+++
+++    if (pid == USB_TOKEN_SETUP) {
+++        /* Do not handle setup packets here */
+++        return &dev->ep_ctl;
+++    }
+++
++     assert(pid == USB_TOKEN_IN || pid == USB_TOKEN_OUT);
++     assert(ep > 0 && ep <= USB_MAX_ENDPOINTS);
++     eps = (pid == USB_TOKEN_IN) ? dev->ep_in : dev->ep_out;
++-- 
++2.44.1
++
 -- 
-2.40.0
+2.44.1
 
 
