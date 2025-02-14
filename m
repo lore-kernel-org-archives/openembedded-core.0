@@ -1,223 +1,576 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E900C021A0
-	for <webhook@archiver.kernel.org>; Fri, 14 Feb 2025 01:55:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FCDC021A4
+	for <webhook@archiver.kernel.org>; Fri, 14 Feb 2025 05:01:07 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.10992.1739498096680392342
+ by mx.groups.io with SMTP id smtpd.web11.14281.1739509261841146627
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Feb 2025 17:54:56 -0800
+ Thu, 13 Feb 2025 21:01:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4140fee6b2=qi.chen@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4140961d8f=yogita.urade@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51DNuIpc013966
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 17:54:56 -0800
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwy6ks4m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 17:54:55 -0800 (PST)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51E1stEi022626;
-	Thu, 13 Feb 2025 17:54:55 -0800
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwy6ks4k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Feb 2025 17:54:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LzXSJKungsaRcSwVwkGWzWWvf/c4XSH/27h+qnrzvLiT5QvOrDHnD/zN31otXbFytmxLB+bIAxeo6j3EPg1i3g6fJFe/qyKnFFyA9786k+ugbsrlzFGSNLtBPkZHK25sZPPYBvoE9nz9jOvlAId2rE+fYOpOaApwifqv0J1DmXaDbNwq5Pa6+szVAl1jP+PuSIdY+7/tVxT4yQEYHBMQo4CEkZ4Z9iiOcczHuCzu7Eqz4sfAXYZPLO3SXpP00e7mG2gb9I91gejqDeVTC0ZfqOaahYSB31dsnuoCdpaY2GeduYN21tns2wfi0kawmnzob5uXtesg/q4ttxtZWoS/Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Upx2WuTgEt0RdzpMN2d5Ck3QJ3BiypG86EtH5/mgNBQ=;
- b=Q8qRtCpfVtY1sFRtPgDyYaGwWkl7DWqJm5zd//TcE9WOSRZE1W4dQ7S2efNFuEMOHSsqlCcU8M8L6JECVCAoqbkmmXojKo/Mb716u8Fu2YADc1JPKNOpb294Kcsa0dMlZHhs9vIv/oa07kQ8lwj77wzn6avJfZbZOCbjk0H9sJwjiKSdG3NRXjGsIZ+kW9yLClEWoisD+pTze+J7uTRwXiH+Gf8XsS1tmnitXOB6ZCpZLybczFQW9kkGmPN7m8ApnxOJ6ImJ3cTgIuXJeRBC9iy0YfCWHcEIV5bD2fYeqdqV+9QMhpAQlOPt19U1DIVlVa9K5sGcUxrgWAVKFvOkzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5613.namprd11.prod.outlook.com (2603:10b6:a03:3ab::12)
- by BL3PR11MB6506.namprd11.prod.outlook.com (2603:10b6:208:38d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Fri, 14 Feb
- 2025 01:54:51 +0000
-Received: from SJ0PR11MB5613.namprd11.prod.outlook.com
- ([fe80::615c:ca2f:d093:16a9]) by SJ0PR11MB5613.namprd11.prod.outlook.com
- ([fe80::615c:ca2f:d093:16a9%5]) with mapi id 15.20.8445.008; Fri, 14 Feb 2025
- 01:54:51 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH 5/5] util-linux/util-linux-libuuid: upgrade from
- 2.40.2 to 2.40.4
-Thread-Topic: [OE-core][PATCH 5/5] util-linux/util-linux-libuuid: upgrade from
- 2.40.2 to 2.40.4
-Thread-Index: AQHbfdyLckh/QV1vnE2IUxkvNOF9dbNFPAKAgADPDyA=
-Date: Fri, 14 Feb 2025 01:54:51 +0000
-Message-ID: 
- <SJ0PR11MB56137330BD1EBC897BB56AA1EDFE2@SJ0PR11MB5613.namprd11.prod.outlook.com>
-References: <20250213060000.1092285-1-Qi.Chen@windriver.com>
- <20250213060000.1092285-5-Qi.Chen@windriver.com>
- <D7RCUCDJ0P1A.2V3UWW92HAQV@bootlin.com>
-In-Reply-To: <D7RCUCDJ0P1A.2V3UWW92HAQV@bootlin.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB5613:EE_|BL3PR11MB6506:EE_
-x-ms-office365-filtering-correlation-id: 2f4f58a2-4663-4810-1a32-08dd4c9a9203
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?QmFHTUR4Y2c1VGJXcjJIbnJibDFxdXc4SVlmN1FqZXBvL1M0bUVGRmNxbTFh?=
- =?utf-8?B?SUovUVlmM004b29xdFh3d0J1SXRPTngxUk5ndGVISWQrYWxRdjRrVVgxZDYx?=
- =?utf-8?B?d0NtV1B5UXRDalRCYVNKeWFHM3pBZmpNYWpBVG9sakY0STZlZVlNR1FXbUEr?=
- =?utf-8?B?U1haZTIvRzBLVDg1RmQxQ09hYjREQjBkdFRwbG1hcm94bXpSck5xU05xd0Z2?=
- =?utf-8?B?aTg2amZxRTB0WTNNdXBVOGNDNXY3NWp5UXdQTmp5ckNQUnV0b1VJaDJpWVZ3?=
- =?utf-8?B?NWVxajFCbHZQMldZZmYrc0hFNXcrNnZaejRJYXRVcitRa2w4elVsYUY1YWxl?=
- =?utf-8?B?TG43N2ZxQk82MS9UNGcxZHcyV2lZYStUUmFrU1NIemRLZ1FGTTFMcmtYOFRK?=
- =?utf-8?B?TjZYVXVXV3FTcTZqMWtZREkxd2JVWG5Gckt4M1Z2VEt2QlJTSnhsVU92a1VN?=
- =?utf-8?B?ZituZ1N2K3hyQ0JWUEFoa0FXb0RwWWNSWktIWW4xZUNtYkJlNWo3a3FYaHZ5?=
- =?utf-8?B?a2VTd2ZWUTVRTUoyazE0QU9naThRTnpxY0xNMEY3WDl5eXBrRkxSMnV4MFZI?=
- =?utf-8?B?amVTckJWVUVrZVlKNnlhZmdnTjV3Z2ZTcE1TUmlKcTdhS1dNWktGdFQ5M2d3?=
- =?utf-8?B?bGhyOVFxV2t2ZjRGZmYrdFVCL3pWOWxxdktObHJwd3dOa0pKM3k0RGlwVXpu?=
- =?utf-8?B?OFNOb0YwaU9oN2diZ3ZOWVRMUW1DNUh3RW1US0VjeVI1UkI4K29jSzM1YUlx?=
- =?utf-8?B?OEZoUXV3Y0RtQlVLSkpVWTFKby92RjdJNEY0VVNkWTlXc3hZRXZKZ0xGVWJk?=
- =?utf-8?B?T01JUEhJYU04T2oyM1FzdFhNSjQ5ZWR2YnJ5UXFyUkRtbmRmYnY5d1NKN0Jx?=
- =?utf-8?B?UDZTc3pLYnNIVFk2Umxxa1hnRU9CY25XRHpvZzU0ZFZTNFJGaXJlVmJqUDli?=
- =?utf-8?B?Mit3czVkV3h0Mkp0cjMyQ1FNVEM3RDBNV21QbG85aEhxRjBHYll6QmRRdUFo?=
- =?utf-8?B?bC9ZY3BZZWxnVmhtalF0M2ZWR1dZbWVGNGVDQ2pkSVdhd0FiMlV1WlNwTW9P?=
- =?utf-8?B?Q3ZHV1dSc0M0cjMxVTRPb0d0MXdhbUl0bmM4STdzLzkrUWVTbTVLUmMxcXBB?=
- =?utf-8?B?VG96N0NUSlE5bXRXTXRoSVJKTWpqeXVYbnVwZFBQeWpGbllET05DTmFFU0JW?=
- =?utf-8?B?RnlCYXhxSndSZVZzVDh2c1ZXZHVjK1RhUUM3UU00OUt0ZlVzeU1DTmdqeDVO?=
- =?utf-8?B?azZmMCtPT3p2UzNTRTFiOUFGYXZid1lqV2pzY0oyN0k1TUhWaVVpcTA3Zk1u?=
- =?utf-8?B?SjRZeitpTHltZDZDWFZDR253WjVDWXVnenpIK1k4VFNOMzNjZ1VyRndPdFdE?=
- =?utf-8?B?QkFHanZQUjZUZzhocDdaWVh5UDlvekhnQTZXOGlnd0piKzVzNzdTcDUrNkVj?=
- =?utf-8?B?OCs2b3gzNmk3WnFhODNMNlc1SDhwd0pNU2lHK0wzeVM4aEpUazduNlZ2dW44?=
- =?utf-8?B?b1FaT3Y1QTkyWnBQOE1VM1NUbkU2NXdJRStBYlBxRS9scC9EN3JKSDVtRUxC?=
- =?utf-8?B?SWxxU2REKzBlRWZkaDJ4WlJCaDQ3WUlJeE5lcHVFV2ozWEd6dkFaWDRiRG94?=
- =?utf-8?B?Qyt3SmlYUlphWVBac0lhVHRTdEdla2lHZXR2aE1QWFpxWUtNK1dVSGZhOFUv?=
- =?utf-8?B?TkFMREgrKys3R2F3WFl1OWUyeERkT2RIbUhsR1orWFpLamdVYXJBa25oRzlz?=
- =?utf-8?B?akQwNWlsUVkrUUZWbkFnYS9KUitKNkMwa01ZeWRRNm9IWStYeVM5YUFYMXZY?=
- =?utf-8?B?Si9wcVlYWld3TDJ5MG15VllUaGRRMHJyRHNYbmZzM0ttaTdPdU1TSUFtR3VS?=
- =?utf-8?Q?M2c4mSYRhcUxj?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5613.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ZWNqcElNYzRuZU5ETXpzZHBuU2lMMHFrSXFQZndMbjE3MEtWWFVOdjY3MnJK?=
- =?utf-8?B?VTdmQ1dlUFE2U1doZi9pUVg3QndFeG9wZkl6djJmcEdVdkVUM2x6aWd5UTNJ?=
- =?utf-8?B?b3dhSVl3SEJjcDd3cGZDWWp4ZWhhQWd2ODcvSnNtalNUWkNsVzdLUExQUGpC?=
- =?utf-8?B?alVUaVpYaEdJK0RrSE9vRkhDaUl0VkNUNm4rYTNzNENSYW8zTzc4dmQ1TEVH?=
- =?utf-8?B?SUtvNmM2RWV0YmVORE9PbjBoZ0sxeFhyRkZvaUZsMG9KdURzTHZhaFZMb0M3?=
- =?utf-8?B?OUtzbUZ3WHU2VVk5VjVYdXUwZDRUSk9vZ2tJL04rMVFSM20zYmg5V2FPUyty?=
- =?utf-8?B?em92SDlvaTJ2UDhQOFExbVk4RzhxQXc5OTRobFkyVXl4TURLb1dwMmNVUkJY?=
- =?utf-8?B?OEF5SnNFa09pZk5CRVZ0SU1BV3R2N1NGVXg1UGFkVXhRVFZSb0tES1FOWGww?=
- =?utf-8?B?VjM3bVlRcFIzNlBBV1RpVG9nUURHYm1zb05ybjlieUVmZzc4c0UxZXhaS0oy?=
- =?utf-8?B?ZUZqN2l2MmNVRnBTNkpQMVVIbHZvWUN1SVphRnpmRFhYd3l3ejhwTFduOWVS?=
- =?utf-8?B?b1dmTXNVZ2krMVN0R3JKcjk3eDdsZzRYWEd4bGtGbmxRTW9DajdyZEY3anRq?=
- =?utf-8?B?dTBmd0s4ajVZTExpT21SbEZpZUlxWlllTktpeFRXUjd6cFZlK2ZITFl2QTEv?=
- =?utf-8?B?bENoT1RNaUIxWXBtVUQwVm5pc3VuYXR5Ty85Yy94M3U4Ti9BdXJhbXpPeFRJ?=
- =?utf-8?B?WWt5Uk1Za2JscFptY2dSZUhXUnFRbnVORGVsd2RSSnVhTlI1S0tkZW1STGtp?=
- =?utf-8?B?WGtZc3FFMEdyWTlSNlpDU3lrSmVYNk1XZmRsTXY3V1hOVjN1WGFnU3BYOTBE?=
- =?utf-8?B?bGxUZi96YVFXK0RsRENqZUkrc1A0Y3gzVEJLbEllZFFXQ1JUU1gxckZTQVNw?=
- =?utf-8?B?WDZOTkFqaUdibXNCYzJyRFdRTGthaEplS2pZVHdoTVJJNVNCZXZTOG5tWlll?=
- =?utf-8?B?RnhWYXAzc1l5QU11RHR0L09GODVIY1QyOFJLRkV2T2R3aGJmL3Bqcm9TZGx3?=
- =?utf-8?B?VitWaGZFcGpESlJDT3pEbkRqM1pmU21lUzcrMXk1OTlmSW5xVVF6b1lQazh4?=
- =?utf-8?B?WFc1UzRtUytySkxuazZIYTlNQzVwczJ4MjROazhQVjY0STE5VTVIa2tCa29Q?=
- =?utf-8?B?cU0yYmRFdzJQSmFpYlNTTTZpdEJ2MElxQ1hjckZzSGlBWGFyMHVHNk9BSEpq?=
- =?utf-8?B?Qk01TE9ORGtyZmsrUDFnSWNtNWsxVG11NndwYzFaRU4rUlVVd0QvUldMUDVa?=
- =?utf-8?B?anJsQU95SGc0V3c2bWpqdEQ2VkZrYVdjbmNML21jK3lrb1hGb1lJVGFnY1Vs?=
- =?utf-8?B?aXhqVzRzTEp1dnQvdHFaL1hCNWRLYk8vSXZGK3NXSEwwUk41bWF3WUR2RjJy?=
- =?utf-8?B?RlRaalVoQ3JmZkVBRUMvMU9obHFPM0orTmpPTXZMYk1ONGFaalBYSnJYSEpC?=
- =?utf-8?B?eDJKb3BvN0d2aGpGS0hlUjlQMWFoLy9XVEdUbDV1eXNadmR6RXp3R1ZycU4x?=
- =?utf-8?B?dUpwcFpFRjNIVFZYV254TVFHTUEweGZOZ3NtNHB4M1Vjb29Pa3UxODUwQmpu?=
- =?utf-8?B?dC9yRmNZZWFUT1lDOG5XU0JKWjd3NE1WVEhQejV0RWQzZy9pUExETDU3azhC?=
- =?utf-8?B?cW90Uk5lQ1NSWjVpTVN5SlhrdGpjN2hSZnk5NlNLT2FHL0Nzb1BsSTM5L1RN?=
- =?utf-8?B?elUzbUdram00L2dVN3NTMWF2OE1xMGE0d3laSXcyVXhEVVcyQW5kRGtQSkIx?=
- =?utf-8?B?LzZhbTdRUjM2WXhFTnFYdzlZSkpGODZZN1E3QWptRnU3Z2FxVlNHWVZKMklP?=
- =?utf-8?B?aVpPZU04WlVDU0dXTllJZXdncmQ3QXJMUmxYSVBhUitTWUNJRGpIUzRVMGsx?=
- =?utf-8?B?YzVJTHZkdjVHOXVMYXk4RmVLalg2SmlicHRBK2c5MjI5KzhCZjlGT2tUU3ls?=
- =?utf-8?B?NzRSWkhZaWowZHdoZ3I5a2dtb3dSdDRHc1REL0hhOFdNaXN2MStWUFM0MTB0?=
- =?utf-8?B?Rm1XZUZXelJOOGhzNlNCWndBYU1qaFdUdEhZSFBxWUVncU1aSjdjaXdEdk1v?=
- =?utf-8?Q?AtSx6NXTgYELLIOgCbzduNS5x?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E4W6d8024015
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 21:01:01 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44qwy6kvuw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Feb 2025 21:01:01 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 13 Feb 2025 21:00:59 -0800
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][PATCH 3/3] curl: fix CVE-2025-0725
+Date: Fri, 14 Feb 2025 05:00:35 +0000
+Message-ID: <20250214050035.1049565-3-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250214050035.1049565-1-yogita.urade@windriver.com>
+References: <20250214050035.1049565-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5613.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f4f58a2-4663-4810-1a32-08dd4c9a9203
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2025 01:54:51.4786
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SyaN8viiY0tRZZQZirxI+IY9HDs13gqKo+XoeDlhYJbfoM6xjGCSiVZq3Yg6gh8E16w32Ncgj1CPqr+eB3pUyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6506
-X-Proofpoint-GUID: 8a8WDNaVtqs17DPZA5-XioTHJwTL-Lkj
-X-Proofpoint-ORIG-GUID: S_-CEIvGBXDGDGSuavMVk7Ii-j2iHzZ8
-X-Authority-Analysis: v=2.4 cv=G8nmE8k5 c=1 sm=1 tr=0 ts=67aea26f cx=c_pps a=Syk5hotmcjzKYaivvMT4gg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10
- a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=LGpZLEyVdnCNnF2gUIQA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: PARDr141d4bQJjUyIzAYQCBqqQBb84OA
+X-Proofpoint-ORIG-GUID: PARDr141d4bQJjUyIzAYQCBqqQBb84OA
+X-Authority-Analysis: v=2.4 cv=G8nmE8k5 c=1 sm=1 tr=0 ts=67aece0d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=T2h4t0Lz3GQA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=QHnSCRzsTXmcUY5KeVkA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-13_09,2025-02-13_01,2024-11-22_01
+ definitions=2025-02-14_01,2025-02-13_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
  adultscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
  impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
  phishscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502140011
+ definitions=main-2502140034
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 01:55:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211371
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Feb 2025 05:01:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211374
 
-R290IGl0ISBUaGFua3MuIEknbGwgbG9vayBpbnRvIGl0Lg0KDQpSZWdhcmRzLA0KUWkNCg0KLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
-IE9uIEJlaGFsZiBPZiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQgdmlhIGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcNClNlbnQ6IFRodXJzZGF5LCBGZWJydWFyeSAxMywgMjAyNSA5OjMzIFBNDQpUbzogQ2hl
-biwgUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0ggNS81XSB1dGlsLWxp
-bnV4L3V0aWwtbGludXgtbGlidXVpZDogdXBncmFkZSBmcm9tIDIuNDAuMiB0byAyLjQwLjQNCg0K
-T24gVGh1IEZlYiAxMywgMjAyNSBhdCA3OjAwIEFNIENFVCwgQ2hlbiBRaSB2aWEgbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIu
-Y29tPg0KPg0KPiBUaGUgZm9sbG93aW5nIHR3byBwYXRjaGVzIGFyZSBkcm9wcGVkIGJlY2F1c2Ug
-dGhleSBhcmUgaW4gdGhlIG5ldyB2ZXJzaW9uOg0KPiAtIDAwMDEtYXV0b3Rvb2xzLWZpeC1zZWN1
-cmVkaXItYW5kLXBhbV9sYXN0bG9nMi1pbnN0YWxsLnBhdGNoDQo+IC0gdXRpbC1saW51eC9saWJm
-ZGlzay1jZmRpc2stYW5kLXNmZGlzay1zZWN0b3Itc2l6ZS1pbXByb3ZlbWVudHMucGF0Y2gNCj4N
-Cj4gU2lnbmVkLW9mZi1ieTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KPiAtLS0N
-Cg0KSGksDQoNClRoYW5rcyBmb3IgeW91ciBwYXRjaC4NCg0KSSBiZWxpZXZlIHRoaXMgaXMgYnJl
-YWtpbmcgc29tZSBzZmRpc2sgb3B0aW9uIHdlIHVzZS4gSGVyZSBpcyB0aGUgZXJyb3Igb24gdGhl
-IGF1dG9idWlsZGVyOg0KDQp8IEVSUk9SOiBfZXhlY19jbWQ6IGV4cG9ydCANCnwgUEFUSD0vc3J2
-L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZmVkb3JhL2J1aWxkL2J1aWxkLXN0
-LTU0OA0KfCAyNy90bXAvd29yay9xZW11eDg2XzY0LXBva3ktbGludXgvY29yZS1pbWFnZS1taW5p
-bWFsLzEuMC9yZWNpcGUtc3lzcm9vDQp8IHQtbmF0aXZlL3NiaW46L3Nydi9wb2t5YnVpbGQveW9j
-dG8td29ya2VyL29lLXNlbGZ0ZXN0LWZlZG9yYS9idWlsZC9idWkNCnwgbGQtc3QtNTQ4MjcvdG1w
-L3dvcmsvcWVtdXg4Nl82NC1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtbWluaW1hbC8xLjAvcmVjaQ0K
-fCBwZS1zeXNyb290LW5hdGl2ZS91c3Ivc2Jpbjovc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIv
-b2Utc2VsZnRlc3QtZmVkDQp8IG9yYS9idWlsZC9idWlsZC1zdC01NDgyNy90bXAvd29yay9xZW11
-eDg2XzY0LXBva3ktbGludXgvY29yZS1pbWFnZS1taW4NCnwgaW1hbC8xLjAvcmVjaXBlLXN5c3Jv
-b3QtbmF0aXZlL3Vzci9iaW46L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLQ0KfCBzZWxm
-dGVzdC1mZWRvcmEvYnVpbGQvYnVpbGQtc3QtNTQ4MjcvdG1wL3dvcmsvcWVtdXg4Nl82NC1wb2t5
-LWxpbnV4L2NvDQp8IHJlLWltYWdlLW1pbmltYWwvMS4wL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91
-c3IvYmluL3g4Nl82NC1wb2t5LWxpbnV4Oi8NCnwgc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIv
-b2Utc2VsZnRlc3QtZmVkb3JhL2J1aWxkL2J1aWxkLXN0LTU0ODI3L3RtcA0KfCAvd29yay9xZW11
-eDg2XzY0LXBva3ktbGludXgvY29yZS1pbWFnZS1taW5pbWFsLzEuMC9yZWNpcGUtc3lzcm9vdC1u
-YXRpDQp8IHZlL2Jpbjovc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZmVk
-b3JhL2J1aWxkL2J1aWxkLXN0LTUNCnwgNDgyNy90bXAvaG9zdHRvb2xzOiRQQVRIO3NmZGlzayAt
-LXNlY3Rvci1zaXplIDUxMiAtLWRpc2staWQgDQp8IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
-ci9vZS1zZWxmdGVzdC1mZWRvcmEvYnVpbGQvYnVpbGQtc3QtNTQ4MjcvdG0NCnwgcC93b3JrL3Fl
-bXV4ODZfNjQtcG9reS1saW51eC9jb3JlLWltYWdlLW1pbmltYWwvMS4wL3RtcC13aWMvZWZpLWJv
-b3RkaQ0KfCBzay0yMDI1MDIxMzA5NDktc2RhLmRpcmVjdCAwMDAwMDAwMC0wMDAwLTAwMDAtMDAw
-MC0wMDAwNGQ5YjllZjAgDQp8IHJldHVybmVkICcxJyBpbnN0ZWFkIG9mIDANCnwgb3V0cHV0OiBz
-ZmRpc2s6IHVucmVjb2duaXplZCBvcHRpb24gJy0tc2VjdG9yLXNpemUnDQp8IFRyeSAnc2ZkaXNr
-IC0taGVscCcgZm9yIG1vcmUgaW5mb3JtYXRpb24uDQoNCmh0dHBzOi8vYXV0b2J1aWxkZXIueW9j
-dG9wcm9qZWN0Lm9yZy92YWxreXJpZS8/Iy9idWlsZGVycy80OC9idWlsZHMvOTIyL3N0ZXBzLzE0
-L2xvZ3Mvc3RkaW8NCg0KQ2FuIHlvdSBoYXZlIGEgbG9vayBhdCB0aGlzIGlzc3VlIHBsZWFzZT8N
-Cg0KLS0NCk1hdGhpZXUgRHVib2lzLUJyaWFuZCwgQm9vdGxpbg0KRW1iZWRkZWQgTGludXggYW5k
-IEtlcm5lbCBlbmdpbmVlcmluZw0KaHR0cHM6Ly9ib290bGluLmNvbQ0KDQo=
+From: Yogita Urade <yogita.urade@windriver.com>
+
+When libcurl is asked to perform automatic gzip decompression
+of content-encoded HTTP responses with the
+`CURLOPT_ACCEPT_ENCODING` option, **using zlib 1.2.0.3 or
+older**, an attacker-controlled integer overflow would make
+libcurl perform a buffer overflow.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-0725
+
+Upstream patch:
+https://github.com/curl/curl/commit/76f83f0db23846e254d940ec7
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../curl/curl/CVE-2025-0725.patch             | 477 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ 2 files changed, 478 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-0725.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-0725.patch b/meta/recipes-support/curl/curl/CVE-2025-0725.patch
+new file mode 100644
+index 0000000000..9a0b64766d
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-0725.patch
+@@ -0,0 +1,477 @@
++From 76f83f0db23846e254d940ec7fe141010077eb88 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 24 Jan 2025 11:13:24 +0100
++Subject: [PATCH] content_encoding: drop support for zlib before 1.2.0.4
++
++zlib 1.2.0.4 was released on 10 August 2003
++
++Closes #16079
++
++CVE: CVE-2025-0725
++Upstream-Status: Backport [https://github.com/curl/curl/commit/76f83f0db23846e254d940ec7fe141010077eb88]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ docs/INTERNALS.md      |   2 +-
++ lib/content_encoding.c | 274 ++++-------------------------------------
++ 2 files changed, 25 insertions(+), 251 deletions(-)
++
++diff --git a/docs/INTERNALS.md b/docs/INTERNALS.md
++index b1a095f..d030b83 100644
++--- a/docs/INTERNALS.md
+++++ b/docs/INTERNALS.md
++@@ -20,7 +20,7 @@ versions of libs and build tools.
++
++  - OpenSSL      0.9.7
++  - GnuTLS       3.1.10
++- - zlib         1.1.4
+++ - zlib         1.2.0.4
++  - libssh2      1.0
++  - c-ares       1.16.0
++  - libidn2      2.0.0
++diff --git a/lib/content_encoding.c b/lib/content_encoding.c
++index c1abf24..d38bce8 100644
++--- a/lib/content_encoding.c
+++++ b/lib/content_encoding.c
++@@ -68,31 +68,13 @@
++
++ #define DSIZ CURL_MAX_WRITE_SIZE /* buffer size for decompressed data */
++
++-
++ #ifdef HAVE_LIBZ
++
++-/* Comment this out if zlib is always going to be at least ver. 1.2.0.4
++-   (doing so will reduce code size slightly). */
++-#define OLD_ZLIB_SUPPORT 1
++-
++-#define GZIP_MAGIC_0 0x1f
++-#define GZIP_MAGIC_1 0x8b
++-
++-/* gzip flag byte */
++-#define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
++-#define HEAD_CRC     0x02 /* bit 1 set: header CRC present */
++-#define EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
++-#define ORIG_NAME    0x08 /* bit 3 set: original file name present */
++-#define COMMENT      0x10 /* bit 4 set: file comment present */
++-#define RESERVED     0xE0 /* bits 5..7: reserved */
++-
++ typedef enum {
++   ZLIB_UNINIT,               /* uninitialized */
++   ZLIB_INIT,                 /* initialized */
++   ZLIB_INFLATING,            /* inflating started. */
++   ZLIB_EXTERNAL_TRAILER,     /* reading external trailer */
++-  ZLIB_GZIP_HEADER,          /* reading gzip header */
++-  ZLIB_GZIP_INFLATING,       /* inflating gzip stream */
++   ZLIB_INIT_GZIP             /* initialized in transparent gzip mode */
++ } zlibInitState;
++
++@@ -137,9 +119,6 @@ static CURLcode
++ exit_zlib(struct Curl_easy *data,
++           z_stream *z, zlibInitState *zlib_init, CURLcode result)
++ {
++-  if(*zlib_init == ZLIB_GZIP_HEADER)
++-    Curl_safefree(z->next_in);
++-
++   if(*zlib_init != ZLIB_UNINIT) {
++     if(inflateEnd(z) != Z_OK && result == CURLE_OK)
++       result = process_zlib_error(data, z);
++@@ -188,8 +167,7 @@ static CURLcode inflate_stream(struct Curl_easy *data,
++   /* Check state. */
++   if(zp->zlib_init != ZLIB_INIT &&
++      zp->zlib_init != ZLIB_INFLATING &&
++-     zp->zlib_init != ZLIB_INIT_GZIP &&
++-     zp->zlib_init != ZLIB_GZIP_INFLATING)
+++     zp->zlib_init != ZLIB_INIT_GZIP)
++     return exit_zlib(data, z, &zp->zlib_init, CURLE_WRITE_ERROR);
++
++   /* Dynamically allocate a buffer for decompression because it's uncommonly
++@@ -278,7 +256,7 @@ static CURLcode inflate_stream(struct Curl_easy *data,
++
++ /* Deflate handler. */
++ static CURLcode deflate_do_init(struct Curl_easy *data,
++-                                    struct Curl_cwriter *writer)
+++                                struct Curl_cwriter *writer)
++ {
++   struct zlib_writer *zp = (struct zlib_writer *) writer;
++   z_stream *z = &zp->z;     /* zlib state structure */
++@@ -294,8 +272,8 @@ static CURLcode deflate_do_init(struct Curl_easy *data,
++ }
++
++ static CURLcode deflate_do_write(struct Curl_easy *data,
++-                                       struct Curl_cwriter *writer, int type,
++-                                       const char *buf, size_t nbytes)
+++                                 struct Curl_cwriter *writer, int type,
+++                                 const char *buf, size_t nbytes)
++ {
++   struct zlib_writer *zp = (struct zlib_writer *) writer;
++   z_stream *z = &zp->z;     /* zlib state structure */
++@@ -315,7 +293,7 @@ static CURLcode deflate_do_write(struct Curl_easy *data,
++ }
++
++ static void deflate_do_close(struct Curl_easy *data,
++-                                 struct Curl_cwriter *writer)
+++                             struct Curl_cwriter *writer)
++ {
++   struct zlib_writer *zp = (struct zlib_writer *) writer;
++   z_stream *z = &zp->z;     /* zlib state structure */
++@@ -335,124 +313,34 @@ static const struct Curl_cwtype deflate_encoding = {
++
++ /* Gzip handler. */
++ static CURLcode gzip_do_init(struct Curl_easy *data,
++-                                 struct Curl_cwriter *writer)
+++                             struct Curl_cwriter *writer)
++ {
++   struct zlib_writer *zp = (struct zlib_writer *) writer;
++   z_stream *z = &zp->z;     /* zlib state structure */
+++  const char *v = zlibVersion();
++
++   /* Initialize zlib */
++   z->zalloc = (alloc_func) zalloc_cb;
++   z->zfree = (free_func) zfree_cb;
++
++-  if(strcmp(zlibVersion(), "1.2.0.4") >= 0) {
++-    /* zlib ver. >= 1.2.0.4 supports transparent gzip decompressing */
+++  if(strcmp(v, "1.2.0.4") >= 0) {
+++    /* zlib version >= 1.2.0.4 supports transparent gzip decompressing */
++     if(inflateInit2(z, MAX_WBITS + 32) != Z_OK) {
++       return process_zlib_error(data, z);
++     }
++     zp->zlib_init = ZLIB_INIT_GZIP; /* Transparent gzip decompress state */
++   }
++   else {
++-    /* we must parse the gzip header and trailer ourselves */
++-    if(inflateInit2(z, -MAX_WBITS) != Z_OK) {
++-      return process_zlib_error(data, z);
++-    }
++-    zp->trailerlen = 8; /* A CRC-32 and a 32-bit input size (RFC 1952, 2.2) */
++-    zp->zlib_init = ZLIB_INIT; /* Initial call state */
+++    failf(data, "too old zlib version: %s", v);
+++    return CURLE_FAILED_INIT;
++   }
++
++   return CURLE_OK;
++ }
++
++-#ifdef OLD_ZLIB_SUPPORT
++-/* Skip over the gzip header */
++-typedef enum {
++-  GZIP_OK,
++-  GZIP_BAD,
++-  GZIP_UNDERFLOW
++-} gzip_status;
++-
++-static gzip_status check_gzip_header(unsigned char const *data, ssize_t len,
++-                                     ssize_t *headerlen)
++-{
++-  int method, flags;
++-  const ssize_t totallen = len;
++-
++-  /* The shortest header is 10 bytes */
++-  if(len < 10)
++-    return GZIP_UNDERFLOW;
++-
++-  if((data[0] != GZIP_MAGIC_0) || (data[1] != GZIP_MAGIC_1))
++-    return GZIP_BAD;
++-
++-  method = data[2];
++-  flags = data[3];
++-
++-  if(method != Z_DEFLATED || (flags & RESERVED) != 0) {
++-    /* Can't handle this compression method or unknown flag */
++-    return GZIP_BAD;
++-  }
++-
++-  /* Skip over time, xflags, OS code and all previous bytes */
++-  len -= 10;
++-  data += 10;
++-
++-  if(flags & EXTRA_FIELD) {
++-    ssize_t extra_len;
++-
++-    if(len < 2)
++-      return GZIP_UNDERFLOW;
++-
++-    extra_len = (data[1] << 8) | data[0];
++-
++-    if(len < (extra_len + 2))
++-      return GZIP_UNDERFLOW;
++-
++-    len -= (extra_len + 2);
++-    data += (extra_len + 2);
++-  }
++-
++-  if(flags & ORIG_NAME) {
++-    /* Skip over NUL-terminated file name */
++-    while(len && *data) {
++-      --len;
++-      ++data;
++-    }
++-    if(!len || *data)
++-      return GZIP_UNDERFLOW;
++-
++-    /* Skip over the NUL */
++-    --len;
++-    ++data;
++-  }
++-
++-  if(flags & COMMENT) {
++-    /* Skip over NUL-terminated comment */
++-    while(len && *data) {
++-      --len;
++-      ++data;
++-    }
++-    if(!len || *data)
++-      return GZIP_UNDERFLOW;
++-
++-    /* Skip over the NUL */
++-    --len;
++-  }
++-
++-  if(flags & HEAD_CRC) {
++-    if(len < 2)
++-      return GZIP_UNDERFLOW;
++-
++-    len -= 2;
++-  }
++-
++-  *headerlen = totallen - len;
++-  return GZIP_OK;
++-}
++-#endif
++-
++ static CURLcode gzip_do_write(struct Curl_easy *data,
++-                                    struct Curl_cwriter *writer, int type,
++-                                    const char *buf, size_t nbytes)
+++                              struct Curl_cwriter *writer, int type,
+++                              const char *buf, size_t nbytes)
++ {
++   struct zlib_writer *zp = (struct zlib_writer *) writer;
++   z_stream *z = &zp->z;     /* zlib state structure */
++@@ -468,117 +356,8 @@ static CURLcode gzip_do_write(struct Curl_easy *data,
++     return inflate_stream(data, writer, type, ZLIB_INIT_GZIP);
++   }
++
++-#ifndef OLD_ZLIB_SUPPORT
++-  /* Support for old zlib versions is compiled away and we are running with
++-     an old version, so return an error. */
+++  /* We are running with an old version: return error. */
++   return exit_zlib(data, z, &zp->zlib_init, CURLE_WRITE_ERROR);
++-
++-#else
++-  /* This next mess is to get around the potential case where there isn't
++-   * enough data passed in to skip over the gzip header.  If that happens, we
++-   * malloc a block and copy what we have then wait for the next call.  If
++-   * there still isn't enough (this is definitely a worst-case scenario), we
++-   * make the block bigger, copy the next part in and keep waiting.
++-   *
++-   * This is only required with zlib versions < 1.2.0.4 as newer versions
++-   * can handle the gzip header themselves.
++-   */
++-
++-  switch(zp->zlib_init) {
++-  /* Skip over gzip header? */
++-  case ZLIB_INIT:
++-  {
++-    /* Initial call state */
++-    ssize_t hlen;
++-
++-    switch(check_gzip_header((unsigned char *) buf, nbytes, &hlen)) {
++-    case GZIP_OK:
++-      z->next_in = (Bytef *) buf + hlen;
++-      z->avail_in = (uInt) (nbytes - hlen);
++-      zp->zlib_init = ZLIB_GZIP_INFLATING; /* Inflating stream state */
++-      break;
++-
++-    case GZIP_UNDERFLOW:
++-      /* We need more data so we can find the end of the gzip header.  It's
++-       * possible that the memory block we malloc here will never be freed if
++-       * the transfer abruptly aborts after this point.  Since it's unlikely
++-       * that circumstances will be right for this code path to be followed in
++-       * the first place, and it's even more unlikely for a transfer to fail
++-       * immediately afterwards, it should seldom be a problem.
++-       */
++-      z->avail_in = (uInt) nbytes;
++-      z->next_in = malloc(z->avail_in);
++-      if(!z->next_in) {
++-        return exit_zlib(data, z, &zp->zlib_init, CURLE_OUT_OF_MEMORY);
++-      }
++-      memcpy(z->next_in, buf, z->avail_in);
++-      zp->zlib_init = ZLIB_GZIP_HEADER;  /* Need more gzip header data state */
++-      /* We don't have any data to inflate yet */
++-      return CURLE_OK;
++-
++-    case GZIP_BAD:
++-    default:
++-      return exit_zlib(data, z, &zp->zlib_init, process_zlib_error(data, z));
++-    }
++-
++-  }
++-  break;
++-
++-  case ZLIB_GZIP_HEADER:
++-  {
++-    /* Need more gzip header data state */
++-    ssize_t hlen;
++-    z->avail_in += (uInt) nbytes;
++-    z->next_in = Curl_saferealloc(z->next_in, z->avail_in);
++-    if(!z->next_in) {
++-      return exit_zlib(data, z, &zp->zlib_init, CURLE_OUT_OF_MEMORY);
++-    }
++-    /* Append the new block of data to the previous one */
++-    memcpy(z->next_in + z->avail_in - nbytes, buf, nbytes);
++-
++-    switch(check_gzip_header(z->next_in, z->avail_in, &hlen)) {
++-    case GZIP_OK:
++-      /* This is the zlib stream data */
++-      free(z->next_in);
++-      /* Don't point into the malloced block since we just freed it */
++-      z->next_in = (Bytef *) buf + hlen + nbytes - z->avail_in;
++-      z->avail_in = (uInt) (z->avail_in - hlen);
++-      zp->zlib_init = ZLIB_GZIP_INFLATING;   /* Inflating stream state */
++-      break;
++-
++-    case GZIP_UNDERFLOW:
++-      /* We still don't have any data to inflate! */
++-      return CURLE_OK;
++-
++-    case GZIP_BAD:
++-    default:
++-      return exit_zlib(data, z, &zp->zlib_init, process_zlib_error(data, z));
++-    }
++-
++-  }
++-  break;
++-
++-  case ZLIB_EXTERNAL_TRAILER:
++-    z->next_in = (Bytef *) buf;
++-    z->avail_in = (uInt) nbytes;
++-    return process_trailer(data, zp);
++-
++-  case ZLIB_GZIP_INFLATING:
++-  default:
++-    /* Inflating stream state */
++-    z->next_in = (Bytef *) buf;
++-    z->avail_in = (uInt) nbytes;
++-    break;
++-  }
++-
++-  if(z->avail_in == 0) {
++-    /* We don't have any data to inflate; wait until next time */
++-    return CURLE_OK;
++-  }
++-
++-  /* We've parsed the header, now uncompress the data */
++-  return inflate_stream(data, writer, type, ZLIB_GZIP_INFLATING);
++-#endif
++ }
++
++ static void gzip_do_close(struct Curl_easy *data,
++@@ -601,7 +380,6 @@ static const struct Curl_cwtype gzip_encoding = {
++
++ #endif /* HAVE_LIBZ */
++
++-
++ #ifdef HAVE_BROTLI
++ /* Brotli writer. */
++ struct brotli_writer {
++@@ -648,7 +426,7 @@ static CURLcode brotli_map_error(BrotliDecoderErrorCode be)
++ }
++
++ static CURLcode brotli_do_init(struct Curl_easy *data,
++-                                   struct Curl_cwriter *writer)
+++                               struct Curl_cwriter *writer)
++ {
++   struct brotli_writer *bp = (struct brotli_writer *) writer;
++   (void) data;
++@@ -658,8 +436,8 @@ static CURLcode brotli_do_init(struct Curl_easy *data,
++ }
++
++ static CURLcode brotli_do_write(struct Curl_easy *data,
++-                                      struct Curl_cwriter *writer, int type,
++-                                      const char *buf, size_t nbytes)
+++                                struct Curl_cwriter *writer, int type,
+++                                const char *buf, size_t nbytes)
++ {
++   struct brotli_writer *bp = (struct brotli_writer *) writer;
++   const uint8_t *src = (const uint8_t *) buf;
++@@ -731,7 +509,6 @@ static const struct Curl_cwtype brotli_encoding = {
++ };
++ #endif
++
++-
++ #ifdef HAVE_ZSTD
++ /* Zstd writer. */
++ struct zstd_writer {
++@@ -741,7 +518,7 @@ struct zstd_writer {
++ };
++
++ static CURLcode zstd_do_init(struct Curl_easy *data,
++-                                 struct Curl_cwriter *writer)
+++                             struct Curl_cwriter *writer)
++ {
++   struct zstd_writer *zp = (struct zstd_writer *) writer;
++
++@@ -753,8 +530,8 @@ static CURLcode zstd_do_init(struct Curl_easy *data,
++ }
++
++ static CURLcode zstd_do_write(struct Curl_easy *data,
++-                                    struct Curl_cwriter *writer, int type,
++-                                    const char *buf, size_t nbytes)
+++                              struct Curl_cwriter *writer, int type,
+++                              const char *buf, size_t nbytes)
++ {
++   CURLcode result = CURLE_OK;
++   struct zstd_writer *zp = (struct zstd_writer *) writer;
++@@ -785,7 +562,7 @@ static CURLcode zstd_do_write(struct Curl_easy *data,
++     }
++     if(out.pos > 0) {
++       result = Curl_cwriter_write(data, writer->next, type,
++-                                   zp->decomp, out.pos);
+++                                  zp->decomp, out.pos);
++       if(result)
++         break;
++     }
++@@ -823,7 +600,6 @@ static const struct Curl_cwtype zstd_encoding = {
++ };
++ #endif
++
++-
++ /* Identity handler. */
++ static const struct Curl_cwtype identity_encoding = {
++   "identity",
++@@ -834,7 +610,6 @@ static const struct Curl_cwtype identity_encoding = {
++   sizeof(struct Curl_cwriter)
++ };
++
++-
++ /* supported general content decoders. */
++ static const struct Curl_cwtype * const general_unencoders[] = {
++   &identity_encoding,
++@@ -898,7 +673,7 @@ void Curl_all_content_encodings(char *buf, size_t blen)
++
++ /* Deferred error dummy writer. */
++ static CURLcode error_do_init(struct Curl_easy *data,
++-                                  struct Curl_cwriter *writer)
+++                              struct Curl_cwriter *writer)
++ {
++   (void)data;
++   (void)writer;
++@@ -906,8 +681,8 @@ static CURLcode error_do_init(struct Curl_easy *data,
++ }
++
++ static CURLcode error_do_write(struct Curl_easy *data,
++-                                     struct Curl_cwriter *writer, int type,
++-                                     const char *buf, size_t nbytes)
+++                               struct Curl_cwriter *writer, int type,
+++                               const char *buf, size_t nbytes)
++ {
++   char all[256];
++   (void)Curl_all_content_encodings(all, sizeof(all));
++@@ -1048,5 +823,4 @@ void Curl_all_content_encodings(char *buf, size_t blen)
++     strcpy(buf, CONTENT_ENCODING_DEFAULT);
++ }
++
++-
++ #endif /* CURL_DISABLE_HTTP */
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 86e307cfd6..b7a669fb57 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -24,6 +24,7 @@ SRC_URI = " \
+     file://CVE-2024-11053-0002.patch \
+     file://CVE-2024-11053-0003.patch \
+     file://CVE-2025-0167.patch \
++    file://CVE-2025-0725.patch \
+ "
+ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
+ 
+-- 
+2.40.0
+
 
