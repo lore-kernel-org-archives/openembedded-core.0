@@ -2,519 +2,687 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A780C19F2E
-	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:22 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.8104.1739623340447587950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9000C021BF
+	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:21 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.8092.1739623332933359667
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:20 -0800
+ Sat, 15 Feb 2025 04:42:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i/KD5DCL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JXIHfYap;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019509a196fe-8d6d0f73-947b-4851-8644-c532a77a35a0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TMHxiRwz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P3q3yOJh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019509a17977-a9d34a2d-dc1c-42ee-bde2-e386eb5a2a88-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623339;
+	t=1739623332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lzMtXvtlqtn7biVG1H2l1hedFejPjaH6+tvoqM/r55Q=;
-	b=i/KD5DCLb3lm7lYiZH6Azwf9WshYr/1G026qPkhCNnpgVk9yGGxJDg1nifUtwiA/
-	4urWDfE94QvduIiZNfi6addrZ4SALtN+WE/YuSsuK0lhM2fnCRHiKoLXkkhd9fVSzwR
-	LfczFdU1Zy0R3eSywg+DoARouc0+E/cznv6JoKLc=
+	bh=VaksxxgwmzFLEqxWfrFLV3uy2oVrZh2AdpHS645y6jU=;
+	b=TMHxiRwzcPfmbdfvH0B+vRS5JP7rvM+V9eA+T8yOSQn3hTnsmWizObEhFDxwGTxm
+	ZA4lQXYWh8ENU9nGZDMvWIuTh1P47M6feNawx/hEyer20PYMWBy4NGmvXwxng5cYOED
+	rN2qt8US6LwHmBz15qqAMDcKJitGXf1Xdjee6zRE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623339;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lzMtXvtlqtn7biVG1H2l1hedFejPjaH6+tvoqM/r55Q=;
-	b=JXIHfYapykSdLOpldP4H/WYT2XKjvF3jq019a6Di8jPzkHRRMP+c7UIqkxuK4FUB
-	zb8O2Aig+EquC6q6gzu1W3s9B28h3NvLvYzoeCuQ3eM+9ESNkeGKk8okcvNSicMz0J2
-	OL+OWYW2+Ht0tY8aBDbHshSZUgqyBA9e2nq2MJQ8=
-Content-Type: multipart/mixed; boundary="===============3414898729486641825=="
+	bh=VaksxxgwmzFLEqxWfrFLV3uy2oVrZh2AdpHS645y6jU=;
+	b=P3q3yOJhQJw0oR8MJueuMxzqPE5gok8FcI5tgsw+DXEPNx1D/X+zpRY6Nz2IywIe
+	BxdE0KidyJvjQuGlpjk/1LMslEkD06ojGpQJ+rMwvhxZ7wBvsEzP+ag8sK6e+u8iSSD
+	af6l8eyFNwu14wLeg2aCrf4YBgL5RUyUeImvLEmA=
+Content-Type: multipart/mixed; boundary="===============5016902636637840492=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: 
+	=?utf-8?q?Enrico_J=C3=B6rns_=3Cyocto=40pengutronix=2Ede=3E?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 3.4.2 SUCCEEDED
-Message-ID: <0101019509a196fe-8d6d0f73-947b-4851-8644-c532a77a35a0-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:19 +0000
+Subject: [AUH] barebox-tools: upgrading to 2025.01.0 FAILED
+Message-ID: <0101019509a17977-a9d34a2d-dc1c-42ee-bde2-e386eb5a2a88-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.29
+X-SES-Outgoing: 2025.02.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211434
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211407
 
---===============3414898729486641825==
-Content-Type: text/plain; charset="utf-8"
+--===============5016902636637840492==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpydWJ5KiB0byAqMy40LjIqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXJ1YnktdXBncmFkZS0zLjQuMS0zLjQuMi5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSA0OGE1ZGVkNjg1Zjc2OTZlNWU2ZDYzYzYyZjJmMjNkNzA5MGRlZDhjIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MjY6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBydWJ5
-OiB1cGdyYWRlIDMuNC4xIC0+IDMuNC4yCgotLS0KIC4uLngtY3Jvc3MtY29tcGlsYXRpb24tb2Yt
-ZXh0ZXJuYWwtZ2Vtcy5wYXRjaCB8ICA0ICstCiAuLi5pbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9y
-LW11c2wtcmlzY3YucGF0Y2ggfCAgNCArLQogLi4uT2JleS1MREZMQUdTLWZvci10aGUtbGluay1v
-Zi1saWJydWJ5LnBhdGNoIHwgIDIgKy0KIC4uLmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1l
-bnRhdGlvbi5wYXRjaCB8ICAyICstCiAuLi4tbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJh
-dGVkLU0ucGF0Y2ggfCAgMiArLQogLi4uZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUt
-dG9vLnBhdGNoIHwgIDIgKy0KIC4uLi8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBh
-dGNoICAgICB8ICAyICstCiAuLi4vcnVieS97cnVieV8zLjQuMS5iYiA9PiBydWJ5XzMuNC4yLmJi
-fSAgICAgfCA1MSArKysrKysrKysrKysrKysrKystCiA4IGZpbGVzIGNoYW5nZWQsIDU4IGluc2Vy
-dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3tydWJ5XzMuNC4xLmJiID0+IHJ1YnlfMy40LjIuYmJ9ICg3MyUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21w
-aWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1z
-LnBhdGNoCmluZGV4IGYxNzk3MGU5YzkuLjRhMTI3MzY3NzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24t
-b2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9y
-dWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgwYzZm
-ZWY1OTIzMzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDBmYjYxOGQwNDU4ZGJhOWI5
-ZTJhMzY5ZjBlMzQyNmZkMzVlNjM3MDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9
-P1VURi04P3E/QW5kcj1DMz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgog
-RGF0ZTogTW9uLCAzMCBTZXAgMjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBl
-eHRtazogZml4IGNyb3NzLWNvbXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcgKzE2
-LDcgQEAgU2lnbmVkLW9mZi1ieTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNpLmNv
-bT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlm
-ZiAtLWdpdCBhL2V4dC9leHRtay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4uMzA0
-OGY3NSAxMDA3NTUKK2luZGV4IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQvZXh0
-bWsucmIKICsrKyBiL2V4dC9leHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURl
-ZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVH
-X1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLmQ1ZGY3YmIwN2MgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMt
-RGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1h
-bmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmOTky
-ZDc4MWUwNWI2MTQ4OWJkZjVhMmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA1MzY4NGFiM2VmMGVhZTI4MGQ4MGY0MmMzODlkMTMyODNkOTU0OGI0IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-IERhdGU6IFR1ZSwgMjUgSmFuIDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0g
-dm1fZHVtcC5jOiBEZWZpbmUgUkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAgLTE0
-LDcgKzE0LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9kdW1w
-LmMgYi92bV9kdW1wLmMKLWluZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5OTMz
-OWZkLi44YzViYjAzIDEwMDY0NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMKIEBA
-IC00MCw2ICs0MCwxMSBAQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1s
-aW5rLW9mLWxpYnJ1YnkucGF0Y2gKaW5kZXggYmI2N2RmMGY0MC4uNTA0NTNlOTM3NCAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1m
-b3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ZTIzMzdkOGIwZGFmMjY0Nzg1Y2IwNmQxZDZjN2Q2MWU0
-MjhhMTFiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhNjM0OTNhODEzYTQ4MjkwZTI5
-YzkzMTVhMTVhODc4Y2Q4NjM5Nzk1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hy
-aXN0b3BoZXIgTGFyc29uIDxjaHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwgNSBN
-YXkgMjAxNiAxMDo1OTowNyAtMDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1MgZm9y
-IHRoZSBsaW5rIG9mIGxpYnJ1YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9k
-dWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uZmNhMWQ1ZGFjNiAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVp
-bGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRp
-b24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2NzQ2
-Y2UzOTA2NzkzMmI2MmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDIzYmI3NDU2ZmMy
-NmVmMGZmMTMwM2Q5ZTliNDc5OWEwZGRmNzZlZjcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBDaHJpc3RpYW4gSG9mc3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBUdWUs
-IDEwIE9jdCAyMDE3IDE1OjA0OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1aWxk
-IHJlcHJvZHVjaWJsZSBkb2N1bWVudGF0aW9uCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxl
-cy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1Ynkv
-MDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdlbmVyYXRlZC1N
-LnBhdGNoCmluZGV4IDRiNjc3MWZkMjYuLjAwYTZjNjY1ZDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2Jq
-ZWN0LWZpbGVzLWluLWdlbmVyYXRlZC1NLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWlu
-LWdlbmVyYXRlZC1NLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwODg3ZmFjYzRjYTViY2Iw
-MjgwYjAyNWIzNWJiYzE4NTI4ZTUyOTE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBk
-MTRmYmYxMGJkODRjMzkzOTZjOTIwMzM4N2I0ZmI1OGNiZTFmNGI5IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogUmVpbmVyIEhlcnJtYW5uIDxyZWluZXJAcmVpbmVyLWguZGU+CiBEYXRl
-OiBUdWUsIDEwIE9jdCAyMDE3IDE1OjA2OjEzIC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGxpYi9t
-a21mLnJiOiBzb3J0IGxpc3Qgb2Ygb2JqZWN0IGZpbGVzIGluIGdlbmVyYXRlZCBNYWtlZmlsZQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vt
-c3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUt
-Y2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCmluZGV4IGVkYTQ1ZGQ4NjIuLjUxZDk4Yzhk
-NzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJr
-LUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJv
-ZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIGZmMjVmNmRkZGNmYmJiN2IwNDY0NDg1YmI1MTMyNDU4ODY2YWI1MWEgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIGQyYzBkMjZmNmMxMzQ1ZWVjNWEzMTc3NDM3N2RhMjRlYjIxYzA1
-NTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFz
-aGlyb0BkZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1
-Y2libGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1n
-ZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uMGQ2NjdkOTBkNyAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vt
-c3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gZDU4YmRhY2EzZDUzNzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYWVmNjQ3ODM2ZDYzYjdiMDM3NDE5ZGIzZDBmYTE2ZmZl
-YmJiYzE3MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGlybyA8
-a2FuYXNoaXJvQGRlYmlhbi5vcmc+CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcgLTAz
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjEuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggNzMlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjIuYmIKaW5kZXggMDk0MTVhMzEz
-Mi4uYWZhOTA3MTBjYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eV8zLjQuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC4yLmJi
-CkBAIC0xLDMgKzEsNTAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBo
-YXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBp
-cyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0
-LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1h
-cml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVw
-ZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJz
-IHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMRUdBTAorIyArKysgTEVH
-QUwKKyMgQEAgLTM3MSw2ICszNzEsMzMgQEAKKyMgICAgICBUT1JUIE9SIE9USEVSV0lTRSwgQVJJ
-U0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRQorIyAgICAgIFNPRlRX
-QVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgorIyAgCisj
-ICtbc3BlYy9saWIvdHVyYm9fdGVzdHMvKl0KKyMgK1tzcGVjL2xpYi90dXJib190ZXN0cy5yYl0K
-KyMgK1tzcGVjL2xpYi91dGlscy8qXQorIyArCisjICsgIFRoZXNlIGZpbGVzIGFyZSB1bmRlciB0
-aGUgTUlUIExpY2Vuc2UuCisjICsKKyMgKyAgPj4+CisjICsgICAgQ29weXJpZ2h0IChjKSAyMDIw
-IElseWEgWnViCisjICsKKyMgKyAgICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVl
-IG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYSBjb3B5CisjICsgICAgb2YgdGhp
-cyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3
-YXJlIiksIHRvIGRlYWwKKyMgKyAgICBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlv
-biwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzCisjICsgICAgdG8gdXNl
-LCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLCBh
-bmQvb3Igc2VsbAorIyArICAgIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQg
-cGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcworIyArICAgIGZ1cm5pc2hlZCB0byBkbyBz
-bywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisjICsKKyMgKyAgICBUaGUg
-YWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBi
-ZSBpbmNsdWRlZCBpbgorIyArICAgIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMg
-b2YgdGhlIFNvZnR3YXJlLgorIyArCisjICsgICAgVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJB
-UyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKKyMgKyAgICBJ
-TVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1F
-UkNIQU5UQUJJTElUWSwKKyMgKyAgICBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBB
-TkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgKyAgICBBVVRIT1JT
-IE9SIENPUFlSSUdIVCBIT0xERVJTIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9S
-IE9USEVSCisjICsgICAgTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFD
-VCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwKKyMgKyAgICBPVVQgT0YgT1IgSU4g
-Q09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdT
-IElOCisjICsgICAgVEhFIFNPRlRXQVJFLgorIyArCisjICBbcGFyc2UuY10KKyMgIFtwYXJzZS5o
-XQorIyAgCisjIAorIworCiBTVU1NQVJZID0gIkFuIGludGVycHJldGVyIG9mIG9iamVjdC1vcmll
-bnRlZCBzY3JpcHRpbmcgbGFuZ3VhZ2UiCiBERVNDUklQVElPTiA9ICJSdWJ5IGlzIGFuIGludGVy
-cHJldGVkIHNjcmlwdGluZyBsYW5ndWFnZSBmb3IgcXVpY2sgXAogYW5kIGVhc3kgb2JqZWN0LW9y
-aWVudGVkIHByb2dyYW1taW5nLiBJdCBoYXMgbWFueSBmZWF0dXJlcyB0byBwcm9jZXNzIFwKQEAg
-LTEwLDcgKzU3LDcgQEAgTElDRU5TRSA9ICJSdWJ5IHwgQlNELTItQ2xhdXNlIHwgQlNELTMtQ2xh
-dXNlIHwgR1BMLTIuMC1vbmx5IHwgSVNDIHwgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
-Oi8vQ09QWUlORzttZDU9NWI4Yzg3NTU5ODY4Nzk2OTc5ODA2MTAwZGIzZjM4MDUgXAogICAgICAg
-ICAgICAgICAgICAgICBmaWxlOi8vQlNETDttZDU9OGI1MGJjNmRlOGY1ODZkYzY2NzkwYmExMWQw
-NjRkNzUgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vR1BMO21kNT1iMjM0ZWU0ZDY5ZjVm
-Y2U0NDg2YTgwZmRhZjRhNDI2MyBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MRUdBTDtt
-ZDU9ZWZmM2JiMTM4MmI1OTBjYzU4MTRmMWYzZGU2ZWI0ZTUgXAorICAgICAgICAgICAgICAgICAg
-ICBmaWxlOi8vTEVHQUw7bWQ1PWNiMTQzNThiNzgyMWMwNTRhZTE0MTI4ODg1MTcwMjA0IFwKICAg
-ICAgICAgICAgICAgICAgICAgIgogCiBERVBFTkRTID0gInpsaWIgb3BlbnNzbCBsaWJ5YW1sIGxp
-YmZmaSIKQEAgLTQ4LDcgKzk1LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQoKSB7CiAKIERFUEVO
-RFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIzZDM4NWU1ZDIyZDM2OGIwNjRjODE3YTEzZWQ4ZTNjYzNmNzFhNzcwNWQ3ZWQxYmFlNzgw
-MTNjMzNhYTdjODdmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQxMzI4YWMyMWYyYmZkZDdkZTZi
-MzU2NWVmNGYwZGQ3NTQzMzU0ZDM3ZTk2ZjE1N2ExNTUyYTZiZDBlYjM2NGIiCiAKIFBBQ0tBR0VD
-T05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5maWx0ZXIoJ0RJU1RS
-T19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40NC4xCgo=
+Hello,
 
---===============3414898729486641825==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *barebox-tools* to *2025.01.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-barebox-tools-upgrade-2024.12.0-2025.01.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 96dafe7b9698d4868f2ff2b91923ddf6f1cd77dd Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 15 Feb 2025 06:19:41 +0000
+Subject: [PATCH] barebox-tools: upgrade 2024.12.0 -> 2025.01.0
+
+---
+ meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
+index fce3b825ae..9b8dc4ea60 100644
+--- a/meta/recipes-bsp/barebox/barebox-common.inc
++++ b/meta/recipes-bsp/barebox/barebox-common.inc
+@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+ 
+-PV = "2024.12.0"
++PV = "2025.01.0"
+ SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "717a2416b37942f584b0bb2eb61ccbf85dc0f1a5c841318f47cd6967b9c4dcab"
++SRC_URI[sha256sum] = "288a838e6fe8897ea46dabd112e42287177353c88a7d442cefc8be8d1a85f5b5"
+-- 
+2.44.1
+
+
+--===============5016902636637840492==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 916 .bb files complete (0 cached, 916 parsed). 1870 targets, 49 skipped, 0 masked, 0 errors.
+Removing 54 recipes from the core2-64 sysroot...done.
+Removing 57 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:97d1cd10275dbf3bca8ba3e5fa7f1dd2c598772f"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 232 Local 215 Mirrors 0 Missed 17 Current 242 (92% match, 96% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 253 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 326 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 327 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 328 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 330 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 333 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 339 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 340 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe kmod-33-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 341 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 342 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 343 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 344 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_recipe_qa_setscene)
+NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 345 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 346 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
+NOTE: recipe kmod-33-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 347 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_packagedata_setscene)
+NOTE: Running setscene task 348 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 352 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 353 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 361 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 954 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_fetch)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 961 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_fetch)
+NOTE: Running task 971 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_fetch)
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 365 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 366 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_fetch: Started
+NOTE: Running setscene task 368 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 369 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_fetch: Succeeded
+NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 972 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_unpack)
+NOTE: Running setscene task 370 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 371 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 373 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_recipe_qa_setscene)
+NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Started
+NOTE: recipe eudev-3.2.14-r0: task do_fetch: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Succeeded
+NOTE: Running task 973 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_unpack)
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_unpack: Started
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 375 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Succeeded
+NOTE: Running task 991 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_patch)
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 379 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 383 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 385 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libusb1-1.0.27-r0: task do_patch: Started
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 391 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 392 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 393 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 394 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 395 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 396 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 397 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 398 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 400 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 401 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 402 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 403 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 404 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 405 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 407 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 413 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 415 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 417 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 419 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 421 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 423 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 426 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 427 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 430 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 432 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 435 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 436 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 437 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_fetch: Succeeded
+NOTE: Running task 1072 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_unpack)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 439 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_unpack: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1073 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_patch)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 440 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 441 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 444 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_patch: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 446 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 448 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 449 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 451 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_patch: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 456 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 457 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 459 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 462 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 464 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 466 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1103 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_patch)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_patch: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 468 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 471 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 473 of 474 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1268 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1331 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_collect_spdx_deps)
+NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe eudev-3.2.14-r0: task do_collect_spdx_deps: Started
+NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1332 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_configure)
+NOTE: recipe eudev-3.2.14-r0: task do_configure: Started
+NOTE: recipe eudev-3.2.14-r0: task do_configure: Succeeded
+NOTE: Running task 1333 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_compile)
+NOTE: recipe eudev-3.2.14-r0: task do_compile: Started
+NOTE: recipe eudev-3.2.14-r0: task do_compile: Succeeded
+NOTE: Running task 1334 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_install)
+NOTE: recipe eudev-3.2.14-r0: task do_install: Started
+NOTE: recipe eudev-3.2.14-r0: task do_install: Succeeded
+NOTE: Running task 1335 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot)
+NOTE: Running task 1336 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_package)
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot: Started
+NOTE: recipe eudev-3.2.14-r0: task do_package: Started
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1337 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1338 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure)
+NOTE: recipe libusb1-1.0.27-r0: task do_configure: Started
+NOTE: recipe eudev-3.2.14-r0: task do_package: Succeeded
+NOTE: Running task 1339 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata)
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata: Started
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata unihash changed to c7055afb49ba43c130b98a1a6da8f7bf02a90a69273dfddd5fdf30e39093d8e6
+NOTE: Setscene tasks completed
+NOTE: Running task 1340 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_create_spdx)
+NOTE: recipe eudev-3.2.14-r0: task do_create_spdx: Started
+NOTE: recipe eudev-3.2.14-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1341 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_collect_spdx_deps)
+NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libusb1-1.0.27-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1342 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1343 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile)
+NOTE: recipe libusb1-1.0.27-r0: task do_compile: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_compile: Succeeded
+NOTE: Running task 1344 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1345 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install)
+NOTE: recipe libusb1-1.0.27-r0: task do_install: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_install: Succeeded
+NOTE: Running task 1346 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1347 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_package)
+NOTE: Running task 1348 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_sysroot)
+NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_package: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1349 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_prepare_recipe_sysroot)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1350 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_configure)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_configure: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_configure: Succeeded
+NOTE: Running task 1351 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_compile)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_compile: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_package: Succeeded
+NOTE: Running task 1352 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_packagedata)
+NOTE: recipe libusb1-1.0.27-r0: task do_packagedata: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_packagedata unihash changed to 1f6b6c2d1a3cdecb06f4a088571964862113dda7e5e9611dc9d6dea46d840c1d
+NOTE: Setscene tasks completed
+NOTE: Running task 1353 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_create_spdx)
+NOTE: recipe libusb1-1.0.27-r0: task do_create_spdx: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1354 of 1365 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_collect_spdx_deps)
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_collect_spdx_deps: Succeeded
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75 ARCH=sandbox CROSS_COMPILE=x86_64-poky-linux-musl- -C /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0 O=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/build CROSS_PKG_CONFIG=pkg-config CC=x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/recipe-sysroot LD=x86_64-poky-linux-musl-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/recipe-sysroot   targettools_defconfig
+| make: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0'
+|   GEN     Makefile
+|   HOSTCC  scripts/basic/fixdep
+|   HOSTCC  scripts/kconfig/conf.o
+|   HOSTCC  scripts/kconfig/confdata.o
+|   HOSTCC  scripts/kconfig/expr.o
+|   LEX     scripts/kconfig/lexer.lex.c
+|   YACC    scripts/kconfig/parser.tab.[ch]
+|   HOSTCC  scripts/kconfig/menu.o
+|   HOSTCC  scripts/kconfig/preprocess.o
+|   HOSTCC  scripts/kconfig/symbol.o
+|   HOSTCC  scripts/kconfig/util.o
+|   HOSTCC  scripts/kconfig/lexer.lex.o
+|   HOSTCC  scripts/kconfig/parser.tab.o
+|   HOSTLD  scripts/kconfig/conf
+| #
+| # configuration written to .config
+| #
+| make: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0'
+| NOTE: make -j 16 -l 75 ARCH=sandbox CROSS_COMPILE=x86_64-poky-linux-musl- -C /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0 O=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/build CROSS_PKG_CONFIG=pkg-config CC=x86_64-poky-linux-musl-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/recipe-sysroot LD=x86_64-poky-linux-musl-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/recipe-sysroot   scripts
+| make: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0'
+|   UPD     include/generated/utsrelease.h
+|   HOSTCC  scripts/bin2c
+|   HOSTCC  scripts/fix_size
+|   HOSTCC  scripts/bareboxenv
+|   HOSTCC  scripts/bareboxcrc32
+|   HOSTCC  scripts/kernel-install
+|   HOSTCC  scripts/bareboximd
+|   HOSTCC  scripts/dtc/dtc.o
+|   CC [U]  scripts/bareboxenv-target
+|   CC [U]  scripts/imx/imx-usb-loader-target.o
+|   HOSTCC  scripts/dtc/flattree.o
+|   CC [U]  scripts/imx/imx-target.o
+|   CC [U]  scripts/kernel-install-target
+|   CC      scripts/mod/empty.o
+|   HOSTCC  scripts/mod/mk_elfconfig
+|   CC [U]  scripts/bareboxcrc32-target
+|   HOSTCC  scripts/dtc/fstree.o
+|   CC [U]  scripts/bareboximd-target
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/imx-usb-loader.c:36,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/imx-usb-loader-target.c:1:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/../common.h:9:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|     9 | int pread_full(int fd, void *buf, size_t size, loff_t offset);
+|       |                                                ^~~~~~
+|       |                                                off_t
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/imx-usb-loader.c:40:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/../common.c: In function 'read_fd':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/../common.c:132:15: error: implicit declaration of function 'pread_full'; did you mean 'read_full'? [-Wimplicit-function-declaration]
+|   132 |         ret = pread_full(fd, buf, st.st_size, 0);
+|       |               ^~~~~~~~~~
+|       |               read_full
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/../common.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/imx/../common.c:200:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|   200 | int pread_full(int fd, void *buf, size_t size, loff_t offset)
+|       |                                                ^~~~~~
+|       |                                                off_t
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/bareboximd.c:18,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/bareboximd-target.c:1:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.h:9:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|     9 | int pread_full(int fd, void *buf, size_t size, loff_t offset);
+|       |                                                ^~~~~~
+|       |                                                off_t
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/bareboximd.c:19:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c: In function 'read_fd':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c:132:15: error: implicit declaration of function 'pread_full'; did you mean 'read_full'? [-Wimplicit-function-declaration]
+|   132 |         ret = pread_full(fd, buf, st.st_size, 0);
+|       |               ^~~~~~~~~~
+|       |               read_full
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c:200:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|   200 | int pread_full(int fd, void *buf, size_t size, loff_t offset)
+|       |                                                ^~~~~~
+|       |                                                off_t
+|   CC [U]  scripts/omap3-usb-loader-target
+| make[3]: *** [scripts/Makefile.userprogs:43: scripts/imx/imx-usb-loader-target.o] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+|   CC [U]  scripts/omap4_usbboot-target
+| make[2]: *** [scripts/Makefile.userprogs:28: scripts/bareboximd-target] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+|   HOSTCC  scripts/dtc/data.o
+|   HOSTCC  scripts/dtc/livetree.o
+|   MKELF   scripts/mod/elfconfig.h
+|   HOSTCC  scripts/mod/modpost.o
+|   HOSTCC  scripts/mod/sumversion.o
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/omap3-usb-loader.c:29,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/omap3-usb-loader-target.c:1:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.h:9:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|     9 | int pread_full(int fd, void *buf, size_t size, loff_t offset);
+|       |                                                ^~~~~~
+|       |                                                off_t
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/omap3-usb-loader.c:30:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c: In function 'read_fd':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c:132:15: error: implicit declaration of function 'pread_full'; did you mean 'read_full'? [-Wimplicit-function-declaration]
+|   132 |         ret = pread_full(fd, buf, st.st_size, 0);
+|       |               ^~~~~~~~~~
+|       |               read_full
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c: At top level:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/common.c:200:48: error: unknown type name 'loff_t'; did you mean 'off_t'?
+|   200 | int pread_full(int fd, void *buf, size_t size, loff_t offset)
+|       |                                                ^~~~~~
+|       |                                                off_t
+|   HOSTCC  scripts/dtc/treesource.o
+| make[2]: *** [scripts/Makefile.userprogs:28: scripts/omap3-usb-loader-target] Error 1
+|   HOSTCC  scripts/dtc/srcpos.o
+|   HOSTCC  scripts/dtc/checks.o
+|   HOSTCC  scripts/dtc/util.o
+| make[2]: *** [/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/scripts/Makefile.build:282: scripts/imx] Error 2
+|   LEX     scripts/dtc/dtc-lexer.lex.c
+|   YACC    scripts/dtc/dtc-parser.tab.[ch]
+|   HOSTCC  scripts/dtc/fdtget.o
+|   HOSTCC  scripts/dtc/libfdt/fdt.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_ro.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_strerror.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_wip.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_overlay.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_empty_tree.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_rw.o
+|   HOSTCC  scripts/dtc/libfdt/fdt_sw.o
+|   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+|   HOSTCC  scripts/dtc/dtc-parser.tab.o
+|   HOSTLD  scripts/mod/modpost
+|   HOSTLD  scripts/dtc/fdtget
+|   HOSTLD  scripts/dtc/dtc
+| make[1]: *** [/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0/Makefile:1036: scripts] Error 2
+| make: *** [Makefile:185: sub-make] Error 2
+| make: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/barebox-2025.01.0'
+| ERROR: oe_runmake failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368:169 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368, line 169
+| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368, line 153
+| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368, line 148
+| 	#4: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368, line 143
+| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368, line 182
+NOTE: recipe barebox-tools-2025.01.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1354 tasks of which 1320 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215061857.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215061857.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/log.do_compile.956368
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: barebox-tools-2025.01.0-r0 do_compile: oe_runmake failed
+ERROR: barebox-tools-2025.01.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/run.do_compile.956368' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/barebox-tools/2025.01.0/temp/log.do_compile.956368
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-bsp/barebox/barebox-tools.bb:do_compile) failed with exit code '1'
+
+--===============5016902636637840492==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ruby: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.1.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch" to "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.2.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch 
- file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch"
-packages/core2-64-poky-linux/ruby: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-dbg: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-dbg: FILELIST: removed "/usr/lib/.debug/libruby.so.3.4.1", added "/usr/lib/.debug/libruby.so.3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 12087616 to 12091304 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-dev: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1587314 to 1587225 (-0%)
-packages/core2-64-poky-linux/ruby/ruby-doc: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-doc: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-locale: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-locale: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-ptest: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/prism/fixtures/rescue_modifier.txt /usr/lib/ruby/ptest/test/prism/snapshots/rescue_modifier.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_operator_write.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_or_write.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_and_write.txt /usr/lib/ruby/ptest/test/prism/fixtures/it_indirect_writes.txt /usr/lib/ruby/ptest/test/prism/errors/defs_endless_method.txt"
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 13610258 to 13631301 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-src: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-src: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby-src: PKGSIZE changed from 39616907 to 39641500 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby: PKGV changed from 3.4.1 [default] to 3.4.2 [default]
-packages/core2-64-poky-linux/ruby/ruby: PV changed from "3.4.1" to "3.4.2"
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/stringprep -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_parser -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/rakelib -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/rakelib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/sample -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/sample, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/docs -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/docs, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0/lib/net/smtp -> /usr/lib/ruby/g
- ems/3.4.0/gems/net-smtp-0.5.1/lib/net/smtp, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1/lib/net, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/config -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 -> /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6, removed "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.0.gemspec /usr/lib/ruby/gems/3.4.0
- /gems/net-imap-0.5.4/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/fetch_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/config.rb /usr/lib/libruby.so.3.4.1 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sequence_set.rb /usr/lib/
- ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem", added "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/fetch_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl_adapter.rb 
- /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sequence_set.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/search_result.rb /usr/lib/libruby.so.3.4.2 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem"
-packages/core2-64-poky-linux/ruby/ruby: PKGSIZE changed from 30667142 to 30695295 (+0%)
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so.3.4.1 moved to /usr/lib/libruby.so.3.4.2
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem
-  /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6
-  /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 moved to /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb was added
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so.3.4.1 moved to /usr/lib/libruby.so.3.4.2
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem
-  /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6
-  /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 moved to /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb was added
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-dbg: PKGSIZE changed from 121648 to 122448 (+1%)
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-dbg: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-dbg: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-dev: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-dev: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-doc: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-doc: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-locale: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-locale: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-src: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-src: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-staticdev: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools-staticdev: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools/barebox-tools: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools/barebox-tools: PV changed from "2024.12.0" to "2025.01.0"
+packages/core2-64-poky-linux/barebox-tools: SRC_URI changed from "https://barebox.org/download/barebox-2024.12.0.tar.bz2" to "https://barebox.org/download/barebox-2025.01.0.tar.bz2"
+packages/core2-64-poky-linux/barebox-tools: PKGV changed from 2024.12.0 [default] to 2025.01.0 [default]
+packages/core2-64-poky-linux/barebox-tools: PV changed from "2024.12.0" to "2025.01.0"
 
---===============3414898729486641825==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/prism/errors/defs_endless_method.txt /usr/lib/ruby/ptest/test/prism/snapshots/rescue_modifier.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_or_write.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_and_write.txt /usr/lib/ruby/ptest/test/prism/errors/numbered_operator_write.txt /usr/lib/ruby/ptest/test/prism/fixtures/it_indirect_writes.txt /usr/lib/ruby/ptest/test/prism/fixtures/rescue_modifier.txt"
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_parser -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/rakelib -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/rakelib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0/lib/net/smtp -> /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1/lib/net/smtp, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1/lib/net, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/config -> /usr/lib/ruby/gems/3.4
- .0/gems/net-imap-0.5.6/lib/net/imap/config, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/stringprep -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 -> /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/docs -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/docs, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/sample -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/sample, removed "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl.rb /usr/lib/ruby/gems
- /3.4.0/gems/net-imap-0.5.4/lib/net/imap/sequence_set.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/vanished_data.rb /usr/lib/libruby.so.3.4.1 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec /usr/lib/ruby/gems
- /3.4.0/specifications/net-smtp-0.5.0.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4/lib/net/imap/fetch_data.rb", added "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sequence_set.rb /usr/lib/libruby.so.3.4.2 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.
- 5.6/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/fetch_data.rb"
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so.3.4.1 moved to /usr/lib/libruby.so.3.4.2
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem
-  /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6
-  /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 moved to /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb was added
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.1 to libruby.so.3.4.2
-  /usr/lib/libruby.so.3.4.1 moved to /usr/lib/libruby.so.3.4.2
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.4.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem
-  /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-smtp-0.5.1.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.4 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6
-  /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.0 moved to /usr/lib/ruby/gems/3.4.0/gems/net-smtp-0.5.1
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.4.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-smtp-0.5.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb was added
-
---===============3414898729486641825==
+--===============5016902636637840492==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ruby-upgrade-3.4.1-3.4.2.patch"
+ filename="0001-barebox-tools-upgrade-2024.12.0-2025.01.0.patch"
 
-RnJvbSA0OGE1ZGVkNjg1Zjc2OTZlNWU2ZDYzYzYyZjJmMjNkNzA5MGRlZDhjIE1vbiBTZXAgMTcg
+RnJvbSA5NmRhZmU3Yjk2OThkNDg2OGYyZmYyYjkxOTIzZGRmNmYxY2Q3N2RkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MjY6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
-dWJ5OiB1cGdyYWRlIDMuNC4xIC0+IDMuNC4yCgotLS0KIC4uLngtY3Jvc3MtY29tcGlsYXRpb24t
-b2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaCB8ICA0ICstCiAuLi5pbmUtUkVHX1MxLWFuZC1SRUdfUzIt
-Zm9yLW11c2wtcmlzY3YucGF0Y2ggfCAgNCArLQogLi4uT2JleS1MREZMQUdTLWZvci10aGUtbGlu
-ay1vZi1saWJydWJ5LnBhdGNoIHwgIDIgKy0KIC4uLmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9j
-dW1lbnRhdGlvbi5wYXRjaCB8ICAyICstCiAuLi4tbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2Vu
-ZXJhdGVkLU0ucGF0Y2ggfCAgMiArLQogLi4uZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQy
-MjUtdG9vLnBhdGNoIHwgIDIgKy0KIC4uLi8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxl
-LnBhdGNoICAgICB8ICAyICstCiAuLi4vcnVieS97cnVieV8zLjQuMS5iYiA9PiBydWJ5XzMuNC4y
-LmJifSAgICAgfCA1MSArKysrKysrKysrKysrKysrKystCiA4IGZpbGVzIGNoYW5nZWQsIDU4IGlu
-c2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3tydWJ5XzMuNC4xLmJiID0+IHJ1YnlfMy40LjIuYmJ9ICg3MyUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1j
-b21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1n
-ZW1zLnBhdGNoCmluZGV4IGYxNzk3MGU5YzkuLjRhMTI3MzY3NzcgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRp
-b24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVi
-eS9ydWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMu
-cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgw
-YzZmZWY1OTIzMzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDBmYjYxOGQwNDU4ZGJh
-OWI5ZTJhMzY5ZjBlMzQyNmZkMzVlNjM3MDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
-OiA9P1VURi04P3E/QW5kcj1DMz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29t
-PgogRGF0ZTogTW9uLCAzMCBTZXAgMjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENI
-XSBleHRtazogZml4IGNyb3NzLWNvbXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcg
-KzE2LDcgQEAgU2lnbmVkLW9mZi1ieTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNp
-LmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAog
-ZGlmZiAtLWdpdCBhL2V4dC9leHRtay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4u
-MzA0OGY3NSAxMDA3NTUKK2luZGV4IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQv
-ZXh0bWsucmIKICsrKyBiL2V4dC9leHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5j
-LURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQt
-UkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLmQ1ZGY3YmIwN2Mg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1w
-LmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19T
-MS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBm
-OTkyZDc4MWUwNWI2MTQ4OWJkZjVhMmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQorRnJvbSA1MzY4NGFiM2VmMGVhZTI4MGQ4MGY0MmMzODlkMTMyODNkOTU0OGI0IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KIERhdGU6IFR1ZSwgMjUgSmFuIDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gdm1fZHVtcC5jOiBEZWZpbmUgUkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAg
-LTE0LDcgKzE0LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9k
-dW1wLmMgYi92bV9kdW1wLmMKLWluZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5
-OTMzOWZkLi44YzViYjAzIDEwMDY0NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMK
-IEBAIC00MCw2ICs0MCwxMSBAQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRo
-ZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gKaW5kZXggYmI2N2RmMGY0MC4uNTA0NTNlOTM3NCAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFH
-Uy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ZTIzMzdkOGIwZGFmMjY0Nzg1Y2IwNmQxZDZjN2Q2
-MWU0MjhhMTFiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhNjM0OTNhODEzYTQ4Mjkw
-ZTI5YzkzMTVhMTVhODc4Y2Q4NjM5Nzk1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Q2hyaXN0b3BoZXIgTGFyc29uIDxjaHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwg
-NSBNYXkgMjAxNiAxMDo1OTowNyAtMDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1Mg
-Zm9yIHRoZSBsaW5rIG9mIGxpYnJ1YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVw
-cm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uZmNhMWQ1ZGFj
-NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2Mt
-YnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50
-YXRpb24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2
-NzQ2Y2UzOTA2NzkzMmI2MmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDIzYmI3NDU2
-ZmMyNmVmMGZmMTMwM2Q5ZTliNDc5OWEwZGRmNzZlZjcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBDaHJpc3RpYW4gSG9mc3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBU
-dWUsIDEwIE9jdCAyMDE3IDE1OjA0OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1
-aWxkIHJlcHJvZHVjaWJsZSBkb2N1bWVudGF0aW9uCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1m
-aWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1
-YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdlbmVyYXRl
-ZC1NLnBhdGNoCmluZGV4IDRiNjc3MWZkMjYuLjAwYTZjNjY1ZDggMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Yt
-b2JqZWN0LWZpbGVzLWluLWdlbmVyYXRlZC1NLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9ydWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVz
-LWluLWdlbmVyYXRlZC1NLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwODg3ZmFjYzRjYTVi
-Y2IwMjgwYjAyNWIzNWJiYzE4NTI4ZTUyOTE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBkMTRmYmYxMGJkODRjMzkzOTZjOTIwMzM4N2I0ZmI1OGNiZTFmNGI5IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogUmVpbmVyIEhlcnJtYW5uIDxyZWluZXJAcmVpbmVyLWguZGU+CiBE
-YXRlOiBUdWUsIDEwIE9jdCAyMDE3IDE1OjA2OjEzIC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGxp
-Yi9ta21mLnJiOiBzb3J0IGxpc3Qgb2Ygb2JqZWN0IGZpbGVzIGluIGdlbmVyYXRlZCBNYWtlZmls
-ZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmst
-R2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2li
-bGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCmluZGV4IGVkYTQ1ZGQ4NjIuLjUxZDk4
-YzhkNzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1N
-YXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJl
-cHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBA
-Ci1Gcm9tIGZmMjVmNmRkZGNmYmJiN2IwNDY0NDg1YmI1MTMyNDU4ODY2YWI1MWEgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIGQyYzBkMjZmNmMxMzQ1ZWVjNWEzMTc3NDM3N2RhMjRlYjIx
-YzA1NTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGth
-bmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXBy
-b2R1Y2libGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFr
-ZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uMGQ2NjdkOTBk
-NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2Ut
-Z2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsx
-LDQgQEAKLUZyb20gZDU4YmRhY2EzZDUzNzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYWVmNjQ3ODM2ZDYzYjdiMDM3NDE5ZGIzZDBmYTE2
-ZmZlYmJiYzE3MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGly
-byA8a2FuYXNoaXJvQGRlYmlhbi5vcmc+CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcg
-LTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjEuYmIgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggNzMlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjEuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjIuYmIKaW5kZXggMDk0MTVh
-MzEzMi4uYWZhOTA3MTBjYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieV8zLjQuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC4y
-LmJiCkBAIC0xLDMgKzEsNTAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVl
-cyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2lu
-ZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0
-ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1
-bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNl
-LVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHll
-YXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMRUdBTAorIyArKysg
-TEVHQUwKKyMgQEAgLTM3MSw2ICszNzEsMzMgQEAKKyMgICAgICBUT1JUIE9SIE9USEVSV0lTRSwg
-QVJJU0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRQorIyAgICAgIFNP
-RlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgorIyAg
-CisjICtbc3BlYy9saWIvdHVyYm9fdGVzdHMvKl0KKyMgK1tzcGVjL2xpYi90dXJib190ZXN0cy5y
-Yl0KKyMgK1tzcGVjL2xpYi91dGlscy8qXQorIyArCisjICsgIFRoZXNlIGZpbGVzIGFyZSB1bmRl
-ciB0aGUgTUlUIExpY2Vuc2UuCisjICsKKyMgKyAgPj4+CisjICsgICAgQ29weXJpZ2h0IChjKSAy
-MDIwIElseWEgWnViCisjICsKKyMgKyAgICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBm
-cmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYSBjb3B5CisjICsgICAgb2Yg
-dGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNv
-ZnR3YXJlIiksIHRvIGRlYWwKKyMgKyAgICBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmlj
-dGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzCisjICsgICAgdG8g
-dXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWJsaWNlbnNl
-LCBhbmQvb3Igc2VsbAorIyArICAgIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJt
-aXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcworIyArICAgIGZ1cm5pc2hlZCB0byBk
-byBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisjICsKKyMgKyAgICBU
-aGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFs
-bCBiZSBpbmNsdWRlZCBpbgorIyArICAgIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlv
-bnMgb2YgdGhlIFNvZnR3YXJlLgorIyArCisjICsgICAgVEhFIFNPRlRXQVJFIElTIFBST1ZJREVE
-ICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKKyMgKyAg
-ICBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9G
-IE1FUkNIQU5UQUJJTElUWSwKKyMgKyAgICBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9T
-RSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgKyAgICBBVVRI
-T1JTIE9SIENPUFlSSUdIVCBIT0xERVJTIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VT
-IE9SIE9USEVSCisjICsgICAgTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05U
-UkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwKKyMgKyAgICBPVVQgT0YgT1Ig
-SU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJ
-TkdTIElOCisjICsgICAgVEhFIFNPRlRXQVJFLgorIyArCisjICBbcGFyc2UuY10KKyMgIFtwYXJz
-ZS5oXQorIyAgCisjIAorIworCiBTVU1NQVJZID0gIkFuIGludGVycHJldGVyIG9mIG9iamVjdC1v
-cmllbnRlZCBzY3JpcHRpbmcgbGFuZ3VhZ2UiCiBERVNDUklQVElPTiA9ICJSdWJ5IGlzIGFuIGlu
-dGVycHJldGVkIHNjcmlwdGluZyBsYW5ndWFnZSBmb3IgcXVpY2sgXAogYW5kIGVhc3kgb2JqZWN0
-LW9yaWVudGVkIHByb2dyYW1taW5nLiBJdCBoYXMgbWFueSBmZWF0dXJlcyB0byBwcm9jZXNzIFwK
-QEAgLTEwLDcgKzU3LDcgQEAgTElDRU5TRSA9ICJSdWJ5IHwgQlNELTItQ2xhdXNlIHwgQlNELTMt
-Q2xhdXNlIHwgR1BMLTIuMC1vbmx5IHwgSVNDIHwgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9NWI4Yzg3NTU5ODY4Nzk2OTc5ODA2MTAwZGIzZjM4MDUgXAogICAg
-ICAgICAgICAgICAgICAgICBmaWxlOi8vQlNETDttZDU9OGI1MGJjNmRlOGY1ODZkYzY2NzkwYmEx
-MWQwNjRkNzUgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vR1BMO21kNT1iMjM0ZWU0ZDY5
-ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MRUdB
-TDttZDU9ZWZmM2JiMTM4MmI1OTBjYzU4MTRmMWYzZGU2ZWI0ZTUgXAorICAgICAgICAgICAgICAg
-ICAgICBmaWxlOi8vTEVHQUw7bWQ1PWNiMTQzNThiNzgyMWMwNTRhZTE0MTI4ODg1MTcwMjA0IFwK
-ICAgICAgICAgICAgICAgICAgICAgIgogCiBERVBFTkRTID0gInpsaWIgb3BlbnNzbCBsaWJ5YW1s
-IGxpYmZmaSIKQEAgLTQ4LDcgKzk1LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQoKSB7CiAKIERF
-UEVORFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICIzZDM4NWU1ZDIyZDM2OGIwNjRjODE3YTEzZWQ4ZTNjYzNmNzFhNzcwNWQ3ZWQxYmFl
-NzgwMTNjMzNhYTdjODdmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQxMzI4YWMyMWYyYmZkZDdk
-ZTZiMzU2NWVmNGYwZGQ3NTQzMzU0ZDM3ZTk2ZjE1N2ExNTUyYTZiZDBlYjM2NGIiCiAKIFBBQ0tB
-R0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5maWx0ZXIoJ0RJ
-U1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40NC4xCgo=
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDY6MTk6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+YXJlYm94LXRvb2xzOiB1cGdyYWRlIDIwMjQuMTIuMCAtPiAyMDI1LjAxLjAKCi0tLQogbWV0YS9y
+ZWNpcGVzLWJzcC9iYXJlYm94L2JhcmVib3gtY29tbW9uLmluYyB8IDQgKystLQogMSBmaWxlIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtYnNwL2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVzLWJz
+cC9iYXJlYm94L2JhcmVib3gtY29tbW9uLmluYwppbmRleCBmY2UzYjgyNWFlLi45YjhkYzRlYTYw
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5j
+CisrKyBiL21ldGEvcmVjaXBlcy1ic3AvYmFyZWJveC9iYXJlYm94LWNvbW1vbi5pbmMKQEAgLTMs
+NiArMyw2IEBAIFNFQ1RJT04gPSAiYm9vdGxvYWRlcnMiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0NPUFlJTkc7bWQ1PWY1MTI1ZDEzZTAwMGI5Y2ExZjBkMzM2NDI4NmM0MTkyIgogCi1Q
+ViA9ICIyMDI0LjEyLjAiCitQViA9ICIyMDI1LjAxLjAiCiBTUkNfVVJJID0gImh0dHBzOi8vYmFy
+ZWJveC5vcmcvZG93bmxvYWQvYmFyZWJveC0ke1BWfS50YXIuYnoyIgotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjcxN2EyNDE2YjM3OTQyZjU4NGIwYmIyZWI2MWNjYmY4NWRjMGYxYTVjODQxMzE4ZjQ3
+Y2Q2OTY3YjljNGRjYWIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjg4YTgzOGU2ZmU4ODk3ZWE0
+NmRhYmQxMTJlNDIyODcxNzczNTNjODhhN2Q0NDJjZWZjOGJlOGQxYTg1ZjViNSIKLS0gCjIuNDQu
+MQoK
 
---===============3414898729486641825==--
+--===============5016902636637840492==--
 
