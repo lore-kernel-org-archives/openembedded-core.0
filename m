@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29468C19777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 741EDC19F30
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:22 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.8057.1739623333782655408
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.8100.1739623336690658825
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:13 -0800
+ Sat, 15 Feb 2025 04:42:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EbKevkq0;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OFzZT7VQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019509a17cca-8810e4a9-fbd9-4f09-8cf8-36119babf895-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SOuZdOgm;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nfMwkc+q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019509a197ee-2d7d9142-5f06-487d-ba2f-19b2d5875bb1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623333;
+	t=1739623340;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7gq3kxgoUlF6VVfNhc9aumJgBlM5dLdK+jKZA3nUxZo=;
-	b=EbKevkq0Y0vSIgfkZcTS3aGdAqEDZwnxcwa0u7PqiApBSCBlUYJ+Gzd/HBGpq9JY
-	Xj9SmQGgoVB1xlXxpCZpPN2Q/h9Hg1kVS7r0OZ9MVKgh5Ro1mokIygdZAQEl9zwcSQj
-	YQflU4UkdNdZRJNaI82mklOouiaDK1nsULiw5Lzo=
+	bh=ttsjPK5bdoTJc6uNGfYn6YDTxxUnYiem62npW3J3NV0=;
+	b=SOuZdOgmYagemVKaSQGrJYf58E8siscoV1dWja3rRLDh9whNpvF/7a99u2nG507+
+	3D9USMKL/gU6YCyhQQSEAer47N58FOX0RjhhdrHPZ2C9s29IyA2ZVmiIT+Kyf5N4atx
+	osJOT2Qq642QMAO+sgbhCez/RdqIcephjUnhUTa0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623333;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623340;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7gq3kxgoUlF6VVfNhc9aumJgBlM5dLdK+jKZA3nUxZo=;
-	b=OFzZT7VQPPD/L9AeULSNLS4iKWuyQxQbmLc5qTjUe5S3p5uxfvInweHhbgJeUIjG
-	Cw1iK4/MBLxTWZwAzFNPs1gjmMqORb1qrUCndc2NQxbqMpKrIBqG9U/2iYjqSPccYrh
-	IGP9lVkIU60dpfWu3IE9YURHXDNYq0hzgC446gDQ=
-Content-Type: multipart/mixed; boundary="===============9090497021757049516=="
+	bh=ttsjPK5bdoTJc6uNGfYn6YDTxxUnYiem62npW3J3NV0=;
+	b=nfMwkc+qNKv3MtZo+Xiu9jxs3ZRYgfKj8+/D9CQJDtysKymtEraL7Ywd0RbdFzUH
+	jPLAlf3oSTgJQq86JJqKbrBFlUub+Vi14qlKJsujwk5GVLRGxZiT4rLfh9eeANSoBp6
+	n2zt0tnuXyFSt5KhHJid80S8DUrp0FS4z/M5GKcU=
+Content-Type: multipart/mixed; boundary="===============0475387093644753636=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sysvinit: upgrading to 3.14 SUCCEEDED
-Message-ID: <0101019509a17cca-8810e4a9-fbd9-4f09-8cf8-36119babf895-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:13 +0000
+Subject: [AUH] python3-psutil: upgrading to 7.0.0 SUCCEEDED
+Message-ID: <0101019509a197ee-2d7d9142-5f06-487d-ba2f-19b2d5875bb1-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.33
+X-SES-Outgoing: 2025.02.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211412
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211435
 
---===============9090497021757049516==
+--===============0475387093644753636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sysvinit* to *3.14* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-psutil* to *7.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sysvinit-upgrade-3.13-3.14.patch
+    - apply the patch: git am 0001-python3-psutil-upgrade-6.1.1-7.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,87 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 799795c9ca0c0755d4b7f2782deb72292df6e772 Mon Sep 17 00:00:00 2001
+From 2922c444df951faf0835d550366b65b8185cacf7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 06:57:17 +0000
-Subject: [PATCH] sysvinit: upgrade 3.13 -> 3.14
+Date: Sat, 15 Feb 2025 08:15:46 +0000
+Subject: [PATCH] python3-psutil: upgrade 6.1.1 -> 7.0.0
 
 ---
- meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch           | 4 ++--
- .../sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb}           | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb} (98%)
+ .../python/{python3-psutil_6.1.1.bb => python3-psutil_7.0.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-psutil_6.1.1.bb => python3-psutil_7.0.0.bb} (90%)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
-index ece870c269..11e31cb7e2 100644
---- a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
-+++ b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
-@@ -1,4 +1,4 @@
--From 19a8777c81bc451d65a4071528e4715e19941e0a Mon Sep 17 00:00:00 2001
-+From db0d420d0ae654adc4d2b652310b9830a6d44318 Mon Sep 17 00:00:00 2001
- From: Jeff Dike <jdike@x86_64.user-mode-linux.org>
- Date: Wed, 14 Jul 2010 14:35:52 -0400
- Subject: [PATCH] sysvinit - Remove sulogin dependency on /usr/lib*/libcrypt.a
-@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate [configuration]
-  1 file changed, 2 insertions(+), 10 deletions(-)
+diff --git a/meta/recipes-devtools/python/python3-psutil_6.1.1.bb b/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-psutil_6.1.1.bb
+rename to meta/recipes-devtools/python/python3-psutil_7.0.0.bb
+index 9cd2d20fff..22ead67ad9 100644
+--- a/meta/recipes-devtools/python/python3-psutil_6.1.1.bb
++++ b/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
+@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
+ HOMEPAGE = "https://pypi.org/project/psutil/"
  
- diff --git a/src/Makefile b/src/Makefile
--index 4ce4889..1611c1c 100644
-+index 6d9f01c..b12a233 100644
- --- a/src/Makefile
- +++ b/src/Makefile
- @@ -97,16 +97,8 @@ else
-diff --git a/meta/recipes-core/sysvinit/sysvinit_3.13.bb b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
-similarity index 98%
-rename from meta/recipes-core/sysvinit/sysvinit_3.13.bb
-rename to meta/recipes-core/sysvinit/sysvinit_3.14.bb
-index d935b0edfd..521eda0bfb 100644
---- a/meta/recipes-core/sysvinit/sysvinit_3.13.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
-@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
-            file://bootlogd.init \
-            file://01_bootlogd \
-            "
--SRC_URI[sha256sum] = "cbaeabddc35a6511b87c87452ee5e87c678a26329c7d7d17fb69a2b42a314d86"
-+SRC_URI[sha256sum] = "c90874b8c054a35991fb8c4d30c443ed1e9b1815ff6165c7b483f558be4e4b53"
+-SRC_URI[sha256sum] = "cf8496728c18f2d0b45198f06895be52f36611711746b7f30c464b422b50e2f5"
++SRC_URI[sha256sum] = "7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456"
  
- S = "${WORKDIR}/sysvinit-${PV}"
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.44.1
 
 
---===============9090497021757049516==
+--===============0475387093644753636==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-psutil-upgrade-6.1.1-7.0.0.patch"
+
+RnJvbSAyOTIyYzQ0NGRmOTUxZmFmMDgzNWQ1NTAzNjZiNjViODE4NWNhY2Y3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MTU6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBzdXRpbDogdXBncmFkZSA2LjEuMSAtPiA3LjAuMAoKLS0tCiAuLi4vcHl0aG9uL3tw
+eXRob24zLXBzdXRpbF82LjEuMS5iYiA9PiBweXRob24zLXBzdXRpbF83LjAuMC5iYn0gfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBzdXRpbF82LjEuMS5iYiA9PiBw
+eXRob24zLXBzdXRpbF83LjAuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzYuMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF83LjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkw
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGls
+XzYuMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+cHN1dGlsXzcuMC4wLmJiCmluZGV4IDljZDJkMjBmZmYuLjIyZWFkNjdhZDkgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNi4xLjEuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF83LjAuMC5iYgpA
+QCAtMyw3ICszLDcgQEAgTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT1hOWM3MjExM2E4NDNkMGQ3MzJhMGFjMWMyMDBkODFiMSIK
+IEhPTUVQQUdFID0gImh0dHBzOi8vcHlwaS5vcmcvcHJvamVjdC9wc3V0aWwvIgogCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiY2Y4NDk2NzI4YzE4ZjJkMGI0NTE5OGYwNjg5NWJlNTJmMzY2MTE3MTE3
+NDZiN2YzMGM0NjRiNDIyYjUwZTJmNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3YmU5YzNlYmEz
+OGJlY2NiNjQ5NWVhMzNhZmQ5ODJhNDQwNzRiNzhmMjhjNDM0YTFmNTFjYzA3ZmQzMTVjNDU2Igog
+CiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0tIAoyLjQ0LjEK
+Cg==
+
+--===============0475387093644753636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/sysvinit: SRC_URI changed from "https://github.com/slicer69/sysvinit/releases//download/3.13/sysvinit-3.13.tar.xz file://crypt-lib.patch file://rcS-default file://rc file://rcS file://bootlogd.init file://01_bootlogd" to "https://github.com/slicer69/sysvinit/releases//download/3.14/sysvinit-3.14.tar.xz file://crypt-lib.patch file://rcS-default file://rc file://rcS file://bootlogd.init file://01_bootlogd"
-packages/core2-64-poky-linux/sysvinit: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PKGSIZE changed from 627632 to 630016 (+0%)
-packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-dev: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-dev: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PKGSIZE changed from 78276 to 78372 (+0%)
-packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-locale: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-locale: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-pidof: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-pidof: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-src: PKGSIZE changed from 270597 to 272613 (+1%)
-packages/core2-64-poky-linux/sysvinit/sysvinit-src: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-src: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-staticdev: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-staticdev: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit-sulogin: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit-sulogin: PV changed from "3.13" to "3.14"
-packages/core2-64-poky-linux/sysvinit/sysvinit: PKGSIZE changed from 264487 to 265255 (+0%)
-packages/core2-64-poky-linux/sysvinit/sysvinit: PKGV changed from 3.13 [default] to 3.14 [default]
-packages/core2-64-poky-linux/sysvinit/sysvinit: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-6.1.1.tar.gz;downloadfilename=psutil-6.1.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.0.0.tar.gz;downloadfilename=psutil-7.0.0.tar.gz"
+packages/core2-64-poky-linux/python3-psutil: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 118264 to 118256 (-0%)
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 65553 to 63785 (-3%)
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-src: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 1244608 to 1222429 (-2%)
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_scripts.cpython-313.pyc /usr/lib/python3.13/site-packages/psutil/tests/test_scripts.py"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "6.1.1" to "7.0.0"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 837737 to 781663 (-7%)
+packages/core2-64-poky-linux/python3-psutil/python3-psutil: FILELIST: directory renamed /usr/lib/python3.13/site-packages/psutil-6.1.1.dist-info -> /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/psutil/__pycache__/_compat.cpython-313.pyc /usr/lib/python3.13/site-packages/psutil/_compat.py"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil: PKGV changed from 6.1.1 [default] to 7.0.0 [default]
+packages/core2-64-poky-linux/python3-psutil/python3-psutil: PV changed from "6.1.1" to "7.0.0"
+Changes to packages/core2-64-poky-linux/python3-psutil (sysroot):
+  /usr/lib/python3.13/site-packages/psutil-6.1.1.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info
+  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_scripts.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/psutil/tests/test_scripts.py was added
+  /usr/lib/python3.13/site-packages/psutil/_compat.py was removed
+  /usr/lib/python3.13/site-packages/psutil/__pycache__/_compat.cpython-313.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -1984,58 +2001,20 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============9090497021757049516==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sysvinit-upgrade-3.13-3.14.patch"
-
-RnJvbSA3OTk3OTVjOWNhMGMwNzU1ZDRiN2YyNzgyZGViNzIyOTJkZjZlNzcyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDY6NTc6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-eXN2aW5pdDogdXBncmFkZSAzLjEzIC0+IDMuMTQKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUvc3lz
-dmluaXQvc3lzdmluaXQvY3J5cHQtbGliLnBhdGNoICAgICAgICAgICB8IDQgKystLQogLi4uL3N5
-c3Zpbml0L3tzeXN2aW5pdF8zLjEzLmJiID0+IHN5c3Zpbml0XzMuMTQuYmJ9ICAgICAgICAgICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3Zpbml0L3tzeXN2aW5pdF8zLjEzLmJiID0+IHN5
-c3Zpbml0XzMuMTQuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lz
-dmluaXQvc3lzdmluaXQvY3J5cHQtbGliLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmlu
-aXQvc3lzdmluaXQvY3J5cHQtbGliLnBhdGNoCmluZGV4IGVjZTg3MGMyNjkuLjExZTMxY2I3ZTIg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3Zpbml0L3N5c3Zpbml0L2NyeXB0LWxp
-Yi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN2aW5pdC9zeXN2aW5pdC9jcnlwdC1s
-aWIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDE5YTg3NzdjODFiYzQ1MWQ2NWE0MDcxNTI4
-ZTQ3MTVlMTk5NDFlMGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGRiMGQ0MjBkMGFl
-NjU0YWRjNGQyYjY1MjMxMGI5ODMwYTZkNDQzMTggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBKZWZmIERpa2UgPGpkaWtlQHg4Nl82NC51c2VyLW1vZGUtbGludXgub3JnPgogRGF0ZTog
-V2VkLCAxNCBKdWwgMjAxMCAxNDozNTo1MiAtMDQwMAogU3ViamVjdDogW1BBVENIXSBzeXN2aW5p
-dCAtIFJlbW92ZSBzdWxvZ2luIGRlcGVuZGVuY3kgb24gL3Vzci9saWIqL2xpYmNyeXB0LmEKQEAg
-LTE0LDcgKzE0LDcgQEAgVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtjb25maWd1cmF0
-aW9uXQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQog
-CiBkaWZmIC0tZ2l0IGEvc3JjL01ha2VmaWxlIGIvc3JjL01ha2VmaWxlCi1pbmRleCA0Y2U0ODg5
-Li4xNjExYzFjIDEwMDY0NAoraW5kZXggNmQ5ZjAxYy4uYjEyYTIzMyAxMDA2NDQKIC0tLSBhL3Ny
-Yy9NYWtlZmlsZQogKysrIGIvc3JjL01ha2VmaWxlCiBAQCAtOTcsMTYgKzk3LDggQEAgZWxzZQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXRfMy4xMy5iYiBi
-L21ldGEvcmVjaXBlcy1jb3JlL3N5c3Zpbml0L3N5c3Zpbml0XzMuMTQuYmIKc2ltaWxhcml0eSBp
-bmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXRf
-My4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXRfMy4x
-NC5iYgppbmRleCBkOTM1YjBlZGZkLi41MjFlZGEwYmZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtY29yZS9zeXN2aW5pdC9zeXN2aW5pdF8zLjEzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3Jl
-L3N5c3Zpbml0L3N5c3Zpbml0XzMuMTQuYmIKQEAgLTE4LDcgKzE4LDcgQEAgU1JDX1VSSSA9ICIk
-e0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUH0udGFyLnh6IFwKICAgICAgICAg
-ICAgZmlsZTovL2Jvb3Rsb2dkLmluaXQgXAogICAgICAgICAgICBmaWxlOi8vMDFfYm9vdGxvZ2Qg
-XAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2JhZWFiZGRjMzVhNjUxMWI4
-N2M4NzQ1MmVlNWU4N2M2NzhhMjYzMjljN2Q3ZDE3ZmI2OWEyYjQyYTMxNGQ4NiIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICJjOTA4NzRiOGMwNTRhMzU5OTFmYjhjNGQzMGM0NDNlZDFlOWIxODE1ZmY2
-MTY1YzdiNDgzZjU1OGJlNGU0YjUzIgogCiBTID0gIiR7V09SS0RJUn0vc3lzdmluaXQtJHtQVn0i
-CiAKLS0gCjIuNDQuMQoK
-
---===============9090497021757049516==
+--===============0475387093644753636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_scripts.cpython-313.pyc /usr/lib/python3.13/site-packages/psutil/tests/test_scripts.py"
+packages/core2-64-poky-linux/python3-psutil/python3-psutil: FILELIST: directory renamed /usr/lib/python3.13/site-packages/psutil-6.1.1.dist-info -> /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/psutil/_compat.py /usr/lib/python3.13/site-packages/psutil/__pycache__/_compat.cpython-313.pyc"
+Changes to packages/core2-64-poky-linux/python3-psutil (sysroot):
+  /usr/lib/python3.13/site-packages/psutil-6.1.1.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info
+  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_scripts.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/psutil/tests/test_scripts.py was added
+  /usr/lib/python3.13/site-packages/psutil/_compat.py was removed
+  /usr/lib/python3.13/site-packages/psutil/__pycache__/_compat.cpython-313.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3867,5 +3846,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============9090497021757049516==--
+--===============0475387093644753636==--
 
