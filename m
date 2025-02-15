@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BCC1C021B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC46C021B2
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:33 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.8107.1739623349996785656
+ by mx.groups.io with SMTP id smtpd.web10.8091.1739623332163588576
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:30 -0800
+ Sat, 15 Feb 2025 04:42:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LdowQvIg;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EfS7B+xH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019509a1bc01-9a1b67a2-3f44-4ad9-afe4-f572e464ec3a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Qh8gVEsv;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LDFkcmgo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019509a1bc44-67cf632e-0fdd-49af-b270-6ea0e0aa9d52-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1739623349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0eaYlqfkqiDzmCU6H45TWm8ri3wSgajSiYbjJ1Efa8M=;
-	b=LdowQvIg0A0gPuFYhSocf14+evpbtTyhcV/fQCiL6qvU6BJDW1SpmSrlF9qFKKHH
-	iRYXt66Op40ell0kajX/GvmRy5t4sBFqj8i+sHJR/JT4inm8CkbT4W93U6e34HrzbZt
-	f+PRAAt4c2Wtra7fZdtkWe7YirbGjQUp4U6CDyiE=
+	bh=Pg/yCfp0/IggYqlhBGLEiycmTfImK0eoWQW1XiDI6dE=;
+	b=Qh8gVEsvQmZUso16t0rmiMxno2T79HCSTdhcDZoOoTR0MfA457zrc+UjKke0UfUs
+	VbrjBMMpvSXkHvh0w9xPDmy3awI3pjlfujf+OU0k89f+xaP29FX840hCu1Ag+PE8ctA
+	+d0HPjFwRkH2t7r0UDXohWb2eM37q29rZ9rOxN+4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623349;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0eaYlqfkqiDzmCU6H45TWm8ri3wSgajSiYbjJ1Efa8M=;
-	b=EfS7B+xHHQ03YkzW8Iwfs3+kg0yNSAoN2XTmCtF8izBkO9vmf+1Ok0IP5TlRIDnL
-	VLyfw0vOq10164b/Zgk7SlYgK9CBik8arGg5GRdsgiYVS8nJXorTHcsdjIJoIGJKhz+
-	C2h1qbn/55TimGXGRTZwWNDakw7Kh5krbjFMYh3Q=
-Content-Type: multipart/mixed; boundary="===============1913548188989310189=="
+	bh=Pg/yCfp0/IggYqlhBGLEiycmTfImK0eoWQW1XiDI6dE=;
+	b=LDFkcmgoLOQbPJ7xGxmpSNDV8200HXPRdO4k8lsU716ZxK96JipnbIv72KcbXVwX
+	6US6sooQQKLVmR/o4LTToJsn8aQQE+tJEXM429yyBPtD6ZE/qy6386zTD2bBTn2lCva
+	9c6Uu0lAy+RS3vFd63Y+lhFgcgj8V8GPGzcBw4FY=
+Content-Type: multipart/mixed; boundary="===============6068285084613048989=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libxkbcommon: upgrading to 1.8.0 SUCCEEDED
-Message-ID: <0101019509a1bc01-9a1b67a2-3f44-4ad9-afe4-f572e464ec3a-000000@us-west-2.amazonses.com>
+Subject: [AUH] xkeyboard-config: upgrading to 2.44 SUCCEEDED
+Message-ID: <0101019509a1bc44-67cf632e-0fdd-49af-b270-6ea0e0aa9d52-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Feb 2025 12:42:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.02.15-54.240.27.191
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211465
 
---===============1913548188989310189==
+--===============6068285084613048989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxkbcommon* to *1.8.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xkeyboard-config* to *2.44* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.7.0-1.8.0.patch
+    - apply the patch: git am 0001-xkeyboard-config-upgrade-2.43-2.44.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,93 +72,203 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 25682e5623eac930365354f87f48bf83d0af8b60 Mon Sep 17 00:00:00 2001
+From 3cbab45442de157d3c2c7d1caa8dc0a2d5dd3955 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 10:29:53 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.7.0 -> 1.8.0
+Date: Sat, 15 Feb 2025 10:32:20 +0000
+Subject: [PATCH] xkeyboard-config: upgrade 2.43 -> 2.44
 
 ---
- .../xorg-lib/{libxkbcommon_1.7.0.bb => libxkbcommon_1.8.0.bb}   | 2 +-
+ .../{xkeyboard-config_2.43.bb => xkeyboard-config_2.44.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.7.0.bb => libxkbcommon_1.8.0.bb} (96%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.43.bb => xkeyboard-config_2.44.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.0.bb
-index f216a07983..a7dad3f4a2 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.8.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb
+index 7378cf475e..52d074fd5e 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb
+@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8fc8ae699974c360e2e2e883a63ce264"
  
- SRC_URI = "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master"
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "c810f362c82a834ee89da81e34cd1452c99789339f46f6037f4b9e227dd06c01"
++SRC_URI[sha256sum] = "54d2c33eeebb031d48fa590c543e54c9bcbd0f00386ebc6489b2f47a0da4342a"
  
--SRCREV = "7a31e3585edf78be281559377e26d15f8c4bc655"
-+SRCREV = "76740e0c4583ae49675e7ba8213d31ee09aa00d2"
- S = "${WORKDIR}/git"
- 
- inherit meson pkgconfig bash-completion
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
 -- 
 2.44.1
 
 
---===============1913548188989310189==
+--===============6068285084613048989==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xkeyboard-config-upgrade-2.43-2.44.patch"
+
+RnJvbSAzY2JhYjQ1NDQyZGUxNTdkM2MyYzdkMWNhYThkYzBhMmQ1ZGQzOTU1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTA6MzI6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+a2V5Ym9hcmQtY29uZmlnOiB1cGdyYWRlIDIuNDMgLT4gMi40NAoKLS0tCiAuLi4ve3hrZXlib2Fy
+ZC1jb25maWdfMi40My5iYiA9PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDQuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve3hrZXlib2FyZC1jb25maWdfMi40My5iYiA9
+PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDQuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40My5iYiBiL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5Ym9hcmQtY29uZmlnXzIuNDQuYmIKc2ltaWxhcml0
+eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hr
+ZXlib2FyZC1jb25maWdfMi40My5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
+cmctbGliL3hrZXlib2FyZC1jb25maWdfMi40NC5iYgppbmRleCA3Mzc4Y2Y0NzVlLi41MmQwNzRm
+ZDVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJk
+LWNvbmZpZ18yLjQzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5
+Ym9hcmQtY29uZmlnXzIuNDQuYmIKQEAgLTEzLDcgKzEzLDcgQEAgTElDRU5TRSA9ICJNSVQgJiBN
+SVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT04ZmM4YWU2OTk5NzRj
+MzYwZTJlMmU4ODNhNjNjZTI2NCIKIAogU1JDX1VSSSA9ICIke1hPUkdfTUlSUk9SfS9pbmRpdmlk
+dWFsL2RhdGEveGtleWJvYXJkLWNvbmZpZy8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImM4MTBmMzYyYzgyYTgzNGVlODlkYTgxZTM0Y2QxNDUyYzk5Nzg5MzM5ZjQ2
+ZjYwMzdmNGI5ZTIyN2RkMDZjMDEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTRkMmMzM2VlZWJi
+MDMxZDQ4ZmE1OTBjNTQzZTU0YzliY2JkMGYwMDM4NmViYzY0ODliMmY0N2EwZGE0MzQyYSIKIAog
+U0VDVElPTiA9ICJ4MTEvbGlicyIKIERFUEVORFMgPSAidXRpbC1tYWNyb3MgbGlieHNsdC1uYXRp
+dmUiCi0tIAoyLjQ0LjEKCg==
+
+--===============6068285084613048989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxkbcommon: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 1208840 to 1460312 (+21%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: FILELIST: removed "/usr/lib/.debug/libxkbcommon-x11.so.0.0.0 /usr/lib/.debug/libxkbcommon.so.0.0.0 /usr/lib/.debug/libxkbregistry.so.0.0.0", added "/usr/lib/.debug/libxkbcommon.so.0.8.0 /usr/libexec/xkbcommon/.debug/xkbcli-dump-keymap-x11 /usr/lib/.debug/libxkbregistry.so.0.8.0 /usr/libexec/xkbcommon/.debug/xkbcli-dump-keymap-wayland /usr/lib/.debug/libxkbcommon-x11.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 377741 to 382650 (+1%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 8420 to 11399 (+35%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: FILELIST: added "/usr/share/man/man1/xkbcli-dump-keymap-x11.1 /usr/share/man/man1/xkbcli-dump-keymap-wayland.1"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1561909 to 1790129 (+15%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: FILELIST: directory renamed /usr/src/debug/libxkbcommon/1.7.0/xkbcli-interactive-wayland.p -> /usr/src/debug/libxkbcommon/1.8.0/xkbcli-interactive-wayland.p, directory renamed /usr/src/debug/libxkbcommon/1.7.0/src/x11 -> /usr/src/debug/libxkbcommon/1.8.0/src/x11, directory renamed /usr/src/debug/libxkbcommon/1.7.0/src/xkbcomp -> /usr/src/debug/libxkbcommon/1.8.0/src/xkbcomp, directory renamed /usr/src/debug/libxkbcommon/1.7.0/tools -> /usr/src/debug/libxkbcommon/1.8.0/tools, directory renamed /usr/src/debug/libxkbcommon/1.7.0/libxkbcommon.so.0.0.0.p -> /usr/src/debug/libxkbcommon/1.8.0/libxkbcommon.so.0.8.0.p, directory renamed /usr/src/debug/libxkbcommon/1.7.0/include/xkbcommon -> /usr/src/debug/libxkbcommon/1.8.0/include/xkbcommon, removed "/usr/src/debug/libxkbcommon/1.7.0/src/atom.c /usr/src/debug/libxkbcommon/1.7.0/src/atom.h /usr/src/debug/libxkbcommon/1.7.0/src/keymap-priv.c /usr/src/debug/libxkbcommon/1.7.0/src/util-
- mem.h /usr/src/debug/libxkbcommon/1.7.0/src/compose/parser.c /usr/src/debug/libxkbcommon/1.7.0/src/context.h /usr/src/debug/libxkbcommon/1.7.0/src/scanner-utils.h /usr/src/debug/libxkbcommon/1.7.0/src/compose/paths.c /usr/src/debug/libxkbcommon/1.7.0/src/compose/parser.h /usr/src/debug/libxkbcommon/1.7.0/src/context.c /usr/src/debug/libxkbcommon/1.7.0/src/compose/paths.h /usr/src/debug/libxkbcommon/1.7.0/src/state.c /usr/src/debug/libxkbcommon/1.7.0/src/keysym-utf.c /usr/src/debug/libxkbcommon/1.7.0/src/text.h /usr/src/debug/libxkbcommon/1.7.0/src/compose/table.c /usr/src/debug/libxkbcommon/1.7.0/src/util-list.c /usr/src/debug/libxkbcommon/1.7.0/src/compose/table.h /usr/src/debug/libxkbcommon/1.7.0/src/text.c /usr/src/debug/libxkbcommon/1.7.0/src/compose/dump.h /usr/src/debug/libxkbcommon/1.7.0/src/util-list.h /usr/src/debug/libxkbcommon/1.7.0/src/ks_tables.h /usr/src/debug/libxkbcommon/1.7.0/src/keymap.c /usr/src/debug/libxkbcommon/1.7.0/src/darray.h /usr/src/debug/libxkbcommon/1.7
- .0/src/keymap.h /usr/src/debug/libxkbcommon/1.7.0/src/context-priv.c /usr/src/debug/libxkbcommon/1.7.0/src/messages-codes.h /usr/src/debug/libxkbcommon/1.7.0/src/utf8.h /usr/src/debug/libxkbcommon/1.7.0/src/utf8.c /usr/src/debug/libxkbcommon/1.7.0/src/compose/state.c /usr/src/debug/libxkbcommon/1.7.0/src/utils.h /usr/src/debug/libxkbcommon/1.7.0/src/keysym.c /usr/src/debug/libxkbcommon/1.7.0/src/keysym.h /usr/src/debug/libxkbcommon/1.7.0/src/utils.c /usr/src/debug/libxkbcommon/1.7.0/src/registry.c", added "/usr/src/debug/libxkbcommon/1.8.0/src/atom.c /usr/src/debug/libxkbcommon/1.8.0/src/utf8-decoding.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/escape.h /usr/src/debug/libxkbcommon/1.8.0/src/atom.h /usr/src/debug/libxkbcommon/1.8.0/src/utf8-decoding.h /usr/src/debug/libxkbcommon/1.8.0/src/keymap-priv.c /usr/src/debug/libxkbcommon/1.8.0/src/registry.c /usr/src/debug/libxkbcommon/1.8.0/src/util-mem.h /usr/src/debug/libxkbcommon/1.8.0/src/compose/parser.c /usr/src/debug/libxkbcommon
- /1.8.0/src/context.h /usr/src/debug/libxkbcommon/1.8.0/src/scanner-utils.h /usr/src/debug/libxkbcommon/1.8.0/src/compose/paths.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/parser.h /usr/src/debug/libxkbcommon/1.8.0/src/context.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/paths.h /usr/src/debug/libxkbcommon/1.8.0/src/scanner-utils.c /usr/src/debug/libxkbcommon/1.8.0/xkbcli-dump-keymap-wayland.p/xdg-shell-client-protocol.h /usr/src/debug/libxkbcommon/1.8.0/src/state.c /usr/src/debug/libxkbcommon/1.8.0/src/keysym-utf.c /usr/src/debug/libxkbcommon/1.8.0/src/text.h /usr/src/debug/libxkbcommon/1.8.0/src/utils-paths.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/table.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/dump.c /usr/src/debug/libxkbcommon/1.8.0/src/util-list.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/table.h /usr/src/debug/libxkbcommon/1.8.0/src/text.c /usr/src/debug/libxkbcommon/1.8.0/src/utils-paths.h /usr/src/debug/libxkbcommon/1.8.0/src/compose/dump.h /usr/src/de
- bug/libxkbcommon/1.8.0/src/util-list.h /usr/src/debug/libxkbcommon/1.8.0/src/ks_tables.h /usr/src/debug/libxkbcommon/1.8.0/src/keymap.c /usr/src/debug/libxkbcommon/1.8.0/src/darray.h /usr/src/debug/libxkbcommon/1.8.0/src/keymap.h /usr/src/debug/libxkbcommon/1.8.0/src/context-priv.c /usr/src/debug/libxkbcommon/1.8.0/src/messages-codes.h /usr/src/debug/libxkbcommon/1.8.0/src/utf8.h /usr/src/debug/libxkbcommon/1.8.0/src/utf8.c /usr/src/debug/libxkbcommon/1.8.0/src/compose/state.c /usr/src/debug/libxkbcommon/1.8.0/src/utils.h /usr/src/debug/libxkbcommon/1.8.0/src/keysym.c /usr/src/debug/libxkbcommon/1.8.0/src/keysym-case-mappings.c /usr/src/debug/libxkbcommon/1.8.0/src/keysym.h /usr/src/debug/libxkbcommon/1.8.0/src/utils.c /usr/src/debug/libxkbcommon/1.8.0/xkbcli-dump-keymap-wayland.p/xdg-shell-protocol.c"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILES: removed "/usr/lib/libxkbcommon-x11.so.0.0.0", added "/usr/lib/libxkbcommon-x11.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.0.0", added "/usr/lib/libxkbcommon-x11.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 301133 to 317517 (+5%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILES: removed "/usr/lib/libxkbcommon.so.0.0.0", added "/usr/lib/libxkbcommon.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.0.0", added "/usr/lib/libxkbcommon.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILES: removed "/usr/lib/libxkbregistry.so.0.0.0", added "/usr/lib/libxkbregistry.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.0.0", added "/usr/lib/libxkbregistry.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
-Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.0.0 to libxkbcommon.so.0.8.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.0.0 to libxkbcommon-x11.so.0.8.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.0.0 to libxkbregistry.so.0.8.0
-  /usr/lib/libxkbcommon.so.0.0.0 moved to /usr/lib/libxkbcommon.so.0.8.0
-  /usr/lib/libxkbcommon-x11.so.0.0.0 moved to /usr/lib/libxkbcommon-x11.so.0.8.0
-  /usr/lib/libxkbregistry.so.0.0.0 moved to /usr/lib/libxkbregistry.so.0.8.0
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 166384 to 249008 (+50%)
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PV changed from "1.7.0" to "1.8.0"
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-dump-keymap-wayland /usr/libexec/xkbcommon/xkbcli-dump-keymap-x11"
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGV changed from 1.7.0 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/xkeyboard-config: SRC_URI changed from "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.43.tar.xz" to "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.44.tar.xz"
+packages/core2-64-poky-linux/xkeyboard-config: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dev: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dev: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGSIZE changed from 41984 to 42016 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGSIZE changed from 109285 to 109487 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGSIZE changed from 113509 to 113728 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGSIZE changed from 88857 to 88970 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGSIZE changed from 93866 to 93989 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGSIZE changed from 93942 to 94050 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGSIZE changed from 92716 to 94503 (+2%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGSIZE changed from 90361 to 90483 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGSIZE changed from 88100 to 89708 (+2%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGSIZE changed from 100859 to 100980 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGSIZE changed from 87583 to 87720 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGSIZE changed from 95692 to 95785 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGSIZE changed from 90511 to 90634 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGSIZE changed from 84883 to 89978 (+6%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 92251 to 92410 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGSIZE changed from 89195 to 89364 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGSIZE changed from 105925 to 109264 (+3%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGSIZE changed from 90122 to 90222 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGSIZE changed from 90022 to 90161 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGSIZE changed from 110586 to 110740 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGSIZE changed from 91518 to 91653 (+0%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-src: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-src: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PV changed from "2.43" to "2.44"
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PKGSIZE changed from 3275487 to 3294485 (+1%)
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PKGV changed from 2.43 [default] to 2.44 [default]
+packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PV changed from "2.43" to "2.44"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -1990,28 +2100,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============1913548188989310189==
+--===============6068285084613048989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 1208840 to 1460312 (+21%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 8420 to 11399 (+35%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: FILELIST: added "/usr/share/man/man1/xkbcli-dump-keymap-x11.1 /usr/share/man/man1/xkbcli-dump-keymap-wayland.1"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1561909 to 1790129 (+15%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.0.0", added "/usr/lib/libxkbcommon-x11.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.0.0", added "/usr/lib/libxkbcommon.so.0.8.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.0.0", added "/usr/lib/libxkbregistry.so.0.8.0"
-Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.0.0 to libxkbcommon.so.0.8.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.0.0 to libxkbcommon-x11.so.0.8.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.0.0 to libxkbregistry.so.0.8.0
-  /usr/lib/libxkbcommon.so.0.0.0 moved to /usr/lib/libxkbcommon.so.0.8.0
-  /usr/lib/libxkbcommon-x11.so.0.0.0 moved to /usr/lib/libxkbcommon-x11.so.0.8.0
-  /usr/lib/libxkbregistry.so.0.0.0 moved to /usr/lib/libxkbregistry.so.0.8.0
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 166384 to 249008 (+50%)
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-dump-keymap-x11 /usr/libexec/xkbcommon/xkbcli-dump-keymap-wayland"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3843,34 +3937,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============1913548188989310189==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.7.0-1.8.0.patch"
-
-RnJvbSAyNTY4MmU1NjIzZWFjOTMwMzY1MzU0Zjg3ZjQ4YmY4M2QwYWY4YjYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTA6Mjk6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4a2Jjb21tb246IHVwZ3JhZGUgMS43LjAgLT4gMS44LjAKCi0tLQogLi4uL3hvcmctbGliL3ts
-aWJ4a2Jjb21tb25fMS43LjAuYmIgPT4gbGlieGtiY29tbW9uXzEuOC4wLmJifSAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3tsaWJ4a2Jjb21tb25fMS43LjAuYmIgPT4gbGli
-eGtiY29tbW9uXzEuOC4wLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS43LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuOC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS43
-LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21t
-b25fMS44LjAuYmIKaW5kZXggZjIxNmEwNzk4My4uYTdkYWQzZjRhMiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjcuMC5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuOC4wLmJiCkBAIC05
-LDcgKzksNyBAQCBERVBFTkRTID0gImZsZXgtbmF0aXZlIGJpc29uLW5hdGl2ZSIKIAogU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL3hrYmNvbW1vbi9saWJ4a2Jjb21tb247cHJvdG9jb2w9aHR0
-cHM7YnJhbmNoPW1hc3RlciIKIAotU1JDUkVWID0gIjdhMzFlMzU4NWVkZjc4YmUyODE1NTkzNzdl
-MjZkMTVmOGM0YmM2NTUiCitTUkNSRVYgPSAiNzY3NDBlMGM0NTgzYWU0OTY3NWU3YmE4MjEzZDMx
-ZWUwOWFhMDBkMiIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIGluaGVyaXQgbWVzb24gcGtnY29u
-ZmlnIGJhc2gtY29tcGxldGlvbgotLSAKMi40NC4xCgo=
-
---===============1913548188989310189==--
+--===============6068285084613048989==--
 
