@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC9BC28B22
-	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:35 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.8106.1739623347782124739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E564EC282D2
+	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:34 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.8071.1739623349258953181
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:32 -0800
+ Sat, 15 Feb 2025 04:42:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=D2bcL3sX;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DchGTgxK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019509a1c4e1-83dc4279-eefe-4439-a3d1-0491034e0843-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=arKpv9ay;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P0msUG+c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019509a1b9bd-ab3f0a68-aaad-457d-b264-d0a2e1a1ae66-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623352;
+	t=1739623348;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mnpBDtinGxc0JoaGmmr3a2fIhZqv2mPHxQIhD0dKA8A=;
-	b=D2bcL3sXulHqSpeQGgsz0cLS7L/dhupfAH2XGXqfxkn1nvoJ/qXBIMNsX8VX7l0C
-	9M9ksUaHkYJvuNFkfSV8m9dIDYILF66FrheBKquBLiFZmB2YRUsoz9ZN41F894h1cYm
-	AkBKa4PBFJusvWLKFjYoTDnbW1bIaaYWheDpAXKo=
+	bh=W5UZCeG+vH1FUqnkV4/6WgLm1rUsQRqHFqcW/ay4HMo=;
+	b=arKpv9ayCJqO6bcB+ieTTa+/WLDQ24T/60KcVBTxJ6DHF8PWQOElM0bla3Nk3bQB
+	19J/IreaB86C22flijIIkbrk9BAg5+J72QFAgxI/lo1LqswM3nzIJc6q7t/uWYnPlJZ
+	cb4sHwOCT2U7TMMlDOz2wkx/lQ9Wjfh4h6pYypMo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623352;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623348;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mnpBDtinGxc0JoaGmmr3a2fIhZqv2mPHxQIhD0dKA8A=;
-	b=DchGTgxK7Dg1uJAGEA1Rw9sORSfhEV02t5KrM09krI44MQ7WCSj1CfQ9ykIS1Nok
-	fBk9o7jA0NzIonScxyNKgCPYkXVKvc0oJCn5Cl7IFWo96Ojpub0ZlQSzdpwRAr5uZqP
-	5lBcipuB6ONqtvAbrA1VEte8y/FvWr+1mgovEgGc=
-Content-Type: multipart/mixed; boundary="===============3532762376320822706=="
+	bh=W5UZCeG+vH1FUqnkV4/6WgLm1rUsQRqHFqcW/ay4HMo=;
+	b=P0msUG+caIKvjCCWoiUELYiNJ4OtaftGqLdhBjm2Y37zktOK8F4iJGoFH+E8aKNZ
+	efnPB9Cnj1ytVIJ/lCqrtrWkihBuwiQohDLAVV4m5RLZk06+4fvX5GAPLDt/QVo6y+n
+	M0DuDjLOqPpWb7LRx9/yjaRxAJi6t+tIdXIKPmaU=
+Content-Type: multipart/mixed; boundary="===============7626043199397360631=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] webkitgtk: upgrading to 2.46.6 SUCCEEDED
-Message-ID: <0101019509a1c4e1-83dc4279-eefe-4439-a3d1-0491034e0843-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:31 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] vulkan-tools: upgrading to 1.4.304.1 FAILED
+Message-ID: <0101019509a1b9bd-ab3f0a68-aaad-457d-b264-d0a2e1a1ae66-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.33
+X-SES-Outgoing: 2025.02.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211477
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211462
 
---===============3532762376320822706==
+--===============7626043199397360631==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *webkitgtk* to *2.46.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-tools* to *1.4.304.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-webkitgtk-upgrade-2.46.5-2.46.6.patch
+    - apply the patch: git am 0001-vulkan-tools-upgrade-1.3.296.0-1.4.304.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,211 +78,58 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8242f6053a0826c5d136e9dcbd1303f88e4d6e6c Mon Sep 17 00:00:00 2001
+From c57e489b87789730701fd0f6a42dce6e5a55aeb7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 11:58:19 +0000
-Subject: [PATCH] webkitgtk: upgrade 2.46.5 -> 2.46.6
+Date: Sat, 15 Feb 2025 10:17:51 +0000
+Subject: [PATCH] vulkan-tools: upgrade 1.3.296.0 -> 1.4.304.1
 
 ---
- ...able-to-control-macro-__PAS_ALWAYS_I.patch |  2 +-
- ...spection.cmake-prefix-variables-obta.patch |  2 +-
- .../0001-Support-ICU-76.1-build.patch         | 36 -------------------
- .../webkit/webkitgtk/bmalloc-fix.patch        |  4 +--
- .../webkit/webkitgtk/no-musttail-arm.patch    |  2 +-
- .../webkit/webkitgtk/reproducibility.patch    |  2 +-
- .../webkit/webkitgtk/sys_futex.patch          | 11 +++++-
- .../webkit/webkitgtk/t6-not-declared.patch    |  4 +--
- ...ebkitgtk_2.46.5.bb => webkitgtk_2.46.6.bb} |  3 +-
- 9 files changed, 19 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.46.5.bb => webkitgtk_2.46.6.bb} (98%)
+ .../{vulkan-tools_1.3.296.0.bb => vulkan-tools_1.4.304.1.bb}  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-tools_1.3.296.0.bb => vulkan-tools_1.4.304.1.bb} (94%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-index 8376ee8472..9267570667 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-@@ -1,4 +1,4 @@
--From bbf661310448d430350eb2ad8c5869ace648dcf8 Mon Sep 17 00:00:00 2001
-+From 992344a3a014620185f67eb03fa6123108b38cf9 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Fri, 11 Aug 2023 14:20:48 +0800
- Subject: [PATCH] Add a variable to control macro
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-index b11a18ba22..5b11373196 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-@@ -1,4 +1,4 @@
--From e0dfc113b016227da8a654d625e8f568b56761d0 Mon Sep 17 00:00:00 2001
-+From 63d7bcaaa905c82ac65271532d5b5b4988984dc5 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 27 Oct 2015 16:02:19 +0200
- Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
-deleted file mode 100644
-index 24f484e5e3..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Support-ICU-76.1-build.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 8b0ff0f2e2882f200f1c21ec76fa679444cb1c43 Mon Sep 17 00:00:00 2001
--From: Jason Schonberg <schonm@gmail.com>
--Date: Wed, 20 Nov 2024 11:05:52 -0500
--Subject: [PATCH] Support ICU 76.1 build
--
--https://bugs.webkit.org/show_bug.cgi?id=282120
--
--Reviewed by Yusuke Suzuki.
--
--In ICU 76.1 an additional macro `U_SHOW_CPLUSPLUS_HEADER_API` was added to
--control visibility of the C++ API within ICU. Set this value to `0` since WebKit
--wants to only use the C API.
--
--* Source/WTF/wtf/Platform.h:
--
--Canonical link: https://commits.webkit.org/285727@main
--
--Upstream-Status: Backport [ from webkitgtk-2.47.1 https://github.com/WebKit/WebKit/commit/63f7badbada070ebaadd318b2801818ecf7e7ea0 ]
--
--Signed-off-by: Jason Schonberg <schonm@gmail.com>
-----
-- Source/WTF/wtf/Platform.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Source/WTF/wtf/Platform.h b/Source/WTF/wtf/Platform.h
--index 23070df2..51a8dce9 100644
----- a/Source/WTF/wtf/Platform.h
--+++ b/Source/WTF/wtf/Platform.h
--@@ -115,6 +115,7 @@
-- /* ICU configuration. Some of these match ICU defaults on some platforms, but we would like them consistently set everywhere we build WebKit. */
-- #define U_HIDE_DEPRECATED_API 1
-- #define U_SHOW_CPLUSPLUS_API 0
--+#define U_SHOW_CPLUSPLUS_HEADER_API 0
-- #ifdef __cplusplus
-- #define UCHAR_TYPE char16_t
-- #endif
-diff --git a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch b/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
-index 37e0fdcbbd..3b308328f7 100644
---- a/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/bmalloc-fix.patch
-@@ -1,4 +1,4 @@
--From 6ab7d3f7d8d0d8e1ab401d0fb13f60bbc64279a2 Mon Sep 17 00:00:00 2001
-+From a8b48b568a67552c2b92394459024ba5f0b8cf45 Mon Sep 17 00:00:00 2001
- From: Thomas Klausner <wiz@gatalith.at>
- Date: Thu, 7 Nov 2024 11:54:30 -0800
- Subject: [PATCH] bmalloc: Build problem in bmalloc when X11/X.h is in the same
-@@ -19,7 +19,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 5 insertions(+)
+diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.296.0.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb
+similarity index 94%
+rename from meta/recipes-graphics/vulkan/vulkan-tools_1.3.296.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb
+index 5f83f4f246..16ec263067 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.296.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb
+@@ -6,8 +6,8 @@ SECTION = "libs"
  
- diff --git a/Source/bmalloc/bmalloc/EligibilityResult.h b/Source/bmalloc/bmalloc/EligibilityResult.h
--index ead7dbb52c07a..48f9e5bfe8a80 100644
-+index ead7dbb5..48f9e5bf 100644
- --- a/Source/bmalloc/bmalloc/EligibilityResult.h
- +++ b/Source/bmalloc/bmalloc/EligibilityResult.h
- @@ -29,6 +29,11 @@
-diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-index c98d8b7727..ac7e6b63c9 100644
---- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-@@ -1,4 +1,4 @@
--From 4602261fa44d6bbb4c3698c79e08a6a40a6edc5a Mon Sep 17 00:00:00 2001
-+From 669b832b1f95d532d0fd98706f612131775295fe Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 12 Jan 2024 09:21:39 -0800
- Subject: [PATCH] clang/arm: Do not use MUST_TAIL_CALL
-diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-index 436ad2f02c..462ee969fe 100644
---- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-@@ -1,4 +1,4 @@
--From 65e9a68c9d05f4902c2fc34303b7f8233ffa98d5 Mon Sep 17 00:00:00 2001
-+From e343f1feb86ef758d722854c293fcad8294900f4 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Mon, 3 Jan 2022 14:18:34 +0000
- Subject: [PATCH] webkitgtk: Add reproducibility fix
-diff --git a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-index 19d18dea88..e613be2175 100644
---- a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-@@ -1,7 +1,16 @@
--Fix build on newer 32bit architectures with only 64bit time_t
-+From 18094d8b3758c7aea4f7803cb08eebdf7ed04040 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 18 Dec 2024 20:24:22 -0800
-+Subject: [PATCH] Fix build on newer 32bit architectures with only 64bit time_t
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=vulkan-sdk-1.3.296;protocol=https"
+-SRCREV = "74dd90abd69f813220b572e1d89c17bc7784972d"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=main;protocol=https"
++SRCREV = "4c25e78dd87720275ab069de1fe2e005cd528ed9"
  
- Upstream-Status: Submitted [https://chromium-review.googlesource.com/c/angle/angle/+/6108397]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp b/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
-+index 4ed0af51..11feda6c 100644
- --- a/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
- +++ b/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
- @@ -17,6 +17,9 @@
-diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-index 82d20758c2..64fb1b7458 100644
---- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-@@ -1,4 +1,4 @@
--From 29431aec88764072a032aa4411e26e566a3a6c0b Mon Sep 17 00:00:00 2001
-+From 5ae59e4754fb75cf0182ab49e8a91bebb1893729 Mon Sep 17 00:00:00 2001
- From: Michael Catanzaro <mcatanzaro@redhat.com>
- Date: Mon, 5 Feb 2024 11:00:49 -0600
- Subject: [PATCH] =?UTF-8?q?LowLevelInterpreter.cpp:339:21:=20error:=20?=
-@@ -21,7 +21,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
--index 76c46889..500be433 100644
-+index 9568c5c9..786be8a1 100644
- --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
- +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
- @@ -334,8 +334,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-index 8c6ffdc8a7..d1f24bbbf7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.46.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb
-@@ -15,11 +15,10 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
-            file://no-musttail-arm.patch \
-            file://t6-not-declared.patch \
--           file://0001-Support-ICU-76.1-build.patch \
-            file://bmalloc-fix.patch \
-            file://sys_futex.patch \
-            "
--SRC_URI[sha256sum] = "bad4020bb0cfb3e740df3082c2d9cbf67cf4095596588a56aecdde6702137805"
-+SRC_URI[sha256sum] = "f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.1
 
 
---===============3532762376320822706==
+--===============7626043199397360631==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1869 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 916 .bb files complete (0 cached, 916 parsed). 1870 targets, 49 skipped, 0 masked, 0 errors.
-Removing 132 recipes from the core2-64 sysroot...done.
-Removing 131 recipes from the qemux86_64 sysroot...done.
+Parsing of 916 .bb files complete (915 cached, 1 parsed). 1869 targets, 38 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.9.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
+TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "5.1"
@@ -285,1994 +138,3475 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:0e738e630c272c22435241d8f62644a1723797e8"
+workspace            = "tmp-auh-upgrades:7d187f152930b391f0d0f6d17105a0e68a8247ec"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 966 Local 928 Mirrors 0 Missed 38 Current 387 (96% match, 97% complete)
-Removing 4 stale sstate objects for arch qemux86_64...done.
-Removing 1 stale sstate objects for arch allarch...done.
-Removing 3 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 185 Local 173 Mirrors 0 Missed 12 Current 387 (93% match, 97% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 466 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 477 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 496 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/aspell/aspell_0.60.8.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 498 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 501 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 503 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 505 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 509 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 510 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 511 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.42.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 529 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 531 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 532 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 534 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 535 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 536 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe ca-certificates-20241223-r0: task do_create_spdx_setscene: Started
-NOTE: recipe aspell-0.60.8.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe webkitgtk-2.46.6-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe nghttp2-1.64.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxt-1_1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxslt-1.1.42-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gtk4-4.16.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ca-certificates-20241223-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 537 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20241223.bb:do_packagedata_setscene)
-NOTE: recipe enchant2-2.8.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe aspell-0.60.8.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe webkitgtk-2.46.6-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 538 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 539 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/aspell/aspell_0.60.8.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 540 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_recipe_qa_setscene)
-NOTE: recipe nghttp2-1.64.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxt-1_1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxslt-1.1.42-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpsl-0.21.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 541 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
-NOTE: recipe libnotify-0.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcrypt-1.11.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 542 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/aspell/aspell_0.60.8.1.bb:do_packagedata_setscene)
-NOTE: recipe libsecret-0.21.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 543 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 544 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 545 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 546 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 547 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 548 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 549 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 551 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 552 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gtk4-4.16.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 553 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_recipe_qa_setscene)
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe aspell-0.60.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe webkitgtk-2.46.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe aspell-0.60.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxt-1_1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxt-1_1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nghttp2-1.64.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxslt-1.1.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxslt-1.1.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe nghttp2-1.64.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ca-certificates-20241223-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 555 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.54.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 556 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb:do_packagedata_setscene)
-NOTE: recipe webkitgtk-2.46.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 557 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libwpe-1.16.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 558 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx_setscene)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 559 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_packagedata_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxt-1_1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 560 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 561 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libxslt-1.1.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 562 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe nghttp2-1.64.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 563 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
-NOTE: recipe aspell-0.60.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 564 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_recipe_qa_setscene)
-NOTE: recipe nghttp2-1.64.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 570 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 578 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxslt-1.1.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gtk4-4.16.12-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 584 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_create_spdx_setscene)
-NOTE: recipe libpsl-0.21.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 586 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libsecret-0.21.6-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 592 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe aspell-0.60.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 594 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.5.0.bb:do_create_spdx_setscene)
-NOTE: recipe libnotify-0.8.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 606 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb:do_recipe_qa_setscene)
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 610 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_create_spdx_setscene)
-NOTE: recipe gtk4-4.16.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 611 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.42.bb:do_recipe_qa_setscene)
-NOTE: recipe libsoup-3.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 616 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 621 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/aspell/aspell_0.60.8.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libnotify-0.8.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpsl-0.21.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 635 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.73.bb:do_packagedata_setscene)
-NOTE: Running setscene task 636 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_packagedata_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 640 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libwebp-1.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe nghttp2-1.64.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxslt-1.1.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe aspell-0.60.8.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe nghttp2-1.64.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwebp-1.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 641 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx_setscene)
-NOTE: recipe libpsl-0.21.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxslt-1.1.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 644 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.73.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 647 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 652 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 653 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 655 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 657 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
-NOTE: recipe vala-0.56.17-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 662 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxt-1_1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe aspell-0.60.8.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpsl-0.21.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gtk4-4.16.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.73-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.73-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgpg-error-1.51-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgcrypt-1.11.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgpg-error-1.51-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-10.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 668 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libcap-2.73-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 672 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.73.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 675 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 683 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
-NOTE: recipe libgpg-error-1.51-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 685 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb:do_recipe_qa_setscene)
-NOTE: recipe gtk4-4.16.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 688 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 689 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.54.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 690 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 691 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 692 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 693 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.54.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 694 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 695 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 696 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 697 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.16.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 698 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.73-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgpg-error-1.51-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe tiff-4.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.73-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 699 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe gtk4-4.16.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 701 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 702 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 703 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgpg-error-1.51-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 704 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx_setscene)
-NOTE: recipe gtk4-4.16.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 705 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_packagedata_setscene)
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 706 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 708 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 709 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_create_spdx_setscene)
-NOTE: recipe graphene-1.10.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe tiff-4.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe tiff-4.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 717 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe graphene-1.10.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 722 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.13.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 723 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 725 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_recipe_qa_setscene)
-NOTE: recipe graphene-1.10.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe tiff-4.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 727 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe graphene-1.10.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 730 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.13.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 731 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 734 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_recipe_qa_setscene)
-NOTE: recipe tiff-4.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxinerama-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe tiff-4.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 746 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 748 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 749 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.54.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 752 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 759 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_create_spdx_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.54.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1344 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_fetch)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 770 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 771 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 773 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 774 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1431 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_fetch)
-NOTE: Running task 1433 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_fetch)
-NOTE: Running task 1434 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_fetch)
-NOTE: Running task 1435 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_fetch)
-NOTE: Running task 1437 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_fetch)
-NOTE: Running setscene task 776 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_packagedata_setscene)
-NOTE: Running setscene task 777 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 778 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 779 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 780 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_packagedata_setscene)
-NOTE: Running setscene task 781 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe libwpe-1.16.1-r0: task do_fetch: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 782 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb:do_packagedata_setscene)
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_fetch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_fetch: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_packagedata_setscene: Started
-NOTE: recipe bluez5-5.79-r0: task do_packagedata_setscene: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_fetch: Succeeded
-NOTE: recipe curl-8.12.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 783 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 784 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnotify-0.8.3-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 785 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libsecret-0.21.6-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 786 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 787 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_packagedata_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 789 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 790 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 791 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwebp-1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwebp-1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 792 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 794 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgudev-238-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 796 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_packagedata_setscene)
-NOTE: recipe bluez5-5.79-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bluez5-5.79-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-8.12.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 799 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_packagedata_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 800 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 803 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_packagedata_setscene)
-NOTE: recipe librsvg-2.59.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe librsvg-2.59.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgudev-238-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 806 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 807 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libical-3.0.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libwebp-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 812 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 814 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 816 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bluez5-5.79-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 817 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 819 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_recipe_qa_setscene)
-NOTE: recipe librsvg-2.59.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libical-3.0.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 821 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 823 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe librsvg-2.59.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 824 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 825 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libical-3.0.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe curl-8.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 826 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 827 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 830 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.12.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 832 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 836 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_packagedata_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 837 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 838 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe sbc-2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libwebp-1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bluez5-5.79-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 839 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe curl-8.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sbc-2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 843 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe libstd-rs-1.81.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 844 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: recipe libwebp-1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 845 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.81.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libical-3.0.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 846 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.1.bb:do_packagedata_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 847 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_populate_sysroot_setscene)
-NOTE: recipe bluez5-5.79-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 848 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_packagedata_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-8.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 850 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 851 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 852 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_packagedata_setscene)
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 853 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe base-passwd-3.6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 855 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libstd-rs-1.81.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 856 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.17.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 857 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.17.0.bb:do_packagedata_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 858 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_packagedata_setscene)
-NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 859 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 860 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 865 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_packagedata_setscene)
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 866 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_recipe_qa_setscene)
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 868 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 870 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.59.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 871 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.43-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 873 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 874 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.12.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 876 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata_setscene)
-NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 877 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.17.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 878 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe librsvg-2.59.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 879 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 880 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 881 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 882 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata_setscene)
-NOTE: recipe librsvg-2.59.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 886 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 888 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.81.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 889 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.19.bb:do_recipe_qa_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 890 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe pango-1.55.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.55.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.43-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 891 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 894 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 897 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 898 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.19-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 899 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: recipe pango-1.55.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 902 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 903 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe alsa-lib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 904 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.19-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 908 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb:do_packagedata_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.55.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 913 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 916 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 917 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 918 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 919 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 920 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe shadow-4.17.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 922 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 923 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libsm-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 927 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 928 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.81.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 932 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe alsa-lib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 933 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 936 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 937 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 938 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.12.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.17.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 941 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 944 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libstd-rs-1.81.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 945 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 947 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.55.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 948 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 949 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 951 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_packagedata_setscene)
-NOTE: recipe dbus-1.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libstd-rs-1.81.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe flac-1.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 952 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 955 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_recipe_qa_setscene)
-NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 956 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.55.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 960 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_packagedata_setscene)
-NOTE: recipe dbus-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 963 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 965 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 966 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 967 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 969 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.55.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 971 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 974 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_recipe_qa_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 976 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 977 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 979 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 981 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 985 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-76-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 987 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 992 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_packagedata_setscene)
-NOTE: Running setscene task 993 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 994 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 996 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 998 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.43-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 999 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.17.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1000 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1001 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libsm-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1005 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1007 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_populate_sysroot_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1009 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1010 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.13.bb:do_recipe_qa_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.17.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1011 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1012 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libunwind-1.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1013 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1015 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.17.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1022 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-lib-1.2.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1024 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1027 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.2.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1029 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flac-1.4.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1030 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1032 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1033 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-lib-1.2.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1035 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1036 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_recipe_qa_setscene)
-NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1037 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1039 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_recipe_qa_setscene)
-NOTE: recipe harfbuzz-10.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1044 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-10.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libunistring-1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-76-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1045 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1046 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1047 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1051 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1052 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1053 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1054 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1055 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1056 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1057 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1059 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1060 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1061 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1062 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1063 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.40.bb:do_packagedata_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.124-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-protocols-1.40-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1064 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1065 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1066 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1069 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pixman-1_0.44.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1070 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_76-1.bb:do_recipe_qa_setscene)
-NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1071 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-protocols-1.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1073 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1078 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1079 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1081 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 1083 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1084 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1085 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.124-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdrm-2.4.124-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1086 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1089 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1092 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe icu-76-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1094 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1096 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1098 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1099 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: recipe pixman-1_0.44.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1100 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.296.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1101 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1102 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.124.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1105 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1107 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1108 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1109 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1112 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1113 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_setscene: Started
-NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1115 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1118 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1120 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-loader-1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1121 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1122 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb:do_recipe_qa_setscene)
-NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.124-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1126 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1128 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1130 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1131 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1133 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1135 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_packagedata_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpng-1.6.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1138 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.45.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpng-1.6.45-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1860 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_unpack)
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1140 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1142 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1143 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1145 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1146 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: recipe libpng-1.6.45-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1924 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_unpack)
-NOTE: Running task 1926 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_unpack)
-NOTE: Running task 1927 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_unpack)
-NOTE: Running task 1928 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_unpack)
-NOTE: Running task 1930 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_unpack)
-NOTE: Running task 1938 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_fetch)
-NOTE: Running task 1974 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_write_config)
-NOTE: recipe libwpe-1.16.1-r0: task do_unpack: Started
-NOTE: Running task 1975 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_write_config)
-NOTE: Running task 1976 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_write_config)
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_unpack: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_unpack: Started
-NOTE: recipe webkitgtk-2.46.6-r0: task do_fetch: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_unpack: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe webkitgtk-2.46.6-r0: task do_fetch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_write_config: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_write_config: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_write_config: Started
-NOTE: Running task 1987 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_write_config)
-NOTE: Running task 1988 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_unpack)
-NOTE: recipe libwpe-1.16.1-r0: task do_unpack: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_unpack: Succeeded
-NOTE: recipe xtrans-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 2026 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_patch)
-NOTE: Running task 2033 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_patch)
-NOTE: recipe libnotify-0.8.3-r0: task do_write_config: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_write_config: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1149 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1150 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1151 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_recipe_qa_setscene)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2096 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_patch)
-NOTE: Running task 2105 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_patch)
-NOTE: recipe webkitgtk-2.46.6-r0: task do_unpack: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_write_config: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_unpack: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_patch: Started
-NOTE: Running setscene task 1153 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1154 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1155 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1156 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running task 2120 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_patch)
-NOTE: recipe enchant2-2.8.2-r0: task do_patch: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 2121 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_patch)
-NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_write_config: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_patch: Succeeded
-NOTE: Running task 2123 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_generate_toolchain_file)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_patch: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsecret-0.21.6-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_patch: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1158 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libsoup-3.6.4-r0: task do_patch: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1159 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1160 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1161 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1162 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1164 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1169 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1170 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
-NOTE: recipe libsecret-0.21.6-r0: task do_patch: Succeeded
-NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1172 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1174 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1175 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1177 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1179 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1182 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1184 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1186 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 1187 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1188 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1189 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1190 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 1191 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.13.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.13.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe webkitgtk-2.46.6-r0: task do_unpack: Succeeded
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 2176 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_patch)
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 1192 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe webkitgtk-2.46.6-r0: task do_patch: Started
-NOTE: recipe libxml2-2.13.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxml2-2.13.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1195 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.5.bb:do_recipe_qa_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.13.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.13.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1197 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1198 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1199 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1200 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1201 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1203 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe webkitgtk-2.46.6-r0: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 2188 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2189 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_generate_toolchain_file)
-NOTE: recipe glib-2.0-1_2.82.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe webkitgtk-2.46.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe webkitgtk-2.46.6-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1205 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1208 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1211 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1213 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe webkitgtk-2.46.6-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1215 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_packagedata_setscene)
-NOTE: recipe webkitgtk-2.46.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/webkitgtk_2.46.6.bb:do_deploy_source_date_epoch unihash changed to f816b8226b3d312a4e15ab26975d6166244b916eb8d0858d12b149ac661dac01
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1210 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1219 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1220 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_75.8.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-75.8.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1222 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1224 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1225 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1226 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1227 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1228 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1229 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1231 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1232 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1233 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1234 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1235 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1236 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1237 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1238 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1239 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1240 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 1241 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1246 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1247 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1252 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1253 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1254 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1255 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1256 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1257 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1258 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1259 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1261 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1263 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1264 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1266 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1267 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1271 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1275 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1277 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1279 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1281 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1282 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1284 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1286 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.47.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1288 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1289 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1292 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1293 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1296 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1299 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1301 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1303 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.4.0.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.47.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1304 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1306 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1308 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1309 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.4.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1311 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1313 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1314 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1316 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1318 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1320 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1321 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1322 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1325 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1326 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1327 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1331 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1333 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1336 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1339 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1340 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1341 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1343 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1345 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1348 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1351 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1352 of 1353 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 3243 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3372 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3373 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3374 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3376 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.16.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3540 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_collect_spdx_deps)
-NOTE: recipe enchant2-2.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3586 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3587 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_collect_spdx_deps)
-NOTE: Running task 3588 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_collect_spdx_deps)
-NOTE: Running task 3590 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_collect_spdx_deps)
-NOTE: Running task 3601 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_ipk)
-NOTE: recipe libwpe-1.16.1-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 3602 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_deb)
-NOTE: Running task 3603 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_rpm)
-NOTE: recipe libsoup-3.6.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 3604 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_qa)
-NOTE: recipe libnotify-0.8.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_ipk: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_deb: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_rpm: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_qa: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3605 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_configure)
-NOTE: recipe libwpe-1.16.1-r0: task do_configure: Started
-NOTE: recipe enchant2-2.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3606 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/enchant/enchant2_2.8.2.bb:do_configure)
-NOTE: recipe libsoup-3.6.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3607 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_configure)
-NOTE: recipe libsecret-0.21.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libnotify-0.8.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3608 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_configure)
-NOTE: Running task 3609 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_configure)
-NOTE: recipe libsoup-3.6.4-r0: task do_configure: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_configure: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_configure: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_configure: Succeeded
-NOTE: Running task 3610 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_compile)
-NOTE: recipe libwpe-1.16.1-r0: task do_compile: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_compile: Succeeded
-NOTE: Running task 3611 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_install)
-NOTE: recipe libwpe-1.16.1-r0: task do_install: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_install: Succeeded
-NOTE: Running task 3612 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_populate_sysroot)
-NOTE: Running task 3613 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_package)
-NOTE: recipe libwpe-1.16.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_configure: Succeeded
-NOTE: Running task 3614 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_compile)
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_deb unihash changed to 77ab985e0aebff651cc3068ad999a3dfabff5c88772ff136db2947c86ee7107d
-NOTE: recipe libwpe-1.16.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3615 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe libnotify-0.8.3-r0: task do_compile: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_ipk unihash changed to 25b0bca2abffc7abeb406ef38e04f908f0bdbbcd183ffc48f61146da9a100d25
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_qa unihash changed to 22544050ed4de2477f6092459a6f800bca1606c5a0f0734650bdfa05ad465082
-NOTE: recipe libsecret-0.21.6-r0: task do_configure: Succeeded
-NOTE: Running task 3616 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_compile)
-NOTE: recipe libsoup-3.6.4-r0: task do_configure: Succeeded
-NOTE: Running task 3617 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_compile)
-NOTE: recipe libsecret-0.21.6-r0: task do_compile: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_compile: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_rpm unihash changed to acfbbd3629ee8c24a4339f450ee8120579fd74ed338ac3587eba6c92ba2af2d5
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3618 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_configure: Started
-NOTE: recipe libwpe-1.16.1-r0: task do_package: Succeeded
-NOTE: Running task 3619 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.16.1-r0: task do_packagedata: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_configure: Succeeded
-NOTE: Running task 3620 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_compile)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_compile: Succeeded
-NOTE: Running task 3621 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_install)
-NOTE: recipe libnotify-0.8.3-r0: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_compile: Succeeded
-NOTE: Running task 3622 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_install)
-NOTE: recipe libnotify-0.8.3-r0: task do_install: Succeeded
-NOTE: Running task 3623 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_package)
-NOTE: Running task 3624 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_install: Succeeded
-NOTE: Running task 3625 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/wpebackend-fdo_1.14.3.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_compile: Succeeded
-NOTE: Running task 3626 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_install)
-NOTE: recipe libsecret-0.21.6-r0: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.21.6-r0: task do_install: Succeeded
-NOTE: Running task 3627 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_package)
-NOTE: Running task 3628 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb:do_populate_sysroot)
-NOTE: recipe libsecret-0.21.6-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_package: Succeeded
-NOTE: Running task 3629 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_packagedata)
-NOTE: recipe libnotify-0.8.3-r0: task do_packagedata: Started
-NOTE: recipe libsecret-0.21.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.3-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_packagedata unihash changed to bc7e9d57cf9ec3be32b16f8da454d52261393edf9622248d93ac3fe590a13526
-NOTE: recipe libsoup-3.6.4-r0: task do_compile: Succeeded
-NOTE: Running task 3630 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_install)
-NOTE: Running task 3631 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb:do_create_spdx)
-NOTE: recipe libnotify-0.8.3-r0: task do_create_spdx: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.3-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_install: Succeeded
-NOTE: Running task 3632 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_package)
-NOTE: Running task 3633 of 3663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.4.bb:do_populate_sysroot)
-NOTE: recipe libsoup-3.6.4-r0: task do_populate_sysroot: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_package: Started
-NOTE: recipe libsoup-3.6.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libwpe-1.16.1-r0: task do_packagedata: Failed
-NOTE: recipe libsecret-0.21.6-r0: task do_package: Succeeded
-NOTE: recipe libsoup-3.6.4-r0: task do_package: Succeeded
-NOTE: recipe enchant2-2.8.2-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 3633 tasks of which 3562 didn't need to be rerun and 1 failed.
+NOTE: Running task 1444 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_recipe_qa)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_recipe_qa: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1595 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_fetch)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_fetch: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1596 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_unpack)
+NOTE: Running task 1597 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1598 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_patch)
+NOTE: Running task 1599 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_patch: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_patch: Succeeded
+NOTE: Running task 1600 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1601 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1602 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_populate_lic)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1603 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_configure: Succeeded
+NOTE: Running task 1604 of 1615 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build --target all --
+| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| [1/4] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot -DGIT_BRANCH_NAME=\"main\" -DGIT_TAG_INFO=\"vulkan-sdk-1.4.304.0\" -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_WAYLAND_KHX -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XCB_KHX -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_KHX -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -DVkICD_mock_icd_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-wor
+ ker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1
+ /recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -Wpointer-arith -Wno-unused-function -Wno-sign-compare -MD -MT icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -MF icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o.d -o icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/mock_icd.cpp
+| FAILED: icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot -DGIT_BRANCH_NAME=\"main\" -DGIT_TAG_INFO=\"vulkan-sdk-1.4.304.0\" -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_WAYLAND_KHX -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XCB_KHX -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_KHX -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -DVkICD_mock_icd_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/au
+ h/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recip
+ e-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -Wpointer-arith -Wno-unused-function -Wno-sign-compare -MD -MT icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -MF icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o.d -o icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/mock_icd.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/mock_icd.h:40,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/mock_icd.cpp:17:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1969:31: error: 'VkPhysicalDeviceVulkan14Features' was not declared in this scope; did you mean 'VkPhysicalDeviceVulkan13Features'?
+|  1969 | template <> struct LvlTypeMap<VkPhysicalDeviceVulkan14Features> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVulkan13Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1969:63: error: template argument 1 is invalid
+|  1969 | template <> struct LvlTypeMap<VkPhysicalDeviceVulkan14Features> {
+|       |                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1973:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES'?
+|  1973 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1973:85: error: template argument 1 is invalid
+|  1973 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES> {
+|       |                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1978:31: error: 'VkPhysicalDeviceVulkan14Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceVulkan13Properties'?
+|  1978 | template <> struct LvlTypeMap<VkPhysicalDeviceVulkan14Properties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVulkan13Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1978:65: error: template argument 1 is invalid
+|  1978 | template <> struct LvlTypeMap<VkPhysicalDeviceVulkan14Properties> {
+|       |                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1982:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES'?
+|  1982 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1982:87: error: template argument 1 is invalid
+|  1982 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES> {
+|       |                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1987:31: error: 'VkDeviceQueueGlobalPriorityCreateInfo' was not declared in this scope; did you mean 'VkDeviceQueueGlobalPriorityCreateInfoKHR'?
+|  1987 | template <> struct LvlTypeMap<VkDeviceQueueGlobalPriorityCreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkDeviceQueueGlobalPriorityCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1987:68: error: template argument 1 is invalid
+|  1987 | template <> struct LvlTypeMap<VkDeviceQueueGlobalPriorityCreateInfo> {
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1991:32: error: 'VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_KHR'?
+|  1991 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1991:90: error: template argument 1 is invalid
+|  1991 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1996:31: error: 'VkPhysicalDeviceGlobalPriorityQueryFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR'?
+|  1996 | template <> struct LvlTypeMap<VkPhysicalDeviceGlobalPriorityQueryFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:1996:74: error: template argument 1 is invalid
+|  1996 | template <> struct LvlTypeMap<VkPhysicalDeviceGlobalPriorityQueryFeatures> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2000:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR'?
+|  2000 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2000:96: error: template argument 1 is invalid
+|  2000 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES> {
+|       |                                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2005:31: error: 'VkQueueFamilyGlobalPriorityProperties' was not declared in this scope; did you mean 'VkQueueFamilyGlobalPriorityPropertiesKHR'?
+|  2005 | template <> struct LvlTypeMap<VkQueueFamilyGlobalPriorityProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkQueueFamilyGlobalPriorityPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2005:68: error: template argument 1 is invalid
+|  2005 | template <> struct LvlTypeMap<VkQueueFamilyGlobalPriorityProperties> {
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2009:32: error: 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR'?
+|  2009 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2009:89: error: template argument 1 is invalid
+|  2009 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES> {
+|       |                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2014:31: error: 'VkPhysicalDeviceShaderSubgroupRotateFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR'?
+|  2014 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderSubgroupRotateFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2014:75: error: template argument 1 is invalid
+|  2014 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderSubgroupRotateFeatures> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2018:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR'?
+|  2018 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2018:97: error: template argument 1 is invalid
+|  2018 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES> {
+|       |                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2023:31: error: 'VkPhysicalDeviceShaderFloatControls2Features' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderFloatControls2FeaturesKHR'?
+|  2023 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderFloatControls2Features> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceShaderFloatControls2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2023:75: error: template argument 1 is invalid
+|  2023 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderFloatControls2Features> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2027:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR'?
+|  2027 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2027:98: error: template argument 1 is invalid
+|  2027 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES> {
+|       |                                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2032:31: error: 'VkPhysicalDeviceShaderExpectAssumeFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderExpectAssumeFeaturesKHR'?
+|  2032 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderExpectAssumeFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceShaderExpectAssumeFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2032:73: error: template argument 1 is invalid
+|  2032 | template <> struct LvlTypeMap<VkPhysicalDeviceShaderExpectAssumeFeatures> {
+|       |                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2036:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR'?
+|  2036 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2036:95: error: template argument 1 is invalid
+|  2036 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2041:31: error: 'VkPhysicalDeviceLineRasterizationFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationFeaturesKHR'?
+|  2041 | template <> struct LvlTypeMap<VkPhysicalDeviceLineRasterizationFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceLineRasterizationFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2041:72: error: template argument 1 is invalid
+|  2041 | template <> struct LvlTypeMap<VkPhysicalDeviceLineRasterizationFeatures> {
+|       |                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2045:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR'?
+|  2045 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2045:93: error: template argument 1 is invalid
+|  2045 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES> {
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2050:31: error: 'VkPhysicalDeviceLineRasterizationProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationPropertiesKHR'?
+|  2050 | template <> struct LvlTypeMap<VkPhysicalDeviceLineRasterizationProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceLineRasterizationPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2050:74: error: template argument 1 is invalid
+|  2050 | template <> struct LvlTypeMap<VkPhysicalDeviceLineRasterizationProperties> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2054:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR'?
+|  2054 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2054:95: error: template argument 1 is invalid
+|  2054 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2059:31: error: 'VkPipelineRasterizationLineStateCreateInfo' was not declared in this scope; did you mean 'VkPipelineRasterizationLineStateCreateInfoKHR'?
+|  2059 | template <> struct LvlTypeMap<VkPipelineRasterizationLineStateCreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPipelineRasterizationLineStateCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2059:73: error: template argument 1 is invalid
+|  2059 | template <> struct LvlTypeMap<VkPipelineRasterizationLineStateCreateInfo> {
+|       |                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2063:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_KHR'?
+|  2063 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2063:95: error: template argument 1 is invalid
+|  2063 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2068:31: error: 'VkPhysicalDeviceVertexAttributeDivisorProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR'?
+|  2068 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeDivisorProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2068:79: error: template argument 1 is invalid
+|  2068 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeDivisorProperties> {
+|       |                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2072:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR'?
+|  2072 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2072:101: error: template argument 1 is invalid
+|  2072 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES> {
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2077:31: error: 'VkPipelineVertexInputDivisorStateCreateInfo' was not declared in this scope; did you mean 'VkPipelineVertexInputDivisorStateCreateInfoKHR'?
+|  2077 | template <> struct LvlTypeMap<VkPipelineVertexInputDivisorStateCreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPipelineVertexInputDivisorStateCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2077:74: error: template argument 1 is invalid
+|  2077 | template <> struct LvlTypeMap<VkPipelineVertexInputDivisorStateCreateInfo> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2081:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_KHR'?
+|  2081 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2081:97: error: template argument 1 is invalid
+|  2081 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO> {
+|       |                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2086:31: error: 'VkPhysicalDeviceVertexAttributeDivisorFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR'?
+|  2086 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeDivisorFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2086:77: error: template argument 1 is invalid
+|  2086 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeDivisorFeatures> {
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2090:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR'?
+|  2090 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2090:99: error: template argument 1 is invalid
+|  2090 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES> {
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2095:31: error: 'VkPhysicalDeviceIndexTypeUint8Features' was not declared in this scope; did you mean 'VkPhysicalDeviceIndexTypeUint8FeaturesKHR'?
+|  2095 | template <> struct LvlTypeMap<VkPhysicalDeviceIndexTypeUint8Features> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceIndexTypeUint8FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2095:69: error: template argument 1 is invalid
+|  2095 | template <> struct LvlTypeMap<VkPhysicalDeviceIndexTypeUint8Features> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2099:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR'?
+|  2099 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2099:91: error: template argument 1 is invalid
+|  2099 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES> {
+|       |                                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2104:31: error: 'VkMemoryMapInfo' was not declared in this scope; did you mean 'VkMemoryMapInfoKHR'?
+|  2104 | template <> struct LvlTypeMap<VkMemoryMapInfo> {
+|       |                               ^~~~~~~~~~~~~~~
+|       |                               VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2104:46: error: template argument 1 is invalid
+|  2104 | template <> struct LvlTypeMap<VkMemoryMapInfo> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2108:32: error: 'VK_STRUCTURE_TYPE_MEMORY_MAP_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR'?
+|  2108 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_MAP_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2108:65: error: template argument 1 is invalid
+|  2108 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_MAP_INFO> {
+|       |                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2113:31: error: 'VkMemoryUnmapInfo' was not declared in this scope; did you mean 'VkMemoryUnmapInfoKHR'?
+|  2113 | template <> struct LvlTypeMap<VkMemoryUnmapInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~
+|       |                               VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2113:48: error: template argument 1 is invalid
+|  2113 | template <> struct LvlTypeMap<VkMemoryUnmapInfo> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2117:32: error: 'VK_STRUCTURE_TYPE_MEMORY_UNMAP_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_MEMORY_UNMAP_INFO_KHR'?
+|  2117 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_UNMAP_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_MEMORY_UNMAP_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2117:67: error: template argument 1 is invalid
+|  2117 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_UNMAP_INFO> {
+|       |                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2122:31: error: 'VkPhysicalDeviceMaintenance5Features' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  2122 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance5Features> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2122:67: error: template argument 1 is invalid
+|  2122 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance5Features> {
+|       |                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2126:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  2126 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2126:88: error: template argument 1 is invalid
+|  2126 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES> {
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2131:31: error: 'VkPhysicalDeviceMaintenance5Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  2131 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance5Properties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2131:69: error: template argument 1 is invalid
+|  2131 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance5Properties> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2135:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  2135 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2135:90: error: template argument 1 is invalid
+|  2135 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2140:31: error: 'VkRenderingAreaInfo' was not declared in this scope; did you mean 'VkRenderingAreaInfoKHR'?
+|  2140 | template <> struct LvlTypeMap<VkRenderingAreaInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~
+|       |                               VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2140:50: error: template argument 1 is invalid
+|  2140 | template <> struct LvlTypeMap<VkRenderingAreaInfo> {
+|       |                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2144:32: error: 'VK_STRUCTURE_TYPE_RENDERING_AREA_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_RENDERING_AREA_INFO_KHR'?
+|  2144 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_AREA_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_RENDERING_AREA_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2144:69: error: template argument 1 is invalid
+|  2144 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_AREA_INFO> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2149:31: error: 'VkImageSubresource2' was not declared in this scope; did you mean 'VkImageSubresource'?
+|  2149 | template <> struct LvlTypeMap<VkImageSubresource2> {
+|       |                               ^~~~~~~~~~~~~~~~~~~
+|       |                               VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2149:50: error: template argument 1 is invalid
+|  2149 | template <> struct LvlTypeMap<VkImageSubresource2> {
+|       |                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2153:32: error: 'VK_STRUCTURE_TYPE_IMAGE_SUBRESOURCE_2' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_IMAGE_SUBRESOURCE_2_KHR'?
+|  2153 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_SUBRESOURCE_2> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_IMAGE_SUBRESOURCE_2_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2153:69: error: template argument 1 is invalid
+|  2153 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_SUBRESOURCE_2> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2158:31: error: 'VkDeviceImageSubresourceInfo' was not declared in this scope; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  2158 | template <> struct LvlTypeMap<VkDeviceImageSubresourceInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2158:59: error: template argument 1 is invalid
+|  2158 | template <> struct LvlTypeMap<VkDeviceImageSubresourceInfo> {
+|       |                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2162:32: error: 'VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO_KHR'?
+|  2162 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2162:79: error: template argument 1 is invalid
+|  2162 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO> {
+|       |                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2167:31: error: 'VkSubresourceLayout2' was not declared in this scope; did you mean 'VkSubresourceLayout'?
+|  2167 | template <> struct LvlTypeMap<VkSubresourceLayout2> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~
+|       |                               VkSubresourceLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2167:51: error: template argument 1 is invalid
+|  2167 | template <> struct LvlTypeMap<VkSubresourceLayout2> {
+|       |                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2171:32: error: 'VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2_KHR'?
+|  2171 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2171:70: error: template argument 1 is invalid
+|  2171 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2> {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2176:31: error: 'VkPipelineCreateFlags2CreateInfo' was not declared in this scope; did you mean 'VkPipelineCreateFlags2CreateInfoKHR'?
+|  2176 | template <> struct LvlTypeMap<VkPipelineCreateFlags2CreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPipelineCreateFlags2CreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2176:63: error: template argument 1 is invalid
+|  2176 | template <> struct LvlTypeMap<VkPipelineCreateFlags2CreateInfo> {
+|       |                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2180:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO_KHR'?
+|  2180 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2180:85: error: template argument 1 is invalid
+|  2180 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO> {
+|       |                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2185:31: error: 'VkBufferUsageFlags2CreateInfo' was not declared in this scope; did you mean 'VkBufferUsageFlags2CreateInfoKHR'?
+|  2185 | template <> struct LvlTypeMap<VkBufferUsageFlags2CreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkBufferUsageFlags2CreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2185:60: error: template argument 1 is invalid
+|  2185 | template <> struct LvlTypeMap<VkBufferUsageFlags2CreateInfo> {
+|       |                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2189:32: error: 'VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO_KHR'?
+|  2189 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2189:82: error: template argument 1 is invalid
+|  2189 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO> {
+|       |                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2194:31: error: 'VkPhysicalDevicePushDescriptorProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePushDescriptorPropertiesKHR'?
+|  2194 | template <> struct LvlTypeMap<VkPhysicalDevicePushDescriptorProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDevicePushDescriptorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2194:71: error: template argument 1 is invalid
+|  2194 | template <> struct LvlTypeMap<VkPhysicalDevicePushDescriptorProperties> {
+|       |                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2198:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR'?
+|  2198 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2198:92: error: template argument 1 is invalid
+|  2198 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES> {
+|       |                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2203:31: error: 'VkPhysicalDeviceDynamicRenderingLocalReadFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR'?
+|  2203 | template <> struct LvlTypeMap<VkPhysicalDeviceDynamicRenderingLocalReadFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2203:80: error: template argument 1 is invalid
+|  2203 | template <> struct LvlTypeMap<VkPhysicalDeviceDynamicRenderingLocalReadFeatures> {
+|       |                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2207:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR'?
+|  2207 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2207:103: error: template argument 1 is invalid
+|  2207 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES> {
+|       |                                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2212:31: error: 'VkRenderingAttachmentLocationInfo' was not declared in this scope; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  2212 | template <> struct LvlTypeMap<VkRenderingAttachmentLocationInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2212:64: error: template argument 1 is invalid
+|  2212 | template <> struct LvlTypeMap<VkRenderingAttachmentLocationInfo> {
+|       |                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2216:32: error: 'VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO_KHR'?
+|  2216 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2216:84: error: template argument 1 is invalid
+|  2216 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO> {
+|       |                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2221:31: error: 'VkRenderingInputAttachmentIndexInfo' was not declared in this scope; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  2221 | template <> struct LvlTypeMap<VkRenderingInputAttachmentIndexInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2221:66: error: template argument 1 is invalid
+|  2221 | template <> struct LvlTypeMap<VkRenderingInputAttachmentIndexInfo> {
+|       |                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2225:32: error: 'VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO_KHR'?
+|  2225 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2225:87: error: template argument 1 is invalid
+|  2225 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO> {
+|       |                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2230:31: error: 'VkPhysicalDeviceMaintenance6Features' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  2230 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance6Features> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2230:67: error: template argument 1 is invalid
+|  2230 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance6Features> {
+|       |                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2234:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  2234 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2234:88: error: template argument 1 is invalid
+|  2234 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES> {
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2239:31: error: 'VkPhysicalDeviceMaintenance6Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  2239 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance6Properties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2239:69: error: template argument 1 is invalid
+|  2239 | template <> struct LvlTypeMap<VkPhysicalDeviceMaintenance6Properties> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2243:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  2243 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2243:90: error: template argument 1 is invalid
+|  2243 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2248:31: error: 'VkBindMemoryStatus' was not declared in this scope; did you mean 'VkBindMemoryStatusKHR'?
+|  2248 | template <> struct LvlTypeMap<VkBindMemoryStatus> {
+|       |                               ^~~~~~~~~~~~~~~~~~
+|       |                               VkBindMemoryStatusKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2248:49: error: template argument 1 is invalid
+|  2248 | template <> struct LvlTypeMap<VkBindMemoryStatus> {
+|       |                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2252:32: error: 'VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS_KHR'?
+|  2252 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2252:68: error: template argument 1 is invalid
+|  2252 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS> {
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2257:31: error: 'VkBindDescriptorSetsInfo' was not declared in this scope; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  2257 | template <> struct LvlTypeMap<VkBindDescriptorSetsInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2257:55: error: template argument 1 is invalid
+|  2257 | template <> struct LvlTypeMap<VkBindDescriptorSetsInfo> {
+|       |                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2261:32: error: 'VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_SETS_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_SETS_INFO_KHR'?
+|  2261 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_SETS_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_SETS_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2261:75: error: template argument 1 is invalid
+|  2261 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_SETS_INFO> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2266:31: error: 'VkPushConstantsInfo' was not declared in this scope; did you mean 'VkPushConstantsInfoKHR'?
+|  2266 | template <> struct LvlTypeMap<VkPushConstantsInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~
+|       |                               VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2266:50: error: template argument 1 is invalid
+|  2266 | template <> struct LvlTypeMap<VkPushConstantsInfo> {
+|       |                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2270:32: error: 'VK_STRUCTURE_TYPE_PUSH_CONSTANTS_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PUSH_CONSTANTS_INFO_KHR'?
+|  2270 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_CONSTANTS_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PUSH_CONSTANTS_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2270:69: error: template argument 1 is invalid
+|  2270 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_CONSTANTS_INFO> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2275:31: error: 'VkPushDescriptorSetInfo' was not declared in this scope; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  2275 | template <> struct LvlTypeMap<VkPushDescriptorSetInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2275:54: error: template argument 1 is invalid
+|  2275 | template <> struct LvlTypeMap<VkPushDescriptorSetInfo> {
+|       |                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2279:32: error: 'VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_INFO_KHR'?
+|  2279 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2279:74: error: template argument 1 is invalid
+|  2279 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_INFO> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2284:31: error: 'VkPushDescriptorSetWithTemplateInfo' was not declared in this scope; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  2284 | template <> struct LvlTypeMap<VkPushDescriptorSetWithTemplateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2284:66: error: template argument 1 is invalid
+|  2284 | template <> struct LvlTypeMap<VkPushDescriptorSetWithTemplateInfo> {
+|       |                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2288:32: error: 'VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO_KHR'?
+|  2288 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2288:88: error: template argument 1 is invalid
+|  2288 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO> {
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2293:31: error: 'VkPhysicalDevicePipelineProtectedAccessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineProtectedAccessFeaturesEXT'?
+|  2293 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineProtectedAccessFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDevicePipelineProtectedAccessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2293:78: error: template argument 1 is invalid
+|  2293 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineProtectedAccessFeatures> {
+|       |                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2297:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT'?
+|  2297 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2297:100: error: template argument 1 is invalid
+|  2297 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES> {
+|       |                                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2302:31: error: 'VkPhysicalDevicePipelineRobustnessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessFeaturesEXT'?
+|  2302 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDevicePipelineRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2302:73: error: template argument 1 is invalid
+|  2302 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessFeatures> {
+|       |                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2306:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT'?
+|  2306 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2306:94: error: template argument 1 is invalid
+|  2306 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES> {
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2311:31: error: 'VkPhysicalDevicePipelineRobustnessProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessPropertiesEXT'?
+|  2311 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDevicePipelineRobustnessPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2311:75: error: template argument 1 is invalid
+|  2311 | template <> struct LvlTypeMap<VkPhysicalDevicePipelineRobustnessProperties> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2315:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT'?
+|  2315 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2315:96: error: template argument 1 is invalid
+|  2315 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES> {
+|       |                                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2320:31: error: 'VkPipelineRobustnessCreateInfo' was not declared in this scope; did you mean 'VkPipelineRobustnessCreateInfoEXT'?
+|  2320 | template <> struct LvlTypeMap<VkPipelineRobustnessCreateInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPipelineRobustnessCreateInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2320:61: error: template argument 1 is invalid
+|  2320 | template <> struct LvlTypeMap<VkPipelineRobustnessCreateInfo> {
+|       |                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2324:32: error: 'VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO_EXT'?
+|  2324 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2324:81: error: template argument 1 is invalid
+|  2324 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO> {
+|       |                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2329:31: error: 'VkPhysicalDeviceHostImageCopyFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyFeaturesEXT'?
+|  2329 | template <> struct LvlTypeMap<VkPhysicalDeviceHostImageCopyFeatures> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceHostImageCopyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2329:68: error: template argument 1 is invalid
+|  2329 | template <> struct LvlTypeMap<VkPhysicalDeviceHostImageCopyFeatures> {
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2333:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT'?
+|  2333 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2333:90: error: template argument 1 is invalid
+|  2333 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2338:31: error: 'VkPhysicalDeviceHostImageCopyProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyPropertiesEXT'?
+|  2338 | template <> struct LvlTypeMap<VkPhysicalDeviceHostImageCopyProperties> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceHostImageCopyPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2338:70: error: template argument 1 is invalid
+|  2338 | template <> struct LvlTypeMap<VkPhysicalDeviceHostImageCopyProperties> {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2342:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT'?
+|  2342 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2342:92: error: template argument 1 is invalid
+|  2342 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES> {
+|       |                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2347:31: error: 'VkMemoryToImageCopy' was not declared in this scope; did you mean 'VkMemoryToImageCopyEXT'?
+|  2347 | template <> struct LvlTypeMap<VkMemoryToImageCopy> {
+|       |                               ^~~~~~~~~~~~~~~~~~~
+|       |                               VkMemoryToImageCopyEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2347:50: error: template argument 1 is invalid
+|  2347 | template <> struct LvlTypeMap<VkMemoryToImageCopy> {
+|       |                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2351:32: error: 'VK_STRUCTURE_TYPE_MEMORY_TO_IMAGE_COPY' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_MEMORY_TO_IMAGE_COPY_EXT'?
+|  2351 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_TO_IMAGE_COPY> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_MEMORY_TO_IMAGE_COPY_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2351:70: error: template argument 1 is invalid
+|  2351 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_MEMORY_TO_IMAGE_COPY> {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2356:31: error: 'VkImageToMemoryCopy' was not declared in this scope; did you mean 'VkImageToMemoryCopyEXT'?
+|  2356 | template <> struct LvlTypeMap<VkImageToMemoryCopy> {
+|       |                               ^~~~~~~~~~~~~~~~~~~
+|       |                               VkImageToMemoryCopyEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2356:50: error: template argument 1 is invalid
+|  2356 | template <> struct LvlTypeMap<VkImageToMemoryCopy> {
+|       |                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2360:32: error: 'VK_STRUCTURE_TYPE_IMAGE_TO_MEMORY_COPY' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_IMAGE_TO_MEMORY_COPY_EXT'?
+|  2360 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_TO_MEMORY_COPY> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_IMAGE_TO_MEMORY_COPY_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2360:70: error: template argument 1 is invalid
+|  2360 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_IMAGE_TO_MEMORY_COPY> {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2365:31: error: 'VkCopyMemoryToImageInfo' was not declared in this scope; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  2365 | template <> struct LvlTypeMap<VkCopyMemoryToImageInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2365:54: error: template argument 1 is invalid
+|  2365 | template <> struct LvlTypeMap<VkCopyMemoryToImageInfo> {
+|       |                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2369:32: error: 'VK_STRUCTURE_TYPE_COPY_MEMORY_TO_IMAGE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_COPY_MEMORY_TO_IMAGE_INFO_EXT'?
+|  2369 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_MEMORY_TO_IMAGE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_COPY_MEMORY_TO_IMAGE_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2369:75: error: template argument 1 is invalid
+|  2369 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_MEMORY_TO_IMAGE_INFO> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2374:31: error: 'VkCopyImageToMemoryInfo' was not declared in this scope; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  2374 | template <> struct LvlTypeMap<VkCopyImageToMemoryInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2374:54: error: template argument 1 is invalid
+|  2374 | template <> struct LvlTypeMap<VkCopyImageToMemoryInfo> {
+|       |                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2378:32: error: 'VK_STRUCTURE_TYPE_COPY_IMAGE_TO_MEMORY_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_COPY_IMAGE_TO_MEMORY_INFO_EXT'?
+|  2378 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_IMAGE_TO_MEMORY_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_COPY_IMAGE_TO_MEMORY_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2378:75: error: template argument 1 is invalid
+|  2378 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_IMAGE_TO_MEMORY_INFO> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2383:31: error: 'VkCopyImageToImageInfo' was not declared in this scope; did you mean 'VkCopyImageToImageInfoEXT'?
+|  2383 | template <> struct LvlTypeMap<VkCopyImageToImageInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2383:53: error: template argument 1 is invalid
+|  2383 | template <> struct LvlTypeMap<VkCopyImageToImageInfo> {
+|       |                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2387:32: error: 'VK_STRUCTURE_TYPE_COPY_IMAGE_TO_IMAGE_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_COPY_IMAGE_TO_IMAGE_INFO_EXT'?
+|  2387 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_IMAGE_TO_IMAGE_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_COPY_IMAGE_TO_IMAGE_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2387:74: error: template argument 1 is invalid
+|  2387 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COPY_IMAGE_TO_IMAGE_INFO> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2392:31: error: 'VkHostImageLayoutTransitionInfo' was not declared in this scope; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  2392 | template <> struct LvlTypeMap<VkHostImageLayoutTransitionInfo> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2392:62: error: template argument 1 is invalid
+|  2392 | template <> struct LvlTypeMap<VkHostImageLayoutTransitionInfo> {
+|       |                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2396:32: error: 'VK_STRUCTURE_TYPE_HOST_IMAGE_LAYOUT_TRANSITION_INFO' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_HOST_IMAGE_LAYOUT_TRANSITION_INFO_EXT'?
+|  2396 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HOST_IMAGE_LAYOUT_TRANSITION_INFO> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_HOST_IMAGE_LAYOUT_TRANSITION_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2396:83: error: template argument 1 is invalid
+|  2396 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HOST_IMAGE_LAYOUT_TRANSITION_INFO> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2401:31: error: 'VkSubresourceHostMemcpySize' was not declared in this scope; did you mean 'VkSubresourceHostMemcpySizeEXT'?
+|  2401 | template <> struct LvlTypeMap<VkSubresourceHostMemcpySize> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkSubresourceHostMemcpySizeEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2401:58: error: template argument 1 is invalid
+|  2401 | template <> struct LvlTypeMap<VkSubresourceHostMemcpySize> {
+|       |                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2405:32: error: 'VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE_EXT'?
+|  2405 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2405:78: error: template argument 1 is invalid
+|  2405 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE> {
+|       |                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2410:31: error: 'VkHostImageCopyDevicePerformanceQuery' was not declared in this scope; did you mean 'VkHostImageCopyDevicePerformanceQueryEXT'?
+|  2410 | template <> struct LvlTypeMap<VkHostImageCopyDevicePerformanceQuery> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkHostImageCopyDevicePerformanceQueryEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2410:68: error: template argument 1 is invalid
+|  2410 | template <> struct LvlTypeMap<VkHostImageCopyDevicePerformanceQuery> {
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2414:32: error: 'VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY_EXT'?
+|  2414 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:2414:90: error: template argument 1 is invalid
+|  2414 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:3996:31: error: 'VkPhysicalDeviceVideoEncodeAV1FeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceVideoMaintenance1FeaturesKHR'?
+|  3996 | template <> struct LvlTypeMap<VkPhysicalDeviceVideoEncodeAV1FeaturesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVideoMaintenance1FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:3996:72: error: template argument 1 is invalid
+|  3996 | template <> struct LvlTypeMap<VkPhysicalDeviceVideoEncodeAV1FeaturesKHR> {
+|       |                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4000:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR'?
+|  4000 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4000:95: error: template argument 1 is invalid
+|  4000 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4005:31: error: 'VkVideoEncodeAV1CapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1CapabilitiesKHR'?
+|  4005 | template <> struct LvlTypeMap<VkVideoEncodeAV1CapabilitiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoDecodeAV1CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4005:62: error: template argument 1 is invalid
+|  4005 | template <> struct LvlTypeMap<VkVideoEncodeAV1CapabilitiesKHR> {
+|       |                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4009:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_CAPABILITIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR'?
+|  4009 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_CAPABILITIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4009:83: error: template argument 1 is invalid
+|  4009 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_CAPABILITIES_KHR> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4014:31: error: 'VkVideoEncodeAV1QualityLevelPropertiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeQualityLevelPropertiesKHR'?
+|  4014 | template <> struct LvlTypeMap<VkVideoEncodeAV1QualityLevelPropertiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeQualityLevelPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4014:72: error: template argument 1 is invalid
+|  4014 | template <> struct LvlTypeMap<VkVideoEncodeAV1QualityLevelPropertiesKHR> {
+|       |                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4018:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUALITY_LEVEL_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUALITY_LEVEL_PROPERTIES_KHR'?
+|  4018 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUALITY_LEVEL_PROPERTIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUALITY_LEVEL_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4018:95: error: template argument 1 is invalid
+|  4018 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUALITY_LEVEL_PROPERTIES_KHR> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4023:31: error: 'VkVideoEncodeAV1SessionCreateInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265SessionCreateInfoKHR'?
+|  4023 | template <> struct LvlTypeMap<VkVideoEncodeAV1SessionCreateInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265SessionCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4023:67: error: template argument 1 is invalid
+|  4023 | template <> struct LvlTypeMap<VkVideoEncodeAV1SessionCreateInfoKHR> {
+|       |                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4027:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_CREATE_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_CREATE_INFO_KHR'?
+|  4027 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_CREATE_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4027:90: error: template argument 1 is invalid
+|  4027 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_CREATE_INFO_KHR> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4032:31: error: 'VkVideoEncodeAV1SessionParametersCreateInfoKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1SessionParametersCreateInfoKHR'?
+|  4032 | template <> struct LvlTypeMap<VkVideoEncodeAV1SessionParametersCreateInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoDecodeAV1SessionParametersCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4032:77: error: template argument 1 is invalid
+|  4032 | template <> struct LvlTypeMap<VkVideoEncodeAV1SessionParametersCreateInfoKHR> {
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4036:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR'?
+|  4036 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4036:101: error: template argument 1 is invalid
+|  4036 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR> {
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4041:31: error: 'VkVideoEncodeAV1PictureInfoKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1PictureInfoKHR'?
+|  4041 | template <> struct LvlTypeMap<VkVideoEncodeAV1PictureInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoDecodeAV1PictureInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4041:61: error: template argument 1 is invalid
+|  4041 | template <> struct LvlTypeMap<VkVideoEncodeAV1PictureInfoKHR> {
+|       |                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4045:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PICTURE_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR'?
+|  4045 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PICTURE_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4045:83: error: template argument 1 is invalid
+|  4045 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PICTURE_INFO_KHR> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4050:31: error: 'VkVideoEncodeAV1DpbSlotInfoKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1DpbSlotInfoKHR'?
+|  4050 | template <> struct LvlTypeMap<VkVideoEncodeAV1DpbSlotInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoDecodeAV1DpbSlotInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4050:61: error: template argument 1 is invalid
+|  4050 | template <> struct LvlTypeMap<VkVideoEncodeAV1DpbSlotInfoKHR> {
+|       |                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4054:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_DPB_SLOT_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR'?
+|  4054 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_DPB_SLOT_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4054:84: error: template argument 1 is invalid
+|  4054 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_DPB_SLOT_INFO_KHR> {
+|       |                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4059:31: error: 'VkVideoEncodeAV1ProfileInfoKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1ProfileInfoKHR'?
+|  4059 | template <> struct LvlTypeMap<VkVideoEncodeAV1ProfileInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoDecodeAV1ProfileInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4059:61: error: template argument 1 is invalid
+|  4059 | template <> struct LvlTypeMap<VkVideoEncodeAV1ProfileInfoKHR> {
+|       |                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4063:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PROFILE_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR'?
+|  4063 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PROFILE_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4063:83: error: template argument 1 is invalid
+|  4063 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PROFILE_INFO_KHR> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4068:31: error: 'VkVideoEncodeAV1GopRemainingFrameInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265GopRemainingFrameInfoKHR'?
+|  4068 | template <> struct LvlTypeMap<VkVideoEncodeAV1GopRemainingFrameInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265GopRemainingFrameInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4068:71: error: template argument 1 is invalid
+|  4068 | template <> struct LvlTypeMap<VkVideoEncodeAV1GopRemainingFrameInfoKHR> {
+|       |                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4072:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_GOP_REMAINING_FRAME_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_GOP_REMAINING_FRAME_INFO_KHR'?
+|  4072 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_GOP_REMAINING_FRAME_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_GOP_REMAINING_FRAME_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4072:95: error: template argument 1 is invalid
+|  4072 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_GOP_REMAINING_FRAME_INFO_KHR> {
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4077:31: error: 'VkVideoEncodeAV1RateControlInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeRateControlInfoKHR'?
+|  4077 | template <> struct LvlTypeMap<VkVideoEncodeAV1RateControlInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeRateControlInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4077:65: error: template argument 1 is invalid
+|  4077 | template <> struct LvlTypeMap<VkVideoEncodeAV1RateControlInfoKHR> {
+|       |                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4081:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_RATE_CONTROL_INFO_KHR'?
+|  4081 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_RATE_CONTROL_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4081:88: error: template argument 1 is invalid
+|  4081 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR> {
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4086:31: error: 'VkVideoEncodeAV1RateControlLayerInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeRateControlLayerInfoKHR'?
+|  4086 | template <> struct LvlTypeMap<VkVideoEncodeAV1RateControlLayerInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeRateControlLayerInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4086:70: error: template argument 1 is invalid
+|  4086 | template <> struct LvlTypeMap<VkVideoEncodeAV1RateControlLayerInfoKHR> {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4090:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_LAYER_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_RATE_CONTROL_LAYER_INFO_KHR'?
+|  4090 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_LAYER_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_RATE_CONTROL_LAYER_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4090:94: error: template argument 1 is invalid
+|  4090 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_LAYER_INFO_KHR> {
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4140:31: error: 'VkVideoEncodeQuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265CapabilitiesKHR'?
+|  4140 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapCapabilitiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4140:74: error: template argument 1 is invalid
+|  4140 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapCapabilitiesKHR> {
+|       |                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4144:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_CAPABILITIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_CAPABILITIES_KHR'?
+|  4144 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_CAPABILITIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4144:96: error: template argument 1 is invalid
+|  4144 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4149:31: error: 'VkVideoFormatQuantizationMapPropertiesKHR' was not declared in this scope
+|  4149 | template <> struct LvlTypeMap<VkVideoFormatQuantizationMapPropertiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4149:72: error: template argument 1 is invalid
+|  4149 | template <> struct LvlTypeMap<VkVideoFormatQuantizationMapPropertiesKHR> {
+|       |                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4153:32: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR'?
+|  4153 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4153:94: error: template argument 1 is invalid
+|  4153 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4158:31: error: 'VkVideoEncodeQuantizationMapInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeQualityLevelInfoKHR'?
+|  4158 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeQualityLevelInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4158:66: error: template argument 1 is invalid
+|  4158 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapInfoKHR> {
+|       |                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4162:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR'?
+|  4162 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4162:88: error: template argument 1 is invalid
+|  4162 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_INFO_KHR> {
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4167:31: error: 'VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265SessionParametersCreateInfoKHR'?
+|  4167 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265SessionParametersCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4167:89: error: template argument 1 is invalid
+|  4167 | template <> struct LvlTypeMap<VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR> {
+|       |                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4171:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_SESSION_PARAMETERS_CREATE_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR'?
+|  4171 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_SESSION_PARAMETERS_CREATE_INFO_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4171:114: error: template argument 1 is invalid
+|  4171 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_SESSION_PARAMETERS_CREATE_INFO_KHR> {
+|       |                                                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4176:31: error: 'VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceSynchronization2FeaturesKHR'?
+|  4176 | template <> struct LvlTypeMap<VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceSynchronization2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4176:84: error: template argument 1 is invalid
+|  4176 | template <> struct LvlTypeMap<VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR> {
+|       |                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4180:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR'?
+|  4180 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4180:108: error: template argument 1 is invalid
+|  4180 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR> {
+|       |                                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4185:31: error: 'VkVideoEncodeH264QuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH264CapabilitiesKHR'?
+|  4185 | template <> struct LvlTypeMap<VkVideoEncodeH264QuantizationMapCapabilitiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH264CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4185:78: error: template argument 1 is invalid
+|  4185 | template <> struct LvlTypeMap<VkVideoEncodeH264QuantizationMapCapabilitiesKHR> {
+|       |                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4189:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_QUANTIZATION_MAP_CAPABILITIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_CAPABILITIES_KHR'?
+|  4189 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_CAPABILITIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4189:101: error: template argument 1 is invalid
+|  4189 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4194:31: error: 'VkVideoEncodeH265QuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265CapabilitiesKHR'?
+|  4194 | template <> struct LvlTypeMap<VkVideoEncodeH265QuantizationMapCapabilitiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4194:78: error: template argument 1 is invalid
+|  4194 | template <> struct LvlTypeMap<VkVideoEncodeH265QuantizationMapCapabilitiesKHR> {
+|       |                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4198:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUANTIZATION_MAP_CAPABILITIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_CAPABILITIES_KHR'?
+|  4198 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_CAPABILITIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4198:101: error: template argument 1 is invalid
+|  4198 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4203:31: error: 'VkVideoFormatH265QuantizationMapPropertiesKHR' was not declared in this scope
+|  4203 | template <> struct LvlTypeMap<VkVideoFormatH265QuantizationMapPropertiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4203:76: error: template argument 1 is invalid
+|  4203 | template <> struct LvlTypeMap<VkVideoFormatH265QuantizationMapPropertiesKHR> {
+|       |                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4207:32: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR'?
+|  4207 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4207:99: error: template argument 1 is invalid
+|  4207 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4212:31: error: 'VkVideoEncodeAV1QuantizationMapCapabilitiesKHR' was not declared in this scope
+|  4212 | template <> struct LvlTypeMap<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4212:77: error: template argument 1 is invalid
+|  4212 | template <> struct LvlTypeMap<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR> {
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4216:32: error: 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUANTIZATION_MAP_CAPABILITIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR'?
+|  4216 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4216:100: error: template argument 1 is invalid
+|  4216 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUANTIZATION_MAP_CAPABILITIES_KHR> {
+|       |                                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4221:31: error: 'VkVideoFormatAV1QuantizationMapPropertiesKHR' was not declared in this scope
+|  4221 | template <> struct LvlTypeMap<VkVideoFormatAV1QuantizationMapPropertiesKHR> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4221:75: error: template argument 1 is invalid
+|  4221 | template <> struct LvlTypeMap<VkVideoFormatAV1QuantizationMapPropertiesKHR> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4225:32: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR'?
+|  4225 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4225:98: error: template argument 1 is invalid
+|  4225 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR> {
+|       |                                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4392:31: error: 'VkCuModuleTexturingModeCreateInfoNVX' was not declared in this scope
+|  4392 | template <> struct LvlTypeMap<VkCuModuleTexturingModeCreateInfoNVX> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4392:67: error: template argument 1 is invalid
+|  4392 | template <> struct LvlTypeMap<VkCuModuleTexturingModeCreateInfoNVX> {
+|       |                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4396:32: error: 'VK_STRUCTURE_TYPE_CU_MODULE_TEXTURING_MODE_CREATE_INFO_NVX' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_CU_MODULE_CREATE_INFO_NVX'?
+|  4396 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_CU_MODULE_TEXTURING_MODE_CREATE_INFO_NVX> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_CU_MODULE_CREATE_INFO_NVX
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:4396:90: error: template argument 1 is invalid
+|  4396 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_CU_MODULE_TEXTURING_MODE_CREATE_INFO_NVX> {
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:6862:31: error: 'VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT'?
+|  6862 | template <> struct LvlTypeMap<VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:6862:84: error: template argument 1 is invalid
+|  6862 | template <> struct LvlTypeMap<VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT> {
+|       |                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:6866:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT'?
+|  6866 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:6866:109: error: template argument 1 is invalid
+|  6866 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT> {
+|       |                                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8428:31: error: 'VkDisplaySurfaceStereoCreateInfoNV' was not declared in this scope; did you mean 'VkDisplaySurfaceCreateInfoKHR'?
+|  8428 | template <> struct LvlTypeMap<VkDisplaySurfaceStereoCreateInfoNV> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkDisplaySurfaceCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8428:65: error: template argument 1 is invalid
+|  8428 | template <> struct LvlTypeMap<VkDisplaySurfaceStereoCreateInfoNV> {
+|       |                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8432:32: error: 'VK_STRUCTURE_TYPE_DISPLAY_SURFACE_STEREO_CREATE_INFO_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR'?
+|  8432 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DISPLAY_SURFACE_STEREO_CREATE_INFO_NV> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8432:87: error: template argument 1 is invalid
+|  8432 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DISPLAY_SURFACE_STEREO_CREATE_INFO_NV> {
+|       |                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8437:31: error: 'VkDisplayModeStereoPropertiesNV' was not declared in this scope; did you mean 'VkDisplayModePropertiesKHR'?
+|  8437 | template <> struct LvlTypeMap<VkDisplayModeStereoPropertiesNV> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkDisplayModePropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8437:62: error: template argument 1 is invalid
+|  8437 | template <> struct LvlTypeMap<VkDisplayModeStereoPropertiesNV> {
+|       |                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8441:32: error: 'VK_STRUCTURE_TYPE_DISPLAY_MODE_STEREO_PROPERTIES_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR'?
+|  8441 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DISPLAY_MODE_STEREO_PROPERTIES_NV> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8441:83: error: template argument 1 is invalid
+|  8441 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_DISPLAY_MODE_STEREO_PROPERTIES_NV> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8662:31: error: 'VkPhysicalDeviceHdrVividFeaturesHUAWEI' was not declared in this scope; did you mean 'VkPhysicalDeviceMultiviewFeaturesKHR'?
+|  8662 | template <> struct LvlTypeMap<VkPhysicalDeviceHdrVividFeaturesHUAWEI> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceMultiviewFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8662:69: error: template argument 1 is invalid
+|  8662 | template <> struct LvlTypeMap<VkPhysicalDeviceHdrVividFeaturesHUAWEI> {
+|       |                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8666:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI'?
+|  8666 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8666:91: error: template argument 1 is invalid
+|  8666 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI> {
+|       |                                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8671:31: error: 'VkHdrVividDynamicMetadataHUAWEI' was not declared in this scope
+|  8671 | template <> struct LvlTypeMap<VkHdrVividDynamicMetadataHUAWEI> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8671:62: error: template argument 1 is invalid
+|  8671 | template <> struct LvlTypeMap<VkHdrVividDynamicMetadataHUAWEI> {
+|       |                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8675:32: error: 'VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI' was not declared in this scope
+|  8675 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8675:83: error: template argument 1 is invalid
+|  8675 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8680:31: error: 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV' was not declared in this scope
+|  8680 | template <> struct LvlTypeMap<VkCooperativeMatrixFlexibleDimensionsPropertiesNV> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8680:80: error: template argument 1 is invalid
+|  8680 | template <> struct LvlTypeMap<VkCooperativeMatrixFlexibleDimensionsPropertiesNV> {
+|       |                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8684:32: error: 'VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_FLEXIBLE_DIMENSIONS_PROPERTIES_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV'?
+|  8684 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_FLEXIBLE_DIMENSIONS_PROPERTIES_NV> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8684:102: error: template argument 1 is invalid
+|  8684 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_FLEXIBLE_DIMENSIONS_PROPERTIES_NV> {
+|       |                                                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8689:31: error: 'VkPhysicalDeviceCooperativeMatrix2FeaturesNV' was not declared in this scope; did you mean 'VkPhysicalDeviceCooperativeMatrixFeaturesNV'?
+|  8689 | template <> struct LvlTypeMap<VkPhysicalDeviceCooperativeMatrix2FeaturesNV> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceCooperativeMatrixFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8689:75: error: template argument 1 is invalid
+|  8689 | template <> struct LvlTypeMap<VkPhysicalDeviceCooperativeMatrix2FeaturesNV> {
+|       |                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8693:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV'?
+|  8693 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8693:98: error: template argument 1 is invalid
+|  8693 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV> {
+|       |                                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8698:31: error: 'VkPhysicalDeviceCooperativeMatrix2PropertiesNV' was not declared in this scope; did you mean 'VkPhysicalDeviceCooperativeMatrixPropertiesNV'?
+|  8698 | template <> struct LvlTypeMap<VkPhysicalDeviceCooperativeMatrix2PropertiesNV> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceCooperativeMatrixPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8698:77: error: template argument 1 is invalid
+|  8698 | template <> struct LvlTypeMap<VkPhysicalDeviceCooperativeMatrix2PropertiesNV> {
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8702:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_PROPERTIES_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV'?
+|  8702 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_PROPERTIES_NV> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8702:100: error: template argument 1 is invalid
+|  8702 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_PROPERTIES_NV> {
+|       |                                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8707:31: error: 'VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT'?
+|  8707 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT> {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8707:83: error: template argument 1 is invalid
+|  8707 | template <> struct LvlTypeMap<VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT> {
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8711:32: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT'?
+|  8711 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT> {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8711:106: error: template argument 1 is invalid
+|  8711 | template <> struct LvlSTypeMap<VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT> {
+|       |                                                                                                          ^
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:25,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/mock_icd.cpp:18:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1630:11: error: 'VkMemoryMapInfo' does not name a type; did you mean 'VkMemoryMapInfoKHR'?
+|  1630 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1635:11: error: 'VkMemoryUnmapInfo' does not name a type; did you mean 'VkMemoryUnmapInfoKHR'?
+|  1635 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo);
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1646:11: error: 'VkRenderingAreaInfo' does not name a type; did you mean 'VkRenderingAreaInfoKHR'?
+|  1646 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1651:11: error: 'VkDeviceImageSubresourceInfo' does not name a type; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  1651 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1652:5: error: 'VkSubresourceLayout2' has not been declared
+|  1652 |     VkSubresourceLayout2*                       pLayout);
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1657:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  1657 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1658:5: error: 'VkSubresourceLayout2' has not been declared
+|  1658 |     VkSubresourceLayout2*                       pLayout);
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1677:11: error: 'VkRenderingAttachmentLocationInfo' does not name a type; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  1677 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1681:11: error: 'VkRenderingInputAttachmentIndexInfo' does not name a type; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  1681 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1685:11: error: 'VkBindDescriptorSetsInfo' does not name a type; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  1685 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1689:11: error: 'VkPushConstantsInfo' does not name a type; did you mean 'VkPushConstantsInfoKHR'?
+|  1689 |     const VkPushConstantsInfo*                  pPushConstantsInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1693:11: error: 'VkPushDescriptorSetInfo' does not name a type; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  1693 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1697:11: error: 'VkPushDescriptorSetWithTemplateInfo' does not name a type; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  1697 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1701:11: error: 'VkCopyMemoryToImageInfo' does not name a type; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  1701 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1705:11: error: 'VkCopyImageToMemoryInfo' does not name a type; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  1705 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1709:11: error: 'VkCopyImageToImageInfo' does not name a type; did you mean 'VkCopyImageToImageInfoEXT'?
+|  1709 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:1714:11: error: 'VkHostImageLayoutTransitionInfo' does not name a type; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  1714 |     const VkHostImageLayoutTransitionInfo*      pTransitions);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2387:11: error: 'VkRenderingAttachmentLocationInfo' does not name a type; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  2387 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2391:11: error: 'VkRenderingInputAttachmentIndexInfo' does not name a type; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  2391 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2463:11: error: 'VkMemoryMapInfo' does not name a type; did you mean 'VkMemoryMapInfoKHR'?
+|  2463 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2468:11: error: 'VkMemoryUnmapInfo' does not name a type; did you mean 'VkMemoryUnmapInfoKHR'?
+|  2468 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo);
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2589:11: error: 'VkRenderingAreaInfo' does not name a type; did you mean 'VkRenderingAreaInfoKHR'?
+|  2589 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2594:11: error: 'VkDeviceImageSubresourceInfo' does not name a type; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  2594 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2595:5: error: 'VkSubresourceLayout2' has not been declared
+|  2595 |     VkSubresourceLayout2*                       pLayout);
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2600:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  2600 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2601:5: error: 'VkSubresourceLayout2' has not been declared
+|  2601 |     VkSubresourceLayout2*                       pLayout);
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2670:11: error: 'VkBindDescriptorSetsInfo' does not name a type; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  2670 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2674:11: error: 'VkPushConstantsInfo' does not name a type; did you mean 'VkPushConstantsInfoKHR'?
+|  2674 |     const VkPushConstantsInfo*                  pPushConstantsInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2678:11: error: 'VkPushDescriptorSetInfo' does not name a type; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  2678 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:2682:11: error: 'VkPushDescriptorSetWithTemplateInfo' does not name a type; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  2682 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3631:11: error: 'VkCopyMemoryToImageInfo' does not name a type; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  3631 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3635:11: error: 'VkCopyImageToMemoryInfo' does not name a type; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  3635 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3639:11: error: 'VkCopyImageToImageInfo' does not name a type; did you mean 'VkCopyImageToImageInfoEXT'?
+|  3639 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3644:11: error: 'VkHostImageLayoutTransitionInfo' does not name a type; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  3644 |     const VkHostImageLayoutTransitionInfo*      pTransitions);
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3649:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  3649 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:3650:5: error: 'VkSubresourceLayout2' has not been declared
+|  3650 |     VkSubresourceLayout2*                       pLayout);
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_declarations.h:4583:5: error: 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV' has not been declared
+|  4583 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2351:11: error: 'VkMemoryMapInfo' does not name a type; did you mean 'VkMemoryMapInfoKHR'?
+|  2351 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2359:11: error: 'VkMemoryUnmapInfo' does not name a type; did you mean 'VkMemoryUnmapInfoKHR'?
+|  2359 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo)
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2376:11: error: 'VkRenderingAreaInfo' does not name a type; did you mean 'VkRenderingAreaInfoKHR'?
+|  2376 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2384:11: error: 'VkDeviceImageSubresourceInfo' does not name a type; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  2384 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2385:5: error: 'VkSubresourceLayout2' has not been declared
+|  2385 |     VkSubresourceLayout2*                       pLayout)
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2393:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  2393 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2394:5: error: 'VkSubresourceLayout2' has not been declared
+|  2394 |     VkSubresourceLayout2*                       pLayout)
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2422:11: error: 'VkRenderingAttachmentLocationInfo' does not name a type; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  2422 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2429:11: error: 'VkRenderingInputAttachmentIndexInfo' does not name a type; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  2429 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2436:11: error: 'VkBindDescriptorSetsInfo' does not name a type; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  2436 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2443:11: error: 'VkPushConstantsInfo' does not name a type; did you mean 'VkPushConstantsInfoKHR'?
+|  2443 |     const VkPushConstantsInfo*                  pPushConstantsInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2450:11: error: 'VkPushDescriptorSetInfo' does not name a type; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  2450 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2457:11: error: 'VkPushDescriptorSetWithTemplateInfo' does not name a type; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  2457 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2464:11: error: 'VkCopyMemoryToImageInfo' does not name a type; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  2464 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2472:11: error: 'VkCopyImageToMemoryInfo' does not name a type; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  2472 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2480:11: error: 'VkCopyImageToImageInfo' does not name a type; did you mean 'VkCopyImageToImageInfoEXT'?
+|  2480 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2489:11: error: 'VkHostImageLayoutTransitionInfo' does not name a type; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  2489 |     const VkHostImageLayoutTransitionInfo*      pTransitions)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: In function 'VkResult vkmock::GetPhysicalDeviceVideoCapabilitiesKHR(VkPhysicalDevice, const VkVideoProfileInfoKHR*, VkVideoCapabilitiesKHR*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2912:31: error: 'VkVideoEncodeQuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265CapabilitiesKHR'?
+|  2912 |         lvl_find_mod_in_chain<VkVideoEncodeQuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2912:75: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  2912 |         lvl_find_mod_in_chain<VkVideoEncodeQuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2912:75: error: template argument 1 is invalid
+|  2912 |         lvl_find_mod_in_chain<VkVideoEncodeQuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2914:31: error: 'VkVideoEncodeH264QuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH264CapabilitiesKHR'?
+|  2914 |         lvl_find_mod_in_chain<VkVideoEncodeH264QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH264CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2914:79: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  2914 |         lvl_find_mod_in_chain<VkVideoEncodeH264QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2914:79: error: template argument 1 is invalid
+|  2914 |         lvl_find_mod_in_chain<VkVideoEncodeH264QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2916:31: error: 'VkVideoEncodeH265QuantizationMapCapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoEncodeH265CapabilitiesKHR'?
+|  2916 |         lvl_find_mod_in_chain<VkVideoEncodeH265QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               VkVideoEncodeH265CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2916:79: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  2916 |         lvl_find_mod_in_chain<VkVideoEncodeH265QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2916:79: error: template argument 1 is invalid
+|  2916 |         lvl_find_mod_in_chain<VkVideoEncodeH265QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2918:31: error: 'VkVideoEncodeAV1QuantizationMapCapabilitiesKHR' was not declared in this scope
+|  2918 |         lvl_find_mod_in_chain<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2918:78: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  2918 |         lvl_find_mod_in_chain<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2918:78: error: template argument 1 is invalid
+|  2918 |         lvl_find_mod_in_chain<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR>(pCapabilities->pNext);
+|       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2921:50: error: 'VkVideoEncodeAV1CapabilitiesKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1CapabilitiesKHR'?
+|  2921 |     auto caps_encode_av1 = lvl_find_mod_in_chain<VkVideoEncodeAV1CapabilitiesKHR>(pCapabilities->pNext);
+|       |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                  VkVideoDecodeAV1CapabilitiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2921:82: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  2921 |     auto caps_encode_av1 = lvl_find_mod_in_chain<VkVideoEncodeAV1CapabilitiesKHR>(pCapabilities->pNext);
+|       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:2921:82: error: template argument 1 is invalid
+|  2921 |     auto caps_encode_av1 = lvl_find_mod_in_chain<VkVideoEncodeAV1CapabilitiesKHR>(pCapabilities->pNext);
+|       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3074:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope
+|  3074 |                                        | VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3075:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR'?
+|  3075 |                                        | VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR;
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3207:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR'?
+|  3207 |                     caps_encode->flags = VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR;
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3250:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope
+|  3250 |                     caps_encode->flags = VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR;
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3331:14: error: 'VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR'?
+|  3331 |         case VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR: {
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3332:46: error: 'VkVideoEncodeAV1ProfileInfoKHR' was not declared in this scope; did you mean 'VkVideoDecodeAV1ProfileInfoKHR'?
+|  3332 |             auto profile = lvl_find_in_chain<VkVideoEncodeAV1ProfileInfoKHR>(pVideoProfile->pNext);
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              VkVideoDecodeAV1ProfileInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3332:77: error: no matching function for call to 'lvl_find_in_chain<<expression error> >(const void* const&)'
+|  3332 |             auto profile = lvl_find_in_chain<VkVideoEncodeAV1ProfileInfoKHR>(pVideoProfile->pNext);
+|       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8933:32: note: candidate: 'template<class T> const T* lvl_find_in_chain(const void*)'
+|  8933 | template <typename T> const T *lvl_find_in_chain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8933:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3332:77: error: template argument 1 is invalid
+|  3332 |             auto profile = lvl_find_in_chain<VkVideoEncodeAV1ProfileInfoKHR>(pVideoProfile->pNext);
+|       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3345:64: error: 'VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME'?
+|  3345 |             std::strncpy(caps->stdHeaderVersion.extensionName, VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME, sizeof(caps->stdHeaderVersion.extensionName));
+|       |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3346:55: error: 'VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_VERSION' was not declared in this scope; did you mean 'VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION'?
+|  3346 |             caps->stdHeaderVersion.specVersion      = VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_VERSION;
+|       |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                       VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3350:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope
+|  3350 |                     caps_encode->flags = VK_VIDEO_ENCODE_CAPABILITY_QUANTIZATION_DELTA_MAP_BIT_KHR
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3351:42: error: 'VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR'?
+|  3351 |                                        | VK_VIDEO_ENCODE_CAPABILITY_EMPHASIS_MAP_BIT_KHR;
+|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                          VK_VIDEO_ENCODE_CAPABILITY_FLAG_BITS_MAX_ENUM_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3359:46: error: 'VK_VIDEO_ENCODE_AV1_CAPABILITY_PRIMARY_REFERENCE_CDF_ONLY_BIT_KHR' was not declared in this scope
+|  3359 |                     caps_encode_av1->flags = VK_VIDEO_ENCODE_AV1_CAPABILITY_PRIMARY_REFERENCE_CDF_ONLY_BIT_KHR;
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3364:56: error: 'VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR'?
+|  3364 |                     caps_encode_av1->superblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR;
+|       |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                        VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3402:46: error: 'VK_VIDEO_ENCODE_AV1_CAPABILITY_GENERATE_OBU_EXTENSION_HEADER_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H264_CAPABILITY_GENERATE_PREFIX_NALU_BIT_KHR'?
+|  3402 |                                            | VK_VIDEO_ENCODE_AV1_CAPABILITY_GENERATE_OBU_EXTENSION_HEADER_BIT_KHR
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              VK_VIDEO_ENCODE_H264_CAPABILITY_GENERATE_PREFIX_NALU_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3403:46: error: 'VK_VIDEO_ENCODE_AV1_CAPABILITY_FRAME_SIZE_OVERRIDE_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_CAPABILITY_B_FRAME_IN_L1_LIST_BIT_KHR'?
+|  3403 |                                            | VK_VIDEO_ENCODE_AV1_CAPABILITY_FRAME_SIZE_OVERRIDE_BIT_KHR;
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              VK_VIDEO_ENCODE_H265_CAPABILITY_B_FRAME_IN_L1_LIST_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3409:56: error: 'VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_TRANSFORM_BLOCK_SIZE_8_BIT_KHR'?
+|  3409 |                                                      | VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR;
+|       |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                        VK_VIDEO_ENCODE_H265_TRANSFORM_BLOCK_SIZE_8_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3450:46: error: 'VK_VIDEO_ENCODE_AV1_CAPABILITY_PER_RATE_CONTROL_GROUP_MIN_MAX_Q_INDEX_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_CAPABILITY_PER_PICTURE_TYPE_MIN_MAX_QP_BIT_KHR'?
+|  3450 |                     caps_encode_av1->flags = VK_VIDEO_ENCODE_AV1_CAPABILITY_PER_RATE_CONTROL_GROUP_MIN_MAX_Q_INDEX_BIT_KHR
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              VK_VIDEO_ENCODE_H265_CAPABILITY_PER_PICTURE_TYPE_MIN_MAX_QP_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3452:46: error: 'VK_VIDEO_ENCODE_AV1_CAPABILITY_MOTION_VECTOR_SCALING_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H264_CAPABILITY_ROW_UNALIGNED_SLICE_BIT_KHR'?
+|  3452 |                                            | VK_VIDEO_ENCODE_AV1_CAPABILITY_MOTION_VECTOR_SCALING_BIT_KHR;
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              VK_VIDEO_ENCODE_H264_CAPABILITY_ROW_UNALIGNED_SLICE_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: In function 'VkResult vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3510:9: error: 'VkVideoFormatQuantizationMapPropertiesKHR' does not name a type
+|  3510 |         VkVideoFormatQuantizationMapPropertiesKHR props_quantization_map;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3511:9: error: 'VkVideoFormatH265QuantizationMapPropertiesKHR' does not name a type
+|  3511 |         VkVideoFormatH265QuantizationMapPropertiesKHR props_h265_quantization_map;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3512:9: error: 'VkVideoFormatAV1QuantizationMapPropertiesKHR' does not name a type
+|  3512 |         VkVideoFormatAV1QuantizationMapPropertiesKHR props_av1_quantization_map;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3523:9: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3523 |     fmt.props_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3523:40: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR'?
+|  3523 |     fmt.props_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                        VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3524:9: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_h265_quantization_map'
+|  3524 |     fmt.props_h265_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3524:45: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR'?
+|  3524 |     fmt.props_h265_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3525:9: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3525 |     fmt.props_av1_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3525:44: error: 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR'?
+|  3525 |     fmt.props_av1_quantization_map.sType = VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR;
+|       |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                            VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3574:14: error: 'VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR'?
+|  3574 |         case VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3627:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR'?
+|  3627 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3628:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3628 |                     fmt.props_quantization_map.quantizationMapTexelSize = {16, 16};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3632:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR'?
+|  3632 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3639:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3639 |                     fmt.props_quantization_map.quantizationMapTexelSize = {16, 16};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3653:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR'?
+|  3653 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3654:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3654 |                     fmt.props_quantization_map.quantizationMapTexelSize = {4, 4};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3655:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_h265_quantization_map'
+|  3655 |                     fmt.props_h265_quantization_map.compatibleCtbSizes =
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3658:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3658 |                     fmt.props_quantization_map.quantizationMapTexelSize = {8, 8};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3660:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3660 |                     fmt.props_quantization_map.quantizationMapTexelSize = {32, 32};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3662:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3662 |                     fmt.props_quantization_map.quantizationMapTexelSize = {64, 64};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3663:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_h265_quantization_map'
+|  3663 |                     fmt.props_h265_quantization_map.compatibleCtbSizes = VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3669:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR'?
+|  3669 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3670:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3670 |                     fmt.props_quantization_map.quantizationMapTexelSize = {32, 32};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3671:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_h265_quantization_map'
+|  3671 |                     fmt.props_h265_quantization_map.compatibleCtbSizes =
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3674:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3674 |                     fmt.props_quantization_map.quantizationMapTexelSize = {64, 64};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3675:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_h265_quantization_map'
+|  3675 |                     fmt.props_h265_quantization_map.compatibleCtbSizes = VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3684:14: error: 'VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR'?
+|  3684 |         case VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3689:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR'?
+|  3689 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3690:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3690 |                     fmt.props_quantization_map.quantizationMapTexelSize = {8, 8};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3691:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3691 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3691:80: error: 'VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR'?
+|  3691 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR;
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                VK_VIDEO_ENCODE_H265_CTB_SIZE_64_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3695:49: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR'?
+|  3695 |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR;
+|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3696:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3696 |                     fmt.props_quantization_map.quantizationMapTexelSize = {64, 64};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3697:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3697 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3704:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3704 |                     fmt.props_quantization_map.quantizationMapTexelSize = {64, 64};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3705:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3705 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_64_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3707:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3707 |                     fmt.props_quantization_map.quantizationMapTexelSize = {128, 128};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3708:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3708 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3708:80: error: 'VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_ENCODE_H265_TRANSFORM_BLOCK_SIZE_8_BIT_KHR'?
+|  3708 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR;
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                VK_VIDEO_ENCODE_H265_TRANSFORM_BLOCK_SIZE_8_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3715:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_quantization_map'
+|  3715 |                     fmt.props_quantization_map.quantizationMapTexelSize = {128, 128};
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3716:25: error: 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties' has no member named 'props_av1_quantization_map'
+|  3716 |                     fmt.props_av1_quantization_map.compatibleSuperblockSizes = VK_VIDEO_ENCODE_AV1_SUPERBLOCK_SIZE_128_BIT_KHR;
+|       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3741:66: error: 'VkVideoFormatQuantizationMapPropertiesKHR' was not declared in this scope
+|  3741 |             auto* props_quantization_map = lvl_find_mod_in_chain<VkVideoFormatQuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3741:108: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  3741 |             auto* props_quantization_map = lvl_find_mod_in_chain<VkVideoFormatQuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3741:108: error: template argument 1 is invalid
+|  3741 |             auto* props_quantization_map = lvl_find_mod_in_chain<VkVideoFormatQuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3742:71: error: 'VkVideoFormatH265QuantizationMapPropertiesKHR' was not declared in this scope
+|  3742 |             auto* props_h265_quantization_map = lvl_find_mod_in_chain<VkVideoFormatH265QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3742:117: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  3742 |             auto* props_h265_quantization_map = lvl_find_mod_in_chain<VkVideoFormatH265QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3742:117: error: template argument 1 is invalid
+|  3742 |             auto* props_h265_quantization_map = lvl_find_mod_in_chain<VkVideoFormatH265QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3743:70: error: 'VkVideoFormatAV1QuantizationMapPropertiesKHR' was not declared in this scope
+|  3743 |             auto* props_av1_quantization_map = lvl_find_mod_in_chain<VkVideoFormatAV1QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3743:115: error: no matching function for call to 'lvl_find_mod_in_chain<<expression error> >(void*&)'
+|  3743 |             auto* props_av1_quantization_map = lvl_find_mod_in_chain<VkVideoFormatAV1QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note: candidate: 'template<class T> T* lvl_find_mod_in_chain(void*)'
+|  8947 | template <typename T> T *lvl_find_mod_in_chain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8947:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3743:115: error: template argument 1 is invalid
+|  3743 |             auto* props_av1_quantization_map = lvl_find_mod_in_chain<VkVideoFormatAV1QuantizationMapPropertiesKHR>(saved_pNext);
+|       |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3747:55: error: '__gnu_cxx::__alloc_traits<std::allocator<vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>, vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>::value_type' {aka 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties'} has no member named 'props_quantization_map'
+|  3747 |                 *props_quantization_map = filtered[i].props_quantization_map;
+|       |                                                       ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3753:60: error: '__gnu_cxx::__alloc_traits<std::allocator<vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>, vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>::value_type' {aka 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties'} has no member named 'props_h265_quantization_map'
+|  3753 |                 *props_h265_quantization_map = filtered[i].props_h265_quantization_map;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3759:59: error: '__gnu_cxx::__alloc_traits<std::allocator<vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>, vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties>::value_type' {aka 'struct vkmock::GetPhysicalDeviceVideoFormatPropertiesKHR(VkPhysicalDevice, const VkPhysicalDeviceVideoFormatInfoKHR*, uint32_t*, VkVideoFormatPropertiesKHR*)::VideoFormatProperties'} has no member named 'props_av1_quantization_map'
+|  3759 |                 *props_av1_quantization_map = filtered[i].props_av1_quantization_map;
+|       |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: In function 'void vkmock::GetPhysicalDeviceQueueFamilyProperties2KHR(VkPhysicalDevice, uint32_t*, VkQueueFamilyProperties2*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4149:53: error: 'VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR'?
+|  4149 |                                                   | VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR;
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4812:11: error: 'VkRenderingAttachmentLocationInfo' does not name a type; did you mean 'VkRenderingAttachmentLocationInfoKHR'?
+|  4812 |     const VkRenderingAttachmentLocationInfo*    pLocationInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAttachmentLocationInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4819:11: error: 'VkRenderingInputAttachmentIndexInfo' does not name a type; did you mean 'VkRenderingInputAttachmentIndexInfoKHR'?
+|  4819 |     const VkRenderingInputAttachmentIndexInfo*  pInputAttachmentIndexInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingInputAttachmentIndexInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4941:11: error: 'VkMemoryMapInfo' does not name a type; did you mean 'VkMemoryMapInfoKHR'?
+|  4941 |     const VkMemoryMapInfo*                      pMemoryMapInfo,
+|       |           ^~~~~~~~~~~~~~~
+|       |           VkMemoryMapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: In function 'VkResult vkmock::MapMemory2KHR(VkDevice, const int*, void**)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4944:46: error: request for member 'memory' in '* pMemoryMapInfo', which is of non-class type 'const int'
+|  4944 |     return MapMemory(device, pMemoryMapInfo->memory, pMemoryMapInfo->offset, pMemoryMapInfo->size, pMemoryMapInfo->flags, ppData);
+|       |                                              ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4944:70: error: request for member 'offset' in '* pMemoryMapInfo', which is of non-class type 'const int'
+|  4944 |     return MapMemory(device, pMemoryMapInfo->memory, pMemoryMapInfo->offset, pMemoryMapInfo->size, pMemoryMapInfo->flags, ppData);
+|       |                                                                      ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4944:94: error: request for member 'size' in '* pMemoryMapInfo', which is of non-class type 'const int'
+|  4944 |     return MapMemory(device, pMemoryMapInfo->memory, pMemoryMapInfo->offset, pMemoryMapInfo->size, pMemoryMapInfo->flags, ppData);
+|       |                                                                                              ^~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4944:116: error: request for member 'flags' in '* pMemoryMapInfo', which is of non-class type 'const int'
+|  4944 |     return MapMemory(device, pMemoryMapInfo->memory, pMemoryMapInfo->offset, pMemoryMapInfo->size, pMemoryMapInfo->flags, ppData);
+|       |                                                                                                                    ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4949:11: error: 'VkMemoryUnmapInfo' does not name a type; did you mean 'VkMemoryUnmapInfoKHR'?
+|  4949 |     const VkMemoryUnmapInfo*                    pMemoryUnmapInfo)
+|       |           ^~~~~~~~~~~~~~~~~
+|       |           VkMemoryUnmapInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: In function 'VkResult vkmock::UnmapMemory2KHR(VkDevice, const int*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4951:43: error: request for member 'memory' in '* pMemoryUnmapInfo', which is of non-class type 'const int'
+|  4951 |     UnmapMemory(device, pMemoryUnmapInfo->memory);
+|       |                                           ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5137:11: error: 'VkRenderingAreaInfo' does not name a type; did you mean 'VkRenderingAreaInfoKHR'?
+|  5137 |     const VkRenderingAreaInfo*                  pRenderingAreaInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkRenderingAreaInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5145:11: error: 'VkDeviceImageSubresourceInfo' does not name a type; did you mean 'VkDeviceImageSubresourceInfoKHR'?
+|  5145 |     const VkDeviceImageSubresourceInfo*         pInfo,
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkDeviceImageSubresourceInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5146:5: error: 'VkSubresourceLayout2' has not been declared
+|  5146 |     VkSubresourceLayout2*                       pLayout)
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5154:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  5154 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5155:5: error: 'VkSubresourceLayout2' has not been declared
+|  5155 |     VkSubresourceLayout2*                       pLayout)
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5285:11: error: 'VkBindDescriptorSetsInfo' does not name a type; did you mean 'VkBindDescriptorSetsInfoKHR'?
+|  5285 |     const VkBindDescriptorSetsInfo*             pBindDescriptorSetsInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkBindDescriptorSetsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5292:11: error: 'VkPushConstantsInfo' does not name a type; did you mean 'VkPushConstantsInfoKHR'?
+|  5292 |     const VkPushConstantsInfo*                  pPushConstantsInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkPushConstantsInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5299:11: error: 'VkPushDescriptorSetInfo' does not name a type; did you mean 'VkPushDescriptorSetInfoKHR'?
+|  5299 |     const VkPushDescriptorSetInfo*              pPushDescriptorSetInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:5306:11: error: 'VkPushDescriptorSetWithTemplateInfo' does not name a type; did you mean 'VkPushDescriptorSetWithTemplateInfoKHR'?
+|  5306 |     const VkPushDescriptorSetWithTemplateInfo*  pPushDescriptorSetWithTemplateInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkPushDescriptorSetWithTemplateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6790:11: error: 'VkCopyMemoryToImageInfo' does not name a type; did you mean 'VkCopyMemoryToImageInfoEXT'?
+|  6790 |     const VkCopyMemoryToImageInfo*              pCopyMemoryToImageInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyMemoryToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6798:11: error: 'VkCopyImageToMemoryInfo' does not name a type; did you mean 'VkCopyImageToMemoryInfoEXT'?
+|  6798 |     const VkCopyImageToMemoryInfo*              pCopyImageToMemoryInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToMemoryInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6806:11: error: 'VkCopyImageToImageInfo' does not name a type; did you mean 'VkCopyImageToImageInfoEXT'?
+|  6806 |     const VkCopyImageToImageInfo*               pCopyImageToImageInfo)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~
+|       |           VkCopyImageToImageInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6815:11: error: 'VkHostImageLayoutTransitionInfo' does not name a type; did you mean 'VkHostImageLayoutTransitionInfoEXT'?
+|  6815 |     const VkHostImageLayoutTransitionInfo*      pTransitions)
+|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |           VkHostImageLayoutTransitionInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6824:11: error: 'VkImageSubresource2' does not name a type; did you mean 'VkImageSubresource'?
+|  6824 |     const VkImageSubresource2*                  pSubresource,
+|       |           ^~~~~~~~~~~~~~~~~~~
+|       |           VkImageSubresource
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:6825:5: error: 'VkSubresourceLayout2' has not been declared
+|  6825 |     VkSubresourceLayout2*                       pLayout)
+|       |     ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:8284:5: error: 'VkCooperativeMatrixFlexibleDimensionsPropertiesNV' has not been declared
+|  8284 |     VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties)
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h: In instantiation of 'const T* lvl_find_in_chain(const void*) [with T = VkPhysicalDeviceHostImageCopyFeaturesEXT]':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:3932:103:   required from here
+|  3932 |     const auto *host_image_copy_features = lvl_find_in_chain<VkPhysicalDeviceHostImageCopyFeaturesEXT>(pFeatures->pNext);
+|       |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8937:28: error: 'kSType' is not a member of 'LvlTypeMap<VkPhysicalDeviceHostImageCopyFeaturesEXT>'
+|  8937 |         if (LvlTypeMap<T>::kSType == current->sType) {
+|       |                            ^~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h: In instantiation of 'T* lvl_find_mod_in_chain(void*) [with T = VkPhysicalDeviceHostImageCopyPropertiesEXT]':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/function_definitions.h:4042:100:   required from here
+|  4042 |     auto *host_image_copy_props = lvl_find_mod_in_chain<VkPhysicalDeviceHostImageCopyPropertiesEXT>(pProperties->pNext);
+|       |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/icd/generated/vk_typemap_helper.h:8951:28: error: 'kSType' is not a member of 'LvlTypeMap<VkPhysicalDeviceHostImageCopyPropertiesEXT>'
+|  8951 |         if (LvlTypeMap<T>::kSType == current->sType) {
+|       |                            ^~~~~~
+| [2/4] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild
+ /yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-
+ native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIE -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/vulkaninfo.cpp
+| FAILED: vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto
+ -worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git=/usr/src/debug/vulkan-tools/1.4.304.1  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build=/usr/src/debug/vulkan-tools/1.4.304.1  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native
+ =  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIE -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/vulkaninfo.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/vulkaninfo.cpp:34:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkDriverIdString(VkDriverId)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:103:15: error: 'VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN' was not declared in this scope
+|   103 |         case (VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN): return "DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkFormatString(VkFormat)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:354:15: error: 'VK_FORMAT_A1B5G5R5_UNORM_PACK16' was not declared in this scope; did you mean 'VK_FORMAT_A1R5G5B5_UNORM_PACK16'?
+|   354 |         case (VK_FORMAT_A1B5G5R5_UNORM_PACK16): return "FORMAT_A1B5G5R5_UNORM_PACK16";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |               VK_FORMAT_A1R5G5B5_UNORM_PACK16
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:355:15: error: 'VK_FORMAT_A8_UNORM' was not declared in this scope; did you mean 'VK_FORMAT_R8_UNORM'?
+|   355 |         case (VK_FORMAT_A8_UNORM): return "FORMAT_A8_UNORM";
+|       |               ^~~~~~~~~~~~~~~~~~
+|       |               VK_FORMAT_R8_UNORM
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkImageLayoutString(VkImageLayout)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:393:15: error: 'VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ' was not declared in this scope; did you mean 'VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ_KHR'?
+|   393 |         case (VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ): return "IMAGE_LAYOUT_RENDERING_LOCAL_READ";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |               VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:405:15: error: 'VK_IMAGE_LAYOUT_VIDEO_ENCODE_QUANTIZATION_MAP_KHR' was not declared in this scope; did you mean 'VK_IMAGE_LAYOUT_VIDEO_ENCODE_DST_KHR'?
+|   405 |         case (VK_IMAGE_LAYOUT_VIDEO_ENCODE_QUANTIZATION_MAP_KHR): return "IMAGE_LAYOUT_VIDEO_ENCODE_QUANTIZATION_MAP_KHR";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |               VK_IMAGE_LAYOUT_VIDEO_ENCODE_DST_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:461:54: error: 'VkPipelineRobustnessBufferBehavior' was not declared in this scope; did you mean 'VkPipelineRobustnessBufferBehaviorEXT'?
+|   461 | std::string VkPipelineRobustnessBufferBehaviorString(VkPipelineRobustnessBufferBehavior value) {
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VkPipelineRobustnessBufferBehaviorEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:461:96: error: expected ',' or ';' before '{' token
+|   461 | std::string VkPipelineRobustnessBufferBehaviorString(VkPipelineRobustnessBufferBehavior value) {
+|       |                                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:470:75: error: 'VkPipelineRobustnessBufferBehavior' has not been declared
+|   470 | void DumpVkPipelineRobustnessBufferBehavior(Printer &p, std::string name, VkPipelineRobustnessBufferBehavior value) {
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPipelineRobustnessBufferBehavior(Printer&, std::string, int)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:472:93: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   472 |         p.PrintKeyString(name, std::string("VK_") + VkPipelineRobustnessBufferBehaviorString(value));
+|       |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:474:72: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   474 |         p.PrintKeyString(name, VkPipelineRobustnessBufferBehaviorString(value));
+|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:476:53: error: 'VkPipelineRobustnessImageBehavior' was not declared in this scope; did you mean 'VkPipelineRobustnessImageBehaviorEXT'?
+|   476 | std::string VkPipelineRobustnessImageBehaviorString(VkPipelineRobustnessImageBehavior value) {
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     VkPipelineRobustnessImageBehaviorEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:476:94: error: expected ',' or ';' before '{' token
+|   476 | std::string VkPipelineRobustnessImageBehaviorString(VkPipelineRobustnessImageBehavior value) {
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:485:74: error: 'VkPipelineRobustnessImageBehavior' has not been declared
+|   485 | void DumpVkPipelineRobustnessImageBehavior(Printer &p, std::string name, VkPipelineRobustnessImageBehavior value) {
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPipelineRobustnessImageBehavior(Printer&, std::string, int)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:487:92: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   487 |         p.PrintKeyString(name, std::string("VK_") + VkPipelineRobustnessImageBehaviorString(value));
+|       |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:489:71: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   489 |         p.PrintKeyString(name, VkPipelineRobustnessImageBehaviorString(value));
+|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkPresentModeKHRString(VkPresentModeKHR)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:512:15: error: 'VK_PRESENT_MODE_FIFO_LATEST_READY_EXT' was not declared in this scope; did you mean 'VK_PRESENT_MODE_FIFO_RELAXED_KHR'?
+|   512 |         case (VK_PRESENT_MODE_FIFO_LATEST_READY_EXT): return "PRESENT_MODE_FIFO_LATEST_READY_EXT";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |               VK_PRESENT_MODE_FIFO_RELAXED_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:522:41: error: 'VkQueueGlobalPriority' was not declared in this scope; did you mean 'VkQueueGlobalPriorityKHR'?
+|   522 | std::string VkQueueGlobalPriorityString(VkQueueGlobalPriority value) {
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkQueueGlobalPriorityKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:522:70: error: expected ',' or ';' before '{' token
+|   522 | std::string VkQueueGlobalPriorityString(VkQueueGlobalPriority value) {
+|       |                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:531:62: error: 'VkQueueGlobalPriority' has not been declared
+|   531 | void DumpVkQueueGlobalPriority(Printer &p, std::string name, VkQueueGlobalPriority value) {
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkQueueGlobalPriority(Printer&, std::string, int)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:533:80: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   533 |         p.PrintKeyString(name, std::string("VK_") + VkQueueGlobalPriorityString(value));
+|       |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:535:59: error: no match for call to '(std::string {aka std::__cxx11::basic_string<char>}) (int&)'
+|   535 |         p.PrintKeyString(name, VkQueueGlobalPriorityString(value));
+|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkResultString(VkResult)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:563:15: error: 'VK_ERROR_NOT_PERMITTED' was not declared in this scope; did you mean 'VK_ERROR_NOT_PERMITTED_KHR'?
+|   563 |         case (VK_ERROR_NOT_PERMITTED): return "ERROR_NOT_PERMITTED";
+|       |               ^~~~~~~~~~~~~~~~~~~~~~
+|       |               VK_ERROR_NOT_PERMITTED_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkFormatFeatureFlagBits2GetStrings(VkFormatFeatureFlagBits2)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:773:9: error: 'VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT_EXT'?
+|   773 |     if (VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT & value) strings.push_back("FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:789:9: error: 'VK_FORMAT_FEATURE_2_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_VIDEO_ENCODE_INPUT_BIT_KHR'?
+|   789 |     if (VK_FORMAT_FEATURE_2_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR & value) strings.push_back("FORMAT_FEATURE_2_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_FORMAT_FEATURE_2_VIDEO_ENCODE_INPUT_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:790:9: error: 'VK_FORMAT_FEATURE_2_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_FORMAT_FEATURE_2_VIDEO_ENCODE_INPUT_BIT_KHR'?
+|   790 |     if (VK_FORMAT_FEATURE_2_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR & value) strings.push_back("FORMAT_FEATURE_2_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_FORMAT_FEATURE_2_VIDEO_ENCODE_INPUT_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkImageUsageFlagBitsGetStrings(VkImageUsageFlagBits)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:830:9: error: 'VK_IMAGE_USAGE_HOST_TRANSFER_BIT' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_HOST_TRANSFER_BIT_EXT'?
+|   830 |     if (VK_IMAGE_USAGE_HOST_TRANSFER_BIT & value) strings.push_back("IMAGE_USAGE_HOST_TRANSFER_BIT");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_IMAGE_USAGE_HOST_TRANSFER_BIT_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:843:9: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR'?
+|   843 |     if (VK_IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR & value) strings.push_back("IMAGE_USAGE_VIDEO_ENCODE_QUANTIZATION_DELTA_MAP_BIT_KHR");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_IMAGE_USAGE_VIDEO_ENCODE_DST_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:844:9: error: 'VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR' was not declared in this scope; did you mean 'VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR'?
+|   844 |     if (VK_IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR & value) strings.push_back("IMAGE_USAGE_VIDEO_ENCODE_EMPHASIS_MAP_BIT_KHR");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_IMAGE_USAGE_VIDEO_ENCODE_SRC_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkSubgroupFeatureFlagBitsGetStrings(VkSubgroupFeatureFlagBits)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:1255:9: error: 'VK_SUBGROUP_FEATURE_ROTATE_BIT' was not declared in this scope; did you mean 'VK_SUBGROUP_FEATURE_VOTE_BIT'?
+|  1255 |     if (VK_SUBGROUP_FEATURE_ROTATE_BIT & value) strings.push_back("SUBGROUP_FEATURE_ROTATE_BIT");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_SUBGROUP_FEATURE_VOTE_BIT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:1256:9: error: 'VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT' was not declared in this scope; did you mean 'VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR'?
+|  1256 |     if (VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT & value) strings.push_back("SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::vector<const char*> VkVideoCodecOperationFlagBitsKHRGetStrings(VkVideoCodecOperationFlagBitsKHR)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:1404:9: error: 'VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR' was not declared in this scope; did you mean 'VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR'?
+|  1404 |     if (VK_VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR & value) strings.push_back("VIDEO_CODEC_OPERATION_ENCODE_AV1_BIT_KHR");
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:1833:96: error: 'VkPhysicalDeviceDynamicRenderingLocalReadFeatures' does not name a type; did you mean 'VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR'?
+|  1833 | void DumpVkPhysicalDeviceDynamicRenderingLocalReadFeatures(Printer &p, std::string name, const VkPhysicalDeviceDynamicRenderingLocalReadFeatures &obj) {
+|       |                                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceDynamicRenderingLocalReadFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:1836:71: error: request for member 'dynamicRenderingLocalRead' in 'obj', which is of non-class type 'const int'
+|  1836 |     p.PrintKeyBool("dynamicRenderingLocalRead", static_cast<bool>(obj.dynamicRenderingLocalRead));
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2063:90: error: 'VkPhysicalDeviceGlobalPriorityQueryFeatures' does not name a type; did you mean 'VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR'?
+|  2063 | void DumpVkPhysicalDeviceGlobalPriorityQueryFeatures(Printer &p, std::string name, const VkPhysicalDeviceGlobalPriorityQueryFeatures &obj) {
+|       |                                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                          VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceGlobalPriorityQueryFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2066:65: error: request for member 'globalPriorityQuery' in 'obj', which is of non-class type 'const int'
+|  2066 |     p.PrintKeyBool("globalPriorityQuery", static_cast<bool>(obj.globalPriorityQuery));
+|       |                                                                 ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2079:84: error: 'VkPhysicalDeviceHostImageCopyFeatures' does not name a type; did you mean 'VkPhysicalDeviceHostImageCopyFeaturesEXT'?
+|  2079 | void DumpVkPhysicalDeviceHostImageCopyFeatures(Printer &p, std::string name, const VkPhysicalDeviceHostImageCopyFeatures &obj) {
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                    VkPhysicalDeviceHostImageCopyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceHostImageCopyFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2082:59: error: request for member 'hostImageCopy' in 'obj', which is of non-class type 'const int'
+|  2082 |     p.PrintKeyBool("hostImageCopy", static_cast<bool>(obj.hostImageCopy));
+|       |                                                           ^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2084:86: error: 'VkPhysicalDeviceHostImageCopyProperties' does not name a type; did you mean 'VkPhysicalDeviceHostImageCopyPropertiesEXT'?
+|  2084 | void DumpVkPhysicalDeviceHostImageCopyProperties(Printer &p, std::string name, const VkPhysicalDeviceHostImageCopyProperties &obj) {
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                      VkPhysicalDeviceHostImageCopyPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceHostImageCopyProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2087:47: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2087 |     p.PrintKeyValue("copySrcLayoutCount", obj.copySrcLayoutCount);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2088:13: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2088 |     if (obj.copySrcLayoutCount == 0 || obj.pCopySrcLayouts == nullptr) {
+|       |             ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2088:44: error: request for member 'pCopySrcLayouts' in 'obj', which is of non-class type 'const int'
+|  2088 |     if (obj.copySrcLayoutCount == 0 || obj.pCopySrcLayouts == nullptr) {
+|       |                                            ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2091:51: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2091 |         ArrayWrapper arr(p,"pCopySrcLayouts", obj.copySrcLayoutCount);
+|       |                                                   ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2092:38: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2092 |         for (uint32_t i = 0; i < obj.copySrcLayoutCount; i++) {
+|       |                                      ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2093:57: error: request for member 'pCopySrcLayouts' in 'obj', which is of non-class type 'const int'
+|  2093 |             DumpVkImageLayout(p, std::to_string(i), obj.pCopySrcLayouts[i]);
+|       |                                                         ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2096:47: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2096 |     p.PrintKeyValue("copyDstLayoutCount", obj.copyDstLayoutCount);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2097:13: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2097 |     if (obj.copyDstLayoutCount == 0 || obj.pCopyDstLayouts == nullptr) {
+|       |             ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2097:44: error: request for member 'pCopyDstLayouts' in 'obj', which is of non-class type 'const int'
+|  2097 |     if (obj.copyDstLayoutCount == 0 || obj.pCopyDstLayouts == nullptr) {
+|       |                                            ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2100:51: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2100 |         ArrayWrapper arr(p,"pCopyDstLayouts", obj.copyDstLayoutCount);
+|       |                                                   ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2101:38: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  2101 |         for (uint32_t i = 0; i < obj.copyDstLayoutCount; i++) {
+|       |                                      ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2102:57: error: request for member 'pCopyDstLayouts' in 'obj', which is of non-class type 'const int'
+|  2102 |             DumpVkImageLayout(p, std::to_string(i), obj.pCopyDstLayouts[i]);
+|       |                                                         ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2105:52: error: request for member 'optimalTilingLayoutUUID' in 'obj', which is of non-class type 'const int'
+|  2105 |     p.PrintKeyValue("optimalTilingLayoutUUID", obj.optimalTilingLayoutUUID);
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2106:77: error: request for member 'identicalMemoryTypeRequirements' in 'obj', which is of non-class type 'const int'
+|  2106 |     p.PrintKeyBool("identicalMemoryTypeRequirements", static_cast<bool>(obj.identicalMemoryTypeRequirements));
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2160:85: error: 'VkPhysicalDeviceIndexTypeUint8Features' does not name a type; did you mean 'VkPhysicalDeviceIndexTypeUint8FeaturesKHR'?
+|  2160 | void DumpVkPhysicalDeviceIndexTypeUint8Features(Printer &p, std::string name, const VkPhysicalDeviceIndexTypeUint8Features &obj) {
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                     VkPhysicalDeviceIndexTypeUint8FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceIndexTypeUint8Features(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2163:60: error: request for member 'indexTypeUint8' in 'obj', which is of non-class type 'const int'
+|  2163 |     p.PrintKeyBool("indexTypeUint8", static_cast<bool>(obj.indexTypeUint8));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2348:88: error: 'VkPhysicalDeviceLineRasterizationFeatures' does not name a type; did you mean 'VkPhysicalDeviceLineRasterizationFeaturesKHR'?
+|  2348 | void DumpVkPhysicalDeviceLineRasterizationFeatures(Printer &p, std::string name, const VkPhysicalDeviceLineRasterizationFeatures &obj) {
+|       |                                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                        VkPhysicalDeviceLineRasterizationFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceLineRasterizationFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2351:62: error: request for member 'rectangularLines' in 'obj', which is of non-class type 'const int'
+|  2351 |     p.PrintKeyBool("rectangularLines", static_cast<bool>(obj.rectangularLines));
+|       |                                                              ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2352:60: error: request for member 'bresenhamLines' in 'obj', which is of non-class type 'const int'
+|  2352 |     p.PrintKeyBool("bresenhamLines", static_cast<bool>(obj.bresenhamLines));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2353:57: error: request for member 'smoothLines' in 'obj', which is of non-class type 'const int'
+|  2353 |     p.PrintKeyBool("smoothLines", static_cast<bool>(obj.smoothLines));
+|       |                                                         ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2354:70: error: request for member 'stippledRectangularLines' in 'obj', which is of non-class type 'const int'
+|  2354 |     p.PrintKeyBool("stippledRectangularLines", static_cast<bool>(obj.stippledRectangularLines));
+|       |                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2355:68: error: request for member 'stippledBresenhamLines' in 'obj', which is of non-class type 'const int'
+|  2355 |     p.PrintKeyBool("stippledBresenhamLines", static_cast<bool>(obj.stippledBresenhamLines));
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2356:65: error: request for member 'stippledSmoothLines' in 'obj', which is of non-class type 'const int'
+|  2356 |     p.PrintKeyBool("stippledSmoothLines", static_cast<bool>(obj.stippledSmoothLines));
+|       |                                                                 ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2358:90: error: 'VkPhysicalDeviceLineRasterizationProperties' does not name a type; did you mean 'VkPhysicalDeviceLineRasterizationPropertiesKHR'?
+|  2358 | void DumpVkPhysicalDeviceLineRasterizationProperties(Printer &p, std::string name, const VkPhysicalDeviceLineRasterizationProperties &obj) {
+|       |                                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                          VkPhysicalDeviceLineRasterizationPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceLineRasterizationProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2361:54: error: request for member 'lineSubPixelPrecisionBits' in 'obj', which is of non-class type 'const int'
+|  2361 |     p.PrintKeyValue("lineSubPixelPrecisionBits", obj.lineSubPixelPrecisionBits);
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2379:83: error: 'VkPhysicalDeviceMaintenance5Features' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  2379 | void DumpVkPhysicalDeviceMaintenance5Features(Printer &p, std::string name, const VkPhysicalDeviceMaintenance5Features &obj) {
+|       |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                   VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceMaintenance5Features(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2382:58: error: request for member 'maintenance5' in 'obj', which is of non-class type 'const int'
+|  2382 |     p.PrintKeyBool("maintenance5", static_cast<bool>(obj.maintenance5));
+|       |                                                          ^~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2384:85: error: 'VkPhysicalDeviceMaintenance5Properties' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  2384 | void DumpVkPhysicalDeviceMaintenance5Properties(Printer &p, std::string name, const VkPhysicalDeviceMaintenance5Properties &obj) {
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                     VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceMaintenance5Properties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2387:97: error: request for member 'earlyFragmentMultisampleCoverageAfterSampleCounting' in 'obj', which is of non-class type 'const int'
+|  2387 |     p.PrintKeyBool("earlyFragmentMultisampleCoverageAfterSampleCounting", static_cast<bool>(obj.earlyFragmentMultisampleCoverageAfterSampleCounting));
+|       |                                                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2388:93: error: request for member 'earlyFragmentSampleMaskTestBeforeSampleCounting' in 'obj', which is of non-class type 'const int'
+|  2388 |     p.PrintKeyBool("earlyFragmentSampleMaskTestBeforeSampleCounting", static_cast<bool>(obj.earlyFragmentSampleMaskTestBeforeSampleCounting));
+|       |                                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2389:75: error: request for member 'depthStencilSwizzleOneSupport' in 'obj', which is of non-class type 'const int'
+|  2389 |     p.PrintKeyBool("depthStencilSwizzleOneSupport", static_cast<bool>(obj.depthStencilSwizzleOneSupport));
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2390:66: error: request for member 'polygonModePointSize' in 'obj', which is of non-class type 'const int'
+|  2390 |     p.PrintKeyBool("polygonModePointSize", static_cast<bool>(obj.polygonModePointSize));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2391:91: error: request for member 'nonStrictSinglePixelWideLinesUseParallelogram' in 'obj', which is of non-class type 'const int'
+|  2391 |     p.PrintKeyBool("nonStrictSinglePixelWideLinesUseParallelogram", static_cast<bool>(obj.nonStrictSinglePixelWideLinesUseParallelogram));
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2392:80: error: request for member 'nonStrictWideLinesUseParallelogram' in 'obj', which is of non-class type 'const int'
+|  2392 |     p.PrintKeyBool("nonStrictWideLinesUseParallelogram", static_cast<bool>(obj.nonStrictWideLinesUseParallelogram));
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2394:83: error: 'VkPhysicalDeviceMaintenance6Features' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  2394 | void DumpVkPhysicalDeviceMaintenance6Features(Printer &p, std::string name, const VkPhysicalDeviceMaintenance6Features &obj) {
+|       |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                   VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceMaintenance6Features(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2397:58: error: request for member 'maintenance6' in 'obj', which is of non-class type 'const int'
+|  2397 |     p.PrintKeyBool("maintenance6", static_cast<bool>(obj.maintenance6));
+|       |                                                          ^~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2399:85: error: 'VkPhysicalDeviceMaintenance6Properties' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  2399 | void DumpVkPhysicalDeviceMaintenance6Properties(Printer &p, std::string name, const VkPhysicalDeviceMaintenance6Properties &obj) {
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                     VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceMaintenance6Properties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2402:84: error: request for member 'blockTexelViewCompatibleMultipleLayers' in 'obj', which is of non-class type 'const int'
+|  2402 |     p.PrintKeyBool("blockTexelViewCompatibleMultipleLayers", static_cast<bool>(obj.blockTexelViewCompatibleMultipleLayers));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2403:67: error: request for member 'maxCombinedImageSamplerDescriptorCount' in 'obj', which is of non-class type 'const int'
+|  2403 |     p.PrintKeyValue("maxCombinedImageSamplerDescriptorCount", obj.maxCombinedImageSamplerDescriptorCount);
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2404:84: error: request for member 'fragmentShadingRateClampCombinerInputs' in 'obj', which is of non-class type 'const int'
+|  2404 |     p.PrintKeyBool("fragmentShadingRateClampCombinerInputs", static_cast<bool>(obj.fragmentShadingRateClampCombinerInputs));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2626:94: error: 'VkPhysicalDevicePipelineProtectedAccessFeatures' does not name a type; did you mean 'VkPhysicalDevicePipelineProtectedAccessFeaturesEXT'?
+|  2626 | void DumpVkPhysicalDevicePipelineProtectedAccessFeatures(Printer &p, std::string name, const VkPhysicalDevicePipelineProtectedAccessFeatures &obj) {
+|       |                                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                              VkPhysicalDevicePipelineProtectedAccessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePipelineProtectedAccessFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2629:69: error: request for member 'pipelineProtectedAccess' in 'obj', which is of non-class type 'const int'
+|  2629 |     p.PrintKeyBool("pipelineProtectedAccess", static_cast<bool>(obj.pipelineProtectedAccess));
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2631:89: error: 'VkPhysicalDevicePipelineRobustnessFeatures' does not name a type; did you mean 'VkPhysicalDevicePipelineRobustnessFeaturesEXT'?
+|  2631 | void DumpVkPhysicalDevicePipelineRobustnessFeatures(Printer &p, std::string name, const VkPhysicalDevicePipelineRobustnessFeatures &obj) {
+|       |                                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                         VkPhysicalDevicePipelineRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePipelineRobustnessFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2634:64: error: request for member 'pipelineRobustness' in 'obj', which is of non-class type 'const int'
+|  2634 |     p.PrintKeyBool("pipelineRobustness", static_cast<bool>(obj.pipelineRobustness));
+|       |                                                                ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2636:91: error: 'VkPhysicalDevicePipelineRobustnessProperties' does not name a type; did you mean 'VkPhysicalDevicePipelineRobustnessPropertiesEXT'?
+|  2636 | void DumpVkPhysicalDevicePipelineRobustnessProperties(Printer &p, std::string name, const VkPhysicalDevicePipelineRobustnessProperties &obj) {
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                           VkPhysicalDevicePipelineRobustnessPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePipelineRobustnessProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2638:86: error: request for member 'defaultRobustnessStorageBuffers' in 'obj', which is of non-class type 'const int'
+|  2638 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessStorageBuffers", obj.defaultRobustnessStorageBuffers);
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2639:86: error: request for member 'defaultRobustnessUniformBuffers' in 'obj', which is of non-class type 'const int'
+|  2639 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessUniformBuffers", obj.defaultRobustnessUniformBuffers);
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2640:84: error: request for member 'defaultRobustnessVertexInputs' in 'obj', which is of non-class type 'const int'
+|  2640 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessVertexInputs", obj.defaultRobustnessVertexInputs);
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2641:77: error: request for member 'defaultRobustnessImages' in 'obj', which is of non-class type 'const int'
+|  2641 |     DumpVkPipelineRobustnessImageBehavior(p, "defaultRobustnessImages", obj.defaultRobustnessImages);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2680:100: error: 'VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT' does not name a type; did you mean 'VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT'?
+|  2680 | void DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT(Printer &p, std::string name, const VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT &obj) {
+|       |                                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                    VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2683:72: error: request for member 'presentModeFifoLatestReady' in 'obj', which is of non-class type 'const int'
+|  2683 |     p.PrintKeyBool("presentModeFifoLatestReady", static_cast<bool>(obj.presentModeFifoLatestReady));
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2730:87: error: 'VkPhysicalDevicePushDescriptorProperties' does not name a type; did you mean 'VkPhysicalDevicePushDescriptorPropertiesKHR'?
+|  2730 | void DumpVkPhysicalDevicePushDescriptorProperties(Printer &p, std::string name, const VkPhysicalDevicePushDescriptorProperties &obj) {
+|       |                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                       VkPhysicalDevicePushDescriptorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDevicePushDescriptorProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2733:47: error: request for member 'maxPushDescriptors' in 'obj', which is of non-class type 'const int'
+|  2733 |     p.PrintKeyValue("maxPushDescriptors", obj.maxPushDescriptors);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2884:89: error: 'VkPhysicalDeviceShaderExpectAssumeFeatures' does not name a type; did you mean 'VkPhysicalDeviceShaderExpectAssumeFeaturesKHR'?
+|  2884 | void DumpVkPhysicalDeviceShaderExpectAssumeFeatures(Printer &p, std::string name, const VkPhysicalDeviceShaderExpectAssumeFeatures &obj) {
+|       |                                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                         VkPhysicalDeviceShaderExpectAssumeFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceShaderExpectAssumeFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2887:64: error: request for member 'shaderExpectAssume' in 'obj', which is of non-class type 'const int'
+|  2887 |     p.PrintKeyBool("shaderExpectAssume", static_cast<bool>(obj.shaderExpectAssume));
+|       |                                                                ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2895:91: error: 'VkPhysicalDeviceShaderFloatControls2Features' does not name a type; did you mean 'VkPhysicalDeviceShaderFloatControls2FeaturesKHR'?
+|  2895 | void DumpVkPhysicalDeviceShaderFloatControls2Features(Printer &p, std::string name, const VkPhysicalDeviceShaderFloatControls2Features &obj) {
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                           VkPhysicalDeviceShaderFloatControls2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceShaderFloatControls2Features(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2898:66: error: request for member 'shaderFloatControls2' in 'obj', which is of non-class type 'const int'
+|  2898 |     p.PrintKeyBool("shaderFloatControls2", static_cast<bool>(obj.shaderFloatControls2));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2991:91: error: 'VkPhysicalDeviceShaderSubgroupRotateFeatures' does not name a type; did you mean 'VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR'?
+|  2991 | void DumpVkPhysicalDeviceShaderSubgroupRotateFeatures(Printer &p, std::string name, const VkPhysicalDeviceShaderSubgroupRotateFeatures &obj) {
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                           VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceShaderSubgroupRotateFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2994:66: error: request for member 'shaderSubgroupRotate' in 'obj', which is of non-class type 'const int'
+|  2994 |     p.PrintKeyBool("shaderSubgroupRotate", static_cast<bool>(obj.shaderSubgroupRotate));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:2995:75: error: request for member 'shaderSubgroupRotateClustered' in 'obj', which is of non-class type 'const int'
+|  2995 |     p.PrintKeyBool("shaderSubgroupRotateClustered", static_cast<bool>(obj.shaderSubgroupRotateClustered));
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3139:93: error: 'VkPhysicalDeviceVertexAttributeDivisorFeatures' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR'?
+|  3139 | void DumpVkPhysicalDeviceVertexAttributeDivisorFeatures(Printer &p, std::string name, const VkPhysicalDeviceVertexAttributeDivisorFeatures &obj) {
+|       |                                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                             VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVertexAttributeDivisorFeatures(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3142:80: error: request for member 'vertexAttributeInstanceRateDivisor' in 'obj', which is of non-class type 'const int'
+|  3142 |     p.PrintKeyBool("vertexAttributeInstanceRateDivisor", static_cast<bool>(obj.vertexAttributeInstanceRateDivisor));
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3143:84: error: request for member 'vertexAttributeInstanceRateZeroDivisor' in 'obj', which is of non-class type 'const int'
+|  3143 |     p.PrintKeyBool("vertexAttributeInstanceRateZeroDivisor", static_cast<bool>(obj.vertexAttributeInstanceRateZeroDivisor));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3145:95: error: 'VkPhysicalDeviceVertexAttributeDivisorProperties' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR'?
+|  3145 | void DumpVkPhysicalDeviceVertexAttributeDivisorProperties(Printer &p, std::string name, const VkPhysicalDeviceVertexAttributeDivisorProperties &obj) {
+|       |                                                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                               VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVertexAttributeDivisorProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3148:51: error: request for member 'maxVertexAttribDivisor' in 'obj', which is of non-class type 'const int'
+|  3148 |     p.PrintKeyValue("maxVertexAttribDivisor", obj.maxVertexAttribDivisor);
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3149:74: error: request for member 'supportsNonZeroFirstInstance' in 'obj', which is of non-class type 'const int'
+|  3149 |     p.PrintKeyBool("supportsNonZeroFirstInstance", static_cast<bool>(obj.supportsNonZeroFirstInstance));
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3156:99: error: 'VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT'?
+|  3156 | void DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT(Printer &p, std::string name, const VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT &obj) {
+|       |                                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                   VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3159:71: error: request for member 'vertexAttributeRobustness' in 'obj', which is of non-class type 'const int'
+|  3159 |     p.PrintKeyBool("vertexAttributeRobustness", static_cast<bool>(obj.vertexAttributeRobustness));
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3166:88: error: 'VkPhysicalDeviceVideoEncodeAV1FeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceVideoMaintenance1FeaturesKHR'?
+|  3166 | void DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR(Printer &p, std::string name, const VkPhysicalDeviceVideoEncodeAV1FeaturesKHR &obj) {
+|       |                                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                        VkPhysicalDeviceVideoMaintenance1FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3169:60: error: request for member 'videoEncodeAV1' in 'obj', which is of non-class type 'const int'
+|  3169 |     p.PrintKeyBool("videoEncodeAV1", static_cast<bool>(obj.videoEncodeAV1));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3171:100: error: 'VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceSynchronization2FeaturesKHR'?
+|  3171 | void DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR(Printer &p, std::string name, const VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR &obj) {
+|       |                                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                    VkPhysicalDeviceSynchronization2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3174:72: error: request for member 'videoEncodeQuantizationMap' in 'obj', which is of non-class type 'const int'
+|  3174 |     p.PrintKeyBool("videoEncodeQuantizationMap", static_cast<bool>(obj.videoEncodeQuantizationMap));
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3393:79: error: 'VkPhysicalDeviceVulkan14Features' does not name a type; did you mean 'VkPhysicalDeviceVulkan13Features'?
+|  3393 | void DumpVkPhysicalDeviceVulkan14Features(Printer &p, std::string name, const VkPhysicalDeviceVulkan14Features &obj) {
+|       |                                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                               VkPhysicalDeviceVulkan13Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVulkan14Features(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3396:65: error: request for member 'globalPriorityQuery' in 'obj', which is of non-class type 'const int'
+|  3396 |     p.PrintKeyBool("globalPriorityQuery", static_cast<bool>(obj.globalPriorityQuery));
+|       |                                                                 ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3397:66: error: request for member 'shaderSubgroupRotate' in 'obj', which is of non-class type 'const int'
+|  3397 |     p.PrintKeyBool("shaderSubgroupRotate", static_cast<bool>(obj.shaderSubgroupRotate));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3398:75: error: request for member 'shaderSubgroupRotateClustered' in 'obj', which is of non-class type 'const int'
+|  3398 |     p.PrintKeyBool("shaderSubgroupRotateClustered", static_cast<bool>(obj.shaderSubgroupRotateClustered));
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3399:66: error: request for member 'shaderFloatControls2' in 'obj', which is of non-class type 'const int'
+|  3399 |     p.PrintKeyBool("shaderFloatControls2", static_cast<bool>(obj.shaderFloatControls2));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3400:64: error: request for member 'shaderExpectAssume' in 'obj', which is of non-class type 'const int'
+|  3400 |     p.PrintKeyBool("shaderExpectAssume", static_cast<bool>(obj.shaderExpectAssume));
+|       |                                                                ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3401:62: error: request for member 'rectangularLines' in 'obj', which is of non-class type 'const int'
+|  3401 |     p.PrintKeyBool("rectangularLines", static_cast<bool>(obj.rectangularLines));
+|       |                                                              ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3402:60: error: request for member 'bresenhamLines' in 'obj', which is of non-class type 'const int'
+|  3402 |     p.PrintKeyBool("bresenhamLines", static_cast<bool>(obj.bresenhamLines));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3403:57: error: request for member 'smoothLines' in 'obj', which is of non-class type 'const int'
+|  3403 |     p.PrintKeyBool("smoothLines", static_cast<bool>(obj.smoothLines));
+|       |                                                         ^~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3404:70: error: request for member 'stippledRectangularLines' in 'obj', which is of non-class type 'const int'
+|  3404 |     p.PrintKeyBool("stippledRectangularLines", static_cast<bool>(obj.stippledRectangularLines));
+|       |                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3405:68: error: request for member 'stippledBresenhamLines' in 'obj', which is of non-class type 'const int'
+|  3405 |     p.PrintKeyBool("stippledBresenhamLines", static_cast<bool>(obj.stippledBresenhamLines));
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3406:65: error: request for member 'stippledSmoothLines' in 'obj', which is of non-class type 'const int'
+|  3406 |     p.PrintKeyBool("stippledSmoothLines", static_cast<bool>(obj.stippledSmoothLines));
+|       |                                                                 ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3407:80: error: request for member 'vertexAttributeInstanceRateDivisor' in 'obj', which is of non-class type 'const int'
+|  3407 |     p.PrintKeyBool("vertexAttributeInstanceRateDivisor", static_cast<bool>(obj.vertexAttributeInstanceRateDivisor));
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3408:84: error: request for member 'vertexAttributeInstanceRateZeroDivisor' in 'obj', which is of non-class type 'const int'
+|  3408 |     p.PrintKeyBool("vertexAttributeInstanceRateZeroDivisor", static_cast<bool>(obj.vertexAttributeInstanceRateZeroDivisor));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3409:60: error: request for member 'indexTypeUint8' in 'obj', which is of non-class type 'const int'
+|  3409 |     p.PrintKeyBool("indexTypeUint8", static_cast<bool>(obj.indexTypeUint8));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3410:71: error: request for member 'dynamicRenderingLocalRead' in 'obj', which is of non-class type 'const int'
+|  3410 |     p.PrintKeyBool("dynamicRenderingLocalRead", static_cast<bool>(obj.dynamicRenderingLocalRead));
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3411:58: error: request for member 'maintenance5' in 'obj', which is of non-class type 'const int'
+|  3411 |     p.PrintKeyBool("maintenance5", static_cast<bool>(obj.maintenance5));
+|       |                                                          ^~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3412:58: error: request for member 'maintenance6' in 'obj', which is of non-class type 'const int'
+|  3412 |     p.PrintKeyBool("maintenance6", static_cast<bool>(obj.maintenance6));
+|       |                                                          ^~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3413:69: error: request for member 'pipelineProtectedAccess' in 'obj', which is of non-class type 'const int'
+|  3413 |     p.PrintKeyBool("pipelineProtectedAccess", static_cast<bool>(obj.pipelineProtectedAccess));
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3414:64: error: request for member 'pipelineRobustness' in 'obj', which is of non-class type 'const int'
+|  3414 |     p.PrintKeyBool("pipelineRobustness", static_cast<bool>(obj.pipelineRobustness));
+|       |                                                                ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3415:59: error: request for member 'hostImageCopy' in 'obj', which is of non-class type 'const int'
+|  3415 |     p.PrintKeyBool("hostImageCopy", static_cast<bool>(obj.hostImageCopy));
+|       |                                                           ^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3416:60: error: request for member 'pushDescriptor' in 'obj', which is of non-class type 'const int'
+|  3416 |     p.PrintKeyBool("pushDescriptor", static_cast<bool>(obj.pushDescriptor));
+|       |                                                            ^~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3418:81: error: 'VkPhysicalDeviceVulkan14Properties' does not name a type; did you mean 'VkPhysicalDeviceVulkan13Properties'?
+|  3418 | void DumpVkPhysicalDeviceVulkan14Properties(Printer &p, std::string name, const VkPhysicalDeviceVulkan14Properties &obj) {
+|       |                                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                 VkPhysicalDeviceVulkan13Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkPhysicalDeviceVulkan14Properties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3421:54: error: request for member 'lineSubPixelPrecisionBits' in 'obj', which is of non-class type 'const int'
+|  3421 |     p.PrintKeyValue("lineSubPixelPrecisionBits", obj.lineSubPixelPrecisionBits);
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3422:51: error: request for member 'maxVertexAttribDivisor' in 'obj', which is of non-class type 'const int'
+|  3422 |     p.PrintKeyValue("maxVertexAttribDivisor", obj.maxVertexAttribDivisor);
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3423:74: error: request for member 'supportsNonZeroFirstInstance' in 'obj', which is of non-class type 'const int'
+|  3423 |     p.PrintKeyBool("supportsNonZeroFirstInstance", static_cast<bool>(obj.supportsNonZeroFirstInstance));
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3424:47: error: request for member 'maxPushDescriptors' in 'obj', which is of non-class type 'const int'
+|  3424 |     p.PrintKeyValue("maxPushDescriptors", obj.maxPushDescriptors);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3425:94: error: request for member 'dynamicRenderingLocalReadDepthStencilAttachments' in 'obj', which is of non-class type 'const int'
+|  3425 |     p.PrintKeyBool("dynamicRenderingLocalReadDepthStencilAttachments", static_cast<bool>(obj.dynamicRenderingLocalReadDepthStencilAttachments));
+|       |                                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3426:94: error: request for member 'dynamicRenderingLocalReadMultisampledAttachments' in 'obj', which is of non-class type 'const int'
+|  3426 |     p.PrintKeyBool("dynamicRenderingLocalReadMultisampledAttachments", static_cast<bool>(obj.dynamicRenderingLocalReadMultisampledAttachments));
+|       |                                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3427:97: error: request for member 'earlyFragmentMultisampleCoverageAfterSampleCounting' in 'obj', which is of non-class type 'const int'
+|  3427 |     p.PrintKeyBool("earlyFragmentMultisampleCoverageAfterSampleCounting", static_cast<bool>(obj.earlyFragmentMultisampleCoverageAfterSampleCounting));
+|       |                                                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3428:93: error: request for member 'earlyFragmentSampleMaskTestBeforeSampleCounting' in 'obj', which is of non-class type 'const int'
+|  3428 |     p.PrintKeyBool("earlyFragmentSampleMaskTestBeforeSampleCounting", static_cast<bool>(obj.earlyFragmentSampleMaskTestBeforeSampleCounting));
+|       |                                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3429:75: error: request for member 'depthStencilSwizzleOneSupport' in 'obj', which is of non-class type 'const int'
+|  3429 |     p.PrintKeyBool("depthStencilSwizzleOneSupport", static_cast<bool>(obj.depthStencilSwizzleOneSupport));
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3430:66: error: request for member 'polygonModePointSize' in 'obj', which is of non-class type 'const int'
+|  3430 |     p.PrintKeyBool("polygonModePointSize", static_cast<bool>(obj.polygonModePointSize));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3431:91: error: request for member 'nonStrictSinglePixelWideLinesUseParallelogram' in 'obj', which is of non-class type 'const int'
+|  3431 |     p.PrintKeyBool("nonStrictSinglePixelWideLinesUseParallelogram", static_cast<bool>(obj.nonStrictSinglePixelWideLinesUseParallelogram));
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3432:80: error: request for member 'nonStrictWideLinesUseParallelogram' in 'obj', which is of non-class type 'const int'
+|  3432 |     p.PrintKeyBool("nonStrictWideLinesUseParallelogram", static_cast<bool>(obj.nonStrictWideLinesUseParallelogram));
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3433:84: error: request for member 'blockTexelViewCompatibleMultipleLayers' in 'obj', which is of non-class type 'const int'
+|  3433 |     p.PrintKeyBool("blockTexelViewCompatibleMultipleLayers", static_cast<bool>(obj.blockTexelViewCompatibleMultipleLayers));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3434:67: error: request for member 'maxCombinedImageSamplerDescriptorCount' in 'obj', which is of non-class type 'const int'
+|  3434 |     p.PrintKeyValue("maxCombinedImageSamplerDescriptorCount", obj.maxCombinedImageSamplerDescriptorCount);
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3435:84: error: request for member 'fragmentShadingRateClampCombinerInputs' in 'obj', which is of non-class type 'const int'
+|  3435 |     p.PrintKeyBool("fragmentShadingRateClampCombinerInputs", static_cast<bool>(obj.fragmentShadingRateClampCombinerInputs));
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3436:86: error: request for member 'defaultRobustnessStorageBuffers' in 'obj', which is of non-class type 'const int'
+|  3436 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessStorageBuffers", obj.defaultRobustnessStorageBuffers);
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3437:86: error: request for member 'defaultRobustnessUniformBuffers' in 'obj', which is of non-class type 'const int'
+|  3437 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessUniformBuffers", obj.defaultRobustnessUniformBuffers);
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3438:84: error: request for member 'defaultRobustnessVertexInputs' in 'obj', which is of non-class type 'const int'
+|  3438 |     DumpVkPipelineRobustnessBufferBehavior(p, "defaultRobustnessVertexInputs", obj.defaultRobustnessVertexInputs);
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3439:77: error: request for member 'defaultRobustnessImages' in 'obj', which is of non-class type 'const int'
+|  3439 |     DumpVkPipelineRobustnessImageBehavior(p, "defaultRobustnessImages", obj.defaultRobustnessImages);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3440:47: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3440 |     p.PrintKeyValue("copySrcLayoutCount", obj.copySrcLayoutCount);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3441:13: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3441 |     if (obj.copySrcLayoutCount == 0 || obj.pCopySrcLayouts == nullptr) {
+|       |             ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3441:44: error: request for member 'pCopySrcLayouts' in 'obj', which is of non-class type 'const int'
+|  3441 |     if (obj.copySrcLayoutCount == 0 || obj.pCopySrcLayouts == nullptr) {
+|       |                                            ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3444:51: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3444 |         ArrayWrapper arr(p,"pCopySrcLayouts", obj.copySrcLayoutCount);
+|       |                                                   ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3445:38: error: request for member 'copySrcLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3445 |         for (uint32_t i = 0; i < obj.copySrcLayoutCount; i++) {
+|       |                                      ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3446:57: error: request for member 'pCopySrcLayouts' in 'obj', which is of non-class type 'const int'
+|  3446 |             DumpVkImageLayout(p, std::to_string(i), obj.pCopySrcLayouts[i]);
+|       |                                                         ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3449:47: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3449 |     p.PrintKeyValue("copyDstLayoutCount", obj.copyDstLayoutCount);
+|       |                                               ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3450:13: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3450 |     if (obj.copyDstLayoutCount == 0 || obj.pCopyDstLayouts == nullptr) {
+|       |             ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3450:44: error: request for member 'pCopyDstLayouts' in 'obj', which is of non-class type 'const int'
+|  3450 |     if (obj.copyDstLayoutCount == 0 || obj.pCopyDstLayouts == nullptr) {
+|       |                                            ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3453:51: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3453 |         ArrayWrapper arr(p,"pCopyDstLayouts", obj.copyDstLayoutCount);
+|       |                                                   ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3454:38: error: request for member 'copyDstLayoutCount' in 'obj', which is of non-class type 'const int'
+|  3454 |         for (uint32_t i = 0; i < obj.copyDstLayoutCount; i++) {
+|       |                                      ^~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3455:57: error: request for member 'pCopyDstLayouts' in 'obj', which is of non-class type 'const int'
+|  3455 |             DumpVkImageLayout(p, std::to_string(i), obj.pCopyDstLayouts[i]);
+|       |                                                         ^~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3458:52: error: request for member 'optimalTilingLayoutUUID' in 'obj', which is of non-class type 'const int'
+|  3458 |     p.PrintKeyValue("optimalTilingLayoutUUID", obj.optimalTilingLayoutUUID);
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3459:77: error: request for member 'identicalMemoryTypeRequirements' in 'obj', which is of non-class type 'const int'
+|  3459 |     p.PrintKeyBool("identicalMemoryTypeRequirements", static_cast<bool>(obj.identicalMemoryTypeRequirements));
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3491:84: error: 'VkQueueFamilyGlobalPriorityProperties' does not name a type; did you mean 'VkQueueFamilyGlobalPriorityPropertiesKHR'?
+|  3491 | void DumpVkQueueFamilyGlobalPriorityProperties(Printer &p, std::string name, const VkQueueFamilyGlobalPriorityProperties &obj) {
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                    VkQueueFamilyGlobalPriorityPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void DumpVkQueueFamilyGlobalPriorityProperties(Printer&, std::string, const int&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3494:42: error: request for member 'priorityCount' in 'obj', which is of non-class type 'const int'
+|  3494 |     p.PrintKeyValue("priorityCount", obj.priorityCount);
+|       |                                          ^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3495:42: error: request for member 'priorityCount' in 'obj', which is of non-class type 'const int'
+|  3495 |     ArrayWrapper arr(p,"priorities", obj.priorityCount);
+|       |                                          ^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3496:34: error: request for member 'priorityCount' in 'obj', which is of non-class type 'const int'
+|  3496 |     for (uint32_t i = 0; i < obj.priorityCount; i++) {
+|       |                                  ^~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3498:79: error: request for member 'priorities' in 'obj', which is of non-class type 'const int'
+|  3498 |            p.PrintString(std::string("VK_") + VkQueueGlobalPriorityString(obj.priorities[i]));
+|       |                                                                               ^~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3500:58: error: request for member 'priorities' in 'obj', which is of non-class type 'const int'
+|  3500 |            p.PrintString(VkQueueGlobalPriorityString(obj.priorities[i]));
+|       |                                                          ^~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3602:5: error: 'VkPhysicalDeviceHostImageCopyProperties' does not name a type; did you mean 'VkPhysicalDeviceHostImageCopyPropertiesEXT'?
+|  3602 |     VkPhysicalDeviceHostImageCopyProperties PhysicalDeviceHostImageCopyProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceHostImageCopyPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3610:5: error: 'VkPhysicalDeviceLineRasterizationProperties' does not name a type; did you mean 'VkPhysicalDeviceLineRasterizationPropertiesKHR'?
+|  3610 |     VkPhysicalDeviceLineRasterizationProperties PhysicalDeviceLineRasterizationProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceLineRasterizationPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3613:5: error: 'VkPhysicalDeviceMaintenance5Properties' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  3613 |     VkPhysicalDeviceMaintenance5Properties PhysicalDeviceMaintenance5Properties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3614:5: error: 'VkPhysicalDeviceMaintenance6Properties' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  3614 |     VkPhysicalDeviceMaintenance6Properties PhysicalDeviceMaintenance6Properties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3625:5: error: 'VkPhysicalDevicePipelineRobustnessProperties' does not name a type; did you mean 'VkPhysicalDevicePipelineRobustnessPropertiesEXT'?
+|  3625 |     VkPhysicalDevicePipelineRobustnessProperties PhysicalDevicePipelineRobustnessProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDevicePipelineRobustnessPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3632:5: error: 'VkPhysicalDevicePushDescriptorProperties' does not name a type; did you mean 'VkPhysicalDevicePushDescriptorPropertiesKHR'?
+|  3632 |     VkPhysicalDevicePushDescriptorProperties PhysicalDevicePushDescriptorProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDevicePushDescriptorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3646:5: error: 'VkPhysicalDeviceVertexAttributeDivisorProperties' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR'?
+|  3646 |     VkPhysicalDeviceVertexAttributeDivisorProperties PhysicalDeviceVertexAttributeDivisorProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3651:5: error: 'VkPhysicalDeviceVulkan14Properties' does not name a type; did you mean 'VkPhysicalDeviceVulkan13Properties'?
+|  3651 |     VkPhysicalDeviceVulkan14Properties PhysicalDeviceVulkan14Properties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVulkan13Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void phys_device_props2_chain::initialize_chain(AppInstance&, AppGpu&, bool)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3677:9: error: 'PhysicalDeviceHostImageCopyProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyPropertiesEXT'?
+|  3677 |         PhysicalDeviceHostImageCopyProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceHostImageCopyPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3677:55: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT'?
+|  3677 |         PhysicalDeviceHostImageCopyProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES;
+|       |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                       VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3682:9: error: 'PhysicalDeviceLineRasterizationProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationPropertiesKHR'?
+|  3682 |         PhysicalDeviceLineRasterizationProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceLineRasterizationPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3682:59: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR'?
+|  3682 |         PhysicalDeviceLineRasterizationProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES;
+|       |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                           VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3685:9: error: 'PhysicalDeviceMaintenance5Properties' was not declared in this scope; did you mean 'PhysicalDeviceMaintenance3Properties'?
+|  3685 |         PhysicalDeviceMaintenance5Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceMaintenance3Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3685:54: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  3685 |         PhysicalDeviceMaintenance5Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES;
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3686:9: error: 'PhysicalDeviceMaintenance6Properties' was not declared in this scope; did you mean 'PhysicalDeviceMaintenance3Properties'?
+|  3686 |         PhysicalDeviceMaintenance6Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceMaintenance3Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3686:54: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  3686 |         PhysicalDeviceMaintenance6Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES;
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3697:9: error: 'PhysicalDevicePipelineRobustnessProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessPropertiesEXT'?
+|  3697 |         PhysicalDevicePipelineRobustnessProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDevicePipelineRobustnessPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3697:60: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT'?
+|  3697 |         PhysicalDevicePipelineRobustnessProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3704:9: error: 'PhysicalDevicePushDescriptorProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePushDescriptorPropertiesKHR'?
+|  3704 |         PhysicalDevicePushDescriptorProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDevicePushDescriptorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3704:56: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR'?
+|  3704 |         PhysicalDevicePushDescriptorProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES;
+|       |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3718:9: error: 'PhysicalDeviceVertexAttributeDivisorProperties' was not declared in this scope; did you mean 'PhysicalDeviceVertexAttributeDivisorPropertiesEXT'?
+|  3718 |         PhysicalDeviceVertexAttributeDivisorProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceVertexAttributeDivisorPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3718:64: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR'?
+|  3718 |         PhysicalDeviceVertexAttributeDivisorProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES;
+|       |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3723:9: error: 'PhysicalDeviceVulkan14Properties' was not declared in this scope; did you mean 'PhysicalDeviceVulkan11Properties'?
+|  3723 |         PhysicalDeviceVulkan14Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceVulkan11Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3723:50: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES'?
+|  3723 |         PhysicalDeviceVulkan14Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES;
+|       |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                  VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3774:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3774 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3790:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3790 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3799:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3799 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3802:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3802 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3826:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3826 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3840:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3840 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3874:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3874 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:3884:33: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  3884 |         if ((gpu.api_version >= VK_API_VERSION_1_4))
+|       |                                 ^~~~~~~~~~~~~~~~~~
+|       |                                 VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_phys_device_props2(Printer&, AppInstance&, AppGpu&, bool, void*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4015:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT'?
+|  4015 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4016:13: error: 'VkPhysicalDeviceHostImageCopyProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyPropertiesEXT'?
+|  4016 |             VkPhysicalDeviceHostImageCopyProperties* props = (VkPhysicalDeviceHostImageCopyProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceHostImageCopyPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4016:54: error: 'props' was not declared in this scope
+|  4016 |             VkPhysicalDeviceHostImageCopyProperties* props = (VkPhysicalDeviceHostImageCopyProperties*)structure;
+|       |                                                      ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4016:103: error: expected primary-expression before ')' token
+|  4016 |             VkPhysicalDeviceHostImageCopyProperties* props = (VkPhysicalDeviceHostImageCopyProperties*)structure;
+|       |                                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4017:79: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4017 |             DumpVkPhysicalDeviceHostImageCopyProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceHostImageCopyProperties":"VkPhysicalDeviceHostImageCopyPropertiesEXT", *props);
+|       |                                                                               ^~~~~~~~~~~~~~~~~~
+|       |                                                                               VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4040:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR'?
+|  4040 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4041:13: error: 'VkPhysicalDeviceLineRasterizationProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationPropertiesKHR'?
+|  4041 |             VkPhysicalDeviceLineRasterizationProperties* props = (VkPhysicalDeviceLineRasterizationProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceLineRasterizationPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4041:58: error: 'props' was not declared in this scope
+|  4041 |             VkPhysicalDeviceLineRasterizationProperties* props = (VkPhysicalDeviceLineRasterizationProperties*)structure;
+|       |                                                          ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4041:111: error: expected primary-expression before ')' token
+|  4041 |             VkPhysicalDeviceLineRasterizationProperties* props = (VkPhysicalDeviceLineRasterizationProperties*)structure;
+|       |                                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4042:83: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4042 |             DumpVkPhysicalDeviceLineRasterizationProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceLineRasterizationProperties":"VkPhysicalDeviceLineRasterizationPropertiesKHR", *props);
+|       |                                                                                   ^~~~~~~~~~~~~~~~~~
+|       |                                                                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4055:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  4055 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4056:13: error: 'VkPhysicalDeviceMaintenance5Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  4056 |             VkPhysicalDeviceMaintenance5Properties* props = (VkPhysicalDeviceMaintenance5Properties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4056:53: error: 'props' was not declared in this scope
+|  4056 |             VkPhysicalDeviceMaintenance5Properties* props = (VkPhysicalDeviceMaintenance5Properties*)structure;
+|       |                                                     ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4056:101: error: expected primary-expression before ')' token
+|  4056 |             VkPhysicalDeviceMaintenance5Properties* props = (VkPhysicalDeviceMaintenance5Properties*)structure;
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4057:78: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4057 |             DumpVkPhysicalDeviceMaintenance5Properties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceMaintenance5Properties":"VkPhysicalDeviceMaintenance5PropertiesKHR", *props);
+|       |                                                                              ^~~~~~~~~~~~~~~~~~
+|       |                                                                              VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4060:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES'?
+|  4060 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4061:13: error: 'VkPhysicalDeviceMaintenance6Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Properties'?
+|  4061 |             VkPhysicalDeviceMaintenance6Properties* props = (VkPhysicalDeviceMaintenance6Properties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceMaintenance4Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4061:53: error: 'props' was not declared in this scope
+|  4061 |             VkPhysicalDeviceMaintenance6Properties* props = (VkPhysicalDeviceMaintenance6Properties*)structure;
+|       |                                                     ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4061:101: error: expected primary-expression before ')' token
+|  4061 |             VkPhysicalDeviceMaintenance6Properties* props = (VkPhysicalDeviceMaintenance6Properties*)structure;
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4062:78: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4062 |             DumpVkPhysicalDeviceMaintenance6Properties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceMaintenance6Properties":"VkPhysicalDeviceMaintenance6PropertiesKHR", *props);
+|       |                                                                              ^~~~~~~~~~~~~~~~~~
+|       |                                                                              VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4115:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT'?
+|  4115 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4116:13: error: 'VkPhysicalDevicePipelineRobustnessProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessPropertiesEXT'?
+|  4116 |             VkPhysicalDevicePipelineRobustnessProperties* props = (VkPhysicalDevicePipelineRobustnessProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDevicePipelineRobustnessPropertiesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4116:59: error: 'props' was not declared in this scope
+|  4116 |             VkPhysicalDevicePipelineRobustnessProperties* props = (VkPhysicalDevicePipelineRobustnessProperties*)structure;
+|       |                                                           ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4116:113: error: expected primary-expression before ')' token
+|  4116 |             VkPhysicalDevicePipelineRobustnessProperties* props = (VkPhysicalDevicePipelineRobustnessProperties*)structure;
+|       |                                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4117:84: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4117 |             DumpVkPhysicalDevicePipelineRobustnessProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDevicePipelineRobustnessProperties":"VkPhysicalDevicePipelineRobustnessPropertiesEXT", *props);
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~
+|       |                                                                                    VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4142:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR'?
+|  4142 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4143:13: error: 'VkPhysicalDevicePushDescriptorProperties' was not declared in this scope; did you mean 'VkPhysicalDevicePushDescriptorPropertiesKHR'?
+|  4143 |             VkPhysicalDevicePushDescriptorProperties* props = (VkPhysicalDevicePushDescriptorProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDevicePushDescriptorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4143:55: error: 'props' was not declared in this scope
+|  4143 |             VkPhysicalDevicePushDescriptorProperties* props = (VkPhysicalDevicePushDescriptorProperties*)structure;
+|       |                                                       ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4143:105: error: expected primary-expression before ')' token
+|  4143 |             VkPhysicalDevicePushDescriptorProperties* props = (VkPhysicalDevicePushDescriptorProperties*)structure;
+|       |                                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4144:80: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4144 |             DumpVkPhysicalDevicePushDescriptorProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDevicePushDescriptorProperties":"VkPhysicalDevicePushDescriptorPropertiesKHR", *props);
+|       |                                                                                ^~~~~~~~~~~~~~~~~~
+|       |                                                                                VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4212:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR'?
+|  4212 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4213:13: error: 'VkPhysicalDeviceVertexAttributeDivisorProperties' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR'?
+|  4213 |             VkPhysicalDeviceVertexAttributeDivisorProperties* props = (VkPhysicalDeviceVertexAttributeDivisorProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4213:63: error: 'props' was not declared in this scope
+|  4213 |             VkPhysicalDeviceVertexAttributeDivisorProperties* props = (VkPhysicalDeviceVertexAttributeDivisorProperties*)structure;
+|       |                                                               ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4213:121: error: expected primary-expression before ')' token
+|  4213 |             VkPhysicalDeviceVertexAttributeDivisorProperties* props = (VkPhysicalDeviceVertexAttributeDivisorProperties*)structure;
+|       |                                                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4214:88: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4214 |             DumpVkPhysicalDeviceVertexAttributeDivisorProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceVertexAttributeDivisorProperties":"VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR", *props);
+|       |                                                                                        ^~~~~~~~~~~~~~~~~~
+|       |                                                                                        VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4237:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES'?
+|  4237 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4238:13: error: 'VkPhysicalDeviceVulkan14Properties' was not declared in this scope; did you mean 'VkPhysicalDeviceVulkan13Properties'?
+|  4238 |             VkPhysicalDeviceVulkan14Properties* props = (VkPhysicalDeviceVulkan14Properties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceVulkan13Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4238:49: error: 'props' was not declared in this scope
+|  4238 |             VkPhysicalDeviceVulkan14Properties* props = (VkPhysicalDeviceVulkan14Properties*)structure;
+|       |                                                 ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4238:93: error: expected primary-expression before ')' token
+|  4238 |             VkPhysicalDeviceVulkan14Properties* props = (VkPhysicalDeviceVulkan14Properties*)structure;
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'bool prepare_phys_device_props2_twocall_chain_vectors(std::unique_ptr<phys_device_props2_chain>&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4248:82: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceHostImageCopyProperties'; did you mean 'PhysicalDeviceMultiviewProperties'?
+|  4248 |     chain->VkPhysicalDeviceHostImageCopyProperties_pCopySrcLayouts.resize(chain->PhysicalDeviceHostImageCopyProperties.copySrcLayoutCount);
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                  PhysicalDeviceMultiviewProperties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4249:12: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceHostImageCopyProperties'; did you mean 'PhysicalDeviceMultiviewProperties'?
+|  4249 |     chain->PhysicalDeviceHostImageCopyProperties.pCopySrcLayouts = chain->VkPhysicalDeviceHostImageCopyProperties_pCopySrcLayouts.data();
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            PhysicalDeviceMultiviewProperties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4250:82: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceHostImageCopyProperties'; did you mean 'PhysicalDeviceMultiviewProperties'?
+|  4250 |     chain->VkPhysicalDeviceHostImageCopyProperties_pCopyDstLayouts.resize(chain->PhysicalDeviceHostImageCopyProperties.copyDstLayoutCount);
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                  PhysicalDeviceMultiviewProperties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4251:12: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceHostImageCopyProperties'; did you mean 'PhysicalDeviceMultiviewProperties'?
+|  4251 |     chain->PhysicalDeviceHostImageCopyProperties.pCopyDstLayouts = chain->VkPhysicalDeviceHostImageCopyProperties_pCopyDstLayouts.data();
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            PhysicalDeviceMultiviewProperties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4254:77: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceVulkan14Properties'; did you mean 'PhysicalDeviceVulkan11Properties'?
+|  4254 |     chain->VkPhysicalDeviceVulkan14Properties_pCopySrcLayouts.resize(chain->PhysicalDeviceVulkan14Properties.copySrcLayoutCount);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                             PhysicalDeviceVulkan11Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4255:12: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceVulkan14Properties'; did you mean 'PhysicalDeviceVulkan11Properties'?
+|  4255 |     chain->PhysicalDeviceVulkan14Properties.pCopySrcLayouts = chain->VkPhysicalDeviceVulkan14Properties_pCopySrcLayouts.data();
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            PhysicalDeviceVulkan11Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4256:77: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceVulkan14Properties'; did you mean 'PhysicalDeviceVulkan11Properties'?
+|  4256 |     chain->VkPhysicalDeviceVulkan14Properties_pCopyDstLayouts.resize(chain->PhysicalDeviceVulkan14Properties.copyDstLayoutCount);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                             PhysicalDeviceVulkan11Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4257:12: error: 'struct phys_device_props2_chain' has no member named 'PhysicalDeviceVulkan14Properties'; did you mean 'PhysicalDeviceVulkan11Properties'?
+|  4257 |     chain->PhysicalDeviceVulkan14Properties.pCopyDstLayouts = chain->VkPhysicalDeviceVulkan14Properties_pCopyDstLayouts.data();
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            PhysicalDeviceVulkan11Properties
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4326:5: error: 'VkPhysicalDeviceDynamicRenderingLocalReadFeatures' does not name a type; did you mean 'VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR'?
+|  4326 |     VkPhysicalDeviceDynamicRenderingLocalReadFeatures PhysicalDeviceDynamicRenderingLocalReadFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4338:5: error: 'VkPhysicalDeviceGlobalPriorityQueryFeatures' does not name a type; did you mean 'VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR'?
+|  4338 |     VkPhysicalDeviceGlobalPriorityQueryFeatures PhysicalDeviceGlobalPriorityQueryFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4340:5: error: 'VkPhysicalDeviceHostImageCopyFeatures' does not name a type; did you mean 'VkPhysicalDeviceHostImageCopyFeaturesEXT'?
+|  4340 |     VkPhysicalDeviceHostImageCopyFeatures PhysicalDeviceHostImageCopyFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceHostImageCopyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4349:5: error: 'VkPhysicalDeviceIndexTypeUint8Features' does not name a type; did you mean 'VkPhysicalDeviceIndexTypeUint8FeaturesKHR'?
+|  4349 |     VkPhysicalDeviceIndexTypeUint8Features PhysicalDeviceIndexTypeUint8Features{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceIndexTypeUint8FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4353:5: error: 'VkPhysicalDeviceLineRasterizationFeatures' does not name a type; did you mean 'VkPhysicalDeviceLineRasterizationFeaturesKHR'?
+|  4353 |     VkPhysicalDeviceLineRasterizationFeatures PhysicalDeviceLineRasterizationFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceLineRasterizationFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4355:5: error: 'VkPhysicalDeviceMaintenance5Features' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  4355 |     VkPhysicalDeviceMaintenance5Features PhysicalDeviceMaintenance5Features{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4356:5: error: 'VkPhysicalDeviceMaintenance6Features' does not name a type; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  4356 |     VkPhysicalDeviceMaintenance6Features PhysicalDeviceMaintenance6Features{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4375:5: error: 'VkPhysicalDevicePipelineProtectedAccessFeatures' does not name a type; did you mean 'VkPhysicalDevicePipelineProtectedAccessFeaturesEXT'?
+|  4375 |     VkPhysicalDevicePipelineProtectedAccessFeatures PhysicalDevicePipelineProtectedAccessFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDevicePipelineProtectedAccessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4376:5: error: 'VkPhysicalDevicePipelineRobustnessFeatures' does not name a type; did you mean 'VkPhysicalDevicePipelineRobustnessFeaturesEXT'?
+|  4376 |     VkPhysicalDevicePipelineRobustnessFeatures PhysicalDevicePipelineRobustnessFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDevicePipelineRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4381:5: error: 'VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT' does not name a type; did you mean 'VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT'?
+|  4381 |     VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT PhysicalDevicePresentModeFifoLatestReadyFeaturesEXT{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4404:5: error: 'VkPhysicalDeviceShaderExpectAssumeFeatures' does not name a type; did you mean 'VkPhysicalDeviceShaderExpectAssumeFeaturesKHR'?
+|  4404 |     VkPhysicalDeviceShaderExpectAssumeFeatures PhysicalDeviceShaderExpectAssumeFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceShaderExpectAssumeFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4406:5: error: 'VkPhysicalDeviceShaderFloatControls2Features' does not name a type; did you mean 'VkPhysicalDeviceShaderFloatControls2FeaturesKHR'?
+|  4406 |     VkPhysicalDeviceShaderFloatControls2Features PhysicalDeviceShaderFloatControls2Features{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceShaderFloatControls2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4417:5: error: 'VkPhysicalDeviceShaderSubgroupRotateFeatures' does not name a type; did you mean 'VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR'?
+|  4417 |     VkPhysicalDeviceShaderSubgroupRotateFeatures PhysicalDeviceShaderSubgroupRotateFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4431:5: error: 'VkPhysicalDeviceVertexAttributeDivisorFeatures' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR'?
+|  4431 |     VkPhysicalDeviceVertexAttributeDivisorFeatures PhysicalDeviceVertexAttributeDivisorFeatures{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4432:5: error: 'VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT'?
+|  4432 |     VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT PhysicalDeviceVertexAttributeRobustnessFeaturesEXT{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4434:5: error: 'VkPhysicalDeviceVideoEncodeAV1FeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceVideoMaintenance1FeaturesKHR'?
+|  4434 |     VkPhysicalDeviceVideoEncodeAV1FeaturesKHR PhysicalDeviceVideoEncodeAV1FeaturesKHR{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVideoMaintenance1FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4435:5: error: 'VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceSynchronization2FeaturesKHR'?
+|  4435 |     VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR PhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceSynchronization2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4440:5: error: 'VkPhysicalDeviceVulkan14Features' does not name a type; did you mean 'VkPhysicalDeviceVulkan13Features'?
+|  4440 |     VkPhysicalDeviceVulkan14Features PhysicalDeviceVulkan14Features{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkPhysicalDeviceVulkan13Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void phys_device_features2_chain::initialize_chain(AppGpu&, bool)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4474:9: error: 'PhysicalDeviceDynamicRenderingLocalReadFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR'?
+|  4474 |         PhysicalDeviceDynamicRenderingLocalReadFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4474:65: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR'?
+|  4474 |         PhysicalDeviceDynamicRenderingLocalReadFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES;
+|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4486:9: error: 'PhysicalDeviceGlobalPriorityQueryFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR'?
+|  4486 |         PhysicalDeviceGlobalPriorityQueryFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4486:59: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR'?
+|  4486 |         PhysicalDeviceGlobalPriorityQueryFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES;
+|       |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                           VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4488:9: error: 'PhysicalDeviceHostImageCopyFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyFeaturesEXT'?
+|  4488 |         PhysicalDeviceHostImageCopyFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceHostImageCopyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4488:53: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT'?
+|  4488 |         PhysicalDeviceHostImageCopyFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES;
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4497:9: error: 'PhysicalDeviceIndexTypeUint8Features' was not declared in this scope; did you mean 'VkPhysicalDeviceIndexTypeUint8FeaturesKHR'?
+|  4497 |         PhysicalDeviceIndexTypeUint8Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceIndexTypeUint8FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4497:54: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR'?
+|  4497 |         PhysicalDeviceIndexTypeUint8Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES;
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4501:9: error: 'PhysicalDeviceLineRasterizationFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationFeaturesKHR'?
+|  4501 |         PhysicalDeviceLineRasterizationFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceLineRasterizationFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4501:57: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR'?
+|  4501 |         PhysicalDeviceLineRasterizationFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES;
+|       |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                         VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4503:9: error: 'PhysicalDeviceMaintenance5Features' was not declared in this scope; did you mean 'PhysicalDeviceMaintenance4Features'?
+|  4503 |         PhysicalDeviceMaintenance5Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4503:52: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  4503 |         PhysicalDeviceMaintenance5Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES;
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4504:9: error: 'PhysicalDeviceMaintenance6Features' was not declared in this scope; did you mean 'PhysicalDeviceMaintenance4Features'?
+|  4504 |         PhysicalDeviceMaintenance6Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4504:52: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  4504 |         PhysicalDeviceMaintenance6Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES;
+|       |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4523:9: error: 'PhysicalDevicePipelineProtectedAccessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineProtectedAccessFeaturesEXT'?
+|  4523 |         PhysicalDevicePipelineProtectedAccessFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDevicePipelineProtectedAccessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4523:63: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT'?
+|  4523 |         PhysicalDevicePipelineProtectedAccessFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES;
+|       |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                               VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4524:9: error: 'PhysicalDevicePipelineRobustnessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessFeaturesEXT'?
+|  4524 |         PhysicalDevicePipelineRobustnessFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDevicePipelineRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4524:58: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT'?
+|  4524 |         PhysicalDevicePipelineRobustnessFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4529:9: error: 'PhysicalDevicePresentModeFifoLatestReadyFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT'?
+|  4529 |         PhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4529:69: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT'?
+|  4529 |         PhysicalDevicePresentModeFifoLatestReadyFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT;
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4552:9: error: 'PhysicalDeviceShaderExpectAssumeFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderExpectAssumeFeaturesKHR'?
+|  4552 |         PhysicalDeviceShaderExpectAssumeFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceShaderExpectAssumeFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4552:58: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR'?
+|  4552 |         PhysicalDeviceShaderExpectAssumeFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES;
+|       |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4554:9: error: 'PhysicalDeviceShaderFloatControls2Features' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderFloatControls2FeaturesKHR'?
+|  4554 |         PhysicalDeviceShaderFloatControls2Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceShaderFloatControls2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4554:60: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR'?
+|  4554 |         PhysicalDeviceShaderFloatControls2Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4564:9: error: 'PhysicalDeviceShaderSubgroupRotateFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR'?
+|  4564 |         PhysicalDeviceShaderSubgroupRotateFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4564:60: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR'?
+|  4564 |         PhysicalDeviceShaderSubgroupRotateFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES;
+|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4578:9: error: 'PhysicalDeviceVertexAttributeDivisorFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR'?
+|  4578 |         PhysicalDeviceVertexAttributeDivisorFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4578:62: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR'?
+|  4578 |         PhysicalDeviceVertexAttributeDivisorFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES;
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4579:9: error: 'PhysicalDeviceVertexAttributeRobustnessFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT'?
+|  4579 |         PhysicalDeviceVertexAttributeRobustnessFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4579:68: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT'?
+|  4579 |         PhysicalDeviceVertexAttributeRobustnessFeaturesEXT.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT;
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4581:9: error: 'PhysicalDeviceVideoEncodeAV1FeaturesKHR' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR'?
+|  4581 |         PhysicalDeviceVideoEncodeAV1FeaturesKHR.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4581:57: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR'?
+|  4581 |         PhysicalDeviceVideoEncodeAV1FeaturesKHR.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR;
+|       |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                         VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4582:9: error: 'PhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR'?
+|  4582 |         PhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4582:69: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR'?
+|  4582 |         PhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR;
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4587:9: error: 'PhysicalDeviceVulkan14Features' was not declared in this scope; did you mean 'PhysicalDeviceVulkan11Features'?
+|  4587 |         PhysicalDeviceVulkan14Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         PhysicalDeviceVulkan11Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4587:48: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES'?
+|  4587 |         PhysicalDeviceVulkan14Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES;
+|       |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4655:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4655 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4682:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4682 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4687:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4687 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4710:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4710 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4721:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4721 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4727:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4727 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4730:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4730 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4772:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4772 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4775:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4775 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4783:54: error: 'VK_EXT_PRESENT_MODE_FIFO_LATEST_READY_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_DIRECT_MODE_DISPLAY_EXTENSION_NAME'?
+|  4783 |         if (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_PRESENT_MODE_FIFO_LATEST_READY_EXTENSION_NAME))
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_EXT_DIRECT_MODE_DISPLAY_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4837:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4837 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4843:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4843 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4866:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4866 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4903:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4903 |             && (gpu.api_version < VK_API_VERSION_1_4 || show_promoted_structs))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4905:54: error: 'VK_EXT_VERTEX_ATTRIBUTE_ROBUSTNESS_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_EXT_VERTEX_ATTRIBUTE_DIVISOR_EXTENSION_NAME'?
+|  4905 |         if (gpu.CheckPhysicalDeviceExtensionIncluded(VK_EXT_VERTEX_ATTRIBUTE_ROBUSTNESS_EXTENSION_NAME))
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_EXT_VERTEX_ATTRIBUTE_DIVISOR_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4909:54: error: 'VK_KHR_VIDEO_ENCODE_AV1_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_KHR_VIDEO_DECODE_AV1_EXTENSION_NAME'?
+|  4909 |         if (gpu.CheckPhysicalDeviceExtensionIncluded(VK_KHR_VIDEO_ENCODE_AV1_EXTENSION_NAME))
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_KHR_VIDEO_DECODE_AV1_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4911:54: error: 'VK_KHR_VIDEO_ENCODE_QUANTIZATION_MAP_EXTENSION_NAME' was not declared in this scope; did you mean 'VK_KHR_VIDEO_ENCODE_QUEUE_EXTENSION_NAME'?
+|  4911 |         if (gpu.CheckPhysicalDeviceExtensionIncluded(VK_KHR_VIDEO_ENCODE_QUANTIZATION_MAP_EXTENSION_NAME))
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VK_KHR_VIDEO_ENCODE_QUEUE_EXTENSION_NAME
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:4921:33: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  4921 |         if ((gpu.api_version >= VK_API_VERSION_1_4))
+|       |                                 ^~~~~~~~~~~~~~~~~~
+|       |                                 VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_phys_device_features2(Printer&, AppGpu&, bool, void*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5089:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR'?
+|  5089 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5090:13: error: 'VkPhysicalDeviceDynamicRenderingLocalReadFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR'?
+|  5090 |             VkPhysicalDeviceDynamicRenderingLocalReadFeatures* props = (VkPhysicalDeviceDynamicRenderingLocalReadFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5090:64: error: 'props' was not declared in this scope
+|  5090 |             VkPhysicalDeviceDynamicRenderingLocalReadFeatures* props = (VkPhysicalDeviceDynamicRenderingLocalReadFeatures*)structure;
+|       |                                                                ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5090:123: error: expected primary-expression before ')' token
+|  5090 |             VkPhysicalDeviceDynamicRenderingLocalReadFeatures* props = (VkPhysicalDeviceDynamicRenderingLocalReadFeatures*)structure;
+|       |                                                                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5091:89: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5091 |             DumpVkPhysicalDeviceDynamicRenderingLocalReadFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceDynamicRenderingLocalReadFeatures":"VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR", *props);
+|       |                                                                                         ^~~~~~~~~~~~~~~~~~
+|       |                                                                                         VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5149:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR'?
+|  5149 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5150:13: error: 'VkPhysicalDeviceGlobalPriorityQueryFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR'?
+|  5150 |             VkPhysicalDeviceGlobalPriorityQueryFeatures* props = (VkPhysicalDeviceGlobalPriorityQueryFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5150:58: error: 'props' was not declared in this scope
+|  5150 |             VkPhysicalDeviceGlobalPriorityQueryFeatures* props = (VkPhysicalDeviceGlobalPriorityQueryFeatures*)structure;
+|       |                                                          ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5150:111: error: expected primary-expression before ')' token
+|  5150 |             VkPhysicalDeviceGlobalPriorityQueryFeatures* props = (VkPhysicalDeviceGlobalPriorityQueryFeatures*)structure;
+|       |                                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5151:83: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5151 |             DumpVkPhysicalDeviceGlobalPriorityQueryFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceGlobalPriorityQueryFeatures":"VkPhysicalDeviceGlobalPriorityQueryFeaturesEXT", *props);
+|       |                                                                                   ^~~~~~~~~~~~~~~~~~
+|       |                                                                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5159:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT'?
+|  5159 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5160:13: error: 'VkPhysicalDeviceHostImageCopyFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceHostImageCopyFeaturesEXT'?
+|  5160 |             VkPhysicalDeviceHostImageCopyFeatures* props = (VkPhysicalDeviceHostImageCopyFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceHostImageCopyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5160:52: error: 'props' was not declared in this scope
+|  5160 |             VkPhysicalDeviceHostImageCopyFeatures* props = (VkPhysicalDeviceHostImageCopyFeatures*)structure;
+|       |                                                    ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5160:99: error: expected primary-expression before ')' token
+|  5160 |             VkPhysicalDeviceHostImageCopyFeatures* props = (VkPhysicalDeviceHostImageCopyFeatures*)structure;
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5161:77: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5161 |             DumpVkPhysicalDeviceHostImageCopyFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceHostImageCopyFeatures":"VkPhysicalDeviceHostImageCopyFeaturesEXT", *props);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~
+|       |                                                                             VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5204:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR'?
+|  5204 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5205:13: error: 'VkPhysicalDeviceIndexTypeUint8Features' was not declared in this scope; did you mean 'VkPhysicalDeviceIndexTypeUint8FeaturesKHR'?
+|  5205 |             VkPhysicalDeviceIndexTypeUint8Features* props = (VkPhysicalDeviceIndexTypeUint8Features*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceIndexTypeUint8FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5205:53: error: 'props' was not declared in this scope
+|  5205 |             VkPhysicalDeviceIndexTypeUint8Features* props = (VkPhysicalDeviceIndexTypeUint8Features*)structure;
+|       |                                                     ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5205:101: error: expected primary-expression before ')' token
+|  5205 |             VkPhysicalDeviceIndexTypeUint8Features* props = (VkPhysicalDeviceIndexTypeUint8Features*)structure;
+|       |                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5206:78: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5206 |             DumpVkPhysicalDeviceIndexTypeUint8Features(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceIndexTypeUint8Features":"VkPhysicalDeviceIndexTypeUint8FeaturesKHR", *props);
+|       |                                                                              ^~~~~~~~~~~~~~~~~~
+|       |                                                                              VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5224:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR'?
+|  5224 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5225:13: error: 'VkPhysicalDeviceLineRasterizationFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceLineRasterizationFeaturesKHR'?
+|  5225 |             VkPhysicalDeviceLineRasterizationFeatures* props = (VkPhysicalDeviceLineRasterizationFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceLineRasterizationFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5225:56: error: 'props' was not declared in this scope
+|  5225 |             VkPhysicalDeviceLineRasterizationFeatures* props = (VkPhysicalDeviceLineRasterizationFeatures*)structure;
+|       |                                                        ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5225:107: error: expected primary-expression before ')' token
+|  5225 |             VkPhysicalDeviceLineRasterizationFeatures* props = (VkPhysicalDeviceLineRasterizationFeatures*)structure;
+|       |                                                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5226:81: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5226 |             DumpVkPhysicalDeviceLineRasterizationFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceLineRasterizationFeatures":"VkPhysicalDeviceLineRasterizationFeaturesKHR", *props);
+|       |                                                                                 ^~~~~~~~~~~~~~~~~~
+|       |                                                                                 VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5234:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  5234 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5235:13: error: 'VkPhysicalDeviceMaintenance5Features' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  5235 |             VkPhysicalDeviceMaintenance5Features* props = (VkPhysicalDeviceMaintenance5Features*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5235:51: error: 'props' was not declared in this scope
+|  5235 |             VkPhysicalDeviceMaintenance5Features* props = (VkPhysicalDeviceMaintenance5Features*)structure;
+|       |                                                   ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5235:97: error: expected primary-expression before ')' token
+|  5235 |             VkPhysicalDeviceMaintenance5Features* props = (VkPhysicalDeviceMaintenance5Features*)structure;
+|       |                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5236:76: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5236 |             DumpVkPhysicalDeviceMaintenance5Features(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceMaintenance5Features":"VkPhysicalDeviceMaintenance5FeaturesKHR", *props);
+|       |                                                                            ^~~~~~~~~~~~~~~~~~
+|       |                                                                            VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5239:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES'?
+|  5239 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5240:13: error: 'VkPhysicalDeviceMaintenance6Features' was not declared in this scope; did you mean 'VkPhysicalDeviceMaintenance4Features'?
+|  5240 |             VkPhysicalDeviceMaintenance6Features* props = (VkPhysicalDeviceMaintenance6Features*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceMaintenance4Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5240:51: error: 'props' was not declared in this scope
+|  5240 |             VkPhysicalDeviceMaintenance6Features* props = (VkPhysicalDeviceMaintenance6Features*)structure;
+|       |                                                   ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5240:97: error: expected primary-expression before ')' token
+|  5240 |             VkPhysicalDeviceMaintenance6Features* props = (VkPhysicalDeviceMaintenance6Features*)structure;
+|       |                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5241:76: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5241 |             DumpVkPhysicalDeviceMaintenance6Features(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceMaintenance6Features":"VkPhysicalDeviceMaintenance6FeaturesKHR", *props);
+|       |                                                                            ^~~~~~~~~~~~~~~~~~
+|       |                                                                            VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5334:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT'?
+|  5334 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5335:13: error: 'VkPhysicalDevicePipelineProtectedAccessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineProtectedAccessFeaturesEXT'?
+|  5335 |             VkPhysicalDevicePipelineProtectedAccessFeatures* props = (VkPhysicalDevicePipelineProtectedAccessFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDevicePipelineProtectedAccessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5335:62: error: 'props' was not declared in this scope
+|  5335 |             VkPhysicalDevicePipelineProtectedAccessFeatures* props = (VkPhysicalDevicePipelineProtectedAccessFeatures*)structure;
+|       |                                                              ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5335:119: error: expected primary-expression before ')' token
+|  5335 |             VkPhysicalDevicePipelineProtectedAccessFeatures* props = (VkPhysicalDevicePipelineProtectedAccessFeatures*)structure;
+|       |                                                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5336:87: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5336 |             DumpVkPhysicalDevicePipelineProtectedAccessFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDevicePipelineProtectedAccessFeatures":"VkPhysicalDevicePipelineProtectedAccessFeaturesEXT", *props);
+|       |                                                                                       ^~~~~~~~~~~~~~~~~~
+|       |                                                                                       VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5339:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT'?
+|  5339 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5340:13: error: 'VkPhysicalDevicePipelineRobustnessFeatures' was not declared in this scope; did you mean 'VkPhysicalDevicePipelineRobustnessFeaturesEXT'?
+|  5340 |             VkPhysicalDevicePipelineRobustnessFeatures* props = (VkPhysicalDevicePipelineRobustnessFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDevicePipelineRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5340:57: error: 'props' was not declared in this scope
+|  5340 |             VkPhysicalDevicePipelineRobustnessFeatures* props = (VkPhysicalDevicePipelineRobustnessFeatures*)structure;
+|       |                                                         ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5340:109: error: expected primary-expression before ')' token
+|  5340 |             VkPhysicalDevicePipelineRobustnessFeatures* props = (VkPhysicalDevicePipelineRobustnessFeatures*)structure;
+|       |                                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5341:82: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5341 |             DumpVkPhysicalDevicePipelineRobustnessFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDevicePipelineRobustnessFeatures":"VkPhysicalDevicePipelineRobustnessFeaturesEXT", *props);
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~
+|       |                                                                                  VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5356:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT'?
+|  5356 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5357:13: error: 'VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT'?
+|  5357 |             VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT* props = (VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             DumpVkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5357:68: error: 'props' was not declared in this scope
+|  5357 |             VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT* props = (VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT*)structure;
+|       |                                                                    ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5357:131: error: expected primary-expression before ')' token
+|  5357 |             VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT* props = (VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT*)structure;
+|       |                                                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5471:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR'?
+|  5471 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5472:13: error: 'VkPhysicalDeviceShaderExpectAssumeFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderExpectAssumeFeaturesKHR'?
+|  5472 |             VkPhysicalDeviceShaderExpectAssumeFeatures* props = (VkPhysicalDeviceShaderExpectAssumeFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceShaderExpectAssumeFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5472:57: error: 'props' was not declared in this scope
+|  5472 |             VkPhysicalDeviceShaderExpectAssumeFeatures* props = (VkPhysicalDeviceShaderExpectAssumeFeatures*)structure;
+|       |                                                         ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5472:109: error: expected primary-expression before ')' token
+|  5472 |             VkPhysicalDeviceShaderExpectAssumeFeatures* props = (VkPhysicalDeviceShaderExpectAssumeFeatures*)structure;
+|       |                                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5473:82: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5473 |             DumpVkPhysicalDeviceShaderExpectAssumeFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceShaderExpectAssumeFeatures":"VkPhysicalDeviceShaderExpectAssumeFeaturesKHR", *props);
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~
+|       |                                                                                  VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5481:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR'?
+|  5481 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5482:13: error: 'VkPhysicalDeviceShaderFloatControls2Features' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderFloatControls2FeaturesKHR'?
+|  5482 |             VkPhysicalDeviceShaderFloatControls2Features* props = (VkPhysicalDeviceShaderFloatControls2Features*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceShaderFloatControls2FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5482:59: error: 'props' was not declared in this scope
+|  5482 |             VkPhysicalDeviceShaderFloatControls2Features* props = (VkPhysicalDeviceShaderFloatControls2Features*)structure;
+|       |                                                           ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5482:113: error: expected primary-expression before ')' token
+|  5482 |             VkPhysicalDeviceShaderFloatControls2Features* props = (VkPhysicalDeviceShaderFloatControls2Features*)structure;
+|       |                                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5483:84: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5483 |             DumpVkPhysicalDeviceShaderFloatControls2Features(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceShaderFloatControls2Features":"VkPhysicalDeviceShaderFloatControls2FeaturesKHR", *props);
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~
+|       |                                                                                    VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5531:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR'?
+|  5531 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5532:13: error: 'VkPhysicalDeviceShaderSubgroupRotateFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR'?
+|  5532 |             VkPhysicalDeviceShaderSubgroupRotateFeatures* props = (VkPhysicalDeviceShaderSubgroupRotateFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5532:59: error: 'props' was not declared in this scope
+|  5532 |             VkPhysicalDeviceShaderSubgroupRotateFeatures* props = (VkPhysicalDeviceShaderSubgroupRotateFeatures*)structure;
+|       |                                                           ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5532:113: error: expected primary-expression before ')' token
+|  5532 |             VkPhysicalDeviceShaderSubgroupRotateFeatures* props = (VkPhysicalDeviceShaderSubgroupRotateFeatures*)structure;
+|       |                                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5533:84: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5533 |             DumpVkPhysicalDeviceShaderSubgroupRotateFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceShaderSubgroupRotateFeatures":"VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR", *props);
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~
+|       |                                                                                    VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5601:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR'?
+|  5601 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5602:13: error: 'VkPhysicalDeviceVertexAttributeDivisorFeatures' was not declared in this scope; did you mean 'VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR'?
+|  5602 |             VkPhysicalDeviceVertexAttributeDivisorFeatures* props = (VkPhysicalDeviceVertexAttributeDivisorFeatures*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5602:61: error: 'props' was not declared in this scope
+|  5602 |             VkPhysicalDeviceVertexAttributeDivisorFeatures* props = (VkPhysicalDeviceVertexAttributeDivisorFeatures*)structure;
+|       |                                                             ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5602:117: error: expected primary-expression before ')' token
+|  5602 |             VkPhysicalDeviceVertexAttributeDivisorFeatures* props = (VkPhysicalDeviceVertexAttributeDivisorFeatures*)structure;
+|       |                                                                                                                     ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5603:86: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5603 |             DumpVkPhysicalDeviceVertexAttributeDivisorFeatures(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkPhysicalDeviceVertexAttributeDivisorFeatures":"VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR", *props);
+|       |                                                                                      ^~~~~~~~~~~~~~~~~~
+|       |                                                                                      VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5606:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT'?
+|  5606 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5607:13: error: 'VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT'?
+|  5607 |             VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT* props = (VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             DumpVkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5607:67: error: 'props' was not declared in this scope
+|  5607 |             VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT* props = (VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT*)structure;
+|       |                                                                   ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5607:129: error: expected primary-expression before ')' token
+|  5607 |             VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT* props = (VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT*)structure;
+|       |                                                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5616:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR'?
+|  5616 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5617:13: error: 'VkPhysicalDeviceVideoEncodeAV1FeaturesKHR' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR'?
+|  5617 |             VkPhysicalDeviceVideoEncodeAV1FeaturesKHR* props = (VkPhysicalDeviceVideoEncodeAV1FeaturesKHR*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             DumpVkPhysicalDeviceVideoEncodeAV1FeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5617:56: error: 'props' was not declared in this scope
+|  5617 |             VkPhysicalDeviceVideoEncodeAV1FeaturesKHR* props = (VkPhysicalDeviceVideoEncodeAV1FeaturesKHR*)structure;
+|       |                                                        ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5617:107: error: expected primary-expression before ')' token
+|  5617 |             VkPhysicalDeviceVideoEncodeAV1FeaturesKHR* props = (VkPhysicalDeviceVideoEncodeAV1FeaturesKHR*)structure;
+|       |                                                                                                           ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5621:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR'?
+|  5621 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5622:13: error: 'VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR' was not declared in this scope; did you mean 'DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR'?
+|  5622 |             VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR* props = (VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             DumpVkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5622:68: error: 'props' was not declared in this scope
+|  5622 |             VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR* props = (VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR*)structure;
+|       |                                                                    ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5622:131: error: expected primary-expression before ')' token
+|  5622 |             VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR* props = (VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR*)structure;
+|       |                                                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5646:33: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES'?
+|  5646 |         if (structure->sType == VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5647:13: error: 'VkPhysicalDeviceVulkan14Features' was not declared in this scope; did you mean 'VkPhysicalDeviceVulkan13Features'?
+|  5647 |             VkPhysicalDeviceVulkan14Features* props = (VkPhysicalDeviceVulkan14Features*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkPhysicalDeviceVulkan13Features
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5647:47: error: 'props' was not declared in this scope
+|  5647 |             VkPhysicalDeviceVulkan14Features* props = (VkPhysicalDeviceVulkan14Features*)structure;
+|       |                                               ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5647:89: error: expected primary-expression before ')' token
+|  5647 |             VkPhysicalDeviceVulkan14Features* props = (VkPhysicalDeviceVulkan14Features*)structure;
+|       |                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5817:5: error: 'VkQueueFamilyGlobalPriorityProperties' does not name a type; did you mean 'VkQueueFamilyGlobalPriorityPropertiesKHR'?
+|  5817 |     VkQueueFamilyGlobalPriorityProperties QueueFamilyGlobalPriorityProperties{};
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     VkQueueFamilyGlobalPriorityPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In member function 'void queue_properties2_chain::initialize_chain(AppGpu&)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5821:9: error: 'QueueFamilyGlobalPriorityProperties' was not declared in this scope; did you mean 'VkQueueFamilyGlobalPriorityPropertiesKHR'?
+|  5821 |         QueueFamilyGlobalPriorityProperties.sType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES;
+|       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |         VkQueueFamilyGlobalPriorityPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5821:53: error: 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR'?
+|  5821 |         QueueFamilyGlobalPriorityProperties.sType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES;
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                     VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5827:35: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5827 |             && (gpu.api_version < VK_API_VERSION_1_4 ))
+|       |                                   ^~~~~~~~~~~~~~~~~~
+|       |                                   VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'void chain_iterator_queue_properties2(Printer&, AppGpu&, void*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5852:33: error: 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR'?
+|  5852 |         if (structure->sType == VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES) {
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5853:13: error: 'VkQueueFamilyGlobalPriorityProperties' was not declared in this scope; did you mean 'VkQueueFamilyGlobalPriorityPropertiesKHR'?
+|  5853 |             VkQueueFamilyGlobalPriorityProperties* props = (VkQueueFamilyGlobalPriorityProperties*)structure;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkQueueFamilyGlobalPriorityPropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5853:52: error: 'props' was not declared in this scope
+|  5853 |             VkQueueFamilyGlobalPriorityProperties* props = (VkQueueFamilyGlobalPriorityProperties*)structure;
+|       |                                                    ^~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5853:99: error: expected primary-expression before ')' token
+|  5853 |             VkQueueFamilyGlobalPriorityProperties* props = (VkQueueFamilyGlobalPriorityProperties*)structure;
+|       |                                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5854:77: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5854 |             DumpVkQueueFamilyGlobalPriorityProperties(p, gpu.api_version >= VK_API_VERSION_1_4 ?"VkQueueFamilyGlobalPriorityProperties":"VkQueueFamilyGlobalPriorityPropertiesEXT", *props);
+|       |                                                                             ^~~~~~~~~~~~~~~~~~
+|       |                                                                             VK_API_VERSION_1_0
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/git/vulkaninfo/generated/vulkaninfo.hpp:5933:17: error: 'VK_API_VERSION_1_4' was not declared in this scope; did you mean 'VK_API_VERSION_1_0'?
+|  5933 |     FormatRange{VK_API_VERSION_1_4, nullptr, static_cast<VkFormat>(1000470000), static_cast<VkFormat>(1000470001)},
+|       |                 ^~~~~~~~~~~~~~~~~~
+|       |                 VK_API_VERSION_1_0
+| ninja: build stopped: subcommand failed.
+| 
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615, line 153
+| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615, line 147
+| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615, line 142
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615, line 166
+NOTE: recipe vulkan-tools-1.4.304.1-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1604 tasks of which 1593 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215115746.txt
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215101730.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215115746.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215101730.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libwpe/1.16.1/temp/log.do_packagedata.1910285
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-src went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-dbg went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-staticdev went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-dev went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-doc went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe-locale went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: QA Issue: Package version for package libwpe went backwards which would break package feeds (from 0:1.16.2-r0 to 0:1.16.1-r0) [version-going-backwards]
-ERROR: libwpe-1.16.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libwpe/1.16.1/temp/log.do_packagedata.1910285
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-sato/webkit/libwpe_1.16.1.bb:do_packagedata) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/log.do_compile.1217615
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: vulkan-tools-1.4.304.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/run.do_compile.1217615' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.4.304.1/temp/log.do_compile.1217615
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.4.304.1.bb:do_compile) failed with exit code '1'
 
---===============3532762376320822706==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/webkitgtk: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk: SRC_URI changed from "https://www.webkitgtk.org/releases/webkitgtk-2.46.5.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch file://no-musttail-arm.patch file://t6-not-declared.patch file://0001-Support-ICU-76.1-build.patch file://bmalloc-fix.patch file://sys_futex.patch" to "https://www.webkitgtk.org/releases/webkitgtk-2.46.6.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch file://no-musttail-arm.patch file://t6-not-declared.patch file://bmalloc-fix.patch file://sys_futex.patch"
-packages/core2-64-poky-linux/webkitgtk: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-Changes to packages/core2-64-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-6.0.so.1 changed symlink target from libjavascriptcoregtk-6.0.so.1.3.14 to libjavascriptcoregtk-6.0.so.1.3.15
-  /usr/lib/libwebkitgtk-6.0.so.4 changed symlink target from libwebkitgtk-6.0.so.4.10.7 to libwebkitgtk-6.0.so.4.10.8
-  /usr/lib/libjavascriptcoregtk-6.0.so.1.3.14 moved to /usr/lib/libjavascriptcoregtk-6.0.so.1.3.15
-  /usr/lib/libwebkitgtk-6.0.so.4.10.7 moved to /usr/lib/libwebkitgtk-6.0.so.4.10.8
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dbg: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dbg: PKGSIZE changed from 928623488 to 928866192 (+0%)
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dbg: FILELIST: removed "/usr/lib/.debug/libwebkitgtk-6.0.so.4.10.7 /usr/lib/.debug/libjavascriptcoregtk-6.0.so.1.3.14", added "/usr/lib/.debug/libjavascriptcoregtk-6.0.so.1.3.15 /usr/lib/.debug/libwebkitgtk-6.0.so.4.10.8"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dbg: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dev: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-dev: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-doc: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-doc: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ar: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ar: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-as: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-as: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-bg: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-bg: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ca: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ca: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-cs: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-cs: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-da: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-da: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-de: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-de: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-el: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-el: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-eo: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-eo: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-es: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-es: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-et: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-et: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-eu: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-eu: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-fi: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-fi: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-fr: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-fr: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-gl: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-gl: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-gu: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-gu: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-he: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-he: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hi: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hi: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hr: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hr: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hu: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-hu: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-id: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-id: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-it: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-it: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ja: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ja: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ka: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ka: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-kn: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-kn: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ko: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ko: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-lt: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-lt: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-lv: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-lv: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ml: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ml: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-mr: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-mr: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-nb: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-nb: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-nl: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-nl: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-or: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-or: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pa: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pa: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pl: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pl: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pt: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-pt: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ro: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ro: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ru: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ru: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sl: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sl: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sr: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sr: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sv: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-sv: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ta: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-ta: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-te: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-te: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-tr: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-tr: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-uk: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-uk: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-vi: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-vi: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-src: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-src: PKGSIZE changed from 253125342 to 253157964 (+0%)
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-src: FILELIST: directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/mock/mediasource -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/mock/mediasource, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libGLESv2 -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libGLESv2, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/preprocessor -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/preprocessor, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/gpu/ganesh/gl/epoxy -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu/ganesh/gl/epoxy, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/codec -> /usr/src/debug/web
- kitgtk/2.46.6/Source/ThirdParty/skia/src/codec, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/indexeddb/client -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/indexeddb/client, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/animation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/animation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libANGLE/capture -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libANGLE/capture, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/opentype -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/opentype, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Databases -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Da
- tabases, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCore/DerivedSources/yarr -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCore/DerivedSources/yarr, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html/parser -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html/parser, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/FileAPI -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/FileAPI, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/crypto/gcrypt -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/crypto/gcrypt, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/streams -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/streams, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Head
- ers/pal -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/simde/arm -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/simde/arm, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/mediastream -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/mediastream, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/threads -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/threads, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/inspector/remote -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/inspector/remote, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/bindings -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/bindings, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Network -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Network, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/We
- bCore/platform/xdg -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/xdg, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/third_party/zlib/google -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/third_party/zlib/google, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/editing -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/editing, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/audio -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/audio, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/gl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/gl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/audio/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/audio/
- glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/API -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/API, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/plugins -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/plugins, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/WebsiteData/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/WebsiteData/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/bindings/js -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/bindings/js, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/websockets -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/websockets, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/integration -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/integration, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/glib -> /usr/src/debug/webkitgtk
- /2.46.6/Source/WebKit/WebProcess/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl/tracing -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl/tracing, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/MediaCache -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/MediaCache, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/sksl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/sksl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/persistence -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/persistence, directory renamed /usr/src/debug/webkitgtk/2.46.5/
- Source/WebCore/Modules/webaudio -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/webaudio, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/base -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/base, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/contentextensions -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/contentextensions, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/dragonbox -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/dragonbox, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl/codegen -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl/codegen, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/fileapi -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/fileapi, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/filters/software -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gr
- aphics/filters/software, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/GPU/graphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/GPU/graphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/archive/mhtml -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/archive/mhtml, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/runtime -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/runtime, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/inspector/agents -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/inspector/agents, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/notifications -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/notifications, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/s
- vg/graphics/filters -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/svg/graphics/filters, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/storage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/storage, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/typedom/color -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/typedom/color, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/persistence -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/persistence, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/disassembler/zydis/Zydis -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/disassembler/zydis/Zydis, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/svg -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/svg, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/cookie-store -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/cookie-stor
- e, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/include/platform -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/include/platform, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/pathops -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/pathops, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle/API/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle/API/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/color -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/color, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Notifications -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Notifications, directory renamed /usr/src/debug/w
- ebkitgtk/2.46.5/Source/WebCore/platform/audio/gstreamer -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/audio/gstreamer, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/system -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/system, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/svg -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/svg, directory renamed /usr/src/debug/webkitgtk/2.46.5/Tools/MiniBrowser/gtk -> /usr/src/debug/webkitgtk/2.46.6/Tools/MiniBrowser/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/GPUProcess/graphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/GPUProcess/graphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/base/anglebase -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/common/base/anglebase, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/bytecompiler -> /usr/src/debug/webkitgtk/2.46.6/Sourc
- e/JavaScriptCore/bytecompiler, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/animation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/animation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/base/anglebase/trace_event -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/common/base/anglebase/trace_event, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html/canvas -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html/canvas, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Network -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Network, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/soup, directory renamed /usr/src/debug/w
- ebkitgtk/2.46.5/Source/ThirdParty/skia/modules/skcms/src -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/modules/skcms/src, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/style -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/style, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Headers/pal/text -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Headers/pal/crypto -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal/crypto, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/dtoa -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/dtoa, directory renamed /usr/
- src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/webcodecs -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/webcodecs, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/block/tablewrapper -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/block/tablewrapper, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers/service/server -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/service/server, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html, directory renamed /usr/src/debug/webkitgtk/2.46.5/WebCore/PrivateHeaders/WebCore -> /usr/src/debug/webkitgtk/2.46.6/WebCore/PrivateHeaders/WebCore, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/
- Notifications -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Notifications, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Launcher -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Launcher, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/integration/inline -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/integration/inline, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Inspector/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Inspector/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/API/c/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/API/c/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/private/base -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/private/base, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/highlight -> /usr/src/debug/we
- bkitgtk/2.46.6/Source/WebCore/Modules/highlight, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/typedom/transform -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/typedom/transform, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/gif -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/gif, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops/glsl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops/glsl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/posix -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/posix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/xml -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/xml, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/WebsiteData/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Webs
- iteData/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/displaylists -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/displaylists, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops/glsl/apple -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops/glsl/apple, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/generic -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/generic, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/image -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/image, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/base/anglebase/numerics -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANG
- LE/src/common/base/anglebase/numerics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/table -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/table, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/texmap/coordinated -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/texmap/coordinated, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Headers/pal/crypto/gcrypt -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal/crypto/gcrypt, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/worklets -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/worklets, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/accessibility/atspi -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/accessibility/atspi, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/editing/atspi -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/editing/atspi, director
- y renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/cssjit -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/cssjit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/CoordinatedGraphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/CoordinatedGraphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/model-element -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/model-element, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libANGLE -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libANGLE, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/network/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/network/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/effects -> /usr/sr
- c/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/effects, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Speech -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Speech, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/FullScreen -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/FullScreen, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/third_party/xxhash -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/common/third_party/xxhash, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/include/GLSLANG -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/include/GLSLANG, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/Cookies -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/Cookies, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/calc -> /usr/src/debug/webkitgtk/2.46.6
- /Source/WebCore/css/calc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/geometry -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/geometry, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/reporting -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/reporting, directory renamed /usr/src/debug/webkitgtk/2.46.5/ANGLE/Headers/ANGLE -> /usr/src/debug/webkitgtk/2.46.6/ANGLE/Headers/ANGLE, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/effects/colorfilters -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/effects/colorfilters, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/effects/imagefilters -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/effects/imagefilters, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/private/chromium -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdPart
- y/skia/include/private/chromium, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebDriver/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebDriver/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/PrivateClickMeasurement -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/PrivateClickMeasurement, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediastream -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/mediastream, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/geoclue -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/geoclue, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator/glsl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator/glsl, directory re
- named /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/image_util -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/image_util, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/Cookies/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/Cookies/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/linux -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/linux -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/WebCore/DerivedSources -> /usr/src/debug/webkitgtk/2.46.6/WebCore/DerivedSources, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers/service/background-fetch -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/service/background-fetch, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/dragonbox -> /usr/s
- rc/debug/webkitgtk/2.46.6/WTF/Headers/wtf/dragonbox, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers/shared -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/shared, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/unicode -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/unicode, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/GPUProcess/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/GPUProcess/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediacapabilities -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/mediacapabilities, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Cache -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Cache, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/crypto -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/crypto, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source
- /ThirdParty/skia/src/gpu/ganesh/mock -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/mock, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/inline -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/inline, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/CoordinatedGraphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/CoordinatedGraphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage/RemoteLayerTree -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage/RemoteLayerTree, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/gpu_info_util -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/gpu_info_util, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/async-clipboard -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/async-clipboard, directory ren
- amed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/ShapeDetection/Interfaces -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/ShapeDetection/Interfaces, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediarecorder -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/mediarecorder, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/b3/air -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/b3/air, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/bmp -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/bmp, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/C -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/C, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/xdgmime/src -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/xdgmime/src, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/W
- ebCore/crypto/algorithms -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/crypto/algorithms, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/identity -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/identity, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/typedom/numeric -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/typedom/numeric, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/threads -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/threads, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/svg/legacy -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/svg/legacy, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/IPC -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform/IPC, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/push-api -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/push-api, directory renam
- ed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/private -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/private, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Plugins -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Plugins, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/effects -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/effects, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/gradients -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/gradients, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html/shadow -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html/shadow, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/glib, directory renamed /usr/src/debug/webkitgtk
- /2.46.5/Source/WebCore/layout/formattingContexts/inline/display -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/inline/display, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/gl/builders -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/gl/builders, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/accessibility -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/accessibility, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers/shared/context -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/shared/context, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ski
- a/include/gpu/gl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu/gl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/UserContent -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/UserContent, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Inspector/Agents -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Inspector/Agents, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/bmalloc/bmalloc -> /usr/src/debug/webkitgtk/2.46.6/Source/bmalloc/bmalloc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/text -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/bridge/jsc -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/bridge/jsc, directory renamed /usr/src/debug/w
- ebkitgtk/2.46.5/Source/WebCore/workers/service/context -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/service/context, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Authentication -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Authentication, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebDriver -> /usr/src/debug/webkitgtk/2.46.6/Source/WebDriver, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/csp -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/csp, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCore/DerivedSources -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCore/DerivedSources, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator/tree_ops, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders -> /usr/src/de
- bug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/text -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/yarr -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/yarr, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/crypto/parameters -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/crypto/parameters, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/unix -> /usr/src/debu
- g/webkitgtk/2.46.6/Source/WebKit/Platform/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/screen-wake-lock -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/screen-wake-lock, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator/tree_util -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator/tree_util, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Inspector/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Inspector/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/llint -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/llint, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/crypto/gcrypt -> /usr/src/debug/webkitgtk/2.46.6/S
- ource/WebCore/crypto/gcrypt, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/text-extraction -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/text-extraction, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/ServiceWorker -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/ServiceWorker, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/svg/graphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/svg/graphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/wasm/js -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/wasm/js, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/Authentication -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/Authentication, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/private/gpu/ganesh -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/private/gpu/ganesh, direct
- ory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/video-codecs -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/video-codecs, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/webp -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/webp, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/geolocation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/geolocation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/domjit -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/domjit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/codec -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/codec, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/
- platform/graphics/cairo -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/cairo, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/gpu -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/inspector/remote/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/inspector/remote/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/MiniBrowser/DerivedSources -> /usr/src/debug/webkitgtk/2.46.6/MiniBrowser/DerivedSources, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/query -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/query, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Inspector -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Inspector, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/mathml -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/mathml, direct
- ory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/text -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/ports -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/ports, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/ico -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/ico, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl/transform -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl/transform, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/WebsiteData -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/WebsiteData, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/common, directory renamed /usr/src/debug/webkitgtk/2.46.5/S
- ource/ThirdParty/skia/src/utils -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/utils, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/Notifications -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/Notifications, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/text -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Storage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Storage, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/pathops -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/pathops, directory renamed /usr/src/debug/webkitgtk/2.46.5/DerivedSources/WebKit -> /usr/src/debug/webkitgtk/2.46.6/DerivedSources/WebKit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/inline/ruby -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCo
- re/layout/formattingContexts/inline/ruby, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/archive -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/archive, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/filters/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/filters/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/WebGPU -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/WebGPU, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/GPU/media -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/GPU/media, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/fast_float -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/fast_float, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/
- WebCore/platform/graphics/controls -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/controls, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/x11 -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/x11, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/texmap -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/texmap, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/cpp -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/cpp, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/svg/properties -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/svg/properties, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/compression -> /usr/src/deb
- ug/webkitgtk/2.46.6/Source/WebCore/Modules/compression, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Databases/IndexedDB -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Databases/IndexedDB, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebStorage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebStorage, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/generic -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/generic, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/compiler/translator -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/compiler/translator, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/linux -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/webtransport -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore
- /Modules/webtransport, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediacontrols -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/mediacontrols, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/profiler -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/profiler, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/GPU/webrtc -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/GPU/webrtc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/history -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/history, directory renamed /usr/src/debug/webkitgtk/2.46.5/WebDriver/DerivedSources -> /usr/src/debug/webkitgtk/2.46.6/WebDriver/DerivedSources, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/shaders -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/shaders, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/ShapeDetect
- ion -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/ShapeDetection, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/bmalloc/libpas/src/libpas -> /usr/src/debug/webkitgtk/2.46.6/Source/bmalloc/libpas/src/libpas, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/linux -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/speech -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/speech, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sfnt -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sfnt, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html/forms -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html/forms, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/W
- ebProcess/MediaStream -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/MediaStream, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/unicode/icu -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/unicode/icu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebCoreSupport/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebCoreSupport/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Automation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Automation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/html/track -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/html/track, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/heap -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/heap, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediasession -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/medias
- ession, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/debugger -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/debugger, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/gpu/ganesh -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu/ganesh, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/API/c -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/API/c, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/gpu/mock -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu/mock, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/mediastream/gstreamer -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/mediastream/gstreamer, directory renamed /usr/src/debug/we
- bkitgtk/2.46.5/Source/WebKit/UIProcess/Downloads -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Downloads, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers/service -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers/service, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/mock -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/mock, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/opts -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/opts, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/dfg -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/dfg, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/EntryPoint/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/EntryPoint/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/png -> /usr/src/debug/webkitgtk/2.46.6/So
- urce/WebCore/platform/image-decoders/png, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/ftl -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/ftl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/jit -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/jit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/pdf -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/pdf, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gbm -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gbm, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/network -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/network, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Headers/pal/system -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal/system, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/gtk -> /usr/src
- /debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/bridge -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/bridge, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/calc -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/calc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/inspector/agents/page -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/inspector/agents/page, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/fetch -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/fetch, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/C/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/API/C/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptC
- ore/API -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/API, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/gl/epoxy -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/gl/epoxy, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl/ir -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl/ir, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/nicosia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/nicosia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage/dmabuf -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage/dmabuf, directory renamed /usr/src/debug/webkitgtk/2.46.5/WebKitGTK/DerivedSources -> /usr/src/debug/webkitgtk/2.46.6/WebKitGTK/DerivedSources, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/webtransport -> /usr/src/debug/webkitgtk/2
- .46.6/Source/WebKit/NetworkProcess/webtransport, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/ops -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/ops, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/inspector -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/inspector, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Inspector -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Inspector, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/core -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/core, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/tessellate -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/tessellate, directory renamed /u
- sr/src/debug/webkitgtk/2.46.5/Source/WebCore/dom -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/dom, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/block -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/block, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/beacon -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/beacon, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/text -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/system/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/system/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/harfbuzz -> /usr/src/debug/webki
- tgtk/2.46.6/Source/WebCore/platform/graphics/harfbuzz, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/dtoa -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/dtoa, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/linux -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/common/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/inline/text -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/inline/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/dragonbox/detail -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/dragonbox/detail, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/mse -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/mse, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/ports -> /usr/src/debug/webkitgtk/2.46.6/So
- urce/ThirdParty/skia/include/ports, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Notifications/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Notifications/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/inspector -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/inspector, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/layouttree -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/layouttree, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/domjit -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/domjit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/model-element/dummy -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/model-element/dummy, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebK
- it/Shared/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/unicode/icu -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/unicode/icu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/encode -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/encode, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/storage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/storage, directory renamed /usr/src/debug/webkitgtk/2.46.5/
- Source/WebCore/platform/graphics/egl -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/egl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/indexeddb/shared -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/indexeddb/shared, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/xml/parser -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/xml/parser, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/cache -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/cache, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebDriver/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebDriver/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl, directory renamed
-  /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebCoreSupport -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebCoreSupport, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/filesystemaccess -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/filesystemaccess, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/crypto -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/crypto, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/dragonbox/detail -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/dragonbox/detail, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/network/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/network/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/flex -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/flex, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/
- WebProcess/Model -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Model, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/mediasource -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/mediasource, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/integration/flex -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/integration/flex, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/bytecode -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/bytecode, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/cookie-consent -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/cookie-consent, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCoreGLib/DerivedSources/jsc -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCoreGLib/DerivedSources/jsc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/cairo -> /usr/src/debug/webkitgtk/2.46.6/Source
- /WebKit/UIProcess/cairo, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle/API/c -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle/API/c, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/formattingContexts/inline/invalidation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/formattingContexts/inline/invalidation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libANGLE/renderer/gl/egl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libANGLE/renderer/gl/egl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/assembler -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/assembler, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/builtins -
- > /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/builtins, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/contact-picker -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/contact-picker, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCore/DerivedSources/inspector -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCore/DerivedSources/inspector, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/wasm -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/wasm, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/inspector/agents/worker -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/inspector/agents/worker, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebCoreSupport/soup -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebCoreSupport/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/glib -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/g
- lib, directory renamed /usr/src/debug/webkitgtk/2.46.5/PAL/Headers/pal/crypto/tasn1 -> /usr/src/debug/webkitgtk/2.46.6/PAL/Headers/pal/crypto/tasn1, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/scrolling/nicosia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/scrolling/nicosia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libANGLE/renderer/gl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libANGLE/renderer/gl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/editing/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/editing/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/Databases/IndexedDB -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/Databases/IndexedDB, di
- rectory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/unicode -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/unicode, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/b3 -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/b3, directory renamed /usr/src/debug/webkitgtk/2.46.5/bmalloc/Headers/bmalloc -> /usr/src/debug/webkitgtk/2.46.6/bmalloc/Headers/bmalloc, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/unix -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/image-decoders/jpeg -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/image-decoders/jpeg, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Network/webrtc -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Network/webrtc, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/cache -> /usr/src/debug/webkitgtk/2.46.6/Source/We
- bKit/NetworkProcess/cache, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/simdutf -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/simdutf, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle/DOM -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle/DOM, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/modules/skcms -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/modules/skcms, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/crypto/keys -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/crypto/keys, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/angle -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/angle, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkP
- rocess/storage -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/storage, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/system/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/system/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/sksl/analysis -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/sksl/analysis, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/webdriver -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/webdriver, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/sql -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/sql, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/dom/messageports -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/dom/messageports, d
- irectory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/typedom -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/typedom, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/adwaita -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/adwaita, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/EntryPoint/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/EntryPoint/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/text/gpu -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/text/gpu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/API/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/API/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/permissions -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/permissions, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebDriver/sou
- p -> /usr/src/debug/webkitgtk/2.46.6/Source/WebDriver/soup, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/icon -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/icon, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/tessellate -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/tessellate, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/glsl -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/glsl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/svg/animation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/svg/animation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/SharedWorker -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/SharedWorker, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/mediacapabilities -> /usr/src/debug/webkitgtk/2.46.6/
- Source/WebCore/platform/mediacapabilities, directory renamed /usr/src/debug/webkitgtk/2.46.5/WebKitGTK/DerivedSources/webkit -> /usr/src/debug/webkitgtk/2.46.6/WebKitGTK/DerivedSources/webkit, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/CoordinatedGraphics/threadedcompositor -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/CoordinatedGraphics/threadedcompositor, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/docs -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/docs, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/text/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/text/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/inspector/agents -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/inspector/agents, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/style -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/style, directory re
- named /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/disassembler -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/disassembler, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/plugins -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/plugins, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/indexeddb/server -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/indexeddb/server, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/utils -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/utils, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/adwaita -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/adwaita, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/gpu/ganesh/gl ->
-  /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/gpu/ganesh/gl, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/linux -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/linux, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Automation/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Automation/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/IPC/unix -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform/IPC/unix, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf/text/icu -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf/text/icu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/skia, directory renamed /usr/src/debug/webkitgtk/2.46.
- 5/Source/WebKit/UIProcess/Launcher/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Launcher/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCore/PrivateHeaders/JavaScriptCore -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCore/PrivateHeaders/JavaScriptCore, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/interpreter -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/interpreter, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/line -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/line, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/encode -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/encode, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/indexeddb -> /usr/src/debug/webkitgtk/2.46.6/Sourc
- e/WebCore/Modules/indexeddb, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/surface -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/surface, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/text/enchant -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/text/enchant, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/transforms -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/transforms, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/libANGLE/renderer -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/src/libANGLE/renderer, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/API/C/glib -> /usr/src/debug/webkitgtk
- /2.46.6/Source/WebKit/UIProcess/API/C/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/shapes -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/shapes, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/shaders/gradients -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/shaders/gradients, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/libsysprof-capture -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/libsysprof-capture, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/layout/floats -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/layout/floats, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/PAL/pal/crypto/tasn1 -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/PAL/pal/cry
- pto/tasn1, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/entriesapi -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/entriesapi, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/badge -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/badge, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/classifier -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform/classifier, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WTF/wtf/simde/arm -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/simde/arm, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/filters -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/filters, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/core -> /usr/src/debug/webkitgtk/2.46
- .6/Source/ThirdParty/skia/src/core, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/WebsiteData -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/WebsiteData, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/cache -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/cache, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/mathml -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/mathml, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/text -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/text, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/web-locks -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/web-locks, directory renamed /usr/
- src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/Geolocation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/Geolocation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/InjectedBundle/API -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/InjectedBundle/API, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/WebProcess/WebCoreSupport/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/WebProcess/WebCoreSupport/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Automation -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Automation, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/include/platform/autogen -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/include/platform/autogen, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/ANGLE/src/common/base/anglebase/containers -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/ANGLE/
- src/common/base/anglebase/containers, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Shared/gtk -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Shared/gtk, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/parser -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/parser, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/ThirdParty/skia/include/effects -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/include/effects, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/Classifier -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/Classifier, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/rendering/updating -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/rendering/updating, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Inspector/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Inspector/glib, directory renamed /usr/src/debu
- g/webkitgtk/2.46.5/Source/ThirdParty/skia/src/gpu/ganesh/image -> /usr/src/debug/webkitgtk/2.46.6/Source/ThirdParty/skia/src/gpu/ganesh/image, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/webdatabase -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/webdatabase, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/workers -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/workers, directory renamed /usr/src/debug/webkitgtk/2.46.5/WTF/Headers/wtf -> /usr/src/debug/webkitgtk/2.46.6/WTF/Headers/wtf, directory renamed /usr/src/debug/webkitgtk/2.46.5/JavaScriptCore/Headers/JavaScriptCore -> /usr/src/debug/webkitgtk/2.46.6/JavaScriptCore/Headers/JavaScriptCore, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess/Downloads -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess/Downloads, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/tools -> /usr/src/debug/webkitgtk/2.46.6/Source/Ja
- vaScriptCore/tools, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/UserContent -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/UserContent, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/css/parser -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/css/parser, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/Modules/WebGPU/InternalAPI -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/Modules/WebGPU/InternalAPI, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/page/scrolling -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/page/scrolling, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/UIProcess/Automation/skia -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/UIProcess/Automation/skia, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/loader/appcache -> /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/loader/appcache, directory renamed /usr/src/debug/webkitgtk/2.46.5/S
- ource/WTF/wtf/text/icu -> /usr/src/debug/webkitgtk/2.46.6/Source/WTF/wtf/text/icu, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/NetworkProcess -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/NetworkProcess, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/WebKit/Platform/IPC/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/WebKit/Platform/IPC/glib, directory renamed /usr/src/debug/webkitgtk/2.46.5/Source/JavaScriptCore/API/glib -> /usr/src/debug/webkitgtk/2.46.6/Source/JavaScriptCore/API/glib, removed "/usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/ImageGStreamerSkia.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoEncoderGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcom
- Base.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkRealtek.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkFake.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerCodecUtilities.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/ImageDecoderGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoDecoderGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOProtectionSystemSpecificHeaderBox.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoFrameMetadataGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkRialto.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkWesteros.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp 
- /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/InbandMetadataTextTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaEngineConfigurationFactoryGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/VideoEncoderPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoFrameGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerAudioMixer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBcmNexus.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoSinkCommon.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStrea
- merHolePunchQuirkWesteros.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBcmNexus.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirks.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOSchemeTypeBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkWesteros.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/PlatformDisplayGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextCombinerPadGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/DMABufUtilities.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaSampleGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/DMABufVideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOTrackEncryptionBox.cp
- p /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerElementHarness.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOOriginalFormatBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkRealtek.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkRialto.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextCombinerPadGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GLVideoSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkRialto.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h /usr/src/debug/webkitgtk/2
- .46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameHolder.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerRegistryScanner.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOSchemeTypeBox.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaSampleGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOVTTCue.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcomBase.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoFrameGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkAmLogic.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphi
- cs/gstreamer/MainThreadNotifier.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/VideoEncoderPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOSchemeInformationBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkRialto.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerCodecUtilities.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/ImageGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOProtectionSchemeInfoBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOProtectionSystemSpecificHeaderBox.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStream
- erAudioMixer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextCombinerGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoEncoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/WebKitAudioSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaEngineConfigurationFactoryGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextCombinerGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/WebKitAudioSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCo
- re/platform/gstreamer/GStreamerQuirkWesteros.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOBox.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirks.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcom.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkBcmNexus.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOSchemeInformationBox.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoFrameM
- etadataGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcom.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkBcmNexus.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GUniquePtrGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GLVideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameHolder.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GstAllocatorFastMalloc.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TextSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/DMABufUtilities.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOTrackEncryptionBox.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/DMABufVideoSinkGStreamer.
- h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerRegistryScanner.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerElementHarness.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/ImageDecoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerSinksWorkarounds.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/VideoDecoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/iso/ISOVTTCue.cpp /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoSinkCommon.h /usr/src/debug/webkitgtk/2.46.5/Source/WebCore/platform/gstreamer/GStreamerQuirkAmLogic.h", added "/usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/ImageGStreamerSkia.cpp /usr/
- src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoEncoderGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcomBase.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkRealtek.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkFake.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerCodecUtilities.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/ImageDecoderGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoDecoderGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOProtectionSystemSpecificHeaderBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCo
- re/platform/graphics/gstreamer/VideoFrameMetadataGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkRialto.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkWesteros.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/InbandMetadataTextTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaEngineConfigurationFactoryGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/VideoEncoderPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoFrameGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h /usr
- /src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerAudioMixer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBcmNexus.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoSinkCommon.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkOpenMAX.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkWesteros.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameConverter.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBcmNexus.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirks.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOSchemeTypeBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkWesteros.cpp /usr/src/debug/webkitgtk/2.46.6/Source/Web
- Core/platform/graphics/gstreamer/PlatformDisplayGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextCombinerPadGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/DMABufUtilities.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaSampleGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/DMABufVideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOTrackEncryptionBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerElementHarness.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOOriginalFormatBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkRealtek.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreame
- r/GStreamerQuirkRialto.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextCombinerPadGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GLVideoSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkRialto.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameHolder.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerRegistryScanner.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOSchemeTypeBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaSampleGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstre
- amer/WebKitWebSourceGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOVTTCue.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcomBase.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoFrameGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkAmLogic.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MainThreadNotifier.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/VideoEncoderPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOSchemeInformationBox.cpp /usr/src/debug/webki
- tgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkRialto.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerCodecUtilities.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/ImageGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOProtectionSchemeInfoBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOProtectionSystemSpecificHeaderBox.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerAudioMixer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextCombinerGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoEncoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/WebKitAudioSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h /usr/src/debug/we
- bkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaEngineConfigurationFactoryGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextCombinerGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/WebKitAudioSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkWesteros.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameConverter.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirks.cpp /usr/src/de
- bug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcom.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkOpenMAX.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkBcmNexus.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOSchemeInformationBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoFrameMetadataGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkBroadcom.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerHolePunchQuirkBcmNexus.cpp /usr/src/debug/webkitgtk/2.
- 46.6/Source/WebCore/platform/graphics/gstreamer/GUniquePtrGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GLVideoSinkGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoFrameHolder.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOOriginalFormatBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GstAllocatorFastMalloc.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TextSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/DMABufUtilities.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOTrackEncryptionBox.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/DMABufVideoSinkGStreamer.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/Web
- Core/platform/graphics/gstreamer/GStreamerRegistryScanner.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerElementHarness.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/ImageDecoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerSinksWorkarounds.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/VideoDecoderGStreamer.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/iso/ISOVTTCue.cpp /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/graphics/gstreamer/GStreamerVideoSinkCommon.h /usr/src/debug/webkitgtk/2.46.6/Source/WebCore/platform/gstreamer/GStreamerQuirkAmLogic.h"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-src: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-staticdev: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk-staticdev: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-packages/core2-64-poky-linux/webkitgtk/webkitgtk: PV changed from "2.46.5" to "2.46.6"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk: PKGSIZE changed from 113476676 to 113488964 (+0%)
-packages/core2-64-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libwebkitgtk-6.0.so.4.10.7 /usr/lib/libjavascriptcoregtk-6.0.so.1.3.14", added "/usr/lib/libjavascriptcoregtk-6.0.so.1.3.15 /usr/lib/libwebkitgtk-6.0.so.4.10.8"
-packages/core2-64-poky-linux/webkitgtk/webkitgtk: PKGV changed from 2.46.5 [default] to 2.46.6 [default]
-
---===============3532762376320822706==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-6.0.so.1 changed symlink target from libjavascriptcoregtk-6.0.so.1.3.14 to libjavascriptcoregtk-6.0.so.1.3.15
-  /usr/lib/libwebkitgtk-6.0.so.4 changed symlink target from libwebkitgtk-6.0.so.4.10.7 to libwebkitgtk-6.0.so.4.10.8
-  /usr/lib/libjavascriptcoregtk-6.0.so.1.3.14 moved to /usr/lib/libjavascriptcoregtk-6.0.so.1.3.15
-  /usr/lib/libwebkitgtk-6.0.so.4.10.7 moved to /usr/lib/libwebkitgtk-6.0.so.4.10.8
-packages/core2-64-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libwebkitgtk-6.0.so.4.10.7 /usr/lib/libjavascriptcoregtk-6.0.so.1.3.14", added "/usr/lib/libjavascriptcoregtk-6.0.so.1.3.15 /usr/lib/libwebkitgtk-6.0.so.4.10.8"
-
---===============3532762376320822706==
+--===============7626043199397360631==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-webkitgtk-upgrade-2.46.5-2.46.6.patch"
+ filename="0001-vulkan-tools-upgrade-1.3.296.0-1.4.304.1.patch"
 
-RnJvbSA4MjQyZjYwNTNhMDgyNmM1ZDEzNmU5ZGNiZDEzMDNmODhlNGQ2ZTZjIE1vbiBTZXAgMTcg
+RnJvbSBjNTdlNDg5Yjg3Nzg5NzMwNzAxZmQwZjZhNDJkY2U2ZTVhNTVhZWI3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTE6NTg6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-ZWJraXRndGs6IHVwZ3JhZGUgMi40Ni41IC0+IDIuNDYuNgoKLS0tCiAuLi5hYmxlLXRvLWNvbnRy
-b2wtbWFjcm8tX19QQVNfQUxXQVlTX0kucGF0Y2ggfCAgMiArLQogLi4uc3BlY3Rpb24uY21ha2Ut
-cHJlZml4LXZhcmlhYmxlcy1vYnRhLnBhdGNoIHwgIDIgKy0KIC4uLi8wMDAxLVN1cHBvcnQtSUNV
-LTc2LjEtYnVpbGQucGF0Y2ggICAgICAgICB8IDM2IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi93
-ZWJraXQvd2Via2l0Z3RrL2JtYWxsb2MtZml4LnBhdGNoICAgICAgICB8ICA0ICstLQogLi4uL3dl
-YmtpdC93ZWJraXRndGsvbm8tbXVzdHRhaWwtYXJtLnBhdGNoICAgIHwgIDIgKy0KIC4uLi93ZWJr
-aXQvd2Via2l0Z3RrL3JlcHJvZHVjaWJpbGl0eS5wYXRjaCAgICB8ICAyICstCiAuLi4vd2Via2l0
-L3dlYmtpdGd0ay9zeXNfZnV0ZXgucGF0Y2ggICAgICAgICAgfCAxMSArKysrKy0KIC4uLi93ZWJr
-aXQvd2Via2l0Z3RrL3Q2LW5vdC1kZWNsYXJlZC5wYXRjaCAgICB8ICA0ICstLQogLi4uZWJraXRn
-dGtfMi40Ni41LmJiID0+IHdlYmtpdGd0a18yLjQ2LjYuYmJ9IHwgIDMgKy0KIDkgZmlsZXMgY2hh
-bmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgNDcgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2
-NDQgbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay8wMDAxLVN1cHBvcnQtSUNVLTc2
-LjEtYnVpbGQucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQve3dlYmtpdGd0
-a18yLjQ2LjUuYmIgPT4gd2Via2l0Z3RrXzIuNDYuNi5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrLzAwMDEtQ01ha2UtQWRkLWEtdmFyaWFi
-bGUtdG8tY29udHJvbC1tYWNyby1fX1BBU19BTFdBWVNfSS5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
-YXRvL3dlYmtpdC93ZWJraXRndGsvMDAwMS1DTWFrZS1BZGQtYS12YXJpYWJsZS10by1jb250cm9s
-LW1hY3JvLV9fUEFTX0FMV0FZU19JLnBhdGNoCmluZGV4IDgzNzZlZTg0NzIuLjkyNjc1NzA2Njcg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMDAwMS1DTWFr
-ZS1BZGQtYS12YXJpYWJsZS10by1jb250cm9sLW1hY3JvLV9fUEFTX0FMV0FZU19JLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMDAwMS1DTWFrZS1BZGQtYS12
-YXJpYWJsZS10by1jb250cm9sLW1hY3JvLV9fUEFTX0FMV0FZU19JLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSBiYmY2NjEzMTA0NDhkNDMwMzUwZWIyYWQ4YzU4NjlhY2U2NDhkY2Y4IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5OTIzNDRhM2EwMTQ2MjAxODVmNjdlYjAzZmE2MTIz
-MTA4YjM4Y2Y5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2FpIEthbmcgPGthaS5r
-YW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBGcmksIDExIEF1ZyAyMDIzIDE0OjIwOjQ4ICswODAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBhIHZhcmlhYmxlIHRvIGNvbnRyb2wgbWFjcm8KZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMDAwMS1GaW5kR09iamVj
-dEludHJvc3BlY3Rpb24uY21ha2UtcHJlZml4LXZhcmlhYmxlcy1vYnRhLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay8wMDAxLUZpbmRHT2JqZWN0SW50cm9zcGVjdGlv
-bi5jbWFrZS1wcmVmaXgtdmFyaWFibGVzLW9idGEucGF0Y2gKaW5kZXggYjExYTE4YmEyMi4uNWIx
-MTM3MzE5NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay8w
-MDAxLUZpbmRHT2JqZWN0SW50cm9zcGVjdGlvbi5jbWFrZS1wcmVmaXgtdmFyaWFibGVzLW9idGEu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay8wMDAxLUZpbmRH
-T2JqZWN0SW50cm9zcGVjdGlvbi5jbWFrZS1wcmVmaXgtdmFyaWFibGVzLW9idGEucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIGUwZGZjMTEzYjAxNjIyN2RhOGE2NTRkNjI1ZThmNTY4YjU2NzYx
-ZDAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDYzZDdiY2FhYTkwNWM4MmFjNjUyNzE1
-MzJkNWI1YjQ5ODg5ODRkYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjcgT2N0IDIw
-MTUgMTY6MDI6MTkgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gRmluZEdPYmplY3RJbnRyb3NwZWN0
-aW9uLmNtYWtlOiBwcmVmaXggdmFyaWFibGVzIG9idGFpbmVkCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrLzAwMDEtU3VwcG9ydC1JQ1UtNzYuMS1idWlsZC5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvMDAwMS1TdXBwb3J0LUlD
-VS03Ni4xLWJ1aWxkLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAyNGY0ODRl
-NWUzLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsv
-MDAwMS1TdXBwb3J0LUlDVS03Ni4xLWJ1aWxkLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzYg
-KzAsMCBAQAotRnJvbSA4YjBmZjBmMmUyODgyZjIwMGYxYzIxZWM3NmZhNjc5NDQ0Y2IxYzQzIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogSmFzb24gU2Nob25iZXJnIDxzY2hvbm1AZ21h
-aWwuY29tPgotRGF0ZTogV2VkLCAyMCBOb3YgMjAyNCAxMTowNTo1MiAtMDUwMAotU3ViamVjdDog
-W1BBVENIXSBTdXBwb3J0IElDVSA3Ni4xIGJ1aWxkCi0KLWh0dHBzOi8vYnVncy53ZWJraXQub3Jn
-L3Nob3dfYnVnLmNnaT9pZD0yODIxMjAKLQotUmV2aWV3ZWQgYnkgWXVzdWtlIFN1enVraS4KLQot
-SW4gSUNVIDc2LjEgYW4gYWRkaXRpb25hbCBtYWNybyBgVV9TSE9XX0NQTFVTUExVU19IRUFERVJf
-QVBJYCB3YXMgYWRkZWQgdG8KLWNvbnRyb2wgdmlzaWJpbGl0eSBvZiB0aGUgQysrIEFQSSB3aXRo
-aW4gSUNVLiBTZXQgdGhpcyB2YWx1ZSB0byBgMGAgc2luY2UgV2ViS2l0Ci13YW50cyB0byBvbmx5
-IHVzZSB0aGUgQyBBUEkuCi0KLSogU291cmNlL1dURi93dGYvUGxhdGZvcm0uaDoKLQotQ2Fub25p
-Y2FsIGxpbms6IGh0dHBzOi8vY29tbWl0cy53ZWJraXQub3JnLzI4NTcyN0BtYWluCi0KLVVwc3Ry
-ZWFtLVN0YXR1czogQmFja3BvcnQgWyBmcm9tIHdlYmtpdGd0ay0yLjQ3LjEgaHR0cHM6Ly9naXRo
-dWIuY29tL1dlYktpdC9XZWJLaXQvY29tbWl0LzYzZjdiYWRiYWRhMDcwZWJhYWRkMzE4YjI4MDE4
-MThlY2Y3ZTdlYTAgXQotCi1TaWduZWQtb2ZmLWJ5OiBKYXNvbiBTY2hvbmJlcmcgPHNjaG9ubUBn
-bWFpbC5jb20+Ci0tLS0KLSBTb3VyY2UvV1RGL3d0Zi9QbGF0Zm9ybS5oIHwgMSArCi0gMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCi0KLWRpZmYgLS1naXQgYS9Tb3VyY2UvV1RGL3d0Zi9Q
-bGF0Zm9ybS5oIGIvU291cmNlL1dURi93dGYvUGxhdGZvcm0uaAotaW5kZXggMjMwNzBkZjIuLjUx
-YThkY2U5IDEwMDY0NAotLS0tIGEvU291cmNlL1dURi93dGYvUGxhdGZvcm0uaAotKysrIGIvU291
-cmNlL1dURi93dGYvUGxhdGZvcm0uaAotQEAgLTExNSw2ICsxMTUsNyBAQAotIC8qIElDVSBjb25m
-aWd1cmF0aW9uLiBTb21lIG9mIHRoZXNlIG1hdGNoIElDVSBkZWZhdWx0cyBvbiBzb21lIHBsYXRm
-b3JtcywgYnV0IHdlIHdvdWxkIGxpa2UgdGhlbSBjb25zaXN0ZW50bHkgc2V0IGV2ZXJ5d2hlcmUg
-d2UgYnVpbGQgV2ViS2l0LiAqLwotICNkZWZpbmUgVV9ISURFX0RFUFJFQ0FURURfQVBJIDEKLSAj
-ZGVmaW5lIFVfU0hPV19DUExVU1BMVVNfQVBJIDAKLSsjZGVmaW5lIFVfU0hPV19DUExVU1BMVVNf
-SEVBREVSX0FQSSAwCi0gI2lmZGVmIF9fY3BsdXNwbHVzCi0gI2RlZmluZSBVQ0hBUl9UWVBFIGNo
-YXIxNl90Ci0gI2VuZGlmCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Vi
-a2l0Z3RrL2JtYWxsb2MtZml4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtp
-dGd0ay9ibWFsbG9jLWZpeC5wYXRjaAppbmRleCAzN2UwZmRjYmJkLi4zYjMwODMyOGY3IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL2JtYWxsb2MtZml4LnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvYm1hbGxvYy1maXgu
-cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZhYjdkM2Y3ZDhkMGQ4ZTFhYjQwMWQwZmIxM2Y2
-MGJiYzY0Mjc5YTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGE4YjQ4YjU2OGE2NzU1
-MmMyYjkyMzk0NDU5MDI0YmE1ZjBiOGNmNDUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
-OiBUaG9tYXMgS2xhdXNuZXIgPHdpekBnYXRhbGl0aC5hdD4KIERhdGU6IFRodSwgNyBOb3YgMjAy
-NCAxMTo1NDozMCAtMDgwMAogU3ViamVjdDogW1BBVENIXSBibWFsbG9jOiBCdWlsZCBwcm9ibGVt
-IGluIGJtYWxsb2Mgd2hlbiBYMTEvWC5oIGlzIGluIHRoZSBzYW1lCkBAIC0xOSw3ICsxOSw3IEBA
-IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiAg
-MSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvU291cmNlL2Jt
-YWxsb2MvYm1hbGxvYy9FbGlnaWJpbGl0eVJlc3VsdC5oIGIvU291cmNlL2JtYWxsb2MvYm1hbGxv
-Yy9FbGlnaWJpbGl0eVJlc3VsdC5oCi1pbmRleCBlYWQ3ZGJiNTJjMDdhLi40OGY5ZTViZmU4YTgw
-IDEwMDY0NAoraW5kZXggZWFkN2RiYjUuLjQ4ZjllNWJmIDEwMDY0NAogLS0tIGEvU291cmNlL2Jt
-YWxsb2MvYm1hbGxvYy9FbGlnaWJpbGl0eVJlc3VsdC5oCiArKysgYi9Tb3VyY2UvYm1hbGxvYy9i
-bWFsbG9jL0VsaWdpYmlsaXR5UmVzdWx0LmgKIEBAIC0yOSw2ICsyOSwxMSBAQApkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay9uby1tdXN0dGFpbC1hcm0ucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL25vLW11c3R0YWlsLWFybS5w
-YXRjaAppbmRleCBjOThkOGI3NzI3Li5hYzdlNmI2M2M5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL25vLW11c3R0YWlsLWFybS5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL25vLW11c3R0YWlsLWFybS5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gNDYwMjI2MWZhNDRkNmJiYjRjMzY5OGM3OWUwOGE2YTQwYTZlZGM1
-YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNjY5YjgzMmIxZjk1ZDUzMmQwZmQ5ODcw
-NmY2MTIxMzE3NzUyOTVmZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFq
-IDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDEyIEphbiAyMDI0IDA5OjIxOjM5IC0w
-ODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNsYW5nL2FybTogRG8gbm90IHVzZSBNVVNUX1RBSUxfQ0FM
-TApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay9yZXByb2R1
-Y2liaWxpdHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3JlcHJv
-ZHVjaWJpbGl0eS5wYXRjaAppbmRleCA0MzZhZDJmMDJjLi40NjJlZTk2OWZlIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3JlcHJvZHVjaWJpbGl0eS5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3JlcHJvZHVjaWJpbGl0
-eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNjVlOWE2OGM5ZDA1ZjQ5MDJjMmZjMzQzMDNi
-N2Y4MjMzZmZhOThkNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTM0M2YxZmViODZl
-Zjc1OGQ3MjI4NTRjMjkzZmNhZDgyOTQ5MDBmNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgog
-RGF0ZTogTW9uLCAzIEphbiAyMDIyIDE0OjE4OjM0ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIHdl
-YmtpdGd0azogQWRkIHJlcHJvZHVjaWJpbGl0eSBmaXgKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1zYXRvL3dlYmtpdC93ZWJraXRndGsvc3lzX2Z1dGV4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXNh
-dG8vd2Via2l0L3dlYmtpdGd0ay9zeXNfZnV0ZXgucGF0Y2gKaW5kZXggMTlkMThkZWE4OC4uZTYx
-M2JlMjE3NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay9z
-eXNfZnV0ZXgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay9z
-eXNfZnV0ZXgucGF0Y2gKQEAgLTEsNyArMSwxNiBAQAotRml4IGJ1aWxkIG9uIG5ld2VyIDMyYml0
-IGFyY2hpdGVjdHVyZXMgd2l0aCBvbmx5IDY0Yml0IHRpbWVfdAorRnJvbSAxODA5NGQ4YjM3NThj
-N2FlYTRmNzgwM2NiMDhlZWJkZjdlZDA0MDQwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KK0RhdGU6IFdlZCwgMTggRGVjIDIwMjQg
-MjA6MjQ6MjIgLTA4MDAKK1N1YmplY3Q6IFtQQVRDSF0gRml4IGJ1aWxkIG9uIG5ld2VyIDMyYml0
-IGFyY2hpdGVjdHVyZXMgd2l0aCBvbmx5IDY0Yml0IHRpbWVfdAogCiBVcHN0cmVhbS1TdGF0dXM6
-IFN1Ym1pdHRlZCBbaHR0cHM6Ly9jaHJvbWl1bS1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2Fu
-Z2xlL2FuZ2xlLysvNjEwODM5N10KIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+CistLS0KKyBTb3VyY2UvVGhpcmRQYXJ0eS9BTkdMRS9zcmMvY29tbW9uL1NpbXBs
-ZU11dGV4LmNwcCB8IDMgKysrCisgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQorCitk
-aWZmIC0tZ2l0IGEvU291cmNlL1RoaXJkUGFydHkvQU5HTEUvc3JjL2NvbW1vbi9TaW1wbGVNdXRl
-eC5jcHAgYi9Tb3VyY2UvVGhpcmRQYXJ0eS9BTkdMRS9zcmMvY29tbW9uL1NpbXBsZU11dGV4LmNw
-cAoraW5kZXggNGVkMGFmNTEuLjExZmVkYTZjIDEwMDY0NAogLS0tIGEvU291cmNlL1RoaXJkUGFy
-dHkvQU5HTEUvc3JjL2NvbW1vbi9TaW1wbGVNdXRleC5jcHAKICsrKyBiL1NvdXJjZS9UaGlyZFBh
-cnR5L0FOR0xFL3NyYy9jb21tb24vU2ltcGxlTXV0ZXguY3BwCiBAQCAtMTcsNiArMTcsOSBAQApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay90Ni1ub3QtZGVj
-bGFyZWQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3Q2LW5vdC1k
-ZWNsYXJlZC5wYXRjaAppbmRleCA4MmQyMDc1OGMyLi42NGZiMWI3NDU4IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3Q2LW5vdC1kZWNsYXJlZC5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrL3Q2LW5vdC1kZWNsYXJlZC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjk0MzFhZWM4ODc2NDA3MmEwMzJhYTQ0MTFlMjZl
-NTY2YTNhNmMwYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWFlNTllNDc1NGZiNzVj
-ZjAxODJhYjQ5ZThhOTFiZWJiMTg5MzcyOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IE1pY2hhZWwgQ2F0YW56YXJvIDxtY2F0YW56YXJvQHJlZGhhdC5jb20+CiBEYXRlOiBNb24sIDUg
-RmViIDIwMjQgMTE6MDA6NDkgLTA2MDAKIFN1YmplY3Q6IFtQQVRDSF0gPT9VVEYtOD9xP0xvd0xl
-dmVsSW50ZXJwcmV0ZXIuY3BwOjMzOToyMTo9MjBlcnJvcjo9MjA/PQpAQCAtMjEsNyArMjEsNyBA
-QCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KICAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL1NvdXJj
-ZS9KYXZhU2NyaXB0Q29yZS9sbGludC9Mb3dMZXZlbEludGVycHJldGVyLmNwcCBiL1NvdXJjZS9K
-YXZhU2NyaXB0Q29yZS9sbGludC9Mb3dMZXZlbEludGVycHJldGVyLmNwcAotaW5kZXggNzZjNDY4
-ODkuLjUwMGJlNDMzIDEwMDY0NAoraW5kZXggOTU2OGM1YzkuLjc4NmJlOGExIDEwMDY0NAogLS0t
-IGEvU291cmNlL0phdmFTY3JpcHRDb3JlL2xsaW50L0xvd0xldmVsSW50ZXJwcmV0ZXIuY3BwCiAr
-KysgYi9Tb3VyY2UvSmF2YVNjcmlwdENvcmUvbGxpbnQvTG93TGV2ZWxJbnRlcnByZXRlci5jcHAK
-IEBAIC0zMzQsOCArMzM0LDYgQEAgSlNWYWx1ZSBDTG9vcDo6ZXhlY3V0ZShPcGNvZGVJRCBlbnRy
-eU9wY29kZUlELCB2b2lkKiBleGVjdXRhYmxlQWRkcmVzcywgVk0qIHZtLApkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQ2LjUuYmIgYi9tZXRhL3JlY2lw
-ZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrXzIuNDYuNi5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc2F0by93ZWJraXQvd2Via2l0Z3RrXzIuNDYuNS5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQ2LjYuYmIKaW5k
-ZXggOGM2ZmZkYzhhNy4uZDFmMjRiYmJmNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXNhdG8v
-d2Via2l0L3dlYmtpdGd0a18yLjQ2LjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0
-L3dlYmtpdGd0a18yLjQ2LjYuYmIKQEAgLTE1LDExICsxNSwxMCBAQCBTUkNfVVJJID0gImh0dHBz
-Oi8vd3d3LndlYmtpdGd0ay5vcmcvcmVsZWFzZXMvJHtCUE59LSR7UFZ9LnRhci54eiBcCiAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLUNNYWtlLUFkZC1hLXZhcmlhYmxlLXRvLWNvbnRyb2wtbWFjcm8t
-X19QQVNfQUxXQVlTX0kucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vbm8tbXVzdHRhaWwtYXJt
-LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3Q2LW5vdC1kZWNsYXJlZC5wYXRjaCBcCi0gICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLVN1cHBvcnQtSUNVLTc2LjEtYnVpbGQucGF0Y2ggXAogICAgICAg
-ICAgICBmaWxlOi8vYm1hbGxvYy1maXgucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vc3lzX2Z1
-dGV4LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJhZDQwMjBi
-YjBjZmIzZTc0MGRmMzA4MmMyZDljYmY2N2NmNDA5NTU5NjU4OGE1NmFlY2RkZTY3MDIxMzc4MDUi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjJiMzFkZTY5MzIyMGJhOWJhYjc2Y2U2ZGRmZTViMGJm
-YWIyNTE1Y2IyYjBhNzBmM2M1NGQ0MDUwNzY2YzMyYiIKIAogaW5oZXJpdCBjbWFrZSBwa2djb25m
-aWcgZ29iamVjdC1pbnRyb3NwZWN0aW9uIHBlcmxuYXRpdmUgZmVhdHVyZXNfY2hlY2sgdXBzdHJl
-YW0tdmVyc2lvbi1pcy1ldmVuIGdpLWRvY2dlbgogCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTA6MTc6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdG9vbHM6IHVwZ3JhZGUgMS4zLjI5Ni4wIC0+IDEuNC4zMDQuMQoKLS0tCiAuLi4ve3Z1
+bGthbi10b29sc18xLjMuMjk2LjAuYmIgPT4gdnVsa2FuLXRvb2xzXzEuNC4zMDQuMS5iYn0gIHwg
+NCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi10b29sc18xLjMuMjk2
+LjAuYmIgPT4gdnVsa2FuLXRvb2xzXzEuNC4zMDQuMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjk2LjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjQuMzA0LjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
+bi92dWxrYW4tdG9vbHNfMS4zLjI5Ni4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjQuMzA0LjEuYmIKaW5kZXggNWY4M2Y0ZjI0Ni4uMTZl
+YzI2MzA2NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4t
+dG9vbHNfMS4zLjI5Ni4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVs
+a2FuLXRvb2xzXzEuNC4zMDQuMS5iYgpAQCAtNiw4ICs2LDggQEAgU0VDVElPTiA9ICJsaWJzIgog
+CiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
+TlNFLnR4dDttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNjNmJkNTciCi1TUkNfVVJJID0g
+ImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Ub29scy5naXQ7YnJhbmNoPXZ1
+bGthbi1zZGstMS4zLjI5Njtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICI3NGRkOTBhYmQ2OWY4
+MTMyMjBiNTcyZTFkODljMTdiYzc3ODQ5NzJkIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L0tocm9ub3NHcm91cC9WdWxrYW4tVG9vbHMuZ2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0dHBz
+IgorU1JDUkVWID0gIjRjMjVlNzhkZDg3NzIwMjc1YWIwNjlkZTFmZTJlMDA1Y2Q1MjhlZDkiCiAK
+IFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDQuMQoK
 
---===============3532762376320822706==--
+--===============7626043199397360631==--
 
