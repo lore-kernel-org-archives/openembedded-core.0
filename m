@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C21C28B28
-	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:36 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.8111.1739623354414193714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8C2C28B25
+	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:35 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.8056.1739623333145012007
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:34 -0800
+ Sat, 15 Feb 2025 04:42:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=f2vqas+m;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=fl0HY7eJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019509a1ccc6-2f715e9e-c39b-49a9-80e7-16cb707fcf9b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=D5JNLivC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uKb4F7vu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019509a1c775-235810ab-ea15-42d6-9366-10cc9088da3a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623353;
+	t=1739623352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5PU7nmKDXDYwx+ZdQfRu+bY5XnTK4wCBhMG83J6hvvY=;
-	b=f2vqas+mqD8gPpiYBeiuq063Dg2r3f1VgKs/uZ2d+yeyoY4ZwWLw8thQJ/vIqozX
-	ip3aNZqWca1FiPZ/7uvFeVf4LotPwyWcgPW6/0r5pfNV5ptpCnaeZZvlpYpQX4lrXA4
-	IDE9+4Tfi6J5mzhhLtxDAbC55m0+jBPZMXtMNvd0=
+	bh=uZL8co/5i6HgWFr9TPOpsZyT4GpFRrTSaOQtPj580fo=;
+	b=D5JNLivCfIGuihV+yGEnM4RVKojb9Qrfc6FUol0bU2xzXb6386KUYW8BSlpLQ8Ul
+	R/gMSowb/SAcZXq9mtppdd88P/0sXk046cGtMuEiUyDlUBPj/QrreyJzXhoYwaGKuAu
+	HMN7KCJHJE62j3TXhqyAQ8bU0aZq9oReUu+LRrG8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623353;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5PU7nmKDXDYwx+ZdQfRu+bY5XnTK4wCBhMG83J6hvvY=;
-	b=fl0HY7eJLJeKi4pyL1N+MRDJjZ4CNysX56FgVmlqz0+ot43G8MoG9PluCi1WI5CL
-	q7jRrHRgWtzh+ptuNFRPsMRQqaLSxW4cCj4BIMEeoLE1+oMkVMazqIqirShNSAKQ3wY
-	lwq3MvTGWnvHvmIf6C+aZp0mVDzixL9MivHo4mjI=
-Content-Type: multipart/mixed; boundary="===============3029016167678680049=="
+	bh=uZL8co/5i6HgWFr9TPOpsZyT4GpFRrTSaOQtPj580fo=;
+	b=uKb4F7vuq7VyYdK3u5imNtW5vSqn3jhbItr3YqwCEL39VcxCTZyiytqndCUgfwZv
+	H1yH0+EOvPVFR7wWRbAxVbN9udal/1L95IDeV2ynxm1G/HnoMLORYVPtQ/47//q/U8Q
+	7nL05SS8mKA4E6qcSI9/i6ztz9k5ZPfFufz3BzDE=
+Content-Type: multipart/mixed; boundary="===============0826886147133936355=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libffi: upgrading to 3.4.7 SUCCEEDED
-Message-ID: <0101019509a1ccc6-2f715e9e-c39b-49a9-80e7-16cb707fcf9b-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:33 +0000
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] curl: upgrading to 8.12.1 SUCCEEDED
+Message-ID: <0101019509a1c775-235810ab-ea15-42d6-9366-10cc9088da3a-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.45
+X-SES-Outgoing: 2025.02.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211485
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211479
 
---===============3029016167678680049==
+--===============0826886147133936355==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libffi* to *3.4.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *curl* to *8.12.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libffi-upgrade-3.4.6-3.4.7.patch
+    - apply the patch: git am 0001-curl-upgrade-8.12.0-8.12.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,130 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4b302170aecfdb9c644cadb2191c2fbcd8e06f68 Mon Sep 17 00:00:00 2001
+From ac34d86a4ec4179396b3fbde21a8c5c40ab3be9f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 12:37:17 +0000
-Subject: [PATCH] libffi: upgrade 3.4.6 -> 3.4.7
+Date: Sat, 15 Feb 2025 12:14:31 +0000
+Subject: [PATCH] curl: upgrade 8.12.0 -> 8.12.1
 
 ---
- meta/recipes-support/libffi/libffi/not-win32.patch            | 4 ++--
- .../libffi/{libffi_3.4.6.bb => libffi_3.4.7.bb}               | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libffi/{libffi_3.4.6.bb => libffi_3.4.7.bb} (94%)
+ meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
+ .../recipes-support/curl/{curl_8.12.0.bb => curl_8.12.1.bb} | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.12.0.bb => curl_8.12.1.bb} (98%)
 
-diff --git a/meta/recipes-support/libffi/libffi/not-win32.patch b/meta/recipes-support/libffi/libffi/not-win32.patch
-index f4ed839ed8..2bedd823f1 100644
---- a/meta/recipes-support/libffi/libffi/not-win32.patch
-+++ b/meta/recipes-support/libffi/libffi/not-win32.patch
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
+index fe8efbe612..92fb939449 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
 @@ -1,4 +1,4 @@
--From be9d4cc110c159812699780348686da371296b94 Mon Sep 17 00:00:00 2001
-+From c244c84bf45188aefe61ab0112425428fbf84896 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Thu, 4 Feb 2016 16:22:50 +0000
- Subject: [PATCH] libffi: ensure sysroot paths are not in libffi.pc
-@@ -20,7 +20,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
++From 84367e86faa980edbc0fc89a66f18be5ae4eb57b Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 15 Mar 2024 14:37:37 +0000
+ Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
+@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index 816bfd6..e37c5a8 100644
-+index a1d02b8..fc29d6a 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -401,7 +401,7 @@ AC_ARG_ENABLE(multi-os-directory,
-diff --git a/meta/recipes-support/libffi/libffi_3.4.6.bb b/meta/recipes-support/libffi/libffi_3.4.7.bb
-similarity index 94%
-rename from meta/recipes-support/libffi/libffi_3.4.6.bb
-rename to meta/recipes-support/libffi/libffi_3.4.7.bb
-index a6857a3981..b2caaa88ba 100644
---- a/meta/recipes-support/libffi/libffi_3.4.6.bb
-+++ b/meta/recipes-support/libffi/libffi_3.4.7.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1db54c9fd307a12218766c3c7f650ca7"
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-            "
--SRC_URI[sha256sum] = "b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e"
-+SRC_URI[sha256sum] = "138607dee268bdecf374adf9144c00e839e38541f75f24a1fcf18b78fda48b2d"
+ diff --git a/tests/servers.pm b/tests/servers.pm
+-index d4472d5..9999938 100644
++index 0169887..b4f71d3 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+-@@ -122,7 +122,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
++@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
+  my $sshderror;   # for socks server, ssh daemon version error
+  my %doesntrun;    # servers that don't work, identified by pidfile
+  my %PORT = (nolisten => 47); # port we use for a local non-listening service
+diff --git a/meta/recipes-support/curl/curl_8.12.0.bb b/meta/recipes-support/curl/curl_8.12.1.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_8.12.0.bb
+rename to meta/recipes-support/curl/curl_8.12.1.bb
+index 7b5e6350ba..1e9e5a0229 100644
+--- a/meta/recipes-support/curl/curl_8.12.0.bb
++++ b/meta/recipes-support/curl/curl_8.12.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+ "
+-SRC_URI[sha256sum] = "9a4628c764be6b1a9909567c13e8e771041609df43b2158fcac4e05ea7097e5d"
++SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
  
- EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
- EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.44.1
 
 
---===============3029016167678680049==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libffi-upgrade-3.4.6-3.4.7.patch"
-
-RnJvbSA0YjMwMjE3MGFlY2ZkYjljNjQ0Y2FkYjIxOTFjMmZiY2Q4ZTA2ZjY4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTI6Mzc6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJmZmk6IHVwZ3JhZGUgMy40LjYgLT4gMy40LjcKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-bGliZmZpL2xpYmZmaS9ub3Qtd2luMzIucGF0Y2ggICAgICAgICAgICB8IDQgKystLQogLi4uL2xp
-YmZmaS97bGliZmZpXzMuNC42LmJiID0+IGxpYmZmaV8zLjQuNy5iYn0gICAgICAgICAgICAgICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS97bGliZmZpXzMuNC42LmJiID0+IGxp
-YmZmaV8zLjQuNy5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJmZmkvbGliZmZpL25vdC13aW4zMi5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZm
-aS9saWJmZmkvbm90LXdpbjMyLnBhdGNoCmluZGV4IGY0ZWQ4MzllZDguLjJiZWRkODIzZjEgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmkvbm90LXdpbjMyLnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmkvbm90LXdpbjMyLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZTlkNGNjMTEwYzE1OTgxMjY5OTc4MDM0ODY4NmRh
-MzcxMjk2Yjk0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjMjQ0Yzg0YmY0NTE4OGFl
-ZmU2MWFiMDExMjQyNTQyOGZiZjg0ODk2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFRodSwgNCBGZWIgMjAx
-NiAxNjoyMjo1MCArMDAwMAogU3ViamVjdDogW1BBVENIXSBsaWJmZmk6IGVuc3VyZSBzeXNyb290
-IHBhdGhzIGFyZSBub3QgaW4gbGliZmZpLnBjCkBAIC0yMCw3ICsyMCw3IEBAIFNpZ25lZC1vZmYt
-Ynk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUu
-YWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDgxNmJmZDYuLmUzN2M1YTggMTAwNjQ0CitpbmRleCBh
-MWQwMmI4Li5mYzI5ZDZhIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1
-cmUuYWMKIEBAIC00MDEsNyArNDAxLDcgQEAgQUNfQVJHX0VOQUJMRShtdWx0aS1vcy1kaXJlY3Rv
-cnksCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNC42
-LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZpL2xpYmZmaV8zLjQuNy5iYgpzaW1pbGFy
-aXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGli
-ZmZpXzMuNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZp
-XzMuNC43LmJiCmluZGV4IGE2ODU3YTM5ODEuLmIyY2FhYTg4YmEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlfMy40LjYuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliZmZpL2xpYmZmaV8zLjQuNy5iYgpAQCAtMTMsNyArMTMsNyBAQCBMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0xZGI1NGM5ZmQzMDdhMTIyMTg3NjZjM2M3
-ZjY1MGNhNyIKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8k
-e0JQTn0tJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL25vdC13aW4zMi5wYXRjaCBc
-CiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiMGRlYTlkZjIzYzg2M2E3YTUw
-ZTgyNTQ0MGYzZWJmZmFiZDY1ZGYxNDk3MTA4ZTVkNDM3NzQ3ODQzODk1YTRlIgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjEzODYwN2RlZTI2OGJkZWNmMzc0YWRmOTE0NGMwMGU4MzllMzg1NDFmNzVm
-MjRhMWZjZjE4Yjc4ZmRhNDhiMmQiCiAKIEVYVFJBX09FQ09ORiArPSAiLS1kaXNhYmxlLWJ1aWxk
-ZGlyIC0tZGlzYWJsZS1leGVjLXN0YXRpYy10cmFtcCIKIEVYVFJBX09FQ09ORjpjbGFzcy1uYXRp
-dmUgKz0gIi0td2l0aC1nY2MtYXJjaD1nZW5lcmljIgotLSAKMi40NC4xCgo=
-
---===============3029016167678680049==
+--===============0826886147133936355==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libffi: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi: SRC_URI changed from "https://github.com/libffi/libffi/releases//download/v3.4.6/libffi-3.4.6.tar.gz file://not-win32.patch" to "https://github.com/libffi/libffi/releases//download/v3.4.7/libffi-3.4.7.tar.gz file://not-win32.patch"
-packages/core2-64-poky-linux/libffi/libffi-dbg: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-dbg: PKGSIZE changed from 128368 to 128176 (-0%)
-packages/core2-64-poky-linux/libffi/libffi-dbg: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi-dev: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-dev: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi-doc: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-doc: PKGSIZE changed from 44844 to 44791 (-0%)
-packages/core2-64-poky-linux/libffi/libffi-doc: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi-locale: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-locale: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi-src: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-src: PKGSIZE changed from 318616 to 319137 (+0%)
-packages/core2-64-poky-linux/libffi/libffi-src: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi-staticdev: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi-staticdev: PV changed from "3.4.6" to "3.4.7"
-packages/core2-64-poky-linux/libffi/libffi: PKGV changed from 3.4.6 [default] to 3.4.7 [default]
-packages/core2-64-poky-linux/libffi/libffi: PV changed from "3.4.6" to "3.4.7"
+packages/core2-64-poky-linux/curl/curl-dbg: FILELIST: added "/usr/lib/curl/ptest/tests/libtest/.debug/lib3208"
+packages/core2-64-poky-linux/curl/curl-dbg: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-dbg: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 15796384 to 15840840 (+0%)
+packages/core2-64-poky-linux/curl/curl-dev: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-dev: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-doc: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-doc: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-doc: PKGSIZE changed from 1614242 to 1604480 (-1%)
+packages/core2-64-poky-linux/curl/curl-locale: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-locale: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: added "/usr/lib/curl/ptest/tests/libtest/lib3208 /usr/lib/curl/ptest/tests/data/test3208 /usr/lib/curl/ptest/tests/data/test697"
+packages/core2-64-poky-linux/curl/curl-ptest: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-ptest: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 7236066 to 7232218 (-0%)
+packages/core2-64-poky-linux/curl/curl-src: FILELIST: directory renamed /usr/src/debug/curl/8.12.0/tests/server -> /usr/src/debug/curl/8.12.1/tests/server, directory renamed /usr/src/debug/curl/8.12.0/include/curl -> /usr/src/debug/curl/8.12.1/include/curl, directory renamed /usr/src/debug/curl/8.12.0/lib/vauth -> /usr/src/debug/curl/8.12.1/lib/vauth, directory renamed /usr/src/debug/curl/8.12.0/lib/vquic -> /usr/src/debug/curl/8.12.1/lib/vquic, directory renamed /usr/src/debug/curl/8.12.0/src -> /usr/src/debug/curl/8.12.1/src, directory renamed /usr/src/debug/curl/8.12.0/lib/vssh -> /usr/src/debug/curl/8.12.1/lib/vssh, directory renamed /usr/src/debug/curl/8.12.0/lib -> /usr/src/debug/curl/8.12.1/lib, directory renamed /usr/src/debug/curl/8.12.0/lib/vtls -> /usr/src/debug/curl/8.12.1/lib/vtls, removed "/usr/src/debug/curl/8.12.0/tests/libtest/testutil.h /usr/src/debug/curl/8.12.0/tests/libtest/lib526.c /usr/src/debug/curl/8.12.0/tests/libtest/testutil.c /usr/src/debug/curl/8.12.0/te
+ sts/libtest/libntlmconnect.c /usr/src/debug/curl/8.12.0/tests/libtest/lib530.c /usr/src/debug/curl/8.12.0/tests/libtest/lib533.c /usr/src/debug/curl/8.12.0/tests/libtest/lib536.c /usr/src/debug/curl/8.12.0/tests/libtest/lib589.c /usr/src/debug/curl/8.12.0/tests/libtest/lib666.c /usr/src/debug/curl/8.12.0/tests/libtest/lib667.c /usr/src/debug/curl/8.12.0/tests/libtest/lib668.c /usr/src/debug/curl/8.12.0/tests/libtest/lib515.c /usr/src/debug/curl/8.12.0/tests/libtest/lib517.c /usr/src/debug/curl/8.12.0/tests/libtest/lib519.c /usr/src/debug/curl/8.12.0/tests/libtest/lib507.c /usr/src/debug/curl/8.12.0/tests/libtest/lib505.c /usr/src/debug/curl/8.12.0/tests/libtest/lib677.c /usr/src/debug/curl/8.12.0/tests/libtest/lib678.c /usr/src/debug/curl/8.12.0/tests/libtest/lib643.c /usr/src/debug/curl/8.12.0/tests/libtest/lib650.c /usr/src/debug/curl/8.12.0/tests/libtest/lib586.c /usr/src/debug/curl/8.12.0/tests/libtest/lib520.c /usr/src/debug/curl/8.12.0/tests/libtest/lib521.c /usr/src/debug/cur
+ l/8.12.0/tests/libtest/lib523.c /usr/src/debug/curl/8.12.0/tests/libtest/lib524.c /usr/src/debug/curl/8.12.0/tests/libtest/lib525.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3026.c /usr/src/debug/curl/8.12.0/tests/libtest/lib568.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1513.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1517.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1485.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1156.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1598.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1900.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1901.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1903.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1905.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1906.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1907.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1553.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1554.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1555.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1556.c
+  /usr/src/debug/curl/8.12.0/tests/libtest/lib1557.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1558.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1559.c /usr/src/debug/curl/8.12.0/tests/libtest/lib514.c /usr/src/debug/curl/8.12.0/tests/libtest/lib543.c /usr/src/debug/curl/8.12.0/tests/libtest/lib544.c /usr/src/debug/curl/8.12.0/tests/libtest/lib547.c /usr/src/debug/curl/8.12.0/tests/libtest/lib549.c /usr/src/debug/curl/8.12.0/tests/libtest/lib500.c /usr/src/debug/curl/8.12.0/tests/libtest/lib502.c /usr/src/debug/curl/8.12.0/tests/libtest/lib651.c /usr/src/debug/curl/8.12.0/tests/libtest/lib652.c /usr/src/debug/curl/8.12.0/tests/libtest/lib694.c /usr/src/debug/curl/8.12.0/tests/libtest/lib695.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1938.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1939.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1955.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1956.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1957.c /usr/src/debug/curl/8.12.0/tests/libte
+ st/lib1958.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1959.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1970.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1971.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1540.c /usr/src/debug/curl/8.12.0/tests/libtest/lib516.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1521.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1560.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1564.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1565.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1533.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1534.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1535.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1536.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1537.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1538.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1591.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1592.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1593.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1594.c /usr/src/debug/c
+ url/8.12.0/tests/libtest/lib1597.c /usr/src/debug/curl/8.12.0/tests/libtest/lib506.c /usr/src/debug/curl/8.12.0/tests/libtest/lib501.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1567.c /usr/src/debug/curl/8.12.0/tests/libtest/lib558.c /usr/src/debug/curl/8.12.0/tests/libtest/lib559.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1568.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1569.c /usr/src/debug/curl/8.12.0/tests/libtest/lib552.c /usr/src/debug/curl/8.12.0/tests/libtest/lib553.c /usr/src/debug/curl/8.12.0/tests/libtest/lib554.c /usr/src/debug/curl/8.12.0/tests/libtest/lib555.c /usr/src/debug/curl/8.12.0/tests/libtest/lib556.c /usr/src/debug/curl/8.12.0/tests/libtest/lib557.c /usr/src/debug/curl/8.12.0/tests/libtest/test.h /usr/src/debug/curl/8.12.0/tests/libtest/lib1933.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1934.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1935.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1936.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1937.c /usr/s
+ rc/debug/curl/8.12.0/tests/libtest/first.h /usr/src/debug/curl/8.12.0/tests/libtest/lib1541.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1542.c /usr/src/debug/curl/8.12.0/tests/libtest/first.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1545.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1662.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1550.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1551.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1552.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1530.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3103.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3104.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3105.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3207.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1972.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1973.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1974.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1975.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1977.c /usr/src/debug/curl/8.12.0/tests/libte
+ st/lib540.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1512.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1908.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1301.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1500.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1501.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1502.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1506.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1507.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1508.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1518.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1520.c /usr/src/debug/curl/8.12.0/tests/libtest/lib539.c /usr/src/debug/curl/8.12.0/tests/libtest/lib541.c /usr/src/debug/curl/8.12.0/tests/libtest/lib542.c /usr/src/debug/curl/8.12.0/tests/libtest/lib582.c /usr/src/debug/curl/8.12.0/tests/libtest/lib583.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1531.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1532.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1509.c /usr/src/debug/curl/8
+ .12.0/tests/libtest/lib1510.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1511.c /usr/src/debug/curl/8.12.0/tests/libtest/libauthretry.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2301.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2302.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2304.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2305.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2306.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2308.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2309.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2310.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2402.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2404.c /usr/src/debug/curl/8.12.0/tests/libtest/lib509.c /usr/src/debug/curl/8.12.0/tests/libtest/lib570.c /usr/src/debug/curl/8.12.0/tests/libtest/lib571.c /usr/src/debug/curl/8.12.0/tests/libtest/lib572.c /usr/src/debug/curl/8.12.0/tests/libtest/lib573.c /usr/src/debug/curl/8.12.0/tests/libtest/lib574.c /usr/src/debug/curl/8.12.0/tests/libtest/lib575.c 
+ /usr/src/debug/curl/8.12.0/tests/libtest/lib576.c /usr/src/debug/curl/8.12.0/tests/libtest/lib578.c /usr/src/debug/curl/8.12.0/tests/libtest/lib569.c /usr/src/debug/curl/8.12.0/tests/libtest/lib579.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2405.c /usr/src/debug/curl/8.12.0/tests/libtest/lib2502.c /usr/src/debug/curl/8.12.0/tests/libtest/testtrace.c /usr/src/debug/curl/8.12.0/tests/libtest/lib504.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1522.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1523.c /usr/src/debug/curl/8.12.0/tests/libtest/testtrace.h /usr/src/debug/curl/8.12.0/tests/libtest/lib1525.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1526.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1527.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1528.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1529.c /usr/src/debug/curl/8.12.0/tests/libtest/lib510.c /usr/src/debug/curl/8.12.0/tests/libtest/lib511.c /usr/src/debug/curl/8.12.0/tests/libtest/lib512.c /usr/src/debug/curl/8.12.0/tests
+ /libtest/lib513.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1514.c /usr/src/debug/curl/8.12.0/tests/libtest/lib518.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1910.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1911.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1912.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1913.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1915.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1916.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1918.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1919.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1940.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1945.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1947.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1948.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1960.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1964.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3027.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3100.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3101.c /usr/src/de
+ bug/curl/8.12.0/tests/libtest/lib3102.c /usr/src/debug/curl/8.12.0/tests/libtest/libprereq.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3010.c /usr/src/debug/curl/8.12.0/tests/libtest/lib3025.c /usr/src/debug/curl/8.12.0/tests/libtest/lib503.c /usr/src/debug/curl/8.12.0/tests/libtest/lib1515.c /usr/src/debug/curl/8.12.0/tests/libtest/lib508.c /usr/src/debug/curl/8.12.0/tests/libtest/lib537.c /usr/src/debug/curl/8.12.0/tests/libtest/lib653.c /usr/src/debug/curl/8.12.0/tests/libtest/lib654.c /usr/src/debug/curl/8.12.0/tests/libtest/lib655.c /usr/src/debug/curl/8.12.0/tests/libtest/lib658.c /usr/src/debug/curl/8.12.0/tests/libtest/lib659.c /usr/src/debug/curl/8.12.0/tests/libtest/lib661.c /usr/src/debug/curl/8.12.0/tests/libtest/lib670.c /usr/src/debug/curl/8.12.0/tests/libtest/lib674.c /usr/src/debug/curl/8.12.0/tests/libtest/lib676.c /usr/src/debug/curl/8.12.0/tests/libtest/lib560.c /usr/src/debug/curl/8.12.0/tests/libtest/lib562.c /usr/src/debug/curl/8.12.0/tests/libtest/lib564.c /
+ usr/src/debug/curl/8.12.0/tests/libtest/lib566.c /usr/src/debug/curl/8.12.0/tests/libtest/lib567.c /usr/src/debug/curl/8.12.0/tests/libtest/lib590.c /usr/src/debug/curl/8.12.0/tests/libtest/lib591.c /usr/src/debug/curl/8.12.0/tests/libtest/lib597.c /usr/src/debug/curl/8.12.0/tests/libtest/lib598.c /usr/src/debug/curl/8.12.0/tests/libtest/lib599.c", added "/usr/src/debug/curl/8.12.1/tests/libtest/test.h /usr/src/debug/curl/8.12.1/tests/libtest/first.h /usr/src/debug/curl/8.12.1/tests/libtest/first.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1525.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1526.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1527.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1528.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1529.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2405.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2502.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1557.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1558.c /usr/src/debug/curl/8.12.1/tests/l
+ ibtest/lib1559.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3101.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3102.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3103.c /usr/src/debug/curl/8.12.1/tests/libtest/libauthretry.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3104.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1908.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1523.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1555.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1530.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1521.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1522.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1940.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1945.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1947.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1948.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1591.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1592.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1593.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1594.c /usr/s
+ rc/debug/curl/8.12.1/tests/libtest/lib1597.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1598.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1536.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1537.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1538.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1550.c /usr/src/debug/curl/8.12.1/tests/libtest/lib526.c /usr/src/debug/curl/8.12.1/tests/libtest/testtrace.c /usr/src/debug/curl/8.12.1/tests/libtest/testtrace.h /usr/src/debug/curl/8.12.1/tests/libtest/lib1560.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1564.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1565.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3207.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1156.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1553.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1554.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1568.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1569.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1662.c /usr/src/debug/curl/8.12.1/test
+ s/libtest/lib695.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2402.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2404.c /usr/src/debug/curl/8.12.1/tests/libtest/lib589.c /usr/src/debug/curl/8.12.1/tests/libtest/lib590.c /usr/src/debug/curl/8.12.1/tests/libtest/lib591.c /usr/src/debug/curl/8.12.1/tests/libtest/lib666.c /usr/src/debug/curl/8.12.1/tests/libtest/lib667.c /usr/src/debug/curl/8.12.1/tests/libtest/lib557.c /usr/src/debug/curl/8.12.1/tests/libtest/lib558.c /usr/src/debug/curl/8.12.1/tests/libtest/lib559.c /usr/src/debug/curl/8.12.1/tests/libtest/lib560.c /usr/src/debug/curl/8.12.1/tests/libtest/lib562.c /usr/src/debug/curl/8.12.1/tests/libtest/libprereq.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1509.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1510.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1511.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1512.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1513.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1514.c /usr/src/debug/cu
+ rl/8.12.1/tests/libtest/lib1556.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3208.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1533.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1534.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1906.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1907.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3105.c /usr/src/debug/curl/8.12.1/tests/libtest/lib575.c /usr/src/debug/curl/8.12.1/tests/libtest/lib576.c /usr/src/debug/curl/8.12.1/tests/libtest/lib578.c /usr/src/debug/curl/8.12.1/tests/libtest/lib579.c /usr/src/debug/curl/8.12.1/tests/libtest/lib582.c /usr/src/debug/curl/8.12.1/tests/libtest/lib597.c /usr/src/debug/curl/8.12.1/tests/libtest/lib599.c /usr/src/debug/curl/8.12.1/tests/libtest/lib542.c /usr/src/debug/curl/8.12.1/tests/libtest/lib543.c /usr/src/debug/curl/8.12.1/tests/libtest/lib544.c /usr/src/debug/curl/8.12.1/tests/libtest/lib533.c /usr/src/debug/curl/8.12.1/tests/libtest/lib537.c /usr/src/debug/curl/8.12.1/tests/libtest/lib539.c /usr/sr
+ c/debug/curl/8.12.1/tests/libtest/lib678.c /usr/src/debug/curl/8.12.1/tests/libtest/lib694.c /usr/src/debug/curl/8.12.1/tests/libtest/lib515.c /usr/src/debug/curl/8.12.1/tests/libtest/lib668.c /usr/src/debug/curl/8.12.1/tests/libtest/lib670.c /usr/src/debug/curl/8.12.1/tests/libtest/lib674.c /usr/src/debug/curl/8.12.1/tests/libtest/lib676.c /usr/src/debug/curl/8.12.1/tests/libtest/lib677.c /usr/src/debug/curl/8.12.1/tests/libtest/lib516.c /usr/src/debug/curl/8.12.1/tests/libtest/lib517.c /usr/src/debug/curl/8.12.1/tests/libtest/lib547.c /usr/src/debug/curl/8.12.1/tests/libtest/lib549.c /usr/src/debug/curl/8.12.1/tests/libtest/lib552.c /usr/src/debug/curl/8.12.1/tests/libtest/lib553.c /usr/src/debug/curl/8.12.1/tests/libtest/lib554.c /usr/src/debug/curl/8.12.1/tests/libtest/testutil.h /usr/src/debug/curl/8.12.1/tests/libtest/lib555.c /usr/src/debug/curl/8.12.1/tests/libtest/lib556.c /usr/src/debug/curl/8.12.1/tests/libtest/lib510.c /usr/src/debug/curl/8.12.1/tests/libtest/lib511.c /u
+ sr/src/debug/curl/8.12.1/tests/libtest/lib1937.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1938.c /usr/src/debug/curl/8.12.1/tests/libtest/testutil.c /usr/src/debug/curl/8.12.1/tests/libtest/libntlmconnect.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1974.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1975.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1977.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1910.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1911.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1912.c /usr/src/debug/curl/8.12.1/tests/libtest/lib514.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1973.c /usr/src/debug/curl/8.12.1/tests/libtest/lib505.c /usr/src/debug/curl/8.12.1/tests/libtest/lib506.c /usr/src/debug/curl/8.12.1/tests/libtest/lib507.c /usr/src/debug/curl/8.12.1/tests/libtest/lib508.c /usr/src/debug/curl/8.12.1/tests/libtest/lib509.c /usr/src/debug/curl/8.12.1/tests/libtest/lib570.c /usr/src/debug/curl/8.12.1/tests/libtest/lib571.c /usr/src/debug/curl/8.12.1/tes
+ ts/libtest/lib572.c /usr/src/debug/curl/8.12.1/tests/libtest/lib573.c /usr/src/debug/curl/8.12.1/tests/libtest/lib574.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1535.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1900.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1901.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1903.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1905.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1567.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1515.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1517.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1485.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1301.c /usr/src/debug/curl/8.12.1/tests/libtest/lib512.c /usr/src/debug/curl/8.12.1/tests/libtest/lib513.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3010.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3025.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3026.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3027.c /usr/src/debug/curl/8.12.1/tests/libtest/lib3100.c /usr/src/deb
+ ug/curl/8.12.1/tests/libtest/lib518.c /usr/src/debug/curl/8.12.1/tests/libtest/lib519.c /usr/src/debug/curl/8.12.1/tests/libtest/lib520.c /usr/src/debug/curl/8.12.1/tests/libtest/lib521.c /usr/src/debug/curl/8.12.1/tests/libtest/lib523.c /usr/src/debug/curl/8.12.1/tests/libtest/lib524.c /usr/src/debug/curl/8.12.1/tests/libtest/lib525.c /usr/src/debug/curl/8.12.1/tests/libtest/lib598.c /usr/src/debug/curl/8.12.1/tests/libtest/lib583.c /usr/src/debug/curl/8.12.1/tests/libtest/lib586.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1540.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1541.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1542.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1545.c /usr/src/debug/curl/8.12.1/tests/libtest/lib643.c /usr/src/debug/curl/8.12.1/tests/libtest/lib650.c /usr/src/debug/curl/8.12.1/tests/libtest/lib651.c /usr/src/debug/curl/8.12.1/tests/libtest/lib652.c /usr/src/debug/curl/8.12.1/tests/libtest/lib653.c /usr/src/debug/curl/8.12.1/tests/libtest/lib654.c /usr/
+ src/debug/curl/8.12.1/tests/libtest/lib655.c /usr/src/debug/curl/8.12.1/tests/libtest/lib658.c /usr/src/debug/curl/8.12.1/tests/libtest/lib659.c /usr/src/debug/curl/8.12.1/tests/libtest/lib661.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1960.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1964.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1915.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1916.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1918.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1919.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1933.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1934.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1935.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1936.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1551.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1552.c /usr/src/debug/curl/8.12.1/tests/libtest/lib530.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1531.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1532.c /usr/src/debug/curl/8.12.1/tests/libte
+ st/lib1500.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1501.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1502.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1506.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1507.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1508.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1518.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1520.c /usr/src/debug/curl/8.12.1/tests/libtest/lib540.c /usr/src/debug/curl/8.12.1/tests/libtest/lib541.c /usr/src/debug/curl/8.12.1/tests/libtest/lib564.c /usr/src/debug/curl/8.12.1/tests/libtest/lib566.c /usr/src/debug/curl/8.12.1/tests/libtest/lib567.c /usr/src/debug/curl/8.12.1/tests/libtest/lib568.c /usr/src/debug/curl/8.12.1/tests/libtest/lib569.c /usr/src/debug/curl/8.12.1/tests/libtest/lib500.c /usr/src/debug/curl/8.12.1/tests/libtest/lib501.c /usr/src/debug/curl/8.12.1/tests/libtest/lib502.c /usr/src/debug/curl/8.12.1/tests/libtest/lib503.c /usr/src/debug/curl/8.12.1/tests/libtest/lib504.c /usr/src/debug/curl/8.12.1/
+ tests/libtest/lib2301.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2302.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2304.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2305.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2306.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2308.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2309.c /usr/src/debug/curl/8.12.1/tests/libtest/lib2310.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1913.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1939.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1955.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1956.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1957.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1958.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1959.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1970.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1971.c /usr/src/debug/curl/8.12.1/tests/libtest/lib1972.c /usr/src/debug/curl/8.12.1/tests/libtest/lib536.c"
+packages/core2-64-poky-linux/curl/curl-src: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-src: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl-src: PKGSIZE changed from 5323637 to 5326306 (+0%)
+packages/core2-64-poky-linux/curl/curl-staticdev: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl-staticdev: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/curl: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/curl: PKGSIZE changed from 211256 to 215352 (+2%)
+packages/core2-64-poky-linux/curl: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.12.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.12.1.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
+packages/core2-64-poky-linux/curl: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
+packages/core2-64-poky-linux/curl/libcurl: PV changed from "8.12.0" to "8.12.1"
+packages/core2-64-poky-linux/curl/libcurl: PKGV changed from 8.12.0 [default] to 8.12.1 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2027,12 +2015,66 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3029016167678680049==
+--===============0826886147133936355==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-curl-upgrade-8.12.0-8.12.1.patch"
+
+RnJvbSBhYzM0ZDg2YTRlYzQxNzkzOTZiM2ZiZGUyMWE4YzVjNDBhYjNiZTlmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTI6MTQ6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXJsOiB1cGdyYWRlIDguMTIuMCAtPiA4LjEyLjEKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+Y3VybC9jdXJsL25vLXRlc3QtdGltZW91dC5wYXRjaCAgICAgICAgfCA2ICsrKy0tLQogLi4uL3Jl
+Y2lwZXMtc3VwcG9ydC9jdXJsL3tjdXJsXzguMTIuMC5iYiA9PiBjdXJsXzguMTIuMS5iYn0gfCAy
+ICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL3tjdXJsXzguMTIuMC5iYiA9PiBjdXJsXzgu
+MTIuMS5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1
+cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
+L25vLXRlc3QtdGltZW91dC5wYXRjaAppbmRleCBmZThlZmJlNjEyLi45MmZiOTM5NDQ5IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBh
+dGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQyY2RkYjUyZTgyMWNmYzJmMDlmMTk3NDc0Mjcx
+NGU1ZjJmMTg1NmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDg0MzY3ZTg2ZmFhOTgw
+ZWRiYzBmYzg5YTY2ZjE4YmU1YWU0ZWI1N2IgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IEZyaSwgMTUgTWFyIDIw
+MjQgMTQ6Mzc6MzcgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gU2V0IHRoZSBtYXgtdGltZSB0aW1l
+b3V0IHRvIDYwMCBzbyB0aGUgdGltZW91dCBpcyAxMCBtaW51dGVzCkBAIC0xMSwxMCArMTEsMTAg
+QEAgU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
+YS90ZXN0cy9zZXJ2ZXJzLnBtIGIvdGVzdHMvc2VydmVycy5wbQotaW5kZXggZDQ0NzJkNS4uOTk5
+OTkzOCAxMDA2NDQKK2luZGV4IDAxNjk4ODcuLmI0ZjcxZDMgMTAwNjQ0CiAtLS0gYS90ZXN0cy9z
+ZXJ2ZXJzLnBtCiArKysgYi90ZXN0cy9zZXJ2ZXJzLnBtCi1AQCAtMTIyLDcgKzEyMiw3IEBAIG15
+ICRzc2hkdmVyc3RyOyAgIyBmb3Igc29ja3Mgc2VydmVyLCBzc2ggZGFlbW9uIHZlcnNpb24gc3Ry
+aW5nCitAQCAtMTIzLDcgKzEyMyw3IEBAIG15ICRzc2hkdmVyc3RyOyAgIyBmb3Igc29ja3Mgc2Vy
+dmVyLCBzc2ggZGFlbW9uIHZlcnNpb24gc3RyaW5nCiAgbXkgJHNzaGRlcnJvcjsgICAjIGZvciBz
+b2NrcyBzZXJ2ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBlcnJvcgogIG15ICVkb2VzbnRydW47ICAg
+ICMgc2VydmVycyB0aGF0IGRvbid0IHdvcmssIGlkZW50aWZpZWQgYnkgcGlkZmlsZQogIG15ICVQ
+T1JUID0gKG5vbGlzdGVuID0+IDQ3KTsgIyBwb3J0IHdlIHVzZSBmb3IgYSBsb2NhbCBub24tbGlz
+dGVuaW5nIHNlcnZpY2UKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
+bF84LjEyLjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfOC4xMi4xLmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwv
+Y3VybF84LjEyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84
+LjEyLjEuYmIKaW5kZXggN2I1ZTYzNTBiYS4uMWU5ZTVhMDIyOSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzguMTIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9jdXJsL2N1cmxfOC4xMi4xLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiIFwK
+ICAgICBmaWxlOi8vZGlzYWJsZS10ZXN0cyBcCiAgICAgZmlsZTovL25vLXRlc3QtdGltZW91dC5w
+YXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWE0NjI4Yzc2NGJlNmIxYTk5MDk1Njdj
+MTNlOGU3NzEwNDE2MDlkZjQzYjIxNThmY2FjNGUwNWVhNzA5N2U1ZCIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIwMzQxZjFlZDk3YTI2YzgxMWFiYWViZDM3ZDYyYjgzMzk1Njc5MmI3NjA3ZWEzZjE1
+ZDAwMTYxM2M3NmRlMjAyIgogCiAjIEN1cmwgaGFzIHVzZWQgbWFueSBuYW1lcyBvdmVyIHRoZSB5
+ZWFycy4uLgogQ1ZFX1BST0RVQ1QgPSAiaGF4eDpjdXJsIGhheHg6bGliY3VybCBjdXJsOmN1cmwg
+Y3VybDpsaWJjdXJsIGxpYmN1cmw6bGliY3VybCBkYW5pZWxfc3RlbmJlcmc6Y3VybCIKLS0gCjIu
+NDQuMQoK
+
+--===============0826886147133936355==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: added "/usr/lib/curl/ptest/tests/data/test697 /usr/lib/curl/ptest/tests/libtest/lib3208 /usr/lib/curl/ptest/tests/data/test3208"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3864,5 +3906,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3029016167678680049==--
+--===============0826886147133936355==--
 
