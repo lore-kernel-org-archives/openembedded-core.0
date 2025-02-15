@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53428C021B5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E954C021AB
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:21 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.8047.1739623326940396493
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.8061.1739623336802420466
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:15 -0800
+ Sat, 15 Feb 2025 04:42:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JvkDLhoz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cyS811ML;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019509a184eb-047881bd-f4cd-41a2-813a-636b25f604ca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fQh/eEma;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ThvU7SG3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019509a1891d-81eb9884-02ed-4d75-96db-a9157f2b506b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623335;
+	t=1739623336;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EmZe8RZP8qJ2NxmIO9ZZ4iFHtsB/x8C78ekSx7FNO3k=;
-	b=JvkDLhozqav7X0sKctw+J6QMQKIzBph7IrE6jk8S61XF0VO+tpetJOg9ZAhmDPEY
-	O0UJG5QtlbqXReMtLdOEdbjtTew8oVlaOD35G0qGcwnPywYI8HJGZt/agsMby3YzWG5
-	fmhjYk2kwiY0JAMXnO4S+y9HGIwXSk9m+XuojJ9o=
+	bh=+Nl7EDqoi3NgAsldFJRR9+CWAnF3CKYK1vPOLogd3rU=;
+	b=fQh/eEmawbTjoMwTjDGAunZ5DPJfBIKiq/QT4ob4+ZdVPu38laXOt4erbjIH51cn
+	381PJhL8RjcasefH+lhfdN4zf1K9DHAfVTUJjXKa+mf50aBVwX4BMFvBbghM8IYLiiz
+	PgLD5967maQRWNWaNjcD2bJJlPImGkNn9eExewfQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623335;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623336;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EmZe8RZP8qJ2NxmIO9ZZ4iFHtsB/x8C78ekSx7FNO3k=;
-	b=cyS811MLEaGsvH7wlQpuH681VSIbtc8CA3eM+wxtwbOaLPEQjfROJHtjGHE9kN7S
-	k2gBeid/CW7feP7z9yCaZbfHdRlpugpefwpUtHV2f+5OT7C/Yiw0q62NWN89YBJ/7UD
-	hnTlcSz4hBzsjQblNTqA6LlpljNhff0jfNyyy0yY=
-Content-Type: multipart/mixed; boundary="===============6352567761331651472=="
+	bh=+Nl7EDqoi3NgAsldFJRR9+CWAnF3CKYK1vPOLogd3rU=;
+	b=ThvU7SG3RQmMuI/IEht1DHwjqXVW8POJ2xMR0xiQFfFnTaycIKt25mRJQHffTW2N
+	21XpvDUvCS/HxsBNTvFeemWPRbG8+DsZzek3YuN00S2UtFv1c/UNHOLzvJWno+2jMXj
+	K3M9OVTbxj8o7d8hr16VjUAbLmLFGPRAy2wpmxjk=
+Content-Type: multipart/mixed; boundary="===============0099522741003695360=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] fmt: upgrading to 11.1.3 FAILED
-Message-ID: <0101019509a184eb-047881bd-f4cd-41a2-813a-636b25f604ca-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:15 +0000
+Subject: [AUH] python3-babel: upgrading to 2.17.0 SUCCEEDED
+Message-ID: <0101019509a1891d-81eb9884-02ed-4d75-96db-a9157f2b506b-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.193
+X-SES-Outgoing: 2025.02.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211414
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211421
 
---===============6352567761331651472==
+--===============0099522741003695360==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *fmt* to *11.1.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-babel* to *2.17.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-fmt-upgrade-11.1.1-11.1.3.patch
+    - apply the patch: git am 0001-python3-babel-upgrade-2.16.0-2.17.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,138 +72,193 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d48175cbf440eb0aec95c0cc745ef41ecf969012 Mon Sep 17 00:00:00 2001
+From 3de66036e48d55491cccbc1baa8a6d29d2b1e38b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 07:18:59 +0000
-Subject: [PATCH] fmt: upgrade 11.1.1 -> 11.1.3
+Date: Sat, 15 Feb 2025 07:30:07 +0000
+Subject: [PATCH] python3-babel: upgrade 2.16.0 -> 2.17.0
 
 ---
- meta/recipes-devtools/fmt/{fmt_11.1.1.bb => fmt_11.1.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/fmt/{fmt_11.1.1.bb => fmt_11.1.3.bb} (91%)
+ ...abel_2.16.0.bb => python3-babel_2.17.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-babel_2.16.0.bb => python3-babel_2.17.0.bb} (35%)
 
-diff --git a/meta/recipes-devtools/fmt/fmt_11.1.1.bb b/meta/recipes-devtools/fmt/fmt_11.1.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/fmt/fmt_11.1.1.bb
-rename to meta/recipes-devtools/fmt/fmt_11.1.3.bb
-index cfacd81a11..179e2a4ea4 100644
---- a/meta/recipes-devtools/fmt/fmt_11.1.1.bb
-+++ b/meta/recipes-devtools/fmt/fmt_11.1.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
+diff --git a/meta/recipes-devtools/python/python3-babel_2.16.0.bb b/meta/recipes-devtools/python/python3-babel_2.17.0.bb
+similarity index 35%
+rename from meta/recipes-devtools/python/python3-babel_2.16.0.bb
+rename to meta/recipes-devtools/python/python3-babel_2.17.0.bb
+index 929d7e9983..1983edbb0c 100644
+--- a/meta/recipes-devtools/python/python3-babel_2.16.0.bb
++++ b/meta/recipes-devtools/python/python3-babel_2.17.0.bb
+@@ -1,9 +1,28 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright (c) 2013-2024 by the Babel Team, see AUTHORS for more information.
++# +Copyright (c) 2013-2025 by the Babel Team, see AUTHORS for more information.
++#  
++#  Redistribution and use in source and binary forms, with or without
++#  modification, are permitted provided that the following conditions
++# 
++#
++
+ SUMMARY = "A collection of tools for internationalizing Python applications"
+ HOMEPAGE = "http://babel.edgewall.org/"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e7ebed8cd9f4ff11f547e3afd024a28c"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e83509a66c69efcb4f3a7d4f27fd0693"
  
- SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https \
-            file://fix-gcc9.patch"
--SRCREV = "e3ddede6c4ee818825c4e5a6dfa1d384860c27d9"
-+SRCREV = "9cf9f38eded63e5e0fb95cd536ba51be601d7fa2"
+-SRC_URI[sha256sum] = "d1f3554ca26605fe173f3de0c65f750f5a42f924499bf134de6423582298e316"
++SRC_URI[sha256sum] = "0c54cffb19f690cdcc52a3b50bcbf71e07a808d1c80d549f2459b9d2cf0afb9d"
  
- S = "${WORKDIR}/git"
+ inherit pypi setuptools3
  
 -- 
 2.44.1
 
 
---===============6352567761331651472==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (915 cached, 1 parsed). 1869 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a2a1ab5f2799712a5b93aa762a42bb2668043d31"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 98 Local 87 Mirrors 0 Missed 11 Current 207 (88% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 301 of 305 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_recipe_qa_setscene)
-NOTE: recipe fmt-11.1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fmt-11.1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 899 of 919 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_fetch)
-NOTE: recipe fmt-11.1.3-r0: task do_fetch: Started
-NOTE: recipe fmt-11.1.3-r0: task do_fetch: Succeeded
-NOTE: Running task 900 of 919 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_unpack)
-NOTE: Running task 901 of 919 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fmt-11.1.3-r0: task do_unpack: Started
-NOTE: recipe fmt-11.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fmt-11.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe fmt-11.1.3-r0: task do_unpack: Succeeded
-NOTE: Running task 902 of 919 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_patch)
-NOTE: Running task 903 of 919 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_collect_spdx_deps)
-NOTE: recipe fmt-11.1.3-r0: task do_patch: Started
-NOTE: recipe fmt-11.1.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe fmt-11.1.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe fmt-11.1.3-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 903 tasks of which 898 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215071847.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215071847.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fmt/11.1.3/temp/log.do_patch.3512321
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: fmt-11.1.3-r0 do_patch: Applying patch 'fix-gcc9.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fmt/11.1.3/git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fmt/11.1.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch fix-gcc9.patch
-patching file include/fmt/format.h
-Hunk #1 FAILED at 227.
-1 out of 1 hunk FAILED -- rejects in file include/fmt/format.h
-Patch fix-gcc9.patch can be reverse-applied
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fmt/11.1.3/temp/log.do_patch.3512321
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/fmt/fmt_11.1.3.bb:do_patch) failed with exit code '1'
-
---===============6352567761331651472==
+--===============0099522741003695360==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-fmt-upgrade-11.1.1-11.1.3.patch"
+ filename="0001-python3-babel-upgrade-2.16.0-2.17.0.patch"
 
-RnJvbSBkNDgxNzVjYmY0NDBlYjBhZWM5NWMwY2M3NDVlZjQxZWNmOTY5MDEyIE1vbiBTZXAgMTcg
+RnJvbSAzZGU2NjAzNmU0OGQ1NTQ5MWNjY2JjMWJhYThhNmQyOWQyYjFlMzhiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDc6MTg6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-bXQ6IHVwZ3JhZGUgMTEuMS4xIC0+IDExLjEuMwoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Zm10L3tmbXRfMTEuMS4xLmJiID0+IGZtdF8xMS4xLjMuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2ZtdC97Zm10XzExLjEuMS5iYiA9PiBmbXRfMTEuMS4zLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10XzExLjEuMS5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9mbXQvZm10XzExLjEuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdF8xMS4xLjEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10XzExLjEuMy5iYgppbmRleCBjZmFjZDgxYTEx
-Li4xNzllMmE0ZWE0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdF8x
-MS4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXRfMTEuMS4zLmJiCkBA
-IC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1iOTI1
-Nzc4NWZjNGYzODAzYTRiNzFiNzZjMTQxMjcyOSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
-Y29tL2ZtdGxpYi9mbXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAg
-IGZpbGU6Ly9maXgtZ2NjOS5wYXRjaCIKLVNSQ1JFViA9ICJlM2RkZWRlNmM0ZWU4MTg4MjVjNGU1
-YTZkZmExZDM4NDg2MGMyN2Q5IgorU1JDUkVWID0gIjljZjlmMzhlZGVkNjNlNWUwZmI5NWNkNTM2
-YmE1MWJlNjAxZDdmYTIiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDc6MzA6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWJhYmVsOiB1cGdyYWRlIDIuMTYuMCAtPiAyLjE3LjAKCi0tLQogLi4uYWJlbF8yLjE2
+LjAuYmIgPT4gcHl0aG9uMy1iYWJlbF8yLjE3LjAuYmJ9IHwgMjMgKysrKysrKysrKysrKysrKyst
+LQogMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1iYWJlbF8yLjE2LjAuYmIg
+PT4gcHl0aG9uMy1iYWJlbF8yLjE3LjAuYmJ9ICgzNSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJhYmVsXzIuMTYuMC5iYiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1iYWJlbF8yLjE3LjAuYmIKc2ltaWxhcml0eSBpbmRl
+eCAzNSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJh
+YmVsXzIuMTYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLWJhYmVsXzIuMTcuMC5iYgppbmRleCA5MjlkN2U5OTgzLi4xOTgzZWRiYjBjIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYmFiZWxfMi4xNi4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1iYWJlbF8yLjE3LjAu
+YmIKQEAgLTEsOSArMSwyOCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
+IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
+IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
+eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
+bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
+VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
+cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysr
+IExJQ0VOU0UKKyMgQEAgLTEsNCArMSw0IEBACisjIC1Db3B5cmlnaHQgKGMpIDIwMTMtMjAyNCBi
+eSB0aGUgQmFiZWwgVGVhbSwgc2VlIEFVVEhPUlMgZm9yIG1vcmUgaW5mb3JtYXRpb24uCisjICtD
+b3B5cmlnaHQgKGMpIDIwMTMtMjAyNSBieSB0aGUgQmFiZWwgVGVhbSwgc2VlIEFVVEhPUlMgZm9y
+IG1vcmUgaW5mb3JtYXRpb24uCisjICAKKyMgIFJlZGlzdHJpYnV0aW9uIGFuZCB1c2UgaW4gc291
+cmNlIGFuZCBiaW5hcnkgZm9ybXMsIHdpdGggb3Igd2l0aG91dAorIyAgbW9kaWZpY2F0aW9uLCBh
+cmUgcGVybWl0dGVkIHByb3ZpZGVkIHRoYXQgdGhlIGZvbGxvd2luZyBjb25kaXRpb25zCisjIAor
+IworCiBTVU1NQVJZID0gIkEgY29sbGVjdGlvbiBvZiB0b29scyBmb3IgaW50ZXJuYXRpb25hbGl6
+aW5nIFB5dGhvbiBhcHBsaWNhdGlvbnMiCiBIT01FUEFHRSA9ICJodHRwOi8vYmFiZWwuZWRnZXdh
+bGwub3JnLyIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vTElDRU5TRTttZDU9ZTdlYmVkOGNkOWY0ZmYxMWY1NDdlM2FmZDAyNGEyOGMiCitMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1lODM1MDlhNjZjNjllZmNiNGYzYTdk
+NGYyN2ZkMDY5MyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQxZjM1NTRjYTI2NjA1ZmUxNzNm
+M2RlMGM2NWY3NTBmNWE0MmY5MjQ0OTliZjEzNGRlNjQyMzU4MjI5OGUzMTYiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMGM1NGNmZmIxOWY2OTBjZGNjNTJhM2I1MGJjYmY3MWUwN2E4MDhkMWM4MGQ1
+NDlmMjQ1OWI5ZDJjZjBhZmI5ZCIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLS0gCjIu
+NDQuMQoK
 
---===============6352567761331651472==--
+--===============0099522741003695360==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-babel: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel: SRC_URI changed from "https://files.pythonhosted.org/packages/source/b/babel/babel-2.16.0.tar.gz;downloadfilename=babel-2.16.0.tar.gz" to "https://files.pythonhosted.org/packages/source/b/babel/babel-2.17.0.tar.gz;downloadfilename=babel-2.17.0.tar.gz"
+packages/core2-64-poky-linux/python3-babel/python3-babel-dbg: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-dbg: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel-dev: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-dev: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel-doc: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-doc: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel-locale: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-locale: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel-src: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-src: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel-staticdev: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel-staticdev: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel: PKGV changed from 2.16.0 [default] to 2.17.0 [default]
+packages/core2-64-poky-linux/python3-babel/python3-babel: PV changed from "2.16.0" to "2.17.0"
+packages/core2-64-poky-linux/python3-babel/python3-babel: PKGSIZE changed from 29325023 to 31314473 (+7%)
+packages/core2-64-poky-linux/python3-babel/python3-babel: FILELIST: directory renamed /usr/lib/python3.13/site-packages/babel-2.16.0.dist-info -> /usr/lib/python3.13/site-packages/babel-2.17.0.dist-info, removed "/usr/lib/python3.13/site-packages/babel/locale-data/kok_IN.dat", added "/usr/lib/python3.13/site-packages/babel/locale-data/yue_Hant_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl_KZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl_UZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn_UZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/ltg.dat /usr/lib/python3.13/site-packages/babel/locale-data/mhn.dat /usr/lib/python3.13/site-packages/babel/locale-data/lld.dat /
+ usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hans_MY.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hant_MY.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva_IN.dat /usr/lib/python3.13/site-packages/babel/locale-data/ltg_LV.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl.dat /usr/lib/python3.13/site-packages/babel/locale-data/lld_IT.dat /usr/lib/python3.13/site-packages/babel/locale-data/mhn_IT.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn_IN.dat"
+Changes to packages/core2-64-poky-linux/python3-babel (sysroot):
+  /usr/lib/python3.13/site-packages/babel-2.16.0.dist-info moved to /usr/lib/python3.13/site-packages/babel-2.17.0.dist-info
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl_UZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn_UZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl_KZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva_IN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn_IN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/lld.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/lld_IT.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/ltg.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/ltg_LV.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/mhn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/mhn_IT.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/yue_Hant_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hans_MY.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hant_MY.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_IN.dat was removed
+
+--===============0099522741003695360==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-babel/python3-babel: FILELIST: directory renamed /usr/lib/python3.13/site-packages/babel-2.16.0.dist-info -> /usr/lib/python3.13/site-packages/babel-2.17.0.dist-info, removed "/usr/lib/python3.13/site-packages/babel/locale-data/kok_IN.dat", added "/usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva_IN.dat /usr/lib/python3.13/site-packages/babel/locale-data/yue_Hant_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn_UZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn_IN.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl_UZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/lld_IT.dat /usr/lib/python3.13/site-packages/babel/locale-data
+ /mhn_IT.dat /usr/lib/python3.13/site-packages/babel/locale-data/ltg_LV.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn_CN.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl.dat /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl_KZ.dat /usr/lib/python3.13/site-packages/babel/locale-data/lld.dat /usr/lib/python3.13/site-packages/babel/locale-data/ltg.dat /usr/lib/python3.13/site-packages/babel/locale-data/mhn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa.dat /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hans_MY.dat /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva.dat /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hant_MY.dat"
+Changes to packages/core2-64-poky-linux/python3-babel (sysroot):
+  /usr/lib/python3.13/site-packages/babel-2.16.0.dist-info moved to /usr/lib/python3.13/site-packages/babel-2.17.0.dist-info
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Cyrl_UZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kaa_Latn_UZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Arab.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kk_Cyrl_KZ.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Deva_IN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_Latn_IN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/lld.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/lld_IT.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/ltg.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/ltg_LV.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/mhn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/mhn_IT.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/yue_Hant_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hans_MY.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Hant_MY.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn_CN.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/zh_Latn.dat was added
+  /usr/lib/python3.13/site-packages/babel/locale-data/kok_IN.dat was removed
+
+--===============0099522741003695360==--
 
