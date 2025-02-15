@@ -1,98 +1,101 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC74C021A0
-	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 16:56:47 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.12729.1739638599848730383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98218C021A0
+	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 20:49:58 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.17294.1739652592701915425
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 08:56:40 -0800
+ Sat, 15 Feb 2025 12:49:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RbmPqQcQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38dcac27bcbso2545629f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 08:56:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D19bUR1j;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: festevam@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2fc3fa00323so1912511a91.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739638597; x=1740243397; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739652591; x=1740257391; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JzPHjPZqyIImLnOnbsVzwGiyXV6yBg2p1YuFmjpvYsg=;
-        b=RbmPqQcQuSwmZaO2S4gb8IqhshCgfsastlisuqY4vuUyz4ZhEW9BPoY2FIipPfJphS
-         N8EOjduZwM/qmxUrdYSiiEK7WbGxEfRj/NMLfBH3kQwL7ekejvwrBiG1olDQ4GHA3MuF
-         lDVmPiJyw6/URCC4THch0cNZ+ySYSjcaO2KCOMWHJnNWAFkLnbGxzaJKlYJQeojRyFEi
-         a7sj4iBdz1yhdg5OoOFLJ+1Aj5YV62hOnTU1qGzQAddwRnKqxoXLc34jaGW8cxaX2388
-         XLy2JoA+Pzw4MRkgjKRByiBgNGhppzuMo+bpwvMxPbljDER97tiBlfQzNusV4p4gQqWh
-         TDQw==
+        bh=xpAlARgXtUkcEDaGw4x/NRBkwE8cd9rq2qSo/vvggPE=;
+        b=D19bUR1j+DUe6J3B/GTi0X7bXFs147Zjy+v5GyHcrjtnmfd1a+OaCG2pax4+Gab5CZ
+         v8UjZufZMOOSRQSmPH7XMMtZhNfBmDVvC0aitWx+bOunMqaFpbZrmsoDQBE2cMP/D+OG
+         f9xr710tmlQFEMdcIErKeO3gY6jnvRAjpW5jLEapEiB8kaPchuv9S+v6JxWwwJ667oWu
+         ut+M9EXoPpKKDxd3jxjTN5MbFbWJj7z1/1aAHhgOqW+hXlmfcgX54lEJuxOALko9YiLr
+         L2que2cBP+X4hL1ZZhwBYw8+fZvxuyXIOAPLI3EfvkBIMrIPHFnB0JV2pMk0VZTSBwcX
+         dE9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739638597; x=1740243397;
+        d=1e100.net; s=20230601; t=1739652591; x=1740257391;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JzPHjPZqyIImLnOnbsVzwGiyXV6yBg2p1YuFmjpvYsg=;
-        b=mDgodevlJYv8p+ZHXsCW3Sc3UPXBIRGuP6dKTBly0wc6jvRWdjk7TDyzjtIldXPPkr
-         XqblE98AU/k0M/7iLeTrlYHh4DKYRSfwzZ8gKQtyPLzp7cy15ZGuORE5C9xLoAIgJRaJ
-         hmmWG9N9Nc/V7/MXsJSVUt1MKV5AT5eI2yaCKakV/Z3jS3EAagibCY3FE35qDdtve5q2
-         ryl19gRQB/5hbyZS+H3O8f2pgnOs2cVMyNOG8FfyjfoundeJTEn+RwkvN/ZZaFApD+CZ
-         tcovCJoFpCXP/uXQttVuxu/0Ve85VV4Llz4EReEI/nWrVeUCjH1Z93svArggj/984h2I
-         54gg==
-X-Gm-Message-State: AOJu0YwOBGp0MGKYrrjhztbUBzgPHzUsO+vrprMZ9i1HxSaQgMUgwajR
-	IH8bFm6bi4U4iSPfzKNb7/lf9/ccC4htKYBFm+MhqeABeYrWjJrLKXJIml7S
-X-Gm-Gg: ASbGncujNKAwoOwjtb0fspIhzMaCbzB2wRmGMWImVszRqVyr3LZk3GKZQgspLhROBq1
-	ECi1qIXOYUsldLUpM40fJwdQvvUE/QCf75i0u7kZcFt00kO1QSukiXFmfYHBpUmXiJhKQTXWBpw
-	0wiFxjV1Jv8KiaR9jwuhEPDs0X9IrJm+9TvAGbv/vVle5xrqXgkDxVT5r85ceJe96qsLBMVKtuM
-	mmcbLvCJJBmQhXS7TLnvo4RGvUuvIFI+mQRka4rlmpxQjYg2CY8DmHlpCQk7/epzChEJV3jklkT
-	J4zLBsaMjYPHonVcUW9tPUkyybV2LygW06o2tzLMR68oZx1EvLmTTQzknw==
-X-Google-Smtp-Source: AGHT+IE/5WjY1k6HgvT/1QbqFdZX1vGlR9LwLymuJ6TtV6aP+N7L7vIINxY+MCQO/eKp1H8TCS4/rQ==
-X-Received: by 2002:a5d:584a:0:b0:38d:cc9c:630c with SMTP id ffacd0b85a97d-38f339dee38mr2862466f8f.10.1739638597241;
-        Sat, 15 Feb 2025 08:56:37 -0800 (PST)
-Received: from ip-10-0-0-134.eu-west-1.compute.internal ([2a05:d018:db1:fb00:c4f8:7a97:b7aa:1bfd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5e9esm7763200f8f.61.2025.02.15.08.56.36
+        bh=xpAlARgXtUkcEDaGw4x/NRBkwE8cd9rq2qSo/vvggPE=;
+        b=V1QqEmn3KLwLthWyO5mPBy5ZSRiZQIGp1wzP/A8Roxsty6jR0pjo4DtvFUg1rprf/t
+         1djQB06dp5P/NFQSZ/Kfpcms0MWewHlq0FG+K2TqXxgxGT7/iQU2TRD5A6H/pjvVHxV0
+         rQUWI/xVu3GDqsM6gMYo7d7UOrUp8vVvgHHPkELL0a8Dae8/Dzv4qAHRsVxerVCKce9x
+         ZwtsERe3m9grHHiSdCHKgFgymzqAIYC/JyaqlU2lwoehhAqXOCu6tryfVjW7EDZ3h4GM
+         cgdF4/vX+WI7qBtZ1gkWuoDcLjo3hdFSosp278kvSfN6wfrJ5UDU4J9ekFTT9jY8UO54
+         OFbw==
+X-Gm-Message-State: AOJu0Yw8a14eU7R3IQkvrrKM4Dp1byC2bGdv3ZlNojOpwj0JYJEHtuLF
+	tOrkNTjvj0+lwlXFstkX8hZfXTQl2t7muqcBhn5nLp5/1lPLDqdhGJ6Jqw==
+X-Gm-Gg: ASbGnctrKIKp5wGkzEmiiHt4XngtLs7WvvbdZZQ3txY1PxGJgNcPOGY/o/jmU8N+RVl
+	kMTYGuZGkd1mpE57ymOa5fJNnZQUlHtpbVU5pU3uOti28ojNlHycqi6cMr8oQn0veEUWRcbcXRF
+	FUEC79IWpwy3LYfDvTRShNktoir/s5obzlHMZzkQPsiSL0QXRDQO2Ivi6SijvSBrYA8gR8XEkA0
+	5Va4xqQgjNC+u3ESSyfpvZ8Sf306VNYYX/03fL5fADrSzwgh6RrTsNSETXR5ZXbBx0liPbYm23r
+	nhDs7iuGF7kHQrPg998vbhKv1prA+A==
+X-Google-Smtp-Source: AGHT+IGN50toqoUurx8n7MkDGNwd1tdKq97TmGfqYxcLVh9UQ6y1IU8m/87xFktNvODyIFRksvbtUA==
+X-Received: by 2002:a17:90b:1e08:b0:2fa:1851:a023 with SMTP id 98e67ed59e1d1-2fc41150587mr6216000a91.35.1739652591102;
+        Sat, 15 Feb 2025 12:49:51 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1ae6:f300:bb6c:66d2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc327a9d68sm3731353a91.1.2025.02.15.12.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2025 08:56:36 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+        Sat, 15 Feb 2025 12:49:49 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v2] packagegroup-base: Add option to set zeroconf provider
-Date: Sat, 15 Feb 2025 16:55:46 +0000
-Message-Id: <20250215165545.1929-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] mtd-utils: Upgrade to 2.3.0
+Date: Sat, 15 Feb 2025 17:49:41 -0300
+Message-Id: <20250215204941.1453502-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 16:56:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211489
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 20:49:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211490
 
-avahi, systemd-resolved and mDNSResponder (in meta-networking) can all
-provide Zeroconf services. Add a `ZEROCONF_DAEMON` option to select
-which of these will provide service via packagegroup-base-zeroconf.
+From: Fabio Estevam <festevam@denx.de>
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Upgrade to mtd-utils 2.3.0.
+
+Details about the 2.3.0 release:
+
+https://lore.kernel.org/linux-mtd/1b7a55a6-1c5b-4e86-8006-e2010e54367e@sigma-star.at/T/#u
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- meta/recipes-core/packagegroups/packagegroup-base.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../mtd/{mtd-utils_2.2.1.bb => mtd-utils_2.3.0.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils_2.2.1.bb => mtd-utils_2.3.0.bb} (98%)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index cb9d1f07af51..ac450fbdc9a7 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -312,11 +312,14 @@ RDEPENDS:packagegroup-base-nfs = "\
- RRECOMMENDS:packagegroup-base-nfs = "\
-     kernel-module-nfs "
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb
+rename to meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+index 5ab5f6c729..e27a8b0a17 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+@@ -11,7 +11,7 @@ inherit autotools pkgconfig update-alternatives
+ DEPENDS = "zlib e2fsprogs util-linux"
+ RDEPENDS:mtd-utils-tests += "bash"
  
-+# Choose 'avahi-daemon', 'mdns' or 'systemd-resolved' as zeroconf-daemon
-+ZEROCONF_DAEMON ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd-resolved', 'systemd-resolved', 'avahi-daemon', d)}"
- SUMMARY:packagegroup-base-zeroconf = "Zeroconf support"
- RDEPENDS:packagegroup-base-zeroconf = "\
--    avahi-daemon"
-+    ${@ '' if d.getVar('ZEROCONF_DAEMON') == 'systemd-resolved' else d.getVar('ZEROCONF_DAEMON')} \
-+    "
- RDEPENDS:packagegroup-base-zeroconf:append:libc-glibc = "\
--    libnss-mdns \
-+    ${@ {'mdns':'mdns-libnss-mdns','avahi-daemon':'avahi-libnss-mdns','systemd-resolved':''}[d.getVar('ZEROCONF_DAEMON')]} \
-     "
+-SRCREV = "13ec33609213c1dbd75852a09560a707a7f19a5c"
++SRCREV = "4594fc1f4496a0ed55cabd31fbeba4e3fbf05602"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"
  
- SUMMARY:packagegroup-base-ipv6 = "IPv6 support"
+ S = "${WORKDIR}/git"
+-- 
+2.40.1
+
 
