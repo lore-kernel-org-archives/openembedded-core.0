@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD6CC282C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE6BC282C8
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:34 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.8063.1739623339461751705
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.8057.1739623333782655408
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:32 -0800
+ Sat, 15 Feb 2025 04:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=M822XiOB;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DYlxg66P;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019509a1c4ca-48eeb0dd-cf2e-4a08-bbae-c01e5750d7b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CTYvGo6m;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sfHy+6Tb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019509a1b129-91a87c3b-2c7b-4a6e-9718-402f8a7b07f6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623351;
+	t=1739623346;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ch/Kf1Mj8ioqeI8akL22b+wtRNewAU9sizT/P9RS4TQ=;
-	b=M822XiOBqgnGycXzVSi6f0YwWXhGPIzwyBiQ4p7ECQlsde/RtL6jirQiaYncWyG8
-	egcJ4xUsdy43KhXr74dIT4eRHUMRG1OmAOTctQDhp+0ZQRarxjqy9FCm3MjnFQBuGRD
-	mF5q8IuaD24SG2rjyZ2UAGC1octxJWcg3EVGLmYs=
+	bh=wjYR950T/CU6K1riPW9BNboAOuHTl8u7G0KeZlWzrKc=;
+	b=CTYvGo6mvDiThjVhQ1yhPsUPbm32U52RGTf6M2zW4qUz3K2+BRHHW22zV4daaBF8
+	VkbKsBXA/zg65tt6my7ZjZe5cl37wyXCT2geE6hb5hPe+y2YYbsIq4zrwyk273W85N7
+	YKIO1Q1dxerEbJM+Gv0siTb53QjWNHJLR7i3QfYo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623351;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623346;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ch/Kf1Mj8ioqeI8akL22b+wtRNewAU9sizT/P9RS4TQ=;
-	b=DYlxg66PnaEU5uqznf659EtIrFLwi9nXCbYLkDHkS0emhm33foZdOeOH4Ac1RW6e
-	AuM+QjJrZz31m4NeDK67maxM3WRBDcxKquwtFdha2IBOcQBc0UDCBSYDDP23Q/0Hcyb
-	dR8nRwnYSvSJ6sRb/d2keiLWwwygcVjRKEYMS/78=
-Content-Type: multipart/mixed; boundary="===============5506830523211600186=="
+	bh=wjYR950T/CU6K1riPW9BNboAOuHTl8u7G0KeZlWzrKc=;
+	b=sfHy+6Tb4MbZyOqNpleMOH3J3ebZWDUIK+tQvgjrRyPM6GwMxWhB5n13CYstwczf
+	dyOW6MTgQDBlaTeR11XdAvHexCU50hbT9msunSr9l4E4R0uUQ6NO/2NqHncOCCXTm28
+	mJr39mAIGfcDOiHQnzc+oMDKRMOqc7MhAtb4Z9rY=
+Content-Type: multipart/mixed; boundary="===============0247719309842820557=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 288 SUCCEEDED
-Message-ID: <0101019509a1c4ca-48eeb0dd-cf2e-4a08-bbae-c01e5750d7b9-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:31 +0000
+Subject: [AUH] spirv-headers: upgrading to 1.4.304.1 SUCCEEDED
+Message-ID: <0101019509a1b129-91a87c3b-2c7b-4a6e-9718-402f8a7b07f6-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.191
+X-SES-Outgoing: 2025.02.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211474
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211457
 
---===============5506830523211600186==
+--===============0247719309842820557==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *diffoscope* to *288* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *spirv-headers* to *1.4.304.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-287-288.patch
+    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.296.0-1.4.304.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,118 +72,90 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ea0cf249f615dc41e956403e29ef0a0671a881de Mon Sep 17 00:00:00 2001
+From 10a953d55816d66e676a1716054cfefc61818bd4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 12:17:49 +0000
-Subject: [PATCH] diffoscope: upgrade 287 -> 288
+Date: Sat, 15 Feb 2025 10:02:16 +0000
+Subject: [PATCH] spirv-headers: upgrade 1.3.296.0 -> 1.4.304.1
 
 ---
- .../diffoscope/{diffoscope_287.bb => diffoscope_288.bb}         | 2 +-
+ .../{spirv-headers_1.3.296.0.bb => spirv-headers_1.4.304.1.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_287.bb => diffoscope_288.bb} (93%)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.296.0.bb => spirv-headers_1.4.304.1.bb} (93%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_287.bb b/meta/recipes-support/diffoscope/diffoscope_288.bb
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.4.304.1.bb
 similarity index 93%
-rename from meta/recipes-support/diffoscope/diffoscope_287.bb
-rename to meta/recipes-support/diffoscope/diffoscope_288.bb
-index 8f8f114054..396bda2cdb 100644
---- a/meta/recipes-support/diffoscope/diffoscope_287.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_288.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.4.304.1.bb
+index bf7190379d..a4d947ff54 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.4.304.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d14ee3b13f42e9c9674acc5925c3d741"
  
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "51702676957edb4c16ad93bcfc25bfdbcdb0c39fa7d1d16f657db71cfaa58ceb"
-+SRC_URI[sha256sum] = "5b39fde58d6fc4a4c05cb21eecb48b0b67167c2ad9e23d90ac749d891156abd2"
- 
- RDEPENDS:${PN} += "\
-         binutils \
+-SRCREV = "2a9b6f951c7d6b04b6c21fe1bf3f475b68b84801"
++SRCREV = "3f17b2af6784bfa2c5aa5dbb8e0e74a607dd8b3b"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 -- 
 2.44.1
 
 
---===============5506830523211600186==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (0 cached, 916 parsed). 1870 targets, 49 skipped, 0 masked, 0 errors.
-Removing 120 recipes from the core2-64 sysroot...done.
-Removing 131 recipes from the qemux86_64 sysroot...done.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============5506830523211600186==
+--===============0247719309842820557==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-287-288.patch"
+ filename="0001-spirv-headers-upgrade-1.3.296.0-1.4.304.1.patch"
 
-RnJvbSBlYTBjZjI0OWY2MTVkYzQxZTk1NjQwM2UyOWVmMGEwNjcxYTg4MWRlIE1vbiBTZXAgMTcg
+RnJvbSAxMGE5NTNkNTU4MTZkNjZlNjc2YTE3MTYwNTRjZmVmYzYxODE4YmQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTI6MTc6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aWZmb3Njb3BlOiB1cGdyYWRlIDI4NyAtPiAyODgKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
-c2NvcGVfMjg3LmJiID0+IGRpZmZvc2NvcGVfMjg4LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yODcuYmIgPT4gZGlmZm9zY29wZV8y
-ODguYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzI4Ny5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
-Zm9zY29wZV8yODguYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI4Ny5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI4OC5iYgppbmRleCA4ZjhmMTE0
-MDU0Li4zOTZiZGEyY2RiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
-b3BlL2RpZmZvc2NvcGVfMjg3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8yODguYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
-ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiNTE3MDI2NzY5NTdlZGI0YzE2YWQ5M2JjZmMyNWJmZGJjZGIwYzM5ZmE3ZDFkMTZmNjU3
-ZGI3MWNmYWE1OGNlYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1YjM5ZmRlNThkNmZjNGE0YzA1
-Y2IyMWVlY2I0OGIwYjY3MTY3YzJhZDllMjNkOTBhYzc0OWQ4OTExNTZhYmQyIgogCiBSREVQRU5E
-Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMTA6MDI6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yOTYuMCAtPiAxLjQuMzA0LjEKCi0tLQogLi4uL3tz
+cGlydi1oZWFkZXJzXzEuMy4yOTYuMC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuNC4zMDQuMS5iYn0g
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWhlYWRlcnNfMS4zLjI5Ni4w
+LmJiID0+IHNwaXJ2LWhlYWRlcnNfMS40LjMwNC4xLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI5Ni4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjQuMzA0LjEuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3Bp
+cnYtaGVhZGVyc18xLjMuMjk2LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9z
+cGlyL3NwaXJ2LWhlYWRlcnNfMS40LjMwNC4xLmJiCmluZGV4IGJmNzE5MDM3OWQuLmE0ZDk0N2Zm
+NTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNf
+MS4zLjI5Ni4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRl
+cnNfMS40LjMwNC4xLmJiCkBAIC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL3d3dy5r
+aHJvbm9zLm9yZy9yZWdpc3RyeS9zcGlyLXYiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWQxNGVlM2IxM2Y0MmU5Yzk2NzRhY2M1OTI1YzNk
+NzQxIgogCi1TUkNSRVYgPSAiMmE5YjZmOTUxYzdkNmIwNGI2YzIxZmUxYmYzZjQ3NWI2OGI4NDgw
+MSIKK1NSQ1JFViA9ICIzZjE3YjJhZjY3ODRiZmEyYzVhYTVkYmI4ZTBlNzRhNjA3ZGQ4YjNiIgog
+U1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9TUElSVi1IZWFkZXJzO3By
+b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogUEUgPSAiMSIKICMgVGhlc2UgcmVjaXBlcyBuZWVk
+IHRvIGJlIHVwZGF0ZWQgaW4gbG9ja3N0ZXAgd2l0aCBlYWNoIG90aGVyOgotLSAKMi40NC4xCgo=
 
---===============5506830523211600186==
+--===============0247719309842820557==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1376597 to 1376603 (+0%)
-packages/core2-64-poky-linux/diffoscope: PKGV changed from 287 [default] to 288 [default]
-packages/core2-64-poky-linux/diffoscope: PV changed from "287" to "288"
-packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-287.tar.gz;downloadfilename=diffoscope-287.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-288.tar.gz;downloadfilename=diffoscope-288.tar.gz"
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.13/site-packages/diffoscope-287.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-288.dist-info
+packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 3308184 to 3349995 (+1%)
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.296.0" to "1.4.304.1"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.296.0 [default] to 1.4.304.1 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.296.0" to "1.4.304.1"
 
---===============5506830523211600186==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.13/site-packages/diffoscope-287.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-288.dist-info
-
---===============5506830523211600186==--
+--===============0247719309842820557==--
 
