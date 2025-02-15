@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97040C021B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54050C021B6
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:21 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.8059.1739623334312496369
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.8098.1739623336217199442
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:14 -0800
+ Sat, 15 Feb 2025 04:42:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=c0nOJkca;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=QHBAl0ol;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019509a17dd6-94c8124c-e487-4b85-9f3c-200fcb605a05-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iuIYqBcc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=auqb5xcM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019509a1862c-d525f564-6071-46fa-a2ad-d7f98ff295fd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623333;
+	t=1739623335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mZ8BW22TuPj2i+D3lME7u9gm+U5RahZAT1eEb2mPZt8=;
-	b=c0nOJkcam0ICd6vmBnAXp3dRjL0xUrwGlJsZ3PS2Oxpp6hDHbSWU1s2P06qmIfkk
-	Qsa903j+NIO9BysUmHO1O2guucpJSCdtU+5CF3qZLhhUxmqWYVDJbQ/99EsDz6cmcwZ
-	aj+rc15scxEKgq9Q7ERcyjeCjuUjBgH0KlYO5Zig=
+	bh=0ByxIZOoibILGdgvE1/eGn335A7dQepnFPce9J+BVcc=;
+	b=iuIYqBccRPmCsiP8jYHE2STsShFmoA6XdWrhgmlOq2zNrzBK1dMDaCBnMCM3yGoN
+	B1PmDpwoe192TER1kddZrBhypbDx43xZeR/BtUY1jwMhmQf+YLo+0gawNgRorXr3GWA
+	GGwnku1LTJ7IZALPBLcpA8YlXcNOCGrBaKJosR/s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623333;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mZ8BW22TuPj2i+D3lME7u9gm+U5RahZAT1eEb2mPZt8=;
-	b=QHBAl0olZVFT53cEwaSxYgsun++M3zKAAPTCKLnXkwLQFyALp6/t1dQV1bF9JdaB
-	6lI/Zv3gM2PVD0jyH9+h6yeCJXTIsmDGxwjSCLKdKTBQK/qZb+pkcbs3PVtFyAiQAo3
-	KJShhBmh/FjwasYjz+jXQmMZnDAdHUH86r4Tmkk8=
-Content-Type: multipart/mixed; boundary="===============8289750819669776789=="
+	bh=0ByxIZOoibILGdgvE1/eGn335A7dQepnFPce9J+BVcc=;
+	b=auqb5xcMR8x25fkPIwFG1HMoEHM3Ebz7PMyeSBf4wAJzwFjhr4jbQFS8QBbdljMR
+	9hhcjjSORSpYfNey5dYMuMfNFubeBq6HNnqzPrjtNTCk8kVFmGqIRcl/b5+c4veZ8Re
+	/joI7zdjJcCJYe8T0Xg59RDZICkivQY72nsH8SFs=
+Content-Type: multipart/mixed; boundary="===============6475854305707985497=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ttyrun: upgrading to 2.37.0 SUCCEEDED
-Message-ID: <0101019509a17dd6-94c8124c-e487-4b85-9f3c-200fcb605a05-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:13 +0000
+Subject: [AUH] btrfs-tools: upgrading to 6.13 SUCCEEDED
+Message-ID: <0101019509a1862c-d525f564-6071-46fa-a2ad-d7f98ff295fd-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.31
+X-SES-Outgoing: 2025.02.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211413
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211419
 
---===============8289750819669776789==
+--===============6475854305707985497==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.37.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *6.13* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ttyrun-upgrade-2.36.0-2.37.0.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.12-6.13.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,58 +72,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5a85a47aed0ece45cc187370256aa06daa39433d Mon Sep 17 00:00:00 2001
+From 62c9882033cc860db59e209fe55e81f45138e9ee Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 06:59:19 +0000
-Subject: [PATCH] ttyrun: upgrade 2.36.0 -> 2.37.0
+Date: Sat, 15 Feb 2025 07:02:44 +0000
+Subject: [PATCH] btrfs-tools: upgrade 6.12 -> 6.13
 
 ---
- meta/recipes-core/ttyrun/{ttyrun_2.36.0.bb => ttyrun_2.37.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ttyrun/{ttyrun_2.36.0.bb => ttyrun_2.37.0.bb} (94%)
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.12.bb => btrfs-tools_6.13.bb}            | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.12.bb => btrfs-tools_6.13.bb} (98%)
 
-diff --git a/meta/recipes-core/ttyrun/ttyrun_2.36.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.37.0.bb
-similarity index 94%
-rename from meta/recipes-core/ttyrun/ttyrun_2.36.0.bb
-rename to meta/recipes-core/ttyrun/ttyrun_2.37.0.bb
-index 3a58f19a9a..e8fb4831e2 100644
---- a/meta/recipes-core/ttyrun/ttyrun_2.36.0.bb
-+++ b/meta/recipes-core/ttyrun/ttyrun_2.37.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 59ea5a66da..dcabace26f 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 76e635a56c5973671da3a8a2fd4fc32e823bf8c9 Mon Sep 17 00:00:00 2001
++From 6f4a1af097ddbcc808c99992eded8c39c2850043 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master"
--SRCREV = "0cd063e40d12d7ca5bc59a09b2ee4803653678bd"
-+SRCREV = "793c037ded98cd001075cdb55a9c58e122380256"
+ diff --git a/Makefile b/Makefile
+-index 2f8d2fa0..c760e5ae 100644
++index 7e36aa42..edff7d5b 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -985,7 +985,7 @@ endif
++@@ -996,7 +996,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+index 3c0bb81f75..895002010c 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.12.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.13.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "85ca0a6d60c14eefda509970a26616ff16115612"
++SRCREV = "26e4d9174c70aac0e53c3b5de55cf159f8d9397f"
+ S = "${WORKDIR}/git"
  
- CVE_PRODUCT = "s390-tools"
- 
+ PACKAGECONFIG ??= " \
 -- 
 2.44.1
 
 
---===============8289750819669776789==
+--===============6475854305707985497==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ttyrun: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-src: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.36.0" to "2.37.0"
-packages/core2-64-poky-linux/ttyrun/ttyrun: PKGV changed from 2.36.0 [default] to 2.37.0 [default]
-packages/core2-64-poky-linux/ttyrun/ttyrun: PV changed from "2.36.0" to "2.37.0"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 27082560 to 26978568 (-0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 166841 to 166883 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4176305 to 4215056 (+1%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5938684 to 5860772 (-1%)
+packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.12" to "6.13"
+packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.12 [default] to 6.13 [default]
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.13/site-packages/btrfsutil-6.12-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.13-py3.13.egg-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -1955,12 +1985,67 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============8289750819669776789==
+--===============6475854305707985497==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-6.12-6.13.patch"
+
+RnJvbSA2MmM5ODgyMDMzY2M4NjBkYjU5ZTIwOWZlNTVlODFmNDUxMzhlOWVlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDc6MDI6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA2LjEyIC0+IDYuMTMKCi0tLQogLi4uZC1hLXBvc3NpYmlsaXR5
+LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+L3tidHJmcy10b29sc182LjEyLmJiID0+IGJ0cmZzLXRvb2xzXzYuMTMuYmJ9ICAgICAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzYu
+MTIuYmIgPT4gYnRyZnMtdG9vbHNfNi4xMy5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJp
+bGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxp
+dHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaAppbmRleCA1OWVhNWE2
+NmRhLi5kY2FiYWNlMjZmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMt
+dG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJl
+LXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJm
+cy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hl
+cmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc2ZTYzNWE1
+NmM1OTczNjcxZGEzYThhMmZkNGZjMzJlODIzYmY4YzkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIDZmNGExYWYwOTdkZGJjYzgwOGM5OTk5MmVkZWQ4YzM5YzI4NTAwNDMgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
+YWlsLmNvbT4KIERhdGU6IFdlZCwgMjMgTWF5IDIwMTggMjE6MjA6MzUgKzAzMDAKIFN1YmplY3Q6
+IFtQQVRDSF0gQWRkIGEgcG9zc2liaWxpdHkgdG8gc3BlY2lmeSB3aGVyZSBweXRob24gbW9kdWxl
+cyBhcmUKQEAgLTExLDEwICsxMSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKLWlu
+ZGV4IDJmOGQyZmEwLi5jNzYwZTVhZSAxMDA2NDQKK2luZGV4IDdlMzZhYTQyLi5lZGZmN2Q1YiAx
+MDA2NDQKIC0tLSBhL01ha2VmaWxlCiArKysgYi9NYWtlZmlsZQotQEAgLTk4NSw3ICs5ODUsNyBA
+QCBlbmRpZgorQEAgLTk5Niw3ICs5OTYsNyBAQCBlbmRpZgogIGlmZXEgKCQoUFlUSE9OX0JJTkRJ
+TkdTKSwxKQogIGluc3RhbGxfcHl0aG9uOiBsaWJidHJmc3V0aWxfcHl0aG9uCiAgCSQoUSljZCBs
+aWJidHJmc3V0aWwvcHl0aG9uOyBcCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+YnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9i
+dHJmcy10b29scy9idHJmcy10b29sc182LjEzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjEy
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9v
+bHNfNi4xMy5iYgppbmRleCAzYzBiYjgxZjc1Li44OTUwMDIwMTBjIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xMi5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xMy5iYgpAQCAt
+MTgsNyArMTgsNyBAQCBERVBFTkRTID0gInV0aWwtbGludXggemxpYiIKIFNSQ19VUkkgPSAiZ2l0
+Oi8vZ2l0aHViLmNvbS9rZGF2ZS9idHJmcy1wcm9ncy5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2Nv
+bD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNw
+ZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNS
+RVYgPSAiODVjYTBhNmQ2MGMxNGVlZmRhNTA5OTcwYTI2NjE2ZmYxNjExNTYxMiIKK1NSQ1JFViA9
+ICIyNmU0ZDkxNzRjNzBhYWMwZTUzYzNiNWRlNTVjZjE1OWY4ZDkzOTdmIgogUyA9ICIke1dPUktE
+SVJ9L2dpdCIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiBcCi0tIAoyLjQ0LjEKCg==
+
+--===============6475854305707985497==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.13/site-packages/btrfsutil-6.12-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.13-py3.13.egg-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3792,33 +3877,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============8289750819669776789==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ttyrun-upgrade-2.36.0-2.37.0.patch"
-
-RnJvbSA1YTg1YTQ3YWVkMGVjZTQ1Y2MxODczNzAyNTZhYTA2ZGFhMzk0MzNkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDY6NTk6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-dHlydW46IHVwZ3JhZGUgMi4zNi4wIC0+IDIuMzcuMAoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS90
-dHlydW4ve3R0eXJ1bl8yLjM2LjAuYmIgPT4gdHR5cnVuXzIuMzcuMC5iYn0gfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtY29yZS90dHlydW4ve3R0eXJ1bl8yLjM2LjAuYmIgPT4gdHR5cnVuXzIuMzcuMC5iYn0g
-KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuMzYu
-MC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zNy4wLmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5f
-Mi4zNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuMzcu
-MC5iYgppbmRleCAzYTU4ZjE5YTlhLi5lOGZiNDgzMWUyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtY29yZS90dHlydW4vdHR5cnVuXzIuMzYuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS90
-dHlydW4vdHR5cnVuXzIuMzcuMC5iYgpAQCAtNyw3ICs3LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mNTExOGYxNjdiMDU1YmZkN2Mz
-NDUwODAzZjE4NDdhZiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2libS1zMzkwLWxp
-bnV4L3MzOTAtdG9vbHM7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciIKLVNSQ1JFViA9ICIw
-Y2QwNjNlNDBkMTJkN2NhNWJjNTlhMDliMmVlNDgwMzY1MzY3OGJkIgorU1JDUkVWID0gIjc5M2Mw
-MzdkZWQ5OGNkMDAxMDc1Y2RiNTVhOWM1OGUxMjIzODAyNTYiCiAKIENWRV9QUk9EVUNUID0gInMz
-OTAtdG9vbHMiCiAKLS0gCjIuNDQuMQoK
-
---===============8289750819669776789==--
+--===============6475854305707985497==--
 
