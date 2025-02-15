@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75DBC021AE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2798C021A6
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:20 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.8046.1739623326598169694
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.8091.1739623332163588576
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:18 -0800
+ Sat, 15 Feb 2025 04:42:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=d3TdQj+R;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0LeOncYR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019509a190ed-faa0383f-11e4-4527-8ccb-872ae76f87d4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BpIxe7Nk;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P5lHZYiL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019509a175f4-bd70f722-4642-4536-acb2-14c25e6dd887-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623338;
+	t=1739623331;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BwxTrOwLL8n5TKcOUogYLPYEVqSUaXe5y2dIBY0Ys3k=;
-	b=d3TdQj+RPLWeAphyoCwErsJZGkNpvwswhXksYZqVB1aBzwfNfsVO+bYeQs4NmUDk
-	yvXTg4nRyfIyuKxlojz4RiSdZIPfNnJFQ2LXaoGI4vDiFAcqs6oDURnflJw4IPBQ48T
-	Yeo1e80seOsNgQqedBm3gxVgZk9BZ5t9fYgQvoJI=
+	bh=eXD1A9ppjfUrESKCR01EIAaALn3dchejiqNmNkvnqRU=;
+	b=BpIxe7NkcSYfxnaU49RtQDY50jDu0CGNVsiUZIoYqpEvwBmL67aItpWB0ApVahW0
+	yQSyMLk1MTYztAdh2P9hL0UBZ4+b2vonqBOIG5RhKfw8lLLemT6WjBUPs13gJIXG3rV
+	E0J0RqqWWV7kx8/SQQdLMy2DLcvRyckwdX8YuY18=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623338;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623331;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BwxTrOwLL8n5TKcOUogYLPYEVqSUaXe5y2dIBY0Ys3k=;
-	b=0LeOncYRqGwxkIn4vTt6s3KkuYnrBUBJqDdGAeX4PT2IEPjpfvLtWQmyxf59bfak
-	WCWy3yfD6ir058Lsm1uXy14XW3ESlYGkLy9eVvMkIGMSafoyKZSGZQ8A8gkqb4Oj9xn
-	ZWF9yGEOCDhxCL9RLMGxii/+BWzDB70+D7x/F0G0=
-Content-Type: multipart/mixed; boundary="===============1802195520251575773=="
+	bh=eXD1A9ppjfUrESKCR01EIAaALn3dchejiqNmNkvnqRU=;
+	b=P5lHZYiL99j2uhHVPskhNPw2L0Cp+4e7f4+MDcxWO48pDzeHeRr6UZgTvapaXTbt
+	CtrJxLkUoTmepJ5ihMFzHovG/coxAj8VCnYfkGf81BwBFv/ibM5/eNjX3iqblibqWgM
+	7ugSLwZudMXoelATrbsafcx6nln8hY1mr4PaMYJE=
+Content-Type: multipart/mixed; boundary="===============2333954422785071012=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-mako: upgrading to 1.3.9 SUCCEEDED
-Message-ID: <0101019509a190ed-faa0383f-11e4-4527-8ccb-872ae76f87d4-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:18 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] dhcpcd: upgrading to 10.2.0 SUCCEEDED
+Message-ID: <0101019509a175f4-bd70f722-4642-4536-acb2-14c25e6dd887-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.192
+X-SES-Outgoing: 2025.02.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211427
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211402
 
---===============1802195520251575773==
+--===============2333954422785071012==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-mako* to *1.3.9* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *dhcpcd* to *10.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-mako-upgrade-1.3.8-1.3.9.patch
+    - apply the patch: git am 0001-dhcpcd-upgrade-10.1.0-10.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,151 +72,192 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 75abaeff26352fb885c302449041e6b39dbd7f89 Mon Sep 17 00:00:00 2001
+From 7a5d29b9146fa196861c28ee9327adfc0756f09c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 07:55:15 +0000
-Subject: [PATCH] python3-mako: upgrade 1.3.8 -> 1.3.9
+Date: Sat, 15 Feb 2025 06:22:19 +0000
+Subject: [PATCH] dhcpcd: upgrade 10.1.0 -> 10.2.0
 
 ---
- ...n3-mako_1.3.8.bb => python3-mako_1.3.9.bb} | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-mako_1.3.8.bb => python3-mako_1.3.9.bb} (39%)
+ .../dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.0.bb}            | 2 +-
+ ...0-resolv.conf-improve-the-sitation-of-working-with-.patch | 5 +----
+ ...01-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch | 2 +-
+ .../0001-remove-INCLUDEDIR-to-prevent-build-issues.patch     | 4 ++--
+ 4 files changed, 5 insertions(+), 8 deletions(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-mako_1.3.8.bb b/meta/recipes-devtools/python/python3-mako_1.3.9.bb
-similarity index 39%
-rename from meta/recipes-devtools/python/python3-mako_1.3.8.bb
-rename to meta/recipes-devtools/python/python3-mako_1.3.9.bb
-index 3cfe56e043..cdef8ad59f 100644
---- a/meta/recipes-devtools/python/python3-mako_1.3.8.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.3.9.bb
-@@ -1,8 +1,27 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,4 +1,4 @@
-+# -Copyright 2006-2024 the Mako authors and contributors <see AUTHORS file>.
-+# +Copyright 2006-2025 the Mako authors and contributors <see AUTHORS file>.
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
-+#  this software and associated documentation files (the "Software"), to deal in
-+# 
-+#
-+
- SUMMARY = "Templating library for Python"
- HOMEPAGE = "http://www.makotemplates.org/"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d0995d6f7ba3f186a03118f244e88f57"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=73026b50800163bd3c75cfdc121d9eb5"
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
+index 3f806bb187..5bb1cadec8 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
  
- PYPI_PACKAGE = "mako"
+-SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
++SRCREV = "8beb42b62651f0a6647e6b83f3e50b8e32a1db69"
+ S = "${WORKDIR}/git"
  
-@@ -10,7 +29,7 @@ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+index 8d1ed6671a..88acb2f72f 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+@@ -1,4 +1,4 @@
+-From 02acc4d875ee81e6fd19ef66d69c9f55b4b4a7e7 Mon Sep 17 00:00:00 2001
++From ba32aab24462486cc9979932df636685e7ffb40f Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 9 Nov 2022 16:33:18 +0800
+ Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
+@@ -77,6 +77,3 @@ index 7c29e276..becc019f 100644
+  		"$resolvconf" -d "$ifname" -f
+  	else
+  		if [ -e "$resolv_conf_dir/$ifname" ]; then
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+index b958110ef1..672867c8a3 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From 1115784dfdf2e7095cf599f9becef705ac57f80e Mon Sep 17 00:00:00 2001
++From 601e88e4b2b64a2fd812507682a16d49eba92bf3 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@fujitsu.com>
+ Date: Fri, 10 Mar 2023 03:48:46 +0000
+ Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+index 8890c2d7dc..8a69452ff8 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+@@ -1,4 +1,4 @@
+-From 69babef33b0ee4c60d8821797777b9affedd47da Mon Sep 17 00:00:00 2001
++From 70012f4507357522d69aacd4b19a6a7ed7cba0d3 Mon Sep 17 00:00:00 2001
+ From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+ Date: Sun, 13 Jan 2019 01:50:52 +0100
+ Subject: [PATCH] remove INCLUDEDIR to prevent build issues
+@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+  1 file changed, 5 deletions(-)
  
- 
- 
--SRC_URI[sha256sum] = "577b97e414580d3e088d47c2dbbe9594aa7a5146ed2875d4dfa9075af2dd3cc8"
-+SRC_URI[sha256sum] = "b5d65ff3462870feec922dbccf38f6efb44e5714d7b593a656be86663d8600ac"
- 
- RDEPENDS:${PN} = "python3-html \
-                   python3-markupsafe \
+ diff --git a/configure b/configure
+-index 1a772b02..0f915b39 100755
++index a60da137..3673de8b 100755
+ --- a/configure
+ +++ b/configure
+ @@ -26,7 +26,6 @@ BUILD=
 -- 
 2.44.1
 
 
---===============1802195520251575773==
+--===============2333954422785071012==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.8.tar.gz;downloadfilename=mako-1.3.8.tar.gz" to "https://files.pythonhosted.org/packages/source/m/mako/mako-1.3.9.tar.gz;downloadfilename=mako-1.3.9.tar.gz"
-packages/core2-64-poky-linux/python3-mako: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGSIZE changed from 352048 to 352058 (+0%)
-packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-ptest: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-src: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-packages/core2-64-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 640279 to 639707 (-0%)
-packages/core2-64-poky-linux/python3-mako/python3-mako: PV changed from "1.3.8" to "1.3.9"
-packages/core2-64-poky-linux/python3-mako/python3-mako: PKGV changed from 1.3.8 [default] to 1.3.9 [default]
-Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.13/site-packages/Mako-1.3.8.dist-info moved to /usr/lib/python3.13/site-packages/Mako-1.3.9.dist-info
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1308736 to 1334784 (+2%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGSIZE changed from 65175 to 66889 (+3%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1100832 to 1114883 (+1%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGSIZE changed from 432552 to 436664 (+1%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/dhcpcd: PV changed from "10.1.0" to "10.2.0"
 
---===============1802195520251575773==
+--===============2333954422785071012==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-mako-upgrade-1.3.8-1.3.9.patch"
+ filename="0001-dhcpcd-upgrade-10.1.0-10.2.0.patch"
 
-RnJvbSA3NWFiYWVmZjI2MzUyZmI4ODVjMzAyNDQ5MDQxZTZiMzlkYmQ3Zjg5IE1vbiBTZXAgMTcg
+RnJvbSA3YTVkMjliOTE0NmZhMTk2ODYxYzI4ZWU5MzI3YWRmYzA3NTZmMDljIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDc6NTU6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLW1ha286IHVwZ3JhZGUgMS4zLjggLT4gMS4zLjkKCi0tLQogLi4ubjMtbWFrb18xLjMu
-OC5iYiA9PiBweXRob24zLW1ha29fMS4zLjkuYmJ9IHwgMjMgKysrKysrKysrKysrKysrKystLQog
-MSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tYWtvXzEuMy44LmJiID0+IHB5
-dGhvbjMtbWFrb18xLjMuOS5iYn0gKDM5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy45LmJiCnNpbWlsYXJpdHkgaW5kZXggMzklCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy44LmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMu
-OS5iYgppbmRleCAzY2ZlNTZlMDQzLi5jZGVmOGFkNTlmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuOC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuOS5iYgpAQCAtMSw4ICsxLDI3IEBA
-CisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQg
-YnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2Ug
-YmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0
-ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMg
-aW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChl
-eGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisj
-IFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw0
-ICsxLDQgQEAKKyMgLUNvcHlyaWdodCAyMDA2LTIwMjQgdGhlIE1ha28gYXV0aG9ycyBhbmQgY29u
-dHJpYnV0b3JzIDxzZWUgQVVUSE9SUyBmaWxlPi4KKyMgK0NvcHlyaWdodCAyMDA2LTIwMjUgdGhl
-IE1ha28gYXV0aG9ycyBhbmQgY29udHJpYnV0b3JzIDxzZWUgQVVUSE9SUyBmaWxlPi4KKyMgIAor
-IyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBw
-ZXJzb24gb2J0YWluaW5nIGEgY29weSBvZgorIyAgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRl
-ZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwgaW4KKyMgCisj
-CisKIFNVTU1BUlkgPSAiVGVtcGxhdGluZyBsaWJyYXJ5IGZvciBQeXRob24iCiBIT01FUEFHRSA9
-ICJodHRwOi8vd3d3Lm1ha290ZW1wbGF0ZXMub3JnLyIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9u
-IgogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
-NT1kMDk5NWQ2ZjdiYTNmMTg2YTAzMTE4ZjI0NGU4OGY1NyIKK0xJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PTczMDI2YjUwODAwMTYzYmQzYzc1Y2ZkYzEyMWQ5ZWI1IgogCiBQ
-WVBJX1BBQ0tBR0UgPSAibWFrbyIKIApAQCAtMTAsNyArMjksNyBAQCBpbmhlcml0IHB5cGkgcHl0
-aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdC1weXRob24tcHl0ZXN0CiAKIAogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNTc3Yjk3ZTQxNDU4MGQzZTA4OGQ0N2MyZGJiZTk1OTRhYTdhNTE0
-NmVkMjg3NWQ0ZGZhOTA3NWFmMmRkM2NjOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiNWQ2NWZm
-MzQ2Mjg3MGZlZWM5MjJkYmNjZjM4ZjZlZmI0NGU1NzE0ZDdiNTkzYTY1NmJlODY2NjNkODYwMGFj
-IgogCiBSREVQRU5EUzoke1BOfSA9ICJweXRob24zLWh0bWwgXAogICAgICAgICAgICAgICAgICAg
-cHl0aG9uMy1tYXJrdXBzYWZlIFwKLS0gCjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDY6MjI6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aGNwY2Q6IHVwZ3JhZGUgMTAuMS4wIC0+IDEwLjIuMAoKLS0tCiAuLi4vZGhjcGNkL3tkaGNwY2Rf
+MTAuMS4wLmJiID0+IGRoY3BjZF8xMC4yLjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAuLi4wLXJl
+c29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmctd2l0aC0ucGF0Y2ggfCA1
+ICstLS0tCiAuLi4wMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVs
+dGlsaWIucGF0Y2ggfCAyICstCiAuLi4vMDAwMS1yZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50
+LWJ1aWxkLWlzc3Vlcy5wYXRjaCAgICAgfCA0ICsrLS0KIDQgZmlsZXMgY2hhbmdlZCwgNSBpbnNl
+cnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvZGhjcGNkL3tkaGNwY2RfMTAuMS4wLmJiID0+IGRoY3BjZF8xMC4yLjAuYmJ9ICg5NyUpCgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZGhjcGNkXzEwLjEu
+MC5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4yLjAuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9kaGNwY2QvZGhjcGNkXzEwLjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
+dml0eS9kaGNwY2QvZGhjcGNkXzEwLjIuMC5iYgppbmRleCAzZjgwNmJiMTg3Li41YmIxY2FkZWM4
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAu
+MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4y
+LjAuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05ldHdv
+cmtDb25maWd1cmF0aW9uL2RoY3BjZDtwcm90b2NvbD1odHRwczticmFuY2g9bWEKICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4tZW5hYmxlLW11
+bHRpbGliLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiNTdjMzUwNmE1NjIyZTE5
+OWNmMGUzZmMxZWYyNmE3MWNkZWRjOTUyMSIKK1NSQ1JFViA9ICI4YmViNDJiNjI2NTFmMGE2NjQ3
+ZTZiODNmM2U1MGI4ZTMyYTFkYjY5IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogaW5oZXJpdCBw
+a2djb25maWcgYXV0b3Rvb2xzLWJyb2tlbnNlcCBzeXN0ZW1kIHVzZXJhZGQKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtMjAtcmVzb2x2LmNv
+bmYtaW1wcm92ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtMjAtcmVzb2x2LmNvbmYtaW1wcm92
+ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaAppbmRleCA4ZDFlZDY2NzFhLi44
+OGFjYjJmNzJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9m
+aWxlcy8wMDAxLTIwLXJlc29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmct
+d2l0aC0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMv
+MDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3ZlLXRoZS1zaXRhdGlvbi1vZi13b3JraW5nLXdpdGgt
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMmFjYzRkODc1ZWU4MWU2ZmQxOWVmNjZkNjlj
+OWY1NWI0YjRhN2U3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiYTMyYWFiMjQ0NjI0
+ODZjYzk5Nzk5MzJkZjYzNjY4NWU3ZmZiNDBmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCA5IE5vdiAyMDIy
+IDE2OjMzOjE4ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIDIwLXJlc29sdi5jb25mOiBpbXByb3Zl
+IHRoZSBzaXRhdGlvbiBvZiB3b3JraW5nIHdpdGggc3lzdGVtZApAQCAtNzcsNiArNzcsMyBAQCBp
+bmRleCA3YzI5ZTI3Ni4uYmVjYzAxOWYgMTAwNjQ0CiAgCQkiJHJlc29sdmNvbmYiIC1kICIkaWZu
+YW1lIiAtZgogIAllbHNlCiAgCQlpZiBbIC1lICIkcmVzb2x2X2NvbmZfZGlyLyRpZm5hbWUiIF07
+IHRoZW4KLS0tIAotMi4xNy4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvZGhjcGNkL2ZpbGVzLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4tZW5h
+YmxlLW11bHRpbGliLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmls
+ZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIu
+cGF0Y2gKaW5kZXggYjk1ODExMGVmMS4uNjcyODY3YzhhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3Qt
+ZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hl
+bi1lbmFibGUtbXVsdGlsaWIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDExMTU3ODRkZmRm
+MmU3MDk1Y2Y1OTlmOWJlY2VmNzA1YWM1N2Y4MGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDYwMWU4OGU0YjJiNjRhMmZkODEyNTA3NjgyYTE2ZDQ5ZWJhOTJiZjMgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBMZWkgTWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5jb20+CiBE
+YXRlOiBGcmksIDEwIE1hciAyMDIzIDAzOjQ4OjQ2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRo
+Y3BjZC44OiBGaXggY29uZmxpY3QgZXJyb3Igd2hlbiBlbmFibGUgbXVsdGlsaWIuCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLXJlbW92ZS1J
+TkNMVURFRElSLXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
+bm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1yZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50
+LWJ1aWxkLWlzc3Vlcy5wYXRjaAppbmRleCA4ODkwYzJkN2RjLi44YTY5NDUyZmY4IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLXJlbW92ZS1J
+TkNMVURFRElSLXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVItdG8tcHJl
+dmVudC1idWlsZC1pc3N1ZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDY5YmFiZWYzM2Iw
+ZWU0YzYwZDg4MjE3OTc3NzdiOWFmZmVkZDQ3ZGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDcwMDEyZjQ1MDczNTc1MjJkNjlhYWNkNGIxOWE2YTdlZDdjYmEwZDMgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBTdGVmYW5vIENhcHBhIDxzdGVmYW5vLmNhcHBhLmtzODlAZ21h
+aWwuY29tPgogRGF0ZTogU3VuLCAxMyBKYW4gMjAxOSAwMTo1MDo1MiArMDEwMAogU3ViamVjdDog
+W1BBVENIXSByZW1vdmUgSU5DTFVERURJUiB0byBwcmV2ZW50IGJ1aWxkIGlzc3VlcwpAQCAtMTEs
+NyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBTdGVmYW5vIENhcHBhIDxzdGVmYW5vLmNhcHBhLmtz
+ODlAZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
+Z2l0IGEvY29uZmlndXJlIGIvY29uZmlndXJlCi1pbmRleCAxYTc3MmIwMi4uMGY5MTViMzkgMTAw
+NzU1CitpbmRleCBhNjBkYTEzNy4uMzY3M2RlOGIgMTAwNzU1CiAtLS0gYS9jb25maWd1cmUKICsr
+KyBiL2NvbmZpZ3VyZQogQEAgLTI2LDcgKzI2LDYgQEAgQlVJTEQ9Ci0tIAoyLjQ0LjEKCg==
 
---===============1802195520251575773==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.13/site-packages/Mako-1.3.8.dist-info moved to /usr/lib/python3.13/site-packages/Mako-1.3.9.dist-info
-
---===============1802195520251575773==--
+--===============2333954422785071012==--
 
