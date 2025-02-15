@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2798C021A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F357C021A0
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.8091.1739623332163588576
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.8052.1739623332341286779
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:12 -0800
+ Sat, 15 Feb 2025 04:42:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BpIxe7Nk;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P5lHZYiL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019509a175f4-bd70f722-4642-4536-acb2-14c25e6dd887-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KLnP1D5i;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=lfOdD6Ua;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019509a1963c-896b6668-36a2-4c6e-8b72-d46cc72b71e5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739623331;
+	t=1739623339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eXD1A9ppjfUrESKCR01EIAaALn3dchejiqNmNkvnqRU=;
-	b=BpIxe7NkcSYfxnaU49RtQDY50jDu0CGNVsiUZIoYqpEvwBmL67aItpWB0ApVahW0
-	yQSyMLk1MTYztAdh2P9hL0UBZ4+b2vonqBOIG5RhKfw8lLLemT6WjBUPs13gJIXG3rV
-	E0J0RqqWWV7kx8/SQQdLMy2DLcvRyckwdX8YuY18=
+	bh=sGf6bIL+6QvIkZt2J4eO77V8EMDNGincG7/D3uSfL1w=;
+	b=KLnP1D5iSG40+IbO6cXoYYNyBYmvpEGW6wK0V12jVwmFl123lkag9xGsxhcMr61v
+	ksx3NWD9/4RzjTUyOAoIFDzYIjFjgfhupoyB3HDLNtjt2ggXUQJWNNl3O5ejkYKwk2g
+	SkXqk12LP2rdyTYzodMhh3s4ttynImrY+QsY97mA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623331;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eXD1A9ppjfUrESKCR01EIAaALn3dchejiqNmNkvnqRU=;
-	b=P5lHZYiL99j2uhHVPskhNPw2L0Cp+4e7f4+MDcxWO48pDzeHeRr6UZgTvapaXTbt
-	CtrJxLkUoTmepJ5ihMFzHovG/coxAj8VCnYfkGf81BwBFv/ibM5/eNjX3iqblibqWgM
-	7ugSLwZudMXoelATrbsafcx6nln8hY1mr4PaMYJE=
-Content-Type: multipart/mixed; boundary="===============2333954422785071012=="
+	bh=sGf6bIL+6QvIkZt2J4eO77V8EMDNGincG7/D3uSfL1w=;
+	b=lfOdD6UajH1Fa3p1EXqzm7H5CRN5iWjexq0VkSV+rSzejp3uEECU+05KjmMhPL+3
+	mt6092dq8RXSv7qgdeBtPbD07h4z1eqmXdxrTR6D8PZtKzmXc+6k+PVgv0c/On+YXtW
+	//7uwmXTIEIcq6zORvoFyidLECCFE/jHyCpziB3o=
+Content-Type: multipart/mixed; boundary="===============4956587245701386826=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] dhcpcd: upgrading to 10.2.0 SUCCEEDED
-Message-ID: <0101019509a175f4-bd70f722-4642-4536-acb2-14c25e6dd887-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:11 +0000
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-webcolors: upgrading to 24.11.1 FAILED
+Message-ID: <0101019509a1963c-896b6668-36a2-4c6e-8b72-d46cc72b71e5-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.191
+X-SES-Outgoing: 2025.02.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211402
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211433
 
---===============2333954422785071012==
+--===============4956587245701386826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dhcpcd* to *10.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-webcolors* to *24.11.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-dhcpcd-upgrade-10.1.0-10.2.0.patch
+    - apply the patch: git am 0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,192 +78,174 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7a5d29b9146fa196861c28ee9327adfc0756f09c Mon Sep 17 00:00:00 2001
+From 03169bb6069acda3ab70c7cbce0b6fbe3351e088 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 06:22:19 +0000
-Subject: [PATCH] dhcpcd: upgrade 10.1.0 -> 10.2.0
+Date: Sat, 15 Feb 2025 08:17:40 +0000
+Subject: [PATCH] python3-webcolors: upgrade 24.8.0 -> 24.11.1
 
 ---
- .../dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.0.bb}            | 2 +-
- ...0-resolv.conf-improve-the-sitation-of-working-with-.patch | 5 +----
- ...01-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch | 2 +-
- .../0001-remove-INCLUDEDIR-to-prevent-build-issues.patch     | 4 ++--
- 4 files changed, 5 insertions(+), 8 deletions(-)
- rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.0.bb} (97%)
+ ...python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} (81%)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
-similarity index 97%
-rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
-index 3f806bb187..5bb1cadec8 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.0.bb
-@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
+rename to meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
+index c5ed4bd7d3..5b90eb109d 100644
+--- a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
++++ b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://pypi.org/project/webcolors/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=cbaebec43b7d199c7fd8f5411b3b0448"
  
--SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-+SRCREV = "8beb42b62651f0a6647e6b83f3e50b8e32a1db69"
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"
++SRC_URI[sha256sum] = "ecb3d768f32202af770477b8b65f318fa4f566c22948673a977b00d589dd80f6"
  
- inherit pkgconfig autotools-brokensep systemd useradd
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
-index 8d1ed6671a..88acb2f72f 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
-@@ -1,4 +1,4 @@
--From 02acc4d875ee81e6fd19ef66d69c9f55b4b4a7e7 Mon Sep 17 00:00:00 2001
-+From ba32aab24462486cc9979932df636685e7ffb40f Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Wed, 9 Nov 2022 16:33:18 +0800
- Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
-@@ -77,6 +77,3 @@ index 7c29e276..becc019f 100644
-  		"$resolvconf" -d "$ifname" -f
-  	else
-  		if [ -e "$resolv_conf_dir/$ifname" ]; then
---- 
--2.17.1
--
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-index b958110ef1..672867c8a3 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-@@ -1,4 +1,4 @@
--From 1115784dfdf2e7095cf599f9becef705ac57f80e Mon Sep 17 00:00:00 2001
-+From 601e88e4b2b64a2fd812507682a16d49eba92bf3 Mon Sep 17 00:00:00 2001
- From: Lei Maohui <leimaohui@fujitsu.com>
- Date: Fri, 10 Mar 2023 03:48:46 +0000
- Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-index 8890c2d7dc..8a69452ff8 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-@@ -1,4 +1,4 @@
--From 69babef33b0ee4c60d8821797777b9affedd47da Mon Sep 17 00:00:00 2001
-+From 70012f4507357522d69aacd4b19a6a7ed7cba0d3 Mon Sep 17 00:00:00 2001
- From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
- Date: Sun, 13 Jan 2019 01:50:52 +0100
- Subject: [PATCH] remove INCLUDEDIR to prevent build issues
-@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
-  1 file changed, 5 deletions(-)
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
- diff --git a/configure b/configure
--index 1a772b02..0f915b39 100755
-+index a60da137..3673de8b 100755
- --- a/configure
- +++ b/configure
- @@ -26,7 +26,6 @@ BUILD=
 -- 
 2.44.1
 
 
---===============2333954422785071012==
+--===============4956587245701386826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1308736 to 1334784 (+2%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGSIZE changed from 65175 to 66889 (+3%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1100832 to 1114883 (+1%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGSIZE changed from 432552 to 436664 (+1%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PV changed from "10.1.0" to "10.2.0"
-packages/core2-64-poky-linux/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
-packages/core2-64-poky-linux/dhcpcd: PV changed from "10.1.0" to "10.2.0"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1871 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 916 .bb files complete (915 cached, 1 parsed). 1869 targets, 38 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============2333954422785071012==
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:69f014dfdd962ac6cb6a1e2401c9844a45b982a5"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 334 Local 325 Mirrors 0 Missed 9 Current 403 (97% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 426 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 702 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 728 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 732 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1469 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_fetch)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1470 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_unpack)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1471 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_patch)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 736 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1762 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2033 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2068 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Succeeded
+NOTE: Running task 2069 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure_ptest_base)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2070 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile)
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| 
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/recipe-sysroot-native/usr/lib/python3.13/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
+|     raise BackendUnavailable(
+|     ...<4 lines>...
+|     )
+| pyproject_hooks._impl.BackendUnavailable: Cannot import 'pdm.backend'
+| 
+| ERROR Backend 'pdm.backend' is not available.
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/webcolors-24.11.1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 157
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 152
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 168
+NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 2070 tasks of which 2062 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215081725.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215081725.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.3873407
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-webcolors-24.11.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.3873407
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile) failed with exit code '1'
+
+--===============4956587245701386826==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dhcpcd-upgrade-10.1.0-10.2.0.patch"
+ filename="0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch"
 
-RnJvbSA3YTVkMjliOTE0NmZhMTk2ODYxYzI4ZWU5MzI3YWRmYzA3NTZmMDljIE1vbiBTZXAgMTcg
+RnJvbSAwMzE2OWJiNjA2OWFjZGEzYWI3MGM3Y2JjZTBiNmZiZTMzNTFlMDg4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDY6MjI6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aGNwY2Q6IHVwZ3JhZGUgMTAuMS4wIC0+IDEwLjIuMAoKLS0tCiAuLi4vZGhjcGNkL3tkaGNwY2Rf
-MTAuMS4wLmJiID0+IGRoY3BjZF8xMC4yLjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAuLi4wLXJl
-c29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmctd2l0aC0ucGF0Y2ggfCA1
-ICstLS0tCiAuLi4wMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVs
-dGlsaWIucGF0Y2ggfCAyICstCiAuLi4vMDAwMS1yZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50
-LWJ1aWxkLWlzc3Vlcy5wYXRjaCAgICAgfCA0ICsrLS0KIDQgZmlsZXMgY2hhbmdlZCwgNSBpbnNl
-cnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvZGhjcGNkL3tkaGNwY2RfMTAuMS4wLmJiID0+IGRoY3BjZF8xMC4yLjAuYmJ9ICg5NyUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZGhjcGNkXzEwLjEu
-MC5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4yLjAuYmIK
-c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9kaGNwY2QvZGhjcGNkXzEwLjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9kaGNwY2QvZGhjcGNkXzEwLjIuMC5iYgppbmRleCAzZjgwNmJiMTg3Li41YmIxY2FkZWM4
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAu
-MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4y
-LjAuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05ldHdv
-cmtDb25maWd1cmF0aW9uL2RoY3BjZDtwcm90b2NvbD1odHRwczticmFuY2g9bWEKICAgICAgICAg
-ICAgZmlsZTovLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4tZW5hYmxlLW11
-bHRpbGliLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiNTdjMzUwNmE1NjIyZTE5
-OWNmMGUzZmMxZWYyNmE3MWNkZWRjOTUyMSIKK1NSQ1JFViA9ICI4YmViNDJiNjI2NTFmMGE2NjQ3
-ZTZiODNmM2U1MGI4ZTMyYTFkYjY5IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogaW5oZXJpdCBw
-a2djb25maWcgYXV0b3Rvb2xzLWJyb2tlbnNlcCBzeXN0ZW1kIHVzZXJhZGQKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtMjAtcmVzb2x2LmNv
-bmYtaW1wcm92ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtMjAtcmVzb2x2LmNvbmYtaW1wcm92
-ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaAppbmRleCA4ZDFlZDY2NzFhLi44
-OGFjYjJmNzJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9m
-aWxlcy8wMDAxLTIwLXJlc29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmct
-d2l0aC0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMv
-MDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3ZlLXRoZS1zaXRhdGlvbi1vZi13b3JraW5nLXdpdGgt
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMmFjYzRkODc1ZWU4MWU2ZmQxOWVmNjZkNjlj
-OWY1NWI0YjRhN2U3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiYTMyYWFiMjQ0NjI0
-ODZjYzk5Nzk5MzJkZjYzNjY4NWU3ZmZiNDBmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCA5IE5vdiAyMDIy
-IDE2OjMzOjE4ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIDIwLXJlc29sdi5jb25mOiBpbXByb3Zl
-IHRoZSBzaXRhdGlvbiBvZiB3b3JraW5nIHdpdGggc3lzdGVtZApAQCAtNzcsNiArNzcsMyBAQCBp
-bmRleCA3YzI5ZTI3Ni4uYmVjYzAxOWYgMTAwNjQ0CiAgCQkiJHJlc29sdmNvbmYiIC1kICIkaWZu
-YW1lIiAtZgogIAllbHNlCiAgCQlpZiBbIC1lICIkcmVzb2x2X2NvbmZfZGlyLyRpZm5hbWUiIF07
-IHRoZW4KLS0tIAotMi4xNy4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvZGhjcGNkL2ZpbGVzLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4tZW5h
-YmxlLW11bHRpbGliLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmls
-ZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIu
-cGF0Y2gKaW5kZXggYjk1ODExMGVmMS4uNjcyODY3YzhhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3Qt
-ZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hl
-bi1lbmFibGUtbXVsdGlsaWIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDExMTU3ODRkZmRm
-MmU3MDk1Y2Y1OTlmOWJlY2VmNzA1YWM1N2Y4MGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIDYwMWU4OGU0YjJiNjRhMmZkODEyNTA3NjgyYTE2ZDQ5ZWJhOTJiZjMgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBMZWkgTWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5jb20+CiBE
-YXRlOiBGcmksIDEwIE1hciAyMDIzIDAzOjQ4OjQ2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRo
-Y3BjZC44OiBGaXggY29uZmxpY3QgZXJyb3Igd2hlbiBlbmFibGUgbXVsdGlsaWIuCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLXJlbW92ZS1J
-TkNMVURFRElSLXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1yZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50
-LWJ1aWxkLWlzc3Vlcy5wYXRjaAppbmRleCA4ODkwYzJkN2RjLi44YTY5NDUyZmY4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLXJlbW92ZS1J
-TkNMVURFRElSLXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVItdG8tcHJl
-dmVudC1idWlsZC1pc3N1ZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDY5YmFiZWYzM2Iw
-ZWU0YzYwZDg4MjE3OTc3NzdiOWFmZmVkZDQ3ZGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIDcwMDEyZjQ1MDczNTc1MjJkNjlhYWNkNGIxOWE2YTdlZDdjYmEwZDMgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBTdGVmYW5vIENhcHBhIDxzdGVmYW5vLmNhcHBhLmtzODlAZ21h
-aWwuY29tPgogRGF0ZTogU3VuLCAxMyBKYW4gMjAxOSAwMTo1MDo1MiArMDEwMAogU3ViamVjdDog
-W1BBVENIXSByZW1vdmUgSU5DTFVERURJUiB0byBwcmV2ZW50IGJ1aWxkIGlzc3VlcwpAQCAtMTEs
-NyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBTdGVmYW5vIENhcHBhIDxzdGVmYW5vLmNhcHBhLmtz
-ODlAZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
-Z2l0IGEvY29uZmlndXJlIGIvY29uZmlndXJlCi1pbmRleCAxYTc3MmIwMi4uMGY5MTViMzkgMTAw
-NzU1CitpbmRleCBhNjBkYTEzNy4uMzY3M2RlOGIgMTAwNzU1CiAtLS0gYS9jb25maWd1cmUKICsr
-KyBiL2NvbmZpZ3VyZQogQEAgLTI2LDcgKzI2LDYgQEAgQlVJTEQ9Ci0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MTc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXdlYmNvbG9yczogdXBncmFkZSAyNC44LjAgLT4gMjQuMTEuMQoKLS0tCiAuLi5weXRo
+b24zLXdlYmNvbG9yc18yNC44LjAuYmIgPT4gcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXdlYmNvbG9yc18yNC44
+LjAuYmIgPT4gcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYn0gKDgxJSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2ViY29sb3JzXzI0LjguMC5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEu
+MS5iYgpzaW1pbGFyaXR5IGluZGV4IDgxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtd2ViY29sb3JzXzI0LjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdlYmNvbG9yc18yNC4xMS4xLmJiCmluZGV4IGM1
+ZWQ0YmQ3ZDMuLjViOTBlYjEwOWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuOC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYgpAQCAtMyw3ICszLDcgQEAg
+SE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3dlYmNvbG9ycy8iCiBMSUNFTlNF
+ID0gIkJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1
+PWNiYWViZWM0M2I3ZDE5OWM3ZmQ4ZjU0MTFiM2IwNDQ4IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMDhiMDdhZjI4NmEwMWJjZDMwZDU4M2E3YWNhZGY2Mjk1ODNkMWY3OWJmZWYyN2RkMmMyYzVj
+MjYzODE3Mjc3ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlY2IzZDc2OGYzMjIwMmFmNzcwNDc3
+YjhiNjVmMzE4ZmE0ZjU2NmMyMjk0ODY3M2E5NzdiMDBkNTg5ZGQ4MGY2IgogCiBpbmhlcml0IHB5
+cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0g
+CjIuNDQuMQoK
 
---===============2333954422785071012==--
+--===============4956587245701386826==--
 
