@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F357C021A0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7792C021AC
 	for <webhook@archiver.kernel.org>; Sat, 15 Feb 2025 12:42:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.8052.1739623332341286779
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.8090.1739623329780371044
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 04:42:20 -0800
+ Sat, 15 Feb 2025 04:42:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KLnP1D5i;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=lfOdD6Ua;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019509a1963c-896b6668-36a2-4c6e-8b72-d46cc72b71e5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G7YBIMHC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bUFPJde0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019509a193ab-c61b8428-1232-4e3d-b4fe-bf45db0238f2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1739623339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sGf6bIL+6QvIkZt2J4eO77V8EMDNGincG7/D3uSfL1w=;
-	b=KLnP1D5iSG40+IbO6cXoYYNyBYmvpEGW6wK0V12jVwmFl123lkag9xGsxhcMr61v
-	ksx3NWD9/4RzjTUyOAoIFDzYIjFjgfhupoyB3HDLNtjt2ggXUQJWNNl3O5ejkYKwk2g
-	SkXqk12LP2rdyTYzodMhh3s4ttynImrY+QsY97mA=
+	bh=ieAm+y27lItqshWciKm1XtnjOHzgj8pk87/V/nrTHuk=;
+	b=G7YBIMHC/XJ2TfZ6XnNSOWOE5Oi5/wxmD/qtSwO2k4OkVp0AZzig/Axl7o+C7aGb
+	FZzq/1ijxN4Ip2EBhIiJ6wZ5FmMCg+SqqodXAoqav0KwlwJpQAUzMQiwPm2xSSvIR8X
+	x+Xo8m8BENBsXa6gwZ4HI0Gaw8hhbgBQPg4OBHCE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739623339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sGf6bIL+6QvIkZt2J4eO77V8EMDNGincG7/D3uSfL1w=;
-	b=lfOdD6UajH1Fa3p1EXqzm7H5CRN5iWjexq0VkSV+rSzejp3uEECU+05KjmMhPL+3
-	mt6092dq8RXSv7qgdeBtPbD07h4z1eqmXdxrTR6D8PZtKzmXc+6k+PVgv0c/On+YXtW
-	//7uwmXTIEIcq6zORvoFyidLECCFE/jHyCpziB3o=
-Content-Type: multipart/mixed; boundary="===============4956587245701386826=="
+	bh=ieAm+y27lItqshWciKm1XtnjOHzgj8pk87/V/nrTHuk=;
+	b=bUFPJde0of1q27//VcxKf7dIQlPiGP8jWGzvi5R0XwbVLVqELFP9psVuDfL5E7+d
+	slLVNsCGrYutY2zPJCLP35JKmjbiVYk+eJPbr2T1HCSMOg8ZR+5qF1FktiXCZmVaYmO
+	/Lr5LYAWfSoOo/5XxH+athP6G81HTukis3dk3O0U=
+Content-Type: multipart/mixed; boundary="===============9009260604112322970=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Zang Ruochen <zangruochen@loongson.cn>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-webcolors: upgrading to 24.11.1 FAILED
-Message-ID: <0101019509a1963c-896b6668-36a2-4c6e-8b72-d46cc72b71e5-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Feb 2025 12:42:19 +0000
+Subject: [AUH] python3-pip: upgrading to 25.0.1 SUCCEEDED
+Message-ID: <0101019509a193ab-c61b8428-1232-4e3d-b4fe-bf45db0238f2-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Feb 2025 12:42:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.15-54.240.27.45
+X-SES-Outgoing: 2025.02.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 12:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211433
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211429
 
---===============4956587245701386826==
+--===============9009260604112322970==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-webcolors* to *24.11.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-pip* to *25.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch
+    - apply the patch: git am 0001-python3-pip-upgrade-25.0-25.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,174 +72,150 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 03169bb6069acda3ab70c7cbce0b6fbe3351e088 Mon Sep 17 00:00:00 2001
+From d1b7e089ced9901db2a4b43c52ee5d6008f64eec Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Feb 2025 08:17:40 +0000
-Subject: [PATCH] python3-webcolors: upgrade 24.8.0 -> 24.11.1
+Date: Sat, 15 Feb 2025 08:12:28 +0000
+Subject: [PATCH] python3-pip: upgrade 25.0 -> 25.0.1
 
 ---
- ...python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-webcolors_24.8.0.bb => python3-webcolors_24.11.1.bb} (81%)
+ .../python/python3-pip/no_shebang_mangling.patch                | 2 +-
+ .../python/{python3-pip_25.0.bb => python3-pip_25.0.1.bb}       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_25.0.bb => python3-pip_25.0.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-rename to meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-index c5ed4bd7d3..5b90eb109d 100644
---- a/meta/recipes-devtools/python/python3-webcolors_24.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://pypi.org/project/webcolors/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=cbaebec43b7d199c7fd8f5411b3b0448"
+diff --git a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
+index 71836dca07..0b7bf7d484 100644
+--- a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
++++ b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
+@@ -1,4 +1,4 @@
+-From a715a622989ac182d18f6f2ada8201122282d889 Mon Sep 17 00:00:00 2001
++From d329b5a6c008c04df69b03b1b0a7e37e83210052 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 23 Feb 2022 12:27:06 +0000
+ Subject: [PATCH] python3-pip: Don't change shebang
+diff --git a/meta/recipes-devtools/python/python3-pip_25.0.bb b/meta/recipes-devtools/python/python3-pip_25.0.1.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-pip_25.0.bb
+rename to meta/recipes-devtools/python/python3-pip_25.0.1.bb
+index 8908fc9115..e54e63cba5 100644
+--- a/meta/recipes-devtools/python/python3-pip_25.0.bb
++++ b/meta/recipes-devtools/python/python3-pip_25.0.1.bb
+@@ -27,7 +27,7 @@ inherit pypi python_setuptools_build_meta
  
--SRC_URI[sha256sum] = "08b07af286a01bcd30d583a7acadf629583d1f79bfef27dd2c2c5c263817277d"
-+SRC_URI[sha256sum] = "ecb3d768f32202af770477b8b65f318fa4f566c22948673a977b00d589dd80f6"
+ SRC_URI += "file://no_shebang_mangling.patch"
  
- inherit pypi python_setuptools_build_meta ptest-python-pytest
+-SRC_URI[sha256sum] = "8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b"
++SRC_URI[sha256sum] = "88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea"
  
+ RDEPENDS:${PN} = "\
+   python3-compile \
 -- 
 2.44.1
 
 
---===============4956587245701386826==
+--===============9009260604112322970==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (915 cached, 1 parsed). 1869 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/python3-pip: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-25.0.tar.gz;downloadfilename=pip-25.0.tar.gz file://no_shebang_mangling.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-25.0.1.tar.gz;downloadfilename=pip-25.0.1.tar.gz file://no_shebang_mangling.patch"
+packages/core2-64-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-dbg: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-dev: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-doc: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-locale: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip-src: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-src: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip: PKGV changed from 25.0 [default] to 25.0.1 [default]
+packages/core2-64-poky-linux/python3-pip/python3-pip: PV changed from "25.0" to "25.0.1"
+packages/core2-64-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 11068145 to 11068176 (+0%)
+Changes to packages/core2-64-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/AUTHORS.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/AUTHORS.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/WHEEL was removed
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:69f014dfdd962ac6cb6a1e2401c9844a45b982a5"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 334 Local 325 Mirrors 0 Missed 9 Current 403 (97% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 426 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 702 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 728 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 732 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1469 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_fetch)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1470 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_unpack)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1471 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_patch)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_patch: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 737 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1762 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2033 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_collect_spdx_deps)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2068 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure: Succeeded
-NOTE: Running task 2069 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2070 of 2083 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile)
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/recipe-sysroot-native/usr/lib/python3.13/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
-|     raise BackendUnavailable(
-|     ...<4 lines>...
-|     )
-| pyproject_hooks._impl.BackendUnavailable: Cannot import 'pdm.backend'
-| 
-| ERROR Backend 'pdm.backend' is not available.
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/webcolors-24.11.1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 157
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 152
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407, line 168
-NOTE: recipe python3-webcolors-24.11.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2070 tasks of which 2062 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215081725.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250215081725.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.3873407
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-webcolors-24.11.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/run.do_compile.3873407' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-webcolors/24.11.1/temp/log.do_compile.3873407
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb:do_compile) failed with exit code '1'
-
---===============4956587245701386826==
+--===============9009260604112322970==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-webcolors-upgrade-24.8.0-24.11.1.patch"
+ filename="0001-python3-pip-upgrade-25.0-25.0.1.patch"
 
-RnJvbSAwMzE2OWJiNjA2OWFjZGEzYWI3MGM3Y2JjZTBiNmZiZTMzNTFlMDg4IE1vbiBTZXAgMTcg
+RnJvbSBkMWI3ZTA4OWNlZDk5MDFkYjJhNGI0M2M1MmVlNWQ2MDA4ZjY0ZWVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MTc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdlYmNvbG9yczogdXBncmFkZSAyNC44LjAgLT4gMjQuMTEuMQoKLS0tCiAuLi5weXRo
-b24zLXdlYmNvbG9yc18yNC44LjAuYmIgPT4gcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXdlYmNvbG9yc18yNC44
-LjAuYmIgPT4gcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYn0gKDgxJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2ViY29sb3JzXzI0LjguMC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEu
-MS5iYgpzaW1pbGFyaXR5IGluZGV4IDgxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtd2ViY29sb3JzXzI0LjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdlYmNvbG9yc18yNC4xMS4xLmJiCmluZGV4IGM1
-ZWQ0YmQ3ZDMuLjViOTBlYjEwOWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuOC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy13ZWJjb2xvcnNfMjQuMTEuMS5iYgpAQCAtMyw3ICszLDcgQEAg
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3dlYmNvbG9ycy8iCiBMSUNFTlNF
-ID0gIkJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1
-PWNiYWViZWM0M2I3ZDE5OWM3ZmQ4ZjU0MTFiM2IwNDQ4IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMDhiMDdhZjI4NmEwMWJjZDMwZDU4M2E3YWNhZGY2Mjk1ODNkMWY3OWJmZWYyN2RkMmMyYzVj
-MjYzODE3Mjc3ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlY2IzZDc2OGYzMjIwMmFmNzcwNDc3
-YjhiNjVmMzE4ZmE0ZjU2NmMyMjk0ODY3M2E5NzdiMDBkNTg5ZGQ4MGY2IgogCiBpbmhlcml0IHB5
-cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0g
-CjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMTUgRmViIDIwMjUgMDg6MTI6MjggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBpcDogdXBncmFkZSAyNS4wIC0+IDI1LjAuMQoKLS0tCiAuLi4vcHl0aG9uL3B5dGhv
+bjMtcGlwL25vX3NoZWJhbmdfbWFuZ2xpbmcucGF0Y2ggICAgICAgICAgICAgICAgfCAyICstCiAu
+Li4vcHl0aG9uL3tweXRob24zLXBpcF8yNS4wLmJiID0+IHB5dGhvbjMtcGlwXzI1LjAuMS5iYn0g
+ICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBpcF8y
+NS4wLmJiID0+IHB5dGhvbjMtcGlwXzI1LjAuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwL25vX3NoZWJhbmdfbWFuZ2xpbmcu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwL25vX3NoZWJh
+bmdfbWFuZ2xpbmcucGF0Y2gKaW5kZXggNzE4MzZkY2EwNy4uMGI3YmY3ZDQ4NCAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcC9ub19zaGViYW5nX21h
+bmdsaW5nLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
+aXAvbm9fc2hlYmFuZ19tYW5nbGluZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTcxNWE2
+MjI5ODlhYzE4MmQxOGY2ZjJhZGE4MjAxMTIyMjgyZDg4OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gZDMyOWI1YTZjMDA4YzA0ZGY2OWIwM2IxYjBhN2UzN2U4MzIxMDA1MiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPgogRGF0ZTogV2VkLCAyMyBGZWIgMjAyMiAxMjoyNzowNiArMDAw
+MAogU3ViamVjdDogW1BBVENIXSBweXRob24zLXBpcDogRG9uJ3QgY2hhbmdlIHNoZWJhbmcKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjUuMC5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjUuMC4xLmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1waXBfMjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXBpcF8yNS4wLjEuYmIKaW5kZXggODkwOGZjOTExNS4uZTU0ZTYzY2JhNSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcF8yNS4w
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjUuMC4x
+LmJiCkBAIC0yNyw3ICsyNyw3IEBAIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWls
+ZF9tZXRhCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly9ub19zaGViYW5nX21hbmdsaW5nLnBhdGNoIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGUwYTk3ZjdiNGM0N2FlNGE0OTQ1NjBkYTg0Nzc1ZTll
+MmY2NzFkNDE1ZDhkODI4ZTA1MmVmZWZiMjA2YjMwYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4
+OGY5NjU0N2VhNDhiOTQwYTNhMzg1NDk0ZTE4MWUyOWZiODYzNzg5OGY4OGQ4ODczN2M1MDQ5Nzgw
+ZjE5NmVhIgogCiBSREVQRU5EUzoke1BOfSA9ICJcCiAgIHB5dGhvbjMtY29tcGlsZSBcCi0tIAoy
+LjQ0LjEKCg==
 
---===============4956587245701386826==--
+--===============9009260604112322970==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/AUTHORS.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/LICENSE.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/pip-25.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/AUTHORS.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/pip-25.0.dist-info/WHEEL was removed
+
+--===============9009260604112322970==--
 
