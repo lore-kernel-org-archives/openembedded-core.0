@@ -1,97 +1,179 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rogerio.borin@toradex.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B2DDC02198
-	for <webhook@archiver.kernel.org>; Sun, 16 Feb 2025 16:37:14 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.31985.1739723832564649757
- for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 08:37:12 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B4KHr+Kn;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220f048c038so38348635ad.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 08:37:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739723832; x=1740328632; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/MHBTyhxv/OdRA3wdSK3jzEG9R6fkoRqF60NA3QOlIc=;
-        b=B4KHr+KnNHEXrqJ8BqR9ZQf6VQGkwoGbhHln6gbT9Jt+R6AD1yFjSTJsXOTq9hakuT
-         Jaybjd/ItIsAWfa5xrionLWvv7/BWmBD4e2Z3WXxCyk/N2IjKy15I8NLqfdl4pTZ5dv9
-         USFg3cCLh/nydNoWbtusEMFcAJqxGRGMTLJGjb4JxUa4oGGLg18L7H7ioI1B1AG4cBrw
-         +mqKU4qelLfMt2pW+9rGzwbJQWXoVIzMW4pkEw+K+a7KO2jJ9LLLf2xLGuw0hT/JmUXC
-         sHtwpUZ3sJz/ut7TCOr+1fHJC1RPb6ikye9sN/53Ag/78HOzbJAebetDBMLfVY45+/1O
-         RBfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739723832; x=1740328632;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/MHBTyhxv/OdRA3wdSK3jzEG9R6fkoRqF60NA3QOlIc=;
-        b=BDndVTWSZM1tYqmBTTuc7S05SxJVqH8lnO6pgeB8Hl+ViEnGcJ0CkwoUJvV5eKEq9z
-         2rlXJTfx7ZHqIT8ti/ckfDukhtijWfwK7gkdFbkWhiPEC6oClY4kPqsWBFT//fhfiD/w
-         Usp4Sa9mh9D+Z1A++A7JYvhiQ0H6HXZ6nr6Gar48bTmcR2CponK8NuvF7eRyiJrBQhgZ
-         KyaKeijnMLycRUJnGwnAL4wSNZstiMfIpIswEwOjfHhWKrKcNy2v5rsmEEzLszPrNWnl
-         lHSaE+pGkm2Lxh28X/gVDv2N+yDT+CrHpgm+rtAr37tuXngxKcvEqjuT0Ccy9nRurUCJ
-         n95Q==
-X-Gm-Message-State: AOJu0YwX67l3a8bDeWRFDtaBG78jSBiJ7E3SVusRiMSTZEP/OIHTt0lm
-	6RZROjG57aR5FlvKOXQUKscZnXN6PSZtMKDCF2igMS2ymbFisWrh4eECzYOH
-X-Gm-Gg: ASbGnctOTWD+hbJKy5KuzdppQcb1LTaS7LydxQa9Ylp1qC4ZF5jmNWQ+/+c+MEpa06P
-	nd5A59F47IV2SP59DS1BhzJOIj5iAzlkKeW5/eOqYOgHk11oV/FLiVHM8DT/MUzUvi5GLqfPBcK
-	5DtAvIMV5q5d5CgNY21r8CQ1od+dUOWzOLmIwSa4jZCOgmrpqE2d5uoBROeTzhFChdQdVDIRUbL
-	F7MBVOiwaipbDC7lNS6TELvpAvqgmvEUys/TgnNDDivvH+iYHdoDVhZigB2NPW60LpLZQPXX3k0
-	ycnEpw8=
-X-Google-Smtp-Source: AGHT+IHBAU+wuhu2eoW6ODr5fcs+r58T2Nbdey1hshUWWmh7uISngvAs+hKVN8tg5ydoT0y1OxkhTg==
-X-Received: by 2002:a17:903:2f88:b0:221:331:1d4e with SMTP id d9443c01a7336-22103efedc3mr103421075ad.7.1739723831549;
-        Sun, 16 Feb 2025 08:37:11 -0800 (PST)
-Received: from apollo.localdomain ([2601:646:8201:fd20::b976])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d4c9sm57371595ad.140.2025.02.16.08.37.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 08:37:11 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB86BC02198
+	for <webhook@archiver.kernel.org>; Sun, 16 Feb 2025 18:36:24 +0000 (UTC)
+Subject: Broken FIT image signing since "u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled"
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Upgrade to latest tip of trunk
-Date: Sun, 16 Feb 2025 08:37:09 -0800
-Message-ID: <20250216163709.3460272-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.48.1
+From: "Rogerio Guerra Borin" <rogerio.borin@toradex.com>
+X-Originating-Location: =?UTF-8?B?U8OjbyBQYXVsbywgU2FvIFBhdWxvLCBCUg==?= (189.33.122.79)
+X-Originating-Platform: Linux Firefox 134
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sun, 16 Feb 2025 10:36:23 -0800
+Message-ID: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="fDs55NpUKNX6TxUMsX2j"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 16:37:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211506
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 18:36:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211507
 
-* c47ad25e iconv: harden UTF-8 output code path against input decoder bugs
-* 4c4f15da hasmntopt: match only whole options not arbitrary substrings
-* e5adcd97 iconv: fix erroneous input validation in EUC-KR decoder
-* 5e594aea iconv: fix erroneous decoding of some invalid ShiftJIS sequences
-* 6af4f25b s390x: manually inline __tls_get_addr in __tls_get_offset
-* 5ccf05d8 ldso: don't reclaim zero-memory-sized segments
-* 1a985764 sched.h: reduce namespace conflicts in _GNU_SOURCE profile
-* d36e5bf8 mq: add x32-specific implementations to work around mismatched kernel ABI
-* 561cd07d SIGEV_THREAD timers: re-block signals when reusing kernel thread
-* 47fa6e4f SIGEV_THREAD timers: fix fatal signal if internal SIGTIMER becomes unblocked
+--fDs55NpUKNX6TxUMsX2j
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 4d44a8cda32..5ef8d7bca97 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "61399d4bd02ae1ec03068445aa7ffe9174466bfd"
-+SRCREV = "c47ad25ea3b484e10326f933e927c0bc8cded3da"
- 
- BASEVER = "1.2.5"
- 
+At Toradex we're using class "kernel-fitimage" to produce our signed kernel=
+ FIT images and we've found that the recent commit d7bd9c627661 ("u-boot: k=
+ernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enab=
+led") broke our builds. The logs of a failed build show the following messa=
+ge that I found noteworthy:
+
+log.do_uboot_assemble_fitimage.841485:
+...
+Couldn't open RSA private key: '/secboot-data/fit-keys/dev2.key': No such f=
+ile or directory
+
+The odd thing was that the build was setting:
+
+UBOOT_SIGN_KEYNAME =3D "dev"
+UBOOT_SIGN_IMG_KEYNAME =3D "dev2"
+FIT_SIGN_INDIVIDUAL =3D "0"
+FIT_GENERATE_KEYS =3D "0"
+
+From the above we see the individual images signing is disabled but the sys=
+tem is trying to access the key file for the individual signing (dev2) rega=
+rdless of that. Checking the code in uboot-sign.bbclass I found this line:
+
+https://git.openembedded.org/openembedded-core/tree/meta/classes-recipe/ubo=
+ot-sign.bbclass?h=3Dscarthgap#n116
+
+that is responsible for that access (inside function concat_dtb()). The cod=
+e is always referencing variable UBOOT_SIGN_IMG_KEYNAME regardless of FIT_S=
+IGN_INDIVIDUAL being set to "1" or "0" even though there's a condition a co=
+uple lines above L116 where FIT_SIGN_INDIVIDUAL is tested to decide in whic=
+h mode to run the signing tool. To better understand the behavior I created=
+ dev2.{key,crt} files and retried a build which worked. However, checking t=
+he contents of the final u-boot.dtb file I found that the "dev2" key node w=
+as present but the "dev" key wasn't. Then, checking the contents of the fin=
+al fitImage I noticed the configuration nodes were signed by the dev key wh=
+ile the individual images were not signed (as expected). But that means suc=
+h a system wouldn't boot since the required "dev" key is not present in the=
+ U-Boot DTB, from what I conclude the FIT signing is broken at the moment.
+
+So, first of all I wanted to let you guys know about this issue (hoping we'=
+re not doing anything wrong with our builds).
+
+As a second point, I wanted to confirm the expected behavior regarding vari=
+able FIT_SIGN_INDIVIDUAL. According to the documentation:
+
+https://docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term-FIT_SIGN=
+_INDIVIDUAL
+
+when its value is "1" the individual images will be signed *in addition* to=
+ the FIT image being signed. From that, I understand that the configuration=
+s will be always signed and the individual images may or may not be signed =
+depending on FIT_SIGN_INDIVIDUAL. I kind of confirmed this behavior by chec=
+king our build artifacts on kirkstone: with FIT_SIGN_INDIVIDUAL=3D"0" the U=
+-Boot DTB has only the "dev" key and the fit image is signed by that same k=
+ey; with FIT_SIGN_INDIVIDUAL=3D"1" both keys are present in the DTB, the co=
+nfigurations are signed by the "dev" key and the images by the "dev2" key. =
+I understand this is the correct behavior, right?
+
+I'm asking because looking at the comment at:
+
+https://git.openembedded.org/openembedded-core/tree/meta/classes-recipe/ubo=
+ot-sign.bbclass?h=3Dscarthgap#n106
+
+it gives me the impression that FIT_SIGN_INDIVIDUAL would select between ei=
+ther signing individual images or signing the configurations, which doesn't=
+ match the documented behavior. I believe the code in concat_dtb() also see=
+ms to assume only one of the keys (dev/dev2) would need be present in the D=
+TB. So the fix would involve a review on this as well I imagine.
+
+--fDs55NpUKNX6TxUMsX2j
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>
+<div>Hello,</div>
+<div>&nbsp;</div>
+<div>At Toradex we're using class "kernel-fitimage" to produce our signed k=
+ernel FIT images and we've found that the recent commit d7bd9c627661 ("u-bo=
+ot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV=
+ enabled") broke our builds. The logs of a failed build show the following =
+message that I found noteworthy:</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;">log.do_uboot_assemble_fitimage.841485:<b=
+r />...<br />Couldn't open RSA private key: '/secboot-data/fit-keys/dev2.ke=
+y': No such file or directory</div>
+<div style=3D"padding-left: 40px;">&nbsp;</div>
+<div>The odd thing was that the build was setting:</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;">UBOOT_SIGN_KEYNAME =3D "dev"<br />UBOOT_=
+SIGN_IMG_KEYNAME =3D "dev2"<br />FIT_SIGN_INDIVIDUAL =3D "0"<br />FIT_GENER=
+ATE_KEYS =3D "0"</div>
+<div style=3D"padding-left: 40px;">&nbsp;</div>
+<div>From the above we see the individual images signing is disabled but th=
+e system is trying to access the key file for the individual signing (dev2)=
+ regardless of that. Checking the code in uboot-sign.bbclass I found this l=
+ine:</div>
+<div>&nbsp;</div>
+<div>https://git.openembedded.org/openembedded-core/tree/meta/classes-recip=
+e/uboot-sign.bbclass?h=3Dscarthgap#n116</div>
+<div>&nbsp;</div>
+<div>that is responsible for that access (inside function concat_dtb()). Th=
+e code is always referencing variable UBOOT_SIGN_IMG_KEYNAME regardless of =
+FIT_SIGN_INDIVIDUAL being set to "1" or "0" even though there's a condition=
+ a couple lines above L116 where FIT_SIGN_INDIVIDUAL is tested to decide in=
+ which mode to run the signing tool. To better understand the behavior I cr=
+eated dev2.{key,crt} files and retried a build which worked. However, check=
+ing the contents of the final u-boot.dtb file I found that the "dev2" key n=
+ode was present but the "dev" key wasn't. Then, checking the contents of th=
+e final fitImage I noticed the configuration nodes were signed by the dev k=
+ey while the individual images were not signed (as expected). But that mean=
+s such a system wouldn't boot since the required "dev" key is not present i=
+n the U-Boot DTB, from what I conclude the FIT signing is broken at the mom=
+ent.</div>
+<div>&nbsp;</div>
+<div>So, first of all I wanted to let you guys know about this issue (hopin=
+g we're not doing anything wrong with our builds).</div>
+<div>&nbsp;</div>
+<div>As a second point, I wanted to confirm the expected behavior regarding=
+ variable FIT_SIGN_INDIVIDUAL. According to the documentation:</div>
+<div>&nbsp;</div>
+<div><a href=3D"https://docs.yoctoproject.org/5.0.6/ref-manual/variables.ht=
+ml#term-FIT_SIGN_INDIVIDUAL" target=3D"_blank" rel=3D"noopener">https://doc=
+s.yoctoproject.org/5.0.6/ref-manual/variables.html#term-FIT_SIGN_INDIVIDUAL=
+</a></div>
+<div>&nbsp;</div>
+<div>when its value is "1" the individual images will be signed *in additio=
+n* to the FIT image being signed. From that, I understand that the configur=
+ations will be always signed and the individual images may or may not be si=
+gned depending on FIT_SIGN_INDIVIDUAL. I kind of confirmed this behavior by=
+ checking our build artifacts on kirkstone: with FIT_SIGN_INDIVIDUAL=3D"0" =
+the U-Boot DTB has only the "dev" key and the fit image is signed by that s=
+ame key; with FIT_SIGN_INDIVIDUAL=3D"1" both keys are present in the DTB, t=
+he configurations are signed by the "dev" key and the images by the "dev2" =
+key. I understand this is the correct behavior, right?</div>
+<div>&nbsp;</div>
+<div>I'm asking because looking at the comment at:</div>
+<div>&nbsp;</div>
+<div><a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/cl=
+asses-recipe/uboot-sign.bbclass?h=3Dscarthgap#n106" target=3D"_blank" rel=
+=3D"noopener">https://git.openembedded.org/openembedded-core/tree/meta/clas=
+ses-recipe/uboot-sign.bbclass?h=3Dscarthgap#n106</a></div>
+<div>&nbsp;</div>
+<div>it gives me the impression that FIT_SIGN_INDIVIDUAL would select betwe=
+en either signing individual images or signing the configurations, which do=
+esn't match the documented behavior. I believe the code in concat_dtb() als=
+o seems to assume only one of the keys (dev/dev2) would need be present in =
+the DTB. So the fix would involve a review on this as well I imagine.</div>
+<div>&nbsp;</div>
+</div>
+
+--fDs55NpUKNX6TxUMsX2j--
 
