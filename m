@@ -1,134 +1,100 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF4DC02198
-	for <webhook@archiver.kernel.org>; Sun, 16 Feb 2025 07:23:11 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.25231.1739690590630755155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0261C02198
+	for <webhook@archiver.kernel.org>; Sun, 16 Feb 2025 11:20:32 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.27332.1739704823864549688
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Feb 2025 23:23:11 -0800
+ Sun, 16 Feb 2025 03:20:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fRgGy4xS;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54527a7270eso2173437e87.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Feb 2025 23:23:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cK1LbTtG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-220c4159f87so45559745ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 03:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739690589; x=1740295389; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739704823; x=1740309623; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lCPIPBn9Mkz7D9pe8qhvVD3PyYXU2/Do/yJ7qNSDOVc=;
-        b=fRgGy4xSa3Q1bYxolm5gFNZprg+Nb+hzltAxVC6GArEi+3o6VX1vn1gEfKrbFlWsVi
-         wq1BKIHGyc0CP9Ha2N7JJ6eyT1nobTpbwvfJs0uzjJKjK8YsCD+KzRXlkDRE8vLLZeAj
-         GhI7aYFgAgWmz7gcD0hLizsbBOcE2A4UzVVWDh42cnobK2U4jHeDeZ6QXn66VbDESrIV
-         eALLITDOjHFX9nGtPPcPP6Xg+hpF+u+qCLWYOql6LsQWRgGLRAjMIo8BRssRZGUk0AHe
-         UHyJSZumu0pmSpYtivlSZVCn5/0WFvMsG6/Yrc7tbLSfCV9JwjnvMOsCRQFRK8Wpveqo
-         nKFg==
+        bh=AXzhxluw6pH2Pjzmkkwlz0EnzMk+qFhe+W/JEz142Pc=;
+        b=cK1LbTtGhg4zelByWwly5SN2mlBGwCb6hNoP1DV/jQqziGKMm/tBSgtiQIJ5hfBQOt
+         n2+IFueNXboyDv199go0RIYQl2PjNngYXFfPO6UQSeiqLiDYZAeHDDu+/ILPIHz+mZHy
+         vHlteyRwJzuGhZVBtxXtyBIiXzNe6MzJMjlsC++lBgx7RwX+5IrE+0wQB/j6Pe+9H6g1
+         Ql2Jkbu7qwLJiT6xmPLCyEHDR+EjOMudOEUTC/CLlDwmHUi6o8eSTwMdGD/ccanboFkL
+         aOaxxDr3Jmw462gnaqPWAGuIqNpDQwKINJImxCNdhU5IKqtl74z9C0wU50PLqjri/Vwf
+         gAOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739690589; x=1740295389;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lCPIPBn9Mkz7D9pe8qhvVD3PyYXU2/Do/yJ7qNSDOVc=;
-        b=SwqbJFgbwWozIrMTelP9qKgFR0r70Dd63zWUXbmKp7wIpi8STAt+CCHdzgE2PrXbIK
-         ZmYQlIMOGPutYu5CzDj11OaiNkpjZRLKjBbdDzf37oE1TqoAqMCyTCpIn8UAGnKfnlzt
-         D7N8D54X/QpOocfSBB37d2A6SoGC7TDTaC1FOeT3FoMPMjZvr+TU5rkWGFXCuTZT2kZW
-         5q53B3zmsOXSCnl9N3iFgDvHW7k7XwGcNwrORE+15dyw8mtIOGI+0DPokQ7r/GPWnyfu
-         seK3GNPIPGYprDPLRSPZnOkfRmGe386ejrEaMbcLEGjJvQSbsJlb/jB6vQ7Vgv+0L6Yy
-         VNQw==
-X-Gm-Message-State: AOJu0YyXPqdrEqcEJNSs7CLcOaQuMNpLAdklmceSaPZAlqnu/i2GZSgN
-	uRoBgsG1LCrFSyjsE9q0Y8jgIElIgoDx/hIB9Hx0xrv4h8DCuooM57i90+l64lUx2OfEAcds+xA
-	m8+aNIfrre1R3OYhqKrNrsBbDfZc=
-X-Gm-Gg: ASbGncvrIe/DC5SKcMharup0UmF9gChqN78FrqzI+Thk7k3fZNuJ1BwXiU35DkHuJnx
-	q8m2oK9dU9lT8Owgkd1/hY4EdOMy0cpydaAPdsE1roSCauKAgGJjiTgay/8kRHgJBhpBfgiL1ta
-	AowU8=
-X-Google-Smtp-Source: AGHT+IGXZUfKLyJ5jQ3aOiiRcjaFUXnHWD5LvLZzL7ExeP79zbrHlL22YC9BZ+YqGEpVDfQiDXTYcXDls8XRFly3nI8=
-X-Received: by 2002:a05:6512:ba6:b0:545:271d:f8e with SMTP id
- 2adb3069b0e04-5452fe6533fmr1340969e87.29.1739690588368; Sat, 15 Feb 2025
- 23:23:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20250215150516.1168-1-alex.kiernan@gmail.com> <CAMKF1so-xu31Hi-EFhX8WfLNP0vpp=4zJLFDWwwMbtTACaCGtw@mail.gmail.com>
-In-Reply-To: <CAMKF1so-xu31Hi-EFhX8WfLNP0vpp=4zJLFDWwwMbtTACaCGtw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sun, 16 Feb 2025 07:22:57 +0000
-X-Gm-Features: AWEUYZkODkgB5SmKAWII67bKRFRLhAkOYtXyw4ICHN9EKXKTIW36ZnROMw1CTM0
-Message-ID: <CAO5Uq5SSuEaEu451qx7JqTDPxScJ4qjaeW5ddSHi+RDgGeD1gQ@mail.gmail.com>
-Subject: Re: [OE-Core] packagegroup-base: Add option to set zeroconf provider
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20230601; t=1739704823; x=1740309623;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AXzhxluw6pH2Pjzmkkwlz0EnzMk+qFhe+W/JEz142Pc=;
+        b=eWGhwdyexcGaNPTDlTCN6ZVeCqxp48n79Lf7SbUJJcCnBSBMJIHmFUgjZ7nnUXtZfA
+         LxEphSFpl1asdJHiw/BQJQZ6k1e4Deo2KizDLLhaBZUmupRx6/nuwM2tXStKVGTDaKer
+         C2cryeSIbnJAP49RifKuOXcKRPyaJ6tDaVIfWqmIycLi5OvhpGtsKLhGTjSMIxbL6+HF
+         mW4VV1AerR9jYzxQ1F+tc/SlGJs6wAbxFaOEVnfo/gFq9o07lQHCtw2dbC2cROfCnSyB
+         sqwTpNAWd6uftnw0UYPVDycQ+peI2zklnXU+J76wFqMXuLy51AtcVi8pP3A53FdAFTCi
+         HdxA==
+X-Gm-Message-State: AOJu0YzUvy6IIW5TUdIAkXZMP51vz1TjcJULlbTwfgyYUB0VuricPCSd
+	LxLxXkCzZyXCph4+XYGZ6R81phlWt6vsaJpJI00zLQUmSTEsjhAImjVHxW0IxSZ4ewpGP5VaOV+
+	n
+X-Gm-Gg: ASbGnctPq3X4KKrZVdsmDg37sj+QRC39pLxH/VT8u1DWBBfzI1/aExtuS9SPYVldB29
+	SA3Rv5pr9+C27qSv8EHoTBttGPV/FoKqXMRvDn3TsUJ9Aojus3bnCQMoz+rJSQGym2PTEizzOvG
+	9tYDxc2i3Aoqu7OPOTqEH+quNu0scOKdBSA9TIO8rX7QnRMQPZWydwj1GHG5IH88N9g8fChtRBN
+	gdJ9TNWlxy7/nucIeXZLY39wnjwzPXxcQ1dQIvsvg8R5WLdr18m/WNgpMN6/qnNqyOrP+wx8tcz
+	5L1MsMMsNFghzv6MxGCI
+X-Google-Smtp-Source: AGHT+IFPvow48jKNb45feJKuG9hBiqiH7V5/jCUxlagF9Z8UIy3GjTYeOzy5uSh94OsnQmEryAHi3Q==
+X-Received: by 2002:a17:902:ec8c:b0:21f:68ae:56e3 with SMTP id d9443c01a7336-221040bf834mr86384445ad.39.1739704822765;
+        Sun, 16 Feb 2025 03:20:22 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545e39bsm55641405ad.124.2025.02.16.03.20.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 03:20:22 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id E46D6100399; Sun, 16 Feb 2025 01:20:21 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 16 Feb 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 16 Feb 2025 01:20:21 -1000
+Message-Id: <20250216112021.E46D6100399@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 07:23:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211497
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 11:20:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211498
 
-On Sun, Feb 16, 2025 at 2:04=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> On Sat, Feb 15, 2025 at 7:06=E2=80=AFAM Alex Kiernan via
-> lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > avahi, systemd-resolved and mDNSResponder (in meta-networking) can all
-> > provide Zeroconf services. Add a `ZEROCONF_DAEMON` option to select
-> > which of these will provide service via packagegroup-base-zeroconf.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >  meta/recipes-core/packagegroups/packagegroup-base.bb | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/met=
-a/recipes-core/packagegroups/packagegroup-base.bb
-> > index cb9d1f07af51..c172250a4322 100644
-> > --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > @@ -312,11 +312,14 @@ RDEPENDS:packagegroup-base-nfs =3D "\
-> >  RRECOMMENDS:packagegroup-base-nfs =3D "\
-> >      kernel-module-nfs "
-> >
-> > +# Choose 'avahi-daemon', 'mdns' or 'systemd-resolved' as zeroconf-daem=
-on
-> > +ZEROCONF_DAEMON ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'system=
-d-resolved', 'systemd-resolved', 'avahi-daemon', d)}"
->
-> are these distro features new? if so we need to document them as well
->
+Branch: master
 
-I have a doc patch for ZEROCONF_DAEMON, never quite sure how to order
-things between the repos. `systemd-resolved` is an existing,
-documented distro feature.
+New this week: 0 CVEs
 
-> >  SUMMARY:packagegroup-base-zeroconf =3D "Zeroconf support"
-> >  RDEPENDS:packagegroup-base-zeroconf =3D "\
-> > -    avahi-daemon"
-> > +    ${@ '' if d.getVar('ZEROCONF_DAEMON') =3D=3D 'systemd-resolved' el=
-se d.getVar('ZEROCONF_DAEMON')} \
-> > +    "
-> >  RDEPENDS:packagegroup-base-zeroconf:append:libc-glibc =3D "\
-> > -    libnss-mdns \
-> > +    ${@bb.utils.contains('ZEROCONF_DAEMON', 'systemd-resolved', '', 'l=
-ibnss-mdns', d)} \
-> >      "
-> >
-> >  SUMMARY:packagegroup-base-ipv6 =3D "IPv6 support"
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#211488): https://lists.openembedded.org/g/openembed=
-ded-core/message/211488
-> > Mute This Topic: https://lists.openembedded.org/mt/111200541/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Removed this week: 0 CVEs
 
+Full list:  Found 19 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3079 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-50613 (CVSS3: 6.5 MEDIUM): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
 
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  qemu:qemu-native:qemu-system-native: 2
+  libsndfile1: 1
 
---=20
-Alex Kiernan
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
