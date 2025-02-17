@@ -1,205 +1,239 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55AB1C0219E
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 10:34:19 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.67])
- by mx.groups.io with SMTP id smtpd.web11.48190.1739788450488067302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66704C0219E
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 11:00:49 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.135])
+ by mx.groups.io with SMTP id smtpd.web11.48555.1739790045074428978
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 02:34:10 -0800
+ Mon, 17 Feb 2025 03:00:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=TlXX20ml;
- spf=pass (domain: cherry.de, ip: 40.107.159.67, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=PhcIIjaJ;
+ spf=pass (domain: weidmueller.com, ip: 52.101.70.135, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qbxm9RtZ25tMg29pQxIAtcz1w0MEgR0W/L/8bi+w979LNUzBLttkRMwYuFuhoNRhCmaQBdxEjluPYMVTgwgy0OaA0HIQPW1HwjknF6gHdfLlacOl/XVdOC3hUru9/Sq6GCZ/FQAXd/Qb9cDeLSxpw9tQUVNwPh3DF1J6HcMGax1rTOgzRlLy7a7ddcWJ7Bj/nVzw14ZRdug0MayAMDYkBOTns6PhWotRb3dIJG9tadwJdfthT9KNx2Jd55T+8TapYtSRqIZw67tOM0hQuK6KmumD0jDprKa27wVVrOfl9D7kUyf8c57Ib69nGgYD6E68wh7+O8cgAJcV/xPgf1Ho0w==
+ b=JoetEeg3himcjmLnjNQyLLHHC2Efk67MN5s9fMQi2RsJ3oUhn7fGtRjmSbgy0gan1Nwm1tDOCz7/lji3ixUkqpkYIgeRrLao0jF3x2J4XnkP/c0C4l8Eebw3Lh0xeDSjbKMWERfLqfmLncVUDlNt9NQAkNIcHwlUAuPk+yTJ3lsVpGvfUUYAzDB7giKpRWElJq5IkYEy2p1MwcdEPqAG7kOl4h6Bl80DShnjnzaELNDSuE2AbgCxnHdHGqmdjMkjbcabLsog4CHEDu1chBS+dMG3OZfEtBLdhfD9rfSmlWOqnww2qfFCRS1EIkMAPA/zsWe8cQTmwzJBfZQ5ek7Gpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U0wGBKLDM7hSIN/NLh1u8BIUwtzefWOiGVM+VcBQjdc=;
- b=HD40A41tSqhsFxaRpaqjTCyDgAHl/yLfYipchr00akiKme7B4rMKr4uBXMNsrCcbiczf1+L4fWarxck1brIlJztf5MvVxlTJm4oazRSfmSH6XsnTau9e2auYeK508DNzHVFxcWt3yfEA/zGgOmKSotyzV4C95vlhv+BcUvkTgAj3GJhQ4lWoAoES4kk4GdFGXpenE6OWb2p9kzJFjZgLqbVNV71P0caeOV5RxxkZNN+/3OdXwbElqqAd9IN8cVO1GARgjcWgqYOlgJkO6Wt7iuyC5+MVXPZ1K79WyA92BcfvJYNFYkDkwYIAiX8FG1L3gP8iXwM2Ax9O6IC4p/a9Sg==
+ bh=av/FpKEi64Nk4Kykvh/UKKjXnFig8hKvJ4ECZJ3hxzk=;
+ b=uTfWIEBoigNxmyv3iQjIjM8+hQvyFNkf3ZO4lP6HU7xoFFTCpgz9+3dBONPYgp97/ZtMHmKi370qxbRD7jDXxhkYv7SFSoen2A2JcDe7L3M/Vw9SWRjDGMcQ7ZSk8Tkeg6FNZKaKQSHtPFQFGx6LQTHi8CxlmMV/At/fW0L8ZGig1UF6hIVU7gId1HEfpLQGQqGiEgL3oGy4JWNrkyO2UmQ5vgI/gJsieQkV0WBhzGmGqp0w7qa+Y+4UBg+j/lZa7qVY1ssUTpGCKvK4Q44DCTLd1V15n8TBeg5vNIaks7bt64hF6sKGn94+3HFGut+lDfryyRCLa12yVnEUccaKww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U0wGBKLDM7hSIN/NLh1u8BIUwtzefWOiGVM+VcBQjdc=;
- b=TlXX20mlj2sDAS4r3UUVYqR7Bv7ISGIyqbXtd4XCmFJGkTzySHF+mkpYYnZVu0HfZ/VEm6vZZe+47Lyk6ukZqf/Q+CAKahBXwJxS4FnDzUyoeVtdptp53TnYadJ56L5LdW/7iq64E7dVGspKupKC2q0uYQexJG+IjznA98U+kzs=
+ bh=av/FpKEi64Nk4Kykvh/UKKjXnFig8hKvJ4ECZJ3hxzk=;
+ b=PhcIIjaJL6IDIq514Twgw4bzNg3Dqpt+quQjfLpsc8Xa+Vnsp2YEgOb0yiP22jWIkSNhFEMtyK+zNDBbjHgIVxNHqIgChY6bfPUOzN0DHGyXEoqrqbTOFGE9bIrIdYkPLOlbapozX00b0t00dg5kNSl/m43zC1K1gjS911R4n4WmH5KlVxBzQ4X6D+PTHHjcZCPZIvp+7bHh0kzL0QNK6UwEVYTIQhhE7HKhUi38MCqKeZ1v9yINXeolX9GNkQMnXRmEEkUENWyIk2hhqegRmEppsEEiF+5IH3MrML9uglUIWre8Ml+OxTgrJDqCyOiZYpVRQB7TUxfBxpyecu81dw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by AS8PR04MB8849.eurprd04.prod.outlook.com (2603:10a6:20b:42c::17) with
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
+ by GVXPR08MB7798.eurprd08.prod.outlook.com (2603:10a6:150:4::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.13; Mon, 17 Feb
- 2025 10:34:05 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::35f6:bc7d:633:369a%6]) with mapi id 15.20.8445.016; Mon, 17 Feb 2025
- 10:34:05 +0000
-Message-ID: <e82e9be5-9a56-4c22-ba44-90c8e6690d99@cherry.de>
-Date: Mon, 17 Feb 2025 11:34:03 +0100
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Mon, 17 Feb
+ 2025 11:00:36 +0000
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013%7]) with mapi id 15.20.8445.017; Mon, 17 Feb 2025
+ 11:00:35 +0000
+Content-Type: multipart/alternative;
+ boundary="------------PAiKfbLXTIJO0ymfF0CWeXA6"
+Message-ID: <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
+Date: Mon, 17 Feb 2025 12:00:34 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Broken FIT image signing since "u-boot:
- kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV
- enabled"
-To: rogerio.borin@toradex.com, openembedded-core@lists.openembedded.org
-References: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
+Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
+To: richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org,
+ Bruce Ashfield <bruce.ashfield@gmail.com>,
+ bitbake-devel <bitbake-devel@lists.openembedded.org>
+References: <4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
 Content-Language: en-US
-Cc: Marek Vasut <marex@denx.de>
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0124.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::15) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: <4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
+X-ClientProxiedBy: FR4P281CA0125.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b9::13) To GV1PR08MB8426.eurprd08.prod.outlook.com
+ (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|AS8PR04MB8849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6cf4f3da-7f42-4e0f-220e-08dd4f3e9a2f
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|GVXPR08MB7798:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73193bc5-5300-4998-c071-08dd4f424e38
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|4022899009|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dm02THFQbTd6aFRoNGQzTXZKM3NLdXFPdGYxeFFGS2VBcW5FOVlhbzI0ZHVr?=
- =?utf-8?B?dlRKOStZNjR4UXNqU2dWV1V2ckZzdFUvd3JlZ0VwOTdueUdjZkN5Vk1zNFFG?=
- =?utf-8?B?c3BNUnUzQlhtdC9WWDdHOElmZUh3UDhkS0Vta1d1clBKZ09Fd0ZCM0I0bkhh?=
- =?utf-8?B?MTRQVEhDWUFVbnJJdUFXWXMwZ2ZtQjg3L2orSlRrL0pXVUkzdFNxV3l4Nm53?=
- =?utf-8?B?a1oxK3BsbW5zYnlPcCtaRVA2TEFOek9qSlJGTTRSS1dkdmtMQlRVaVl5d1ZU?=
- =?utf-8?B?UmQ0RlVBSmtsbDhOWjUvQStIY093Q1A2RENjdGJ0bW9acDNEZlBEM0c1QXZW?=
- =?utf-8?B?UnNrbEZadURiTVR3UWR3eWltOWo0WEEvZ2NLbEFoOEhXRUx2TGxXbVFxYUxZ?=
- =?utf-8?B?Q2krQWZjajBHNTlnbGdYVDIvSHZKRi8zZWRkUitIUGRJM3FhSys5WU9zak1a?=
- =?utf-8?B?cFBlempFZVI5Rnd6WXJ4c2hTUENDMlpLRUNoeXpvT0R0MHF6RHNHNERYOVEv?=
- =?utf-8?B?N2ViM3kxQ2lZTXZIVHY4NE1waThnV2F0K0NMTXVHdkh3a2lvTmNpWHVqQ2RF?=
- =?utf-8?B?aTVpQnpST2krVStBMkJ0blVlU3dLRDhiNXdYd1E5K2dhQU81dklWQjF0Mm5u?=
- =?utf-8?B?QTlCclQ4YzgyR0JXZjhJaTduam9qbGFBWEJYMVBPZU9jY1BBU2l6czUrZ2dC?=
- =?utf-8?B?a1ZFYXhFL01Mdmd4cUtEKys4SmUvU2lZNXltMmFabHphdUh2WkNlaHM2RFg0?=
- =?utf-8?B?SEQvTGhPcU1wL2FKT2gxMng3RlliZ2J3TmEvQ0Z5N3RMMzR2MkxpRzZwTEwz?=
- =?utf-8?B?K3N4cWZIaUdrMW5jKzBXZ1VxQ3pkbVV1UU5yK2ZYVEwzemQ5anZTajdxeE52?=
- =?utf-8?B?UU9mK3BQU0k1YXBna3BtbTRlU0ZveVQ4ZW5CRDd4dS9ZOUNVVUxKYTBwWTZR?=
- =?utf-8?B?alBkVEFvTGdLek0yMm1FakhWdGk1aWJsV0Eva1BYSjNUZHF3ckdqM2VDVzNa?=
- =?utf-8?B?aTkyWHVPWE01Rm5zSk1BTit1YW5vdVdwb0tFWFQ1QkpuSEhSdnYvRlZiN2Nh?=
- =?utf-8?B?UjU0Z2Z6bFJoVGpJUTlqQnFDTUQraVhBWDFscGQyTVFFVDNDck1ONFEzcyth?=
- =?utf-8?B?R1lJME9NczhXK25hdFlabTNsblY3ZUtlWjlZVVVVWWtneGJvTkJ0Sm8vVFpM?=
- =?utf-8?B?dTlpNVk5TEp1bTUya0xrL3A4RVdwVjNBZG5POVJnRVRyN0NCcWtSVHNxbFMv?=
- =?utf-8?B?K0NYYkoxeDcvbmFDVkNOQSs4THpUZ1RXUEI5S3djczhaN2lHQ0VKT3FMU0c1?=
- =?utf-8?B?RW9vUjkzSU5SaEVWMkJGQVNHU2ZjczhFbGNvOEhFcHNPRDFDQjJKVG1BNkpB?=
- =?utf-8?B?RkRXZ1Y0NWYyTjFFcDFtZWxaaHB2SHBZNGwrWE9NSUxUUUpiaHNja05PbjVN?=
- =?utf-8?B?K0VyWU00S09rWlZkaUU5Ky9TVUZYZDlpekd3ZU1lY1hZZkYwOEJVdEZVZEpT?=
- =?utf-8?B?T3NreFBZVmNHUVlJT0hRMktYUnlnL0xVOTlncWVLOUN3QjNJU01vOVhRYmQr?=
- =?utf-8?B?cUFmQ2JCVCs2T3k5TWQwWnRacDF0bVhXREpsTkxFb2VtSFU0VEFsM21ZVDlB?=
- =?utf-8?B?YUc1OWJmWFEvQjBtdnZERnN3dlo0VmEyeTRNSE9yNnNQZkpvWk4rUkdBUVBu?=
- =?utf-8?B?M3ZZSHhXeVBNU1Fnd1ZJdDQ4NHY0c0xIdWJpQk0xeUVZeCt6Z0syMXFaNHRx?=
- =?utf-8?B?MGZEWHFWcEVKZXFUd1NueExENzlQbFJVVmN3aDB1ektObndJWEJWT0RzZW1i?=
- =?utf-8?B?M0dwVHVTRzRHVHFnYUU3Zz09?=
+	=?utf-8?B?dkNETVQ5eGpJa2RoN0NvTzNCNkxZb0oxZTdBZEc0K3U3cGFvNzRpRkp2R2Fa?=
+ =?utf-8?B?VkxUTlNvOFlHY1dud0lSN3lLU3ZmUXRqSGVqSkpKUURLeWdFajAyRkhxWTFM?=
+ =?utf-8?B?bmlOKy90UUUvb3dxekMyQWFoUzZOeVdiRmpRLzcybnRJQ0cyUTExQjVTWDBC?=
+ =?utf-8?B?UnRzaG00ZmU4bmN0a2IwS0VoRWYwYU41cG4rRTUza0pZa2IrR0JETDA2cXdj?=
+ =?utf-8?B?OU9RMFVqVUxrQUVJRklaSkczSDNacG4waThPazRLZFczblZCRDZvWURpT3Zs?=
+ =?utf-8?B?U3QxaDE2SGhnc0VoalR2RFRUOXRwMUJpSlg3ZVVzOXVGZUdQc1FQTVZVYW81?=
+ =?utf-8?B?TGNtUW9XTTVOQnhybkw1eWZFcjBKVkNCUyt6elh2emNWVXJCYkRXcENTRkZy?=
+ =?utf-8?B?Njl2RWdiWmhZSk1nUWtZRFdUM252b0tZWDFodW5iM012aVRxOW9xVGQ4Q283?=
+ =?utf-8?B?L2dLRS9EdkZRdzVsalNnTWJqMmFEVWM0Q3dpdGhQd0QzcDlJdlcrS1FDOGpW?=
+ =?utf-8?B?ekdKem96am1GaEtONy9TMEZ4Yjd5dDFYSFFWRnJFUEtOQSttdmJ2emxXbnBK?=
+ =?utf-8?B?N0JVRUVTNVU4NjFPMjlIaFc1Yys0SlhMbWdBRk5jb01ReHJjamRrb3RQS1M3?=
+ =?utf-8?B?V2d5VnBoTDlVUmRKdWJJM3dZZzVET3BnaEpqN0pYVkduakIwOTJHUXJyWnM4?=
+ =?utf-8?B?R0tva0JXSGo3bHFBRnhEY3Bsc1FQNURVSGFHNkVRNjkyK1lWU1JwZjdLbm84?=
+ =?utf-8?B?MUIzNHJINmlDb3NCa3hwUTVuZXJSVHFjVDVXRkJnOUhGUFJEajlaMEdLblI1?=
+ =?utf-8?B?WU9yQ1NkKzg3ZkJyN0JmWitsNGlGWFRMWkx0SXl1RmVsNzQyNHBIemxmc3Ey?=
+ =?utf-8?B?RDc1NmR6Mm9tTUVXNFkwSmtIU0ppYlFyL1FyTnhTaGNmUEs3QnlnRU1ZTTkv?=
+ =?utf-8?B?RzRveHphTnIvWTdFbVZCS0lYVVdxdWwxY3FZTk1sWUJtM3Jtek1VL3QyM0Rh?=
+ =?utf-8?B?TGorSXhDUE1OZ2hzTEUzd1VwUmFqVEYzZGwreDNwc1VwZENmNFJwQWhjTTVr?=
+ =?utf-8?B?U2diREh5NU0zd0FGRm15bUllWUFDS2xhZVkrZThja1d5dy9GTjI5WXQ2dWlh?=
+ =?utf-8?B?Q3RzQzVtNDRCRGN2UzByZzhtejBiRTRLSXJBUEhIVWJldGV0UElCRXdhYnVa?=
+ =?utf-8?B?UFNJM3dZRkExN3BsOGU3U2NseVIvY05yL0h5ZkxOUWNnbzd2c2d6Z1hGS2kz?=
+ =?utf-8?B?U2ZKalpYc0luYjhSNm52aCtDdFgrWnJvK09oRDhpSTBRTHluOEI1b1NIakgv?=
+ =?utf-8?B?dDBQWWpsSUVFbS85UTVXZ3hrL1VhaHhqcVNyWjJMeHhybXNUL1BZRm9DcVZG?=
+ =?utf-8?B?cXhFSXIxbjhXR2ZUWjVZUjdVNk1pVzhiRTdyTkUvdVplNVdTMk5ZZW0vUmVC?=
+ =?utf-8?B?WlBJRVRYWmpHS2xtK0dRR1pVMUZ2cTFMem13M20vcGVxVXlkanFlMThSNlo5?=
+ =?utf-8?B?WE9DaENsNVNaMkVVVkVWaXFmbGMrMXdubXA4aU5jM0ZqOFNLVkZIZHVlcFN0?=
+ =?utf-8?B?WC9jK2E4d1RGSU9XR1pYM0JnMmkra3JHVnVRNi9lK0NRRTN6U3pYcXF0NE1z?=
+ =?utf-8?B?aXhZL2ttNk9QZC9LNUZPOVVudWIvNTNuTUE2cjdiQm5FU2RTc1Y2cWd0WEk5?=
+ =?utf-8?B?RDZDaXEySmt0VDF0TjdOa1lHR0k1UzNmWjlJL0IzNnQwellrNEkvMjM2NE4y?=
+ =?utf-8?B?dGZVclF3TUVxN2lpR3NJVm9ueE54YVpOWVNhVmt6YjZNczRRTDFTQ1JVNGZi?=
+ =?utf-8?B?QWljWlB3dkgvTm1CMDFlSlZKQ0d6Zk11eGNnRkFzMElvV05XK0k5QktnQ2Qr?=
+ =?utf-8?Q?3g6MR1CMASmDW?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MTNjOGdwdEhveUNuRTZRUFVacVFRRTc4cU0yditZczJYbFJOc0haUmx5Mnk4?=
- =?utf-8?B?MFlxakR1TFh1QjZqS2ZjQjVad2pqSkRRVzNabmdteGl6alFyZEd6bjhkT1la?=
- =?utf-8?B?YzhhWG1vSm00cmxhWFlPaXBIR21XNXZPQ1RmWHJjRUJEWVN4amRrSitpb3dE?=
- =?utf-8?B?eGJGOWhNbFpZZjJtcEViVnNxckpJQjZ5KzcyWVRqV3U5MUhKVktoSWwzYTdZ?=
- =?utf-8?B?QVAxdVdLUTNmYTBTbmdEUEVPa2R0c3pxMHZDT2dGU29RQlQxUENPa2pqdmR1?=
- =?utf-8?B?amFOZXdNUXdSbGVJZXJOR3h5aWpDNENoV3BGSjRsNmxjc0tOS0EzbjVFYXJT?=
- =?utf-8?B?OUVXNnlaaVdYMU1ZZ1p5NGVlSElCYjQ0Z3lIcSswb09pb2JTMEVEL1RIWTBm?=
- =?utf-8?B?QkJmVmw0YndYSkgwKzk1WGIyTTdwQkFSYTRxTkFHTkJBZncxc1Q0R0hucExy?=
- =?utf-8?B?OFJNOEx4ZXNMTG1mUUwyaVZ6dWNwVW1Tc1M1WkJQS3ZoM0REMVhOR09OYkZZ?=
- =?utf-8?B?V3kzaGVQblFRVjNrcjQ1N3A0b1JJU280ampCeUVqaEdsRXZYVHJZbW5UQlU4?=
- =?utf-8?B?TE9ZU2ZmUC92R1pVWmU1bDFXa3JMbjBGSno2Y0xrRXM0eHlUcVdoWUU1M3lu?=
- =?utf-8?B?dXNYeUJFSHJ4dWtKWjgyd3VaRmdSbHRhT1h2cG15KzdsSU51aXhBKzJYVEhZ?=
- =?utf-8?B?RkNiS3JxMVpoQmZDRFRsMjBvdUQwSFFmVUF3eFdKMkZRUUVTV3JIUVhQbUVI?=
- =?utf-8?B?VUZRcUNQRjJsTVcxKzE4UFpOcG9FT053bUVTYkI0dzhPNUlSTHRJaVZFaUln?=
- =?utf-8?B?eW9HNC9sMWhFcnFMaUFNMVBPeEpjTThhMXFlTVNoNTVEYlFQT1Nocm9tUzNP?=
- =?utf-8?B?RFVTcTdIbS9tVWhNUUs4b1oxWXFTVVA5YVY2VFNwTVQ5VGIrQ1pNS1RXb0Q4?=
- =?utf-8?B?RGJWbDhlM1I1NmNSWEl2OXFpR1lGM2dOZU5zSVZyOWZDcGtUUkhVOXp6Nkdk?=
- =?utf-8?B?MktDM3JleWRsbG5DZVYxWGFYVTNEWHhpbXEyajZweFdjbnNzL2c4MU85L0Iz?=
- =?utf-8?B?M0tYbDZsaGJpQjV5U1N4UDVxYkVBaWQvTVZGZTRhd2Z5MGo2ajRLb0FSa0s2?=
- =?utf-8?B?eDRSbjZFWnF1bTRzSWJLSEx0aFVobG5iaVB1a05IemN0MUR3UDROemZ4dUZ4?=
- =?utf-8?B?eXJQWGZmbG54elJUNHVxSHFjclFvQU1lRk1EdzltVC9GNCsrWkEveXMzZTZu?=
- =?utf-8?B?aHpOQk02QlE5cVArUzIwWDB5MU15TlJORElFNmlaanRjb0V4d1lmcXYwTjlw?=
- =?utf-8?B?SmhMQmVaMWZVdW1Tc2tpVDJ0ekVsckRZUVpvSXVDRmNTZU45TEtzaDJlN1A4?=
- =?utf-8?B?ZDE4bll2bm9HbmN3L3JhYXV4RndYOTZaZ2tJQm5GTE9FZ3VwVHlzNVdQMy9Q?=
- =?utf-8?B?bXFxOVhqdStONmplOXV2RGpEa0RmTVlsVit2UDQxMTJsY1ZUM3IxSlB3Y3VB?=
- =?utf-8?B?Qzc2RnU3Y0pXQ3p0SFpIbmxqMHJsZGpMYWNuOGFLNWhidHZqeHpPNElnalRl?=
- =?utf-8?B?b0IrZ004VlkxUDM3TVRXSG93QjYzY3A2K0Y1VFI0WHk0dS9tK0hwVElmdmpr?=
- =?utf-8?B?WndvZ3MzMTE2Zmx5RExRL1lNUGliWVdjSENVMitYM3JTZTRTQ3ZDN2wvSnNX?=
- =?utf-8?B?UGVTakNrWFJBQVgySFhxM0JWdHdrM3Iza2NqWjBtOE01cnhtWjBmUXBQbzB5?=
- =?utf-8?B?dDBCVktZL3JORytBQmZRYXI2UXYvYWZLM2F2V3lRR0x1Z0E5dHQySjRWaW1B?=
- =?utf-8?B?TVZFRmdkNGcrT0ZuS1U4VUxqOFVFUHRPMGF5THBDTUVhYkc1TG02aG44bGNy?=
- =?utf-8?B?ZGkyWkREZFlEWEsyck02M21PZm5YNTdsdnpFeDl5Y2Z5Q2ZUWWVSbndBYkhV?=
- =?utf-8?B?OHIwSW9tZHFNYzlPMWJaN255SXUvL3Z4d3J0SjU1ZDZucm9ldEV3eGgvdFY0?=
- =?utf-8?B?K3crVkczS0MydWxZZzBCbTdLems4V051a00rSFMxYnJDR3pyNmFSQjErdGRU?=
- =?utf-8?B?bThYTWtBN2ZmRzI1dkhvWTVGVWo0N0FLQVV6MCtseVBodUpXenM4M0hHL0pK?=
- =?utf-8?B?RXdUQUowblNrRDRobVpkRHpWZjF3QUlUakpXajVVSFNVRk5TUFcyOWRxZ0Za?=
- =?utf-8?B?a2c9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cf4f3da-7f42-4e0f-220e-08dd4f3e9a2f
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+	=?utf-8?B?aFdJdE9XOFVrQUFFblc3ck40QkpqemRxSE1LbDlVOXA1WGNvbXI0dXZaOFJj?=
+ =?utf-8?B?aCtqRUpZN2E3bUg1WDZVb1kzL2F1cE5VaktualZlY29sYUY0VGFYU2x1d1dm?=
+ =?utf-8?B?V1pnWWpOSHd2ZHBiM2pmWFRWaTlSbExjZnRjaEhnMjlIM0Jtb2daZkJxUEh5?=
+ =?utf-8?B?SW1UNjVCSGxYZDlyUmJkK0gwSkUzY0dvWEhTdVRLbTd3TFQvazJvTHNhSmhs?=
+ =?utf-8?B?UXp6VXRYUmtKTmF0cnNzKytHc3RlVFpBcTY0T3RYWW9zL1p5R1lQMWFKZ01q?=
+ =?utf-8?B?cCs0YUFRNmdBVXdmekpNVlhFZUczMGljb0R5QU9rSlI3eUFRWWtlb3hJTDRv?=
+ =?utf-8?B?Z2UrRVFPcVZITlFBZDA5b3YxV0FpaWZOczRyUEpPZitqYzBydkNzUFYvQUNv?=
+ =?utf-8?B?VEN1VUF2R3gvWGhwSEt2QVVyK2l3NlZHMytOL0c2R2tIZjNzeTdneU5LMEFQ?=
+ =?utf-8?B?RnBWNTJxSVhqSjdINExNUUhlS3NiZVAxRHluR3lNOXZqY21QQ0ZzUGpyazlH?=
+ =?utf-8?B?MFBIM1dYZWVISEZ6bEM1RWdDMlBVOHl2VG43aTJyYUhEYllpQXNCNWVUamVP?=
+ =?utf-8?B?S2RNdXhNQmttYjd0ekxYL05MUWRUaFdSUG5DQlRJc1F6R2JjY1pJRUhlNnVn?=
+ =?utf-8?B?clZ6ZXJ5dW1LV29FejYrQmRJRWt3Kzllb3RnK1hGWmFFY0VVcFo4TXlSL3BH?=
+ =?utf-8?B?ek9IQjBZZUw2bFdzRWtMWnBsOTJlYVJpNXFYOEtpNzdyYk1jWEE0WllvUWIy?=
+ =?utf-8?B?dG9hTDF2UVdNdXZ5dEMybys1YlM1SU82cEovVlBmSHVRaEpuMkNnYVUyNDF3?=
+ =?utf-8?B?SVhTb0ZXNWhZY3N6MTlYSTdOWHY3VjB2VUxyS29TOGh3dnFsbnF0MlNGank1?=
+ =?utf-8?B?Q1FHajIrclJvTGFrd1BYVXBzS3lmY0NiUnVSN0plNVlvMzcreThlOTB1WEdv?=
+ =?utf-8?B?alZydUZmMWNtcm04YjJHQXVrWmJuZlhvb2J5UTJKZjA0dlZvYWFuZXhYcU1l?=
+ =?utf-8?B?L0NqNWdqSU4vd1E4aFBjVVZkbjlVaXhNK0tqMW5uTlVqd2Vndzg2VC9CZ1g0?=
+ =?utf-8?B?WkQ0WEhRdUlIbFN4RWZVNzBFVFY2SmphbXJqYnY3OEFQZGZBaEszM2F4OWx3?=
+ =?utf-8?B?d3VaK3FyYjhqdXNZVmZNdWFBRTZlNUE2NnlvSjNrRjJaTFlnd2puRXUycDlm?=
+ =?utf-8?B?YXE1RFUvZ045dTRRMUphTGxhdXRmbDZiTS9oa2tMejFtNXdrTlVUOC9JcTcv?=
+ =?utf-8?B?Z1I1Y09RNkZWVVBDUnhJSy9yaFRvaXh6WFlWRWl5eDRKRlFOU3AvdFJLc05M?=
+ =?utf-8?B?T2FSdFduT1hJanVKMDBIMmhDK09HQTMxNUxrb2RsaGh1bFNuMFMrbTBKNm9B?=
+ =?utf-8?B?QVUyNFBFT2ZtWmduZCtnZjYzdXBPQ2Vuc0hHbFpuR3BPZHRnSC9FMXdrZUZI?=
+ =?utf-8?B?T2VTc1VmYVJtaDl2TmRjb2hpeGR1SFJMQmNxZGxWRlRhbUl3R2dVZHBmTzNQ?=
+ =?utf-8?B?VzhlTGwxMDhwc0lsK01rUU1FM2x2d0VQWWVveTF6TTd4YVI2Y0p4eDI1Zzhx?=
+ =?utf-8?B?bmFaeUNneDg0T2NwYS9vZ1lUMnFLZ3dBQ2lJNGliaG1ReXA1NEw4WjRGS2ZT?=
+ =?utf-8?B?K3V0Zkl4S1E2czcrdFJGb3N6dlhjOHFjRlFYbktEdFJoSldOZkRlLzRPNGo0?=
+ =?utf-8?B?YUhxT1hvR0NYRmFjWEF1QkFtaE8wUlVLak1ZRTJkOFhmQklkSXdLb1pyY0dN?=
+ =?utf-8?B?N2dYV1EzTFpMbDcybnNSaTQwV2VRZW5tbVIwd3RGUkZtNnhrVTAxSWNDcDNq?=
+ =?utf-8?B?M0V5MzMxM0o2cVhvYVkwUldIRWJDNVJMNFNJcWZnb0dBa2pFY0dPS2hDbzM5?=
+ =?utf-8?B?ZG5vQk5oNitXZ2ZEMnNmb3ZkNDRLL0VHMVR2SkFoVTg0aklFVUdCVGF4N3cv?=
+ =?utf-8?B?NzU2QlJVNG1vMEJjNkdVeVgyTldOYmJSQ3pobU8zL0RlaUxHTWhNKzlRRGQz?=
+ =?utf-8?B?UE9qQmthSk04MXNzcVdSbUFOYzV5dGpSRW8zZDlBam9MYTl5ZmRGSHpiKzI4?=
+ =?utf-8?B?L2FnbFFUYSttRStqcFA0ajFTcmlmMEJKeWJ6dnFRK2xKOFYxM3Fnd25zbVd0?=
+ =?utf-8?B?U3RyazM4c2k3cXpEWG5MSVhNYUhZbFJLdkdWQ3JlSVpGaTc1SXhwcmNrcE5M?=
+ =?utf-8?B?akE9PQ==?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73193bc5-5300-4998-c071-08dd4f424e38
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 10:34:05.0972
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 11:00:35.7639
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IV73wei/ZBNEnHmuk77UfG77gLrwLdIqgG+94fcVx0uyqj8cUt6FxtnQhNwJ7K5dD8CIcIQUt4FW0joGK1WsvyqKEg+kQCOGe3ssY4cFc+Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8849
+X-MS-Exchange-CrossTenant-UserPrincipalName: W59KZkuBZ9k2BO44LQs16aeMs2yqI3XN/bEqYrmzOnLGqTC0fZRDSgt+dD/8Jy/Bya68J4XOC1H4R7zbKOk2QQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB7798
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 10:34:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211537
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 11:00:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211538
 
-+Cc Marek
+--------------PAiKfbLXTIJO0ymfF0CWeXA6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2/16/25 7:36 PM, Rogerio Guerra Borin via lists.openembedded.org wrote:
-> You don't often get email from rogerio.borin=toradex.com@lists.openembedded.org. Learn why this is important<https://aka.ms/LearnAboutSenderIdentification>
-> Hello,
-> 
-> At Toradex we're using class "kernel-fitimage" to produce our signed kernel FIT images and we've found that the recent commit d7bd9c627661 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled") broke our builds. The logs of a failed build show the following message that I found noteworthy:
-> 
-> log.do_uboot_assemble_fitimage.841485:
-> ...
-> Couldn't open RSA private key: '/secboot-data/fit-keys/dev2.key': No such file or directory
-> 
-> The odd thing was that the build was setting:
-> 
-> UBOOT_SIGN_KEYNAME = "dev"
-> UBOOT_SIGN_IMG_KEYNAME = "dev2"
-> FIT_SIGN_INDIVIDUAL = "0"
-> FIT_GENERATE_KEYS = "0"
-> 
->  From the above we see the individual images signing is disabled but the system is trying to access the key file for the individual signing (dev2) regardless of that. Checking the code in uboot-sign.bbclass I found this line:
-> 
-> https://git.openembedded.org/openembedded-core/tree/meta/classes-recipe/uboot-sign.bbclass?h=scarthgap#n116
-> 
-> that is responsible for that access (inside function concat_dtb()). The code is always referencing variable UBOOT_SIGN_IMG_KEYNAME regardless of FIT_SIGN_INDIVIDUAL being set to "1" or "0" even though there's a condition a couple lines above L116 where FIT_SIGN_INDIVIDUAL is tested to decide in which mode to run the signing tool. To better understand the behavior I created dev2.{key,crt} files and retried a build which worked. However, checking the contents of the final u-boot.dtb file I found that the "dev2" key node was present but the "dev" key wasn't. Then, checking the contents of the final fitImage I noticed the configuration nodes were signed by the dev key while the individual images were not signed (as expected). But that means such a system wouldn't boot since the required "dev" key is not present in the U-Boot DTB, from what I conclude the FIT signing is broken at the moment.
-> 
-> So, first of all I wanted to let you guys know about this issue (hoping we're not doing anything wrong with our builds).
-> 
-> As a second point, I wanted to confirm the expected behavior regarding variable FIT_SIGN_INDIVIDUAL. According to the documentation:
-> 
-> https://docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term-FIT_SIGN_INDIVIDUAL
-> 
-> when its value is "1" the individual images will be signed *in addition* to the FIT image being signed. From that, I understand that the configurations will be always signed and the individual images may or may not be signed depending on FIT_SIGN_INDIVIDUAL. I kind of confirmed this behavior by checking our build artifacts on kirkstone: with FIT_SIGN_INDIVIDUAL="0" the U-Boot DTB has only the "dev" key and the fit image is signed by that same key; with FIT_SIGN_INDIVIDUAL="1" both keys are present in the DTB, the configurations are signed by the "dev" key and the images by the "dev2" key. I understand this is the correct behavior, right?
-> 
-> I'm asking because looking at the comment at:
-> 
-> https://git.openembedded.org/openembedded-core/tree/meta/classes-recipe/uboot-sign.bbclass?h=scarthgap#n106
-> 
-> it gives me the impression that FIT_SIGN_INDIVIDUAL would select between either signing individual images or signing the configurations, which doesn't match the documented behavior. I believe the code in concat_dtb() also seems to assume only one of the keys (dev/dev2) would need be present in the DTB. So the fix would involve a review on this as well I imagine.
-> 
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#211507): https://lists.openembedded.org/g/openembedded-core/message/211507
-> Mute This Topic: https://lists.openembedded.org/mt/111218371/6293953
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [quentin.schulz@cherry.de]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Am 13.02.2025 um 11:43 schrieb Richard Purdie via lists.openembedded.org:
+> e) add the ability to add custom hooks in the fetch process to handle
+> the cases of needing to alter the flow for patching the components list
 
+I fear this isn't easy possible and we have a design problem. Bitbake 
+and oe-core assume that a patch doesn't influence the fetch and that the 
+SRC_URI contains all fetched sources. Many code use the Fetch class or 
+the SRC_URI direct and doesn't expect recursive implicit URIs of gitsm. 
+In reality the SRC_URI describe the given URIs only and doesn't contain 
+the additional implicit URIs. The task flow applies patches after the 
+unpack and prevent patches to the gitsm. In reality a patch could 
+influence the implicit URIs and isn't independent. I would recommend to 
+keep the patching outside of bitbake and instead handle the implicit 
+URIs inside oe-core. We could write the implicit URIs into files in the 
+work directory and migrate the scattered direct users of the SRC_URI / 
+Fetch class to a common oe-core function. This functions returns the 
+given URIs and optional any additional implicit URIs. This allows the 
+usage of the task dependencies to ensure that the implicit URIs are 
+resolved before use. The package manager lock file needs a single unpack 
+and patch step whereas the gitsm needs a recursive unpack and patch of 
+every successive gitsm. This makes it impossible to use additional 
+tasks. We could add the resolve of the implicit URIs to the fetch task 
+to support recursive resolve (gitsm).
+
+1. download SRC_URIs 2. exit if no URI is marked as unresolved 3. unpack 
+unresolved URIs 4. apply associated patches 5. resolve URIs 6. goto 2
+
+This will eliminate the need for the partial implicit URI and gitsm 
+support in bitbake and makes the fetcher code simpler. The patching 
+could remain in oe-core and patches could be applied to gitsm and 
+package manager lock files. Additionally we remove code duplication and 
+simplify future changes to the SRC_URI determination. It will add an 
+indirection for the SRC_URI but the current code already shows that this 
+makes problems. Only the archiver class uses the expanded_urldata 
+function and all other classes including the spdx class ignore the 
+implicit SRC_URIs.
+
+--------------PAiKfbLXTIJO0ymfF0CWeXA6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Am 13.02.2025 um 11:43 schrieb Richard
+      Purdie via lists.openembedded.org:<br>
+    </div>
+    <blockquote type="cite" cite="mid:4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">e) add the ability to add custom hooks in the fetch process to handle
+the cases of needing to alter the flow for patching the components list</pre>
+    </blockquote>
+    <p><span style="white-space: pre-wrap">I fear this isn't easy possible and we have a design problem. Bitbake and oe-core assume that a patch doesn't influence the fetch and that the SRC_URI contains all fetched sources. Many code use the Fetch class or the SRC_URI direct and doesn't expect recursive implicit URIs of gitsm. </span>In
+      reality the SRC_URI describe the given URIs only and doesn't
+      contain the additional implicit URIs. The task flow applies
+      patches after the unpack and prevent patches to the gitsm. In
+      reality a <span style="white-space: pre-wrap">patch could influence the implicit URIs and isn't independent.
+
+I would recommend to keep the patching outside of bitbake and instead handle the implicit URIs inside oe-core. We could write the implicit URIs into files in the work directory and migrate the scattered direct users of the SRC_URI / Fetch class to a common oe-core function. </span><span style="white-space: pre-wrap">This functions returns the given URIs and optional any additional implicit URIs. This allows the usage of the task dependencies to ensure that the implicit URIs are resolved before use.
+
+The package manager lock file needs a single unpack and patch step whereas the gitsm needs a recursive unpack and patch of every successive gitsm. This makes it impossible to use additional tasks. We could add the resolve of the implicit URIs to the fetch task to support recursive resolve (gitsm).
+</span></p>
+    <p><span style="white-space: pre-wrap">1. download SRC_URIs
+2. exit if no URI is marked as unresolved
+</span><span style="white-space: pre-wrap">3. unpack unresolved URIs
+4. apply associated patches
+5. resolve URIs
+6. goto 2 
+</span></p>
+    <p><span style="white-space: pre-wrap">This will eliminate the need for the partial implicit URI and gitsm support in bitbake and makes the fetcher code simpler. The patching could remain in oe-core and patches could be applied to gitsm and package manager lock files. Additionally we remove code duplication and simplify future changes to the SRC_URI determination.
+
+It will add an indirection for the SRC_URI but the current code already shows that this makes problems. Only the archiver class uses the expanded_urldata function and all other classes including the spdx class ignore the implicit SRC_URIs.
+
+</span></p>
+    <p><span style="white-space: pre-wrap">
+</span></p>
+  </body>
+</html>
+
+--------------PAiKfbLXTIJO0ymfF0CWeXA6--
 
