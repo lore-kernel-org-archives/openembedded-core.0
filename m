@@ -1,114 +1,153 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B78C021A7
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:14:38 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.46029.1739776477328239107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EA1C021A0
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:14:48 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.46031.1739776484480478409
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 23:14:37 -0800
+ Sun, 16 Feb 2025 23:14:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4143913a06=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H5WcXu018496
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 23:14:37 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44tuaq9a82-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 23:14:36 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 16 Feb 2025 23:14:36 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:14:35 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/3] man-pages: upgrade 6.9.1 -> 6.11
-Date: Mon, 17 Feb 2025 15:14:32 +0800
-Message-ID: <20250217071432.4144843-3-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250217071432.4144843-1-hongxu.jia@windriver.com>
-References: <20250217071432.4144843-1-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=QLGSRhLL c=1 sm=1 tr=0 ts=67b2e1dc cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=h3Hc2Dq96gfXVzXD3t0A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: kQu63Mi4ziP0uy0RhApZdrYDQ-vDzCdN
-X-Proofpoint-ORIG-GUID: kQu63Mi4ziP0uy0RhApZdrYDQ-vDzCdN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-17_03,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- impostorscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=872 adultscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502170062
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g1twV0mf;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fbfe16cc39so7602595a91.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 23:14:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739776484; x=1740381284; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y1sffCqWQjoV3QtcPBcnWm//uK2k1UpWVYJTb/qH2GA=;
+        b=g1twV0mf3Y6R1GNtKo79dE8UNCRhL1y9sC9s+SJmexa/NG4S+ykyvyKy2JnYpLKlRi
+         MLL96X3vYAg4lxWIbpjttSoLU2cGVHUEFWUpSH11GeFj+MMH6/pMXnOGbZewcVdw7Uku
+         HXxARCYCVxQwVu4yLaFOPwHj0JktT8ZJIFaUvQWISTOR4/ilddd/0f0qFS43Z/GVb8je
+         8gP9WB5BzCG9goEuU0kF52BIvZRmkYWL4ORw3Jt6TxV1Ydj9iJzpqggckXTyMq+qr1eb
+         jq/eozg6+7lNeJVdanuYGbF2or8xr8aSVbHuHNF8h/q0deq96gwwPXX6WoDQBbQSQNZZ
+         2zpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739776484; x=1740381284;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y1sffCqWQjoV3QtcPBcnWm//uK2k1UpWVYJTb/qH2GA=;
+        b=qfKsKtmS4xwJk1nPRpuE23bmPUyLhLSV9E2yBJ1F5bGIXFkehW/3qhmSBfJzzSmxTL
+         3nlx0cfnjlgpbqXhA1sT3RRpZLOdIcPmhH8hCfxnC5ZUfAN6kgASx+JbzJVtOCXFwepE
+         EZ3sMqoy3+iwiRkvkIz7l0W5sn8dAuebYF25CE0ny3cM36sBe1FWs2tzYo34sUoDtBlD
+         k1of0tqsQYbJp0SlUM4DYAFSAUFXq+DJo+IxU0Vmg63lLaxt0KgO4DTprdI/oMpRjCte
+         6HkoW5mZXAP/HSinFbPCzLum1I6Ezm2es2GNXL08owquP2wZFl8hkflIZMQ5fvEi17Yu
+         0y1A==
+X-Gm-Message-State: AOJu0Yxc9UOOeIff/4p3HE5EP7sTulNz8SKDaGVmRqdi6keep4f+yZTb
+	lMY5AnoDgs4Q1PezvmMfm3M5Mu2HpZlRzwAKY6MDvREZkYn9JsxjcfKm8Q1c
+X-Gm-Gg: ASbGnct8Dx9guoe0D56P9tnm8fJxemcrLbPKGybCsyKaCaT2uqjjcF3okbUKB3fi+/r
+	xU3UA697kUud8HUsb2d9pLAx8hRZddwqOpE1b6Mg6heL/SUsRYceW1FfcPw0DHXVixknH1VaRTK
+	GfdtEMRvMTzYfkqvqEthFv7hcUPzKlf19cCii0Z7e3Sd5JK3Agt5Q5RH/NmcI9c3igtqyq7gNZa
+	6NJM7URnD2QFBqytLxVDZvh5WBF7f7zw+CPr0T9QV8z49eDDS9ceVWUD7OpL2TW0ewJmgnB+FrL
+	DV3xmgaCcQQiXqc13nLKky/CgmxnygtP
+X-Google-Smtp-Source: AGHT+IFV6OwNh7lgB8tNeShS7v4aiFBKPQNJNTVL3KK37hcO9T9ut938T3gmvw4jWI/jjcUVS+Qk6w==
+X-Received: by 2002:a17:90b:2f86:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2fc40c1d548mr14775268a91.7.1739776483586;
+        Sun, 16 Feb 2025 23:14:43 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:e02e:c075:441b:7c9:1a87:6dd2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13b913easm7047497a91.39.2025.02.16.23.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 23:14:43 -0800 (PST)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bindu.bhabu@kpit.com
+Cc: Oleksandr Hnatiuk <ohnatiuk@cisco.com>,
+	Oleksiy Obitotskyy <oobitots@cisco.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][scarthgap][PATCH] icu: remove host references in nativesdk to fix reproducibility
+Date: Mon, 17 Feb 2025 12:44:31 +0530
+Message-Id: <20250217071431.26922-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:14:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211518
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:14:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211519
 
-1. Due to upstream commit [GNUmakefile: Require the user to specify
-'-R' if their make(1) is too old][1], add option -R to make
+From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 
-2. Due to upstream commit [src/bin/pdfman, scripts/bash_aliases,
-pdfman.1: Make pdfman a standalone program, and add a manual page][2],
-inherit bbclass lib_package to use package ${PN}-bin to collect newly
-added scripts and runtime depends on bash
+Fix is only done for target. Use same code for nativesdk.
 
-[1] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=50c914d25b40ac6a4d63ce10ed146653098014a2
-[2] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=ed9bc1e3277befd6e165270f14e458a5ec4074f1
+Backport from poky master: https://git.yoctoproject.org/poky/commit/?id=c63b8f28ac52047fad689b78d605aa792baf1ad8
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+(From OE-Core rev: dc6306883cc2c7d4d98d595442e5bf4037a160c5)
+
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c63b8f28ac52047fad689b78d605aa792baf1ad8)
+Signed-off-by: Bhabu Bindu <bindu.bhabu@kpit.com>
 ---
- .../man-pages/{man-pages_6.9.1.bb => man-pages_6.11.bb}  | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_6.9.1.bb => man-pages_6.11.bb} (92%)
+ meta/recipes-support/icu/icu_74-2.bb | 33 ++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_6.9.1.bb b/meta/recipes-extended/man-pages/man-pages_6.11.bb
-similarity index 92%
-rename from meta/recipes-extended/man-pages/man-pages_6.9.1.bb
-rename to meta/recipes-extended/man-pages/man-pages_6.11.bb
-index 8258874dd7..52a1fbda14 100644
---- a/meta/recipes-extended/man-pages/man-pages_6.9.1.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_6.11.bb
-@@ -20,9 +20,9 @@ LIC_FILES_CHKSUM = "file://README;md5=72cff06b7954222c24d38bc2c41b234e \
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
-            "
+diff --git a/meta/recipes-support/icu/icu_74-2.bb b/meta/recipes-support/icu/icu_74-2.bb
+index 8352bf2a5b..53853e24a5 100644
+--- a/meta/recipes-support/icu/icu_74-2.bb
++++ b/meta/recipes-support/icu/icu_74-2.bb
+@@ -30,7 +30,7 @@ TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
  
--SRC_URI[sha256sum] = "3ae3f8ad97487d2c1b14258231d97d03b4e569b915377f6dd4f6be7141c57ee0"
-+SRC_URI[sha256sum] = "44c09f43ae7a0b327efef5285a30d56ecc5fd4a07056f77e806f6c65196ba7f3"
+ ASNEEDED = ""
  
--inherit manpages
-+inherit manpages lib_package
- 
- MAN_PKG = "${PN}"
- 
-@@ -32,6 +32,7 @@ PACKAGECONFIG[manpages] = ""
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- 
-+EXTRA_OEMAKE += "-R"
- do_install() {
-         oe_runmake install prefix=${prefix} DESTDIR=${D}
-         rm -rf ${D}${mandir}/man3/crypt.3
-@@ -40,6 +41,10 @@ do_install() {
-         rm -rf ${D}${mandir}/man5/passwd.5
+-do_compile:prepend:class-target () {
++remove_build_host_references_from_libicutu () {
+ 	# Make sure certain build host references do not end up being compiled
+ 	# in the image. This only affects libicutu and icu-dbg
+ 	sed  \
+@@ -39,6 +39,14 @@ do_compile:prepend:class-target () {
+ 	    -i ${B}/tools/toolutil/Makefile
  }
  
-+RDEPENDS:${PN}-bin += " \
-+    bash \
-+"
++do_compile:prepend:class-target () {
++	remove_build_host_references_from_libicutu
++}
 +
- # Only deliveres man-pages so FILES:${PN} gets everything
- FILES:${PN}-doc = ""
- FILES:${PN} = "${mandir}/*"
++do_compile:prepend:class-nativesdk () {
++	remove_build_host_references_from_libicutu
++}
++
+ PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
+ do_install:append:class-native() {
+ 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+@@ -49,6 +57,15 @@ do_install:append:class-native() {
+ 	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+ }
+ 
++remove_build_host_references() {
++	sed -i  \
++	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
++	    -e 's|${DEBUG_PREFIX_MAP}||g' \
++	    -e 's:${HOSTTOOLS_DIR}/::g' \
++	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/Makefile.inc \
++	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/pkgdata.inc
++}
++
+ do_install:append:class-target() {
+     # The native pkgdata can not generate the correct data file.
+     # Use icupkg to re-generate it.
+@@ -56,14 +73,12 @@ do_install:append:class-target() {
+         rm -f ${D}/${datadir}/${BPN}/${@icu_install_folder(d)}/icudt${ICU_MAJOR_VER}b.dat
+         icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${@icu_install_folder(d)}/icudt${ICU_MAJOR_VER}b.dat
+     fi
+-	
+-	# Remove build host references...
+-	sed -i  \
+-	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+-	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+-	    -e 's:${HOSTTOOLS_DIR}/::g' \
+-	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/Makefile.inc \
+-	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/pkgdata.inc
++
++	remove_build_host_references
++}
++
++do_install:append:class-nativesdk() {
++	remove_build_host_references
+ }
+ 
+ PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
 -- 
-2.34.1
+2.17.1
 
 
