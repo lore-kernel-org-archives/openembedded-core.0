@@ -1,384 +1,93 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF343C021A6
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 08:52:48 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
- by mx.groups.io with SMTP id smtpd.web10.47204.1739782356887101503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AF5C021A0
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 09:11:18 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.47427.1739783472136228344
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 00:52:39 -0800
+ Mon, 17 Feb 2025 01:11:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 17 Feb
- 2025 16:52:33 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Mon, 17 Feb 2025 16:52:33 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <troy_lee@aspeedtech.com>, <jamin_lin@aspeedtech.com>,
-	<vince_chang@aspeedtech.com>
-Subject: [PATCH v6 3/3] oe-selftest: fitimage: add testcases to test ATF and TEE
-Date: Mon, 17 Feb 2025 16:52:33 +0800
-Message-ID: <20250217085233.2201043-4-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250217085233.2201043-1-jamin_lin@aspeedtech.com>
-References: <20250217085233.2201043-1-jamin_lin@aspeedtech.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XKUUo7ad;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 049FB4330E;
+	Mon, 17 Feb 2025 09:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739783470;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=55KcQ/NHHG+95591H98QxZzJr1PzRsh+L51N0v7n6Zk=;
+	b=XKUUo7adxpue6CisUAri0MwDFpAXgsbPIeyMiPbWkqyDn8HwIsZwC/QoNgiD04OL139JRC
+	eFyXdrj1kyS4ldInFtiZcQHOX5CMLNahaSuS1DWVBx7W3PkROlsK2Ex4roZatGSXtYclDX
+	5BXkZp44Oz8oSRFMDyfA1JjfpwHmI3YHxpnIBaZMy/ptm5xdc/KVkG16mbTDbdqguyS/qx
+	H+zyMJ1QMMhvFk4U1Pg3f1Bg7r9HLNMJ3008TD81o1GafQ3zJTMLPNjyOjEwua11QMxeyp
+	U38Zq0OyTrhtKbCtdfo3OgY8gvygajdAtHnx9MJLUbs4QfQbUWWoaXt1+dPltg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 17 Feb 2025 10:11:09 +0100
+Message-Id: <D7ULRO9YDXHS.1QDCIQ63BGI8E@bootlin.com>
+To: <festevam@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] mtd-utils: Upgrade to 2.3.0
+Cc: "Fabio Estevam" <festevam@denx.de>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20250215204941.1453502-1-festevam@gmail.com>
+In-Reply-To: <20250215204941.1453502-1-festevam@gmail.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehkedttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffvufevhffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepueekvdelffdvuedvkeelfefhgeetieejtdfhfeduuddtkeegffeuueeifeehhffgnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpkhgvrhhnvghlrdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepfhgvs
+ hhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepfhgvshhtvghvrghmseguvghngidruggv
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 08:52:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211534
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 09:11:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211535
 
-Add "test_uboot_atf_tee_fit_image" test caste to check u-boot FIT image and
-Image Tree Source(ITS) are built and the ITS has the correct fields.
+On Sat Feb 15, 2025 at 9:49 PM CET, Fabio Estevam via lists.openembedded.or=
+g wrote:
+> From: Fabio Estevam <festevam@denx.de>
+>
+> Upgrade to mtd-utils 2.3.0.
+>
+> Details about the 2.3.0 release:
+>
+> https://lore.kernel.org/linux-mtd/1b7a55a6-1c5b-4e86-8006-e2010e54367e@si=
+gma-star.at/T/#u
+>
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
 
-Add "test_sign_standalone_uboot_atf_tee_fit_image" test case to check if u-=
-boot
-FIT image and Image Tree Source (ITS) are created and signed correctly for =
-the
-scenario where only the u-boot proper fitImage is being created and signed.
+Hi Fabio,
 
-Currently, ATF and TEE(optee-os) recipes are placed in meta-arm layer.
-OpenEmbedded-Core is a basic and core meta layer. To avoid OpenEmbedded-cor=
-e
-depends meta-arm, both test cases are used dummy images for testing.
+Thanks for your patch. However, I believe this is breaking some builds
+on the autobuilder, with the following error:
 
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
----
- meta/lib/oeqa/selftest/cases/fitimage.py | 281 +++++++++++++++++++++++
- 1 file changed, 281 insertions(+)
+ERROR: mtd-utils-2.3.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-wo=
+rker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/mtd-util=
+s/2.3.0/temp/run.do_compile.2425952' failed with exit code 1
+...
+| In file included from ../git/ubifs-utils/common/bitops.c:7:
+| ../git/ubifs-utils/common/defs.h:16:10: fatal error: execinfo.h: No such =
+file or directory
+|    16 | #include <execinfo.h>
+|       |          ^~~~~~~~~~~~
+| compilation terminated.
+| make: *** [Makefile:4822: ubifs-utils/common/mkfs_ubifs-bitops.o] Error 1
+| ERROR: oe_runmake failed
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selft=
-est/cases/fitimage.py
-index 5a400c200f..5af9ea8afc 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -894,3 +894,284 @@ FIT_HASH_ALG =3D "sha256"
-         # Check if the u-boot boot.scr script is in the fitImage
-         dumpimage_result =3D self._run_dumpimage(fitimage_path, uboot_tool=
-s_bindir)
-         self._verify_fitimage_uboot_env(dumpimage_result)
-+
-+
-+    def test_uboot_atf_tee_fit_image(self):
-+        """
-+        Summary:     Check if U-boot FIT image and Image Tree Source
-+                     (its) are built and the Image Tree Source has the
-+                     correct fields.
-+        Expected:    1. Create atf and tee dummy images
-+                     2. Both u-boot-fitImage and u-boot-its can be built
-+                     3. The os, load address, entrypoint address and
-+                        default values of U-boot, ATF and TEE images are
-+                        correct in the Image Tree Source. Not all the
-+                        fields are tested, only the key fields that wont
-+                        vary between different architectures.
-+                Product:     oe-core
-+                Author:      Jamin Lin <jamin_lin@aspeedtech.com>
-+        """
-+        config =3D """
-+# We need at least CONFIG_SPL_LOAD_FIT and CONFIG_SPL_OF_CONTROL set
-+MACHINE =3D "qemuarm"
-+UBOOT_MACHINE =3D "am57xx_evm_defconfig"
-+SPL_BINARY =3D "MLO"
-+
-+# Enable creation of the U-Boot fitImage
-+UBOOT_FITIMAGE_ENABLE =3D "1"
-+
-+# (U-boot) fitImage properties
-+UBOOT_LOADADDRESS =3D "0x80080000"
-+UBOOT_ENTRYPOINT =3D "0x80080000"
-+UBOOT_FIT_DESC =3D "A model description"
-+
-+# Enable creation of the TEE fitImage
-+UBOOT_FIT_TEE =3D "1"
-+
-+# TEE fitImage properties
-+UBOOT_FIT_TEE_IMAGE =3D "${TOPDIR}/tee-dummy.bin"
-+UBOOT_FIT_TEE_LOADADDRESS =3D "0x80180000"
-+UBOOT_FIT_TEE_ENTRYPOINT =3D "0x80180000"
-+
-+# Enable creation of the ATF fitImage
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE =3D "1"
-+
-+# ATF fitImage properties
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_IMAGE =3D "${TOPDIR}/atf-dummy.bin"
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_LOADADDRESS =3D "0x80280000"
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_ENTRYPOINT =3D "0x80280000"
-+"""
-+        self.write_config(config)
-+
-+        # Create an ATF dummy image
-+        atf_dummy_image =3D os.path.join(self.builddir, "atf-dummy.bin")
-+        cmd =3D 'dd if=3D/dev/random of=3D%s bs=3D1k count=3D64' % (atf_du=
-mmy_image)
-+        result =3D runCmd(cmd)
-+        self.logger.debug("%s\nreturned: %s\n%s", cmd, str(result.status),=
- result.output)
-+
-+        # Create a TEE dummy image
-+        tee_dummy_image =3D os.path.join(self.builddir, "tee-dummy.bin")
-+        cmd =3D 'dd if=3D/dev/random of=3D%s bs=3D1k count=3D64' % (tee_du=
-mmy_image)
-+        result =3D runCmd(cmd)
-+        self.logger.debug("%s\nreturned: %s\n%s", cmd, str(result.status),=
- result.output)
-+
-+        # The U-Boot fitImage is created as part of the U-Boot recipe
-+        bitbake("virtual/bootloader")
-+
-+        deploy_dir_image =3D get_bb_var('DEPLOY_DIR_IMAGE')
-+        machine =3D get_bb_var('MACHINE')
-+        fitimage_its_path =3D os.path.join(deploy_dir_image,
-+            "u-boot-its-%s" % (machine,))
-+        fitimage_path =3D os.path.join(deploy_dir_image,
-+            "u-boot-fitImage-%s" % (machine,))
-+
-+        self.assertExists(fitimage_its_path, "%s image tree source doesn't=
- exist" % (fitimage_its_path))
-+        self.assertExists(fitimage_path, "%s FIT image doesn't exist" % (f=
-itimage_path))
-+
-+        # Check that the type, load address, entrypoint address and defaul=
-t
-+        # values for u-boot, ATF and TEE in Image Tree Source are as expec=
-ted.
-+        # The order of fields in the below array is important. Not all the
-+        # fields are tested, only the key fields that wont vary between
-+        # different architectures.
-+        its_field_check =3D [
-+            'description =3D "A model description";',
-+            'type =3D "standalone";',
-+            'load =3D <0x80080000>;',
-+            'entry =3D <0x80080000>;',
-+            'description =3D "Trusted Execution Environment";',
-+            'os =3D "tee";',
-+            'load =3D <0x80180000>;',
-+            'entry =3D <0x80180000>;',
-+            'description =3D "ARM Trusted Firmware";',
-+            'os =3D "arm-trusted-firmware";',
-+            'load =3D <0x80280000>;',
-+            'entry =3D <0x80280000>;',
-+            'default =3D "conf";',
-+            'loadables =3D "atf", "tee", "uboot";',
-+            'fdt =3D "fdt";'
-+        ]
-+
-+        with open(fitimage_its_path) as its_file:
-+            field_index =3D 0
-+            for line in its_file:
-+                if field_index =3D=3D len(its_field_check):
-+                    break
-+                if its_field_check[field_index] in line:
-+                    field_index +=3D1
-+
-+        if field_index !=3D len(its_field_check): # if its equal, the test=
- passed
-+            self.assertTrue(field_index =3D=3D len(its_field_check),
-+                "Fields in Image Tree Source File %s did not match, error =
-in finding %s"
-+                % (fitimage_its_path, its_field_check[field_index]))
-+
-+
-+    def test_sign_standalone_uboot_atf_tee_fit_image(self):
-+        """
-+        Summary:     Check if U-Boot FIT image and Image Tree Source (its)=
- are
-+                     created and signed correctly for the scenario where o=
-nly
-+                     the U-Boot proper fitImage is being created and signe=
-d.
-+        Expected:    1. Create atf and tee dummy images
-+                     2. U-Boot its and FIT image are built successfully
-+                     3. Scanning the its file indicates signing is enabled
-+                        as requested by SPL_SIGN_ENABLE (using keys genera=
-ted
-+                        via UBOOT_FIT_GENERATE_KEYS)
-+                     4. Dumping the FIT image indicates signature values
-+                        are present
-+                     5. Examination of the do_uboot_assemble_fitimage
-+                     runfile/logfile indicate that UBOOT_MKIMAGE, UBOOT_MK=
-IMAGE_SIGN
-+                     and SPL_MKIMAGE_SIGN_ARGS are working as expected.
-+                Product:     oe-core
-+                Author:      Jamin Lin <jamin_lin@aspeedtech.com>
-+        """
-+        a_comment =3D "a smart U-Boot ATF TEE comment"
-+        config =3D """
-+# There's no U-boot deconfig with CONFIG_FIT_SIGNATURE yet, so we need at
-+# least CONFIG_SPL_LOAD_FIT and CONFIG_SPL_OF_CONTROL set
-+MACHINE =3D "qemuarm"
-+UBOOT_MACHINE =3D "am57xx_evm_defconfig"
-+SPL_BINARY =3D "MLO"
-+# The kernel-fitimage class is a dependency even if we're only
-+# creating/signing the U-Boot fitImage
-+KERNEL_CLASSES =3D " kernel-fitimage"
-+# Enable creation and signing of the U-Boot fitImage
-+UBOOT_FITIMAGE_ENABLE =3D "1"
-+SPL_SIGN_ENABLE =3D "1"
-+SPL_SIGN_KEYNAME =3D "spl-oe-selftest"
-+SPL_SIGN_KEYDIR =3D "${TOPDIR}/signing-keys"
-+UBOOT_DTB_BINARY =3D "u-boot.dtb"
-+UBOOT_ENTRYPOINT  =3D "0x80000000"
-+UBOOT_LOADADDRESS =3D "0x80000000"
-+UBOOT_ARCH =3D "arm"
-+SPL_MKIMAGE_DTCOPTS =3D "-I dts -O dtb -p 2000"
-+SPL_MKIMAGE_SIGN_ARGS =3D "-c '%s'"
-+UBOOT_EXTLINUX =3D "0"
-+UBOOT_FIT_GENERATE_KEYS =3D "1"
-+UBOOT_FIT_HASH_ALG =3D "sha256"
-+
-+# Enable creation of the TEE fitImage
-+UBOOT_FIT_TEE =3D "1"
-+
-+# TEE fitImage properties
-+UBOOT_FIT_TEE_IMAGE =3D "${TOPDIR}/tee-dummy.bin"
-+UBOOT_FIT_TEE_LOADADDRESS =3D "0x80180000"
-+UBOOT_FIT_TEE_ENTRYPOINT =3D "0x80180000"
-+
-+# Enable creation of the ATF fitImage
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE =3D "1"
-+
-+# ATF fitImage properties
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_IMAGE =3D "${TOPDIR}/atf-dummy.bin"
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_LOADADDRESS =3D "0x80280000"
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_ENTRYPOINT =3D "0x80280000"
-+""" % a_comment
-+
-+        self.write_config(config)
-+
-+        # Create an ATF dummy image
-+        atf_dummy_image =3D os.path.join(self.builddir, "atf-dummy.bin")
-+        cmd =3D 'dd if=3D/dev/random of=3D%s bs=3D1k count=3D64' % (atf_du=
-mmy_image)
-+        result =3D runCmd(cmd)
-+        self.logger.debug("%s\nreturned: %s\n%s", cmd, str(result.status),=
- result.output)
-+
-+        # Create a TEE dummy image
-+        tee_dummy_image =3D os.path.join(self.builddir, "tee-dummy.bin")
-+        cmd =3D 'dd if=3D/dev/random of=3D%s bs=3D1k count=3D64' % (tee_du=
-mmy_image)
-+        result =3D runCmd(cmd)
-+        self.logger.debug("%s\nreturned: %s\n%s", cmd, str(result.status),=
- result.output)
-+
-+        # The U-Boot fitImage is created as part of the U-Boot recipe
-+        bitbake("virtual/bootloader")
-+
-+        deploy_dir_image =3D get_bb_var('DEPLOY_DIR_IMAGE')
-+        machine =3D get_bb_var('MACHINE')
-+        fitimage_its_path =3D os.path.join(deploy_dir_image,
-+            "u-boot-its-%s" % (machine,))
-+        fitimage_path =3D os.path.join(deploy_dir_image,
-+            "u-boot-fitImage-%s" % (machine,))
-+
-+        self.assertExists(fitimage_its_path, "%s image tree source doesn't=
- exist" % (fitimage_its_path))
-+        self.assertExists(fitimage_path, "%s FIT image doesn't exist" % (f=
-itimage_path))
-+
-+        req_itspaths =3D [
-+            ['/', 'images', 'uboot'],
-+            ['/', 'images', 'uboot', 'signature'],
-+            ['/', 'images', 'fdt'],
-+            ['/', 'images', 'fdt', 'signature'],
-+            ['/', 'images', 'tee'],
-+            ['/', 'images', 'tee', 'signature'],
-+            ['/', 'images', 'atf'],
-+            ['/', 'images', 'atf', 'signature'],
-+        ]
-+
-+        itspath =3D []
-+        itspaths =3D []
-+        linect =3D 0
-+        sigs =3D {}
-+        with open(fitimage_its_path) as its_file:
-+            linect +=3D 1
-+            for line in its_file:
-+                line =3D line.strip()
-+                if line.endswith('};'):
-+                    itspath.pop()
-+                elif line.endswith('{'):
-+                    itspath.append(line[:-1].strip())
-+                    itspaths.append(itspath[:])
-+                elif itspath and itspath[-1] =3D=3D 'signature':
-+                    itsdotpath =3D '.'.join(itspath)
-+                    if not itsdotpath in sigs:
-+                        sigs[itsdotpath] =3D {}
-+                    if not '=3D' in line or not line.endswith(';'):
-+                        self.fail('Unexpected formatting in %s sigs sectio=
-n line %d:%s' % (fitimage_its_path, linect, line))
-+                    key, value =3D line.split('=3D', 1)
-+                    sigs[itsdotpath][key.rstrip()] =3D value.lstrip().rstr=
-ip(';')
-+
-+        for reqpath in req_itspaths:
-+            if not reqpath in itspaths:
-+                self.fail('Missing section in its file: %s' % reqpath)
-+
-+        reqsigvalues_image =3D {
-+            'algo': '"sha256,rsa2048"',
-+            'key-name-hint': '"spl-oe-selftest"',
-+        }
-+
-+        for itspath, values in sigs.items():
-+            reqsigvalues =3D reqsigvalues_image
-+            for reqkey, reqvalue in reqsigvalues.items():
-+                value =3D values.get(reqkey, None)
-+                if value is None:
-+                    self.fail('Missing key "%s" in its file signature sect=
-ion %s' % (reqkey, itspath))
-+                self.assertEqual(value, reqvalue)
-+
-+        # Dump the image to see if it really got signed
-+        uboot_tools_bindir =3D self._setup_uboot_tools_native()
-+        dumpimage_result =3D self._run_dumpimage(fitimage_path, uboot_tool=
-s_bindir)
-+        in_signed =3D None
-+        signed_sections =3D {}
-+        for line in dumpimage_result.output.splitlines():
-+            if line.startswith((' Image')):
-+                in_signed =3D re.search(r'\((.*)\)', line).groups()[0]
-+            elif re.match(' \w', line):
-+                in_signed =3D None
-+            elif in_signed:
-+                if not in_signed in signed_sections:
-+                    signed_sections[in_signed] =3D {}
-+                key, value =3D line.split(':', 1)
-+                signed_sections[in_signed][key.strip()] =3D value.strip()
-+        self.assertIn('uboot', signed_sections)
-+        self.assertIn('fdt', signed_sections)
-+        self.assertIn('tee', signed_sections)
-+        self.assertIn('atf', signed_sections)
-+        for signed_section, values in signed_sections.items():
-+            value =3D values.get('Sign algo', None)
-+            self.assertEqual(value, 'sha256,rsa2048:spl-oe-selftest', 'Sig=
-nature algorithm for %s not expected value' % signed_section)
-+            value =3D values.get('Sign value', None)
-+            self.assertEqual(len(value), 512, 'Signature value for section=
- %s not expected length' % signed_section)
-+
-+        # Check for SPL_MKIMAGE_SIGN_ARGS
-+        # Looks like mkimage supports to add a comment but does not suppor=
-t to read it back.
-+        found_comments =3D FitImageTests._find_string_in_bin_file(fitimage=
-_path, a_comment)
-+        self.assertEqual(found_comments, 4, "Expected 4 signed and comment=
-ed section in the fitImage.")
-+
-+        # Verify the signature
-+        self._verify_fit_image_signature(uboot_tools_bindir, fitimage_path=
-,
-+                                         os.path.join(deploy_dir_image, 'u=
--boot-spl.dtb'))
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/3/builds/1045/ste=
+ps/12/logs/stdio
+
+Can you have a look at this issue please?
+
 --=20
-2.25.1
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
