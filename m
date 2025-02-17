@@ -1,122 +1,150 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F599C021A0
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 11:17:19 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.48816.1739791032879342642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4292C021AA
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 12:43:59 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.50399.1739796231797356055
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 03:17:13 -0800
+ Mon, 17 Feb 2025 04:43:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QNTzVy/v;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30613802a04so43678251fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 03:17:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DmoYZ5CS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38f3ee8a119so672683f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 04:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739791031; x=1740395831; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1739796230; x=1740401030; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Lt+LMXpXljgDH0Mx2YmcgGYemqtzP53SgZpun34ll94=;
-        b=QNTzVy/voB2xQiol/XAxl9sVIIlCbc8IJPHLGVvt0+f75nDu9IkOuUtAFl1UmS1cC9
-         vWxCQhs6Mg4xFuOztAIufVxVr1MLFyGshnnDgZLUSGtWjcP5iZkgYU2cyHOHHIeyd+Px
-         QTWyziPIGB/6RTHDMuzbha2fyRLjwPENw3AJH0ykjfR1Gv5Rt6807mYgi2PqPmkg5ddq
-         kPh+tBe9MWNPYGQFwNF1zDVqX/cdYCjOJu/zi+OE2WIOjGJtolZwTs/rsPT4eT8gs6AU
-         JpO56zFzSOPOgeP9rQzC+yy1NCGGRv0EwGDmCnawY/iLF8b57iFXd4q/II7xR/oaUqCk
-         Wr0A==
+        bh=pnbThpu2FgeXbKCDl/0h2brJ3hIkwTpNk/p0MnXuA3I=;
+        b=DmoYZ5CSOeNQ7B9U+zdRXg4d5OHYwmKQ2SQalk/em3hrZftoR0m8dXoJRqwd/Aww9y
+         RtatNmNH+JBSBbnxJfkbWQYbtMQGAY6Qx9PmCwfnJCeY6pcr5dkh/RDQFw8eOkZ3utnF
+         dlF7+JoUyJTfyIZRQtbEFt5xoUWcMhVhjerGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739791031; x=1740395831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lt+LMXpXljgDH0Mx2YmcgGYemqtzP53SgZpun34ll94=;
-        b=sWJlyu36cj8+4iYEXT17JMnJXFLaMzhNXlLjjFNzlT3g5zU9pyI8MIrW0X8KuTL3lV
-         jdL8pvhPoklXniM4E4LKhfvXHJJjWZJAdBZePIbZU7CuXRbhU/fqyCRic7zZdro3KroI
-         VJOu0u4Ps9PD35H6jzXm/mgGATrORUSwP22UTxtTYbHepuc+2Xnfl5XZaUlge0GJXzXy
-         qtuPrATTT9RH7iuf4Q2t6OAjwnb07d55rTmDGqTK6LMzG/u7oYfOOp4BEI1z7GKZzKDf
-         m9MKUXDARO3oizYg4YAo04GC0YH5DZrcInLpVag0PNbXCXS3wb6CXR3KeKBNLQlYYAfH
-         jt9A==
-X-Gm-Message-State: AOJu0YzoweGVMuIoZC8x4MSxbKBGJwgBvXwXa+s1jdL92AXvXWq18bBx
-	7R/c8cVaurnhqqjHkcmfMpxqrK1CcQwQVqxCUgTNwgVUpa9iJ5ZxObTc9DnBJ7sbEyOFCPqXvuv
-	EUFXLx7QPk4QG4O5a17MwruIBAd8=
-X-Gm-Gg: ASbGncvCz9yDf9Qex7WkJmQwMRGq1rmEV54H2xiIPCZCTGZ6UDMa12i0WGMd1BNVbA4
-	59GtnM1hWVPbBBr5xVoyBSATnOmwRkSiBGpIbbu0buxEMT6SiVaPzg1s3Oz6TKQ7iwF+LUF+SP8
-	8P6h0=
-X-Google-Smtp-Source: AGHT+IHNbfkElW85Oc4YKMmwHtMvFSLo0l+TDLlC96DKqTNY/40o7X9+oSQWjipbXAv45KPvjkvqzw6lF2cljsDmWX4=
-X-Received: by 2002:a2e:914c:0:b0:308:f75f:446 with SMTP id
- 38308e7fff4ca-30927afe1d1mr24353101fa.31.1739791030410; Mon, 17 Feb 2025
- 03:17:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20250215165545.1929-1-alex.kiernan@gmail.com> <bbf0cbf2-b188-402e-83d2-f3e6f8dfd300@cherry.de>
-In-Reply-To: <bbf0cbf2-b188-402e-83d2-f3e6f8dfd300@cherry.de>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 17 Feb 2025 11:16:59 +0000
-X-Gm-Features: AWEUYZkBA5KUJLIcURE6Kgu0BsK4nfMroXzO32mY-JizS-THfY6mjL_nc9xD7ds
-Message-ID: <CAO5Uq5R6abpgBoGMnatNthEThR0_GAqP+Q+etOurUT_9jLfkgw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2] packagegroup-base: Add option to set zeroconf provider
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1739796230; x=1740401030;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pnbThpu2FgeXbKCDl/0h2brJ3hIkwTpNk/p0MnXuA3I=;
+        b=aOiehSDB0pORoiusFScUI7oHf9vBaEK9zuKfcCeX1V5u7EiqbFzYEvKwKxFBwyoNBR
+         B7cMyxYTl5tNadOJjHd/OlofQjTyoKTKf5fs0WnysKA57qO8v7IbegIIZPe3rIx8UEA8
+         NwEOKhf54rkXMb6NV3g8qh7D/toxYB/14GPFN0O5/HdE4OUMIZaMyQfhmCxm82yBGkw4
+         kaUQGDhZJANbWMwb55WTTHHHT87h0X53zXyLB0/Y9bt1RrWbk6caG3TWuFabC+Mw479k
+         qKaWBXFlmg31IQPY4OTRYG++7BrR0qI20Ug5VA4fNH9egL6gt0EZTCnbAfTrrm+MG+zb
+         xnIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWc6leh+GiZHbe2ELaFQjY2A3E661X8E6PEcSb1YAT5ZHTdYSgAo/AShCyVWfnFrz6rz2aBJdW7nA+O5ivKZsOFsQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxGAn+S3RMKXTM7/BEbcOVanLamgtI/MTOiD1+YX1eN6RJwr3iI
+	vJ/ZCBxobyFpyppYkw5l2G+n0l+MlEr/UkuqyoQtGFLm3BGOkoIQpgYzvPIV4EU=
+X-Gm-Gg: ASbGncunhAEbe2LHrQtFz93gT/ss75pm/lubt3VlP0p3KxWN5CmUmQaLsc82VbNXCZP
+	Gcu+ShwjWuZzLjvxWqyWqZhfQdyGhO4QAtMFcUAkGisTUb0AHbFXQMhQf6/OcXbGT429sqsqu5V
+	YzsANEO0uLZTjYhR6nytAz3eP/w4hw8B7WqQ78IL/8Ie1EKuWrWhfQnvusYTjSXcOzXyKzMXdPx
+	kkENkb1wKON3eGueAM+529AiF7spIkQR6drAHOeBPHABE/43tdLSJkgXM81l2HE9cNbGcJv8fcx
+	Sjb5kkqyPOcEtnWNd1CKBqw1Jfe55y6IHe/rmut3xzlcfnuy0pFJsPzVz+C4OEdEpdjO8n94n8q
+	VDYA3
+X-Google-Smtp-Source: AGHT+IGWMAV5WJUBi1rUZcIUO0HOPVVYgMIjDntnPXz6gAiMxCleybYHkaWy7me6JX2SKKtqzrm6/A==
+X-Received: by 2002:a05:6000:1f87:b0:38f:23f4:2d7a with SMTP id ffacd0b85a97d-38f33f43751mr9181376f8f.40.1739796230203;
+        Mon, 17 Feb 2025 04:43:50 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:12f2:fcaa:2c32:45fc? ([2001:8b0:aba:5f3c:12f2:fcaa:2c32:45fc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258fc7ecsm12022251f8f.49.2025.02.17.04.43.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 04:43:49 -0800 (PST)
+Message-ID: <d30c619392f62f2d40320b01da5ca95369f3e7c2.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org, Bruce Ashfield	
+ <bruce.ashfield@gmail.com>, bitbake-devel
+ <bitbake-devel@lists.openembedded.org>
+Date: Mon, 17 Feb 2025 12:43:48 +0000
+In-Reply-To: <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
+References: 
+	<4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
+	 <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 11:17:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211539
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 12:43:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211540
 
-On Mon, Feb 17, 2025 at 10:32=E2=80=AFAM Quentin Schulz
-<quentin.schulz@cherry.de> wrote:
->
-> Hi Alex,
->
-> On 2/15/25 5:55 PM, Alex Kiernan via lists.openembedded.org wrote:
-> > avahi, systemd-resolved and mDNSResponder (in meta-networking) can all
-> > provide Zeroconf services. Add a `ZEROCONF_DAEMON` option to select
-> > which of these will provide service via packagegroup-base-zeroconf.
-> >
->
-> If I'm not mistaken, this seems to be fitting RPROVIDES usage?
->
+On Mon, 2025-02-17 at 12:00 +0100, Stefan Herbrechtsmeier wrote:
+> =C2=A0Am 13.02.2025 um 11:43 schrieb Richard Purdie via lists.openembedde=
+d.org:
+> =C2=A0
+> > e) add the ability to add custom hooks in the fetch process to
+> > handle
+> > the cases of needing to alter the flow for patching the components
+> > list
+> > =C2=A0
+> I fear this isn't easy possible and we have a design problem. Bitbake
+> and oe-core assume that a patch doesn't influence the fetch and that
+> the SRC_URI contains all fetched sources. Many code use the Fetch
+> class or the SRC_URI direct and doesn't expect recursive implicit
+> URIs of gitsm. In reality the SRC_URI describe the given URIs only
+> and doesn't contain the additional implicit URIs. The task flow
+> applies patches after the unpack and prevent patches to the gitsm. In
+> reality a patch could influence the implicit URIs and isn't
+> independent.
+>=20
+> I would recommend to keep the patching outside of bitbake and instead
+> handle the implicit URIs inside oe-core. We could write the implicit
+> URIs into files in the work directory and migrate the scattered
+> direct users of the SRC_URI / Fetch class to a common oe-core
+> function. This functions returns the given URIs and optional any
+> additional implicit URIs. This allows the usage of the task
+> dependencies to ensure that the implicit URIs are resolved before
+> use.
+>=20
+> The package manager lock file needs a single unpack and patch step
+> whereas the gitsm needs a recursive unpack and patch of every
+> successive gitsm. This makes it impossible to use additional tasks.
+> We could add the resolve of the implicit URIs to the fetch task to
+> support recursive resolve (gitsm).
+> =C2=A0
+> 1. download SRC_URIs
+> 2. exit if no URI is marked as unresolved
+> 3. unpack unresolved URIs
+> 4. apply associated patches
+> 5. resolve URIs
+> 6. goto 2=20
+> =C2=A0
+> This will eliminate the need for the partial implicit URI and gitsm
+> support in bitbake and makes the fetcher code simpler. The patching
+> could remain in oe-core and patches could be applied to gitsm and
+> package manager lock files. Additionally we remove code duplication
+> and simplify future changes to the SRC_URI determination.
+>=20
+> It will add an indirection for the SRC_URI but the current code
+> already shows that this makes problems. Only the archiver class uses
+> the expanded_urldata function and all other classes including the
+> spdx class ignore the implicit SRC_URIs.
 
-I guess I'm guilty of copying what was there (WIRELESS_DAEMON)
+I'm a bit worried we're getting caught up by the terminology. We don't
+necessarily have to "patch" the component list so much as allow
+something like a function to hook and adjust things. That then removes
+the need for it to be a specific task.
 
-> What if we had something like
->
-> RPROVIDES:${PN}-resolved +=3D "zeroconf-daemon"
->
-> in the systemd recipe
->
-> RPROVIDES:${PN}-libnss-mdns +=3D "zeroconf-daemon"
->
-> in the mdns recipe and
->
+I'm also not sure that drawing gitsm into this is a great idea when it
+is effectively already working  quite well. I appreciate the desire to
+have neat abstractions applying accross everything equally but I'm not
+sure we can achieve that with the level of usability we need and I'd
+rather improve usability at the cost of the inclusion of gitsm, which
+is the most functional fetcher we currently have in this group.
 
-This would be:
+I will repeat again that I do strongly feel that a strong API in
+bitbake is going to lead to an overall better design that something
+bolted onto the fetcher in OE-Core.
 
-RPROVIDES:${PN} +=3D "zeroconf-daemon"
+Cheers,
 
-> RPROVIDES:${PN}-daemon +=3D "zeroconf-daemon"
->
-> in the avahi-libnss-mdns recipe?
->
+Richard
 
-And the base avahi recipe here
 
-> and then we simply RDEPENDS on zeroconf-daemon?
->
-> Does that work (haven't tested myself)? What do you think?
->
 
-And then selection via a PREFERRED_RPROVIDER:zeroconf-daemon =3D "..."
 
-I guess I think it should work, though my concern is the interaction
-between the daemon and the nss plugin, which is how I ended up down
-this rabbit hole in the first place!
-
-We seem to have very little usage of RPROVIDES (other than as a
-migration mechanism) and PREFERRED_RPROVIDER in general.
-
---=20
-Alex Kiernan
 
