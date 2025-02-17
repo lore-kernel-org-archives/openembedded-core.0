@@ -2,43 +2,40 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B639C021A0
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F4BC021A4
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:56:18 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.46370.1739778615321264129
+ by mx.groups.io with SMTP id smtpd.web11.46431.1739778972856895645
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 23:50:15 -0800
+ Sun, 16 Feb 2025 23:56:13 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4143913a06=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H6Dpni026892
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:14 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44thw91nrs-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H5rYTk030500
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:56:12 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44thw91nw5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:14 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:56:11 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 16 Feb 2025 23:50:13 -0800
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:50:13 -0800
+ 15.1.2507.43; Sun, 16 Feb 2025 23:56:10 -0800
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:56:10 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V2 2/3] gpgme: upgrade 1.24.1 -> 1.24.2
-Date: Sun, 16 Feb 2025 23:50:12 -0800
-Message-ID: <20250217075012.3575502-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1824ED7CD63D7C91.31881@lists.openembedded.org>
-References: <1824ED7CD63D7C91.31881@lists.openembedded.org>
+Subject: [scarthgap][PATCH 1/2] python3-setuptools-scm: add subprocess timeout control env var
+Date: Mon, 17 Feb 2025 15:56:08 +0800
+Message-ID: <20250217075609.255086-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=CZzy5Krl c=1 sm=1 tr=0 ts=67b2ea36 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=gIqIzurSVVm03vCh77kA:9 a=Ohuo-sdro4PwUcRb:21
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: z4BuzThGylY9hAbBjadjMQmTnAmAABDo
-X-Proofpoint-ORIG-GUID: z4BuzThGylY9hAbBjadjMQmTnAmAABDo
+X-Authority-Analysis: v=2.4 cv=CZzy5Krl c=1 sm=1 tr=0 ts=67b2eb9b cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=G7_6LV9d0GMRhNnwkqcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: GZg4fel3b9PXEjRtrIM2SI7yWtcx7qhd
+X-Proofpoint-ORIG-GUID: GZg4fel3b9PXEjRtrIM2SI7yWtcx7qhd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-17_03,2025-02-13_01,2024-11-22_01
@@ -47,175 +44,119 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 imposto
  mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 mlxlogscore=999
  spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
- definitions=main-2502170067
+ definitions=main-2502170069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211524
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:56:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211525
+
+Backport patch from upstream to add subprocess timeout control env var
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...vert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch | 2 +-
- .../gpgme/0001-autogen.sh-remove-unknown-in-version.patch   | 2 +-
- meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch       | 6 +++---
- .../0001-posix-io.c-Use-off_t-instead-of-off64_t.patch      | 2 +-
- .../gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch  | 2 +-
- ...gme-lang-python-gpg-error-config-should-not-be-use.patch | 4 ++--
- .../gpgme/gpgme/0003-Correctly-install-python-modules.patch | 4 ++--
- ...gme-config-skip-all-lib-or-usr-lib-directories-in-.patch | 2 +-
- .../gpgme/gpgme/0006-fix-build-path-issue.patch             | 4 ++--
- .../gpgme/{gpgme_1.24.1.bb => gpgme_1.24.2.bb}              | 2 +-
- 10 files changed, 15 insertions(+), 15 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_1.24.1.bb => gpgme_1.24.2.bb} (97%)
+ .../0001-fix-957-add-subprocess-timeout.patch | 78 +++++++++++++++++++
+ .../python/python3-setuptools-scm_8.0.4.bb    |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools-scm/0001-fix-957-add-subprocess-timeout.patch
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-index e6e86dfd77..2a906a6c73 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-@@ -1,4 +1,4 @@
--From b12b01239909b6fb41adc64d3c0ed32795554369 Mon Sep 17 00:00:00 2001
-+From 95d0bae453b2b5a7d25b92d99565d27407fffa1b Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 14:18:04 +0800
- Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-index af97f11430..890909dd5e 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-@@ -1,4 +1,4 @@
--From 1d0fa519ef017aef4821af49c59bad119e7f0d66 Mon Sep 17 00:00:00 2001
-+From 0bb7fddb6a768bbc46695de4c6e0256a3580ccbb Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 26 Nov 2024 23:23:42 -0800
- Subject: [PATCH] autogen.sh: remove '-unknown' in version
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-index 59f98103d4..9d0b4b282b 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-@@ -1,4 +1,4 @@
--From 108461f6c50b57ba73970dc977e7d4e9a02624df Mon Sep 17 00:00:00 2001
-+From 447fd26a43f40ccb071cd19198ee43fdfce87e3a Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 26 Nov 2024 23:04:52 -0800
- Subject: [PATCH] pkgconfig
-@@ -27,10 +27,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  create mode 100644 src/gpgme-pthread.pc.in
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm/0001-fix-957-add-subprocess-timeout.patch b/meta/recipes-devtools/python/python3-setuptools-scm/0001-fix-957-add-subprocess-timeout.patch
+new file mode 100644
+index 0000000000..1af1ea0334
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools-scm/0001-fix-957-add-subprocess-timeout.patch
+@@ -0,0 +1,78 @@
++From 2ac4f084def6db53b454b967b062bed2f945aa03 Mon Sep 17 00:00:00 2001
++From: Ronny Pfannschmidt <opensource@ronnypfannschmidt.de>
++Date: Fri, 5 Jan 2024 13:34:37 +0100
++Subject: [PATCH] fix #957 - add subprocess timeout
++
++Upstream-Status: Backport [https://github.com/pypa/setuptools-scm/commit/2ac4f084def6db53b454b967b062bed2f945aa03]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ changelog.d/20240105_133254_subprocess_timeout_var.md |  4 ++++
++ docs/overrides.md                                     |  7 +++++++
++ src/setuptools_scm/_run_cmd.py                        | 11 +++++++++--
++ 3 files changed, 20 insertions(+), 2 deletions(-)
++ create mode 100644 changelog.d/20240105_133254_subprocess_timeout_var.md
++
++diff --git a/changelog.d/20240105_133254_subprocess_timeout_var.md b/changelog.d/20240105_133254_subprocess_timeout_var.md
++new file mode 100644
++index 0000000..78ecab2
++--- /dev/null
+++++ b/changelog.d/20240105_133254_subprocess_timeout_var.md
++@@ -0,0 +1,4 @@
+++
+++### Changed
+++
+++- fix #957 - add subprocess timeout control env var
++diff --git a/docs/overrides.md b/docs/overrides.md
++index 5114a84..22d285e 100644
++--- a/docs/overrides.md
+++++ b/docs/overrides.md
++@@ -14,3 +14,10 @@ where the dist name normalization follows adapted PEP 503 semantics.
++ 
++ setuptools_scm parses the environment variable `SETUPTOOLS_SCM_OVERRIDES_FOR_${NORMALIZED_DIST_NAME}`
++ as a toml inline map to override the configuration data from `pyproject.toml`.
+++
+++## subprocess timeouts
+++
+++The environment variable `SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT` allows to override the subprocess timeout.
+++The default is 40 seconds and should work for most needs. However, users with git lfs + windows reported
+++situations where this was not enough.
+++
++diff --git a/src/setuptools_scm/_run_cmd.py b/src/setuptools_scm/_run_cmd.py
++index 3dfbda5..a64f904 100644
++--- a/src/setuptools_scm/_run_cmd.py
+++++ b/src/setuptools_scm/_run_cmd.py
++@@ -25,7 +25,12 @@ else:
++ # unfortunately github CI for windows sometimes needs
++ # up to 30 seconds to start a command
++ 
++-BROKEN_TIMEOUT: Final[int] = 40
+++
+++def _get_timeout(env: Mapping[str, str]) -> int:
+++    return int(env.get("SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT") or 40)
+++
+++
+++BROKEN_TIMEOUT: Final[int] = _get_timeout(os.environ)
++ 
++ log = _log.log.getChild("run_cmd")
++ 
++@@ -132,7 +137,7 @@ def run(
++     *,
++     strip: bool = True,
++     trace: bool = True,
++-    timeout: int = BROKEN_TIMEOUT,
+++    timeout: int | None = None,
++     check: bool = False,
++ ) -> CompletedProcess:
++     if isinstance(cmd, str):
++@@ -141,6 +146,8 @@ def run(
++         cmd = [os.fspath(x) for x in cmd]
++     cmd_4_trace = " ".join(map(_unsafe_quote_for_display, cmd))
++     log.debug("at %s\n    $ %s ", cwd, cmd_4_trace)
+++    if timeout is None:
+++        timeout = BROKEN_TIMEOUT
++     res = subprocess.run(
++         cmd,
++         capture_output=True,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
+index 67ac407c38..62a15f9d7f 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
+@@ -12,6 +12,7 @@ inherit pypi python_setuptools_build_meta
  
- diff --git a/configure.ac b/configure.ac
--index fe02bdf..6f33020 100644
-+index c34f700..4eddc3d 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1179,6 +1179,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-+@@ -1176,6 +1176,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-                  src/gpgme-glib.pc
-                  src/gpgme.h)
-  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-index 9845b02969..932fb9c962 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-@@ -1,4 +1,4 @@
--From 13b955f66615caf34d19e86d97bcfe841d60d58c Mon Sep 17 00:00:00 2001
-+From 417036051c84b02fe43f162ee378278a44636451 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Dec 2022 08:44:13 -0800
- Subject: [PATCH] posix-io.c: Use off_t instead of off64_t
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-index f174e24ebc..ed2edabd63 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-@@ -1,4 +1,4 @@
--From 2592a1d97c66f8bff4bae095b14cb774de3e80c9 Mon Sep 17 00:00:00 2001
-+From aaed03b76505b1feaeeb5a4a3c6bdcc7dd089f01 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Jul 2021 12:33:13 -0700
- Subject: [PATCH] use closefrom() on linux and glibc 2.34+
-diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-index 373660be94..3a1837e857 100644
---- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-@@ -1,4 +1,4 @@
--From a956d17d2aa7fea53bab97715a8f98858e9b4a5c Mon Sep 17 00:00:00 2001
-+From 145adf290571b7dd47b7fca57b11349af0b94e74 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 14:30:36 +0800
- Subject: [PATCH] gpgme/lang/python: gpg-error-config should not be used
-@@ -19,7 +19,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
+ SRC_URI += " \
+     file://0001-fix-timeout-while-using-big-git-repo.patch \
++    file://0001-fix-957-add-subprocess-timeout.patch \
+ "
  
- diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
--index d6f537e..695c02e 100755
-+index 1ddfbe7..d2fa4f0 100755
- --- a/lang/python/setup.py.in
- +++ b/lang/python/setup.py.in
- @@ -173,9 +173,8 @@ class BuildExtFirstHack(build):
-diff --git a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-index 004e587518..7b2831ba4f 100644
---- a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-@@ -1,4 +1,4 @@
--From 548d84c703a747c41a02e1d0ff6ad4c193a34a5c Mon Sep 17 00:00:00 2001
-+From d8e884d1fa8c35ce68e94a0668548580cf5ba2d3 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 30 Jan 2018 15:28:49 +0800
- Subject: [PATCH] Correctly install python modules
-@@ -17,7 +17,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
--index a6fd639..136e979 100644
-+index 1aa330f..d1d5c63 100644
- --- a/lang/python/Makefile.am
- +++ b/lang/python/Makefile.am
- @@ -97,6 +97,7 @@ install-exec-local:
-diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-index 120cb64b98..c021e48be9 100644
---- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-@@ -1,4 +1,4 @@
--From 59b2e28b34f332d12935af41dbe3140f5842e8d1 Mon Sep 17 00:00:00 2001
-+From 9ea685f1b898ee703b85b705c35b9cbd77cca17f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 13 Apr 2017 16:40:27 +0300
- Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
-diff --git a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
-index 00449e3259..d64168b4fd 100644
---- a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
-@@ -1,4 +1,4 @@
--From 89a53d8d025fef4626006219f0f686982e215d97 Mon Sep 17 00:00:00 2001
-+From f9f82874048c5eec08e815ff871462184b6d7d6a Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 31 Jan 2018 11:01:09 +0800
- Subject: [PATCH] fix build path issue
-@@ -17,7 +17,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 3 insertions(+), 2 deletions(-)
- 
- diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
--index 136e979..1495982 100644
-+index d1d5c63..148e1b9 100644
- --- a/lang/python/Makefile.am
- +++ b/lang/python/Makefile.am
- @@ -96,8 +96,9 @@ install-exec-local:
-diff --git a/meta/recipes-support/gpgme/gpgme_1.24.1.bb b/meta/recipes-support/gpgme/gpgme_1.24.2.bb
-similarity index 97%
-rename from meta/recipes-support/gpgme/gpgme_1.24.1.bb
-rename to meta/recipes-support/gpgme/gpgme_1.24.2.bb
-index 86ba08c464..bc661429e7 100644
---- a/meta/recipes-support/gpgme/gpgme_1.24.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.24.2.bb
-@@ -29,7 +29,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0001-autogen.sh-remove-unknown-in-version.patch \
-            "
- 
--SRC_URI[sha256sum] = "ea05d0258e71061d61716584ec34cef59330a91340571edc46b78374973ba85f"
-+SRC_URI[sha256sum] = "e11b1a0e361777e9e55f48a03d89096e2abf08c63d84b7017cfe1dce06639581"
- 
- PYTHON_DEPS = "${@bb.utils.contains('LANGUAGES', 'python', 'swig-native', '', d)}"
- 
+ UPSTREAM_CHECK_REGEX = "scm-(?P<pver>.*)\.tar"
 -- 
-2.25.1
+2.34.1
 
 
