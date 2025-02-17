@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8751DC021A9
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 19:22:34 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.1985.1739820152690643814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6800C021A9
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 20:35:24 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.3634.1739824515361858111
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 11:22:33 -0800
+ Mon, 17 Feb 2025 12:35:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=G2qt/TyS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250217192228236d2d70e21d436c56-gzo4ej@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250217192228236d2d70e21d436c56
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=H4dclfZn;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20250217203511a576fe51194e4d70df-smk92t@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250217203511a576fe51194e4d70df
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 17 Feb 2025 20:22:29 +0100
+        Mon, 17 Feb 2025 21:35:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=6f7Oq4AL2c3xcx/6ZBoJYrHBG0NJrU/XevznhW4y95c=;
- b=G2qt/TySUW6GRYeotIfhOQSkLDOByCaxx+liz1BZg1LCcKXHBMfvTn8iThoyGSyuioE1Bg
- FA78pg/icA/jPnYADzG23FxEc1VWb9b04RVXqcKgttA7oEimBgGLyATNYb8zFb2nPIUwiISU
- SzstRaewxrtsbfvnm+XCy11bCwbsPJmTxc3XLYG2w9t2B7Nt6Zoy+VgwHvIpDMtp2FtE4FOB
- IJapTP7xo7/sdkyn5RsRfdFUmqwkikZ7A01Ujxf38j69jLzhqk7TD2OQmvWAvQseC70mCN5v
- /Cebq4hAZyrKrIsd5OZ2o7rawPWaRx7xWVruqj0PUss87zDE3Lqhro3A==;
+ bh=ml/+Mc4j3Z6L6EDWseRF1h0ElfsVAAGETPgTzPjuvN4=;
+ b=H4dclfZn7OofRw0revUmcF189kIX1xL72LcHs8hql0nEBzCN+awJZdJbcoZ7Ea1Km3reLf
+ JNe3zEyeu/xSGOJqalXyhriYoxvYD2tJ+jbn94f9/bZ5mCgtAViE8+35KFdIG7OvmDUfi7PH
+ VEkaAxSgBgS/iwcKBG77mlpkiOPLN4ndWYr3w8nDcHEbDYYRJbSU4w4DbrnwFawKnnSjFATx
+ NBoNJVU43qqqo3DkQhaxjnConFxU/br8sZ1CoXij4Bg34RFb4qLJ0CPFg00p0rukBKJsMv3B
+ mc/A9gziNrlsD+uWHbW53wn4Ega7aRPFRC1nK5i5Z/RYs2j+hzwzUing==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] gnutls: upgrade 3.8.8 -> 3.8.9
-Date: Mon, 17 Feb 2025 20:21:41 +0100
-Message-Id: <20250217192141.1383722-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] gnutls: patch CVE-2024-12243
+Date: Mon, 17 Feb 2025 21:34:25 +0100
+Message-Id: <20250217203425.3659639-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,142 +36,1186 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 19:22:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211552
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 20:35:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211553
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Solves CVE-2024-12243
-
-Refreshed patches
-
-License-Update: multiple changes
-* https://gitlab.com/gnutls/gnutls/-/commit/a8727cdb076287d0a2098ba49d76899b4e70160e
-  COPYING.LESSER updated wording to latest FSF version
-* https://gitlab.com/gnutls/gnutls/-/commit/75f5ea80738156b81de30ae9b482a69cf4e77e9d
-  LICENSE file merged to README.md
-  COPYING and COPYING.LESSERv2 moved to top-level directory
-
-Release notes: https://gitlab.com/gnutls/gnutls/-/blob/3.8.9/NEWS?ref_type=tags
-
-* Version 3.8.9 (released 2025-02-07)
-
-** libgnutls: leancrypto was added as an interim option for PQC
-   The library can now be built with leancrypto instead of liboqs for
-   post-quantum cryptography (PQC), when configured with
-   --with-leancrypto option instead of --with-liboqs.
-
-** libgnutls: Experimental support for ML-DSA signature algorithm
-   The library and certtool now support ML-DSA signature algorithm as
-   defined in FIPS 204 and based on
-   draft-ietf-lamps-dilithium-certificates-04. This feature is
-   currently marked as experimental and can only be enabled when
-   compiled with --with-leancrypto or --with-liboqs.
-   Contributed by David Dudas.
-
-** libgnutls: Support for ML-KEM-1024 key encapsulation mechanism
-   The support for ML-KEM post-quantum key encapsulation mechanisms
-   has been extended to cover ML-KEM-1024, in addition to ML-KEM-768.
-   MLKEM1024 is only offered as SecP384r1MLKEM1024 hybrid as per
-   draft-kwiatkowski-tls-ecdhe-mlkem-03.
-
-** libgnutls: Fix potential DoS in handling certificates with numerous name
-   constraints, as a follow-up of CVE-2024-12133 in libtasn1. The
-   bundled copy of libtasn1 has also been updated to the latest 4.20.0
-   release to complete the fix.  Reported by Bing Shi (#1553).
-   [GNUTLS-SA-2025-02-07, CVSS: medium] [CVE-2024-12243]
-
-** API and ABI modifications:
-GNUTLS_PK_MLDSA44: New enum member of gnutls_pk_algorithm_t
-GNUTLS_PK_MLDSA65: New enum member of gnutls_pk_algorithm_t
-GNUTLS_PK_MLDSA87: New enum member of gnutls_pk_algorithm_t
-GNUTLS_SIGN_MLDSA44: New enum member of gnutls_sign_algorithm_t
-GNUTLS_SIGN_MLDSA65: New enum member of gnutls_sign_algorithm_t
-GNUTLS_SIGN_MLDSA87: New enum member of gnutls_sign_algorithm_t
+Backport following patch to address this CVE:
+https://gitlab.com/gnutls/gnutls/-/commit/4760bc63531e3f5039e70ede91a20e1194410892
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...g-.hmac-file-should-be-excuted-in-target-envi.patch |  2 +-
- .../gnutls/gnutls/Add-ptest-support.patch              | 10 +++++-----
- .../gnutls/{gnutls_3.8.8.bb => gnutls_3.8.9.bb}        |  8 ++++----
- 3 files changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.8.8.bb => gnutls_3.8.9.bb} (91%)
+ .../gnutls/gnutls/CVE-2024-12243.patch        | 1149 +++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb   |    1 +
+ 2 files changed, 1150 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-12243.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-index 59824d35f1..2dccea7859 100644
---- a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-@@ -14,7 +14,7 @@ diff --git a/lib/Makefile.am b/lib/Makefile.am
- index a50d311..193ea19 100644
- --- a/lib/Makefile.am
- +++ b/lib/Makefile.am
--@@ -198,8 +198,7 @@ hmac_file = .libs/.$(gnutls_so).hmac
-+@@ -272,8 +272,7 @@ hmac_file = .libs/.$(gnutls_so).hmac
-  
-  all-local: $(hmac_file)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index 8e4df7b37e..339d3d2f9e 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -15,9 +15,9 @@ diff --git a/Makefile.am b/Makefile.am
- index 843193f..816b09f 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -191,6 +191,9 @@ dist-hook:
-- 	mv ChangeLog $(distdir)
-- 	touch -c $(distdir)/doc/*.html $(distdir)/doc/*.pdf $(distdir)/doc/*.info
-+@@ -194,6 +194,9 @@ dist-hook:
-+ distcheck-hook:
-+ 	@test -d "$(top_srcdir)/po/.reference" || { echo "PO files are not downloaded; run ./bootstrap without --skip-po"; exit 1; }
-  
- +install-ptest:
- +	 $(MAKE) -C tests DESTDIR=$(DESTDIR)/tests $@
-@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
- index 1744813..efb9e34 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1226,6 +1226,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+@@ -1491,6 +1491,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-  
-  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" = "yes")
-  
-@@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
- index 189d068..8430b05 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -668,6 +668,12 @@ SH_LOG_COMPILER = $(SHELL)
-+@@ -678,6 +678,12 @@ SH_LOG_COMPILER = $(SHELL)
-  AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
-  LOG_COMPILER = $(LOG_VALGRIND)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.8.bb b/meta/recipes-support/gnutls/gnutls_3.8.9.bb
-similarity index 91%
-rename from meta/recipes-support/gnutls/gnutls_3.8.8.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.9.bb
-index 26824554ab..f2b7ac7bb8 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.8.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.9.bb
-@@ -10,9 +10,9 @@ LICENSE:${PN}-xx = "LGPL-2.1-or-later"
- LICENSE:${PN}-bin = "GPL-3.0-or-later"
- LICENSE:${PN}-openssl = "GPL-3.0-or-later"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
--                    file://doc/COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
--                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c"
-+LIC_FILES_CHKSUM = "file://README.md;beginline=181;endline=205;md5=e159ff2a6e9cc95141fb0eaff733bba3 \
-+                    file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-+                    file://COPYING.LESSERv2;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
- 
- DEPENDS = "nettle gmp virtual/libiconv libunistring"
- 
-@@ -25,7 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-12243.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-12243.patch
+new file mode 100644
+index 0000000000..a7af87718f
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-12243.patch
+@@ -0,0 +1,1149 @@
++From 4760bc63531e3f5039e70ede91a20e1194410892 Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Mon, 18 Nov 2024 17:23:46 +0900
++Subject: [PATCH] x509: optimize name constraints processing
++
++This switches the representation name constraints from linked lists to
++array lists to optimize the lookup performance from O(n) to O(1), also
++enforces a limit of name constraint checks against subject alternative
++names.
++
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
++
++CVE: CVE-2024-12243
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/4760bc63531e3f5039e70ede91a20e1194410892]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/datum.c                 |   7 +-
++ lib/x509/name_constraints.c | 595 +++++++++++++++++++++---------------
++ lib/x509/x509_ext.c         |  80 +++--
++ lib/x509/x509_ext_int.h     |   5 +
++ lib/x509/x509_int.h         |  21 +-
++ 5 files changed, 399 insertions(+), 309 deletions(-)
++
++diff --git a/lib/datum.c b/lib/datum.c
++index 66e016965..5577c2b4a 100644
++--- a/lib/datum.c
+++++ b/lib/datum.c
++@@ -29,6 +29,7 @@
++ #include "num.h"
++ #include "datum.h"
++ #include "errors.h"
+++#include "intprops.h"
++ 
++ /* On error, @dat is not changed. */
++ int _gnutls_set_datum(gnutls_datum_t *dat, const void *data, size_t data_size)
++@@ -60,7 +61,11 @@ int _gnutls_set_strdatum(gnutls_datum_t *dat, const void *data,
++ 	if (data == NULL)
++ 		return gnutls_assert_val(GNUTLS_E_ILLEGAL_PARAMETER);
++ 
++-	unsigned char *m = gnutls_malloc(data_size + 1);
+++	size_t capacity;
+++	if (!INT_ADD_OK(data_size, 1, &capacity))
+++		return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++
+++	unsigned char *m = gnutls_malloc(capacity);
++ 	if (!m)
++ 		return GNUTLS_E_MEMORY_ERROR;
++ 
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 8327a9d94..3c6e30630 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -33,51 +33,98 @@
++ #include <gnutls/x509-ext.h>
++ #include "x509_b64.h"
++ #include "x509_int.h"
+++#include "x509_ext_int.h"
++ #include <libtasn1.h>
++ 
++ #include "ip.h"
++ #include "ip-in-cidr.h"
+++#include "intprops.h"
+++
+++#define MAX_NC_CHECKS (1 << 20)
+++
+++struct name_constraints_node_st {
+++	unsigned type;
+++	gnutls_datum_t name;
+++};
+++
+++struct name_constraints_node_list_st {
+++	struct name_constraints_node_st **data;
+++	size_t size;
+++	size_t capacity;
+++};
+++
+++struct gnutls_name_constraints_st {
+++	struct name_constraints_node_list_st nodes; /* owns elements */
+++	struct name_constraints_node_list_st permitted; /* borrows elements */
+++	struct name_constraints_node_list_st excluded; /* borrows elements */
+++};
+++
+++static struct name_constraints_node_st *
+++name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
+++			  unsigned char *data, unsigned int size);
+++
+++static int
+++name_constraints_node_list_add(struct name_constraints_node_list_st *list,
+++			       struct name_constraints_node_st *node)
+++{
+++	if (!list->capacity || list->size == list->capacity) {
+++		size_t new_capacity = list->capacity;
+++		struct name_constraints_node_st **new_data;
+++
+++		if (!INT_MULTIPLY_OK(new_capacity, 2, &new_capacity) ||
+++		    !INT_ADD_OK(new_capacity, 1, &new_capacity))
+++			return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
+++		new_data = _gnutls_reallocarray(
+++			list->data, new_capacity,
+++			sizeof(struct name_constraints_node_st *));
+++		if (!new_data)
+++			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++		list->capacity = new_capacity;
+++		list->data = new_data;
+++	}
+++	list->data[list->size++] = node;
+++	return 0;
+++}
++ 
++ // for documentation see the implementation
++-static int
++-name_constraints_intersect_nodes(name_constraints_node_st *nc1,
++-				 name_constraints_node_st *nc2,
++-				 name_constraints_node_st **intersection);
+++static int name_constraints_intersect_nodes(
+++	gnutls_x509_name_constraints_t nc,
+++	const struct name_constraints_node_st *node1,
+++	const struct name_constraints_node_st *node2,
+++	struct name_constraints_node_st **intersection);
++ 
++ /*-
++- * is_nc_empty:
+++ * _gnutls_x509_name_constraints_is_empty:
++  * @nc: name constraints structure
++- * @type: type (gnutls_x509_subject_alt_name_t)
+++ * @type: type (gnutls_x509_subject_alt_name_t or 0)
++  *
++  * Test whether given name constraints structure has any constraints (permitted
++  * or excluded) of a given type. @nc must be allocated (not NULL) before the call.
+++ * If @type is 0, type checking will be skipped.
++  *
++- * Returns: 0 if @nc contains constraints of type @type, 1 otherwise
+++ * Returns: false if @nc contains constraints of type @type, true otherwise
++  -*/
++-static unsigned is_nc_empty(struct gnutls_name_constraints_st *nc,
++-			    unsigned type)
+++bool _gnutls_x509_name_constraints_is_empty(gnutls_x509_name_constraints_t nc,
+++					    unsigned type)
++ {
++-	name_constraints_node_st *t;
+++	if (nc->permitted.size == 0 && nc->excluded.size == 0)
+++		return true;
++ 
++-	if (nc->permitted == NULL && nc->excluded == NULL)
++-		return 1;
+++	if (type == 0)
+++		return false;
++ 
++-	t = nc->permitted;
++-	while (t != NULL) {
++-		if (t->type == type)
++-			return 0;
++-		t = t->next;
+++	for (size_t i = 0; i < nc->permitted.size; i++) {
+++		if (nc->permitted.data[i]->type == type)
+++			return false;
++ 	}
++ 
++-	t = nc->excluded;
++-	while (t != NULL) {
++-		if (t->type == type)
++-			return 0;
++-		t = t->next;
+++	for (size_t i = 0; i < nc->excluded.size; i++) {
+++		if (nc->excluded.data[i]->type == type)
+++			return false;
++ 	}
++ 
++ 	/* no constraint for that type exists */
++-	return 1;
+++	return true;
++ }
++ 
++ /*-
++@@ -115,21 +162,16 @@ static int validate_name_constraints_node(gnutls_x509_subject_alt_name_t type,
++ 	return GNUTLS_E_SUCCESS;
++ }
++ 
++-int _gnutls_extract_name_constraints(asn1_node c2, const char *vstr,
++-				     name_constraints_node_st **_nc)
+++static int extract_name_constraints(gnutls_x509_name_constraints_t nc,
+++				    asn1_node c2, const char *vstr,
+++				    struct name_constraints_node_list_st *nodes)
++ {
++ 	int ret;
++ 	char tmpstr[128];
++ 	unsigned indx;
++ 	gnutls_datum_t tmp = { NULL, 0 };
++ 	unsigned int type;
++-	struct name_constraints_node_st *nc, *prev;
++-
++-	prev = *_nc;
++-	if (prev != NULL) {
++-		while (prev->next != NULL)
++-			prev = prev->next;
++-	}
+++	struct name_constraints_node_st *node;
++ 
++ 	for (indx = 1;; indx++) {
++ 		snprintf(tmpstr, sizeof(tmpstr), "%s.?%u.base", vstr, indx);
++@@ -172,25 +214,19 @@ int _gnutls_extract_name_constraints(asn1_node c2, const char *vstr,
++ 			goto cleanup;
++ 		}
++ 
++-		nc = gnutls_malloc(sizeof(struct name_constraints_node_st));
++-		if (nc == NULL) {
+++		node = name_constraints_node_new(nc, type, tmp.data, tmp.size);
+++		_gnutls_free_datum(&tmp);
+++		if (node == NULL) {
++ 			gnutls_assert();
++ 			ret = GNUTLS_E_MEMORY_ERROR;
++ 			goto cleanup;
++ 		}
++ 
++-		memcpy(&nc->name, &tmp, sizeof(gnutls_datum_t));
++-		nc->type = type;
++-		nc->next = NULL;
++-
++-		if (prev == NULL) {
++-			*_nc = prev = nc;
++-		} else {
++-			prev->next = nc;
++-			prev = nc;
+++		ret = name_constraints_node_list_add(nodes, node);
+++		if (ret < 0) {
+++			gnutls_assert();
+++			goto cleanup;
++ 		}
++-
++-		tmp.data = NULL;
++ 	}
++ 
++ 	assert(ret < 0);
++@@ -205,84 +241,104 @@ cleanup:
++ 	return ret;
++ }
++ 
+++int _gnutls_x509_name_constraints_extract(asn1_node c2,
+++					  const char *permitted_name,
+++					  const char *excluded_name,
+++					  gnutls_x509_name_constraints_t nc)
+++{
+++	int ret;
+++
+++	ret = extract_name_constraints(nc, c2, permitted_name, &nc->permitted);
+++	if (ret < 0)
+++		return gnutls_assert_val(ret);
+++	ret = extract_name_constraints(nc, c2, excluded_name, &nc->excluded);
+++	if (ret < 0)
+++		return gnutls_assert_val(ret);
+++
+++	return ret;
+++}
+++
++ /*-
++- * _gnutls_name_constraints_node_free:
+++ * name_constraints_node_free:
++  * @node: name constraints node
++  *
++- * Deallocate a list of name constraints nodes starting at the given node.
+++ * Deallocate a name constraints node.
++  -*/
++-void _gnutls_name_constraints_node_free(name_constraints_node_st *node)
+++static void name_constraints_node_free(struct name_constraints_node_st *node)
++ {
++-	name_constraints_node_st *next, *t;
++-
++-	t = node;
++-	while (t != NULL) {
++-		next = t->next;
++-		gnutls_free(t->name.data);
++-		gnutls_free(t);
++-		t = next;
+++	if (node) {
+++		gnutls_free(node->name.data);
+++		gnutls_free(node);
++ 	}
++ }
++ 
++ /*-
++  * name_constraints_node_new:
++  * @type: name constraints type to set (gnutls_x509_subject_alt_name_t)
+++ * @nc: a %gnutls_x509_name_constraints_t
++  * @data: name.data to set or NULL
++  * @size: name.size to set
++  *
++  * Allocate a new name constraints node and set its type, name size and name data.
++- * If @data is set to NULL, name data will be an array of \x00 (the length of @size).
++- * The .next pointer is set to NULL.
++  *
++  * Returns: Pointer to newly allocated node or NULL in case of memory error.
++  -*/
++-static name_constraints_node_st *
++-name_constraints_node_new(unsigned type, unsigned char *data, unsigned int size)
+++static struct name_constraints_node_st *
+++name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
+++			  unsigned char *data, unsigned int size)
++ {
++-	name_constraints_node_st *tmp =
++-		gnutls_malloc(sizeof(struct name_constraints_node_st));
+++	struct name_constraints_node_st *tmp;
+++	int ret;
+++
+++	tmp = gnutls_calloc(1, sizeof(struct name_constraints_node_st));
++ 	if (tmp == NULL)
++ 		return NULL;
++ 	tmp->type = type;
++-	tmp->next = NULL;
++-	tmp->name.size = size;
++-	tmp->name.data = NULL;
++-	if (tmp->name.size > 0) {
++-		tmp->name.data = gnutls_malloc(tmp->name.size);
++-		if (tmp->name.data == NULL) {
+++
+++	if (data) {
+++		ret = _gnutls_set_strdatum(&tmp->name, data, size);
+++		if (ret < 0) {
+++			gnutls_assert();
++ 			gnutls_free(tmp);
++ 			return NULL;
++ 		}
++-		if (data != NULL) {
++-			memcpy(tmp->name.data, data, size);
++-		} else {
++-			memset(tmp->name.data, 0, size);
++-		}
++ 	}
+++
+++	ret = name_constraints_node_list_add(&nc->nodes, tmp);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		name_constraints_node_free(tmp);
+++		return NULL;
+++	}
+++
++ 	return tmp;
++ }
++ 
++ /*-
++- * @brief _gnutls_name_constraints_intersect:
++- * @_nc: first name constraints list (permitted)
++- * @_nc2: name constraints list to merge with (permitted)
++- * @_nc_excluded: Corresponding excluded name constraints list
+++ * @brief name_constraints_node_list_intersect:
+++ * @nc: %gnutls_x509_name_constraints_t
+++ * @permitted: first name constraints list (permitted)
+++ * @permitted2: name constraints list to merge with (permitted)
+++ * @excluded: Corresponding excluded name constraints list
++  *
++- * This function finds the intersection of @_nc and @_nc2. The result is placed in @_nc,
++- * the original @_nc is deallocated. @_nc2 is not changed. If necessary, a universal
+++ * This function finds the intersection of @permitted and @permitted2. The result is placed in @permitted,
+++ * the original @permitted is modified. @permitted2 is not changed. If necessary, a universal
++  * excluded name constraint node of the right type is added to the list provided
++- * in @_nc_excluded.
+++ * in @excluded.
++  *
++  * Returns: On success, %GNUTLS_E_SUCCESS (0) is returned, otherwise a negative error value.
++  -*/
++-static int
++-_gnutls_name_constraints_intersect(name_constraints_node_st **_nc,
++-				   name_constraints_node_st *_nc2,
++-				   name_constraints_node_st **_nc_excluded)
+++static int name_constraints_node_list_intersect(
+++	gnutls_x509_name_constraints_t nc,
+++	struct name_constraints_node_list_st *permitted,
+++	const struct name_constraints_node_list_st *permitted2,
+++	struct name_constraints_node_list_st *excluded)
++ {
++-	name_constraints_node_st *nc, *nc2, *t, *tmp, *dest = NULL,
++-						      *prev = NULL;
+++	struct name_constraints_node_st *tmp;
++ 	int ret, type, used;
+++	struct name_constraints_node_list_st removed = { .data = NULL,
+++							 .size = 0,
+++							 .capacity = 0 };
++ 
++ 	/* temporary array to see, if we need to add universal excluded constraints
++ 	 * (see phase 3 for details)
++@@ -291,61 +347,73 @@ _gnutls_name_constraints_intersect(name_constraints_node_st **_nc,
++ 	memset(types_with_empty_intersection, 0,
++ 	       sizeof(types_with_empty_intersection));
++ 
++-	if (*_nc == NULL || _nc2 == NULL)
+++	if (permitted->size == 0 || permitted2->size == 0)
++ 		return 0;
++ 
++ 	/* Phase 1
++-	 * For each name in _NC, if a _NC2 does not contain a name
++-	 * with the same type, preserve the original name.
++-	 * Do this also for node of unknown type (not DNS, email, IP */
++-	t = nc = *_nc;
++-	while (t != NULL) {
++-		name_constraints_node_st *next = t->next;
++-		nc2 = _nc2;
++-		while (nc2 != NULL) {
++-			if (t->type == nc2->type) {
+++	 * For each name in PERMITTED, if a PERMITTED2 does not contain a name
+++	 * with the same type, move the original name to REMOVED.
+++	 * Do this also for node of unknown type (not DNS, email, IP) */
+++	for (size_t i = 0; i < permitted->size;) {
+++		struct name_constraints_node_st *t = permitted->data[i];
+++		const struct name_constraints_node_st *found = NULL;
+++
+++		for (size_t j = 0; j < permitted2->size; j++) {
+++			const struct name_constraints_node_st *t2 =
+++				permitted2->data[j];
+++			if (t->type == t2->type) {
++ 				// check bounds (we will use 't->type' as index)
++-				if (t->type > GNUTLS_SAN_MAX || t->type == 0)
++-					return gnutls_assert_val(
++-						GNUTLS_E_INTERNAL_ERROR);
+++				if (t->type > GNUTLS_SAN_MAX || t->type == 0) {
+++					gnutls_assert();
+++					ret = GNUTLS_E_INTERNAL_ERROR;
+++					goto cleanup;
+++				}
++ 				// note the possibility of empty intersection for this type
++ 				// if we add something to the intersection in phase 2,
++ 				// we will reset this flag back to 0 then
++ 				types_with_empty_intersection[t->type - 1] = 1;
+++				found = t2;
++ 				break;
++ 			}
++-			nc2 = nc2->next;
++ 		}
++-		if (nc2 == NULL || (t->type != GNUTLS_SAN_DNSNAME &&
++-				    t->type != GNUTLS_SAN_RFC822NAME &&
++-				    t->type != GNUTLS_SAN_IPADDRESS)) {
++-			/* move node from NC to DEST */
++-			if (prev != NULL)
++-				prev->next = next;
++-			else
++-				prev = nc = next;
++-			t->next = dest;
++-			dest = t;
++-		} else {
++-			prev = t;
+++
+++		if (found != NULL && (t->type == GNUTLS_SAN_DNSNAME ||
+++				      t->type == GNUTLS_SAN_RFC822NAME ||
+++				      t->type == GNUTLS_SAN_IPADDRESS)) {
+++			/* move node from PERMITTED to REMOVED */
+++			ret = name_constraints_node_list_add(&removed, t);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
+++			}
+++			/* remove node by swapping */
+++			if (i < permitted->size - 1)
+++				permitted->data[i] =
+++					permitted->data[permitted->size - 1];
+++			permitted->size--;
+++			continue;
++ 		}
++-		t = next;
+++		i++;
++ 	}
++ 
++ 	/* Phase 2
++-	 * iterate through all combinations from nc2 and nc1
+++	 * iterate through all combinations from PERMITTED2 and PERMITTED
++ 	 * and create intersections of nodes with same type */
++-	nc2 = _nc2;
++-	while (nc2 != NULL) {
++-		// current nc2 node has not yet been used for any intersection
++-		// (and is not in DEST either)
+++	for (size_t i = 0; i < permitted2->size; i++) {
+++		const struct name_constraints_node_st *t2 = permitted2->data[i];
+++
+++		// current PERMITTED2 node has not yet been used for any intersection
+++		// (and is not in REMOVED either)
++ 		used = 0;
++-		t = nc;
++-		while (t != NULL) {
+++		for (size_t j = 0; j < removed.size; j++) {
+++			const struct name_constraints_node_st *t =
+++				removed.data[j];
++ 			// save intersection of name constraints into tmp
++-			ret = name_constraints_intersect_nodes(t, nc2, &tmp);
++-			if (ret < 0)
++-				return gnutls_assert_val(ret);
+++			ret = name_constraints_intersect_nodes(nc, t, t2, &tmp);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
+++			}
++ 			used = 1;
++ 			// if intersection is not empty
++ 			if (tmp !=
++@@ -360,32 +428,34 @@ _gnutls_name_constraints_intersect(name_constraints_node_st **_nc,
++ 				// we will not add universal excluded constraint for this type
++ 				types_with_empty_intersection[tmp->type - 1] =
++ 					0;
++-				// add intersection node to DEST
++-				tmp->next = dest;
++-				dest = tmp;
+++				// add intersection node to PERMITTED
+++				ret = name_constraints_node_list_add(permitted,
+++								     tmp);
+++				if (ret < 0) {
+++					gnutls_assert();
+++					goto cleanup;
+++				}
++ 			}
++-			t = t->next;
++ 		}
++-		// if the node from nc2 was not used for intersection, copy it to DEST
+++		// if the node from PERMITTED2 was not used for intersection, copy it to DEST
++ 		// Beware: also copies nodes other than DNS, email, IP,
++ 		//       since their counterpart may have been moved in phase 1.
++ 		if (!used) {
++ 			tmp = name_constraints_node_new(
++-				nc2->type, nc2->name.data, nc2->name.size);
+++				nc, t2->type, t2->name.data, t2->name.size);
++ 			if (tmp == NULL) {
++-				_gnutls_name_constraints_node_free(dest);
++-				return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++				gnutls_assert();
+++				ret = GNUTLS_E_MEMORY_ERROR;
+++				goto cleanup;
+++			}
+++			ret = name_constraints_node_list_add(permitted, tmp);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
++ 			}
++-			tmp->next = dest;
++-			dest = tmp;
++ 		}
++-		nc2 = nc2->next;
++ 	}
++ 
++-	/* replace the original with the new */
++-	_gnutls_name_constraints_node_free(nc);
++-	*_nc = dest;
++-
++ 	/* Phase 3
++ 	 * For each type: If we have empty permitted name constraints now
++ 	 * and we didn't have at the beginning, we have to add a new
++@@ -400,63 +470,77 @@ _gnutls_name_constraints_intersect(name_constraints_node_st **_nc,
++ 		switch (type) {
++ 		case GNUTLS_SAN_IPADDRESS:
++ 			// add universal restricted range for IPv4
++-			tmp = name_constraints_node_new(GNUTLS_SAN_IPADDRESS,
++-							NULL, 8);
+++			tmp = name_constraints_node_new(
+++				nc, GNUTLS_SAN_IPADDRESS, NULL, 8);
++ 			if (tmp == NULL) {
++-				_gnutls_name_constraints_node_free(dest);
++-				return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++				gnutls_assert();
+++				ret = GNUTLS_E_MEMORY_ERROR;
+++				goto cleanup;
+++			}
+++			ret = name_constraints_node_list_add(excluded, tmp);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
++ 			}
++-			tmp->next = *_nc_excluded;
++-			*_nc_excluded = tmp;
++ 			// add universal restricted range for IPv6
++-			tmp = name_constraints_node_new(GNUTLS_SAN_IPADDRESS,
++-							NULL, 32);
+++			tmp = name_constraints_node_new(
+++				nc, GNUTLS_SAN_IPADDRESS, NULL, 32);
++ 			if (tmp == NULL) {
++-				_gnutls_name_constraints_node_free(dest);
++-				return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++				gnutls_assert();
+++				ret = GNUTLS_E_MEMORY_ERROR;
+++				goto cleanup;
+++			}
+++			ret = name_constraints_node_list_add(excluded, tmp);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
++ 			}
++-			tmp->next = *_nc_excluded;
++-			*_nc_excluded = tmp;
++ 			break;
++ 		case GNUTLS_SAN_DNSNAME:
++ 		case GNUTLS_SAN_RFC822NAME:
++-			tmp = name_constraints_node_new(type, NULL, 0);
+++			tmp = name_constraints_node_new(nc, type, NULL, 0);
++ 			if (tmp == NULL) {
++-				_gnutls_name_constraints_node_free(dest);
++-				return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++				gnutls_assert();
+++				ret = GNUTLS_E_MEMORY_ERROR;
+++				goto cleanup;
+++			}
+++			ret = name_constraints_node_list_add(excluded, tmp);
+++			if (ret < 0) {
+++				gnutls_assert();
+++				goto cleanup;
++ 			}
++-			tmp->next = *_nc_excluded;
++-			*_nc_excluded = tmp;
++ 			break;
++ 		default: // do nothing, at least one node was already moved in phase 1
++ 			break;
++ 		}
++ 	}
++-	return GNUTLS_E_SUCCESS;
+++	ret = GNUTLS_E_SUCCESS;
+++
+++cleanup:
+++	gnutls_free(removed.data);
+++	return ret;
++ }
++ 
++-static int _gnutls_name_constraints_append(name_constraints_node_st **_nc,
++-					   name_constraints_node_st *_nc2)
+++static int name_constraints_node_list_concat(
+++	gnutls_x509_name_constraints_t nc,
+++	struct name_constraints_node_list_st *nodes,
+++	const struct name_constraints_node_list_st *nodes2)
++ {
++-	name_constraints_node_st *nc, *nc2;
++-	struct name_constraints_node_st *tmp;
++-
++-	if (_nc2 == NULL)
++-		return 0;
++-
++-	nc2 = _nc2;
++-	while (nc2) {
++-		nc = *_nc;
++-
++-		tmp = name_constraints_node_new(nc2->type, nc2->name.data,
++-						nc2->name.size);
++-		if (tmp == NULL)
+++	for (size_t i = 0; i < nodes2->size; i++) {
+++		const struct name_constraints_node_st *node = nodes2->data[i];
+++		struct name_constraints_node_st *tmp;
+++		int ret;
+++
+++		tmp = name_constraints_node_new(nc, node->type, node->name.data,
+++						node->name.size);
+++		if (tmp == NULL) {
++ 			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++-
++-		tmp->next = nc;
++-		*_nc = tmp;
++-
++-		nc2 = nc2->next;
+++		}
+++		ret = name_constraints_node_list_add(nodes, tmp);
+++		if (ret < 0) {
+++			name_constraints_node_free(tmp);
+++			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++		}
++ 	}
++ 
++ 	return 0;
++@@ -524,6 +608,25 @@ cleanup:
++ 	return ret;
++ }
++ 
+++void _gnutls_x509_name_constraints_clear(gnutls_x509_name_constraints_t nc)
+++{
+++	for (size_t i = 0; i < nc->nodes.size; i++) {
+++		struct name_constraints_node_st *node = nc->nodes.data[i];
+++		name_constraints_node_free(node);
+++	}
+++	gnutls_free(nc->nodes.data);
+++	nc->nodes.capacity = 0;
+++	nc->nodes.size = 0;
+++
+++	gnutls_free(nc->permitted.data);
+++	nc->permitted.capacity = 0;
+++	nc->permitted.size = 0;
+++
+++	gnutls_free(nc->excluded.data);
+++	nc->excluded.capacity = 0;
+++	nc->excluded.size = 0;
+++}
+++
++ /**
++  * gnutls_x509_name_constraints_deinit:
++  * @nc: The nameconstraints
++@@ -534,9 +637,7 @@ cleanup:
++  **/
++ void gnutls_x509_name_constraints_deinit(gnutls_x509_name_constraints_t nc)
++ {
++-	_gnutls_name_constraints_node_free(nc->permitted);
++-	_gnutls_name_constraints_node_free(nc->excluded);
++-
+++	_gnutls_x509_name_constraints_clear(nc);
++ 	gnutls_free(nc);
++ }
++ 
++@@ -552,12 +653,15 @@ void gnutls_x509_name_constraints_deinit(gnutls_x509_name_constraints_t nc)
++  **/
++ int gnutls_x509_name_constraints_init(gnutls_x509_name_constraints_t *nc)
++ {
++-	*nc = gnutls_calloc(1, sizeof(struct gnutls_name_constraints_st));
++-	if (*nc == NULL) {
+++	struct gnutls_name_constraints_st *tmp;
+++
+++	tmp = gnutls_calloc(1, sizeof(struct gnutls_name_constraints_st));
+++	if (tmp == NULL) {
++ 		gnutls_assert();
++ 		return GNUTLS_E_MEMORY_ERROR;
++ 	}
++ 
+++	*nc = tmp;
++ 	return 0;
++ }
++ 
++@@ -565,36 +669,25 @@ static int name_constraints_add(gnutls_x509_name_constraints_t nc,
++ 				gnutls_x509_subject_alt_name_t type,
++ 				const gnutls_datum_t *name, unsigned permitted)
++ {
++-	struct name_constraints_node_st *tmp, *prev = NULL;
+++	struct name_constraints_node_st *tmp;
+++	struct name_constraints_node_list_st *nodes;
++ 	int ret;
++ 
++ 	ret = validate_name_constraints_node(type, name);
++ 	if (ret < 0)
++ 		return gnutls_assert_val(ret);
++ 
++-	if (permitted != 0)
++-		prev = tmp = nc->permitted;
++-	else
++-		prev = tmp = nc->excluded;
+++	nodes = permitted ? &nc->permitted : &nc->excluded;
++ 
++-	while (tmp != NULL) {
++-		tmp = tmp->next;
++-		if (tmp != NULL)
++-			prev = tmp;
++-	}
++-
++-	tmp = name_constraints_node_new(type, name->data, name->size);
+++	tmp = name_constraints_node_new(nc, type, name->data, name->size);
++ 	if (tmp == NULL)
++ 		return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++-	tmp->next = NULL;
++ 
++-	if (prev == NULL) {
++-		if (permitted != 0)
++-			nc->permitted = tmp;
++-		else
++-			nc->excluded = tmp;
++-	} else
++-		prev->next = tmp;
+++	ret = name_constraints_node_list_add(nodes, tmp);
+++	if (ret < 0) {
+++		name_constraints_node_free(tmp);
+++		return gnutls_assert_val(ret);
+++	}
++ 
++ 	return 0;
++ }
++@@ -620,14 +713,15 @@ int _gnutls_x509_name_constraints_merge(gnutls_x509_name_constraints_t nc,
++ {
++ 	int ret;
++ 
++-	ret = _gnutls_name_constraints_intersect(&nc->permitted, nc2->permitted,
++-						 &nc->excluded);
+++	ret = name_constraints_node_list_intersect(
+++		nc, &nc->permitted, &nc2->permitted, &nc->excluded);
++ 	if (ret < 0) {
++ 		gnutls_assert();
++ 		return ret;
++ 	}
++ 
++-	ret = _gnutls_name_constraints_append(&nc->excluded, nc2->excluded);
+++	ret = name_constraints_node_list_concat(nc, &nc->excluded,
+++						&nc2->excluded);
++ 	if (ret < 0) {
++ 		gnutls_assert();
++ 		return ret;
++@@ -804,50 +898,51 @@ static unsigned email_matches(const gnutls_datum_t *name,
++  *
++  * Returns: On success, %GNUTLS_E_SUCCESS (0) is returned, otherwise a negative error value.
++  -*/
++-static int
++-name_constraints_intersect_nodes(name_constraints_node_st *nc1,
++-				 name_constraints_node_st *nc2,
++-				 name_constraints_node_st **_intersection)
+++static int name_constraints_intersect_nodes(
+++	gnutls_x509_name_constraints_t nc,
+++	const struct name_constraints_node_st *node1,
+++	const struct name_constraints_node_st *node2,
+++	struct name_constraints_node_st **_intersection)
++ {
++ 	// presume empty intersection
++-	name_constraints_node_st *intersection = NULL;
++-	name_constraints_node_st *to_copy = NULL;
+++	struct name_constraints_node_st *intersection = NULL;
+++	const struct name_constraints_node_st *to_copy = NULL;
++ 	unsigned iplength = 0;
++ 	unsigned byte;
++ 
++ 	*_intersection = NULL;
++ 
++-	if (nc1->type != nc2->type) {
+++	if (node1->type != node2->type) {
++ 		return GNUTLS_E_SUCCESS;
++ 	}
++-	switch (nc1->type) {
+++	switch (node1->type) {
++ 	case GNUTLS_SAN_DNSNAME:
++-		if (!dnsname_matches(&nc2->name, &nc1->name))
+++		if (!dnsname_matches(&node2->name, &node1->name))
++ 			return GNUTLS_E_SUCCESS;
++-		to_copy = nc2;
+++		to_copy = node2;
++ 		break;
++ 	case GNUTLS_SAN_RFC822NAME:
++-		if (!email_matches(&nc2->name, &nc1->name))
+++		if (!email_matches(&node2->name, &node1->name))
++ 			return GNUTLS_E_SUCCESS;
++-		to_copy = nc2;
+++		to_copy = node2;
++ 		break;
++ 	case GNUTLS_SAN_IPADDRESS:
++-		if (nc1->name.size != nc2->name.size)
+++		if (node1->name.size != node2->name.size)
++ 			return GNUTLS_E_SUCCESS;
++-		iplength = nc1->name.size / 2;
+++		iplength = node1->name.size / 2;
++ 		for (byte = 0; byte < iplength; byte++) {
++-			if (((nc1->name.data[byte] ^
++-			      nc2->name.data[byte]) // XOR of addresses
++-			     &
++-			     nc1->name.data[byte + iplength] // AND mask from nc1
++-			     &
++-			     nc2->name.data[byte + iplength]) // AND mask from nc2
+++			if (((node1->name.data[byte] ^
+++			      node2->name.data[byte]) // XOR of addresses
+++			     & node1->name.data[byte +
+++						iplength] // AND mask from nc1
+++			     & node2->name.data[byte +
+++						iplength]) // AND mask from nc2
++ 			    != 0) {
++ 				// CIDRS do not intersect
++ 				return GNUTLS_E_SUCCESS;
++ 			}
++ 		}
++-		to_copy = nc2;
+++		to_copy = node2;
++ 		break;
++ 	default:
++ 		// for other types, we don't know how to do the intersection, assume empty
++@@ -856,8 +951,9 @@ name_constraints_intersect_nodes(name_constraints_node_st *nc1,
++ 
++ 	// copy existing node if applicable
++ 	if (to_copy != NULL) {
++-		*_intersection = name_constraints_node_new(
++-			to_copy->type, to_copy->name.data, to_copy->name.size);
+++		*_intersection = name_constraints_node_new(nc, to_copy->type,
+++							   to_copy->name.data,
+++							   to_copy->name.size);
++ 		if (*_intersection == NULL)
++ 			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++ 		intersection = *_intersection;
++@@ -869,12 +965,12 @@ name_constraints_intersect_nodes(name_constraints_node_st *nc1,
++ 			_gnutls_mask_ip(intersection->name.data,
++ 					intersection->name.data + iplength,
++ 					iplength);
++-			_gnutls_mask_ip(nc1->name.data,
++-					nc1->name.data + iplength, iplength);
+++			_gnutls_mask_ip(node1->name.data,
+++					node1->name.data + iplength, iplength);
++ 			// update intersection, if necessary (we already know one is subset of other)
++ 			for (byte = 0; byte < 2 * iplength; byte++) {
++ 				intersection->name.data[byte] |=
++-					nc1->name.data[byte];
+++					node1->name.data[byte];
++ 			}
++ 		}
++ 	}
++@@ -1177,10 +1273,17 @@ gnutls_x509_name_constraints_check_crt(gnutls_x509_name_constraints_t nc,
++ 	unsigned idx, t, san_type;
++ 	gnutls_datum_t n;
++ 	unsigned found_one;
+++	size_t checks;
++ 
++-	if (is_nc_empty(nc, type) != 0)
+++	if (_gnutls_x509_name_constraints_is_empty(nc, type) != 0)
++ 		return 1; /* shortcut; no constraints to check */
++ 
+++	if (!INT_ADD_OK(nc->permitted.size, nc->excluded.size, &checks) ||
+++	    !INT_MULTIPLY_OK(checks, cert->san->size, &checks) ||
+++	    checks > MAX_NC_CHECKS) {
+++		return gnutls_assert_val(0);
+++	}
+++
++ 	if (type == GNUTLS_SAN_RFC822NAME) {
++ 		found_one = 0;
++ 		for (idx = 0;; idx++) {
++@@ -1378,20 +1481,13 @@ int gnutls_x509_name_constraints_get_permitted(gnutls_x509_name_constraints_t nc
++ 					       unsigned idx, unsigned *type,
++ 					       gnutls_datum_t *name)
++ {
++-	unsigned int i;
++-	struct name_constraints_node_st *tmp = nc->permitted;
+++	const struct name_constraints_node_st *tmp;
++ 
++-	for (i = 0; i < idx; i++) {
++-		if (tmp == NULL)
++-			return gnutls_assert_val(
++-				GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE);
++-
++-		tmp = tmp->next;
++-	}
++-
++-	if (tmp == NULL)
+++	if (idx >= nc->permitted.size)
++ 		return gnutls_assert_val(GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE);
++ 
+++	tmp = nc->permitted.data[idx];
+++
++ 	*type = tmp->type;
++ 	*name = tmp->name;
++ 
++@@ -1421,20 +1517,13 @@ int gnutls_x509_name_constraints_get_excluded(gnutls_x509_name_constraints_t nc,
++ 					      unsigned idx, unsigned *type,
++ 					      gnutls_datum_t *name)
++ {
++-	unsigned int i;
++-	struct name_constraints_node_st *tmp = nc->excluded;
+++	const struct name_constraints_node_st *tmp;
++ 
++-	for (i = 0; i < idx; i++) {
++-		if (tmp == NULL)
++-			return gnutls_assert_val(
++-				GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE);
++-
++-		tmp = tmp->next;
++-	}
++-
++-	if (tmp == NULL)
+++	if (idx >= nc->excluded.size)
++ 		return gnutls_assert_val(GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE);
++ 
+++	tmp = nc->excluded.data[idx];
+++
++ 	*type = tmp->type;
++ 	*name = tmp->name;
++ 
++diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
++index ad3af1430..064ca8357 100644
++--- a/lib/x509/x509_ext.c
+++++ b/lib/x509/x509_ext.c
++@@ -34,10 +34,6 @@
++ #include "intprops.h"
++ 
++ #define MAX_ENTRIES 64
++-struct gnutls_subject_alt_names_st {
++-	struct name_st *names;
++-	unsigned int size;
++-};
++ 
++ /**
++  * gnutls_subject_alt_names_init:
++@@ -389,22 +385,15 @@ int gnutls_x509_ext_import_name_constraints(const gnutls_datum_t *ext,
++ 	}
++ 
++ 	if (flags & GNUTLS_NAME_CONSTRAINTS_FLAG_APPEND &&
++-	    (nc->permitted != NULL || nc->excluded != NULL)) {
+++	    !_gnutls_x509_name_constraints_is_empty(nc, 0)) {
++ 		ret = gnutls_x509_name_constraints_init(&nc2);
++ 		if (ret < 0) {
++ 			gnutls_assert();
++ 			goto cleanup;
++ 		}
++ 
++-		ret = _gnutls_extract_name_constraints(c2, "permittedSubtrees",
++-						       &nc2->permitted);
++-		if (ret < 0) {
++-			gnutls_assert();
++-			goto cleanup;
++-		}
++-
++-		ret = _gnutls_extract_name_constraints(c2, "excludedSubtrees",
++-						       &nc2->excluded);
+++		ret = _gnutls_x509_name_constraints_extract(
+++			c2, "permittedSubtrees", "excludedSubtrees", nc2);
++ 		if (ret < 0) {
++ 			gnutls_assert();
++ 			goto cleanup;
++@@ -416,18 +405,10 @@ int gnutls_x509_ext_import_name_constraints(const gnutls_datum_t *ext,
++ 			goto cleanup;
++ 		}
++ 	} else {
++-		_gnutls_name_constraints_node_free(nc->permitted);
++-		_gnutls_name_constraints_node_free(nc->excluded);
+++		_gnutls_x509_name_constraints_clear(nc);
++ 
++-		ret = _gnutls_extract_name_constraints(c2, "permittedSubtrees",
++-						       &nc->permitted);
++-		if (ret < 0) {
++-			gnutls_assert();
++-			goto cleanup;
++-		}
++-
++-		ret = _gnutls_extract_name_constraints(c2, "excludedSubtrees",
++-						       &nc->excluded);
+++		ret = _gnutls_x509_name_constraints_extract(
+++			c2, "permittedSubtrees", "excludedSubtrees", nc);
++ 		if (ret < 0) {
++ 			gnutls_assert();
++ 			goto cleanup;
++@@ -463,9 +444,10 @@ int gnutls_x509_ext_export_name_constraints(gnutls_x509_name_constraints_t nc,
++ 	int ret, result;
++ 	uint8_t null = 0;
++ 	asn1_node c2 = NULL;
++-	struct name_constraints_node_st *tmp;
+++	unsigned rtype;
+++	gnutls_datum_t rname;
++ 
++-	if (nc->permitted == NULL && nc->excluded == NULL)
+++	if (_gnutls_x509_name_constraints_is_empty(nc, 0))
++ 		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++ 
++ 	result = asn1_create_element(_gnutls_get_pkix(),
++@@ -475,11 +457,20 @@ int gnutls_x509_ext_export_name_constraints(gnutls_x509_name_constraints_t nc,
++ 		return _gnutls_asn2err(result);
++ 	}
++ 
++-	if (nc->permitted == NULL) {
+++	ret = gnutls_x509_name_constraints_get_permitted(nc, 0, &rtype, &rname);
+++	if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
++ 		(void)asn1_write_value(c2, "permittedSubtrees", NULL, 0);
++ 	} else {
++-		tmp = nc->permitted;
++-		do {
+++		for (unsigned i = 0;; i++) {
+++			ret = gnutls_x509_name_constraints_get_permitted(
+++				nc, i, &rtype, &rname);
+++			if (ret < 0) {
+++				if (ret ==
+++				    GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
+++					break;
+++				gnutls_assert();
+++				goto cleanup;
+++			}
++ 			result = asn1_write_value(c2, "permittedSubtrees",
++ 						  "NEW", 1);
++ 			if (result != ASN1_SUCCESS) {
++@@ -506,21 +497,29 @@ int gnutls_x509_ext_export_name_constraints(gnutls_x509_name_constraints_t nc,
++ 			}
++ 
++ 			ret = _gnutls_write_general_name(
++-				c2, "permittedSubtrees.?LAST.base", tmp->type,
++-				tmp->name.data, tmp->name.size);
+++				c2, "permittedSubtrees.?LAST.base", rtype,
+++				rname.data, rname.size);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++ 			}
++-			tmp = tmp->next;
++-		} while (tmp != NULL);
+++		}
++ 	}
++ 
++-	if (nc->excluded == NULL) {
+++	ret = gnutls_x509_name_constraints_get_excluded(nc, 0, &rtype, &rname);
+++	if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
++ 		(void)asn1_write_value(c2, "excludedSubtrees", NULL, 0);
++ 	} else {
++-		tmp = nc->excluded;
++-		do {
+++		for (unsigned i = 0;; i++) {
+++			ret = gnutls_x509_name_constraints_get_excluded(
+++				nc, i, &rtype, &rname);
+++			if (ret < 0) {
+++				if (ret ==
+++				    GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
+++					break;
+++				gnutls_assert();
+++				goto cleanup;
+++			}
++ 			result = asn1_write_value(c2, "excludedSubtrees", "NEW",
++ 						  1);
++ 			if (result != ASN1_SUCCESS) {
++@@ -546,14 +545,13 @@ int gnutls_x509_ext_export_name_constraints(gnutls_x509_name_constraints_t nc,
++ 			}
++ 
++ 			ret = _gnutls_write_general_name(
++-				c2, "excludedSubtrees.?LAST.base", tmp->type,
++-				tmp->name.data, tmp->name.size);
+++				c2, "excludedSubtrees.?LAST.base", rtype,
+++				rname.data, rname.size);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++ 			}
++-			tmp = tmp->next;
++-		} while (tmp != NULL);
+++		}
++ 	}
++ 
++ 	ret = _gnutls_x509_der_encode(c2, "", ext, 0);
++diff --git a/lib/x509/x509_ext_int.h b/lib/x509/x509_ext_int.h
++index 558d61956..b37d74997 100644
++--- a/lib/x509/x509_ext_int.h
+++++ b/lib/x509/x509_ext_int.h
++@@ -29,6 +29,11 @@ struct name_st {
++ 	gnutls_datum_t othername_oid;
++ };
++ 
+++struct gnutls_subject_alt_names_st {
+++	struct name_st *names;
+++	unsigned int size;
+++};
+++
++ int _gnutls_alt_name_process(gnutls_datum_t *out, unsigned type,
++ 			     const gnutls_datum_t *san, unsigned raw);
++ 
++diff --git a/lib/x509/x509_int.h b/lib/x509/x509_int.h
++index 4ec55bd75..211743ced 100644
++--- a/lib/x509/x509_int.h
+++++ b/lib/x509/x509_int.h
++@@ -485,20 +485,13 @@ int _gnutls_x509_crt_check_revocation(gnutls_x509_crt_t cert,
++ 				      int crl_list_length,
++ 				      gnutls_verify_output_function func);
++ 
++-typedef struct gnutls_name_constraints_st {
++-	struct name_constraints_node_st *permitted;
++-	struct name_constraints_node_st *excluded;
++-} gnutls_name_constraints_st;
++-
++-typedef struct name_constraints_node_st {
++-	unsigned type;
++-	gnutls_datum_t name;
++-	struct name_constraints_node_st *next;
++-} name_constraints_node_st;
++-
++-int _gnutls_extract_name_constraints(asn1_node c2, const char *vstr,
++-				     name_constraints_node_st **_nc);
++-void _gnutls_name_constraints_node_free(name_constraints_node_st *node);
+++bool _gnutls_x509_name_constraints_is_empty(gnutls_x509_name_constraints_t nc,
+++					    unsigned type);
+++int _gnutls_x509_name_constraints_extract(asn1_node c2,
+++					  const char *permitted_name,
+++					  const char *excluded_name,
+++					  gnutls_x509_name_constraints_t nc);
+++void _gnutls_x509_name_constraints_clear(gnutls_x509_name_constraints_t nc);
++ int _gnutls_x509_name_constraints_merge(gnutls_x509_name_constraints_t nc,
++ 					gnutls_x509_name_constraints_t nc2);
++ 
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+index 20139b4dd4..e77960724b 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+@@ -23,6 +23,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
+            file://run-ptest \
             file://Add-ptest-support.patch \
++           file://CVE-2024-12243.patch \
             "
  
--SRC_URI[sha256sum] = "ac4f020e583880b51380ed226e59033244bc536cad2623f2e26f5afa2939d8fb"
-+SRC_URI[sha256sum] = "69e113d802d1670c4d5ac1b99040b1f2d5c7c05daec5003813c049b5184820ed"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
- 
+ SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
 
