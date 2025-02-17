@@ -1,100 +1,108 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC46C021A0
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:32:48 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.46407.1739777558107310437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 749E9C021A0
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:46:28 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.46535.1739778383117920111
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 23:32:38 -0800
+ Sun, 16 Feb 2025 23:46:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YQ0pEXPR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YSt/dv3k;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019512d2c2ff-3836b707-0887-4709-816a-1a004d363910-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1739777557; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DLL+GDDhZQAhC2rxCRnfIdPDkKPoBw2DznOgYjHv6pA=;
-	b=YQ0pEXPRDMoIlqe9QxgdBeJK2RZdH/AzTIFAgvWIRByzVOEwmwpOVFg8we04D6yt
-	pYGYWRpWyHN72qLXvEnMG490FWnuaeYzoL9CfKGqiwFqaNaIONhJ2bwuN5fXHcAiTVi
-	0z7KuqcKXhES/mLGw5aonMG7GKpln0S0XBqVg8t8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739777557;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DLL+GDDhZQAhC2rxCRnfIdPDkKPoBw2DznOgYjHv6pA=;
-	b=YSt/dv3kbp6+EMwFk3T2e4ajbCif537wd61WHhNYFPLgCHYDuiUm1zuxhn4abYTF
-	/fOkg8Cwe2pGvm9dYTAKUmLhi1VpAnytEW5T/v/z39fBw9+fUNomSqK4/8yhfXrw2Vw
-	vSnVu6TUBygvCQPLEa9pbFgDM0MjCOfAy9MU02xA=
-From: patchtest@automation.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] gpgme: upgrade 1.24.1 -> 1.24.2
-In-Reply-To: <20250217071432.4144843-2-hongxu.jia@windriver.com>
-References: <20250217071432.4144843-2-hongxu.jia@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019512d2c2ff-3836b707-0887-4709-816a-1a004d363910-000000@us-west-2.amazonses.com>
-Date: Mon, 17 Feb 2025 07:32:37 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.17-54.240.27.192
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4143913a06=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H5H3tf002990
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:46:22 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44tg51hr1b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:46:22 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 16 Feb 2025 23:46:20 -0800
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:46:20 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V3] setuptools3-base.bbclass: override default subprocess timeout
+Date: Mon, 17 Feb 2025 15:46:19 +0800
+Message-ID: <20250217074619.3763528-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAMSfU+5JFiSZXkJGWA0aGqJZO-Lz1dsXqwNw-bQEo9QCRmrxAw@mail.gmail.com>
+References: <CAMSfU+5JFiSZXkJGWA0aGqJZO-Lz1dsXqwNw-bQEo9QCRmrxAw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=T4B2T+KQ c=1 sm=1 tr=0 ts=67b2e94e cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=zwXmAwp_x2hHYwLl0w4A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: vKg_xnbG63Mx_Q917x7gVhBz3sByfia8
+X-Proofpoint-ORIG-GUID: vKg_xnbG63Mx_Q917x7gVhBz3sByfia8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-17_03,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 spamscore=0 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502170067
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 51H5H3tf002990
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:32:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211521
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:46:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211522
 
---NextPart
-Content-Type: text/plain
+The environment variable SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT allows to over=
+ride
+the subprocess timeout. The default is 40 seconds and should work for mos=
+t
+needs.[1] However, it was not enough while using git shallow tarball and =
+starting
+multiple Yocto world builds in one host.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+| =C2=A0 File "tmp/work/x86_64-linux/python3-scancode-native/32.1.0/recip=
+e-sysroot-
+native/usr/lib/python3.13/subprocess.py", line 1263, in _check_timeout
+| =C2=A0 =C2=A0 raise TimeoutExpired(
+| =C2=A0 =C2=A0 ...<2 lines>...
+| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr=3Db''.join(stderr_seq)=
+ if stderr_seq else None)
+| subprocess.TimeoutExpired: Command '['git', '--git-dir', 'tmp/work/x86_=
+64-
+linux/python3-scancode-native/32.1.0/git/.git', 'status', '--porcelain',
+'--untracked-files=3Dno']' timed out after 40 seconds
 
+Explicitly set variable SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT to 600s in bbcl=
+ass,
+and we could override it in local.conf
+
+[1] https://github.com/pypa/setuptools-scm/blob/main/docs/overrides.md
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/2-3-gpgme-upgrade-1.24.1---1.24.2.patch
+ meta/classes-recipe/setuptools3-base.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test non-AUH upgrade: Invalid author auh@yoctoproject.org. Resend the series with a valid patch author (test_mbox.TestMbox.test_non_auh_upgrade)
+diff --git a/meta/classes-recipe/setuptools3-base.bbclass b/meta/classes-=
+recipe/setuptools3-base.bbclass
+index 27af6abc58..190d9e6e3a 100644
+--- a/meta/classes-recipe/setuptools3-base.bbclass
++++ b/meta/classes-recipe/setuptools3-base.bbclass
+@@ -23,6 +23,10 @@ export CCSHARED  =3D "-fPIC -DPIC"
+ # the python executable
+ export LINKFORSHARED =3D "${SECURITY_CFLAGS} -Xlinker -export-dynamic"
+=20
++# The environment variable SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT allows
++# to override the subprocess timeout.
++export SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT ??=3D "600"
++
+ FILES:${PN} +=3D "${PYTHON_SITEPACKAGES_DIR}"
+ FILES:${PN}-staticdev +=3D "${PYTHON_SITEPACKAGES_DIR}/*.a"
+ FILES:${PN}-dev +=3D "${PYTHON_SITEPACKAGES_DIR}/*.la"
+--=20
+2.34.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
