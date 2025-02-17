@@ -1,150 +1,211 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4292C021AA
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 12:43:59 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.50399.1739796231797356055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EF16C021A9
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 14:42:00 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web10.53056.1739803318781877343
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 04:43:52 -0800
+ Mon, 17 Feb 2025 06:41:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DmoYZ5CS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38f3ee8a119so672683f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 04:43:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y30B0oIo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.174, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6f88509dad2so38614137b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 06:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739796230; x=1740401030; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739803318; x=1740408118; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pnbThpu2FgeXbKCDl/0h2brJ3hIkwTpNk/p0MnXuA3I=;
-        b=DmoYZ5CSOeNQ7B9U+zdRXg4d5OHYwmKQ2SQalk/em3hrZftoR0m8dXoJRqwd/Aww9y
-         RtatNmNH+JBSBbnxJfkbWQYbtMQGAY6Qx9PmCwfnJCeY6pcr5dkh/RDQFw8eOkZ3utnF
-         dlF7+JoUyJTfyIZRQtbEFt5xoUWcMhVhjerGY=
+        bh=XOQ7zbPirUKlN9lweD07i+kiSMDdWFLBFK8mDsgnUbQ=;
+        b=y30B0oIoRH/Nu0cCRaB3fYzo9aIey+U9duyi6IUdpxw/dam1iIivfVsR/3pbn29xKz
+         tc4Bg7OTphzgOfN39hEfUkteKFm2VzOymx9u2poghAS2pI2f/WKk7uaUHLyGXMBmZQhI
+         LgH24+ejv15K7t5b+0UO9jDnGjPeH/LC8JLawSJsVasA2Ca2mf+CeQBzM3byB4bB2fj3
+         LTuaUiUOjfjk2W//Eh1PRucv8FbUAuEOgUWMKq1+euJPagwLpny6ybaithuwDyyg4xzE
+         avf6r1Qc2UClPmJu2B1hmVW+N+Q5yMC7lfKtxvmSyjchfsCbQLLvDZPwgUmLvYqhHddZ
+         r+IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739796230; x=1740401030;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pnbThpu2FgeXbKCDl/0h2brJ3hIkwTpNk/p0MnXuA3I=;
-        b=aOiehSDB0pORoiusFScUI7oHf9vBaEK9zuKfcCeX1V5u7EiqbFzYEvKwKxFBwyoNBR
-         B7cMyxYTl5tNadOJjHd/OlofQjTyoKTKf5fs0WnysKA57qO8v7IbegIIZPe3rIx8UEA8
-         NwEOKhf54rkXMb6NV3g8qh7D/toxYB/14GPFN0O5/HdE4OUMIZaMyQfhmCxm82yBGkw4
-         kaUQGDhZJANbWMwb55WTTHHHT87h0X53zXyLB0/Y9bt1RrWbk6caG3TWuFabC+Mw479k
-         qKaWBXFlmg31IQPY4OTRYG++7BrR0qI20Ug5VA4fNH9egL6gt0EZTCnbAfTrrm+MG+zb
-         xnIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWc6leh+GiZHbe2ELaFQjY2A3E661X8E6PEcSb1YAT5ZHTdYSgAo/AShCyVWfnFrz6rz2aBJdW7nA+O5ivKZsOFsQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxGAn+S3RMKXTM7/BEbcOVanLamgtI/MTOiD1+YX1eN6RJwr3iI
-	vJ/ZCBxobyFpyppYkw5l2G+n0l+MlEr/UkuqyoQtGFLm3BGOkoIQpgYzvPIV4EU=
-X-Gm-Gg: ASbGncunhAEbe2LHrQtFz93gT/ss75pm/lubt3VlP0p3KxWN5CmUmQaLsc82VbNXCZP
-	Gcu+ShwjWuZzLjvxWqyWqZhfQdyGhO4QAtMFcUAkGisTUb0AHbFXQMhQf6/OcXbGT429sqsqu5V
-	YzsANEO0uLZTjYhR6nytAz3eP/w4hw8B7WqQ78IL/8Ie1EKuWrWhfQnvusYTjSXcOzXyKzMXdPx
-	kkENkb1wKON3eGueAM+529AiF7spIkQR6drAHOeBPHABE/43tdLSJkgXM81l2HE9cNbGcJv8fcx
-	Sjb5kkqyPOcEtnWNd1CKBqw1Jfe55y6IHe/rmut3xzlcfnuy0pFJsPzVz+C4OEdEpdjO8n94n8q
-	VDYA3
-X-Google-Smtp-Source: AGHT+IGWMAV5WJUBi1rUZcIUO0HOPVVYgMIjDntnPXz6gAiMxCleybYHkaWy7me6JX2SKKtqzrm6/A==
-X-Received: by 2002:a05:6000:1f87:b0:38f:23f4:2d7a with SMTP id ffacd0b85a97d-38f33f43751mr9181376f8f.40.1739796230203;
-        Mon, 17 Feb 2025 04:43:50 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:12f2:fcaa:2c32:45fc? ([2001:8b0:aba:5f3c:12f2:fcaa:2c32:45fc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258fc7ecsm12022251f8f.49.2025.02.17.04.43.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 04:43:49 -0800 (PST)
-Message-ID: <d30c619392f62f2d40320b01da5ca95369f3e7c2.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
-	openembedded-core@lists.openembedded.org, Bruce Ashfield	
- <bruce.ashfield@gmail.com>, bitbake-devel
- <bitbake-devel@lists.openembedded.org>
-Date: Mon, 17 Feb 2025 12:43:48 +0000
-In-Reply-To: <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
-References: 
-	<4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
-	 <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
+        d=1e100.net; s=20230601; t=1739803318; x=1740408118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XOQ7zbPirUKlN9lweD07i+kiSMDdWFLBFK8mDsgnUbQ=;
+        b=iZDtHUKCW2u+948rrQCCH0tmxneT9gCKN6Uk4r1TV/JxWcnEwpweICy52i1fwKPQ5X
+         /n6DR5M9MiGMTDLBwEf0ZlbL7Ep4B/snGK0gegpnYWaJuGtndkyRxGGqfPMToW3mtZWG
+         DIWyeuAYlObin3SRFKb3wvM4+cMCdo7Zw/13h/hemsKI8/nRF1/2PWB4P7HSUjC9m9jP
+         851la6yboQcD7Uce/f6xAKMTNCDvJrJDB+4hJNlEtlLG4ZUjMqRqzy2xDyeTIbKaLqRi
+         hnJajad1oW59yVgG7ZJCbOxcjt5R6qqh9APSoHJZdNV0uAUAEa7bj8XqMSFq7cxAt5d8
+         bAaA==
+X-Gm-Message-State: AOJu0YwPbiaediZUKyWixp03xgslU3nxBb3bLR7kI1qHHGu8XFNkE/83
+	5lrEfP7KxPP6H6+qAL071AICzBdO8go9SBdssfguALmZYLFOgxNGcompBIumJLLkr9x3zZ+2vCI
+	nAz8zgVlBZ7SOsPcWmiQdvfhbitYkhBoxej+5I8396tBj9hAb
+X-Gm-Gg: ASbGncvUbfJWqjy4ncZKsY5MqJXWcjVjN1b3mfXBqk4D5zqrlWv+1ATuptKplnOOjvh
+	MP1tD23z2sNYlEY2URc/0q4qLXbhLcN/N8Yp2gZWBaZiUvd4Aw7xeJRH25/tPykI06Oebd/9Nbn
+	5YqcZKvGMkeZPCv+xOBMVwNqOvLkgU
+X-Google-Smtp-Source: AGHT+IGhtEI1orlqsMAqu0+A0vsVHqocIV9TgtO58OWNr9f9C+csZxpuTL8y8JRuXhpGRcbW6g/HYWIMqRI91Rl4VYM=
+X-Received: by 2002:a05:690c:d1f:b0:6f5:4304:fbd with SMTP id
+ 00721157ae682-6fb5829ba02mr89933337b3.11.1739803317638; Mon, 17 Feb 2025
+ 06:41:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20250217075609.255086-1-hongxu.jia@windriver.com>
+In-Reply-To: <20250217075609.255086-1-hongxu.jia@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 17 Feb 2025 06:41:47 -0800
+X-Gm-Features: AWEUYZnzDwJBQtOxy_dV5mt9hxnVQaoNRatlyAmpdTxhhC3UPT5OgBPnA6wlU9Q
+Message-ID: <CAOSpxdaAX0MX_Y1xm4eg4hvsyTWdDmJY_uPiQCoR2vw4QoeEPw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/2] python3-setuptools-scm: add
+ subprocess timeout control env var
+To: hongxu.jia@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 12:43:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211540
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 14:42:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211541
 
-On Mon, 2025-02-17 at 12:00 +0100, Stefan Herbrechtsmeier wrote:
-> =C2=A0Am 13.02.2025 um 11:43 schrieb Richard Purdie via lists.openembedde=
-d.org:
-> =C2=A0
-> > e) add the ability to add custom hooks in the fetch process to
-> > handle
-> > the cases of needing to alter the flow for patching the components
-> > list
-> > =C2=A0
-> I fear this isn't easy possible and we have a design problem. Bitbake
-> and oe-core assume that a patch doesn't influence the fetch and that
-> the SRC_URI contains all fetched sources. Many code use the Fetch
-> class or the SRC_URI direct and doesn't expect recursive implicit
-> URIs of gitsm. In reality the SRC_URI describe the given URIs only
-> and doesn't contain the additional implicit URIs. The task flow
-> applies patches after the unpack and prevent patches to the gitsm. In
-> reality a patch could influence the implicit URIs and isn't
-> independent.
->=20
-> I would recommend to keep the patching outside of bitbake and instead
-> handle the implicit URIs inside oe-core. We could write the implicit
-> URIs into files in the work directory and migrate the scattered
-> direct users of the SRC_URI / Fetch class to a common oe-core
-> function. This functions returns the given URIs and optional any
-> additional implicit URIs. This allows the usage of the task
-> dependencies to ensure that the implicit URIs are resolved before
-> use.
->=20
-> The package manager lock file needs a single unpack and patch step
-> whereas the gitsm needs a recursive unpack and patch of every
-> successive gitsm. This makes it impossible to use additional tasks.
-> We could add the resolve of the implicit URIs to the fetch task to
-> support recursive resolve (gitsm).
-> =C2=A0
-> 1. download SRC_URIs
-> 2. exit if no URI is marked as unresolved
-> 3. unpack unresolved URIs
-> 4. apply associated patches
-> 5. resolve URIs
-> 6. goto 2=20
-> =C2=A0
-> This will eliminate the need for the partial implicit URI and gitsm
-> support in bitbake and makes the fetcher code simpler. The patching
-> could remain in oe-core and patches could be applied to gitsm and
-> package manager lock files. Additionally we remove code duplication
-> and simplify future changes to the SRC_URI determination.
->=20
-> It will add an indirection for the SRC_URI but the current code
-> already shows that this makes problems. Only the archiver class uses
-> the expanded_urldata function and all other classes including the
-> spdx class ignore the implicit SRC_URIs.
+This patch does not apply to current scarthgap HEAD.
 
-I'm a bit worried we're getting caught up by the terminology. We don't
-necessarily have to "patch" the component list so much as allow
-something like a function to hook and adjust things. That then removes
-the need for it to be a specific task.
+I believe you have other changes to this recipe in your working branch.
 
-I'm also not sure that drawing gitsm into this is a great idea when it
-is effectively already working  quite well. I appreciate the desire to
-have neat abstractions applying accross everything equally but I'm not
-sure we can achieve that with the level of usability we need and I'd
-rather improve usability at the cost of the inclusion of gitsm, which
-is the most functional fetcher we currently have in this group.
+Steve
 
-I will repeat again that I do strongly feel that a strong API in
-bitbake is going to lead to an overall better design that something
-bolted onto the fetcher in OE-Core.
-
-Cheers,
-
-Richard
-
-
-
-
+On Sun, Feb 16, 2025 at 11:56=E2=80=AFPM hongxu via lists.openembedded.org
+<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
+>
+> Backport patch from upstream to add subprocess timeout control env var
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../0001-fix-957-add-subprocess-timeout.patch | 78 +++++++++++++++++++
+>  .../python/python3-setuptools-scm_8.0.4.bb    |  1 +
+>  2 files changed, 79 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-setuptools-scm/0=
+001-fix-957-add-subprocess-timeout.patch
+>
+> diff --git a/meta/recipes-devtools/python/python3-setuptools-scm/0001-fix=
+-957-add-subprocess-timeout.patch b/meta/recipes-devtools/python/python3-se=
+tuptools-scm/0001-fix-957-add-subprocess-timeout.patch
+> new file mode 100644
+> index 0000000000..1af1ea0334
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-setuptools-scm/0001-fix-957-ad=
+d-subprocess-timeout.patch
+> @@ -0,0 +1,78 @@
+> +From 2ac4f084def6db53b454b967b062bed2f945aa03 Mon Sep 17 00:00:00 2001
+> +From: Ronny Pfannschmidt <opensource@ronnypfannschmidt.de>
+> +Date: Fri, 5 Jan 2024 13:34:37 +0100
+> +Subject: [PATCH] fix #957 - add subprocess timeout
+> +
+> +Upstream-Status: Backport [https://github.com/pypa/setuptools-scm/commit=
+/2ac4f084def6db53b454b967b062bed2f945aa03]
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + changelog.d/20240105_133254_subprocess_timeout_var.md |  4 ++++
+> + docs/overrides.md                                     |  7 +++++++
+> + src/setuptools_scm/_run_cmd.py                        | 11 +++++++++--
+> + 3 files changed, 20 insertions(+), 2 deletions(-)
+> + create mode 100644 changelog.d/20240105_133254_subprocess_timeout_var.m=
+d
+> +
+> +diff --git a/changelog.d/20240105_133254_subprocess_timeout_var.md b/cha=
+ngelog.d/20240105_133254_subprocess_timeout_var.md
+> +new file mode 100644
+> +index 0000000..78ecab2
+> +--- /dev/null
+> ++++ b/changelog.d/20240105_133254_subprocess_timeout_var.md
+> +@@ -0,0 +1,4 @@
+> ++
+> ++### Changed
+> ++
+> ++- fix #957 - add subprocess timeout control env var
+> +diff --git a/docs/overrides.md b/docs/overrides.md
+> +index 5114a84..22d285e 100644
+> +--- a/docs/overrides.md
+> ++++ b/docs/overrides.md
+> +@@ -14,3 +14,10 @@ where the dist name normalization follows adapted PEP=
+ 503 semantics.
+> +
+> + setuptools_scm parses the environment variable `SETUPTOOLS_SCM_OVERRIDE=
+S_FOR_${NORMALIZED_DIST_NAME}`
+> + as a toml inline map to override the configuration data from `pyproject=
+.toml`.
+> ++
+> ++## subprocess timeouts
+> ++
+> ++The environment variable `SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT` allows to =
+override the subprocess timeout.
+> ++The default is 40 seconds and should work for most needs. However, user=
+s with git lfs + windows reported
+> ++situations where this was not enough.
+> ++
+> +diff --git a/src/setuptools_scm/_run_cmd.py b/src/setuptools_scm/_run_cm=
+d.py
+> +index 3dfbda5..a64f904 100644
+> +--- a/src/setuptools_scm/_run_cmd.py
+> ++++ b/src/setuptools_scm/_run_cmd.py
+> +@@ -25,7 +25,12 @@ else:
+> + # unfortunately github CI for windows sometimes needs
+> + # up to 30 seconds to start a command
+> +
+> +-BROKEN_TIMEOUT: Final[int] =3D 40
+> ++
+> ++def _get_timeout(env: Mapping[str, str]) -> int:
+> ++    return int(env.get("SETUPTOOLS_SCM_SUBPROCESS_TIMEOUT") or 40)
+> ++
+> ++
+> ++BROKEN_TIMEOUT: Final[int] =3D _get_timeout(os.environ)
+> +
+> + log =3D _log.log.getChild("run_cmd")
+> +
+> +@@ -132,7 +137,7 @@ def run(
+> +     *,
+> +     strip: bool =3D True,
+> +     trace: bool =3D True,
+> +-    timeout: int =3D BROKEN_TIMEOUT,
+> ++    timeout: int | None =3D None,
+> +     check: bool =3D False,
+> + ) -> CompletedProcess:
+> +     if isinstance(cmd, str):
+> +@@ -141,6 +146,8 @@ def run(
+> +         cmd =3D [os.fspath(x) for x in cmd]
+> +     cmd_4_trace =3D " ".join(map(_unsafe_quote_for_display, cmd))
+> +     log.debug("at %s\n    $ %s ", cwd, cmd_4_trace)
+> ++    if timeout is None:
+> ++        timeout =3D BROKEN_TIMEOUT
+> +     res =3D subprocess.run(
+> +         cmd,
+> +         capture_output=3DTrue,
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb=
+ b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
+> index 67ac407c38..62a15f9d7f 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
+> +++ b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
+> @@ -12,6 +12,7 @@ inherit pypi python_setuptools_build_meta
+>
+>  SRC_URI +=3D " \
+>      file://0001-fix-timeout-while-using-big-git-repo.patch \
+> +    file://0001-fix-957-add-subprocess-timeout.patch \
+>  "
+>
+>  UPSTREAM_CHECK_REGEX =3D "scm-(?P<pver>.*)\.tar"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211525): https://lists.openembedded.org/g/openembedde=
+d-core/message/211525
+> Mute This Topic: https://lists.openembedded.org/mt/111228074/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
