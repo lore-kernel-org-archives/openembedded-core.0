@@ -1,153 +1,100 @@
-Return-Path: <mail2szahir@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EA1C021A0
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:14:48 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.46031.1739776484480478409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E92C021A0
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:32:38 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.46406.1739777557460776102
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 23:14:44 -0800
+ Sun, 16 Feb 2025 23:32:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g1twV0mf;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: mail2szahir@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fbfe16cc39so7602595a91.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Feb 2025 23:14:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739776484; x=1740381284; darn=lists.openembedded.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y1sffCqWQjoV3QtcPBcnWm//uK2k1UpWVYJTb/qH2GA=;
-        b=g1twV0mf3Y6R1GNtKo79dE8UNCRhL1y9sC9s+SJmexa/NG4S+ykyvyKy2JnYpLKlRi
-         MLL96X3vYAg4lxWIbpjttSoLU2cGVHUEFWUpSH11GeFj+MMH6/pMXnOGbZewcVdw7Uku
-         HXxARCYCVxQwVu4yLaFOPwHj0JktT8ZJIFaUvQWISTOR4/ilddd/0f0qFS43Z/GVb8je
-         8gP9WB5BzCG9goEuU0kF52BIvZRmkYWL4ORw3Jt6TxV1Ydj9iJzpqggckXTyMq+qr1eb
-         jq/eozg6+7lNeJVdanuYGbF2or8xr8aSVbHuHNF8h/q0deq96gwwPXX6WoDQBbQSQNZZ
-         2zpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739776484; x=1740381284;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y1sffCqWQjoV3QtcPBcnWm//uK2k1UpWVYJTb/qH2GA=;
-        b=qfKsKtmS4xwJk1nPRpuE23bmPUyLhLSV9E2yBJ1F5bGIXFkehW/3qhmSBfJzzSmxTL
-         3nlx0cfnjlgpbqXhA1sT3RRpZLOdIcPmhH8hCfxnC5ZUfAN6kgASx+JbzJVtOCXFwepE
-         EZ3sMqoy3+iwiRkvkIz7l0W5sn8dAuebYF25CE0ny3cM36sBe1FWs2tzYo34sUoDtBlD
-         k1of0tqsQYbJp0SlUM4DYAFSAUFXq+DJo+IxU0Vmg63lLaxt0KgO4DTprdI/oMpRjCte
-         6HkoW5mZXAP/HSinFbPCzLum1I6Ezm2es2GNXL08owquP2wZFl8hkflIZMQ5fvEi17Yu
-         0y1A==
-X-Gm-Message-State: AOJu0Yxc9UOOeIff/4p3HE5EP7sTulNz8SKDaGVmRqdi6keep4f+yZTb
-	lMY5AnoDgs4Q1PezvmMfm3M5Mu2HpZlRzwAKY6MDvREZkYn9JsxjcfKm8Q1c
-X-Gm-Gg: ASbGnct8Dx9guoe0D56P9tnm8fJxemcrLbPKGybCsyKaCaT2uqjjcF3okbUKB3fi+/r
-	xU3UA697kUud8HUsb2d9pLAx8hRZddwqOpE1b6Mg6heL/SUsRYceW1FfcPw0DHXVixknH1VaRTK
-	GfdtEMRvMTzYfkqvqEthFv7hcUPzKlf19cCii0Z7e3Sd5JK3Agt5Q5RH/NmcI9c3igtqyq7gNZa
-	6NJM7URnD2QFBqytLxVDZvh5WBF7f7zw+CPr0T9QV8z49eDDS9ceVWUD7OpL2TW0ewJmgnB+FrL
-	DV3xmgaCcQQiXqc13nLKky/CgmxnygtP
-X-Google-Smtp-Source: AGHT+IFV6OwNh7lgB8tNeShS7v4aiFBKPQNJNTVL3KK37hcO9T9ut938T3gmvw4jWI/jjcUVS+Qk6w==
-X-Received: by 2002:a17:90b:2f86:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2fc40c1d548mr14775268a91.7.1739776483586;
-        Sun, 16 Feb 2025 23:14:43 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:e02e:c075:441b:7c9:1a87:6dd2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13b913easm7047497a91.39.2025.02.16.23.14.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 23:14:43 -0800 (PST)
-From: aszh07 <mail2szahir@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	bindu.bhabu@kpit.com
-Cc: Oleksandr Hnatiuk <ohnatiuk@cisco.com>,
-	Oleksiy Obitotskyy <oobitots@cisco.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][PATCH] icu: remove host references in nativesdk to fix reproducibility
-Date: Mon, 17 Feb 2025 12:44:31 +0530
-Message-Id: <20250217071431.26922-1-mail2szahir@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MsexaUyD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=U422+sql;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019512d2bff4-deedf6d4-28fc-4f1f-9e64-fccfd1eb0866-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1739777556; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=yZSVaSQ7rHDOhJ45FTIl2KOlf50iWGk6QmgBuuCuP30=;
+	b=MsexaUyDGdUTz/vrQxGuxeA8HTiJJBKzMq6p1nAPKcYHaujJdCGQTY/E58Jx6MAH
+	Iul5aQibPnHvi84B8hGrKiCn/u38j2Sn/GjBsUvFE5NgUqlc2lCdXJZUGPT6N3/fWtN
+	CLnMNp72Xan7ZSIexKaB1nZ7ISiBQpkYlA1qXZrs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739777556;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=yZSVaSQ7rHDOhJ45FTIl2KOlf50iWGk6QmgBuuCuP30=;
+	b=U422+sqlZ0oTcS9aBMZZdB/QEhhRcUfe1uXCaGj/sP1kKP9odUKRraoQ7hXpQCDC
+	Io0sQAdsYy/Q0zByYKsS+8AY37wvvGAktovVIqtLxRmHvQwIbdamNnIoH3mpUTR5lC6
+	QefB4Ekp55yWwH4sSuXoEdNyaK/++HqqJz99Idp0=
+From: patchtest@automation.yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] gnupg: upgrade 2.5.3 -> 2.5.4
+In-Reply-To: <20250217071432.4144843-1-hongxu.jia@windriver.com>
+References: <20250217071432.4144843-1-hongxu.jia@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019512d2bff4-deedf6d4-28fc-4f1f-9e64-fccfd1eb0866-000000@us-west-2.amazonses.com>
+Date: Mon, 17 Feb 2025 07:32:36 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.02.17-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:14:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211519
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:32:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211520
 
-From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+--NextPart
+Content-Type: text/plain
 
-Fix is only done for target. Use same code for nativesdk.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Backport from poky master: https://git.yoctoproject.org/poky/commit/?id=c63b8f28ac52047fad689b78d605aa792baf1ad8
-
-(From OE-Core rev: dc6306883cc2c7d4d98d595442e5bf4037a160c5)
-
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c63b8f28ac52047fad689b78d605aa792baf1ad8)
-Signed-off-by: Bhabu Bindu <bindu.bhabu@kpit.com>
 ---
- meta/recipes-support/icu/icu_74-2.bb | 33 ++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-3-gnupg-upgrade-2.5.3---2.5.4.patch
 
-diff --git a/meta/recipes-support/icu/icu_74-2.bb b/meta/recipes-support/icu/icu_74-2.bb
-index 8352bf2a5b..53853e24a5 100644
---- a/meta/recipes-support/icu/icu_74-2.bb
-+++ b/meta/recipes-support/icu/icu_74-2.bb
-@@ -30,7 +30,7 @@ TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
- 
- ASNEEDED = ""
- 
--do_compile:prepend:class-target () {
-+remove_build_host_references_from_libicutu () {
- 	# Make sure certain build host references do not end up being compiled
- 	# in the image. This only affects libicutu and icu-dbg
- 	sed  \
-@@ -39,6 +39,14 @@ do_compile:prepend:class-target () {
- 	    -i ${B}/tools/toolutil/Makefile
- }
- 
-+do_compile:prepend:class-target () {
-+	remove_build_host_references_from_libicutu
-+}
-+
-+do_compile:prepend:class-nativesdk () {
-+	remove_build_host_references_from_libicutu
-+}
-+
- PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
- do_install:append:class-native() {
- 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
-@@ -49,6 +57,15 @@ do_install:append:class-native() {
- 	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
- }
- 
-+remove_build_host_references() {
-+	sed -i  \
-+	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-+	    -e 's|${DEBUG_PREFIX_MAP}||g' \
-+	    -e 's:${HOSTTOOLS_DIR}/::g' \
-+	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/Makefile.inc \
-+	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/pkgdata.inc
-+}
-+
- do_install:append:class-target() {
-     # The native pkgdata can not generate the correct data file.
-     # Use icupkg to re-generate it.
-@@ -56,14 +73,12 @@ do_install:append:class-target() {
-         rm -f ${D}/${datadir}/${BPN}/${@icu_install_folder(d)}/icudt${ICU_MAJOR_VER}b.dat
-         icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${@icu_install_folder(d)}/icudt${ICU_MAJOR_VER}b.dat
-     fi
--	
--	# Remove build host references...
--	sed -i  \
--	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
--	    -e 's|${DEBUG_PREFIX_MAP}||g' \
--	    -e 's:${HOSTTOOLS_DIR}/::g' \
--	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/Makefile.inc \
--	    ${D}/${libdir}/${BPN}/${@icu_install_folder(d)}/pkgdata.inc
-+
-+	remove_build_host_references
-+}
-+
-+do_install:append:class-nativesdk() {
-+	remove_build_host_references
- }
- 
- PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
--- 
-2.17.1
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test non-AUH upgrade: Invalid author auh@yoctoproject.org. Resend the series with a valid patch author (test_mbox.TestMbox.test_non_auh_upgrade)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
