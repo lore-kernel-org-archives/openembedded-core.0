@@ -2,43 +2,43 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7811AC021A0
-	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B639C021A0
+	for <webhook@archiver.kernel.org>; Mon, 17 Feb 2025 07:50:18 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.46359.1739778555350208231
+ by mx.groups.io with SMTP id smtpd.web11.46370.1739778615321264129
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Feb 2025 23:49:15 -0800
+ Sun, 16 Feb 2025 23:50:15 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4143913a06=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H5rYTX030500
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:49:14 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H6Dpni026892
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:14 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44thw91nqh-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44thw91nrs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:49:14 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:14 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 16 Feb 2025 23:49:13 -0800
+ 15.1.2507.43; Sun, 16 Feb 2025 23:50:13 -0800
 Received: from ala-lpggp7.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:49:13 -0800
+ 15.1.2507.43 via Frontend Transport; Sun, 16 Feb 2025 23:50:13 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V2 1/3] gnupg: upgrade 2.5.3 -> 2.5.4
-Date: Sun, 16 Feb 2025 23:49:12 -0800
-Message-ID: <20250217074912.3442534-1-hongxu.jia@windriver.com>
+Subject: [PATCH V2 2/3] gpgme: upgrade 1.24.1 -> 1.24.2
+Date: Sun, 16 Feb 2025 23:50:12 -0800
+Message-ID: <20250217075012.3575502-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <1824ED7C9F609730.4193@lists.openembedded.org>
-References: <1824ED7C9F609730.4193@lists.openembedded.org>
+In-Reply-To: <1824ED7CD63D7C91.31881@lists.openembedded.org>
+References: <1824ED7CD63D7C91.31881@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=CZzy5Krl c=1 sm=1 tr=0 ts=67b2e9fa cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8 a=MBU_XwbjQ1Ct2QB1ZrAA:9 a=3rbxvj7I4pvUHIwT:21
+X-Authority-Analysis: v=2.4 cv=CZzy5Krl c=1 sm=1 tr=0 ts=67b2ea36 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=gIqIzurSVVm03vCh77kA:9 a=Ohuo-sdro4PwUcRb:21
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: dyloJ6JXwavla3hQyod3csMuArlladWU
-X-Proofpoint-ORIG-GUID: dyloJ6JXwavla3hQyod3csMuArlladWU
+X-Proofpoint-GUID: z4BuzThGylY9hAbBjadjMQmTnAmAABDo
+X-Proofpoint-ORIG-GUID: z4BuzThGylY9hAbBjadjMQmTnAmAABDo
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-17_03,2025-02-13_01,2024-11-22_01
@@ -51,99 +51,170 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 imposto
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:49:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211523
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 07:50:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211524
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../0001-Woverride-init-is-not-needed-with-gcc-9.patch      | 2 +-
- ...nfigure.ac-use-a-custom-value-for-the-location-of-.patch | 6 +++---
- .../gnupg/0002-use-pkgconfig-instead-of-npth-config.patch   | 2 +-
- ...0004-autogen.sh-fix-find-version-for-beta-checking.patch | 2 +-
- meta/recipes-support/gnupg/gnupg/relocate.patch             | 2 +-
- .../gnupg/{gnupg_2.5.3.bb => gnupg_2.5.4.bb}                | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.3.bb => gnupg_2.5.4.bb} (97%)
+ ...vert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch | 2 +-
+ .../gpgme/0001-autogen.sh-remove-unknown-in-version.patch   | 2 +-
+ meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch       | 6 +++---
+ .../0001-posix-io.c-Use-off_t-instead-of-off64_t.patch      | 2 +-
+ .../gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch  | 2 +-
+ ...gme-lang-python-gpg-error-config-should-not-be-use.patch | 4 ++--
+ .../gpgme/gpgme/0003-Correctly-install-python-modules.patch | 4 ++--
+ ...gme-config-skip-all-lib-or-usr-lib-directories-in-.patch | 2 +-
+ .../gpgme/gpgme/0006-fix-build-path-issue.patch             | 4 ++--
+ .../gpgme/{gpgme_1.24.1.bb => gpgme_1.24.2.bb}              | 2 +-
+ 10 files changed, 15 insertions(+), 15 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme_1.24.1.bb => gpgme_1.24.2.bb} (97%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index fcd2528513..6299eb95ce 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
+index e6e86dfd77..2a906a6c73 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
 @@ -1,4 +1,4 @@
--From bbf09a439d56ddcae6f641c8f1cf7544e3dd4d6f Mon Sep 17 00:00:00 2001
-+From 690faa62529c584cd80c8eaa56210ec1e4a96d7f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 6e2f8d6fe6..ed94145833 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+-From b12b01239909b6fb41adc64d3c0ed32795554369 Mon Sep 17 00:00:00 2001
++From 95d0bae453b2b5a7d25b92d99565d27407fffa1b Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 10 May 2019 14:18:04 +0800
+ Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
+index af97f11430..890909dd5e 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
 @@ -1,4 +1,4 @@
--From c9cef60c7be6a5cb5a9557117f4d285278cc6f47 Mon Sep 17 00:00:00 2001
-+From c9392c615a95c965dd58b0896cb3b87deafc62a4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 1d0fa519ef017aef4821af49c59bad119e7f0d66 Mon Sep 17 00:00:00 2001
++From 0bb7fddb6a768bbc46695de4c6e0256a3580ccbb Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 26 Nov 2024 23:23:42 -0800
+ Subject: [PATCH] autogen.sh: remove '-unknown' in version
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+index 59f98103d4..9d0b4b282b 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 108461f6c50b57ba73970dc977e7d4e9a02624df Mon Sep 17 00:00:00 2001
++From 447fd26a43f40ccb071cd19198ee43fdfce87e3a Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 26 Nov 2024 23:04:52 -0800
+ Subject: [PATCH] pkgconfig
+@@ -27,10 +27,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  create mode 100644 src/gpgme-pthread.pc.in
  
  diff --git a/configure.ac b/configure.ac
--index 6252d57..1da2c6f 100644
-+index 23a9101..3e10021 100644
+-index fe02bdf..6f33020 100644
++index c34f700..4eddc3d 100644
  --- a/configure.ac
  +++ b/configure.ac
--@@ -1911,7 +1911,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1908,7 +1908,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-  
-  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
-  
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index 9c87788e80..2d23ca1e66 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+-@@ -1179,6 +1179,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
++@@ -1176,6 +1176,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
+                  src/gpgme-glib.pc
+                  src/gpgme.h)
+  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
+index 9845b02969..932fb9c962 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
 @@ -1,4 +1,4 @@
--From 7c0163fd17b78284495da382023074ee7dd629b6 Mon Sep 17 00:00:00 2001
-+From 9f7cf2e4770697c24f8d24ce9f79b8548120bbf8 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-index 3b4b01721a..fc7d964ec4 100644
---- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+-From 13b955f66615caf34d19e86d97bcfe841d60d58c Mon Sep 17 00:00:00 2001
++From 417036051c84b02fe43f162ee378278a44636451 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 08:44:13 -0800
+ Subject: [PATCH] posix-io.c: Use off_t instead of off64_t
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
+index f174e24ebc..ed2edabd63 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
 @@ -1,4 +1,4 @@
--From 24ae21dce9fc7546468580ab37db3bf9559e6efc Mon Sep 17 00:00:00 2001
-+From 4d8cc1982273d571b4e80fe981878d0fa5884236 Mon Sep 17 00:00:00 2001
- From: Wenzong Fan <wenzong.fan@windriver.com>
- Date: Wed, 16 Aug 2017 11:23:22 +0800
- Subject: [PATCH] autogen.sh: fix find-version for beta checking
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index b67744419e..1ae8a564d4 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+-From 2592a1d97c66f8bff4bae095b14cb774de3e80c9 Mon Sep 17 00:00:00 2001
++From aaed03b76505b1feaeeb5a4a3c6bdcc7dd089f01 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Jul 2021 12:33:13 -0700
+ Subject: [PATCH] use closefrom() on linux and glibc 2.34+
+diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+index 373660be94..3a1837e857 100644
+--- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
++++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
 @@ -1,4 +1,4 @@
--From db9e4933176b7919077120cedb8a8b0a40c2115b Mon Sep 17 00:00:00 2001
-+From 917a98f9380d581548f3cbb59428cee3a5c29bae Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.3.bb b/meta/recipes-support/gnupg/gnupg_2.5.4.bb
+-From a956d17d2aa7fea53bab97715a8f98858e9b4a5c Mon Sep 17 00:00:00 2001
++From 145adf290571b7dd47b7fca57b11349af0b94e74 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 10 May 2019 14:30:36 +0800
+ Subject: [PATCH] gpgme/lang/python: gpg-error-config should not be used
+@@ -19,7 +19,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 1 insertion(+), 2 deletions(-)
+ 
+ diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
+-index d6f537e..695c02e 100755
++index 1ddfbe7..d2fa4f0 100755
+ --- a/lang/python/setup.py.in
+ +++ b/lang/python/setup.py.in
+ @@ -173,9 +173,8 @@ class BuildExtFirstHack(build):
+diff --git a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+index 004e587518..7b2831ba4f 100644
+--- a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
++++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+@@ -1,4 +1,4 @@
+-From 548d84c703a747c41a02e1d0ff6ad4c193a34a5c Mon Sep 17 00:00:00 2001
++From d8e884d1fa8c35ce68e94a0668548580cf5ba2d3 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 30 Jan 2018 15:28:49 +0800
+ Subject: [PATCH] Correctly install python modules
+@@ -17,7 +17,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index a6fd639..136e979 100644
++index 1aa330f..d1d5c63 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+ @@ -97,6 +97,7 @@ install-exec-local:
+diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+index 120cb64b98..c021e48be9 100644
+--- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
++++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+@@ -1,4 +1,4 @@
+-From 59b2e28b34f332d12935af41dbe3140f5842e8d1 Mon Sep 17 00:00:00 2001
++From 9ea685f1b898ee703b85b705c35b9cbd77cca17f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 13 Apr 2017 16:40:27 +0300
+ Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
+diff --git a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+index 00449e3259..d64168b4fd 100644
+--- a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
++++ b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+@@ -1,4 +1,4 @@
+-From 89a53d8d025fef4626006219f0f686982e215d97 Mon Sep 17 00:00:00 2001
++From f9f82874048c5eec08e815ff871462184b6d7d6a Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 31 Jan 2018 11:01:09 +0800
+ Subject: [PATCH] fix build path issue
+@@ -17,7 +17,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 3 insertions(+), 2 deletions(-)
+ 
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index 136e979..1495982 100644
++index d1d5c63..148e1b9 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+ @@ -96,8 +96,9 @@ install-exec-local:
+diff --git a/meta/recipes-support/gpgme/gpgme_1.24.1.bb b/meta/recipes-support/gpgme/gpgme_1.24.2.bb
 similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.3.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.4.bb
-index cca4feaf6c..e6a7e3fb40 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.3.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.4.bb
-@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+rename from meta/recipes-support/gpgme/gpgme_1.24.1.bb
+rename to meta/recipes-support/gpgme/gpgme_1.24.2.bb
+index 86ba08c464..bc661429e7 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.24.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.24.2.bb
+@@ -29,7 +29,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0001-autogen.sh-remove-unknown-in-version.patch \
+            "
  
--SRC_URI[sha256sum] = "23128b136aed4e5121e793d1b6c60ee50c8007a9d926c1313e524d05386b54ac"
-+SRC_URI[sha256sum] = "f8cb2ac6c9f17f81e3541c62158764910fad5c3a0765e00b398c41a32bc4e0ea"
+-SRC_URI[sha256sum] = "ea05d0258e71061d61716584ec34cef59330a91340571edc46b78374973ba85f"
++SRC_URI[sha256sum] = "e11b1a0e361777e9e55f48a03d89096e2abf08c63d84b7017cfe1dce06639581"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ PYTHON_DEPS = "${@bb.utils.contains('LANGUAGES', 'python', 'swig-native', '', d)}"
+ 
 -- 
 2.25.1
 
