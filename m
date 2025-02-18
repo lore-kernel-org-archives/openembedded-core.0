@@ -1,87 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E602EC021AA
-	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 15:22:31 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.21896.1739892150049653101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F02C8C02198
+	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 15:31:11 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.22137.1739892668968929887
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Feb 2025 07:22:30 -0800
+ Tue, 18 Feb 2025 07:31:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BEqWVU+a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43998deed24so3010415e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 07:22:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cSByd3if;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f325dd90eso2288878f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 07:31:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739892148; x=1740496948; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mzt+ysTt/YPP4z7YErmAsDr8bJLdVDw5vrZUVVvhbSI=;
-        b=BEqWVU+aDtQufPttsp1k0KkYqUu8A2oUE+MTUyA/sgJUiJAjuMC4eKUKs1i6TB9Stz
-         C6OO822JAzQTZUFp4NCTunwXTpCDCqDSiz2T6IW0SwQq2NVRlsnyQV1nk9daLHJBEqTa
-         LZTFyUwY9PM4YDSxDHzIq1pbZSlFHbEIk0zUo=
+        d=gmail.com; s=20230601; t=1739892667; x=1740497467; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+uGwrsGj6Qox1hn8zR1ZPRiq0AUW3E1JelQa7fy4/E8=;
+        b=cSByd3ifQKKs5puIpUgsDUrKRKPiEOjys4DlpJu2WsyAE+IzxyL3Ffo+m8+vf4M69p
+         +uYoPe5ZM0cKe3wxApmEnwNHksW1t4jENvXKkhXXyKamvidADkDC4Kh40TRJtdimStqa
+         AGpksbboA1N4/C3BFQnHRfXf1+UZj8n74i+hpcFf7kEl0/eN8AlVfZzRuTWcK14HkV4/
+         ow4FEcLDCL8EwCd7esosNxVW27/qIeK9PAmT0qN9Opcie0iBkSm/n6aA5cJorr1ID1KD
+         J2Louhazwprya3m5dRkTJ/Gd+apmlvib/XJVOWU8n6+PgZRlIH2O6I/oK/Zvcnym3GTT
+         mK8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739892148; x=1740496948;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mzt+ysTt/YPP4z7YErmAsDr8bJLdVDw5vrZUVVvhbSI=;
-        b=HMzOjkkeskwpUzC74MrGsI8Kr1GpkizZ77mCZEeR1U6QkbtO4V8xe7+Ev2MbxQQDIZ
-         BUU3h9dIq80FMO10++EruMnu5pZd0gbjXRxgpzZBNQTxiPQOBYd1ru44kF1/Md/p638T
-         mu98k2z3J1UDlySXMAbW8eoXBEKQhyNRvitZk5SYyTsg1i6KO1csycU6IfpO+EBHrYZZ
-         jBVxnx2hMIhNbgoQjPV1BGUUlDAsElAwV8vqRleUkiFACc6rN3SsQSJpup/4V60SUBnh
-         iV4BCnTZWTAqXapqeCncWMuapTQNXAigQN8CiiuNVXY6LEXq3v/t04BINq0k0h/9/AnU
-         lNaA==
-X-Gm-Message-State: AOJu0YxFHQF1Wx7SHLLB8bTTrt+5S4ugC4q66JuIl5QXCpOHZBxayYos
-	ZZLrhAwXhlQWjc8+xo3M71DCPqApSZ8av2LuJSNx+cfbhCcR5ylybkWC9dJRDK0xsCtZ6qkCRTa
-	1
-X-Gm-Gg: ASbGncvKfHuAPfKnib/DEhSXlcjQDDo2ZwNjwym+x+Z6XKmMuqstnnbZpB9rG0h9HiS
-	Gcm70lohQqCqP4Gyp7uL3IjEAjfgn1FfZPnoPLl2xE35JXG2zcBSLPC64mMi5VaCuIjOCw6zsl+
-	AiaSWc0spHBNUlZOdvze1fJdmBB1oaD56iznkrLXq20kcHGe+uaDFP6sMn01DWsL9n+UzgLQbC4
-	211QvmiMuzSeb8N2ilUf7V2rvmbz4QFFpyTmcA1lMg4zIi0+KyAIXfPmGDBeuLxd/3VhmHqGsnd
-	MaVlGfJeWQyjknmNJGKM534vSZPMmFhudPzyZTz0qg==
-X-Google-Smtp-Source: AGHT+IF7qe0rZqR1n7ghZnbn8uHi5gd/2AmmrnUNZdLuOR6+9S6QR1lWieZZHWLHS9GqNK79MJwETg==
-X-Received: by 2002:a05:6000:1f87:b0:38f:2c10:da07 with SMTP id ffacd0b85a97d-38f340735d8mr14283433f8f.45.1739892147887;
-        Tue, 18 Feb 2025 07:22:27 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a6c8:42:fd4f:69d2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439963099b0sm16532385e9.27.2025.02.18.07.22.26
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1739892667; x=1740497467;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+uGwrsGj6Qox1hn8zR1ZPRiq0AUW3E1JelQa7fy4/E8=;
+        b=NsQScTqlZX5FvhkRuR/tHSgkI91AReTOOIun45cTZ284x+NYG2W4amnZ+frg36Yitw
+         FkgcPWI5OuCkd7emQ2QPV8zxEdzHjFn6RjGCb1grq5+Z3wjjP2ev1rnUMcxzAtGZrhCM
+         jUlcbBsbTidJBtTs8LHMvSMj7jAsR7DKb23B5DLmDfj3nSPrIhwCyvf/esCBqZlIc6Zt
+         Y63Cwu6gR0yASW0FgEluzQ9lT9yKmv76dSKMpwsHV9693ozE9f9H1q9aQMRtmaI8f3/m
+         GNBtxO9wH2RklXhMOaae9esex/luNcE+NuuK+Y01aTb77ClvCXVuC78hLpRCuUM1BkZ3
+         0xfA==
+X-Gm-Message-State: AOJu0YzCaNCuTFgBF525VUNqM8i5R8nAPX2xF2nqpBYDIHSQCfF9Lqs/
+	93+3Qr6R6VeNz/t3aEeQ4Uaaim+o8S2B/R++p0Vs1rI4GdwvKeBdhvOISg==
+X-Gm-Gg: ASbGnctd1F/tz4vMcyFsPaq9YVOcJcEf0deoo8OAW0lRszaTHVFJm//0J8FFOTXuruY
+	vbxsQVxi2vhibiEUQ1Tegj7ZR755z6a2kyeO2RTcG6+E+TP7szmLQ0XP+hsp8LNYLidTOx+egO2
+	qehWfFrceXH6tRQZCOr5J4eQyz+gzVx2wCEra5ueQKz5eJo2Qh6H9bwHvEiXAu0N7efGhofr5Sw
+	ztDcmSk6hSiqyjzSKmwUBVYbAtW0aRKfSnSWRob4LjeQYP7rb5zRHohGPnR1bVNd6qBzyiZFLY5
+	An+ymP+YD3oxc2CyrBQ9N+Ba9QM=
+X-Google-Smtp-Source: AGHT+IG0f7Q+fjQrIcqbkNGlyvR3nfImFuIntyxOZAxadJ00VWNw4T6Z7YB4YaqWddE7OC0PNMd5dA==
+X-Received: by 2002:a5d:638f:0:b0:38f:2a5e:f169 with SMTP id ffacd0b85a97d-38f33f4e45amr8880402f8f.37.1739892666437;
+        Tue, 18 Feb 2025 07:31:06 -0800 (PST)
+Received: from voyage.lan ([2a0d:3341:cd51:2e10:d277:cf7f:82d1:a7d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259fdb19sm15668572f8f.95.2025.02.18.07.31.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 07:22:27 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Tue, 18 Feb 2025 07:31:05 -0800 (PST)
+From: Marta Rybczynska <rybczynska@gmail.com>
+X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] base: Fix PACKAGECONFIG handling for cross recipes
-Date: Tue, 18 Feb 2025 15:22:25 +0000
-Message-ID: <20250218152226.1410852-1-richard.purdie@linuxfoundation.org>
+Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Subject: [PATCH] flex: update CVE_PRODUCT
+Date: Tue, 18 Feb 2025 16:30:58 +0100
+Message-ID: <20250218153058.59070-1-marta.rybczynska@ygreky.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 15:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211628
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 15:31:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211630
 
-We don't have many cross recipes that use PACKAGECONFIG but gdb-cross does,
-so correctly remap dependencies for that case allowing the gdb recipe to be
-simplified.
+NVD uses westes:flex for recent CVEs in flex, based on the GitHub repo
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
 ---
- meta/classes-global/base.bbclass | 2 +-
+ meta/recipes-devtools/flex/flex_2.6.4.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index 924f319999e..8215969c7bb 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -464,7 +464,7 @@ python () {
-             if "DEPENDS" in varname or varname.startswith("RRECOMMENDS"):
-                 if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d) :
-                     appends = expandFilter(appends, "", "nativesdk-")
--                elif bb.data.inherits_class('native', d):
-+                elif bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
-                     appends = expandFilter(appends, "-native", "")
-                 elif mlprefix:
-                     appends = expandFilter(appends, "", mlprefix)
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index f7d4ef1f08..2236b2bc6a 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -82,4 +82,4 @@ do_install_ptest() {
+ do_install_ptest[vardepsexclude] += "UNINATIVE_LOADER"
+ 
+ # Not Apache Flex, or Adobe Flex, or IBM Flex.
+-CVE_PRODUCT = "flex_project:flex"
++CVE_PRODUCT = "flex_project:flex westes:flex"
+-- 
+2.45.2
+
 
