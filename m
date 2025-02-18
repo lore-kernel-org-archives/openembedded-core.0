@@ -1,141 +1,219 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40635C02198
-	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 04:25:37 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web11.12632.1739852728018342457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B73C02198
+	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 07:12:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14426.1739862747173834228
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Feb 2025 20:25:28 -0800
+ Mon, 17 Feb 2025 23:12:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FCSOIzn7;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e66a7e2754so24830246d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 20:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739852727; x=1740457527; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H2Emv55yILjf3qrnW2MmrItcoa9gRNYHDGRgD2+7mc0=;
-        b=FCSOIzn7Y76cGL307mm16vbL6wltCuWHhmyI2OCPsrFwAy29Ytgref/HDBbq8feRsM
-         fctbwvSIApGGsutyeJImLLh9xORe4w8STTe9z2B1LKges3U2XCnmxcbGbh1fTQwU2LCv
-         JMAxImaTonZ6GVuVxgaHycertJUtzHRFUfG1a+wgt7BTX0iYjx7Q6CoFidS9LWQyOErv
-         bLNrZdEdETtlWNVCWGurM+R28vdIrx6a9VkUptscdlx9Rd7S0eGZga4MakkDXaOlPQ7X
-         FR5b4PtvCXywR7n3awODKeR/XOReVpNkIMWt+ygi4W/HWD7I/VVr6//rbQOsNm2SfiqW
-         0yDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739852727; x=1740457527;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H2Emv55yILjf3qrnW2MmrItcoa9gRNYHDGRgD2+7mc0=;
-        b=N5AG+8zDJlZ4r4zht7HtWGWWbtsJqE5Hwikw1+jyXoIX/gIglN5gCPNfqXi/XnB63Q
-         OP1m5WJ+dq/bSmiAgI0YChVFsZHMz8dhbZd92fL0B6kZMFbd5Zz8abDvH+UhxybggeMS
-         bvG/zqbtz/jDYlMrPVPMq7S+OqIiAxiBRWMgTsEOLLnV7egEPnjkHfqONWlgA9LZ26Sc
-         BngsiW/sHVJ2mRE5fMsN/LzdVl4kWkon4ZMtvnSjPMOFMjC/vVUp9ya0Rqtic9udRJCF
-         vayLodjme2KAHOeD2XHXvWftOFh02LTyASZanQgXDBt8WwjwZ2gquGpMuK+/KIseofWF
-         Rl+Q==
-X-Gm-Message-State: AOJu0Yyoty47vPt0PqQKsyl/C/OLIpiHWOXu1pt4oCrCZdUuSguWTWYW
-	5NkTNX+HOnVInRaTbnMk4PS0eeAd2NOuuqN8dJUs8vNXmkRWpGjC29w/6K/dW8r6eJ/p7yQAd6T
-	YhXZXr+0zJC77FP2+bLjfoUgYIyw=
-X-Gm-Gg: ASbGncvS4WbK7+g8gmnujv9qfaPynepK/3EHZFq2nC8J1yUhtvUQb/bmCp0Xrf4Jm4k
-	RbGcBcFiBWfkLk18rGOiu4AcYAu09wdbV/tpJmLD7meArqHK8Vh7lmfxKpBvuAH7CI1ZyOxSDdB
-	MLPDUXb0PL0crlBlR8Ut90yIuOj6NG3v8=
-X-Google-Smtp-Source: AGHT+IEbs7R6CMkYATiX80q01jc/axNGJ/9vnQyoSSDgphYJtkegzcbzEZ/nGk0Rjct30/uFVq4cYbHYqUwx3ois7Qg=
-X-Received: by 2002:ad4:5d6f:0:b0:6e4:4331:aae6 with SMTP id
- 6a1803df08f44-6e66cf38b4bmr179822736d6.39.1739852726977; Mon, 17 Feb 2025
- 20:25:26 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4144056be1=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51I6hRlD023801
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 23:12:26 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44tq382h9f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Feb 2025 23:12:26 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Mon, 17 Feb 2025 23:12:25 -0800
+Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Mon, 17 Feb 2025 23:12:25 -0800
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] procps: replaced one use of fputs(3) with a write(2) call
+Date: Tue, 18 Feb 2025 15:12:24 +0800
+Message-ID: <20250218071224.2238612-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <DAC5A0B2-4F3D-4338-9EC0-68037A53FBBF@arm.com> <24821.1739835549438079665@lists.openembedded.org>
-In-Reply-To: <24821.1739835549438079665@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Feb 2025 05:25:16 +0100
-X-Gm-Features: AWEUYZmG6r-oVfcT33W6BlCa5h4rT4zvHU0lCacFbuY50SWuKPVo_db_sIxRYys
-Message-ID: <CANNYZj8R6ycBUpf6mUCVxVy=2c7OxpDHD3rMyKSkn7WvRbF5RQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V3] setuptools3-base.bbclass: override default
- subprocess timeout
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c0ce9d062e630722"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: U16qZ00-5_yTNwV-MtBPR_6kktf57z0Q
+X-Authority-Analysis: v=2.4 cv=fLPD3Yae c=1 sm=1 tr=0 ts=67b432da cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=p0WdMEafAAAA:8 a=t7CeM3EgAAAA:8 a=C_IRinGWAAAA:8 a=eLdoSaKvKJx6WDaDmVsA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: U16qZ00-5_yTNwV-MtBPR_6kktf57z0Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-18_02,2025-02-18_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=862 phishscore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502180054
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 04:25:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211562
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 07:12:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211563
 
---000000000000c0ce9d062e630722
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-But why should this be set in core for everyone, and to ten minutes? Your
-farm is misconfigured if 40 seconds is not enough got =E2=80=98git status=
-=E2=80=99.
+This patch is ported from a merge request shown below,
+and the following represents the original commit text.
 
-Alex
+------------------------------------------------------
+top: In the bye_bye function, replace fputs with the write interface.
 
-On Tue 18. Feb 2025 at 0.39, hongxu via lists.openembedded.org <hongxu.jia=
-=3D
-eng.windriver.com@lists.openembedded.org> wrote:
+When top calls malloc, if a signal is received, it will
+call sig_endpgm to process the signal. In the bye_bye function, if the
+-b option is enable, the Batch variable is set, the fputs function
+will calls malloc at the same time. The malloc function is not reentrant, so
+it will cause the program to crash.
 
-> It happens occasionally, in our build farm, similar Yocto Autobuilder, th=
-e
-> build test controller  starts up multiple containers for the build on  th=
-e
-> host, and each container is allocated for the world build.
-> It should be some kind of limit testing or stress testing for yocto build
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#211558):
-> https://lists.openembedded.org/g/openembedded-core/message/211558
-> Mute This Topic: https://lists.openembedded.org/mt/111228031/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Signed-off-by: Shaohua Zhan <shaohua.zhan@windriver.com>
+------------------------------------------------------
 
---000000000000c0ce9d062e630722
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reference(s):
+https://gitlab.com/procps-ng/procps/-/merge_requests/127
 
-<div dir=3D"auto">But why should this be set in core for everyone, and to t=
-en minutes? Your farm is misconfigured if 40 seconds is not enough got =E2=
-=80=98git status=E2=80=99.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Alex</div><div><br><div class=3D"gmail_quote gmail_quote_container"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Tue 18. Feb 2025 at 0.39, hongxu via <=
-a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;hon=
-gxu.jia=3D<a href=3D"mailto:eng.windriver.com@lists.openembedded.org">eng.w=
-indriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
-border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)=
-"><div dir=3D"auto">It happens occasionally, in our build farm, similar Yoc=
-to Autobuilder, the build test controller=C2=A0 starts up multiple containe=
-rs for the build on =C2=A0the host, and each container is allocated for the=
- world build.</div>
-<div>It should be some kind of limit testing or stress testing for yocto bu=
-ild</div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#211558): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/211558" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/211558</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111228031/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/111228031/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...x-for-the-bye_bye-function-merge-127.patch | 58 +++++++++++++++++++
+ ...e-use-of-fputs-3-with-a-write-2-call.patch | 50 ++++++++++++++++
+ meta/recipes-extended/procps/procps_3.3.17.bb |  2 +
+ 3 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/0001-top-fix-a-fix-for-the-bye_bye-function-merge-127.patch
+ create mode 100644 meta/recipes-extended/procps/procps/0001-top-replaced-one-use-of-fputs-3-with-a-write-2-call.patch
 
---000000000000c0ce9d062e630722--
+diff --git a/meta/recipes-extended/procps/procps/0001-top-fix-a-fix-for-the-bye_bye-function-merge-127.patch b/meta/recipes-extended/procps/procps/0001-top-fix-a-fix-for-the-bye_bye-function-merge-127.patch
+new file mode 100644
+index 0000000000..bbc137a3d8
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/0001-top-fix-a-fix-for-the-bye_bye-function-merge-127.patch
+@@ -0,0 +1,58 @@
++From 37f106029975e3045b0cd779525d14c55d24b74e Mon Sep 17 00:00:00 2001
++From: Jim Warner <james.warner@comcast.net>
++Date: Mon, 21 Jun 2021 00:00:00 -0500
++Subject: [PATCH] top: fix a fix for the 'bye_bye' function (merge #127)
++
++In the merge request shown below, 1 too many bytes are
++written to stdout thus including the terminating null.
++As the cure, this commit just reduces the length by 1.
++
++[ along the way, we will remove some unneeded braces ]
++[ plus add some additional comments with attribution ]
++
++Reference(s):
++https://gitlab.com/procps-ng/procps/-/merge_requests/127
++. original merged change
++commit 0bf15c004db6a3342703a3c420a5692e376c457d
++
++Signed-off-by: Jim Warner <james.warner@comcast.net>
++
++Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/-/commit/37f106029975e3045b0cd779525d14c55d24b74e]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ top/top.c | 14 +++++++++++---
++ 1 file changed, 11 insertions(+), 3 deletions(-)
++
++diff --git a/top/top.c b/top/top.c
++index 4d9860d5..0d21a1a5 100644
++--- a/top/top.c
+++++ b/top/top.c
++@@ -569,13 +569,21 @@ static void bye_bye (const char *str) {
++ #endif // end: OFF_HST_HASH
++ 
++    numa_uninit();
+++
+++   /* we'll only have a 'str' if called by error_exit() |
+++      or that xalloc_our_handler() function. if we were |
+++      called from a sig_endpgm(), that parm is NULL ... | */
++    if (str) {
++       fputs(str, stderr);
++       exit(EXIT_FAILURE);
++    }
++-   if (Batch) {
++-      write(fileno(stdout), "\n", sizeof("\n"));
++-   }
+++   /* this could happen when called from several places |
+++      including that sig_endpgm().  thus we must use an |
+++      async-signal-safe write function just in case ... |
+++      (thanks: Shaohua Zhan shaohua.zhan@windriver.com) | */
+++   if (Batch)
+++      write(fileno(stdout), "\n", sizeof("\n") - 1);
+++
++    exit(EXIT_SUCCESS);
++ } // end: bye_bye
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/procps/procps/0001-top-replaced-one-use-of-fputs-3-with-a-write-2-call.patch b/meta/recipes-extended/procps/procps/0001-top-replaced-one-use-of-fputs-3-with-a-write-2-call.patch
+new file mode 100644
+index 0000000000..4da13df047
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/0001-top-replaced-one-use-of-fputs-3-with-a-write-2-call.patch
+@@ -0,0 +1,50 @@
++From 6b8980a3b6279058d727377e914cfb6439d6f178 Mon Sep 17 00:00:00 2001
++From: Shaohua Zhan <shaohua.zhan@windriver.com>
++Date: Mon, 22 Mar 2021 00:00:00 +0800
++Subject: [PATCH] top: replaced one use of fputs(3) with a write(2) call
++
++This patch is ported from a merge request shown below,
++and the following represents the original commit text.
++
++------------------------------------------------------
++top: In the bye_bye function, replace fputs with the write interface.
++
++When top calls malloc, if a signal is received, it will
++call sig_endpgm to process the signal. In the bye_bye function, if the
++-b option is enable, the Batch variable is set, the fputs function
++will calls malloc at the same time. The malloc function is not reentrant, so
++it will cause the program to crash.
++
++Signed-off-by: Shaohua Zhan <shaohua.zhan@windriver.com>
++------------------------------------------------------
++
++Reference(s):
++https://gitlab.com/procps-ng/procps/-/merge_requests/127
++
++Signed-off-by: Jim Warner <james.warner@comcast.net>
++
++Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/-/commit/6b8980a3b6279058d727377e914cfb6439d6f178]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ top/top.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/top/top.c b/top/top.c
++index f4f82be4..951c240c 100644
++--- a/top/top.c
+++++ b/top/top.c
++@@ -417,7 +417,9 @@ static void bye_bye (const char *str) {
++       fputs(str, stderr);
++       exit(EXIT_FAILURE);
++    }
++-   if (Batch) fputs("\n", stdout);
+++   if (Batch) {
+++      write(fileno(stdout), "\n", sizeof("\n"));
+++   }
++    exit(EXIT_SUCCESS);
++ } // end: bye_bye
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/procps/procps_3.3.17.bb b/meta/recipes-extended/procps/procps_3.3.17.bb
+index bbec5a543c..131063efb9 100644
+--- a/meta/recipes-extended/procps/procps_3.3.17.bb
++++ b/meta/recipes-extended/procps/procps_3.3.17.bb
+@@ -18,6 +18,8 @@ SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master \
+            file://0002-proc-escape.c-add-missing-include.patch \
+            file://CVE-2023-4016.patch \
+            file://CVE-2023-4016-2.patch \
++           file://0001-top-replaced-one-use-of-fputs-3-with-a-write-2-call.patch \
++           file://0001-top-fix-a-fix-for-the-bye_bye-function-merge-127.patch \
+            "
+ SRCREV = "19a508ea121c0c4ac6d0224575a036de745eaaf8"
+ 
+-- 
+2.34.1
+
 
