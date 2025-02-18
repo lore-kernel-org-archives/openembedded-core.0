@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 143DDC021B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 217BAC021B2
 	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 21:10:18 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.7388.1739913016180906444
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.7190.1739913014752393298
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Feb 2025 13:10:16 -0800
+ Tue, 18 Feb 2025 13:10:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jt53pTg4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2f441791e40so8783702a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 13:10:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GEijPWLY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2f42992f608so9137117a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 13:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739913015; x=1740517815; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739913014; x=1740517814; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pmiwlVNY6OUne2IPets111kb9dtbxiGOLeH+/HD145k=;
-        b=jt53pTg4crnGUta4aeZWQaqMiqKcGwSmoRxof0If2Rc6dQ029qEiHAycLvDUq2lzmT
-         OPWKNAMYN+7q8Y45M3o1iscSe8FF0BtymbT2/Qwfcyz+l4f84aF3PseQyiFDJusOeOKx
-         V/w/o5WlUlFqt9g30twgyrcFSmGWgUEITtdZ3zHi0935PpBqSJnYMzWCYuQj2GA23AyN
-         LInCmyQsV7GtPNJ5QujOwk6JOHgqTlR8lBQ7m/A2rXjA9GyOAQ+r8+xhdiXAtr6trYef
-         mHwNfHs02aC1oU/bjotGripXPYl/OtBOHXZQhDFwhPy4xGespYdfYKes07mQGiNN76iz
-         D7Sg==
+        bh=k1hK9OxgZH2uRzdbYDEhbgoU+OMVNsF9lzvVyIuFJsw=;
+        b=GEijPWLYDMuUwTf/RbewUZmJ3eLe4zBZ3ezqMz92lvW/ddWaH23NAKGbtTfP22O/s6
+         jYZWCuwNebgVfSMJBm1fV/pHXDH+f8cokY3H4NWbMqQmRHBl3Uqj7vhgt3XN+U+T/aE4
+         yhOEGq1p02ytoEmxAnbNxHfWKwj/r9oC4mft3iyQ6119j+ZL+rL99N91KejxoRKy7XXA
+         WWQon0OdRNC0a1S5AQAtphPKZHLKU3f6lJmrDXtwf/PWJ+g58g6s28Oea9lullZTnUmW
+         vE28UvPZEBZ+eTGzH0TPSumHqHeEKtSmIrkP7SbWNYnOzrFHsOmAcY5dPii2gZHjgXRX
+         KU8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739913015; x=1740517815;
+        d=1e100.net; s=20230601; t=1739913014; x=1740517814;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pmiwlVNY6OUne2IPets111kb9dtbxiGOLeH+/HD145k=;
-        b=laNbJiH0oVu0gId5gmlh3GlPYs5ciy43mNRjGUTDxgIVcsmdXgT53pXBOnVsAaca8L
-         gV9JSd7biTuyVQ6DUIvSbbOh3RQQEKrc73V+Vtv7y4YlJmWp5tMZ13oheKvgXcj0ILvH
-         XxlDGgiSPTic57t5XfPe2tu9NHhA5Z/SDS5xzhaQrqlZESIKLxnpJGsYRXA0AG2LFCNq
-         d4IKYBZJIkTsX9VIOLXJgaHxDSQPEWeUifqPFaUZEq7Nqhcw8l/Q5Q3wQeSDFOWLTaAA
-         hGQ51WCOjoTNoS3HYA60ODF+cm+5qiyNOMAGagYPFmBuYPTl6FgVvh7ZO5Fry21og1Tc
-         rS3w==
-X-Gm-Message-State: AOJu0YwWgJvALgifaPkiMgFnG8mcOUWl3Ii/xz7EWYGuGDZOyGwRChz1
-	of/pzYhqlUkV1/UbQXYYTN1zx1/0HYAooQbQyIG+KOz+/iNobbJm/rfmQO7+ApSmMrzohu3oTMH
-	W
-X-Gm-Gg: ASbGncuiw5avgetaHb0P7/7X+YjICXlONLDhrZ4zbYwFpsBGaUWcMFKNgcg0/PYgfxD
-	3H7MYYt9MGfjiuQbPfikotUFgmRBLMXOW8W6gaMSg3oZNQnBiC1rkAUCFXxnpMLwubpG1G4YM3x
-	CyTfSDlMujC30ybyX9X+PgloCskPnxlD2wGaVhMdlgKhF71yi/z3Qgxk5RlEUvXbuo1etSWHmcf
-	WoS42TW71bGsPTgEykgYR+m8TA5yuH/BSi2NJysEE40dD+EtsloOuhOeqgUBkrdmy2bfUBQ1MdI
-	/2yf9RU=
-X-Google-Smtp-Source: AGHT+IEpOJWLdr5+XfcB17jYpsNRynHXQNH/2SjoMxzj7MN0n7c2Tfo7OKgSkSSMCwDbcGB8ZDlnqQ==
-X-Received: by 2002:a17:90b:4c0c:b0:2ee:c6c8:d89f with SMTP id 98e67ed59e1d1-2fc40f108e9mr26436524a91.14.1739913015433;
-        Tue, 18 Feb 2025 13:10:15 -0800 (PST)
+        bh=k1hK9OxgZH2uRzdbYDEhbgoU+OMVNsF9lzvVyIuFJsw=;
+        b=Qh0lmSkxSPWdT2VqTVkVdl/JttL6UhkXirC7/PlqaSbCTPorBYo/H9VnfuoSx9KmCG
+         bsYFwLGvDBIiiNNDOwjPrUaLJ6aEesBSB3p5IrIMoPaUpnD9cpIsM8kS10Rtcrjn5pI4
+         SDlYGyEKTOl6vA8ECC9+Ikw0z2D0YhBHfzkDjUaH/yPo9U/MgLXSZLVpflFnRWFYsqPD
+         JB7lFSlGiBvLYnF5nUYvF1RmuV4p+u9NuuygfJPjY9HBZSEED2lvYo8BMCBlHegxaLGl
+         17oe+1Y/mVgMNWTD+tyQcuAaTicu0kU79PIn3LuwaF1fN26JnzG5kzn+KGibP5PKhUic
+         hYTg==
+X-Gm-Message-State: AOJu0YxS59FwilKcDHFamIxbSnJx8SNAlyJm8k3gdfjxMdmdVPz6+WjI
+	fgEe1McY2B6YvlImdvk8oMvm/NSGsBTELLOSnny1CpY6LlrlAMmyneMWpYQVQ3xxWSr9OvEHSqv
+	c
+X-Gm-Gg: ASbGncszMJZUX5SunD9+s3eQpRyS95VyK+bh8M7HgqSFByoM7lFAk2RKcIHXO5dDiQv
+	+CQ9A+hTdy3751hqB2aBJEptGWwX+HFIolPCqeERCsdO/Pa6ugYZndNiLrXA8OQVEU8JjdzN1Ej
+	Frmb5VP+SlyJw5CIqaWmQhoBSff0nXHJUfv0VMmXoXq7AF8EQhux7dQRfU8XxTdQDkfKq8jlAvf
+	LS5+vGELD3qNPIUii9gd8Gr0johlLUNfJ68twH9miXOC0HfHauEQbDmMaZWiXNvf0aOe5pbnpYk
+	6rBMLG4=
+X-Google-Smtp-Source: AGHT+IGwNyMvj12feUyfTj6VkT/SSFjv7HGR60gFbqf680ECpUKihHBpRPpg+2IVP9xBkrt5ENzRfg==
+X-Received: by 2002:a17:90b:1a87:b0:2ee:e113:815d with SMTP id 98e67ed59e1d1-2fc40f10271mr21462152a91.8.1739913013995;
+        Tue, 18 Feb 2025 13:10:13 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:83c7:94a9:a555:bf05])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98b326bsm12820720a91.1.2025.02.18.13.10.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98b326bsm12820720a91.1.2025.02.18.13.10.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 13:10:15 -0800 (PST)
+        Tue, 18 Feb 2025 13:10:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/12] libxml2: Fix for CVE-2022-49043
-Date: Tue, 18 Feb 2025 13:09:56 -0800
-Message-ID: <bd66a1a4b420463283ee40a7153e6f7edbb3a0bb.1739912869.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/12] libpcre2: ignore CVE-2022-1586
+Date: Tue, 18 Feb 2025 13:09:55 -0800
+Message-ID: <063be7f1f3d9abe61a1eb2d71eeb548b4eb760e6.1739912869.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739912869.git.steve@sakoman.com>
 References: <cover.1739912869.git.steve@sakoman.com>
@@ -67,79 +67,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 21:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211642
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211641
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/5a19e21605398cef6a8b1452477a8705cb41562b]
+This CVE is fixed in 10.40
+NVD wrongly changed <10.40 to =10.40 when adding debian_linux=10.0
 
 Reference:
-https://access.redhat.com/security/cve/cve-2022-49043
+https://nvd.nist.gov/vuln/detail/CVE-2022-1586#VulnChangeHistorySection
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxml/libxml2/CVE-2022-49043.patch       | 38 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-49043.patch
+ meta/recipes-support/libpcre/libpcre2_10.40.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2022-49043.patch b/meta/recipes-core/libxml/libxml2/CVE-2022-49043.patch
-new file mode 100644
-index 0000000000..25c7bc847c
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2022-49043.patch
-@@ -0,0 +1,38 @@
-+From 5a19e21605398cef6a8b1452477a8705cb41562b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 2 Nov 2022 16:13:27 +0100
-+Subject: [PATCH] malloc-fail: Fix use-after-free in xmlXIncludeAddNode
-+
-+Found with libFuzzer, see #344.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/5a19e21605398cef6a8b1452477a8705cb41562b]
-+CVE: CVE-2022-49043
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ xinclude.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/xinclude.c b/xinclude.c
-+index e5fdf0f..36fa8ec 100644
-+--- a/xinclude.c
-++++ b/xinclude.c
-+@@ -612,14 +612,15 @@ xmlXIncludeAddNode(xmlXIncludeCtxtPtr ctxt, xmlNodePtr cur) {
-+     }
-+     URL = xmlSaveUri(uri);
-+     xmlFreeURI(uri);
-+-    xmlFree(URI);
-+     if (URL == NULL) {
-+ 	xmlXIncludeErr(ctxt, cur, XML_XINCLUDE_HREF_URI,
-+ 	               "invalid value URI %s\n", URI);
-+ 	if (fragment != NULL)
-+ 	    xmlFree(fragment);
-++	xmlFree(URI);
-+ 	return(-1);
-+     }
-++    xmlFree(URI);
-+ 
-+     if (xmlStrEqual(URL, ctxt->doc->URL))
-+ 	local = 1;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 94b3b510ae..ecaae0b436 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -33,6 +33,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2023-45322-2.patch \
-            file://CVE-2024-25062.patch \
-            file://CVE-2024-34459.patch \
-+           file://CVE-2022-49043.patch \
-            "
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.40.bb b/meta/recipes-support/libpcre/libpcre2_10.40.bb
+index 74c12ecec2..ba5f8cff32 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.40.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.40.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "14e4b83c4783933dc17e964318e6324f7cae1bc75d8f3c79bc6969f00c
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+ CVE_PRODUCT = "pcre2"
+ 
++# This CVE is fixed in 10.40
++# NVD wrongly changed <10.40 to =10.40 when adding debian_linux=10.0
++CVE_CHECK_IGNORE += "CVE-2022-1586"
++
+ S = "${WORKDIR}/pcre2-${PV}"
+ 
+ PROVIDES += "pcre2"
 -- 
 2.43.0
 
