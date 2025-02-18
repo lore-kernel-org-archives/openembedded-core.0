@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 779D2C021A9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76606C02198
 	for <webhook@archiver.kernel.org>; Tue, 18 Feb 2025 07:59:49 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.14846.1739865585450371668
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.14909.1739865585011868433
  for <openembedded-core@lists.openembedded.org>;
  Mon, 17 Feb 2025 23:59:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YlGu7s5o;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IZp9zXbW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101951811f3bb-5a5fa1cb-210a-4a87-9d93-52fa5a749e0a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZRMucK/L;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MmswiRRA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101951811f04e-0d5f4508-9826-49fc-8d92-cc5fcb4eedb9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1739865584; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=J9Tph1zUUwjYgZRf3qKdCoiupYBVtzRfPfq96HpEwp8=;
-	b=YlGu7s5oea6z38fHewWppNpvKnfeROeQxJCEIhuqG1qlYqyuXnm0zrqDC20pLKo/
-	/NqGpGtEf8pImZvzYBcUt3w7lpE0zykPboxeaYNCIXzyNnxYJ1CE/7NgpSTLcLCCQsI
-	9NHvIc9miLSICT0n0PElW99RrwcSl7JCyknj3jgs=
+	bh=ZdFJl2sN1c6kEs3rSIFe8HVCJ5M0qGA7sBvriB4+tjY=;
+	b=ZRMucK/Lwvc4DG4iiCShPYfQ0GMa11fJEdU9M/uYLZxJsNjYY7WdcyPGrYkbDH2M
+	l4gMj12k3L1zNRFDuOTMpBWDDWqHjinPVgYZvT8alOt7e0xGSQs+x/OSyNvpr2Vhg/U
+	yM1QRaFSp00S74Np5qzG3rA7R4jUvjXVlGnFnA+M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1739865584;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=J9Tph1zUUwjYgZRf3qKdCoiupYBVtzRfPfq96HpEwp8=;
-	b=IZp9zXbW30PEAcdI3aLWhJIF7V6ldNie/g4W46GifhwgfedpLw87nVK3nZzNU0X5
-	S7QZz1ZZpiVXs3mJHAJiqjqM9VbyQ+N5VMtj28BmRA1F1HIeoWUj+2SM97f+k2c7aVx
-	Y/L4QwnVWs3qEwDzgcEzIMt7kqzM4UnYV1dmz/kY=
+	bh=ZdFJl2sN1c6kEs3rSIFe8HVCJ5M0qGA7sBvriB4+tjY=;
+	b=MmswiRRARNRc67ihxGH8uwLJrS/trxSYmWCJ9G28+cRFm4Dz3snWWUeInMFvfF8Q
+	Hf2ssXCexjTpHuprgMEZ44oKlpTgIqNfMnbrFKB11jI54VAH7HHFy4YJqwoH4iGI/Io
+	TOYbIsU5KQBI98FZbol1pNO1j8davMzOtq3UZP4s=
 From: patchtest@automation.yoctoproject.org
 To: wangmy@fujitsu.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH 28/32] ttyrun: upgrade 2.36.0 -> 2.37.0
-In-Reply-To: <1739864375-21394-28-git-send-email-wangmy@fujitsu.com>
-References: <1739864375-21394-28-git-send-email-wangmy@fujitsu.com>
+Subject: Patchtest results for [OE-core] [PATCH 26/32] strace: upgrade 6.12 -> 6.13
+In-Reply-To: <1739864375-21394-26-git-send-email-wangmy@fujitsu.com>
+References: <1739864375-21394-26-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101951811f3bb-5a5fa1cb-210a-4a87-9d93-52fa5a749e0a-000000@us-west-2.amazonses.com>
-Date: Tue, 18 Feb 2025 07:59:44 +0000
+Message-ID: <010101951811f04e-0d5f4508-9826-49fc-8d92-cc5fcb4eedb9-000000@us-west-2.amazonses.com>
+Date: Tue, 18 Feb 2025 07:59:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.02.18-54.240.27.33
+X-SES-Outgoing: 2025.02.18-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 07:59:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211597
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211596
 
 --NextPart
 Content-Type: text/plain
@@ -53,16 +53,16 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/28-32-ttyrun-upgrade-2.36.0---2.37.0.patch
+Testing patch /home/patchtest/share/mboxes/26-32-strace-upgrade-6.12---6.13.patch
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
