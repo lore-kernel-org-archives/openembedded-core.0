@@ -2,325 +2,399 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B705FC021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 19:21:35 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web11.31398.1739992887247026290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A43C8C021AA
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 19:21:45 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.31400.1739992896106919515
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 11:21:27 -0800
+ Wed, 19 Feb 2025 11:21:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NDnUGgp0;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5fa2a2bdde9so56836eaf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 11:21:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f391Jpma;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2bc607b33d5so40520fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 11:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739992886; x=1740597686; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1739992895; x=1740597695; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mMmrPnsStWuZaC8yLs7s8VdJOalgMJCR4PXBeT4owdQ=;
-        b=NDnUGgp0KieetnLUxKESHn7ioLlgYP8Hgb3oFxsYoF2ake9LdzOWs6kbeb7Q+GUAfR
-         M2mFgxa8LbRwkv/MTD+oFt7N8/nbLTReNo3gL2DSyu14nqHa06TvwgANfI/kKZQBVTC4
-         5hbC+qj4CJVQRvmymPXZkOZycpzG86XXxNJLZKka3vzRbSZ2Ehh9pxhNQFRq2snkPAe0
-         EhWlTYMBhX5p/OJsqQ/WX+53+iLlY/LLv5GUEg5YlNkuPpMCoJHvqPPYlAIz0QPOeBDy
-         G2E9Hyv6gtsIUYx7TyEscEZ1+j+qD8GURz/98h+nw/ifw9vmibT6hUVxlXOiJP+7hkKS
-         mg/Q==
+        bh=ybOtpVjd5Zrsao2IE1OrgLpEMETpc8AhzmFm4JXYQ0s=;
+        b=f391JpmaYduLXHbYOH+y48os/AvUy504de8Jnu2/xZoTEIoUyh1aIr09RSP16mHu6Z
+         q0gWbUsIDic1iRRkFavTqXdyNZq9yFihdNlnO0j10mfuLHT5rfFs9+p4gzFKh21OVLDy
+         9gONe8MxNQDMkpJpf+uysNUFye9cMpVxA2Ao/xQ6m0RYqMWPcC79NM7rOoweUHu4h75N
+         csHskeD1oAVaW+xHt40Ip20HsfcYcaFLJdB7T3KR3Ce3T/Z0TSZpbdLpo/vNJCu0P6BR
+         IcUFghXxu/HI0eJwPWAOuK+xEhBHTeNu1+vDnYlxvzwu/bfsvFr9A825RxCUCRjSTy7l
+         vtFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739992886; x=1740597686;
+        d=1e100.net; s=20230601; t=1739992895; x=1740597695;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mMmrPnsStWuZaC8yLs7s8VdJOalgMJCR4PXBeT4owdQ=;
-        b=K1Zz7DingJEDp+ya1ZqjfIieGaLfDzrGsiUAe/2W7pAqmmUBnYUqwdmEtDGfbXqxwI
-         urypf55ch9Wmg7lTsBRjnZqDR5zOxn5F1yRYZuUyNs8nRuPvskojaZ0cTbJ/DmR68KWZ
-         CKJSAAkBhpCPFNmCs3XrdncRb+P8xMLAygU1UDBko0WnMElGuCjVczG7GKE+bKr1pARN
-         GHjpZhrCsngdWx4BvtYOotTeDhzhNaIxX1tiIunZenX3vQB9TLQ4FcwcnEKMlgNWgiVU
-         bqAbI1z+pAPo4Qgp/m2pyMnHlvx6nB5IZ1QWy5wXOQi0WxsYGw9kHRKfr5Kxtec64QGo
-         IPvA==
-X-Gm-Message-State: AOJu0Yz5gaFNfx2iqn+WB/8SQNV8+Ujj/wOpuMe3dakWnQVlJJxG83fE
-	rpR3hUhzuC8KJTrTw00rlg/X2JUWp4FDsi9rV0Fgha3um2huL8RMDeVxg6XMgpL12/M1r8VwOgo
-	SrRPkOLOV13R7uG7iJY3H7r68ZvwBwtsU
-X-Gm-Gg: ASbGncthJBTWRmtio/lW7zaMvA+Epjh3WxBYhHScoVdyfu7DVN0yUshJIYHKH6UqOAW
-	nbwlCnOHlZymHeQl9VIlc08EB4Q+aNQiTM6bF9uU8q6KFLMt12JrfkS59R1aXhqThG7siafGVNu
-	uUU+19INsqluwGglnwi5vojLLJ6A==
-X-Google-Smtp-Source: AGHT+IFWOP05+Jzj+5Q3LifWT9XxvlclTGAmVwKepe8c7BfaSM9B1Ig5yEHYzx+MdPp0YqWUnWWnvUeIoRwI6zlyYps=
-X-Received: by 2002:a05:6870:3c11:b0:277:d8ee:6dda with SMTP id
- 586e51a60fabf-2bc99ac278dmr12178570fac.23.1739992886414; Wed, 19 Feb 2025
- 11:21:26 -0800 (PST)
+        bh=ybOtpVjd5Zrsao2IE1OrgLpEMETpc8AhzmFm4JXYQ0s=;
+        b=SAiDms8BSbd5ja5kzvL7MFgbyP7vDdFUlo1pUodA5ylF0+wJUbKXQNkskHgvjwET++
+         paG7rr/ubzjDSetrxSvcXNU/6flcciVw2FTwmTH636dn38e1vKp6MhplEL+3cFIZ4UpT
+         jZJMC+YjcsTd38HGErJWJzIHFaTGK9+a5Z3gUIfQ1fBHj7kZ41NmQe0X3Rur0SFEVGkH
+         8cuqfW7nOGAOU9S5yxD042jeUV41JVAIgEk6ggK6xKre3KZ0nE045cYyncfXgcdoJV5e
+         PFVJNCBy3c+oisiXpGOq/nUuIncRPve4MtbXA1WanEARXmPPv4xTTQ/CNOM8b3NgIE97
+         9yWA==
+X-Gm-Message-State: AOJu0YyR7jMUm4iHBTfjDD0MO41sUiHw+ehfvvg7E6TthcrJp+CBa3sJ
+	aSwZdfZuIlYmSF0v6ov+GgL5xEons6BRyUEBevPlkAm+irgd0BJIHgfO8QydEd5OKyacuvial+L
+	mAw+eR2seMFGad7FnmmxCon0xIL8ivi3u
+X-Gm-Gg: ASbGncsTh3j6pSxS1ITKKV/MUyCLF7M+Imd7xcE5rU6G9Mc6J8/teAH04LsRySutBJQ
+	JoeSvA+82GFg4VmXNdKsYaj+y7qOnxa2c5J4PZM1EGj/3leECTVszQxZHOnpwUiYCYoyMYXG4Ew
+	BZ1DBd1J062R3uEeyrJCqpPmZHaw==
+X-Google-Smtp-Source: AGHT+IFjpNAPatE7XaOd6Rp3lP5yXqOnTzBntlWrz0m+ijGFG2WG1H0I9Sji1wcvBNbGN89RC5H+5Eoo/tRcViqNtNM=
+X-Received: by 2002:a05:6871:739e:b0:29e:460d:f74a with SMTP id
+ 586e51a60fabf-2bc99a383a5mr13079886fac.3.1739992895326; Wed, 19 Feb 2025
+ 11:21:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20250219185119.2168718-1-festevam@gmail.com>
-In-Reply-To: <20250219185119.2168718-1-festevam@gmail.com>
+References: <20250219185119.2168718-1-festevam@gmail.com> <20250219185119.2168718-2-festevam@gmail.com>
+In-Reply-To: <20250219185119.2168718-2-festevam@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Feb 2025 11:21:00 -0800
-X-Gm-Features: AWEUYZlHbiiBGyW8XP3GvpLioUcZUBA_Gl5rm2-cRSTQMI5mPuqXHJBe8ErL_MM
-Message-ID: <CAMKF1srsSNZ1XR=nTaS-Op16o15F4=SdqWgQGu-Yv4bchoif3w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] libexecinfo: Move it to the core
+Date: Wed, 19 Feb 2025 11:21:09 -0800
+X-Gm-Features: AWEUYZmZT2OJ6ZFNam3byuaPG56MR4yNz0QjSFqF_xpeoPevxjm6g8X8KcStMHo
+Message-ID: <CAMKF1sr1Upsz6EiFaR=Ri8=+SgDVtfJy1VWfOD6+2sWW05h_BQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] mtd-utils: Upgrade to 2.3.0
 To: Fabio Estevam <festevam@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org, Fabio Estevam <festevam@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 19:21:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211729
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 19:21:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211730
 
 LGTM
 
 On Wed, Feb 19, 2025 at 10:51=E2=80=AFAM Fabio Estevam <festevam@gmail.com>=
  wrote:
 >
-> Move the libexecinfo recipe from meta-openembedded to meta-oe.
+> From: Fabio Estevam <festevam@denx.de>
 >
-> The motivation for doing this is building mtd-utils 2.3.0 with musl.
+> Upgrade to mtd-utils 2.3.0.
 >
-> Musl requires an external libexecinfo to provide backtrace support.
+> Details about the 2.3.0 release:
+>
+> https://lore.kernel.org/linux-mtd/1b7a55a6-1c5b-4e86-8006-e2010e54367e@si=
+gma-star.at/T/#u
 >
 > Signed-off-by: Fabio Estevam <festevam@gmail.com>
 > ---
 > Changes since v2:
-> - Use Upstream-Status: Inactive-Upstream. (Alexander)
+> - Use v4 of the series submitted to linux-mtd kernel mailing list.
 >
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../0001-makefile-Fix-build-on-linux.patch    | 60 ++++++++++++++
->  ...piler-errors-found-with-newer-gcc-cl.patch | 79 +++++++++++++++++++
->  meta/recipes-core/musl/libexecinfo_1.1.bb     | 30 +++++++
->  4 files changed, 170 insertions(+)
->  create mode 100644 meta/recipes-core/musl/libexecinfo/0001-makefile-Fix-=
-build-on-linux.patch
->  create mode 100644 meta/recipes-core/musl/libexecinfo/0002-execinfo-Fix-=
-compiler-errors-found-with-newer-gcc-cl.patch
->  create mode 100644 meta/recipes-core/musl/libexecinfo_1.1.bb
+>  ...-ubifs-utils-ubifs.h-Include-fcntl.h.patch | 53 ++++++++++++++++++
+>  ...ifs-utils-journal-Include-sys-stat.h.patch | 41 ++++++++++++++
+>  ...d-a-check-for-execinfo-and-backtrace.patch | 54 +++++++++++++++++++
+>  ...extract_files-Include-linux-limits.h.patch | 41 ++++++++++++++
+>  ...{mtd-utils_2.2.1.bb =3D> mtd-utils_2.3.0.bb} | 11 +++-
+>  5 files changed, 199 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubif=
+s.h-Include-fcntl.h.patch
+>  create mode 100644 meta/recipes-devtools/mtd/files/0002-ubifs-utils-jour=
+nal-Include-sys-stat.h.patch
+>  create mode 100644 meta/recipes-devtools/mtd/files/0003-configure.ac-Add=
+-a-check-for-execinfo-and-backtrace.patch
+>  create mode 100644 meta/recipes-devtools/mtd/files/0004-ubifs-utils-extr=
+act_files-Include-linux-limits.h.patch
+>  rename meta/recipes-devtools/mtd/{mtd-utils_2.2.1.bb =3D> mtd-utils_2.3.=
+0.bb} (89%)
 >
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index e85a0c9563..c9885e7253 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -333,6 +333,7 @@ RECIPE_MAINTAINER:pn-libepoxy =3D "Anuj Mittal <anuj.=
-mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-liberation-fonts =3D "Unassigned <unassigned@yoctop=
-roject.org>"
->  RECIPE_MAINTAINER:pn-libevdev =3D "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-libevent =3D "Anuj Mittal <anuj.mittal@intel.com>"
-> +RECIPE_MAINTAINER:pn-libexecinfo =3D "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-libexif =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
->  RECIPE_MAINTAINER:pn-libfakekey =3D "Unassigned <unassigned@yoctoproject=
-.org>"
->  RECIPE_MAINTAINER:pn-libffi =3D "Unassigned <unassigned@yoctoproject.org=
->"
-> diff --git a/meta/recipes-core/musl/libexecinfo/0001-makefile-Fix-build-o=
-n-linux.patch b/meta/recipes-core/musl/libexecinfo/0001-makefile-Fix-build-=
-on-linux.patch
+> diff --git a/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Inc=
+lude-fcntl.h.patch b/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs=
+.h-Include-fcntl.h.patch
 > new file mode 100644
-> index 0000000000..d4894c4256
+> index 0000000000..a9ececc14c
 > --- /dev/null
-> +++ b/meta/recipes-core/musl/libexecinfo/0001-makefile-Fix-build-on-linux=
-.patch
-> @@ -0,0 +1,60 @@
-> +From 910bbc2cb6cc1cfa6deed9d170da02a639902c7c Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 19 Mar 2017 16:14:54 -0700
-> +Subject: [PATCH 1/2] makefile: Fix build on linux
+> +++ b/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Include-fc=
+ntl.h.patch
+> @@ -0,0 +1,53 @@
+> +From 2fc872697f72214e1e3efc6c2523e374fa5d681d Mon Sep 17 00:00:00 2001
+> +From: Fabio Estevam <festevam@gmail.com>
+> +Date: Mon, 17 Feb 2025 16:02:04 -0300
+> +Subject: [PATCH v4 mtd-utils 1/4] ubifs-utils: ubifs.h: Include <fcntl.h=
+>
 > +
-> +Upstream-Status: Inactive-Upstream [no update since 2017, no maintainer:=
- https://www.freshports.org/devel/libexecinfo]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Include the <fcntl.h> header file to fix the following error
+> +when building with musl:
+> +
+> +| In file included from ../git/ubifs-utils/common/compr.c:42:
+> +| ../git/ubifs-utils/libubifs/ubifs.h:313:9: error: unknown type name 'l=
+off_t'; did you mean 'off_t'?
+> +|   313 |         loff_t ui_size;
+> +|       |         ^~~~~~
+> +|       |         off_t
+> +| ../git/ubifs-utils/libubifs/ubifs.h:1341:9: error: unknown type name '=
+loff_t'; did you mean 'off_t'?
+> +|  1341 |         loff_t i_size;
+> +|       |         ^~~~~~
+> +|       |         off_t
+> +| ../git/ubifs-utils/libubifs/ubifs.h:1342:9: error: unknown type name '=
+loff_t'; did you mean 'off_t'?
+> +|  1342 |         loff_t d_size;
+> +|       |         ^~~~~~
+> +|       |         off_t
+> +| ../git/ubifs-utils/libubifs/ubifs.h:1899:44: error: unknown type name =
+'loff_t'; did you mean 'off_t'?
+> +|  1899 |                              int deletion, loff_t new_size);
+> +|       |                                            ^~~~~~
+> +|       |                                            off_t
+> +| make: *** [Makefile:4878: ubifs-utils/common/mkfs_ubifs-compr.o] Error=
+ 1
+> +
+> +Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/2025021913=
+0244.2119582-1-festevam@gmail.com/T/#t]
+> +Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> +Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
+> +Reviewed-by: Khem Raj <raj.khem@gmail.com>
 > +---
-> + Makefile | 33 +++++++++++++++++----------------
-> + 1 file changed, 17 insertions(+), 16 deletions(-)
+> +Changes since v3:
+> +- Removed Upstream-Status tag.
 > +
-> +Index: libexecinfo-1.1/Makefile
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- libexecinfo-1.1.orig/Makefile
-> ++++ libexecinfo-1.1/Makefile
-> +@@ -23,24 +23,25 @@
-> + # SUCH DAMAGE.
-> + #
-> + # $Id: Makefile,v 1.3 2004/07/19 05:19:55 sobomax Exp $
-> ++#
-> ++# Linux Makefile by Matt Smith <mcs@darkregion.net>, 2011/01/04
+> + ubifs-utils/libubifs/ubifs.h | 1 +
+> + 1 file changed, 1 insertion(+)
 > +
-> +-LIB=3D  execinfo
-> +-
-> +-SRCS=3D stacktraverse.c stacktraverse.h execinfo.c execinfo.h
-> +-
-> +-INCS=3D execinfo.h
-> +-
-> +-SHLIB_MAJOR=3D  1
-> +-SHLIB_MINOR=3D  0
-> +-
-> +-NOPROFILE=3D    yes
-> +-
-> +-DPADD=3D                ${LIBM}
-> +-LDADD=3D                -lm
-> +-
-> +-#WARNS?=3D      4
-> +-
-> +-#stacktraverse.c: gen.py
-> +-#     ./gen.py > stacktraverse.c
-> ++CC?=3Dcc
-> ++AR?=3Dar
-> ++EXECINFO_CFLAGS=3D$(CFLAGS) -O2 -pipe -fno-strict-aliasing -std=3Dgnu99=
- -fstack-protector -c
-> ++EXECINFO_LDFLAGS=3D$(LDFLAGS)
-> ++
-> ++all: static dynamic
-> ++
-> ++static:
-> ++      $(CC) $(EXECINFO_CFLAGS) $(EXECINFO_LDFLAGS) stacktraverse.c
-> ++      $(CC) $(EXECINFO_CFLAGS) $(EXECINFO_LDFLAGS) execinfo.c
-> ++      $(AR) rcs libexecinfo.a stacktraverse.o execinfo.o
-> ++
-> ++dynamic:
-> ++      $(CC) -fpic -DPIC $(EXECINFO_CFLAGS) $(EXECINFO_LDFLAGS) stacktra=
-verse.c -o stacktraverse.So
-> ++      $(CC) -fpic -DPIC $(EXECINFO_CFLAGS) $(EXECINFO_LDFLAGS) execinfo=
-.c -o execinfo.So
-> ++      $(CC) -shared -Wl,-soname,libexecinfo.so.1 -o libexecinfo.so.1 $(=
-EXECINFO_LDFLAGS) stacktraverse.So execinfo.So
+> +diff --git a/ubifs-utils/libubifs/ubifs.h b/ubifs-utils/libubifs/ubifs.h
+> +index 0908a2289208..1c7bc7bd0c80 100644
+> +--- a/ubifs-utils/libubifs/ubifs.h
+> ++++ b/ubifs-utils/libubifs/ubifs.h
+> +@@ -11,6 +11,7 @@
+> + #ifndef __UBIFS_H__
+> + #define __UBIFS_H__
 > +
-> +-.include <bsd.lib.mk>
-> ++clean:
-> ++      rm -rf *.o *.So *.a *.so
-> diff --git a/meta/recipes-core/musl/libexecinfo/0002-execinfo-Fix-compile=
-r-errors-found-with-newer-gcc-cl.patch b/meta/recipes-core/musl/libexecinfo=
-/0002-execinfo-Fix-compiler-errors-found-with-newer-gcc-cl.patch
-> new file mode 100644
-> index 0000000000..914928d924
-> --- /dev/null
-> +++ b/meta/recipes-core/musl/libexecinfo/0002-execinfo-Fix-compiler-error=
-s-found-with-newer-gcc-cl.patch
-> @@ -0,0 +1,79 @@
-> +From 0810817773fb81d7383d2fa8464244c8f79845fb Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 19 Mar 2017 16:16:18 -0700
-> +Subject: [PATCH 2/2] execinfo: Fix compiler errors found with newer gcc/=
-clang
+> ++#include <fcntl.h>
+> + #include <string.h>
 > +
-> +Upstream-Status: Inactive-Upstream [no update since 2017, no maintainer:=
- https://www.freshports.org/devel/libexecinfo]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + execinfo.c | 19 +++++++++++--------
-> + 1 file changed, 11 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/execinfo.c b/execinfo.c
-> +index 906fb14..9448b60 100644
-> +--- a/execinfo.c
-> ++++ b/execinfo.c
-> +@@ -69,7 +69,8 @@ backtrace(void **buffer, int size)
-> + char **
-> + backtrace_symbols(void *const *buffer, int size)
-> + {
-> +-    int i, clen, alen, offset;
-> ++    size_t clen, alen;
-> ++    int i, offset;
-> +     char **rval;
-> +     char *cp;
-> +     Dl_info info;
-> +@@ -78,7 +79,6 @@ backtrace_symbols(void *const *buffer, int size)
-> +     rval =3D malloc(clen);
-> +     if (rval =3D=3D NULL)
-> +         return NULL;
-> +-    (char **)cp =3D &(rval[size]);
-> +     for (i =3D 0; i < size; i++) {
-> +         if (dladdr(buffer[i], &info) !=3D 0) {
-> +             if (info.dli_sname =3D=3D NULL)
-> +@@ -92,14 +92,14 @@ backtrace_symbols(void *const *buffer, int size)
-> +                    2 +                      /* " <" */
-> +                    strlen(info.dli_sname) + /* "function" */
-> +                    1 +                      /* "+" */
-> +-                   D10(offset) +            /* "offset */
-> ++                   10 +                     /* "offset */
-> +                    5 +                      /* "> at " */
-> +                    strlen(info.dli_fname) + /* "filename" */
-> +                    1;                       /* "\0" */
-> +             rval =3D realloc_safe(rval, clen + alen);
-> +             if (rval =3D=3D NULL)
-> +                 return NULL;
-> +-            snprintf(cp, alen, "%p <%s+%d> at %s",
-> ++            snprintf((char *) rval + clen, alen, "%p <%s+%d> at %s",
-> +               buffer[i], info.dli_sname, offset, info.dli_fname);
-> +         } else {
-> +             alen =3D 2 +                      /* "0x" */
-> +@@ -108,12 +108,15 @@ backtrace_symbols(void *const *buffer, int size)
-> +             rval =3D realloc_safe(rval, clen + alen);
-> +             if (rval =3D=3D NULL)
-> +                 return NULL;
-> +-            snprintf(cp, alen, "%p", buffer[i]);
-> ++            snprintf((char *) rval + clen, alen, "%p", buffer[i]);
-> +         }
-> +-        rval[i] =3D cp;
-> +-        cp +=3D alen;
-> ++        rval[i] =3D (char *) clen;
-> ++        clen +=3D alen;
-> +     }
-> +
-> ++    for (i =3D 0; i < size; i++)
-> ++        rval[i] +=3D (long) rval;
-> ++
-> +     return rval;
-> + }
-> +
-> +@@ -155,6 +158,6 @@ backtrace_symbols_fd(void *const *buffer, int size, =
-int fd)
-> +                 return;
-> +             snprintf(buf, len, "%p\n", buffer[i]);
-> +         }
-> +-        write(fd, buf, len - 1);
-> ++        write(fd, buf, strlen(buf));
-> +     }
-> + }
+> + #include "linux_types.h"
 > +--
-> +2.12.0
-> diff --git a/meta/recipes-core/musl/libexecinfo_1.1.bb b/meta/recipes-cor=
-e/musl/libexecinfo_1.1.bb
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Inc=
+lude-sys-stat.h.patch b/meta/recipes-devtools/mtd/files/0002-ubifs-utils-jo=
+urnal-Include-sys-stat.h.patch
 > new file mode 100644
-> index 0000000000..3711ceeebd
+> index 0000000000..ea376437df
 > --- /dev/null
-> +++ b/meta/recipes-core/musl/libexecinfo_1.1.bb
-> @@ -0,0 +1,30 @@
-> +# Copyright (C) 2017 Khem Raj <raj.khem@gmail.com>
-> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +++ b/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Include-sy=
+s-stat.h.patch
+> @@ -0,0 +1,41 @@
+> +From 65077d8d664821e323d011956049c1c1b97d9560 Mon Sep 17 00:00:00 2001
+> +From: Fabio Estevam <festevam@gmail.com>
+> +Date: Mon, 17 Feb 2025 16:07:49 -0300
+> +Subject: [PATCH v4 mtd-utils 2/4] ubifs-utils: journal: Include <sys/sta=
+t.h>
 > +
-> +SUMMARY =3D "Library for inspecting program's backtrace"
-> +DESCRIPTION =3D "A quick-n-dirty BSD licensed clone of the GNU libc back=
-trace facility."
-> +HOMEPAGE =3D "http://www.freshports.org/devel/libexecinfo"
-> +LIC_FILES_CHKSUM =3D "file://execinfo.c;endline=3D25;md5=3D85bd3fa4ea9ac=
-ae5182e29db063fe2e5"
-> +LICENSE =3D "BSD-2-Clause"
-> +SECTION =3D "libs"
-> +DEPENDS =3D ""
+> +Include the <sys/stat.h> header file to fix the following error
+> +when building with musl:
 > +
-> +SRC_URI =3D "http://distcache.freebsd.org/local-distfiles/itetcu/${BP}.t=
-ar.bz2 \
-> +           file://0001-makefile-Fix-build-on-linux.patch \
-> +           file://0002-execinfo-Fix-compiler-errors-found-with-newer-gcc=
--cl.patch \
-> +           "
-> +SRC_URI[sha256sum] =3D "c9a21913e7fdac8ef6b33250b167aa1fc0a7b8a175145e26=
-913a4c19d8a59b1f"
+> +| ../git/ubifs-utils/libubifs/journal.c: In function 'ubifs_get_dent_typ=
+e':
+> +| ../git/ubifs-utils/libubifs/journal.c:414:24: error: 'S_IFMT' undeclar=
+ed (first use in this function)
+> +|   414 |         switch (mode & S_IFMT) {
+> +|       |                        ^~~~~~
+> +| ../git/ubifs-utils/libubifs/journal.c:414:24: note: each undeclared id=
+entifier is reported only once for each function it appears in
+> +| ../git/ubifs-utils/libubifs/journal.c:415:14: error: 'S_IFREG' undecla=
+red (first use in this function)
+> +|   415 |         case S_IFREG:
 > +
-> +CFLAGS +=3D "-fno-omit-frame-pointer  -D_GNU_SOURCE"
+> +Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/2025021913=
+0244.2119582-2-festevam@gmail.com/T/#t]
+> +Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> +Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
+> +---
+> +Changes since v3:
+> +- Removed Upstream-Status tag.
 > +
-> +do_install() {
-> +    install -D -m 0744 ${S}/execinfo.h ${D}${includedir}/execinfo.h
-> +    install -D -m 0744 ${S}/stacktraverse.h ${D}${includedir}/stacktrave=
-rse.h
-> +    install -D -m 0744 ${B}/libexecinfo.a ${D}${libdir}/libexecinfo.a
-> +    install -D -m 0755 ${B}/libexecinfo.so.1 ${D}${libdir}/libexecinfo.s=
-o.1
-> +    ln -s libexecinfo.so.1 ${D}${libdir}/libexecinfo.so
-> +}
-> +#
-> +# We will skip parsing for non-musl systems
-> +#
-> +COMPATIBLE_HOST =3D ".*-musl.*"
+> + ubifs-utils/libubifs/journal.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/ubifs-utils/libubifs/journal.c b/ubifs-utils/libubifs/journ=
+al.c
+> +index e78ea14f3e69..45d82fd54bdb 100644
+> +--- a/ubifs-utils/libubifs/journal.c
+> ++++ b/ubifs-utils/libubifs/journal.c
+> +@@ -46,6 +46,7 @@
+> +  * all the nodes.
+> +  */
+> +
+> ++#include <sys/stat.h>
+> + #include "bitops.h"
+> + #include "kmem.h"
+> + #include "ubifs.h"
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/mtd/files/0003-configure.ac-Add-a-chec=
+k-for-execinfo-and-backtrace.patch b/meta/recipes-devtools/mtd/files/0003-c=
+onfigure.ac-Add-a-check-for-execinfo-and-backtrace.patch
+> new file mode 100644
+> index 0000000000..8ab7d7369c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/mtd/files/0003-configure.ac-Add-a-check-for-e=
+xecinfo-and-backtrace.patch
+> @@ -0,0 +1,54 @@
+> +From 8503bc3de0d3ff016caa715716578a3be3698548 Mon Sep 17 00:00:00 2001
+> +From: Fabio Estevam <festevam@gmail.com>
+> +Date: Tue, 18 Feb 2025 18:25:56 -0300
+> +Subject: [PATCH v4 mtd-utils 3/4] configure.ac: Add a check for execinfo=
+ and backtrace
+> +
+> +musl relies on an external execinfo library to provide backtrace
+> +functionality. If musl cannot link to libexecinfo, the following link
+> +error happens:
+> +
+> +| /work/festevam/oe/poky/build/tmp/work/core2-64-poky-linux-musl/mtd-uti=
+ls/2.3.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec=
+/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld: ubifs-utils/l=
+ibubifs/mkfs_ubifs-io.o: in function `dump_stack':
+> +| /usr/src/debug/mtd-utils/2.3.0/ubifs-utils/common/defs.h:71:(.text+0x2=
+5): undefined reference to `backtrace'
+> +....
+> +| collect2: error: ld returned 1 exit status
+> +| make: *** [Makefile:2959: mkfs.ubifs] Error 1
+> +
+> +Fix the problem by checking for backtrace support in libc first and if n=
+ot
+> +found, then check for backtrace support in the external libexecinfo.
+> +
+> +Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/2025021913=
+0244.2119582-3-festevam@gmail.com/T/#t]
+> +Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> +Suggested-by: Khem Raj <raj.khem@gmail.com>
+> +Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
+> +---
+> +Change since v3:
+> +- None.
+> +
+> + configure.ac | 11 +++++++++++
+> + 1 file changed, 11 insertions(+)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 2a79ba820fc0..296901e61760 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -238,6 +238,17 @@ if test "x$need_cmocka" =3D "xyes"; then
+> +       PKG_CHECK_MODULES(CMOCKA, [cmocka], [], [cmocka_missing=3D"yes"])
+> + fi
+> +
+> ++AC_CHECK_FUNC([backtrace], [have_backtrace=3Dyes], [have_backtrace=3Dno=
+])
+> ++
+> ++if test "x$have_backtrace" =3D "xno"; then
+> ++    AC_CHECK_LIB([execinfo], [backtrace],
+> ++        [LIBS=3D"$LIBS -lexecinfo"
+> ++         AC_DEFINE([HAVE_BACKTRACE], [1], [backtrace is available via l=
+ibexecinfo])],
+> ++        [AC_MSG_WARN([backtrace support not found])])
+> ++else
+> ++    AC_DEFINE([HAVE_BACKTRACE], [1], [backtrace is available via libc])
+> ++fi
+> ++
+> + AC_CHECK_HEADERS([execinfo.h])
+> +
+> + ##### produce summary on dependencies #####
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_fil=
+es-Include-linux-limits.h.patch b/meta/recipes-devtools/mtd/files/0004-ubif=
+s-utils-extract_files-Include-linux-limits.h.patch
+> new file mode 100644
+> index 0000000000..87806af27d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_files-Incl=
+ude-linux-limits.h.patch
+> @@ -0,0 +1,41 @@
+> +From f218be1ce0c8923d690221160a3dd9f1492acaf1 Mon Sep 17 00:00:00 2001
+> +From: Fabio Estevam <festevam@gmail.com>
+> +Date: Tue, 18 Feb 2025 08:17:30 -0300
+> +Subject: [PATCH v4 mtd-utils 4/4] ubifs-utils: extract_files: Include <l=
+inux/limits.h>
+> +
+> +Include <linux/limits.h> to fix the following build error when building
+> +with musl:
+> +
+> +| ../git/ubifs-utils/fsck.ubifs/extract_files.c: In function 'parse_ino_=
+node':
+> +| ../git/ubifs-utils/fsck.ubifs/extract_files.c:144:47: error: 'XATTR_LI=
+ST_MAX' undeclared (first use in this function)
+> +|   144 |         if (ino_node->xnms + ino_node->xcnt > XATTR_LIST_MAX) =
+{
+> +|       |                                               ^~~~~~~~~~~~~~
+> +| ../git/ubifs-utils/fsck.ubifs/extract_files.c:144:47: note: each undec=
+lared identifier is reported only once for each function it appears in
+> +| make: *** [Makefile:4374: ubifs-utils/fsck.ubifs/fsck_ubifs-extract_fi=
+les.o] Error 1
+> +
+> +Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/2025021913=
+0244.2119582-4-festevam@gmail.com/T/#t]
+> +Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> +Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
+> +---
+> +Changes since v3:
+> +- None.
+> +
+> + ubifs-utils/fsck.ubifs/extract_files.c | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/ubifs-utils/fsck.ubifs/extract_files.c b/ubifs-utils/fsck.u=
+bifs/extract_files.c
+> +index c83d37749bc0..000ef5d10565 100644
+> +--- a/ubifs-utils/fsck.ubifs/extract_files.c
+> ++++ b/ubifs-utils/fsck.ubifs/extract_files.c
+> +@@ -10,6 +10,8 @@
+> + #include <getopt.h>
+> + #include <sys/stat.h>
+> +
+> ++#include <linux/limits.h>
+> ++
+> + #include "linux_err.h"
+> + #include "bitops.h"
+> + #include "kmem.h"
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb b/meta/recipes-=
+devtools/mtd/mtd-utils_2.3.0.bb
+> similarity index 89%
+> rename from meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb
+> rename to meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+> index 5ab5f6c729..09d191ba32 100644
+> --- a/meta/recipes-devtools/mtd/mtd-utils_2.2.1.bb
+> +++ b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+> @@ -11,8 +11,15 @@ inherit autotools pkgconfig update-alternatives
+>  DEPENDS =3D "zlib e2fsprogs util-linux"
+>  RDEPENDS:mtd-utils-tests +=3D "bash"
+>
+> -SRCREV =3D "13ec33609213c1dbd75852a09560a707a7f19a5c"
+> +DEPENDS:append:libc-musl =3D " libexecinfo"
+> +LDFLAGS:append:libc-musl =3D " -lexecinfo"
+> +
+> +SRCREV =3D "4594fc1f4496a0ed55cabd31fbeba4e3fbf05602"
+>  SRC_URI =3D "git://git.infradead.org/mtd-utils.git;branch=3Dmaster"
+> +SRC_URI +=3D "file://0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch"
+> +SRC_URI +=3D "file://0002-ubifs-utils-journal-Include-sys-stat.h.patch"
+> +SRC_URI +=3D "file://0003-configure.ac-Add-a-check-for-execinfo-and-back=
+trace.patch"
+> +SRC_URI +=3D "file://0004-ubifs-utils-extract_files-Include-linux-limits=
+.h.patch"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> @@ -31,6 +38,8 @@ CPPFLAGS:append:riscv64  =3D " -pthread -D_REENTRANT"
+>
+>  EXTRA_OEMAKE =3D "'CC=3D${CC}' 'RANLIB=3D${RANLIB}' 'AR=3D${AR}' 'CFLAGS=
+=3D${CFLAGS} ${@bb.utils.contains('PACKAGECONFIG', 'xattr', '', '-DWITHOUT_=
+XATTR', d)} -I${S}/include' 'BUILDDIR=3D${S}'"
+>
+> +CFLAGS +=3D "-D_GNU_SOURCE"
+> +
+>  # Use higher priority than corresponding BusyBox-provided applets
+>  ALTERNATIVE_PRIORITY =3D "100"
+>
 > --
 > 2.40.1
 >
