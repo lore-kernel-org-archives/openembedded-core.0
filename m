@@ -1,272 +1,71 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 462C8C021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 17:33:45 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.28459.1739986423963683160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40ABAC021B0
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 17:41:45 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.28800.1739986900043738956
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 09:33:44 -0800
+ Wed, 19 Feb 2025 09:41:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bvZjfYWW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43690d4605dso140025e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 09:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1739986422; x=1740591222; darn=lists.openembedded.org;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1yil3Nt3sZDuuFPH9NGhtC0v4zjgLSfAFZ042tIZnT0=;
-        b=bvZjfYWWoauSN/HIq0j2ejCUq2kL202UIaICXnNYtLoMpexAJhKwPrsoiCdo55sL9+
-         evMg0AzeWcFKVjuTQmOhF0xCqyle5Vds9wM5SZf2QqlkeUAn5Z9+1RQ7nASrVEU3on8B
-         M7a+A6LIHEQGi3C6cKLkR/MsCqFj+hlX1aO3k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739986422; x=1740591222;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1yil3Nt3sZDuuFPH9NGhtC0v4zjgLSfAFZ042tIZnT0=;
-        b=IgPmQGQTqOVDOXJLh75fPGYUYbX8LND0ZM4QIjNJ3C70KlhuXiuIOG6+THEYlvypqD
-         BuedmjQHnxk6eyJWlkFgMpjRhwz4Co1QZPhzUYUbgDvhWOvFdORzCSoHF1BI2HfLZ7DO
-         uzxH2B6Jfmr1SgZfWEpNbk9z2Xd3EaFZrAiCDwLM1ZU75AcqihKEmDrYrK45mCOXkr94
-         vcr0GjCtkMA4loc8ig9oTmlJSWhKtY7DDYyhUnRvvhkc6zoqxLQc+HnrCzX+E9FHPLRN
-         qx86hmox0vJnLBXSkyWq2+X6XTZvxuiLMyBzCJ41xSYokxDo9mlovc/CMygsXC7ol9MD
-         beww==
-X-Forwarded-Encrypted: i=1; AJvYcCWyV+8G1jQdV8SiRrNuFZ7QCqWxm94odyFaCiq0kAHOGDkObkWL9uQ2xr6h4hHGQo/IZDVh9lwTVHatSCkeQOAzJA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwBJLZX8553+mO0SytpE8ONgnZm+w1fgZy9wjqI+H/ZF0/h1X8t
-	vA8yOUNCXFAHMo5fvc/WUwOMsQd1ccIiSRemugHUwPDIxYxgVhLq/gZE9iIpUC4=
-X-Gm-Gg: ASbGnct2PGXxvfsEIjiKZB31Cpp5apfhyJKuuPwGlyIw55hn5B1PjFhKnkD6TtLxoYT
-	nfWZcAsWPfwRLcImwh3k4SrlaRknPD/f4PMpqbQC052EnGyvg7wH8cQHniAXy4U9qr5OnEdsNNp
-	pb99VeOl9h7QT+GFsIQ/0NLB+A5kT3C3TD7gwInaUssvXfCNCZ8v2YCCCY1+bvNh4OPcAJ+XX+N
-	hJeeJUoj02CDc+uaxBOj5bJeTt7M9+ZJ6Enar2816GLfZO0M2aG7QGeLazL4Hpnd7Y4dQVDVbgU
-	ZQT+8Abe2K1B1MYQ4N1ZgGVOIep3Bs0IKgsp3QFnHr/cyWkzLf6hs5QUYvjJHOJPW/IKh32TFHx
-	IDr4+
-X-Google-Smtp-Source: AGHT+IF/zuSYph+JYG6atRtHJFhvorP86o+V7pRDVZpdkBFkjPrEnXZUIYTewUrPE5e4NeN4peKN8A==
-X-Received: by 2002:a05:600c:190b:b0:439:a1ad:6851 with SMTP id 5b1f17b1804b1-439a1ad6abfmr9306155e9.23.1739986422272;
-        Wed, 19 Feb 2025 09:33:42 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4146:2030:963a:7035? ([2001:8b0:aba:5f3c:4146:2030:963a:7035])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4398937341csm81699545e9.24.2025.02.19.09.33.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 09:33:40 -0800 (PST)
-Message-ID: <e145b324f19953f80163dbfe8c403607e297bad0.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
-	openembedded-core@lists.openembedded.org, Bruce Ashfield	
- <bruce.ashfield@gmail.com>, bitbake-devel
- <bitbake-devel@lists.openembedded.org>
-Date: Wed, 19 Feb 2025 17:33:38 +0000
-In-Reply-To: <c2f481ae-327e-43c5-92f5-9753bd5c0138@weidmueller.com>
-References: 
-	<4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
-	 <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
-	 <d30c619392f62f2d40320b01da5ca95369f3e7c2.camel@linuxfoundation.org>
-	 <9668ba9a-4029-4600-abd1-0f32215aaedd@weidmueller.com>
-	 <7537c9d9305dd3c7d05cbf36bccfe47c1858f822.camel@linuxfoundation.org>
-	 <c2f481ae-327e-43c5-92f5-9753bd5c0138@weidmueller.com>
-Content-Type: multipart/alternative; boundary="=-kfxGgEbfZhDPphS37CLb"
-User-Agent: Evolution 3.54.0-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=bMGkdrEr;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250219174137678ac31ce9ba6b98ed-e9oe3k@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250219174137678ac31ce9ba6b98ed
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 19 Feb 2025 18:41:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=KNmFSzZXOzckuEd3d760wgUhzG4LlmcwfR8Oq0XpKFM=;
+ b=bMGkdrErP3IENbL6qh7JM158w4Agdm0iiGgy0Ker3klUdYGtXuDi7gAPtvSNp6XznxTwFs
+ xekvxRQCZTe7rzFWmCvIdrnx6zYWB2HtdtPpjTxkJqT1Ktac+9/cgTT9OfzI1a2c0Y1mZAEr
+ ys6/+urvOefHvk1gUFD2JaiQC31jblIfV7a3kg5Tr5E5Wja2Ew1Mc7PSM5M6Z57A3OwcqXqB
+ zXOBSWDC5DGGMVfUNSEi+mBrdz8ZXT1qbtqnYHxVPoDhjAk0dKASIi+VV2Oe3bn7J+QOuVFT
+ T3XNAq1IuTrdNbsKTw1Ol48XP2bnPAzrWFUVMdU0IuAW1C/ZXRxEFYCg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH 2/2] libsass: fix fetched commit hash
+Date: Wed, 19 Feb 2025 18:40:28 +0100
+Message-Id: <20250219174028.3486899-2-peter.marko@siemens.com>
+In-Reply-To: <20250219174028.3486899-1-peter.marko@siemens.com>
+References: <20250219174028.3486899-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 17:33:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211720
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 17:41:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211722
 
---=-kfxGgEbfZhDPphS37CLb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Peter Marko <peter.marko@siemens.com>
 
-On Wed, 2025-02-19 at 17:48 +0100, Stefan Herbrechtsmeier wrote:
-> =20
-> I don't change the exception. The exceptions are the reason for the
-> state of the series.
->=20
-> The missing point is that the expectation is related to the end of a
-> dependency chain and not to a task itself. In any case the real
-> expectation isn't clear. What happens if the configuration need a
-> compiled source and it isn't feasible to create a native package. My
-> series satisfy the following expectations:
->=20
-> * All sources are downloaded after the do_fetch
-> * All sources are unpacked after the do_unpack
-> * All sources are patched after the do_patch
-I could try and reply to all your points but this one jumps out as a
-really fundamental thing we disagree on. All our existing code assumes
-that:
+Old commit hash is for v3.6.5, not v3.6.6.
+https://github.com/sass/libsass/tags
+Old version contains several vulnerabilities.
 
-"All sources are downloaded during do_fetch"
+Note that exact recipe copy of recipe introduced in oe-core was never
+present in oe.
 
-which means once do_fetch runs, we have all the sources. That is quite
-different to what you say above. I fully appreciate it imposes quite
-some constraints but it doesn't change the fact that this is the
-situation.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-support/sass/libsass_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> WIP:
->=20
-> do_fetch : run_fetch,
-> run_early_fetch,=C2=A0run_early_unpack,=C2=A0run_early_patch,=C2=A0run_re=
-solve,
-> run_vendor_fetch
-> do_unpack: run_unpack, run_early_unpack, run_vendor_fetch
-> do_patch: run_patch, run_early_patch, run_vendor_patch=20
->=20
-> The bitbake approach looks like the WIP but makes the run_early_patch
-> complicated or impossible.
-
-Which is why I'm saying that I'd prefer to do this in bitbake and if we
-have to drop that patching as a result, so be it.
-
-
-> >  whether we need to have some kind of
-> > checksum to verify the "lockfile" is correct as originally intended in
-> > the recipe and probably more.
-> > =20
-> I want to prevent us from having the wrong motivation due to a lack
-> of understanding of the lock file. Why don't we add a look file
-> across all expanded URIs, regardless of the source of the URI,
-> because we could have the same problems in the other fetchers.
->=20
->=20
-> > =20
-> > I'm in the position of trying to mediate things (i.e. see the different
-> > viewpoints and bring people together, trying to find common ground) and
-> > yet at the same time, express views as someone who as spent a lot of
-> > years trying to maintain and improve this code.
-> > =20
-> I appreciate your work.
->=20
-> But I sometimes have the feeling that the code is a patchwork quilt
-> and every attempt to replace several patches with something common is
-> met with rejection.
-
-
-We have a patchwork where people trust the current boundaries between
-the different pieces. You want to change the boundaries, and the
-assumptions made about those boundaries and replace it with something
-that isn't going to be easily understood by most of the userbase as the
-concepts are complex and break the existing models people work with.
-I'm doing my best to explain the problem but either I'm failing at that
-or we simply disagree on them.
-
-> > I have tried to seek help from the people who effectively oversee me as
-> > a maintainer (i.e. the TSC) with limited success. I'm not sure what to
-> > do from here.
-> > =20
-> =20
-> I really like to upstream my work because I think it would simplify
-> the package manager support, but there doesn't seem to be much
-> interest in the community for it.
-> =20
-People are too focused in their own problems to be able to spend enough
-time on these architectural type pieces. We do badly need this kind of
-work which is why I'm trying to help this move forward but equally we
-have to do it in a way which doesn't destablise our existing userbase,
-in other words we may have to make some compromises. I'd like to hope
-we pick the right ones. I'm worried as we have tried solutions for this
-space before and the fact we're discussing them again shows we haven't
-got it right yet.
-
-Cheers,
-
-Richard
-
-
-
---=-kfxGgEbfZhDPphS37CLb
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-
-  <style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head>
-  <body><div>On Wed, 2025-02-19 at 17:48 +0100, Stefan Herbrechtsmeier wrot=
-e:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
-px #729fcf solid;padding-left:1ex"><div> </div><div class=3D"moz-cite-prefi=
-x">I don't change the exception. The exceptions are the reason for the stat=
-e of the series.</div><p> <br> The missing point is that the expectation is=
- related to the end of a dependency chain and not to a task itself. In any =
-case the real expectation isn't clear. What happens if the configuration ne=
-ed a compiled source and it isn't feasible to create a native package. My s=
-eries satisfy the following expectations:<br> <br> * All sources are downlo=
-aded after the do_fetch<br> * All sources are unpacked after the do_unpack<=
-br> * All sources are patched after the do_patch</p></blockquote><div>I cou=
-ld try and reply to all your points but this one jumps out as a really fund=
-amental thing we disagree on. All our existing code assumes that:</div><div=
-><br></div><div>"All sources are downloaded during do_fetch"</div><div><br>=
-</div><div>which means once do_fetch runs, we have all the sources. That is=
- quite different to what you say above. I fully appreciate it imposes quite=
- some constraints but it doesn't change the fact that this is the situation=
-.</div><div><br></div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex;=
- border-left:2px #729fcf solid;padding-left:1ex"><p>WIP:<br> <br> do_fetch =
-: run_fetch, run_early_fetch,&nbsp;run_early_unpack,&nbsp;run_early_patch,&=
-nbsp;run_resolve, run_vendor_fetch<br> do_unpack: run_unpack, run_early_unp=
-ack, run_vendor_fetch<br> do_patch: run_patch, run_early_patch, run_vendor_=
-patch <br> <br> The bitbake approach looks like the WIP but makes the run_e=
-arly_patch complicated or impossible.</p></blockquote><div><br></div><div>W=
-hich is why I'm saying that I'd prefer to do this in bitbake and if we have=
- to drop that patching as a result, so be it.</div><div><br></div><div><br>=
-</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px=
- #729fcf solid;padding-left:1ex"><blockquote type=3D"cite" cite=3D"mid:7537=
-c9d9305dd3c7d05cbf36bccfe47c1858f822.camel@linuxfoundation.org" style=3D"ma=
-rgin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre> whet=
-her we need to have some kind of</pre><pre>checksum to verify the "lockfile=
-" is correct as originally intended in</pre><pre>the recipe and probably mo=
-re.</pre><div> </div></blockquote><div> I want to prevent us from having th=
-e wrong motivation due to a lack of understanding of the lock file. Why don=
-'t we add a look file across all expanded URIs, regardless of the source of=
- the URI, because we could have the same problems in the other fetchers.<br=
-> <br> <br></div><blockquote type=3D"cite" cite=3D"mid:7537c9d9305dd3c7d05c=
-bf36bccfe47c1858f822.camel@linuxfoundation.org" style=3D"margin:0 0 0 .8ex;=
- border-left:2px #729fcf solid;padding-left:1ex"><div> </div><pre>I'm in th=
-e position of trying to mediate things (i.e. see the different</pre><pre>vi=
-ewpoints and bring people together, trying to find common ground) and</pre>=
-<pre>yet at the same time, express views as someone who as spent a lot of</=
-pre><pre>years trying to maintain and improve this code.</pre><div> </div><=
-/blockquote><div> I appreciate your work.<br> <br> But I sometimes have the=
- feeling that the code is a patchwork quilt and every attempt to replace se=
-veral patches with something common is met with rejection.</div></blockquot=
-e><div><br></div><div><br></div><div>We have a patchwork where people trust=
- the current boundaries between the different pieces. You want to change th=
-e boundaries, and the assumptions made about those boundaries and replace i=
-t with something that isn't going to be easily understood by most of the us=
-erbase as the concepts are complex and break the existing models people wor=
-k with. I'm doing my best to explain the problem but either I'm failing at =
-that or we simply disagree on them.</div><div><br></div><blockquote type=3D=
-"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-le=
-ft:1ex"><blockquote type=3D"cite" cite=3D"mid:7537c9d9305dd3c7d05cbf36bccfe=
-47c1858f822.camel@linuxfoundation.org" style=3D"margin:0 0 0 .8ex; border-l=
-eft:2px #729fcf solid;padding-left:1ex"><pre>I have tried to seek help from=
- the people who effectively oversee me as</pre><pre>a maintainer (i.e. the =
-TSC) with limited success. I'm not sure what to</pre><pre>do from here.</pr=
-e><div> </div></blockquote><div> </div><p>I really like to upstream my work=
- because I think it would simplify the package manager support, but there d=
-oesn't seem to be much interest in the community for it.</p><div> </div></b=
-lockquote><div>People are too focused in their own problems to be able to s=
-pend enough time on these architectural type pieces. We do badly need this =
-kind of work which is why I'm trying to help this move forward but equally =
-we have to do it in a way which doesn't destablise our existing userbase, i=
-n other words we may have to make some compromises. I'd like to hope we pic=
-k the right ones. I'm worried as we have tried solutions for this space bef=
-ore and the fact we're discussing them again shows we haven't got it right =
-yet.</div><div><br></div><div>Cheers,</div><div><br>Richard</div><div><br><=
-/div><div><br></div><div><span></span></div></body></html>
-
---=-kfxGgEbfZhDPphS37CLb--
+diff --git a/meta/recipes-support/sass/libsass_git.bb b/meta/recipes-support/sass/libsass_git.bb
+index 295a2b059f..f0824944b9 100644
+--- a/meta/recipes-support/sass/libsass_git.bb
++++ b/meta/recipes-support/sass/libsass_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8f34396ca205f5e119ee77aae91fa27d"
+ inherit autotools
+ 
+ SRC_URI = "git://github.com/sass/libsass.git;branch=master;protocol=https"
+-SRCREV = "f6afdbb9288d20d1257122e71d88e53348a53af3"
++SRCREV = "7037f03fabeb2b18b5efa84403f5a6d7a990f460"
+ PV = "3.6.6"
+ 
+ S = "${WORKDIR}/git"
 
