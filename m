@@ -2,43 +2,43 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA6FC021B3
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 08:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF1EC021AB
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 08:18:31 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.17518.1739953103488766393
+ by mx.groups.io with SMTP id smtpd.web11.17521.1739953108510176147
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 00:18:23 -0800
+ Wed, 19 Feb 2025 00:18:28 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=41458e6591=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J5pUsp024311
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:22 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J7mPVS002298
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:27 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00j8q3m-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00j8q3v-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:22 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:27 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 19 Feb 2025 00:18:21 -0800
+ 15.1.2507.43; Wed, 19 Feb 2025 00:18:26 -0800
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 19 Feb 2025 00:18:21 -0800
+ 15.1.2507.43 via Frontend Transport; Wed, 19 Feb 2025 00:18:26 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH v2 2/8] u-boot: fix CVE-2022-2347 and CVE-2022-30790
-Date: Wed, 19 Feb 2025 16:18:13 +0800
-Message-ID: <20250219081819.926163-2-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH v2 7/8] u-boot: fix CVE-2024-57258
+Date: Wed, 19 Feb 2025 16:18:18 +0800
+Message-ID: <20250219081819.926163-7-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250219081819.926163-1-hongxu.jia@windriver.com>
 References: <20250219081819.926163-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: x7s23cpYlcfC7JbwX7JRogQ034kgcEPq
-X-Authority-Analysis: v=2.4 cv=I4GfRMgg c=1 sm=1 tr=0 ts=67b593ce cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=t7CeM3EgAAAA:8 a=zd2uoN0lAAAA:8 a=Crg_IfaRAAAA:8 a=yBuf_3pMAAAA:8 a=Lk6-0jheqMChHRcKeggA:9
- a=87X-ZMVkt645adbB:21 a=FdTzh2GWekK77mhwV6Dw:22 a=WKt6puP8o2WZ-s9Jsdj1:22 a=cF66dUKAeZLEmaOjNXpK:22
-X-Proofpoint-ORIG-GUID: x7s23cpYlcfC7JbwX7JRogQ034kgcEPq
+X-Proofpoint-GUID: Wq8zGevv2gTkrPQaW8VFtN2HnNEjojpc
+X-Authority-Analysis: v=2.4 cv=I4GfRMgg c=1 sm=1 tr=0 ts=67b593d3 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=PYnjg3YJAAAA:8 a=YfCOm-DyAAAA:8 a=t7CeM3EgAAAA:8 a=cm27Pg_UAAAA:8 a=cQx7QxLJpbgKyGtIH1UA:9
+ a=zQLMK8awuJ6_Hvp-_9Ux:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: Wq8zGevv2gTkrPQaW8VFtN2HnNEjojpc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-19_03,2025-02-18_01,2024-11-22_01
@@ -51,397 +51,185 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malware
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211681
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 08:18:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211686
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+Integer overflows in memory allocation in Das U-Boot before 2025.01-rc1
+occur for a crafted squashfs filesystem via sbrk, via request2size,
+or because ptrdiff_t is mishandled on x86_64.
 
-Backport appropriate patches to fix CVE-2022-2347 and CVE-2022-30790.
+https://nvd.nist.gov/vuln/detail/CVE-2024-57258
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../u-boot/files/CVE-2022-2347_1.patch        | 129 +++++++++++++++
- .../u-boot/files/CVE-2022-2347_2.patch        |  66 ++++++++
- .../u-boot/files/CVE-2022-30790.patch         | 149 ++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   3 +
- 4 files changed, 347 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
+ .../u-boot/files/CVE-2024-57258-1.patch       | 47 +++++++++++++++++++
+ .../u-boot/files/CVE-2024-57258-2.patch       | 43 +++++++++++++++++
+ .../u-boot/files/CVE-2024-57258-3.patch       | 40 ++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |  3 ++
+ 4 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
 new file mode 100644
-index 0000000000..34ee82c3a5
+index 0000000000..d33a4260ba
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_1.patch
-@@ -0,0 +1,129 @@
-+From 9d2d2deabc49dbedf93a7192b25f55d9933fcede Mon Sep 17 00:00:00 2001
-+From: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@amd.com>
-+Date: Thu, 3 Nov 2022 09:37:48 +0530
-+Subject: [PATCH 1/2] usb: gadget: dfu: Fix the unchecked length field
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
+@@ -0,0 +1,47 @@
++From 50ab41c3628dedeca1a331dd86dd203b73faea74 Mon Sep 17 00:00:00 2001
++From: Richard Weinberger <richard@nod.at>
++Date: Fri, 2 Aug 2024 12:08:45 +0200
++Subject: [PATCH 5/8] dlmalloc: Fix integer overflow in sbrk()
 +
-+DFU implementation does not bound the length field in USB
-+DFU download setup packets, and it does not verify that
-+the transfer direction. Fixing the length and transfer
-+direction.
++Make sure that the new break is within mem_malloc_start
++and mem_malloc_end before making progress.
++ulong new = old + increment; can overflow for extremely large
++increment values and memset() can get wrongly called.
 +
-+CVE-2022-2347
++Signed-off-by: Richard Weinberger <richard@nod.at>
++Reviewed-by: Simon Glass <sjg@chromium.org>
 +
-+Signed-off-by: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@amd.com>
-+Reviewed-by: Marek Vasut <marex@denx.de>
-+
-+CVE: CVE-2022-2347
-+Upstream-Status: Backport [fbce985e28eaca3af82afecc11961aadaf971a7e]
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++CVE: CVE-2024-57258
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/0a10b49206a29b4aa2f80233a3e53ca0466bb0b3]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ drivers/usb/gadget/f_dfu.c | 56 +++++++++++++++++++++++++-------------
-+ 1 file changed, 37 insertions(+), 19 deletions(-)
++ common/dlmalloc.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/drivers/usb/gadget/f_dfu.c b/drivers/usb/gadget/f_dfu.c
-+index 4bedc7d3a1..33ef62f8ba 100644
-+--- a/drivers/usb/gadget/f_dfu.c
-++++ b/drivers/usb/gadget/f_dfu.c
-+@@ -321,21 +321,29 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
-+ 	u16 len = le16_to_cpu(ctrl->wLength);
-+ 	int value = 0;
++diff --git a/common/dlmalloc.c b/common/dlmalloc.c
++index de3f0422..bae2a27c 100644
++--- a/common/dlmalloc.c
+++++ b/common/dlmalloc.c
++@@ -591,6 +591,9 @@ void *sbrk(ptrdiff_t increment)
++ 	ulong old = mem_malloc_brk;
++ 	ulong new = old + increment;
 + 
-++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
+++	if ((new < mem_malloc_start) || (new > mem_malloc_end))
+++		return (void *)MORECORE_FAILURE;
 ++
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_DNLOAD:
-+-		if (len == 0) {
-+-			f_dfu->dfu_state = DFU_STATE_dfuERROR;
-+-			value = RET_STALL;
-+-			break;
-++		if (ctrl->bRequestType == USB_DIR_OUT) {
-++			if (len == 0) {
-++				f_dfu->dfu_state = DFU_STATE_dfuERROR;
-++				value = RET_STALL;
-++				break;
-++			}
-++			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
-++			f_dfu->blk_seq_num = w_value;
-++			value = handle_dnload(gadget, len);
-+ 		}
-+-		f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
-+-		f_dfu->blk_seq_num = w_value;
-+-		value = handle_dnload(gadget, len);
-+ 		break;
-+ 	case USB_REQ_DFU_UPLOAD:
-+-		f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
-+-		f_dfu->blk_seq_num = 0;
-+-		value = handle_upload(req, len);
-++		if (ctrl->bRequestType == USB_DIR_IN) {
-++			f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
-++			f_dfu->blk_seq_num = 0;
-++			value = handle_upload(req, len);
-++			if (value >= 0 && value < len)
-++				f_dfu->dfu_state = DFU_STATE_dfuIDLE;
-++		}
-+ 		break;
-+ 	case USB_REQ_DFU_ABORT:
-+ 		/* no zlp? */
-+@@ -424,11 +432,15 @@ static int state_dfu_dnload_idle(struct f_dfu *f_dfu,
-+ 	u16 len = le16_to_cpu(ctrl->wLength);
-+ 	int value = 0;
++ 	/*
++ 	 * if we are giving memory back make sure we clear it out since
++ 	 * we set MORECORE_CLEARS to 1
++@@ -598,9 +601,6 @@ void *sbrk(ptrdiff_t increment)
++ 	if (increment < 0)
++ 		memset((void *)new, 0, -increment);
 + 
-++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
-++
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_DNLOAD:
-+-		f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
-+-		f_dfu->blk_seq_num = w_value;
-+-		value = handle_dnload(gadget, len);
-++		if (ctrl->bRequestType == USB_DIR_OUT) {
-++			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
-++			f_dfu->blk_seq_num = w_value;
-++			value = handle_dnload(gadget, len);
-++		}
-+ 		break;
-+ 	case USB_REQ_DFU_ABORT:
-+ 		f_dfu->dfu_state = DFU_STATE_dfuIDLE;
-+@@ -511,13 +523,17 @@ static int state_dfu_upload_idle(struct f_dfu *f_dfu,
-+ 	u16 len = le16_to_cpu(ctrl->wLength);
-+ 	int value = 0;
++-	if ((new < mem_malloc_start) || (new > mem_malloc_end))
++-		return (void *)MORECORE_FAILURE;
++-
++ 	mem_malloc_brk = new;
 + 
-++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
-++
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_UPLOAD:
-+-		/* state transition if less data then requested */
-+-		f_dfu->blk_seq_num = w_value;
-+-		value = handle_upload(req, len);
-+-		if (value >= 0 && value < len)
-+-			f_dfu->dfu_state = DFU_STATE_dfuIDLE;
-++		if (ctrl->bRequestType == USB_DIR_IN) {
-++			/* state transition if less data then requested */
-++			f_dfu->blk_seq_num = w_value;
-++			value = handle_upload(req, len);
-++			if (value >= 0 && value < len)
-++				f_dfu->dfu_state = DFU_STATE_dfuIDLE;
-++		}
-+ 		break;
-+ 	case USB_REQ_DFU_ABORT:
-+ 		f_dfu->dfu_state = DFU_STATE_dfuIDLE;
-+@@ -593,6 +609,8 @@ dfu_handle(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
-+ 	int value = 0;
-+ 	u8 req_type = ctrl->bRequestType & USB_TYPE_MASK;
-+ 
-++	len = len > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : len;
-++
-+ 	debug("w_value: 0x%x len: 0x%x\n", w_value, len);
-+ 	debug("req_type: 0x%x ctrl->bRequest: 0x%x f_dfu->dfu_state: 0x%x\n",
-+ 	       req_type, ctrl->bRequest, f_dfu->dfu_state);
-+@@ -612,7 +630,7 @@ dfu_handle(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
-+ 		value = dfu_state[f_dfu->dfu_state] (f_dfu, ctrl, gadget, req);
-+ 
-+ 	if (value >= 0) {
-+-		req->length = value;
-++		req->length = value > DFU_USB_BUFSIZ ? DFU_USB_BUFSIZ : value;
-+ 		req->zero = value < len;
-+ 		value = usb_ep_queue(gadget->ep0, req, 0);
-+ 		if (value < 0) {
++ 	return (void *)old;
 +-- 
-+2.32.0
++2.34.1
 +
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
 new file mode 100644
-index 0000000000..708c7923d2
+index 0000000000..688e2c64d8
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2022-2347_2.patch
-@@ -0,0 +1,66 @@
-+From 0f465b3e81baa095b62a154a739c5378285526db Mon Sep 17 00:00:00 2001
-+From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-+Date: Wed, 30 Nov 2022 09:29:16 +0100
-+Subject: [PATCH 2/2] usb: gadget: dfu: Fix check of transfer direction
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
+@@ -0,0 +1,43 @@
++From db7c626204f488a802a2e58b7a788b11fde6be7d Mon Sep 17 00:00:00 2001
++From: Richard Weinberger <richard@nod.at>
++Date: Fri, 2 Aug 2024 12:08:44 +0200
++Subject: [PATCH 6/8] dlmalloc: Fix integer overflow in request2size()
 +
-+Commit fbce985e28eaca3af82afecc11961aadaf971a7e to fix CVE-2022-2347
-+blocks DFU usb requests.
-+The verification of the transfer direction was done by an equality
-+but it is a bit mask.
++req is of type size_t, casting it to long opens the door
++for an integer overflow.
++Values between LONG_MAX - (SIZE_SZ + MALLOC_ALIGN_MASK) - 1 and LONG_MAX
++cause and overflow such that request2size() returns MINSIZE.
 +
-+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-+Reviewed-by: Fabio Estevam <festevam@denx.de>
-+Reviewed-by: Sultan Qasim Khan <sultan.qasimkhan@nccgroup.com>
-+Reviewed-by: Marek Vasut <marex@denx.de>
-+Tested-by: Marek Vasut <marex@denx.de>
++Fix by removing the cast.
++The origin of the cast is unclear, it's in u-boot and ppcboot since ever
++and predates the CVS history.
++Doug Lea's original dlmalloc implementation also doesn't have it.
 +
-+CVE: CVE-2022-2347
-+Upstream-Status: Backport [14dc0ab138988a8e45ffa086444ec8db48b3f103]
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++Signed-off-by: Richard Weinberger <richard@nod.at>
++Reviewed-by: Simon Glass <sjg@chromium.org>
++
++CVE: CVE-2024-57258
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/8642b2178d2c4002c99a0b69a845a48f2ae2706f]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ drivers/usb/gadget/f_dfu.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ common/dlmalloc.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/drivers/usb/gadget/f_dfu.c b/drivers/usb/gadget/f_dfu.c
-+index 33ef62f8ba..44877df4ec 100644
-+--- a/drivers/usb/gadget/f_dfu.c
-++++ b/drivers/usb/gadget/f_dfu.c
-+@@ -325,7 +325,7 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
++diff --git a/common/dlmalloc.c b/common/dlmalloc.c
++index bae2a27c..1ac4ee9f 100644
++--- a/common/dlmalloc.c
+++++ b/common/dlmalloc.c
++@@ -379,8 +379,8 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
++ /* pad request bytes into a usable size */
 + 
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_DNLOAD:
-+-		if (ctrl->bRequestType == USB_DIR_OUT) {
-++		if (!(ctrl->bRequestType & USB_DIR_IN)) {
-+ 			if (len == 0) {
-+ 				f_dfu->dfu_state = DFU_STATE_dfuERROR;
-+ 				value = RET_STALL;
-+@@ -337,7 +337,7 @@ static int state_dfu_idle(struct f_dfu *f_dfu,
-+ 		}
-+ 		break;
-+ 	case USB_REQ_DFU_UPLOAD:
-+-		if (ctrl->bRequestType == USB_DIR_IN) {
-++		if (ctrl->bRequestType & USB_DIR_IN) {
-+ 			f_dfu->dfu_state = DFU_STATE_dfuUPLOAD_IDLE;
-+ 			f_dfu->blk_seq_num = 0;
-+ 			value = handle_upload(req, len);
-+@@ -436,7 +436,7 @@ static int state_dfu_dnload_idle(struct f_dfu *f_dfu,
++ #define request2size(req) \
++- (((long)((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) < \
++-  (long)(MINSIZE + MALLOC_ALIGN_MASK)) ? MINSIZE : \
+++ ((((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) < \
+++  (MINSIZE + MALLOC_ALIGN_MASK)) ? MINSIZE : \
++    (((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) & ~(MALLOC_ALIGN_MASK)))
 + 
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_DNLOAD:
-+-		if (ctrl->bRequestType == USB_DIR_OUT) {
-++		if (!(ctrl->bRequestType & USB_DIR_IN)) {
-+ 			f_dfu->dfu_state = DFU_STATE_dfuDNLOAD_SYNC;
-+ 			f_dfu->blk_seq_num = w_value;
-+ 			value = handle_dnload(gadget, len);
-+@@ -527,7 +527,7 @@ static int state_dfu_upload_idle(struct f_dfu *f_dfu,
-+ 
-+ 	switch (ctrl->bRequest) {
-+ 	case USB_REQ_DFU_UPLOAD:
-+-		if (ctrl->bRequestType == USB_DIR_IN) {
-++		if (ctrl->bRequestType & USB_DIR_IN) {
-+ 			/* state transition if less data then requested */
-+ 			f_dfu->blk_seq_num = w_value;
-+ 			value = handle_upload(req, len);
++ /* Check if m has acceptable alignment */
 +-- 
-+2.32.0
++2.34.1
 +
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch b/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
 new file mode 100644
-index 0000000000..e67cf391a8
+index 0000000000..2c8a7c9d91
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2022-30790.patch
-@@ -0,0 +1,149 @@
-+From 1817c3824a08bbad7fd2fbae1a6e73be896e8e5e Mon Sep 17 00:00:00 2001
-+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-+Date: Fri, 14 Oct 2022 19:43:39 +0200
-+Subject: [PATCH] net: (actually/better) deal with CVE-2022-{30790,30552}
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
+@@ -0,0 +1,40 @@
++From 37095a204127b60b5e00c4c5d435d6e48a6a1c51 Mon Sep 17 00:00:00 2001
++From: Richard Weinberger <richard@nod.at>
++Date: Fri, 2 Aug 2024 12:08:43 +0200
++Subject: [PATCH 7/8] x86: Fix ptrdiff_t for x86_64
 +
-+I hit a strange problem with v2022.10: Sometimes my tftp transfer
-+would seemingly just hang. It only happened for some files. Moreover,
-+changing tftpblocksize from 65464 to 65460 or 65000 made it work again
-+for all the files I tried. So I started suspecting it had something to
-+do with the file sizes and in particular the way the tftp blocks get
-+fragmented and reassembled.
++sbrk() assumes ptrdiff_t is large enough to enlarge/shrink the heap
++by LONG_MIN/LONG_MAX.
++So, use the long type, also to match the rest of the Linux ecosystem.
 +
-+v2022.01 showed no problems with any of the files or any value of
-+tftpblocksize.
++Signed-off-by: Richard Weinberger <richard@nod.at>
++Reviewed-by: Simon Glass <sjg@chromium.org>
 +
-+Looking at what had changed in net.c or tftp.c since January showed
-+only one remotely interesting thing, b85d130ea0ca.
-+
-+So I fired up wireshark on my host to see if somehow one of the
-+packets would be too small. But no, with both v2022.01 and v2022.10,
-+the exact same sequence of packets were sent, all but the last of size
-+1500, and the last being 1280 bytes.
-+
-+But then it struck me that 1280 is 5*256, so one of the two bytes
-+on-the-wire is 0 and the other is 5, and when then looking at the code
-+again the lack of endianness conversion becomes obvious. [ntohs is
-+both applied to ip->ip_off just above, as well as to ip->ip_len just a
-+little further down when the "len" is actually computed].
-+
-+IOWs the current code would falsely reject any packet which happens to
-+be a multiple of 256 bytes in size, breaking tftp transfers somewhat
-+randomly, and if it did get one of those "malicious" packets with
-+ip_len set to, say, 27, it would be seen by this check as being 6912
-+and hence not rejected.
-+
-+====
-+
-+Now, just adding the missing ntohs() would make my initial problem go
-+away, in that I can now download the file where the last fragment ends
-+up being 1280 bytes. But there's another bug in the code and/or
-+analysis: The right-hand side is too strict, in that it is ok for the
-+last fragment not to have a multiple of 8 bytes as payload - it really
-+must be ok, because nothing in the IP spec says that IP datagrams must
-+have a multiple of 8 bytes as payload. And comments in the code also
-+mention this.
-+
-+To fix that, replace the comparison with <= IP_HDR_SIZE and add
-+another check that len is actually a multiple of 8 when the "more
-+fragments" bit is set - which it necessarily is for the case where
-+offset8 ends up being 0, since we're only called when
-+
-+  (ip_off & (IP_OFFS | IP_FLAGS_MFRAG)).
-+
-+====
-+
-+So, does this fix CVE-2022-30790 for real? It certainly correctly
-+rejects the POC code which relies on sending a packet of size 27 with
-+the MFRAG flag set. Can the attack be carried out with a size 27
-+packet that doesn't set MFRAG (hence must set a non-zero fragment
-+offset)? I dunno. If we get a packet without MFRAG, we update
-+h->last_byte in the hole we've found to be start+len, hence we'd enter
-+one of
-+
-+	if ((h >= thisfrag) && (h->last_byte <= start + len)) {
-+
-+or
-+
-+	} else if (h->last_byte <= start + len) {
-+
-+and thus won't reach any of the
-+
-+		/* overlaps with initial part of the hole: move this hole */
-+		newh = thisfrag + (len / 8);
-+
-+		/* fragment sits in the middle: split the hole */
-+		newh = thisfrag + (len / 8);
-+
-+IOW these division are now guaranteed to be exact, and thus I think
-+the scenario in CVE-2022-30790 cannot happen anymore.
-+
-+====
-+
-+However, there's a big elephant in the room, which has always been
-+spelled out in the comments, and which makes me believe that one can
-+still cause mayhem even with packets whose payloads are all 8-byte
-+aligned:
-+
-+    This code doesn't deal with a fragment that overlaps with two
-+    different holes (thus being a superset of a previously-received
-+    fragment).
-+
-+Suppose each character below represents 8 bytes, with D being already
-+received data, H being a hole descriptor (struct hole), h being
-+non-populated chunks, and P representing where the payload of a just
-+received packet should go:
-+
-+  DDDHhhhhDDDDHhhhDDDD
-+        PPPPPPPPP
-+
-+I'm pretty sure in this case we'd end up with h being the first hole,
-+enter the simple
-+
-+	} else if (h->last_byte <= start + len) {
-+		/* overlaps with final part of the hole: shorten this hole */
-+		h->last_byte = start;
-+
-+case, and thus in the memcpy happily overwrite the second H with our
-+chosen payload. This is probably worth fixing...
-+
-+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-+
-+CVE: CVE-2022-30790
-+Upstream-Status: Backport [1817c3824a08bbad7fd2fbae1a6e73be896e8e5e]
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++CVE: CVE-2024-57258
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/c17b2a05dd50a3ba437e6373093a0d6a359cdee0]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ net/net.c | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
++ arch/x86/include/asm/posix_types.h | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/net/net.c b/net/net.c
-+index 434c3b411e..987c25931e 100644
-+--- a/net/net.c
-++++ b/net/net.c
-+@@ -924,7 +924,11 @@ static struct ip_udp_hdr *__net_defragment(struct ip_udp_hdr *ip, int *lenp)
-+ 	int offset8, start, len, done = 0;
-+ 	u16 ip_off = ntohs(ip->ip_off);
-+ 
-+-	if (ip->ip_len < IP_MIN_FRAG_DATAGRAM_SIZE)
-++	/*
-++	 * Calling code already rejected <, but we don't have to deal
-++	 * with an IP fragment with no payload.
-++	 */
-++	if (ntohs(ip->ip_len) <= IP_HDR_SIZE)
-+ 		return NULL;
-+ 
-+ 	/* payload starts after IP header, this fragment is in there */
-+@@ -934,6 +938,10 @@ static struct ip_udp_hdr *__net_defragment(struct ip_udp_hdr *ip, int *lenp)
-+ 	start = offset8 * 8;
-+ 	len = ntohs(ip->ip_len) - IP_HDR_SIZE;
-+ 
-++	/* All but last fragment must have a multiple-of-8 payload. */
-++	if ((len & 7) && (ip_off & IP_FLAGS_MFRAG))
-++		return NULL;
-++
-+ 	if (start + len > IP_MAXUDP) /* fragment extends too far */
-+ 		return NULL;
-+ 
++diff --git a/arch/x86/include/asm/posix_types.h b/arch/x86/include/asm/posix_types.h
++index dbcea7f4..e1ed9bca 100644
++--- a/arch/x86/include/asm/posix_types.h
+++++ b/arch/x86/include/asm/posix_types.h
++@@ -20,11 +20,12 @@ typedef unsigned short	__kernel_gid_t;
++ #if defined(__x86_64__)
++ typedef unsigned long	__kernel_size_t;
++ typedef long		__kernel_ssize_t;
+++typedef long		__kernel_ptrdiff_t;
++ #else
++ typedef unsigned int	__kernel_size_t;
++ typedef int		__kernel_ssize_t;
++-#endif
++ typedef int		__kernel_ptrdiff_t;
+++#endif
++ typedef long		__kernel_time_t;
++ typedef long		__kernel_suseconds_t;
++ typedef long		__kernel_clock_t;
 +-- 
-+2.25.1
++2.34.1
 +
 diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-index cd40ad1a7d..62ebe40cb6 100644
+index c68e3e442f..cdee9fc721 100644
 --- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
 +++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-@@ -8,6 +8,9 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
-                    file://0001-net-Check-for-the-minimum-IP-fragmented-datagram-siz.patch \
-                    file://0001-fs-squashfs-Use-kcalloc-when-relevant.patch \
-                    file://0001-CVE-2022-30767.patch \
-+                   file://CVE-2022-30790.patch \
-+                   file://CVE-2022-2347_1.patch \
-+                   file://CVE-2022-2347_2.patch \
+@@ -15,6 +15,9 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
+                    file://CVE-2024-57255.patch \
+                    file://CVE-2024-57256.patch \
+                    file://CVE-2024-57257.patch \
++                   file://CVE-2024-57258-1.patch \
++                   file://CVE-2024-57258-2.patch \
++                   file://CVE-2024-57258-3.patch \
                   "
  
  DEPENDS += "bc-native dtc-native python3-setuptools-native"
