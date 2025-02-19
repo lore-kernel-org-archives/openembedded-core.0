@@ -1,1608 +1,500 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB777C021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 10:22:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.18981.1739960520837544983
- for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 02:22:01 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E72D4C021AA
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 10:39:42 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.19413.1739961579199019540
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 19 Feb 2025 02:39:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=414568d945=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J5pU55024311
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 10:22:00 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00j8vj1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 10:21:59 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 19 Feb 2025 02:21:58 -0800
-Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 19 Feb 2025 02:21:57 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <soumya.sambu@windriver.com>
-Subject: [kirkstone][PATCH 1/2] Revert "ovmf: Fix CVE-2023-45237"
-Date: Wed, 19 Feb 2025 18:21:50 +0800
-Message-ID: <20250219102151.4000494-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NhIPtYhB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-436ce2ab251so44871835e9.1
+        for <Openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 02:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739961577; x=1740566377; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TUkhhB4f0lJB3UXl/aFcn1SSyJAeloS84Kk2GzqkehQ=;
+        b=NhIPtYhBpXs8124BE5I/j3n4pdS21ecFHm8uguwwiQ9TPSCYO4uEhIaiOC7N17edWf
+         s2+USr9s5R+U6haJ7qmgZRUvUnCH+FS1ql+G9EjpgQU9WXJF2HMSdhXYqfzap94urAKY
+         TJf/4kA7atDRxr4R69kQ3GXX+Nv+AA8qZSX/oQF1XLXq7qgGRKTSLfS/jBooUT19Qsqd
+         KZBVs7u3kCHR5kh52XkkrWal8T6KzVRFJw54knYyuFLOEQ4IiDlsI3wmvqFuRMN+szbV
+         JJe7x8+TFZ5GgFQgrUwgyFYHCb5jk6uPIOHhnEQ+F/iTTdr3d8TTg1r1aFVWDWDCcfUY
+         Ui5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739961577; x=1740566377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TUkhhB4f0lJB3UXl/aFcn1SSyJAeloS84Kk2GzqkehQ=;
+        b=C/sZuoQHTStQ2qa2TjCk5s8Sm4zRhDwd1cRPEP7lGftV+YWLweCcBR/QzYKlx+KC4G
+         vPYKX3iSyJcae6XPlayjB0xx8op6DeQSJ2L56VM0hhPfti6XPKOE0fTmxBX87hThdr0B
+         dk1T9LVk8afwHwa1AZy0CUvkN59t4cjjkzpoV0Ds3nNNOJ0Y5K0iQ0Mt/e3nl1lGL+Kj
+         XbyCIExVCj1TolmD/UQ2A+kEibMS/sIz8eJQIJ7oLTjpV1r4I0tIeZ8+/KIPr0kPGF4t
+         C2Za44/Qw2q8AxC7/y2WztG4BhebxNQYFAYwAJVF3Ls8DaTLEUmLNyCkDcO4HfvvL7IO
+         2opA==
+X-Gm-Message-State: AOJu0YxHPI+gHG7Z/6eOB75fQTzULGDfy9HEmOMQCT3QGKO/NyLTU4W9
+	ndsrgHXugd3kzFpAqbj53Vl8rRKNSz9ZJjUSxEl86ckEjQUV7cJ4yyU2QKMz
+X-Gm-Gg: ASbGncsBR1IfU1WOkm8Yyu2IYjf4EgKXVQFgJltsN95T95erVSUqfYAVwOnWWBzs3yj
+	j2pqPKrAT7XXY7vhXuzU0wrzEwv9U/c8kxie0ydOJNUED5qfmdtZduL4S4D01YOF+03eM7XDwfl
+	uLSYnVj6IzY+F6NPLoQiar5GxY+lIQJ97pg14SORF8hYg9H2aJOyQO+5pzT9Mc1Ncn3wvxrJt2v
+	9TTvzWVlI4Q78fSUx3KTstrNUlEpTyRag+VcGE8bcrY89EwhPvy/y036cUKfKOK+aNG2xly2Yjq
+	aeM+thZtZ75D7/Qpn7UJpCUUjZL0t55RKnJ/wug7G5uG
+X-Google-Smtp-Source: AGHT+IGSdejscGvLuv+qTXlqCzuyCmQPu1QJp2G/jlgBZDB4o1G6pg+c8fI2FEwUgnVzKDrfinImzA==
+X-Received: by 2002:a05:600c:5101:b0:439:9496:181c with SMTP id 5b1f17b1804b1-43994961a51mr56887245e9.29.1739961576866;
+        Wed, 19 Feb 2025 02:39:36 -0800 (PST)
+Received: from slackware.local.localdomain ([154.47.27.149])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04ee48sm210109755e9.3.2025.02.19.02.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 02:39:36 -0800 (PST)
+From: uvv.mail@gmail.com
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v6] systemd: Build the systemctl executable
+Date: Wed, 19 Feb 2025 11:39:08 +0100
+Message-ID: <20250219103908.42513-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Proofpoint-GUID: bM2OWK_-RFoZR9kXwPY_lsk8expB6cWs
-X-Authority-Analysis: v=2.4 cv=I4GfRMgg c=1 sm=1 tr=0 ts=67b5b0c7 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=XkRKQH6RAAAA:8 a=QQrwgld0AAAA:8 a=VKio34HhAAAA:8 a=PYnjg3YJAAAA:8
- a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=jYJ61ryfAAAA:8 a=VwQbUJbxAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=46JBHfEV3Mg9IWBTB-EA:9 a=1CDiJ765sy9Lk6bq:21 a=lBZTsuZDXdQA:10 a=Hv90Ch-Tvl0A:10 a=RVmHIydaz68A:10 a=bkWp_v3HvcftT6DRAIDL:22
- a=1gUyE30hU_ULiMxJiLUW:22 a=GixL4z90Y-kx4mQuXZm8:22 a=ALVy6clGPs_Yy9GZ8Zsv:22 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=eNvJ01k53lG8zT5pDJgy:22
-X-Proofpoint-ORIG-GUID: bM2OWK_-RFoZR9kXwPY_lsk8expB6cWs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_04,2025-02-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- suspectscore=0 phishscore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 adultscore=0 clxscore=1015
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2502190083
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 10:22:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211699
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 10:39:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211701
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 
-This reverts commit 4c2d3e37308cac98614dfafed79b7323423af8bc.
+Instead of the python re-implementation build the actual systemctl from
+the systemd source tree. The python script was used when systemd didn't
+provide an option to build individual executables. It is possible in the
+meantime, so instead of always adapting the script when there's a new
+functionality, we simply use upstream implementation.
 
-The fix for CVE-2023-45237 causes ovmf firmware not support pxe boot
-any more and no boot item in OVMF menu such as
+License-Update: Base recipe is used
 
-    UEFI PXEv4 (MAC address)
-
-It has not been fixed by ovmf upstream and an issue has been created on
-
-https://github.com/tianocore/tianocore.github.io/issues/82
-
-Revert the fixes for now.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
+ .../systemd/systemd-systemctl-native.bb       |  23 +-
+ .../systemd/systemd-systemctl/systemctl       | 376 ------------------
+ 2 files changed, 11 insertions(+), 388 deletions(-)
+ delete mode 100755 meta/recipes-core/systemd/systemd-systemctl/systemctl
 
-Please add option `--keep-cr` when invoke `git am`.
-
- .../ovmf/ovmf/CVE-2023-45237-0001.patch       |   78 -
- .../ovmf/ovmf/CVE-2023-45237-0002.patch       | 1288 -----------------
- meta/recipes-core/ovmf/ovmf_git.bb            |    2 -
- 3 files changed, 1368 deletions(-)
- delete mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
-
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
-deleted file mode 100644
-index d1dcb8dc44..0000000000
---- a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
+diff --git a/meta/recipes-core/systemd/systemd-systemctl-native.bb b/meta/recipes-core/systemd/systemd-systemctl-native.bb
+index ffa024caef..73862b4e23 100644
+--- a/meta/recipes-core/systemd/systemd-systemctl-native.bb
++++ b/meta/recipes-core/systemd/systemd-systemctl-native.bb
+@@ -1,17 +1,16 @@
+-SUMMARY = "Wrapper for enabling systemd services"
++SUMMARY = "Systemctl executable from systemd"
+ 
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++require systemd.inc
+ 
++DEPENDS = "gperf-native libcap-native util-linux-native python3-jinja2-native"
+ 
+-inherit native
++inherit pkgconfig meson native
+ 
+-SRC_URI = "file://systemctl"
++MESON_TARGET = "systemctl:executable"
++MESON_INSTALL_TAGS = "systemctl"
++EXTRA_OEMESON:append = " -Dlink-systemctl-shared=false"
+ 
+-S = "${WORKDIR}/sources"
+-UNPACKDIR = "${S}"
+-
+-do_install() {
+-	install -d ${D}${bindir}
+-	install -m 0755 ${S}/systemctl ${D}${bindir}
+-}
++# Systemctl is supposed to operate on target, but the target sysroot is not
++# determined at run-time, but rather set during configure
++# More details are here https://github.com/systemd/systemd/issues/35897#issuecomment-2665405887
++EXTRA_OEMESON:append = " --sysconfdir ${sysconfdir_native}"
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+deleted file mode 100755
+index 65e3157859..0000000000
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
 +++ /dev/null
-@@ -1,78 +0,0 @@
--From cf07238e5fa4f8b1138ac1c9e80530b4d4e59f1c Mon Sep 17 00:00:00 2001
--From: Pierre Gondois <pierre.gondois@arm.com>
--Date: Fri, 11 Aug 2023 16:33:06 +0200
--Subject: [PATCH] MdePkg/Rng: Add GUID to describe Arm Rndr Rng algorithms
+@@ -1,376 +0,0 @@
+-#!/usr/bin/env python3
+-"""systemctl: subset of systemctl used for image construction
 -
--BZ: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4441
+-Mask/preset systemd units
+-"""
 -
--The EFI_RNG_PROTOCOL can rely on the RngLib. The RngLib has multiple
--implementations, some of them are unsafe (e.g. BaseRngLibTimerLib).
--To allow the RngDxe to detect when such implementation is used,
--a GetRngGuid() function is added in a following patch.
+-import argparse
+-import fnmatch
+-import os
+-import re
+-import sys
 -
--Prepare GetRngGuid() return values and add a gEfiRngAlgorithmArmRndr
--to describe a Rng algorithm accessed through Arm's RNDR instruction.
--[1] states that the implementation of this algorithm should be
--compliant to NIST SP900-80. The compliance is not guaranteed.
+-from collections import namedtuple
+-from itertools import chain
+-from pathlib import Path
 -
--[1] Arm Architecture Reference Manual Armv8, for A-profile architecture
--sK12.1 'Properties of the generated random number'
+-version = 1.0
 -
--Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
--Reviewed-by: Sami Mujawar <sami.mujawar@arm.com>
--Reviewed-by: Liming Gao <gaoliming@byosoft.com.cn>
--Acked-by: Ard Biesheuvel <ardb@kernel.org>
--Tested-by: Kun Qin <kun.qin@microsoft.com>
+-ROOT = Path("/")
+-SYSCONFDIR = Path("etc")
+-BASE_LIBDIR = Path("lib")
+-LIBDIR = Path("usr", "lib")
 -
--CVE: CVE-2023-45237
+-locations = list()
 -
--Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/cf0723=
-8e5fa4f8b1138ac1c9e80530b4d4e59f1c]
 -
--Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-----
-- MdePkg/Include/Protocol/Rng.h | 10 ++++++++++
-- MdePkg/MdePkg.dec             |  1 +
-- 2 files changed, 11 insertions(+)
+-class SystemdFile():
+-    """Class representing a single systemd configuration file"""
 -
--diff --git a/MdePkg/Include/Protocol/Rng.h b/MdePkg/Include/Protocol/Rng.h
--index baf425587b..38bde53240 100644
----- a/MdePkg/Include/Protocol/Rng.h
--+++ b/MdePkg/Include/Protocol/Rng.h
--@@ -67,6 +67,15 @@ typedef EFI_GUID EFI_RNG_ALGORITHM;
--   { \=0D
--     0xe43176d7, 0xb6e8, 0x4827, {0xb7, 0x84, 0x7f, 0xfd, 0xc4, 0xb6, 0x85=
-, 0x61 } \=0D
--   }=0D
--+///=0D
--+/// The Arm Architecture states the RNDR that the DRBG algorithm should b=
-e compliant=0D
--+/// with NIST SP800-90A, while not mandating a particular algorithm, so a=
-s to be=0D
--+/// inclusive of different geographies.=0D
--+///=0D
--+#define EFI_RNG_ALGORITHM_ARM_RNDR \=0D
--+  { \=0D
--+    0x43d2fde3, 0x9d4e, 0x4d79,  {0x02, 0x96, 0xa8, 0x9b, 0xca, 0x78, 0x0=
-8, 0x41} \=0D
--+  }=0D
-- =0D
-- /**=0D
--   Returns information about the random number generation implementation.=
-=0D
--@@ -146,5 +155,6 @@ extern EFI_GUID  gEfiRngAlgorithmSp80090Ctr256Guid;
-- extern EFI_GUID  gEfiRngAlgorithmX9313DesGuid;=0D
-- extern EFI_GUID  gEfiRngAlgorithmX931AesGuid;=0D
-- extern EFI_GUID  gEfiRngAlgorithmRaw;=0D
--+extern EFI_GUID  gEfiRngAlgorithmArmRndr;=0D
-- =0D
-- #endif=0D
--diff --git a/MdePkg/MdePkg.dec b/MdePkg/MdePkg.dec
--index 59b405928b..a449dbc556 100644
----- a/MdePkg/MdePkg.dec
--+++ b/MdePkg/MdePkg.dec
--@@ -594,6 +594,7 @@
--   gEfiRngAlgorithmX9313DesGuid       =3D { 0x63c4785a, 0xca34, 0x4012, {0=
-xa3, 0xc8, 0x0b, 0x6a, 0x32, 0x4f, 0x55, 0x46 }}=0D
--   gEfiRngAlgorithmX931AesGuid        =3D { 0xacd03321, 0x777e, 0x4d3d, {0=
-xb1, 0xc8, 0x20, 0xcf, 0xd8, 0x88, 0x20, 0xc9 }}=0D
--   gEfiRngAlgorithmRaw                =3D { 0xe43176d7, 0xb6e8, 0x4827, {0=
-xb7, 0x84, 0x7f, 0xfd, 0xc4, 0xb6, 0x85, 0x61 }}=0D
--+  gEfiRngAlgorithmArmRndr            =3D { 0x43d2fde3, 0x9d4e, 0x4d79, {0=
-x02, 0x96, 0xa8, 0x9b, 0xca, 0x78, 0x08, 0x41 }}=0D
-- =0D
--   ## Include/Protocol/AdapterInformation.h=0D
--   gEfiAdapterInfoMediaStateGuid       =3D { 0xD7C74207, 0xA831, 0x4A26, {=
-0xB1, 0xF5, 0xD1, 0x93, 0x06, 0x5C, 0xE8, 0xB6 }}=0D
----=20
--2.40.0
+-    _clearable_keys = ['WantedBy']
 -
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
-deleted file mode 100644
-index 722a6cd530..0000000000
---- a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
-+++ /dev/null
-@@ -1,1288 +0,0 @@
--From 4c4ceb2ceb80c42fd5545b2a4bd80321f07f4345 Mon Sep 17 00:00:00 2001
--From: Doug Flick <dougflick@microsoft.com>
--Date: Wed, 8 May 2024 22:56:28 -0700
--Subject: [PATCH] NetworkPkg: SECURITY PATCH CVE-2023-45237
+-    def __init__(self, root, path, instance_unit_name, unit_type):
+-        self.sections = dict()
+-        self._parse(root, path)
+-        dirname = os.path.basename(path.name) + ".d"
+-        for location in locations:
+-            files = (root / location / unit_type / dirname).glob("*.conf")
+-            if instance_unit_name:
+-                inst_dirname = instance_unit_name + ".d"
+-                files = chain(files, (root / location / unit_type / inst_dirname).glob("*.conf"))
+-            for path2 in sorted(files):
+-                self._parse(root, path2)
 -
--REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4542
+-    def _parse(self, root, path):
+-        """Parse a systemd syntax configuration file
 -
--Bug Overview:
--PixieFail Bug #9
--CVE-2023-45237
--CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N
--CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
+-        Args:
+-            path: A pathlib.Path object pointing to the file
 -
--Use of a Weak PseudoRandom Number Generator
+-        """
+-        skip_re = re.compile(r"^\s*([#;]|$)")
+-        section_re = re.compile(r"^\s*\[(?P<section>.*)\]")
+-        kv_re = re.compile(r"^\s*(?P<key>[^\s]+)\s*=\s*(?P<value>.*)")
+-        section = None
 -
--Change Overview:
+-        if path.is_symlink():
+-            try:
+-                path.resolve()
+-            except FileNotFoundError:
+-                # broken symlink, try relative to root
+-                path = root / Path(os.readlink(str(path))).relative_to(ROOT)
 -
--Updates all Instances of NET_RANDOM (NetRandomInitSeed ()) to either
+-        with path.open() as f:
+-            for line in f:
+-                if skip_re.match(line):
+-                    continue
 -
-->
--> EFI_STATUS
--> EFIAPI
--> PseudoRandomU32 (
-->  OUT UINT32  *Output
-->  );
-->
+-                line = line.strip()
+-                m = section_re.match(line)
+-                if m:
+-                    if m.group('section') not in self.sections:
+-                        section = dict()
+-                        self.sections[m.group('section')] = section
+-                    else:
+-                        section = self.sections[m.group('section')]
+-                    continue
 -
--or (depending on the use case)
+-                while line.endswith("\\"):
+-                    line += f.readline().rstrip("\n")
 -
-->
--> EFI_STATUS
--> EFIAPI
--> PseudoRandom (
-->  OUT  VOID   *Output,
-->  IN   UINTN  OutputLength
-->  );
-->
+-                m = kv_re.match(line)
+-                k = m.group('key')
+-                v = m.group('value')
+-                if k not in section:
+-                    section[k] = list()
 -
--This is because the use of
+-                # If we come across a "key=" line for a "clearable key", then
+-                # forget all preceding assignments. This works because we are
+-                # processing files in correct parse order.
+-                if k in self._clearable_keys and not v:
+-                    del section[k]
+-                    continue
 -
--Example:
+-                section[k].extend(v.split())
 -
--The following code snippet PseudoRandomU32 () function is used:
+-    def get(self, section, prop):
+-        """Get a property from section
 -
-->
--> UINT32         Random;
-->
--> Status =3D PseudoRandomU32 (&Random);
--> if (EFI_ERROR (Status)) {
-->   DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n",
--__func__, Status));
-->   return Status;
--> }
-->
+-        Args:
+-            section: Section to retrieve property from
+-            prop: Property to retrieve
 -
--This also introduces a new PCD to enable/disable the use of the
--secure implementation of algorithms for PseudoRandom () and
--instead depend on the default implementation. This may be required for
--some platforms where the UEFI Spec defined algorithms are not available.
+-        Returns:
+-            List representing all properties of type prop in section.
 -
-->
--> PcdEnforceSecureRngAlgorithms
-->
+-        Raises:
+-            KeyError: if ``section`` or ``prop`` not found
+-        """
+-        return self.sections[section][prop]
 -
--If the platform does not have any one of the UEFI defined
--secure RNG algorithms then the driver will assert.
 -
--Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
--Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
+-class Presets():
+-    """Class representing all systemd presets"""
+-    def __init__(self, scope, root):
+-        self.directives = list()
+-        self._collect_presets(scope, root)
 -
--Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
--Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
+-    def _parse_presets(self, presets):
+-        """Parse presets out of a set of preset files"""
+-        skip_re = re.compile(r"^\s*([#;]|$)")
+-        directive_re = re.compile(r"^\s*(?P<action>enable|disable)\s+(?P<unit_name>(.+))")
 -
--CVE: CVE-2023-45237
+-        Directive = namedtuple("Directive", "action unit_name")
+-        for preset in presets:
+-            with preset.open() as f:
+-                for line in f:
+-                    m = directive_re.match(line)
+-                    if m:
+-                        directive = Directive(action=m.group('action'),
+-                                              unit_name=m.group('unit_name'))
+-                        self.directives.append(directive)
+-                    elif skip_re.match(line):
+-                        pass
+-                    else:
+-                        sys.exit("Unparsed preset line in {}".format(preset))
 -
--Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4c4ceb=
-2ceb80c42fd5545b2a4bd80321f07f4345]
+-    def _collect_presets(self, scope, root):
+-        """Collect list of preset files"""
+-        presets = dict()
+-        for location in locations:
+-            paths = (root / location / scope).glob("*.preset")
+-            for path in paths:
+-                # earlier names override later ones
+-                if path.name not in presets:
+-                    presets[path.name] = path
 -
--Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-----
-- NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c          |  10 +-
-- NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c          |  11 +-
-- NetworkPkg/DnsDxe/DnsDhcp.c                |  10 +-
-- NetworkPkg/DnsDxe/DnsImpl.c                |  11 +-
-- NetworkPkg/HttpBootDxe/HttpBootDhcp6.c     |  10 +-
-- NetworkPkg/IScsiDxe/IScsiCHAP.c            |  19 ++-
-- NetworkPkg/IScsiDxe/IScsiMisc.c            |  14 +--
-- NetworkPkg/IScsiDxe/IScsiMisc.h            |   6 +-
-- NetworkPkg/Include/Library/NetLib.h        |  40 +++++--
-- NetworkPkg/Ip4Dxe/Ip4Driver.c              |  10 +-
-- NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c          |   9 +-
-- NetworkPkg/Ip6Dxe/Ip6Driver.c              |  17 ++-
-- NetworkPkg/Ip6Dxe/Ip6If.c                  |  12 +-
-- NetworkPkg/Ip6Dxe/Ip6Mld.c                 |  12 +-
-- NetworkPkg/Ip6Dxe/Ip6Nd.c                  |  33 +++++-
-- NetworkPkg/Ip6Dxe/Ip6Nd.h                  |   8 +-
-- NetworkPkg/Library/DxeNetLib/DxeNetLib.c   | 130 ++++++++++++++++++---
-- NetworkPkg/Library/DxeNetLib/DxeNetLib.inf |  14 ++-
-- NetworkPkg/NetworkPkg.dec                  |   7 ++
-- NetworkPkg/SecurityFixes.yaml              |  39 +++++++
-- NetworkPkg/TcpDxe/TcpDriver.c              |  15 ++-
-- NetworkPkg/TcpDxe/TcpDxe.inf               |   3 +
-- NetworkPkg/Udp4Dxe/Udp4Driver.c            |  10 +-
-- NetworkPkg/Udp6Dxe/Udp6Driver.c            |  11 +-
-- NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c       |   9 +-
-- NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c       |  11 +-
-- NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c      |  12 +-
-- 27 files changed, 410 insertions(+), 83 deletions(-)
+-        self._parse_presets([v for k, v in sorted(presets.items())])
 -
--diff --git a/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c b/NetworkPkg/Dhcp4Dxe/Dhcp4=
-Driver.c
--index 8c37e93be3..892caee368 100644
----- a/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c
--+++ b/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c
--@@ -1,6 +1,7 @@
-- /** @file=0D
-- =0D
-- Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -189,6 +190,13 @@ Dhcp4CreateService (
-- {=0D
--   DHCP_SERVICE  *DhcpSb;=0D
--   EFI_STATUS    Status;=0D
--+  UINT32        Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   *Service =3D NULL;=0D
--   DhcpSb   =3D AllocateZeroPool (sizeof (DHCP_SERVICE));=0D
--@@ -203,7 +211,7 @@ Dhcp4CreateService (
--   DhcpSb->Image        =3D ImageHandle;=0D
--   InitializeListHead (&DhcpSb->Children);=0D
--   DhcpSb->DhcpState =3D Dhcp4Stopped;=0D
---  DhcpSb->Xid       =3D NET_RANDOM (NetRandomInitSeed ());=0D
--+  DhcpSb->Xid       =3D Random;=0D
--   CopyMem (=0D
--     &DhcpSb->ServiceBinding,=0D
--     &mDhcp4ServiceBindingTemplate,=0D
--diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c b/NetworkPkg/Dhcp6Dxe/Dhcp6=
-Driver.c
--index b591a4605b..e7f2787a98 100644
----- a/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c
--+++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c
--@@ -3,7 +3,7 @@
--   implementation for Dhcp6 Driver.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -123,6 +123,13 @@ Dhcp6CreateService (
-- {=0D
--   DHCP6_SERVICE  *Dhcp6Srv;=0D
--   EFI_STATUS     Status;=0D
--+  UINT32         Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   *Service =3D NULL;=0D
--   Dhcp6Srv =3D AllocateZeroPool (sizeof (DHCP6_SERVICE));=0D
--@@ -147,7 +154,7 @@ Dhcp6CreateService (
--   Dhcp6Srv->Signature  =3D DHCP6_SERVICE_SIGNATURE;=0D
--   Dhcp6Srv->Controller =3D Controller;=0D
--   Dhcp6Srv->Image      =3D ImageHandle;=0D
---  Dhcp6Srv->Xid        =3D (0xffffff & NET_RANDOM (NetRandomInitSeed ()))=
-;=0D
--+  Dhcp6Srv->Xid        =3D (0xffffff & Random);=0D
-- =0D
--   CopyMem (=0D
--     &Dhcp6Srv->ServiceBinding,=0D
--diff --git a/NetworkPkg/DnsDxe/DnsDhcp.c b/NetworkPkg/DnsDxe/DnsDhcp.c
--index 933565a32d..9eb3c1d2d8 100644
----- a/NetworkPkg/DnsDxe/DnsDhcp.c
--+++ b/NetworkPkg/DnsDxe/DnsDhcp.c
--@@ -2,6 +2,7 @@
-- Functions implementation related with DHCPv4/v6 for DNS driver.=0D
-- =0D
-- Copyright (c) 2015 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -277,6 +278,7 @@ GetDns4ServerFromDhcp4 (
--   EFI_DHCP4_TRANSMIT_RECEIVE_TOKEN  Token;=0D
--   BOOLEAN                           IsDone;=0D
--   UINTN                             Index;=0D
--+  UINT32                            Random;=0D
-- =0D
--   Image      =3D Instance->Service->ImageHandle;=0D
--   Controller =3D Instance->Service->ControllerHandle;=0D
--@@ -292,6 +294,12 @@ GetDns4ServerFromDhcp4 (
--   Data          =3D NULL;=0D
--   InterfaceInfo =3D NULL;=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   ZeroMem ((UINT8 *)ParaList, sizeof (ParaList));=0D
-- =0D
--   ZeroMem (&MnpConfigData, sizeof (EFI_MANAGED_NETWORK_CONFIG_DATA));=0D
--@@ -467,7 +475,7 @@ GetDns4ServerFromDhcp4 (
-- =0D
--   Status =3D Dhcp4->Build (Dhcp4, &SeedPacket, 0, NULL, 2, ParaList, &Tok=
-en.Packet);=0D
-- =0D
---  Token.Packet->Dhcp4.Header.Xid =3D HTONL (NET_RANDOM (NetRandomInitSeed=
- ()));=0D
--+  Token.Packet->Dhcp4.Header.Xid =3D Random;=0D
-- =0D
--   Token.Packet->Dhcp4.Header.Reserved =3D HTONS ((UINT16)0x8000);=0D
-- =0D
--diff --git a/NetworkPkg/DnsDxe/DnsImpl.c b/NetworkPkg/DnsDxe/DnsImpl.c
--index d311812800..c2629bb8df 100644
----- a/NetworkPkg/DnsDxe/DnsImpl.c
--+++ b/NetworkPkg/DnsDxe/DnsImpl.c
--@@ -2,6 +2,7 @@
-- DnsDxe support functions implementation.=0D
-- =0D
-- Copyright (c) 2016 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -1963,6 +1964,14 @@ ConstructDNSQuery (
--   NET_FRAGMENT       Frag;=0D
--   DNS_HEADER         *DnsHeader;=0D
--   DNS_QUERY_SECTION  *DnsQuery;=0D
--+  EFI_STATUS         Status;=0D
--+  UINT32             Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   //=0D
--   // Messages carried by UDP are restricted to 512 bytes (not counting th=
-e IP=0D
--@@ -1977,7 +1986,7 @@ ConstructDNSQuery (
--   // Fill header=0D
--   //=0D
--   DnsHeader                    =3D (DNS_HEADER *)Frag.Bulk;=0D
---  DnsHeader->Identification    =3D (UINT16)NET_RANDOM (NetRandomInitSeed =
-());=0D
--+  DnsHeader->Identification    =3D (UINT16)Random;=0D
--   DnsHeader->Flags.Uint16      =3D 0x0000;=0D
--   DnsHeader->Flags.Bits.RD     =3D 1;=0D
--   DnsHeader->Flags.Bits.OpCode =3D DNS_FLAGS_OPCODE_STANDARD;=0D
--diff --git a/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c b/NetworkPkg/HttpBootD=
-xe/HttpBootDhcp6.c
--index b22cef4ff5..f964515b0f 100644
----- a/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c
--+++ b/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c
--@@ -2,6 +2,7 @@
--   Functions implementation related with DHCPv6 for HTTP boot driver.=0D
-- =0D
-- Copyright (c) 2015 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -951,6 +952,7 @@ HttpBootDhcp6Sarr (
--   UINT32                    OptCount;=0D
--   UINT8                     Buffer[HTTP_BOOT_DHCP6_OPTION_MAX_SIZE];=0D
--   EFI_STATUS                Status;=0D
--+  UINT32                    Random;=0D
-- =0D
--   Dhcp6 =3D Private->Dhcp6;=0D
--   ASSERT (Dhcp6 !=3D NULL);=0D
--@@ -961,6 +963,12 @@ HttpBootDhcp6Sarr (
--   OptCount =3D HttpBootBuildDhcp6Options (Private, OptList, Buffer);=0D
--   ASSERT (OptCount > 0);=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   Retransmit =3D AllocateZeroPool (sizeof (EFI_DHCP6_RETRANSMISSION));=0D
--   if (Retransmit =3D=3D NULL) {=0D
--     return EFI_OUT_OF_RESOURCES;=0D
--@@ -976,7 +984,7 @@ HttpBootDhcp6Sarr (
--   Config.IaInfoEvent           =3D NULL;=0D
--   Config.RapidCommit           =3D FALSE;=0D
--   Config.ReconfigureAccept     =3D FALSE;=0D
---  Config.IaDescriptor.IaId     =3D NET_RANDOM (NetRandomInitSeed ());=0D
--+  Config.IaDescriptor.IaId     =3D Random;=0D
--   Config.IaDescriptor.Type     =3D EFI_DHCP6_IA_TYPE_NA;=0D
--   Config.SolicitRetransmission =3D Retransmit;=0D
--   Retransmit->Irt              =3D 4;=0D
--diff --git a/NetworkPkg/IScsiDxe/IScsiCHAP.c b/NetworkPkg/IScsiDxe/IScsiCH=
-AP.c
--index b507f11cd4..bebb1ac29b 100644
----- a/NetworkPkg/IScsiDxe/IScsiCHAP.c
--+++ b/NetworkPkg/IScsiDxe/IScsiCHAP.c
--@@ -3,6 +3,7 @@
--   Configuration.=0D
-- =0D
-- Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -576,16 +577,24 @@ IScsiCHAPToSendReq (
--         //=0D
--         // CHAP_I=3D<I>=0D
--         //=0D
---        IScsiGenRandom ((UINT8 *)&AuthData->OutIdentifier, 1);=0D
--+        Status =3D IScsiGenRandom ((UINT8 *)&AuthData->OutIdentifier, 1);=
-=0D
--+        if (EFI_ERROR (Status)) {=0D
--+          break;=0D
--+        }=0D
--+=0D
--         AsciiSPrint (ValueStr, sizeof (ValueStr), "%d", AuthData->OutIden=
-tifier);=0D
--         IScsiAddKeyValuePair (Pdu, ISCSI_KEY_CHAP_IDENTIFIER, ValueStr);=
-=0D
--         //=0D
--         // CHAP_C=3D<C>=0D
--         //=0D
---        IScsiGenRandom (=0D
---          (UINT8 *)AuthData->OutChallenge,=0D
---          AuthData->Hash->DigestSize=0D
---          );=0D
--+        Status =3D IScsiGenRandom (=0D
--+                   (UINT8 *)AuthData->OutChallenge,=0D
--+                   AuthData->Hash->DigestSize=0D
--+                   );=0D
--+        if (EFI_ERROR (Status)) {=0D
--+          break;=0D
--+        }=0D
--+=0D
--         BinToHexStatus =3D IScsiBinToHex (=0D
--                            (UINT8 *)AuthData->OutChallenge,=0D
--                            AuthData->Hash->DigestSize,=0D
--diff --git a/NetworkPkg/IScsiDxe/IScsiMisc.c b/NetworkPkg/IScsiDxe/IScsiMi=
-sc.c
--index b3ea90158f..cd77f1a13e 100644
----- a/NetworkPkg/IScsiDxe/IScsiMisc.c
--+++ b/NetworkPkg/IScsiDxe/IScsiMisc.c
--@@ -2,6 +2,7 @@
--   Miscellaneous routines for iSCSI driver.=0D
-- =0D
-- Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -474,20 +475,17 @@ IScsiNetNtoi (
--   @param[in, out]  Rand       The buffer to contain random numbers.=0D
--   @param[in]       RandLength The length of the Rand buffer.=0D
-- =0D
--+  @retval EFI_SUCCESS on success=0D
--+  @retval others      on error=0D
--+=0D
-- **/=0D
---VOID=0D
--+EFI_STATUS=0D
-- IScsiGenRandom (=0D
--   IN OUT UINT8  *Rand,=0D
--   IN     UINTN  RandLength=0D
--   )=0D
-- {=0D
---  UINT32  Random;=0D
---=0D
---  while (RandLength > 0) {=0D
---    Random  =3D NET_RANDOM (NetRandomInitSeed ());=0D
---    *Rand++ =3D (UINT8)(Random);=0D
---    RandLength--;=0D
---  }=0D
--+  return PseudoRandom (Rand, RandLength);=0D
-- }=0D
-- =0D
-- /**=0D
--diff --git a/NetworkPkg/IScsiDxe/IScsiMisc.h b/NetworkPkg/IScsiDxe/IScsiMi=
-sc.h
--index a951eee70e..91b2cd2261 100644
----- a/NetworkPkg/IScsiDxe/IScsiMisc.h
--+++ b/NetworkPkg/IScsiDxe/IScsiMisc.h
--@@ -2,6 +2,7 @@
--   Miscellaneous definitions for iSCSI driver.=0D
-- =0D
-- Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -202,8 +203,11 @@ IScsiNetNtoi (
--   @param[in, out]  Rand       The buffer to contain random numbers.=0D
--   @param[in]       RandLength The length of the Rand buffer.=0D
-- =0D
--+  @retval EFI_SUCCESS on success=0D
--+  @retval others      on error=0D
--+=0D
-- **/=0D
---VOID=0D
--+EFI_STATUS=0D
-- IScsiGenRandom (=0D
--   IN OUT UINT8  *Rand,=0D
--   IN     UINTN  RandLength=0D
--diff --git a/NetworkPkg/Include/Library/NetLib.h b/NetworkPkg/Include/Libr=
-ary/NetLib.h
--index 8c0e62b388..e8108b79db 100644
----- a/NetworkPkg/Include/Library/NetLib.h
--+++ b/NetworkPkg/Include/Library/NetLib.h
--@@ -3,6 +3,7 @@
--   It provides basic functions for the UEFI network stack.=0D
-- =0D
-- Copyright (c) 2005 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -539,8 +540,6 @@ extern EFI_IPv4_ADDRESS  mZeroIp4Addr;
-- #define TICKS_PER_MS      10000U=0D
-- #define TICKS_PER_SECOND  10000000U=0D
-- =0D
---#define NET_RANDOM(Seed)  ((UINT32) ((UINT32) (Seed) * 1103515245UL + 123=
-45) % 4294967295UL)=0D
---=0D
-- /**=0D
--   Extract a UINT32 from a byte stream.=0D
-- =0D
--@@ -580,19 +579,40 @@ NetPutUint32 (
--   );=0D
-- =0D
-- /**=0D
---  Initialize a random seed using current time and monotonic count.=0D
--+  Generate a Random output data given a length.=0D
-- =0D
---  Get current time and monotonic count first. Then initialize a random se=
-ed=0D
---  based on some basic mathematics operation on the hour, day, minute, sec=
-ond,=0D
---  nanosecond and year of the current time and the monotonic count value.=
-=0D
--+  @param[out] Output - The buffer to store the generated random data.=0D
--+  @param[in] OutputLength - The length of the output buffer.=0D
-- =0D
---  @return The random seed initialized with current time.=0D
--+  @retval EFI_SUCCESS           On Success=0D
--+  @retval EFI_INVALID_PARAMETER Pointer is null or size is zero=0D
--+  @retval EFI_NOT_FOUND         RNG protocol not found=0D
--+  @retval Others                Error from RngProtocol->GetRNG()=0D
-- =0D
--+  @return Status code=0D
-- **/=0D
---UINT32=0D
--+EFI_STATUS=0D
-- EFIAPI=0D
---NetRandomInitSeed (=0D
---  VOID=0D
--+PseudoRandom (=0D
--+  OUT  VOID   *Output,=0D
--+  IN   UINTN  OutputLength=0D
--+  );=0D
--+=0D
--+/**=0D
--+  Generate a 32-bit pseudo-random number.=0D
--+=0D
--+  @param[out] Output - The buffer to store the generated random number.=0D
--+=0D
--+  @retval EFI_SUCCESS           On Success=0D
--+  @retval EFI_NOT_FOUND         RNG protocol not found=0D
--+  @retval Others                Error from RngProtocol->GetRNG()=0D
--+=0D
--+  @return Status code=0D
--+**/=0D
--+EFI_STATUS=0D
--+EFIAPI=0D
--+PseudoRandomU32 (=0D
--+  OUT  UINT32  *Output=0D
--   );=0D
-- =0D
-- #define NET_LIST_USER_STRUCT(Entry, Type, Field)        \=0D
--diff --git a/NetworkPkg/Ip4Dxe/Ip4Driver.c b/NetworkPkg/Ip4Dxe/Ip4Driver.c
--index ec483ff01f..683423f38d 100644
----- a/NetworkPkg/Ip4Dxe/Ip4Driver.c
--+++ b/NetworkPkg/Ip4Dxe/Ip4Driver.c
--@@ -2,6 +2,7 @@
--   The driver binding and service binding protocol for IP4 driver.=0D
-- =0D
-- Copyright (c) 2005 - 2019, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- (C) Copyright 2015 Hewlett-Packard Development Company, L.P.<BR>=0D
-- =0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
--@@ -549,11 +550,18 @@ Ip4DriverBindingStart (
--   EFI_IP4_CONFIG2_PROTOCOL  *Ip4Cfg2;=0D
--   UINTN                     Index;=0D
--   IP4_CONFIG2_DATA_ITEM     *DataItem;=0D
--+  UINT32                    Random;=0D
-- =0D
--   IpSb     =3D NULL;=0D
--   Ip4Cfg2  =3D NULL;=0D
--   DataItem =3D NULL;=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   //=0D
--   // Test for the Ip4 service binding protocol=0D
--   //=0D
--@@ -653,7 +661,7 @@ Ip4DriverBindingStart (
--   //=0D
--   // Initialize the IP4 ID=0D
--   //=0D
---  mIp4Id =3D (UINT16)NET_RANDOM (NetRandomInitSeed ());=0D
--+  mIp4Id =3D (UINT16)Random;=0D
-- =0D
--   return Status;=0D
-- =0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c b/NetworkPkg/Ip6Dxe/Ip6Conf=
-igImpl.c
--index 70e232ce6c..4c1354d26c 100644
----- a/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c
--+++ b/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c
--@@ -2276,6 +2276,13 @@ Ip6ConfigInitInstance (
--   UINTN                 Index;=0D
--   UINT16                IfIndex;=0D
--   IP6_CONFIG_DATA_ITEM  *DataItem;=0D
--+  UINT32                Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   IpSb =3D IP6_SERVICE_FROM_IP6_CONFIG_INSTANCE (Instance);=0D
-- =0D
--@@ -2381,7 +2388,7 @@ Ip6ConfigInitInstance (
--     // The NV variable is not set, so generate a random IAID, and write d=
-own the=0D
--     // fresh new configuration as the NV variable now.=0D
--     //=0D
---    Instance->IaId =3D NET_RANDOM (NetRandomInitSeed ());=0D
--+    Instance->IaId =3D Random;=0D
-- =0D
--     for (Index =3D 0; Index < IpSb->SnpMode.HwAddressSize; Index++) {=0D
--       Instance->IaId |=3D (IpSb->SnpMode.CurrentAddress.Addr[Index] << ((=
-Index << 3) & 31));=0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6Driver.c b/NetworkPkg/Ip6Dxe/Ip6Driver.c
--index b483a7d136..cbe011dad4 100644
----- a/NetworkPkg/Ip6Dxe/Ip6Driver.c
--+++ b/NetworkPkg/Ip6Dxe/Ip6Driver.c
--@@ -3,7 +3,7 @@
-- =0D
--   Copyright (c) 2009 - 2019, Intel Corporation. All rights reserved.<BR>=
-=0D
--   (C) Copyright 2015 Hewlett-Packard Development Company, L.P.<BR>=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -316,7 +316,11 @@ Ip6CreateService (
--   IpSb->CurHopLimit       =3D IP6_HOP_LIMIT;=0D
--   IpSb->LinkMTU           =3D IP6_MIN_LINK_MTU;=0D
--   IpSb->BaseReachableTime =3D IP6_REACHABLE_TIME;=0D
---  Ip6UpdateReachableTime (IpSb);=0D
--+  Status                  =3D Ip6UpdateReachableTime (IpSb);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    goto ON_ERROR;=0D
--+  }=0D
--+=0D
--   //=0D
--   // RFC4861 RETRANS_TIMER: 1,000 milliseconds=0D
--   //=0D
--@@ -516,11 +520,18 @@ Ip6DriverBindingStart (
--   EFI_STATUS               Status;=0D
--   EFI_IP6_CONFIG_PROTOCOL  *Ip6Cfg;=0D
--   IP6_CONFIG_DATA_ITEM     *DataItem;=0D
--+  UINT32                   Random;=0D
-- =0D
--   IpSb     =3D NULL;=0D
--   Ip6Cfg   =3D NULL;=0D
--   DataItem =3D NULL;=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   //=0D
--   // Test for the Ip6 service binding protocol=0D
--   //=0D
--@@ -656,7 +667,7 @@ Ip6DriverBindingStart (
--   //=0D
--   // Initialize the IP6 ID=0D
--   //=0D
---  mIp6Id =3D NET_RANDOM (NetRandomInitSeed ());=0D
--+  mIp6Id =3D Random;=0D
-- =0D
--   return EFI_SUCCESS;=0D
-- =0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6If.c b/NetworkPkg/Ip6Dxe/Ip6If.c
--index 4629c05f25..f3d11c4d21 100644
----- a/NetworkPkg/Ip6Dxe/Ip6If.c
--+++ b/NetworkPkg/Ip6Dxe/Ip6If.c
--@@ -2,7 +2,7 @@
--   Implement IP6 pseudo interface.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -89,6 +89,14 @@ Ip6SetAddress (
--   IP6_PREFIX_LIST_ENTRY  *PrefixEntry;=0D
--   UINT64                 Delay;=0D
--   IP6_DELAY_JOIN_LIST    *DelayNode;=0D
--+  EFI_STATUS             Status;=0D
--+  UINT32                 Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   NET_CHECK_SIGNATURE (Interface, IP6_INTERFACE_SIGNATURE);=0D
-- =0D
--@@ -164,7 +172,7 @@ Ip6SetAddress (
--   // Thus queue the address to be processed in Duplicate Address Detectio=
-n module=0D
--   // after the delay time (in milliseconds).=0D
--   //=0D
---  Delay =3D (UINT64)NET_RANDOM (NetRandomInitSeed ());=0D
--+  Delay =3D (UINT64)Random;=0D
--   Delay =3D MultU64x32 (Delay, IP6_ONE_SECOND_IN_MS);=0D
--   Delay =3D RShiftU64 (Delay, 32);=0D
-- =0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6Mld.c b/NetworkPkg/Ip6Dxe/Ip6Mld.c
--index e6b2b653e2..498a118543 100644
----- a/NetworkPkg/Ip6Dxe/Ip6Mld.c
--+++ b/NetworkPkg/Ip6Dxe/Ip6Mld.c
--@@ -696,7 +696,15 @@ Ip6UpdateDelayTimer (
--   IN OUT IP6_MLD_GROUP  *Group=0D
--   )=0D
-- {=0D
---  UINT32  Delay;=0D
--+  UINT32      Delay;=0D
--+  EFI_STATUS  Status;=0D
--+  UINT32      Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   //=0D
--   // If the Query packet specifies a Maximum Response Delay of zero, perf=
-orm timer=0D
--@@ -715,7 +723,7 @@ Ip6UpdateDelayTimer (
--   // is less than the remaining value of the running timer.=0D
--   //=0D
--   if ((Group->DelayTimer =3D=3D 0) || (Delay < Group->DelayTimer)) {=0D
---    Group->DelayTimer =3D Delay / 4294967295UL * NET_RANDOM (NetRandomIni=
-tSeed ());=0D
--+    Group->DelayTimer =3D Delay / 4294967295UL * Random;=0D
--   }=0D
-- =0D
--   return EFI_SUCCESS;=0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.c b/NetworkPkg/Ip6Dxe/Ip6Nd.c
--index c10c7017f8..72aa45c10f 100644
----- a/NetworkPkg/Ip6Dxe/Ip6Nd.c
--+++ b/NetworkPkg/Ip6Dxe/Ip6Nd.c
--@@ -2,7 +2,7 @@
--   Implementation of Neighbor Discovery support routines.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -16,17 +16,28 @@ EFI_MAC_ADDRESS  mZeroMacAddress;
-- =0D
--   @param[in, out] IpSb     Points to the IP6_SERVICE.=0D
-- =0D
--+  @retval EFI_SUCCESS           ReachableTime Updated=0D
--+  @retval others                Failed to update ReachableTime=0D
-- **/=0D
---VOID=0D
--+EFI_STATUS=0D
-- Ip6UpdateReachableTime (=0D
--   IN OUT IP6_SERVICE  *IpSb=0D
--   )=0D
-- {=0D
---  UINT32  Random;=0D
--+  UINT32      Random;=0D
--+  EFI_STATUS  Status;=0D
-- =0D
---  Random              =3D (NetRandomInitSeed () / 4294967295UL) * IP6_RAN=
-DOM_FACTOR_SCALE;=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--+  Random              =3D (Random / 4294967295UL) * IP6_RANDOM_FACTOR_SCA=
-LE;=0D
--   Random              =3D Random + IP6_MIN_RANDOM_FACTOR_SCALED;=0D
--   IpSb->ReachableTime =3D (IpSb->BaseReachableTime * Random) / IP6_RANDOM=
-_FACTOR_SCALE;=0D
--+=0D
--+  return EFI_SUCCESS;=0D
-- }=0D
-- =0D
-- /**=0D
--@@ -972,10 +983,17 @@ Ip6InitDADProcess (
--   IP6_SERVICE                               *IpSb;=0D
--   EFI_STATUS                                Status;=0D
--   UINT32                                    MaxDelayTick;=0D
--+  UINT32                                    Random;=0D
-- =0D
--   NET_CHECK_SIGNATURE (IpIf, IP6_INTERFACE_SIGNATURE);=0D
--   ASSERT (AddressInfo !=3D NULL);=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   //=0D
--   // Do nothing if we have already started DAD on the address.=0D
--   //=0D
--@@ -1014,7 +1032,7 @@ Ip6InitDADProcess (
--   Entry->Transmit    =3D 0;=0D
--   Entry->Receive     =3D 0;=0D
--   MaxDelayTick       =3D IP6_MAX_RTR_SOLICITATION_DELAY / IP6_TIMER_INTER=
-VAL_IN_MS;=0D
---  Entry->RetransTick =3D (MaxDelayTick * ((NET_RANDOM (NetRandomInitSeed =
-()) % 5) + 1)) / 5;=0D
--+  Entry->RetransTick =3D (MaxDelayTick * ((Random % 5) + 1)) / 5;=0D
--   Entry->AddressInfo =3D AddressInfo;=0D
--   Entry->Callback    =3D Callback;=0D
--   Entry->Context     =3D Context;=0D
--@@ -2078,7 +2096,10 @@ Ip6ProcessRouterAdvertise (
--     // in BaseReachableTime and recompute a ReachableTime.=0D
--     //=0D
--     IpSb->BaseReachableTime =3D ReachableTime;=0D
---    Ip6UpdateReachableTime (IpSb);=0D
--+    Status                  =3D Ip6UpdateReachableTime (IpSb);=0D
--+    if (EFI_ERROR (Status)) {=0D
--+      goto Exit;=0D
--+    }=0D
--   }=0D
-- =0D
--   if (RetransTimer !=3D 0) {=0D
--diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.h b/NetworkPkg/Ip6Dxe/Ip6Nd.h
--index bf64e9114e..5795e23c7d 100644
----- a/NetworkPkg/Ip6Dxe/Ip6Nd.h
--+++ b/NetworkPkg/Ip6Dxe/Ip6Nd.h
--@@ -2,7 +2,7 @@
--   Definition of Neighbor Discovery support routines.=0D
-- =0D
--   Copyright (c) 2009 - 2012, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -780,10 +780,10 @@ Ip6OnArpResolved (
-- /**=0D
--   Update the ReachableTime in IP6 service binding instance data, in milli=
-seconds.=0D
-- =0D
---  @param[in, out] IpSb     Points to the IP6_SERVICE.=0D
---=0D
--+  @retval EFI_SUCCESS           ReachableTime Updated=0D
--+  @retval others                Failed to update ReachableTime=0D
-- **/=0D
---VOID=0D
--+EFI_STATUS=0D
-- Ip6UpdateReachableTime (=0D
--   IN OUT IP6_SERVICE  *IpSb=0D
--   );=0D
--diff --git a/NetworkPkg/Library/DxeNetLib/DxeNetLib.c b/NetworkPkg/Library=
-/DxeNetLib/DxeNetLib.c
--index fd4a9e15a8..01c13c08d2 100644
----- a/NetworkPkg/Library/DxeNetLib/DxeNetLib.c
--+++ b/NetworkPkg/Library/DxeNetLib/DxeNetLib.c
--@@ -3,6 +3,7 @@
-- =0D
-- Copyright (c) 2005 - 2018, Intel Corporation. All rights reserved.<BR>=0D
-- (C) Copyright 2015 Hewlett Packard Enterprise Development LP<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- **/=0D
-- =0D
--@@ -31,6 +32,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-- #include <Library/DevicePathLib.h>=0D
-- #include <Library/PrintLib.h>=0D
-- #include <Library/UefiLib.h>=0D
--+#include <Protocol/Rng.h>=0D
-- =0D
-- #define NIC_ITEM_CONFIG_SIZE  (sizeof (NIC_IP4_CONFIG_INFO) + sizeof (EFI=
-_IP4_ROUTE_TABLE) * MAX_IP4_CONFIG_IN_VARIABLE)=0D
-- #define DEFAULT_ZERO_START    ((UINTN) ~0)=0D
--@@ -127,6 +129,25 @@ GLOBAL_REMOVE_IF_UNREFERENCED VLAN_DEVICE_PATH  mNetV=
-lanDevicePathTemplate =3D {
--   0=0D
-- };=0D
-- =0D
--+//=0D
--+// These represent UEFI SPEC defined algorithms that should be supported =
-by=0D
--+// the RNG protocol and are generally considered secure.=0D
--+//=0D
--+// The order of the algorithms in this array is important. This order is =
-the order=0D
--+// in which the algorithms will be tried by the RNG protocol.=0D
--+// If your platform needs to use a specific algorithm for the random numb=
-er generator,=0D
--+// then you should place that algorithm first in the array.=0D
--+//=0D
--+GLOBAL_REMOVE_IF_UNREFERENCED EFI_GUID  *mSecureHashAlgorithms[] =3D {=0D
--+  &gEfiRngAlgorithmSp80090Ctr256Guid,  // SP800-90A DRBG CTR using AES-25=
-6=0D
--+  &gEfiRngAlgorithmSp80090Hmac256Guid, // SP800-90A DRBG HMAC using SHA-2=
-56=0D
--+  &gEfiRngAlgorithmSp80090Hash256Guid, // SP800-90A DRBG Hash using SHA-2=
-56=0D
--+  &gEfiRngAlgorithmArmRndr,            // unspecified SP800-90A DRBG via =
-ARM RNDR register=0D
--+  &gEfiRngAlgorithmRaw,                // Raw data from NRBG (or TRNG)=0D
--+};=0D
--+=0D
--+#define SECURE_HASH_ALGORITHMS_SIZE  (sizeof (mSecureHashAlgorithms) / si=
-zeof (EFI_GUID *))=0D
--+=0D
-- /**=0D
--   Locate the handles that support SNP, then open one of them=0D
--   to send the syslog packets. The caller isn't required to close=0D
--@@ -884,34 +905,107 @@ Ip6Swap128 (
-- }=0D
-- =0D
-- /**=0D
---  Initialize a random seed using current time and monotonic count.=0D
--+  Generate a Random output data given a length.=0D
-- =0D
---  Get current time and monotonic count first. Then initialize a random se=
-ed=0D
---  based on some basic mathematics operation on the hour, day, minute, sec=
-ond,=0D
---  nanosecond and year of the current time and the monotonic count value.=
-=0D
--+  @param[out] Output - The buffer to store the generated random data.=0D
--+  @param[in] OutputLength - The length of the output buffer.=0D
-- =0D
---  @return The random seed initialized with current time.=0D
--+  @retval EFI_SUCCESS           On Success=0D
--+  @retval EFI_INVALID_PARAMETER Pointer is null or size is zero=0D
--+  @retval EFI_NOT_FOUND         RNG protocol not found=0D
--+  @retval Others                Error from RngProtocol->GetRNG()=0D
-- =0D
--+  @return Status code=0D
-- **/=0D
---UINT32=0D
--+EFI_STATUS=0D
-- EFIAPI=0D
---NetRandomInitSeed (=0D
---  VOID=0D
--+PseudoRandom (=0D
--+  OUT  VOID   *Output,=0D
--+  IN   UINTN  OutputLength=0D
--   )=0D
-- {=0D
---  EFI_TIME  Time;=0D
---  UINT32    Seed;=0D
---  UINT64    MonotonicCount;=0D
--+  EFI_RNG_PROTOCOL  *RngProtocol;=0D
--+  EFI_STATUS        Status;=0D
--+  UINTN             AlgorithmIndex;=0D
--+=0D
--+  if ((Output =3D=3D NULL) || (OutputLength =3D=3D 0)) {=0D
--+    return EFI_INVALID_PARAMETER;=0D
--+  }=0D
--+=0D
--+  Status =3D gBS->LocateProtocol (&gEfiRngProtocolGuid, NULL, (VOID **)&R=
-ngProtocol);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "Failed to locate EFI_RNG_PROTOCOL: %r\n", Statu=
-s));=0D
--+    ASSERT_EFI_ERROR (Status);=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--+  if (PcdGetBool (PcdEnforceSecureRngAlgorithms)) {=0D
--+    for (AlgorithmIndex =3D 0; AlgorithmIndex < SECURE_HASH_ALGORITHMS_SI=
-ZE; AlgorithmIndex++) {=0D
--+      Status =3D RngProtocol->GetRNG (RngProtocol, mSecureHashAlgorithms[=
-AlgorithmIndex], OutputLength, (UINT8 *)Output);=0D
--+      if (!EFI_ERROR (Status)) {=0D
--+        //=0D
--+        // Secure Algorithm was supported on this platform=0D
--+        //=0D
--+        return EFI_SUCCESS;=0D
--+      } else if (Status =3D=3D EFI_UNSUPPORTED) {=0D
--+        //=0D
--+        // Secure Algorithm was not supported on this platform=0D
--+        //=0D
--+        DEBUG ((DEBUG_ERROR, "Failed to generate random data using secure=
- algorithm %d: %r\n", AlgorithmIndex, Status));=0D
--+=0D
--+        //=0D
--+        // Try the next secure algorithm=0D
--+        //=0D
--+        continue;=0D
--+      } else {=0D
--+        //=0D
--+        // Some other error occurred=0D
--+        //=0D
--+        DEBUG ((DEBUG_ERROR, "Failed to generate random data using secure=
- algorithm %d: %r\n", AlgorithmIndex, Status));=0D
--+        ASSERT_EFI_ERROR (Status);=0D
--+        return Status;=0D
--+      }=0D
--+    }=0D
--+=0D
--+    //=0D
--+    // If we get here, we failed to generate random data using any secure=
- algorithm=0D
--+    // Platform owner should ensure that at least one secure algorithm is=
- supported=0D
--+    //=0D
--+    ASSERT_EFI_ERROR (Status);=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--+  //=0D
--+  // Lets try using the default algorithm (which may not be secure)=0D
--+  //=0D
--+  Status =3D RngProtocol->GetRNG (RngProtocol, NULL, OutputLength, (UINT8=
- *)Output);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random data: %r\n", __fun=
-c__, Status));=0D
--+    ASSERT_EFI_ERROR (Status);=0D
--+    return Status;=0D
--+  }=0D
-- =0D
---  gRT->GetTime (&Time, NULL);=0D
---  Seed  =3D (Time.Hour << 24 | Time.Day << 16 | Time.Minute << 8 | Time.S=
-econd);=0D
---  Seed ^=3D Time.Nanosecond;=0D
---  Seed ^=3D Time.Year << 7;=0D
--+  return EFI_SUCCESS;=0D
--+}=0D
--+=0D
--+/**=0D
--+  Generate a 32-bit pseudo-random number.=0D
-- =0D
---  gBS->GetNextMonotonicCount (&MonotonicCount);=0D
---  Seed +=3D (UINT32)MonotonicCount;=0D
--+  @param[out] Output - The buffer to store the generated random number.=0D
-- =0D
---  return Seed;=0D
--+  @retval EFI_SUCCESS           On Success=0D
--+  @retval EFI_NOT_FOUND         RNG protocol not found=0D
--+  @retval Others                Error from RngProtocol->GetRNG()=0D
--+=0D
--+  @return Status code=0D
--+**/=0D
--+EFI_STATUS=0D
--+EFIAPI=0D
--+PseudoRandomU32 (=0D
--+  OUT UINT32  *Output=0D
--+  )=0D
--+{=0D
--+  return PseudoRandom (Output, sizeof (*Output));=0D
-- }=0D
-- =0D
-- /**=0D
--diff --git a/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf b/NetworkPkg/Libra=
-ry/DxeNetLib/DxeNetLib.inf
--index 8145d256ec..a8f534a293 100644
----- a/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
--+++ b/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
--@@ -3,6 +3,7 @@
-- #=0D
-- #  Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
-- #  (C) Copyright 2015 Hewlett Packard Enterprise Development LP<BR>=0D
--+#  Copyright (c) Microsoft Corporation=0D
-- #  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- #=0D
-- ##=0D
--@@ -49,7 +50,11 @@
--   gEfiSmbiosTableGuid                           ## SOMETIMES_CONSUMES  ##=
- SystemTable=0D
--   gEfiSmbios3TableGuid                          ## SOMETIMES_CONSUMES  ##=
- SystemTable=0D
--   gEfiAdapterInfoMediaStateGuid                 ## SOMETIMES_CONSUMES=0D
---=0D
--+  gEfiRngAlgorithmRaw                           ## CONSUMES=0D
--+  gEfiRngAlgorithmSp80090Ctr256Guid             ## CONSUMES=0D
--+  gEfiRngAlgorithmSp80090Hmac256Guid            ## CONSUMES=0D
--+  gEfiRngAlgorithmSp80090Hash256Guid            ## CONSUMES=0D
--+  gEfiRngAlgorithmArmRndr                       ## CONSUMES=0D
-- =0D
-- [Protocols]=0D
--   gEfiSimpleNetworkProtocolGuid                 ## SOMETIMES_CONSUMES=0D
--@@ -59,3 +64,10 @@
--   gEfiComponentNameProtocolGuid                 ## SOMETIMES_CONSUMES=0D
--   gEfiComponentName2ProtocolGuid                ## SOMETIMES_CONSUMES=0D
--   gEfiAdapterInformationProtocolGuid            ## SOMETIMES_CONSUMES=0D
--+  gEfiRngProtocolGuid                           ## CONSUMES=0D
--+=0D
--+[FixedPcd]=0D
--+  gEfiNetworkPkgTokenSpaceGuid.PcdEnforceSecureRngAlgorithms ## CONSUMES=
-=0D
--+=0D
--+[Depex]=0D
--+  gEfiRngProtocolGuid=0D
--diff --git a/NetworkPkg/NetworkPkg.dec b/NetworkPkg/NetworkPkg.dec
--index 928e84fec4..ff335e957c 100644
----- a/NetworkPkg/NetworkPkg.dec
--+++ b/NetworkPkg/NetworkPkg.dec
--@@ -5,6 +5,7 @@
-- #=0D
-- # Copyright (c) 2009 - 2021, Intel Corporation. All rights reserved.<BR>=
-=0D
-- # (C) Copyright 2015-2020 Hewlett Packard Enterprise Development LP<BR>=0D
--+# Copyright (c) Microsoft Corporation=0D
-- #=0D
-- # SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- #=0D
--@@ -127,6 +128,12 @@
--   # @Prompt Indicates whether SnpDxe creates event for ExitBootServices()=
- call.=0D
--   gEfiNetworkPkgTokenSpaceGuid.PcdSnpCreateExitBootServicesEvent|TRUE|BOO=
-LEAN|0x1000000C=0D
-- =0D
--+  ## Enforces the use of Secure UEFI spec defined RNG algorithms for all =
-network connections.=0D
--+  # TRUE  - Enforce the use of Secure UEFI spec defined RNG algorithms.=0D
--+  # FALSE - Do not enforce and depend on the default implementation of RN=
-G algorithm from the provider.=0D
--+  # @Prompt Enforce the use of Secure UEFI spec defined RNG algorithms.=0D
--+  gEfiNetworkPkgTokenSpaceGuid.PcdEnforceSecureRngAlgorithms|TRUE|BOOLEAN=
-|0x1000000D=0D
--+=0D
-- [PcdsFixedAtBuild, PcdsPatchableInModule, PcdsDynamic, PcdsDynamicEx]=0D
--   ## IPv6 DHCP Unique Identifier (DUID) Type configuration (From RFCs 331=
-5 and 6355).=0D
--   # 01 =3D DUID Based on Link-layer Address Plus Time [DUID-LLT]=0D
--diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
--index 7e900483fe..2b2c794697 100644
----- a/NetworkPkg/SecurityFixes.yaml
--+++ b/NetworkPkg/SecurityFixes.yaml
--@@ -121,3 +121,42 @@ CVE_2023_45235:
--     - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
--     - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
--     - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
--+CVE_2023_45237:=0D
--+  commit_titles:=0D
--+    - "NetworkPkg:: SECURITY PATCH CVE 2023-45237"=0D
--+  cve: CVE-2023-45237=0D
--+  date_reported: 2023-08-28 13:56 UTC=0D
--+  description: "Bug 09 - Use of a Weak PseudoRandom Number Generator"=0D
--+  note:=0D
--+  files_impacted:=0D
--+    - NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c=0D
--+    - NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c=0D
--+    - NetworkPkg/DnsDxe/DnsDhcp.c=0D
--+    - NetworkPkg/DnsDxe/DnsImpl.c=0D
--+    - NetworkPkg/HttpBootDxe/HttpBootDhcp6.c=0D
--+    - NetworkPkg/IScsiDxe/IScsiCHAP.c=0D
--+    - NetworkPkg/IScsiDxe/IScsiMisc.c=0D
--+    - NetworkPkg/IScsiDxe/IScsiMisc.h=0D
--+    - NetworkPkg/Include/Library/NetLib.h=0D
--+    - NetworkPkg/Ip4Dxe/Ip4Driver.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6Driver.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6If.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6Mld.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6Nd.c=0D
--+    - NetworkPkg/Ip6Dxe/Ip6Nd.h=0D
--+    - NetworkPkg/Library/DxeNetLib/DxeNetLib.c=0D
--+    - NetworkPkg/Library/DxeNetLib/DxeNetLib.inf=0D
--+    - NetworkPkg/NetworkPkg.dec=0D
--+    - NetworkPkg/TcpDxe/TcpDriver.c=0D
--+    - NetworkPkg/Udp4Dxe/Udp4Driver.c=0D
--+    - NetworkPkg/Udp6Dxe/Udp6Driver.c=0D
--+    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c=0D
--+    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
--+    - NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c=0D
--+  links:=0D
--+    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4542=0D
--+    - https://nvd.nist.gov/vuln/detail/CVE-2023-45237=0D
--+    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
--+    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
--+    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
--diff --git a/NetworkPkg/TcpDxe/TcpDriver.c b/NetworkPkg/TcpDxe/TcpDriver.c
--index 98a90e0210..8fe6badd68 100644
----- a/NetworkPkg/TcpDxe/TcpDriver.c
--+++ b/NetworkPkg/TcpDxe/TcpDriver.c
--@@ -2,7 +2,7 @@
--   The driver binding and service binding protocol for the TCP driver.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -163,7 +163,13 @@ TcpDriverEntryPoint (
--   )=0D
-- {=0D
--   EFI_STATUS  Status;=0D
---  UINT32      Seed;=0D
--+  UINT32      Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a Failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   //=0D
--   // Install the TCP Driver Binding Protocol=0D
--@@ -203,9 +209,8 @@ TcpDriverEntryPoint (
--   //=0D
--   // Initialize ISS and random port.=0D
--   //=0D
---  Seed            =3D NetRandomInitSeed ();=0D
---  mTcpGlobalIss   =3D NET_RANDOM (Seed) % mTcpGlobalIss;=0D
---  mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (NET_RANDOM (Seed) % TCP_=
-PORT_KNOWN));=0D
--+  mTcpGlobalIss   =3D Random % mTcpGlobalIss;=0D
--+  mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (Random % TCP_PORT_KNOWN)=
-);=0D
--   mTcp6RandomPort =3D mTcp4RandomPort;=0D
-- =0D
--   return EFI_SUCCESS;=0D
--diff --git a/NetworkPkg/TcpDxe/TcpDxe.inf b/NetworkPkg/TcpDxe/TcpDxe.inf
--index c0acbdca57..cf5423f4c5 100644
----- a/NetworkPkg/TcpDxe/TcpDxe.inf
--+++ b/NetworkPkg/TcpDxe/TcpDxe.inf
--@@ -82,5 +82,8 @@
--   gEfiTcp6ProtocolGuid                          ## BY_START=0D
--   gEfiTcp6ServiceBindingProtocolGuid            ## BY_START=0D
-- =0D
--+[Depex]=0D
--+  gEfiHash2ServiceBindingProtocolGuid=0D
--+=0D
-- [UserExtensions.TianoCore."ExtraFiles"]=0D
--   TcpDxeExtra.uni=0D
--diff --git a/NetworkPkg/Udp4Dxe/Udp4Driver.c b/NetworkPkg/Udp4Dxe/Udp4Driv=
-er.c
--index cb917fcfc9..c7ea16f4cd 100644
----- a/NetworkPkg/Udp4Dxe/Udp4Driver.c
--+++ b/NetworkPkg/Udp4Dxe/Udp4Driver.c
--@@ -1,6 +1,7 @@
-- /** @file=0D
-- =0D
-- Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=0D
--+Copyright (c) Microsoft Corporation=0D
-- SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -555,6 +556,13 @@ Udp4DriverEntryPoint (
--   )=0D
-- {=0D
--   EFI_STATUS  Status;=0D
--+  UINT32      Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   //=0D
--   // Install the Udp4DriverBinding and Udp4ComponentName protocols.=0D
--@@ -571,7 +579,7 @@ Udp4DriverEntryPoint (
--     //=0D
--     // Initialize the UDP random port.=0D
--     //=0D
---    mUdp4RandomPort =3D (UINT16)(((UINT16)NetRandomInitSeed ()) % UDP4_PO=
-RT_KNOWN + UDP4_PORT_KNOWN);=0D
--+    mUdp4RandomPort =3D (UINT16)(((UINT16)Random) % UDP4_PORT_KNOWN + UDP=
-4_PORT_KNOWN);=0D
--   }=0D
-- =0D
--   return Status;=0D
--diff --git a/NetworkPkg/Udp6Dxe/Udp6Driver.c b/NetworkPkg/Udp6Dxe/Udp6Driv=
-er.c
--index ae96fb9966..edb758d57c 100644
----- a/NetworkPkg/Udp6Dxe/Udp6Driver.c
--+++ b/NetworkPkg/Udp6Dxe/Udp6Driver.c
--@@ -2,7 +2,7 @@
--   Driver Binding functions and Service Binding functions for the Network =
-driver module.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -596,6 +596,13 @@ Udp6DriverEntryPoint (
--   )=0D
-- {=0D
--   EFI_STATUS  Status;=0D
--+  UINT32      Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   //=0D
--   // Install the Udp6DriverBinding and Udp6ComponentName protocols.=0D
--@@ -614,7 +621,7 @@ Udp6DriverEntryPoint (
--     // Initialize the UDP random port.=0D
--     //=0D
--     mUdp6RandomPort =3D (UINT16)(=0D
---                               ((UINT16)NetRandomInitSeed ()) %=0D
--+                               ((UINT16)Random) %=0D
--                                UDP6_PORT_KNOWN +=0D
--                                UDP6_PORT_KNOWN=0D
--                                );=0D
--diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp4.c
--index 91146b78cb..452038c219 100644
----- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c
--+++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c
--@@ -2,7 +2,7 @@
--   Functions implementation related with DHCPv4 for UefiPxeBc Driver.=0D
-- =0D
--   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
---=0D
--+  Copyright (c) Microsoft Corporation=0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
-- **/=0D
--@@ -1381,6 +1381,12 @@ PxeBcDhcp4Discover (
--   UINT8                             VendorOptLen;=0D
--   UINT32                            Xid;=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Xid);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   Mode   =3D Private->PxeBc.Mode;=0D
--   Dhcp4  =3D Private->Dhcp4;=0D
--   Status =3D EFI_SUCCESS;=0D
--@@ -1471,7 +1477,6 @@ PxeBcDhcp4Discover (
--   //=0D
--   // Set fields of the token for the request packet.=0D
--   //=0D
---  Xid                                 =3D NET_RANDOM (NetRandomInitSeed (=
-));=0D
--   Token.Packet->Dhcp4.Header.Xid      =3D HTONL (Xid);=0D
--   Token.Packet->Dhcp4.Header.Reserved =3D HTONS ((UINT16)((IsBCast) ? 0x8=
-000 : 0x0));=0D
--   CopyMem (&Token.Packet->Dhcp4.Header.ClientAddr, &Private->StationIp, s=
-izeof (EFI_IPv4_ADDRESS));=0D
--diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp6.c
--index 7fd1281c11..bcabbd2219 100644
----- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
--+++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
--@@ -2180,7 +2180,7 @@ PxeBcDhcp6Discover (
--   UINTN                            ReadSize;=0D
--   UINT16                           OpCode;=0D
--   UINT16                           OpLen;=0D
---  UINT32                           Xid;=0D
--+  UINT32                           Random;=0D
--   EFI_STATUS                       Status;=0D
--   UINTN                            DiscoverLenNeeded;=0D
-- =0D
--@@ -2198,6 +2198,12 @@ PxeBcDhcp6Discover (
--     return EFI_DEVICE_ERROR;=0D
--   }=0D
-- =0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
--+    return Status;=0D
--+  }=0D
--+=0D
--   DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
--   Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
--   if (Discover =3D=3D NULL) {=0D
--@@ -2207,8 +2213,7 @@ PxeBcDhcp6Discover (
--   //=0D
--   // Build the discover packet by the cached request packet before.=0D
--   //=0D
---  Xid                     =3D NET_RANDOM (NetRandomInitSeed ());=0D
---  Discover->TransactionId =3D HTONL (Xid);=0D
--+  Discover->TransactionId =3D HTONL (Random);=0D
--   Discover->MessageType   =3D Request->Dhcp6.Header.MessageType;=0D
--   RequestOpt              =3D Request->Dhcp6.Option;=0D
--   DiscoverOpt             =3D Discover->DhcpOptions;=0D
--diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c b/NetworkPkg/UefiPxeBcD=
-xe/PxeBcDriver.c
--index d84aca7e85..4cd915b411 100644
----- a/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c
--+++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c
--@@ -3,6 +3,7 @@
-- =0D
--   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
--   Copyright (c) 2007 - 2019, Intel Corporation. All rights reserved.<BR>=
-=0D
--+  Copyright (c) Microsoft Corporation=0D
-- =0D
--   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-- =0D
--@@ -892,6 +893,13 @@ PxeBcCreateIp6Children (
--   PXEBC_PRIVATE_PROTOCOL       *Id;=0D
--   EFI_SIMPLE_NETWORK_PROTOCOL  *Snp;=0D
--   UINTN                        Index;=0D
--+  UINT32                       Random;=0D
--+=0D
--+  Status =3D PseudoRandomU32 (&Random);=0D
--+  if (EFI_ERROR (Status)) {=0D
--+    DEBUG ((DEBUG_ERROR, "Failed to generate random number using EFI_RNG_=
-PROTOCOL: %r\n", Status));=0D
--+    return Status;=0D
--+  }=0D
-- =0D
--   if (Private->Ip6Nic !=3D NULL) {=0D
--     //=0D
--@@ -935,9 +943,9 @@ PxeBcCreateIp6Children (
--   }=0D
-- =0D
--   //=0D
---  // Generate a random IAID for the Dhcp6 assigned address.=0D
--+  // Set a random IAID for the Dhcp6 assigned address.=0D
--   //=0D
---  Private->IaId =3D NET_RANDOM (NetRandomInitSeed ());=0D
--+  Private->IaId =3D Random;=0D
--   if (Private->Snp !=3D NULL) {=0D
--     for (Index =3D 0; Index < Private->Snp->Mode->HwAddressSize; Index++)=
- {=0D
--       Private->IaId |=3D (Private->Snp->Mode->CurrentAddress.Addr[Index] =
-<< ((Index << 3) & 31));=0D
----=20
--2.40.0
+-    def state(self, unit_name):
+-        """Return state of preset for unit_name
 -
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index d52e3f4971..bb345688ac 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -47,8 +47,6 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45229-0002.patch \
-            file://CVE-2023-45229-0003.patch \
-            file://CVE-2023-45229-0004.patch \
--           file://CVE-2023-45237-0001.patch \
--           file://CVE-2023-45237-0002.patch \
-            file://CVE-2023-45236.patch \
-            file://CVE-2022-36765-0001.patch \
-            file://CVE-2022-36765-0002.patch \
---=20
-2.34.1
-
+-        Args:
+-            presets: set of presets
+-            unit_name: name of the unit
+-
+-        Returns:
+-            None: no matching preset
+-            `enable`: unit_name is enabled
+-            `disable`: unit_name is disabled
+-        """
+-        for directive in self.directives:
+-            if fnmatch.fnmatch(unit_name, directive.unit_name):
+-                return directive.action
+-
+-        return None
+-
+-
+-def add_link(path, target):
+-    try:
+-        path.parent.mkdir(parents=True)
+-    except FileExistsError:
+-        pass
+-    if not path.is_symlink():
+-        print("ln -s {} {}".format(target, path))
+-        path.symlink_to(target)
+-
+-
+-class SystemdUnitNotFoundError(Exception):
+-    def __init__(self, path, unit):
+-        self.path = path
+-        self.unit = unit
+-
+-
+-class SystemdUnit():
+-    def __init__(self, root, unit, unit_type):
+-        self.root = root
+-        self.unit = unit
+-        self.unit_type = unit_type
+-        self.config = None
+-
+-    def _path_for_unit(self, unit):
+-        for location in locations:
+-            path = self.root / location / self.unit_type / unit
+-            if path.exists() or path.is_symlink():
+-                return path
+-
+-        raise SystemdUnitNotFoundError(self.root, unit)
+-
+-    def _process_deps(self, config, service, location, prop, dirstem, instance):
+-        systemdir = self.root / SYSCONFDIR / "systemd" / self.unit_type
+-
+-        target = ROOT / location.relative_to(self.root)
+-        try:
+-            for dependent in config.get('Install', prop):
+-                # expand any %i to instance (ignoring escape sequence %%)
+-                dependent = re.sub("([^%](%%)*)%i", "\\g<1>{}".format(instance), dependent)
+-                wants = systemdir / "{}.{}".format(dependent, dirstem) / service
+-                add_link(wants, target)
+-
+-        except KeyError:
+-            pass
+-
+-    def enable(self, units_enabled=[]):
+-        # if we're enabling an instance, first extract the actual instance
+-        # then figure out what the template unit is
+-        template = re.match(r"[^@]+@(?P<instance>[^\.]*)\.", self.unit)
+-        instance_unit_name = None
+-        if template:
+-            instance = template.group('instance')
+-            if instance != "":
+-                instance_unit_name = self.unit
+-            unit = re.sub(r"@[^\.]*\.", "@.", self.unit, 1)
+-        else:
+-            instance = None
+-            unit = self.unit
+-
+-        if instance_unit_name is not None:
+-            try:
+-                # Try first with instance unit name. Systemd allows to create instance unit files
+-                # e.g. `gnome-shell@wayland.service` which cause template unit file to be ignored
+-                # for the instance for which instance unit file is present. In that case, there may
+-                # not be any template file at all.
+-                path = self._path_for_unit(instance_unit_name)
+-            except SystemdUnitNotFoundError:
+-                path = self._path_for_unit(unit)
+-        else:
+-            path = self._path_for_unit(unit)
+-
+-        if path.is_symlink():
+-            # ignore aliases
+-            return
+-
+-        config = SystemdFile(self.root, path, instance_unit_name, self.unit_type)
+-        if instance == "":
+-            try:
+-                default_instance = config.get('Install', 'DefaultInstance')[0]
+-            except KeyError:
+-                # no default instance, so nothing to enable
+-                return
+-
+-            service = self.unit.replace("@.",
+-                                        "@{}.".format(default_instance))
+-        else:
+-            service = self.unit
+-
+-        self._process_deps(config, service, path, 'WantedBy', 'wants', instance)
+-        self._process_deps(config, service, path, 'RequiredBy', 'requires', instance)
+-
+-        try:
+-            for also in config.get('Install', 'Also'):
+-                try:
+-                     units_enabled.append(unit)
+-                     if also not in units_enabled:
+-                        SystemdUnit(self.root, also, self.unit_type).enable(units_enabled)
+-                except SystemdUnitNotFoundError as e:
+-                    sys.exit("Error: Systemctl also enable issue with  %s (%s)" % (service, e.unit))
+-
+-        except KeyError:
+-            pass
+-
+-        systemdir = self.root / SYSCONFDIR / "systemd" / self.unit_type
+-        target = ROOT / path.relative_to(self.root)
+-        try:
+-            for dest in config.get('Install', 'Alias'):
+-                alias = systemdir / dest
+-                add_link(alias, target)
+-
+-        except KeyError:
+-            pass
+-
+-    def mask(self):
+-        systemdir = self.root / SYSCONFDIR / "systemd" / self.unit_type
+-        add_link(systemdir / self.unit, "/dev/null")
+-
+-
+-def collect_services(root, unit_type):
+-    """Collect list of service files"""
+-    services = set()
+-    for location in locations:
+-        paths = (root / location / unit_type).glob("*")
+-        for path in paths:
+-            if path.is_dir():
+-                continue
+-            services.add(path.name)
+-
+-    return services
+-
+-
+-def preset_all(root, unit_type):
+-    presets = Presets('{}-preset'.format(unit_type), root)
+-    services = collect_services(root, unit_type)
+-
+-    for service in services:
+-        state = presets.state(service)
+-
+-        if state == "enable" or state is None:
+-            try:
+-                SystemdUnit(root, service, unit_type).enable()
+-            except SystemdUnitNotFoundError:
+-                sys.exit("Error: Systemctl preset_all issue in %s" % service)
+-
+-    # If we populate the systemd links we also create /etc/machine-id, which
+-    # allows systemd to boot with the filesystem read-only before generating
+-    # a real value and then committing it back.
+-    #
+-    # For the stateless configuration, where /etc is generated at runtime
+-    # (for example on a tmpfs), this script shouldn't run at all and we
+-    # allow systemd to completely populate /etc.
+-    (root / SYSCONFDIR / "machine-id").touch()
+-
+-
+-def main():
+-    if sys.version_info < (3, 4, 0):
+-        sys.exit("Python 3.4 or greater is required")
+-
+-    parser = argparse.ArgumentParser()
+-    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
+-                                                     'preset-all'])
+-    parser.add_argument('service', nargs=argparse.REMAINDER)
+-    parser.add_argument('--root')
+-    parser.add_argument('--preset-mode',
+-                        choices=['full', 'enable-only', 'disable-only'],
+-                        default='full')
+-    parser.add_argument('--global', dest="opt_global", action="store_true", default=False)
+-
+-    args = parser.parse_args()
+-
+-    root = Path(args.root) if args.root else ROOT
+-
+-    locations.append(SYSCONFDIR / "systemd")
+-    # Handle the usrmerge case by ignoring /lib when it's a symlink
+-    if not (root / BASE_LIBDIR).is_symlink():
+-        locations.append(BASE_LIBDIR / "systemd")
+-    locations.append(LIBDIR / "systemd")
+-
+-    command = args.command
+-    if not command:
+-        parser.print_help()
+-        return 0
+-
+-    unit_type = "user" if args.opt_global else "system"
+-
+-    if command == "mask":
+-        for service in args.service:
+-            try:
+-                SystemdUnit(root, service, unit_type).mask()
+-            except SystemdUnitNotFoundError as e:
+-                sys.exit("Error: Systemctl main mask issue in %s (%s)" % (service, e.unit))
+-    elif command == "enable":
+-        for service in args.service:
+-            try:
+-                SystemdUnit(root, service, unit_type).enable()
+-            except SystemdUnitNotFoundError as e:
+-                sys.exit("Error: Systemctl main enable issue in %s (%s)" % (service, e.unit))
+-    elif command == "preset-all":
+-        if len(args.service) != 0:
+-            sys.exit("Too many arguments.")
+-        if args.preset_mode != "enable-only":
+-            sys.exit("Only enable-only is supported as preset-mode.")
+-        preset_all(root, unit_type)
+-    else:
+-        raise RuntimeError()
+-
+-
+-if __name__ == '__main__':
+-    main()
 
