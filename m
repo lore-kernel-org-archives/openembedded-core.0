@@ -1,111 +1,115 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1EAC021AF
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 05:43:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.15948.1739943777781907023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E54C021AA
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 06:53:51 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.16700.1739948020294673947
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Feb 2025 21:42:57 -0800
+ Tue, 18 Feb 2025 22:53:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=41458e6591=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J5gvdO027882;
-	Tue, 18 Feb 2025 21:42:57 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00k8jqh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 21:42:57 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 18 Feb 2025 21:42:56 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 18 Feb 2025 21:42:56 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libxml2: upgrade 2.13.5 -> 2.13.6
-Date: Wed, 19 Feb 2025 13:42:55 +0800
-Message-ID: <20250219054255.1290814-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZR70TwaU;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-220d28c215eso92479975ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Feb 2025 22:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739948019; x=1740552819; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yyX3lc7i1j2E8hWW1kpQfn1OUiE/fhwyD2CCxIOp+Jk=;
+        b=ZR70TwaUrk+TA5zrrRw31Bi9oycKylZ1Cf40SzItyskVZD5gfGwftbvOWKwC2kdHRK
+         lMyY5/d51bi6z1BXKUpaNzgmulTHSVToy0jmz/oaZiSBe+qNu1JyW9aUlIRe7C8oVLPh
+         9SzCDcDpMqtFqjnCAlR1J9OnrQuGDteohMfbFFYztit+JoLahsuDnbDSpsYGAsxrR1bq
+         Ra8EJPy0uGlg504MX3bcs4e0AT8JM08S2ILGQgL9CFFcnqeY4x2cUqEOkt/DP2ms8Rh6
+         mUV+4xF7eCEzw44eJrOURAXdmREWuVDocrT4IwNugJHDEHk+JBCTUHsGoSprCR3CvVdE
+         NY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739948019; x=1740552819;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yyX3lc7i1j2E8hWW1kpQfn1OUiE/fhwyD2CCxIOp+Jk=;
+        b=mjS/v8UK0/fwlNYIXaizrg92scbRce0LkAXMEhKv/6UCis1KCcC4dEbF1G4HbVZ7fp
+         UUNtilPH7EU4WOvhGV9l3itbOFqPhXI0FVYI+O8xIdvxhAocQS6sexrM7AEpYveT6XZ5
+         4OStojYHLf+RorwVwA3c1jG9CcagIYNI6eveiT9PLLuTPp0M9a6lXEwGvo3NPLV3hxQu
+         sJn8/rwkBQjMkOf3BhqAscvPcH8/l0GeVCtCZghqP6goK1SMFYhuIm4MeHiRor2Dtg+T
+         9OCAMpj/x3QfmYVD18x/pzD1aJvRp8o70vykPnbyQ/e9DNhQbJmN5G6izHnmp4HTOYsv
+         zdMQ==
+X-Gm-Message-State: AOJu0Yybmuzoq1vXEKWV832RDNfcc4GCj0RE9uidemfI+27xvKLmjsCV
+	NbRhGJE3dkZ7iYOje7dtLV7cJXJCRMnmY5t4JxPNwx+Z1gBM5k1BVuZgEe2F
+X-Gm-Gg: ASbGnctGvyUqIOuun8NVulOeHGK9RdSRmiyhUuv2Wb4rZZKdbg6PeO6GENras4dTtnG
+	rF2hczgPV+OnrhSoEV1qpNehxo+/3ZDho6Dhldv5D9wqKp4r2nWE2w9dX9z5B2eg6Jk9e5wKfGC
+	EBXocV8sg8CPptQjL0VoYPkAOPX5mCw2QVv2st0BhgjU16pAhCn4hQVNUvE5XNtOdkFEzg4lOBe
+	v8e70yEzQ7i8tyUW7YGF27EOuQktFi95X6AByAvofK4jknT5U+XzIs9Dqm02Ljx2/20LYi/91p7
+	I00DOy8=
+X-Google-Smtp-Source: AGHT+IFLXsHyqWTm3rTWyCv9d9uPhKFSOQVWBh5MzxLeL9ZpYBwj98N2TInYu5jDKr56gLHhri85dw==
+X-Received: by 2002:a05:6a00:1a89:b0:730:94e5:1ea2 with SMTP id d2e1a72fcca58-7326177d5ecmr28286888b3a.4.1739948019428;
+        Tue, 18 Feb 2025 22:53:39 -0800 (PST)
+Received: from apollo.localdomain ([2601:646:8201:fd20::dd76])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732425467b9sm11204531b3a.30.2025.02.18.22.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 22:53:38 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] python3: Skip test_write_read_append
+Date: Tue, 18 Feb 2025 22:53:34 -0800
+Message-ID: <20250219065335.1632645-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250219065335.1632645-1-raj.khem@gmail.com>
+References: <20250219065335.1632645-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=N67TF39B c=1 sm=1 tr=0 ts=67b56f61 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=GHR8O2WEAAAA:20 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8 a=_vTAUrJiXwrBIAUweg8A:9 a=m9p5bXcFLgAA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: BRg4zggaFwoWi8C3k8hNq8wgO4AjA0PU
-X-Proofpoint-GUID: BRg4zggaFwoWi8C3k8hNq8wgO4AjA0PU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_02,2025-02-18_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 clxscore=1015 bulkscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2502190042
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 05:43:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211663
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 06:53:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211665
 
-https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.6
+We use editline by default and test_write_read_append also fails especially on musl
+since this needs to be fixed upstream, extend the skip for test_write_read_append along
+with other history manipulation tests being skipped.
 
-Release notes
-Security
-
-    [CVE-2025-24928] Fix stack-buffer-overflow in xmlSnprintfElements
-    [CVE-2024-56171] Fix use-after-free after xmlSchemaItemListAdd
-    pattern: Fix compilation of explicit child axis
-
-Regressions
-
-    xmllint: Support compressed input from stdin
-    uri: Fix handling of Windows drive letters
-    reader: Fix return value of xmlTextReaderReadString again
-    SAX2: Fix xmlSAX2ResolveEntity if systemId is NULL
-
-Portability
-
-    dict: Handle ENOSYS from getentropy gracefully
-    Fix compilation with uclibc (Dario Binacchi)
-    python: Declare init func with PyMODINIT_FUNC
-    tests: Fix sanitizer version check on old Apple clang
-    cmake: Work around broken sys/random.h in old macOS SDKs
-
-Build
-
-    autotools: Set AC_CONFIG_AUX_DIR
-    cmake: Always build Python module as shared library
-    cmake: add missing Bcrypt link on Windows (Saleem Abdulrasool)
-    cmake: Fix compatibility in package version file
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libxml/{libxml2_2.13.5.bb => libxml2_2.13.6.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxml/{libxml2_2.13.5.bb => libxml2_2.13.6.bb} (97%)
+ ...1-test_readline-skip-limited-history-test.patch | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.13.5.bb b/meta/recipes-core/libxml/libxml2_2.13.6.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.13.5.bb
-rename to meta/recipes-core/libxml/libxml2_2.13.6.bb
-index 6fbdec30ca..3b3ca87e96 100644
---- a/meta/recipes-core/libxml/libxml2_2.13.5.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.13.6.bb
-@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+index 337e69cce07..862a7f5ea77 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+@@ -16,11 +16,17 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  Lib/test/test_readline.py | 2 ++
+  1 file changed, 2 insertions(+)
  
--SRC_URI[archive.sha256sum] = "74fc163217a3964257d3be39af943e08861263c4231f9ef5b496b6f6d4c7b2b6"
-+SRC_URI[archive.sha256sum] = "f453480307524968f7a04ec65e64f2a83a825973bcd260a2e7691be82ae70c96"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
--- 
-2.34.1
-
+-diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
+-index 50e77cb..09b644a 100644
+ --- a/Lib/test/test_readline.py
+ +++ b/Lib/test/test_readline.py
+-@@ -141,6 +141,7 @@ class TestHistoryManipulation (unittest.TestCase):
++@@ -70,6 +70,7 @@ class TestHistoryManipulation (unittest.
++ 
++     @unittest.skipUnless(hasattr(readline, "append_history_file"),
++                          "append_history not available")
+++    @unittest.skip("Skipping problematic test")
++     def test_write_read_append(self):
++         hfile = tempfile.NamedTemporaryFile(delete=False)
++         hfile.close()
++@@ -141,6 +142,7 @@ class TestHistoryManipulation (unittest.
+          self.assertEqual(readline.get_history_item(1), "entrée 1")
+          self.assertEqual(readline.get_history_item(2), "entrée 22")
+  
+@@ -28,7 +34,7 @@ index 50e77cb..09b644a 100644
+      def test_write_read_limited_history(self):
+          previous_length = readline.get_history_length()
+          self.addCleanup(readline.set_history_length, previous_length)
+-@@ -382,6 +383,7 @@ readline.write_history_file(history_file)
++@@ -382,6 +384,7 @@ readline.write_history_file(history_file
+          self.assertIn(b"done", output)
+  
+  
 
