@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA47C021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 20:18:16 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.32770.1739996287655949534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2667C021AA
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 20:18:25 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.32777.1739996296188483537
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 12:18:08 -0800
+ Wed, 19 Feb 2025 12:18:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=SuMqVgtx;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202502192018039e9729b152d04d5d21-ayjxhw@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202502192018039e9729b152d04d5d21
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=HQTH0dTB;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202502192018131df20fa22cd615ddf5-qu8nvn@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202502192018131df20fa22cd615ddf5
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 19 Feb 2025 21:18:04 +0100
+        Wed, 19 Feb 2025 21:18:13 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=w4xKwsc9u2jMHcW7XUSun1rWqMjRy+iJisNUq5JGrzs=;
- b=SuMqVgtxpE5t9Z/CGFmc5z+GGEuvj7OAS1ncdhj/2d/0Cu1+umbXnXfDIjusNpOHcPf5FI
- t3XPcRQ+VT1navlfW9wE4GwsFU+BHGGMU4zbmB6dkH3OQhVLkyKzlZmOiUgNjhKvoO3+reKn
- lIiaWVVUr7wAAkizPRI6Tu2SaIBFHv6imTYYrTkgyooCTH3qZXtoGuTMjvBMe5U2Ryr+0ZR+
- gfiHzbBumlXMluKXF/17CwpTf1XoWhJvW4lVCf5yZr/BFBJS7FuJcjflqxT/rcffVZmD8yGz
- bFSK3RjVrK4Rsd2CZx/mkwQu1UJ6e4JkGq6bUSPHDsDXPtzU3XTduMVA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=kJeod5CudS54H3kT3MfzvkktCYsX+uXjLzKfRQ6iKNo=;
+ b=HQTH0dTBteA1llC+Mzk+d1QxpZDhDehGD7FvurzHOkBez6kwXVTcMbRIMCauxhsbTqtbAP
+ PKxl5Dxas09t2wa6EJHAUJU+mZ41Kc0qsjsgMa0t6TP2Wwt3vsdfZw0Ei4FxHEndMvXkbBtL
+ RTygriMr7CaspaLF85/gsXtZ2mj5dnJySNfpYPNOx4RqL4G5hl7ebY6yfw7UARTIlYo+844M
+ 2t11S5z4EmSxWcb1D3+YM5/dN6HpHUaUcVMEaO6rxV3pVGSrkmSmTupreDkgLFJF0uir0/sp
+ ksQXoKJCwROYXRkm8n+170rd0W0HZvL17X/LkwnXWeh024nU4UT7oyag==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 1/3] libxml2: fix compilation of explicit child axis in pattern
-Date: Wed, 19 Feb 2025 21:17:14 +0100
-Message-Id: <20250219201716.3814140-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 2/3] libxml2: patch CVE-2024-56171
+Date: Wed, 19 Feb 2025 21:17:15 +0100
+Message-Id: <20250219201716.3814140-2-peter.marko@siemens.com>
+In-Reply-To: <20250219201716.3814140-1-peter.marko@siemens.com>
+References: <20250219201716.3814140-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,68 +38,77 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211732
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:18:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211733
 
 From: Peter Marko <peter.marko@siemens.com>
 
-This was reported as sucurity fix in
-https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.12.10
-https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.6
+Pick commit from 2.12 branch.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...x-compilation-of-explicit-child-axis.patch | 31 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2024-56171.patch       | 42 +++++++++++++++++++
  meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-56171.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch b/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-56171.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-56171.patch
 new file mode 100644
-index 0000000000..932c0ec422
+index 0000000000..6c7b1c11e7
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
-@@ -0,0 +1,31 @@
-+From 503f788e84f1c1f1d769c2c7258d77faee94b5a3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-56171.patch
+@@ -0,0 +1,42 @@
++From 245b70d7d2768572ae1b05b3668ca858b9ec4ed4 Mon Sep 17 00:00:00 2001
 +From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Thu, 13 Feb 2025 16:48:53 +0100
-+Subject: [PATCH] pattern: Fix compilation of explicit child axis
++Date: Tue, 10 Dec 2024 16:52:05 +0100
++Subject: [PATCH] [CVE-2024-56171] Fix use-after-free after
++ xmlSchemaItemListAdd
 +
-+The child axis is the default axis and should generate XML_OP_ELEM like
-+the case without an axis.
++xmlSchemaItemListAdd can reallocate the items array. Update local
++variables after adding item in
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/503f788e84f1c1f1d769c2c7258d77faee94b5a3]
++- xmlSchemaIDCFillNodeTables
++- xmlSchemaBubbleIDCNodeTables
++
++Fixes #828.
++
++CVE: CVE-2024-56171
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/245b70d7d2768572ae1b05b3668ca858b9ec4ed4]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pattern.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ xmlschemas.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/pattern.c b/pattern.c
-+index 27e96946..3182794e 100644
-+--- a/pattern.c
-++++ b/pattern.c
-+@@ -1178,10 +1178,10 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
-+ 			    goto error;
++diff --git a/xmlschemas.c b/xmlschemas.c
++index a089ebc5..18e35e75 100644
++--- a/xmlschemas.c
+++++ b/xmlschemas.c
++@@ -23647,6 +23647,7 @@ xmlSchemaIDCFillNodeTables(xmlSchemaValidCtxtPtr vctxt,
 + 			}
++ 			if (xmlSchemaItemListAdd(bind->dupls, bind->nodeTable[j]) == -1)
++ 			    goto internal_error;
+++                        dupls = (xmlSchemaPSVIIDCNodePtr *) bind->dupls->items;
++ 			/*
++ 			* Remove the duplicate entry from the IDC node-table.
++ 			*/
++@@ -23863,6 +23864,8 @@ xmlSchemaBubbleIDCNodeTables(xmlSchemaValidCtxtPtr vctxt)
++ 				goto internal_error;
++ 			}
++ 			xmlSchemaItemListAdd(parBind->dupls, parNode);
+++		        dupls = (xmlSchemaPSVIIDCNodePtr *)
+++                            parBind->dupls->items;
 + 		    } else {
-+-			PUSH(XML_OP_CHILD, token, URL);
-++			PUSH(XML_OP_ELEM, token, URL);
-+ 		    }
-+ 		} else
-+-		    PUSH(XML_OP_CHILD, name, NULL);
-++		    PUSH(XML_OP_ELEM, name, NULL);
-+ 		return;
-+ 	    } else if (xmlStrEqual(name, (const xmlChar *) "attribute")) {
-+ 		XML_PAT_FREE_STRING(ctxt, name)
++ 			/*
++ 			* Add the node-table entry (node and key-sequence) of
 diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 94b3b510ae..093a5b6590 100644
+index 093a5b6590..2facf67ebd 100644
 --- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -33,6 +33,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2023-45322-2.patch \
+@@ -34,6 +34,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
             file://CVE-2024-25062.patch \
             file://CVE-2024-34459.patch \
-+           file://0001-pattern-Fix-compilation-of-explicit-child-axis.patch \
+            file://0001-pattern-Fix-compilation-of-explicit-child-axis.patch \
++           file://CVE-2024-56171.patch \
             "
  
  SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
