@@ -2,171 +2,84 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E54C021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 09:03:42 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web11.18027.1739955820950868172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84114C021AB
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 09:20:52 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.18208.1739956850725854149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 01:03:41 -0800
+ Wed, 19 Feb 2025 01:20:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AXUgTHHF;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e65baef2edso49195396d6.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 01:03:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dThFlff7;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c0970e2e79so535379185a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 01:20:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739955820; x=1740560620; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dqomNv4HTDZO8Vj122fPgx95MO7BwwlY5BSkrM3Oc5g=;
-        b=AXUgTHHFyW7VQ26281xkKUhUmdr6VO95TB0ok+62zp9KcRooZqzeXP15r3rJt0hegQ
-         4svxJlE3KVGHqewHLoq42jdQIuKBi3Br/6VMa25reW01pK/mShd1tea3HZCfvFaa+rxy
-         etrvA2AcTTymWOgHOMKcRAlm6BmjWaabk4HRZ7ICSrlIdU7EbjbjbSFlDmTA+u2OhZ3u
-         jdhhwF7D/BuOFCs7cRERMYFZks6JDlke4fCN4Qw35xMnjtRuEIMM+d8Gjef8QIbbQv3u
-         wBcHwUgYGiJcoHnXYByWOhYJSRwHpFlChg0hayZSAxHgMqqK7T5ekYmb6xOtka74crvY
-         i9fw==
+        d=gmail.com; s=20230601; t=1739956850; x=1740561650; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ndOtmVmT4hHn2xXDxUCwQcHXcBwGw85E9PK38exDAfI=;
+        b=dThFlff7FVF5AqkKsne6Af75b/VbU1CelDVCha8+bcTBKJNUv0gGZV9EeEMg6ulXi/
+         +eo2btpjlE0g8PJuqSyZHt4zor56HL6uFDNXEUi4rUNZYcIQOh8CBigU5pGlLM5jlSXE
+         Ltw6eIdgINC5Dd+1t0VDbdE9oWTOtCdzbKp4bbWc8GxDl4SzPjt1DKTUlNW8C6wELt2R
+         59+LZYV+fRXWn8MZz04FQC1Z9or01liecBl89ImsYbBMx/7QS0sO5PQDOnPV0qKVXp8V
+         cOAiDBGWZ+p1hkrUIKY7Nd2lobIniSPUxkfq686VPTXD0YuwjNqsuXouzPiRiCNtDLag
+         zW9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739955820; x=1740560620;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dqomNv4HTDZO8Vj122fPgx95MO7BwwlY5BSkrM3Oc5g=;
-        b=ot4IUIlSjZTKTxJSZvol27FQZtWKejzZ6HneKZ2eBnXWu59nmIM5rFxj9zOTFnwmGY
-         xk3UVK7FJXI3XqW6/iseyy5sqbV784B+XKnq8erUr4K+ldnv9coJF5nze+yj+L6rESJR
-         TsONxdUSBp3Y0FVS8xOqly/XqY2XKJFR8D0q9yeMyRkJnvBfwzEvJkfGIL29fDNXUZbs
-         XEBd6zGyqAraIk7HsKC5hsyokO+ucwssDVnAflpXaob96x3HuCZbW/hH8Hf8pK3OsGgJ
-         4QLkAcIJ0sLNkuWzx0CwjM34U8OXqYp5Dtp3bODnTQUpotkR6YTvDTyh+wE5BWXtq3o+
-         2Yug==
-X-Forwarded-Encrypted: i=1; AJvYcCWXevFX758oVZRBX3wnvBgzsZ3C70ALZ/b2gaDdU/hObkdjhMoLBPSU2/VtqddTBocW51ivUggA+l6IIqsxk5L7cg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz5KUVRP29LdGGVgkhNjnKdtZD8ycy6sk5OEItzRfzeKriwDCvt
-	612i9BAQzha0CyzzuzPATwkXuLaCAnSCIknY7yYXez4t3jNeL5oN+X85V0mR+/VCgAFMpasd735
-	etr8w5qN5KR56Gaist+YAXrIkhE4=
-X-Gm-Gg: ASbGnct9zQ2b+oxfuEjk4XG60RInD/T/tFBdcLgZDneDQKHwK1t1NJmVU8IUz1ado75
-	vGFNcJGRLHToj1ck9n2fA5xb4RgyugkRZRlfIp164uQA/b8y+fb6NwjMSvptBksbi9VfVr0bP2t
-	MFITAY/q3dnE1g/x/EG2T25GAWtXBz29c=
-X-Google-Smtp-Source: AGHT+IEmHklWTJpKZHyp1lv+R+8hRK7dqPbMhJq34p+B3+iNcf9jvRXycq39piH7ogzgI1yC0uJtmgEBOGwFw7BTEEk=
-X-Received: by 2002:a05:6214:5085:b0:6d8:ada3:26c9 with SMTP id
- 6a1803df08f44-6e66cca5592mr262781606d6.10.1739955819977; Wed, 19 Feb 2025
- 01:03:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739956850; x=1740561650;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ndOtmVmT4hHn2xXDxUCwQcHXcBwGw85E9PK38exDAfI=;
+        b=qEKAmZ/8pZOQpOh21Zt2oKVMarc0v/2xv9nao9HvICRxQSzABUcoEK0HqcU0rHCIar
+         gykaYdh+Fr4NblhzkcadGN6tZXHoD8YHDwbXcrJDzzDFJD1TLadP+Arc4yk3tuVLGGnf
+         Sj3Q13fvIr/T/kM70Iaykh8roGPxqFMdxalPO6Q+zqCXZ6XhXJwJVFAEoQQvu0iXaZid
+         5JfEdOycg70Rn2BMS1VPQclGuuG8B4rDb4GHQl7MyVtWypSOyfV/WMNfFAztrBgPl9QD
+         dM/zwrGxVGd+hviVmPT3nYPgT9LX5sahv8A22J1I4rrQVpt7p3Z9mvGreB5tRgdKS+yE
+         7Kag==
+X-Forwarded-Encrypted: i=1; AJvYcCUH8wizsXCwi5mUZ46rwD+uin+8LiT2qQWeRi8ueyx2tIspvO5thywIfDx2r0sXf5sGYsoRmkggE+BL6iehktNaag==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwaMLnVlzsg0oGITBH7C/NX4UFEGxGtM77vBfqF63JEGmKS1GQj
+	YVhSfyjJT+HdzOEiiHdrEAfvRaMHv65xMXmYQlLS1AFYjLdRmSiX+0WTUsnHX/Xh6WiZoiGAryJ
+	/2cO+9lrF7dIY3g1p1O6wAmywI6w=
+X-Gm-Gg: ASbGnctrS0gB/qlP6EV+pnFFiw3BC3CBZrbFbgOznwXELV9ed2s+M85ejc9yfb+j3pS
+	y9yHhuBf5lwtasCorV1MSuNucDuHWi4GIWpESRnbXf4g32BItqIovDrRHqk6gdIYZ+MyVeyVGoD
+	P3vHxojL6HVzVhsgPD1lDxXU5MV3amfhc=
+X-Google-Smtp-Source: AGHT+IGh5tnyjLVdmpkuPhWNXZNez2Vj2JmAAUzTAgoFPHpZSQQWRk4xLkctdOrXAauGpC4Okvdx3dxZ4F9znitzA9Y=
+X-Received: by 2002:a05:6214:ac7:b0:6d8:9062:6616 with SMTP id
+ 6a1803df08f44-6e66cc8b65emr294402056d6.7.1739956849663; Wed, 19 Feb 2025
+ 01:20:49 -0800 (PST)
 MIME-Version: 1.0
-References: <1739864375-21394-1-git-send-email-wangmy@fujitsu.com>
- <1739864375-21394-15-git-send-email-wangmy@fujitsu.com> <D7VQPBSVP6PJ.2CIYIN5Y67FR0@bootlin.com>
- <TYWPR01MB11861340480955F17E5309959DCC52@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB11861340480955F17E5309959DCC52@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+References: <20250218133736.2113804-1-hongxu.jia@windriver.com>
+ <20250218133736.2113804-2-hongxu.jia@windriver.com> <CANNYZj-X7wLRf9rxMBgDZn0nSDo12ya7nbhGTr=FZj=MPLu7=w@mail.gmail.com>
+ <7fcfd8dd-6740-4594-be52-4f841b3d85df@windriver.com>
+In-Reply-To: <7fcfd8dd-6740-4594-be52-4f841b3d85df@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Feb 2025 10:03:29 +0100
-X-Gm-Features: AWEUYZmzgM1zpQ09DW10FZ7PYDn6nS5PgEs3lclLO13FSHfVKkbOJnI6-suXCOk
-Message-ID: <CANNYZj8dmPrSJgtK4LH-MjjT7tG36_9XW=KD_nuBQ8DWP-NYUQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/32] pango: upgrade 1.55.5 -> 1.56.1
-To: wangmy@fujitsu.com
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Feb 2025 10:20:38 +0100
+X-Gm-Features: AWEUYZnK7Uw-aji8_lXS2ytDHggrhXwrTdyPCOrkaSGQLzZ9Gpy9bxQIfYZ2xrI
+Message-ID: <CANNYZj_0L4XHs_927C=HQMFQR5Y3qb8pWRo1XXT2ghjKm-EvOg@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 2/2] setuptools3-base.bbclass:
+ override default subprocess timeout
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: hongxu.jia@eng.windriver.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 09:03:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211691
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 09:20:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211692
 
-You can see it here:
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n871
+On Wed, 19 Feb 2025 at 03:28, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> > This hasn't been accepted in master yet. And there's a strong
+> > opposition, as this is felt to be something needed for misconfigured
+> > CIs that get I/O load beyond all reason. Can this be kept as your
+> > local tweak?
+>
+> Sure, we kept it as local patch
 
-Probably DISTRO_FEATURES:append =3D ' api-documentation' will reproduce the=
- fail.
+Well, it has actually landed in master at about same time I wrote that
+:) https://git.yoctoproject.org/poky/commit/?h=master&id=a4ba090f61484ea7cf8014c232ebec6f195f54a3
+
+I'm not asking for a revert, but can the default be reset from 600 to
+upstream's 40?
 
 Alex
-
-On Wed, 19 Feb 2025 at 03:06, wangmy via lists.openembedded.org
-<wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
->
-> Could you please let me know the build options? I have selected machine x=
-86-64 and bitbake panggo, but this issue did not occur.
->
->   --
-> Best Regards
-> ---------------------------------------------------
-> Wang Mingyu
-> FUJITSU NANJING SOFTWARE TECHNOLOGY CO., LTD. (FNST)
-> No.6 Wenzhu Road, Nanjing, 210012, China
-> TEL=EF=BC=9A+86+25-86630566--8568
-> COINS: 79988548
-> FAX: +86+25-83317685
-> MAIL: wangmy@fujitsu.com
->
-> > -----Original Message-----
-> > From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> > Sent: Wednesday, February 19, 2025 1:16 AM
-> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>;
-> > openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 15/32] pango: upgrade 1.55.5 -> 1.56.1
-> >
-> > On Tue Feb 18, 2025 at 8:39 AM CET, wangmy via lists.openembedded.org
-> > wrote:
-> > > From: Wang Mingyu <wangmy@fujitsu.com>
-> > >
-> > > Changelog:
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > - Avoid criticals when there are no fonts
-> > > - fontconfig: Handle lack of FC_FONT_WRAPPER in font cache
-> > > - fontconfig: Prefer application fonts even if they are older
-> > > - Support setting font features in font descriptions
-> > > - serialization: Document the tab array format
-> > > - serialization: Accept attributes without range
-> > > - win32: Improve the pango_font_map_reload_implementation
-> > > - win32: Take variations into account for caching
-> > > - layout: Fix measuring ellipsis runs with shapes
-> > > - build: Require C11
-> > > - build: Require GLib 2.80
-> > > - build: Require cairo 1.18
-> > >
-> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > > ---
-> >
-> > Hi,
-> >
-> > This does fail on qemux86-world-alt:
-> >
-> > ERROR: pango-1.56.1-r0 do_configure: Execution of
-> > '/srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/cor=
-e2-6
-> > 4-poky-linux/pango/1.56.1/temp/run.do_configure.1676834' failed with ex=
-it
-> > code 1 ...
-> > | Program rst2man rst2man.py found: NO
-> > | Program rst2html5 rst2html5.py found: NO
-> > |
-> > | ../pango-1.56.1/docs/meson.build:222:12: ERROR: Program 'rst2html5
-> > | rst2html5.py' not found or not executable
-> > |
-> > | A full log can be found at
-> > | /srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/co=
-r
-> > | e2-64-poky-linux/pango/1.56.1/build/meson-logs/meson-log.txt
-> > | ERROR: meson failed
-> > | WARNING: exit code 1 from a shell command
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/?#/builders/17/builds/955=
-/steps/1
-> > 1/logs/stdio
-> >
-> > Can you have a look at this failure please?
-> >
-> >
-> > --
-> > Mathieu Dubois-Briand, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#211660): https://lists.openembedded.org/g/openembedde=
-d-core/message/211660
-> Mute This Topic: https://lists.openembedded.org/mt/111247369/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
