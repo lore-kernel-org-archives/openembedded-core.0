@@ -1,125 +1,140 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC29C021AA
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 13:29:13 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.22101.1739971747021988255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4E6C021AA
+	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 14:42:14 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web10.23796.1739976125734936643
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 05:29:07 -0800
+ Wed, 19 Feb 2025 06:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mPz09Vgx;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6dd01781b56so81372626d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 05:29:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DgdrwJd/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.173, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6f4434b5305so59521627b3.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 06:42:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739971746; x=1740576546; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1739976125; x=1740580925; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xB7QlR9rDmATtNgIiVf1Dmp0IGEBS3VlHe6f5tvBe7k=;
-        b=mPz09VgxTfFuiuus5jXR9yApmaf0i4zetLKjwRQ3LHkzWH4SYAZTSqxgslaDBp8TU3
-         InIFvl9UhmgloJomiB0a0NiBywAPR8hhtKWvF3kUtsq12/5DUj0z169tm507U9VScHXw
-         bgA1nwYRHz5Tamlpn35NUeLlfslgLVzdndwsXx/u+8BHnpQjHPBvrGfLD0KL15BXCNG7
-         6yrodLDu1cQ8EnsLDhnIwT+a1Q7/JLEQ6FTZMvDOmtcL/hAk8Aa8shVD4VxWnqTFLmLA
-         1pwohSBrwKrwxCuNHBLavbEVrk0ga9GOy3RjYFb2pJvCX8rtbjXbUyvOfsr8P28aCxo9
-         P+uA==
+        bh=t4LMJszcts7NgcUGtUOjTJWDeD+LtM2O+8wwlZsKrgw=;
+        b=DgdrwJd/wxrY0eEH7c5SkLZIr47wt0YPuP14WIyhleuovbxBRZbPoxrw5cRX4/SL9S
+         D6pqb74IQIHZop/wgJQE71dImIVZmGM13sZJWDASytjgfTf9/L04jnOWgOV6TA9410lZ
+         oqUTA700pBEcyjC3ful+bjaI7SyNWbaNsHL2JX9VDENtnUgk82XC1YdqwR3hz0EEAvcX
+         qqD/+QV5Wr3fWE7Fqis9S/nNsnF4xF5AJWGIc6esYy21s552Xl+09rOiJqD4wW54OCzp
+         npWAWy/sWwqw1y6pPmM7wjWf2Qu/u5J5ml2HsS0d+aX/vtv+WZ/pKKY9ODVJrd+3Lixt
+         f8MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739971746; x=1740576546;
+        d=1e100.net; s=20230601; t=1739976125; x=1740580925;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xB7QlR9rDmATtNgIiVf1Dmp0IGEBS3VlHe6f5tvBe7k=;
-        b=EyxfgDCg46gOO7m6tvgJwUSeiEEzWLyC6G+ZUpaJhEsoisHdn9+Dpvv+ugmsg8t3bM
-         lS6gY3fealobF0YbSA2fvtMvGf6bMuGT9MN82l55BmhDrDzBoOVWFRNloKc5LdAF50M8
-         2kBypBMs16ktBVMOL0Lahp+rZPCAD3+K9hV4egyWHDbYa+Of1SY7BtoX/WnVNVM1VhIs
-         JShptM4pS97Z+hY0kno9FPHH7bWXVO47UTEs6CYqeWh6JCEdB2Ig+KIwodawQwkiOA/+
-         zlnqsKGcZU3+iD7wY3iLT7jIYyBN2SvxS5ocIhf3sJZjm1FenY/wdVqOQ7YN+UIXFLTZ
-         WJkg==
-X-Gm-Message-State: AOJu0YyPih9jHzs4ciAkWrO5h35Ia2uFwfrTLEHlGXYp4IrrVSxVzCjC
-	4NutWF6PsjCrDx6lASALXfWDdsALuTX48aKL06RQjuuvSNkrSGoT3zcmUEx7IFZ7/qTDdMjSpT4
-	XK/f+MSgaAeV4H/MQYXNM9tGmnVu/2g==
-X-Gm-Gg: ASbGncuaNm1aQ6VfAXJSPMzbjd+gxmPrwQmaLm8GlrnmEmF0QSDlhyYTJ8BRWZJoE/n
-	coNlTQoa3gw8cpFX2WyDKoTmuhRzzo9TddcH2tXp+rQxbM5dqbyx2i6Tz3UQorB67muBTcM8=
-X-Google-Smtp-Source: AGHT+IGcPVbfvwzRPTRVIaI7myYZaH5/PYWtgrYx94J64PsirX3VY2zZBRvYfvEaqwihw27Dw8p8QYTVno0BG4GSPXo=
-X-Received: by 2002:a05:6214:2025:b0:6e2:4e1a:bc82 with SMTP id
- 6a1803df08f44-6e66cd0907dmr275500126d6.35.1739971745933; Wed, 19 Feb 2025
- 05:29:05 -0800 (PST)
+        bh=t4LMJszcts7NgcUGtUOjTJWDeD+LtM2O+8wwlZsKrgw=;
+        b=AZKxpE3t/DUy52iYdS+2DzG45QOnuOVlciCEz742h7/J9q6OlD4N4a3FJqMDrIw3Xn
+         ThTigpSYTjs+Phvq6uYy+CDOOzroGC2UN9yWmoxI/wZnHaQLn1JcakQwTkAYki+VhRC9
+         BadhXsUsLNMj2bWTfXZfCFStio+Y2W7lleWCKTlmgLVXlTG4ttc2a4KedfhO7ddSonsy
+         jFYjKKBV+vyg4y/HM4epVltM3AP/ZJUmW/4lHWqoBMzvtTh+gambVpIjNW2mthWyDrz/
+         A4HPBJDgQswHPWHq/qj4PGKKDcu+LVYOKDQ0OcGsN3W4XMBXXCPbbIAV2r/2unqRIQU7
+         V7zw==
+X-Gm-Message-State: AOJu0YwS9eTB9LkkOuJ1p6kjmhkCZOYN/M1QJxvu2hADHQTyJBIehOGB
+	iUfvexjLw79HnF5Mq6oUPO4uflP/QuDR8FRMKWJnSxW/4oGoISkxc+Ho/ud0wa3EIMgnB+EzTly
+	2V3vsx5rMGHRrs+mEUboncJ3ZaUjUbbE7KdtjXQ==
+X-Gm-Gg: ASbGnct6e9SW5wHnHYb9+wLIHqxozuQJgHEgplf1oscQWagW+rj1Bu+7oJF64+Obe+c
+	07UKgdCBLAEfhgwh1v18vER4n8Jp9z49TgpDaDWgxXEmDnlygZAdzNc5M0i/X/axLUyrTq/O2U5
+	2Y110kUAySVElg2jdzNWIEhEP+WPfe
+X-Google-Smtp-Source: AGHT+IFfiTUJsty0rpp4Yrr7GXc2BpbAeQXFk899rv6hqsT2V1t6Qtt8NomX1IXbjjxDaR+VvusKyOAMx4m+v0E7KgQ=
+X-Received: by 2002:a05:690c:9217:b0:6fb:91a9:94d9 with SMTP id
+ 00721157ae682-6fb91a9969emr63252227b3.2.1739976124820; Wed, 19 Feb 2025
+ 06:42:04 -0800 (PST)
 MIME-Version: 1.0
-References: <GV0P278MB0516B168ACC6F3595C48BFE88BC52@GV0P278MB0516.CHEP278.PROD.OUTLOOK.COM>
-In-Reply-To: <GV0P278MB0516B168ACC6F3595C48BFE88BC52@GV0P278MB0516.CHEP278.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Feb 2025 14:28:55 +0100
-X-Gm-Features: AWEUYZmVfshDjRkFigPaLifqGbPnYOdJGyowaU23AzD81Brs8hWbJ3FEupWeQWc
-Message-ID: <CANNYZj-CjpPU5=4Gcc2S1-CLwn2MJ8qHn1Pdu5zP_Rza=rjBbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3: Remove DEBUG_PREFIX_MAP from sysconfigdata
-To: Jorge.SanjuanGarcia@duagon.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <cover.1739913090.git.steve@sakoman.com> <a1b322d5dde27461a6b972b051a120ef3c96d204.1739913090.git.steve@sakoman.com>
+ <CAMSfU+7yPYaFN_uoJd0wkeehnbnnF1RZVxbviW6p7wwj+ukEdg@mail.gmail.com>
+In-Reply-To: <CAMSfU+7yPYaFN_uoJd0wkeehnbnnF1RZVxbviW6p7wwj+ukEdg@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 19 Feb 2025 06:41:53 -0800
+X-Gm-Features: AWEUYZkxAE-J55odQ1gJDx2V0KbLoyxhSBpEkkXcr4sW4pjIeDPnYo3HWfvul2s
+Message-ID: <CAOSpxdbQgwQ6qOyc8hDd16wtH3g=WS5e6wHzQTw-JpUEsE54NA@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 1/7] subversion: ignore CVE-2024-45720
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, 
+	Sofiane HAMAM <sofiane.hamam@smile.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 13:29:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211708
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 14:42:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211709
 
-We're not seeing the problem on the autobuilder (which has checks for
-host paths leaking into target installations). And I'm not seeing it
-in my local build.
-
-Can you show an example of this happening? So that it's clear what
-isn't being correctly removed without this fix.
-
-Alex
-
-
-On Wed, 19 Feb 2025 at 14:03, Sanju=C3=A1n Garc=C3=ADa, Jorge via
-lists.openembedded.org
-<Jorge.SanjuanGarcia=3Dduagon.com@lists.openembedded.org> wrote:
+On Wed, Feb 19, 2025 at 12:33=E2=80=AFAM Yoann Congal <yoann.congal@smile.f=
+r> wrote:
 >
-> Paths in DEBUG_PREFIX_MAP are not being removed from sysconfigdata
-> files correctly as they are split into line separated values. Update
-> the sed command so that it uses any matching patern from
-> DEBUG_PREFIX_MAP instead an exact match of the full variable.
 >
-> Signed-off-by: Jorge Sanjuan Garcia <jorge.sanjuangarcia@duagon.com>
-> ---
->  meta/recipes-devtools/python/python3_3.13.2.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipe=
-s-devtools/python/python3_3.13.2.bb
-> index 52fac76c00..656a73f501 100644
-> --- a/meta/recipes-devtools/python/python3_3.13.2.bb
-> +++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-> @@ -291,10 +291,12 @@ SSTATE_HASHEQUIV_FILEMAP =3D " \
->      "
->  PACKAGE_PREPROCESS_FUNCS +=3D "py_package_preprocess"
+> Le mar. 18 f=C3=A9vr. 2025 =C3=A0 22:15, Steve Sakoman via lists.openembe=
+dded.org <steve=3Dsakoman.com@lists.openembedded.org> a =C3=A9crit :
+>>
+>> From: Peter Marko <peter.marko@siemens.com>
+>>
+>> Reference: https://nvd.nist.gov/vuln/detail/CVE-2024-45720
+>>
+>> This CVE is relevant only for subversion running on Windows.
+>>
+>> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 >
-> +DEBUG_PREFIX_MAP_REGEX =3D "${@'\\|'.join(d.getVar('DEBUG_PREFIX_MAP').s=
-plit())}"
-> +
->  py_package_preprocess () {
->          # Remove references to buildmachine paths in target Makefile and=
- _sysconfigdata
->          sed -i -e 's:--sysroot=3D${STAGING_DIR_TARGET}::g' -e s:'--with-=
-libtool-sysroot=3D${STAGING_DIR_TARGET}'::g \
-> -                -e 's|${DEBUG_PREFIX_MAP}||g' \
-> +                -e 's:${DEBUG_PREFIX_MAP_REGEX}::g' \
->                  -e 's:${HOSTTOOLS_DIR}/::g' \
->                  -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
->                  -e 's:${RECIPE_SYSROOT}::g' \
+>
+> Hi Steve,
+>
+> Sorry to bother you with this but Sofiane Hamam gave its Reviewed-by here=
+:
+> https://lists.openembedded.org/g/openembedded-core/topic/111147177#msg211=
+378
+>
+> He worked on fixing the CVE but Peter was faster so he gave its reviewed-=
+by. It would be nice if that ended up in the repository.
+
+OK, I'll make it so!
+
+Steve
+
+>>  meta/recipes-devtools/subversion/subversion_1.14.3.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/subversion/subversion_1.14.3.bb b/met=
+a/recipes-devtools/subversion/subversion_1.14.3.bb
+>> index 1ef3d498a5..679228cbb8 100644
+>> --- a/meta/recipes-devtools/subversion/subversion_1.14.3.bb
+>> +++ b/meta/recipes-devtools/subversion/subversion_1.14.3.bb
+>> @@ -19,6 +19,8 @@ inherit autotools pkgconfig gettext python3native
+>>
+>>  CVE_PRODUCT =3D "apache:subversion"
+>>
+>> +CVE_STATUS[CVE-2024-45720] =3D "not-applicable-platform: Issue only app=
+lies on Windows"
+>> +
+>>  PACKAGECONFIG ?=3D ""
+>>
+>>  PACKAGECONFIG[boost] =3D "--with-boost=3D${RECIPE_SYSROOT}${exec_prefix=
+},--without-boost,boost"
+>> --
+>> 2.43.0
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#211653): https://lists.openembedded.org/g/openembedd=
+ed-core/message/211653
+>> Mute This Topic: https://lists.openembedded.org/mt/111258880/4316185
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [y=
+oann.congal@smile.fr]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
+>
 > --
-> 2.43.0
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#211707): https://lists.openembedded.org/g/openembedde=
-d-core/message/211707
-> Mute This Topic: https://lists.openembedded.org/mt/111268642/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Yoann Congal
+> Smile ECS - Tech expert
 
