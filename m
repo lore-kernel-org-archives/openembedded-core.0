@@ -1,106 +1,70 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B661C021B2
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 22:25:09 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.10110.1740090305941999308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2682C021B4
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 23:18:19 +0000 (UTC)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by mx.groups.io with SMTP id smtpd.web11.11188.1740093492947580374
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Feb 2025 14:25:06 -0800
+ Thu, 20 Feb 2025 15:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QFssJqXD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38f488f3161so713124f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 14:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1740090304; x=1740695104; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pd4WVio/zkOgu52Ltisa+dm5e9SWPU2sX1fnpnynCXg=;
-        b=QFssJqXDlZtCSmELi/JaLAhTa1312OnD8ibo3MOMIfWUi5gW+3REvZQG475U6DtWZm
-         oeecyuLwbsYVKUhwOvGrjj1lX0tC+TywF12GflfRMSQt/7W2bIvC1sMT4Cbwq2XsuFbU
-         GQ6I97pfYdPZKrmk8m/Iq3jffpI57S/DfmHw4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740090304; x=1740695104;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Pd4WVio/zkOgu52Ltisa+dm5e9SWPU2sX1fnpnynCXg=;
-        b=QmT8PJyucX1qzCI0RHHrYmKIYTcdWkW9s0ndJb1RK0dtrYWrKcbJddKGJuSHZyEsgG
-         pvylFRo/xKhroVMTjOyPgbeAoJ8gQ2iIwrobwsvfrimo+1MxHrJmQshTMEcUEf0QxUbo
-         4M2GaYpZvYpX/tQ85vIwzOSai8zEqSGzOimW4pb9wi4GSd4HWnCA+ndHjHXEZHOnCBqH
-         zkBFh8jMpSCxE+tnBZY26IOACdKIrRT8FuWGfVBirzOzPprNwxGEQtjQPuZUSyjkQ1KB
-         tSjnM3ZHm8tjAgm5Y0bWdQy29e7Umcxe+aN50icN8bcW7f+MrbjimsI/nCnUo8At0nX+
-         pmTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZOT+x9UzimsH+iS4a5ZzOuVOxz4qUZQ74GLB5fi+9VcyPTFDwsdlu2jZ42h53KhtMZSc85EUph2AhWhqO8zGeMQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz7QMdonjVhm4rYG4zShVb2iKeCD97B8nE0D2qR0WOGUomm2bp5
-	MFg5Gz0R8mcfyBTzqw58OcFY9HhxrcskM6bYBiorhqESUT4F8wPtE6XJtXwf1TXPoPOc15TYQCn
-	d
-X-Gm-Gg: ASbGncsucZfUVcJqiEAltWeHypfg1ZWWV4qZzJ9lnpYvZZjjDOgkJkkjdvOYSA9ThBD
-	fONAtdEZ67Ql/uIyTScax3l1BcIuHm/T7R9zBWJ/Tbb+LTFkZsoIeZfm+uNbgsoG1jnvRJXE/My
-	UHUriEgpMJBT/4JXs8y5rZJLk343cYnuqNtyDV8pezPUEOecnyK2PqFvp95C5jNuZkSskwG4gkJ
-	PW/rZfZkHq/iAkzdlmqKTd7YieWe9nv+UBSZzuDYnvqhVywrcneCBw6iLsydUyF7VJkK4InZTJs
-	1gbZqpWo5bQYq0w1sJYq+aq1dvFFU5Yxw6bLRfYOnMMA46AaL3Cp+ISBgzumL2ONIa+5647kUrE
-	MKKD0
-X-Google-Smtp-Source: AGHT+IFSpNd9wvUbkvqGc3SYVK/qkq+XcY/HhHVMjC/BCO/YD5LqUz+wpLoJgqabLGu0S/j3ggPLfQ==
-X-Received: by 2002:a05:6000:2a2:b0:38f:4fa5:58ce with SMTP id ffacd0b85a97d-38f70772a64mr258410f8f.6.1740090304034;
-        Thu, 20 Feb 2025 14:25:04 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:419f:979f:5cd3:2260? ([2001:8b0:aba:5f3c:419f:979f:5cd3:2260])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4399beadf31sm42854465e9.0.2025.02.20.14.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 14:25:02 -0800 (PST)
-Message-ID: <0f94a15890010148c5b470c13aeb4c7745bc8be4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sstate: Fix sstate mirrors with
- BB_FETCH_PREMIRRORONLY
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jhaller.oss@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2025 22:25:00 +0000
-In-Reply-To: <20250210101252.219539-1-jhaller.oss@gmail.com>
-References: <20250210101252.219539-1-jhaller.oss@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=pass header.i=@denx.de header.s=mx-20241105 header.b=BZUSkr6V;
+ spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9911510382D37;
+	Fri, 21 Feb 2025 00:18:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1740093491;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EZf38YjNP6k8nz8KG4DNtx5yiiFY36dRtyag95na8Dk=;
+	b=BZUSkr6VQv7cjRXocBhYJitkimLoNXAVaONAi0jnF3PehVBCc/Fv21rKIIs9R46ZCedrMI
+	Bc2aR6YQQLI3NYfKA7fJOQjtz9iM4b9TW4EZ6M1w3TYo45VRrNrK/zqykun8qR4oSuH9pP
+	D8zMLZywrPeWhfastW+jAVV0pyyj9VTJGnR3W96nN7eFzxOCv1/A+kIKfFWGbHSu1iJaRF
+	10fUyTvtqRZnNX6kL8at8vDsWfL4s4HFwEt18WhkGPpD6Kd8U7F5JBf+1w6hl5aJICvL1g
+	3/EhFC45RMDW0YuvILufCdls61GciRLIwu4eDZbkDN4y6/0RH1x7pkmXgdcxDA==
+Message-ID: <a2355ed2-b87f-4537-a6eb-0b1ce1d6d5f4@denx.de>
+Date: Fri, 21 Feb 2025 00:05:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Broken FIT image signing since "u-boot:
+ kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV
+ enabled"
+To: Leonard Anderweit <L.Anderweit@phytec.de>,
+ "rogerio.borin@toradex.com" <rogerio.borin@toradex.com>,
+ "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
+Cc: "quentin.schulz@cherry.de" <quentin.schulz@cherry.de>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "adrian.freihofer@siemens.com" <adrian.freihofer@siemens.com>,
+ "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+References: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
+ <e82e9be5-9a56-4c22-ba44-90c8e6690d99@cherry.de>
+ <86f57755-bad6-49ad-a1b6-d0dceaf5344b@denx.de>
+ <c1fdfe98-90cd-44e4-9c5a-fe5d73ac49b4@toradex.com>
+ <CANPvuRnkwX3ptjj6W8kZMjkXbUz=2qa=3nJvzxcrY_CYkBQRYA@mail.gmail.com>
+ <91fdc65ed3eff19e0f02c3a3b6c4f5001380769b.camel@phytec.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <91fdc65ed3eff19e0f02c3a3b6c4f5001380769b.camel@phytec.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 22:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211780
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 23:18:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211782
 
-On Mon, 2025-02-10 at 11:12 +0100, Julian Haller via lists.openembedded.org=
- wrote:
-> From: Julian Haller <julian.haller@philips.com>
->=20
-> In case BB_FETCH_PREMIRRORONLY is set, the fetcher.download() function
-> sets BB_NO_NETWORK =3D "1" after downloading the first file. This alters
-> the precondition for the second and third loop run, disallowing network
-> access entirely. As a consequence, the .siginfo and .sig files can
-> never be downloaded.
->=20
-> Fix this by creating a new copy of localdata for each loop run.
->=20
-> Alternative solutions would be:
-> - Setting BB_FETCH_PREMIRRORONLY =3D "0" in localdata
-> - Setting BB_NO_NETWORK =3D "0" in each loop run
->=20
-> Both alternatives are highly dependent on the concrete implementation
-> of the fetcher function, thus making them likely to break in the
-> future.
->=20
-> Signed-off-by: Julian Haller <julian.haller@philips.com>
-> ---
-> =C2=A0meta/classes-global/sstate.bbclass | 7 ++++---
-> =C2=A01 file changed, 4 insertions(+), 3 deletions(-)
+On 2/20/25 3:42 PM, Leonard Anderweit wrote:
+> Hi,
 
-Thanks for the patch and raising this.
+Hello Leonard,
 
-Having looked at the code, I think that rather than working around it,
-we need to fix this in bitbake properly. I've copied you on such a
-patch, testing/review would be appreciated.
-
-Thanks,
-
-Richard
+> I've also noticed this bug and sent patch [1] to fix it.
+> 
+> [1] https://lists.openembedded.org/g/openembedded-core/message/211761
+Please CC me on the patch so I can review it ?
 
