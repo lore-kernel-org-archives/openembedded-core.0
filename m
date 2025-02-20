@@ -1,975 +1,226 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57ECFC021B2
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 16:26:17 +0000 (UTC)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web11.972.1740068775997887075
- for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Feb 2025 08:26:16 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E041C021B3
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 17:08:37 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.61])
+ by mx.groups.io with SMTP id smtpd.web11.2261.1740071313375809926
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 20 Feb 2025 09:08:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NJpyBCpJ;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4be60963da5so769435137.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 08:26:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740068775; x=1740673575; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JXe3MUuhh9bcRM1a2+OWPlQrxVF7EqcJoaeY6m/9pDI=;
-        b=NJpyBCpJ/4yBQx3TScWR3oi0Z3pdV3ahhCXHZ9sYCDGoYtsyzfg0hR/OjfRJuvm73n
-         3M9PSmbfg0MDn90ZEP/s8hm/tCswmyRm2c1dowqs/0CuWAGMlW77H8j8wkJy/gNpmzgl
-         lRdld9z2qP2qC9o7wdynMmdSmDDaLE7IXroRS58SLIuGrVxbwv4dFhwkO3XR/zz3M8ZV
-         BGuYEE/hlpzB9RLcOgEXyC2+5/bsAlWDWThjwHGfZbdcSqKiztG/kuUTgdnHD3tKo+4N
-         tGW7sbPUkLBZ3dmcd75yPdo/SLRNwnH3pqO4EaRxtjGMlD6oPsTXBWS1c+2y9TEXc1ON
-         7wVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740068775; x=1740673575;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JXe3MUuhh9bcRM1a2+OWPlQrxVF7EqcJoaeY6m/9pDI=;
-        b=ZdKi/zDQbiE9MiG/qWfaITE+y426U0MGzOn5mKO3DOrtdsk/IKyU9Kj2S2FKA28vZ6
-         cG3Y0domtKMrByRqXi7OqfZD2VzMOSDnby1Xkv+VB4HTOrnwecuRU1DsVyjz3GXFZro3
-         aWrTovWX10TIRTmQ3rShThM4GzTo5UYY9mOGQZGBzBiYbjAJ++edgnJywmsERyQotRXu
-         Yn2eCfLerCUB3nPut/UWse5+KP2sEQfrFYfBEJkJothik07PkLALU+VPr9o1SUEG1EMm
-         h27A8aHitXAPw7/TdAzYkuqmAD+HVQRKkPPMYJE7QeJFhHmoY6sOsydYHP+dhd+Ee7aO
-         zGzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEZHpFVLxu0bwzBugyTqsVA6m1BL9qQA0y4EacAKSiz6tpp1Rh2um8JTuYgGYVBPD1mJ64vNAgYnQDACb/Ds4vbA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyE24oVJiZphbtiyFtWjs5hUDVk44Y0stbFAZbd5w8TUAlE73W1
-	H8QAUMwDteDbGopZu+XiNMzmml+5oPw/Y4yVq1x8/hpDYw0QXv+ZIxPOFps6GD7UPPz9OU/Ynkv
-	/8DfUF/3x5DGsH7amY8Os3XAkccw=
-X-Gm-Gg: ASbGnct3ZOlgvVfpaglnS9+LMROD/9F36UYDHdQYXGJhRvDJckpCkQ3DpdYmvtTnvn4
-	ORmAI8OVrG7E7ChogDYVVAMDXqt26xJsPkZm2i3O/ywvkSRPZxIpaGPT//Z0l6hMu7TBH2KJzar
-	k=
-X-Google-Smtp-Source: AGHT+IFh/9mBVUmekhDJHbklEmta9Ztwlp3L04CFCQNAc7B/kQBGArKfJ6GeRU0l31aGbX3fHP94bQUR+0velt4jP+M=
-X-Received: by 2002:a05:6102:419e:b0:4ba:99b5:60f5 with SMTP id
- ada2fe7eead31-4bd3fe8ce26mr13849852137.23.1740068774842; Thu, 20 Feb 2025
- 08:26:14 -0800 (PST)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=S9iybZ+1;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=S9iybZ+1;
+ spf=pass (domain: arm.com, ip: 40.107.20.61, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=uQEH3KFwOOyUnb4nkTP+bLklCocrlMzxKSWE51PAN2en7e1HJfDPIcjmt+Pi/4ijFpdZNfCRDv1lXolK+52FWasSnKUeHTYXeGiqdARyy272toC10v/TgSFrTLUPyxL6z/GNbmnrxnJZctKgtKKWB2DjgYBvDOLKVlsDetOPWHIEQ2A+PUzAUNPlQDn/YfLSXo2l1bkEbJoAYmgbtfMeAuEeWOQebWPHUIfN82hnrZNWrdjrcoZ4TOiPBMzDQSfOPKM4/joW9pa8u72boNnwpaiuf0K/deRBeNLjPzeDlwTfM7jNdiaIwDWg4szm0nU7QmWYT2KRi74Ws9pjMbXZXQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EiPmECfLc64ZJHdU7I+MgGse7lNBlXLe5CdHxOb2Dxk=;
+ b=eYf8U0jMa8RwDqGPG+JW9WnNwhkLsWUFfdFop6qq57+++nRS+DVXe/T7IEKqzox6v4guUKcN8nx4BIICPuNlyruAmUktsn79jV8gLWudGIu8hSN3UXG32pdaen4Wj87aAFPjIPKnMVuDo4zrvVbsp99FIYg4+5d65xkzGIV01DAPKomKQgvUmmYis53eOUgCAtbe05AcVExQ7btXw2dZJnQL7eQjtPyZ7ZmFHUFp+0CHnRvbS1mmULdZ1t7iCyHpo3whzR6FnfoB3G8QgHjrvLHSNCaaL/C3rndNaUcY8Lo2Dk04fMPJxDuI+S9C4jyqdyACgHDRbkhZ4V0sNFFiug==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EiPmECfLc64ZJHdU7I+MgGse7lNBlXLe5CdHxOb2Dxk=;
+ b=S9iybZ+1+mPSm3vSKAHRbLjOjREYxdOINLn2oUdKZEsH8UBtodRk4vIdDs4TxqYK6e1IzZkw1Qb6OPYjb71zF4OqBn00B+C8QYrJMTYt0Nf4hHBdIpaOxANOUYHK2e7jOphNVbYFK2n5coMK0Tq8MmGsJWNHKTuVYC6M2hNGNBU=
+Received: from PAZP264CA0088.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fa::6)
+ by DB3PR08MB9900.eurprd08.prod.outlook.com (2603:10a6:10:43e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Thu, 20 Feb
+ 2025 17:08:28 +0000
+Received: from AMS1EPF0000004E.eurprd04.prod.outlook.com
+ (2603:10a6:102:1fa:cafe::8c) by PAZP264CA0088.outlook.office365.com
+ (2603:10a6:102:1fa::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.16 via Frontend Transport; Thu,
+ 20 Feb 2025 17:08:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AMS1EPF0000004E.mail.protection.outlook.com (10.167.16.139) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.11
+ via Frontend Transport; Thu, 20 Feb 2025 17:08:24 +0000
+Received: ("Tessian outbound a593bc61b951:v567"); Thu, 20 Feb 2025 17:08:24 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 295f57d49fb08795
+X-TessianGatewayMetadata: OaUy3qlvM/bP8X5h1+5yUDqjO5br7BT5yMjtSfVxya1TNfx0Y0cOFGAR0J8TFuHsHNa/StQrgv3OUGntQXpiIMAaB5i2lzcLJgCY4WqJIUN4uOcXKQnAQY7BO8srj5voD2Q+rx/h2E9kBU/KWuENDwokYfug4WLHOi/u+eGc3a8=
+X-CR-MTA-TID: 64aa7808
+Received: from L93169885db02.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 890C5EBC-C6EE-450B-BEE2-D6BF3AE35B9C.1;
+	Thu, 20 Feb 2025 17:08:17 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L93169885db02.1
+    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+    Thu, 20 Feb 2025 17:08:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RGu9VKmYo/e2i5ojkSeY8DcJmzGGVuZN+JKXAn3WjG5c00Us00au7dDICyHDDf9h7k7npxhu6c9l/njK+op7ZbZ1DpgshnDqRxkhvr/ScOaMOzs9qgrebpkSiiFQWrJ66ef2WjkqcuruT+SiHRBCBpNNl3R7pxRDAtysEwdFkpLtz4Y3iV70ziNXq19WqHdSJAORmDLIISjj1QyXpjF8cu7Jwp2Ny8lR7156d46fXELjeewZItv3auT7O14FuoqtJPbWLlOrSPJh3qFcdl/FK0G4FA4aqfG0eMdvtsS9uyqApug3nFq+3ObMRGrO4l1vx0DgRV8wUyYDFtV2KXeY9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EiPmECfLc64ZJHdU7I+MgGse7lNBlXLe5CdHxOb2Dxk=;
+ b=FH2mgtOOBIOHO6p8SQrIPyETP1nb0bJ3kLOOkwZo3Xk2H1qKB9dF5A/GWBDOGrNszk7H11DBMLyQVNE/qwS592zJoiMXJ9s3eWDMr0tZ1qzUmG1YZsjFR4d1dHV90vRZjGMUMo3W6sfGq0zDSIjIc88WgRodF/QR34cTQSygi8UPNJzRrh9rxe+j5hl4A0zSj0KDFIzt3f13VkPywdtFrccrsftTta86W+uMubP1ZxouHN/o4/tosZlyGDSexy7OFpu59AnfkGPJ0vsKQ8oPeHTui+W3izdFzMaF2P4eQsx+doYynddZ27PaZKLKCyXsVyNeIzEpstyfwcze26iTZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EiPmECfLc64ZJHdU7I+MgGse7lNBlXLe5CdHxOb2Dxk=;
+ b=S9iybZ+1+mPSm3vSKAHRbLjOjREYxdOINLn2oUdKZEsH8UBtodRk4vIdDs4TxqYK6e1IzZkw1Qb6OPYjb71zF4OqBn00B+C8QYrJMTYt0Nf4hHBdIpaOxANOUYHK2e7jOphNVbYFK2n5coMK0Tq8MmGsJWNHKTuVYC6M2hNGNBU=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAWPR08MB9664.eurprd08.prod.outlook.com (2603:10a6:102:2e4::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Thu, 20 Feb
+ 2025 17:08:14 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8466.015; Thu, 20 Feb 2025
+ 17:08:14 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+CC: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v6] systemd: Build the systemctl executable
+Thread-Topic: [OE-core] [PATCH v6] systemd: Build the systemctl executable
+Thread-Index: AQHbgrqX2sHRWL+ZiUmJxjuf9Qa01rNQPCMAgAAdbuKAABT6gA==
+Date: Thu, 20 Feb 2025 17:08:14 +0000
+Message-ID: <E8AB660E-DFBA-4856-9AC2-00CABC615CE1@arm.com>
+References: <20250219103908.42513-1-uvv.mail@gmail.com>
+ <71BF1160-E808-4212-B790-5462F95BFBA4@arm.com>
+ <1825F47182B39BA0.23135@lists.openembedded.org>
+ <ae46ffa2-b88d-4ec5-822a-08c00e2baa46@gmail.com>
+In-Reply-To: <ae46ffa2-b88d-4ec5-822a-08c00e2baa46@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.300.87.4.3)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAWPR08MB9664:EE_|AMS1EPF0000004E:EE_|DB3PR08MB9900:EE_
+X-MS-Office365-Filtering-Correlation-Id: 177cbfea-9b68-464c-c53c-08dd51d12fb3
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?TbXBbdXB3roYY69IMVnicbO7kvYYsKHPSn2gLtUVrxHuDs+yQT4ZVgJQ/w1Z?=
+ =?us-ascii?Q?pRdF6PeiwWH/1veIkdZ+R5c1poXNDn3/WG4B7bwYQjzoRXGVO4E4mJUzy1Pc?=
+ =?us-ascii?Q?hlDoFC+ELdjGo5p/oCnQD6OahfGn4wMdodXY9OxOhaOPVBMNEXNSBB1jv0fK?=
+ =?us-ascii?Q?/MuPkcKywPywZ1FLiuM/ABwuft5Ol1TBWFdOxPJ/Abp8KpUr6WFLSlKjSn0n?=
+ =?us-ascii?Q?fmuvKIkLXaqWOJgqIwxkzS8pY2AtVl63iiSpy2cK/Sa9AmZ5S9XuTwAk3BiX?=
+ =?us-ascii?Q?p5a97VFhTglO/8MJ4uvotvgwjEHUCF7+0IFoBHNSDIY8nV+WyK9KNcxzXeLI?=
+ =?us-ascii?Q?COdomCGx0KbqgOIQ3mPuT6VzGtbQ4WyYBc8x3HmBpKaKWWCEEthCEoXU+Snb?=
+ =?us-ascii?Q?sJXT4yrSuHgtG22xRyC41DzapyuZMGcsmjFsgsOtCRK6CI1/eISakKyCyfua?=
+ =?us-ascii?Q?qwOTAXundOvgA4FWfAPG235U6Psfgccr7mV2zPsy0v5JVL8oU4jsk+mk2yPR?=
+ =?us-ascii?Q?MDpmCJ2pfZKW7Ms1UOotEPl75L2wpbVMlakZkXEbBADS+J6B6oPCgzcqdII3?=
+ =?us-ascii?Q?zpBt3UjBcu77Q4TYBKwFewW4HbvJduUEfLTJRfpyu8HAG8R5YCrpznd1hlex?=
+ =?us-ascii?Q?b7JkX7Wh+z5Cx/KTN+lnqvV7ft6qpX27vkN9B2rU4ARbu6Z5DwH4+KEG8KPI?=
+ =?us-ascii?Q?RRaB6h9wM//OjwHk6BiCSpscx2R8ys8pS4Yxcz8IAxAlZs5urDAf6ayYmD6a?=
+ =?us-ascii?Q?WnBRwmNU4CPrbyuogef4nNSd5d50paYU4YHN4fStjaHMsVWu3yKbHjkLLBZK?=
+ =?us-ascii?Q?LL9tci3xU/5ubeeLc6UhER0y2vKzcve/QmrBGPwuBfprZG0U01BZ98icy+Nw?=
+ =?us-ascii?Q?hyND5rCLC/+zPPCGjnJoN9Y+xkPZQCXGLP7kAk9zeavS2L3G+QwrJWzHdu4C?=
+ =?us-ascii?Q?kE5ZIpXSR0FSgt4qA7Ov/uXD1qxnaE/Mr6RfnhaUU3LN3lYrYnDP/mEVc377?=
+ =?us-ascii?Q?BoxPvIG+QBoXnBEsgYemguQWx8MufFMv/zRDah5PV0lct0IZZCDnrI2rc278?=
+ =?us-ascii?Q?ppm1fcRQCWZs1ryTBy8jfYmoa5AMwuX2xbJg6fuX3j/FcJ6j7EH1pjqbE4DQ?=
+ =?us-ascii?Q?VipGiYc9f8uRbubsBk8/aGcwwj5Ybjqr121Z7r0S8+s1YbiyN6DU8LK/D0I5?=
+ =?us-ascii?Q?BhaLvkQemf0CeXlu68tnwgjDENNLwHAVM8G4IjTXe+Z2NOBYWulMKAsM7OrB?=
+ =?us-ascii?Q?Pa8sNBwZ5K6FZiwWWKJhdDWcIppZOWY2ECiA44igH/ROEplW42SoSSYDytgl?=
+ =?us-ascii?Q?pWdlrA4W7BhbCnKnZGQ2LhBBmMyesIQhaKmAEAj7kTkpVVW4LwqwqovVYBt7?=
+ =?us-ascii?Q?YfjPRJAHTRFwDA42V3l/eclqqVCqOV4CJ0cPlTtH+VIhpnJMQtZxU38zD49r?=
+ =?us-ascii?Q?INGgko1/8P+bGb4TZvR9ZBGVTvu/5MEG?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F8E092A1128BDD4BA46C9A16913ED0F4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
- <e82e9be5-9a56-4c22-ba44-90c8e6690d99@cherry.de> <86f57755-bad6-49ad-a1b6-d0dceaf5344b@denx.de>
- <c1fdfe98-90cd-44e4-9c5a-fe5d73ac49b4@toradex.com> <CANPvuRnkwX3ptjj6W8kZMjkXbUz=2qa=3nJvzxcrY_CYkBQRYA@mail.gmail.com>
- <91fdc65ed3eff19e0f02c3a3b6c4f5001380769b.camel@phytec.de>
-In-Reply-To: <91fdc65ed3eff19e0f02c3a3b6c4f5001380769b.camel@phytec.de>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 20 Feb 2025 16:26:01 +0000
-X-Gm-Features: AWEUYZmO63kzzLhYfLGphoA0297MmLAHtoHpX8xHuqWGqf5bVXbMy4EdNTL8dD4
-Message-ID: <CANPvuRkNmht8HBfB8AC7cBf3WHuLxav4Q8GPrFw5M+SU3Vk4Uw@mail.gmail.com>
-Subject: Re: [OE-core] Broken FIT image signing since "u-boot:
- kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled"
-To: Leonard Anderweit <L.Anderweit@phytec.de>
-Cc: "rogerio.borin@toradex.com" <rogerio.borin@toradex.com>, 
-	"quentin.schulz@cherry.de" <quentin.schulz@cherry.de>, "marex@denx.de" <marex@denx.de>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"adrian.freihofer@siemens.com" <adrian.freihofer@siemens.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000003599a9062e955518"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9664
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS1EPF0000004E.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	99dbb6b0-9516-4223-2423-08dd51d129c2
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|36860700013|1800799024|376014|82310400026|35042699022;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?nCZ34iVXktNol73xKNZ2MIHFaRA2tumiGR5L4nU9BYmVAQfHMdz4RLmou+1J?=
+ =?us-ascii?Q?kjnx4nFmZLqN2iVDL9KVEI2XOtVLG/wYfYfCqtBFlBjCqkAVuwZ+H1tGYmNZ?=
+ =?us-ascii?Q?WmWJl1bJqaT5XADZznxj1QT8LO4iL+8XYbJ6JendGflKrnBhM+EVrv70CEWK?=
+ =?us-ascii?Q?byfCmtqpgK5cFw82ms83kyWGyu3kIj1MuScyGD6pQtzdLrlBSeGRCHhfkXaK?=
+ =?us-ascii?Q?trGMVKI6jxB8+OTkMgJ27VqmUODsUL/YtFzV9bwilgHynqT0InpX1UT6EpWf?=
+ =?us-ascii?Q?MXUK1Gd23CGikKmsvaa3zWo14zQvRbSPc//quOobgKB11XJz4MIDALZYEfYV?=
+ =?us-ascii?Q?Gntoh3CHZ51mQaL2TrLnOdrPh0RlYfOkKzNusE1p320ThBcxBTQjAXWlCHqC?=
+ =?us-ascii?Q?++XIBJPd04Rfx6Wf+0HrGpEJPgJWQlwh5+wlaCHYGQoIpwNBa8jl0pl9UZoo?=
+ =?us-ascii?Q?KSnG18bLfLtxNLgjYoPHhSQLM2eehpQGoXEAwx8d8iYAFiFMjq/oiTZMSxOr?=
+ =?us-ascii?Q?NcVhFuS0Zzx7SlPBI+HyFnE3WeQ3HlGBMc2jKx0S/HollSQatQ75113YFz/G?=
+ =?us-ascii?Q?TOGxBAk/T65+Pzr+R/AzXc7T+3T93QFCXaWhsuyn83++QHYZ9Vc6gJhsiYlb?=
+ =?us-ascii?Q?qbcwcJ+vkW4dk8fZNCo8oGU/vuf8mLYXKCuZdO3fb+vVhMiqPrLflB6vVa2b?=
+ =?us-ascii?Q?aBwke7zu4NPmCJqrCJfDI7XZGmz5YRIZyTLa+FcW7WnMisDPWs7xsKWG4Wgx?=
+ =?us-ascii?Q?7kNL81Trsa1hTjNJIhoTbdkrSAAaILRyOBIFOx9Fiu7gP8aBT7PpBXwG4B3w?=
+ =?us-ascii?Q?6Paa+1uxDk6gto0yamr76EkT1nr4xVAo1NEVvlHKwyGJNVvMTB62XpxkReCJ?=
+ =?us-ascii?Q?fM3AdONeTVtxvsbN8zBMNYDSVtFDgDTrRgSxZb99Fqpa/LuJVPfm3xd9063i?=
+ =?us-ascii?Q?2L583U4Zs4TkYUE0yeozKgSRRZv87XDmOnPC1VwAcGaMjjazYgcmlTPWSuNm?=
+ =?us-ascii?Q?1ZC0Kcw1IsmNrQ7VHzJIUCIH/EGq+1UY4KPnAdswd+EAA/8ZZYkQESdmazIB?=
+ =?us-ascii?Q?ClFQxVcEt9dSxLxteEdAGoqZgDqb5hl2uKpihWtfRJH8ZGPqfNgG54oh+TqF?=
+ =?us-ascii?Q?8+TN+rRkeHL08pjIg/LluAB3/SnrEaMn/BhCNY8DffjU4/ZLCJn8XM5iAg8P?=
+ =?us-ascii?Q?Z1ojoHVEqqqiYULpRql1HCUu6EIrXtZeGHF3mfnynY5TtMnAEGY5SEL0UpD+?=
+ =?us-ascii?Q?NQvCCUanUieSJO1PWFgp2kdd2zZXvKy0oeWKEQeri2OTC9vPLYt+Evwk+6Zq?=
+ =?us-ascii?Q?MN7l7KU1Rwp45Egn89MWBlE3MIj5U2GToss/buBQ3cm/TP+0FV6y/9uyTKs6?=
+ =?us-ascii?Q?UKPNNb4PziocWGylRjpqVu1/J7ou2fvPfOUHljv3231k4kHbPLqG4G5eMLeI?=
+ =?us-ascii?Q?fed3HZs8jD/ZgWdy7qFf3lKtt4UuAAamNeSWfxaWY6YJuTRl2LyFwRaXmPV3?=
+ =?us-ascii?Q?QeqZ5VXMvqo2YlQ=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(14060799003)(36860700013)(1800799024)(376014)(82310400026)(35042699022);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 17:08:24.5553
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 177cbfea-9b68-464c-c53c-08dd51d12fb3
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS1EPF0000004E.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB9900
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 16:26:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211771
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 17:08:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211772
 
---0000000000003599a9062e955518
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20 Feb 2025, at 15:52, Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+>=20
+> From meta/classes-recipe/rootfs-postcommands.bbclass:
+>=20
+>     # 20:12 < mezcalero> koen: you have three options: a) run systemd-mac=
+hine-id-setup at install time, b) have / read-only and an empty file there =
+(for stateless) and c) boot with / writable
+>         touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
+>     fi
+>=20
+> We could think of further improvements. One thing that comes to mind is c=
+hanging systemd-systemctl-native to systemd-tools-native and enable the bui=
+ld of systemd-machine-id-setup.
 
-Hi Leonard,
+As Alex said the old code just touched a file, so that seems overkill. :)
 
-I will test on my side and then I'll come back with the results.
-
-Thanks
-
-Jose
-
-Leonard Anderweit <L.Anderweit@phytec.de> escreveu (quinta, 20/02/2025 =C3=
-=A0(s)
-14:42):
-
-> Hi,
->
-> I've also noticed this bug and sent patch [1] to fix it.
->
-> [1] https://lists.openembedded.org/g/openembedded-core/message/211761
->
-> Leonard
->
-> Am Donnerstag, dem 20.02.2025 um 10:46 +0000 schrieb Jose Quaresma via
-> lists.openembedded.org:
-> > Hi,
-> >
-> > Any news about this regression?
-> > If we don't get a fix for this bug asap maybe we should revert and
-> > drop this patch since it broke our scarthgap stable LTS
-> >
-> > Jose
-> >
-> >
-> > Rogerio Guerra Borin via lists.openembedded.org
-> > <rogerio.borin=3Dtoradex.com@lists.openembedded.org> escreveu (ter=C3=
-=A7a,
-> > 18/02/2025 =C3=A0(s) 03:49):
-> > > > This message originated from outside your organization
-> > > >
-> > > > On 2/17/25 11:34 AM, Quentin Schulz wrote:
-> > > >   > +Cc Marek
-> > > >
-> > > > Hi,
-> > >
-> > > Thanks for the quick answer!
-> > >
-> > > >
-> > > >   > On 2/16/25 7:36 PM, Rogerio Guerra Borin via
-> > > > lists.openembedded.org
-> > > > wrote:
-> > > >   >> You don't often get email from
-> > > >   >> rogerio.borin=3Dtoradex.com@lists.openembedded.org. Learn why
-> > > > this is
-> > > >   >> important<https://aka.ms/LearnAboutSenderIdentification
-> > > > <https://aka.ms/LearnAboutSenderIdentification>>
-> > > >   >> Hello,
-> > > >   >>
-> > > >   >> At Toradex we're using class "kernel-fitimage" to produce
-> > > > our signed
-> > > >   >> kernel FIT images and we've found that the recent commit
-> > > > d7bd9c627661
-> > > >   >> ("u-boot: kernel-fitimage: Fix dependency loop if
-> > > > UBOOT_SIGN_ENABLE
-> > > >   >> and UBOOT_ENV enabled") broke our builds. The logs of a
-> > > > failed build
-> > > >   >> show the following message that I found noteworthy:
-> > > >
-> > > > Can you mail me the entire log file for completeness ?
-> > >
-> > > Sure.
-> > >
-> > > I've added it as attachment
-> > > (log.do_uboot_assemble_fitimage.841485).
-> > >
-> > > >   >> log.do_uboot_assemble_fitimage.841485:
-> > > >   >> ...
-> > > >   >> Couldn't open RSA private key: '/secboot-data/fit-
-> > > > keys/dev2.key': No
-> > > >   >> such file or directory
-> > > >   >>
-> > > >   >> The odd thing was that the build was setting:
-> > > >   >>
-> > > >   >> UBOOT_SIGN_KEYNAME =3D "dev"
-> > > >   >> UBOOT_SIGN_IMG_KEYNAME =3D "dev2"
-> > > >   >> FIT_SIGN_INDIVIDUAL =3D "0"
-> > > >   >> FIT_GENERATE_KEYS =3D "0"
-> > > >
-> > > > FIT_SIGN_INDIVIDUAL =3D "0" is correct, you do want to sign
-> > > > configurations, not individual images in the fitImage, because
-> > > > signing
-> > > > individual images is susceptible to mix-and-match attack.
-> > > >
-> > > >   >>  From the above we see the individual images signing is
-> > > > disabled but
-> > > >   >> the system is trying to access the key file for the
-> > > > individual signing
-> > > >   >> (dev2) regardless of that. Checking the code in uboot-
-> > > > sign.bbclass I
-> > > >   >> found this line:
-> > > >   >>
-> > > >   >>
-> > > > https://git.openembedded.org/openembedded-core/tree/meta/classes-
-> > > > <
-> > > > https://git.openembedded.org/openembedded-core/tree/meta/classes-
-> > > > >
-> > > >   >> recipe/uboot-sign.bbclass?h=3Dscarthgap#n116
-> > > >   >>
-> > > >   >> that is responsible for that access (inside function
-> > > > concat_dtb()).
-> > > >   >> The code is always referencing variable
-> > > > UBOOT_SIGN_IMG_KEYNAME
-> > > >   >> regardless of FIT_SIGN_INDIVIDUAL being set to "1" or "0"
-> > > > even though
-> > > >   >> there's a condition a couple lines above L116 where
-> > > >   >> FIT_SIGN_INDIVIDUAL is tested to decide in which mode to run
-> > > > the
-> > > >   >> signing tool.
-> > > >
-> > > > Uh, good find, does the following patch fix your problem ?
-> > > >
-> > > > """
-> > > > diff --git a/meta/classes-recipe/uboot-sign.bbclass
-> > > > b/meta/classes-recipe/uboot-sign.bbclass
-> > > > index 96c47ab016..74ef5697ca 100644
-> > > > --- a/meta/classes-recipe/uboot-sign.bbclass
-> > > > +++ b/meta/classes-recipe/uboot-sign.bbclass
-> > > > @@ -107,13 +107,16 @@ concat_dtb() {
-> > > > # makes fitImage susceptible to mix-and-match attack.
-> > > > if [ "${FIT_SIGN_INDIVIDUAL}" =3D "1" ] ; then
-> > > > UBOOT_MKIMAGE_MODE=3D"auto"
-> > > > + UBOOT_MKIMAGE_KEYNAME=3D${UBOOT_SIGN_IMG_KEYNAME}
-> > > > + else
-> > > > + UBOOT_MKIMAGE_KEYNAME=3D${UBOOT_SIGN_KEYNAME}
-> > > > fi
-> > > > ${UBOOT_MKIMAGE_SIGN} \
-> > > > ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if
-> > > > len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-> > > > -f $UBOOT_MKIMAGE_MODE \
-> > > > -k "${UBOOT_SIGN_KEYDIR}" \
-> > > > -o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
-> > > > - -g "${UBOOT_SIGN_IMG_KEYNAME}" \
-> > > > + -g "$UBOOT_MKIMAGE_KEYNAME" \
-> > > > -K "${UBOOT_DTB_BINARY}" \
-> > > > -d /dev/null \
-> > > > -r ${B}/unused.itb \
-> > > > """
-> > >
-> > > Looking at the patch I'm pretty sure it would solve my problem,
-> > > particularly because we set FIT_SIGN_INDIVIDUAL=3D"0" in our builds.
-> > > However, I see it keeps the concept of the signing being either on
-> > > the
-> > > config or on the individual images, which I wanted to further
-> > > comment
-> > > down below.
-> > >
-> > > >   >> To better understand the behavior I created dev2.
-> > > >   >> {key,crt} files and retried a build which worked. However,
-> > > > checking
-> > > >   >> the contents of the final u-boot.dtb file I found that the
-> > > > "dev2" key
-> > > >   >> node was present but the "dev" key wasn't. Then, checking
-> > > > the contents
-> > > >   >> of the final fitImage I noticed the configuration nodes were
-> > > > signed by
-> > > >   >> the dev key while the individual images were not signed (as
-> > > > expected).
-> > > >   >> But that means such a system wouldn't boot since the
-> > > > required "dev"
-> > > >   >> key is not present in the U-Boot DTB, from what I conclude
-> > > > the FIT
-> > > >   >> signing is broken at the moment.
-> > > >   >>
-> > > >   >> So, first of all I wanted to let you guys know about this
-> > > > issue
-> > > >   >> (hoping we're not doing anything wrong with our builds).
-> > > >
-> > > > No, your builds are fine, this is a real bug.
-> > >
-> > > Thanks for the confirmation.
-> > >
-> > > >   >> As a second point, I wanted to confirm the expected behavior
-> > > > regarding
-> > > >   >> variable FIT_SIGN_INDIVIDUAL. According to the
-> > > > documentation:
-> > > >   >>
-> > > >   >>
-> > > > https://docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term
-> > > > -
-> > > > <
-> > > > https://docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term
-> > > > ->
-> > > >   >> FIT_SIGN_INDIVIDUAL
-> > > >   >>
-> > > >   >> when its value is "1" the individual images will be signed
-> > > > *in
-> > > >   >> addition* to the FIT image being signed.
-> > > >
-> > > > That is a bit weird and no, I don't think that is how it is
-> > > > supposed to
-> > > > work.
-> > > >
-> > > > FIT_SIGN_INDIVIDUAL=3D1 -> only image subnodes in fitImage /images
-> > > > nodes
-> > > > are signed AND fitImage is susceptible to mix-and-match attack
-> > > > (basically attacker can replace individual signed images in
-> > > > fitImage
-> > > > with different individual signed images, e.g. with older
-> > > > versions, to
-> > > > achieve a combination of images which allows them to somehow
-> > > > break the
-> > > > system).
-> > > >
-> > > > FIT_SIGN_INDIVIDUAL=3D0 (recommended) -> images are hashed,
-> > > > configurations
-> > > > are hashed, hashes are combined and signed. Because images and
-> > > > configurations (which images are to be used together) are signed,
-> > > > attacker cannot mix-and-match images into an un-allowed
-> > > > configuration.
-> > > >
-> > > >   >> From that, I understand that
-> > > >   >> the configurations will be always signed and the individual
-> > > > images may
-> > > >   >> or may not be signed depending on FIT_SIGN_INDIVIDUAL.
-> > > >
-> > > > The other way around. The configurations are signed by default,
-> > > > which is
-> > > > good, but this can be disabled if needed (unlikely).
-> > > >
-> > > >   >> I kind of
-> > > >   >> confirmed this behavior by checking our build artifacts on
-> > > > kirkstone:
-> > > >   >> with FIT_SIGN_INDIVIDUAL=3D"0" the U-Boot DTB has only the
-> > > > "dev" key and
-> > > >   >> the fit image is signed by that same key; with
-> > > > FIT_SIGN_INDIVIDUAL=3D"1"
-> > > >   >> both keys are present in the DTB, the configurations are
-> > > > signed by the
-> > > >   >> "dev" key and the images by the "dev2" key. I understand
-> > > > this is the
-> > > >   >> correct behavior, right?
-> > > >
-> > > > Images shouldn't be signed by different keys than configurations,
-> > > > that
-> > > > is a bit odd.
-> > > >
-> > > >   >> I'm asking because looking at the comment at:
-> > > >   >>
-> > > >   >>
-> > > > https://git.openembedded.org/openembedded-core/tree/meta/classes-
-> > > > <
-> > > > https://git.openembedded.org/openembedded-core/tree/meta/classes-
-> > > > >
-> > > >   >> recipe/uboot-sign.bbclass?h=3Dscarthgap#n106
-> > > >   >>
-> > > >   >> it gives me the impression that FIT_SIGN_INDIVIDUAL would
-> > > > select
-> > > >   >> between either signing individual images
-> > > >
-> > > > Yes
-> > > >
-> > > >   >> or signing the
-> > > >   >> configurations
-> > > >
-> > > > Signed configuration also includes hash of the images that the
-> > > > configuration references in it, that's what prevents the mix-and-
-> > > > match
-> > > > attack.
-> > > >
-> > > >   >> , which doesn't match the documented behavior. I believe
-> > > >   >> the code in concat_dtb() also seems to assume only one of
-> > > > the keys
-> > > >   >> (dev/dev2) would need be present in the DTB. So the fix
-> > > > would involve
-> > > >   >> a review on this as well I imagine.
-> > > > IIRC Adrian was looking into improving those docs.
-> > >
-> > > Regarding this second topic, let me show you some other information
-> > > I
-> > > gathered from a couple of builds that may help with your
-> > > assessment:
-> > >
-> > > FSI :=3D FIT_SIGN_INDIVIDUAL
-> > > CFG :=3D Whether or not the configurations inside the FIT image were
-> > > signed
-> > > IMG :=3D Whether or not the subimages inside the FIT image were
-> > > signed
-> > >
-> > > | Branch    | Version       | FSI | Keys inside DTB  | CFG | IMG |
-> > > |-----------+---------------+-----+------------------+-----+-----|
-> > > | kirkstone | latest        | "0" | {dev}            | Y   | N   |
-> > > | kirkstone | latest        | "1" | {dev,dev2}       | Y   | Y   |
-> > > |-----------+---------------+-----+------------------+-----+-----|
-> > > | scarthgap | latest        | "0" | Build failed (!) | n/a | n/a |
-> > > |           | + dummy dev2  |     | {dev2}           | Y   | N   |
-> > > | scarthgap | latest        | "1" | {dev2} (!)       | Y   | Y   |
-> > > |-----------+---------------+-----+------------------+-----+-----|
-> > > | scarthgap | w/o @d7bd9c62 | "0" | {dev}            | Y   | N   |
-> > > | scarthgap | w/o @d7bd9c62 | "1" | {dev,dev2}       | Y   | Y   |
-> > >
-> > > The first two lines show that on kirkstone when
-> > > FIT_SIGN_INDIVIDUAL=3D"0"
-> > > only the configurations are signed and the DTB contains only the
-> > > "dev"
-> > > key. When FIT_SIGN_INDIVIDUAL=3D"1" both "dev" and "dev2" are present
-> > > in
-> > > the DTB and both the configurations and the images are signed. And
-> > > that's the exact same behavior I got on scarthgap after reverting
-> > > the
-> > > commit d7bd9c62. And, as I said, this seems to match the
-> > > documentation.
-> > > I've attached snippets of the fdtdump for the FIT image and U-Boot
-> > > DTB
-> > > from my build on kirkstone to illustrate what I said.
-> > >
-> > > So, if the expected behavior is according to what you described
-> > > then the
-> > > behavior so far was wrong (for a long time) and the new behavior is
-> > > introducing a breaking change for anyone relying on what's
-> > > documented
-> > > for the FIT_SIGN_INDIVIDUAL=3D"1" case, right? Btw, for us at Toradex
-> > > this
-> > > is not a big deal because we don't fall into that case but
-> > > considering
-> > > the general use of the layer the change in behavior could be an
-> > > issue.
-> > >
-> > > Another piece of information that might be useful: I made a change
-> > > to
-> > > concat_dtb() to make it add both keys (dev/dev2) to the DTB (by
-> > > invoking
-> > > mkimage twice) and I found the invocation to "uboot-fit_check_sign"
-> > > failed afterwards. I confirmed that the DTB had the two keys, but
-> > > because the FIT image only had the configurations signed, the tool
-> > > threw
-> > > an error saying the signature of "require key dev2" could not be
-> > > verified but the showed that the check of the "dev" key succeeded.
-> > > Unfortunately I don't have the logs available for that case, but I
-> > > could
-> > > repeat the tests if needed. Anyway, my point is that the
-> > > "uboot-fit_check_sign" tool seems capable of checking both keys as
-> > > well.
-> > >
-> > > Interestingly, if I removed the verification step (performed on the
-> > > "unused.itb" file), then the image generation succeeded and
-> > > everything
-> > > seemed to work as before both when FIT_SIGN_INDIVIDUAL is "0" or
-> > > "1".
-> > > So, it's not hard to get the old behavior, though we'd need to
-> > > figure
-> > > out how to properly do the verification when mkimage is invoked
-> > > with -f
-> > > "auto" or -f "auto-conf". I could post my unfinished patch if
-> > > helpful.
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > Best regards,
-> >
-> > Jos=C3=A9 Quaresma
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#211753):
-> > https://lists.openembedded.org/g/openembedded-core/message/211753
-> > Mute This Topic: https://lists.openembedded.org/mt/111218371/7270266
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub [
-> > L.Anderweit@phytec.de]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000003599a9062e955518
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Leonard,<br><br>I will test on my side=C2=A0and th=
-en I&#39;ll come back with the results.<br><br>Thanks<br><br>Jose</div><br>=
-<div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"=
-gmail_attr">Leonard Anderweit &lt;<a href=3D"mailto:L.Anderweit@phytec.de">=
-L.Anderweit@phytec.de</a>&gt; escreveu (quinta, 20/02/2025 =C3=A0(s) 14:42)=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
-<br>
-I&#39;ve also noticed this bug and sent patch [1] to fix it.<br>
-<br>
-[1] <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2=
-11761" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/message/211761</a><br>
-<br>
-Leonard<br>
-<br>
-Am Donnerstag, dem 20.02.2025 um 10:46 +0000 schrieb Jose Quaresma via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a>:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; Any news about this regression?<br>
-&gt; If we don&#39;t=C2=A0get a fix for this bug asap maybe we should=C2=A0=
-revert and<br>
-&gt; drop this patch since it broke our scarthgap stable=C2=A0LTS<br>
-&gt; <br>
-&gt; Jose=C2=A0<br>
-&gt; <br>
-&gt; <br>
-&gt; Rogerio Guerra Borin via <a href=3D"http://lists.openembedded.org" rel=
-=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
-&gt; &lt;rogerio.borin=3D<a href=3D"mailto:toradex.com@lists.openembedded.o=
-rg" target=3D"_blank">toradex.com@lists.openembedded.org</a>&gt; escreveu (=
-ter=C3=A7a,<br>
-&gt; 18/02/2025 =C3=A0(s) 03:49):<br>
-&gt; &gt; &gt; This message originated from outside your organization<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; On 2/17/25 11:34 AM, Quentin Schulz wrote:<br>
-&gt; &gt; &gt; =C2=A0 &gt; +Cc Marek<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Hi,<br>
-&gt; &gt; <br>
-&gt; &gt; Thanks for the quick answer!<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt; On 2/16/25 7:36 PM, Rogerio Guerra Borin via<br>
-&gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
- target=3D"_blank">lists.openembedded.org</a> <br>
-&gt; &gt; &gt; wrote:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; You don&#39;t often get email from<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; rogerio.borin=3D<a href=3D"mailto:toradex.co=
-m@lists.openembedded.org" target=3D"_blank">toradex.com@lists.openembedded.=
-org</a>. Learn why<br>
-&gt; &gt; &gt; this is<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; important&lt;<a href=3D"https://aka.ms/Learn=
-AboutSenderIdentification" rel=3D"noreferrer" target=3D"_blank">https://aka=
-.ms/LearnAboutSenderIdentification</a> <br>
-&gt; &gt; &gt; &lt;<a href=3D"https://aka.ms/LearnAboutSenderIdentification=
-" rel=3D"noreferrer" target=3D"_blank">https://aka.ms/LearnAboutSenderIdent=
-ification</a>&gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; Hello,<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; At Toradex we&#39;re using class &quot;kerne=
-l-fitimage&quot; to produce<br>
-&gt; &gt; &gt; our signed<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; kernel FIT images and we&#39;ve found that t=
-he recent commit<br>
-&gt; &gt; &gt; d7bd9c627661<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; (&quot;u-boot: kernel-fitimage: Fix dependen=
-cy loop if<br>
-&gt; &gt; &gt; UBOOT_SIGN_ENABLE<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; and UBOOT_ENV enabled&quot;) broke our build=
-s. The logs of a<br>
-&gt; &gt; &gt; failed build<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; show the following message that I found note=
-worthy:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Can you mail me the entire log file for completeness ?<br>
-&gt; &gt; <br>
-&gt; &gt; Sure.<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ve added it as attachment<br>
-&gt; &gt; (log.do_uboot_assemble_fitimage.841485).<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; log.do_uboot_assemble_fitimage.841485:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; ...<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; Couldn&#39;t open RSA private key: &#39;/sec=
-boot-data/fit-<br>
-&gt; &gt; &gt; keys/dev2.key&#39;: No<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; such file or directory<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; The odd thing was that the build was setting=
-:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; UBOOT_SIGN_KEYNAME =3D &quot;dev&quot;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; UBOOT_SIGN_IMG_KEYNAME =3D &quot;dev2&quot;<=
-br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; FIT_SIGN_INDIVIDUAL =3D &quot;0&quot;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; FIT_GENERATE_KEYS =3D &quot;0&quot;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; FIT_SIGN_INDIVIDUAL =3D &quot;0&quot; is correct, you do wan=
-t to sign<br>
-&gt; &gt; &gt; configurations, not individual images in the fitImage, becau=
-se<br>
-&gt; &gt; &gt; signing<br>
-&gt; &gt; &gt; individual images is susceptible to mix-and-match attack.<br=
->
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; =C2=A0From the above we see the individual i=
-mages signing is<br>
-&gt; &gt; &gt; disabled but<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the system is trying to access the key file =
-for the<br>
-&gt; &gt; &gt; individual signing<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; (dev2) regardless of that. Checking the code=
- in uboot-<br>
-&gt; &gt; &gt; sign.bbclass I<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; found this line:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/classes-" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
-dded.org/openembedded-core/tree/meta/classes-</a><br>
-&gt; &gt; &gt; &lt;<br>
-&gt; &gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/classes-" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
-dded.org/openembedded-core/tree/meta/classes-</a><br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; recipe/uboot-sign.bbclass?h=3Dscarthgap#n116=
-<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; that is responsible for that access (inside =
-function<br>
-&gt; &gt; &gt; concat_dtb()).<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; The code is always referencing variable<br>
-&gt; &gt; &gt; UBOOT_SIGN_IMG_KEYNAME<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; regardless of FIT_SIGN_INDIVIDUAL being set =
-to &quot;1&quot; or &quot;0&quot;<br>
-&gt; &gt; &gt; even though<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; there&#39;s a condition a couple lines above=
- L116 where<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; FIT_SIGN_INDIVIDUAL is tested to decide in w=
-hich mode to run<br>
-&gt; &gt; &gt; the<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; signing tool.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Uh, good find, does the following patch fix your problem ?<b=
-r>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; &quot;&quot;&quot;<br>
-&gt; &gt; &gt; diff --git a/meta/classes-recipe/uboot-sign.bbclass<br>
-&gt; &gt; &gt; b/meta/classes-recipe/uboot-sign.bbclass<br>
-&gt; &gt; &gt; index 96c47ab016..74ef5697ca 100644<br>
-&gt; &gt; &gt; --- a/meta/classes-recipe/uboot-sign.bbclass<br>
-&gt; &gt; &gt; +++ b/meta/classes-recipe/uboot-sign.bbclass<br>
-&gt; &gt; &gt; @@ -107,13 +107,16 @@ concat_dtb() {<br>
-&gt; &gt; &gt; # makes fitImage susceptible to mix-and-match attack.<br>
-&gt; &gt; &gt; if [ &quot;${FIT_SIGN_INDIVIDUAL}&quot; =3D &quot;1&quot; ] =
-; then<br>
-&gt; &gt; &gt; UBOOT_MKIMAGE_MODE=3D&quot;auto&quot;<br>
-&gt; &gt; &gt; + UBOOT_MKIMAGE_KEYNAME=3D${UBOOT_SIGN_IMG_KEYNAME}<br>
-&gt; &gt; &gt; + else<br>
-&gt; &gt; &gt; + UBOOT_MKIMAGE_KEYNAME=3D${UBOOT_SIGN_KEYNAME}<br>
-&gt; &gt; &gt; fi<br>
-&gt; &gt; &gt; ${UBOOT_MKIMAGE_SIGN} \<br>
-&gt; &gt; &gt; ${@&#39;-D &quot;${UBOOT_MKIMAGE_DTCOPTS}&quot;&#39; if<br>
-&gt; &gt; &gt; len(&#39;${UBOOT_MKIMAGE_DTCOPTS}&#39;) else &#39;&#39;} \<b=
-r>
-&gt; &gt; &gt; -f $UBOOT_MKIMAGE_MODE \<br>
-&gt; &gt; &gt; -k &quot;${UBOOT_SIGN_KEYDIR}&quot; \<br>
-&gt; &gt; &gt; -o &quot;${FIT_HASH_ALG},${FIT_SIGN_ALG}&quot; \<br>
-&gt; &gt; &gt; - -g &quot;${UBOOT_SIGN_IMG_KEYNAME}&quot; \<br>
-&gt; &gt; &gt; + -g &quot;$UBOOT_MKIMAGE_KEYNAME&quot; \<br>
-&gt; &gt; &gt; -K &quot;${UBOOT_DTB_BINARY}&quot; \<br>
-&gt; &gt; &gt; -d /dev/null \<br>
-&gt; &gt; &gt; -r ${B}/unused.itb \<br>
-&gt; &gt; &gt; &quot;&quot;&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; Looking at the patch I&#39;m pretty sure it would solve my proble=
-m, <br>
-&gt; &gt; particularly because we set FIT_SIGN_INDIVIDUAL=3D&quot;0&quot; i=
-n our builds. <br>
-&gt; &gt; However, I see it keeps the concept of the signing being either o=
-n<br>
-&gt; &gt; the <br>
-&gt; &gt; config or on the individual images, which I wanted to further<br>
-&gt; &gt; comment <br>
-&gt; &gt; down below.<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; To better understand the behavior I created =
-dev2.<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; {key,crt} files and retried a build which wo=
-rked. However,<br>
-&gt; &gt; &gt; checking<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the contents of the final u-boot.dtb file I =
-found that the<br>
-&gt; &gt; &gt; &quot;dev2&quot; key<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; node was present but the &quot;dev&quot; key=
- wasn&#39;t. Then, checking<br>
-&gt; &gt; &gt; the contents<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; of the final fitImage I noticed the configur=
-ation nodes were<br>
-&gt; &gt; &gt; signed by<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the dev key while the individual images were=
- not signed (as<br>
-&gt; &gt; &gt; expected).<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; But that means such a system wouldn&#39;t bo=
-ot since the<br>
-&gt; &gt; &gt; required &quot;dev&quot;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; key is not present in the U-Boot DTB, from w=
-hat I conclude<br>
-&gt; &gt; &gt; the FIT<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; signing is broken at the moment.<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; So, first of all I wanted to let you guys kn=
-ow about this<br>
-&gt; &gt; &gt; issue<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; (hoping we&#39;re not doing anything wrong w=
-ith our builds).<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; No, your builds are fine, this is a real bug.<br>
-&gt; &gt; <br>
-&gt; &gt; Thanks for the confirmation.<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; As a second point, I wanted to confirm the e=
-xpected behavior<br>
-&gt; &gt; &gt; regarding<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; variable FIT_SIGN_INDIVIDUAL. According to t=
-he<br>
-&gt; &gt; &gt; documentation:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; <a href=3D"https://docs.yoctoproject.org/5.0.6/ref-manual/va=
-riables.html#term" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctop=
-roject.org/5.0.6/ref-manual/variables.html#term</a><br>
-&gt; &gt; &gt; -<br>
-&gt; &gt; &gt; &lt;<br>
-&gt; &gt; &gt; <a href=3D"https://docs.yoctoproject.org/5.0.6/ref-manual/va=
-riables.html#term" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctop=
-roject.org/5.0.6/ref-manual/variables.html#term</a><br>
-&gt; &gt; &gt; -&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; FIT_SIGN_INDIVIDUAL<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; when its value is &quot;1&quot; the individu=
-al images will be signed<br>
-&gt; &gt; &gt; *in<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; addition* to the FIT image being signed.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; That is a bit weird and no, I don&#39;t think that is how it=
- is<br>
-&gt; &gt; &gt; supposed to<br>
-&gt; &gt; &gt; work.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; FIT_SIGN_INDIVIDUAL=3D1 -&gt; only image subnodes in fitImag=
-e /images<br>
-&gt; &gt; &gt; nodes<br>
-&gt; &gt; &gt; are signed AND fitImage is susceptible to mix-and-match atta=
-ck<br>
-&gt; &gt; &gt; (basically attacker can replace individual signed images in<=
-br>
-&gt; &gt; &gt; fitImage<br>
-&gt; &gt; &gt; with different individual signed images, e.g. with older<br>
-&gt; &gt; &gt; versions, to<br>
-&gt; &gt; &gt; achieve a combination of images which allows them to somehow=
-<br>
-&gt; &gt; &gt; break the<br>
-&gt; &gt; &gt; system).<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; FIT_SIGN_INDIVIDUAL=3D0 (recommended) -&gt; images are hashe=
-d,<br>
-&gt; &gt; &gt; configurations<br>
-&gt; &gt; &gt; are hashed, hashes are combined and signed. Because images a=
-nd<br>
-&gt; &gt; &gt; configurations (which images are to be used together) are si=
-gned,<br>
-&gt; &gt; &gt; attacker cannot mix-and-match images into an un-allowed<br>
-&gt; &gt; &gt; configuration.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; From that, I understand that<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the configurations will be always signed and=
- the individual<br>
-&gt; &gt; &gt; images may<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; or may not be signed depending on FIT_SIGN_I=
-NDIVIDUAL.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; The other way around. The configurations are signed by defau=
-lt,<br>
-&gt; &gt; &gt; which is<br>
-&gt; &gt; &gt; good, but this can be disabled if needed (unlikely).<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; I kind of<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; confirmed this behavior by checking our buil=
-d artifacts on<br>
-&gt; &gt; &gt; kirkstone:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; with FIT_SIGN_INDIVIDUAL=3D&quot;0&quot; the=
- U-Boot DTB has only the<br>
-&gt; &gt; &gt; &quot;dev&quot; key and<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the fit image is signed by that same key; wi=
-th<br>
-&gt; &gt; &gt; FIT_SIGN_INDIVIDUAL=3D&quot;1&quot;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; both keys are present in the DTB, the config=
-urations are<br>
-&gt; &gt; &gt; signed by the<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; &quot;dev&quot; key and the images by the &q=
-uot;dev2&quot; key. I understand<br>
-&gt; &gt; &gt; this is the<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; correct behavior, right?<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Images shouldn&#39;t be signed by different keys than config=
-urations,<br>
-&gt; &gt; &gt; that<br>
-&gt; &gt; &gt; is a bit odd.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; I&#39;m asking because looking at the commen=
-t at:<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/classes-" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
-dded.org/openembedded-core/tree/meta/classes-</a><br>
-&gt; &gt; &gt; &lt;<br>
-&gt; &gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/tr=
-ee/meta/classes-" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
-dded.org/openembedded-core/tree/meta/classes-</a><br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; recipe/uboot-sign.bbclass?h=3Dscarthgap#n106=
-<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt;<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; it gives me the impression that FIT_SIGN_IND=
-IVIDUAL would<br>
-&gt; &gt; &gt; select<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; between either signing individual images<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Yes<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; or signing the<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; configurations<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Signed configuration also includes hash of the images that t=
-he<br>
-&gt; &gt; &gt; configuration references in it, that&#39;s what prevents the=
- mix-and-<br>
-&gt; &gt; &gt; match<br>
-&gt; &gt; &gt; attack.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; , which doesn&#39;t match the documented beh=
-avior. I believe<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; the code in concat_dtb() also seems to assum=
-e only one of<br>
-&gt; &gt; &gt; the keys<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; (dev/dev2) would need be present in the DTB.=
- So the fix<br>
-&gt; &gt; &gt; would involve<br>
-&gt; &gt; &gt; =C2=A0 &gt;&gt; a review on this as well I imagine.<br>
-&gt; &gt; &gt; IIRC Adrian was looking into improving those docs.<br>
-&gt; &gt; <br>
-&gt; &gt; Regarding this second topic, let me show you some other informati=
-on<br>
-&gt; &gt; I <br>
-&gt; &gt; gathered from a couple of builds that may help with your<br>
-&gt; &gt; assessment:<br>
-&gt; &gt; <br>
-&gt; &gt; FSI :=3D FIT_SIGN_INDIVIDUAL<br>
-&gt; &gt; CFG :=3D Whether or not the configurations inside the FIT image w=
-ere<br>
-&gt; &gt; signed<br>
-&gt; &gt; IMG :=3D Whether or not the subimages inside the FIT image were<b=
-r>
-&gt; &gt; signed<br>
-&gt; &gt; <br>
-&gt; &gt; | Branch=C2=A0 =C2=A0 | Version=C2=A0 =C2=A0 =C2=A0 =C2=A0| FSI |=
- Keys inside DTB=C2=A0 | CFG | IMG |<br>
-&gt; &gt; |-----------+---------------+-----+------------------+-----+-----=
-|<br>
-&gt; &gt; | kirkstone | latest=C2=A0 =C2=A0 =C2=A0 =C2=A0 | &quot;0&quot; |=
- {dev}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | Y=C2=A0 =C2=A0| N=C2=A0 =
-=C2=A0|<br>
-&gt; &gt; | kirkstone | latest=C2=A0 =C2=A0 =C2=A0 =C2=A0 | &quot;1&quot; |=
- {dev,dev2}=C2=A0 =C2=A0 =C2=A0 =C2=A0| Y=C2=A0 =C2=A0| Y=C2=A0 =C2=A0|<br>
-&gt; &gt; |-----------+---------------+-----+------------------+-----+-----=
-|<br>
-&gt; &gt; | scarthgap | latest=C2=A0 =C2=A0 =C2=A0 =C2=A0 | &quot;0&quot; |=
- Build failed (!) | n/a | n/a |<br>
-&gt; &gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| + dummy dev2=C2=A0 |=
-=C2=A0 =C2=A0 =C2=A0| {dev2}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| Y=C2=
-=A0 =C2=A0| N=C2=A0 =C2=A0|<br>
-&gt; &gt; | scarthgap | latest=C2=A0 =C2=A0 =C2=A0 =C2=A0 | &quot;1&quot; |=
- {dev2} (!)=C2=A0 =C2=A0 =C2=A0 =C2=A0| Y=C2=A0 =C2=A0| Y=C2=A0 =C2=A0|<br>
-&gt; &gt; |-----------+---------------+-----+------------------+-----+-----=
-|<br>
-&gt; &gt; | scarthgap | w/o @d7bd9c62 | &quot;0&quot; | {dev}=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | Y=C2=A0 =C2=A0| N=C2=A0 =C2=A0|<br>
-&gt; &gt; | scarthgap | w/o @d7bd9c62 | &quot;1&quot; | {dev,dev2}=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| Y=C2=A0 =C2=A0| Y=C2=A0 =C2=A0|<br>
-&gt; &gt; <br>
-&gt; &gt; The first two lines show that on kirkstone when<br>
-&gt; &gt; FIT_SIGN_INDIVIDUAL=3D&quot;0&quot; <br>
-&gt; &gt; only the configurations are signed and the DTB contains only the<=
-br>
-&gt; &gt; &quot;dev&quot; <br>
-&gt; &gt; key. When FIT_SIGN_INDIVIDUAL=3D&quot;1&quot; both &quot;dev&quot=
-; and &quot;dev2&quot; are present<br>
-&gt; &gt; in <br>
-&gt; &gt; the DTB and both the configurations and the images are signed. An=
-d <br>
-&gt; &gt; that&#39;s the exact same behavior I got on scarthgap after rever=
-ting<br>
-&gt; &gt; the <br>
-&gt; &gt; commit d7bd9c62. And, as I said, this seems to match the<br>
-&gt; &gt; documentation.<br>
-&gt; &gt; I&#39;ve attached snippets of the fdtdump for the FIT image and U=
--Boot<br>
-&gt; &gt; DTB <br>
-&gt; &gt; from my build on kirkstone to illustrate what I said.<br>
-&gt; &gt; <br>
-&gt; &gt; So, if the expected behavior is according to what you described<b=
-r>
-&gt; &gt; then the <br>
-&gt; &gt; behavior so far was wrong (for a long time) and the new behavior =
-is<br>
-&gt; &gt; introducing a breaking change for anyone relying on what&#39;s<br=
->
-&gt; &gt; documented <br>
-&gt; &gt; for the FIT_SIGN_INDIVIDUAL=3D&quot;1&quot; case, right? Btw, for=
- us at Toradex<br>
-&gt; &gt; this <br>
-&gt; &gt; is not a big deal because we don&#39;t fall into that case but<br=
->
-&gt; &gt; considering <br>
-&gt; &gt; the general use of the layer the change in behavior could be an<b=
-r>
-&gt; &gt; issue.<br>
-&gt; &gt; <br>
-&gt; &gt; Another piece of information that might be useful: I made a chang=
-e<br>
-&gt; &gt; to <br>
-&gt; &gt; concat_dtb() to make it add both keys (dev/dev2) to the DTB (by<b=
-r>
-&gt; &gt; invoking <br>
-&gt; &gt; mkimage twice) and I found the invocation to &quot;uboot-fit_chec=
-k_sign&quot;<br>
-&gt; &gt; failed afterwards. I confirmed that the DTB had the two keys, but=
- <br>
-&gt; &gt; because the FIT image only had the configurations signed, the too=
-l<br>
-&gt; &gt; threw <br>
-&gt; &gt; an error saying the signature of &quot;require key dev2&quot; cou=
-ld not be <br>
-&gt; &gt; verified but the showed that the check of the &quot;dev&quot; key=
- succeeded. <br>
-&gt; &gt; Unfortunately I don&#39;t have the logs available for that case, =
-but I<br>
-&gt; &gt; could <br>
-&gt; &gt; repeat the tests if needed. Anyway, my point is that the <br>
-&gt; &gt; &quot;uboot-fit_check_sign&quot; tool seems capable of checking b=
-oth keys as<br>
-&gt; &gt; well.<br>
-&gt; &gt; <br>
-&gt; &gt; Interestingly, if I removed the verification step (performed on t=
-he<br>
-&gt; &gt; &quot;unused.itb&quot; file), then the image generation succeeded=
- and<br>
-&gt; &gt; everything <br>
-&gt; &gt; seemed to work as before both when FIT_SIGN_INDIVIDUAL is &quot;0=
-&quot; or<br>
-&gt; &gt; &quot;1&quot;.<br>
-&gt; &gt; So, it&#39;s not hard to get the old behavior, though we&#39;d ne=
-ed to<br>
-&gt; &gt; figure <br>
-&gt; &gt; out how to properly do the verification when mkimage is invoked<b=
-r>
-&gt; &gt; with -f <br>
-&gt; &gt; &quot;auto&quot; or -f &quot;auto-conf&quot;. I could post my unf=
-inished patch if<br>
-&gt; &gt; helpful.<br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -- <br>
-&gt; Best regards,<br>
-&gt; <br>
-&gt; Jos=C3=A9 Quaresma<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#211753):<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/=
-211753" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org=
-/g/openembedded-core/message/211753</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11121837=
-1/7270266" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/111218371/7270266</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe:<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/unsub" r=
-el=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/openem=
-bedded-core/unsub</a>=C2=A0[<br>
-&gt; <a href=3D"mailto:L.Anderweit@phytec.de" target=3D"_blank">L.Anderweit=
-@phytec.de</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-
---0000000000003599a9062e955518--
+Ross=
 
