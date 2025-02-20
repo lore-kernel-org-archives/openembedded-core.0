@@ -2,79 +2,79 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A0BC021AD
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 04:05:49 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.42259.1740024341900525166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B76BBC021AD
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 04:23:49 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.42465.1740025424080691705
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 20:05:41 -0800
+ Wed, 19 Feb 2025 20:23:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KDuha8R+;
- spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2211cd4463cso8041155ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:05:41 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=PTyJspyd;
+ spf=pass (domain: mvista.com, ip: 209.85.216.49, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2f9d3d0f55dso761124a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:23:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1740024341; x=1740629141; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1740025423; x=1740630223; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qAuEk6WBqblXs4SOBFyYpPxnjxRTRpXnmiIAGPQdEzg=;
-        b=KDuha8R+/CmPFmOs5fb19EPQGtrw66xDvwHtIeX7dYPag6K98vNs1b+9Q7doz5etg/
-         T4AcZCmqpl/1LCwqp+s6GEY5s1Y6J5GO2pLL7AIY4dK3IEr4Eodtz2lkIkItCBIXNrok
-         NbALho8WXkd9Xx46uRg39ziqXcJlPrBeaY4wA=
+        bh=3Ldy6HDebRZ/JwND3axkwjEO4KDmEO7O8bYNKigHVUI=;
+        b=PTyJspydCF/aUlnqEnvZ2oJCmOlNt95EE11fN2XpxdkVYwTvWqqZjs3qNqyI9qYK19
+         mrjsw+2kkj9moAGMn4Fm4xBjoL4DWoIaWoqwzvxjoJN5QHgt6lbav/gfA9723+Q+UjCN
+         6RRXm8gexZN6ILyBKjq6s/j+86Eiz8EsW9uec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740024341; x=1740629141;
+        d=1e100.net; s=20230601; t=1740025423; x=1740630223;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qAuEk6WBqblXs4SOBFyYpPxnjxRTRpXnmiIAGPQdEzg=;
-        b=i4pKh2tzqpoh92KSH18/U3DF3Oks6XpYYdyfZghc39cRBNM4BBs7axWkAgeV2/eHvr
-         HYkuUYFAl81VghbGdTurg/XrmGrz/DkhRiJlqX36bQs8EFBLKy8Kgoobz6qdu/3wMfnQ
-         +VQFVOcprBEEKK5GNZK4y8bBUNH95VvcbVY+hVYZTKM94+uM0KWSQ80sJUZl/+ueD979
-         uKQUgZvz5NNT4BnY1sdaP/tF11Q8Uep4U5+7VUsUVHk42/kptzZHx7HX8ScekTm4Z2tV
-         RNeHn1gmMyvym/T3S1BRArnnljgb3MD4dTOnoXiAdfUP6b0r37lwbaTSV7gXtzILTFFQ
-         eDHQ==
-X-Gm-Message-State: AOJu0Yy/ESde/jBGdUsXzYYq5kC2dGPNgOq2Ek98UBDPiATa9xOEqmSd
-	TFokI8hy6r5u1DOr28HqyFkQ4Dh4MXx5IGUjW7NOb8x9wnAZQ+MaCIHivw4U1MW+o/Cf7q+oOWf
-	j
-X-Gm-Gg: ASbGncuHJ90l5/jTuV5qJJqbvpJl6lFQLjVbV7j0Dj5ez6nwmmmon0Fo/j39C7gPg+s
-	6S9u02fSokbI7PV7rMdXOMPnhY1uQi6r/asWCGbztX85GOQz/g87TBotWuR7Ww7cmSMPUO7Lbgf
-	3LuTRcofRrqYRgrhc+ZErJYfaMw6+M0ombEBbFLRUVMqMQ55kH8bt67XpmdfetIjcqM5wVh3A6U
-	FDCLqIX/jdx1mpqoq/hNcZXdVrkKb9Oqg0qmRzbKk9wq1yGGikZQV7wNn9mRVQpOpwjGeYpExb4
-	3RZb3zzqW/oBnQyC3tpkujkTjwPUHw==
-X-Google-Smtp-Source: AGHT+IGrUtu6PXSFZ2Gnb/Tz72bktKMj/PHUNd7o6Rv8rdKsun77dMWQ5/boeJUrpzWl8wfXRDNrpQ==
-X-Received: by 2002:a05:6300:8081:b0:1ee:ab62:c37 with SMTP id adf61e73a8af0-1eeab620eb2mr21220659637.11.1740024341162;
-        Wed, 19 Feb 2025 20:05:41 -0800 (PST)
+        bh=3Ldy6HDebRZ/JwND3axkwjEO4KDmEO7O8bYNKigHVUI=;
+        b=VBv+D5R0xuK9jAfa8P5XzbBnnuJb+EH/TVGsmD5oabkkyd/4jHe3eKilCcYAAacvad
+         MVs54R5IEZ8CsnWLsQH7BnrCQ24g5hs5f+zruYJeKVrFW005Ru6vys0HjAmUCqiCPnAS
+         3oLOE4nqd8+0DCvFFkodcZgVLsBEyHQeiDHlkJROsH+lG79FKNlO+wkP53mOgRQQS0va
+         Hf5+BB06/ZP+LdqNCOcAA7mvRKYFZrP3EPh2p6PcpvByK907MshE9BEkMJ6nEdc8BB94
+         ga23CUBytJR9FhyZS47IfS9gxlIXtR0+mFZRQLSKwBje4phaeqkr0PQ1YLi70qXbyBHu
+         5gsw==
+X-Gm-Message-State: AOJu0YyFBu1e7Xyv2OMLW+KP7jQVmlC/agXihbcib1mb+ajtkEv1JG0p
+	SnABoaAa1gQdhRDlp6GpKOqGQkmpXsmqbcJv9U1epgI+U1IcFYhnRg0xgImkzbPcMQa0I1r9oCR
+	4
+X-Gm-Gg: ASbGncuA3JwnyhBjVR2fuOrxNhErwzzKTjfzCTFwI76TcOzaBrrn2NA1Exn94IgPa6A
+	l6Gwkkc/3eCrL8LQeXWgzBPhRv6lhw0+IWToTYL6NhsHAuV2ahI4YYAzz3plksuVEDIo0H1lwn2
+	NaBgeHu9Tx6Gj4lDy3vkbDb6OyHa9vDRoZ92aVj7Dhb066ovSRyZnbIvdzta4AuiG5zdRl/ZqJd
+	S2a8vw6wx7wPwgwXFix6fUNIwtlpT0DT2CscZjnXJSdXWg5HHxjeh833Jv3RpiLisSeyOYGp2ur
+	oR4549Jmlmt+ukHe5KrHUYVrW33XRA==
+X-Google-Smtp-Source: AGHT+IEtYYHei9QJUkF+93x+txs9lgSGtpz61WM4pkx7zuAHfn7Q6da33kZiHhe2vciJVzhjpqyNsg==
+X-Received: by 2002:a17:90a:d2cb:b0:2ee:5691:774e with SMTP id 98e67ed59e1d1-2fcb59ec563mr9967554a91.2.1740025423291;
+        Wed, 19 Feb 2025 20:23:43 -0800 (PST)
 Received: from MVIN00016.mvista.com ([150.129.170.172])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732814ebb76sm6485224b3a.141.2025.02.19.20.05.32
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98b32fasm14698476a91.10.2025.02.19.20.23.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 20:05:40 -0800 (PST)
+        Wed, 19 Feb 2025 20:23:42 -0800 (PST)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] libcap: fix CVE-2025-1390
-Date: Thu, 20 Feb 2025 09:35:16 +0530
-Message-Id: <20250220040516.24786-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] libcap: fix CVE-2025-1390
+Date: Thu, 20 Feb 2025 09:53:33 +0530
+Message-Id: <20250220042333.68100-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 04:05:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211737
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 04:23:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211738
 
 Upstream-Status: Backport from https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=1ad42b66c3567481cc5fa22fc1ba1556a316d878
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
  .../libcap/files/CVE-2025-1390.patch          | 36 +++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.69.bb    |  1 +
+ meta/recipes-support/libcap/libcap_2.66.bb    |  1 +
  2 files changed, 37 insertions(+)
  create mode 100644 meta/recipes-support/libcap/files/CVE-2025-1390.patch
 
 diff --git a/meta/recipes-support/libcap/files/CVE-2025-1390.patch b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
 new file mode 100644
-index 0000000000..a0f7dda503
+index 0000000000..339feaba92
 --- /dev/null
 +++ b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
 @@ -0,0 +1,36 @@
@@ -100,10 +100,10 @@ index 0000000000..a0f7dda503
 + 1 file changed, 1 insertion(+)
 +
 +diff --git a/pam_cap/pam_cap.c b/pam_cap/pam_cap.c
-+index b9419cb..18647a1 100644
++index 7e8cade..7b3d2d1 100644
 +--- a/pam_cap/pam_cap.c
 ++++ b/pam_cap/pam_cap.c
-+@@ -166,6 +166,7 @@ static char *read_capabilities_for_user(const char *user, const char *source)
++@@ -143,6 +143,7 @@ static char *read_capabilities_for_user(const char *user, const char *source)
 + 
 + 	    if (line[0] != '@') {
 + 		D(("user [%s] is not [%s] - skipping", user, line));
@@ -114,14 +114,14 @@ index 0000000000..a0f7dda503
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/libcap/libcap_2.69.bb b/meta/recipes-support/libcap/libcap_2.69.bb
-index 92fa766d37..03975b44a0 100644
---- a/meta/recipes-support/libcap/libcap_2.69.bb
-+++ b/meta/recipes-support/libcap/libcap_2.69.bb
-@@ -15,6 +15,7 @@ DEPENDS = "hostperl-runtime-native gperf-native"
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
+diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-support/libcap/libcap_2.66.bb
+index 7534063b7d..42dacb301e 100644
+--- a/meta/recipes-support/libcap/libcap_2.66.bb
++++ b/meta/recipes-support/libcap/libcap_2.66.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
             file://0002-tests-do-not-run-target-executables.patch \
+            file://CVE-2023-2602.patch \
+            file://CVE-2023-2603.patch \
 +           file://CVE-2025-1390.patch \
             "
  SRC_URI:append:class-nativesdk = " \
