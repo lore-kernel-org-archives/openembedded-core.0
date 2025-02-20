@@ -1,327 +1,79 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A251C021B3
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 10:00:41 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.46017.1740045637001608508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B2A9C021B1
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 10:19:51 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web11.46204.1740046788416384948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Feb 2025 02:00:37 -0800
+ Thu, 20 Feb 2025 02:19:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cIQxa+Ug;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so380323f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 02:00:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kB2LvVQ3;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6dd15d03eacso7496906d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 02:19:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1740045635; x=1740650435; darn=lists.openembedded.org;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJvbd7nlTuvdZ5bnUkhwLqqiVAHvRB2mpP5lX6Mikos=;
-        b=cIQxa+UgFYvFAJOnHy7mNip4kYYGdOL0wi+aWnfclQniaHMvjLVaC61dJjamKbzzGP
-         1y0wyF4Lsksfny4CTqr76ZoF+0v2tiFl/9znRL+Hia4LXCi0807cBTGEdLKQpfaUyH/I
-         MYnr+zo8fy+2gKNv40RmGZXHSSWOQ6a1dRAtA=
+        d=gmail.com; s=20230601; t=1740046787; x=1740651587; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eGRczv/8j4OMJoWA7ia2C5g1KcRfK9iPCRYD/JgzmM4=;
+        b=kB2LvVQ3oL6Ub3bz2dexy1kDQ4vslY7nxhAUAFaF1H7ocigP4YrhOHSycbGcOOzHYU
+         EgAloPSYgLFDTYK75NRwvSWrp/txabuiepjZNZli7DFQeLxQof4ejbwi2V62w7+mHrcr
+         OgzDL4TbMhH41qHZNJfRGNPKOXZSA8GvN3urzZCioHTqqlr2bCNq71qk5nkfWsx4ZJFP
+         3/YVG347gviv/6lPG8SsVyK3ZB1Lr2UV5URt34sG4ved4WAP02mxtc7stGBw5vnneU6R
+         1H3YeZVlAEt8lGRQ22y+OY1meQQb/C0Uff8Y/TvtwYJPIcHOppTs4gZHbPUKG6UkqfTZ
+         0/Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740045635; x=1740650435;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1740046787; x=1740651587;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xJvbd7nlTuvdZ5bnUkhwLqqiVAHvRB2mpP5lX6Mikos=;
-        b=ufi2xAXK7fE2dKYo1w35zYttWdGzqK3Ix83Xb+t0tb5yFUTFU1KNMELpZVP8WH0poc
-         6qOb2m9pJuqtePWbBFJ/d5ITg2xci4DCUGloNqIrPM/MH18N1C6b/fAcDuG3JgnJxkIO
-         zCw13oJmWI/1SRSATv738bJcCChV3NrXBi2ZxN0JzM+ec1K21e+YAjp2cxrp8R5MITbm
-         mSMGDSA8wlVXFW2iYwvoz9hAxpZJ8DAcpEb3fA6vJoadJRX7vgBUR3eA/KfwBUOG92H8
-         RL63+g2T3AnxQU9vwLuHFBBQFdqIjNowuFkGhlP9mt1CaJkq4X5SO6lJyGsIU9hsBtcb
-         SVeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmD4+S2q+KviclBum2Scfuf2zj53pzjuUwHoerfiqP9vNy6oEGTpMs9RPbOV/OuYPDUM8yuW/Q3SXZG/T6YKXMDw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzcuqK9TeE8VJ8Ytsv/x3+c42eSwnlLnaiz3VvMLERibMPRd98Y
-	ZBSxSloak8ekPCRW6gUMwEl08qE1JerGsSMUHATuEufPgYUoYtmo9fTELFJmNnw=
-X-Gm-Gg: ASbGncs98qw0rAiSoH/pJ8b+eIhGRBNZg6mRpNUBmX20j7x8uUWNEbEX31aUgR66n6i
-	gcTDxx2KAwQ6+urefJoac1bUNWHCGCSTsT0fjeZNoJVVWxChUBu9VHjkVtnUMCBsseq7f3romrf
-	ONz+ENDo4CR5mA6wgqSKNrMHhIPEnJpweVSGD50L21114DULCSPSYjQFPZr4nPyuf3naGhJx+x2
-	OOUfM1j9643W3iRtaGBamCpATg1kdFH1tO3+XWv9W4WoCe+tIkoEcw5qe6vSSSzxOqh3mSESTLQ
-	Ce0yCxBFeMpH/KQ8L2rX1/ksRjyAaFgdAtVoVG+izJDNavjE0ZJ5Hsf5URPhguC+ueHjF7/L/IT
-	QTEmp
-X-Google-Smtp-Source: AGHT+IFrHarUcmtwCDJFeAaxM8qqcXULS1roWmLqpAQJbQBi/ZEJidgnLlqHF1kxPzKkRclXth/CeA==
-X-Received: by 2002:adf:e888:0:b0:38d:d932:d9a0 with SMTP id ffacd0b85a97d-38f33f58dc9mr14825233f8f.50.1740045635149;
-        Thu, 20 Feb 2025 02:00:35 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9458:4cb6:ddd6:4840? ([2001:8b0:aba:5f3c:9458:4cb6:ddd6:4840])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5923sm20325315f8f.74.2025.02.20.02.00.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 02:00:34 -0800 (PST)
-Message-ID: <2e219db8aa4ecc884396dbdbf73834ef8317638f.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] 'vendor' fetching discussion cont.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
-	openembedded-core@lists.openembedded.org, Bruce Ashfield	
- <bruce.ashfield@gmail.com>, bitbake-devel
- <bitbake-devel@lists.openembedded.org>
-Date: Thu, 20 Feb 2025 10:00:33 +0000
-In-Reply-To: <0e604b52-e25b-4dd1-98b0-554af2c743e7@weidmueller.com>
-References: 
-	<4cea4488ef3181471373f3dca26ac390203a90cb.camel@linuxfoundation.org>
-	 <55925709-d3e9-49c8-a6fc-f97c611146cc@weidmueller.com>
-	 <d30c619392f62f2d40320b01da5ca95369f3e7c2.camel@linuxfoundation.org>
-	 <9668ba9a-4029-4600-abd1-0f32215aaedd@weidmueller.com>
-	 <7537c9d9305dd3c7d05cbf36bccfe47c1858f822.camel@linuxfoundation.org>
-	 <c2f481ae-327e-43c5-92f5-9753bd5c0138@weidmueller.com>
-	 <e145b324f19953f80163dbfe8c403607e297bad0.camel@linuxfoundation.org>
-	 <0e604b52-e25b-4dd1-98b0-554af2c743e7@weidmueller.com>
-Content-Type: multipart/alternative; boundary="=-iXzvDSlpvusdcAvmelfQ"
-User-Agent: Evolution 3.54.0-1 
+        bh=eGRczv/8j4OMJoWA7ia2C5g1KcRfK9iPCRYD/JgzmM4=;
+        b=pgfv3i8tHt4DLqxnKf8D060vJH/OVxqyshksL1UTHZq/aPACgWMrEqtjFCm09hI1cq
+         4pm5Lwxg8TiohVBY7F/F6XIEejiAicJBm+OFrUMkdnkcpgMzri2NW5HAZm0jm62iFEaQ
+         KaTznJzAvSxmCXbnHLGQjIEr5zFrytBwxJ0+mgIVkNafE4h1Ut1QnutbCBBNdSRMLMs7
+         Z803JRpXpgmsGaR7p1HuRXvQDh48V4NBqZYRUueDAXWIpblICPqhpzVkCnNWzAuksgmi
+         s2S5f3uoWR5Pj1V3+2ZIaEN8WQz83dztcexjlz0gD1oV3rHa96a7KSGpQ6BekPJli5Cd
+         WB1Q==
+X-Gm-Message-State: AOJu0Yxe0zqXCwprWrNx168NBJGB+jBxni2dO98QNhOMEqhtC0I6xJUl
+	r0YGqfttErec/atTr0pQ7wYgC/WEXnnfnV302GtNhyOML2r6L9z3/mSgwQiQgIpjrUJii5T4Z+7
+	6mhTrcuTlWHv84BfeJpEns11R+HU=
+X-Gm-Gg: ASbGnctFKZxQInW0V7VxLoCOa1LjfEIGhI74MBp88xdNdu/QhHHh15yhZJ4HgnlKlkd
+	VuuENqaRtwE/4dE4ZKsDJ8M9kgGg2B8TUjNA3ZwdlcekcFdoluRUuKyqdbcdzqBEZCRGeAt0ZjI
+	JtZRJREtuaEj3tb/NB2I9HtqQCRk4Yp3U=
+X-Google-Smtp-Source: AGHT+IFWVPfGZxScn66aITdGxIQm7BCriehIobPtjgGkwr8gOFTsp0e7FlM1APBSR80pq5yYom+mDoOOSUXMyahijB0=
+X-Received: by 2002:a05:6214:226e:b0:6e4:5fc3:723f with SMTP id
+ 6a1803df08f44-6e6a24b1de3mr37759336d6.0.1740046787421; Thu, 20 Feb 2025
+ 02:19:47 -0800 (PST)
 MIME-Version: 1.0
+References: <1740011460-3468-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1740011460-3468-1-git-send-email-wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Feb 2025 11:19:36 +0100
+X-Gm-Features: AWEUYZm5ewnoFXwqqojAfdX-JzB4iO-njjEtX-LPHDAjr3K_IzBrDTF8hBzQnnU
+Message-ID: <CANNYZj-ATQpHVfdEvuShSqWz77HdC1M1GbJD3R1Fc2fm5yx+7A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] pango: upgrade 1.55.5 -> 1.56.1
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 10:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211750
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 10:19:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211751
 
---=-iXzvDSlpvusdcAvmelfQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 20 Feb 2025 at 01:31, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
+> Add python3-docutils-native to provide rst2html5
+> -DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+> +DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi python3-docutils-native"
 
-On Thu, 2025-02-20 at 10:48 +0100, Stefan Herbrechtsmeier wrote:
-> =20
-> Am 19.02.2025 um 18:33 schrieb Richard Purdie:
-> >=20
-> > On Wed, 2025-02-19 at 17:48 +0100, Stefan Herbrechtsmeier wrote:
-> > > =20
-> > > =20
-> > > =20
-> > > I don't change the exception. The exceptions are the reason for
-> > > the state of the series.
-> > > =20
-> > >=20
-> > > The missing point is that the expectation is related to the end
-> > > of a dependency chain and not to a task itself. In any case the
-> > > real expectation isn't clear. What happens if the configuration
-> > > need a compiled source and it isn't feasible to create a native
-> > > package. My series satisfy the following expectations:
-> > >=20
-> > > * All sources are downloaded after the do_fetch
-> > > * All sources are unpacked after the do_unpack
-> > > * All sources are patched after the do_patch
-> > > =20
-> > =20
-> > I could try and reply to all your points but this one jumps out as
-> > a really fundamental thing we disagree on. All our existing code
-> > assumes that:
-> > =20
-> >=20
-> > =20
-> > =20
-> > "All sources are downloaded during do_fetch"
-> >=20
-> > =20
-> >=20
-> > =20
-> > =20
-> > which means once do_fetch runs, we have all the sources. That is
-> > quite different to what you say above. I fully appreciate it
-> > imposes quite some constraints but it doesn't change the fact that
-> > this is the situation.
-> > =20
-> =20
-> I don't get the point. Do you say that only the do_fetch is allow to
-> download anything? So my assumption that I can download something
-> outside the do_fetch task as long as the download happens if
-> something depend on the fetch task (like bitbake -c fetch ...) is
-> wrong?
->=20
-> I don't understand that requirement but I can fulfill it. The only
-> consequence is a complex do_fetch task.
+This should be conditional to GIDOCGEN_ENABLED to avoid unnecessary
+build chains, e.g
 
-The fetch task is the only task allowed to access the network and is
-the only place where the sources should be being downloaded. Once the
-do_fetch task completes, we have everything we need from the network
-and no further network access is allowed.
+DEPENDS:append = "${@' python3-docutils-native' if
+d.getVar('GIDOCGEN_ENABLED') == 'True' else ''}"
 
-So yes, your assumption is therefore wrong. I'm focusing on this as if
-we don't have that common understanding, nothing built upon those
-different understandings is going to work.
-
-> > > > =20
-> > > > I have tried to seek help from the people who effectively oversee m=
-e as
-> > > > =20
-> > > > a maintainer (i.e. the TSC) with limited success. I'm not sure what=
- to
-> > > > =20
-> > > > do from here.
-> > > > =20
-> > > > =20
-> > > > =20
-> > > =20
-> > > =20
-> > > =20
-> > > I really like to upstream my work because I think it would
-> > > simplify the package manager support, but there doesn't seem to
-> > > be much interest in the community for it.
-> > > =20
-> > > =20
-> > > =20
-> > =20
-> > People are too focused in their own problems to be able to spend
-> > enough time on these architectural type pieces. We do badly need
-> > this kind of work which is why I'm trying to help this move forward
-> > but equally we have to do it in a way which doesn't destablise our
-> > existing userbase, in other words we may have to make some
-> > compromises. I'd like to hope we pick the right ones. I'm worried
-> > as we have tried solutions for this space before and the fact we're
-> > discussing them again shows we haven't got it right yet.
-> > =20
-> =20
-> I always try my best to not break existing users. Therefore I keep
-> the old behavior of the existing tasks or function calls. But we need
-> to sharpen the concepts and unify the code base. We have different
-> solutions (like go-vendor.bbclass and gomod.py) for the same problem
-> and partial integration of features (like expanded_urldata).
->=20
-> I think we have to much theoretical discussion and to less code. I
-> would like to integrate a Fetcher OE library to remove the redundant
-> code, unify the codebase and use the extended URIs where appropriate.
-> This would fix some existing problems and could help in the next step
-> independence of the solution. Would that be okay with you?
-
-It would not be okay at all, no.=C2=A0
-
-I appreciate theoretical discussion is hard work but we've tried taking
-patches in the past and we've ended up making things worse. I can tell
-the direction you've been going isn't correct and is going to lead to
-patches which are unable to be merged.
-
-I've made it very very clear that the fetch module stays in bitbake and
-that we need to find a way to support this in the fetch module, not OE.
-Yes, that complicates things unfortunately but I have good reasons for
-doing it, whether you understand or agree with them or not. I'm not
-changing my mind on this.
-
-I will say your original patch series against bitbake was probably a
-lot closer to what I think we probably need. I didn't like the "magic"
-going on to extend the data so perhaps if that piece were reworked and
-made a more default/simpler/clearer part of the fetcher rather than
-hidden, we'd probably reach some code we could agree on.
-
-Cheers,
-
-Richard
-
-
-> =20
-
-
---=-iXzvDSlpvusdcAvmelfQ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-
-  <style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head>
-  <body><div>On Thu, 2025-02-20 at 10:48 +0100, Stefan Herbrechtsmeier wrot=
-e:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2=
-px #729fcf solid;padding-left:1ex"><div> </div><div class=3D"moz-cite-prefi=
-x">Am 19.02.2025 um 18:33 schrieb Richard Purdie:</div><blockquote type=3D"=
-cite" cite=3D"mid:e145b324f19953f80163dbfe8c403607e297bad0.camel@linuxfound=
-ation.org" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;paddin=
-g-left:1ex"><div> <style>pre,code,address { margin: 0px; }h1,h2,h3,h4,h5,h6=
- { margin-top: 0.2em; margin-bottom: 0.2em; }ol,ul { margin-top: 0em; margi=
-n-bottom: 0em; }blockquote { margin-top: 0em; margin-bottom: 0em; }</style>=
- </div><div>On Wed, 2025-02-19 at 17:48 +0100, Stefan Herbrechtsmeier wrote=
-:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2p=
-x #729fcf solid;padding-left:1ex"><div> </div><div> </div><div> </div><div =
-class=3D"moz-cite-prefix">I don't change the exception. The exceptions are =
-the reason for the state of the series.</div><div> </div><p> <br> The missi=
-ng point is that the expectation is related to the end of a dependency chai=
-n and not to a task itself. In any case the real expectation isn't clear. W=
-hat happens if the configuration need a compiled source and it isn't feasib=
-le to create a native package. My series satisfy the following expectations=
-:<br> <br> * All sources are downloaded after the do_fetch<br> * All source=
-s are unpacked after the do_unpack<br> * All sources are patched after the =
-do_patch</p><div> </div></blockquote><div> </div><div>I could try and reply=
- to all your points but this one jumps out as a really fundamental thing we=
- disagree on. All our existing code assumes that:</div><div> </div><div><br=
-> </div><div> </div><div>"All sources are downloaded during do_fetch"<br> <=
-br> </div><div> </div><div><br> </div><div> </div><div>which means once do_=
-fetch runs, we have all the sources. That is quite different to what you sa=
-y above. I fully appreciate it imposes quite some constraints but it doesn'=
-t change the fact that this is the situation.<br> </div><div> </div></block=
-quote><div> </div><p>I don't get the point. Do you say that only the do_fet=
-ch is allow to download anything? So my assumption that I can download some=
-thing outside the do_fetch task as long as the download happens if somethin=
-g depend on the fetch task (like bitbake -c fetch ...) is wrong?<br> <br> I=
- don't understand that requirement but I can fulfill it. The only consequen=
-ce is a complex do_fetch task.</p></blockquote><div><br></div><div>The fetc=
-h task is the only task allowed to access the network and is the only place=
- where the sources should be being downloaded. Once the do_fetch task compl=
-etes, we have everything we need from the network and no further network ac=
-cess is allowed.</div><div><br></div><div>So yes, your assumption is theref=
-ore wrong. I'm focusing on this as if we don't have that common understandi=
-ng, nothing built upon those different understandings is going to work.</di=
-v><div><br></div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; bord=
-er-left:2px #729fcf solid;padding-left:1ex"><blockquote type=3D"cite" cite=
-=3D"mid:e145b324f19953f80163dbfe8c403607e297bad0.camel@linuxfoundation.org"=
- style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex=
-"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #72=
-9fcf solid;padding-left:1ex"><blockquote type=3D"cite" cite=3D"mid:7537c9d9=
-305dd3c7d05cbf36bccfe47c1858f822.camel@linuxfoundation.org" style=3D"margin=
-:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div> </div><p=
-re>I have tried to seek help from the people who effectively oversee me as<=
-/pre><div> </div><pre>a maintainer (i.e. the TSC) with limited success. I'm=
- not sure what to</pre><div> </div><pre>do from here.</pre><div> </div><div=
-> </div><div> </div></blockquote><div> </div><div> </div><div> </div><p>I r=
-eally like to upstream my work because I think it would simplify the packag=
-e manager support, but there doesn't seem to be much interest in the commun=
-ity for it.</p><div> </div><div> </div><div> </div></blockquote><div> </div=
-><div>People are too focused in their own problems to be able to spend enou=
-gh time on these architectural type pieces. We do badly need this kind of w=
-ork which is why I'm trying to help this move forward but equally we have t=
-o do it in a way which doesn't destablise our existing userbase, in other w=
-ords we may have to make some compromises. I'd like to hope we pick the rig=
-ht ones. I'm worried as we have tried solutions for this space before and t=
-he fact we're discussing them again shows we haven't got it right yet.<br> =
-</div><div> </div></blockquote><div> </div><p>I always try my best to not b=
-reak existing users. Therefore I keep the old behavior of the existing task=
-s or function calls. But we need to sharpen the concepts and unify the code=
- base. We have different solutions (like go-vendor.bbclass and gomod.py) fo=
-r the same problem and partial integration of features (like expanded_urlda=
-ta).<br> <br> I think we have to much theoretical discussion and to less co=
-de. I would like to integrate a Fetcher OE library to remove the redundant =
-code, unify the codebase and use the extended URIs where appropriate. This =
-would fix some existing problems and could help in the next step independen=
-ce of the solution. Would that be okay with you?<br> </p></blockquote><div>=
-<br></div><div>It would not be okay at all, no.&nbsp;</div><div><br></div><=
-div>I appreciate theoretical discussion is hard work but we've tried taking=
- patches in the past and we've ended up making things worse. I can tell the=
- direction you've been going isn't correct and is going to lead to patches =
-which are unable to be merged.</div><div><br></div><div>I've made it very v=
-ery clear that the fetch module stays in bitbake and that we need to find a=
- way to support this in the fetch module, not OE. Yes, that complicates thi=
-ngs unfortunately but I have good reasons for doing it, whether you underst=
-and or agree with them or not. I'm not changing my mind on this.</div><div>=
-<br></div><div>I will say your original patch series against bitbake was pr=
-obably a lot closer to what I think we probably need. I didn't like the "ma=
-gic" going on to extend the data so perhaps if that piece were reworked and=
- made a more default/simpler/clearer part of the fetcher rather than hidden=
-, we'd probably reach some code we could agree on.</div><div><br></div><div=
->Cheers,</div><div><br></div><div>Richard</div><div><br></div><div><br></di=
-v><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #72=
-9fcf solid;padding-left:1ex"><div> </div></blockquote><div><br></div><div><=
-span></span></div></body></html>
-
---=-iXzvDSlpvusdcAvmelfQ--
+Alex
 
