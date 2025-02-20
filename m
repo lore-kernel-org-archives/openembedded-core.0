@@ -1,131 +1,102 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3922C021B0
-	for <webhook@archiver.kernel.org>; Wed, 19 Feb 2025 20:18:25 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.32923.1739996301848112873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4735C021AA
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 00:31:18 +0000 (UTC)
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web11.38716.1740011470770252682
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 12:18:22 -0800
+ Wed, 19 Feb 2025 16:31:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Gd3h9MDX;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202502192018192b89d72bc898ba73f2-mrm2z1@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202502192018192b89d72bc898ba73f2
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 19 Feb 2025 21:18:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=dnHcOGkxCndU2d+l06CDOL0Z7sHB1C7kTJwqoF9SGmw=;
- b=Gd3h9MDXiYwbXKotAChUczL7iagJOCPLmr7OmVdEujxXqN8QzCSbd3WTPiaSuoN4IdfR7f
- hroxCQ8PffI0opdsQzWmmQe6QrjFWplrY9V8msRAYYiYYO3tkK5KQtVt8BemuP/wL7viO216
- 352udOFZVYJ0hNoY2oKsc4k46s3hQbE3itm9FnX6CyCtYl7/CnqcB5Kls7CyxvDowu28Wxyk
- seExZNvphDwNlQNWdlY3rUQRPJPjqVKVaRALwie2VV/UCuXDtEjw4epXcHEUaw54HW+z6N0r
- Rxm7vbVaM0K6iJT/QYVOjoAOEmGI1UqR4M42heD9L13MfuvdqXIwtU9w==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ft8Vymyd;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1740011471; x=1771547471;
+  h=from:to:cc:subject:date:message-id;
+  bh=a75OVgz4pBlYYbJizUvGfwdtgOoqYwuFpG/2s9rJNYM=;
+  b=ft8Vymyd+rXdx5TZJkT5ojrWaSx7Z2WJbVwXP4JavUA0kD326ePQhqgs
+   vDr/5aaNfCwdnnQkHquK5tchvkZS40WIf3alT9Sbxu1fNKKpGTkLBtsVa
+   4UWmqK11ivcJstuUXX94mifRMIG6geXuTYbKWPCTGqbyaYx3ND3DkZ0mQ
+   zigjOYQtXESPz+qJIc3SrchW8o5064ANVMkc0MeNnFp4NtY/aTRTfop/k
+   w1SVp/d7hWcOPBzCaSdtVZLuncmXVvMFd2yGVAPlv2HMq0T7ZVZHJ4csm
+   G4cy3+U7XzIbEwm2BRJq4WQG5/kAQWW5LFvIYNCI8RxQmGT84UnBEEcwt
+   Q==;
+X-CSE-ConnectionGUID: MvW/J5OsSx+hxCgzvgpcBw==
+X-CSE-MsgGUID: 2KkbSbkARI2pGCWcAJX9gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="190613385"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732546800"; 
+   d="scan'208";a="190613385"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 09:31:08 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 79D07D4811
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 09:31:06 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 3FE66D52E3
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 09:31:06 +0900 (JST)
+Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id B27721A000B;
+	Thu, 20 Feb 2025 08:31:05 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 3/3] libxml2: patch CVE-2025-24928
-Date: Wed, 19 Feb 2025 21:17:16 +0100
-Message-Id: <20250219201716.3814140-3-peter.marko@siemens.com>
-In-Reply-To: <20250219201716.3814140-1-peter.marko@siemens.com>
-References: <20250219201716.3814140-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] pango: upgrade 1.55.5 -> 1.56.1
+Date: Thu, 20 Feb 2025 08:31:00 +0800
+Message-Id: <1740011460-3468-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:18:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211734
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 00:31:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211735
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Pick commit fomr 2.12 branch.
+Add python3-docutils-native to provide rst2html5
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Changelog:
+==========
+- Avoid criticals when there are no fonts
+- fontconfig: Handle lack of FC_FONT_WRAPPER in font cache
+- fontconfig: Prefer application fonts even if they are older
+- Support setting font features in font descriptions
+- serialization: Document the tab array format
+- serialization: Accept attributes without range
+- win32: Improve the pango_font_map_reload_implementation
+- win32: Take variations into account for caching
+- layout: Fix measuring ellipsis runs with shapes
+- build: Require C11
+- build: Require GLib 2.80
+- build: Require cairo 1.18
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libxml/libxml2/CVE-2025-24928.patch       | 58 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-24928.patch
+ .../pango/{pango_1.55.5.bb => pango_1.56.1.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/pango/{pango_1.55.5.bb => pango_1.56.1.bb} (90%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-24928.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-24928.patch
-new file mode 100644
-index 0000000000..6da43f81a5
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2025-24928.patch
-@@ -0,0 +1,58 @@
-+From 858ca26c0689161a6b903a6682cc8a1cc10a0ea8 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Tue, 11 Feb 2025 17:30:40 +0100
-+Subject: [PATCH] [CVE-2025-24928] Fix stack-buffer-overflow in
-+ xmlSnprintfElements
-+
-+Fixes #847.
-+
-+CVE: CVE-2025-24928
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/858ca26c0689161a6b903a6682cc8a1cc10a0ea8]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ valid.c | 25 +++++++++++++------------
-+ 1 file changed, 13 insertions(+), 12 deletions(-)
-+
-+diff --git a/valid.c b/valid.c
-+index ed3c8503..36a0435b 100644
-+--- a/valid.c
-++++ b/valid.c
-+@@ -5259,25 +5259,26 @@ xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
-+ 	    return;
-+ 	}
-+         switch (cur->type) {
-+-            case XML_ELEMENT_NODE:
-++            case XML_ELEMENT_NODE: {
-++                int qnameLen = xmlStrlen(cur->name);
-++
-++                if ((cur->ns != NULL) && (cur->ns->prefix != NULL))
-++                    qnameLen += xmlStrlen(cur->ns->prefix) + 1;
-++                if (size - len < qnameLen + 10) {
-++                    if ((size - len > 4) && (buf[len - 1] != '.'))
-++                        strcat(buf, " ...");
-++                    return;
-++                }
-+ 		if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
-+-		    if (size - len < xmlStrlen(cur->ns->prefix) + 10) {
-+-			if ((size - len > 4) && (buf[len - 1] != '.'))
-+-			    strcat(buf, " ...");
-+-			return;
-+-		    }
-+ 		    strcat(buf, (char *) cur->ns->prefix);
-+ 		    strcat(buf, ":");
-+ 		}
-+-                if (size - len < xmlStrlen(cur->name) + 10) {
-+-		    if ((size - len > 4) && (buf[len - 1] != '.'))
-+-			strcat(buf, " ...");
-+-		    return;
-+-		}
-+-	        strcat(buf, (char *) cur->name);
-++                if (cur->name != NULL)
-++	            strcat(buf, (char *) cur->name);
-+ 		if (cur->next != NULL)
-+ 		    strcat(buf, " ");
-+ 		break;
-++            }
-+             case XML_TEXT_NODE:
-+ 		if (xmlIsBlankNode(cur))
-+ 		    break;
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 2facf67ebd..4c7d51ebe7 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -35,6 +35,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2024-34459.patch \
-            file://0001-pattern-Fix-compilation-of-explicit-child-axis.patch \
-            file://CVE-2024-56171.patch \
-+           file://CVE-2025-24928.patch \
-            "
+diff --git a/meta/recipes-graphics/pango/pango_1.55.5.bb b/meta/recipes-graphics/pango/pango_1.56.1.bb
+similarity index 90%
+rename from meta/recipes-graphics/pango/pango_1.55.5.bb
+rename to meta/recipes-graphics/pango/pango_1.56.1.bb
+index 6c7242274f..6ee43f356a 100644
+--- a/meta/recipes-graphics/pango/pango_1.55.5.bb
++++ b/meta/recipes-graphics/pango/pango_1.56.1.bb
+@@ -18,9 +18,9 @@ UPSTREAM_CHECK_REGEX = "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
+ GIR_MESON_ENABLE_FLAG = "enabled"
+ GIR_MESON_DISABLE_FLAG = "disabled"
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+-SRC_URI[archive.sha256sum] = "e396126ea08203cbd8ef12638e6222e2e1fd8aa9cac6743072fedc5f2d820dd8"
++SRC_URI[archive.sha256sum] = "426be66460c98b8378573e7f6b0b2ab450f6bb6d2ec7cecc33ae81178f246480"
+ 
+-DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
++DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi python3-docutils-native"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+ 
+-- 
+2.43.0
+
 
