@@ -1,85 +1,86 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <rogerio.borin@toradex.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A33C021B2
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 18:35:17 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.4652.1740076507168923125
- for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Feb 2025 10:35:08 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=f72nUlvh;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202502201835041bc289cd6b1968bee0-cpyabx@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202502201835041bc289cd6b1968bee0
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 20 Feb 2025 19:35:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=8pQeC9u5sC9/WyRKq7kyD5jbAfeevTvtDxrLcQrH+ck=;
- b=f72nUlvh/LbolRwyMD/+7eHNRUOV6Zk8DxzfnUYLD6DkH89f02h0/wxHg3TcoPTVxHEZI2
- h32OcwAIzVpnDJAg/C5gC4vBCvf2DxtZhVyEZKNRoQ0H7+YJ7u5HOg8PxmyKlgiLcMgVj2q8
- BPCLUPVd/Kq+Rl2cGbCjMiKD9zSwYrr2r4ihf5fuJBnlRiYy9aRk8t3877fO5MJ+Aak58IO0
- XUH7F9fA80KZyLPSihVtfGvtXafzlGx41wbIlAWFQvW/6fIktMjM+rWZDFx1HzR+XFWWlO4P
- YnuCBh8pNtJ871pOF9Fu1KoF/BEGsNY4M9GaFHrgLLEoPM7iPrKk3nAg==;
-From: Peter Marko <peter.marko@siemens.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 457CCC021B1
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 19:22:08 +0000 (UTC)
+Subject: Re: [RFC] uboot-sign: Fix u-boot dtb signatures
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 1/2] ffmpeg: ignore 5 CVEs
-Date: Thu, 20 Feb 2025 19:34:15 +0100
-Message-Id: <20250220183416.179109-1-peter.marko@siemens.com>
+From: "Rogerio Guerra Borin" <rogerio.borin@toradex.com>
+X-Originating-Location: =?UTF-8?B?U8OjbyBQYXVsbywgU2FvIFBhdWxvLCBCUg==?= (189.33.122.79)
+X-Originating-Platform: Linux Firefox 134
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Date: Thu, 20 Feb 2025 11:22:04 -0800
+References: <20250220144012.27057-1-l.anderweit@phytec.de>
+In-Reply-To: <20250220144012.27057-1-l.anderweit@phytec.de>
+Message-ID: <16618.1740079324041661447@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="ju5MTSar19gndDRBbDaS"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 18:35:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211773
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 19:22:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211775
 
-From: Peter Marko <peter.marko@siemens.com>
+--ju5MTSar19gndDRBbDaS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is no release which is vulnerable to these CVEs.
-These vulnerabilities are in new features being developed and were fixed
-before release.
+Hi Leonard,
 
-NVD most likely does not accept CVE rejection from a non-maintainer and
-non-reporter, so ignoring this CVE should be acceptable solution.
+I've tested your patch and I wanted to let you know it worked fine for me b=
+oth when FIT_SIGN_INDIVIDUAL=3D"1" or "0". I've checked the contents of the=
+ u-boot dtb (for the presence of the required pubkeys) and the fitImage (fo=
+r the signatures) and the results match what we had before commit d7bd9c627=
+66 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and =
+UBOOT_ENV enabled").
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+As for the patch, since the understanding is that when FIT_SIGN_INDIVIDUAL=
+=3D"1" the individual images will be signed besides the signing of the conf=
+igurations then I'd say that sentence in the comment "Signing individual im=
+ages is not recommended as that makes fitImage susceptible to mix-and-match=
+ attack" seems unnecessary/misleading to me since it gives the impression t=
+hat one would get either images or configurations signed.
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index b5b11496f4..bded23bc35 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -57,6 +57,24 @@ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a
- # https://bugzilla.suse.com/show_bug.cgi?id=CVE-2023-39018
- CVE_CHECK_IGNORE += "CVE-2023-39018"
- 
-+# There is no release which is vulnerable to these CVEs
-+# These vulnerabilities are in new features being developed and fixed before releasing them
-+# feature (jpeg xl): https://github.com/FFmpeg/FFmpeg/commit/0c0dd23fe1102313742092c4760596971755814e
-+# bugfix: https://github.com/FFmpeg/FFmpeg/commit/bf814387f42e9b0dea9d75c03db4723c88e7d962
-+CVE_CHECK_IGNORE += "CVE-2023-46407"
-+# feature (evc parser): https://github.com/FFmpeg/FFmpeg/commit/34e4f18360c4ecb8e5979cab8f389478d8cd7819
-+# bugfix: https://github.com/FFmpeg/FFmpeg/commit/4565747056a11356210ed8edcecb920105e40b60
-+CVE_CHECK_IGNORE += "CVE-2023-47470"
-+# feature (jpeg xl): https://github.com/FFmpeg/FFmpeg/commit/0c0dd23fe1102313742092c4760596971755814e
-+# bugfix: https://github.com/FFmpeg/FFmpeg/commit/d2e8974699a9e35cc1a926bf74a972300d629cd5
-+CVE_CHECK_IGNORE += "CVE-2024-22860"
-+# feature (oqs audio decoder): https://github.com/FFmpeg/FFmpeg/commit/7ef9d31071021c05e6b792af3f25b7b9ceaa9258
-+# bugfix: https://github.com/FFmpeg/FFmpeg/commit/87b8c1081959e45ffdcbabb3d53ac9882ef2b5ce
-+CVE_CHECK_IGNORE += "CVE-2024-22861"
-+# feature (jpeg xl): https://github.com/FFmpeg/FFmpeg/commit/0c0dd23fe1102313742092c4760596971755814e
-+# bugfix: https://github.com/FFmpeg/FFmpeg/commit/ca09d8a0dcd82e3128e62463231296aaf63ae6f7
-+CVE_CHECK_IGNORE += "CVE-2024-22862"
-+
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
+As for the check performed at build time by the "fit_check_sign" tool, the =
+fact that now the check is done only on the configuration doesn't seem like=
+ a big loss to me. Though I imagine the ideal solution would be to have tha=
+t check on the final fitImage rather than on a temporary one (unused.itb) i=
+n order to provide stronger guarantees that the image is correctly signed. =
+However, this would likely complicate things which may make it not worth th=
+e effort...
+
+Regards
+
+--ju5MTSar19gndDRBbDaS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Leonard,</div>
+<div>&nbsp;</div>
+<div>I've tested your patch and I wanted to let you know it worked fine for=
+ me both when FIT_SIGN_INDIVIDUAL=3D"1" or "0". I've checked the contents o=
+f the u-boot dtb (for the presence of the required pubkeys) and the fitImag=
+e (for the signatures) and the results match what we had before commit d7bd=
+9c62766 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE=
+ and UBOOT_ENV enabled").</div>
+<div>&nbsp;</div>
+<div>As for the patch, since the understanding is that when FIT_SIGN_INDIVI=
+DUAL=3D"1" the individual images will be signed besides the signing of the =
+configurations then I'd say that sentence in the comment "Signing individua=
+l images is not recommended as that makes fitImage susceptible to mix-and-m=
+atch attack" seems unnecessary/misleading to me since it gives the impressi=
+on that one would get either images or configurations signed.</div>
+<div>&nbsp;</div>
+<div>As for the check performed at build time by the "fit_check_sign" tool,=
+ the fact that now the check is done only on the configuration doesn't seem=
+ like a big loss to me. Though I imagine the ideal solution would be to hav=
+e that check on the final fitImage rather than on a temporary one (unused.i=
+tb) in order to provide stronger guarantees that the image is correctly sig=
+ned. However, this would likely complicate things which may make it not wor=
+th the effort...</div>
+<div>&nbsp;</div>
+<div>Regards</div>
+
+--ju5MTSar19gndDRBbDaS--
 
