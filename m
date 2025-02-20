@@ -1,111 +1,132 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C816C021AD
-	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 03:57:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.42136.1740023848562975565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A0BC021AD
+	for <webhook@archiver.kernel.org>; Thu, 20 Feb 2025 04:05:49 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.42259.1740024341900525166
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Feb 2025 19:57:28 -0800
+ Wed, 19 Feb 2025 20:05:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=41466d0882=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51K2MnnP015464;
-	Thu, 20 Feb 2025 03:57:27 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00khvra-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 20 Feb 2025 03:57:27 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 19 Feb 2025 19:57:25 -0800
-Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 19 Feb 2025 19:57:25 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <joerg.sommer@navimatix.de>
-Subject: [PATCH] Revert "python3-ctypes: depend on ldconfig only if distro-feature set"
-Date: Thu, 20 Feb 2025 11:57:24 +0800
-Message-ID: <20250220035724.1460062-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=KDuha8R+;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2211cd4463cso8041155ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Feb 2025 20:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1740024341; x=1740629141; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qAuEk6WBqblXs4SOBFyYpPxnjxRTRpXnmiIAGPQdEzg=;
+        b=KDuha8R+/CmPFmOs5fb19EPQGtrw66xDvwHtIeX7dYPag6K98vNs1b+9Q7doz5etg/
+         T4AcZCmqpl/1LCwqp+s6GEY5s1Y6J5GO2pLL7AIY4dK3IEr4Eodtz2lkIkItCBIXNrok
+         NbALho8WXkd9Xx46uRg39ziqXcJlPrBeaY4wA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740024341; x=1740629141;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qAuEk6WBqblXs4SOBFyYpPxnjxRTRpXnmiIAGPQdEzg=;
+        b=i4pKh2tzqpoh92KSH18/U3DF3Oks6XpYYdyfZghc39cRBNM4BBs7axWkAgeV2/eHvr
+         HYkuUYFAl81VghbGdTurg/XrmGrz/DkhRiJlqX36bQs8EFBLKy8Kgoobz6qdu/3wMfnQ
+         +VQFVOcprBEEKK5GNZK4y8bBUNH95VvcbVY+hVYZTKM94+uM0KWSQ80sJUZl/+ueD979
+         uKQUgZvz5NNT4BnY1sdaP/tF11Q8Uep4U5+7VUsUVHk42/kptzZHx7HX8ScekTm4Z2tV
+         RNeHn1gmMyvym/T3S1BRArnnljgb3MD4dTOnoXiAdfUP6b0r37lwbaTSV7gXtzILTFFQ
+         eDHQ==
+X-Gm-Message-State: AOJu0Yy/ESde/jBGdUsXzYYq5kC2dGPNgOq2Ek98UBDPiATa9xOEqmSd
+	TFokI8hy6r5u1DOr28HqyFkQ4Dh4MXx5IGUjW7NOb8x9wnAZQ+MaCIHivw4U1MW+o/Cf7q+oOWf
+	j
+X-Gm-Gg: ASbGncuHJ90l5/jTuV5qJJqbvpJl6lFQLjVbV7j0Dj5ez6nwmmmon0Fo/j39C7gPg+s
+	6S9u02fSokbI7PV7rMdXOMPnhY1uQi6r/asWCGbztX85GOQz/g87TBotWuR7Ww7cmSMPUO7Lbgf
+	3LuTRcofRrqYRgrhc+ZErJYfaMw6+M0ombEBbFLRUVMqMQ55kH8bt67XpmdfetIjcqM5wVh3A6U
+	FDCLqIX/jdx1mpqoq/hNcZXdVrkKb9Oqg0qmRzbKk9wq1yGGikZQV7wNn9mRVQpOpwjGeYpExb4
+	3RZb3zzqW/oBnQyC3tpkujkTjwPUHw==
+X-Google-Smtp-Source: AGHT+IGrUtu6PXSFZ2Gnb/Tz72bktKMj/PHUNd7o6Rv8rdKsun77dMWQ5/boeJUrpzWl8wfXRDNrpQ==
+X-Received: by 2002:a05:6300:8081:b0:1ee:ab62:c37 with SMTP id adf61e73a8af0-1eeab620eb2mr21220659637.11.1740024341162;
+        Wed, 19 Feb 2025 20:05:41 -0800 (PST)
+Received: from MVIN00016.mvista.com ([150.129.170.172])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732814ebb76sm6485224b3a.141.2025.02.19.20.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 20:05:40 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libcap: fix CVE-2025-1390
+Date: Thu, 20 Feb 2025 09:35:16 +0530
+Message-Id: <20250220040516.24786-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: fmF_-ILkboklNgKPAlXu-quZENm9SkgH
-X-Proofpoint-ORIG-GUID: fmF_-ILkboklNgKPAlXu-quZENm9SkgH
-X-Authority-Analysis: v=2.4 cv=BvtnwZX5 c=1 sm=1 tr=0 ts=67b6a827 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=8AHkEIZyAAAA:8 a=t7CeM3EgAAAA:8 a=p6ubOPH-QTuxIksJp-IA:9
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_11,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0 clxscore=1011
- malwarescore=0 phishscore=0 mlxscore=0 spamscore=0 impostorscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2502200025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 03:57:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211736
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 04:05:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211737
 
-From: Changqing Li <changqing.li@windriver.com>
+Upstream-Status: Backport from https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=1ad42b66c3567481cc5fa22fc1ba1556a316d878
 
-In oe-core, function ldconfig_postinst_fragment use exist of
-/sbin/ldconfig to decide if ldconfig is runned to generate the cache,
-and function _run_ldconfig will run ldconfig to generate cache during
-generate rootfs.  ldconfig.service is actually not used since we have
-generate ld.so.cache during do_rootfs, refer[1][2][3]. ldconfig
-dependency is necessary when ldconfig not in DISTRO_FEATURES.
-
-The reverted commit causes regression when ldconfig not in
-DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
-ctypes.util.find_library(name) can find the lib if it is installed, now,
-since ldconfig is not installed, ctypes.util.find_library(name) cannot
-find the lib even if it is installed.
-
-Here is one usecase(gtk+3 lib is installed, ctypes.util.find_library
-used to find the lib):
-import wx.lib.wxcairo as wxcairo
-File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/{}init{}.py", line 59, in <module>
-  from .wx_cairocffi import _ContextFromDC, _FontFaceFromFont
-File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 189, in <module>
-  gdkLib = _findGDKLib()
-File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 181, in _findGDKLib
-  return _findHelper([libname], 'gdk',
-                     "Unable to find the GDK shared library")
-File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 170, in _findHelper
-  raise RuntimeError(msg)
-RuntimeError: Unable to find the GDK shared library
-
-[1] https://git.openembedded.org/openembedded-core/tree/meta/classes-global/package.bbclass#n394
-[2] https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootfs.py#n316
-[3] https://github.com/systemd/systemd-stable/blob/v255-stable/units/ldconfig.service
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/python/python3_3.13.2.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../libcap/files/CVE-2025-1390.patch          | 36 +++++++++++++++++++
+ meta/recipes-support/libcap/libcap_2.69.bb    |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libcap/files/CVE-2025-1390.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipes-devtools/python/python3_3.13.2.bb
-index 52fac76c00..f64d67da89 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -477,9 +477,7 @@ FILES:${PN}-man = "${datadir}/man"
- 
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
- RDEPENDS:libpython3:append:libc-glibc = " libgcc"
--RDEPENDS:${PN}-ctypes:append:libc-glibc = "\
--    ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)} \
--"
-+RDEPENDS:${PN}-ctypes:append:libc-glibc = " ${MLPREFIX}ldconfig"
- RDEPENDS:${PN}-ptest = "\
-     ${PN}-dev \
-     ${PN}-modules \
+diff --git a/meta/recipes-support/libcap/files/CVE-2025-1390.patch b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
+new file mode 100644
+index 0000000000..a0f7dda503
+--- /dev/null
++++ b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
+@@ -0,0 +1,36 @@
++From 1ad42b66c3567481cc5fa22fc1ba1556a316d878 Mon Sep 17 00:00:00 2001
++From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
++Date: Mon, 17 Feb 2025 10:31:55 +0800
++Subject: pam_cap: Fix potential configuration parsing error
++
++The current configuration parsing does not actually skip user names
++that do not start with @, but instead treats the name as a group
++name for further parsing, which can result in matching unexpected
++capability sets and may trigger potential security issues.  Only
++names starting with @ should be parsed as group names.
++
++Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
++Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=1ad42b66c3567481cc5fa22fc1ba1556a316d878]
++CVE: CVE-2025-1390
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ pam_cap/pam_cap.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/pam_cap/pam_cap.c b/pam_cap/pam_cap.c
++index b9419cb..18647a1 100644
++--- a/pam_cap/pam_cap.c
+++++ b/pam_cap/pam_cap.c
++@@ -166,6 +166,7 @@ static char *read_capabilities_for_user(const char *user, const char *source)
++ 
++ 	    if (line[0] != '@') {
++ 		D(("user [%s] is not [%s] - skipping", user, line));
+++		continue;
++ 	    }
++ 
++ 	    int i;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libcap/libcap_2.69.bb b/meta/recipes-support/libcap/libcap_2.69.bb
+index 92fa766d37..03975b44a0 100644
+--- a/meta/recipes-support/libcap/libcap_2.69.bb
++++ b/meta/recipes-support/libcap/libcap_2.69.bb
+@@ -15,6 +15,7 @@ DEPENDS = "hostperl-runtime-native gperf-native"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
+            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
+            file://0002-tests-do-not-run-target-executables.patch \
++           file://CVE-2025-1390.patch \
+            "
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
 -- 
-2.34.1
+2.25.1
 
 
