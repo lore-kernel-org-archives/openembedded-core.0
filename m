@@ -1,120 +1,62 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <rob.woolley@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4F1C021B3
-	for <webhook@archiver.kernel.org>; Fri, 21 Feb 2025 14:34:25 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.24180.1740148455550355892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1695C021B5
+	for <webhook@archiver.kernel.org>; Fri, 21 Feb 2025 14:38:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.24235.1740148692833346265
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Feb 2025 06:34:15 -0800
+ Fri, 21 Feb 2025 06:38:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FlcQlisn;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6D1994326B;
-	Fri, 21 Feb 2025 14:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1740148453;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MfPNfinsoZ2rMd9mitQehyxn1xJ4e22aJH7FFkWkzno=;
-	b=FlcQlisnkQB8AZfOQrGx1soq0cNVRkhgCyO0J8sjJZIw11KsNzSLQHOk3ZJBiw+uWH1OYm
-	y5JW89XbTZaiVXzs09R6spn7STEoIMZJ3ZIjcbobpLgohCz19ZJewbLDIV81WwbTEZeD7F
-	RInM/651kc+IhdF0pkLVEqsCO9Qxi5mJbrUPc0cg8wYnnBgfYqvsIi/+gjvPI2VEEnnrEf
-	IfAGYv+UJohLdd6A68q0u1s2QKbAj6QRaKn50K9CUaT5deDQ/p3tCw0ukp53yiQgWZc4pN
-	IZD4928NFIpK9miSntEd9j4N886WgIIZDdcPZxn3l1SnLxuVPxTZbo9qnGZlGA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Feb 2025 15:34:12 +0100
-Message-Id: <D7Y7576F5D4R.128DYAUZ74YXF@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <changqing.li@windriver.com>,
- <openembedded-core@lists.openembedded.org>, <joerg.sommer@navimatix.de>
-Subject: Re: [OE-core] [PATCH] Revert "python3-ctypes: depend on ldconfig
- only if distro-feature set"
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20250220035724.1460062-1-changqing.li@windriver.com>
-In-Reply-To: <20250220035724.1460062-1-changqing.li@windriver.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejtddvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpegggfgtfffkhffvuffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepledufeevteegteetgeehieeujeehgeelfeejvdeliefhfeffkefhgfejieeigffhnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdprhhoohhtfhhsrdhphidpghhithhhuhgsrdgtohhmpdihohgtthhophhrohhjvggtthdrohhrghdphihotghtohdrihhopdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemsggvjedumeekfedtugemfhekvggvmeefgeguudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemsggvjedumeekfedtugemfhekvggvmeefgeguuddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopegthhgrn
- hhgqhhinhhgrdhlihesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehjohgvrhhgrdhsohhmmhgvrhesnhgrvhhimhgrthhigidruggv
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4147424817=rob.woolley@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51LCiPXO002957
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 06:38:12 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44xqcar7ff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 06:38:12 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 21 Feb 2025 06:38:11 -0800
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 21 Feb 2025 06:38:11 -0800
+From: Rob Woolley <rob.woolley@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe] [OE-Core][PATCH 0/2] Backport glvnd support to Kirkstone
+Date: Fri, 21 Feb 2025 06:38:09 -0800
+Message-ID: <20250221143811.2072024-1-rob.woolley@windriver.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 8fv91hj9xnq_OTPLl2DrEc-421plE0Zx
+X-Authority-Analysis: v=2.4 cv=Xb9zzJ55 c=1 sm=1 tr=0 ts=67b88fd4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=-OZN-FxsRxjCSrLKQukA:9
+X-Proofpoint-GUID: 8fv91hj9xnq_OTPLl2DrEc-421plE0Zx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-21_04,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ mlxscore=0 phishscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=528
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2502210106
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 14:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211801
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 14:38:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211802
 
-On Thu Feb 20, 2025 at 4:57 AM CET, Changqing Li via lists.openembedded.org=
- wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->
-> In oe-core, function ldconfig_postinst_fragment use exist of
-> /sbin/ldconfig to decide if ldconfig is runned to generate the cache,
-> and function _run_ldconfig will run ldconfig to generate cache during
-> generate rootfs.  ldconfig.service is actually not used since we have
-> generate ld.so.cache during do_rootfs, refer[1][2][3]. ldconfig
-> dependency is necessary when ldconfig not in DISTRO_FEATURES.
->
-> The reverted commit causes regression when ldconfig not in
-> DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
-> ctypes.util.find_library(name) can find the lib if it is installed, now,
-> since ldconfig is not installed, ctypes.util.find_library(name) cannot
-> find the lib even if it is installed.
->
-> Here is one usecase(gtk+3 lib is installed, ctypes.util.find_library
-> used to find the lib):
-> import wx.lib.wxcairo as wxcairo
-> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/{}init{}.py", line=
- 59, in <module>
->   from .wx_cairocffi import _ContextFromDC, _FontFaceFromFont
-> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", =
-line 189, in <module>
->   gdkLib =3D _findGDKLib()
-> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", =
-line 181, in _findGDKLib
->   return _findHelper([libname], 'gdk',
->                      "Unable to find the GDK shared library")
-> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", =
-line 170, in _findHelper
->   raise RuntimeError(msg)
-> RuntimeError: Unable to find the GDK shared library
->
-> [1] https://git.openembedded.org/openembedded-core/tree/meta/classes-glob=
-al/package.bbclass#n394
-> [2] https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootf=
-s.py#n316
-> [3] https://github.com/systemd/systemd-stable/blob/v255-stable/units/ldco=
-nfig.service
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
+Applications built with CMake use FindOpenGL.cmake to find suitable OpenGL
+libraries. GLVND is reputed to be "the only way to get OpenGL 3+ functionality
+via EGL in a manner portable across vendors"
 
-Hi,
+The mesa release in Kirkstone already supports glvnd, however it was not
+exposed through the recipe until later Yocto releases.
 
-Thanks for your patch. However, I believe this is introducing some
-regression: I've got some ptest failures on the autobuilder:
-
-AssertionError:
-Failed ptests:
-{'python3': ['test_timerfd_TFD_TIMER_ABSTIME', 'python3']}
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/992
-
-You can get some more advanced about ptest failures in there:
-
-https://valkyrie.yocto.io/pub/non-release/20250221-33/testresults/qemux86-6=
-4-ptest/core-image-ptest-python3/
-
-Can you have a look at this issue please?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+This backport allows glvnd to be enabled as a PACKAGECONFIG for mesa.
 
