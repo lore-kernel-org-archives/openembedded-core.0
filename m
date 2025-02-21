@@ -1,344 +1,222 @@
-Return-Path: <rogerio.borin@toradex.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49B2C021B3
-	for <webhook@archiver.kernel.org>; Fri, 21 Feb 2025 14:16:14 +0000 (UTC)
-Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.109.113])
- by mx.groups.io with SMTP id smtpd.web11.23712.1740147364949749495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCEA2C021B5
+	for <webhook@archiver.kernel.org>; Fri, 21 Feb 2025 14:30:44 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web11.14060.1740102902325200351
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Feb 2025 06:16:05 -0800
+ Thu, 20 Feb 2025 17:55:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@toradex.com header.s=toradex-com header.b=I5gbmgrW;
- spf=pass (domain: toradex.com, ip: 194.104.109.113, mailfrom: rogerio.borin@toradex.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
-	t=1740147363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvAmkEwjDwkoJ6BTsAvzSs3i3jsXL3r23JUnH3nnAaI=;
-	b=I5gbmgrWVT5FtRJR7B/gBzjjnUJefZoogVlVrMTP2z/q6UnU5qdnZ+RU6r7Cf5Gd1FZ1Ke
-	XHA6r93IAZDAuZ0FYVFiT4APkOOeTBw6ONc+OfTbwHu82jP2nRilbhOaGymarX7RtYTem1
-	0ZNVqOagIZaGvsJrX0Nx5nqBLzs+Fdk=
-Received: from ZR1P278CU001.outbound.protection.outlook.com
- (mail-switzerlandnorthazlp17012050.outbound.protection.outlook.com
- [40.93.85.50]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- de-mta-71-7dO6EUZvPDm6UysWmYqy3A-1; Fri, 21 Feb 2025 15:16:01 +0100
-X-MC-Unique: 7dO6EUZvPDm6UysWmYqy3A-1
-X-Mimecast-MFC-AGG-ID: 7dO6EUZvPDm6UysWmYqy3A_1740147360
-Received: from GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:30::13)
- by ZR0P278MB0026.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:19::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
- 2025 14:15:58 +0000
-Received: from GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM
- ([fe80::797c:7290:661d:7a99]) by GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM
- ([fe80::797c:7290:661d:7a99%4]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
- 14:15:58 +0000
-Message-ID: <da99bdf6-49d6-4efa-861b-9277f01e0588@toradex.com>
-Date: Fri, 21 Feb 2025 11:15:50 -0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Broken FIT image signing since "u-boot:
- kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV
- enabled"
-To: Sean Anderson <seanga2@gmail.com>, Marek Vasut <marex@denx.de>,
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RmhmhL4h;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: seanga2@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4702181a59aso1912771cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Feb 2025 17:55:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740102901; x=1740707701; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IteYuPgNemJ8wkoCvGJ8uCw0laL7jKmGDOhMLYpLuFY=;
+        b=RmhmhL4hmwcUZYgaLeKC/ctG7rtl+XAHINr+CTQen2aZvlFXT8KVD8TP19loyp4tcz
+         Kt5FVD/F5SnwOevcD5C1bxwggN6XNthkK9PY9u4rZ/0eBSMmGH0C3GZIGu/8M40CyJTF
+         /yMfX5Q4lkOdwBXDxuU6x6CQEAwRI1EnYvFuUEHmeytb2taQtDSs5MhHvghSWqOkywbE
+         3oA/Q/PR9Fdr9IMGtqgWZxvMUOpMuUKvqqxIyhQWhr5NJcoyLp3BWhR5LrlbeUIdU0xn
+         bBk8O4YBK07TUCH5Qked8Y8fvP9LpHivq1RRqpwH5Pah0zlwBTXNBDpeZl5et4y/3TNH
+         OWnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740102901; x=1740707701;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IteYuPgNemJ8wkoCvGJ8uCw0laL7jKmGDOhMLYpLuFY=;
+        b=ETaAewlQXm/w6NeFdvYLoAFfozQFhuW07PZsnuILe03nv/VW3MgqSV6YKFYZ8kuPtr
+         uZOKV+U5EHIkAt3fk1rBjocrZntIzL2y444AWW26gpt1d6vWkMbrOspT8YvMnvnLpPXe
+         2sJH9i7cYAry+yN5/OHQTmkjvvtb9wS/ogvzll5Z5gDZVq4BZrn2AsqeiPNOZ+afOISd
+         Yr/BrQw69l6cJR8ZwBnRTNAl2pdjfzrsoFuHz5iS+BJ/TC6OxjiGwNWdrMaFJuPiW9rG
+         am757iWXMgo48TVLQweKpl/zvE8uONW4Sbcc0krNMCBRB5EuXKOS5Uvuyn/Fx35O2feM
+         bV2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWrY7dZ3b9X1rcxV6cySEzJsGMj4fHxAm+ynw5HwHDnt5BFgTIMWvCu7vbmOfzj9MLRYA/XQU0Ask4ICvRIp1lT8A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzxcxXnHGTa4FgzhlMSREQLVnqyd1KFrkFRtqzmYVLorNRx03eI
+	y3SzOHpx8ecSD2LdlR8x4GZe9QlPd5rAHAjwdVc0LpjYKvMNau7a
+X-Gm-Gg: ASbGnctrNIV4XmfW9y8xWd5/kEZ6zqMglQT+qRmK/WZY/PscSgTazS+66r/EkP7pl+p
+	ihxtyEH7X9/w+iRXOstbFMjdxLHo5CzIncM6HF0opPw4hXSWLO5fYGOGWzCqL7IkmG/Q2c/u57i
+	o8/XdxElv3htTgxZpsH0PYvb7J+iXeZcv/eaRNDivh335SFtFwF7mpReovSo12zl9l2Rj0aj5aF
+	oapWauwxPkZGMJ7eUlN9NMaKEL9zJrc7ss2tLu7usxDogVI4VIl6mPqXoo0MzTt/D9fkoZfOF85
+	FpgCNZfOlLIa8he8/+R3qOxw7V4k9N3Msy91HXlt1x0ssvSktxRW3B3vFf5ap2A54Oe+82Qb9BW
+	X1w==
+X-Google-Smtp-Source: AGHT+IELgOVF52lvPAJHt+FunLSHNJyRfulp29r8ojWPSB4329PSeZfMZK4PGa1HqlWlHiwrZrKOHg==
+X-Received: by 2002:a05:620a:2291:b0:7c0:bc63:7b73 with SMTP id af79cd13be357-7c0cef75702mr72002385a.13.1740102901038;
+        Thu, 20 Feb 2025 17:55:01 -0800 (PST)
+Received: from [192.168.1.201] (pool-108-28-192-105.washdc.fios.verizon.net. [108.28.192.105])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0b368d200sm312882885a.99.2025.02.20.17.54.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 17:54:59 -0800 (PST)
+Message-ID: <f5807fe9-d460-8f69-c480-84396db1fee8@gmail.com>
+Date: Thu, 20 Feb 2025 20:54:58 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] Broken FIT image signing since "u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled"
+To: Marek Vasut <marex@denx.de>,
+ Rogerio Guerra Borin <rogerio.borin@toradex.com>,
  Quentin Schulz <quentin.schulz@cherry.de>,
  openembedded-core@lists.openembedded.org
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
  "Freihofer, Adrian" <adrian.freihofer@siemens.com>
 References: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
  <e82e9be5-9a56-4c22-ba44-90c8e6690d99@cherry.de>
  <86f57755-bad6-49ad-a1b6-d0dceaf5344b@denx.de>
  <c1fdfe98-90cd-44e4-9c5a-fe5d73ac49b4@toradex.com>
  <3341efe1-1515-4549-97ac-d3a82f71f16b@denx.de>
- <f5807fe9-d460-8f69-c480-84396db1fee8@gmail.com>
-From: Rogerio Guerra Borin <rogerio.borin@toradex.com>
-In-Reply-To: <f5807fe9-d460-8f69-c480-84396db1fee8@gmail.com>
-X-ClientProxiedBy: CP2PR80CA0241.lamprd80.prod.outlook.com
- (2603:10d6:102:42::13) To GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:710:30::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV0P278MB0321:EE_|ZR0P278MB0026:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13713f5f-b051-4f6e-d967-08dd528242ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|1800799024|366016
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mrIeuvdwfBRjIg+e/7LYXlOJyALcGuzbq8oJh4YJH6uT6vPlqm09dEnWdiOO?=
- =?us-ascii?Q?MS871L38m6gUpb7iQmF2t5m1VZOq4u7sduOvbRrI62tRyoaDmVK6ugmeGAJf?=
- =?us-ascii?Q?HXG6eKBEXNZ8dR8uSRHIuoUp6TmJuRP5eitZoLDEj5uZxoF46FehHwjtuA85?=
- =?us-ascii?Q?mC+oOUYkziKkCqjojvMqIOzck6ldjz1w/a7HkzyMYv8cLuk/narXk3bpefJr?=
- =?us-ascii?Q?nQcmhceHw4IF0sp8hV85gF5uy5SZ87M81EUlCbIbRgeN9NsghYNF9lhEV4xo?=
- =?us-ascii?Q?qLf/lb7/3/FFLz/wUncsTqrsgRD0TLHNY4xBQBlfxXlgrh80acJ1XxN+G3BE?=
- =?us-ascii?Q?+ahidbJwW62e35Ui/0Kky690JpD/xXO8gJeKixO+gk4XxyjwudYgOZrsihmZ?=
- =?us-ascii?Q?7VH/K2/TzE3ZxWgtP+wECswk0cD4AT8boZbywoM2RGdAjxLMee5Mp2ige+NQ?=
- =?us-ascii?Q?HGdaFNpeP9bryr+yyQX4+M3em3ibGwWcT3E/lLhzXXFcJDaVzHrNjdgI7JLy?=
- =?us-ascii?Q?uQM26GY7SmH3Pr0TVbMKgRggzYmutG1+Knq8OjLMzB3cmClyMtpe+iDFFe3G?=
- =?us-ascii?Q?oeJEUTbJWCKpu0EHaUar1E/RwN/p+Uptn2nZ+1IwYtKoosVxHWDrL619/o7u?=
- =?us-ascii?Q?lM6e/PFzquwB7cuqlh8+EmKKugv2JUjqlWv7Up10R7Y49JnJOYODm4YcuSGu?=
- =?us-ascii?Q?6qakMwwhxkcBLhnBoIFQSjY287tVjNFLfFO51ynv2uA+HGsvs14W9uaEx2ZC?=
- =?us-ascii?Q?Yr+lnrXPkvjo8evlT0JUtIJqY5iTUWuCfQ5E+x7fZ4yasdzV3MCZZfCGqyfG?=
- =?us-ascii?Q?1D81zT/rga9K4BOXc5BNl9yCaD65uM9I7jkVXlOt4SXcdyNicjxS14Ev8zv9?=
- =?us-ascii?Q?fl/8sRz/1A8gbXlDSuYT7nSqyVrIu0CqfmBOTmAstvNP8e6CAr662+gWWHlO?=
- =?us-ascii?Q?CqBAzG6jDP6+kLxZ+ON+hDhsFQ2zqM3YBuM2V3get1vyO7WDLMqYsBdvEk+P?=
- =?us-ascii?Q?63d1oXZgc9HeWHNYIBUGfU9GLZZwkzBaF/+tRx3yIAlXCI5FeW9jYAW8jdlj?=
- =?us-ascii?Q?chWuo2fGFIzOXIWn/SrDk4FUTMv8cCk3Cr7qwRe8oGJ7xCOZoMB50r0/Eqir?=
- =?us-ascii?Q?UQoQuXBR8sCWAl3Gj2XD2o6T6yVs5c/El9O2ctsuF6cA2o1kOR3m7pu6cwKw?=
- =?us-ascii?Q?v3cwUPlxCqd1Pq/6RJTnOzXZBI/NmKLxztC1GXNifw1WwUU/qyaL9Bpnrs+A?=
- =?us-ascii?Q?rVS4KhJISNvTw6+ERsow7hm/MnQQdEqvMTJAc16xrL1c3HL/3Nq3F6HMKkHu?=
- =?us-ascii?Q?Ev5ICxf7tTlFZew6Tl3mJqAjGyTw6i7Tf0bIIk9hOzHrYQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1102
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iRTjAwFM45HRDg7HYsLZKR5dllU2XIatjfdoaKxwelSpY4pA8frXeS4cHHEh?=
- =?us-ascii?Q?u9tUyyWGwvCYQK0AMgUb6U0kifOc7R6EAiT4Ys+4IFRG/OipyX0n/Pb1OxRQ?=
- =?us-ascii?Q?Czm49PcC6FzY40lqYQLJbb+CFR+qg5qA+R5lZAk/6ihvcWjF0EGbs6PD4sF/?=
- =?us-ascii?Q?x0HBhTt+ouqUOG6JMWcSQ1ZJTv4tuTb+BB/ewgdm94TZkuB11SkjHVgpeM+p?=
- =?us-ascii?Q?5xVnHds7/JPDxT/qeHk3PXD+j8ur00vj4JO7vcOIQ8sme1DurS/inrLpRpHq?=
- =?us-ascii?Q?tTWCIJyiJTr9S5J9cb0dn7icDh18+rUS4ssE2qkE92WsYi6sdo9mPO25jUaB?=
- =?us-ascii?Q?qAW5Rq2JfjoFyMucq+t6w8VKWoLf3QqMeYRCWm88D0tONLNJ9GPY5DskVY4d?=
- =?us-ascii?Q?an+SzIRjS3kiaIb+rMbbLeZxHfE0QEyQmsr8pLmpAWDwm/MbAkBK8q84DuyE?=
- =?us-ascii?Q?lcSg+0bwhpSi19Z/jOzkVzV09T4FDYPGIwzI3D94wACk4Bm/bmRTJyYC1KgA?=
- =?us-ascii?Q?+s8jqUl0Jv76FmZT35ld5q13NX3eEx0embMQYmysdEAmlTR0I71AYm+t49Nm?=
- =?us-ascii?Q?SsGHxlYI++B+NZkoYPnN+Na+VKby7C0gervQic0O2tjQHRbZNmq3n+AYg8SX?=
- =?us-ascii?Q?/Q4lb6ikYUu0UFHmEstCz8B/GmM0hkFCjrlVcfpDvtEiAhjrEcAyQZ6WWVsS?=
- =?us-ascii?Q?hlXbnmE8Bd+MhXz7T/UkjpKx/HllXfwAZ/H0S+NGNc2BO7ORYazLnUT/nagZ?=
- =?us-ascii?Q?9CSaHABpwp37Mt8e2dt6u0Rrn8TfdSQV4ymKAlsDhVzkujGHwN9tjcEF7gYc?=
- =?us-ascii?Q?L91grp9VmUcStK0VPZT8ILtCk+nDS6vcwX4G/+7C4zl/GzbJD918udAxbLh5?=
- =?us-ascii?Q?CxqtPcLEHAUmJ5hLTHwqReAtDMd7k+z10EFI8nwJk0KYQHP7cysCK+XYukZW?=
- =?us-ascii?Q?KnD/v6yhI80uPzIKBiaUu4MouOVM+lf3qF5SjeUWZDmHwpDtu4szGNWp8dia?=
- =?us-ascii?Q?LEUXxOR/AqVuLpbrop2omgI5YfGNwcVoVbDb+mgFxYE0Zry3F7V0Do6JQ3lV?=
- =?us-ascii?Q?qJTS0e4ct1DqCC7Vb3UjM6PBo5OnDGDRzH8LAq3qO944wu9DT+X5508F7BhF?=
- =?us-ascii?Q?FmirHBib18NyfJdWXEJcp5R3yKZRusPhXllPOQ3brtcc22b+m0HijLUlDdUW?=
- =?us-ascii?Q?jxwszuKQzyY9X82/V6l8SiBe2t7KHO0Yo351XfUzSmxTkXFM7RKcKyd2XltR?=
- =?us-ascii?Q?JwjvQykqfbbQCqzPhqGete5AyXy4yRDj8MX5IstNl/G8VlVQBxGKZ6vnWZbc?=
- =?us-ascii?Q?MvRCrJQDg+dilzx1JUeEgCf7PBAdwgTgdDJdi1g4qvUbAza5PGiJtoKR5mo8?=
- =?us-ascii?Q?MKM4HbWoK7KDfHd82BqbiTK3htKg+y4bH70BczfrEotgCGptPIMb75r53+V3?=
- =?us-ascii?Q?2dp9f9fV79y/q6TdrpP8eyOik02Y9v12MNc77J3D4tAWDi2osgHsvRYUn4rt?=
- =?us-ascii?Q?b2xrv7k7N1HNLqvTkt7cS8N3mUYJ2K0P+U5bEv/ypi1+nxbAM63/NKpLADB5?=
- =?us-ascii?Q?/cwFWTGYqLDLJlr5T0X+wjCKUaKF/cpIOXumPBYytFnIv6vLa7F+CO9APqOE?=
- =?us-ascii?Q?q9dOeLPHLxqMAMr9JhIqqLc78wwqjoU+ZPmKufPYy9HvtfoIgs0DhLoXmQTn?=
- =?us-ascii?Q?ksfEJw=3D=3D?=
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13713f5f-b051-4f6e-d967-08dd528242ed
-X-MS-Exchange-CrossTenant-AuthSource: GV0P278MB0321.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 14:15:58.1495
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +c+hrOTcmWW/EKRk3ADetJgMaMlK/NSl3W6/efLbIWZD7MXfMXNyG/DC5CPym/Ob3i9h9aztDMegAuvPrYyKSUfi5M/lj9njo4G2xKxcMR8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0026
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ENkWM-Pq5EoPMuoBOeIiiqS2IBCHEaV76eFQ5oV8zTM_1740147360
-X-Mimecast-Originator: toradex.com
+From: Sean Anderson <seanga2@gmail.com>
+In-Reply-To: <3341efe1-1515-4549-97ac-d3a82f71f16b@denx.de>
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 14:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211799
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 14:30:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211800
 
-Hey Marek and Sean,
-
-I think we're discussing two different questions here and perhaps mixing=20
-up them two :-)
-
-One question is: Should people sign "only" the individual subimages=20
-inside the FIT image? And I think we all agree that the answer is no=20
-because that image would be susceptible to mix-and-match attacks.
-
-Another question is: What's the behavior associated with the variable=20
-FIT_SIGN_INDIVIDUAL? And we've got two conflicting answers:
-
-(1) It selects between *either* signing individual images *or* signing=20
-the configuration.
-(2) It simply enables the signing of individual images but does not=20
-impact the signing of the configuration (which is always performed if=20
-UBOOT_SIGN_ENABLE=3D"1").
-
- From what we talked, Marek believes the behavior follows (or should=20
-follow) item (1), but both the documentation and the observed behavior=20
-so far (up until commit d7bd9c62) follow item (2).
-
-So, in the end all we need to do is to decide on the *expected* behavior=20
-between (1) and (2).
-
-In my view, behavior (2), which is the documented one, is the best=20
-choice because the user simply cannot sign *only* the individual images,=20
-being thus more foolproof (that is, the user simply cannot produce a=20
-signed image susceptible to the mix-and-match attack). Besides that,=20
-since (2) is the observed behavior (up until commit d7bd9c62), changing=20
-it would be a breaking change, at least in my understanding.
-
->>
->> See the U-Boot documentation:
->>
->> https://docs.u-boot.org/en/latest/usage/fit/signature.html
->>
->> And especially this section:
->>
->> https://docs.u-boot.org/en/latest/usage/fit/signature.html#signed-config=
-urations
->>
->> That is why I find the signing of both images and configurations odd.
-
-Checking the U-Boot docs, I see it says that it is possible to sign with=20
-multiple keys. So I don't think it contradicts or prevents what Yocto is=20
-doing (signing config or config+images).
-
-Btw, the docs also says that each key has a property "required" which=20
-accepts values "image" or "conf". Here's a snippet of the produced=20
-U-Boot DTB (same on kirkstone and scarthgap pre d7bd9c62) when=20
-FIT_SIGN_INDIVIDUAL=3D"1":
-
-"""
-$ fdtdump -s deploy/images/verdin-imx8mm/u-boot.dtb
-deploy/images/verdin-imx8mm/u-boot.dtb: found fdt at offset 0
-/dts-v1/;
-// magic:               0xd00dfeed
-// totalsize:           0x10de8 (69096)
-// off_dt_struct:       0x38
-// off_dt_strings:      0xf530
-// off_mem_rsvmap:      0x28
-// version:             17
-// last_comp_version:   16
-// boot_cpuid_phys:     0x0
-// size_dt_strings:     0x1664
-// size_dt_struct:      0xf4f8
-
-/ {
-     interrupt-parent =3D <0x00000001>;
-     #address-cells =3D <0x00000002>;
-     #size-cells =3D <0x00000002>;
-     model =3D "Toradex Verdin iMX8M Mini WB on Verdin Development Board";
-     compatible =3D "toradex,verdin-imx8mm-wifi-dev", "toradex,verdin-...
-     signature {
-         key-dev2 {
-             required =3D "image";             <=3D=3D=3D
-             algo =3D "sha256,rsa2048";
-             rsa,r-squared =3D <0x3956dbd5 0x8b651d3b 0xa621244b...
-             rsa,modulus =3D <0xbcb94b0f 0x77f059c2 0xfb77ccac...
-             rsa,exponent =3D <0x00000000 0x00010001>;
-             rsa,n0-inverse =3D <0x707813fd>;
-             rsa,num-bits =3D <0x00000800>;
-             key-name-hint =3D "dev2";         <=3D=3D=3D
-         };
-         key-dev {
-             required =3D "conf";              <=3D=3D=3D
-             algo =3D "sha256,rsa2048";
-             rsa,r-squared =3D <0x06d11c22 0x56f31661 0x133143bb...
-             rsa,modulus =3D <0xdb06864a 0x12a1e033 0x04b0b457...
-             rsa,exponent =3D <0x00000000 0x00010001>;
-             rsa,n0-inverse =3D <0x8925c5c7>;
-             rsa,num-bits =3D <0x00000800>;
-             key-name-hint =3D "dev";          <=3D=3D=3D
-         };
-     };
-     aliases {
-...
-"""
-
-Basically, the "dev2" key is marked as required for checking images=20
-while the "dev" key is marked as required for checking the=20
-configurations. This seems perfectly acceptable by the U-Boot=20
-documentation and it works fine because the resulting kernel FIT image=20
-does get both signatures. To prove, here's the snippet for the kernel:
-
-"""
-deploy/images/verdin-imx8mm/fitImage: found fdt at offset 0
-/dts-v1/;
-// magic:               0xd00dfeed
-// totalsize:           0xb86379 (12084089)
-// off_dt_struct:       0x38
-// off_dt_strings:      0xb86010
-// off_mem_rsvmap:      0x28
-// version:             17
-// last_comp_version:   16
-// boot_cpuid_phys:     0x0
-// size_dt_strings:     0xd0
-// size_dt_struct:      0xb85fd8
-
-/ {
-     timestamp =3D <0x00000000>;
-     description =3D "Kernel fitImage for Torizon OS/6.6.74";
-     #address-cells =3D <0x00000001>;
-     images {
-         kernel-1 {
-             description =3D "Linux kernel";
-             data =3D [1f 8b 08 08 a6 ...
-             type =3D "kernel";
-             arch =3D "arm64";
-             os =3D "linux";
-             compression =3D "gzip";
-             load =3D <0x48200000>;
-             entry =3D <0x48200000>;
-             hash-1 {
-                 value =3D <0x4abf5358 0x1069f770 0x4eccebee 0x6fa2fce0...
-                 algo =3D "sha256";
-             };
-             signature-1 {                   <=3D=3D=3D=3D
-                 timestamp =3D <0x00000000>;
-                 signer-version =3D "2024.01";
-                 signer-name =3D "mkimage";
-                 value =3D <0x1cc3293e 0x97759447 0x970a4cb2 0x4d904336...
-                 algo =3D "sha256,rsa2048";
-                 key-name-hint =3D "dev2";     <=3D=3D=3D=3D
-             };
-         };
-...
-     configurations {
-         default =3D "conf-freescale_imx8mm-verdin-nonwifi-dahlia.dtb";
-         conf-freescale_imx8mm-verdin-nonwifi-dahlia.dtb {
-             description =3D "1 Linux kernel, FDT blob";
-             kernel =3D "kernel-1";
-             fdt =3D "fdt-freescale_imx8mm-verdin-nonwifi-dahlia.dtb";
-             hash-1 {
-                 algo =3D "sha256";
-             };
-             signature-1 {                  <=3D=3D=3D=3D
-                 hashed-strings =3D <0x00000000 0x000000b4>;
-                 hashed-nodes =3D "/",=20
-"/configurations/conf-freescale_imx8mm-verdin-nonwifi-dahlia.dtb",=20
-"/images/kernel-1", "/images/k...
-                 timestamp =3D <0x00000000>;
-                 signer-version =3D "2024.01";
-                 signer-name =3D "mkimage";
-                 value =3D <0x85d3c35c 0xeac899db...
-                 algo =3D "sha256,rsa2048";
-                 key-name-hint =3D "dev";     <=3D=3D=3D=3D
-                 padding =3D "pkcs-1.5";
-                 sign-images =3D "kernel", "fdt";
-             };
-         };
-...
-"""
-
-Of course, I also agree with what Marek said that signing both=20
-configurations and images is redundant, but the Yocto docs=20
-(https://docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term-FIT_SIG=
-N_INDIVIDUAL)=20
-says:
-
- > If set to =E2=80=9C1=E2=80=9D, then the kernel-fitimage class will sign =
-the kernel,
- > dtb and ramdisk images individually *in addition* to signing the FIT
- > image itself. This could be useful if you are intending to verify
- > signatures in *another context than booting via U-Boot*.
-
-Which leads me to the conclusion that the behavior pre d7bd9c62 is intended=
-.
-
-Having said all of that, notice that if the decision was really to=20
-switch to interpretation (1) then other changes would be required=20
-besides those made to concat_dtb(). In particular, I imagine=20
-fitimage_emit_section_config() would require changes to avoid emitting=20
-the signature node for the configurations.
-
-Hope this clarifies things...
-
+T24gMi8yMC8yNSAxODowNCwgTWFyZWsgVmFzdXQgd3JvdGU6DQo+IE9uIDIvMTgvMjUgNDo0
+OSBBTSwgUm9nZXJpbyBHdWVycmEgQm9yaW4gd3JvdGU6DQo+IA0KPiBbLi4uXQ0KPiANCj4+
+PiDCoD4+IHRoYXQgaXMgcmVzcG9uc2libGUgZm9yIHRoYXQgYWNjZXNzIChpbnNpZGUgZnVu
+Y3Rpb24gY29uY2F0X2R0YigpKS4NCj4+PiDCoD4+IFRoZSBjb2RlIGlzIGFsd2F5cyByZWZl
+cmVuY2luZyB2YXJpYWJsZSBVQk9PVF9TSUdOX0lNR19LRVlOQU1FDQo+Pj4gwqA+PiByZWdh
+cmRsZXNzIG9mIEZJVF9TSUdOX0lORElWSURVQUwgYmVpbmcgc2V0IHRvICIxIiBvciAiMCIg
+ZXZlbiB0aG91Z2gNCj4+PiDCoD4+IHRoZXJlJ3MgYSBjb25kaXRpb24gYSBjb3VwbGUgbGlu
+ZXMgYWJvdmUgTDExNiB3aGVyZQ0KPj4+IMKgPj4gRklUX1NJR05fSU5ESVZJRFVBTCBpcyB0
+ZXN0ZWQgdG8gZGVjaWRlIGluIHdoaWNoIG1vZGUgdG8gcnVuIHRoZQ0KPj4+IMKgPj4gc2ln
+bmluZyB0b29sLg0KPj4+DQo+Pj4gVWgsIGdvb2QgZmluZCwgZG9lcyB0aGUgZm9sbG93aW5n
+IHBhdGNoIGZpeCB5b3VyIHByb2JsZW0gPw0KPj4+DQo+Pj4gIiIiDQo+Pj4gZGlmZiAtLWdp
+dCBhL21ldGEvY2xhc3Nlcy1yZWNpcGUvdWJvb3Qtc2lnbi5iYmNsYXNzDQo+Pj4gYi9tZXRh
+L2NsYXNzZXMtcmVjaXBlL3Vib290LXNpZ24uYmJjbGFzcw0KPj4+IGluZGV4IDk2YzQ3YWIw
+MTYuLjc0ZWY1Njk3Y2EgMTAwNjQ0DQo+Pj4gLS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lwZS91
+Ym9vdC1zaWduLmJiY2xhc3MNCj4+PiArKysgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL3Vib290
+LXNpZ24uYmJjbGFzcw0KPj4+IEBAIC0xMDcsMTMgKzEwNywxNiBAQCBjb25jYXRfZHRiKCkg
+ew0KPj4+ICMgbWFrZXMgZml0SW1hZ2Ugc3VzY2VwdGlibGUgdG8gbWl4LWFuZC1tYXRjaCBh
+dHRhY2suDQo+Pj4gaWYgWyAiJHtGSVRfU0lHTl9JTkRJVklEVUFMfSIgPSAiMSIgXSA7IHRo
+ZW4NCj4+PiBVQk9PVF9NS0lNQUdFX01PREU9ImF1dG8iDQo+Pj4gKyBVQk9PVF9NS0lNQUdF
+X0tFWU5BTUU9JHtVQk9PVF9TSUdOX0lNR19LRVlOQU1FfQ0KPj4+ICsgZWxzZQ0KPj4+ICsg
+VUJPT1RfTUtJTUFHRV9LRVlOQU1FPSR7VUJPT1RfU0lHTl9LRVlOQU1FfQ0KPj4+IGZpDQo+
+Pj4gJHtVQk9PVF9NS0lNQUdFX1NJR059IFwNCj4+PiAke0AnLUQgIiR7VUJPT1RfTUtJTUFH
+RV9EVENPUFRTfSInIGlmDQo+Pj4gbGVuKCcke1VCT09UX01LSU1BR0VfRFRDT1BUU30nKSBl
+bHNlICcnfSBcDQo+Pj4gLWYgJFVCT09UX01LSU1BR0VfTU9ERSBcDQo+Pj4gLWsgIiR7VUJP
+T1RfU0lHTl9LRVlESVJ9IiBcDQo+Pj4gLW8gIiR7RklUX0hBU0hfQUxHfSwke0ZJVF9TSUdO
+X0FMR30iIFwNCj4+PiAtIC1nICIke1VCT09UX1NJR05fSU1HX0tFWU5BTUV9IiBcDQo+Pj4g
+KyAtZyAiJFVCT09UX01LSU1BR0VfS0VZTkFNRSIgXA0KPj4+IC1LICIke1VCT09UX0RUQl9C
+SU5BUll9IiBcDQo+Pj4gLWQgL2Rldi9udWxsIFwNCj4+PiAtciAke0J9L3VudXNlZC5pdGIg
+XA0KPj4+ICIiIg0KPj4NCj4+IExvb2tpbmcgYXQgdGhlIHBhdGNoIEknbSBwcmV0dHkgc3Vy
+ZSBpdCB3b3VsZCBzb2x2ZSBteSBwcm9ibGVtLCBwYXJ0aWN1bGFybHkgYmVjYXVzZSB3ZSBz
+ZXQgRklUX1NJR05fSU5ESVZJRFVBTD0iMCIgaW4gb3VyIGJ1aWxkcy4gSG93ZXZlciwgSSBz
+ZWUgaXQga2VlcHMgdGhlIGNvbmNlcHQgb2YgdGhlIHNpZ25pbmcgYmVpbmcgZWl0aGVyIG9u
+IHRoZSBjb25maWcgb3Igb24gdGhlIGluZGl2aWR1YWwgaW1hZ2VzLCB3aGljaCBJIHdhbnRl
+ZCB0byBmdXJ0aGVyIGNvbW1lbnQgZG93biBiZWxvdy4NCj4gDQo+IFRoYXQgaXMgY29ycmVj
+dCwgdGhlIHNpZ25pbmcgaXMgc3VwcG9zZWQgdG8gb3BlcmF0ZSBlaXRoZXIgb24gc2lnbmVk
+IGNvbmZpZ3VyYXRpb25zICh3aGVyZSB0aGUgY29uZmlndXJhdGlvbiBzaWduYXR1cmUgaW5j
+bHVkZXMgdGhlIGhhc2ggb2YgYWxsIHRoZSBpbWFnZXMgcmVmZXJlbmNlZCBieSB0aGUgY29u
+ZmlndXJhdGlvbiksIG9yIHNlcGFyYXRlIGltYWdlcyAod2hpY2ggaXMgc3VzY2VwdGlibGUg
+dG8gbWl4IGFuZCBtYXRjaCBhdHRhY2spLg0KPiANCj4gWy4uLl0NCj4gDQo+Pj4gU2lnbmVk
+IGNvbmZpZ3VyYXRpb24gYWxzbyBpbmNsdWRlcyBoYXNoIG9mIHRoZSBpbWFnZXMgdGhhdCB0
+aGUNCj4+PiBjb25maWd1cmF0aW9uIHJlZmVyZW5jZXMgaW4gaXQsIHRoYXQncyB3aGF0IHBy
+ZXZlbnRzIHRoZSBtaXgtYW5kLW1hdGNoDQo+Pj4gYXR0YWNrLg0KPj4+DQo+Pj4gwqA+PiAs
+IHdoaWNoIGRvZXNuJ3QgbWF0Y2ggdGhlIGRvY3VtZW50ZWQgYmVoYXZpb3IuIEkgYmVsaWV2
+ZQ0KPj4+IMKgPj4gdGhlIGNvZGUgaW4gY29uY2F0X2R0YigpIGFsc28gc2VlbXMgdG8gYXNz
+dW1lIG9ubHkgb25lIG9mIHRoZSBrZXlzDQo+Pj4gwqA+PiAoZGV2L2RldjIpIHdvdWxkIG5l
+ZWQgYmUgcHJlc2VudCBpbiB0aGUgRFRCLiBTbyB0aGUgZml4IHdvdWxkIGludm9sdmUNCj4+
+PiDCoD4+IGEgcmV2aWV3IG9uIHRoaXMgYXMgd2VsbCBJIGltYWdpbmUuDQo+Pj4gSUlSQyBB
+ZHJpYW4gd2FzIGxvb2tpbmcgaW50byBpbXByb3ZpbmcgdGhvc2UgZG9jcy4NCj4+DQo+PiBS
+ZWdhcmRpbmcgdGhpcyBzZWNvbmQgdG9waWMsIGxldCBtZSBzaG93IHlvdSBzb21lIG90aGVy
+IGluZm9ybWF0aW9uIEkgZ2F0aGVyZWQgZnJvbSBhIGNvdXBsZSBvZiBidWlsZHMgdGhhdCBt
+YXkgaGVscCB3aXRoIHlvdXIgYXNzZXNzbWVudDoNCj4+DQo+PiBGU0kgOj0gRklUX1NJR05f
+SU5ESVZJRFVBTA0KPj4gQ0ZHIDo9IFdoZXRoZXIgb3Igbm90IHRoZSBjb25maWd1cmF0aW9u
+cyBpbnNpZGUgdGhlIEZJVCBpbWFnZSB3ZXJlIHNpZ25lZA0KPj4gSU1HIDo9IFdoZXRoZXIg
+b3Igbm90IHRoZSBzdWJpbWFnZXMgaW5zaWRlIHRoZSBGSVQgaW1hZ2Ugd2VyZSBzaWduZWQN
+Cj4+DQo+PiB8IEJyYW5jaMKgwqDCoCB8IFZlcnNpb27CoMKgwqDCoMKgwqAgfCBGU0kgfCBL
+ZXlzIGluc2lkZSBEVELCoCB8IENGRyB8IElNRyB8DQo+PiB8LS0tLS0tLS0tLS0rLS0tLS0t
+LS0tLS0tLS0tKy0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLSstLS0tLXwNCj4+IHwg
+a2lya3N0b25lIHwgbGF0ZXN0wqDCoMKgwqDCoMKgwqAgfCAiMCIgfCB7ZGV2fcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfCBZwqDCoCB8IE7CoMKgIHwNCj4+IHwga2lya3N0b25lIHwgbGF0
+ZXN0wqDCoMKgwqDCoMKgwqAgfCAiMSIgfCB7ZGV2LGRldjJ9wqDCoMKgwqDCoMKgIHwgWcKg
+wqAgfCBZwqDCoCB8DQo+PiB8LS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tKy0tLS0tKy0t
+LS0tLS0tLS0tLS0tLS0tLSstLS0tLSstLS0tLXwNCj4+IHwgc2NhcnRoZ2FwIHwgbGF0ZXN0
+wqDCoMKgwqDCoMKgwqAgfCAiMCIgfCBCdWlsZCBmYWlsZWQgKCEpIHwgbi9hIHwgbi9hIHwN
+Cj4+IHzCoMKgwqDCoMKgwqDCoMKgwqDCoCB8ICsgZHVtbXkgZGV2MsKgIHzCoMKgwqDCoCB8
+IHtkZXYyfcKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgWcKgwqAgfCBOwqDCoCB8DQo+PiB8IHNj
+YXJ0aGdhcCB8IGxhdGVzdMKgwqDCoMKgwqDCoMKgIHwgIjEiIHwge2RldjJ9ICghKcKgwqDC
+oMKgwqDCoCB8IFnCoMKgIHwgWcKgwqAgfA0KPj4gfC0tLS0tLS0tLS0tKy0tLS0tLS0tLS0t
+LS0tLSstLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0rLS0tLS18DQo+PiB8IHNjYXJ0
+aGdhcCB8IHcvbyBAZDdiZDljNjIgfCAiMCIgfCB7ZGV2fcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfCBZwqDCoCB8IE7CoMKgIHwNCj4+IHwgc2NhcnRoZ2FwIHwgdy9vIEBkN2JkOWM2MiB8
+ICIxIiB8IHtkZXYsZGV2Mn3CoMKgwqDCoMKgwqAgfCBZwqDCoCB8IFnCoMKgIHwNCj4+DQo+
+PiBUaGUgZmlyc3QgdHdvIGxpbmVzIHNob3cgdGhhdCBvbiBraXJrc3RvbmUgd2hlbiBGSVRf
+U0lHTl9JTkRJVklEVUFMPSIwIiBvbmx5IHRoZSBjb25maWd1cmF0aW9ucyBhcmUgc2lnbmVk
+IGFuZCB0aGUgRFRCIGNvbnRhaW5zIG9ubHkgdGhlICJkZXYiIGtleS4gV2hlbiBGSVRfU0lH
+Tl9JTkRJVklEVUFMPSIxIiBib3RoICJkZXYiIGFuZCAiZGV2MiIgYXJlIHByZXNlbnQgaW4g
+dGhlIERUQiBhbmQgYm90aCB0aGUgY29uZmlndXJhdGlvbnMgYW5kIHRoZSBpbWFnZXMgYXJl
+IHNpZ25lZC4NCj4gDQo+IFRoaXMgbGFzdCBwYXJ0IGlzIGEgYml0IG9kZC4gVGhlIGJlaGF2
+aW9yIHlvdSBkZXNjcmliZSB3b3VsZCBpbXBseSB0aGF0IEZJVF9TSUdOX0lORElWSURVQUw9
+IjEiIGlzIHNvbWUgc29ydCBvZiBzZXR1cCB3aGljaCBzaWducyBib3RoIGNvbmZpZ3VyYXRp
+b25zICh3aGljaCBpbmNsdWRlIHNpZ25hdHVyZSBvZiByZWZlcmVuY2VkIGltYWdlcykgYW5k
+IGltYWdlcyB0aGVtc2VsdmVzLCB3aGljaCB3b3VsZCBiZSByZWR1bmRhbnQuDQo+IA0KPj4g
+QW5kIHRoYXQncyB0aGUgZXhhY3Qgc2FtZSBiZWhhdmlvciBJIGdvdCBvbiBzY2FydGhnYXAg
+YWZ0ZXIgcmV2ZXJ0aW5nIHRoZSBjb21taXQgZDdiZDljNjIuIEFuZCwgYXMgSSBzYWlkLCB0
+aGlzIHNlZW1zIHRvIG1hdGNoIHRoZSBkb2N1bWVudGF0aW9uLg0KPj4gSSd2ZSBhdHRhY2hl
+ZCBzbmlwcGV0cyBvZiB0aGUgZmR0ZHVtcCBmb3IgdGhlIEZJVCBpbWFnZSBhbmQgVS1Cb290
+IERUQiBmcm9tIG15IGJ1aWxkIG9uIGtpcmtzdG9uZSB0byBpbGx1c3RyYXRlIHdoYXQgSSBz
+YWlkLg0KPiANCj4gU2VlIHRoZSBVLUJvb3QgZG9jdW1lbnRhdGlvbjoNCj4gDQo+IGh0dHBz
+Oi8vZG9jcy51LWJvb3Qub3JnL2VuL2xhdGVzdC91c2FnZS9maXQvc2lnbmF0dXJlLmh0bWwN
+Cj4gDQo+IEFuZCBlc3BlY2lhbGx5IHRoaXMgc2VjdGlvbjoNCj4gDQo+IGh0dHBzOi8vZG9j
+cy51LWJvb3Qub3JnL2VuL2xhdGVzdC91c2FnZS9maXQvc2lnbmF0dXJlLmh0bWwjc2lnbmVk
+LWNvbmZpZ3VyYXRpb25zDQo+IA0KPiBUaGF0IGlzIHdoeSBJIGZpbmQgdGhlIHNpZ25pbmcg
+b2YgYm90aCBpbWFnZXMgYW5kIGNvbmZpZ3VyYXRpb25zIG9kZC4NCj4gDQo+PiBTbywgaWYg
+dGhlIGV4cGVjdGVkIGJlaGF2aW9yIGlzIGFjY29yZGluZyB0byB3aGF0IHlvdSBkZXNjcmli
+ZWQgdGhlbiB0aGUgYmVoYXZpb3Igc28gZmFyIHdhcyB3cm9uZyAoZm9yIGEgbG9uZyB0aW1l
+KSBhbmQgdGhlIG5ldyBiZWhhdmlvciBpcyBpbnRyb2R1Y2luZyBhIGJyZWFraW5nIGNoYW5n
+ZSBmb3IgYW55b25lIHJlbHlpbmcgb24gd2hhdCdzIGRvY3VtZW50ZWQgZm9yIHRoZSBGSVRf
+U0lHTl9JTkRJVklEVUFMPSIxIiBjYXNlLCByaWdodD8NCj4gDQo+IEkgYmVsaWV2ZSBGSVRf
+U0lHTl9JTkRJVklEVUFMPSIxIiBkaWQgbm90IHdvcmsgY29ycmVjdGx5LCB5ZXMuIEkgYWxz
+byB0aGluayBGSVRfU0lHTl9JTkRJVklEVUFMPSIxIiBzaG91bGQgbm90IGJlIHVzZWQsIGJl
+Y2F1c2Ugb2YgdGhlIG1peCBhbmQgbWF0Y2ggYXR0YWNrLCBwbGVhc2Ugc2VlIFUtQm9vdCBk
+b2N1bWVudGF0aW9uIGFib3ZlLg0KPiANCj4gK0NDIFNlYW4gdG8gZ2V0IHNlY29uZCBvcGlu
+aW9uIGhlcmUuDQoNCihkaXNjbGFpbWVyOiBJIGhhdmUgbm90IGJlZW4gZm9sbG93aW5nIHRo
+ZSBkaXNjdXNzaW9uIGNsb3NlbHkpDQoNCklNTyBpbWFnZSBzaWduaW5nIHNob3VsZCBub3Qg
+YmUgdXNlZCwgYW5kIHJlYWxseSBzaG91bGQgY29tZSB3aXRoIGEgYmlnIGZhdCB3YXJuaW5n
+DQpvciBzb21ldGhpbmcuIElkZWFsbHkgaXQgc2hvdWxkIGJlIHJlbW92ZWQgaW4gYSBmdXR1
+cmUgcmVsZWFzZSAoaWYgcG9zc2libGU7IG5vdCBzdXJlIHdoYXQNCnRoZSBPRSBwZXJzcGVj
+dGl2ZSBpcyBvbiBjb21wYXRpYmlsaXR5IGluIHRoaXMgYXJlYSkuIEl0IHJlbWFpbnMgaW4g
+VS1Cb290IG9ubHkgZm9yDQpjb21wYXRpYmlsaXR5OyBpdCBwcm9iYWJseSBzaG91bGQgZ2V0
+IHNvbWUgd2FybmluZ3MgdGhlcmUgdG9vIHNvIHBlb3BsZSBkb24ndCBhY2NpZGVudGFsbHkN
+CnVzZSBpdCBmb3IgbmV3IGJvYXJkcy4NCg0KLS1TZWFuDQoNCj4+IEJ0dywgZm9yIHVzIGF0
+IFRvcmFkZXggdGhpcyBpcyBub3QgYSBiaWcgZGVhbCBiZWNhdXNlIHdlIGRvbid0IGZhbGwg
+aW50byB0aGF0IGNhc2UgYnV0IGNvbnNpZGVyaW5nIHRoZSBnZW5lcmFsIHVzZSBvZiB0aGUg
+bGF5ZXIgdGhlIGNoYW5nZSBpbiBiZWhhdmlvciBjb3VsZCBiZSBhbiBpc3N1ZS4NCj4+DQo+
+PiBBbm90aGVyIHBpZWNlIG9mIGluZm9ybWF0aW9uIHRoYXQgbWlnaHQgYmUgdXNlZnVsOiBJ
+IG1hZGUgYSBjaGFuZ2UgdG8gY29uY2F0X2R0YigpIHRvIG1ha2UgaXQgYWRkIGJvdGgga2V5
+cyAoZGV2L2RldjIpIHRvIHRoZSBEVEIgKGJ5IGludm9raW5nIG1raW1hZ2UgdHdpY2UpIGFu
+ZCBJIGZvdW5kIHRoZSBpbnZvY2F0aW9uIHRvICJ1Ym9vdC1maXRfY2hlY2tfc2lnbiIgZmFp
+bGVkIGFmdGVyd2FyZHMuIEkgY29uZmlybWVkIHRoYXQgdGhlIERUQiBoYWQgdGhlIHR3byBr
+ZXlzLCBidXQgYmVjYXVzZSB0aGUgRklUIGltYWdlIG9ubHkgaGFkIHRoZSBjb25maWd1cmF0
+aW9ucyBzaWduZWQsIHRoZSB0b29sIHRocmV3IGFuIGVycm9yIHNheWluZyB0aGUgc2lnbmF0
+dXJlIG9mICJyZXF1aXJlIGtleSBkZXYyIiBjb3VsZCBub3QgYmUgdmVyaWZpZWQgYnV0IHRo
+ZSBzaG93ZWQgdGhhdCB0aGUgY2hlY2sgb2YgdGhlICJkZXYiIGtleSBzdWNjZWVkZWQuIFVu
+Zm9ydHVuYXRlbHkgSSBkb24ndCBoYXZlIHRoZSBsb2dzIGF2YWlsYWJsZSBmb3IgdGhhdCBj
+YXNlLCBidXQgSSBjb3VsZCByZXBlYXQgdGhlIHRlc3RzIGlmIG5lZWRlZC4gQW55d2F5LCBt
+eSBwb2ludCBpcyB0aGF0IHRoZSAidWJvb3QtIGZpdF9jaGVja19zaWduIiB0b29sIHNlZW1z
+IGNhcGFibGUgb2YgY2hlY2tpbmcgYm90aCBrZXlzIGFzIHdlbGwuDQo+Pg0KPj4gSW50ZXJl
+c3RpbmdseSwgaWYgSSByZW1vdmVkIHRoZSB2ZXJpZmljYXRpb24gc3RlcCAocGVyZm9ybWVk
+IG9uIHRoZSAidW51c2VkLml0YiIgZmlsZSksIHRoZW4gdGhlIGltYWdlIGdlbmVyYXRpb24g
+c3VjY2VlZGVkIGFuZCBldmVyeXRoaW5nIHNlZW1lZCB0byB3b3JrIGFzIGJlZm9yZSBib3Ro
+IHdoZW4gRklUX1NJR05fSU5ESVZJRFVBTCBpcyAiMCIgb3IgIjEiLg0KPj4gU28sIGl0J3Mg
+bm90IGhhcmQgdG8gZ2V0IHRoZSBvbGQgYmVoYXZpb3IsIHRob3VnaCB3ZSdkIG5lZWQgdG8g
+ZmlndXJlIG91dCBob3cgdG8gcHJvcGVybHkgZG8gdGhlIHZlcmlmaWNhdGlvbiB3aGVuIG1r
+aW1hZ2UgaXMgaW52b2tlZCB3aXRoIC1mICJhdXRvIiBvciAtZiAiYXV0by1jb25mIi4gSSBj
+b3VsZCBwb3N0IG15IHVuZmluaXNoZWQgcGF0Y2ggaWYgaGVscGZ1bC4NCj4gDQo+IEkgYW0g
+bm90IGNvbnZpbmNlZCBhZGRpbmcgdGhlIG9sZCBiZWhhdmlvciBpcyB0aGUgcmlnaHQgdGhp
+bmcgdG8gZG8sIHBsZWFzZSBzZWUgYWJvdmUuDQo+IA0KPiBCdXQgSSBhbSBhbHNvIHVuc3Vy
+ZSB3aGF0IHRvIGRvIGFib3V0IHBlb3BsZSBkZXBlbmRpbmcgb24gdGhlIG9sZCBiZWhhdmlv
+ciwgd2hpY2ggSSB0aGluayBpcyBvZGQuIFRob3VnaHRzID8NCg0K
 
