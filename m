@@ -2,28 +2,28 @@ Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86157C021AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E75C021B3
 	for <webhook@archiver.kernel.org>; Fri, 21 Feb 2025 08:12:32 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.18788.1740125551217245286
+ by mx.groups.io with SMTP id smtpd.web11.18761.1740125551057024170
  for <openembedded-core@lists.openembedded.org>;
  Fri, 21 Feb 2025 00:12:31 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=41470c5b36=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51L6pNpX006635
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 00:12:31 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51L6pNpW006635
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 00:12:30 -0800
 Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2049.outbound.protection.outlook.com [104.47.58.49])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00kufee-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44w00kufee-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 00:12:30 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XfLmznYmedZ/pTZ+YIxtycrqWk+O9LDVIpxBqMbExkINm2lIOKAcV65KVp8KCzmOw3+qUfB+EHTXc3RwWn206x2kEPlhMEwIemaTt97N+zfy+fIaWEH5RGjeYg895QNyrFBwrkYw2b9mF03mc3DPdg4MueyKRPH/1Knqc3hR04MFHkLGSlV/fDFa/HphtPzmJ4DmYkKsAcfK8Zfh+utJcYDnPUqgVRICp0CXWPa+zRPq9dJYO7TZSGqj2v3eTNwMawj2r6eCSrCLVk1WGLVQlYwn0o1UOWH/JI9765N3XoIz9nwQSQI/XYKWAQepjw0fsKXLDiIvrxOZrZkyxSX1lw==
+ b=AsjLM/QDCS+SqwHxJ1cqCmL4eh1Jy+EHAWLKaL6hkaUdDCXhIy9QjWCn0/Ig2gIu8RRCPRiAoOE5luJ9+trcPCJpwZ+nR33p3Fjs8MnMuUr9rrIHLJ7pspruUkC/FRkVxjWarzzYA1nK6AeZbwRMfIrriXuSE/rh90/gHH92528EC7R/sEguj49g4t3sYwy28K4HmJ3vlaPZy4aOyrSQvWK/JJsyE+Tjg8xFE+TY3xdHNVLcPFxtOgYha5Hc5dUw2wibXR1NOScZvNMq6y72DWTzBBDBVz5TZfI+wOOiZbS4/cqo1YkzrJapCmk1WJX5XdLKILz+CIU16esrweUN6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zH5qWrHPxl1ATHelO38RlonV+no8ggGQuV5U61mOWY8=;
- b=NxJ7jKzzHikhyaJuSu+M6qTJQ4I1Kj94dHth+GjYH+TLIpBdra3I5GlsPl3m0NFQ0AEpM0oJPUMTfiuFh5KbOJ/yDWGqjYXxFkOK8RCogQIBqglbnQ4Ggtdx2wDOOuFzCP1hzpjw4GZPyyQjXwp4yu7n9c5b0H+GSboncuzGc29cuJ2OCnMgHM87BEItp767t5V1e0TCr3OPuWDONdO6LjG8tqsqm3pfL7gqRzP3aV/z5okNykvzIdbjy/8ZjXnzSZKKtoNjhrZ8/+xj/sl98VtvSR7OPhmGkDVEgzk1xyBOYWkSB3rbK9/jf+byL+2VGDEneihUZ65C+hUSqfFyGw==
+ bh=UQ1W5oHAkMtuQTh/2e8KrwHFAOYAVtBHYvyK7GfkZ8I=;
+ b=EvlFJQpjh4s6Dv8t7dydzBCCEjY48b74B0l8fFLWA0t0wouZwYWsRXbeNjC7aJeXW1iazTmcsGWzg59aXUf1+7a1sbWXbRX2+Wh0ICulT5lDS5KLOT2Ey8ZvlBAQujaJboSvoQUn7qi7loDgD/BpHFPvNoz/3RVC7VPvEulExsNIZwc5BqHo9RyPft0HAsrFzf5jMDxFmQ9g7ZjWL8QrHJM3MUGyZXWtWXm47fqH3bV7kmyk2ajtbtbNbiAjSpePEwmUccGVjIK0x94icqwkKhwBbSsoRx5zBnEJuk2GOg7DbJHG6PZuH3NeA8qQvszQClprs93zkTxc3MnbsDUiBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -35,15 +35,13 @@ Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
 Received: from DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
  ([fe80::2b44:787c:e7ee:bfad%5]) with mapi id 15.20.8466.015; Fri, 21 Feb 2025
- 08:12:27 +0000
+ 08:12:25 +0000
 From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] kea: avoid assertion on empty DHCPDISCOVER packet
-Date: Fri, 21 Feb 2025 16:12:07 +0800
-Message-Id: <20250221081207.2318014-2-yi.zhao@windriver.com>
+Subject: [PATCH 1/2] kea: make kea environment available to lfc process
+Date: Fri, 21 Feb 2025 16:12:06 +0800
+Message-Id: <20250221081207.2318014-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250221081207.2318014-1-yi.zhao@windriver.com>
-References: <20250221081207.2318014-1-yi.zhao@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SI1PR02CA0011.apcprd02.prod.outlook.com
@@ -52,83 +50,83 @@ X-ClientProxiedBy: SI1PR02CA0011.apcprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|SA1PR11MB8351:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab7fd5ec-582e-4159-13c6-08dd524f7a29
+X-MS-Office365-Filtering-Correlation-Id: ec25fb2e-97ba-476c-f964-08dd524f794e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|366016|1800799024|52116014|13003099007|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?QqyZpJH5+DNjgbibnsBGD7O3W0loibyXVP5DImfpa5ccksvk5KsuFe/tbT5d?=
- =?us-ascii?Q?tW30m3WBeeRcTFl5UX37n+Th3aHw5G5aBM8S6kFAGlavjkl3PKwC01y2/F5x?=
- =?us-ascii?Q?nYeznGCSOP3MYczsADa5FQbaBB4OBfrBexZG7WvRE2hQAAJqpOCIW/Fuxdcr?=
- =?us-ascii?Q?eQDOHsqL3y3s82ItGihIZ41CLkrtL+oZ5sDQ8eWDJLsxTfXfCWXC0Zk18lDB?=
- =?us-ascii?Q?cpAyJSygkJ4n8/2CjO8EbAeIAz9nhOGpliZ5bn7jeVUCmi1TyRzBFDH91k0a?=
- =?us-ascii?Q?UOnOxcItwoQSi/3kY93SVeHABF29IkDQ+FygX+XHiJDpzs70TNpcnXiVoX6m?=
- =?us-ascii?Q?47SnvDOChuB6TkoU8yRimYXhYfVO5m7k2iwvrTA/pETdwGIH30YuNyNoBh4B?=
- =?us-ascii?Q?s+sxcv1yqLtEORT88d1Lr+eZh4ZVdOIu3CznbQPEPobnNQ+Tzr+5eoIXERm5?=
- =?us-ascii?Q?G6WabENTVBdObzgFGdt790qX+YMH6b+LrYd8TMIt5KaPRqFCXECp03srZn7/?=
- =?us-ascii?Q?SMEJv0DMGyagRlq2yNgqosKUBk+sqr7Y3jy7M1ptKfLDQqpT1M4pZkl9044U?=
- =?us-ascii?Q?83Gy/GuaI+BS/meoqthHN111LSUWaHbok26+3b8/gzbVlPuVUtjc8E+nsgDK?=
- =?us-ascii?Q?/9yi9MB3fjo75CGgLOtW/pGAj0Pj30eKlihUOESLHcmgX2dM7EZHYTPCUGrA?=
- =?us-ascii?Q?3h8SI19L5WWCRTFvADZw1wvo9d3i33Sf6tog7H+HD8yMZsUlJRpmwnUgEddq?=
- =?us-ascii?Q?LZmdBBxmckeNPSJPtJ6WdiPvasaC5BdPRgiQSUvDNMqtzQXVsX6PdgUV9iv9?=
- =?us-ascii?Q?ExadJqN0Or5vIEJ1NsgJLvxEeao822DoBppGqytKbuPTRyt6JAv6LAGhwp7m?=
- =?us-ascii?Q?IIxHpKsk0eIZMDD9gh9caNGkvXZfMxlk0sCyXVuc94yKykP4r+la4HEF8RKx?=
- =?us-ascii?Q?FaI36/TLM1XBSh2KUUPyXG2j3zl0Ytr747JjeB9ZJdB3ZvRON3otNL/1+VIU?=
- =?us-ascii?Q?FKNBbRKlFX1sxNHA2fgvP/XeMyFUzh96VInFneyXbivd5DT5v/28xTX/EuMB?=
- =?us-ascii?Q?5k5VlBUSgQ3wQeyFKK0DHGasqZY37tmZj4vD2c3ISC6o6AL/vylriQJ+oE+g?=
- =?us-ascii?Q?tyReEgdvgH/EKifNKUbMS5sSSxovfsmqxVLvbXWxG1Sh9pOqCvTWMxByksTw?=
- =?us-ascii?Q?DVJZRFCfuo7XxvHiTAT7+jWJOeW2dp5ERQTT7LhHAZP0BwY45ORvmSujNf0X?=
- =?us-ascii?Q?r7Cak7J2SSyQyfP8xIYOXUV0wJPRXeFhi36FhZ8yPmDaf/2ZTEO0ZMp/v2lo?=
- =?us-ascii?Q?1hqAurrmEwU3STO97gtNJ4i/tX21tHs/N4EcAoN3A3al3/Sr3c0hOpJ6NrXg?=
- =?us-ascii?Q?WHm919cXaZrBHWHVV8dsaHPfuHw3cyHKnOOXnbL5hSftAgKlXcAw6YlRXUlE?=
- =?us-ascii?Q?hXhRe7bF5iq9LDuxFAJuFH2tHGP5qevUt9SxqERxtLITvGJxseaXSA=3D=3D?=
+	=?us-ascii?Q?rA9TGe6Q5i3irpLTiIQvmMzMw5GInzihuyCjECWQLVLJm8/5kla7QN1fLjBI?=
+ =?us-ascii?Q?zTx+D6gR+XCgZpn00JYPWzfGdIjqVV5LZXxsquaHygj2OCXZwXMJHiCWXeB1?=
+ =?us-ascii?Q?qcea9QCoJCqPGr3huMdbnSy/+jl73wIgDTQQlxIh6fP/huShdUgiv8TwolIy?=
+ =?us-ascii?Q?YwvtHb0AnZObOZ3p2NMpOBZ71YO+Z95jD73PN0b3Zzj8Aau7yOvQ9LHnZNAP?=
+ =?us-ascii?Q?nqFvHquRPuSHDdcExNeC2lXfahc9IKpptEeNwUdKSpQfYVdqKlbB5SInKDqP?=
+ =?us-ascii?Q?pIPitqtyNpNBxxaOBU6T/gGV+frQyvnncBqK8o/JkU38UTmTbLSfl3ZtcIRq?=
+ =?us-ascii?Q?EqJqY83JWi+eJTHf+8KtiV+rrkjd1MWjZtRbH6eDoJVUq6Afv8z6GiM1gEqa?=
+ =?us-ascii?Q?Gpkg9MWzwek9nAHmIZVoAEhaIt9UWzpHb7WBiRTbdlGNPl7w3VTP9bpe8j3q?=
+ =?us-ascii?Q?7GJE0TPelaZSNh+gFLsXKiQiqRubT94OJkd92Wfe5b80upJidOImea/o7zGp?=
+ =?us-ascii?Q?i/BHWh0mySDGew+5VJVMLU2I8LOoSClKgEIqGdHoNhS9TbVM2Swl/XGuM7Vk?=
+ =?us-ascii?Q?6V1ifAzCfwBKdec5Q1UIM/a5nAt/0BOnm1FX0CiSMkCUIItKiwDVn3onuR+M?=
+ =?us-ascii?Q?REWokZOn3DFtmY+ChgJdpDV2AJtCpKXnzrpPBHJMzLFjMVc2bem75D7h7mbQ?=
+ =?us-ascii?Q?paG8HyJkQV1e3Ax/mu1++Oz6vXma2JAcoiTk54waJME9Qvt7j6jyxsAkne3l?=
+ =?us-ascii?Q?ifB0kI3sYvS0R9NjT5RzYanth/IzQr1krJLr02qM/sWJZP57wrZncX74ImLz?=
+ =?us-ascii?Q?7umQvegaCgVUFXUHUQmf1QlulCBwPi14QZm78mn2j/MRAD7pbtzIMfgS/6zO?=
+ =?us-ascii?Q?yfPLeIyYQceuIbg0MG6HIsWjZA8cTlhxDUwoCt6OaonhsR0EKE4bNfZYpzCx?=
+ =?us-ascii?Q?bo4QU5eRLQoWHb2yo9o7EdExAcToirwkio1lryDgH28cgX7WB8IAgUQyWrnw?=
+ =?us-ascii?Q?DnrvKqCPH7GcPbxTfkKjIlCHBbMQ2lbA+6KvrzF/8nRV653zCLXc3mfdvfpm?=
+ =?us-ascii?Q?VIfXzmPWHIuIbWjXAbL5xE+lohkGieISyisy+iELvIy12TrZpyCdDFjaInRm?=
+ =?us-ascii?Q?gn4lh33q9y8UaTp5dSxWr44DMbUsjlIPoxSZaJ9OL1o3XT3xx1apTNIWuPi+?=
+ =?us-ascii?Q?bzA0gW2hrLlC9rCHecfa70MgLp8N4mf8XhKEvJzps6WB1BovfNHLVGPPKDtS?=
+ =?us-ascii?Q?M7YPAAw7YUokSwnJd6GWuYIN8DpaH2QXIRLhmMgNLdtkNEStoOGmOOa6+cn1?=
+ =?us-ascii?Q?e8ZCldtGXpEQEX51AmVvQOlSVOPOlKGpiMJhAdHlHrTgL8U+Si2ZhnDwmnv6?=
+ =?us-ascii?Q?Bz7Y1rpU5HISNMc0YizDIL+BQUtRb2fGI6jhTAv9JeQiktwknCS0QKJ/DTQf?=
+ =?us-ascii?Q?jd80N+jFgECzTnRMdc1AnfSH68AU4ZnywGXxYMrdiO3IIeYrYpEHbw=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(52116014)(13003099007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?7749SFdXr8LTg6TE5DcgWpb+KSY0ahg8ddQ+Q5Uzb/fD+kl/sDDD20f0feGz?=
- =?us-ascii?Q?5ahiQpWc3VtKeGLQ0KckpXnxtYUbz13NeDWhXJIOXGTEwamvYwBdR23z38+o?=
- =?us-ascii?Q?7+pvHpSfjiTBBOlyA94hx2t2oMSyKVEldw6JkqxJXLzO/rYzXKyr16NL4xan?=
- =?us-ascii?Q?VQY4evmDBg3YKrWRwHNY0gQjjzhA288KYSUTGAnvOHtY0OEhXoqm1JiIbRSN?=
- =?us-ascii?Q?aqWN5cq4AYcz9mUwm+CeNM3TFFSFjJVUIYoH0tvGYeGgUibVc42cly7JXuFh?=
- =?us-ascii?Q?WseqD5rxsXoMuUPsX6pyvRJX3XHEvg1iujgRUmFOPmnss8yTwBse0WArvBSe?=
- =?us-ascii?Q?Nrld7h8Wh5tUzIwHsyeWYmuLUCeXnFw5mBTlRWg5hHLAvnCXEOGNomcSvQ0q?=
- =?us-ascii?Q?Rbi/Z+FKVNl/zSfxf8zVzVv5jvcBAhxH2lEX9Od5f9Kk4X2lrJwn7xV4sR2E?=
- =?us-ascii?Q?YQIcTTqZgfY6KwMHt15awSfB54K6NXpeEPW92mo0+8GsHWUtk5BZIdKVi8C6?=
- =?us-ascii?Q?bsvxw4dDgGEDlU0gkc/6dI6VoOeZPe/8WnWmR2liWG/QoHLvJprgPTteViPG?=
- =?us-ascii?Q?Q2MAV9BNbgrzd5uaBqi0q1TTUgtyRry2qqnw3gQV2kfYNaoujKY3ejIFHWr0?=
- =?us-ascii?Q?Gsk0iMPquRt1YTmOEnBn/BjLAt9QCsrI7/sB6z+5rPcdgaZkUW515dpMEJCv?=
- =?us-ascii?Q?arAuWJ0j8UiN+kaQlRXyDJSZ3BGZDaz1/iu42ARuSvimZlfvmZlm6kuEihEm?=
- =?us-ascii?Q?x4G6IuVTKVYGXP8VbozeAQzxcX+UOBxhyGggcHvo8to5T14xLutPU9KFgFvT?=
- =?us-ascii?Q?I29SXEDkf3QQ6+8/YxBlX5+/jkc3JiLwtD7JKW9kamQsi5N4gsR3267jQXN5?=
- =?us-ascii?Q?yRCcgGw4GiqP+iXJ4LLPBdlrs22a5jz8CdqmNUCJuP2UuJR6FCHh/USm57d7?=
- =?us-ascii?Q?9sAxfH++WtaRBIgbSQGLf2hSMYYO0WWSjrY7bPIS9M/er2S8/AWyVRkQOc1A?=
- =?us-ascii?Q?2Q3i4DQG+uLe00oBnE5vi0X7FFhF47CEbU2UduWX0P9ibzV+3Q8JiMkt0w+2?=
- =?us-ascii?Q?KOS2t6CQlyOfN4Q6s22kgVaEPKtjFHgTYjauA8qbaPLy/lXjE+BvNnKRYfl0?=
- =?us-ascii?Q?asrOh8H1sIuwm7jxbbjigUZYlNwKZlCPEwZK3Y7TXNcPGD9hbweyHpfU/Xbo?=
- =?us-ascii?Q?z3kB6x6rKOoAKIHk2i9rKyCAguAV171Z4WwPyxovn39aKsLsiFaodgaN8PcK?=
- =?us-ascii?Q?CBvE36Ewm1sL9fTMQcAvb+xx7R5thT9Rn4VCAoj04I6CLniQ7BX6UHvuS/NA?=
- =?us-ascii?Q?Dy+7lPMGpxhoMJl3rffoQTPqQu7YhqLAjrKICxLUvOpO5XZzE4uwojkWY9tm?=
- =?us-ascii?Q?ed8g9+qBeWx8twl1P6/ybClGPWCauqicIkzMU8Ai522B78amKwXrMpFMslVw?=
- =?us-ascii?Q?j1+wxD8NPnetBeQwP1YgeNn1b7/2z32JkQVGcqGF2drg4raC/WXpLhYsnGxL?=
- =?us-ascii?Q?OVZlCAc01yUDFs2zZfliwQvuP8vdwbbmVR9j0Xzjj4QN76OUPC88AkmR09HL?=
- =?us-ascii?Q?C5Ba71H0nM1Gsxydq14/xA5DaQr+H/1lCSd4GixN?=
+	=?us-ascii?Q?IgUuwcnn3a+rwPxbSt2BDfT7mbTZnOlSzCAf/ADxhnyvp9TIk76P5t1+ItHR?=
+ =?us-ascii?Q?XWZXLyeerIyEpxfgp0Tg41qBr49srTTfwACqgdt1E2cwOGFGGuVq2yZItwRS?=
+ =?us-ascii?Q?QPW+cwHntpOxp9fFVviQ6azyz5qmd9s+9AIvF7f1CeAejzUmISNN59eBdsGp?=
+ =?us-ascii?Q?t3KdeSbbSEZlefIZ3DjesagcC42ORBcWA9E/P1AtbN3uctbdOQKaxc6UBxSj?=
+ =?us-ascii?Q?bvEwGVpNC5oRFonLzqglwvRenJgiTRZQg5oS9b6UP9DNqZlrVpOV81uHakBf?=
+ =?us-ascii?Q?yNb+UHuQ12Ox9RYmYmx+VlC77DK2IEtS75qkVvwBfIlLYC+57XFVJUnZHww1?=
+ =?us-ascii?Q?wyfcDu6h7WylORURrMeMxwSBFisKJ+eQEAMOJW4znr2lSOd4eWVJT4KjW05V?=
+ =?us-ascii?Q?qQgMV2atQA7r3DycUxBURWJAKFPiDElqMepzQFMWZZBq8ShyCqtlu7GHc2gV?=
+ =?us-ascii?Q?85tsvElyFwy1i9PusoO+KTujlOIkmsbVh5VynWyL1v2KmPr6py+eEp1VSmZU?=
+ =?us-ascii?Q?WQpnl0YGbRYEwkdfnJ/NO6nxCQu48p49tEK7QZmmFSWEbeZ/gohI4a930FzS?=
+ =?us-ascii?Q?XJIFn4kp6/zC1HsDI9666RL8Qv0D63XDB5IbKwOj3/gONpueVlRz+jmBz1vz?=
+ =?us-ascii?Q?has9tT7kVBK2aZduuJ6xxoqcJeUG49nEJfsFAGUYyiyEHbvfp5G+mEr/zW67?=
+ =?us-ascii?Q?i9XUXfJEjkgHLoWT78VPXQ3y4jLAokfQqnY1mKWdUlzDG2U76bKOGWV73QHf?=
+ =?us-ascii?Q?byyzkj5Wigy+UVQk/5d/lNRgVE6Y23tMXHU6GHEzp6KKhDoWPla1dNHBjAv5?=
+ =?us-ascii?Q?dbWy9uqNa2kH3Tx/D+j+t0AGFHsMW5HOH1VfZyNZaqK1kkUrliu3NaNS+4mP?=
+ =?us-ascii?Q?YPGTk1zrfrL93rBk2tGc/iQ8cwAc7E12HeQEMBI/s5JC+iODU6baTsWPGqpK?=
+ =?us-ascii?Q?plaHoR14Lqv9nJnbavD3yNo7PgsoAHePWCnpx/8lYu8Is19+GGFMWa0SjokA?=
+ =?us-ascii?Q?mkXyxrig4wC5QKnPRc7XTB0pXtrrnWD2W54wTmZ6QKrNlzQTjNoMHiQZBsrO?=
+ =?us-ascii?Q?9+Z3Rkir4Ioe95WXiDAmxtD6kpZx1sCm9yMdfiDmcij7UPf469bsk3JcJ/q4?=
+ =?us-ascii?Q?WIJmXFtwiXzDImMJMLrYlbwNkUEmAcAwtf1UbSexj8M+UXqI7+tvJvjRkdlQ?=
+ =?us-ascii?Q?M7Vb+LR5OOomwZ6AEpJXhwMP1pxtvRW06lK94PZVPC/OFrttk5eLjX2fBhZ7?=
+ =?us-ascii?Q?/2jM45YcbVKi7PVSRAQncycXWXgYBs4/uxVTUq0klGqmQo4cemsU1x+rkJLr?=
+ =?us-ascii?Q?fq4BSUauy577JuFoBXqdyHrFUcShno3CT52krFHbX6nuYCbLJlfLO5xhHsiU?=
+ =?us-ascii?Q?Vy8KLzgmO5oDsWdSHhSmalT6fO+HkDiOiZKTJzJEeOEadA2sM7Ut/MULaHA3?=
+ =?us-ascii?Q?a1y2eKUU4rBUNt5pgHkeq3zKzvb6zhULmU9L9Fu0eyCXBW5s25AO7r5Zoopq?=
+ =?us-ascii?Q?6IdSkDlJ1qIz65yn/6gqeQSg9kuseusBM/H5D5brztRRDhvIe+bHnBLqLK1z?=
+ =?us-ascii?Q?RGzik2aDj02jQ4TBMh5+1vKcx+TEOcsBilZm9Uq1?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab7fd5ec-582e-4159-13c6-08dd524f7a29
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec25fb2e-97ba-476c-f964-08dd524f794e
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 08:12:26.3854
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 08:12:25.0080
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FuI5kA1rEu4FRxveyYIrRI6IiyygLg/qevUlDpByJ79uVwSGkybuziVD+4K6eYXPJW5j32qnmsGu3n4S/1j3pA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: o/W3Qz0GItSWvoOqIW/l6ivDrG2FitTn4TfTIPkCqWRRGkHoBKhW6B5M10QrF7BqfcNz0p2XRzAwkGQnmlFuAw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8351
-X-Proofpoint-GUID: WWTR19IyMSgWaU-jjNy5CAIQuv3ZmCWr
-X-Proofpoint-ORIG-GUID: WWTR19IyMSgWaU-jjNy5CAIQuv3ZmCWr
+X-Proofpoint-GUID: 3hyGFSeySa10QOsVWb2duEd9-SALnGU-
+X-Proofpoint-ORIG-GUID: 3hyGFSeySa10QOsVWb2duEd9-SALnGU-
 X-Authority-Analysis: v=2.4 cv=Ao8U3P9P c=1 sm=1 tr=0 ts=67b8356e cx=c_pps a=SX8rmsjRxG1z7ITso5uGAQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=SCo1hh1FAAAA:8 a=t7CeM3EgAAAA:8
- a=6olxqEbHqzkaEYcinf0A:9 a=nwb-CePKZZm3gL-ai9HY:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=XzdbgVAW2zvpJcglhTUA:9 a=nwb-CePKZZm3gL-ai9HY:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-21_01,2025-02-20_02,2024-11-22_01
@@ -142,192 +140,139 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 08:12:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211794
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211793
 
-When kea is built with "-D_GLIBCXX_ASSERTIONS " set in SECURITY_CFLAGS,
-an assertion occurs if the kea server receives an empty DHCPDISCOVER
-packet:
+If the location of the log lock file is changed using the environment
+variable KEA_LOCKFILE_DIR, the kea-dhcp process will work properly, but
+the lfc (lease file cleanup) process spawned by it will not inherit this
+value and use the default path[1], which will cause the kea server to
+print the following message when running:
 
-kea-dhcp4[596]: /usr/include/c++/13.3.0/bits/stl_vector.h:1128:
-std::vector<Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](size_type)
-[with _Tp = unsigned char; _Alloc = std::allocator<unsigned char>; reference = unsigned char&;
-size_type = long unsigned int]: Assertion '_n < this->size()' failed.
+kea-dhcp4[6767]: Unable to use interprocess sync lockfile (No such file or directory): /var/run/kea/logger_lockfile
 
-Backport patches to fix this issue[1].
+Backport a patch to fix this issue[2].
 
-[1]  https://gitlab.isc.org/isc-projects/kea/-/commit/0b98eae16d9b6ecdf57005624712b9b26fa05bc0
-     https://gitlab.isc.org/isc-projects/kea/-/commit/16306026e37b32a2ce4b16fb5b78561ae153d570
+[1] https://gitlab.isc.org/isc-projects/kea/-/issues/3450
+[2] https://gitlab.isc.org/isc-projects/kea/-/commit/f477e8ebcc8b8e1f1adaad4d55031084c0ff6f40
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../0001-Avoid-assert-on-empty-packet.patch   | 148 ++++++++++++++++++
- meta/recipes-connectivity/kea/kea_2.6.1.bb    |   1 +
- 2 files changed, 149 insertions(+)
- create mode 100644 meta/recipes-connectivity/kea/files/0001-Avoid-assert-on-empty-packet.patch
+ ...ake-kea-environment-available-to-lfc.patch | 96 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_2.6.1.bb    |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-Avoid-assert-on-empty-packet.patch b/meta/recipes-connectivity/kea/files/0001-Avoid-assert-on-empty-packet.patch
+diff --git a/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch b/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
 new file mode 100644
-index 0000000000..14f3424570
+index 0000000000..15c09d4c41
 --- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-Avoid-assert-on-empty-packet.patch
-@@ -0,0 +1,148 @@
-+From 9cf3b6e8d705957927c2fbc9928318f4eda265c8 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Tue, 11 Feb 2025 18:52:41 +0000
-+Subject: [PATCH 1/2] Avoid assert on empty packet
-+
-+/src/lib/dhcp/pkt_filter_lpf.cc
-+    PktFilterLPF::receive() - throw if packet has no data
-+
-+/src/lib/util/buffer.h
-+    InputBuffer::readVecotr() - avoid peek if read request length is 0
-+
-+/src/lib/util/tests/buffer_unittest.cc
-+    Updated test
++++ b/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
+@@ -0,0 +1,96 @@
++From 72d7e6c0b6b5af4fea2e4db9ed33757984ccdc5b Mon Sep 17 00:00:00 2001
++From: Razvan Becheriu <razvan@isc.org>
++Date: Fri, 14 Jun 2024 17:09:50 +0300
++Subject: [PATCH] make kea environment available to lfc
 +
 +Upstream-Status: Backport
-+[https://gitlab.isc.org/isc-projects/kea/-/commit/0b98eae16d9b6ecdf57005624712b9b26fa05bc0]
-+[https://gitlab.isc.org/isc-projects/kea/-/commit/16306026e37b32a2ce4b16fb5b78561ae153d570]
++[https://gitlab.isc.org/isc-projects/kea/-/commit/f477e8ebcc8b8e1f1adaad4d55031084c0ff6f40]
 +
 +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 +---
-+ src/lib/dhcp/pkt_filter_lpf.cc        | 10 +++++++---
-+ src/lib/util/buffer.h                 |  9 ++++++---
-+ src/lib/util/tests/buffer_unittest.cc |  8 +++++++-
-+ 3 files changed, 20 insertions(+), 7 deletions(-)
++ configure.ac                                  |  2 ++
++ src/lib/dhcpsrv/memfile_lease_mgr.cc          |  3 ++-
++ .../tests/memfile_lease_mgr_unittest.cc       | 26 +++++++++++++++++++
++ src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in  |  6 +++++
++ 4 files changed, 36 insertions(+), 1 deletion(-)
++ create mode 100644 src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
 +
-+diff --git a/src/lib/dhcp/pkt_filter_lpf.cc b/src/lib/dhcp/pkt_filter_lpf.cc
-+index 69bdecc0e1..b0c8f108d3 100644
-+--- a/src/lib/dhcp/pkt_filter_lpf.cc
-++++ b/src/lib/dhcp/pkt_filter_lpf.cc
-+@@ -318,9 +318,14 @@ PktFilterLPF::receive(Iface& iface, const SocketInfo& socket_info) {
-+     decodeEthernetHeader(buf, dummy_pkt);
-+     decodeIpUdpHeader(buf, dummy_pkt);
++diff --git a/configure.ac b/configure.ac
++index c00edb5..7b572b0 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1629,6 +1629,8 @@ AC_CONFIG_FILES([src/lib/dhcp_ddns/tests/Makefile])
++ AC_CONFIG_FILES([src/lib/dhcpsrv/Makefile])
++ AC_CONFIG_FILES([src/lib/dhcpsrv/tests/Makefile])
++ AC_CONFIG_FILES([src/lib/dhcpsrv/tests/test_libraries.h])
+++AC_CONFIG_FILES([src/lib/dhcpsrv/tests/test_kea_lfc_env.sh],
+++                [chmod +x src/lib/dhcpsrv/tests/test_kea_lfc_env.sh])
++ AC_CONFIG_FILES([src/lib/dhcpsrv/testutils/Makefile])
++ AC_CONFIG_FILES([src/lib/dns/Makefile])
++ AC_CONFIG_FILES([src/lib/dns/tests/Makefile])
++diff --git a/src/lib/dhcpsrv/memfile_lease_mgr.cc b/src/lib/dhcpsrv/memfile_lease_mgr.cc
++index db4f5d5..0ecf3e7 100644
++--- a/src/lib/dhcpsrv/memfile_lease_mgr.cc
+++++ b/src/lib/dhcpsrv/memfile_lease_mgr.cc
++@@ -209,7 +209,8 @@ LFCSetup::setup(const uint32_t lfc_interval,
++     args.push_back("ignored-path");
 + 
-++    auto v4_len = buf.getLength() - buf.getPosition();
-++    if (v4_len <= 0) {
-++        isc_throw(SocketReadError, "Pkt4FilterLpf:: packet has no DHCPv4 data");
-++    }
-++
-+     // Read the DHCP data.
-+     std::vector<uint8_t> dhcp_buf;
-+-    buf.readVector(dhcp_buf, buf.getLength() - buf.getPosition());
-++    buf.readVector(dhcp_buf, v4_len);
++     // Create the process (do not start it yet).
++-    process_.reset(new ProcessSpawn(ProcessSpawn::ASYNC, executable, args));
+++    process_.reset(new ProcessSpawn(ProcessSpawn::ASYNC, executable, args,
+++                                    ProcessEnvVars(), true));
 + 
-+     // Decode DHCP data into the Pkt4 object.
-+     Pkt4Ptr pkt = Pkt4Ptr(new Pkt4(&dhcp_buf[0], dhcp_buf.size()));
-+@@ -344,8 +349,7 @@ PktFilterLPF::receive(Iface& iface, const SocketInfo& socket_info) {
-+ 
-+             struct timeval cmsg_time;
-+             memcpy(&cmsg_time, CMSG_DATA(cmsg), sizeof(cmsg_time));
-+-            pkt->addPktEvent(PktEvent::SOCKET_RECEIVED, cmsg_time);
-+-            break;
-++            pkt->addPktEvent(PktEvent::SOCKET_RECEIVED, cmsg_time); break;
-+         }
-+ 
-+         cmsg = CMSG_NXTHDR(&m, cmsg);
-+diff --git a/src/lib/util/buffer.h b/src/lib/util/buffer.h
-+index 41ecdf3375..c426a14495 100644
-+--- a/src/lib/util/buffer.h
-++++ b/src/lib/util/buffer.h
-+@@ -1,4 +1,4 @@
-+-// Copyright (C) 2009-2024 Internet Systems Consortium, Inc. ("ISC")
-++// Copyright (C) 2009-2025 Internet Systems Consortium, Inc. ("ISC")
-+ //
-+ // This Source Code Form is subject to the terms of the Mozilla Public
-+ // License, v. 2.0. If a copy of the MPL was not distributed with this
-+@@ -233,7 +233,8 @@ public:
-+     /// @details If specified buffer is too short, it will be expanded using
-+     /// vector::resize() method. If the remaining length of the buffer
-+     /// is smaller than the specified length, an exception of class
-+-    /// @c isc::OutOfRange will be thrown.
-++    /// @c isc::OutOfRange will be thrown.  Read length zero results
-++    /// in an empty vector.
-+     ///
-+     /// @param data Reference to a buffer (data will be stored there).
-+     /// @param len Size specified number of bytes to read in a vector.
-+@@ -244,7 +245,9 @@ public:
-+         }
-+ 
-+         data.resize(len);
-+-        peekData(&data[0], len);
-++        if (len) {
-++            peekData(&data[0], len);
-++        }
-+     }
-+ 
-+     /// @brief Read specified number of bytes as a vector.
-+diff --git a/src/lib/util/tests/buffer_unittest.cc b/src/lib/util/tests/buffer_unittest.cc
-+index 66c43e8f21..bae051dd16 100644
-+--- a/src/lib/util/tests/buffer_unittest.cc
-++++ b/src/lib/util/tests/buffer_unittest.cc
-+@@ -1,4 +1,4 @@
-+-// Copyright (C) 2009-2024 Internet Systems Consortium, Inc. ("ISC")
-++// Copyright (C) 2009-2025 Internet Systems Consortium, Inc. ("ISC")
-+ //
-+ // This Source Code Form is subject to the terms of the Mozilla Public
-+ // License, v. 2.0. If a copy of the MPL was not distributed with this
-+@@ -197,6 +197,12 @@ TEST_F(BufferTest, inputBufferRead) {
-+     ASSERT_EQ(sizeof(vdata), datav.size());
-+     ASSERT_EQ(0, memcmp(&vdata[0], testdata, sizeof(testdata)));
-+     ASSERT_EQ(sizeof(vdata), ibuffer.getPosition());
-++
-++    // Verify that read len of zero results in an empty
-++    // vector without throwing.
-++    datav.resize(8);
-++    ASSERT_NO_THROW(ibuffer.readVector(datav, 0));
-++    ASSERT_EQ(datav.size(), 0);
++     // If we've been told to run it once now, invoke the callback directly.
++     if (run_once_now) {
++diff --git a/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc b/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
++index 034f1f5..9edf637 100644
++--- a/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
+++++ b/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
++@@ -534,6 +534,32 @@ TEST_F(MemfileLeaseMgrTest, lfcTimer) {
++     EXPECT_EQ(2, lease_mgr->getLFCCount());
 + }
 + 
-+ TEST_F(BufferTest, outputBufferReadAt) {
-+-- 
-+2.25.1
-+
-+From 614a6c136fc20ee428b1c880889ef61253657499 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Tue, 18 Feb 2025 15:03:12 +0000
-+Subject: [PATCH 2/2] Addressed review comments
-+
-+Couple of typos fixed.
-+---
-+ src/lib/dhcp/pkt_filter_lpf.cc | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/lib/dhcp/pkt_filter_lpf.cc b/src/lib/dhcp/pkt_filter_lpf.cc
-+index b0c8f108d3..3642915cc1 100644
-+--- a/src/lib/dhcp/pkt_filter_lpf.cc
-++++ b/src/lib/dhcp/pkt_filter_lpf.cc
-+@@ -320,7 +320,7 @@ PktFilterLPF::receive(Iface& iface, const SocketInfo& socket_info) {
-+ 
-+     auto v4_len = buf.getLength() - buf.getPosition();
-+     if (v4_len <= 0) {
-+-        isc_throw(SocketReadError, "Pkt4FilterLpf:: packet has no DHCPv4 data");
-++        isc_throw(SocketReadError, "Pkt4FilterLpf packet has no DHCPv4 data");
-+     }
-+ 
-+     // Read the DHCP data.
-+@@ -349,7 +349,8 @@ PktFilterLPF::receive(Iface& iface, const SocketInfo& socket_info) {
-+ 
-+             struct timeval cmsg_time;
-+             memcpy(&cmsg_time, CMSG_DATA(cmsg), sizeof(cmsg_time));
-+-            pkt->addPktEvent(PktEvent::SOCKET_RECEIVED, cmsg_time); break;
-++            pkt->addPktEvent(PktEvent::SOCKET_RECEIVED, cmsg_time);
-++            break;
-+         }
-+ 
-+         cmsg = CMSG_NXTHDR(&m, cmsg);
+++/// @brief Check that the kea environment is accesible to the Lease
+++/// File Cleanup process.
+++TEST_F(MemfileLeaseMgrTest, lfcEnv) {
+++    DatabaseConnection::ParameterMap pmap;
+++    pmap["type"] = "memfile";
+++    pmap["universe"] = "4";
+++    pmap["name"] = getLeaseFilePath("leasefile4_0.csv");
+++    pmap["lfc-interval"] = "1";
+++
+++    std::ostringstream s;
+++    s << DHCP_DATA_DIR << "/test_kea_lfc_env.sh";
+++    setenv("KEA_LFC_EXECUTABLE", s.str().c_str(), 1);
+++
+++    boost::scoped_ptr<NakedMemfileLeaseMgr> lease_mgr(new NakedMemfileLeaseMgr(pmap));
+++
+++    // Try to run the lease file cleanup.
+++    ASSERT_NO_THROW(lease_mgr->lfcCallback());
+++
+++    // Wait for the LFC process to complete.
+++    ASSERT_TRUE(waitForProcess(*lease_mgr, 1));
+++
+++    // And make sure it has returned an exit status of 0.
+++    EXPECT_EQ(0, lease_mgr->getLFCExitStatus())
+++        << "environment not available to LFC";
+++}
+++
++ /// @brief This test checks if the LFC timer is disabled (doesn't trigger)
++ /// cleanups when the lfc-interval is set to 0.
++ TEST_F(MemfileLeaseMgrTest, lfcTimerDisabled) {
++diff --git a/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in b/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
++new file mode 100644
++index 0000000..3eb71d5
++--- /dev/null
+++++ b/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
++@@ -0,0 +1,6 @@
+++#!/bin/sh
+++
+++if [ $(env | grep -c KEA_LFC_EXECUTABLE) != 0 ]; then
+++    exit 0
+++fi
+++exit 1
 +-- 
 +2.25.1
 +
 diff --git a/meta/recipes-connectivity/kea/kea_2.6.1.bb b/meta/recipes-connectivity/kea/kea_2.6.1.bb
-index c2818c3386..ff7fb51fe0 100644
+index 19e07f5da3..c2818c3386 100644
 --- a/meta/recipes-connectivity/kea/kea_2.6.1.bb
 +++ b/meta/recipes-connectivity/kea/kea_2.6.1.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+@@ -20,6 +20,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://0001-Replace-Name-NameString-with-vector-of-uint8_t.patch \
             file://0002-Fix-unittests-Typo-in-Name-Name-append-to-ndata_-not.patch \
             file://0001-Update-asiolink-for-boost-1.87.patch \
-            file://0001-make-kea-environment-available-to-lfc.patch \
-+           file://0001-Avoid-assert-on-empty-packet.patch \
++           file://0001-make-kea-environment-available-to-lfc.patch \
             "
  SRC_URI[sha256sum] = "d2ce14a91c2e248ad2876e29152d647bcc5e433bc68dafad0ee96ec166fcfad1"
  
