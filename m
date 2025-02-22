@@ -1,346 +1,222 @@
-Return-Path: <marex@denx.de>
+Return-Path: <dixitparmar19@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF98C021B3
-	for <webhook@archiver.kernel.org>; Sat, 22 Feb 2025 00:23:49 +0000 (UTC)
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by mx.groups.io with SMTP id smtpd.web11.37816.1740183825575361516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D99DC021B2
+	for <webhook@archiver.kernel.org>; Sat, 22 Feb 2025 07:11:41 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.42233.1740208298519772177
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Feb 2025 16:23:46 -0800
+ Fri, 21 Feb 2025 23:11:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=mx-20241105 header.b=eiyQI8fc;
- spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5E49C10382D37;
-	Sat, 22 Feb 2025 01:23:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1740183823;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fNAGKpfBpblCsqKE78dm0P9t1LY2X1ktXK5is2KLc2E=;
-	b=eiyQI8fcGxY6HRZe5BoMmiPsYAZVUoYxDtCeJc02jE5N7GLm7r2JV1bBErPit0b0gt1DOJ
-	HKuzuE2Fy2QDe7UIcUr6+yJYdJ5T8cACqJnNGe5de5X5tA85WMFZf/oFWt9Ldr28w8yZ2L
-	8WrrUKDAwR7ohc6AbbHRYvsN3JyjWK3UIjwKpFobqEpWQ0LGugbMQh5xpuzlVsT5U53hs8
-	U8wB4HWQ5TMmZpz1RRwk1CGJTXeXDDtyt2kEYOP1BB73iGVuArJldg2bsayVYnHiEh7wuF
-	zBwApz2U6VinEJ9v7JQd9o5SWkHnk7OWWTTH+FMO2uE+3IyKqsTs0f+ZsExyTg==
-Message-ID: <42e80a56-168c-4a5e-b24b-c349af3a3fba@denx.de>
-Date: Sat, 22 Feb 2025 00:54:37 +0100
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nmpBoJS2;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: dixitparmar19@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2211cd4463cso57593515ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Feb 2025 23:11:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740208297; x=1740813097; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+I87Gn1qmUCBDq2zpAS7dsW8tNpWwu955S4J4Zc40Zw=;
+        b=nmpBoJS2X5ZgyyYNK2R7ggEQGzEKV5502Yjv1D9G8IlX89xY9/cVTgLWLM/F/yYBey
+         HV1+Sgzq4pZC5H+FOJDhQlVSXqXpQ4qv6y1YyPI5xsZjPBF2m0xL8x8oykK4DJc0cTtv
+         pO+yUTC05KUu8ZeJ+Fj/g+v57lFoWqgovFq4yzxC9eURwrjYQGigZcRCq8EpV4h13iUo
+         2l+OSlG4LUmvmbpWB00rqXYRSTJPrqvPA7AXjUErRmIf0KIhTa5Jyd51v8x0UGXqnoed
+         tIWx6loI8cCiz4xRkllMIoQjSQQ08fqN1MTeNjKDvBBpM7Ru/jAkGEOd9UXyiWgJMQMH
+         1XAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740208297; x=1740813097;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+I87Gn1qmUCBDq2zpAS7dsW8tNpWwu955S4J4Zc40Zw=;
+        b=UsxwoaVOAeCK2xVN/Z8n4PRHdn8UosF6eBUMc6xoh11aAjQRK4dHvotAforWA9X79I
+         ti2b7Fq7jKINedINl2xlsDGq7IJwycXG6E4BYw851FAl4cKJzEOxlbnNBP66t9N9X0HL
+         HchjA0bY6qPEskTHyJu9hp+9By3/AydddcBeMWqSDSM79WwAW3bNvUsiwGWvXwoakHBg
+         9tfI3G+ol7GPOTgF1Ffu6SJ62UDuqmxYf8DyKJhVV4t/glqRVWQfblEaiDGsEkEq4mgo
+         kPTcsMj7H//wUc39uJB+2GQYAX3mHfgyddvKpeJjmfIPsNDDpJmGuGh8LAINMS5wS6Qj
+         L7UA==
+X-Gm-Message-State: AOJu0YwoVGk6z6pyAQWEGS8CrIh3QvAbKg+yvn2nDe3KWC710eS1rGmA
+	+Iuem2A8m3tXmKXjvTaspeXuutJpODtxVYAHVB011/YCK6E9PnX1L9A43w==
+X-Gm-Gg: ASbGnctGAQsYSbJ2ahi/tUsfEDXZRUkOzClBfti8XinMY65jkklQqEdvpnAlBW37NG3
+	u2LLjDrsV8cXpOoMz8Dc1WyCV1RPLG5oBx3+APZeLA2rD/jYw1cTmCdE7XZwJDJGJCg53aEaj9v
+	dvM+M4LfmJ0PETO7pGM7HA9gfmOxA7BwG0skWIExnujCVA6NLW4nuMEU9MBof+v4/isvspVjMYM
+	+8DQMn7hVvEJohkMsm5MZmee1Nkd9pvKZd9HKbMBfV8u4esd+NcYVI6FxbwHkF8NTleZy1B3rF+
+	YlfGLyQ34BEq4qiuK9cnGGqrklEKZQ==
+X-Google-Smtp-Source: AGHT+IE0eDLdiruSowweBErh4ER+IWhyoTM18oYzPm+oWNc+3gYTffeDgWN9C7/w6ICyMSFBp/oqfw==
+X-Received: by 2002:a17:903:1cd:b0:220:cd7f:cde8 with SMTP id d9443c01a7336-2219ff6eb4cmr88812395ad.29.1740208297480;
+        Fri, 21 Feb 2025 23:11:37 -0800 (PST)
+Received: from dixit.. ([2401:4900:1c44:7f2a:dbdf:8458:c305:ec68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d556dd64sm148576695ad.189.2025.02.21.23.11.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2025 23:11:37 -0800 (PST)
+From: Dixit Parmar <dixitparmar19@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dixit Parmar <dixitparmar19@gmail.com>,
+	George Thopas <george.thopas@gmail.com>
+Subject: [PATCH] kernel-module-split: fix conf file generation when KERNEL_SPLIT_MODULES=0
+Date: Sat, 22 Feb 2025 12:41:12 +0530
+Message-ID: <20250222071113.81675-1-dixitparmar19@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Broken FIT image signing since "u-boot:
- kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV
- enabled"
-To: Rogerio Guerra Borin <rogerio.borin@toradex.com>,
- Sean Anderson <seanga2@gmail.com>, Quentin Schulz
- <quentin.schulz@cherry.de>, openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-References: <VcVL.1739730983448118565.i0SN@lists.openembedded.org>
- <e82e9be5-9a56-4c22-ba44-90c8e6690d99@cherry.de>
- <86f57755-bad6-49ad-a1b6-d0dceaf5344b@denx.de>
- <c1fdfe98-90cd-44e4-9c5a-fe5d73ac49b4@toradex.com>
- <3341efe1-1515-4549-97ac-d3a82f71f16b@denx.de>
- <f5807fe9-d460-8f69-c480-84396db1fee8@gmail.com>
- <da99bdf6-49d6-4efa-861b-9277f01e0588@toradex.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <da99bdf6-49d6-4efa-861b-9277f01e0588@toradex.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Feb 2025 00:23:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211815
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Feb 2025 07:11:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211817
 
-On 2/21/25 3:15 PM, Rogerio Guerra Borin wrote:
-> Hey Marek and Sean,
+When KERNEL_SPLIT_MODULES=0 modprob and autload conf files are not getting
+generated for the kernel modules.
 
-Hi,
+Separated out conf file handling mechanism as handle_conf_files() function
+from hook frob_metadata() function. handle_conf_files() gets re-used from the
+existing hook function and add_conf_files function which got introduced for
+splitmods=0 flow in this patch.
 
-> I think we're discussing two different questions here and perhaps mixin=
-g=20
-> up them two :-)
->=20
-> One question is: Should people sign "only" the individual subimages=20
-> inside the FIT image? And I think we all agree that the answer is no=20
-> because that image would be susceptible to mix-and-match attacks.
->=20
-> Another question is: What's the behavior associated with the variable=20
-> FIT_SIGN_INDIVIDUAL? And we've got two conflicting answers:
->=20
-> (1) It selects between *either* signing individual images *or* signing=20
-> the configuration.
-> (2) It simply enables the signing of individual images but does not=20
-> impact the signing of the configuration (which is always performed if=20
-> UBOOT_SIGN_ENABLE=3D"1").
->=20
->  From what we talked, Marek believes the behavior follows (or should=20
-> follow) item (1), but both the documentation and the observed behavior=20
-> so far (up until commit d7bd9c62) follow item (2).
->=20
-> So, in the end all we need to do is to decide on the *expected* behavio=
-r=20
-> between (1) and (2).
->=20
-> In my view, behavior (2), which is the documented one, is the best=20
-> choice because the user simply cannot sign *only* the individual images=
-,=20
-> being thus more foolproof (that is, the user simply cannot produce a=20
-> signed image susceptible to the mix-and-match attack).
+[YOCTO #15145]
 
-This is also redundant. Signing configurations also signs the images=20
-referenced in those configurations.
+Signed-off-by: Dixit Parmar <dixitparmar19@gmail.com>
+Cc: George Thopas <george.thopas@gmail.com>
+---
+ .../kernel-module-split.bbclass               | 82 +++++++++++++++----
+ 1 file changed, 67 insertions(+), 15 deletions(-)
 
-Signing both images and configurations the way FIT_SIGN_INDIVIDUAL=3D1=20
-only adds to complexity and confusion without really adding anything in=20
-terms of security, I think this should be eventually removed.
+diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+index 9487365eb7..2fb3ab967f 100644
+--- a/meta/classes-recipe/kernel-module-split.bbclass
++++ b/meta/classes-recipe/kernel-module-split.bbclass
+@@ -86,11 +86,7 @@ python split_kernel_module_packages () {
+             vals[m.group(1)] = m.group(2)
+         return vals
+ 
+-    def frob_metadata(file, pkg, pattern, format, basename):
+-        vals = extract_modinfo(file)
+-
+-        dvar = d.getVar('PKGD')
+-
++    def handle_conf_files(d, basename, pkg):
+         # If autoloading is requested, output ${modulesloaddir}/<name>.conf and append
+         # appropriate modprobe commands to the postinst
+         autoloadlist = (d.getVar("KERNEL_MODULE_AUTOLOAD") or "").split()
+@@ -101,7 +97,7 @@ python split_kernel_module_packages () {
+             bb.warn("module_autoload_%s is defined but '%s' isn't included in KERNEL_MODULE_AUTOLOAD, please add it there" % (basename, basename))
+         if basename in autoloadlist:
+             conf = '%s/%s.conf' % (d.getVar('modulesloaddir'), basename)
+-            name = '%s%s' % (dvar, conf)
++            name = '%s%s' % (d.getVar('PKGD'), conf)
+             os.makedirs(os.path.dirname(name), exist_ok=True)
+             with open(name, 'w') as f:
+                 if autoload:
+@@ -114,7 +110,7 @@ python split_kernel_module_packages () {
+             d.appendVar('CONFFILES:%s' % pkg, conf2append)
+             postinst = d.getVar('pkg_postinst:%s' % pkg)
+             if not postinst:
+-                bb.fatal("pkg_postinst:%s not defined" % pkg)
++                postinst = d.getVar('pkg_postinst:modules')
+             postinst += d.getVar('autoload_postinst_fragment') % (autoload or basename)
+             d.setVar('pkg_postinst:%s' % pkg, postinst)
+ 
+@@ -123,7 +119,7 @@ python split_kernel_module_packages () {
+         modconf = d.getVar('module_conf_%s' % basename)
+         if modconf and basename in modconflist:
+             conf = '%s/%s.conf' % (d.getVar('modprobedir'), basename)
+-            name = '%s%s' % (dvar, conf)
++            name = '%s%s' % (d.getVar('PKGD'), conf)
+             os.makedirs(os.path.dirname(name), exist_ok=True)
+             with open(name, 'w') as f:
+                 f.write("%s\n" % modconf)
+@@ -134,6 +130,62 @@ python split_kernel_module_packages () {
+         elif modconf:
+             bb.error("Please ensure module %s is listed in KERNEL_MODULE_PROBECONF since module_conf_%s is set" % (basename, basename))
+ 
++    def add_conf_files(d, root, file_regex, output_pattern):
++        """
++        Arguments:
++        root           -- the path in which to search
++        file_regex     -- regular expression to match searched files. Use
++                          parentheses () to mark the part of this expression
++                          that should be used to derive the module name (to be
++                          substituted where %s is used in other function
++                          arguments as noted below)
++        output_pattern -- pattern to use for the package names. Must include %s.
++        """
++
++        dvar = d.getVar('PKGD')
++        root = d.expand(root)
++        output_pattern = d.expand(output_pattern)
++
++        # if the root directory doesn't exist, don't error out later but silently do
++        # no splitting.
++        if not os.path.exists(dvar + root):
++            return []
++
++        # get list of modules
++        objs = []
++        for walkroot, dirs, files in os.walk(dvar + root):
++            for file in files:
++                relpath = os.path.join(walkroot, file).replace(dvar + root + '/', '', 1)
++                if relpath:
++                    objs.append(relpath)
++
++        for o in sorted(objs):
++            import re, stat
++            if False:
++                m = re.match(file_regex, o)
++            else:
++                m = re.match(file_regex, os.path.basename(o))
++
++            if not m:
++                continue
++
++            file = os.path.join(dvar + root, o)
++            mode = os.lstat(file).st_mode
++            if not (stat.S_ISREG(mode) or (allow_links and stat.S_ISLNK(mode)) or (allow_dirs and stat.S_ISDIR(mode))):
++                continue
++
++            on = legitimize_package_name(m.group(1))
++            pkg = output_pattern % on
++
++            basename = m.group(1)
++            handle_conf_files(d, basename, pkg)
++
++    def frob_metadata(file, pkg, pattern, format, basename):
++        vals = extract_modinfo(file)
++        dvar = d.getVar('PKGD')
++
++        handle_conf_files(d, basename, pkg)
++
+         if "description" in vals:
+             old_desc = d.getVar('DESCRIPTION:' + pkg) or ""
+             d.setVar('DESCRIPTION:' + pkg, old_desc + "; " + vals["description"])
+@@ -167,19 +219,19 @@ python split_kernel_module_packages () {
+     postinst = d.getVar('pkg_postinst:modules')
+     postrm = d.getVar('pkg_postrm:modules')
+ 
++    module_regex = r'^(.*)\.k?o(?:\.(gz|xz|zst))?$'
++    module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
++    module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
++    module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
++
+     if splitmods != '1':
+         d.appendVar('FILES:' + metapkg, '%s %s %s/modules' %
+             (d.getVar('modulesloaddir'), d.getVar('modprobedir'), d.getVar("nonarch_base_libdir")))
+         d.appendVar('pkg_postinst:%s' % metapkg, postinst)
+-        d.prependVar('pkg_postrm:%s' % metapkg, postrm);
++        d.prependVar('pkg_postrm:%s' % metapkg, postrm)
++        add_conf_files(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern)
+         return
+ 
+-    module_regex = r'^(.*)\.k?o(?:\.(gz|xz|zst))?$'
+-
+-    module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+-    module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+-    module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
+-
+     modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+     if modules:
+         d.appendVar('RDEPENDS:' + metapkg, ' '+' '.join(modules))
+-- 
+2.43.0
 
-> Besides that,=20
-> since (2) is the observed behavior (up until commit d7bd9c62), changing=
-=20
-> it would be a breaking change, at least in my understanding.
->=20
->>>
->>> See the U-Boot documentation:
->>>
->>> https://docs.u-boot.org/en/latest/usage/fit/signature.html
->>>
->>> And especially this section:
->>>
->>> https://docs.u-boot.org/en/latest/usage/fit/signature.html#signed-=20
->>> configurations
->>>
->>> That is why I find the signing of both images and configurations odd.
->=20
-> Checking the U-Boot docs, I see it says that it is possible to sign wit=
-h=20
-> multiple keys. So I don't think it contradicts or prevents what Yocto i=
-s=20
-> doing (signing config or config+images).
->=20
-> Btw, the docs also says that each key has a property "required" which=20
-> accepts values "image" or "conf". Here's a snippet of the produced U-=20
-> Boot DTB (same on kirkstone and scarthgap pre d7bd9c62) when=20
-> FIT_SIGN_INDIVIDUAL=3D"1":
->=20
-> """
-> $ fdtdump -s deploy/images/verdin-imx8mm/u-boot.dtb
-> deploy/images/verdin-imx8mm/u-boot.dtb: found fdt at offset 0
-> /dts-v1/;
-> // magic:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 0xd00dfeed
-> // totalsize:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- 0x10de8 (69096)
-> // off_dt_struct:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x38
-> // off_dt_strings:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xf530
-> // off_mem_rsvmap:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x28
-> // version:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 17
-> // last_comp_version:=C2=A0=C2=A0 16
-> // boot_cpuid_phys:=C2=A0=C2=A0=C2=A0=C2=A0 0x0
-> // size_dt_strings:=C2=A0=C2=A0=C2=A0=C2=A0 0x1664
-> // size_dt_struct:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xf4f8
->=20
-> / {
->  =C2=A0=C2=A0=C2=A0 interrupt-parent =3D <0x00000001>;
->  =C2=A0=C2=A0=C2=A0 #address-cells =3D <0x00000002>;
->  =C2=A0=C2=A0=C2=A0 #size-cells =3D <0x00000002>;
->  =C2=A0=C2=A0=C2=A0 model =3D "Toradex Verdin iMX8M Mini WB on Verdin D=
-evelopment Board";
->  =C2=A0=C2=A0=C2=A0 compatible =3D "toradex,verdin-imx8mm-wifi-dev", "t=
-oradex,verdin-...
->  =C2=A0=C2=A0=C2=A0 signature {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key-dev2 {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req=
-uired =3D "image";=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 <=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alg=
-o =3D "sha256,rsa2048";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,r-squared =3D <0x3956dbd5 0x8b651d3b 0xa621244b...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,modulus =3D <0xbcb94b0f 0x77f059c2 0xfb77ccac...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,exponent =3D <0x00000000 0x00010001>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,n0-inverse =3D <0x707813fd>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,num-bits =3D <0x00000800>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key=
--name-hint =3D "dev2";=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <=3D=
-=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key-dev {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req=
-uired =3D "conf";=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 <=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alg=
-o =3D "sha256,rsa2048";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,r-squared =3D <0x06d11c22 0x56f31661 0x133143bb...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,modulus =3D <0xdb06864a 0x12a1e033 0x04b0b457...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,exponent =3D <0x00000000 0x00010001>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,n0-inverse =3D <0x8925c5c7>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rsa=
-,num-bits =3D <0x00000800>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key=
--name-hint =3D "dev";=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- <=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0 aliases {
-> ...
-> """
->=20
-> Basically, the "dev2" key is marked as required for checking images=20
-> while the "dev" key is marked as required for checking the=20
-> configurations. This seems perfectly acceptable by the U-Boot=20
-> documentation and it works fine because the resulting kernel FIT image=20
-> does get both signatures. To prove, here's the snippet for the kernel:
->=20
-> """
-> deploy/images/verdin-imx8mm/fitImage: found fdt at offset 0
-> /dts-v1/;
-> // magic:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 0xd00dfeed
-> // totalsize:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- 0xb86379 (12084089)
-> // off_dt_struct:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x38
-> // off_dt_strings:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xb86010
-> // off_mem_rsvmap:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x28
-> // version:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 17
-> // last_comp_version:=C2=A0=C2=A0 16
-> // boot_cpuid_phys:=C2=A0=C2=A0=C2=A0=C2=A0 0x0
-> // size_dt_strings:=C2=A0=C2=A0=C2=A0=C2=A0 0xd0
-> // size_dt_struct:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xb85fd8
->=20
-> / {
->  =C2=A0=C2=A0=C2=A0 timestamp =3D <0x00000000>;
->  =C2=A0=C2=A0=C2=A0 description =3D "Kernel fitImage for Torizon OS/6.6=
-.74";
->  =C2=A0=C2=A0=C2=A0 #address-cells =3D <0x00000001>;
->  =C2=A0=C2=A0=C2=A0 images {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel-1 {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 des=
-cription =3D "Linux kernel";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
-a =3D [1f 8b 08 08 a6 ...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 typ=
-e =3D "kernel";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arc=
-h =3D "arm64";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os =
-=3D "linux";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 com=
-pression =3D "gzip";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 loa=
-d =3D <0x48200000>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ent=
-ry =3D <0x48200000>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 has=
-h-1 {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 value =3D <0x4abf5358 0x1069f770 0x4eccebee 0x6fa2fce0=
-...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 algo =3D "sha256";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig=
-nature-1 {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <=3D=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 timestamp =3D <0x00000000>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 signer-version =3D "2024.01";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 signer-name =3D "mkimage";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 value =3D <0x1cc3293e 0x97759447 0x970a4cb2 0x4d904336=
-...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 algo =3D "sha256,rsa2048";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 key-name-hint =3D "dev2";=C2=A0=C2=A0=C2=A0=C2=A0 <=3D=
-=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> ...
->  =C2=A0=C2=A0=C2=A0 configurations {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default =3D "conf-freescale=
-_imx8mm-verdin-nonwifi-dahlia.dtb";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conf-freescale_imx8mm-verdi=
-n-nonwifi-dahlia.dtb {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 des=
-cription =3D "1 Linux kernel, FDT blob";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ker=
-nel =3D "kernel-1";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fdt=
- =3D "fdt-freescale_imx8mm-verdin-nonwifi-dahlia.dtb";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 has=
-h-1 {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 algo =3D "sha256";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sig=
-nature-1 {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <=3D=3D=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 hashed-strings =3D <0x00000000 0x000000b4>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 hashed-nodes =3D "/", "/configurations/conf-=20
-> freescale_imx8mm-verdin-nonwifi-dahlia.dtb", "/images/kernel-1", "/=20
-> images/k...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 timestamp =3D <0x00000000>;
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 signer-version =3D "2024.01";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 signer-name =3D "mkimage";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 value =3D <0x85d3c35c 0xeac899db...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 algo =3D "sha256,rsa2048";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 key-name-hint =3D "dev";=C2=A0=C2=A0=C2=A0=C2=A0 <=3D=3D=
-=3D=3D
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 padding =3D "pkcs-1.5";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 sign-images =3D "kernel", "fdt";
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> ...
-> """
->=20
-> Of course, I also agree with what Marek said that signing both=20
-> configurations and images is redundant, but the Yocto docs (https://=20
-> docs.yoctoproject.org/5.0.6/ref-manual/variables.html#term-=20
-> FIT_SIGN_INDIVIDUAL) says:
->=20
->  > If set to =E2=80=9C1=E2=80=9D, then the kernel-fitimage class will s=
-ign the kernel,
->  > dtb and ramdisk images individually *in addition* to signing the FIT
->  > image itself. This could be useful if you are intending to verify
->  > signatures in *another context than booting via U-Boot*.
->=20
-> Which leads me to the conclusion that the behavior pre d7bd9c62 is=20
-> intended.
->=20
-> Having said all of that, notice that if the decision was really to=20
-> switch to interpretation (1) then other changes would be required=20
-> besides those made to concat_dtb(). In particular, I imagine=20
-> fitimage_emit_section_config() would require changes to avoid emitting=20
-> the signature node for the configurations.
->=20
-> Hope this clarifies things...
-I am increasingly convinced that FIT_SIGN_INDIVIDUAL=3D1 is poorly=20
-designed, but sadly here to stay.
 
