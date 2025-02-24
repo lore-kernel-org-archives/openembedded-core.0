@@ -1,342 +1,234 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E21DC021B2
-	for <webhook@archiver.kernel.org>; Mon, 24 Feb 2025 00:27:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D3D5C021B3
+	for <webhook@archiver.kernel.org>; Mon, 24 Feb 2025 04:31:24 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.78911.1740356868300362685
+ by mx.groups.io with SMTP id smtpd.web10.81981.1740371474122657526
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Feb 2025 16:27:48 -0800
+ Sun, 23 Feb 2025 20:31:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4150c0ec72=changqing.li@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=415024d1b4=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51O0I41A017825
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 16:27:47 -0800
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44yeyqh6wq-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51O4OHVw013728
+	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 20:31:13 -0800
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2046.outbound.protection.outlook.com [104.47.58.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44yeyqhdvc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 16:27:47 -0800 (PST)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51O0Rll5031527;
-	Sun, 23 Feb 2025 16:27:47 -0800
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44yeyqh6wp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 23 Feb 2025 16:27:46 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 20:31:13 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XyVtLXtWLdjBfTec/YIfV353eT1IvhN3y3Tee8nSivLk8npbJjC02PW0OlFNAlG5smB/AUNQ5EqiZZrX034zbQ9Zd+hmnAFuWleGb91GADYHGKH1yivHOJGdHZDRnlV2k3ZqtVX0SELvJwEt17ZEJtrE34o1mm64ldE5BQNhmrF59ZMIcGUtZFnD5BvTw9ZWTBL7aYDwWDHpGH540FQ41UR5lwSsMyG6ggHoc1drRShM7GkwpE4rz37cwF7M55WezkpURCF6DMTd3F2GJTG6+erMl7r5SdJ6CdU3meVL10Okctj0eJrcFsJVvq3RZYs/5/cqAR3rC9EkaYArdeMr2g==
+ b=W3ILRnO4qt/rjjWDBv+faYaYu6dbYZg7N5h6IsiIFNqRIF+nP2NXwqfEsCRmPCAlDgeSxyn4qf4QcRG5RLhLESvpociZPj2WTa7xEV6OWV/Q5PXVFe4ziCi+94TXOFJPec4HwR6HhImezUpo0LQniPcar051FhoqN3erWZx3A4ZZISubvIYiZ7BzmuBXysHpm2l4ekXIcBwA1qeBbbdvdogpSbjGQyP3Y3qOo2G96NFYa2qJw2zj580ULXVm+6tk9FGL5jSG2nmEpCuREaC6Ts8JDTdcJuswD6Td4IfOc8oZ4jDiFK8NTf5JNPWQhzmVs5f3qCS8nefI81s5Ut816g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y+4MQYeoOm9SgOMz3pLms+WeJC/f55y7wajma6+yZtM=;
- b=UCwYtGmRWvzHMtT/55aMdAfmHfO6tRGHIsd+V2WFI69GSDhCmi0uLJUkX9IdzyN+y5j7U04ooAu9JQbkNawmqd5B5rfslkgUDAxn2T8mppscmTg9zMTxpEh571kYKtR8ISHb7TB7AmrXTU+LWS2BTCKeBjRbJBKRb290HShJZ6zSBVDdzOYJQxBLcxFo/wqiYvsGLAX0ChoagPd2S7N9qdxZUo3b0n0BrfNWpE4YOYei0q8jPjbUu9B0y3tGRUrKJZ7Jc+qBwPCsEunzOPGb/CRKjIOJN3YTY7brwdfRSB/B0X1WZ3mfWrVqJxkKRuGvrqYtoSwsrIIFQmxH0JBZNA==
+ bh=haDdl3LYfZDkXK4lHO4nHirrh5crMGrGJDmhlCzLQl4=;
+ b=w/r1OxYDLGirRM9v38p11T6yI9CXdR8nYQZFWOU7p4rAfZMXgU3L1yPEH7TCqT6VKjB7n8Im/+CTooeSqBwNq8E1UXAJ89N5r14/xQfJ3ORj3fUp53ykHqPKnHgaRrm2dkoWFQ5kPlJGxApCsBp5q2p3R8Fc6N6nRQ7DI3FUp22h7/D2AAWSmWgOtseg0pYddWj+kR1YEegOt1nZMhLS25elMFg0jhmyFVHMZbiJS+zktJFDpVVkah5vA4o4B3M69jCU2ZqbE3OWvWx1aRPu6wyvaWe/iM2mbkw7VwZauAvzgzrLHqdROl4I+ZOeFB6lzHDMKua+Mi9hghLiJC4hWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by CH2PR11MB8814.namprd11.prod.outlook.com (2603:10b6:610:281::15) with
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by SA0PR11MB4574.namprd11.prod.outlook.com (2603:10b6:806:71::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Mon, 24 Feb
- 2025 00:27:39 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c%5]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 00:27:39 +0000
-Content-Type: multipart/alternative;
- boundary="------------vU0PsbDR2c57w9CBvoE7nE07"
-Message-ID: <61954cfa-8064-4751-b88d-f13ca08ebce4@windriver.com>
-Date: Mon, 24 Feb 2025 08:27:33 +0800
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Mon, 24 Feb
+ 2025 04:31:01 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 04:31:01 +0000
+Message-ID: <a7337f17-17e1-4251-b8ae-7ad5c78d8a81@windriver.com>
+Date: Mon, 24 Feb 2025 12:30:55 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] Revert "python3-ctypes: depend on ldconfig only
- if distro-feature set"
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
-References: <20250220035724.1460062-1-changqing.li@windriver.com>
- <D7Y7576F5D4R.128DYAUZ74YXF@bootlin.com>
+Subject: Re: [OE-core] [PATCH 3/3] man-pages: upgrade 6.9.1 -> 6.11
+To: hongxu.jia@eng.windriver.com, openembedded-core@lists.openembedded.org
+References: <20250217071432.4144843-1-hongxu.jia@windriver.com>
+ <1824ED7D0E1D557B.4193@lists.openembedded.org>
 Content-Language: en-US
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <D7Y7576F5D4R.128DYAUZ74YXF@bootlin.com>
-X-ClientProxiedBy: TYCP286CA0202.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:385::10) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <1824ED7D0E1D557B.4193@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0042.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::17) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|CH2PR11MB8814:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4559127b-6467-4cae-6628-08dd546a0b01
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|SA0PR11MB4574:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0737bfc-6772-4dab-6eac-08dd548c0ac8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|8096899003;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|4022899009|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?WXBmckFvUGdQeE13SEs3c01GNmhwWHVLQlNsTlpOcWgrLzFNamxYaFZEMnlB?=
- =?utf-8?B?UlFNbTc1QmxpSFo5UkhxN09mdFBMWWc3cU9QTHZLb3VKbFEwelJ3N0VLRDZO?=
- =?utf-8?B?MjBEcXdmOXRXZ1RDS0pocklLRVkwUVVWRjZVdFpvM0x4b0x6Z1NXSm0vdTNq?=
- =?utf-8?B?QmtpZWhjU3VKYkNpcVZneDdRSnVFZmRKU3ZXTVJ1c0lzVHo2WWNwMmErQmZ0?=
- =?utf-8?B?WFg4S1dDN2dwOFJLSjFNWHRBL0c2b3R1M3FtRzV5aEVacUVWekZpcUROWXJr?=
- =?utf-8?B?NXhGT2RsU1pWaGwzVWh3SDZ5di9BTU0rZVdYUEhDYTVZL2pxNWVmSmhBRmN1?=
- =?utf-8?B?aFcrUGtBUzRpZU8xT2V3U2ozRWMzZ3ZJRUR2dzFsTHpvQWpsV283ZjJ1MFhj?=
- =?utf-8?B?VTVjVG96UXBrUmVaVmpCY3FseXRwTVZaVFYzTS8xNnNzbGRGZCs2Qll1VkZr?=
- =?utf-8?B?UUJ6bTBtNEdka0x2SU1NWDlRLzQwTmViSlpnS0FQeWdGYU5zUDlyaEZFSkxC?=
- =?utf-8?B?elJVOE5vb281UlBaZG9uQndteXFuU0NMZmJlV1NXdHNxU0JYRkJXL3l2bEhS?=
- =?utf-8?B?U0ljbW0wcE80bFJaUXlBUzdSM2w3U2dOQTYrZ0NvWE9Jc0lhZ1hxcWlEazA4?=
- =?utf-8?B?cmlzSzFiZ0VQNExPM1ZmQmxHN0hKOXFlZzk3d00zVzlmd2JjT0Qwa1lEOElN?=
- =?utf-8?B?S0k3VHROS21lYWxqU2JMZVYxWnJTK2xvbEFGYmg5S2R0dTVyVXBlQWVzeldH?=
- =?utf-8?B?MzNrL0N3MmluRm9GS3B0UEJ0ZDllVlg0UlZYRy93S2t2VGtWMGo0Rm8rWkVk?=
- =?utf-8?B?OHRhSXVabDA4cmljajYxc2hZaTVUeU1meGRjZVNpYlJKZ2lWQjhka290cTZS?=
- =?utf-8?B?Wm1IbHhIRnMzZzNNM1l1bnpoSTVPaGlWWTlKeDRQL3A3dFB2OFJ1K0g0MkIv?=
- =?utf-8?B?N2hCVG9uSVNzUWVpQ0Z4aXRVM2pzT01Qd0l2cG9QRzlEbU1wWjdYbFBhK1ps?=
- =?utf-8?B?a2xvME5vQ3FtODRtcDRZT1Y5dkRMQnVRcHNBdi9hVFZVdHRTODUyV0h0L3ho?=
- =?utf-8?B?MlNYcVdkSENWeW8rU0tkd1hyc1BUVTVpS0hqOEhLWnMwWWJ5NnhFSWx1YkZM?=
- =?utf-8?B?WGZXbHFYdzFwQTlwckczTW9MSWNMTFpKKzlrTkYvRllncGhGR1RkTTBSeUx2?=
- =?utf-8?B?aHNhSmErVnV5cXd2aCtteFRsZEg0bVM2Zi8yT0ZmU1gzUFJNeDhteUprZ3Fh?=
- =?utf-8?B?MHhXZWdEQlpGZ3JEblE5eGd2QmNnZW8rZmZobndNL3F6ZXpSSWJmTGVhUG5r?=
- =?utf-8?B?bjJVTkQyczI5OWRnbnJCMENUR2hTYWlHUFBYS2JNeW9NN0Y3RFdwWGlmTGxB?=
- =?utf-8?B?cnZUNU93QS9hTDBiS3B6ekRWSGRzTlBwTm9LRTltOVhYRU1xRmcwd3VOMEsx?=
- =?utf-8?B?d1RqMnZIOUhUclNjRWQ4aitER3JmeGZMNnhGM1FGWWRxazVYdTNzWFArYUpT?=
- =?utf-8?B?RWErbmszcldqcDE5eExJWlpaSnJYYzEvbzgzUTErT1V5OGZmL1V6T3RZRE9j?=
- =?utf-8?B?V0tjZ1JQUWNuVmV4Qm1LWjRWUk1rWWhYNVlsSzcveFY2TytGaW1aM1UrT2do?=
- =?utf-8?B?WHcxb1BMRm1rZG1EdlpSWnc2cFU0SzFNVUc2ZDJHR3ZVck9QUXBwWTRjdHdx?=
- =?utf-8?B?eUJDU2JVT0VISDFuN0lzQ0ViSWdTSnc5bHIyY1hoZ1ZVODU5MVpZQjVabW56?=
- =?utf-8?Q?YcjYbrZA4jrb+mq1rUcSydvEvyRrUtYuhjo4KZF?=
+	=?utf-8?B?VXV3TzRZSi9vamFZeHk0eXBSNGdiZ3lZY3p1YzNMOHRSYkJxRllURlVsRlRX?=
+ =?utf-8?B?OFdOUmlIcFJHbDZ4L0lDcTg1amU2RzBxRlJFQVVFbVR6WGR3ZUdEUUlTUkNY?=
+ =?utf-8?B?UHpjY29ibmtaSG5yM2xzREFldlY5R01QOVUvQXROalI0SHpaVlpyenU1dFNQ?=
+ =?utf-8?B?ZnQ5RUI0c1VQU3ZaVjlBbTJVNGVFTU5vMmRFVU9sbFlhcitveUdYTzZINitI?=
+ =?utf-8?B?aHRGSVVJYXBISDVBQ2JJVDM0VE1PRTVTQWZLQ2c2K3BGWHZIZjdhRFlGSDlv?=
+ =?utf-8?B?YVFtVDRIa3k4WFRZZzdOZzlONkZSa1VDS0FCRzJvSEphUHFpbXU0VjhkNzd5?=
+ =?utf-8?B?aVVqY2VBNXBMTTJKZVNuSmhSTVJsa2wydDFGWit5YUZqZDR0bnp0VlA0Ykt0?=
+ =?utf-8?B?MjNNRVUzSnQ4b3YrVGF5a1B6NVFBd2JTN05zNHlqR1BJdWdaMmRjZW5HK2lO?=
+ =?utf-8?B?UUtiZStXNDQ1NUhQbVVBUjNNVXd3MDlUVEpEQVFNVkFMY1RWeFl5akRlVTNu?=
+ =?utf-8?B?RC85WCthQjkwcnFXL2dZQ2tscktjSFVMZEZzbjN2SW04L3hXSG9WNXNiSDE3?=
+ =?utf-8?B?angrbytRVGQ1NlhtYk5OVXNEUG9FWC9CeDVuUW80Z2NDQmNFeCtENDFSZm1n?=
+ =?utf-8?B?YkJuQWpvRFdjaGpSYlF6YkUrM0pRaWU1ZGZ6ZGtURWxmcDF6NzdkMnpDaW5i?=
+ =?utf-8?B?b3BnbGJpLzBFbm1ubTdxMHRVVHdscmRTWmYrWkVRSDFFTEY0NXUzVHpabTVN?=
+ =?utf-8?B?UEljR0RFTW5Va2dOVGN3TzBPdG84NXNhRFp2V3RqaDFJcDBsYkpEUlVZSzZr?=
+ =?utf-8?B?ZkFVOEp2ckpGVWk4MzVFT1FyVnRpaTdxVTN0QnBaYXJrb0hENHpwdDBHeEU5?=
+ =?utf-8?B?UVlmY3phK05PeUlsZjhwaTQwUCtiVUFJK1dieWYyV1F6WjdCbFNnMG9iVThL?=
+ =?utf-8?B?VDI5VTdGcjV5UDNwMlRBa2p0N3JTMEQ5MUZPM0lidVZET1UwTzVhS1UrUjMx?=
+ =?utf-8?B?WVFucndKWDRiaHNZOTBKc0wzdVhPQ0dNOE5wRlZxRTRQQUluTmpTUzZOZlhi?=
+ =?utf-8?B?Q3FIekl6ZTBTMW9SeWtRekQ4ajBWa21VQXcwMjJGeThkR25iNE56TTU4eDBh?=
+ =?utf-8?B?S1NrK3NHOW9WRCtMZTZDSDVnc2hSY1lodVJ5Rmg1TEliMEpaaS90L1lDQ0k2?=
+ =?utf-8?B?dHdEOXhEdlU2bjBaaWxjbzRBenVNaWYrUjkva2xhOVgwY0FYOUxCZnhNMkFl?=
+ =?utf-8?B?eWVMTU5VTS9lS1daYTZvekd3U1Era2YyUXA4VUhQa2VTaFJkTENHeG01V0Vl?=
+ =?utf-8?B?V05lK2RkU25LcHFORGxla1FaNWRnNlBNbktGeWU0MGhraUR1RXhLMENqZWRn?=
+ =?utf-8?B?K3FlY3JTN3hkOFd6OTBlN2NxR1lRZHZ6c1FUUHBpbHpBbkRzSWVFRVZwVVJR?=
+ =?utf-8?B?NkMzYytLNENvNnV3TlQxS0FmeWNCN2JabzVtL0RTS3ZTNkI4QWRzSGpHQ0lw?=
+ =?utf-8?B?T1VKbm1sVWNndVJWL3g4d21Yd2Z5bXI5U044QTQ5a2VwLytRMHZoTHJDbDVL?=
+ =?utf-8?B?TFZjTUZISm53Q0VuWXJ4STlGKzMybmxTcksrelduRGRoclVHS3FwREtleVpZ?=
+ =?utf-8?B?cDZ3SmtQYS95MHd4dWpRN283dE03b3ZlK0pPbFpqcDVyZ1NhL1gveE16RmxS?=
+ =?utf-8?B?SEFBSkNQVzZEYjdrV1dRMHZBNXNNYmVxeWZWb3RidHhXdFdFNEkyY2F0Ymoy?=
+ =?utf-8?B?Wk13MFNVbkxJV1F6YlZpUmxWaEJIOVZ4d2VicFlHM1NLaXBjM2RGcjZzUE9T?=
+ =?utf-8?B?Z0VvREI0ZU5PYk03aHB0aGZzbGNvVEJXb3BGU0lZb2VZWHBSOEg1SkNZMDg1?=
+ =?utf-8?Q?M9W4uHJ7DpSJV?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?TllNdWE3bFZjZWU3cmpSN2JBZy9IUkxFTjVjYXBTaHJUOXVic1BvakY5Q3Ev?=
- =?utf-8?B?V1NVbi9mVEcrMDdHUkVuM2dVWkJyVWZ0SjZSTnczdGF2WDNOaXRKZ0ZMRDZz?=
- =?utf-8?B?VUorUmR1UWVlVzk3TCs2dk5GZithMXVkeVdGWVZja3BydFM0U0lCQkhZVWJZ?=
- =?utf-8?B?Q05yQ0t3dlJQRVZzbnNObTAzQU51NGU0MGlob3JLMGM2aEwzbEx4RjBOcThI?=
- =?utf-8?B?ay9acUhWbWhtek5MSUMzSHN4eWlVL3g5MytaN0E2TDNOOTQwUHF6RHlSdld4?=
- =?utf-8?B?T0xnc3NyTUdGSzBIMno2NzlsZmR5T2ZobTZOZUVHWUszRFQrNGVqWUl0dHdJ?=
- =?utf-8?B?RlRpeXVENjVrQWtGa2pQRmJNd3kxWit2a0Jha1J3UkMvdHFndzFOeXhVZ3dE?=
- =?utf-8?B?ajZ4V3d4blU1S1FmTGRySzBKV2l4UjBEbUtvKzhVODVMY2hZWnJsdUI1Ym4z?=
- =?utf-8?B?dGFkbVlYSFNIU1RpN1VSMFRNcnhHWGNhL05rK2p3RWs0bDZsdTRmQ3BHSG1C?=
- =?utf-8?B?dkRnME52b2JuVjZBNCs0NXpIVmE4MEZTQWJNM3NSblo1VXlxK3d2YWNxY2lR?=
- =?utf-8?B?Y3RWOUJqZlVPZ0NHYzVKVkJ6WFd3ajl5RER5MXYwN09ab1VZYUlubTBRSUNP?=
- =?utf-8?B?QkgrU0NndnFMYUQvMnk1SCtiMFh6TlJCWDJ1MkNKU0JNSUdIb1g4bXdHWFBn?=
- =?utf-8?B?VkloTFJUR1VMeGdzbTV3WjFmczljSThxRGMvayt5ZzE0ZFVnWW9tdkJya3RO?=
- =?utf-8?B?K2RuWkxVZkJhR1lpRDFmYTQzSFBxejFWMmE5ZHNuK2dvNXo0UjRCaERRVWJG?=
- =?utf-8?B?RWc3NmZIVzRSRG5EY2JjUDdZa2Q2SXFGYWtHdk1MelpXc0dzdHg2Rkk0YW5W?=
- =?utf-8?B?cEhJOWlORmliQTBDbGdPMXhhRWNvd2luK2lmYWdodFpiN25MWG5zdzVVM0Vw?=
- =?utf-8?B?Skd5cnhFWldtNW1RSTcwNFVGeFpBVllqbHV0eUlzMlpmWlpFUXdQNUo2TTF5?=
- =?utf-8?B?em8wZ1Z1TzFhVk8rVUJBa2d3V0p3bTByYkM5eUQ4RnFGNmI3U0RHVlNyTWU4?=
- =?utf-8?B?YkYzam1Ca0JGdnB6b0plbkgzUy8vNld0UzhWeklPMHk5RDBWLzVGdUNiNkFI?=
- =?utf-8?B?UEVPK29Xc01GYlFzRHEwUDMraFBpaWtCdnFJMW5mekk1c3RuOE9pYzVJbnFy?=
- =?utf-8?B?L25waWp3TE5zQWFPNUY1Um5ONXJUVlZTdjZNZGQxcTNGdS9vK3BZMWNMU2Fs?=
- =?utf-8?B?WDlTVHFxQ2YvQWpYKy9TS0pFblV6c0FpOEVLRkYxVjR0WW1scUZWTWM1NEtw?=
- =?utf-8?B?ekFLU3lrSVZjUHNuNitrV1Vzcm5YNEtueGg4cTFjOVhqZFdmUHJDam5hNjR2?=
- =?utf-8?B?UnNSd2FtMmtmc2RUZWhaV1M5WlNja0drM3FwRnFsQVQrWkovS2l6cmJMNDB2?=
- =?utf-8?B?a2lGY3l6M2lNV2JLMWJiUkpjY3BockdYQjJndmVGMi9jMUh6cGtLS1JmaFB1?=
- =?utf-8?B?RkZteCtMamFubG9Bem5JSlRlSGhHWFpzRDIvSGswbWc2dzFRTE5yNi84QWJG?=
- =?utf-8?B?ZFJHVDRqeEFDRmFVbE55bXZ1djRaOHJJOHBCeU83RTBDbmFtUmNCQ2x2V1Uv?=
- =?utf-8?B?N2NpcktqWnhUNDJQaFk2emhRNVo1ejVLb0gwbHJUM29pcGpSWFFxWjNodHU4?=
- =?utf-8?B?eE5NYU9tbWFaaGFWczdIQmgvd2VwNjhhcVlIcFEyRHBIalNRTEhxU1Qyd0dy?=
- =?utf-8?B?cjRUZ2g4SmJJSklMSHNPeXJGeUlBQnY0a3ZZK3NiQXh4RGNQa05XdXpCQ253?=
- =?utf-8?B?OU0vRWVoTWdWWTBCZU1QdjFCTU9NNnhVZlEvWU9MVmE3M2t3dlZLdjhmRGxm?=
- =?utf-8?B?cFhVWTkvdGdBdU95ZmhISGdwbVA5STYwSzkzU0d5YitDMDUvdkpuYU5sVUhl?=
- =?utf-8?B?aHVYeFNySllSbUV5MlFURm9zY3VQZzl3MmhrdENxN1Z3bU9ieU1HQ0k5WHVX?=
- =?utf-8?B?ZlpwNFRJbmZ4ckNxVE52UGlGZTlDTHUvWjdyU015UGFFWGhyZkwxY2ZFc2Fu?=
- =?utf-8?B?TkJnWXVIcHhKajJlN09qbGZnT0U0czdOajIvZkREQWIvcEhLMjZHblFwdjly?=
- =?utf-8?B?ZlZ0UWJYakEvKysvc0dxSWorVXowa0RaczkvR2V6R2NCVk82QS9HUXBZeHlC?=
- =?utf-8?B?d1E9PQ==?=
+	=?utf-8?B?enBnUlFoWEdRMDkrckVQVS91d21PNE1UemF3MkExRUxiZktka2FQUGEzTVhz?=
+ =?utf-8?B?dmR3eExRY3FkM3ArN2R6VEpsS0pBR0FhVVZxa1hSdm8wVTBxSXRHbk90QlRQ?=
+ =?utf-8?B?OE9zTWxhdUw0WUJQRmdPSnRYK1lhRDQrN3dBNEF1Rk0xYW9UVHpNWjhDcTBZ?=
+ =?utf-8?B?blFyYjg5RTZ4cEptQjlCUVFzOGM1R21La0Q2ekVzWXFrVmVUVmI0cWVtTkNi?=
+ =?utf-8?B?MnZiM3FzZEdJN01MM1dXS3JIOWNUV1EzRjZjQUx4NVFrZFQwNEszTklHNmRV?=
+ =?utf-8?B?YUhVc0JKWGZDcXdJNmFnemcyQjRLV1ZjVFZtdjduSmV5b0tjSmluZE8yaENT?=
+ =?utf-8?B?YTFxWWpvN0ZNamt5MW9Wdmk3UzBuUk9nTG80NHAxZGpqZUs5Z1Q1MG9WdkZP?=
+ =?utf-8?B?LzdNeDFWaHlEWlRHaDdvTU1kMDlYQS9BdEFqRW8vVnk5eVpQL3ZpQ2I1QlRQ?=
+ =?utf-8?B?K1QvdVlnNHV4eklha2w1UXl6c2J2R29LWFd6OUgxTURFOGVmbmRuRmVqc0V2?=
+ =?utf-8?B?SXIzUzFWTzBXM1RJV3BaOEsvTVZTMUFNMnNGR21JRUh6RjU1UTA5MysxTE83?=
+ =?utf-8?B?dHpJRnV5NVo0bFFTczhGUTVZZmZtV3hhRkRJUkxJN2xoMmF4RUVpZkFoZGUy?=
+ =?utf-8?B?Wmt6Z0xBNGQ1N2pYTjdyN0pyRThrU0dwc2t1N3c5ZlZJRVFqWEtvMy83Qnlj?=
+ =?utf-8?B?OXlXalBCUERzM2t0QkV4dzJySHhDQm5pcGFtd3lsTkdrYlM1SkMvMHd1bkxN?=
+ =?utf-8?B?ODd5RHFKbE03N2grRXUzYlRFUVVHaEhzRklQTFdqUlVmbklNZmpzV1g4MUhW?=
+ =?utf-8?B?OVNtL1BpOG9SWWpJTG9MdEJBdU5XNHlKMFNjZEI3aUZNTzZibzRLU1M5U0NH?=
+ =?utf-8?B?WWxQdTBlbVhpNDBHWXhHSEVFSHNJMnBBb0dUN2pJNVFxNFQrWS9XclRHT2Fi?=
+ =?utf-8?B?ZXdVcU9YVWxSZUsyR2o5bWZDbjZGaEpDMmlHUlluaVN2RTNVbnBtQk16MnIr?=
+ =?utf-8?B?eTVjeDRKa0UwK3dQcGxPbHZZTkQwOElGenBUNXlmTzdocHNnNk1ITGIzUjMz?=
+ =?utf-8?B?TThrcVZIK2p1aHdCVDMwUVpSUEhjL2lEa2RFWDUxNnVGbmRkczN0VngzVVZz?=
+ =?utf-8?B?K09XT0x0eFgvRko1WW1PcDdRUnBwTTcyeHlCSHZBbDR5RUVOZ1lGbTJScHph?=
+ =?utf-8?B?dWw4d29UZDArQmgvdGU4TWJSRy9teVFTcjBHOUVTeDhEeDFXYmphSTRpTjNl?=
+ =?utf-8?B?d0IwN25QazZ6dExrWE5ESFUrNW5Oa1EvbHpGTkhJRjlnQm1WQy94UElJNXU5?=
+ =?utf-8?B?MFpmdzV3N3YramV4dFVnSzkzajkwajJZYjBYdEdpZ0JGOXEzci9ONCt3RGYy?=
+ =?utf-8?B?ZXpTU0Y2WjFPNXhKYUNNWjlxd1ZxWnV2aFYwdFBuQjU4cVJFenJFREFNYnM2?=
+ =?utf-8?B?ZmlsUHdSMFl5cUF0R01EZjU1RWJSbGtaWEtjbitZeWpkYjNaWWJCdWtiTnYy?=
+ =?utf-8?B?RGZQTlZxZ1I1ekZxZFhaV3R4dFhsS0FtSEsvUUhtUTZScnQ1VDBiT3JqWWdu?=
+ =?utf-8?B?T2p4MW5UTjErbzRNQkhNcndyN0RpU0huZ3padUVDRk5Hc1hrS2w2OW8xUlBF?=
+ =?utf-8?B?LzdJQml4VEV2S1JkenMvUHhtK1p6NitIRTBtaCtwWkNpUzh6ZnF3ZkJaNnZi?=
+ =?utf-8?B?RFhlTURJbXpkN1BhckdsSWllSGxRenJmSCtPTWR0bVluRFM5NmpGcGJZUE90?=
+ =?utf-8?B?dlZIR1pnb3p1WXptNDlSWUd3MFN6NW1VQW5rcXZFQyt5UVo0SW5iLzRMblMx?=
+ =?utf-8?B?T01RMDd6YUlNRWdOWkJJbURoODRvQ1JtOWsvRGppK0M1VHVMWUhaZ1dGTzNY?=
+ =?utf-8?B?Q0VTNVY5QzhXRmQ4WWxjd3Vic2wrNVNxcG1qbkY1NHpZVXhqdWx6enZ4Qm01?=
+ =?utf-8?B?TmZIUHN2cm8vRG50RmN2L1hPQzl4QWJCajkwWVNINlhvQmtJbEUxbkNhdTRG?=
+ =?utf-8?B?UzhIY09YbGlmNThxbGlGdjhXUjY0b1BBMWpEdytvTldoWmtvbm5wL3lpNWRT?=
+ =?utf-8?B?bUpzRWZXZEZkbFN6ZUxoQXcyWmUrZDQ4MWpEVHVpRlZhVkZQL2FHM0d2czdx?=
+ =?utf-8?B?RExNdjlyVS9rSmFWYy9KeitmUGtqZEQ4Ry9iUHFxZ0Jjb3l4cWtkL3JLMm1x?=
+ =?utf-8?B?VVE9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4559127b-6467-4cae-6628-08dd546a0b01
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0737bfc-6772-4dab-6eac-08dd548c0ac8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 00:27:38.8324
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 04:31:01.3182
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EHIHPDsLkwO9S1Svv8qkt8ui3uwrMDG0Oz+37vDJ4KZz9zqnbaLJ5P09Ok/HvNTQEXvQenB1Ykqjn+nYF0frzI5UchFbc6Q2onp1TWDrJhM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB8814
-X-Authority-Analysis: v=2.4 cv=AbBLH2XG c=1 sm=1 tr=0 ts=67bbbd03 cx=c_pps a=sGbpJkUcFVeWJOR+0qTsNQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8
- a=iGHA9ds3AAAA:8 a=1NWNoF9oAAAA:8 a=P-IC7800AAAA:8 a=t7CeM3EgAAAA:8 a=eRd5XgGZmAZCNO8hLxcA:9 a=QEXdDO2ut3YA:10 a=yj-aMKAYKbz0kkd27lYA:9 a=GDiSTbxfgD4MBsPj:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=97APRTa-CG6DvPMFVxHL:22 a=d3PnA9EDa4IxuAV0gXij:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: nq0v-B4hrOqlPz-ugDmt6lDsF5RlJF0U
-X-Proofpoint-GUID: rZuRGqwNPIXDBQaCpkBB2yUiYrVbWvSv
+X-MS-Exchange-CrossTenant-UserPrincipalName: XlkyqS9ufAETYh8CCkIHHAQMzRRBy6/HwCcc/wcIv8V8Bibt99bB46MP8JUbsmfA3XALCi+RdWhmtPeYB80TFNszwcvN6XETVvr/UUsb46U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4574
+X-Authority-Analysis: v=2.4 cv=AbBLH2XG c=1 sm=1 tr=0 ts=67bbf611 cx=c_pps a=ur2hu7Zt/Tb0cWAHmjvzJg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=VwQbUJbxAAAA:8
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=JuWQrhNb23crj1esyJ8A:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: SL3Q8hsc_mv1kybtLBtDsEAqI6Lmvn6e
+X-Proofpoint-GUID: SL3Q8hsc_mv1kybtLBtDsEAqI6Lmvn6e
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-23_11,2025-02-20_02,2024-11-22_01
+ definitions=2025-02-24_01,2025-02-20_02,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
  phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501
  malwarescore=0 clxscore=1015 adultscore=0 spamscore=0 lowpriorityscore=0
  mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
  adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2502240001
+ definitions=main-2502240030
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Feb 2025 00:27:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211834
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Feb 2025 04:31:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211835
 
---------------vU0PsbDR2c57w9CBvoE7nE07
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Ping
 
-
-On 2/21/25 22:34, Mathieu Dubois-Briand wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+//Hongxu
+On 2/17/25 15:14, hongxu via lists.openembedded.org wrote:
+> 1. Due to upstream commit [GNUmakefile: Require the user to specify
+> '-R' if their make(1) is too old][1], add option -R to make
 >
-> On Thu Feb 20, 2025 at 4:57 AM CET, Changqing Li via lists.openembedded.org wrote:
->> From: Changqing Li<changqing.li@windriver.com>
->>
->> In oe-core, function ldconfig_postinst_fragment use exist of
->> /sbin/ldconfig to decide if ldconfig is runned to generate the cache,
->> and function _run_ldconfig will run ldconfig to generate cache during
->> generate rootfs.  ldconfig.service is actually not used since we have
->> generate ld.so.cache during do_rootfs, refer[1][2][3]. ldconfig
->> dependency is necessary when ldconfig not in DISTRO_FEATURES.
->>
->> The reverted commit causes regression when ldconfig not in
->> DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
->> ctypes.util.find_library(name) can find the lib if it is installed, now,
->> since ldconfig is not installed, ctypes.util.find_library(name) cannot
->> find the lib even if it is installed.
->>
->> Here is one usecase(gtk+3 lib is installed, ctypes.util.find_library
->> used to find the lib):
->> import wx.lib.wxcairo as wxcairo
->> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/{}init{}.py", line 59, in <module>
->>    from .wx_cairocffi import _ContextFromDC, _FontFaceFromFont
->> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 189, in <module>
->>    gdkLib = _findGDKLib()
->> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 181, in _findGDKLib
->>    return _findHelper([libname], 'gdk',
->>                       "Unable to find the GDK shared library")
->> File "/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py", line 170, in _findHelper
->>    raise RuntimeError(msg)
->> RuntimeError: Unable to find the GDK shared library
->>
->> [1]https://git.openembedded.org/openembedded-core/tree/meta/classes-global/package.bbclass#n394
->> [2]https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootfs.py#n316
->> [3]https://github.com/systemd/systemd-stable/blob/v255-stable/units/ldconfig.service
->>
->> Signed-off-by: Changqing Li<changqing.li@windriver.com>
->> ---
-> Hi,
+> 2. Due to upstream commit [src/bin/pdfman, scripts/bash_aliases,
+> pdfman.1: Make pdfman a standalone program, and add a manual page][2],
+> inherit bbclass lib_package to use package ${PN}-bin to collect newly
+> added scripts and runtime depends on bash
 >
-> Thanks for your patch. However, I believe this is introducing some
-> regression: I've got some ptest failures on the autobuilder:
+> [1] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=50c914d25b40ac6a4d63ce10ed146653098014a2
+> [2] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=ed9bc1e3277befd6e165270f14e458a5ec4074f1
 >
-> AssertionError:
-> Failed ptests:
-> {'python3': ['test_timerfd_TFD_TIMER_ABSTIME', 'python3']}
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   .../man-pages/{man-pages_6.9.1.bb => man-pages_6.11.bb}  | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>   rename meta/recipes-extended/man-pages/{man-pages_6.9.1.bb => man-pages_6.11.bb} (92%)
 >
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/992
+> diff --git a/meta/recipes-extended/man-pages/man-pages_6.9.1.bb b/meta/recipes-extended/man-pages/man-pages_6.11.bb
+> similarity index 92%
+> rename from meta/recipes-extended/man-pages/man-pages_6.9.1.bb
+> rename to meta/recipes-extended/man-pages/man-pages_6.11.bb
+> index 8258874dd7..52a1fbda14 100644
+> --- a/meta/recipes-extended/man-pages/man-pages_6.9.1.bb
+> +++ b/meta/recipes-extended/man-pages/man-pages_6.11.bb
+> @@ -20,9 +20,9 @@ LIC_FILES_CHKSUM = "file://README;md5=72cff06b7954222c24d38bc2c41b234e \
+>   SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
+>              "
+>   
+> -SRC_URI[sha256sum] = "3ae3f8ad97487d2c1b14258231d97d03b4e569b915377f6dd4f6be7141c57ee0"
+> +SRC_URI[sha256sum] = "44c09f43ae7a0b327efef5285a30d56ecc5fd4a07056f77e806f6c65196ba7f3"
+>   
+> -inherit manpages
+> +inherit manpages lib_package
+>   
+>   MAN_PKG = "${PN}"
+>   
+> @@ -32,6 +32,7 @@ PACKAGECONFIG[manpages] = ""
+>   do_configure[noexec] = "1"
+>   do_compile[noexec] = "1"
+>   
+> +EXTRA_OEMAKE += "-R"
+>   do_install() {
+>           oe_runmake install prefix=${prefix} DESTDIR=${D}
+>           rm -rf ${D}${mandir}/man3/crypt.3
+> @@ -40,6 +41,10 @@ do_install() {
+>           rm -rf ${D}${mandir}/man5/passwd.5
+>   }
+>   
+> +RDEPENDS:${PN}-bin += " \
+> +    bash \
+> +"
+> +
+>   # Only deliveres man-pages so FILES:${PN} gets everything
+>   FILES:${PN}-doc = ""
+>   FILES:${PN} = "${mandir}/*"
 >
-> You can get some more advanced about ptest failures in there:
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211518): https://lists.openembedded.org/g/openembedded-core/message/211518
+> Mute This Topic: https://lists.openembedded.org/mt/111227800/3617049
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hongxu.jia@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
-> https://valkyrie.yocto.io/pub/non-release/20250221-33/testresults/qemux86-64-ptest/core-image-ptest-python3/
->
-> Can you have a look at this issue please?
 
-Sure. I will check this.
-
-Regards
-
-Changqing
-
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
---------------vU0PsbDR2c57w9CBvoE7nE07
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#cceed0">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2/21/25 22:34, Mathieu Dubois-Briand
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:D7Y7576F5D4R.128DYAUZ74YXF@bootlin.com">
-      <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-On Thu Feb 20, 2025 at 4:57 AM CET, Changqing Li via lists.openembedded.org wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-In oe-core, function ldconfig_postinst_fragment use exist of
-/sbin/ldconfig to decide if ldconfig is runned to generate the cache,
-and function _run_ldconfig will run ldconfig to generate cache during
-generate rootfs.  ldconfig.service is actually not used since we have
-generate ld.so.cache during do_rootfs, refer[1][2][3]. ldconfig
-dependency is necessary when ldconfig not in DISTRO_FEATURES.
-
-The reverted commit causes regression when ldconfig not in
-DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
-ctypes.util.find_library(name) can find the lib if it is installed, now,
-since ldconfig is not installed, ctypes.util.find_library(name) cannot
-find the lib even if it is installed.
-
-Here is one usecase(gtk+3 lib is installed, ctypes.util.find_library
-used to find the lib):
-import wx.lib.wxcairo as wxcairo
-File &quot;/usr/lib/python3.13/site-packages/wx/lib/wxcairo/{}init{}.py&quot;, line 59, in &lt;module&gt;
-  from .wx_cairocffi import _ContextFromDC, _FontFaceFromFont
-File &quot;/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py&quot;, line 189, in &lt;module&gt;
-  gdkLib = _findGDKLib()
-File &quot;/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py&quot;, line 181, in _findGDKLib
-  return _findHelper([libname], 'gdk',
-                     &quot;Unable to find the GDK shared library&quot;)
-File &quot;/usr/lib/python3.13/site-packages/wx/lib/wxcairo/wx_cairocffi.py&quot;, line 170, in _findHelper
-  raise RuntimeError(msg)
-RuntimeError: Unable to find the GDK shared library
-
-[1] <a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/tree/meta/classes-global/package.bbclass#n394">https://git.openembedded.org/openembedded-core/tree/meta/classes-global/package.bbclass#n394</a>
-[2] <a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootfs.py#n316">https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/rootfs.py#n316</a>
-[3] <a class="moz-txt-link-freetext" href="https://github.com/systemd/systemd-stable/blob/v255-stable/units/ldconfig.service">https://github.com/systemd/systemd-stable/blob/v255-stable/units/ldconfig.service</a>
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
----
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Hi,
-
-Thanks for your patch. However, I believe this is introducing some
-regression: I've got some ptest failures on the autobuilder:
-
-AssertionError:
-Failed ptests:
-{'python3': ['test_timerfd_TFD_TIMER_ABSTIME', 'python3']}
-
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/992">https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/992</a>
-
-You can get some more advanced about ptest failures in there:
-
-<a class="moz-txt-link-freetext" href="https://valkyrie.yocto.io/pub/non-release/20250221-33/testresults/qemux86-64-ptest/core-image-ptest-python3/">https://valkyrie.yocto.io/pub/non-release/20250221-33/testresults/qemux86-64-ptest/core-image-ptest-python3/</a>
-
-Can you have a look at this issue please?</pre>
-    </blockquote>
-    <p>Sure. I will check this.</p>
-    <p>Regards<br>
-    </p>
-    <p>Changqing<br>
-    </p>
-    <blockquote type="cite" cite="mid:D7Y7576F5D4R.128DYAUZ74YXF@bootlin.com">
-      <pre class="moz-quote-pre" wrap="">
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-<a class="moz-txt-link-freetext" href="https://bootlin.com">https://bootlin.com</a>
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------vU0PsbDR2c57w9CBvoE7nE07--
 
