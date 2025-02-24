@@ -1,114 +1,99 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5D7C021B3
-	for <webhook@archiver.kernel.org>; Mon, 24 Feb 2025 06:30:54 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.83644.1740378648395229540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B14FC021B3
+	for <webhook@archiver.kernel.org>; Mon, 24 Feb 2025 07:52:35 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.84580.1740383550400954131
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Feb 2025 22:30:48 -0800
+ Sun, 23 Feb 2025 23:52:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=PQcdSBu9;
- spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2210d92292eso119676815ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 22:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1740378647; x=1740983447; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOBmcdhp9s6OzzWacqK2YmWkvEd6/5HVQiJlF8QNP+g=;
-        b=PQcdSBu9T5jY7cGF75TPjNR3c4UMM2Ga5bBNqyxbwqki3oGpLHmf2+RCMVO5t+pIkT
-         87AUi+GTcUQDxzuTgahG1EzG0xyHEwwakRnnrUjs3FnLJtEKlwvmxKw9rtWQSyrkS5NT
-         7cAJpkMGg9wbMtKEoVJA7JUJ0fFDO01QsAHbY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740378647; x=1740983447;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lOBmcdhp9s6OzzWacqK2YmWkvEd6/5HVQiJlF8QNP+g=;
-        b=jm/9Y57tOSw1Rvukq/PGWVR5g1Du4U+kRB1rYlmRyGsJBcKiOFUE3i5mrEYe4h1yjV
-         XZp7rIdZdgnys5rFV6o2J5Ypl7CseO2WMlnxJFZMEDklG1DnXMdVAzSMlWl5Df1BMU4i
-         ducWB7Bq/W94jEN4m0wjy508D9tbWSjS2FfiwyElVk0E6dXzpNcV1wQzsb/yaHXlKx4Z
-         DML1A7MYksZF7LWarzxKV6AsqKP82M8BJpu9wfrYZT/ommy0IQeW23vnUrLXbHKs/y0u
-         ZHclfv1WiPVSDZagnDsavC3JAfLovc3IiZWgNKC5b6K0aHi+RKhYGCliXKJKMmZ+3Txj
-         ym8g==
-X-Gm-Message-State: AOJu0Yyce1absgACT0IEeOqx6oP6YnGWY7sbtw06/wYcTzVoFtpOGgwd
-	9unSFmtweR1I0V1X02SOAjZF6+2dZQG9DKSoob8PvAobRoBzNG3ApToOjwyb3456BCo92zTbf7g
-	gjIY=
-X-Gm-Gg: ASbGncvpRdDpe8jd6mj7FKn76FeZWagYI16biCxqGARcrHlGcbKTdlyT0hYgNbiGKzP
-	3GPxDAOeHQjbD/vdDu1Wkpk9IzciDjeyz3pv6jAOFPUpzogddOQ0OZAts7HRXQOE9FG0vXlishj
-	AQnJbyDQIHg9jFX/4eRHYHjsY92gRkb2c7KcOyOleuK4T5CDVWGx+9kDjox4wrCwPyVyLiD6JpL
-	SbMudvdjCF8FMrl/IA3nWxDhRUdaX3b1uv/3kExII5iGrlV44oK1HaAGItzU2LMceldti4FlUcX
-	UCOuQUl38XMA10c2adwHLyBxqhnttgnhA23d
-X-Google-Smtp-Source: AGHT+IEutSwK0AdcDPuDsE0lzvCMKt+tRp4+lYBOpSQWZGD5H0Od37j5WmkHw+ucwaQwZb32XU8INQ==
-X-Received: by 2002:a05:6a21:9015:b0:1f0:e90b:fdf3 with SMTP id adf61e73a8af0-1f0e90bfeb7mr5604827637.31.1740378647306;
-        Sun, 23 Feb 2025 22:30:47 -0800 (PST)
-Received: from MVIN00020.mvista.com ([49.207.209.34])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-adb5a92d319sm15416252a12.71.2025.02.23.22.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2025 22:30:46 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][master][styhead][scarthgap][PATCH] libtasn1: upgrade 4.19.0 -> 4.20.0
-Date: Mon, 24 Feb 2025 12:00:37 +0530
-Message-Id: <20250224063037.87601-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=415024d1b4=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51O7e1ua021077
+	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 23:52:30 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44yar7hqw8-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 23 Feb 2025 23:52:29 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 23 Feb 2025 23:52:28 -0800
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 23 Feb 2025 23:52:27 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] socat: upgrade 1.8.0.2 -> 1.8.0.3
+Date: Mon, 24 Feb 2025 15:52:27 +0800
+Message-ID: <20250224075227.3751546-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: yymOYBqzT6aYaovmeodqYFtTjSNNS-NN
+X-Authority-Analysis: v=2.4 cv=Be0i0qt2 c=1 sm=1 tr=0 ts=67bc253d cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=T2h4t0Lz3GQA:10 a=rFFRleaeAAAA:8 a=t7CeM3EgAAAA:8 a=YucEHSaYaeKHTEOa2uYA:9 a=YLtI_f64H5IAZ6mI3Lwl:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: yymOYBqzT6aYaovmeodqYFtTjSNNS-NN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-24_03,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ malwarescore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2502240056
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Feb 2025 06:30:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211839
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Feb 2025 07:52:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211840
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+According to [1]:
 
-* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
-- The release tarball is now reproducible.
-- We publish a minimal source-only tarball generated by 'git archive'.
-- Update gnulib files and various build/maintenance fixes.
-- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or SET
-OF elements
+2025-02-21: Socat version 1.8.0.3 has been released. It fixes a lot of minor
+issues and provides some minor improvements, see file CHANGES [2]. The
+experimental POSIXMQ feature has been improved, got a few new options,
+and is now considered stable.
 
-License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 & Copyright year updated to 2025
+License in README has no change
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+[1] http://www.dest-unreach.org/socat/
+[2] http://www.dest-unreach.org/socat/CHANGES:
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb}      | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb => libtasn1_4.20.0.bb} (63%)
+ .../socat/{socat_1.8.0.2.bb => socat_1.8.0.3.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/socat/{socat_1.8.0.2.bb => socat_1.8.0.3.bb} (91%)
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-similarity index 63%
-rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-index 5fb8b54c06..8127ba5b1d 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-@@ -6,9 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
- LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
- LICENSE:${PN}-bin = "GPL-3.0-or-later"
- LICENSE:${PN} = "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c \
--                    file://COPYING;md5=75ac100ec923f959898182307970c360"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-+                    file://COPYING.LESSERv2;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.2.bb b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+similarity index 91%
+rename from meta/recipes-connectivity/socat/socat_1.8.0.2.bb
+rename to meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+index 7d5da67c9c..ee6ca1fe44 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.0.2.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+@@ -7,13 +7,13 @@ SECTION = "console/network"
  
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-@@ -16,7 +15,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+ LICENSE = "GPL-2.0-with-OpenSSL-exception"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://README;beginline=241;endline=271;md5=338c05eadd013872abb1d6e198e10a3f"
++                    file://README;beginline=248;endline=278;md5=338c05eadd013872abb1d6e198e10a3f"
  
- DEPENDS = "bison-native"
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://0001-fix-compile-procan.c-failed.patch \
+ "
  
--SRC_URI[sha256sum] = "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
-+SRC_URI[sha256sum] = "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
+-SRC_URI[sha256sum] = "adc07a9c2723527cf6568d2fb96559794cf9c254a4bc2edd36f7f3789e9f7625"
++SRC_URI[sha256sum] = "01eb017361d95bb3a6941e840b59e4463a3fabf92df4154ed02b16a2ed6a0095"
  
- inherit autotools texinfo lib_package gtk-doc
+ inherit autotools
  
 -- 
-2.25.1
+2.34.1
 
 
