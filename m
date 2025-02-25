@@ -1,269 +1,325 @@
-Return-Path: <unitexe70@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16053C021A4
-	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 01:18:03 +0000 (UTC)
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web11.1420.1740446274255371092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B94BC021A4
+	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 02:03:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.2168.1740448989408319462
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Feb 2025 17:17:54 -0800
+ Mon, 24 Feb 2025 18:03:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X0HMs1GD;
- spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: unitexe70@gmail.com)
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-220c8eb195aso110356635ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Feb 2025 17:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740446274; x=1741051074; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bvlj41/bevch83lNN7R13cum5R3idihWGtk+iRh0LDQ=;
-        b=X0HMs1GD61kgOytGV823NeFQqby8TQ0QZd0yJahePgCqHIeqBJRqYkTqu21YgnrKlk
-         1tT4cDyR3K198bzKKEwaDhNwkUfsg8Ko+eiMryrIL0wYOa7f9iYp/Jd3EN+lE/rvzd2D
-         8/JV7mZlaqNZKPiQR3FSVu276CyD1bZexZn6ENeqmiUEzrG7+ueMZq5vkxOWpkRHPVmh
-         FcW8CgU+d+0OKWp2Tp//KwR3bbcBNOJtX01IYPyDBoRMsO1n71QK1ceZew29aVDRALEc
-         iMcdkYDoCiUv3GoQmDyBUiePCXLb6uQI4ZwbLA/aJczePfjI/wszsYotrdnON2MDWb2X
-         dgzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740446274; x=1741051074;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bvlj41/bevch83lNN7R13cum5R3idihWGtk+iRh0LDQ=;
-        b=YFYikmdumfSQkYFF4/324g4Wj9GLVz9KMmKMbW+ab42lm5VwW/xtde7ENZQsdidP7j
-         Zoifj3zOVVWzG4qUKtPqczImhxNnoBqUAjaxs3K2KFmJEFseyQofhSOQCuQfXIrPKlW8
-         JbeszFj/ADCEyQVUoZdNcBDKT89SoGJBGvz8aDETtWZLQmcAR6Pc5Us7D2u0c4BeSnJf
-         lMgdtlssXs+HrPFrALLMB7NYT2OW5J8/zBzlKvLb1e9iG6DYZ/TGakCer+A5slTM2ahg
-         DxkdKP9q78Gnhn/QSCAAYKY4qkUj+LHW0xhASTm96hWhtwoiQXC+nLCS+iGVE+TACosy
-         /80Q==
-X-Gm-Message-State: AOJu0Yzgj5loqmGWYn7ZNmYUgW9jHldsMnKYvwxPNfo5qR3akbCC06D2
-	pISpjcpn/NIh6btqbVO5SARy7nyfoX/IJnISCb9m55gmIGfzA0Fs8CE8peL2n+fkfVJbmvkCqoo
-	CAnVO5q4pNOCIgCUz5s9y3blW9q0=
-X-Gm-Gg: ASbGncs+gEn2qfztpJq2N4V3zf9IW5B/HtZkaljGlMt2ba3zJuK1J+7yM/dbqxgVvq7
-	4gloNxmxxPMzert/FYXo8b92NaYz2+PDMlHhHLG5qBQtlSee1B3eu7Mkk1MsmYUXhUNUVTt33wx
-	fcU3YJGe6Lp0KlKpCe6c+1OFm1fERdh8T3Nc88doPM
-X-Google-Smtp-Source: AGHT+IFbbU3drveiLFg1NBjV3wMmmPmajFdnh/8NM+Ve7nApl87YryQWNAZc5mI7xodjDrOkRlrcX3QosI9rWXv/zRA=
-X-Received: by 2002:a17:902:f687:b0:220:bd01:6507 with SMTP id
- d9443c01a7336-2219ff5e8damr224417145ad.25.1740446273596; Mon, 24 Feb 2025
- 17:17:53 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=41516efc5d=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P1kECe014599
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 02:03:08 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44y3t2k3ks-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 02:03:08 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51P237h6007997;
+	Tue, 25 Feb 2025 02:03:07 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44y3t2k3kq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 25 Feb 2025 02:03:07 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hBuj4U/C5Tjzm9zS4WRD+Dn8DQoBya9EX1mSRYd010ucB9lKo21jGmf4+Xcq8q4aZjLYFVpjcWPJWEnRFa5HvuKVuxcxrIbCD6hH3ZEKi8M39uyc4C3x6n2fFOFXpPWRvn/w4HISR2z1DmlOS947YBLDXGhdfwzr8l92QvBB2t5SPUozyUzIGID8ISS3U2oXz2n1NVq/DUJtlUwJbX2bgzCE7KvzvKUD6wEop1z9/SYpEkF/e/l5Us180dq5iQwMfviUII9hFd4KR/jEWnw/AItNbwvl2uCWRHqmZqQr5RAolOGs6rdGkiccUFyYAPa6EQi9Ay4ljkpFkp03j6nUnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B853wMPJCTBBbEPDoSuSTzrOzmp++XbLmpYDXY1hWx4=;
+ b=yac1daWbnPrTae1TRvwKsWtg701q22r6y9vn9nGxEuEL39Mb9G0J/Pe8N8T7tsMkWVqShZXXWRlCmjZSDsl34DL3g98gJopMe34TOMuL1FIsTUval3C6UFsMKgiz+ebtXKYslujYvqVnwAkUOSfECf3kPReKryJ0FxuncTGlxOkvE6irzylFnOUIbku9fivK1cRljrM4doXM2B3+TxS4g1oGmnqahH0Z0SCqsyDxzTBlsKD84rQYutSlaUkU2CGvr0nUJ5tr+yJaQC+QLDF9Co7sVci1oJYCHPvAOcjZwh4vjwMB1LzcJK6kRQsBRJit7l4fUQHmx7M+7Hyb+5zShA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by IA1PR11MB6194.namprd11.prod.outlook.com (2603:10b6:208:3ea::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Tue, 25 Feb
+ 2025 02:02:59 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c%5]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
+ 02:02:59 +0000
+Content-Type: multipart/alternative;
+ boundary="------------DvUfiUK6ni00pUYkX3LBrvI4"
+Message-ID: <23e2fa72-4225-4dfd-8d5b-cd8afe03b411@windriver.com>
+Date: Tue, 25 Feb 2025 10:02:52 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] Revert "python3-ctypes: depend on ldconfig only
+ if distro-feature set"
+To: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250220035724.1460062-1-changqing.li@windriver.com>
+ <nvmjowjub7hxr4wz4njvcwdi5mo2g4ppiixrsdgr5zrqs3dwch@mrwc5mgkqid4>
+Content-Language: en-US
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <nvmjowjub7hxr4wz4njvcwdi5mo2g4ppiixrsdgr5zrqs3dwch@mrwc5mgkqid4>
+X-ClientProxiedBy: SI1PR02CA0006.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::11) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
 MIME-Version: 1.0
-References: <CAGqXGjRc_f+zs4aK_k9_tnJ55-UgedCLbuME08naD2u1DJqDVQ@mail.gmail.com>
- <AS1PR10MB5697AB4F79404B07AF1AD950FDC12@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697AB4F79404B07AF1AD950FDC12@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: unit exe <unitexe70@gmail.com>
-Date: Mon, 24 Feb 2025 19:17:41 -0600
-X-Gm-Features: AWEUYZk9mHs0untlK7ppSX2aCiWztgCpitiFCoc_ilTZY5F22tGuJWxw1d7yc7k
-Message-ID: <CAGqXGjQPQgxhCRMuuK9jZm8tct=VTbyer3-y-7nN6LSdPWGZzg@mail.gmail.com>
-Subject: Re: [OE-core] Broken python3-grpcio on main branch
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e373ad062eed39b8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|IA1PR11MB6194:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47308536-958a-43cc-d4d1-08dd55408739
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?TUI4OUw0cFNlc3dIQ1RhNXNHRmN0ekF6aDZsN0pBeU1VYUdkMnVTZUFFbkpJ?=
+ =?utf-8?B?eE1rd3lIQ0hJY0I5Z3pVNFhyRnZQbmgwVDJoUjJEUHlaMnlJTmErUW5BRkpE?=
+ =?utf-8?B?OWJFQm9ETkJYL3lzelhLZkQ0aVJGRW5rRUViMXNnZEkwY0VUdnZWUm5oQjlw?=
+ =?utf-8?B?cktGYUs1QmJuam5ieG4zV0RPZUZpWVJSQXphdWgxYmIwaE9yaEtwRm8zUGtC?=
+ =?utf-8?B?UENUclhZcC9vN0pNWElMbW1OVmN5OEZ4WmJuWDdldW5hUGZLYlJrbHZvQ3ZX?=
+ =?utf-8?B?YnUrTEs5UFZJeTVaU3pKbUlIRldRU2QvamtEM1VNUUtSTW9JbXdOTWVIUDB6?=
+ =?utf-8?B?bWtMMnRFR3UzSjFDaE9mNXdBeXNKSnFXTEN4NlgvMUFKTGlmZWNyWmZPNlYr?=
+ =?utf-8?B?SFMzYVRCM0ZmaUlVWER5UUlhWU95aVFzVFFYTGFjZThOU0dhdTNJOTBXMi9I?=
+ =?utf-8?B?dlNzcDBYZy9hYUJpTEpqSU5wRjNXcnQrQlorS2IrendCblNxTjNYT0Jyb0xm?=
+ =?utf-8?B?bFlTNkVQWFRFYmNaY3lvNGlJWjY2dk9EZ3Znc243R01CWU1NK2plYnBLOEM3?=
+ =?utf-8?B?VDJsUmE3MFpxTkhxWFR0ZU82MlJxTml5bW9STENJOXN5Q3Q4bExEMG5FbE90?=
+ =?utf-8?B?QUVGR0h3M1ptMDk1WTFBVTFiK3JSYWszbmxXVDJTbjNOUzYrUU1rR05aVHNX?=
+ =?utf-8?B?Nk1rR0IvVE5sTEpaNmtTd2ZrckFKdEI2NDZ0VHJORWdQcEdvZVJhaG9KZ0Nw?=
+ =?utf-8?B?ajRrQ3dQM09iYXhFTS9Gb1NaNVVLazJXZ1d0MXNFVWc2S1lPaHNMemk5OHdC?=
+ =?utf-8?B?NWFMcE1nZEp1ekdXUCs5RndhMDRzUENpMnpIYkFQczc4RWlML015Q3VJaEpi?=
+ =?utf-8?B?UVJ1YWZKcHNWZk40RitwY1dGd2xLU0dQRVRRcEkvU2IyQ0JHbUlzS0ZDc3Bu?=
+ =?utf-8?B?U05VVi9qRkc0Zko0Y2FsVGZXTHJSMWtiU2NJd3NGRVlKSnZuQWdyWjJoa1Ji?=
+ =?utf-8?B?cVRjV2NuR1hXT3hLRk1aY0NXY2Q3NkdQUndZRVMvdUVlQTYvTFhEQ3ZkdDN4?=
+ =?utf-8?B?TC82bkhBaGEvajQ1cnFHVVdvVmlsUzJ1emlKZE5mQlhyK0lpeDdkQUdxbG8x?=
+ =?utf-8?B?MzZjbEVpTW5oRTFteXNSYkdhVXAzY2hLV0FDOXl4ejE1SmVOd0lOdFdRRGVz?=
+ =?utf-8?B?akMrUmlENGF4K3NvUlJzR0hUbHZRM2IvN0l5SWNsRUs2TGxaTHQ5MTBXbWFY?=
+ =?utf-8?B?V1Rldy92NzRhT1R1TlpOWnV5azZuM1lMZjFPbUtDa0dTd0RaQTBSaWtTN2l5?=
+ =?utf-8?B?ek43YjNCU0pRdlpFRUwyOElUUjAzT05wRkhjOTVvUS9ScTZpN2RWa01waU14?=
+ =?utf-8?B?czJXOWZ3dEQvM08zd2FxOVNEUVBvMHVhRXdOZmxXcWR3LzlnTTF3Y1c1dEtB?=
+ =?utf-8?B?TzEyUGV2cmgxWVE5a0E1NHN2K0xLbUtWZDNjaC9iQmJJRzBvTGRPV2pMN0xP?=
+ =?utf-8?B?elFNajJySXRnMzZ0YUNzTlp1WitUa1V5U1l0dmVrOGE4aEhBOFRDdVE5VzlJ?=
+ =?utf-8?B?NWJaa1I1cnpocDlNblB4VkNicVFhdUhWcDFxa05yVGxISGhkN1dKQXZBQ3Nl?=
+ =?utf-8?B?ZlNrV0lDVE94TnFEb3M0ZWt3czRHK3ZFR3pteDNJOEpMWHhaWkszNFRsWGtm?=
+ =?utf-8?B?RytWWFRBS25pcGRidWNzcE9KMkZ2NjcvdktRWkFPb3F2Y1U0S3VyZHJDVHJF?=
+ =?utf-8?Q?UKqU0GatxDRug1dWuQleB69sOmu7qTusk3wT7X3?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?M2ZIM3hJdmR0elN1OWxQVWJOTnpjSVJJTjNGMDFtVkdhdngxVEZSZkhjUmsx?=
+ =?utf-8?B?aldjL1FWZ29wNWFvTjA0NDB1eHJYNFh6eEYybUJCdm9GYVdVUXhhNmUwWlFq?=
+ =?utf-8?B?eDlWUEJ5Q0NBd3NPWjBRNGNIY2pORzZHUURYM3QyWTYxOWl0MTdsSDVKZzdU?=
+ =?utf-8?B?SFNQWmxPaFZTVCt4azA1MnZKcm5VUUFPOEgrRkNPano1ZVdYbWNNME9jQzFS?=
+ =?utf-8?B?eHFzbHNrYjEydjZaM0szRVF5aWFkZTVlSUkyWkNHZnlCOEVJaEVoWHZjTmo4?=
+ =?utf-8?B?bUJ2bWlzc2JyWGVRQTUydmdhdEU0QjBBSFhLTnJvZUtIZmU1Nm1rbGMxSTds?=
+ =?utf-8?B?VDJ5WTdtSTRFRUs5Z3lFcy9pZjNxZzQ2Ym0vMmZLaHJXN2E1a2pMR2o5dmhh?=
+ =?utf-8?B?dkJrUmM3bXd6cWlBTGNWb2VtMC9hSUtWcjRqUFlyZzhxazQwVnY1bXV3VDQ4?=
+ =?utf-8?B?ZmdMZDJvQ3E0V3E0MUNacFZjZDJrVHF3SU9LK21GZGorY2dZUCtjMVF4TmNk?=
+ =?utf-8?B?Wmc4T1dWU0FudUVjQVZvZDJGUFhvaGl4MVgyb3lMV1RFamNTWk4vTWcwaUI0?=
+ =?utf-8?B?blZjSHV4RjZvb2pjMFlEeTZzMVlqM0M0UHpSeVFGWnl4RDc5U0c3NHhLMzhE?=
+ =?utf-8?B?MlhRczBYZEo5SWZ2OVpCclNHVkN0VkxYT1pVSXdRd1Z1V1BZbXFjNlByVGpX?=
+ =?utf-8?B?TTlOUUpMNDIrQ2JHbGV5MVNlVEZia3ZwWU9vNnFDeEVpaFM1L1dhY1hhVjNO?=
+ =?utf-8?B?RE94ZTJoQ1hFci9FS0Y5bEhaMVhhdzVSMXNBVnVydXRnVXc0QWUyVHJEOG93?=
+ =?utf-8?B?dkhJYmlaQ3h4TllEU2wyWG9BelZHOWxxTlRLUGFhNWVRaWNhSWliVFRkK0pn?=
+ =?utf-8?B?emhQUTlySXV3dEl4bTk4QUFLMGV6TGRiVTBSbG1aV05iMEp6dDJVTW1YQk1q?=
+ =?utf-8?B?THJjbXk0bVQ5cExGWTBuSG1sUlp3ODVDZFUvK3IvcytzN2MyYVRFVW9XSlpu?=
+ =?utf-8?B?TXdhSTlaUHBpc0k4Sm9tOXc3ZG9uNjg4anBtQU5JVmpYN3c0eHUzckVUamVp?=
+ =?utf-8?B?WURuTHljbFdnTmt4bU4wR20zSUNSWXNHRUlmMExicjRPcHR5YUh4N0pNMTVw?=
+ =?utf-8?B?aStaN2FOY1NQaEEyNnh5L1ZNUzRRVC9BRVptSWlEUTVqa1N6dXdKUmpkajM5?=
+ =?utf-8?B?WjJDUU5TbVVHcFdwRTF0aDhJNzEwM3Z2SFllNjI0SmhTUjQva3MxQzRoeEhy?=
+ =?utf-8?B?eDNPLytLR1FsNjduOWZzZFc1VmRXVjMwYjF3c1VoeFM2cU9adUw2c0E3KzA2?=
+ =?utf-8?B?QXZDK0wzU0pSRnRRR3BlWUw0NFU4MElNWDdFc21NR0F0RVQ2NXpiT1lWUkFm?=
+ =?utf-8?B?dGk5elA4QzNqYThYa3pJS28zcEVLRGNoS1p4N1BrZWNCNUFLdW84dDB2MHNE?=
+ =?utf-8?B?cXBmdlVqMUlXcGorOU5ObzdtYWFmMjg5c05xbHRMS01Oa05EMGt6eURaNUll?=
+ =?utf-8?B?VmtiTTJaM3NSNC9jSFlsM2ZVbGp5WnRmbkJjL3lJV0I2Yk5KV3hLZXNiNkNI?=
+ =?utf-8?B?Z1UrMExpdEFTMy9VbWlGS1R3eHdNcW9FNEJwTkVEWlkrTkF1RVQ5RG1wTWl3?=
+ =?utf-8?B?T3ZVc0c5cVkxUENoazBWdFV3Rnc5b2JhWUFOaXFDK0ZFODZlZEcySlJacHYw?=
+ =?utf-8?B?N2U3WnVtby8xYzNvRFZtemNsRW9sQjB1eldGQmVpZzRvTDNxcFEvcEdlTjA1?=
+ =?utf-8?B?QjFvc0J3WklYQ0tIRGltS0lFc1c1NXQwOEpSMmIyM3dzcGxkcWIzb0RKUGtK?=
+ =?utf-8?B?QTdRU0twZ2RCM29KZENRYnpFUDh5SE9HSVlRaHJQVDRLVHBENk0wWjNTN1RB?=
+ =?utf-8?B?aVgvNHhmdHc4LzZ4eU5Mb2RxWGgyKzVURWIzSVZxNmNLR0M3eHNDcXNIQWNz?=
+ =?utf-8?B?QTFQSFliUUVuRVFlM1VTeXdaeFNzOWxPd3Z3VS9LdFg4ZXlCb1Q4cHpPUDVy?=
+ =?utf-8?B?UXQxbmRHWDljL2FVMWMxdmhtOU9hTWw5ZWVjSVlwbDk5WG1ZVThPVi8yOGp4?=
+ =?utf-8?B?Y3FGR05GNUxxNE14aGZ1NFBYWWowQURjaDN0VklyTEJidHJMVXRwL1NNbDMx?=
+ =?utf-8?B?Q1VYN2Zya0lEbDU3Wnd0TnJHOHhFSDBTZ1E0QzFQNDRiU1NkdUt2SHcxUjh3?=
+ =?utf-8?B?Y1E9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47308536-958a-43cc-d4d1-08dd55408739
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 02:02:59.3473
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fwhZrpAKHaURLs/qCegvPZ3tQ76G8ek00JGAMNEWtYRkJbfrAJiXhaEs5ZuySXQ1V5fJFP9t8wBJ7w51nGbn87QvAmBAI6rx/ruZjA1PClw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6194
+X-Authority-Analysis: v=2.4 cv=eoIlzppX c=1 sm=1 tr=0 ts=67bd24dc cx=c_pps a=F7QtyTBSWJEVkVFduP+sHw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=Q4-j1AaZAAAA:8 a=l_88qD64AAAA:8
+ a=6q5ANwHFTC3T3MT6qykA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=wvPkM9v7g1_ikmSEda4A:9 a=Rtq7SB3vzJt-WMqI:21 a=_W_S_7VecoQA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=sgQlBcfP8EIGAiSWe9Wv:22
+X-Proofpoint-GUID: RtEZGKRFVxx6HFn1OgBr4iBhCQkHqckO
+X-Proofpoint-ORIG-GUID: C_123icz_12giX_HM_yeRjggadO_ltF5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-24_12,2025-02-24_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 mlxscore=0 bulkscore=0 spamscore=0
+ adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
+ definitions=main-2502250012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 01:18:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211860
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 02:03:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211861
 
---000000000000e373ad062eed39b8
-Content-Type: text/plain; charset="UTF-8"
+--------------DvUfiUK6ni00pUYkX3LBrvI4
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 51P1kECe014599
 
-With the revert I have confirmed that this error goes away. However, I am
-experiencing a new error when I attempt to launch a simple gRPC server. Not
-sure how related this is.
 
-root@radxa-zero-3e:~# python3 /usr/bin/instrument_server.py
-Traceback (most recent call last):
-  File "/usr/bin/instrument_server.py", line 4, in <module>
-    import instrument_pb2
-  File "/usr/bin/instrument_pb2.py", line 9, in <module>
-    from google.protobuf import runtime_version as _runtime_version
-ImportError: cannot import name 'runtime_version' from 'google.protobuf'
-(/usr/lib/python3.13/site-packages/google/protobuf/__init__.py)
+On 2/25/25 07:36, J=C3=B6rg Sommer wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> Changqing Li via lists.openembedded.org schrieb am Do 20. Feb, 11:57 (+=
+0800):
+>> The reverted commit causes regression when ldconfig not in
+>> DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
+>> ctypes.util.find_library(name) can find the lib if it is installed,
+> Hello Changqing Li,
+>
+> Did I understand correctly that gtk+3 was found before, indent of ldcon=
+fig
+> was in der DISTRO_FEATURES? But after the change, if fails.
+>
+> Where is libgdk installed? In /usr/lib or somewhere else?
 
-On the styhead branch, I get no such error and the gRPC server works fine.
+Hi,
 
-On Sun, Feb 23, 2025 at 5:05=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.c=
-om>
-wrote:
+libgtk is under /usr/lib. See:
 
-> I have sent a revert of problematic commit.
->
-> Sorry for this trouble.
->
->
->
-> Peter
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *unit exe via
-> lists.openembedded.org
-> *Sent:* Sunday, February 23, 2025 0:05
-> *To:* openembedded-core@lists.openembedded.org
-> *Subject:* [OE-core] Broken python3-grpcio on main branch
->
->
->
-> Hello,
->
->
->
-> I am building with the main branch of meta-openembedded
-> commit 29897344f7c9846e00856f46c4b3b47117a69499 and trying to import the
-> grpc python module. This results in this error:
->
->
->
-> root@radxa-zero-3e:~# python3
-> Python 3.13.2 (main, Feb  4 2025, 14:51:09) [GCC 14.2.0] on linux
-> Type "help", "copyright", "credits" or "license" for more information.
-> >>> import grpc
-> Traceback (most recent call last):
->   File "<python-input-0>", line 1, in <module>
->     import grpc
->   File "/usr/lib/python3.13/site-packages/grpc/__init__.py", line 22, in
-> <module>
->     from grpc import _compression
->   File "/usr/lib/python3.13/site-packages/grpc/_compression.py", line 20,
-> in <module>
->     from grpc._cython import cygrpc
-> ImportError: /usr/lib/python3.13/site-packages/grpc/_cython/
-> cygrpc.cpython-313-aarch64-linux-gnu.so: undefined symbol:
-> _ZN4absl12lts_2024072212log_internal17kUnsignedCharNullE
->
->
->
-> I see this error on rpi5 too. If I build with the styhead branch (uses
-> grpcio 1.66 instead of 1.70) I get no such error.
->
->
->
-> Any suggestions on how to fix this or debug the issue further?
->
+root@qemux86-64:~# ldconfig -p | grep gtk-3
 
---000000000000e373ad062eed39b8
-Content-Type: text/html; charset="UTF-8"
+libgtk-3.so.0 (libc6,x86-64) =3D> /usr/lib/libgtk-3.so.0
+
+root@qemux86-64:~# python3
+
+Python 3.13.2 (main, Feb 4 2025, 14:51:09) [GCC 14.2.0] on linux Type=20
+"help", "copyright", "credits" or "license" for more information.
+
+ >>> from ctypes.util import find_library
+
+ >>> find_library('gtk-3')
+
+ =C2=A0'libgtk-3.so.0'
+
+
+For the case that ldconfig is NOT in DISTRO_FEATURES, gtk+3 can be=20
+found. After commit "python3-ctypes: depend on ldconfig only if=20
+distro-feature set" is merged,
+
+ldconfig is not installed, so ctypes.util.find_library cannot found gtk+3.
+
+//Changqing
+
+>
+>
+> Bye, J=C3=B6rg
+>
+> --
+> Navimatix GmbH           T: 03641 - 327 99 0
+> Tatzendpromenade 2       F: 03641 - 526 306
+> 07745 Jenawww.navimatix.de
+>
+> Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
+> Registergericht: Amtsgericht Jena, HRB 501480
+--------------DvUfiUK6ni00pUYkX3LBrvI4
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 51P1kECe014599
 
-<div dir=3D"ltr"><div dir=3D"ltr">With the revert I have confirmed that thi=
-s error goes away. However, I am experiencing a new error when I attempt to=
- launch a simple gRPC server. Not sure how related this is.</div><div dir=
-=3D"ltr"><br></div><div dir=3D"ltr">root@radxa-zero-3e:~# python3 /usr/bin/=
-instrument_server.py <br>Traceback (most recent call last):<br>=C2=A0 File =
-&quot;/usr/bin/instrument_server.py&quot;, line 4, in &lt;module&gt;<br>=C2=
-=A0 =C2=A0 import instrument_pb2<br>=C2=A0 File &quot;/usr/bin/instrument_p=
-b2.py&quot;, line 9, in &lt;module&gt;<br>=C2=A0 =C2=A0 from google.protobu=
-f import runtime_version as _runtime_version<br>ImportError: cannot import =
-name &#39;runtime_version&#39; from &#39;google.protobuf&#39; (/usr/lib/pyt=
-hon3.13/site-packages/google/protobuf/__init__.py)</div><div dir=3D"ltr"><b=
-r></div><div>On the styhead branch, I get no such error and the gRPC server=
- works fine.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Sun, Feb 23, 2025 at 5:05=E2=80=AFAM Marko, Peter &lt;<a hre=
-f=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><div>
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#cceed0">
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 2/25/25 07:36, J=C3=B6rg Sommer wro=
+te:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:nvmjowjub7hxr4wz4njvcwdi5mo2g4p=
+piixrsdgr5zrqs3dwch@mrwc5mgkqid4">
+      <pre class=3D"moz-quote-pre" wrap=3D"">CAUTION: This email comes fr=
+om a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+
+Changqing Li via lists.openembedded.org schrieb am Do 20. Feb, 11:57 (+08=
+00):
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">The reverted commit causes=
+ regression when ldconfig not in
+DISTRO_FEATURES, before, without ldconfig in DISTRO_FEATURES,
+ctypes.util.find_library(name) can find the lib if it is installed,
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+Hello Changqing Li,
+
+Did I understand correctly that gtk+3 was found before, indent of ldconfi=
+g
+was in der DISTRO_FEATURES? But after the change, if fails.
+
+Where is libgdk installed? In /usr/lib or somewhere else?</pre>
+    </blockquote>
+    <p>Hi, <br>
+    </p>
+    <p>libgtk is under /usr/lib. See:</p>
+    <p>root@qemux86-64:~# ldconfig -p | grep gtk-3&nbsp;</p>
+    <p>libgtk-3.so.0 (libc6,x86-64) =3D&gt; /usr/lib/libgtk-3.so.0&nbsp;<=
+/p>
+    <p>root@qemux86-64:~# python3&nbsp;</p>
+    <p>Python 3.13.2 (main, Feb 4 2025, 14:51:09) [GCC 14.2.0] on linux
+      Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; o=
+r &quot;license&quot; for more
+      information.&nbsp;</p>
+    <p>&gt;&gt;&gt; from ctypes.util import find_library&nbsp;</p>
+    <p>&gt;&gt;&gt; find_library('gtk-3')</p>
+    <p>&nbsp;'libgtk-3.so.0' <br>
+    </p>
+    <p><br>
+    </p>
+    <p>For the case that ldconfig is NOT in <span style=3D"white-space: p=
+re-wrap">DISTRO_FEATURES,  gtk+3 can be found.  After commit &quot;python=
+3-ctypes: depend on ldconfig only if distro-feature set&quot; is merged,<=
+/span></p>
+    <p><span style=3D"white-space: pre-wrap">ldconfig is not installed,  =
+ so </span>ctypes.util.find_library
+      cannot found gtk+3.<br>
+      <br>
+    </p>
+    <p>//Changqing<br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:nvmjowjub7hxr4wz4njvcwdi5mo2g4p=
+piixrsdgr5zrqs3dwch@mrwc5mgkqid4">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
 
 
+Bye, J=C3=B6rg
 
+--
+Navimatix GmbH           T: 03641 - 327 99 0
+Tatzendpromenade 2       F: 03641 - 526 306
+07745 Jena               <a class=3D"moz-txt-link-abbreviated" href=3D"ht=
+tp://www.navimatix.de">www.navimatix.de</a>
 
+Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
+Registergericht: Amtsgericht Jena, HRB 501480
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-<div lang=3D"EN-US">
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif">I have sent a revert of problematic commit.<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif">Sorry for this trouble.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif">Peter<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-width:medium medium medium 1.5pt;border-style:none non=
-e none solid;border-color:currentcolor currentcolor currentcolor blue;paddi=
-ng:0in 0in 0in 4pt">
-<div>
-<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
-order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0in 0in"=
->
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;C=
-alibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;font=
--family:&quot;Calibri&quot;,sans-serif"> <a href=3D"mailto:openembedded-cor=
-e@lists.openembedded.org" target=3D"_blank">openembedded-core@lists.openemb=
-edded.org</a> &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.or=
-g" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>unit exe via <a href=3D"http://lists.openembedded.org" =
-target=3D"_blank">lists.openembedded.org</a><br>
-<b>Sent:</b> Sunday, February 23, 2025 0:05<br>
-<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> [OE-core] Broken python3-grpcio on main branch<u></u><u></u=
-></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Hello,<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">I am building with the main branch of meta-openembed=
-ded commit=C2=A029897344f7c9846e00856f46c4b3b47117a69499 and trying to impo=
-rt the grpc python module. This results in this error:<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">root@radxa-zero-3e:~# python3<br>
-Python 3.13.2 (main, Feb =C2=A04 2025, 14:51:09) [GCC 14.2.0] on linux<br>
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;=
-license&quot; for more information.<br>
-&gt;&gt;&gt; import grpc<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;&lt;python-input-0&gt;&quot;, line 1, in &lt;module&gt;<b=
-r>
-=C2=A0 =C2=A0 import grpc<br>
-=C2=A0 File &quot;/usr/lib/python3.13/site-packages/grpc/__init__.py&quot;,=
- line 22, in &lt;module&gt;<br>
-=C2=A0 =C2=A0 from grpc import _compression<br>
-=C2=A0 File &quot;/usr/lib/python3.13/site-packages/grpc/_compression.py&qu=
-ot;, line 20, in &lt;module&gt;<br>
-=C2=A0 =C2=A0 from grpc._cython import cygrpc<br>
-ImportError: /usr/lib/python3.13/site-packages/grpc/_cython/<a href=3D"http=
-://cygrpc.cpython-313-aarch64-linux-gnu.so" target=3D"_blank">cygrpc.cpytho=
-n-313-aarch64-linux-gnu.so</a>: undefined symbol: _ZN4absl12lts_2024072212l=
-og_internal17kUnsignedCharNullE<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">I see this error on rpi5 too. If I build with the st=
-yhead branch (uses grpcio 1.66 instead of 1.70) I get no such error.<u></u>=
-<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Any suggestions on how to fix this or debug the issu=
-e further?<u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div></blockquote></div>
-</div>
-
---000000000000e373ad062eed39b8--
+--------------DvUfiUK6ni00pUYkX3LBrvI4--
 
