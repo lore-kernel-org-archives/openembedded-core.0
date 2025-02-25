@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01749C021B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1590CC021BE
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 20:56:50 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.19969.1740517001399922107
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.19951.1740517002791022137
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 12:56:41 -0800
+ Tue, 25 Feb 2025 12:56:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hK/PhRRM;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fc4418c0e1so305226a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 12:56:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MbsK7YTX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-221050f3f00so138647515ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 12:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740517001; x=1741121801; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740517002; x=1741121802; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1sNhz6B7SNuFptpSxXYMmVb+23dBr9vW3b1Z9Hi/6+M=;
-        b=hK/PhRRMSIsus5vXN6ogM+fChSTwWaQaTzGTMhd6RqEYO9FmOk9kPD+p8wJPy+JXep
-         j4ts9mZZnMSsZgvM/AZN7Lvokebr/XmjVtcwbyz3ucsUY+UnoZifO/Yv8Ui6ae+DBD99
-         6mihZ7/Et3o1gEovohx5Ag9MLR7fcps4jXp2x2DGNiHEOom4e3d+awgdgTLnN2kqA6Y0
-         5uAEqIfLKIHDt9tx+yQcVm1TVncDyjE0HSeo6231ywMlpwjG7b0EJmEOWGE0sdxZt2Nh
-         I7b2xBBlsravM6LC+doVawRin00iNW2iXvGr2dhb67mUKeDbHkz1Ci/9v8aw+XtBHEWw
-         brCA==
+        bh=ufnRetGq+/k2JheWvltkVw7DJrLIOlqBA1PUuAgPrvY=;
+        b=MbsK7YTXuFvkJcodq1KKzSm1RPlYBMGd/vGVy3/UnBMogk8FMXLHvGzE2/ElAmMjJD
+         p+PsgrJIIkJ/aeKoj5T/qggR/zJ4TbwamPeLKfUEU/5pzZoK/j6aJLps2qpjvRt5bg68
+         ucCyIgY8EOsrTdKH+Hdl/8wxy4Xh90xsbRkjKfCTLE6ip3x48Fb78tLt2e8iyH07WwEJ
+         IyxYd18BXYv9EPK0c+h9ciB5RKEVm6Y9dfJd7PNk7lTqDqxTeYfOOrePIP1pFybRWua0
+         Ad1tIdBiMyTatM530CKD9UMqmExyX4V0uvQacnqkhQmQw6gB8O5vYLyqiGbDc7EyL6Gz
+         VLbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740517001; x=1741121801;
+        d=1e100.net; s=20230601; t=1740517002; x=1741121802;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1sNhz6B7SNuFptpSxXYMmVb+23dBr9vW3b1Z9Hi/6+M=;
-        b=Lnt1zM9Dg0iFrCkywm1WVelLeRKTgqQiYzR8vSqiQfHV9b/kWGnr3qtyBlVnOVUO/R
-         V0K6/FTC5TrVnD6N74slTG7ksVtOufMrE8CbXChGVoiAZxENDxkQEDEAA740nZ50aroc
-         LHqyOHFU2ieeLzNb13zRkqH8m4bB7DRaCb5tuFSv6uxrxWqBRu1Sg/BAcRxSH7XbQt/B
-         dJ+d493Vw99VDs7+vE5liA6gTMBgq4XOH0vdAhqZtYf2UBhG5WdLXlPjqVGn5e7u0gLp
-         DHvdwz0UVYS21N7pHhlaq7qnEeUBijtK78jDq0TzwmNS3dFEop64RWiKrZZbZwZsMBJz
-         GsdA==
-X-Gm-Message-State: AOJu0YxnuK3nB3I5fVlHY0+9SrUfsjk29BotOGH6TGWIQw85JhLpe1gc
-	sNFmo8o/hIAAX8WnGx47q2KSZ8T9GVhzGqJgkS1J0bX8TBBcVPIsB0clN3/QkZFI1fFgYAybfU1
-	4
-X-Gm-Gg: ASbGnctZRy/rAm1VwOqgSGQ0ZnmmfTyhXTKoA5hLcAfhbT1MiOZrnDj0iLNZA+9nZ5O
-	wJJ6+kCp4T40kIn6LUnTBRJMOmAabaN3oGwN7fjKZEXBzrCSmpAk6GgR+A8h/fTTT5EI/86+c2d
-	UCiu4UHaXa80KhW9EP3Wl07kCHYxiAy/KFuhIWLElYxe6nCvY0za+GTNlhZ13UCSUApNf1FvIEI
-	D0Hd4cFax7X7UfJdIu9JC8Cs5+NgPvDstHnlaFtcVyOihaqY5k88EcOWLhdGvCIq+9Z5DA+3dly
-	5Sskv+xfq9uO2gNQfA==
-X-Google-Smtp-Source: AGHT+IGUMlAswoBUm50mzaTglo1flmK6NgM66G593WaFxSyaSZk4nlLxSYK9dRGzTaekj/jrl4rHWA==
-X-Received: by 2002:a17:90b:2792:b0:2fa:1e56:5d82 with SMTP id 98e67ed59e1d1-2fce7b74fbbmr30990471a91.17.1740517000666;
-        Tue, 25 Feb 2025 12:56:40 -0800 (PST)
+        bh=ufnRetGq+/k2JheWvltkVw7DJrLIOlqBA1PUuAgPrvY=;
+        b=pH4/r3HOGA77N2K4D6ei2PXwlegCfeDMqIQY8cPF7l+buYPb+ytvro2w6Rqs/uHqvl
+         vsqt9cDHHxPn+NWZnup19QXBOFQZ4YC4tt6ssm3gnwdbytEuGy9i9aWwKLrNTEUgZkSa
+         kDg0SP/HS1h5ZAkHq9AVBvjLLtSUoRW+ijHF2AqKkgGEQb5JkgqlpfnpWQ4Oj8yxT1xQ
+         yMF5QhDc/tQVgGUcvMqGerZZkiqGs/B2sHrKbQmE8gXQsCc28MpS+VwxlW/e5zGG0cex
+         g9Uuj9EWpH/C3Tnp5XH8FVOEKYr7Jjq3E71WzXSkBJqidcGalcrQx+/xxO1C/+UA6Ig8
+         XXHw==
+X-Gm-Message-State: AOJu0YwDfuQicvD4/jBqmhduNwN++TAiXziovsGfVR4Qv70M5xLIPBJf
+	G3TIj6LITJUcmeNsgRFgEafkx0IpalNVVyZ5x7mLRcijRSnf0xZEGzLargjzLMPWku8yqYaKL7n
+	T
+X-Gm-Gg: ASbGncvx5CSoZ94Y0+a3AYZz+xVX1AZTrjdRnbGOkrRb8stdDzSs4KAyKcmHq25Jk+9
+	KsNpoZkyVGRM58Jaw9tkRR2M1JgTfUSgfZjrVuWpAx+Jjv3gL7dt/IbbcORXAY3KTIc9q0yIZkc
+	x1jJgDWE/mtk4tRduW68oZJT0ULJVqRn8BQEmZ4PGLK3vRQNni7GEUFmpXBjMz9fiEZgV9uAI96
+	sjLS4SjqgnuWQsUIWGH/rxFo7GVgTk+kK3UHZCqp86V99Q3Yl/agoXA4AFqUV8QTtb0GDOaEtqC
+	U42A5iThfkGe9DMajg==
+X-Google-Smtp-Source: AGHT+IF/zUS8qqXeLOasXJ0MeBu5/ga9jsI7oUTJ5BoNG1jyS0AbTXEDVd7uUUFbKbyNxdS8QBhjCg==
+X-Received: by 2002:a17:90b:2dc6:b0:2fa:1e3e:9be5 with SMTP id 98e67ed59e1d1-2fe68a2df32mr8908374a91.0.1740517002057;
+        Tue, 25 Feb 2025 12:56:42 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c473:2777:3793:104c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb02d9b4sm10083810a91.6.2025.02.25.12.56.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb02d9b4sm10083810a91.6.2025.02.25.12.56.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 12:56:40 -0800 (PST)
+        Tue, 25 Feb 2025 12:56:41 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 01/10] u-boot: fix CVE-2024-57254
-Date: Tue, 25 Feb 2025 12:56:24 -0800
-Message-ID: <eea9fee59bc7576bef94f0da466887e4daff0356.1740516861.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/10] u-boot: fix CVE-2024-57255
+Date: Tue, 25 Feb 2025 12:56:25 -0800
+Message-ID: <c3784c108f003c6663ca969585414e4a90f06606.1740516861.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740516861.git.steve@sakoman.com>
 References: <cover.1740516861.git.steve@sakoman.com>
@@ -67,92 +67,95 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 20:56:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211925
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211926
 
 From: Hongxu Jia <hongxu.jia@windriver.com>
 
-An integer overflow in sqfs_inode_size in Das U-Boot before
-2025.01-rc1 occurs in the symlink size calculation via a
-crafted squashfs filesystem.
+An integer overflow in sqfs_resolve_symlink in Das U-Boot before 2025.01-rc1
+occurs via a crafted squashfs filesystem with an inode size of 0xffffffff,
+resulting in a malloc of zero and resultant memory overwrite.
 
-https://nvd.nist.gov/vuln/detail/CVE-2024-57254
+https://nvd.nist.gov/vuln/detail/CVE-2024-57255
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../u-boot/files/CVE-2024-57254.patch         | 47 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57254.patch
+ .../u-boot/files/CVE-2024-57255.patch         | 53 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57255.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57254.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57254.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57255.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57255.patch
 new file mode 100644
-index 0000000000..be00121224
+index 0000000000..4ca72da554
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57254.patch
-@@ -0,0 +1,47 @@
-+From 3f9deb424ecd6ecd50f165b42f0b0290d83853f5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57255.patch
+@@ -0,0 +1,53 @@
++From 5d7ca74388544bf8c95e104517a9120e94bfe40d Mon Sep 17 00:00:00 2001
 +From: Richard Weinberger <richard@nod.at>
-+Date: Fri, 2 Aug 2024 18:36:45 +0200
-+Subject: [PATCH 1/8] squashfs: Fix integer overflow in sqfs_inode_size()
++Date: Fri, 2 Aug 2024 18:36:44 +0200
++Subject: [PATCH 2/8] squashfs: Fix integer overflow in sqfs_resolve_symlink()
 +
-+A carefully crafted squashfs filesystem can exhibit an extremly large
-+inode size and overflow the calculation in sqfs_inode_size().
-+As a consequence, the squashfs driver will read from wrong locations.
-+
-+Fix by using __builtin_add_overflow() to detect the overflow.
++A carefully crafted squashfs filesystem can exhibit an inode size of 0xffffffff,
++as a consequence malloc() will do a zero allocation.
++Later in the function the inode size is again used for copying data.
++So an attacker can overwrite memory.
++Avoid the overflow by using the __builtin_add_overflow() helper.
 +
 +Signed-off-by: Richard Weinberger <richard@nod.at>
 +Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 +
-+CVE: CVE-2024-57254
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/c8e929e5758999933f9e905049ef2bf3fe6b140d]
++CVE: CVE-2024-57255
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/233945eba63e24061dffeeaeb7cd6fe985278356]
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ fs/squashfs/sqfs_inode.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++ fs/squashfs/sqfs.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
 +
-+diff --git a/fs/squashfs/sqfs_inode.c b/fs/squashfs/sqfs_inode.c
-+index d25cfb53..bb3ccd37 100644
-+--- a/fs/squashfs/sqfs_inode.c
-++++ b/fs/squashfs/sqfs_inode.c
-+@@ -78,11 +78,16 @@ int sqfs_inode_size(struct squashfs_base_inode *inode, u32 blk_size)
++diff --git a/fs/squashfs/sqfs.c b/fs/squashfs/sqfs.c
++index 1430e671..16a07c06 100644
++--- a/fs/squashfs/sqfs.c
+++++ b/fs/squashfs/sqfs.c
++@@ -422,8 +422,10 @@ static char *sqfs_resolve_symlink(struct squashfs_symlink_inode *sym,
++ 	char *resolved, *target;
++ 	u32 sz;
 + 
-+ 	case SQFS_SYMLINK_TYPE:
-+ 	case SQFS_LSYMLINK_TYPE: {
-++		int size;
++-	sz = get_unaligned_le32(&sym->symlink_size);
++-	target = malloc(sz + 1);
+++	if (__builtin_add_overflow(get_unaligned_le32(&sym->symlink_size), 1, &sz))
+++		return NULL;
 ++
-+ 		struct squashfs_symlink_inode *symlink =
-+ 			(struct squashfs_symlink_inode *)inode;
+++	target = malloc(sz);
++ 	if (!target)
++ 		return NULL;
 + 
-+-		return sizeof(*symlink) +
-+-			get_unaligned_le32(&symlink->symlink_size);
-++		if (__builtin_add_overflow(sizeof(*symlink),
-++		    get_unaligned_le32(&symlink->symlink_size), &size))
-++			return -EINVAL;
-++
-++		return size;
-+ 	}
++@@ -431,9 +433,9 @@ static char *sqfs_resolve_symlink(struct squashfs_symlink_inode *sym,
++ 	 * There is no trailling null byte in the symlink's target path, so a
++ 	 * copy is made and a '\0' is added at its end.
++ 	 */
++-	target[sz] = '\0';
+++	target[sz - 1] = '\0';
++ 	/* Get target name (relative path) */
++-	strncpy(target, sym->symlink, sz);
+++	strncpy(target, sym->symlink, sz - 1);
 + 
-+ 	case SQFS_BLKDEV_TYPE:
++ 	/* Relative -> absolute path conversion */
++ 	resolved = sqfs_get_abs_path(base_path, target);
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 1f17bd7d0a..9ce42e829f 100644
+index 9ce42e829f..e907edd2eb 100644
 --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,7 +14,9 @@ PE = "1"
- # repo during parse
- SRCREV = "866ca972d6c3cabeaf6dbac431e8e08bb30b3c8e"
+@@ -16,6 +16,7 @@ SRCREV = "866ca972d6c3cabeaf6dbac431e8e08bb30b3c8e"
  
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
-+           file://CVE-2024-57254.patch \
-+"
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
+            file://CVE-2024-57254.patch \
++           file://CVE-2024-57255.patch \
+ "
  
  S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
 -- 
 2.43.0
 
