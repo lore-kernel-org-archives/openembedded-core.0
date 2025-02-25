@@ -1,148 +1,79 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDE9C021BB
-	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 15:56:53 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web11.11795.1740499011466069939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CB4C021B8
+	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 16:03:33 +0000 (UTC)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by mx.groups.io with SMTP id smtpd.web10.11900.1740499409676374380
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 07:56:51 -0800
+ Tue, 25 Feb 2025 08:03:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=niyHtKGm;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e65a00556aso46079456d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 07:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740499010; x=1741103810; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hG6MN6D8O1IYrarXppevAzbB5dSn26XEsvq7x/5MJE=;
-        b=niyHtKGmkdWdbuRN5JpbDZJKFGfLTDISMqvsUDprfXS86rYbt+nwpw2wXSWLjey4Ry
-         scl9fEB/AprzlO1ONzyQkyW6/GZwOVzRfamFpmxud4cWryH+4SbSe0buf6Aw2/rCGMDU
-         w8Mowa2GHg6hEIQgwi+r2aLtWkSAHQ9mCn45r0PLNWzZhTljjYbyDy0GNXt+QyRmSjDP
-         z9W7YDFDDLJqzQ/ixmfpc7942JwSmYsiOAioeuPFhBGnfAwz5g1It6yGS8qrbZqI3pbW
-         8IiuicxoUbQmMOtl16YdmT5iLAmhhDrmdbCVcEgQ7yuglree+pnO3QceWBIZ50UXGnSH
-         QuJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740499010; x=1741103810;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+hG6MN6D8O1IYrarXppevAzbB5dSn26XEsvq7x/5MJE=;
-        b=EZYExWYYBmbiCcDlVoSYFCg2Oh9sFTKOh1KlcaAjpEuWpYAywXZgBa/+iVRdlJzy69
-         ZUmN8pca2XuNPQcVotaAWeV9qs93w6jS0HKMCi+MbZw+TUGpMRQvRGHZRj2xHkjDZR7y
-         Zy2X02wRGO0RCvv4V0SLnB+iORPlTaXjH+XmzRU8dcatKKdIGrL2VrcIkDsXDyJWUGeb
-         FacUYbWK4JIti1GFAJ5kWyg5MlQLhusDM5cCWS5Dd6OFpkVa1kDNc09QFgLk6nlezzlW
-         WHIcfOKNz1aiI9e/EhzzUoQK3JUoifKbfdFNvlxlXXiZhhvARVDH+BzrB/W9PbJ2VvFE
-         FXRQ==
-X-Gm-Message-State: AOJu0YxLBTVS9ggcQRb5H8bM64BP9CteJ6Y10lyohuKrl0fQ+wwbwcRa
-	i7ho4y5IXcPMSxlgu0fc9GVJM/Uo2Z6QtN9DjYLlLXeb7m5zlm5+
-X-Gm-Gg: ASbGnctTCnzxpo4kpJOPfD8cVBuRKiZuLm1z4tgBtmNSce9Wvkig00JpH0349wK9Drj
-	9uM9/NSRRshR663qKQFELdsvuA1krr/BaUPvrpP04n8r5yFuh4Xs7X+yODBMZWDDQNyPn25t7kq
-	OK1b56vUXu7590QuORe5IXXXT7bwAYYz3gMZt9fS3Fyvhql+rQscjHdVXdjszAuNIuatgphjLc/
-	BLMGLy9vVPEmySP8qqK4WdYCphc06oPjKszMVSH04zkBym+9XraZGN7hI3vk0Xn67Pvg0gE4REm
-	UrGyOiVvBWq9hNBpMUTN25LnO0Vk0GIm1ERtPCq6ZEVlTLDcFH6QgpNeUUrMpBAtUwOsrMW3lv2
-	X9f8DYiSbTTidfEIN+2ltCsps1DE=
-X-Google-Smtp-Source: AGHT+IEDRACoxzHOVMmpCiCJpJQZq13EOqew3asD/UyTtt1QzzwJSCCTfLRD1gG+rDZlEWR9JlR5WQ==
-X-Received: by 2002:ad4:5ca6:0:b0:6d8:9abb:3c28 with SMTP id 6a1803df08f44-6e87abaddabmr44212126d6.29.1740499010479;
-        Tue, 25 Feb 2025 07:56:50 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e87b087221sm10749476d6.26.2025.02.25.07.56.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 07:56:49 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] perf: enable zstd in default PACKAGECONFIG
-Date: Tue, 25 Feb 2025 10:56:47 -0500
-Message-Id: <20250225155647.3295109-2-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
-References: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
+ dkim=pass header.i=@denx.de header.s=mx-20241105 header.b=G0InkU4J;
+ spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 29D3710382D2E;
+	Tue, 25 Feb 2025 17:03:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1740499407;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYQhVwjYJhfBxaQ0bB/0AEE35t/yf9t2cIuZ3U7cmsU=;
+	b=G0InkU4JGgN3A741ti332I5lK2/P1MfDScZOABQVe/Z/jy9TNqG7n8GhTfwKbPzjL1CxDF
+	Z4JP0OCHzYN8BFJIMzZazRicS1SYDdiVEvJ+ODtOJsEHg58/2VhC6vomkJ8ySOU3y2Gpab
+	xk6zkqGH/PWyuVUVUg1Zwxx9TwNYHa6rXs9BzZiHlojWV88lLMkwRMB+lJH4Ms07VJ5WSk
+	NPhy7PbmJWK/VI17gKukzsHyu2+LweG/jSZW0MfCJwej4hsSYlmbyEdqqCSY9z5eLqlWlJ
+	1O41mcg95JIb+57IXILE3doTxlNYpi3GSWulpWBH+1kdXKME2Sam6TD3+Tv+fQ==
+Message-ID: <006a4ab5-ea6c-44f6-84cb-ebb729610f02@denx.de>
+Date: Tue, 25 Feb 2025 17:03:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap][PATCH] u-boot: kernel-fitimage: Restore
+ FIT_SIGN_INDIVIDUAL="1" behavior
+To: Jose Quaresma <quaresma.jose@gmail.com>,
+ openembedded-core@lists.openembedded.org, Steve Sakoman <steve@sakoman.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Jose Quaresma <jose.quaresma@foundries.io>
+References: <20250225154902.98249-2-jose.quaresma@foundries.io>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20250225154902.98249-2-jose.quaresma@foundries.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 15:56:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211915
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 16:03:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211916
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-The following upstream commit:
-
-  commit 44b44ffd5dcef03d273ad070d0b02a65a323f5f6
-  Author: Leo Yan <leo.yan@arm.com>
-  Date:   Sun Dec 15 22:12:22 2024 +0000
-
-      perf build: Minor improvement for linking libzstd
-
-      The zstd library will be automatically linked by detecting the feature
-      libzstd.  It is no need to explicitly link it for static builds, so
-      remove the redundant linkage.
-
-      It is contradictory to detect the feature libelf-zstd while the build
-      configuration NO_LIBZSTD is set.  Report an error for reminding users
-      not to set NO_LIBZSTD.
-
-      Signed-off-by: Leo Yan <leo.yan@arm.com>
-      Tested-by: Namhyung Kim <namhyung@kernel.org>
-      Acked-by: Andrii Nakryiko <andrii@kernel.org>
-      Cc: Adrian Hunter <adrian.hunter@intel.com>
-      Cc: Alexei Starovoitov <ast@kernel.org>
-      Cc: Daniel Borkmann <daniel@iogearbox.net>
-      Cc: Eduard Zingerman <eddyz87@gmail.com>
-      Cc: Guilherme Amadio <amadio@gentoo.org>
-      Cc: Hao Luo <haoluo@google.com>
-      Cc: Ian Rogers <irogers@google.com>
-      Cc: James Clark <james.clark@linaro.org>
-      Cc: Jiri Olsa <jolsa@kernel.org>
-      Cc: John Fastabend <john.fastabend@gmail.com>
-      Cc: KP Singh <kpsingh@kernel.org>
-      Cc: Kan Liang <kan.liang@linux.intel.com>
-      Cc: Martin KaFai Lau <martin.lau@linux.dev>
-      Cc: Nick Terrell <terrelln@fb.com>
-      Cc: Quentin Monnet <qmo@kernel.org>
-      Cc: Song Liu <song@kernel.org>
-      Cc: Stanislav Fomichev <sdf@google.com>
-      Cc: Yonghong Song <yonghong.song@linux.dev>
-      Link: https://lore.kernel.org/r/20241215221223.293205-3-leo.yan@arm.com
-      Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-
-Enforces that zstd must be enabled if libelfstd is detected.
-
-Our build of perf and the other default features lead to libelf-zstd
-being detected, and hence the build aborts when the features are
-checked.
-
-We can't condionally enable this for 6.14+ kernels due to the way that
-the perf recipe works. The feature is minor and probably should have
-already been in the defaults. To keep things simple, we just enable it
-and will watch for any fallout.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 18e2454f9a..d06dd2fa5a 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -9,8 +9,8 @@ HOMEPAGE = "https://perf.wiki.kernel.org/index.php/Main_Page"
- 
- LICENSE = "GPL-2.0-only"
- 
--
--PACKAGECONFIG ??= "python tui libunwind libtraceevent"
-+# zstd is required for kernels 6.14+ when libelf-zstd is detected
-+PACKAGECONFIG ??= "python tui libunwind libtraceevent zstd"
- PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
- PACKAGECONFIG[perl] = ",NO_LIBPERL=1,perl"
- PACKAGECONFIG[python] = ",NO_LIBPYTHON=1,python3 python3-setuptools-native"
--- 
-2.39.2
-
+On 2/25/25 4:49 PM, Jose Quaresma wrote:
+> From: Marek Vasut <marex@denx.de>
+> 
+> OE FIT_SIGN_INDIVIDUAL is implemented in an unusual manner,
+> where the resulting signed fitImage contains both signed
+> images and signed configurations, possibly using different
+> keys. This kind of signing of images is redundant, but so is
+> the behavior of FIT_SIGN_INDIVIDUAL="1" and that is here to
+> stay.
+> 
+> Adjust the process of public key insertion into u-boot.dtb
+> such that if FIT_SIGN_INDIVIDUAL==1, the image signing key
+> is inserted into u-boot.dtb first, and in any case the
+> configuration signing key is inserted into u-boot.dtb last.
+> 
+> The verification of the keys inserted into u-boot.dtb against
+> unused.itb is performed only for FIT_SIGN_INDIVIDUAL!=1 due to
+> mkimage limitation, which does not allow mkimage -f auto-conf
+> to update the generated unused.itb, and instead rewrites it.
+> 
+> Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 0106e5efab99c8016836a2ab71e2327ce58a9a9d)
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Shouldn't Steve Sakoman be on CC ? (now added on To)
 
