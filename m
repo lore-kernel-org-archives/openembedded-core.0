@@ -2,106 +2,99 @@ Return-Path: <gavrosc@yahoo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7457C021B2
-	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 17:57:48 +0000 (UTC)
-Received: from sonic317-26.consmr.mail.bf2.yahoo.com (sonic317-26.consmr.mail.bf2.yahoo.com [74.6.129.81])
- by mx.groups.io with SMTP id smtpd.web10.15444.1740506266865967144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA11C021B8
+	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 18:11:09 +0000 (UTC)
+Received: from sonic315-13.consmr.mail.bf2.yahoo.com (sonic315-13.consmr.mail.bf2.yahoo.com [74.6.134.123])
+ by mx.groups.io with SMTP id smtpd.web11.15949.1740507061134100125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 09:57:47 -0800
+ Tue, 25 Feb 2025 10:11:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=VrqyQ5pK;
- spf=neutral (domain: yahoo.com, ip: 74.6.129.81, mailfrom: gavrosc@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740506266; bh=4gRDHwkSehHJ3+atbxMEgGT4xLkt1kYe+jp3S6BXgoI=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=VrqyQ5pKPtovtFqyYlfecjsyVUtWLI/5YCnXwx7wRzEuYWKmKseoyskDmwTvg3RNnaAF0S8N6GIRjfMy/hlA5Z2ntWqvXXjIYezSZdfqShOLqR8KyK1i9eR0q3+MI3pd7a1q447jMp2zsUeV/ETCU7vLaIFbyyevelz30R6dJnu68bBDDRvaFotZtmQBxTSmz6ydDvC7AeEFc0WqcDbUlDkHdQ4ohJGXx2qiRLTyNhaiD/vRRzOtwuLKa+JF1Ki6HLWne9q22PIQXC5XBlCW1i+DpcvZjIQn1nbHFG8ndpdnkoi1lp593nr5zELfxWA4mt7hzhWk1i5S0EHah07Jkg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740506266; bh=8AvSup1IkSqyTz77KLO933y1kZ0jZk5xbqA6B6ld/Qa=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Hv3sStMmwTb892fy9AKjRAS3I7/1UVAAyIVMizj+IUwAZfIt9Frm20cHsf+7zz8Mn6k1TYIUGB7El9MLM395OwBM2Ik+499yXfcd6/LCGSpDXsjSSGuaMlughMpERf7WNEWAVazEJt+ik+PrrBaT5OO5DQiy70coIH6V7TbQhNvZZElpOcEVJTKGpXCHHqXSUwrwcQ0Bq60FZeHomptegCSEmjuMau/RYPMqQAIXRwFOTGiqMD+a5QoOfr39goC9bjMsI2jp48p+DykQPXNH08FNQkYvOaUmL5JuHn3ePmLrvxoVK9lRo2oiMJQPXgH+iiXY4J9axAxIfFpvBySNvA==
-X-YMail-OSG: hsi4W0cVM1konsMBD6gr1V9ikRwEGwPYSQB6MjGCSq6tiTRf2VstyjcIjVcjlhL
- Av5HoDJ12Csa7gKl0VTci5ZV9Zx_2pjdJbvYcCxA4jW3w7Lgz2i177G0.oMSG16a_cy1Up7DvU2a
- PU5z1N3n7b2uv04maTWsW6BQLOaFOlhiOcLx7TZnclzBQEF.FoHXfJNwrOobbbxqPXagS6Nj6lku
- GqmO.P5Auuw3cBWqE0iFgb9HAzFK35bdhn6Ln6p8ET4vX1mg_mjA1fTuxEzNJv04c.DtfJaH6_Vp
- AvjGbHN4upJTmx.yt8BW9lv.CIhuvyMitLlmGgxdjJV4Q.qA5KGleWaB_o6T_22YEZ_24Mppb6hk
- 9Kdiuytenti7bzLv389GD78S.629uizUR9oOmuh6Ge49orZd4s9MOaEHZyrt4XCvI.iOYUOvdwn9
- 5S8pVHYaYGyIVymBpZpazaXXcCpVK_pRYwiABcDaCA1_pC_IXMjr2opEXsr5qm85_xm0RnTMNJ13
- o48nfYOknPc1SGVD5CR.7ULizrwAcqlDCJyCxgJVB66ku2RuXyRjf7K15fQPumM2Uf6qKE6qtdLO
- Mov5S73TWSljosrnl2jqnagKHv27FKuiP_1kSiExIoUixgz4iMyDBFWCZ28sljU7Pe16iqIGTA9E
- Gs1Vosge9iHCk5Msj8fx9yqr3FkQ7isrUXdqWC6QKx5CtlT6VBlEk35b798ds2NGmNJ0jWXuBGtA
- MdBWlHdnjEMIK2EoCHFvDoP15N3QTtpxzWsQmSefLgOaFxB1jsqs_G6OhpziOcKvq4c6lD3KDlYP
- RGhNdH21.wLSSFe94eFs_biJBUDFrs_lZRzJO3dptz5xB0J0eST28wXsLhfNPf1BAHjUCO53jlV5
- PnxmyXkxn8le5qsys7OrY6VVoFrAHFRo_gbQdKm5BnaLBhQkKg4vjzJrYwyLn2mVCj1LZMDuqhUW
- nq95U7SBGvu2zIRxhbGfv1eiIpvJkGDbrZ8DCTQXjRXhgTmLFDQN4RTxmqWxzRWGGSIAcNxQrKBY
- 5VYsRGrGYpAZxyCDpwc701pFDU.f.i6bYMsCMF10AWMIWpKnse8LwKMaF96sFRaNUVvIt9ixxp0n
- CbhzbDDYiabpkX8D.BfuXRrHeHM3bn9ewqGCf8xHJd0O7bLQxe.nDPdsO55ckvM9bE12jgqi4LzR
- 0WRRWrKeAHZG9MRUblqPpT88Ksw2VQJIspN3S0in25SBEpnf25wUCnfGuJixdk0NyZkUbNRjiBOo
- uX_qOffII.nP094rXzkNGjM1kSR5dvUcj3MrTPJVL1Tlz8a0pBVesHptmm5zAvOKd1nmLLsgU7ZR
- YWpmWVxZSu9TYSq6Kl3jMHCoX_GV10kxYC41YijnaxXm74SVMrfwRjjoCFSQjv0dcI63NVU.8BpY
- dLhZOl70ATkrlFQlnjSezBG7fcL0KK4zXEKffRubxCfJ6ApNdhA86nOg9hB_TdC4mhPVHDSQNfQ9
- Z0qjC_d70141.GZKnMeVVZZqL5NB0x954t9PQL2ukkM..c_DSNo1sIbHrZwciutCG4YAQCHdHpLO
- BMGIpIeSeG3ni03RzRHKvgr7n6us9RUG95zuvJRIcuzeVgVE7LomBk7A7zopm0jGCOR48Z1lFOLw
- UQahFYfor9lJOSNTl.ts4DlUOQGoCGntGPNR0u1NGXs1PnHh9a85fCtFICuvcGMnraC4VYa.xNf3
- 4xgG8Mr5lZE3Ak1S0gQkTigdxFH3KWeVPh.C5BI5WbbvE9yzhWXmiCH0JQBFMNJchharAadRohXk
- RAIexsL8fDCDD6UiZ4BOgcGWNjKhMeOxiN2O0mIi3WAFgWriL7zzj4eSPMx2.Q0M2sAelja.ol_2
- yrT0JpKt9nAnVTaRBu4pWJFg4vGfLNFptkMWzh4PZYhrjVcuAkKyKF3Uh1KHQ.lVpEHku43A6HWI
- kbi_q_dZNn4QcBXmIDBMYRM9Ode.n3G9ZDx36WgyxAP_sqEpjaV6RpmZ_hOjk6usnRJ8NAmzp9RK
- y0sZHCsjTrFeXyjYTZSXod0Ie.aFiCPgsIqZ0DkCmNsBGkBIMnzMYsMMiLE0DCsvZ19R962pi33S
- qe4_RXz9kj2EJYIIE_mlr0BiUt4dcSHz52CXbtY.gv9NSK_sdI_d7doH_BvgWea6A5bIe4ByHeXf
- Y42nrV06XJewub.ZdyXmul.396mpbGauCqzjQ_1t2uHoDBH3CUW1kDwKZOJrKfQnHtPeVs8mpyAe
- FJoXgNA9M4Fhh.NgSEc3mIr4VQTYSWlHYWscdQtUZuYZSSEsNjXBrkbYRfxc-
+ dkim=pass header.i=@yahoo.com header.s=s2048 header.b=A5JjuMYe;
+ spf=neutral (domain: yahoo.com, ip: 74.6.134.123, mailfrom: gavrosc@yahoo.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740507060; bh=3a6V58Lh0J+pHzWbYXoChrsVYsLf/0poFiwr3D8wcV8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=A5JjuMYeOwCBBasIIKKZ+cl+mFeSJvBvqDzJn5VF+74pdYXNg9EPcAavjlT2XVu2or38Ll/GR9+NFuqBHCq1INk0p4cFS8eVxwGezYj7m+hglK4Ukq+h9s87dnAJtIZuHwJSydy2WDb06a88BBTFzBwJRm98tmLwjxHEjFaw27+iMgA45BCwYQIr6DJjVc75Uu9zFHaAl85bPyyYe20mu2B6cnajoBc1gpst3ki2LbIJfROzk0TA14fiSMtCzbco8H42nMr7zz2CkHGbLkbfFf6pJSnpErNQ4IDyg2qeek2Qei1CVxlJWAudfu3gQ2OxqSPvgJgCvmoE534v7bB1uQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740507060; bh=tuJWHdxKNEXu3o9/2Fcmgec93GHMiXxW1kfKa1gxBd3=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=cDLexfZ1Xn2P3pmBcYLnyLllNtSdW+rzgYnYoaoDDbzABdlq5mp8mI/YS6kPk0mpeZWGkiRc835qw3p2FvYpYJdrhaRoj8yNoflaDVtNSJqh5NDtCRc1fMvZ2VrQm0Hs43Rv8N6WpCAtK17xaVZQl8/sekCPFkjCmNTefOgUS9FB36xL//T32e4Y/RhuIHjgMthYa8WPhuLmfMIYs/kWM+mka/pjo1sSgjzRajUZCHSuUf+uQfweusEyd1C4Mg3659sr5ypbbrqEqDVlnHqVo8TbLTWUR+wi3cKQozyuPCmsN78HSY53pcdCn+7Ke/3nIyumygOw4kLLe9I7fesO7Q==
+X-YMail-OSG: toSCOiIVM1nWWvQGht2gcIJA8DsdrxD6uow9bhB473qfWiuSW_EggZHAMp_WiWK
+ dc3BbSMc_k9UyL4CMBqaOq8dOcqw3BfmxEdirkH1VjbLf97pV48x9klE5SnMfYM_K7enVykMIA98
+ jzuGq2wPzHvqCntCp4SPyGeT6wZGaQtqX32n6k5bFEKXVQT.AbyNcOD.wkhU94uH7HVGKo7QMYGG
+ HyM9N42AfLBLX3Nrzoi9ChzLsbF8U..X9YqxAvdrArPOO2jJjn2B26IES9sMv6e9iV2V7OWd4c7n
+ 4dwPRs8tDZzfNH6SgWiRPmgiNSe2wng4Cd4m4crndTblMa3uelN7jx6ZaS2c5LhEaqDFxzFPi.Mt
+ uP9y4PSplXHAeYy8jp9Nq16SQzhAoQNdGZvKpvLXeZ5x1LRlUfOI4IxDs1AS1..30AOjBTeIJM9_
+ pECqEi_r.qG4vFjiENc3eBy7zuWgrsaS8VKhFGvRVJXpCr5oVVd3e5Sj3GxtHEF3A.Zw5l5E3utw
+ eByp8EPPKBpb4juKnSDltLCcCyNrtXjuG5j3iVLb5rt_phnRXHix9HZtxMbJhItqemn9nQ_f4MKT
+ .YWA1GtnPQZMvmXt5weugRPzGmRaOxMwlgwfy2oGZ5HFPo2MVGpby5wuZFGQDOv2TjnQll8meKoT
+ .QBmC8RTF84BswwjFctK6bjQkDGQ6gNjzgDl4xoYUCM7AGVAWS9x.mc17LJ1cIjdym7yV35FLxWn
+ VC9NRlSEa7wWqq4oogIXN97pZIqL57GPBGmHSVUKjRJhf1JWfOxpmxuJnKEnwZwp2vmBcIt1D31o
+ u2Mw8jIA2el_ytGl3lwffrJNOiv8bV4BYuye81.cYrWS2M878fnq7bXyk_FzE1N81K8AsPbv0K69
+ FmM1UvXSaqXxt.OOo3C2eHM30UqZe9VbPMlg8ItgAgachsDNC60TfzFsfG7x4YBpYVfzGzrS07zk
+ ePlNWjavcNTbwLVIPmwHs0QSUHIyG3fUSEdJudzqxI3LV5uJsAQHM.wOD7EKiz1J8vt2r8xULj3z
+ hy9iXZSrWFPtzHnX1KJiWNFFzYDs2wxHpIXfzFK9zc6wApZQ8aZ_7e6z4UOe15aTwUOAZS.3LRia
+ iv0ZI.o499lHGfZHYtseu4tGDDiiwQzOzQ_4V7BleB1.5TPSCQ2.kiZbVoFbmSmOlCE6TGxHn.rG
+ xTsuP.CDPzmmxURg9oPkmDyiAlaGdUjvRGuorLoUCo4gevgtGKPTQSI6afARUY0zoRIIAWwOL7IV
+ awBqy84VejONKv9OWFkkaHCH7eKKTC3bLWfMqnhvEVeF8BSBIhozRg_4AeYQaxNkpgSL.A5jdeR6
+ P.9d3_4KFakaf4G9FSO3qt3zdPsVFzvbgoAf7uIWAn0b4gH.iKKmMly7Yu7JkGDGbRFp.dy79QVN
+ eycDuNXuhIzlzUwE.HGS2.p80nnk46LZ0.1kEwU7.ua2OYiiqaMHRHqR_fceJ7EnlHqSAjXa_Bf3
+ Vwjq3MJGpuBSFxKY.rvS7NIl.m09Vhu3LcTksfjA6fh5XeSRBwXp99fAI_gYkw7n1Kt3rj8u6nj2
+ 217ZhViNrljvUZwHU.A9eZjvh6a0Q1AUfKcwpCD_1nLIxnzT2n.6vywFdNeYeS6aHojPAKyOSMEr
+ ldzbqjQFJzXrUnK3IVZKRid51Z96JgzlTtaGViEWmusQBFFIDpw96q3.UZvkSb4rtpTkmXew7qmB
+ LccUWQ4oGvrSxfikq4LRIpd8jhCtGEZ.XLD_.XiMvGb0bOSij04Ga_yM4iAWfVk5FYM_ifinkTGv
+ Bsn2gesecuIO09NyLqocxk6HK9pEgzSqZctNuc4kGrTflEiEXx94xibZpMRT6wvu0FL9pADT6Wli
+ X1dy7ZndCMHHUFSokIPpv3dPY8GDYx_GWhR9e6hiXgi9q1a9KoSbIvUglEoD9AgAteegtpCXrrPV
+ 6DajuiUOPQCy1t1DK2YRe.cOzjzB46PMLFXED9P8gSEq2pXQibbQlMcRZ9VSN7f6fVYrJD2_BSBR
+ 1LgozWfybR9ycfU0m5oiJwRtZXh.suFTotr.caAWBouNewDfRvrAMBLUJgsycFD.WzwqeLjUZLcW
+ q_kb0ukShI4u8tqd8Radl5J9GbJKJhNUBWfZAFeIP_gHjIgKOKp4GOkilVvLNG3qW5hy3skCW2z2
+ GELCMyPJzX6fK8z2y_F3pbNmbu_UlEE959YRdp3PNrqnJYolaxveEw1C7Jp6s2EFBrAAJ9eFUqWt
+ J5y5u4nxt1SN9Op2Ogu0d8uwaYvB1.Txu6yYYF.xnNeKF9JF.ZyEKuNvqdrw-
 X-Sonic-MF: <gavrosc@yahoo.com>
-X-Sonic-ID: 301f93b5-3673-4a64-810d-d66c5c37a788
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Tue, 25 Feb 2025 17:57:46 +0000
-Received: by hermes--production-ir2-c694d79d9-qp6kn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d149f854e05567ff6255a990e2a34690;
-          Tue, 25 Feb 2025 17:57:42 +0000 (UTC)
+X-Sonic-ID: 6c075ac0-702f-4c3b-85c9-a00375642e83
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Tue, 25 Feb 2025 18:11:00 +0000
+Received: by hermes--production-ir2-c694d79d9-5hgbf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5eaa815f590ad633163bc07b8cffed45;
+          Tue, 25 Feb 2025 18:10:56 +0000 (UTC)
 From: Christos Gavros <gavrosc@yahoo.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Christos Gavros <gavrosc@yahoo.com>,
 	Yoann Congal <yoann.congal@smile.fr>,
 	Randy MacLeod <randy.macleod@windriver.com>,
 	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH v3] oeqa/selftest: add a newline in local.conf (newbuilddir)
-Date: Tue, 25 Feb 2025 18:56:51 +0100
-Message-Id: <20250225175651.20909-1-gavrosc@yahoo.com>
+Subject: [PATCH] sanity: check variable GO_IMPORT
+Date: Tue, 25 Feb 2025 19:09:39 +0100
+Message-Id: <20250225180939.21341-1-gavrosc@yahoo.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20250225175651.20909-1-gavrosc.ref@yahoo.com>
+References: <20250225180939.21341-1-gavrosc.ref@yahoo.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 17:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211919
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 18:11:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211920
 
-If the build-st/conf/local.conf does not end with a newline
-when is generated then add one
-Fixes [YOCTO #15734]
+Check if the variable GO_IMPORT is
+assigned with a value. If not generate an error.
+Fixes [YOCTO #15763]
 
 CC: Yoann Congal <yoann.congal@smile.fr>
 CC: Randy MacLeod <randy.macleod@windriver.com>
 CC: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
 ---
-v2->v3
-* reading the file line by line replaced with f.readlines
-(it uses more memory but gives faster access)
----
- meta/lib/oeqa/selftest/context.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/classes-global/sanity.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 5eb4cc44fd..16f82c6737 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -102,6 +102,13 @@ class OESelftestTestContext(OETestContext):
-         oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
-         oe.path.copytree(selftestdir, newselftestdir)
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 1bae998f74..01e48b4347 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -1010,6 +1010,10 @@ def check_sanity_everybuild(status, d):
+         if '/dash' not in real_sh and '/bash' not in real_sh:
+             status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
  
-+        # if the last line of local.conf in newbuilddir is not empty and does not end with newline then add one
-+        localconf_path = newbuilddir + "/conf/local.conf"
-+        with open(localconf_path, "r+", encoding="utf-8") as f:
-+            last_line = f.readlines()[-1]
-+            if last_line and not last_line.endswith("\n"):
-+                f.write("\n")
++    # Check if a value is assigned to GO_IMPORT variable
++    if not d.getVar('GO_IMPORT'):
++        status.addresult("GO_IMPORT variable is not assigned with a value")
 +
-         subprocess.check_output("git init && git add * && git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
- 
-         # Tried to used bitbake-layers add/remove but it requires recipe parsing and hence is too slow
+ def check_sanity(sanity_data):
+     class SanityStatus(object):
+         def __init__(self):
 -- 
 2.34.1
 
