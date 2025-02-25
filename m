@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA9FC021BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5000EC19778
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 14:30:22 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.9089.1740493817461158676
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.9023.1740493814467814936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 06:30:17 -0800
+ Tue, 25 Feb 2025 06:30:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MexDweOX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-219f8263ae0so120257685ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0nfGczqK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-220d28c215eso88055245ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493817; x=1741098617; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493814; x=1741098614; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VVS2zVMIYvX7wBHYO7dSOJkA+KHqpodPvBFpLH+urSY=;
-        b=MexDweOXTFr4rItpXIufseYuhzkps03K4CJguSB0yT+nmVp4yTPz1Rp/p9QcCUhEFV
-         qR+G55o/Vvc0jHs/FGlFrxE5oh89trEySEHIfGCnR7s52pBDUr4+TXdt8w9vyvMeVAQN
-         Mc5DEQ6bxj+/wlMqwJVDEYGlacDzoQDZejuqbrvGjpZHY0PGEDQ47yxpKOgKt0FVFdxI
-         aR6FmMJtXHrdTlE4Orf3ypmZNpYy+ASFUN2lF0fRbWS5+Cx+rLx+xDHARoA/oZ7xpPAM
-         UwdM67rGPJfzZwIe3k6dgUO96hkavN5J/IA3ON8DsWEpehrr6XgsbSZ1Y0bPnfE+IlKe
-         2rlw==
+        bh=tVTFiAxU8ESXH6WNakAI+4VvCK0G8wpO/RDY8YUY/Jc=;
+        b=0nfGczqKkBjESYmumNlBZl8xnQDRh5K8o3Ae0vYPiNvzQmjIn5eFO8oRdf9rtOWKss
+         HPpeqOwb6uXxIPBauybolBSp3R2NpF3yORA679yw+PavbvBpLYuFK2QVPKfdBCN3avTk
+         hUeYXvlhw6gyrMah2STWe7Wlj7ptpfFQJlnmtfL6VV85aPry5w7CW2VOrHSH++lGVqbd
+         XrlYilMUQ/XOGMSUcglzyoWZxwmjRve93QAL8V+AkBVV4OFz60ep4VEgIdGkyZYewRE3
+         vCA7sYaIvCgLH++H8R5NxF0SEkrkyGCpiuBNlfpPRsYMnQGaSGs8usCKhIPObcNvg8nF
+         buRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740493817; x=1741098617;
+        d=1e100.net; s=20230601; t=1740493814; x=1741098614;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VVS2zVMIYvX7wBHYO7dSOJkA+KHqpodPvBFpLH+urSY=;
-        b=YhGGA5X3uo5HZRwNzKmSc1VPc41irm6LjzSlIzfFBDFAtECz2esj/ad6IewjMT/Jfc
-         6xO+NMuwWfbUn19bJUno2tIr5b2Vdfw+2OkZUvl8VmfjW5r3jOU7Ns599sXqBgM4o5hd
-         UaKfR9sRk+vGlbYjQo8RPPro1H45iZUSINzPtrGBa7V+Dhb8KTdvU9ZMkgMW1TFUB0ib
-         agETI4atPDRidKOROxSsp4WgJDEYND3ZD6kzTIwGRN/XVsStjL0gmjwDwhebKZR2hEIv
-         6uVJvitzwEVkkmBgzxLrNLXF/MrcaHSydvNMLUVHDKenQdXCNB+37YjG/kio0fqkEv8n
-         x1ig==
-X-Gm-Message-State: AOJu0YyY84ZLmfdQesNQ5yiMbWeBBI4djK9ytjNGdUai9l90YHXhpi4Y
-	FE9qHZXhxWHKRAI2rh4moq9q7ZxSbfpBBWH5XHFcfKGJ1I6Y9nFzFjtDCZzmJNYTFtcmKeKPJda
-	z
-X-Gm-Gg: ASbGncs3L6YMM3kT3bJI6IJeN7aB8qtwJPQWzp/IlRs6TPHSQ219tNIJqwI0qBv6906
-	SQPjGttzW9kdCsk6zFohOAGG8Ss7xMGDJePNLueTVPscRvYrji6dKG0NEn1rYV3iCx85rXUw4+f
-	pUCkOQG7k5z4v5/XEuIPr/BwRCJpnAUQ+zkQ3ukZeHNSb/mjhXg4BkZxHuq9GwW4rWm+bEsNW7A
-	vAxlHfmbsfK2ET6Fd3W45CisO2paugBpFwz2z7wEZQY7VSvPqSNDEj7Oyz3ZY8iJx/W1fdB54YI
-	QyhWlIpYWbiQElxEvQ==
-X-Google-Smtp-Source: AGHT+IFgHBsN7nMm8i4XlDIxF/O5Wte3R3JHZaPcX5JRabSt8vplB9eRv26KhRpbtq7tD/f6LNxROQ==
-X-Received: by 2002:a17:903:41c2:b0:21f:55e:ed64 with SMTP id d9443c01a7336-221a0ec9b4bmr247066195ad.3.1740493816552;
-        Tue, 25 Feb 2025 06:30:16 -0800 (PST)
+        bh=tVTFiAxU8ESXH6WNakAI+4VvCK0G8wpO/RDY8YUY/Jc=;
+        b=hg8cWmypHU8FlGE1TNX2JjvPcxdnk73cjGkGTUnrKrqU7hS0la/Um+Y50HqF2qcjLU
+         ttC/tvptoWH3XPrz1mJoHajY4vOkZVKEb6PL3EE/N5yxmDygvky+2EvZESCGXFC++S20
+         RWCWKYzQqU/RZ63VdK7qErlLbHizUhVLT1R9p7GaUFfWEpky7V17WCg5N1k54U9QNDQZ
+         xRFjdK+/6b0kUWBcC/5Gu8/hXv/gI5UH6nfWWXN6PhUl5lTkmhnek8sjk8PJ66QKc4sl
+         RhEnZjICr39Bro+29f7tX2mHnAJ+BvUi/ZkQT3VfhAUdnIS/HVVIkeb8tEYkQ4zhr0gu
+         Sn6g==
+X-Gm-Message-State: AOJu0YwWL39vSgCGmHnh1AeCVj/QZ90w0gyhZWBgEOr59a0/Dq3lr6S+
+	mCgJWw6DxsWwYTZnweTOYr7Vz5j3/XUJTvhqLqVRtzda8U55whckB9wPgzDRG/zf8JiHSrZIFYX
+	W
+X-Gm-Gg: ASbGnctGd36dIDAnDNLWNH2/u6sVPitEc1lyOk+DIuViNRzJ3hkXvvzXIRhSwXddN8D
+	sj4zzUomYdpcJpPQqG53n20VXmQ0FtHdztIYf1OsVpjfEwPIDy/e/tIcnE+JOKV+4TIn0JQoZ7H
+	zvLZVZZKIHLi3VznU7ilL35FSCON4FZtUmKSAoyZEXefm3AIA/Ea+cuVec1K+MSk5ZImaCCVbNM
+	6Q2ofvQPiWfs9lgXObqKkN6XbmzeTIBzUSBzdokRA0qjSGVYKOKGOUHcxQGFFesr361hh72lUP1
+	B40hwgxb2pioQNOvZQ==
+X-Google-Smtp-Source: AGHT+IHE2qkFtEDM6CjJiOPvc9yTeHeCHP1Ze0D516G9uB1gazdrQXe1BivIvJfIdI4r2JSkl24wfw==
+X-Received: by 2002:a05:6a00:1145:b0:730:74f8:25b6 with SMTP id d2e1a72fcca58-734790c8c32mr5306675b3a.6.1740493813534;
+        Tue, 25 Feb 2025 06:30:13 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c473:2777:3793:104c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 06:30:16 -0800 (PST)
+        Tue, 25 Feb 2025 06:30:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/22] u-boot: fix CVE-2024-57258
-Date: Tue, 25 Feb 2025 06:29:42 -0800
-Message-ID: <b4bf3ba66052db7a311ac696563a8a0f9c585600.1740493685.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/22] u-boot: fix CVE-2024-57256
+Date: Tue, 25 Feb 2025 06:29:40 -0800
+Message-ID: <534aa63726f31241e3a9d4aa70d4005fa0300133.1740493685.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740493685.git.steve@sakoman.com>
 References: <cover.1740493685.git.steve@sakoman.com>
@@ -67,187 +67,91 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 14:30:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211892
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211890
 
 From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Integer overflows in memory allocation in Das U-Boot before 2025.01-rc1
-occur for a crafted squashfs filesystem via sbrk, via request2size,
-or because ptrdiff_t is mishandled on x86_64.
+An integer overflow in ext4fs_read_symlink in Das U-Boot before 2025.01-rc1
+occurs for zalloc (adding one to an le32 variable) via a crafted ext4
+filesystem with an inode size of 0xffffffff, resulting in a malloc of
+zero and resultant memory overwrite.
 
-https://nvd.nist.gov/vuln/detail/CVE-2024-57258
+https://nvd.nist.gov/vuln/detail/CVE-2024-57256
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../u-boot/files/CVE-2024-57258-1.patch       | 47 +++++++++++++++++++
- .../u-boot/files/CVE-2024-57258-2.patch       | 43 +++++++++++++++++
- .../u-boot/files/CVE-2024-57258-3.patch       | 40 ++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |  3 ++
- 4 files changed, 133 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
+ .../u-boot/files/CVE-2024-57256.patch         | 51 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
 new file mode 100644
-index 0000000000..d33a4260ba
+index 0000000000..78cf4ac225
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
-@@ -0,0 +1,47 @@
-+From 50ab41c3628dedeca1a331dd86dd203b73faea74 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
+@@ -0,0 +1,51 @@
++From 49cab731abe7a98db4ac16666e3b5ab3bc799282 Mon Sep 17 00:00:00 2001
 +From: Richard Weinberger <richard@nod.at>
-+Date: Fri, 2 Aug 2024 12:08:45 +0200
-+Subject: [PATCH 5/8] dlmalloc: Fix integer overflow in sbrk()
++Date: Fri, 9 Aug 2024 11:54:28 +0200
++Subject: [PATCH 3/8] ext4: Fix integer overflow in ext4fs_read_symlink()
 +
-+Make sure that the new break is within mem_malloc_start
-+and mem_malloc_end before making progress.
-+ulong new = old + increment; can overflow for extremely large
-+increment values and memset() can get wrongly called.
++While zalloc() takes a size_t type, adding 1 to the le32 variable
++will overflow.
++A carefully crafted ext4 filesystem can exhibit an inode size of 0xffffffff
++and as consequence zalloc() will do a zero allocation.
++
++Later in the function the inode size is again used for copying data.
++So an attacker can overwrite memory.
++
++Avoid the overflow by using the __builtin_add_overflow() helper.
 +
 +Signed-off-by: Richard Weinberger <richard@nod.at>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
 +
-+CVE: CVE-2024-57258
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/0a10b49206a29b4aa2f80233a3e53ca0466bb0b3]
++CVE: CVE-2024-57256
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/35f75d2a46e5859138c83a75cd2f4141c5479ab9]
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ common/dlmalloc.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ fs/ext4/ext4_common.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
 +
-+diff --git a/common/dlmalloc.c b/common/dlmalloc.c
-+index de3f0422..bae2a27c 100644
-+--- a/common/dlmalloc.c
-++++ b/common/dlmalloc.c
-+@@ -591,6 +591,9 @@ void *sbrk(ptrdiff_t increment)
-+ 	ulong old = mem_malloc_brk;
-+ 	ulong new = old + increment;
++diff --git a/fs/ext4/ext4_common.c b/fs/ext4/ext4_common.c
++index f50de7c0..a7798296 100644
++--- a/fs/ext4/ext4_common.c
+++++ b/fs/ext4/ext4_common.c
++@@ -2188,13 +2188,18 @@ static char *ext4fs_read_symlink(struct ext2fs_node *node)
++ 	struct ext2fs_node *diro = node;
++ 	int status;
++ 	loff_t actread;
+++	size_t alloc_size;
 + 
-++	if ((new < mem_malloc_start) || (new > mem_malloc_end))
-++		return (void *)MORECORE_FAILURE;
++ 	if (!diro->inode_read) {
++ 		status = ext4fs_read_inode(diro->data, diro->ino, &diro->inode);
++ 		if (status == 0)
++ 			return NULL;
++ 	}
++-	symlink = zalloc(le32_to_cpu(diro->inode.size) + 1);
 ++
-+ 	/*
-+ 	 * if we are giving memory back make sure we clear it out since
-+ 	 * we set MORECORE_CLEARS to 1
-+@@ -598,9 +601,6 @@ void *sbrk(ptrdiff_t increment)
-+ 	if (increment < 0)
-+ 		memset((void *)new, 0, -increment);
+++	if (__builtin_add_overflow(le32_to_cpu(diro->inode.size), 1, &alloc_size))
+++		return NULL;
+++
+++	symlink = zalloc(alloc_size);
++ 	if (!symlink)
++ 		return NULL;
 + 
-+-	if ((new < mem_malloc_start) || (new > mem_malloc_end))
-+-		return (void *)MORECORE_FAILURE;
-+-
-+ 	mem_malloc_brk = new;
-+ 
-+ 	return (void *)old;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
-new file mode 100644
-index 0000000000..688e2c64d8
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
-@@ -0,0 +1,43 @@
-+From db7c626204f488a802a2e58b7a788b11fde6be7d Mon Sep 17 00:00:00 2001
-+From: Richard Weinberger <richard@nod.at>
-+Date: Fri, 2 Aug 2024 12:08:44 +0200
-+Subject: [PATCH 6/8] dlmalloc: Fix integer overflow in request2size()
-+
-+req is of type size_t, casting it to long opens the door
-+for an integer overflow.
-+Values between LONG_MAX - (SIZE_SZ + MALLOC_ALIGN_MASK) - 1 and LONG_MAX
-+cause and overflow such that request2size() returns MINSIZE.
-+
-+Fix by removing the cast.
-+The origin of the cast is unclear, it's in u-boot and ppcboot since ever
-+and predates the CVS history.
-+Doug Lea's original dlmalloc implementation also doesn't have it.
-+
-+Signed-off-by: Richard Weinberger <richard@nod.at>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
-+
-+CVE: CVE-2024-57258
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/8642b2178d2c4002c99a0b69a845a48f2ae2706f]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ common/dlmalloc.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/common/dlmalloc.c b/common/dlmalloc.c
-+index bae2a27c..1ac4ee9f 100644
-+--- a/common/dlmalloc.c
-++++ b/common/dlmalloc.c
-+@@ -379,8 +379,8 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-+ /* pad request bytes into a usable size */
-+ 
-+ #define request2size(req) \
-+- (((long)((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) < \
-+-  (long)(MINSIZE + MALLOC_ALIGN_MASK)) ? MINSIZE : \
-++ ((((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) < \
-++  (MINSIZE + MALLOC_ALIGN_MASK)) ? MINSIZE : \
-+    (((req) + (SIZE_SZ + MALLOC_ALIGN_MASK)) & ~(MALLOC_ALIGN_MASK)))
-+ 
-+ /* Check if m has acceptable alignment */
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
-new file mode 100644
-index 0000000000..2c8a7c9d91
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
-@@ -0,0 +1,40 @@
-+From 37095a204127b60b5e00c4c5d435d6e48a6a1c51 Mon Sep 17 00:00:00 2001
-+From: Richard Weinberger <richard@nod.at>
-+Date: Fri, 2 Aug 2024 12:08:43 +0200
-+Subject: [PATCH 7/8] x86: Fix ptrdiff_t for x86_64
-+
-+sbrk() assumes ptrdiff_t is large enough to enlarge/shrink the heap
-+by LONG_MIN/LONG_MAX.
-+So, use the long type, also to match the rest of the Linux ecosystem.
-+
-+Signed-off-by: Richard Weinberger <richard@nod.at>
-+Reviewed-by: Simon Glass <sjg@chromium.org>
-+
-+CVE: CVE-2024-57258
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/c17b2a05dd50a3ba437e6373093a0d6a359cdee0]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ arch/x86/include/asm/posix_types.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/arch/x86/include/asm/posix_types.h b/arch/x86/include/asm/posix_types.h
-+index dbcea7f4..e1ed9bca 100644
-+--- a/arch/x86/include/asm/posix_types.h
-++++ b/arch/x86/include/asm/posix_types.h
-+@@ -20,11 +20,12 @@ typedef unsigned short	__kernel_gid_t;
-+ #if defined(__x86_64__)
-+ typedef unsigned long	__kernel_size_t;
-+ typedef long		__kernel_ssize_t;
-++typedef long		__kernel_ptrdiff_t;
-+ #else
-+ typedef unsigned int	__kernel_size_t;
-+ typedef int		__kernel_ssize_t;
-+-#endif
-+ typedef int		__kernel_ptrdiff_t;
-++#endif
-+ typedef long		__kernel_time_t;
-+ typedef long		__kernel_suseconds_t;
-+ typedef long		__kernel_clock_t;
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-index c68e3e442f..cdee9fc721 100644
+index cfe36256f3..c643fb35f3 100644
 --- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
 +++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-@@ -15,6 +15,9 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
+@@ -13,6 +13,7 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
+                    file://CVE-2022-2347_2.patch \
+                    file://CVE-2024-57254.patch \
                     file://CVE-2024-57255.patch \
-                    file://CVE-2024-57256.patch \
-                    file://CVE-2024-57257.patch \
-+                   file://CVE-2024-57258-1.patch \
-+                   file://CVE-2024-57258-2.patch \
-+                   file://CVE-2024-57258-3.patch \
++                   file://CVE-2024-57256.patch \
                   "
  
  DEPENDS += "bc-native dtc-native python3-setuptools-native"
