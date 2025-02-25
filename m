@@ -2,159 +2,134 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD6FC18E7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 029F4C021B8
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 20:56:50 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.19970.1740517004270261391
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.19968.1740516999678545694
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 12:56:44 -0800
+ Tue, 25 Feb 2025 12:56:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=edDiqOIB;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fbfa8c73a6so11982858a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 12:56:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PVE9Pkr3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fc1f410186so342708a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 12:56:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740517003; x=1741121803; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dbEkiJQRvVGvexlWumXNWkO0oNUQo/IXFpe18YTFd+0=;
-        b=edDiqOIB6+G0Xt1ODhD0Zv8jAbP47cM/Dt8TTf2w3+MMiqNVs5ZOt4EcGLGQdcYE4l
-         X5/cvTd3ptkmNuNYhWmTbShAg1UNBJ+UkpTAgoL99qiEy2TnnweErodquhhfg3DZTsua
-         9qiGux6bVf10TZoEDOvkW3B5SZmj3e8OCNEV0wO+BYjlXf3bQuLY5fg97XfPWpIoOSlt
-         YJqmm/KNE8YTH0pjP8NVSdoJ9ohL4KPbmN9om6AdW7Vb2QvClUOKrNrJV7cKlEXLUhcH
-         0+ZlxK9pS3irzZzIUXehYWMhnuQWOiY/3+/bcPWTW0Td758mGYvM2q+dvWgeCVG7OxwK
-         4/vw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740516999; x=1741121799; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=60XAqoOyx06y/uunfm4QfiOkPKRjoVim2XqHfGvBtoI=;
+        b=PVE9Pkr3ZSFWaFk3aQR4WKtihQK/8HF4vsEZ8p1V0vaD9JRUTqv+fGgnxJilcLPEIa
+         f3tCTi9EdfRb7KssrisRfcgj+RUutxNvdcKiq75VaYoY049jinVCbB1FgDSS132mqFzo
+         jKy6+F3qydzmFeVRWGZ1eEdUjh0l76r0jvnkiU0RZ8h4XIk3skwuF+xzJlbjAeCXU4JF
+         PLfYgjEMwZmSjh7n01tEiAtPN0d4c80jHieoqktRvDDF3tGwtp2c408QFoBS6gi8tJQf
+         +zBkRI0sUyLgXKbQ33wgHxKFELF1NkHsWOrd3Bit23l814hJAlgCXja9wT2yrswPJ/bV
+         S82A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740517003; x=1741121803;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dbEkiJQRvVGvexlWumXNWkO0oNUQo/IXFpe18YTFd+0=;
-        b=aLwNHqgSEpzxF/9hhPUN8TDSWPeNTRGF4P+kGpPGrRkF4fD5r2InsXBZngQZYGjd1N
-         5Aatis6MH/nG32BpxV9IVBRPR6GOA+st5fn8u8UmFUBB0WWxyF5wWkYkZIcr/wrwgZCc
-         X5cC4B+EiN7SD6wpYabYzz6AJt5LHsN/gVG+wXZbsE6nPRHahW7H5JYtCoijD05hNOaO
-         1t17k3Rpu9l/k3UyXyMe7KPCh+K8bem6oGkBwmdsn1uPfi2fBQuTRr0DxRZ9/FmWS2G4
-         9kvWIJ2Y/C7OH1qd2hfg9QSjR2wACLxKFeo7+fqi4K6WnpNG3GNLyekPGoQX2y8mkUBf
-         5USg==
-X-Gm-Message-State: AOJu0Yxxvovg1rC/hDiwPxR8xW3GmQwK143NwHv/Hzc7YcNxBuLCP9s6
-	CozGdLh3KLiAUtXmdCZBO57gWiLUWi/D5IfL3JYKhPSDZmR6nIoxQlqGpgmk88xGT+k6mkd+lIA
+        d=1e100.net; s=20230601; t=1740516999; x=1741121799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=60XAqoOyx06y/uunfm4QfiOkPKRjoVim2XqHfGvBtoI=;
+        b=IXfAVTrUgv116nUFw+3U53I1OLUD7u4cwNpGDaitMWNQ7p5Ks0KUn/QRJVllFSnAxq
+         N2Zw2s4ZMf9LDkt1S5Qe80h5ca+DkE9tQNDWov0XLLY7kmhJOkRU9OelCrXfjxvKShCv
+         MxLiBa3CP0AsNj+L5RBFSNznx6nyHH+0Jr/PxRYNC9gW4tRfXqEhZK7hbudZqlisVtdd
+         xh4fHReVnuVXgfyuNKCk5sjKcN4w5EkTTO2pG29+3BNPFGiJct92IdeUSFRAHtkj2bMV
+         TVa6LclDSKadz9aPkTbuSA9haZBGXyPrr7WRU76ctbBRs/rljzIZq/8wpXMhD3MtAb2C
+         QPoQ==
+X-Gm-Message-State: AOJu0YwBwFjMpbdpuBvbiRyGQUvul3im8CLcXyf9ju9/5Br4dxv1z1XX
+	z6i9f+BEzdQXqW9WTVuE0hcdeIT9AUg2znFl7p16DwY8jbH5VrgHDUC1tBkURxBL66+fojsLUa8
 	i
-X-Gm-Gg: ASbGncvL2PzMFMaxfcAC6IwP7RSkj3Pyxc5Oajmm4XLelmXfNckfwUNV3+pBFOp0YN5
-	NJc4AbHDXIyOwxnWVhoCkV2xDZb+rjM96lLBezZMJ2B2/JRuuV523lF1mGuy89xszlqKY6GgNC5
-	lj4vm7IvREzUc7Pq23uW9SC//Q7OCMfYZzT0ewcjhzWcm1BpWvhEvz1TPzywYWGEeXrNhsMG/VP
-	0DUqBDt2Z0twm4sEXczLezeBEZckHnCHWwFy6YDRuJ2JwgDm1jlbJQ4jmoSZsWqWMJ0MWBJfDEH
-	xQdg/E4FhblXe2ryZA==
-X-Google-Smtp-Source: AGHT+IHssDdzJbIv9szohzcFmQBM/6cCXBQzj9BV/RcMTva7n6Xiz97woe6XUr30g8pIZaDC6/1f0g==
-X-Received: by 2002:a17:90b:2242:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2fce868c4f9mr32649158a91.7.1740517003396;
-        Tue, 25 Feb 2025 12:56:43 -0800 (PST)
+X-Gm-Gg: ASbGnct8Wzwd1N8wQRDdzifp5cz8OwdvQ76p18RRwoekb/yVKFaWFSeyWp5UHmusKAd
+	OydbOKMI+StNwuuw37tmVxACgK7BmI31EG1kPSp55Se8mJyGbfVcy3vogrJtz7C6xaMZy+qyANj
+	Lk+Qo+L+0gly2vxsypY/+MKobXruQblHtVPzzKtwC+Da1hM8Yl0VN+MeacvWA4QJ+Af2SKLXHxs
+	jn3vcA7y6lfsnrUuyQmVmIjA7KwhR0WpqKvPRAuohXWiEFLcLb29YgFXXNQQcfD7YPe9NIktHqq
+	2wNNwzpIxNQupsq6Vw==
+X-Google-Smtp-Source: AGHT+IGa2d5VvNMN9jPjScduRWpVOhUAXL3FAxuBp2aaNnmsullpkdFY9cLIoF1vfE+GdlxoMkYFAA==
+X-Received: by 2002:a17:90a:c105:b0:2fb:fe21:4841 with SMTP id 98e67ed59e1d1-2fccc117c76mr41886452a91.8.1740516998849;
+        Tue, 25 Feb 2025 12:56:38 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c473:2777:3793:104c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb02d9b4sm10083810a91.6.2025.02.25.12.56.42
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb02d9b4sm10083810a91.6.2025.02.25.12.56.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 12:56:43 -0800 (PST)
+        Tue, 25 Feb 2025 12:56:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/10] u-boot: fix CVE-2024-57256
-Date: Tue, 25 Feb 2025 12:56:26 -0800
-Message-ID: <21e6ac6e53112b9dddc5a84f27be5851469b9c46.1740516861.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 00/10] Patch review
+Date: Tue, 25 Feb 2025 12:56:23 -0800
+Message-ID: <cover.1740516861.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1740516861.git.steve@sakoman.com>
-References: <cover.1740516861.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 20:56:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211927
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211924
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Thursday, February 27
 
-An integer overflow in ext4fs_read_symlink in Das U-Boot before 2025.01-rc1
-occurs for zalloc (adding one to an le32 variable) via a crafted ext4
-filesystem with an inode size of 0xffffffff, resulting in a malloc of
-zero and resultant memory overwrite.
+Passed a-full on autobuilder:
 
-https://nvd.nist.gov/vuln/detail/CVE-2024-57256
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1081
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../u-boot/files/CVE-2024-57256.patch         | 51 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  1 +
- 2 files changed, 52 insertions(+)
+The following changes since commit fc46705cc629a151f85717a57f7d789de8fd9b64:
+
+  icu: remove host references in nativesdk to fix reproducibility (2025-02-19 06:28:10 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Etienne Cordonnier (1):
+  python3-setuptools-scm: respect GIT_CEILING_DIRECTORIES
+
+Hitendra Prajapati (1):
+  libcap: fix CVE-2025-1390
+
+Hongxu Jia (6):
+  u-boot: fix CVE-2024-57254
+  u-boot: fix CVE-2024-57255
+  u-boot: fix CVE-2024-57256
+  u-boot: fix CVE-2024-57257
+  u-boot: fix CVE-2024-57258
+  u-boot: fix CVE-2024-57259
+
+Peter Marko (1):
+  libxml2: upgrade 2.12.9 -> 2.12.10
+
+Vijay Anusuri (1):
+  bind: Upgrade 9.18.28 -> 9.18.33
+
+ .../u-boot/files/CVE-2024-57254.patch         |  47 ++++
+ .../u-boot/files/CVE-2024-57255.patch         |  53 ++++
+ .../u-boot/files/CVE-2024-57256.patch         |  51 ++++
+ .../u-boot/files/CVE-2024-57257.patch         | 227 ++++++++++++++++++
+ .../u-boot/files/CVE-2024-57258-1.patch       |  47 ++++
+ .../u-boot/files/CVE-2024-57258-2.patch       |  43 ++++
+ .../u-boot/files/CVE-2024-57258-3.patch       |  40 +++
+ .../u-boot/files/CVE-2024-57259.patch         |  41 ++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  11 +-
+ .../bind/{bind_9.18.28.bb => bind_9.18.33.bb} |   2 +-
+ .../{libxml2_2.12.9.bb => libxml2_2.12.10.bb} |   2 +-
+ ...0001-respect-GIT_CEILING_DIRECTORIES.patch |  36 +++
+ .../python/python3-setuptools-scm_8.0.4.bb    |   1 +
+ .../libcap/files/CVE-2025-1390.patch          |  36 +++
+ meta/recipes-support/libcap/libcap_2.69.bb    |   1 +
+ 15 files changed, 635 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57254.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57255.patch
  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57257.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-1.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-2.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57258-3.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-57259.patch
+ rename meta/recipes-connectivity/bind/{bind_9.18.28.bb => bind_9.18.33.bb} (97%)
+ rename meta/recipes-core/libxml/{libxml2_2.12.9.bb => libxml2_2.12.10.bb} (97%)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools-scm/0001-respect-GIT_CEILING_DIRECTORIES.patch
+ create mode 100644 meta/recipes-support/libcap/files/CVE-2025-1390.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
-new file mode 100644
-index 0000000000..78cf4ac225
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-57256.patch
-@@ -0,0 +1,51 @@
-+From 49cab731abe7a98db4ac16666e3b5ab3bc799282 Mon Sep 17 00:00:00 2001
-+From: Richard Weinberger <richard@nod.at>
-+Date: Fri, 9 Aug 2024 11:54:28 +0200
-+Subject: [PATCH 3/8] ext4: Fix integer overflow in ext4fs_read_symlink()
-+
-+While zalloc() takes a size_t type, adding 1 to the le32 variable
-+will overflow.
-+A carefully crafted ext4 filesystem can exhibit an inode size of 0xffffffff
-+and as consequence zalloc() will do a zero allocation.
-+
-+Later in the function the inode size is again used for copying data.
-+So an attacker can overwrite memory.
-+
-+Avoid the overflow by using the __builtin_add_overflow() helper.
-+
-+Signed-off-by: Richard Weinberger <richard@nod.at>
-+
-+CVE: CVE-2024-57256
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/35f75d2a46e5859138c83a75cd2f4141c5479ab9]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ fs/ext4/ext4_common.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/fs/ext4/ext4_common.c b/fs/ext4/ext4_common.c
-+index f50de7c0..a7798296 100644
-+--- a/fs/ext4/ext4_common.c
-++++ b/fs/ext4/ext4_common.c
-+@@ -2188,13 +2188,18 @@ static char *ext4fs_read_symlink(struct ext2fs_node *node)
-+ 	struct ext2fs_node *diro = node;
-+ 	int status;
-+ 	loff_t actread;
-++	size_t alloc_size;
-+ 
-+ 	if (!diro->inode_read) {
-+ 		status = ext4fs_read_inode(diro->data, diro->ino, &diro->inode);
-+ 		if (status == 0)
-+ 			return NULL;
-+ 	}
-+-	symlink = zalloc(le32_to_cpu(diro->inode.size) + 1);
-++
-++	if (__builtin_add_overflow(le32_to_cpu(diro->inode.size), 1, &alloc_size))
-++		return NULL;
-++
-++	symlink = zalloc(alloc_size);
-+ 	if (!symlink)
-+ 		return NULL;
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index e907edd2eb..097ef685e9 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -17,6 +17,7 @@ SRCREV = "866ca972d6c3cabeaf6dbac431e8e08bb30b3c8e"
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
-            file://CVE-2024-57254.patch \
-            file://CVE-2024-57255.patch \
-+           file://CVE-2024-57256.patch \
- "
- 
- S = "${WORKDIR}/git"
 -- 
 2.43.0
 
