@@ -1,187 +1,103 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DA9C021B2
-	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 15:49:53 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.11455.1740498590868487614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E58C021B2
+	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 15:56:53 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.11689.1740499010268221450
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 07:49:51 -0800
+ Tue, 25 Feb 2025 07:56:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q2TWB0dW;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso3098321f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 07:49:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lyH+4hKF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6dd43aa1558so48382606d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 07:56:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740498589; x=1741103389; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1740499009; x=1741103809; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hOaZLJzMUgKmSVbrpoinP5QMG+yvr44dTBxyaMRRldo=;
-        b=Q2TWB0dWJb+tqb67BuL9apiFabeCnOjarIgbmxT0McRoPhAdQ+CAkErDeoDxHYXMml
-         drpg0RU8o/F84JTRNyZVePhS7N/Sy570/faInFY59LniYW8KiYTtewK3Epb5agxgBsmv
-         E17zHAh1u9kVIhAyLeWTD/MYYu6u7LjuyAL3PHtSWrJlJseePwgzPYqjN8baWR+2SuuE
-         /kT5ElmtpkJg0Lmt3SoViq3L2RnCQmtpQs5T1St5K4Gx9FVThoi5Vn44SdOwBSry6cJ1
-         yU/kswIY1dPW41IxEElTi/QO+nAJlFqT+KD0MZHhSX92YqJeYdkaKzRTfc1XdUiPan86
-         k3YQ==
+        bh=7KIRRpkgSFvuA4nrLufpoV3V46+dRot1gjzRrmTzcn4=;
+        b=lyH+4hKFdlrSsaLmdC+u2AO8Tzop3hTcaA0QFGk/gxGMf6o1lsqZcr5x+IBCVFEAcD
+         e2iPoJwTKm4NcusXACtg4A6+ROT9LKI+No8GEFqAjgiI+GA5U3tGILaoYMUVOZlMLB9r
+         YOn0z/AXCry/fnW8whQI3Do5Fa5pydvY81SJslqZbJNDKrfhCNtXYqb0Dclxenhv+SKi
+         eEw/74IUplJsas1dYWWlSDeAMX0jkBI92m2OD8g8JQzaaRGjN7tKhs5jMc3al7qLKNz9
+         fmYSFTo6WCJbo+zcEuIDwGvL+SJM6bxud7OLHrj3w0tW8Fpe7Ct9ykfNYZ8cybXZbFvq
+         zCuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740498589; x=1741103389;
+        d=1e100.net; s=20230601; t=1740499009; x=1741103809;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hOaZLJzMUgKmSVbrpoinP5QMG+yvr44dTBxyaMRRldo=;
-        b=RN4hfD72ZzY/L3zw5PcdgXEbr4MqAHQumEr6Z/o9Rkot4WKlSPASuK/WA5ydLQthsj
-         NK0SFhjTABNYU3+9nS+Bel1wI8ftX+v8cRA7IORMmnbe6fozbi5HvG/mPf5F+7lQozZ3
-         nX7ZWb3NLi0LfYN+xxw8Gd8Ia9bZf7jsTRQVO9qzxL0OAd2Cz2zZmRdx6rijwavKh82W
-         msb8urV23mMG3LlCiC/RKNwOufDmpX4rfjXwJZc8sifKY1o6MYoWoCHl7vK+UhVMlbrd
-         AYzKLgks6LOkSn5hNUJehlEAQggBXGEwiZwYOSg8iYUzrcT8cgSlWhBCU8Q2ZqwovtUy
-         3NPA==
-X-Gm-Message-State: AOJu0Yz23Xe2e+J//b47iYhWP/SIJWhbQTecQhoYXYlTF9AEN08Cgn/i
-	9TXakKlSL5lEXQXG7tYP8DvN5pRr3/sfMKCiIgWjGL9qlLMitl7gkCs/aiCE
-X-Gm-Gg: ASbGncvo7i6WCmgutV+BfomuvuRIefUmVwCTDDE3TUIiC9RlhtWMVlwjnZzwjNCq/3D
-	1KeVBNr80vh3Bb3Zdw44DicyE4G8CPbswFdd3OmQT5yIN3vLRJZVnYzQnvsRosI+CoGUvmV/DBs
-	Q/BrPCoDanEPOuLOOisnUb1ow0Lt0jHCnD+RgfPNsh1v7YSniF5WrVpjevy5e2PUftSlmTp6JPF
-	f2afRNBvNT2gwMYg5M29HsacCEFWRuoMSvuk9COIzrRLOCDoawgofL4dnWos27b3wipDfzc1QFs
-	iYqnItJ+x5puYdFPh6T1KKVBwCxd2UBGzXs=
-X-Google-Smtp-Source: AGHT+IF8N8wGoOPqXesoJbx/sWbiZadCc1e9A9FPPJxpTKyU5lvtcGW+lhVufrh2sTBdOFvG2N/u/A==
-X-Received: by 2002:a5d:47c6:0:b0:38f:3a89:fdb5 with SMTP id ffacd0b85a97d-390cc5f6d66mr2984997f8f.11.1740498588850;
-        Tue, 25 Feb 2025 07:49:48 -0800 (PST)
-Received: from toster.lan ([185.228.162.131])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd882644sm2664188f8f.42.2025.02.25.07.49.48
+        bh=7KIRRpkgSFvuA4nrLufpoV3V46+dRot1gjzRrmTzcn4=;
+        b=GCsZHg0Y8a0xSUjkpA86VjTqPyB/xcj5atJgU8/TdyJGhAqny+fbD6HA3Fe5PXR54M
+         mgD91o5hTptHVZztVpRXNYGIr0RmeWzS/ohNPpQYTFh4L8K/C43SAbE+ODplDxsvNRFn
+         N3WGRJOtaFiI909R1xh+gy6Kkbm2CX+vU/dVKQbGKO42zCN9+jcwQeBniPlicpl3BM6j
+         ADbhoo5Rx/DztReYgdYpgHhMND2PAXTDT7xxx9ELTygQYviiDuYsZBc66ODkhPQeHOnL
+         CAIKBFaMhDUg2W4/ike82v0dmT2Y3/xYXjRzV7ze+uODiGJhkbumgRzCZImYlTnutVis
+         Ujsg==
+X-Gm-Message-State: AOJu0YwKnosN4MZkR58kBrEwetxgfQZNWg5b9kGPaqCEEQmU3FMmOUMa
+	n7xP2KkJbV82+sq2Vqjt2NuBR4KdMTKreaoYWelhuu5i3Y1+i2pPy+PItBSV
+X-Gm-Gg: ASbGncupuKX7AicxgtNgkkElYXbhyFI+z+i4DuoCb/rH2BlD/dAvkTaYxPOBNRJLTgn
+	VqIV+Es8YIjo1T27f1BJjWVusUzwCw72A06UbxOJaEiP+2LZECh9x6YcUM7eOkiq5Hr00vLYGO2
+	d50BkysTsHx2cCMb7rlo5gyPn4Zld5jkV3HnYf8wbTWlAiiL9/Rh6W1Hz5IV9BEZaHYepvQjIau
+	UyfCdBKcCTCE/pljcefZBafnhXiowVofm27FeOH+e0uOrkQx+pGqqWHTcanfTViR9hOjjZMiw6e
+	JArSctSFgpKdsBzfnldPRnUpGF/kt8KFD9Wu8cjeC0ZDuyTPJIIR56LTS07dDD6YV61umvq3GyY
+	903SmXYDN8YYwPNnWe4XuGQeSZQ0=
+X-Google-Smtp-Source: AGHT+IGFyO3Rg5+vGMyri+dKSM0MIXajooSARI2PfnaA2tW2HKORcgKHJTbk2x8/v916198Y+UcipA==
+X-Received: by 2002:a05:6214:d6f:b0:6d8:6a74:ae68 with SMTP id 6a1803df08f44-6e6ae96734dmr199687616d6.29.1740499009290;
+        Tue, 25 Feb 2025 07:56:49 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e87b087221sm10749476d6.26.2025.02.25.07.56.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 07:49:48 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][scarthgap][PATCH] u-boot: kernel-fitimage: Restore FIT_SIGN_INDIVIDUAL="1" behavior
-Date: Tue, 25 Feb 2025 15:49:03 +0000
-Message-ID: <20250225154902.98249-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.48.1
+        Tue, 25 Feb 2025 07:56:48 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] linux-yocto-dev: bump to v6.14
+Date: Tue, 25 Feb 2025 10:56:46 -0500
+Message-Id: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 15:49:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211913
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 15:56:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211914
 
-From: Marek Vasut <marex@denx.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-OE FIT_SIGN_INDIVIDUAL is implemented in an unusual manner,
-where the resulting signed fitImage contains both signed
-images and signed configurations, possibly using different
-keys. This kind of signing of images is redundant, but so is
-the behavior of FIT_SIGN_INDIVIDUAL="1" and that is here to
-stay.
+Updating the development kernel to track the v6.14 series.
 
-Adjust the process of public key insertion into u-boot.dtb
-such that if FIT_SIGN_INDIVIDUAL==1, the image signing key
-is inserted into u-boot.dtb first, and in any case the
-configuration signing key is inserted into u-boot.dtb last.
-
-The verification of the keys inserted into u-boot.dtb against
-unused.itb is performed only for FIT_SIGN_INDIVIDUAL!=1 due to
-mkimage limitation, which does not allow mkimage -f auto-conf
-to update the generated unused.itb, and instead rewrites it.
-
-Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0106e5efab99c8016836a2ab71e2327ce58a9a9d)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 60 ++++++++++++++++++++++----
- 1 file changed, 51 insertions(+), 9 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 96c47ab016..5c579a9fb0 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -101,27 +101,69 @@ concat_dtb() {
- 	binary="$2"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index e78fd51749..5604a11eae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # provide this .inc to set specific revisions
+ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
  
- 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
--		# Re-sign the kernel in order to add the keys to our dtb
--		UBOOT_MKIMAGE_MODE="auto-conf"
- 		# Signing individual images is not recommended as that
- 		# makes fitImage susceptible to mix-and-match attack.
-+		#
-+		# OE FIT_SIGN_INDIVIDUAL is implemented in an unusual manner,
-+		# where the resulting signed fitImage contains both signed
-+		# images and signed configurations. This is redundant. In
-+		# order to prevent mix-and-match attack, it is sufficient
-+		# to sign configurations. The FIT_SIGN_INDIVIDUAL = "1"
-+		# support is kept to avoid breakage of existing layers, but
-+		# it is highly recommended to avoid FIT_SIGN_INDIVIDUAL = "1",
-+		# i.e. set FIT_SIGN_INDIVIDUAL = "0" .
- 		if [ "${FIT_SIGN_INDIVIDUAL}" = "1" ] ; then
--			UBOOT_MKIMAGE_MODE="auto"
-+			# Sign dummy image images in order to
-+			# add the image signing keys to our dtb
-+			${UBOOT_MKIMAGE_SIGN} \
-+				${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-+				-f auto \
-+				-k "${UBOOT_SIGN_KEYDIR}" \
-+				-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
-+				-g "${UBOOT_SIGN_IMG_KEYNAME}" \
-+				-K "${UBOOT_DTB_BINARY}" \
-+				-d /dev/null \
-+				-r ${B}/unused.itb \
-+				${UBOOT_MKIMAGE_SIGN_ARGS}
- 		fi
-+
-+		# Sign dummy image configurations in order to
-+		# add the configuration signing keys to our dtb
- 		${UBOOT_MKIMAGE_SIGN} \
- 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
--			-f $UBOOT_MKIMAGE_MODE \
-+			-f auto-conf \
- 			-k "${UBOOT_SIGN_KEYDIR}" \
- 			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
--			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
-+			-g "${UBOOT_SIGN_KEYNAME}" \
- 			-K "${UBOOT_DTB_BINARY}" \
- 			-d /dev/null \
- 			-r ${B}/unused.itb \
- 			${UBOOT_MKIMAGE_SIGN_ARGS}
--		# Verify the kernel image and u-boot dtb
--		${UBOOT_FIT_CHECK_SIGN} \
--			-k "${UBOOT_DTB_BINARY}" \
--			-f ${B}/unused.itb
-+
-+		# Verify the dummy fitImage signature against u-boot.dtb
-+		# augmented using public key material.
-+		#
-+		# This only works for FIT_SIGN_INDIVIDUAL = "0", because
-+		# mkimage -f auto-conf does not support -F to extend the
-+		# existing unused.itb , and instead rewrites unused.itb
-+		# from scratch.
-+		#
-+		# Using two separate unused.itb for mkimage -f auto and
-+		# mkimage -f auto-conf invocation above would not help, as
-+		# the signature verification process below checks whether
-+		# all keys inserted into u-boot.dtb /signature node pass
-+		# the verification. Separate unused.itb would each miss one
-+		# of the signatures.
-+		#
-+		# The FIT_SIGN_INDIVIDUAL = "1" support is kept to avoid
-+		# breakage of existing layers, but it is highly recommended
-+		# to not use FIT_SIGN_INDIVIDUAL = "1", i.e. set
-+		# FIT_SIGN_INDIVIDUAL = "0" .
-+		if [ "${FIT_SIGN_INDIVIDUAL}" != "1" ] ; then
-+			${UBOOT_FIT_CHECK_SIGN} \
-+				-k "${UBOOT_DTB_BINARY}" \
-+				-f ${B}/unused.itb
-+		fi
- 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
- 	fi
+-KBRANCH = "v6.13/standard/base"
++KBRANCH = "v6.14/standard/base"
+ KMETA = "kernel-meta"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine;protocol=https \
+@@ -28,7 +28,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "6.13"
++LINUX_VERSION ?= "6.14"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git"
  
 -- 
-2.48.1
+2.39.2
 
 
