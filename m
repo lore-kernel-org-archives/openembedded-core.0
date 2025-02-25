@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A114C021BC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F100C18E7C
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 14:30:42 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.9046.1740493839979437428
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.9045.1740493838620160987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 06:30:40 -0800
+ Tue, 25 Feb 2025 06:30:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2KjfjOBp;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220bfdfb3f4so13956245ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1L+PeQuJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-220d398bea9so90738845ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493839; x=1741098639; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493838; x=1741098638; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ef6vvRjMWdqPIXNP9V4+maCc2GWlsx2j49kJGJFbL7w=;
-        b=2KjfjOBpHcjXrOB0uIIrUGLYzJZHNd6lfj/mT08X3zSWGNkEHlTiXiairvn5jq34QY
-         VIgnk/56AEqCdTI16zXwczflu3kqBZLcGkbcvDOGIo+d5/Fiv1vvqLb574xxlvHsSw1h
-         ARoNVAFjgaDfMYKuRnNuRA38pZAoOkcD1dKncnDbnArthQqoK7DLaE9pQpsyzKPFV++B
-         0iyKu9FJlpB2f0BSCKP4hDL3HPagCoICHqwKQvcBTopSK1U+kREAn8ShxdVP3clJoilQ
-         Tn9Z8TBohxdfLRxSBID8/5q+wH3qqGBf+CrX8R1etvEyTDOULaGTAGhtp3zQXVRzfzA0
-         xg7w==
+        bh=IQTstOI4GlOpnwRORtNVHPwVtZ5oYfmYcuO2DnLWqpw=;
+        b=1L+PeQuJj3HedcF51wjZCHitUQqs2kQrOlrlcRE01r5MGnIv0Zj8/BbrVMGXtLibFq
+         2SYW+Wetah9b+aBPVEPs2W7Ga5gpUE7664LqYQs0YUdqYIm8ul5QTGMJI3s1TyyOGTht
+         16oS3Z3a0PvrGG1pbQvjm4wtZAzThU6Tgzvc9p68rTGgRcATAB3nHluqSdfdDFlMk2Gd
+         1yxtIeZYBJPVWgqr+h2xzd7gvGBSJ1pIbK0YdsHbBSPp1XVGdOUisMdCxPLUeWuvndnf
+         KB+g35p1C+L5jllq33u7ltWp5OuQ3TvgKgeGaCbvNJ5GzGvPJ/4oa83EZxnaSQbyJQYO
+         Y3fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740493839; x=1741098639;
+        d=1e100.net; s=20230601; t=1740493838; x=1741098638;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ef6vvRjMWdqPIXNP9V4+maCc2GWlsx2j49kJGJFbL7w=;
-        b=K0dpYX6cdQGi07nBQ8nI7XGpbnPaEdYd0ILD+ytoCAs6Otse48sKwmMi5a4ijmfCCA
-         ehMg9jrbeYs8jVyxQ0NoqmyRTMnxuOBqE5F1z9hRfgedqPhRbeoZZ9z6qN2sms/f6vrV
-         0iMR/Bx32d5mpIUrw1LIDDyGeOpPqW6e6rMmSFpBgBnvCQXFMH3QkgheE7DGY6Fp2Q0d
-         juNizNgB+pSGkuW2xoFkBbsPqVzCto4idBu7m2BEz2FE8xIhIDH3hgdwEgBtJFbzqVwG
-         x8uKbO0JrGo7aL0O5kuLFqMbckuu4cJjaHNwmLnJDAfFNVaWjImP/yZ3x3xpDS+a0AWx
-         QpHg==
-X-Gm-Message-State: AOJu0YwVIWgrfhovTQ34N/RFn8u6HiVzKLkvU8ZoakR8KXbkNNmb/wvi
-	ZDlv3U4XJ7HSF3svs4DeRrwhGXeTG3V7VIOCnRW5X/9rrqynDUMWYxX0m95P2QgzyrhL/CYUyoa
-	f
-X-Gm-Gg: ASbGnct0KuvUB4w7btOHdaqzwXJvRIz8U+BbRkWBHBl1hJNsEPgJlp6TbE2uFvFgdzM
-	VxbWSBLAFRoP4l7bwSVmR4N9wPqLVJYSkI59fHa+gZfEzXf1WrJSAp9qnIJKUaL2lZHqSd0VeLQ
-	kmGHMFX3QCKkCsVEQtQT/EGG8ts0xKxbzb5VW1xoe7EoS29wcVYyQzeGHlX91RCYM5zqLDUq1jU
-	daKAd1Ql/vRIHA2kCUEfqbPoaTsdbspXy91FZZKWfDmRKEF1kk1Feb3yESojQRELYNx6uCVrCUW
-	DdeMt5um9mUTb97ABA==
-X-Google-Smtp-Source: AGHT+IGmOmH5oBG6jcTH8NJeqZYLjIj/tpRQBMqx4eo/Hn3FIo274zp3Vml/AvsIebbkPhD9UNJhAQ==
-X-Received: by 2002:a17:902:da88:b0:21f:164d:93fe with SMTP id d9443c01a7336-221a000aa36mr312506985ad.53.1740493839267;
-        Tue, 25 Feb 2025 06:30:39 -0800 (PST)
+        bh=IQTstOI4GlOpnwRORtNVHPwVtZ5oYfmYcuO2DnLWqpw=;
+        b=pJS0A8NyMAUKb97eJluEbki5HDLxJWSdEn9XL3TMmxn9+U2oVtLFV2p+adA6PSBd3Y
+         ODflIkoXhxggzUQb2tnqrqyj9XObv6lwMKJA8RZjESP7gF4Z7aCKuJcKFOOMBBh0i+Be
+         8vSp7qw4YIC9rEPQuB/4rBeRhlxtVPkUA3HK+9Nlt2qSG5W/hgznIfReeV+5VXT5SbUE
+         /nTKKqyWIXzmsgWMbgHim7XHB/ka/BZYKVXJLwQOd5h/gQdOcaPx/tQNaPuH6bXfdzH1
+         H16MwOgQarVBj71NnMFlGv2ZtYC7fTlvX49aWilWIDjfYIh1HewAo2tbvV1qn7hGsolH
+         mTZA==
+X-Gm-Message-State: AOJu0YzJx0XS4kHdx+LQjbGNw3ItGgZd/ZfqvS8Lq3ILLpmPhGExr/X7
+	MXVpGAvqoAQv2fRWqHTaGINTUaqVVp3oAvnK1hCZwbeFJzPG0HBh+uEDjwR5QoHu88/HUMJ0o8X
+	F
+X-Gm-Gg: ASbGncuTaPA8gHiH30XzOyB9SIJJoim6EFvBo87x0LCUMfZC+XkbApkSYRw5xnYDIU0
+	F5gwm3F/qiE56f2LSn+7NDaGVRyTkg14Nwk8vTVGWDt64oP/bre72/e2SG5XIOxXncYDnMFAx0a
+	ypuoqfw4+glUtyHbBmI7FOtY7v+ajuSttVWBxGlkDTAOYDNgW70fKmbHSrK5VxKqnoyimA43git
+	+pIxlGjrTFk0/xjmsuapDYtopxBc7Xrbc0x8vAODS34tFIfXlH3tzi+n7GRhLWS8AT8aDHzCNsX
+	8ialNHSYGtslBFd0/w==
+X-Google-Smtp-Source: AGHT+IEmdP3UW7xMzXGnlVwWX4qV9dVOE+jesh4+I3sTEvF2Yclc9ImJpOxw85V94mFmIc3hh/NnGw==
+X-Received: by 2002:a05:6a00:3e0e:b0:730:7600:aeab with SMTP id d2e1a72fcca58-73426ce7678mr24388975b3a.13.1740493837827;
+        Tue, 25 Feb 2025 06:30:37 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c473:2777:3793:104c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.38
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 06:30:38 -0800 (PST)
+        Tue, 25 Feb 2025 06:30:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 22/22] vim: Upgrade 9.1.0764 -> 9.1.1043
-Date: Tue, 25 Feb 2025 06:29:57 -0800
-Message-ID: <73b5570a16708d1e749b1ec525299d10557cbf56.1740493685.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/22] ffmpeg: fix CVE-2025-25473
+Date: Tue, 25 Feb 2025 06:29:56 -0800
+Message-ID: <599ee3f195bc66d57797c121fa0b73a901d6edfa.1740493685.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740493685.git.steve@sakoman.com>
 References: <cover.1740493685.git.steve@sakoman.com>
@@ -67,37 +67,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 14:30:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211907
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211906
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-This includes CVE-fix for CVE-2025-22134 and CVE-2025-24014
+FFmpeg git master before commit c08d30 was discovered to contain a NULL pointer
+dereference via the component libavformat/mov.c.
 
-Changes between 9.1.0764 -> 9.1.1043
-====================================
-https://github.com/vim/vim/compare/v9.1.0764...v9.1.1043
-
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../ffmpeg/ffmpeg/CVE-2025-25473.patch        | 36 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-25473.patch
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 582eddcb9d..4ac9c58c80 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-25473.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-25473.patch
+new file mode 100644
+index 0000000000..c9527751b5
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-25473.patch
+@@ -0,0 +1,36 @@
++From c08d300481b8ebb846cd43a473988fdbc6793d1b Mon Sep 17 00:00:00 2001
++From: James Almer <jamrial@gmail.com>
++Date: Fri, 17 Jan 2025 00:05:31 -0300
++Subject: [PATCH] avformat/avformat: also clear FFFormatContext packet queue
++ when closing a muxer
++
++packet_buffer is used in mux.c, and if a muxing process fails at a point where
++packets remained in said queue, they will leak.
++
++Fixes ticket #11419
++
++Signed-off-by: James Almer <jamrial@gmail.com>
++
++CVE: CVE-2025-25473
++
++Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/c08d300481b8ebb846cd43a473988fdbc6793d1b]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavformat/utils.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libavformat/utils.c b/libavformat/utils.c
++index cee86ae..fe458dd 100644
++--- a/libavformat/utils.c
+++++ b/libavformat/utils.c
++@@ -724,6 +724,7 @@ void avformat_free_context(AVFormatContext *s)
++     av_dict_free(&si->id3v2_meta);
++     av_packet_free(&si->pkt);
++     av_packet_free(&si->parse_pkt);
+++    avpriv_packet_list_free(&si->packet_buffer);
++     av_freep(&s->streams);
++     ff_flush_packet_queue(s);
++     av_freep(&s->url);
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index 2173105fd3..4b99c0fa21 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -50,6 +50,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2024-36618.patch \
+            file://CVE-2024-28661.patch \
+            file://CVE-2024-35369.patch \
++           file://CVE-2025-25473.patch \
+           "
  
--PV .= ".0764"
--SRCREV = "51b62387be93c65fa56bbabe1c3c1ea5df187641"
-+PV .= ".1043"
-+SRCREV = "9d1bed5eccdbb46a26b8a484f5e9163c40e63919"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
 -- 
 2.43.0
 
