@@ -2,101 +2,146 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E58C021B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDE9C021BB
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 15:56:53 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.11689.1740499010268221450
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web11.11795.1740499011466069939
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 07:56:50 -0800
+ Tue, 25 Feb 2025 07:56:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lyH+4hKF;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6dd43aa1558so48382606d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 07:56:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=niyHtKGm;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e65a00556aso46079456d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 07:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740499009; x=1741103809; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KIRRpkgSFvuA4nrLufpoV3V46+dRot1gjzRrmTzcn4=;
-        b=lyH+4hKFdlrSsaLmdC+u2AO8Tzop3hTcaA0QFGk/gxGMf6o1lsqZcr5x+IBCVFEAcD
-         e2iPoJwTKm4NcusXACtg4A6+ROT9LKI+No8GEFqAjgiI+GA5U3tGILaoYMUVOZlMLB9r
-         YOn0z/AXCry/fnW8whQI3Do5Fa5pydvY81SJslqZbJNDKrfhCNtXYqb0Dclxenhv+SKi
-         eEw/74IUplJsas1dYWWlSDeAMX0jkBI92m2OD8g8JQzaaRGjN7tKhs5jMc3al7qLKNz9
-         fmYSFTo6WCJbo+zcEuIDwGvL+SJM6bxud7OLHrj3w0tW8Fpe7Ct9ykfNYZ8cybXZbFvq
-         zCuQ==
+        d=gmail.com; s=20230601; t=1740499010; x=1741103810; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+hG6MN6D8O1IYrarXppevAzbB5dSn26XEsvq7x/5MJE=;
+        b=niyHtKGmkdWdbuRN5JpbDZJKFGfLTDISMqvsUDprfXS86rYbt+nwpw2wXSWLjey4Ry
+         scl9fEB/AprzlO1ONzyQkyW6/GZwOVzRfamFpmxud4cWryH+4SbSe0buf6Aw2/rCGMDU
+         w8Mowa2GHg6hEIQgwi+r2aLtWkSAHQ9mCn45r0PLNWzZhTljjYbyDy0GNXt+QyRmSjDP
+         z9W7YDFDDLJqzQ/ixmfpc7942JwSmYsiOAioeuPFhBGnfAwz5g1It6yGS8qrbZqI3pbW
+         8IiuicxoUbQmMOtl16YdmT5iLAmhhDrmdbCVcEgQ7yuglree+pnO3QceWBIZ50UXGnSH
+         QuJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740499009; x=1741103809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7KIRRpkgSFvuA4nrLufpoV3V46+dRot1gjzRrmTzcn4=;
-        b=GCsZHg0Y8a0xSUjkpA86VjTqPyB/xcj5atJgU8/TdyJGhAqny+fbD6HA3Fe5PXR54M
-         mgD91o5hTptHVZztVpRXNYGIr0RmeWzS/ohNPpQYTFh4L8K/C43SAbE+ODplDxsvNRFn
-         N3WGRJOtaFiI909R1xh+gy6Kkbm2CX+vU/dVKQbGKO42zCN9+jcwQeBniPlicpl3BM6j
-         ADbhoo5Rx/DztReYgdYpgHhMND2PAXTDT7xxx9ELTygQYviiDuYsZBc66ODkhPQeHOnL
-         CAIKBFaMhDUg2W4/ike82v0dmT2Y3/xYXjRzV7ze+uODiGJhkbumgRzCZImYlTnutVis
-         Ujsg==
-X-Gm-Message-State: AOJu0YwKnosN4MZkR58kBrEwetxgfQZNWg5b9kGPaqCEEQmU3FMmOUMa
-	n7xP2KkJbV82+sq2Vqjt2NuBR4KdMTKreaoYWelhuu5i3Y1+i2pPy+PItBSV
-X-Gm-Gg: ASbGncupuKX7AicxgtNgkkElYXbhyFI+z+i4DuoCb/rH2BlD/dAvkTaYxPOBNRJLTgn
-	VqIV+Es8YIjo1T27f1BJjWVusUzwCw72A06UbxOJaEiP+2LZECh9x6YcUM7eOkiq5Hr00vLYGO2
-	d50BkysTsHx2cCMb7rlo5gyPn4Zld5jkV3HnYf8wbTWlAiiL9/Rh6W1Hz5IV9BEZaHYepvQjIau
-	UyfCdBKcCTCE/pljcefZBafnhXiowVofm27FeOH+e0uOrkQx+pGqqWHTcanfTViR9hOjjZMiw6e
-	JArSctSFgpKdsBzfnldPRnUpGF/kt8KFD9Wu8cjeC0ZDuyTPJIIR56LTS07dDD6YV61umvq3GyY
-	903SmXYDN8YYwPNnWe4XuGQeSZQ0=
-X-Google-Smtp-Source: AGHT+IGFyO3Rg5+vGMyri+dKSM0MIXajooSARI2PfnaA2tW2HKORcgKHJTbk2x8/v916198Y+UcipA==
-X-Received: by 2002:a05:6214:d6f:b0:6d8:6a74:ae68 with SMTP id 6a1803df08f44-6e6ae96734dmr199687616d6.29.1740499009290;
-        Tue, 25 Feb 2025 07:56:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740499010; x=1741103810;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+hG6MN6D8O1IYrarXppevAzbB5dSn26XEsvq7x/5MJE=;
+        b=EZYExWYYBmbiCcDlVoSYFCg2Oh9sFTKOh1KlcaAjpEuWpYAywXZgBa/+iVRdlJzy69
+         ZUmN8pca2XuNPQcVotaAWeV9qs93w6jS0HKMCi+MbZw+TUGpMRQvRGHZRj2xHkjDZR7y
+         Zy2X02wRGO0RCvv4V0SLnB+iORPlTaXjH+XmzRU8dcatKKdIGrL2VrcIkDsXDyJWUGeb
+         FacUYbWK4JIti1GFAJ5kWyg5MlQLhusDM5cCWS5Dd6OFpkVa1kDNc09QFgLk6nlezzlW
+         WHIcfOKNz1aiI9e/EhzzUoQK3JUoifKbfdFNvlxlXXiZhhvARVDH+BzrB/W9PbJ2VvFE
+         FXRQ==
+X-Gm-Message-State: AOJu0YxLBTVS9ggcQRb5H8bM64BP9CteJ6Y10lyohuKrl0fQ+wwbwcRa
+	i7ho4y5IXcPMSxlgu0fc9GVJM/Uo2Z6QtN9DjYLlLXeb7m5zlm5+
+X-Gm-Gg: ASbGnctTCnzxpo4kpJOPfD8cVBuRKiZuLm1z4tgBtmNSce9Wvkig00JpH0349wK9Drj
+	9uM9/NSRRshR663qKQFELdsvuA1krr/BaUPvrpP04n8r5yFuh4Xs7X+yODBMZWDDQNyPn25t7kq
+	OK1b56vUXu7590QuORe5IXXXT7bwAYYz3gMZt9fS3Fyvhql+rQscjHdVXdjszAuNIuatgphjLc/
+	BLMGLy9vVPEmySP8qqK4WdYCphc06oPjKszMVSH04zkBym+9XraZGN7hI3vk0Xn67Pvg0gE4REm
+	UrGyOiVvBWq9hNBpMUTN25LnO0Vk0GIm1ERtPCq6ZEVlTLDcFH6QgpNeUUrMpBAtUwOsrMW3lv2
+	X9f8DYiSbTTidfEIN+2ltCsps1DE=
+X-Google-Smtp-Source: AGHT+IEDRACoxzHOVMmpCiCJpJQZq13EOqew3asD/UyTtt1QzzwJSCCTfLRD1gG+rDZlEWR9JlR5WQ==
+X-Received: by 2002:ad4:5ca6:0:b0:6d8:9abb:3c28 with SMTP id 6a1803df08f44-6e87abaddabmr44212126d6.29.1740499010479;
+        Tue, 25 Feb 2025 07:56:50 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e87b087221sm10749476d6.26.2025.02.25.07.56.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e87b087221sm10749476d6.26.2025.02.25.07.56.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 07:56:48 -0800 (PST)
+        Tue, 25 Feb 2025 07:56:49 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto-dev: bump to v6.14
-Date: Tue, 25 Feb 2025 10:56:46 -0500
-Message-Id: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
+Subject: [PATCH 2/2] perf: enable zstd in default PACKAGECONFIG
+Date: Tue, 25 Feb 2025 10:56:47 -0500
+Message-Id: <20250225155647.3295109-2-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
+References: <20250225155647.3295109-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 15:56:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211914
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211915
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating the development kernel to track the v6.14 series.
+The following upstream commit:
+
+  commit 44b44ffd5dcef03d273ad070d0b02a65a323f5f6
+  Author: Leo Yan <leo.yan@arm.com>
+  Date:   Sun Dec 15 22:12:22 2024 +0000
+
+      perf build: Minor improvement for linking libzstd
+
+      The zstd library will be automatically linked by detecting the feature
+      libzstd.  It is no need to explicitly link it for static builds, so
+      remove the redundant linkage.
+
+      It is contradictory to detect the feature libelf-zstd while the build
+      configuration NO_LIBZSTD is set.  Report an error for reminding users
+      not to set NO_LIBZSTD.
+
+      Signed-off-by: Leo Yan <leo.yan@arm.com>
+      Tested-by: Namhyung Kim <namhyung@kernel.org>
+      Acked-by: Andrii Nakryiko <andrii@kernel.org>
+      Cc: Adrian Hunter <adrian.hunter@intel.com>
+      Cc: Alexei Starovoitov <ast@kernel.org>
+      Cc: Daniel Borkmann <daniel@iogearbox.net>
+      Cc: Eduard Zingerman <eddyz87@gmail.com>
+      Cc: Guilherme Amadio <amadio@gentoo.org>
+      Cc: Hao Luo <haoluo@google.com>
+      Cc: Ian Rogers <irogers@google.com>
+      Cc: James Clark <james.clark@linaro.org>
+      Cc: Jiri Olsa <jolsa@kernel.org>
+      Cc: John Fastabend <john.fastabend@gmail.com>
+      Cc: KP Singh <kpsingh@kernel.org>
+      Cc: Kan Liang <kan.liang@linux.intel.com>
+      Cc: Martin KaFai Lau <martin.lau@linux.dev>
+      Cc: Nick Terrell <terrelln@fb.com>
+      Cc: Quentin Monnet <qmo@kernel.org>
+      Cc: Song Liu <song@kernel.org>
+      Cc: Stanislav Fomichev <sdf@google.com>
+      Cc: Yonghong Song <yonghong.song@linux.dev>
+      Link: https://lore.kernel.org/r/20241215221223.293205-3-leo.yan@arm.com
+      Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+
+Enforces that zstd must be enabled if libelfstd is detected.
+
+Our build of perf and the other default features lead to libelf-zstd
+being detected, and hence the build aborts when the features are
+checked.
+
+We can't condionally enable this for 6.14+ kernels due to the way that
+the perf recipe works. The feature is minor and probably should have
+already been in the defaults. To keep things simple, we just enable it
+and will watch for any fallout.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+ meta/recipes-kernel/perf/perf.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index e78fd51749..5604a11eae 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # provide this .inc to set specific revisions
- include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 18e2454f9a..d06dd2fa5a 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -9,8 +9,8 @@ HOMEPAGE = "https://perf.wiki.kernel.org/index.php/Main_Page"
  
--KBRANCH = "v6.13/standard/base"
-+KBRANCH = "v6.14/standard/base"
- KMETA = "kernel-meta"
+ LICENSE = "GPL-2.0-only"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine;protocol=https \
-@@ -28,7 +28,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- 
--LINUX_VERSION ?= "6.13"
-+LINUX_VERSION ?= "6.14"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git"
- 
+-
+-PACKAGECONFIG ??= "python tui libunwind libtraceevent"
++# zstd is required for kernels 6.14+ when libelf-zstd is detected
++PACKAGECONFIG ??= "python tui libunwind libtraceevent zstd"
+ PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
+ PACKAGECONFIG[perl] = ",NO_LIBPERL=1,perl"
+ PACKAGECONFIG[python] = ",NO_LIBPYTHON=1,python3 python3-setuptools-native"
 -- 
 2.39.2
 
