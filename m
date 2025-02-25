@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F35CC021BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 406E5C021B2
 	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 14:30:32 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.9098.1740493828933290739
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.9095.1740493823705393889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 06:30:28 -0800
+ Tue, 25 Feb 2025 06:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yInTMfk1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-220c2a87378so96210405ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dvs6k9F1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22185cddbffso114243195ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 06:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493828; x=1741098628; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740493823; x=1741098623; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p+F8+Q7PfZVy2KPs7jF5KrttBH8OTZSbeAp2Fn7Mk5M=;
-        b=yInTMfk1jLi39AQFdja1nTgxSpP3CtXhRFrGVlnzfuFiAn7pWDYq5wA+sCfKkOnSgZ
-         Pl24DYmz1XgzFpZ24jSMVNYYvlQsdcKBlO9RHl9U8vemzsmwgDqCSHd4XXVtEK2MFPbw
-         YjGd1bTz2HFf/+YTTDbVMF9C3v+dWkt0UavGVAiTd9iy52duJG8qKMPlGr4SWR9Nk/vI
-         GBdo8JfXLIZbP0QfF4WXNmkzWUuoN4OGlMFpiJBvMMHyVHXmrmk+uAVMjPuKBZ9bIwac
-         Xxr0/ndS4tgo012mmHXixwtCeCbEZsoUn3W1bzmmHNOzwIA40CeIjeBeTEeo5LT92+Zu
-         zoZg==
+        bh=+psCwWOcN8iWxqYnz20UInlSr8Z8y7i0BiQX7u7qTq8=;
+        b=dvs6k9F1/cCLqosYjscANbpUOkNygRJDKZBlMGX+Vfz+qN6kuf1Wp9qNvl5Krb5kDz
+         ywc+AINku1HBYx71XrXjt1PR5PGHtPH34P7f3rEke294bKNsTgJdE1A3C6tVZEKwPuz+
+         HjWsR7IfhSbEFCcKkRIgcgCfKtqa0PEZfHds6me/MY/8shafeYHyXRi5f0Jerhx8Au1P
+         ldkvO4/CquS3BKxsjEdgNf3NQiTnNnnXGIt4r4nhF8NYCRq/7xC+Dm8jowTXGd9MfI3U
+         ZRAgfoGYWNIYY8GpV3mlIVTHD2jjmfDUqOnIfDlP++yZWAc9dpR7Fmjwj4vN2VhZcDlb
+         99Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740493828; x=1741098628;
+        d=1e100.net; s=20230601; t=1740493823; x=1741098623;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p+F8+Q7PfZVy2KPs7jF5KrttBH8OTZSbeAp2Fn7Mk5M=;
-        b=Cur9TB13TGeLE4OTjBDZaOKUrXVQ0QiWAfOD8GE2Y9XviUl1G9MLvE0HwbT+lMBkzU
-         S5SCrkn8TIwFlkISv/t/IYSwV/XYTVtfdOEDJlq8WrW5g0dm3zPxaQ2hTUYwrMhCnr0h
-         UFN6QCjsRuCsUzv+AN5nXrqfnfuWvJB94Rk6cXD6gjvP2f+VKPVCskm+0aDs7Y0amr6V
-         7PeHIpI/tYRSy+xL5cyG212zEkrxmppKsknYXYhDtsVK+pQX3P96Q0uAzlT5U5BR3HWS
-         +HMbJJdj+wgeMfv3mG/RHRnKQ7L78R8gcclmmgyVzt9zrSFO2Iz9qL5FPapKQY996Eih
-         wtzA==
-X-Gm-Message-State: AOJu0YwVJix0EMqnlhWiGN7ph0k2VqMf33QE9FjGHQyTxqTPury5ijmy
-	NmuNafeFLReu6weYRWnn3+rf4KW3iDWETOXTDxcGcy6QWocF4rP2PF92ObrMbqBJ4sMvW+9em5o
-	g
-X-Gm-Gg: ASbGncvsrrbuv8+r6+VdBgscmpXlKF8knpqzov4+6GLwaQk/c0N5gq3Ql1ftQJlg0el
-	1xnnjyUa4suY6QHZvsQmPj51enLIbo/a+iIwLq0UwyvrYDCmwVdcwedQHtBqH4/YP2FLnBhF5io
-	C8y8jEJWD8BXCMGM+CJ8JKA4SoiOQf3qF0J08n6QA4h0SyMtv6qaGtRPgNoVAL8dYHSVggluICJ
-	Q4btq7XsD86zi+E6BBEhja3bUy5QLkg32hhaVTxf/g4rFkpErHZ7uDR7OBz8bV2j24RbTSB9Tpj
-	K9ki+2d3gOfkVhwgrA==
-X-Google-Smtp-Source: AGHT+IG15wZDvi3Fca6FW33XfQxndX+86xKIj1NQ1811qFtOBZ5dJUcaVbZxM+KLEBVJSqKymxHEpw==
-X-Received: by 2002:a05:6a00:3cd4:b0:730:99cb:7c32 with SMTP id d2e1a72fcca58-73426ca5379mr25907039b3a.7.1740493827159;
-        Tue, 25 Feb 2025 06:30:27 -0800 (PST)
+        bh=+psCwWOcN8iWxqYnz20UInlSr8Z8y7i0BiQX7u7qTq8=;
+        b=ZcER33Xd3+QM2ZykNpZeiR1sOdcEj80NZDgsLQU/pXKmsjg1iRw2zz4VYoxiAAssjO
+         GOXwhe8AMQe2n6+3WaUT8b5K9AptIEbimjWwLKzpbK0625U2mZlrx5u0fwl+Xl/VcbCb
+         NX7+bmYun0D3JfOdb1HZcdQWpC0BU1PJdfn3C64i3vcHFPg3pr38cdprg7T7By0GoLcM
+         C8DcVLbJMqXe1CS8GFiKvFGmvrg8p/PzG8llZ9zdpYG1V3Slft/kVb4ra8P4cRGXfGyI
+         xJL0foHtYV00/BdRA1+dDMkrQm7GPAlb87L41dVJ6FDGnLYqELhRxkBnkhr9RR9Nb4yD
+         klLg==
+X-Gm-Message-State: AOJu0Yxu5y2MlB6zougS+8oo7OTOwzVnEzbtlKHPUrDVPJWNCI4zB93h
+	SKIFE7hqMbkHZ1mADnAYqFm1fxcHqk9V3UFV9QjeWHXFjWxU+ZT1TbepGnRok3z36+PYH4//jks
+	I
+X-Gm-Gg: ASbGncsMnnrPpKKLuWYLzVVUzu7deFWaAkYtMwloN34bSFX8eHH9qKQzm4Iw4FTvTYa
+	gcxvX1zOP84rm2GzKuRIrSlvLh884tgSJnRo4nUD5/09uuNSdGN6fWuAoVFnsrebZZmfgyAXwRN
+	2htuzKZVJpVXT+h6VitY3X7RRqVB9EFqP3FNeKCLaPbryR0mNKXk56/9WgjMAXhiA0dZ+wVyyJM
+	QSnwjlEiIoGA6IP4xHCw+k+0epmLZKc8o6wxMqBcX+VSfPpT0+KH5tBySKgV0Nu2dFYbhLyKYBT
+	q3coC/UvbZFmQGNmTQ==
+X-Google-Smtp-Source: AGHT+IGHmk4K2JnGIrZJnPAP+y2+2Dhl5D5UXCU6CP31lu7MSRdmUYJfEg/1C36eXcg9XaXfuO04YQ==
+X-Received: by 2002:a05:6a00:3cd5:b0:725:41c4:dbc7 with SMTP id d2e1a72fcca58-73425b7fd45mr28868341b3a.4.1740493822880;
+        Tue, 25 Feb 2025 06:30:22 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c473:2777:3793:104c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a81ed10sm1535650b3a.129.2025.02.25.06.30.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 06:30:26 -0800 (PST)
+        Tue, 25 Feb 2025 06:30:22 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/22] libcap: fix CVE-2025-1390
-Date: Tue, 25 Feb 2025 06:29:49 -0800
-Message-ID: <142715b83fb2c5f4dfeeab2c6e7feccecd1ca46f.1740493685.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/22] libxml2: fix compilation of explicit child axis in pattern
+Date: Tue, 25 Feb 2025 06:29:46 -0800
+Message-ID: <0dc99e25c16a1e74aa80ca20132609990bb9dff7.1740493685.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740493685.git.steve@sakoman.com>
 References: <cover.1740493685.git.steve@sakoman.com>
@@ -67,74 +67,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 14:30:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211899
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211895
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upstream-Status: Backport from https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=1ad42b66c3567481cc5fa22fc1ba1556a316d878
+This was reported as sucurity fix in
+https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.12.10
+https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.6
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libcap/files/CVE-2025-1390.patch          | 36 +++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.66.bb    |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/libcap/files/CVE-2025-1390.patch
+ ...x-compilation-of-explicit-child-axis.patch | 31 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
 
-diff --git a/meta/recipes-support/libcap/files/CVE-2025-1390.patch b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
+diff --git a/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch b/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
 new file mode 100644
-index 0000000000..339feaba92
+index 0000000000..932c0ec422
 --- /dev/null
-+++ b/meta/recipes-support/libcap/files/CVE-2025-1390.patch
-@@ -0,0 +1,36 @@
-+From 1ad42b66c3567481cc5fa22fc1ba1556a316d878 Mon Sep 17 00:00:00 2001
-+From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-+Date: Mon, 17 Feb 2025 10:31:55 +0800
-+Subject: pam_cap: Fix potential configuration parsing error
++++ b/meta/recipes-core/libxml/libxml2/0001-pattern-Fix-compilation-of-explicit-child-axis.patch
+@@ -0,0 +1,31 @@
++From 503f788e84f1c1f1d769c2c7258d77faee94b5a3 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 13 Feb 2025 16:48:53 +0100
++Subject: [PATCH] pattern: Fix compilation of explicit child axis
 +
-+The current configuration parsing does not actually skip user names
-+that do not start with @, but instead treats the name as a group
-+name for further parsing, which can result in matching unexpected
-+capability sets and may trigger potential security issues.  Only
-+names starting with @ should be parsed as group names.
++The child axis is the default axis and should generate XML_OP_ELEM like
++the case without an axis.
 +
-+Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-+Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=1ad42b66c3567481cc5fa22fc1ba1556a316d878]
-+CVE: CVE-2025-1390
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/503f788e84f1c1f1d769c2c7258d77faee94b5a3]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pam_cap/pam_cap.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ pattern.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/pam_cap/pam_cap.c b/pam_cap/pam_cap.c
-+index 7e8cade..7b3d2d1 100644
-+--- a/pam_cap/pam_cap.c
-++++ b/pam_cap/pam_cap.c
-+@@ -143,6 +143,7 @@ static char *read_capabilities_for_user(const char *user, const char *source)
-+ 
-+ 	    if (line[0] != '@') {
-+ 		D(("user [%s] is not [%s] - skipping", user, line));
-++		continue;
-+ 	    }
-+ 
-+ 	    int i;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-support/libcap/libcap_2.66.bb
-index 7534063b7d..42dacb301e 100644
---- a/meta/recipes-support/libcap/libcap_2.66.bb
-+++ b/meta/recipes-support/libcap/libcap_2.66.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://CVE-2023-2602.patch \
-            file://CVE-2023-2603.patch \
-+           file://CVE-2025-1390.patch \
++diff --git a/pattern.c b/pattern.c
++index 27e96946..3182794e 100644
++--- a/pattern.c
+++++ b/pattern.c
++@@ -1178,10 +1178,10 @@ xmlCompileStepPattern(xmlPatParserContextPtr ctxt) {
++ 			    goto error;
++ 			}
++ 		    } else {
++-			PUSH(XML_OP_CHILD, token, URL);
+++			PUSH(XML_OP_ELEM, token, URL);
++ 		    }
++ 		} else
++-		    PUSH(XML_OP_CHILD, name, NULL);
+++		    PUSH(XML_OP_ELEM, name, NULL);
++ 		return;
++ 	    } else if (xmlStrEqual(name, (const xmlChar *) "attribute")) {
++ 		XML_PAT_FREE_STRING(ctxt, name)
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index ecaae0b436..912bcfd0f3 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -34,6 +34,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2024-25062.patch \
+            file://CVE-2024-34459.patch \
+            file://CVE-2022-49043.patch \
++           file://0001-pattern-Fix-compilation-of-explicit-child-axis.patch \
             "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+ 
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.43.0
 
