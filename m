@@ -1,131 +1,108 @@
-Return-Path: <narpat.falna@gmail.com>
+Return-Path: <gavrosc@yahoo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6BDC021B8
-	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 17:53:48 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.15313.1740506024663950794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7457C021B2
+	for <webhook@archiver.kernel.org>; Tue, 25 Feb 2025 17:57:48 +0000 (UTC)
+Received: from sonic317-26.consmr.mail.bf2.yahoo.com (sonic317-26.consmr.mail.bf2.yahoo.com [74.6.129.81])
+ by mx.groups.io with SMTP id smtpd.web10.15444.1740506266865967144
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 09:53:44 -0800
+ Tue, 25 Feb 2025 09:57:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dDQYEsY2;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: narpat.falna@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-220ca204d04so99098945ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 09:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740506024; x=1741110824; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=duYIEuLZPjPDfrZtkyAbS29XYmqycn8ufOciqCdi4VE=;
-        b=dDQYEsY2gzs7ZKU9rfP3W0NuWMI/fDhhB35Jxkk0ka1qc9bNy6Nafm++5+rG6a24FO
-         87MHT7XKetHXw7SWmTI5FEYHVZ+tgqcN7GWUj3QrKuIO1eYNZvgdP9/j1gY4mE1X3/95
-         GPULg7/HH8l6dRY75LEJFUppUtr4MbWYI4yM7eVZGDWRCX1p8S+SQmnEEsDgYpLVB+e2
-         yPUjhNVg+pnhHZfTEYK5hfX95GMaOrJwt9zoJ+YJhKtGZ4H5hYKHynjcBAZuuN4L6CFN
-         n3MH2OQUHQlqrouTh8f5TuJsrJkJm//ONYN7FMFkxcnQ6ALbNHxLN+8IGv4nDaYdhqFZ
-         O2HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740506024; x=1741110824;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=duYIEuLZPjPDfrZtkyAbS29XYmqycn8ufOciqCdi4VE=;
-        b=SVhejXxqLzuOlPgwq4rYKorqbjGALb05oUYnKUiPnZavWc34gWlieKPxbzrpPSxGH7
-         Fj+ZTXZ5RCbES/HqGyb5bXpBZKwZhzLD4Nr7Iy6fOEXaZo+FUJ2nahxydirTQ19EWJ8Z
-         kw/L8Bfk/rw2oVPKkOVXL/sWEr+k0ARyyCBMSgtro7rg6hOPLUlelRjl9CeTssFRXHAo
-         Fw8w1Ic2/j8PgaIRc8YkeF4XOnG3h0YQ9igrQjiImJ4K//FmeQO8sSGk6RGDooKc4RHD
-         vODivyml0MwdCGi+1Tb57DJFzE8elKL52QTEd+Dn8I+X+mG6u+mtsSZ/J3uYI/vwp4mP
-         8nwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVt1v+fSOnGwTgfp/fJuWFR0SicAl01fAfx3WLSQ1cn8NjL/v+nn95Ruw2fJGm3IOr7CF2L1C/ZZzdVhKkEH2F/Yg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw9llZYjdLOU9Y+aJLpRoR/BM4D9LrE8+tY9i0IYa/0qyb0qYpz
-	l2/Q9qvPLcuoPiL78EPbTlGJpEZ7agWFsqGxINDdJJTta2gTEBzw
-X-Gm-Gg: ASbGnct/f3bWM8HTE+614s+YhFfWH+rkvESXpAFD7Uydzw6dYQBQ4RIuZXmQDB9vtv4
-	xep3LAqPiYSrCgk4wh1Ytbsy5zdDzNsMnYTG3ZWIkemqi02gXCbQPKDE5f6bTlcjRDzp8j7tLmG
-	e1TcR074wgzSaafBEa8aXuoFcmdsqlv8juiWpZ5KSjXSbAbznmZg9rxR9iqkOOCQ/MmR7gTzPzL
-	66wWwkfuXqvptOQX0f9R4lntkCGaj8zdFZXK+h6BpDLUxoHJs2TDdYso2CauaKy259q5bV/eiy9
-	XhY0rWSkx5uUDuvajeKAW8f7SWb1h+62jArO6Yw6jUxJRUjQXUbfpV1gCZnQ2XDI4WcvA8nz9SI
-	=
-X-Google-Smtp-Source: AGHT+IFWaY4Gp9u320YEIrWJoCQKZMvua0t+PzbwTrRSRnqSJmxEl0ej6z/GW0wsLfTFYDgj11EYbQ==
-X-Received: by 2002:a17:902:f60b:b0:221:263:230 with SMTP id d9443c01a7336-22320208581mr5151345ad.32.1740506023806;
-        Tue, 25 Feb 2025 09:53:43 -0800 (PST)
-Received: from ?IPV6:2409:40f2:158:4e7c:98c6:99ef:540:c9b1? ([2409:40f2:158:4e7c:98c6:99ef:540:c9b1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a01fcc5sm17172145ad.75.2025.02.25.09.53.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 09:53:43 -0800 (PST)
-Message-ID: <63d70b8c-c0d4-40a3-b21b-b8f26bd6afb7@gmail.com>
-Date: Tue, 25 Feb 2025 23:23:38 +0530
+ dkim=pass header.i=@yahoo.com header.s=s2048 header.b=VrqyQ5pK;
+ spf=neutral (domain: yahoo.com, ip: 74.6.129.81, mailfrom: gavrosc@yahoo.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740506266; bh=4gRDHwkSehHJ3+atbxMEgGT4xLkt1kYe+jp3S6BXgoI=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=VrqyQ5pKPtovtFqyYlfecjsyVUtWLI/5YCnXwx7wRzEuYWKmKseoyskDmwTvg3RNnaAF0S8N6GIRjfMy/hlA5Z2ntWqvXXjIYezSZdfqShOLqR8KyK1i9eR0q3+MI3pd7a1q447jMp2zsUeV/ETCU7vLaIFbyyevelz30R6dJnu68bBDDRvaFotZtmQBxTSmz6ydDvC7AeEFc0WqcDbUlDkHdQ4ohJGXx2qiRLTyNhaiD/vRRzOtwuLKa+JF1Ki6HLWne9q22PIQXC5XBlCW1i+DpcvZjIQn1nbHFG8ndpdnkoi1lp593nr5zELfxWA4mt7hzhWk1i5S0EHah07Jkg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1740506266; bh=8AvSup1IkSqyTz77KLO933y1kZ0jZk5xbqA6B6ld/Qa=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Hv3sStMmwTb892fy9AKjRAS3I7/1UVAAyIVMizj+IUwAZfIt9Frm20cHsf+7zz8Mn6k1TYIUGB7El9MLM395OwBM2Ik+499yXfcd6/LCGSpDXsjSSGuaMlughMpERf7WNEWAVazEJt+ik+PrrBaT5OO5DQiy70coIH6V7TbQhNvZZElpOcEVJTKGpXCHHqXSUwrwcQ0Bq60FZeHomptegCSEmjuMau/RYPMqQAIXRwFOTGiqMD+a5QoOfr39goC9bjMsI2jp48p+DykQPXNH08FNQkYvOaUmL5JuHn3ePmLrvxoVK9lRo2oiMJQPXgH+iiXY4J9axAxIfFpvBySNvA==
+X-YMail-OSG: hsi4W0cVM1konsMBD6gr1V9ikRwEGwPYSQB6MjGCSq6tiTRf2VstyjcIjVcjlhL
+ Av5HoDJ12Csa7gKl0VTci5ZV9Zx_2pjdJbvYcCxA4jW3w7Lgz2i177G0.oMSG16a_cy1Up7DvU2a
+ PU5z1N3n7b2uv04maTWsW6BQLOaFOlhiOcLx7TZnclzBQEF.FoHXfJNwrOobbbxqPXagS6Nj6lku
+ GqmO.P5Auuw3cBWqE0iFgb9HAzFK35bdhn6Ln6p8ET4vX1mg_mjA1fTuxEzNJv04c.DtfJaH6_Vp
+ AvjGbHN4upJTmx.yt8BW9lv.CIhuvyMitLlmGgxdjJV4Q.qA5KGleWaB_o6T_22YEZ_24Mppb6hk
+ 9Kdiuytenti7bzLv389GD78S.629uizUR9oOmuh6Ge49orZd4s9MOaEHZyrt4XCvI.iOYUOvdwn9
+ 5S8pVHYaYGyIVymBpZpazaXXcCpVK_pRYwiABcDaCA1_pC_IXMjr2opEXsr5qm85_xm0RnTMNJ13
+ o48nfYOknPc1SGVD5CR.7ULizrwAcqlDCJyCxgJVB66ku2RuXyRjf7K15fQPumM2Uf6qKE6qtdLO
+ Mov5S73TWSljosrnl2jqnagKHv27FKuiP_1kSiExIoUixgz4iMyDBFWCZ28sljU7Pe16iqIGTA9E
+ Gs1Vosge9iHCk5Msj8fx9yqr3FkQ7isrUXdqWC6QKx5CtlT6VBlEk35b798ds2NGmNJ0jWXuBGtA
+ MdBWlHdnjEMIK2EoCHFvDoP15N3QTtpxzWsQmSefLgOaFxB1jsqs_G6OhpziOcKvq4c6lD3KDlYP
+ RGhNdH21.wLSSFe94eFs_biJBUDFrs_lZRzJO3dptz5xB0J0eST28wXsLhfNPf1BAHjUCO53jlV5
+ PnxmyXkxn8le5qsys7OrY6VVoFrAHFRo_gbQdKm5BnaLBhQkKg4vjzJrYwyLn2mVCj1LZMDuqhUW
+ nq95U7SBGvu2zIRxhbGfv1eiIpvJkGDbrZ8DCTQXjRXhgTmLFDQN4RTxmqWxzRWGGSIAcNxQrKBY
+ 5VYsRGrGYpAZxyCDpwc701pFDU.f.i6bYMsCMF10AWMIWpKnse8LwKMaF96sFRaNUVvIt9ixxp0n
+ CbhzbDDYiabpkX8D.BfuXRrHeHM3bn9ewqGCf8xHJd0O7bLQxe.nDPdsO55ckvM9bE12jgqi4LzR
+ 0WRRWrKeAHZG9MRUblqPpT88Ksw2VQJIspN3S0in25SBEpnf25wUCnfGuJixdk0NyZkUbNRjiBOo
+ uX_qOffII.nP094rXzkNGjM1kSR5dvUcj3MrTPJVL1Tlz8a0pBVesHptmm5zAvOKd1nmLLsgU7ZR
+ YWpmWVxZSu9TYSq6Kl3jMHCoX_GV10kxYC41YijnaxXm74SVMrfwRjjoCFSQjv0dcI63NVU.8BpY
+ dLhZOl70ATkrlFQlnjSezBG7fcL0KK4zXEKffRubxCfJ6ApNdhA86nOg9hB_TdC4mhPVHDSQNfQ9
+ Z0qjC_d70141.GZKnMeVVZZqL5NB0x954t9PQL2ukkM..c_DSNo1sIbHrZwciutCG4YAQCHdHpLO
+ BMGIpIeSeG3ni03RzRHKvgr7n6us9RUG95zuvJRIcuzeVgVE7LomBk7A7zopm0jGCOR48Z1lFOLw
+ UQahFYfor9lJOSNTl.ts4DlUOQGoCGntGPNR0u1NGXs1PnHh9a85fCtFICuvcGMnraC4VYa.xNf3
+ 4xgG8Mr5lZE3Ak1S0gQkTigdxFH3KWeVPh.C5BI5WbbvE9yzhWXmiCH0JQBFMNJchharAadRohXk
+ RAIexsL8fDCDD6UiZ4BOgcGWNjKhMeOxiN2O0mIi3WAFgWriL7zzj4eSPMx2.Q0M2sAelja.ol_2
+ yrT0JpKt9nAnVTaRBu4pWJFg4vGfLNFptkMWzh4PZYhrjVcuAkKyKF3Uh1KHQ.lVpEHku43A6HWI
+ kbi_q_dZNn4QcBXmIDBMYRM9Ode.n3G9ZDx36WgyxAP_sqEpjaV6RpmZ_hOjk6usnRJ8NAmzp9RK
+ y0sZHCsjTrFeXyjYTZSXod0Ie.aFiCPgsIqZ0DkCmNsBGkBIMnzMYsMMiLE0DCsvZ19R962pi33S
+ qe4_RXz9kj2EJYIIE_mlr0BiUt4dcSHz52CXbtY.gv9NSK_sdI_d7doH_BvgWea6A5bIe4ByHeXf
+ Y42nrV06XJewub.ZdyXmul.396mpbGauCqzjQ_1t2uHoDBH3CUW1kDwKZOJrKfQnHtPeVs8mpyAe
+ FJoXgNA9M4Fhh.NgSEc3mIr4VQTYSWlHYWscdQtUZuYZSSEsNjXBrkbYRfxc-
+X-Sonic-MF: <gavrosc@yahoo.com>
+X-Sonic-ID: 301f93b5-3673-4a64-810d-d66c5c37a788
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Tue, 25 Feb 2025 17:57:46 +0000
+Received: by hermes--production-ir2-c694d79d9-qp6kn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d149f854e05567ff6255a990e2a34690;
+          Tue, 25 Feb 2025 17:57:42 +0000 (UTC)
+From: Christos Gavros <gavrosc@yahoo.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Christos Gavros <gavrosc@yahoo.com>,
+	Yoann Congal <yoann.congal@smile.fr>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH v3] oeqa/selftest: add a newline in local.conf (newbuilddir)
+Date: Tue, 25 Feb 2025 18:56:51 +0100
+Message-Id: <20250225175651.20909-1-gavrosc@yahoo.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [PATCH v2][OE-core][kirkstone] systemd:
- upgrade 250.5 -> 250.14
-To: patchtest@automation.yoctoproject.org,
- openembedded-core@lists.openembedded.org
-Cc: Trevor Gamblin <tvgamblin@gmail.com>, Steve Sakoman <steve@sakoman.com>,
- Randy MacLeod <randy.macleod@windriver.com>
-References: <20250225151443.1549639-1-narpat.falna@gmail.com>
- <010101953dbbe921-8c3da1cd-cc93-4c23-8afd-b494a9e95ef1-000000@us-west-2.amazonses.com>
-Content-Language: en-US
-From: Narpat Mali <narpat.falna@gmail.com>
-In-Reply-To: <010101953dbbe921-8c3da1cd-cc93-4c23-8afd-b494a9e95ef1-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+References: <20250225175651.20909-1-gavrosc.ref@yahoo.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 17:53:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211918
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 17:57:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211919
 
-On 2/25/25 21:01, patchtest@automation.yoctoproject.org wrote:
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/v2-kirkstone-systemd-upgrade-250.5---250.14.patch
->
-> FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
->
-> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-> PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-> PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
->
-> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
+If the build-st/conf/local.conf does not end with a newline
+when is generated then add one
+Fixes [YOCTO #15734]
 
-This looks like a false positive for a CVE tag due to the new patch.
+CC: Yoann Congal <yoann.congal@smile.fr>
+CC: Randy MacLeod <randy.macleod@windriver.com>
+CC: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
+---
+v2->v3
+* reading the file line by line replaced with f.readlines
+(it uses more memory but gives faster access)
+---
+ meta/lib/oeqa/selftest/context.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Can anyone please have a look into it?
-
-../Narpat
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 5eb4cc44fd..16f82c6737 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -102,6 +102,13 @@ class OESelftestTestContext(OETestContext):
+         oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
+         oe.path.copytree(selftestdir, newselftestdir)
+ 
++        # if the last line of local.conf in newbuilddir is not empty and does not end with newline then add one
++        localconf_path = newbuilddir + "/conf/local.conf"
++        with open(localconf_path, "r+", encoding="utf-8") as f:
++            last_line = f.readlines()[-1]
++            if last_line and not last_line.endswith("\n"):
++                f.write("\n")
++
+         subprocess.check_output("git init && git add * && git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
+ 
+         # Tried to used bitbake-layers add/remove but it requires recipe parsing and hence is too slow
+-- 
+2.34.1
 
 
