@@ -2,116 +2,101 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A60C021BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36A4C18E7C
 	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 02:54:47 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web11.2610.1740538482348878434
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web11.2612.1740538485754701275
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Feb 2025 18:54:42 -0800
+ Tue, 25 Feb 2025 18:54:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=PHHYXSDE;
- spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e65e0a3f7eso28911916d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 18:54:42 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rHI/AsWD;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-471f686642cso55986041cf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Feb 2025 18:54:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740538481; x=1741143281; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KI1TBZJzBXzS2DG15QiRTbF+jkQfeZtEJSiFEwP0I1A=;
-        b=PHHYXSDE+onv3dP+0me8yHLQR/KWrzxPBwgIEVA7tP3IXi5GcoD0FQFQm0hF1KtmTH
-         QBrOvwi+hz5QF+tovl86RGjTcaL0NAtVjbY9MxoAT6L3XLZ/tulxA2M8P0gvjHXdUwMy
-         J+YefmqS9JAEdjRExcQ2EE9CDEG0HXbf4WwQm1/8c1IsG507W/lOmtscVYRmkWR6syZ5
-         LshKQBoDxhLzgyT48L2NbfSz9KD2YwvzQZcTOFldo/JPphBcrHMMxSu1HGGUmqmYNF5j
-         VN7FDAIKC8IIYcQiirN20YWm/rQ/UUA3YmUSIjVpCHHUB3UiJG/M+VURDqApuJJG7xPV
-         nhqQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740538484; x=1741143284; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95ZEnKjEzMpjjxenhNTTATUAGCNAWj4DY4I0e/TqX4s=;
+        b=rHI/AsWDkmaaOlUOc6aVS+0iHH0SgCfBuOh15IXA/3ydR1iwSKEt6sBQoY2yLCMPym
+         Qt95/z/47WPMYt6Sh5dlLqPHkugZLJcbDSRSkBfj6U8RD377kTpTdXAmLnlubG84Ntsp
+         gjoODFCrJXpFoXJtk8QG7RSHLbbAYBDYq2llW7pod9PENs6i0ddH2FP9xbXnMsTRySmr
+         SBuf0iCoUq0LFHdIUkwH/vXO0ouXRQSv3r8g6H8kcB7C+qSLW76pNN8Q3kLDCme/jL0I
+         3bEdIFuLV1JzcRJDskzX0aI+rrQSO8YFhJlhMHnenZ1wBtblDLHehCMmDL5fKhit4m15
+         rcgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740538481; x=1741143281;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KI1TBZJzBXzS2DG15QiRTbF+jkQfeZtEJSiFEwP0I1A=;
-        b=FnigU0tDb8e1HnhYkRDfewykh3t2hmnRLqQu8d9qIxFa+skeMgq7tq/fl4wXYwuSR2
-         kv8j+JcXytslRh933CvGQ7LL74l+RDlPCxWvnpA09Pm/BnYIhWUONpKl7q2fSXtoOi6i
-         KkkDMkZlhL2lB9w8pQPPokhR28BmqP83KHPLhFh50bkbrhIFkdmZcn1we+jCEAZ+HzqA
-         beB80jy2hYxHDX48d56q0JaaN0IjVpdIqp5bX0EjfD3jjtdaORhZGKGRO8HX5Rr/VB2A
-         s2K+lvvter39puRrlsL9TVo1rc41zL9mG63tmnlvzp9fKCvItkHcPuc/QktJERJzTDEt
-         Jr9Q==
-X-Gm-Message-State: AOJu0YwBwlS3mhviG+bXfvyPjlbBlcusUDkGAxjdQFmYPcTilC6j+DTa
-	6f6hgsL+wSi62CCrTieoyPBfTtfAuyNQbQ6XE49hN7O4dt6cIJL3LZ4iHA2Y2FrA88TsFTYUX0B
-	D
-X-Gm-Gg: ASbGnctkTD5QzZlqtsa6cWaGrtlTog1KHNlRUOSZn1i8p3HyAhn9NZf1FsrOmRKTq1S
-	wgP2EF0zBhkq0WINJdwp9f7D78n1oMZnsVEHnzbpOTuMaQteZOHONDA9hgpTR/XbDCHjeER5Sks
-	qrB4cX+0mA2fTeUyvOcM9aOWQXo8ap2cuqswDIO3DF5V3skM/TBwq+99xozCq6vQAAXGFZ7NTAN
-	SJxrXxydoM6B4qlwu25R/0j2ETGQxdhIfUzczsv1Ix6uOfVWXVZvKTWmNpwmm9AQiPVWVsppQjE
-	T+VJrv9KzHDbYDYEcd4YciheL2zZ22MCVAYGstRcR2+1Relvp5nLR8b21PvMTg==
-X-Google-Smtp-Source: AGHT+IFJJOwVKC2xQlNSYhFTbdJak+cPfgJg1Rbv6y44gQFDo0m5zvS4ZCklFCNubHcZbbNxigBU9w==
-X-Received: by 2002:a05:6214:5012:b0:6e4:3478:b55a with SMTP id 6a1803df08f44-6e8868fadadmr20218266d6.35.1740538480718;
-        Tue, 25 Feb 2025 18:54:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740538484; x=1741143284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=95ZEnKjEzMpjjxenhNTTATUAGCNAWj4DY4I0e/TqX4s=;
+        b=ucmMifcnJ4G1WUAIpu2XZf2qmEaAkVAZ1FrgmQGzQMxgJknDfIGPS1VHFtwGsKdF13
+         q1kRUd5jV+E8H09RBU2aXw5ut9OrZX/kiH3bQN70ATIFvK3qrnFmiOO0coridK3x+d0E
+         YA03ppZMcYXENHjhXQ1eED7G0SBcxb7eVcsY9U9sK4zLIyI26PcvC/RlhAyIwIMikEyz
+         zftzZSzXyomgu/iFwlxomeCaexmsep7tzMv581L2sqxNoh5vZ9sJat1VSyROBKzJ8K4g
+         1huXMr63utBeTDwfW8YA2sbgknYBivgkPUyYBB4XGKKlgfkrwiypYv/OEK3MzfPcpdtz
+         Mgew==
+X-Gm-Message-State: AOJu0Yygb3rdUrQekH5dyaCDTwZdfy7l6ZM5xhGy4WPKUBawFU70y7xG
+	EgI3Qawe/lw/uT3DmSI5c69gTXx6WAieyoX5zzEQq1wkV3hpbkXiKdEJeS2RjJyl8jXtKd+Fhfp
+	i
+X-Gm-Gg: ASbGncuWXnUmJWov53AnkSMe7Mvu+JASm5aAtNTGgFt1c3o8FpI1NapXwRJPiOdDqEP
+	VR7PfxanC00mYa/1TlxZ9J+7fXFMGlvPKXfCp0o/piLXxsB+/7+GDiqNGHbUQdzl2iox1avwM4f
+	ztW6NMJ0uBgzlAIXciexrUWJquv8qrvl06BETR/HNrRhF+ti9viSLMLb7InJU4Sm2sKf0R0ysf6
+	FM9RoS19muE8MmbsKXpls7ayt6t7oHqiPMG9r5Nyj3nGlPvplTrPtGZxmeEjYxbzkJW66pAxFI+
+	/eLmIQoOo/H2fz0iBG6A1X+6O4w+u37sZ7DTibJa9CORm7PDtr3MIw/CfDvW9A==
+X-Google-Smtp-Source: AGHT+IFqWSfmZnt9E2hDX7NIdulaUxKP38NzISOZ2CdVYGffsR/rEQ6/cXrdWqjRfkKBYJYLjk7+Hg==
+X-Received: by 2002:a05:622a:241:b0:472:61:64e with SMTP id d75a77b69052e-4722485ed27mr258991111cf.27.1740538483556;
+        Tue, 25 Feb 2025 18:54:43 -0800 (PST)
 Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c23c33d05esm186124185a.96.2025.02.25.18.54.38
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47377e1541asm18197471cf.19.2025.02.25.18.54.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 18:54:39 -0800 (PST)
+        Tue, 25 Feb 2025 18:54:42 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/3] python3-flit-core: upgrade 3.10.1 -> 3.11.0
-Date: Tue, 25 Feb 2025 21:54:35 -0500
-Message-Id: <20250226025437.2042320-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/3] python3-sphinx: upgrade 8.1.3 -> 8.2.1
+Date: Tue, 25 Feb 2025 21:54:36 -0500
+Message-Id: <20250226025437.2042320-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250226025437.2042320-1-tgamblin@baylibre.com>
+References: <20250226025437.2042320-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 02:54:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211939
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211940
 
-This update is required for latest versions of packages such as sphinx
-to build with flit, otherwise you encounter errors like:
+Changelog: https://www.sphinx-doc.org/en/master/changes/8.2.html
 
-|   File "/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-sphinx/8.2.1/recipe-sysroot-native/usr/lib/python3.13/site-packages/flit_core/config.py", line 444, in _check_type
-|     raise ConfigError(
-|         "{} field should be {}, not {}".format(field_name, cls, type(d[field_name]))
-|     )
-| flit_core.config.ConfigError: license field should be <class 'dict'>, not <class 'str'>
-|
-| ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
-
-Changelog (https://github.com/pypa/flit/blob/main/doc/history.rst#version-311):
-
-- Support for SPDX license expressions and multiple license files, as
-  detailed in PEP 639:
-
-    license = "BSD-3-Clause"
-    license-files = ["LICENSE"]
-
-  For now, only a single license identifier is allowed. More complex
-  expressions describing multiple licenses & expressions may be
-  supported in a future version.
-
-- The metadata format in produced packages is now version 2.4, to
-  support the expanded license information.
+License-Update: Update copyright year
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...{python3-flit-core_3.10.1.bb => python3-flit-core_3.11.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-flit-core_3.10.1.bb => python3-flit-core_3.11.0.bb} (91%)
+ .../{python3-sphinx_8.1.3.bb => python3-sphinx_8.2.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-sphinx_8.1.3.bb => python3-sphinx_8.2.1.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.10.1.bb b/meta/recipes-devtools/python/python3-flit-core_3.11.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-flit-core_3.10.1.bb
-rename to meta/recipes-devtools/python/python3-flit-core_3.11.0.bb
-index 55f200a3ad7..1d44b58830e 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.10.1.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.11.0.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://github.com/pypa/flit/issues"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
+diff --git a/meta/recipes-devtools/python/python3-sphinx_8.1.3.bb b/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-sphinx_8.1.3.bb
+rename to meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+index 38cceb068a8..e22ab817e7e 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_8.1.3.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+@@ -2,9 +2,9 @@ SUMMARY = "Python documentation generator"
+ HOMEPAGE = "http://sphinx-doc.org/"
+ SECTION = "devel/python"
+ LICENSE = "BSD-2-Clause & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=4ab44940eeb9c0ec044da326d904a683"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=e30c37a2b7fb0afa3adc0d72b85e8b04"
  
--SRC_URI[sha256sum] = "9c6258ae76d218ce60f9e39a43ca42006a3abcc5c44ea6bb2a1daa13857a8f1a"
-+SRC_URI[sha256sum] = "58d0a07f684c315700c9c54a661a1130995798c3e495db0db53ce6e7d0121825"
+-SRC_URI[sha256sum] = "43c1911eecb0d3e161ad78611bc905d1ad0e523e4ddc202a58a821773dc4c927"
++SRC_URI[sha256sum] = "e4b932951b9c18b039f73b72e4e63afe967d90408700ec222b981ac24647c01e"
  
- inherit pypi python_flit_core
+ inherit python_flit_core pypi
  
 -- 
 2.39.5
