@@ -2,62 +2,62 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC25C021B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E8EC021BC
 	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 17:40:03 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web10.11774.1740591599470069729
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web10.11777.1740591601300692863
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Feb 2025 09:39:59 -0800
+ Wed, 26 Feb 2025 09:40:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rnKPBtvM;
- spf=pass (domain: baylibre.com, ip: 209.85.222.169, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c0970e2e79so5038085a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 09:39:59 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=c4MFiIP4;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.53, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6e8955479c9so1015666d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 09:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740591598; x=1741196398; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740591600; x=1741196400; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X5yRPf0CoydfQNE5ZaprnvVi4+glub/PoHwkkKkm0BI=;
-        b=rnKPBtvMsJOVtDxlDHgljkZB+4qbpaFZ4vWgUlah5z+BaPnlKBajUCfr/49sxp6hch
-         HHYRVWOUTaNMze81BtN5GBPfoYWnP1Xgssh7Auy8dK1jJPPYfRogOjTwhRAerbk46eJW
-         AtvUbCJ8S3jjzyoW7g0MazpZSQZ/72vShveB7vDs0Q/MTBw3zuIxHM7AfzAaQZs9kad8
-         WSiN0h2W71EJWMPAl7OdtPnqT28ecKsw5rq75jiCaO6C4q8lMVisiZSSwhIMt2z0hcZu
-         HVi0vKLKRqsDuy+XJE2nRAKUlS8QYy8YtntI6USAHMGjsFdiVTFqKaFGEuLjwu7VG2XD
-         7gIQ==
+        bh=iglr8IYy5qiB7ehZOXca2l0HpMYZXdXgDCHqpaolc98=;
+        b=c4MFiIP4ncXBkNYf/0RA95wZow/p80Gy8QQT8nu0KofKKPAbrv2HLTNrTVnGheINT9
+         hkwS8lTDX/Ufwad34lI2tpSiEVWl0jzwBY6Vo72KSwdVlvgGEcKvsNcxjbYLsy/62gSO
+         oebY9YMqvodjInkrkQzAWfSCIPgOMi62S2Ge1C0+LrILz2Sml1bsGdIgrOJ/UGKh3scB
+         6/t0x6d1FKCJejBvtsZiUJYDa00wtyrgGxBApEvwM7fOFGHCIPbfQYv8uRXZx8FH/HY3
+         cpW6m4RWG30ihx3srgQdCliDivqmFmzneXAqi/pzMpIyOhqBL+keHggFh/L12RKxGsze
+         L/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740591598; x=1741196398;
+        d=1e100.net; s=20230601; t=1740591600; x=1741196400;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X5yRPf0CoydfQNE5ZaprnvVi4+glub/PoHwkkKkm0BI=;
-        b=ChsGh3+saVqfwBaC0hgF6FQcWtnj4LRpUvXgk1775MikXZlJ912Hf4SCEjJJCgeqgM
-         L2iXX8acHOYLKQEBStYuikeAwdjArRMbsmkWLizJhmfbLpR3pVEiBxNY6SRpzQzRen7D
-         9GwgRhyPdouMqE8MLjxVfpoR1UXBYCYivbyTzy2/BNmD5yWrhSkG495ag0i/g9/5Cqx1
-         DBU/VK+XpT0N+IBxqWn6yD+RtwC0A+PvB3zsjvNC9oMSazpkJPvwXw3p2Ly5S4q7Uujk
-         NotrUUC6Eb+lBOsArpxVqwl8dGM2n4kapG1xt8HBnKR8Fl/7+APh9CU4zlxT0lhvYzYa
-         q08A==
-X-Gm-Message-State: AOJu0YxrIoVtIlt45ekVQu2yEP1+NH6rznBYRBdmFvv0g3NFZB/Wx82d
-	I84/NIZUbgT9nzkMETU0RJ+ziCybsEI8PammbGXPBtLl5EDNzzimiguZuomRA8rkanssf7hmkml
-	y
-X-Gm-Gg: ASbGnctCuHzGm32K18J2EufG9Do4/roXj/pr2DPz7CkKQeizquLIyGoEogrxJGMpwKv
-	DtqqJr8COcSaFmjZE1QryL03fmQa0AYMkQ9uBDJaVhTezGwS1SGbIrhv7w9EAbsQCvpOcmLmOQA
-	SZdKavzaJibS0BMEJvEwFSvfBZxtQyBV0/nxLL+asrgOPiOK6NmyxRAxBBpMxFXVEemhv7Jt0Bw
-	DfVuM8Wx7LB2Q1ZKsqW8rKA1fEV8XPUS6vSeDKgcAwwnAytQq3xi40gwhnmyqsQcS9Na+Bf06Cn
-	OBqcrBW+bZtubAN2tSM9BA+M8xCT3h78ocQHBx5Jr61yecEadhrUVoDBdxvBdw==
-X-Google-Smtp-Source: AGHT+IH96fPn5qIXkFKaRt3aLEpuv2k/BEUXYnOQbvKv7+18ZPHQ42SOX0GC2RTTUAfsmkbdjeLr3w==
-X-Received: by 2002:a05:620a:178a:b0:7c0:b8c7:274c with SMTP id af79cd13be357-7c23c048a58mr1626028285a.54.1740591597967;
-        Wed, 26 Feb 2025 09:39:57 -0800 (PST)
+        bh=iglr8IYy5qiB7ehZOXca2l0HpMYZXdXgDCHqpaolc98=;
+        b=XY2cXxyr5d0T8SBl1liubWZeISaiFq+sUDzYO2eYd0xMhnxVbWvOg087BlgNoWrQ0j
+         A4E6n9nyCF2EfGkc8Jz745GNBhpe5T7MDuuuccAIMmx9NpZd3iywgAKrYbQgfCeS3uVf
+         dhOU6bhG6CKMHeLzkJWUWwnqIV7J4LWUSDjUVHh7fejqgonYfinTPA4rRmeN+QGm2wsf
+         2hCqsu9sCGNICSRsn2GZj6bZX3+IfFiMD6QZNNi3dYVRkgVBnUiQdOuhh3sUfjxu0xJ2
+         fuxOWk5FdmAO70eFrMBat+Y6AvgO1/muyzPMdj7kql+beXu1ftKS95DpgZwSl5PKN37L
+         NlNw==
+X-Gm-Message-State: AOJu0YzrdLrvwUVF5m8lg0C2fAlZhXMOG1h0vtLfP6FkCGgdJys29jtn
+	/OFdZzWhIjzuryGfiUqG4Eq0UBB7sZ74fT1eLpiJIpVDdJ5DIUnQ32ua3IEp4MrRsoZBfFg8BDD
+	t
+X-Gm-Gg: ASbGnctx3YF/mJ2zgDcqcBAiVmt1NMXXXbofBa/hPEbd7LbgLutEUYH5u6F/QyqJ6hp
+	IpmEkStrXEGzjpEqd77Pxv7FajVj66hU7t86AfxI4HpVPUR4oiL7Fn/W0X53yd1l5HutiPyYjxZ
+	EqMMI0QeQzVJideUUybF+TWjvT4fsldGsQRWQk1jwL1hJu802NTCmqTCsa8sAr6fgdSNC/FvoUB
+	eawPQ+BPukHDjLLYzKNQSqDj4N/ltt72jyP96a9cKRGYD1xzX/9Ae2Sk4oso4+9qLCYjHEorP2o
+	3uEuP++irQM5OHtVjE9RGgPeFbYzsUECEJyvrKLWnoa8dKxhA7Kib5uXyByVNQ==
+X-Google-Smtp-Source: AGHT+IFEn7j4q03Av+GgZsEmMpDTD3d/PCtVPI0vhZsGNRL0/QH7CSr/Jn8+BTSezQko9IcvfVc8YQ==
+X-Received: by 2002:ad4:5aa8:0:b0:6d8:848e:76c8 with SMTP id 6a1803df08f44-6e6b01d78ddmr304997716d6.42.1740591599619;
+        Wed, 26 Feb 2025 09:39:59 -0800 (PST)
 Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c23c298f41sm275366085a.8.2025.02.26.09.39.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e87b1737eesm24969236d6.104.2025.02.26.09.39.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 09:39:57 -0800 (PST)
+        Wed, 26 Feb 2025 09:39:59 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/4] python3-roman-numerals-py: add recipe
-Date: Wed, 26 Feb 2025 12:39:50 -0500
-Message-Id: <20250226173952.2337140-2-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 3/4] python3-sphinx: upgrade 8.1.3 -> 8.2.1
+Date: Wed, 26 Feb 2025 12:39:51 -0500
+Message-Id: <20250226173952.2337140-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250226173952.2337140-1-tgamblin@baylibre.com>
 References: <20250226173952.2337140-1-tgamblin@baylibre.com>
@@ -67,48 +67,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 17:40:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211966
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211967
 
-roman-numerals-py is a module providing utilities for working with
-well-formed Roman numerals. python3-sphinx relies on this now, so add it
-as a recipe.
+Changelog: https://www.sphinx-doc.org/en/master/changes/8.2.html
+
+License-Update: Update copyright year
+
+Add roman-numerals-py to RDEPENDS to avoid the following error:
+
+|     sphinx.errors.ExtensionError: Could not import extension sphinx.builders.latex (exception: No module named 'roman_numerals')
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/distro/include/maintainers.inc              |  1 +
- .../python/python3-roman-numerals-py_3.1.0.bb         | 11 +++++++++++
- 2 files changed, 12 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.bb
+ .../{python3-sphinx_8.1.3.bb => python3-sphinx_8.2.1.bb}     | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-sphinx_8.1.3.bb => python3-sphinx_8.2.1.bb} (81%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e85a0c95636..ef0f16ea640 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -690,6 +690,7 @@ RECIPE_MAINTAINER:pn-python3-referencing = "Trevor Gamblin <tgamblin@baylibre.co
- RECIPE_MAINTAINER:pn-python3-requests = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-rfc3339-validator = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-rfc3987 = "Bruce Ashfield <bruce.ashfield@gmail.com>"
-+RECIPE_MAINTAINER:pn-python3-roman-numerals-py = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-rpds-py = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-ruamel-yaml = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-scons = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.bb b/meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.bb
-new file mode 100644
-index 00000000000..2f22f15d698
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.bb
-@@ -0,0 +1,11 @@
-+SUMMARY = "Manipulate roman numerals"
-+HOMEPAGE = "https://github.com/AA-Turner/roman-numerals/"
-+LICENSE = "0BSD & CC0-1.0"
-+LIC_FILES_CHKSUM = "file://LICENCE.rst;md5=bfcc8b16e42929aafeb9d414360bc2fd"
-+
-+SRC_URI[sha256sum] = "be4bf804f083a4ce001b5eb7e3c0862479d10f94c936f6c4e5f250aa5ff5bd2d"
-+PYPI_PACKAGE = "roman_numerals_py"
-+
-+inherit pypi python_flit_core
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-sphinx_8.1.3.bb b/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-sphinx_8.1.3.bb
+rename to meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+index 38cceb068a8..614566b8f40 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_8.1.3.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+@@ -2,9 +2,9 @@ SUMMARY = "Python documentation generator"
+ HOMEPAGE = "http://sphinx-doc.org/"
+ SECTION = "devel/python"
+ LICENSE = "BSD-2-Clause & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=4ab44940eeb9c0ec044da326d904a683"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=e30c37a2b7fb0afa3adc0d72b85e8b04"
+ 
+-SRC_URI[sha256sum] = "43c1911eecb0d3e161ad78611bc905d1ad0e523e4ddc202a58a821773dc4c927"
++SRC_URI[sha256sum] = "e4b932951b9c18b039f73b72e4e63afe967d90408700ec222b981ac24647c01e"
+ 
+ inherit python_flit_core pypi
+ 
+@@ -22,6 +22,7 @@ RDEPENDS:${PN} = "\
+     python3-packaging \
+     python3-pygments \
+     python3-requests \
++    python3-roman-numerals-py \
+     python3-snowballstemmer \
+     python3-sphinxcontrib-applehelp \
+     python3-sphinxcontrib-devhelp \
 -- 
 2.39.5
 
