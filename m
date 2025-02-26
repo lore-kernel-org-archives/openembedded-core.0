@@ -1,38 +1,42 @@
-Return-Path: <sven.kalmbach@loewensteinmedical.com>
+Return-Path: <gavrosc@yahoo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC914C021BC
-	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 09:54:49 +0000 (UTC)
-Subject: Re: [PATCH] Fixes [YOCTO 15731]
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD91C021BC
+	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 10:00:49 +0000 (UTC)
+Subject: Re: [PATCH] sanity: check variable GO_IMPORT
 To: openembedded-core@lists.openembedded.org
-From: "Sven Kalmbach" <sven.kalmbach@loewensteinmedical.com>
-X-Originating-Location: DE (91.26.250.90)
-X-Originating-Platform: Linux Firefox 135
+From: "Christos Gavros" <gavrosc@yahoo.com>
+X-Originating-Location: =?UTF-8?B?TWFsbW8sIFNrw6VuZSBDb3VudHksIFNF?= (78.82.187.133)
+X-Originating-Platform: Mac Safari 18.3
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Wed, 26 Feb 2025 01:54:43 -0800
-References: <CAMSfU+7KHHSKFndiGnqjSkyMRWW63nHJvkKhRnp6csGq0PFPaQ@mail.gmail.com>
-In-Reply-To: <CAMSfU+7KHHSKFndiGnqjSkyMRWW63nHJvkKhRnp6csGq0PFPaQ@mail.gmail.com>
-Message-ID: <30396.1740563683925127265@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="jztCLVqP8ofutRKX5idM"
+Date: Wed, 26 Feb 2025 02:00:40 -0800
+References: <e92b157ab767476436eeba55deddfc8f2b1489e8.camel@linuxfoundation.org>
+In-Reply-To: <e92b157ab767476436eeba55deddfc8f2b1489e8.camel@linuxfoundation.org>
+Message-ID: <30396.1740564040195102040@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="WUm3Ty1eL3DHedXkP1Gs"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 09:54:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211949
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 10:00:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211950
 
---jztCLVqP8ofutRKX5idM
+--WUm3Ty1eL3DHedXkP1Gs
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-I've sent a new patch with the correct subject line
+hi
 
---jztCLVqP8ofutRKX5idM
+I will make the changes, test it and submit v2 next days!
+
+--WUm3Ty1eL3DHedXkP1Gs
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div>I've sent a new patch with the correct subject line</div>
+<div>hi</div>
+<div>&nbsp;</div>
+<div>I will make the changes, test it and submit v2 next days!</div>
 
---jztCLVqP8ofutRKX5idM--
+--WUm3Ty1eL3DHedXkP1Gs--
 
