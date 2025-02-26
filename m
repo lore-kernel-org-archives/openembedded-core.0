@@ -1,161 +1,206 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 177AFC021B8
-	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 17:40:13 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web11.11917.1740591602962132683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BB0C021B8
+	for <webhook@archiver.kernel.org>; Wed, 26 Feb 2025 17:41:33 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web11.11963.1740591689226980957
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Feb 2025 09:40:03 -0800
+ Wed, 26 Feb 2025 09:41:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=LJW85X3q;
- spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c0818add57so3324785a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 09:40:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y7gHr+zh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3f404933b1cso35964b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 09:41:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740591601; x=1741196401; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qTbLEVMPodDMPWzpbzNIU6znYTLW3eJ0HAIrBNdIQoo=;
-        b=LJW85X3qTDkfNH8drGLLeV3tpirkzayAXJzpqmphhk3MqeLnW8/EWG7JkS10kcp4qo
-         KDWbm2ExKv4bdxAc/BSM+Xhp2aRCuhgCnrDGFNheSVvNX4fV/mYSQsWbDkGk5dhjA992
-         dwcOriwKVi2sRPelpLiFBaZZ71z2Dmc4nqskShliu73rGgqOpISAAtQ34koLVDNI7RlL
-         BIVUCpVVE1RI5QdY+PpQKSJDHq4QEsuliq9d36gs5Gcjo4m89n4tcrXi+601MTuL+OZL
-         3nEWVBv8haxoLLS4LlrGO1iMYJvYjChDtdu/0iKzLHFQ+ig6WIxembEwTMDkASQQH6ou
-         hfHw==
+        d=gmail.com; s=20230601; t=1740591688; x=1741196488; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCv9rZNWVGICmLydscnSjq+UQWP24Jb933cbPivQlNQ=;
+        b=Y7gHr+zh/qIHLSsWGuyIxm18eiQ7rzhWCIm2I1Chuhqs6+vRDvhdqol8cSjIRLHLzG
+         gkO1wpoU+/57Mudy8tIaoODpSzmCMr4XxsW76fiLroAprOeymeASOnQKM0kIN4FDhAnP
+         U0yg2N1ZT9sx7u/TNu9XwNIXfs4VfhCrperaBMYkKKCIle2+GKmmxg+DscD4WICNCzTa
+         oTq4keHGfpp0yiaqyRXRBx1kdpebaRmW9uEKKZTQDNpGoA7sS08Wugqok0PqrkuCYppJ
+         +TJ9NAhROCSjIOA8vk3P8SYOoYX9qJaE1vszWGFAkMpi6tdjANuoGAk9FBjQrzc+JbdJ
+         BGjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740591601; x=1741196401;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qTbLEVMPodDMPWzpbzNIU6znYTLW3eJ0HAIrBNdIQoo=;
-        b=WW8W2R9M1TDMElTOGVPiw+CQBRxaX2RicAVCLLhCzk0segcCaqhuDeA4hV6qlg0Jfj
-         t/2cEpFxpwtMq0/2O5arXAiogU7+Pth1LCGJ7rr+w9NN40SV3WPNgXCikLr5fLuhUVIR
-         UpLc/7uOAHpjRxD1s/Z5fWSpEkQXxIvv+K2FMBtuOJHRKKUwdJcswA9PKY6jPX4ME6yW
-         WAe7zMf8MqRhh7wqslPDEUm3THBhe7OoZNxHkEQlVfdDXfBAuO1V1ln9SvZRwbaAiiIi
-         zIR4/Qag5aP7ntDIS+zLCFBblY3knsfb80TyPVHAJW4Qx0zYrDL7SKn4g3DzJoLl1+9C
-         F7dQ==
-X-Gm-Message-State: AOJu0YzFMn5SuRp5XsmUi6RizS7rMGMvwLsyVBpwTw5nMTrfbPmhfK+e
-	9antq2MlduOfHBE7GZsICBIumknN7M7gCoFRnZKS4gozYx3v0VbT/UhhckZS6hz/G8WvrPO5cN2
-	+
-X-Gm-Gg: ASbGncuwm21a9Cqr4D6H6XUbJveZVV0DRvtloZtQlO6BRcfc2c8tN594MLIRO05ZF3g
-	GaH2mJH3stRrQmwbdX0GAZrZ1nCYnAlubNQTMVDLkigIwXnqN/6AZepfKBYvnbNTyZH7eSu4Hte
-	jyk6naJiwSFVRcLphPDF5aqyh3iD+g1gKr0aNOUomRKBZ80SJy2m5fYqyUn93vJ1TNkUIPdaufO
-	J7UR7bpqaJtZj5lrbdsF1Zi67fZor9OAx59wWwumfQ3Y+LxcfumCGcFHazimOkbG/OPrl0Fc9zP
-	KRRPD6yqZ9dVOi7YnHYj12qNfJORmTMPRoxLfH+IXW55lOMrxhrm2zGrW1XcBg==
-X-Google-Smtp-Source: AGHT+IH0j30YkTW9lcyIEQN+/Sm0DUeu6mW90RrTb0zCs8uv88upmYtiH+ER2gzs7wQaWfF1eVSaig==
-X-Received: by 2002:a05:620a:244c:b0:7c2:284b:4c58 with SMTP id af79cd13be357-7c2284b4c82mr2427041585a.47.1740591601375;
-        Wed, 26 Feb 2025 09:40:01 -0800 (PST)
-Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c23c2c0e3esm273223485a.52.2025.02.26.09.40.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 09:40:00 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 4/4] python3-setuptools-scm: upgrade 8.1.0 -> 8.2.0
-Date: Wed, 26 Feb 2025 12:39:52 -0500
-Message-Id: <20250226173952.2337140-4-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250226173952.2337140-1-tgamblin@baylibre.com>
-References: <20250226173952.2337140-1-tgamblin@baylibre.com>
+        d=1e100.net; s=20230601; t=1740591688; x=1741196488;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GCv9rZNWVGICmLydscnSjq+UQWP24Jb933cbPivQlNQ=;
+        b=DzGJxRgI4HeJn9E/3MMnGWsBTZG8EvVCK/+VF5uQNFIVY5ubDR0YenZ2m0pjUHmKUq
+         OLMGqN+2D1290ThZ298Zu/Hj9xYC3F08dkXlMpCghAWmdo9RGUosxsMqLetxqvzX5VYu
+         ul5So0zzuxOftm9PxUTWAegg5SkHPjKe/WNhXVzQhE5tvTd2U5f8XwDgpLTcNnXxeuMA
+         ZJ7D7t1OHE7sLXxsmiwh7apt8EXolPfAhPaORfPD/q6D0TtAJXQ2hJ4vE7a94xDUjQCw
+         L3v5tpARfVA2qK+WNSS/VsqTyveWfDSAgAqZcd789U1Vvpbc7BLUOW+jQ8Da8/+oJPRM
+         eoZA==
+X-Gm-Message-State: AOJu0YyUppFDUc3Ni/lLFbeBKfKDRvPzAiK4K5Wa7EpULad8qUyYbuB/
+	W24Fx4c2decgmW4/XFoRhKPORH57Ja8pDtMGpg4MoZFDtEjHxdxzod7NLj2iIh6hoawTXnL2Ebj
+	Sj2JyypbjFtN0bYiaQi7W4W60iAY=
+X-Gm-Gg: ASbGncvgQbTrQhTyDY+sZNQQQPRF8Iefu4nyLDW+HWr/KN/gj3wwogEFYAnyKAy1x9d
+	fFeMPqWH5u1xuk/CyYVXsrxTNA64fWQ8KUez0kp7gnAQuREnNgRHjUhRYBxdHoVIkLOBwfYhoaV
+	14igNbX2k=
+X-Google-Smtp-Source: AGHT+IG2IhoEJAqHC92IVQdRc+ALHSpRc45HaQltSM49eWz92wH4ps1OCwvK+IDZ7ra2x7g0EZXZZMzFnTC7dIBY0NI=
+X-Received: by 2002:a05:6808:148f:b0:3f4:41a:197e with SMTP id
+ 5614622812f47-3f425a9432fmr14639986b6e.20.1740591688388; Wed, 26 Feb 2025
+ 09:41:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250226122033.2547511-1-zboszor@gmail.com>
+In-Reply-To: <20250226122033.2547511-1-zboszor@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 26 Feb 2025 09:41:17 -0800
+X-Gm-Features: AQ5f1Jq_L_WTKZjQyCs9-qHukN2e-dSm0Tld0vVrt4DYh48uM6qeXFJGb-VsmKQ
+Message-ID: <CAMKF1sq8vWS47gq=0Wq7L=m84hq7pLaLK-GbxSoNBgMtWpvBHQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] rpm-sequoia-crypto-policy: clean up dependencies
+To: zboszor@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <Ross.Burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000491752062f0f1548"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 17:40:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211968
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Feb 2025 17:41:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211969
 
-Patch '0001-respect-GIT_CEILING_DIRECTORIES.patch' is no longer required
-as it's upstream in 979d79301da6.
+--000000000000491752062f0f1548
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changelog (https://github.com/pypa/setuptools-scm/blob/main/CHANGELOG.md):
+On Wed, Feb 26, 2025 at 4:20=E2=80=AFAM Zoltan Boszormenyi via
+lists.openembedded.org <zboszor=3Dgmail.com@lists.openembedded.org> wrote:
 
-Added
-    - fix #960: add a --force-write-version-files flag for the cli
+> Rely on host-provided coreutils and make.
+>
 
-Changed
-    - fix #950: ensure to pass encodings to io usage
-    - fix #957: add subprocess timeout control env var
-    - add sp-repo-review pre-commit hook
+What is the reason to do so ?
 
-Fixed
-    - fix #1018: allow non-normalized versions for semver
-    - fix #1103: respect GIT_CEILING_DIRECTORIES when trying to find git toplevels
-    - fix #1081: add name normalized pipx entrypoint
-    - fix #1080: clean pdm from PYTHONPATH to protect mercurial
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...0001-respect-GIT_CEILING_DIRECTORIES.patch | 36 -------------------
- ...1.0.bb => python3-setuptools-scm_8.2.0.bb} |  3 +-
- 2 files changed, 1 insertion(+), 38 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-setuptools-scm/0001-respect-GIT_CEILING_DIRECTORIES.patch
- rename meta/recipes-devtools/python/{python3-setuptools-scm_8.1.0.bb => python3-setuptools-scm_8.2.0.bb} (84%)
+> openssl-native is not needed either, as the build scripts
+> use crypto functionality via python.
+>
+> Python 3.11+ is needed by the python build scripts, which is
+> ensured by "inherit python3native".
+>
+> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> ---
+>  .../rpm-sequoia/rpm-sequoia-crypto-policy_git.bb               | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/rpm-sequoia/
+> rpm-sequoia-crypto-policy_git.bb b/meta/recipes-devtools/rpm-sequoia/
+> rpm-sequoia-crypto-policy_git.bb
+> index 098881e3da..f66cb56468 100644
+> --- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+> +++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+> @@ -5,8 +5,7 @@ LICENSE =3D "LGPL-2.1-or-later"
+>
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING.LESSER;md5=3Da6f89e2100d9b6cdffcea4f398e37343"
+>
+> -DEPENDS =3D "coreutils-native openssl-native make-native"
+> -
+> +# Python 3.11+ is needed to build fedora-crypto-policies
+>  inherit allarch python3native
+>
+>  SRC_URI =3D "git://
+> gitlab.com/redhat-crypto/fedora-crypto-policies.git;protocol=3Dhttps;bran=
+ch=3Dmaster
+> "
+> --
+> 2.48.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#211955):
+> https://lists.openembedded.org/g/openembedded-core/message/211955
+> Mute This Topic: https://lists.openembedded.org/mt/111394788/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm/0001-respect-GIT_CEILING_DIRECTORIES.patch b/meta/recipes-devtools/python/python3-setuptools-scm/0001-respect-GIT_CEILING_DIRECTORIES.patch
-deleted file mode 100644
-index 7d2808cc0ce..00000000000
---- a/meta/recipes-devtools/python/python3-setuptools-scm/0001-respect-GIT_CEILING_DIRECTORIES.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From a1cc419a118560d63e1ab8838c256a3622185750 Mon Sep 17 00:00:00 2001
--From: Etienne Cordonnier <ecordonnier@snap.com>
--Date: Thu, 13 Feb 2025 15:44:40 +0100
--Subject: [PATCH] respect GIT_CEILING_DIRECTORIES
--
--Fix for https://github.com/pypa/setuptools-scm/issues/1103
--
--When searching for the root-directory of the git repository e.g. with git rev-parse --show-toplevel,
--git stops the search when reaching $GIT_CEILING_DIRECTORIES. By ignoring this variable, the function
--_git_toplevel can go above the real git repository (e.g. when packaging a tarball without .git repository),
--and then runs "git archive" on an unrelated git repository.
--
--Upstream-Status: Pending
--
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-----
-- src/setuptools_scm/_run_cmd.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/setuptools_scm/_run_cmd.py b/src/setuptools_scm/_run_cmd.py
--index f2a8285..7e13d9f 100644
----- a/src/setuptools_scm/_run_cmd.py
--+++ b/src/setuptools_scm/_run_cmd.py
--@@ -98,7 +98,7 @@ def no_git_env(env: Mapping[str, str]) -> dict[str, str]:
--         k: v
--         for k, v in env.items()
--         if not k.startswith("GIT_")
---        or k in ("GIT_EXEC_PATH", "GIT_SSH", "GIT_SSH_COMMAND")
--+        or k in ("GIT_CEILING_DIRECTORIES", "GIT_EXEC_PATH", "GIT_SSH", "GIT_SSH_COMMAND")
--     }
-- 
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.1.0.bb b/meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_8.1.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb
-index 14913ff958e..ecb79afe47b 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_8.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_8.2.0.bb
-@@ -6,8 +6,7 @@ argument or in a SCM managed file."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
- 
--SRC_URI += "file://0001-respect-GIT_CEILING_DIRECTORIES.patch"
--SRC_URI[sha256sum] = "42dea1b65771cba93b7a515d65a65d8246e560768a66b9106a592c8e7f26c8a7"
-+SRC_URI[sha256sum] = "a18396a1bc0219c974d1a74612b11f9dce0d5bd8b1dc55c65f6ac7fd609e8c28"
- 
- PYPI_PACKAGE = "setuptools_scm"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
--- 
-2.39.5
+--000000000000491752062f0f1548
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 26, 2025 at 4:20=E2=80=AFAM=
+ Zoltan Boszormenyi via <a href=3D"http://lists.openembedded.org">lists.ope=
+nembedded.org</a> &lt;zboszor=3D<a href=3D"mailto:gmail.com@lists.openembed=
+ded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">Rely on host-provided coreutils and make.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">What is the reas=
+on to do so ?</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><br>
+openssl-native is not needed either, as the build scripts<br>
+use crypto functionality via python.<br>
+<br>
+Python 3.11+ is needed by the python build scripts, which is<br>
+ensured by &quot;inherit python3native&quot;.<br>
+<br>
+Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi &lt;<a href=3D"mailto=
+:zboszor@gmail.com" target=3D"_blank">zboszor@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../rpm-sequoia/<a href=3D"http://rpm-sequoia-crypto-policy_git.bb" r=
+el=3D"noreferrer" target=3D"_blank">rpm-sequoia-crypto-policy_git.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/rpm-sequoia/<a href=3D"http://rpm-sequoi=
+a-crypto-policy_git.bb" rel=3D"noreferrer" target=3D"_blank">rpm-sequoia-cr=
+ypto-policy_git.bb</a> b/meta/recipes-devtools/rpm-sequoia/<a href=3D"http:=
+//rpm-sequoia-crypto-policy_git.bb" rel=3D"noreferrer" target=3D"_blank">rp=
+m-sequoia-crypto-policy_git.bb</a><br>
+index 098881e3da..f66cb56468 100644<br>
+--- a/meta/recipes-devtools/rpm-sequoia/<a href=3D"http://rpm-sequoia-crypt=
+o-policy_git.bb" rel=3D"noreferrer" target=3D"_blank">rpm-sequoia-crypto-po=
+licy_git.bb</a><br>
++++ b/meta/recipes-devtools/rpm-sequoia/<a href=3D"http://rpm-sequoia-crypt=
+o-policy_git.bb" rel=3D"noreferrer" target=3D"_blank">rpm-sequoia-crypto-po=
+licy_git.bb</a><br>
+@@ -5,8 +5,7 @@ LICENSE =3D &quot;LGPL-2.1-or-later&quot;<br>
+<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING.LESSER;md5=3Da6f89e2100d9b6=
+cdffcea4f398e37343&quot;<br>
+<br>
+-DEPENDS =3D &quot;coreutils-native openssl-native make-native&quot;<br>
+-<br>
++# Python 3.11+ is needed to build fedora-crypto-policies<br>
+=C2=A0inherit allarch python3native<br>
+<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://gitlab.com/redhat-crypto/fe=
+dora-crypto-policies.git;protocol=3Dhttps;branch=3Dmaster" rel=3D"noreferre=
+r" target=3D"_blank">gitlab.com/redhat-crypto/fedora-crypto-policies.git;pr=
+otocol=3Dhttps;branch=3Dmaster</a>&quot;<br>
+-- <br>
+2.48.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#211955): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/211955" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/211955</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/111394788/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/111394788/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000491752062f0f1548--
 
