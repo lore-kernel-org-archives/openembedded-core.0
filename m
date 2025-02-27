@@ -2,189 +2,148 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FB1C19F32
-	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 17:40:01 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.17016.1740677998521529951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EE1C282C6
+	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 17:40:11 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.17113.1740678005266520078
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Feb 2025 09:39:58 -0800
+ Thu, 27 Feb 2025 09:40:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rmCCZ2PP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2233622fdffso25276465ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 09:39:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eXBMD17O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2211acda7f6so29785195ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 09:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740677998; x=1741282798; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=drlB5xtVF8Roq1Mc0SsgU3I4MTpES+612KYNaJu0naA=;
-        b=rmCCZ2PPHMtQz9cnuMFiADVqVkG1IpzoR1SBoapFG/gdchL41JBsbkWnAH/ZpREPp2
-         YOJ2Dx7otm83OhmvyNAw6kfkPbfOjdcvrW0IgwMs41aSbrtl5ReRcXhzTnZ4XitXDBUS
-         hzZgBBZIW/dCNjY5QBCIbkd7p+rXq1wCqyz3a78g4ws8x8YHE8TvQ6lXsqGlqzL4NdYV
-         UqWvnylTxjoUgIYzE5WgYcA3n8MWsFMy59jRcuViZ1NzpEf5PLVOGqS/B1hjSeks8SLn
-         l1I5mDawzw7kVUHjYd/9DveEawLq9fhkGgt7/3KT/BgvQYF2BCBztlTLOQ6XYRqqwkuC
-         3ZLg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740678004; x=1741282804; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9TV0q7x7XrmI5S9C6vcGWiaQM4CQLvcbt95Jgc9glkM=;
+        b=eXBMD17Ow0d7SGDb91Q/VjVL5/IvTw9VPwQ4voqG7x1Mlnfkff0Bm9wVzp1KeWNqwv
+         LLd6MLLKhzQshL9+15iIBNNs6ILYI0JkKwJG9dOLjJrOYDBJCnNXlYXUduy94FtclbMK
+         4G8UVfJtDZvGw1aQb8u5OaP1qe+IeI+Zgs4qQayDIH7H4AhJsvu73yjcu8pPVtznJGev
+         l+HI6uHBy+OQfDHG4F5hCVJHs9iNXYzGkdpFdUXWOnppawisA+72tbWwF29oyfN4d4xJ
+         aEBXnwkawm0oX/Jv+MWguRKKTCuMotFae3aP00yeJG7C13KH9oPwHsXjmfjY6zQ9ImWS
+         xl1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740677998; x=1741282798;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=drlB5xtVF8Roq1Mc0SsgU3I4MTpES+612KYNaJu0naA=;
-        b=W6rt9jE0F4ItqyFt5WKnL7A/zy3Kp4lA+jOLSv9Lqc0P7791x00u+B17nBC1awYBuQ
-         V2CFzP52FdpvSQgNGyK3jkyZ3MqF/HSgvTd/9ruDinq484OusfeTn+PL4/HJVLsxxYFG
-         vz9cz+aR/PF0suLEaukz9gLnun1jeeMVR7O7xNnlO5ChVk9gvQg3q5V5/g5drsACj5ao
-         6Pn2VdnhUYzg+kDBkNsBuOTrGe4YWzaaTLQxckGER4uDRmJykylFTiteOkIupvVteMO1
-         AdNZdh3TqwCbW1/FBmQCa3wGP/GZwJKwxjxBOJYmOGeBjm/8ep2YEDDa3EOAtT+DFSBk
-         3/Sw==
-X-Gm-Message-State: AOJu0YxqE+GYNxFxB7SAUOzjKMx342O8iIlW2HKAYnuJm7Dva5Nvi3S+
-	tKtxv0WvTjYojoC/QIO3nYVQRObM/8rtrZ5odfkvZ1Z+i0Rw6Y2OAg1LeVwyZ8paZRTOROyKTN6
-	U
-X-Gm-Gg: ASbGnctJ2OcLWMfTnUlv6kFtLd6l0FrDcJrhy/VAsIK9DhIE9K8RAirPQVD3SOmtjaX
-	z4MB3hU4TfsN4w6guVby32z6GhJytIx0B547zRJlagsd68mfk1/xQdBFGYhX8bmJKmBpJZ2oeue
-	+JxrqOePNonJnCtmW98BnU7jMi/MAFblB0AFx54OxADPIPAdHTd6dbxEFsgR4QOxXQUlqsYO25n
-	gURCNNgNybFdS7yfGHO1DnSvxm/IO8d1XgOCBYjsMUEZbkhCCSF4dkRKKpPTwX8mAPDQd2qMfj1
-	e+ye7CkElG44Z8AiOg==
-X-Google-Smtp-Source: AGHT+IGgONXMjP3U3Y4w/YHfdtKUeuVqSjm5WytVA9YPSB2tbMyenjXRHN3jGJCiumryf9pJOvFbHQ==
-X-Received: by 2002:a05:6a20:1590:b0:1f2:e31c:527e with SMTP id adf61e73a8af0-1f2e31c5401mr7951072637.34.1740677997488;
-        Thu, 27 Feb 2025 09:39:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740678004; x=1741282804;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9TV0q7x7XrmI5S9C6vcGWiaQM4CQLvcbt95Jgc9glkM=;
+        b=G0zxLYKBklhpqeY5JY6m4ikSuPOIJR7VdbKHJ1hPcnGJ7Wo6eYzeZKQIGp/qv7TRb8
+         W2yaGFpH8wQCvQSEKqsSVNtJTOofrYx/tgiedtblpsELIL/Qe2rHQudgKLH/z9kpF/AS
+         15L4B/AitqmYHLcBL0AfIE3i6x/XfhzkLZrEOpM7t/1JOzU3tilg4Q2uBKaPuiQP8OBy
+         hz8yuG/MoJwlifJQ5GYO6Q1EgjfQjHvA00nyPaCmVPLiRjAG78abNYOcriLpu7G2/Ggg
+         LbmrnFf8Dx0l/UrdRZrbDllDdPBf37CIXCwZvPly99vtd9yjMj9dUTmihOw7mNM8/sC6
+         UH6Q==
+X-Gm-Message-State: AOJu0YwpfJNz/n2hH6w3WccPId60wf2/ioW1uc9HloA4lAieagYzybrX
+	dPCJ8KOYUdbsqNxFZ80YW/WxE1H/T27RPDBxzY3BUctBQwudbhYREiDuYmwZ5N8poJ2yMA0ynIe
+	P
+X-Gm-Gg: ASbGncvcQf6FepBHz3LOEoxJeXIfVbfiBBorX0G+5o70lVLq7xCcClW7KWhem+y0qGe
+	bkgEDnMIdbem6eDUcp5t7CTdsEhqTrjZxMVhLUx3l7yyoU6dpA2g/vs+CaPFpGhZ94/CHj3Hs+r
+	eqBbvvsWT2AI3A2PJ/B+PNWw35EIyyG4C2oJwLOkbZXzCRI+5jiq9Eq40V0P96Igqa0UGgwUQY9
+	X6vchFJsYxqT5TFsquqPQ9CpdOfJxC9NceGkxVXg2bzojFzqEOjfiRbsFXBg4/45kHhxUwJ7eVE
+	XWaKGCPFXVOSq13OWw==
+X-Google-Smtp-Source: AGHT+IGO3uI6GMMiVYd2jrE0tl+FGN0iTVupeCJOJaG++KBjO8qTT21igQP6bOMs0rwiDRvg2Ye/nQ==
+X-Received: by 2002:a17:903:244d:b0:21f:8c08:94d2 with SMTP id d9443c01a7336-22368f6a138mr479065ad.8.1740678004480;
+        Thu, 27 Feb 2025 09:40:04 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:1dd4:58fa:4fa2:f901])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734a00249c3sm1914727b3a.85.2025.02.27.09.39.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734a00249c3sm1914727b3a.85.2025.02.27.09.40.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 09:39:57 -0800 (PST)
+        Thu, 27 Feb 2025 09:40:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/15] Patch review
-Date: Thu, 27 Feb 2025 09:39:35 -0800
-Message-ID: <cover.1740677838.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 04/15] xserver-xorg: Fix for CVE-2025-26597
+Date: Thu, 27 Feb 2025 09:39:39 -0800
+Message-ID: <9d095e34da2adde63358a878cfac45ea28727bdf.1740677838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1740677838.git.steve@sakoman.com>
+References: <cover.1740677838.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 17:40:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212022
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 17:40:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212026
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, March 3
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from https://gitlab.freedesktop.org/xorg/xserver/-/commit/0e4ed949
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1094
-
-The following changes since commit 73b5570a16708d1e749b1ec525299d10557cbf56:
-
-  vim: Upgrade 9.1.0764 -> 9.1.1043 (2025-02-24 06:54:05 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Guocai He (2):
-  tzcode: Update SRC_URI
-  xz: Update SRC_URI
-
-Jiaying Song (1):
-  boost: fix do_fetch error
-
-Libo Chen (1):
-  virglrenderer: fix do_fetch error
-
-Moritz Haase (1):
-  meta: Enable '-o pipefail' for the SDK installer
-
-Narpat Mali (1):
-  systemd: upgrade 250.5 -> 250.14
-
-Vijay Anusuri (9):
-  xserver-xorg: Fix for CVE-2025-26594
-  xserver-xorg: Fix for CVE-2025-26595
-  xserver-xorg: Fix for CVE-2025-26596
-  xserver-xorg: Fix for CVE-2025-26597
-  xserver-xorg: Fix for CVE-2025-26598
-  xserver-xorg: Fix for CVE-2025-26599
-  xserver-xorg: Fix for CVE-2025-26600
-  xserver-xorg: Fix for CVE-2025-26601
-  bind: Upgrade 9.18.28 -> 9.18.33
-
- meta/files/toolchain-shar-extract.sh          |   5 +
- .../bind/{bind_9.18.28.bb => bind_9.18.33.bb} |   2 +-
- ...d-boot_250.5.bb => systemd-boot_250.14.bb} |   0
- meta/recipes-core/systemd/systemd.inc         |   2 +-
- .../0001-Adjust-for-musl-headers.patch        |  20 +-
- ...sysctl.d-binfmt.d-modules-load.d-to-.patch |  18 +-
- ...1-core-fix-build-when-seccomp-is-off.patch |  41 ++
- ...ass-correct-parameters-to-getdents64.patch |  49 ++-
- ...w-json_variant_dump-to-return-an-err.patch |  60 ---
- .../0002-Add-sys-stat.h-for-S_IFDIR.patch     |   6 +-
- ...3-missing_type.h-add-comparison_fn_t.patch |   6 +-
- ...k-parse_printf_format-implementation.patch |   6 +-
- ...missing.h-check-for-missing-strndupa.patch |  62 ++-
- ...OB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch |   8 +-
- ...008-add-missing-FTW_-macros-for-musl.patch |   4 +-
- ..._register_atfork-for-non-glibc-build.patch |   6 +-
- ...10-Use-uintmax_t-for-handling-rlim_t.patch |   6 +-
- ...sable-tests-for-missing-typedefs-in-.patch |   2 +-
- ...T_SYMLINK_NOFOLLOW-flag-to-faccessat.patch |   4 +-
- ...patible-basename-for-non-glibc-syste.patch |   2 +-
- ...uffering-when-writing-to-oom_score_a.patch |   6 +-
- ...compliant-strerror_r-from-GNU-specif.patch |   2 +-
- ...definition-of-prctl_mm_map-structure.patch |   2 +-
- .../0021-test-json.c-define-M_PIl.patch       |   4 +-
- ...-not-disable-buffer-in-writing-files.patch |  38 +-
- .../0025-Handle-__cpu_mask-usage.patch        |   2 +-
- .../systemd/0026-Handle-missing-gshadow.patch |   4 +-
- ...l.h-Define-MIPS-ABI-defines-for-musl.patch |   4 +-
- .../systemd/systemd/CVE-2022-3821.patch       |  45 --
- .../systemd/systemd/CVE-2022-4415-1.patch     | 109 -----
- .../systemd/systemd/CVE-2022-4415-2.patch     | 391 ------------------
- .../systemd/systemd/CVE-2022-45873.patch      | 124 ------
- .../systemd/systemd/CVE-2023-7008.patch       |  40 --
- .../{systemd_250.5.bb => systemd_250.14.bb}   |   7 +-
- meta/recipes-extended/timezone/timezone.inc   |   8 +-
- meta/recipes-extended/xz/xz_5.2.6.bb          |   2 +-
- .../virglrenderer/virglrenderer_0.9.1.bb      |   2 +-
- .../xserver-xorg/CVE-2025-26594-1.patch       |  54 +++
- .../xserver-xorg/CVE-2025-26594-2.patch       |  51 +++
- .../xserver-xorg/CVE-2025-26595.patch         |  65 +++
- .../xserver-xorg/CVE-2025-26596.patch         |  49 +++
- .../xserver-xorg/CVE-2025-26597.patch         |  46 +++
- .../xserver-xorg/CVE-2025-26598.patch         | 120 ++++++
- .../xserver-xorg/CVE-2025-26599-1.patch       |  66 +++
- .../xserver-xorg/CVE-2025-26599-2.patch       | 129 ++++++
- .../xserver-xorg/CVE-2025-26600.patch         |  68 +++
- .../xserver-xorg/CVE-2025-26601-1.patch       |  71 ++++
- .../xserver-xorg/CVE-2025-26601-2.patch       |  85 ++++
- .../xserver-xorg/CVE-2025-26601-3.patch       |  52 +++
- .../xserver-xorg/CVE-2025-26601-4.patch       | 132 ++++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |  13 +
- meta/recipes-support/boost/boost-1.78.0.inc   |   2 +-
- 52 files changed, 1201 insertions(+), 901 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.28.bb => bind_9.18.33.bb} (97%)
- rename meta/recipes-core/systemd/{systemd-boot_250.5.bb => systemd-boot_250.14.bb} (100%)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-core-fix-build-when-seccomp-is-off.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-shared-json-allow-json_variant_dump-to-return-an-err.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-3821.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-4415-1.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-4415-2.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-45873.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
- rename meta/recipes-core/systemd/{systemd_250.5.bb => systemd_250.14.bb} (99%)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26594-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26594-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26595.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26596.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../xserver-xorg/CVE-2025-26597.patch         | 46 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |  1 +
+ 2 files changed, 47 insertions(+)
  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26597.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26598.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26599-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26599-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26600.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26601-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26601-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26601-3.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26601-4.patch
 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26597.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26597.patch
+new file mode 100644
+index 0000000000..b0735d0b46
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-26597.patch
+@@ -0,0 +1,46 @@
++From 0e4ed94952b255c04fe910f6a1d9c852878dcd64 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Thu, 28 Nov 2024 14:09:04 +0100
++Subject: [PATCH] xkb: Fix buffer overflow in XkbChangeTypesOfKey()
++
++If XkbChangeTypesOfKey() is called with nGroups == 0, it will resize the
++key syms to 0 but leave the key actions unchanged.
++
++If later, the same function is called with a non-zero value for nGroups,
++this will cause a buffer overflow because the key actions are of the wrong
++size.
++
++To avoid the issue, make sure to resize both the key syms and key actions
++when nGroups is 0.
++
++CVE-2025-26597, ZDI-CAN-25683
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1828>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0e4ed949]
++CVE: CVE-2025-26597
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xkb/XKBMisc.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/xkb/XKBMisc.c b/xkb/XKBMisc.c
++index abbfed90eb..fd180fad2c 100644
++--- a/xkb/XKBMisc.c
+++++ b/xkb/XKBMisc.c
++@@ -553,6 +553,7 @@ XkbChangeTypesOfKey(XkbDescPtr xkb,
++         i = XkbSetNumGroups(i, 0);
++         xkb->map->key_sym_map[key].group_info = i;
++         XkbResizeKeySyms(xkb, key, 0);
+++        XkbResizeKeyActions(xkb, key, 0);
++         return Success;
++     }
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+index ec6550e545..7c963e9fdf 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+@@ -26,6 +26,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://CVE-2025-26594-2.patch \
+            file://CVE-2025-26595.patch \
+            file://CVE-2025-26596.patch \
++           file://CVE-2025-26597.patch \
+            "
+ SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
+ 
 -- 
 2.43.0
 
