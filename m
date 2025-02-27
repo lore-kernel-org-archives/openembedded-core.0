@@ -2,194 +2,272 @@ Return-Path: <jst@mbs-solutions.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D68FC021BE
-	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 06:44:47 +0000 (UTC)
-Received: from FR6P281CU001.outbound.protection.outlook.com (FR6P281CU001.outbound.protection.outlook.com [52.101.171.110])
- by mx.groups.io with SMTP id smtpd.web10.5334.1740638683920104777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAC3C19F2E
+	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 06:49:07 +0000 (UTC)
+Received: from BEUP281CU002.outbound.protection.outlook.com (BEUP281CU002.outbound.protection.outlook.com [52.101.169.142])
+ by mx.groups.io with SMTP id smtpd.web10.5378.1740638939817764925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Feb 2025 22:44:44 -0800
+ Wed, 26 Feb 2025 22:49:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mbs-solutions.de header.s=selector1 header.b=aDvVeEgu;
- spf=pass (domain: mbs-solutions.de, ip: 52.101.171.110, mailfrom: jst@mbs-solutions.de)
+ dkim=pass header.i=@mbs-solutions.de header.s=selector1 header.b=E+Ves/bj;
+ spf=pass (domain: mbs-solutions.de, ip: 52.101.169.142, mailfrom: jst@mbs-solutions.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DixCNtNbLxU7CFavS8R1FO/I8OkcjWNtqeZ+aqnoDeJjYQzyxzlocnuejfiTmifpHeRd38tAXSP+Pyi2Z16Kop634tCtfyxlipFp6u2RyUQUG6k6YYV46BolCgOlq4YqZGX7pHJlKesLvmMAcqQTkgToyT50C8kuiKmSOdAb50AOWMu0jwKjzRADtMUnNnXVkTX71XHzoio0MyEqV1ar2Kv1h41V2JNghl2NnprlghJo7rudnF5aKTWIEpuZh/1WxJP/RDbuS7Ed8R0MsBGceLN0IOfn0MrJTwCz3tVSYO9OcplYMwSJeqjtWP4npQkgNjJ0cFhBcDRbO+SwvSSsiw==
+ b=Z8DakSVfs9wx5dKSH4jl1MmBUB4bp5TIXCEJcwQB818JBInWrvx0HfQ8AQmo27JGdMTaNR1ijt2KYWKWlOnyuv5vGqwrol0D81I8DFRzh6MsgVr5FE2YHqkj+URJ/6rVf11uAMttW6QOY1khfdkQzQ0YtEDZf3ZLDMxsKF/q1/KahMkQy9X/VvJjEHCLjVggY8fvbgjfIyYteebE0w8pANQWfa4HxIRGAzhiJQAsaIh+vh/ZJmeFl6RvALo1Lf/BXy1vnjpdSVkCwOd4MGJ4NymLx/2NsjCZIyyIJy3VVd//nMGWjexSwdvZrgF5csYS3RqpDUVCd3Zp4MjbYMeHWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rQLNqwl0OTKfuw5ToS7Tbk7Cv42MhXmdZnReozKF1QE=;
- b=F1SbzXun/03BmkwlQ4zzD4U0Vc4fkKu5GHwFqIEXIR7whIUqzSjj2HyG8GwugrV0s8wnSFfJ3qBJt08lLjZTbrW5dacKxJxUNdlRwUbzutWQSOVA1JwbE+B6e++ACGuShBjLo09GTkgND0iQQQ5tcxImDey6KP6if2MOR9Z8cEV1SKBCge/Ja6j433AT4Kh327IB1BE4z1yd2chZ1WlsuA+lGrqPIt4JZnQThmTntWLQqElMPyiuU17SMGLgc3FmRra/3PQfZBrmZmmmGUx4dncJ2pI0jXDBmoKcAWjhE7sm3+eq68Q3LyLRGY1W6FYxC5YXDQ/57n36f/VwTLK7jg==
+ bh=THG9XFf7XwvIsxQtlM3l8a7qNmphQIJwbGPZhwp/eRM=;
+ b=IDPYT1EQrk3dzVFKc9eAUIuVx7eMBPgBKtphbEZCH+VgxvFIkSl8/5idZM+B10BfNaC/tOpfnm0iOD1ys+XpQLwlEMNgOpFDotO7M9VjmYOxC12uDyoj+04UHBMck0RwkWM4UU/+L3rWRW/meqHE6ArHIkaxvM5T9FQkTz/b2GIkyGZmKZHdGQKqIaMtB4orD6LjjdjD/WzJEVdZt7FtMiSQdlJFAVh/JU+r4ScYMz+Qp/1xKUhbJ0zci+FWPrCh0S83NNlgQSrlFpq6jWnmGnOJAVUdHxjnngHSgHk3sjOwR4NEdLc6MUnnunKXMWCjk2LrXCDlV56V9YS+RckiCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=mbs-solutions.de; dmarc=pass action=none
  header.from=mbs-solutions.de; dkim=pass header.d=mbs-solutions.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mbs-solutions.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rQLNqwl0OTKfuw5ToS7Tbk7Cv42MhXmdZnReozKF1QE=;
- b=aDvVeEguc7Rh0VRYhirJdjVzXpdJMLimoFXgKJVYQp92foEES5hLAQjrXWM738p8Jo19x894POOVkJqv/ECE++6MKlDJe0J/tPYL/dQVC2qj5uAUJpiqMvl5dp+PPzYMHohYvBcUP/gbaHv0A9vg1OkS1goIObHtx0pwqFhuNTalNOGzSam/giFq/RlHtMi5D1g5MHwL5BG6aQHGub+nkXTTiwaNCLadzu2GWaYzniWJ5gAhqrCYwuCLlQqjQrY/PxIorfY11CbolSWRRTDsrCkqA52u4NIb201sN8/J8RgWsuoPy2p5MKHNQgRXcZmGO5Cl9b/gAS4bYK3KojGsKA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mbs-solutions.de;
+ bh=THG9XFf7XwvIsxQtlM3l8a7qNmphQIJwbGPZhwp/eRM=;
+ b=E+Ves/bjjO8GaovS1AIB8h3BeE0YavUvEA1K842sa6QRAeKfX0OPpz+aeC8q/3JRWRP2n8w2YJ+lN6333QqWjjgGA6NpOQbookUwffZluaAhQlCFl69aNY6CXknzYi67v0HevVW1t5Ioqlj8vmpnHuWx/IRsreTJRAp3hkm+AlfaEKllBBlEKTXP/9AQV92RjmCwW0nRaOH0/h15CwNHCd35w3o6z9MmX3O8zcDG147OtOEWknXrsTmkWXsip7M0uqBUlWNvrK53bs3gZyMIw9jHfccInbQJJPELzaYqUzyHZ69/aLS4Np3T/0eonj5jmOEQ0ydB15b8GBcWa8OpTQ==
 Received: from FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:5d::10)
- by FR0P281MB1824.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:27::13) with
+ by FR6P281MB4262.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:12d::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Thu, 27 Feb
- 2025 06:44:40 +0000
+ 2025 06:48:56 +0000
 Received: from FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM
  ([fe80::ee50:92ee:3a15:6a91]) by FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM
  ([fe80::ee50:92ee:3a15:6a91%5]) with mapi id 15.20.8489.021; Thu, 27 Feb 2025
- 06:44:40 +0000
-From: =?UTF-8?q?Jan=20Strater-B=C3=BCddefeld?= <jst@mbs-solutions.de>
-To: openembedded-core@lists.openembedded.org
-CC: richard.purdie@linuxfoundation.org,
-	=?UTF-8?q?Jan=20Strater-B=C3=BCddefeld?= <jst@mbs-solutions.de>
-Subject: [PATCH] cargo: remove LD_LIBRARY_PATH wrapper
-Date: Thu, 27 Feb 2025 07:44:10 +0100
-Message-ID: <20250227064410.49465-1-jst@mbs-solutions.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <1710ee6e-1ebb-4f15-bd5d-9c995b109e99@mbs-solutions.de>
+ 06:48:56 +0000
+From: =?utf-8?B?SmFuIFN0cmF0ZXItQsO8ZGRlZmVsZA==?= <jst@mbs-solutions.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] cargo: remove LD_LIBRARY_PATH wrapper
+Thread-Topic: [PATCH] cargo: remove LD_LIBRARY_PATH wrapper
+Thread-Index: AQHbiOMTH6hfh8yyY0G98+NoYMFYObNatZCA
+Date: Thu, 27 Feb 2025 06:48:56 +0000
+Message-ID: <8c282110-84d5-4e9a-8c19-68ef2f10153d@mbs-solutions.de>
 References: <1710ee6e-1ebb-4f15-bd5d-9c995b109e99@mbs-solutions.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR5P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f2::14) To FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:5d::10)
+ <20250227064410.49465-1-jst@mbs-solutions.de>
+In-Reply-To: <20250227064410.49465-1-jst@mbs-solutions.de>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mbs-solutions.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: FR3P281MB2526:EE_|FR6P281MB4262:EE_
+x-ms-office365-filtering-correlation-id: fc373ab9-d4a0-40a8-7483-08dd56face6c
+x-etr: Bypass spam filtering for authenticated sender 'mbs-solutions.de'
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|8096899003|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?VXJIK0psTDJPeExVeHg2NmZ1UFhMMTRUMnFKREpHTG0yTDQ0T252dytHUXls?=
+ =?utf-8?B?MkxpN2VyRHRlMno4RmhuVGFDMWFaSmlKL2NjM3RZUzFqKy9YSTgvZjRFbVFx?=
+ =?utf-8?B?eXpsOVFCZ3p2MS8wZnRvNXY1TkZTSTJmYkFqQmNKSjkwSFBZSTZhNGhjN2Qx?=
+ =?utf-8?B?TEdJZDRIZklyM3RkMTQ4NEF5Rm00dEVRbC96NkNJWnJ5UTZjSlM2WG4yazBz?=
+ =?utf-8?B?akpUUE42U3QyQ2F5YkkyU0hrTXJrTzAra1UyRGFRclhmakFUNFpvSVlLMk9l?=
+ =?utf-8?B?bmdsUitTNkMrVThvUGVJeHNLaFFVMm5kRVpOeHI1WElYamJSbVhyQ1VlT01z?=
+ =?utf-8?B?WVR3eC9oSjVxOGRmTXdabVllMGd6NldXeXo3YWt5aFhMZmhiWTBiUUhwWXRo?=
+ =?utf-8?B?QkI2UWlheTR0U0NTR1VnRFVrSnpDZ1llY1o4NlB3RTRHaklMRHRCc2hLcE5I?=
+ =?utf-8?B?Y2lHL0Nabk5pYnAxS2JRaXVCT014cVVMRytvTGJrdHc3MFRhbHdJNk54Z3BR?=
+ =?utf-8?B?eGg3amRaMklRWFlmdGJ3Y0xyVVpCQm82Y3BCMUhxWUhtZWE4cDkzL21sQnMz?=
+ =?utf-8?B?bWN5MU1lMkUwb0orb1l2a0hqcGFSVnRnTGo4aURlRHdsaEltOVNQWm93NlFk?=
+ =?utf-8?B?aUp6RDdvSktES3RwSG5nWUdpUzNRZTBzUEtiL2NIWnRaSWR4a1M3eUdaQm9k?=
+ =?utf-8?B?T2JpazdjTHBHVU9qV1l2RHBQNkoydUFwbTRQQjY2eWFocEsrN2x0eGJMa2VG?=
+ =?utf-8?B?ZGV6SmdVc09kTUNNYjFkV1JENk54TDNPM1BYMEEvY0k1NGFNOS91cmVQbkRj?=
+ =?utf-8?B?c2R0RXpDYkVpSE9LTzVveUxwZERQd1JQMUtMMjJTUnptSjcyOERobi93OUlY?=
+ =?utf-8?B?ZEl0TmtQWmp5am1mM1pyb1VDczdGODlGN0J3UG1WUjBHRmVJUzFjUkhKQ0VX?=
+ =?utf-8?B?N2xCV3REeVFqcXlYSVIzQVBLY2ZuVVByYUl5OVBSdjBDa2Q0d0FUYXNtUE9l?=
+ =?utf-8?B?T04zN0YzZENEQVNMOEpUQnFpc0ZwMFptZmxLb2ljdUROYUlGYUlldzIrSmZB?=
+ =?utf-8?B?c0tSSjJiaElaUVBRYUNSOUNuM3FQZUN6eEZaUDNBYTNMRjFOQnpoQU5kaE5X?=
+ =?utf-8?B?dE1Va3Y4NGlhT0NWajlMWXRHZ3YzRG93ZXBzTlJ1OUU2WmNmRG1mUmhsWHNR?=
+ =?utf-8?B?eHo1OXA4NHpwS01RV0FPbGgxWlBvYWc5c0JsSGFtM081UklDK0FYcFVlek5Q?=
+ =?utf-8?B?TWF2RC9XSWs5UDFjRWZKR2RvbER5bEcvWkhBbk5sYjA1YlJRcWRPYlJUUWFO?=
+ =?utf-8?B?NGVDY3U2VmtsbmY1d1JJM1BvTkVRL0VwLzg5TmJjc2hyTmVSd1FYbUpyNTZR?=
+ =?utf-8?B?MWVjUk9UV0s4ZEE5ZFp2ZWV6RU1RaTA2SStSZTcrY3RqUnNldEFaVXd0bGVG?=
+ =?utf-8?B?RTFaODlwTi8vTmJFbWZUQ2RvSWZLRGtIdHFwWFN1VDRoM2doQWQvZVAyVk40?=
+ =?utf-8?B?RmlUNmxqelRtWG1TMmIrc3k4T0t5SVUyTzE5azcwaWtrQzArYzNuSWFnU1VY?=
+ =?utf-8?B?NkVzVWhoRG9YS25Zd3VsaHZhMy9WY285UmRVS1NDL1EvVmRnbHRRcW92UFg5?=
+ =?utf-8?B?ODhBTWpBM29KRktJVVYvNzU0QWhURjUvbXJxcFFZUEJ3M0NpS2JrQVBuOXNE?=
+ =?utf-8?B?TWQyditOSEpOaUx0NzFBaUZya2FvbjcxMk0rSDUzNFZJZHBUaWJnVlVXeHlk?=
+ =?utf-8?B?KzBNV0xOWkpOSFhIcTJpWTNnbi9pRTF6T0tZMm10WXJGVVNzbmVUOG42OVBE?=
+ =?utf-8?B?QjJVTzNHVGNjQkNhTEs2cVd4RS9qei80ZFpjL0ZjRy9xRkdxUzZGK2N0V3E4?=
+ =?utf-8?B?TjN0VlMxMEFvY1RRTTBBVWlVbDUrUU5nU0NobGdFNm5oUVRkRjlUdW9XMmF4?=
+ =?utf-8?Q?Aoackpz/hx0j7dSgiWQg+J98UuhyAarE?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?R0RYWlhUdlBxdk5rQ0ZaWDYyVlNibTQyTTVOdXRHUnkvbHNIUFRmYmg5TTRO?=
+ =?utf-8?B?K3hIRlVKQ2JQVkFPTTNRR1V6bXBDTlRYQVNJTjZrb0pTV1ZMM2RObXZXaWMw?=
+ =?utf-8?B?VTV3dzB0dU1BYmFCa1F0WCtKUm1MbFlvdFJodm9PUUxkaE8xMnVQQWZCMGZD?=
+ =?utf-8?B?azVBbVY5V2loUytCYTlnczlUYTU3anV2dXpOTXc3dEtKd3AvRkFyL1JmS3lX?=
+ =?utf-8?B?azlCalZZcnhnVTU0M2RCNHB5cE0wcXlsKzRQTWpBSitPOXJqMWh5Q0FRNUdt?=
+ =?utf-8?B?TjhmMnFneHU0bEx2U29mL3hWQkFFMDk2UG5BREs5Sy9rSGxhS3dNWlNZbUZp?=
+ =?utf-8?B?TW8yckpZakJnbEI0NE5oNVE3bC9QZmJlbHMwRWdqYzNFQ0ttbFgvUkpuTXNR?=
+ =?utf-8?B?RjNnS0NzQm1YRk5rS1gvZ0VvNUxDK09Xc0tuWklXN253T2pOK21OalQ2VnBC?=
+ =?utf-8?B?UmF3YkdJS2FRVHRTZVQweXpBUTVFcS9tM2xSSXFKSmRqRXhES1dpWW5DeG1B?=
+ =?utf-8?B?Y3RZbHFwQ1V1KzluL3R2SGZCWlRFTEYrc1FKZ3RxcHR0VmFacDNWSlQ5VUVW?=
+ =?utf-8?B?NDBmbk5LT2g2enowSUZvQ0w3eW5JZTVtc3o4RXBXN1ZqZTNqa0xBS0ltbFJE?=
+ =?utf-8?B?QnlaalRsb1NRTGkrbHp6aVNxVWVTT2JBZVo1YTF1Y0tWUlBEWGNpWUt1UnJu?=
+ =?utf-8?B?QXhVNEdmeXlmM2VSSUgrMVJPNldaU29JdHhtem9yS0dlelUvZlNGYVlOSFY1?=
+ =?utf-8?B?TWIzRCtMTTVsa3ViaEdQUGxaNjlmUEFDVXhVYmlDWUYwTEUvTEpqMUFhTGFa?=
+ =?utf-8?B?eW1RckJRMklXVVBhSnJzZjRDdFNvM0wwNDBrTUlwSkdGS1pKOXZIMm13aEhp?=
+ =?utf-8?B?emM1cEtmWUNqL1ByQjgxck1aU1phNERUc05WMy9Mc3FGcStYdFNTUjZuVkVQ?=
+ =?utf-8?B?RGlZRVRZb3B3Y1BnMkVoT1lySFE2ZmV5TVpVY1FONkdzbnZTdEJ3dE9hN3NN?=
+ =?utf-8?B?RlpaU09oa1VramYwb25JcloreEhQeUJyblhmdmFFckpxQUNQaFRLNGx3S3FH?=
+ =?utf-8?B?UG1TaWY3WE1ySW5wUDJqUW1Kc01EY014eTNQb1h0aGUydXZyK29Eb1BXcTZ4?=
+ =?utf-8?B?VnRFbmQxS0dJMUxTVHJORHdCSkt1dEdWanMwU1VWeW14K28wUGMwMEtwZFc3?=
+ =?utf-8?B?bUd3TC9Ja1FtTHBxZXgxVjlYdmdVTzJXNEVJTVNacnZRcXUzV3A3b3JJaWFG?=
+ =?utf-8?B?KzJuemFmSVRTL2R1amd2cG1tMy9sdzlQTFMrZXdVVTZaT3J6Ni9Mc2FUcjBE?=
+ =?utf-8?B?cVVBVzRKSG11cEhFK0VjZVpCL0x5eHRCKzdZaUFVZXlNTnpGT084Z1BrRVU0?=
+ =?utf-8?B?VVBxczdNY0d5OGtNTUxOaHNwVHBpbXh4Q3craVMrdEtzekN6RVNERFpKelpI?=
+ =?utf-8?B?TmFGNUpCVFcrMFowMUpoQ2VsTWxRdDBaQ0RKQ0JwbHJ0dUlXcGZFaWtPWHVu?=
+ =?utf-8?B?RUhmbGY0ZTRpeGJjdTk2azlyWkRiUUE4MVlDSDRTaFAyakFHaXNiRTBtVnEy?=
+ =?utf-8?B?MnhjcmhCR1JxbHArYWlTMlNsTG5LYmJka0pjenZpQXdwQTFuSEg5TEwyTllt?=
+ =?utf-8?B?QlFITmFTV2dIQTQwc2Z4cWxUcFBrM2hLTnFlbkpWWlRMK0UzaHZMMkpHVFRQ?=
+ =?utf-8?B?S0RUTUFaOXB1Z1JwYnFtUVBFaFpKMENGMFpEYUZiYnRreG9RY1VjSDcrUWVj?=
+ =?utf-8?B?d1ozSzI2aFBJcHVPUjgwa3hGakp5aTIxWU1qNWo3MVM5KzZIaFZ3eENvemdp?=
+ =?utf-8?B?WUd2b3Q2L1NDK3luc3FGK0F4Zm8rbS9DOFBWb3RsQ2ZvbGZDYUpOdU90ZUZ0?=
+ =?utf-8?B?MHhsQWN6c3JnM0V0SXNWdVAvS2Y4SXdubUF3L2NseUxKa2ZIRFpNY05VUGI5?=
+ =?utf-8?B?NXVFTENlUS93L1RpSW9kbDJxRVU0SFo0cVhsWW8xOXBOL0ZLK3U5WEZ5SURt?=
+ =?utf-8?B?WEs0S1BEa296RkwwbE1tM2FJc2gzK1hZc2xUei9UOUNrL0dXRjZUeUxjMFcy?=
+ =?utf-8?B?b1NIVXNXZkloaCtTUldxU1BJdjlMR2hBMG1qNmNhcWlFZG0xekloVTJXWHdE?=
+ =?utf-8?Q?hcyc=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_8c28211084d54e9a8c1968ef2f10153dmbssolutionsde_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: FR3P281MB2526:EE_|FR0P281MB1824:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38d85fd2-fd71-4135-e5bc-08dd56fa35b5
-X-ETR: Bypass spam filtering for authenticated sender 'mbs-solutions.de'
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?p6TJUJhNvZQU6/HgSKPtu/bcTqz0K1JOpUp3ufyDPEDn+JHG8n2409mLMt6x?=
- =?us-ascii?Q?bOLjHsCP1pk86RguPa2tvAAs8Qgb/tBO7rv3+mMcWUTOZzRK/65MUGW1R2Ep?=
- =?us-ascii?Q?W9CYHQSrSNbZ1lWJUeLQrBeQUtdcwpxkVxM8nAWsUQXuQXfJR16lXAmjASmJ?=
- =?us-ascii?Q?xP+O6ypxyL1P86jk+IwwAgMyGNZixkdz/3pHfdVf+EurpV+CoYKgQBuGF1JN?=
- =?us-ascii?Q?hio9OzB13vp1F6KCOPuK/XwTiLLDKkN9hK0LXJE+g6q066tZWaE5vMkU32uI?=
- =?us-ascii?Q?iJL6XT1UsLHMKdzvWcc8T7KzkhWVYKqfO4TmG5+zKakV9IJECmEYru53CUkP?=
- =?us-ascii?Q?noWS8JNoHVqhO3GHhK2NuXjE4Mri+D9MWyNxvWBUeYROVwBAPHeDdch9NIX6?=
- =?us-ascii?Q?LWo78Xy+simE5BrZpa3F394gZLvL2GRXMI0v0z4bul0DArVCbUcw5nScRGI/?=
- =?us-ascii?Q?qFZJyw1WBeXh1sjNX8xPevzxRQeVuonbB4uIcxLRsywlltKHZifXD09GPL+U?=
- =?us-ascii?Q?4P7tW9ib0YCE0HckyKZRDQ6fAGtLbCYcJocLmI0HkH9jowrtZriYzJ+MOfwT?=
- =?us-ascii?Q?bYZOMiIRJMvOh8rxww81+q8hCYaz//2zonH7SkAI/WppqL7y/Ktny1efG7Th?=
- =?us-ascii?Q?2PS6IdVb56mKJpIeYg4L3ILQ5JvtfvPEv0XZXcFxu/vtVVXM/kQLekDrgU+p?=
- =?us-ascii?Q?lGGh6cNptIdDIBz012ggrshpOXJYb/HEa/WKn0U7waLHsHuMLHo5XrJ2mxV2?=
- =?us-ascii?Q?XxnqdmO6mzyaKqxN+yk7iw0mc4Qfnoqdp+a6tvZuRc6C6ipQdbsUE0Iq1M8i?=
- =?us-ascii?Q?fP05wKF+ip9Hy8okP5cQtU4CZvu0A4fq+jgo67/eIbFjtglgONMrGaLyjfG3?=
- =?us-ascii?Q?55corUr/f+XhuNrA6YWAr6n8g44e8AREi6cRNfdl1PlRI8fM3Dx65cQbScLL?=
- =?us-ascii?Q?8p83JPCvMRJr7qdT70ree8kx5hTNZmC7ys+NdhQ6Qphc31vJJszkfTKxS8Lj?=
- =?us-ascii?Q?RZVMVOFWvHA4IWXPsmXciq9uRx2bRFZQxnjh8nyP785OwmjqrsWubob6elsU?=
- =?us-ascii?Q?n9DZxHecVX+uJ2f+CpAU147G+5t0R2IE22o4ykmLYxlXc1v4M0zdFN4861hV?=
- =?us-ascii?Q?Aa7u0S2Q8injMDeZlySgP6GvAe+K9WcQSQAAbJvj4r07sTwdSzAWJxIWDiVL?=
- =?us-ascii?Q?X1vgi15CaV9oV9t6oH1sI2w41LWchMDOAJQy8Il/5vLAP560ZYf1A0cbbkkV?=
- =?us-ascii?Q?Y/sJg2v8uSIAYWH6KLG0TYHNhMFlHVNMOcpuBUbfXXqcj5jsceK2wHdjWEqH?=
- =?us-ascii?Q?Yo3QJwkRp191lbSO2l8IKHr23+dAE41Ogpwvj8uZiyDfLp1IjST9RXE4PtLT?=
- =?us-ascii?Q?u7i+2EoFAv1x2LUEjN2d+cdrEeRLYTh3Smr+rRonubXwCl8HklR28vms8p/U?=
- =?us-ascii?Q?ZDBLyL5xOk1k2lTKoMrL3skxYsa6tU/3?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?syGSti+duR9eULVmVWKS1BOyGvfNgld4F/wkmmtC9WCJ753yp0IftnZAI5Bk?=
- =?us-ascii?Q?8cEvb/uLntU9YYHGasIR/bbbJAly7KTxsfZbIYM8Or/+3r6kM72VOa9o//Sf?=
- =?us-ascii?Q?EukOjARMfItlQxI3xxGM6uWRMj9u1JaKUsf/ufrSwj66rtYxBMVgVebI6hmF?=
- =?us-ascii?Q?TDoG/Ch8WJ33i2Wma4ArCLH11XfgI8IIbl52UprYihNhf5lVWFSvJ8LD1LsV?=
- =?us-ascii?Q?LAoev7RQjgTkIbu8880c4GUiomGFo8NwmeyxMprMj75aOH1V6JrGVDbfU0SQ?=
- =?us-ascii?Q?Llwo9aqNOnyRqjDWI8OtFQfdlvc9pKPyzxbSgbybeINAVCZqbWHE9obzcRi5?=
- =?us-ascii?Q?JmArbebQ4Sz1rLr1i1QjlCrBqXhtKztC2kLJB4xawa5avrAEaHNIpCZ3vCmD?=
- =?us-ascii?Q?pPltqixzk/U6oMfrgnCkILOzVHu89MLWyy9e5CyiXHLwpK9s8bIyMusNb6s7?=
- =?us-ascii?Q?XhDqOJJWwD/VHUtN949H6LHWmBmQHQ0Yu7Vw4/y2qFGe0OH8B1YhDZKW/0g9?=
- =?us-ascii?Q?nvw6pje1G+irg6CL2eEeDzJkGZFC/ylJvdBtSueNYTYUwNp5lrb/9At+Y80G?=
- =?us-ascii?Q?koMQhmfvkQVudCP2+rVV8RWPCTO1PoL2XYU5+j9GUMrSGoJj14K8g97DgTz6?=
- =?us-ascii?Q?02UITUSIKelKFyXzT6jhUeA88+yXW73KwccJuNcwHRAUFWbIvxxEYpJU6lXU?=
- =?us-ascii?Q?4tKKTLrULH/fD1cShfKcSJ2D1DWaILNTm1hp6LG2jgVOvbAIOTCWhVzXiYSg?=
- =?us-ascii?Q?lva2P+KQqsVvBcc5bkmm1SBwRXn4xVhPtUDMIJ3mh7I1SnaSqyRyEcuC3Ijb?=
- =?us-ascii?Q?Jwzv5PG7WRgXpsw1ahaAg4+REJdov9XgL+nt/N0VkxZ8Chm3s57n7kNj9/mF?=
- =?us-ascii?Q?XwuhIsgN480IeE0EbCJEx5utD0osydOEXctSbBizS+lkIWH1XTO+OUyJBbmO?=
- =?us-ascii?Q?Srx6C6we513NV1vexEy7tB8OeT0euD+4S6MRKg8o3XEKtZ1zrCIuc8xABf1Q?=
- =?us-ascii?Q?qkR/Pkt1mP7lTXIqyeacajRBNpXbajui9VFWTcY4agXHwe7jKKku9YskiDqr?=
- =?us-ascii?Q?H6Y7zmhrptIWzHeGFOFV6G71fJUiIsdIk7Ny29SkJ18KBzqciYQ5Klnjl2kb?=
- =?us-ascii?Q?saNTsv/e9WUkKFPlkq7Id5nWl6fhaZ331zPoo5BAvl3cSYQa8OZy2GXGB+It?=
- =?us-ascii?Q?gLJPgC/J/+rMtP8NVS5lRfHBFTRfMa4GmCx9WgDiYLA2d+PcWrkw0uR20+y3?=
- =?us-ascii?Q?wMJJM3meu1p5VX6RARC7zEzBMyhc7u5agXVdfc/tW+I+0kZZnp1xZTIpDeSI?=
- =?us-ascii?Q?SxeW1+XYqGRbjCyfHR7tPTpI6uzBKYMyMfubAfdyZ/1jGXOBjs65OL2SPSXi?=
- =?us-ascii?Q?KNLBrcmYu2cCs1LQTiY+8uicaLhFQT9esIbCyrLY0+4bdWtHTxx7OmEli1fB?=
- =?us-ascii?Q?uiJYQD8gcNp24caHzTOYPfzjF7haULNorx933NwLBCe8LOKfCx1rt2y/k+ZL?=
- =?us-ascii?Q?RwxmpbvgvVk7LysLEEUzlEMZgQ9B0f1aAxpUNoxKO2Q0KzacCZJ8SZ1KDorS?=
- =?us-ascii?Q?17EAjoZiS6bcjD6Bgvq6OhYL6xrH0RcIKhdi2hgO?=
 X-OriginatorOrg: mbs-solutions.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38d85fd2-fd71-4135-e5bc-08dd56fa35b5
-X-MS-Exchange-CrossTenant-AuthSource: FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 06:44:40.0692
+X-MS-Exchange-CrossTenant-AuthSource: FR3P281MB2526.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc373ab9-d4a0-40a8-7483-08dd56face6c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2025 06:48:56.0889
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 778c8b78-467e-4379-adca-743b91174c8a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 71FnNUwz8ol+j29h87ltHbzIxnJHlLDNICBQMzvI6qcMIqTlhvCKn06LP03slqEZLOYwpbu2h3d+rKfqMA73Hw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR0P281MB1824
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 778c8b78-467e-4379-adca-743b91174c8a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LRQTKF1Xf0wWpUYhag2rforvUehr5Ya2UpZME4ag07z3rkSSKztoA4rHvJxmneC6Cv54d2dYL67BZZQ1lW73Ww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR6P281MB4262
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 06:44:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211979
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 06:49:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/211980
 
-Fixes [YOCTO #15579]
-Fixes [YOCTO #15735]
+--_000_8c28211084d54e9a8c1968ef2f10153dmbssolutionsde_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This commit removes the LD_LIBRARY_PATH wrapper around 'cargo'.
-Setting the LD_LIBRARY_PATH causes many problems.
-Some build scripts will not run because the build scripts execute
-binaries from the host system that are not compatible with the target
-libraries.
-Even a simple 'cargo help build' will probably fail because it uses
-'less' internally, which should not be linked against the target
-libraries.
+T24gVHVlLCAyMDI1LTAxLTIxIGF0IDA5OjEyICswMTAwLCBKYW4gU3RyYXRlci1Cw7xkZGVmZWxk
+IHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KDQoNCkZpeGVzIFtZT0NUTyAjMTU1
+NzldDQoNClRoaXMgY29tbWl0IHJlbW92ZXMgdGhlIExEX0xJQlJBUllfUEFUSCB3cmFwcGVyIGFy
+b3VuZCBgY2FyZ29gLg0KU2V0dGluZyB0aGUgTERfTElCUkFSWV9QQVRIIGNhdXNlcyBtYW55IHBy
+b2JsZW1zLg0KU29tZSBidWlsZCBzY3JpcHRzIHdpbGwgbm90IHJ1biBiZWNhdXNlIHRoZSBidWls
+ZCBzY3JpcHRzIGV4ZWN1dGUNCmJpbmFyaWVzIGZyb20gdGhlIGhvc3Qgc3lzdGVtIHRoYXQgYXJl
+IG5vdCBjb21wYXRpYmxlIHdpdGggdGhlIHRhcmdldA0KbGlicmFyaWVzLg0KRXZlbiBhIHNpbXBs
+ZSBgY2FyZ28gaGVscCBidWlsZGAgY2FuIGZhaWwgYmVjYXVzZSBpdCB1c2VzIGBsZXNzYA0KaW50
+ZXJuYWxseSwgd2hpY2ggc2hvdWxkIG5vdCBiZSBsaW5rZWQgYWdhaW5zdCB0aGUgdGFyZ2V0IGxp
+YnJhcmllcy4NCg0KVGhlcmUgbWlnaHQgYmUgY2FzZXMgd2hlcmUgdGhlIExEX0xJQlJBUllfUEFU
+SCBpcyBuZWVkZWQgZm9yIHNvbWUgaG9zdHMsDQpsaWtlIHRoZSBjYXNlIGRlc2NyaWJlZCBpbiAz
+ODhlN2NhYzlmOTBlNzljZThjM2MxNjgzZDhlZTBmNGRmMWJjOTA3DQpidXQgb25lIGNhbiBhbHdh
+eXMgc2V0IExEX0xJQlJBUllfUEFUSCBtYW51YWxseSBpZiBuZWVkZWQuDQoNCkEgY3VycmVudCB3
+b3JraW5nIHdvcmthcm91bmQgd2l0aG91dCB0aGlzIGNvbW1pdCB3b3VsZCBiZSBhbHdheXMgdXNp
+bmcNCmBjYXJnby5yZWFsYCBpbnN0ZWFkIG9mIGBjYXJnb2AsIHdoaWNoIGNhbiBsZWFkIHRvIGNv
+bmZ1c2lvbi4NCg0KU2lnbmVkLW9mZi1ieTogSmFuIFN0cmF0ZXItQsO8ZGRlZmVsZCA8anN0QG1i
+cy1zb2x1dGlvbnMuZGU+PG1haWx0bzpqc3RAbWJzLXNvbHV0aW9ucy5kZT4NCi0tLQ0KIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9ydXN0L2NhcmdvXzEuODEuMC5iYiB8IDggLS0tLS0tLS0NCiAxIGZp
+bGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkNCg0KDQpUaGF0IHdyYXBwZXIgd2FzIGFkZGVkIGZv
+ciBhIHJlYXNvbi4gSXMgdGhhdCByZWFzb24gc3RpbGwgdmFsaWQgYW5kIGhvdw0KZG8geW91IHBs
+YW4gdG8gbWl0aWdhdGUgYWdhaW5zdCB0aGUgaXNzdWVzIGl0IHdhcyBvcmlnaW5hbGx5IGFkZGVk
+IGZvcj8NClRoZSBjb21taXQgbWVzc2FnZSBuZWVkcyB0byBtZW50aW9uIHRoaXMuDQoNCkNoZWVy
+cywNCg0KUmljaGFyZA0KDQoNCkkgaGF2ZSByZWJhc2VkIHRoZSBjb21taXQgYW5kIHJld29yZGVk
+IHRoZSBjb21taXQgbWVzc2FnZS4gSXMgdGhlIG5ldyBwYXRjaCBiZXR0ZXI/IExldCBtZSBrbm93
+LCB3aGF0IGVsc2UgSSBjYW4gZG8uIFRoaXMgaXMgbXkgZmlyc3QgY29udHJpYnV0aW9uIHRvIGFu
+IG9wZW4gc291cmNlIHByb2plY3QsIHNvIEknbSBub3QgZmFtaWxpYXIgd2l0aCB0aGUgcHJvY2Vz
+cyB5ZXQuDQoNCktpbmRseSByZWdhcmRzLA0KDQpKYW4gU3RyYXRlci1Cw7xkZGVmZWxkDQo=
 
-This will break some commands like 'cargo test' and 'cargo run' for some
-hosts that have the target libraries located in base_libdir, see commit
-388e7cac9f90e79ce8c3c1683d8ee0f4df1bc907.
-Originally, this wrapper was added for the host system tumbleweed-ty-3.
-I don't know if 'cargo' on the current version of this host still fails
-without the wrapper.
-If so, one would have to set the LD_LIBRARY_PATH manually.
-This tradeoff is acceptable because the wrapper causes more problems
-than it solves.
+--_000_8c28211084d54e9a8c1968ef2f10153dmbssolutionsde_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <196F275107BEEF459294BDA7DE9CD03B@DEUP281.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 
-A current working workaround without this commit would be to always use
-'cargo.real' instead of 'cargo', which can lead to confusion.
+PCFET0NUWVBFIGh0bWw+DQo8aHRtbD4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVu
+dC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPC9oZWFkPg0KPGJv
+ZHk+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNp
+dGU9Im1pZDozMjU4YWYxZTNjNGY4NDA1ODk3Njk2MWJlN2E4ZDcxN2Y0YjgwM2Y4LmNhbWVsQGxp
+bnV4Zm91bmRhdGlvbi5vcmciPg0KPHByZSB3cmFwPSIiIGNsYXNzPSJtb3otcXVvdGUtcHJlIj5P
+biBUdWUsIDIwMjUtMDEtMjEgYXQgMDk6MTIgKzAxMDAsIEphbiBTdHJhdGVyLULDvGRkZWZlbGQg
+dmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo8L3ByZT4NCjxibG9ja3F1b3RlIHR5
+cGU9ImNpdGUiPg0KPHByZSB3cmFwPSIiIGNsYXNzPSJtb3otcXVvdGUtcHJlIj5GaXhlcyBbWU9D
+VE8gIzE1NTc5XQ0KDQpUaGlzIGNvbW1pdCByZW1vdmVzIHRoZSBMRF9MSUJSQVJZX1BBVEggd3Jh
+cHBlciBhcm91bmQgYGNhcmdvYC4NClNldHRpbmcgdGhlIExEX0xJQlJBUllfUEFUSCBjYXVzZXMg
+bWFueSBwcm9ibGVtcy4NClNvbWUgYnVpbGQgc2NyaXB0cyB3aWxsIG5vdCBydW4gYmVjYXVzZSB0
+aGUgYnVpbGQgc2NyaXB0cyBleGVjdXRlDQpiaW5hcmllcyBmcm9tIHRoZSBob3N0IHN5c3RlbSB0
+aGF0IGFyZSBub3QgY29tcGF0aWJsZSB3aXRoIHRoZSB0YXJnZXQNCmxpYnJhcmllcy4NCkV2ZW4g
+YSBzaW1wbGUgYGNhcmdvIGhlbHAgYnVpbGRgIGNhbiBmYWlsIGJlY2F1c2UgaXQgdXNlcyBgbGVz
+c2ANCmludGVybmFsbHksIHdoaWNoIHNob3VsZCBub3QgYmUgbGlua2VkIGFnYWluc3QgdGhlIHRh
+cmdldCBsaWJyYXJpZXMuDQoNClRoZXJlIG1pZ2h0IGJlIGNhc2VzIHdoZXJlIHRoZSBMRF9MSUJS
+QVJZX1BBVEggaXMgbmVlZGVkIGZvciBzb21lIGhvc3RzLA0KbGlrZSB0aGUgY2FzZSBkZXNjcmli
+ZWQgaW4gMzg4ZTdjYWM5ZjkwZTc5Y2U4YzNjMTY4M2Q4ZWUwZjRkZjFiYzkwNw0KYnV0IG9uZSBj
+YW4gYWx3YXlzIHNldCBMRF9MSUJSQVJZX1BBVEggbWFudWFsbHkgaWYgbmVlZGVkLg0KDQpBIGN1
+cnJlbnQgd29ya2luZyB3b3JrYXJvdW5kIHdpdGhvdXQgdGhpcyBjb21taXQgd291bGQgYmUgYWx3
+YXlzIHVzaW5nDQpgY2FyZ28ucmVhbGAgaW5zdGVhZCBvZiBgY2FyZ29gLCB3aGljaCBjYW4gbGVh
+ZCB0byBjb25mdXNpb24uDQoNClNpZ25lZC1vZmYtYnk6IEphbiBTdHJhdGVyLULDvGRkZWZlbGQg
+PGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmpzdEBtYnMtc29s
+dXRpb25zLmRlIj4mbHQ7anN0QG1icy1zb2x1dGlvbnMuZGUmZ3Q7PC9hPg0KLS0tDQombmJzcDtt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC9jYXJnb18xLjgxLjAuYmIgfCA4IC0tLS0tLS0tDQom
+bmJzcDsxIGZpbGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkNCjwvcHJlPg0KPC9ibG9ja3F1b3Rl
+Pg0KPHByZSB3cmFwPSIiIGNsYXNzPSJtb3otcXVvdGUtcHJlIj5UaGF0IHdyYXBwZXIgd2FzIGFk
+ZGVkIGZvciBhIHJlYXNvbi4gSXMgdGhhdCByZWFzb24gc3RpbGwgdmFsaWQgYW5kIGhvdw0KZG8g
+eW91IHBsYW4gdG8gbWl0aWdhdGUgYWdhaW5zdCB0aGUgaXNzdWVzIGl0IHdhcyBvcmlnaW5hbGx5
+IGFkZGVkIGZvcj8NClRoZSBjb21taXQgbWVzc2FnZSBuZWVkcyB0byBtZW50aW9uIHRoaXMuDQoN
+CkNoZWVycywNCg0KUmljaGFyZA0KPC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8L2Jsb2NrcXVvdGU+
+DQo8cD5JIGhhdmUgcmViYXNlZCB0aGUgY29tbWl0IGFuZCByZXdvcmRlZCB0aGUgY29tbWl0IG1l
+c3NhZ2UuIElzIHRoZSBuZXcgcGF0Y2ggYmV0dGVyPyBMZXQgbWUga25vdywgd2hhdCBlbHNlIEkg
+Y2FuIGRvLiBUaGlzIGlzIG15IGZpcnN0IGNvbnRyaWJ1dGlvbiB0byBhbiBvcGVuIHNvdXJjZSBw
+cm9qZWN0LCBzbyBJJ20gbm90IGZhbWlsaWFyIHdpdGggdGhlIHByb2Nlc3MgeWV0LjwvcD4NCjxw
+PktpbmRseSByZWdhcmRzLDwvcD4NCjxwPkphbiBTdHJhdGVyLULDvGRkZWZlbGQ8YnI+DQo8L3A+
+DQo8ZGl2IGNsYXNzPSJtb3otc2lnbmF0dXJlIj4NCjxtZXRhIG5hbWU9IlByb2dJZCIgY29udGVu
+dD0iV29yZC5Eb2N1bWVudCI+DQo8bWV0YSBuYW1lPSJHZW5lcmF0b3IiIGNvbnRlbnQ9Ik1pY3Jv
+c29mdCBXb3JkIDE1Ij4NCjxtZXRhIG5hbWU9Ik9yaWdpbmF0b3IiIGNvbnRlbnQ9Ik1pY3Jvc29m
+dCBXb3JkIDE1Ij4NCjxzdHlsZT5AZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkhlbHZldGljYTsN
+CglwYW5vc2UtMToyIDExIDYgNCAyIDIgMiAyIDIgNDsNCgltc28tZm9udC1jaGFyc2V0OjA7DQoJ
+bXNvLWdlbmVyaWMtZm9udC1mYW1pbHk6c3dpc3M7DQoJbXNvLWZvbnQtcGl0Y2g6dmFyaWFibGU7
+DQoJbXNvLWZvbnQtc2lnbmF0dXJlOi01MzY4NTg4ODEgLTEwNzM3MTEwMTMgOSAwIDUxMSAwO31A
+Zm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJDYW1icmlhIE1hdGgiOw0KCXBhbm9zZS0xOjIgNCA1
+IDMgNSA0IDYgMyAyIDQ7DQoJbXNvLWZvbnQtY2hhcnNldDowOw0KCW1zby1nZW5lcmljLWZvbnQt
+ZmFtaWx5OnJvbWFuOw0KCW1zby1mb250LXBpdGNoOnZhcmlhYmxlOw0KCW1zby1mb250LXNpZ25h
+dHVyZTozIDAgMCAwIDEgMDt9QGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDYWxpYnJpOw0KCXBh
+bm9zZS0xOjIgMTUgNSAyIDIgMiA0IDMgMiA0Ow0KCW1zby1mb250LWNoYXJzZXQ6MDsNCgltc28t
+Z2VuZXJpYy1mb250LWZhbWlseTpzd2lzczsNCgltc28tZm9udC1waXRjaDp2YXJpYWJsZTsNCglt
+c28tZm9udC1zaWduYXR1cmU6LTQ2OTc1MDAxNyAtMTA3MzczMjQ4NSA5IDAgNTExIDA7fXAuTXNv
+Tm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bXNvLXN0eWxlLXVuaGlkZTpu
+bzsNCgltc28tc3R5bGUtcWZvcm1hdDp5ZXM7DQoJbXNvLXN0eWxlLXBhcmVudDoiIjsNCgltYXJn
+aW46MGNtOw0KCW1zby1wYWdpbmF0aW9uOndpZG93LW9ycGhhbjsNCglmb250LXNpemU6MTIuMHB0
+Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1hc2NpaS1mb250LWZh
+bWlseTpDYWxpYnJpOw0KCW1zby1hc2NpaS10aGVtZS1mb250Om1pbm9yLWxhdGluOw0KCW1zby1m
+YXJlYXN0LWZvbnQtZmFtaWx5OkNhbGlicmk7DQoJbXNvLWZhcmVhc3QtdGhlbWUtZm9udDptaW5v
+ci1sYXRpbjsNCgltc28taGFuc2ktZm9udC1mYW1pbHk6Q2FsaWJyaTsNCgltc28taGFuc2ktdGhl
+bWUtZm9udDptaW5vci1sYXRpbjsNCgltc28tYmlkaS1mb250LWZhbWlseToiVGltZXMgTmV3IFJv
+bWFuIjsNCgltc28tYmlkaS10aGVtZS1mb250Om1pbm9yLWJpZGk7DQoJbXNvLWZhcmVhc3QtbGFu
+Z3VhZ2U6RU4tVVM7fWE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLW5vc2hv
+dzp5ZXM7DQoJbXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOiMwNTYzQzE7DQoJdGV4dC1k
+ZWNvcmF0aW9uOnVuZGVybGluZTsNCgl0ZXh0LXVuZGVybGluZTpzaW5nbGU7fWE6dmlzaXRlZCwg
+c3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtbm9zaG93OnllczsNCgltc28t
+c3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Izk1NEY3MjsNCgltc28tdGhlbWVjb2xvcjpmb2xs
+b3dlZGh5cGVybGluazsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lOw0KCXRleHQtdW5kZXJs
+aW5lOnNpbmdsZTt9Lk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7
+DQoJbXNvLWRlZmF1bHQtcHJvcHM6eWVzOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJbXNvLWFuc2kt
+Zm9udC1zaXplOjEyLjBwdDsNCgltc28tYmlkaS1mb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFt
+aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1hc2NpaS1mb250LWZhbWlseTpDYWxpYnJp
+Ow0KCW1zby1hc2NpaS10aGVtZS1mb250Om1pbm9yLWxhdGluOw0KCW1zby1mYXJlYXN0LWZvbnQt
+ZmFtaWx5OkNhbGlicmk7DQoJbXNvLWZhcmVhc3QtdGhlbWUtZm9udDptaW5vci1sYXRpbjsNCglt
+c28taGFuc2ktZm9udC1mYW1pbHk6Q2FsaWJyaTsNCgltc28taGFuc2ktdGhlbWUtZm9udDptaW5v
+ci1sYXRpbjsNCgltc28tYmlkaS1mb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIjsNCgltc28t
+YmlkaS10aGVtZS1mb250Om1pbm9yLWJpZGk7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7
+fWRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fTwvc3R5bGU+PC9kaXY+DQo8
+L2JvZHk+DQo8L2h0bWw+DQo=
 
-I was not able to use testsdk because it already failed on master.
-
-Signed-off-by: Jan Strater-B=C3=BCddefeld <jst@mbs-solutions.de>
----
- meta/recipes-devtools/rust/cargo_1.82.0.bb | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/rust/cargo_1.82.0.bb b/meta/recipes-devt=
-ools/rust/cargo_1.82.0.bb
-index db18ecfda9..05ecc32ae6 100644
---- a/meta/recipes-devtools/rust/cargo_1.82.0.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.82.0.bb
-@@ -45,12 +45,6 @@ do_install () {
- }
-=20
- do_install:append:class-nativesdk() {
--	# To quote the cargo docs, "Cargo also sets the dynamic library path when=
- compiling
--	# and running binaries with commands like `cargo run` and `cargo test`". =
-Sadly it
--	# sets to libdir but not base_libdir leading to symbol mismatches dependi=
-ng on the
--	# host OS. Fully set LD_LIBRARY_PATH to contain both to avoid this.
--	create_wrapper ${D}/${bindir}/cargo LD_LIBRARY_PATH=3D${libdir}:${base_li=
-bdir}
--=09
- 	ENV_SETUP_DIR=3D${D}${base_prefix}/environment-setup.d
- 	mkdir "${ENV_SETUP_DIR}"
- 	CARGO_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/cargo.sh"
---=20
-2.45.2
-
+--_000_8c28211084d54e9a8c1968ef2f10153dmbssolutionsde_--
 
