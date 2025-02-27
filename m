@@ -1,124 +1,116 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <fbberton@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86B0C19F2E
-	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 14:10:49 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web11.11187.1740665448529504054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B47C19F2E
+	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 14:36:20 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.11796.1740666977362555058
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Feb 2025 06:10:48 -0800
+ Thu, 27 Feb 2025 06:36:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dY7BmSg0;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.177, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6fb6c36ba25so9075507b3.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 06:10:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hydeJRAs;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: fbberton@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f378498c9so1000033f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 06:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740665447; x=1741270247; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ts0YifBYbXeZ7IUnPDzDeJybV+0Zd4/by1kqf4rTYcQ=;
-        b=dY7BmSg0Mc/2B7lXDSZxFCcC/k8ILdLwwk2AqN9RyDCm1BJE88H6TlTwBa0LgE6qZt
-         ayGBLBrkAmeCRBQo+UQzbXY957rZGmSE6Qd5+JC0oKuWYjbDk58jV8gWKoy3PZVmHSr0
-         TTBsR5goV58E0dKcr4uB0OI7SDQ7YIjSKMUFHitPW+C2Y6wa591PTG37L5oimtxzSOiJ
-         ajhRcInxbFBzlp5RrVjd37XsU3u1wy+ZqzvdwNrsH/cEqb/GK0+bWya8OJilyL2Wc3Z/
-         qVpOFWr3wj1WIGDStFk4W207lHgKfLmH5vImJ+4ZYpbsvzYrWmcG7yx+K3KqJN10SsyH
-         HmNg==
+        d=gmail.com; s=20230601; t=1740666975; x=1741271775; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gY0OQP6sSvM2QyldUH2ofTKp7Zk1N6WnVdbQEm8YEHk=;
+        b=hydeJRAsqYBc47dXLyck/6e1+eJKDupAbZ/H1897UvvCubzxue5MUMQyjYTwnLa5w2
+         GkUxpXb89QrNnS4+s01GSD+eOKTEFftvCyjKSzQKMcA6WPS2DRga8SjRcZOiTlHfWUav
+         YT2nr5ReMq1GxiOLFQNy7+p5dstwTrsVHEETP48irIkQV1HKA1OQ0WDGJOvuXlC+XY1N
+         dwRttuBMWt7wBXlYJ0fIL7LLba0YV3UT1R2gNxQX9HRHuWGJzzhisEWz7R20VneuSotQ
+         XLg1ZFLj5kRdv1efBYOCeZH3gi/SYT4Oqfwmj63Qkp9f/2E2olbexI+7r73jY0R+hnYM
+         uNlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740665447; x=1741270247;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ts0YifBYbXeZ7IUnPDzDeJybV+0Zd4/by1kqf4rTYcQ=;
-        b=vhP6+lOsbJBYtyYCBrRYhsE6AXMsuVPqE5XfjxmHhfOVuSE8R9WK6OOWtT8ldNEj1b
-         pTVJvOQZbtQ/SIk2FiMt8px7SgTLm9wcXmGYScsnipSPgRxKPNzHgxvb/xwaQwV6KdWV
-         eiM/9fWFhX68Lz3dEJmwW5XIVkBcFVSdnBRc3RL3lv4SSkLSq3oRFv7V3LV+jinDFT+J
-         vtew2s6y2BF7AOebOijVc5uuEy9CCqURwj7cPbsLt/m69+5VanP2OtsfrjmJ1e6+otD+
-         Fw27uXpdO7jq/w/9Fv4Igg1N2WlxlO2lTqKUZ+19dt4Mm/Mx5eqbL1HY4rvs1XGsJWgH
-         OzlA==
-X-Gm-Message-State: AOJu0YytxlwJXZtqtEOTZQXfpMVj8f7wdyTpYpAFB1/Z3j7VAj4GXVKB
-	8K7B4Ja0r94lgz2Vtt66E7NI3n41seZB4A0DOSqiig2VvVUiV6ptB4pGlBTBpUojL9bLjHdlWmM
-	skdezS7OdHa6Wx+Gxp7BR9OecH1yRVHzi4xtryw==
-X-Gm-Gg: ASbGncvMA8IjNDFLDab1xcqgOzv26GTRht9VlDchVlr/GS2KJmyODH3uXLsyCuvIImv
-	2dB7Qkjbe44ax0ZHojnypUD0rZMubFZPzU+zB+5KF7rNkTbxqNF1UFZqSp3YiAwyVMdG52A1l7d
-	IECYHBNjlUy6bZ79YV3MZus0b2z7SIRbJb2/2AIH4=
-X-Google-Smtp-Source: AGHT+IHvF0hWUBvlgarRqokA4lISm9cPbGXw5s6vBGbrVUf2C7BxpRYuLv3P31DWmjvnPUxPbMWTWUE3ldujxrT7/jU=
-X-Received: by 2002:a05:690c:6482:b0:6f9:c8d9:50f with SMTP id
- 00721157ae682-6fd3946afaamr45304687b3.2.1740665447489; Thu, 27 Feb 2025
- 06:10:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740666975; x=1741271775;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gY0OQP6sSvM2QyldUH2ofTKp7Zk1N6WnVdbQEm8YEHk=;
+        b=Z47886jvxkxUBPH1IB+3i1sRSk+X+ToTO/5w5MLWSu7/An23uKYJ1E4SOuCYOza81y
+         jq0V5N5X8sZPhm4Yv5Gb8K2wEzedo8BEzp7rM56VzKVMCyQrKlXPIWe/QPoWrATIEaaD
+         lYLR98wJ10PAFC3z19F07ITjUbZPxQUZvu18rXUekhjQ0RajGXODhjcVhCBf1HxybMyT
+         WCZS9uxLGhzk2IG0wxbod0zARLviLZRZeFLvQE9wajMPzKnbYh3y6QJsm1NGRzpDUtk/
+         0d9F+/UIM3NNPi0HjZUw6kpBUSNKdjIr2VOSJywkArvhWRWkXabrKwlQgLSvaMNOb2pk
+         uOng==
+X-Gm-Message-State: AOJu0YzFLyvnxWU1zGugdnXr3jBSY7tgwJCWaHoBg0XF1s+ISXnHivBT
+	r7swgXIaFMRrjU/u2iBYbTRkBLBfTbX0Y9wHvDnxl+AZJxtNRvURdtNc5w==
+X-Gm-Gg: ASbGncsQr1dY21VznlVLXNRGuTbdSW+Lp71/gKB7OeJZBiN+nqWBVSf2tkS90UuyOkb
+	WuJhwWqcceVv5jx+5/X3lXkbwCUghXJI62Dn1eSFISWRAjgcjjC3un8dqL2zBzEa/sHObLtmHHM
+	LObLA1WQq2MnT/i9Bm/8bFKb5rtH9tDOvTAbKSThoC+PZmb96NkyqHMQQKxy2txnxmo4f1U99bN
+	hq0jKADVbERKJljBtoijvknF3u2cWV6FvY6mgspGBLUr5O7PlHPObfpJuqMEh46u1GCoUjP+aFs
+	Ak8vEBL63S2pQOMBAQ1jh/zV60PmCLBUEwjF0f/tbfO7RukDvQ==
+X-Google-Smtp-Source: AGHT+IFSVfj6qPjvwUA1lbb7/tqlNUTSINxws8BEKhAgWbpZoRNNKTFKQdxS0Pum9ZTukw9vdCJjpg==
+X-Received: by 2002:adf:f391:0:b0:38d:e3d4:4468 with SMTP id ffacd0b85a97d-390cc63c3d9mr11012013f8f.51.1740666975126;
+        Thu, 27 Feb 2025 06:36:15 -0800 (PST)
+Received: from CTW01359.criticaltechworks.com ([213.205.68.220])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e485dbe7sm2250677f8f.93.2025.02.27.06.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Feb 2025 06:36:14 -0800 (PST)
+From: Fabio Berton <fbberton@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com
+Subject: [OE-core][scarthgap][PATCH] ccache.conf: Add include_file_ctime to sloppiness
+Date: Thu, 27 Feb 2025 14:36:13 +0000
+Message-ID: <20250227143613.1899280-1-fbberton@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250212173847.9923-1-peter.marko@siemens.com> <AS1PR10MB5697596B020A14AC2754EC7EFDCD2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697596B020A14AC2754EC7EFDCD2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 27 Feb 2025 06:10:35 -0800
-X-Gm-Features: AQ5f1JqXsq9T-fYMaf0PL21D76yOvz_XFszFzi5T1Y5NKOpFD0iui1yBkaMpAAM
-Message-ID: <CAOSpxdaxvEkKZ6hvB6b+kxA8BQPLquEHKsefVuAbqM7gO+nqwA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][styhead][PATCH] subversion: ignore CVE-2024-45720
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 14:10:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212011
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 14:36:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212012
 
-Thanks for the reminder.
+From: Fabio Berton <fabio.berton@criticaltechworks.com>
 
-When you put more than one branch target in a patch submission it
-greatly increases the odds of something going awry since I can't
-easily track status in patchworks.
+When multiple recipes are built in parallel, Ccache sometimes refuses to
+lookup some objects in cache, leading to undesired cache misses. The
+root cause of this is an interaction between the way how bitbake
+constructs a recipe sysroot and Ccache's `include_file_ctime` check.
 
-The process goes much more smoothly if you send a per branch
-submission, that way you aren't relying on my poor memory to make sure
-the right thing happens :-)
+Whenever bitbake creates a recipe's sysroot it hardlinks the files
+provided by a recipes dependencies. Adding a hardlink to a file changes
+it's ctime which in turn leads Ccache to believe that the file was
+modified thus aborting the cache lookup.
 
-Steve
+To avoid this situation, add `include_file_ctime` to the list of checks
+that should be ignored using the Ccache sloppiness configuration option
+[1].
 
-On Wed, Feb 26, 2025 at 11:54=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.=
-com> wrote:
->
-> gentle ping for styhead...
->
-> > -----Original Message-----
-> > From: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Sent: Wednesday, February 12, 2025 18:39
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Subject: [OE-core][scarthgap][styhead][PATCH] subversion: ignore CVE-20=
-24-
-> > 45720
-> >
-> > From: Peter Marko <peter.marko@siemens.com>
-> >
-> > Reference: https://nvd.nist.gov/vuln/detail/CVE-2024-45720
-> >
-> > This CVE is relevant only for subversion running on Windows.
-> >
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/recipes-devtools/subversion/subversion_1.14.3.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-devtools/subversion/subversion_1.14.3.bb b/me=
-ta/recipes-
-> > devtools/subversion/subversion_1.14.3.bb
-> > index 1ef3d498a5..679228cbb8 100644
-> > --- a/meta/recipes-devtools/subversion/subversion_1.14.3.bb
-> > +++ b/meta/recipes-devtools/subversion/subversion_1.14.3.bb
-> > @@ -19,6 +19,8 @@ inherit autotools pkgconfig gettext python3native
-> >
-> >  CVE_PRODUCT =3D "apache:subversion"
-> >
-> > +CVE_STATUS[CVE-2024-45720] =3D "not-applicable-platform: Issue only ap=
-plies on
-> > Windows"
-> > +
-> >  PACKAGECONFIG ?=3D ""
-> >
-> >  PACKAGECONFIG[boost] =3D "--with-boost=3D${RECIPE_SYSROOT}${exec_prefi=
-x},--
-> > without-boost,boost"
+Example of a log entry that Ccache ignores a file:
+/
+|recipe-sysroot/usr/include/bits/pthread_stack_min.h had status change
+|near or after invocation (ctime 1739822508.107677255, invocation time
+|1739822507.970071107)
+\
+
+1 - https://ccache.dev/manual/4.10.2.html#config_sloppiness
+
+Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4899698297c7783e02aba5388e0469cc83bd2f70)
+---
+ meta/conf/ccache.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/conf/ccache.conf b/meta/conf/ccache.conf
+index 4406ae561b..499e5327b8 100644
+--- a/meta/conf/ccache.conf
++++ b/meta/conf/ccache.conf
+@@ -1 +1,7 @@
+ max_size = 0
++
++# Avoid spurious cache misses caused by recipe sysroot creation: Creating a
++# recipe sysroot hardlinks all dependent files into place. Hardlinking updates
++# the file's ctime which in turn interferes with ccache's include_file_ctime
++# check.
++sloppiness = include_file_ctime
+-- 
+2.48.1
+
 
