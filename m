@@ -1,81 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2245BC19F2E
-	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 16:12:11 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web11.14510.1740672728541933437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1C7C19F2E
+	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 16:26:51 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.14978.1740673603934550682
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Feb 2025 08:12:08 -0800
+ Thu, 27 Feb 2025 08:26:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EDc1pN1Z;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6e89c11fd8fso6595946d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 08:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740672727; x=1741277527; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2pyoEelCujVnJ0palKAQg0lhwc+FaGwUswqn++XMe0A=;
-        b=EDc1pN1Z8wjGRf86ps2gfVsYbn0pNIXRH+9LuvnRGCxMJ89yNfs9MiYfg8jXbvIzw9
-         uLnmiGXddLrS69IO9gD6XAvVN574Lqi3XN3lzVRY13kgaOGjtXPdF53P8SsPH/mpzh25
-         dhwXabsmV9Yx1j4XzJR/Od4Fk/+KAk/68zv4Cme60+Cgn2aZaGU4D+2+3kDN1AvdfDLk
-         XvRDf6mRz4pAy1Z3rzeCr8OmmJalEfsPxHBpTQCGSiJCVlpB9/hQRjkgPLTCsXAQGx3N
-         eE9H2ieJB6/vLgmxHvmaUCWltCLq6wBc/dGBVT8+1+DMK8U3TlqgDTI5qBdmi1BYfeqr
-         JX1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740672727; x=1741277527;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2pyoEelCujVnJ0palKAQg0lhwc+FaGwUswqn++XMe0A=;
-        b=OWBR86X3SJvhldi2FeAwDxy4NPFKpHAlJ3sRf8Z8E2TFJxZ+KH7M4nv21XCXg5vlOS
-         6SfxVGiNXCxYV7mFtFHTsvmtPBV93Jnwvb3iZKAkGiL5SzYaJCae3kJqwk/T8X4O4xXx
-         RpdcKR5AjcO62XkqOhEkW/JaFvXh7rhqOCmPv/MpTdiSb19bBJ7jFn/QVDjBqBMBx++O
-         E5t+tt7t4y9GH529uclEV5nR6/5DFH5ycP9EA5j50PNsAkN9DrUsSBu8Ij82Dlt+XjPy
-         TQXC/48xtro5bsLLNYJpLuw2i97gw8qQu9ks8LFOffRdRCyDXm3eBGlewGQjBZ5+zVTe
-         ej+w==
-X-Gm-Message-State: AOJu0Yw7ygyj/SPhA+ZkdLq7QVyI7A/sLjrZFqN/PD2Tm0UqTVw1AXWP
-	YSiBEIH9N3wLSUHAoeEma2n3/tiKqftBjJgDKvuyMeHZ3wrz1VotRuMgzpfx7iKDaovKkji3VeT
-	I3cAyfjOJUTvY6iH0lIC4Vbms9HuF1DtH
-X-Gm-Gg: ASbGncuhpnRz2xhlEAOgCiDQbPKfme4yAnG6RH67nu1fwqjxxfWpe0NnM3KrkjQuEKx
-	mnpZ+CeoSral/msc6BinuPrrFh3P5ZvfRgPv5Otx0JuCcMz3MxHEcXEaxFFBk8FGc3975uCFUcY
-	Vx23dwDCE=
-X-Google-Smtp-Source: AGHT+IHYzpKv+6IH6cmcxVKdvUtxV3lTwhn1t+lB6kRus69CSNmvAko+/KfOf3liAP51s5DBRTcJfnzPNQxIeDtU7FY=
-X-Received: by 2002:a05:6214:21e7:b0:6e8:9224:483e with SMTP id
- 6a1803df08f44-6e8a0c7fd20mr125616d6.5.1740672727636; Thu, 27 Feb 2025
- 08:12:07 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C888150C
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 08:26:59 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 210B43F673
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 08:26:43 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mirrors: rationalise Debian mirrors
+Date: Thu, 27 Feb 2025 16:26:38 +0000
+Message-ID: <20250227162638.3790699-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250227134340.144081-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20250227134340.144081-1-Deepesh.Varatharajan@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 27 Feb 2025 17:11:56 +0100
-X-Gm-Features: AQ5f1JqFCvyp-6oqN03oOgTQIR7gvLsFVym2fwTaz7T1GUE5gJhD65L67ZPVojI
-Message-ID: <CANNYZj_RQmowF90R631qOOkGMftSCo2ic20WemBC4m1bEpdh=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] rust: Upgrade 1.82.0->1.83.0
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 16:12:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212020
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 16:26:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212021
 
-On Thu, 27 Feb 2025 at 14:44, Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=windriver.com@lists.openembedded.org> wrote:
-> --- a/meta/recipes-devtools/rust/rust_1.82.0.bb
-> +++ b/meta/recipes-devtools/rust/rust_1.83.0.bb
-> @@ -129,9 +129,11 @@ python do_configure() {
->      # [llvm]
->      config.add_section("llvm")
->      config.set("llvm", "static-libstdcpp", e(False))
-> +    config.set("llvm", "download-ci-llvm", e(False))
+Change DEBIAN_MIRROR to point at the canonical server, deb.debian.org.
 
-Why this addition? Please explain in the commit message.
+This is a CDN-backed server using network magic to load balance across
+the planet so there's no need to set a slew of regional mirrors.
 
-Alex
+Also add a more recent snapshot.debian.org from the beginning of 2025.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-global/mirrors.bbclass | 18 +-----------------
+ meta/conf/bitbake.conf              |  2 +-
+ 2 files changed, 2 insertions(+), 18 deletions(-)
+
+diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mi=
+rrors.bbclass
+index d68d30b0f2a..e31af488b95 100644
+--- a/meta/classes-global/mirrors.bbclass
++++ b/meta/classes-global/mirrors.bbclass
+@@ -6,26 +6,10 @@
+=20
+ MIRRORS +=3D "\
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian/20180310T2151=
+05Z/pool \
++${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian/20250101T0237=
+59Z/pool \
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20120=
+328T092752Z/debian/pool \
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20110=
+127T084257Z/debian/pool \
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20090=
+802T004153Z/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.de.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.au.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.cl.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.hr.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.fi.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.hk.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.hu.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.ie.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.it.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.jp.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.no.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.pl.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.ro.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.si.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.es.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.se.debian.org/debian/pool \
+-${DEBIAN_MIRROR}	http://ftp.tr.debian.org/debian/pool \
+ ${GNU_MIRROR}	https://mirrors.kernel.org/gnu \
+ ${KERNELORG_MIRROR}	http://www.kernel.org/pub \
+ ${GNUPG_MIRROR}	ftp://ftp.gnupg.org/gcrypt \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8b607088c6e..38ddf18d37a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -701,7 +701,7 @@ BBLAYERS_FETCH_DIR ??=3D "${COREBASE}"
+=20
+ APACHE_MIRROR =3D "https://archive.apache.org/dist"
+ CPAN_MIRROR =3D "https://search.cpan.org/CPAN"
+-DEBIAN_MIRROR =3D "http://ftp.debian.org/debian/pool"
++DEBIAN_MIRROR =3D "http://deb.debian.org/debian/pool"
+ GENTOO_MIRROR =3D "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT =3D "git://gitlab.gnome.org/GNOME"
+ GNOME_MIRROR =3D "https://download.gnome.org/sources/"
+--=20
+2.43.0
+
 
