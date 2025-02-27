@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD32C1B0FF
-	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 15:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9A1C19F2E
+	for <webhook@archiver.kernel.org>; Thu, 27 Feb 2025 15:35:40 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.13416.1740670497811945609
+ by mx.groups.io with SMTP id smtpd.web11.13443.1740670538370762396
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Feb 2025 07:34:58 -0800
+ Thu, 27 Feb 2025 07:35:38 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B25482BCC
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 07:35:12 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E2641688
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 07:35:53 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CC3973F5A1
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 07:34:56 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A98FD3F5A1
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 07:35:37 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ltp: don't use host objcopy
-Date: Thu, 27 Feb 2025 15:34:50 +0000
-Message-ID: <20250227153450.3666227-1-ross.burton@arm.com>
+Subject: [PATCH v2] ltp: don't use host objcopy
+Date: Thu, 27 Feb 2025 15:35:34 +0000
+Message-ID: <20250227153534.3668266-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 15:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212017
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Feb 2025 15:35:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212018
 
 The kernel/kvm test uses the host objcopy when building a payload, but
 the host objcopy might not know how to deal with target binaries:
@@ -53,7 +53,7 @@ diff --git a/meta/recipes-extended/ltp/ltp/0001-kernel-kvm-don-t-hardcode=
 -objcopy.patch b/meta/recipes-extended/ltp/ltp/0001-kernel-kvm-don-t-hard=
 code-objcopy.patch
 new file mode 100644
-index 00000000000..1cbdec51284
+index 00000000000..256c8eaa341
 --- /dev/null
 +++ b/meta/recipes-extended/ltp/ltp/0001-kernel-kvm-don-t-hardcode-objcop=
 y.patch
@@ -76,8 +76,7 @@ yload.elf'
 +This is trivially fixed by searching for an objcopy tool (so
 +host-prefixed in cross builds) and using that instead.
 +
-+Upstream-Status: Submitted [https://lore.kernel.org/ltp/20250227124330.9=
-49015-1-ross.burton@arm.com/T/#u]
++Upstream-Status: Backport [a3942c0a5f9b4463e8320e80cd8522a2e008bfd2]
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
 + configure.ac                  | 1 +
