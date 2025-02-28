@@ -2,48 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D743C282C5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F10BC282C6
 	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 22:46:56 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.290.1740782806015525359
+ by mx.groups.io with SMTP id smtpd.web10.277.1740782806682769524
  for <openembedded-core@lists.openembedded.org>;
  Fri, 28 Feb 2025 14:46:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XdKxWbLk;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=p4UPimLu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101954ebd9fdb-b52e8910-fb99-4144-a7b9-eb0113216533-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SmYMDPE4;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sjYglNgO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101954ebda303-e9b67ee0-a05f-49d1-8533-62466ed49ab6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1740782805; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DQh+RbT3kWbwmaQN5Vt8TN/bUAEcRjpvF1BeG87RUD0=;
-	b=XdKxWbLkCTBSyO7tHw0GQ6p3Q+PFDAeGsXgqBFtx0ljvvW6IvaaFEUjUAG6Xttmz
-	zLXmI3WOqWH23Jvvb2GmhGuZDDqdTmSmLmMOBA4Uvyie0iPuId6V9qNVwAdSDZGsVBO
-	+rwafNHmKZX8nOM4QbUTfVkWeFz/KqcMHoJPFiTA=
+	bh=05RF8Xpn9ZcK9GUsfBA3DKx2Bt50cMxh4n++xqIcx4M=;
+	b=SmYMDPE4Q2Ouon0KiqCK4T/qbeytyN2EfpnWlDk/2lJ2hv76uklD+xRUSr2qnKwx
+	LhMuJGKhBxj7eCThSPwU8Mt/Hr/rFnShLNAVCaQrviDvAXL/KoPM7l1s6I+ZQbAUO06
+	J5DaqDIX3SvPdvoigmCEDOKtKk4pKKv173P5GirI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740782805;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DQh+RbT3kWbwmaQN5Vt8TN/bUAEcRjpvF1BeG87RUD0=;
-	b=p4UPimLueeDIQsY99/fYzQGBG/kuXSL5b6JJGDZzVGz9BpuJXVaa73QcmcUg2G45
-	8O4/taBdSdm2XE+tyA6PsjwYIKEjq4ydDoQ+uu2/IPEPBLcoy4ZcURGtJHHiYU27nLe
-	dcP336Q7BCxdCCLvito9uHOtK9jNE0joPI5iWRaE=
+	bh=05RF8Xpn9ZcK9GUsfBA3DKx2Bt50cMxh4n++xqIcx4M=;
+	b=sjYglNgO0D5HqEf4byA4m9hcllZP0SOQ9BVTx+yFHG4eiIZ2gaJUc9B2JleVgAYB
+	S8cWFtb4QhNQDl5BfKFtjcyJMs+uX9PKJKbm595+w5JbyCFdGIrzld8BefZCdmOORxA
+	5Vmp5JEt51oxedU1B/oUAJ3OJ9ltrktgNsdT+R3g=
 From: patchtest@automation.yoctoproject.org
 To: Peter Kjellerstedt <pkj@axis.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] fetch2: Revert decodeurl() to not use the URI class
-In-Reply-To: <20250228223039.3902407-1-pkj@axis.com>
-References: <20250228223039.3902407-1-pkj@axis.com>
+Subject: Patchtest results for [PATCH 2/2] tests/fetch: Verify regular expression "URLs" that
+ contain a ?
+In-Reply-To: <20250228223039.3902407-2-pkj@axis.com>
+References: <20250228223039.3902407-2-pkj@axis.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101954ebd9fdb-b52e8910-fb99-4144-a7b9-eb0113216533-000000@us-west-2.amazonses.com>
-Date: Fri, 28 Feb 2025 22:46:44 +0000
+Message-ID: <010101954ebda303-e9b67ee0-a05f-49d1-8533-62466ed49ab6-000000@us-west-2.amazonses.com>
+Date: Fri, 28 Feb 2025 22:46:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.02.28-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 22:46:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212082
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212083
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-fetch2-Revert-decodeurl-to-not-use-the-URI-class.patch
+Testing patch /home/patchtest/share/mboxes/2-2-tests-fetch-Verify-regular-expression-URLs-that-contain-a.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
