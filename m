@@ -1,218 +1,185 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BBACC282C5
-	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 21:09:46 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.4949.1740776982471113996
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 28 Feb 2025 13:09:42 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9BCC282C6
+	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 22:30:56 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.68])
+ by mx.groups.io with SMTP id smtpd.web11.1399.1740781849425442209
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 28 Feb 2025 14:30:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KgmxNzRH;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5494bc4d741so1738182e87.2
-        for <Openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 13:09:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740776980; x=1741381780; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wmixAaZOsVM/A5z17935IUyuvzBSwUc+wQQKc8Lrdj0=;
-        b=KgmxNzRHfGTUN/TyZtGaA8lfR69T/rMhEvv+tol+jyskNrGCRlpNTzLcroX722DfKk
-         Jl7HFmREHHy/jEJufI9FZTDWfluepN8EytLFM8oyYAUnmQ0XhWmnlxEZiEag/atwCPKD
-         XwbcbhaNANiYpU/yEIG0jp/GaOqZv0oxNqTkfX9xmp50Q546XHe4etBSD2FMgWbp9ZdK
-         othVVsY9C00n+CtkKmBzV8PsN4FV4kXdeSPBAAnPFwXdIZoI+C34RAL8nc8yoJ2h201s
-         xUFFzXvlAtoI0QSWbRurChSkL5//lLNKXZoUGtxvkYtwFtPWoRNwdB0kDmiL0b9Ej/sB
-         ThQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740776980; x=1741381780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wmixAaZOsVM/A5z17935IUyuvzBSwUc+wQQKc8Lrdj0=;
-        b=rwJUyNi2CuUho2x1SMtVNzm41YqTWQLkGZDZaxRox+5B5FruAEsbbRapce9uUdFopm
-         3vXQFQJn74drpAglCXAbE6CRUpkSLkCQI/IgaN39cyD+/Fi6QFuqyQd1CzczJERDQ77G
-         U7szV6rq0f2Ph5n1Tx17Kh+VDisF1Rl/XTJvbSygvYCQrUufTkMeL0cd4tIydyRrmBaE
-         ebg3JmLEakS8RelP+Sj2LDHU9bMkiNUk/5X7MWyRiutEXNhYeUJ9k16Rtne2aXVLNZpq
-         JxoLf91o07fA2DqNRfOxtkAahJEzg6kUprJiXnHsxn6TIwUiZ0oBYmvChyID37+37wKT
-         ohPw==
-X-Forwarded-Encrypted: i=1; AJvYcCU79rl6LUZ61xAACCmNF/zKMzG5rKhGigIo6Z+EpBTMa2TH6Juf3thtC1GUQIbjIEglKNHisCMr1r7TuVAUkGK6hA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw0UXw5y3TndzYuMIqq3Tw9H5HBj6e6mhuYo/71RCnM9TYybc5a
-	CjnERZqz/qzIV+2QCxUpxDCPaoUSoNJcN9oqDXlYAZsytHciDD6ehO0ssmv3RCSr41twemNaM17
-	FIjQq7cYwILtNLuNZ1PmmZA8TCLY=
-X-Gm-Gg: ASbGncvAKgz7yCHJBcnhm7rWnvPHajwEFE4SMs6rLTeIWtlb0c82j7x4SRJwCBhC8uF
-	TAY7SCq7IH2UOAzosVOk4MYAE9ZPt64qPOzgqvYqThWz7dllpbtt3ZTLUR/1+U5bUpKzpRVWKzn
-	2HxRMsCg==
-X-Google-Smtp-Source: AGHT+IH6M/7emSnSvh656cFN433GhMFt7zExG0hDWLcZm5whvnQl5FTEFo2JKcQHiUV149GYb8FtevO9GLY2ZTt5i4k=
-X-Received: by 2002:a05:6512:398e:b0:545:bda:f10 with SMTP id
- 2adb3069b0e04-5494c120a54mr2066656e87.21.1740776980095; Fri, 28 Feb 2025
- 13:09:40 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=K7wXNdLx;
+ spf=pass (domain: axis.com, ip: 40.107.105.68, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=weGUvPRkWX3eCGq+Pk/qiRaUGY5aKUmzt9NKSnn87nYub/+ETHWHMiF1dR9/tTT+olGXU6HBd0actOCtY2gjSkth22RA+nwocBoQI/UuXLWq5J0K6OHT8B6HB7nz4szj030XfiKg1nz3G5UI5n5slrMt4Bto+fvLS20n8c8re2NQrqd12U8V02afseC7dep6tvvjkSqNA4HtFuXDSQ0p3pyn1vBs3gGAzR4O4K0dPvDN2dJh0UtTNPKtXijVLNIuxZefExOtjoAEg2ApASPBE5aDJNCluon6Jc8rS/SbiJ9si31llT2vIaKXfD/VLpu7yK5ozTZqYIw3cIMg/GHGzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eFMAosinZVmTiaQjTOqo3pQ8qUAKnmlLYxjTdFm/nFA=;
+ b=bq7wRjT+wSMzXxdtfNRe/6hfiKM11Oj0+rcTWnYNIGkTNd92xg/BOFQD2w2Mv33SFl7R6SACNvJiWei0qW7aHfZpnHUHeeJrICM8DiVT7R3jiECOd9omcTK7N8Pbf4OfBXrIm9KoisXfqlHa+MswkYJ7yYcP1rYmm5D0LaXgjbXaF9V00bHuMrwLg5ZNPkE/kBxUmBh6WXdHYTa/Gi61AU4RUl/QxAQsQauWSr2HDnuPjHBX/vjzMlKWRPIhLUN7gI7FERRVnZXIcWgpMgZj3VOfquKvEVWx5iJjzNXx7HLOlsx1JWfshFE5SWODB3PMeWOO3e4n1d6zg1kOz42ojQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eFMAosinZVmTiaQjTOqo3pQ8qUAKnmlLYxjTdFm/nFA=;
+ b=K7wXNdLxAToVKiqjlPQ7DEetJw6wdq+67OBvZLPcpYwrtelSjWKpu2U9tp+5dw12OvsiuCv3lccXbkCqU1tLR8XA4wXjGYlSVu9/Gui5ZMYFrlzm+IpLgsKJ36MMLgEAKapdpqQnix8qg5ZDoiaNoQGiDWR+0d0OKSu57bdKNSI=
+Received: from AS4P189CA0029.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::20)
+ by PAWPR02MB9102.eurprd02.prod.outlook.com (2603:10a6:102:33a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.22; Fri, 28 Feb
+ 2025 22:30:44 +0000
+Received: from AM3PEPF00009B9C.eurprd04.prod.outlook.com
+ (2603:10a6:20b:5db:cafe::b2) by AS4P189CA0029.outlook.office365.com
+ (2603:10a6:20b:5db::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.22 via Frontend Transport; Fri,
+ 28 Feb 2025 22:30:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ AM3PEPF00009B9C.mail.protection.outlook.com (10.167.16.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8489.16 via Frontend Transport; Fri, 28 Feb 2025 22:30:43 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Fri, 28 Feb
+ 2025 23:30:43 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+ Transport; Fri, 28 Feb 2025 23:30:43 +0100
+Received: from saur (saur.se.axis.com [10.92.3.10])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 423A9256
+	for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 23:30:43 +0100 (CET)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur (8.17.1/8.15.2) with ESMTPS id 51SMUhdf3902444
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 23:30:43 +0100
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 51SMUhiU3902443
+	for openembedded-core@lists.openembedded.org; Fri, 28 Feb 2025 23:30:43 +0100
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/2] tests/fetch: Verify regular expression "URLs" that contain a ?
+Date: Fri, 28 Feb 2025 23:30:39 +0100
+Message-ID: <20250228223039.3902407-2-pkj@axis.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20250228223039.3902407-1-pkj@axis.com>
+References: <20250228223039.3902407-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20250219103908.42513-1-uvv.mail@gmail.com> <71BF1160-E808-4212-B790-5462F95BFBA4@arm.com>
- <1825F47182B39BA0.23135@lists.openembedded.org> <ae46ffa2-b88d-4ec5-822a-08c00e2baa46@gmail.com>
- <CAO5Uq5SCkF9n9ngCvcNSkHLNSPQpKxwXv+o+OfLP+VkMeq3TQA@mail.gmail.com>
- <A5978220-EBAF-4C51-8587-76498A346624@arm.com> <2b44ca06-2d0c-4df9-9d3b-76ac5dcf41cc@gmail.com>
- <CAEs58j4Am9k-pA+sAcRkb0xF2_QGo7R+39L3_=cEPMp9gPQvZA@mail.gmail.com>
- <CAO5Uq5RSbdizd0sSvXQCM_PxChPW8o8dALiEdswkE8=bfOa7Pw@mail.gmail.com> <CAEs58j5SjjjihUkEkLQtrPxW_4CmZXLtRKobWG3sEK7hmGuWVQ@mail.gmail.com>
-In-Reply-To: <CAEs58j5SjjjihUkEkLQtrPxW_4CmZXLtRKobWG3sEK7hmGuWVQ@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 28 Feb 2025 21:09:28 +0000
-X-Gm-Features: AQ5f1JoiIrhF33N6H-_n4DBkOo4NTVpov88tRYCs2qXK-fwASczVaQ_K_U80-ig
-Message-ID: <CAO5Uq5Q9HM089R7VmEJ3HwCMcoCayhWxvJ4wX-7f2RvsMWVQwA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v6] systemd: Build the systemctl executable
-To: Alexis CELLIER <alexis.cellier@smile.fr>
-Cc: uvv.mail@gmail.com, Ross Burton <Ross.Burton@arm.com>, 
-	"Openembedded-core@lists.openembedded.org" <Openembedded-core@lists.openembedded.org>, 
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9C:EE_|PAWPR02MB9102:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0781ac77-9956-4184-2b40-08dd584789ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?mT25yr+lbzqtd38HUVP9FLyfWewZeTX69vqPOdaFpbsV9LM0RK00B5urP8gD?=
+ =?us-ascii?Q?rEvpHHjxLQcaY3aYMqXXqQB+tPNKOi+EEUq8TTkQpMcOveEBk15V39hFKrH4?=
+ =?us-ascii?Q?YwvOkD011/rlw6YtXoyC5Xy5x6q6dLcLVB9W0DrJblyNlzqbW/w5h0OSWDIS?=
+ =?us-ascii?Q?bVQI3ID6dd2KXM7MmLfk1QGYgvW690/vZK0iktrOS3BPYaQ/KeFkLZgYXGeR?=
+ =?us-ascii?Q?KYYrDUNGUNTomPPLtAzoPlOTO0qL5mRtmz3P04yYkQWGLPFy8Lj7RxzlGUle?=
+ =?us-ascii?Q?6GnXhliNz0Lo4HOk5R6///QZ/lZfnHNT+XQ6L93rnq122o+Ft45RSpoyz0LL?=
+ =?us-ascii?Q?SU3ASunzSj3HmNH0zgzJqG4jlucdZsneHomFpQtRvb4bZ7NpUnPQDddBFKJN?=
+ =?us-ascii?Q?YYQDZyqWabsMe+Y1upFGw20A95hWKSwFEbM+A3xYqajDTI5W9ycy6SNeMXXV?=
+ =?us-ascii?Q?1lfwmlHk5vW+15q/K39CMx6hqcYLtGWFIeLOERmjvojDm53OZMvFqmC62hQm?=
+ =?us-ascii?Q?YwZBu9BWvxXCG1I0NmSB3SIkgjz6IysiIaIYobE6PMcEoF+eHsRDEvyu6lmr?=
+ =?us-ascii?Q?nHXX1COsiT7qDTNB8rdNv5T8bkw3L9DVPMWIGF3wiM9zWb9t1xT8jDVY6meu?=
+ =?us-ascii?Q?m64jM2Y/GgQ+hHW+oq5cGOvPTxu3ptgthkK1mc43rE1V7pC60lj7EQ9/0h/i?=
+ =?us-ascii?Q?r0XZf8YBP2cJJvju13XgJcw1HkyElaeS1cWbc3QJlP7UQQzsZGTW3wF9oqwT?=
+ =?us-ascii?Q?xqjxwko5Fjua49mDUaCzbrxkSQ0vBvLGTtoRJK4EbKI3bYNItYCmJwF7BXm9?=
+ =?us-ascii?Q?BBhyVvk/TF9mHBAP6XQ5ThNWuJ8lD+1qyASV9a3dgpga+qgEOiSDiBhBGNz3?=
+ =?us-ascii?Q?iRljbOx+bgRaG2vuYL4RSwNKpY/3V2pXCPZD9eIRFNhhMRoTMKHRSysFANwW?=
+ =?us-ascii?Q?IN7V+3eoWwXS6Gwk3w8QAdMt6GxHFslxJfDnkgD98z9ORA7w1batk22kSpNQ?=
+ =?us-ascii?Q?xfFc3ackRbJseNwEleBlr9vQw/LrnJBoqs5ZJshbQn72AVEU4dwgNmswo0/l?=
+ =?us-ascii?Q?xSO9QKxVBK/1QVdSlQ06jSJxoVaJDaj0E8iRhHvdWnKyKBbSrJkSWQ3WJ/JB?=
+ =?us-ascii?Q?rEzZVYeNnTnaEwmKOhOGEwUHjN1sHNSnBejiT/SKSJvmx9jb9pt3NX4mSpIl?=
+ =?us-ascii?Q?bIuVvl0doi4G4g/+NoF961WU7S87+jYR7XJYML+rYaQQzoP0tcA34dptaOU4?=
+ =?us-ascii?Q?ZLhLI7OTg13xeSN8UyzsX4NdzuTSbW5EKnjqLCoiYGiGQ/tdyyB/T1vs8IoB?=
+ =?us-ascii?Q?Kao3u4qSsHkyD+eZwUyNguJxmxqbAqoZI9YAqXStmxysBwH5ot5S7Lq9Dv+x?=
+ =?us-ascii?Q?F1CRyclVlL5y8fftvr4qGiUhRZhCFWuHE8BhnS6fqDBAsVbp82kgFP4xs3NC?=
+ =?us-ascii?Q?YBInBDSNVNo=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2025 22:30:43.5953
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0781ac77-9956-4184-2b40-08dd584789ed
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM3PEPF00009B9C.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR02MB9102
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 21:09:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212079
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 22:30:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212080
 
-On Fri, Feb 28, 2025 at 5:28=E2=80=AFPM Alexis CELLIER <alexis.cellier@smil=
-e.fr> wrote:
->
-> On Fri, Feb 28, 2025 at 5:33=E2=80=AFPM Alex Kiernan <alex.kiernan@gmail.=
-com> wrote:
-> >
-> > On Fri, Feb 28, 2025 at 3:57=E2=80=AFPM Alexis CELLIER <alexis.cellier@=
-smile.fr> wrote:
-> > >
-> > > On Wed, Feb 26, 2025 at 11:43=E2=80=AFAM Vyacheslav Yurkov via
-> > > lists.openembedded.org <uvv.mail=3Dgmail.com@lists.openembedded.org>
-> > > wrote:
-> > > >
-> > > > On 25.02.2025 15:48, Ross Burton wrote:
-> > > > > On 20 Feb 2025, at 15:33, Vyacheslav Yurkov <uvv.mail@gmail.com> =
-wrote:
-> > > > >> Isn't is supposed to be created on first boot?
-> > > > >
-> > > > > Yes, ish, but our rootfs is read only at this point:
-> > > > >
-> > > > > [    7.639766] systemd[1]: System cannot boot: Missing /etc/machi=
-ne-id and /etc is mounted read-only.
-> > > > > [    7.641135] systemd[1]: Booting up is supported only when:
-> > > > > [    7.641844] systemd[1]: 1) /etc/machine-id exists and is popul=
-ated.
-> > > > > [    7.642588] systemd[1]: 2) /etc/machine-id exists and is empty=
-.
-> > > > > [    7.643279] systemd[1]: 3) /etc/machine-id is missing and /etc=
- is writable.
-> > > > >
-> > > > > On 20 Feb 2025, at 16:03, Alex Kiernan <alex.kiernan@gmail.com> w=
-rote:
-> > > > >> I do know that it was a horrible thing to get right when I rewro=
-te the
-> > > > >> shell script in python (which I'm very glad to see the back of):
-> > > > >>
-> > > > >>     # If we populate the systemd links we also create /etc/machi=
-ne-id, which
-> > > > >>     # allows systemd to boot with the filesystem read-only befor=
-e generating
-> > > > >>     # a real value and then committing it back.
-> > > > >>     #
-> > > > >>     # For the stateless configuration, where /etc is generated a=
-t runtime
-> > > > >>     # (for example on a tmpfs), this script shouldn't run at all=
- and we
-> > > > >>     # allow systemd to completely populate /etc.
-> > > > >>
-> > > > >> It may be that this behaviour was wrong in some cases, but at th=
-e same
-> > > > >> time, I remember spending a lot of time getting this right!
-> > > > > It certainly looks like it=E2=80=99s =E2=80=9Ctricky=E2=80=9D to =
-get the right semantics here because the range of potential use-cases is to=
-o great.
-> > > > >
-> > > > > I believe we should be writing /etc/machine-id at rootfs time if =
-systemd is being used.  Currently this is done in the systemctl class if it=
- writes links, and then in the rootfs class if the rootfs is read-only.
-> > > > >
-> > > > > I think we should consolidate those into the rootfs class, and gi=
-ve the user the choice of whether to treat the image as booted or not by wr=
-iting either =E2=80=9C=E2=80=9D or =E2=80=9Cuninitialized=E2=80=9D to the f=
-ile as per https://www.freedesktop.org/software/systemd/man/latest/machine-=
-id.html#First%20Boot%20Semantics.
-> > > > >
-> > > > > tl;dr: if it contains =E2=80=9Cuninitialized=E2=80=9D then this i=
-s the first boot, otherwise it=E2=80=99s not.  By always touching the file =
-we break the ability for anyone to use systemd-first-boot or ConditionFirst=
-Boot in their own units, which seems wrong.
-> > > > >
-> > > > > We=E2=80=99re about a week from feature freeze and getting this m=
-erged would be great, do you think you can finish this off Slava?
-> > > > >
-> > > > > Thanks,
-> > > > > Ross
-> > > >
-> > > > I definitely gonna try. But I might be missing something, because I
-> > > > thought it sums up as follows:
-> > > >
-> > > > RO rootfs -> empty machine-id
-> > > > RW rootfs -> no machine-id
-> > > >
-> > > > And it does work that way when I rebuild my image with or without R=
-O rootfs.
-> > >
-> > > At the moment on master, as systemd-systemctl python script touch the
-> > > file, we can end up with an empty file independently of the
-> > > IMAGE_FEATURE read-only-rootfs. So we do break the ability of
-> > > firstboot in any case.
-> > > Also, if you boot with your rootfs in ro (KERNEL_ARGS, wic, ...)
-> > > without setting read-only-rootfs, with fstab that will remount your
-> > > rootfs in rw (so you do not have a read-only rootfs), not having the
-> > > /etc/machine-id file will make systemd fail (no not having
-> > > /etc/machine-id seems dangerous te me).
-> > >
-> > > So why not put "uninitialized" in /etc/machine-id all the time
-> > > (probably in rootfs post commands, if the file does not exist yet, to
-> > > allow user to put a predefine one), it allows firstboot and prevent
-> > > the dangerous case of not having the file. The only strange case woul=
-d
-> > > be when you do have a read-only filesystem, as you will always have a
-> > > first boot.
-> > > But if we do not want that strange behaviour by default, we can empty
-> > > /etc/machine-id in case of read-only-rootfs (in rootfs post commands)=
-,
-> > > or we let the decision to the user by letting him choose using the
-> > > systemd PACKAGECONFIG to enable/disable the firstboot support.
-> > >
-> >
-> > firstboot usage, really doesn't feel like a piece of package
-> > configuration to me, possibly distro config, but having a
-> > (potentially) interactive boot seems like an outlier in the OE world
-> > (though I'm not saying it shouldn't be supported).
->
-> It is already a PACKAGECONFIG of systemd, not enabled by default (not
-> sure it was clear in my previous message).
->
+A regular expression "URL" as used in PREMIRRORS and MIRRORS may contain
+a ? as part of the regular expression. Make sure this does not cause
+problems when parsed by the fetcher.
 
-I didn't look... though that's not unreasonable - I was thinking of it
-as PACKAGECONFIG controlling whether firstboot happens.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ bitbake/lib/bb/tests/fetch.py | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-> > Today we call the systemctl script as part of rootfs construction
-> > which may touch /etc/machine-id, removing it from there and having it
-> > obviously in one place as part of rootfs construction seems like it
-> > ought to be an improvement.
->
-> I do agree.
->
-> I do have a question, it is possible to not end up with the
-> /etc/machine-id file, i.e. not having the python script called (on
-> master)?
-
-You can - if you add stateless-rootfs to IMAGE_FEATURES then systemctl
-isn't called at image construction time, hence this part of the
-comment in the script:
-
-    # For the stateless configuration, where /etc is generated at runtime
-    # (for example on a tmpfs), this script shouldn't run at all and we
-    # allow systemd to completely populate /etc.
-
---=20
-Alex Kiernan
+diff --git a/bitbake/lib/bb/tests/fetch.py b/bitbake/lib/bb/tests/fetch.py
+index 48b9e4af16..be09a2964c 100644
+--- a/bitbake/lib/bb/tests/fetch.py
++++ b/bitbake/lib/bb/tests/fetch.py
+@@ -525,8 +525,7 @@ class MirrorUriTest(FetcherTest):
+=20
+     mirrorvar =3D "http://.*/.* file:///somepath/downloads/ " \
+                 "git://someserver.org/bitbake git://git.openembedded.org/b=
+itbake " \
+-                "https://.*/.* file:///someotherpath/downloads/ " \
+-                "http://.*/.* file:///someotherpath/downloads/ " \
++                "https?://.*/.* file:///someotherpath/downloads/ " \
+                 "svn://svn.server1.com/ svn://svn.server2.com/"
+=20
+     def test_urireplace(self):
+@@ -1415,12 +1414,17 @@ class URLHandle(unittest.TestCase):
+        "https://somesite.com/somerepo.git;user=3DanyUser:idtoken=3D1234" :=
+ ('https', 'somesite.com', '/somerepo.git', '', '', {'user': 'anyUser:idtok=
+en=3D1234'}),
+        'git://s.o-me_ONE:%s@git.openembedded.org/bitbake;branch=3Dmain;pro=
+tocol=3Dhttps' % password: ('git', 'git.openembedded.org', '/bitbake', 's.o=
+-me_ONE', password, {'branch': 'main', 'protocol' : 'https'}),
+     }
+-    # we require a pathname to encodeurl but users can still pass such url=
+s to=20
+-    # decodeurl and we need to handle them
++    # We require a pathname to encodeurl but users can still pass URLs wit=
+hout
++    # a path to decodeurl and we need to handle them. decodeurl is also us=
+ed to
++    # split the regular expression "URLs" that are used in PREMIRRORS and
++    # MIRRORS.
+     decodedata =3D datatable.copy()
+     decodedata.update({
+        "http://somesite.net;someparam=3D1": ('http', 'somesite.net', '/', =
+'', '', {'someparam': '1'}),
+        "npmsw://some.registry.url;package=3D@pkg;version=3Dlatest": ('npms=
+w', 'some.registry.url', '/', '', '', {'package': '@pkg', 'version': 'lates=
+t'}),
++       r"git://.*/.*": ("git", ".*", "/.*", "", "", {}),
++       r"https?://.*/.*": ("https?", ".*", "/.*", "", "", {}),
++       r"git://(?!internal\.git\.server).*/.*": ("git", r"(?!internal\.git=
+\.server).*", "/.*", "", "", {}),
+     })
+=20
+     def test_decodeurl(self):
 
