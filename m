@@ -1,230 +1,111 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA0CC19776
-	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 10:52:48 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.13090.1740739967415470993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD3EC282C1
+	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 14:43:29 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.17284.1740753801294257268
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Feb 2025 02:52:47 -0800
+ Fri, 28 Feb 2025 06:43:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=DE5oM12r;
- spf=pass (domain: mvista.com, ip: 209.85.218.48, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abb79af88afso367740866b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 02:52:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Q6n48ta2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2234bec7192so4359985ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 06:43:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1740739965; x=1741344765; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zeFoFFOh3P7tIgqzbOUmEdVzPQfhQIPNaWdK2YaVrBY=;
-        b=DE5oM12r6VwY1WUHfyNKCG2GL/kaHFu8BBYbQBQF3dpjAH/KuOIjfRNSSmeWrQHzdW
-         gx0xu7oCsKDbz8/wboov/YebivjpgDHQqFJMyDLjiG1qEvxkvmsscrN/fP33a/ylzA3s
-         Bw/HN3jn/f1ht1dmIhbHnWmqXyb8rK4NkpZe4=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740753800; x=1741358600; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a62ooKZIvxWUKTJLLT5CyG4TWPBnjCBtxZRC6CwKupw=;
+        b=Q6n48ta2RR3ROBEzE1I7C/jrMI233f9u2lHHKc+q0K7gtNRKj3YSBhVQ7RPkRlE2rR
+         mfmCd5UVBJhkL47wvm0mQVPbszO6l76lRm1QTKkeqyML0KqRCr4+KxQ90cCXMxd80DTJ
+         Fmfb2Z8VZ1H/q2kzQ5xp2o4DI+7hInUKEEFW8vPP3+a3t8Day2I547toFIfJwiQpXVMT
+         TT7gv4LIPv+2wemA/aKI6Fz+tQ9NV3FYhQXTyJyGIQlGBbZOKuq59pDgDea1Myu0bA1j
+         Eq5F0O5lZFeUEnvo7kGJn47aR0Zy3h720jRzaVOA3iZP+wyXvcSafldMSQqWAjRNTjTy
+         yqtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740739965; x=1741344765;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zeFoFFOh3P7tIgqzbOUmEdVzPQfhQIPNaWdK2YaVrBY=;
-        b=mFfDGhnFm2Rdq6rmpcHdmByEYevMUioJ5OOLQRkQdqTFI5jfkRRzUpxESB5osnJ72Z
-         /Lk9xOP3U7mxhvwxVKFokV82Axe3HBfw8ahlTFjVvKR32DZjUc3afxtwJ/vnOFez7zSG
-         vTTOO1Ir+5BNrKcYinAh/yJdWZ/MV6BtfWgUNTx+UULcwSVxP0CqcJYYU6q3b+Kp+MFg
-         aIVZ6csWEALgqY/DavOiSA4EO/ShwFmg0oQ7uJEKIYtCk0jjrcK7I0snVcOuRQUsuVbd
-         Mf/Qjn9tx1v+IUcUoOs2d5J+eb3Syrku6KYNhPYLL81mn1yAYMyGYTtuKQxqYxiE8Gex
-         tnFQ==
-X-Gm-Message-State: AOJu0YwA6PYB+ynSmBkF5kONVudv7Ts5dR+x1/rgY9wd0uT+f7bxtStT
-	6tPjRmCrFe2IWkWypNFik8zMdtmBFcJER3+NNowU5BZbQnYudh58e5ZvuZHQf7aG9lipRL97QCz
-	8YszsH7apE1Ycix0o8p+66fpjLBgvoawFf6o/XCF0iiYqpdvg6eM=
-X-Gm-Gg: ASbGncuGnEtI5HIbQ4hZuvCRPQx1jTkhqR093NDHoZDSKnfjMrPOQUzS5lxdw6QNPMV
-	oP3sqvV2BnNt61f8rpgSQwZxeC/ZDM5R3+YQZNepet+dbIQ4kvOMEUa9I7kyovrQ0EaKKervvKn
-	CfMn9YlIA=
-X-Google-Smtp-Source: AGHT+IGPNSDjfuMW2wAQtO8DGNFy8TQHuSHJ72Ov/wvdGeoo5LJ4pTqePa/6wy5q/ohMgGwkSeTKeA1as/0A1DCg3kc=
-X-Received: by 2002:a17:907:728d:b0:abe:f72b:b3b7 with SMTP id
- a640c23a62f3a-abf2683d64amr311921566b.54.1740739965211; Fri, 28 Feb 2025
- 02:52:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20250224063037.87601-1-vanusuri@mvista.com>
-In-Reply-To: <20250224063037.87601-1-vanusuri@mvista.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Fri, 28 Feb 2025 16:22:33 +0530
-X-Gm-Features: AQ5f1JoX7pWP0feffiEWGJMaF3fisf45bCqVBU2GroeWUEiNLpSdrogiTNwStpc
-Message-ID: <CANQUz183CnBTCO-5NabS_SWjp+TAgJsH3_jiXWpJ2HNR5MRmkg@mail.gmail.com>
-Subject: Re: [OE-core][master][styhead][scarthgap][PATCH] libtasn1: upgrade
- 4.19.0 -> 4.20.0
+        d=1e100.net; s=20230601; t=1740753800; x=1741358600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a62ooKZIvxWUKTJLLT5CyG4TWPBnjCBtxZRC6CwKupw=;
+        b=AciW4/gO1MOeBzbuqSx16OPioda7hsMILGk50Zozy3jRfeuVHJ1+hIOWNUb2U8xPFS
+         5Q250PDp2U7qIB/3hZ2kOpbEaloKeaS3hvoSsonXwVc70QeqOxgu7sFiVAyhLArVbCTe
+         Sg+HArlENnxazV8XMqkrel/wBC2Vh0Wh0eofeZk33KDIC+2a9EqwKyqIpJU9x8JTr+9K
+         p/dHlfa3AebeqdH35kcBYrCiznB8vMubDFC5V/fXoJ23wktDE3T+m5SIGRFAkfC6CfeU
+         +xzaXFbZwv0c9wH5mDOPqM94N7M3AJeEbXRe1RSqDea+sTnU0TeKnsTOpFyoVU4lJITk
+         PsxA==
+X-Gm-Message-State: AOJu0YzvhxE1QRd8QN1i4nyUZp3gxGiC/tApH0+/J6bHhopFPF4ttR9v
+	phaja4/2jD+ilWkDzgG/apuNPkabcUpIv9Vh/43ILG0xIZ1P5/u2FIncDH7SsHbMGF83kGKaxP2
+	+
+X-Gm-Gg: ASbGncvs8/7g1HxyHtAQ5OZ+Ioc0Rf9vFL0NZOaTvYc+4pcpoRFc74UNBaqyu0/ICAh
+	nYdklXykkkp1yEqp/dZv8xtQ5JHRyswdgnvw4+OjrSgg7oPkr7J9uHAUFcLPd+rIbxemlKWT11s
+	X+zrXOjC9ZFHP62EbFZHSwocFISPPlWYCrZ5lPvhynT1KFrmK+lVtdRV8TuqLVYbBSvXjvI3r6m
+	0s63t4oltoFJvQVBlp55Ew8TGK6S07BYKpe2jqiTjNFHwy2Fl7ngjgwY2bWhj/dFXwJ9iaASmZz
+	umwG4J7ir7VsACk=
+X-Google-Smtp-Source: AGHT+IEbZheRy3jej4+IEfjT1OLOv3Mo8UwSwv9TmEnOHACvhJ5ozdgJm1bTgXsalqTFWXSPtMSnFA==
+X-Received: by 2002:a05:6a00:464f:b0:730:9a85:c940 with SMTP id d2e1a72fcca58-734ac467393mr6203800b3a.20.1740753800293;
+        Fri, 28 Feb 2025 06:43:20 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7349fe6cd66sm3806559b3a.74.2025.02.28.06.43.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 06:43:19 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>
-Content-Type: multipart/alternative; boundary="00000000000045f330062f319bf3"
+Subject: [OE-core][scarthgap 0/4] Patch review
+Date: Fri, 28 Feb 2025 06:42:56 -0800
+Message-ID: <cover.1740753632.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 10:52:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212059
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 14:43:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212060
 
---00000000000045f330062f319bf3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, March 4
 
-Hi Team,
+Passed a-full on autobuilder:
 
-Any Update on this ?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1099
 
-Thanks & Regards,
-Vijay
+The following changes since commit 369eebad4f38c3641be73dbc0490c87636e0912d:
 
-On Mon, Feb 24, 2025 at 12:00=E2=80=AFPM <vanusuri@mvista.com> wrote:
+  python3-setuptools-scm: respect GIT_CEILING_DIRECTORIES (2025-02-25 06:38:02 -0800)
 
-> From: Vijay Anusuri <vanusuri@mvista.com>
->
-> * Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
-> - The release tarball is now reproducible.
-> - We publish a minimal source-only tarball generated by 'git archive'.
-> - Update gnulib files and various build/maintenance fixes.
-> - Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF o=
-r
-> SET
-> OF elements
->
-> License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 &
-> Copyright year updated to 2025
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  .../gnutls/{libtasn1_4.19.0.bb =3D> libtasn1_4.20.0.bb}      | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->  rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb =3D>
-> libtasn1_4.20.0.bb} (63%)
->
-> diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-> b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-> similarity index 63%
-> rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-> rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-> index 5fb8b54c06..8127ba5b1d 100644
-> --- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
-> +++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
-> @@ -6,9 +6,8 @@ HOMEPAGE =3D "http://www.gnu.org/software/libtasn1/"
->  LICENSE =3D "GPL-3.0-or-later & LGPL-2.1-or-later"
->  LICENSE:${PN}-bin =3D "GPL-3.0-or-later"
->  LICENSE:${PN} =3D "LGPL-2.1-or-later"
-> -LIC_FILES_CHKSUM =3D
-> "file://doc/COPYING;md5=3Dd32239bcb673463ab874e80d47fae504 \
-> -
-> file://doc/COPYING.LESSER;md5=3D4fbd65380cdd255951079008b364516c \
-> -                    file://COPYING;md5=3D75ac100ec923f959898182307970c36=
-0"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
-464 \
-> +
-> file://COPYING.LESSERv2;md5=3D4bf661c1e3793e55c8d1051bc5e0ae21"
->
->  SRC_URI =3D "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
->             file://dont-depend-on-help2man.patch \
-> @@ -16,7 +15,7 @@ SRC_URI =3D "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.=
-gz \
->
->  DEPENDS =3D "bison-native"
->
-> -SRC_URI[sha256sum] =3D
-> "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
-> +SRC_URI[sha256sum] =3D
-> "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
->
->  inherit autotools texinfo lib_package gtk-doc
->
-> --
-> 2.25.1
->
->
+are available in the Git repository at:
 
---00000000000045f330062f319bf3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-<div dir=3D"ltr"><div><div>Hi Team,<br><br></div>Any Update on this ?<br><b=
-r></div><div>Thanks &amp; Regards,</div><div>Vijay</div></div><br><div clas=
-s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Mon, Feb 24, 2025 at 12:00=E2=80=AFPM &lt;<a href=3D"mailto:vanusuri@=
-mvista.com">vanusuri@mvista.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:=
-vanusuri@mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]<br>
-- The release tarball is now reproducible.<br>
-- We publish a minimal source-only tarball generated by &#39;git archive&#3=
-9;.<br>
-- Update gnulib files and various build/maintenance fixes.<br>
-- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or =
-SET<br>
-OF elements<br>
-<br>
-License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 &amp; Copyr=
-ight year updated to 2025<br>
-<br>
-Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
-get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
----<br>
-=C2=A0.../gnutls/{<a href=3D"http://libtasn1_4.19.0.bb" rel=3D"noreferrer" =
-target=3D"_blank">libtasn1_4.19.0.bb</a> =3D&gt; <a href=3D"http://libtasn1=
-_4.20.0.bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a>}=C2=
-=A0 =C2=A0 =C2=A0 | 7 +++----<br>
-=C2=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
-=C2=A0rename meta/recipes-support/gnutls/{<a href=3D"http://libtasn1_4.19.0=
-.bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a> =3D&gt; <a=
- href=3D"http://libtasn1_4.20.0.bb" rel=3D"noreferrer" target=3D"_blank">li=
-btasn1_4.20.0.bb</a>} (63%)<br>
-<br>
-diff --git a/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a> b/meta/reci=
-pes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb" rel=3D"noreferrer"=
- target=3D"_blank">libtasn1_4.20.0.bb</a><br>
-similarity index 63%<br>
-rename from meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a><br>
-rename to meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a><br>
-index 5fb8b54c06..8127ba5b1d 100644<br>
---- a/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a><br>
-+++ b/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a><br>
-@@ -6,9 +6,8 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.gnu.org/software/l=
-ibtasn1/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/software/=
-libtasn1/</a>&quot;<br>
-=C2=A0LICENSE =3D &quot;GPL-3.0-or-later &amp; LGPL-2.1-or-later&quot;<br>
-=C2=A0LICENSE:${PN}-bin =3D &quot;GPL-3.0-or-later&quot;<br>
-=C2=A0LICENSE:${PN} =3D &quot;LGPL-2.1-or-later&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://doc/COPYING;md5=3Dd32239bcb673463ab874e8=
-0d47fae504 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://doc/COPYING.LESSER;md5=3D4fbd65380cdd255951079008b364516c \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://COPYING;md5=3D75ac100ec923f959898182307970c360&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e=
-440464 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://COPYING.LESSERv2;md5=3D4bf661c1e3793e55c8d1051bc5e0ae21&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dont-depend-on-help2man.pa=
-tch \<br>
-@@ -16,7 +15,7 @@ SRC_URI =3D &quot;${GNU_MIRROR}/libtasn1/libtasn1-${PV}.t=
-ar.gz \<br>
-<br>
-=C2=A0DEPENDS =3D &quot;bison-native&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b=
-30d82d23de345a63f7a&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb=
-71d583272b23587a76c&quot;<br>
-<br>
-=C2=A0inherit autotools texinfo lib_package gtk-doc<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
+Fabio Berton (1):
+  ccache.conf: Add include_file_ctime to sloppiness
 
---00000000000045f330062f319bf3--
+Hitendra Prajapati (1):
+  elfutils: Fix multiple CVEs
+
+Marek Vasut (1):
+  u-boot: kernel-fitimage: Restore FIT_SIGN_INDIVIDUAL="1" behavior
+
+Moritz Haase (1):
+  meta: Enable '-o pipefail' for the SDK installer
+
+ meta/classes-recipe/uboot-sign.bbclass        |  60 +++++--
+ meta/conf/ccache.conf                         |   6 +
+ meta/files/toolchain-shar-extract.sh          |   5 +
+ .../elfutils/elfutils_0.191.bb                |   3 +
+ .../elfutils/files/CVE-2025-1352.patch        | 153 ++++++++++++++++++
+ .../elfutils/files/CVE-2025-1365.patch        | 151 +++++++++++++++++
+ .../elfutils/files/CVE-2025-1372.patch        |  50 ++++++
+ 7 files changed, 419 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1352.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1365.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1372.patch
+
+-- 
+2.43.0
+
 
