@@ -1,146 +1,230 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6D6C19776
-	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 10:50:58 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.13072.1740739843498133076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA0CC19776
+	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 10:52:48 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.13090.1740739967415470993
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Feb 2025 02:50:44 -0800
+ Fri, 28 Feb 2025 02:52:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dYexxkrN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-390e702d481so801942f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 02:50:43 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=DE5oM12r;
+ spf=pass (domain: mvista.com, ip: 209.85.218.48, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abb79af88afso367740866b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 02:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1740739842; x=1741344642; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ekHDAzrNw8Yaxdolx1Xce26IE9dL+kwFKHB2owAqmvk=;
-        b=dYexxkrNvBYkjw1of3S3O0qQA3q7rA4H+CUU7UrT2lKUoCy0bZNT7FwsIX0fccXrXP
-         PM0t5ynuqOzAxGvHtkYNleCuhL8ySa097xqzNzLFCQROsq/h8wA/bfeo5VbP9ze1/VCr
-         7HhkybVj77TEmHYjlJSOqY+b0LDMM+xndDyFQ=
+        d=mvista.com; s=google; t=1740739965; x=1741344765; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zeFoFFOh3P7tIgqzbOUmEdVzPQfhQIPNaWdK2YaVrBY=;
+        b=DE5oM12r6VwY1WUHfyNKCG2GL/kaHFu8BBYbQBQF3dpjAH/KuOIjfRNSSmeWrQHzdW
+         gx0xu7oCsKDbz8/wboov/YebivjpgDHQqFJMyDLjiG1qEvxkvmsscrN/fP33a/ylzA3s
+         Bw/HN3jn/f1ht1dmIhbHnWmqXyb8rK4NkpZe4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740739842; x=1741344642;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ekHDAzrNw8Yaxdolx1Xce26IE9dL+kwFKHB2owAqmvk=;
-        b=LzV2cw2H8Bzl/8cUA58LvTNEhDA/dRzFTykoigczK3qaHknaDmMV8Z/1Ixb0WPmwiB
-         nAhJ9QQF0Zy6s8Gs6xZ3LVcU5pgAIaUAN6YeyVkbJz7lKXDtfiLzg/DzXXD5hsC8yufC
-         KB97ZKYj3yRaI6GLQJRiM7jfG0yHoN5YU6TTsudeDsBN03+tlxc7LDZQY03qtOTTH/nk
-         k5sy9MssxLjKkpZ9/U6ZIBOqVQ16d5+iXkCvLqGuMIq4XUkt2PFqSaKeWSFQOKXfErKm
-         pfmf55BNxWbccHeA5LdyWqRjSCfkcFqFmNI6VkGiILXBUqIWTqvTc1b+CpEm2SaOlIJr
-         1T/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUshZ/VJo0fTln3YEDRmvPImOxGj/cEwSDv0cAjZ8gisRjEQPZi/B8aaRgijoACYgWqXLmORodSAlAsIAQ7OpkoxQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyf1E7eCn9apqeclOAna6oM5FIAktiXHKYHIP8Xqhk5FzcGnzFC
-	3ZCBqPD2gYEJP7HnCUX0p3GMJGFDBv6PNuC89rg5YSMpDfhASMAZpO1AxKTzDbo=
-X-Gm-Gg: ASbGncsSErxXSuPKnby6BMXiDVb1HJEnylOBBl40sb23pRfl0wRLYNgvXS3hJ1btdH5
-	UZk7n7AJOTTDHFDVcgDNNMqy8m0cYtXhbwEjouHI4N6Wx03wcJESRqdhXzXR0KMwHTwxs+xB9ak
-	Eolp2Q+Rl2NgPVce0TLzdUYzun38w1Io69N/WqTtelLmoUZ2hBRThvnXfda1Hxfj72pib5gBW4J
-	KG9+PYcOTeSJUdxXrlZ6hJrHLHP70XJ1LsWDbjm3EUeAkZEGmxQ4sbQAvuUAKQMHys+R0cgZXd3
-	+X9GsPSXAN3QpjVxmA48Br7pk9vPuucpW3/K9TzgKsaJ6Cwylkc0qK652caRjAoQjN5r3ZM+I/i
-	+ovasw8b1S0iejoQ=
-X-Google-Smtp-Source: AGHT+IGJbyCBXQN2fE1JKZRZqSocbKAD54wmxuEBbD31z6ulxHyjTaSTO8MwuNwRuyQd+FrI3lhOYA==
-X-Received: by 2002:a5d:5985:0:b0:390:eb32:3fc1 with SMTP id ffacd0b85a97d-390ec7d1e4bmr2175103f8f.27.1740739841883;
-        Fri, 28 Feb 2025 02:50:41 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6ddc:363e:e14c:9394? ([2001:8b0:aba:5f3c:6ddc:363e:e14c:9394])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4795962sm5018837f8f.13.2025.02.28.02.50.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 02:50:41 -0800 (PST)
-Message-ID: <6f23591757291b5bdeea36d6bf630c121e188db3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Revert "python3-ctypes: depend on ldconfig
- only if distro-feature set"
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?J=F6rg?= Sommer <joerg.sommer@navimatix.de>, Changqing Li
-	 <changqing.li@windriver.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2025 10:50:40 +0000
-In-Reply-To: <m4tm2mjs6iachotge62hejkid5f3s3lrent32i4gwhruzpahqr@42nnjjo6ag2k>
-References: <20250220035724.1460062-1-changqing.li@windriver.com>
-	 <nvmjowjub7hxr4wz4njvcwdi5mo2g4ppiixrsdgr5zrqs3dwch@mrwc5mgkqid4>
-	 <23e2fa72-4225-4dfd-8d5b-cd8afe03b411@windriver.com>
-	 <sozxs6figgef2mhn3bkcr2z7vy3u3idrrq4gkgzmxbibiiih4t@aoqiqffittgi>
-	 <d20d233c-08c0-490b-927a-fbfc6d4d2383@windriver.com>
-	 <vzy63llcnvkkp3tdkfj3eowkphcww7bi6ha4jfljw7pfskezw7@r27s535jwhl7>
-	 <48f11c6288db844ec985daf20f34e92974519e82.camel@linuxfoundation.org>
-	 <m4tm2mjs6iachotge62hejkid5f3s3lrent32i4gwhruzpahqr@42nnjjo6ag2k>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2-0ubuntu1 
+        d=1e100.net; s=20230601; t=1740739965; x=1741344765;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zeFoFFOh3P7tIgqzbOUmEdVzPQfhQIPNaWdK2YaVrBY=;
+        b=mFfDGhnFm2Rdq6rmpcHdmByEYevMUioJ5OOLQRkQdqTFI5jfkRRzUpxESB5osnJ72Z
+         /Lk9xOP3U7mxhvwxVKFokV82Axe3HBfw8ahlTFjVvKR32DZjUc3afxtwJ/vnOFez7zSG
+         vTTOO1Ir+5BNrKcYinAh/yJdWZ/MV6BtfWgUNTx+UULcwSVxP0CqcJYYU6q3b+Kp+MFg
+         aIVZ6csWEALgqY/DavOiSA4EO/ShwFmg0oQ7uJEKIYtCk0jjrcK7I0snVcOuRQUsuVbd
+         Mf/Qjn9tx1v+IUcUoOs2d5J+eb3Syrku6KYNhPYLL81mn1yAYMyGYTtuKQxqYxiE8Gex
+         tnFQ==
+X-Gm-Message-State: AOJu0YwA6PYB+ynSmBkF5kONVudv7Ts5dR+x1/rgY9wd0uT+f7bxtStT
+	6tPjRmCrFe2IWkWypNFik8zMdtmBFcJER3+NNowU5BZbQnYudh58e5ZvuZHQf7aG9lipRL97QCz
+	8YszsH7apE1Ycix0o8p+66fpjLBgvoawFf6o/XCF0iiYqpdvg6eM=
+X-Gm-Gg: ASbGncuGnEtI5HIbQ4hZuvCRPQx1jTkhqR093NDHoZDSKnfjMrPOQUzS5lxdw6QNPMV
+	oP3sqvV2BnNt61f8rpgSQwZxeC/ZDM5R3+YQZNepet+dbIQ4kvOMEUa9I7kyovrQ0EaKKervvKn
+	CfMn9YlIA=
+X-Google-Smtp-Source: AGHT+IGPNSDjfuMW2wAQtO8DGNFy8TQHuSHJ72Ov/wvdGeoo5LJ4pTqePa/6wy5q/ohMgGwkSeTKeA1as/0A1DCg3kc=
+X-Received: by 2002:a17:907:728d:b0:abe:f72b:b3b7 with SMTP id
+ a640c23a62f3a-abf2683d64amr311921566b.54.1740739965211; Fri, 28 Feb 2025
+ 02:52:45 -0800 (PST)
 MIME-Version: 1.0
+References: <20250224063037.87601-1-vanusuri@mvista.com>
+In-Reply-To: <20250224063037.87601-1-vanusuri@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Fri, 28 Feb 2025 16:22:33 +0530
+X-Gm-Features: AQ5f1JoX7pWP0feffiEWGJMaF3fisf45bCqVBU2GroeWUEiNLpSdrogiTNwStpc
+Message-ID: <CANQUz183CnBTCO-5NabS_SWjp+TAgJsH3_jiXWpJ2HNR5MRmkg@mail.gmail.com>
+Subject: Re: [OE-core][master][styhead][scarthgap][PATCH] libtasn1: upgrade
+ 4.19.0 -> 4.20.0
+To: openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="00000000000045f330062f319bf3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 10:50:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212058
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 10:52:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212059
 
-On Fri, 2025-02-28 at 11:35 +0100, J=C3=B6rg Sommer wrote:
-> Richard Purdie schrieb am Fr 28. Feb, 10:20 (+0000):
-> > DISTRO_FEATURES are high level policy controls, not "this should be
-> > included or excluded" controls. For example "pam" controls whether the
-> > access control modules are configured/used, not whether libpam is or is
-> > not included.
->=20
-> But it controls if other packages (e.g. systemd) enable pam support or no=
-t.
-> The same goes with ldconfig: Should ldconfig support in the packages be
-> enabled (which would pull-in ldconfig as dependency).
->=20
-> > For ldconfig, as I remember, the distro config was about whether to
-> > include "ldconfig" calls after installing libraries and whether to use =
-the
-> > ld cache.
->=20
-> If the feature is only about enabling code in the postinst script, than w=
-e
-> should find a better description of the feature
+--00000000000045f330062f319bf3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think the description needs improving and I think we'd take patches
-to do that.
+Hi Team,
 
-> > ldconfig: Include support for ldconfig and ld.so.conf on the target.
->=20
-> https://docs.yoctoproject.org/ref-manual/features.html
->=20
-> > Packages being installed or not is an image level decision, not distro
-> > level.
->=20
-> Yes, that's also my understanding. But enabling some features (e.g. x11
-> support) leads to recipes set DEPENDS on libs and this leads to the
-> installation of some packages. So DISTRO_FEATURES influence indirectly wh=
-at
-> gets into the image.
+Any Update on this ?
 
-The key word is indirectly. Where things have a hard dependency on
-something, they do include that dependency and it isn't conditional on
-a distro feature.
+Thanks & Regards,
+Vijay
 
-In this case, the usage is tangential to what the DISTRO_FEATURE was
-designed for (ld cache). I do agree ldconfig is optional so RRECOMMENDS
-seems better than a hard RDEPENDS though.
+On Mon, Feb 24, 2025 at 12:00=E2=80=AFPM <vanusuri@mvista.com> wrote:
 
-> > In this case, perhaps we should drop the RDEPENDS to a RRECOMMENDS?
->=20
-> This would be helpful to remove ldconfig, if django is installed.
->=20
-> But the main question is still open: Why should I want ldconfig and remov=
-e
-> it from DISTRO_FEATURES? What is this use case?
+> From: Vijay Anusuri <vanusuri@mvista.com>
+>
+> * Noteworthy changes in release 4.20.0 (2025-02-01) [stable]
+> - The release tarball is now reproducible.
+> - We publish a minimal source-only tarball generated by 'git archive'.
+> - Update gnulib files and various build/maintenance fixes.
+> - Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF o=
+r
+> SET
+> OF elements
+>
+> License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 &
+> Copyright year updated to 2025
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  .../gnutls/{libtasn1_4.19.0.bb =3D> libtasn1_4.20.0.bb}      | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>  rename meta/recipes-support/gnutls/{libtasn1_4.19.0.bb =3D>
+> libtasn1_4.20.0.bb} (63%)
+>
+> diff --git a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+> b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+> similarity index 63%
+> rename from meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+> rename to meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+> index 5fb8b54c06..8127ba5b1d 100644
+> --- a/meta/recipes-support/gnutls/libtasn1_4.19.0.bb
+> +++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+> @@ -6,9 +6,8 @@ HOMEPAGE =3D "http://www.gnu.org/software/libtasn1/"
+>  LICENSE =3D "GPL-3.0-or-later & LGPL-2.1-or-later"
+>  LICENSE:${PN}-bin =3D "GPL-3.0-or-later"
+>  LICENSE:${PN} =3D "LGPL-2.1-or-later"
+> -LIC_FILES_CHKSUM =3D
+> "file://doc/COPYING;md5=3Dd32239bcb673463ab874e80d47fae504 \
+> -
+> file://doc/COPYING.LESSER;md5=3D4fbd65380cdd255951079008b364516c \
+> -                    file://COPYING;md5=3D75ac100ec923f959898182307970c36=
+0"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
+464 \
+> +
+> file://COPYING.LESSERv2;md5=3D4bf661c1e3793e55c8d1051bc5e0ae21"
+>
+>  SRC_URI =3D "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+>             file://dont-depend-on-help2man.patch \
+> @@ -16,7 +15,7 @@ SRC_URI =3D "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.=
+gz \
+>
+>  DEPENDS =3D "bison-native"
+>
+> -SRC_URI[sha256sum] =3D
+> "1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b30d82d23de345a63f7a"
+> +SRC_URI[sha256sum] =3D
+> "92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb71d583272b23587a76c"
+>
+>  inherit autotools texinfo lib_package gtk-doc
+>
+> --
+> 2.25.1
+>
+>
 
-It is being used to control whether the ld cache is being used or not.
-That has to be done at a distro wide policy level.=C2=A0Whether ldconfig
-makes it into the image or not is an indirect effect.
+--00000000000045f330062f319bf3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We can control the inclusion of ldconfig for ctypes at a package/image
-level, it isn't a distro config level issue.
+<div dir=3D"ltr"><div><div>Hi Team,<br><br></div>Any Update on this ?<br><b=
+r></div><div>Thanks &amp; Regards,</div><div>Vijay</div></div><br><div clas=
+s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Mon, Feb 24, 2025 at 12:00=E2=80=AFPM &lt;<a href=3D"mailto:vanusuri@=
+mvista.com">vanusuri@mvista.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:=
+vanusuri@mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+<br>
+* Noteworthy changes in release 4.20.0 (2025-02-01) [stable]<br>
+- The release tarball is now reproducible.<br>
+- We publish a minimal source-only tarball generated by &#39;git archive&#3=
+9;.<br>
+- Update gnulib files and various build/maintenance fixes.<br>
+- Fix CVE-2024-12133: Potential DoS in handling of numerous SEQUENCE OF or =
+SET<br>
+OF elements<br>
+<br>
+License-Update: file COPYING.LESSER renamed to COPYING.LESSERv2 &amp; Copyr=
+ight year updated to 2025<br>
+<br>
+Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
+get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0.../gnutls/{<a href=3D"http://libtasn1_4.19.0.bb" rel=3D"noreferrer" =
+target=3D"_blank">libtasn1_4.19.0.bb</a> =3D&gt; <a href=3D"http://libtasn1=
+_4.20.0.bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a>}=C2=
+=A0 =C2=A0 =C2=A0 | 7 +++----<br>
+=C2=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
+=C2=A0rename meta/recipes-support/gnutls/{<a href=3D"http://libtasn1_4.19.0=
+.bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a> =3D&gt; <a=
+ href=3D"http://libtasn1_4.20.0.bb" rel=3D"noreferrer" target=3D"_blank">li=
+btasn1_4.20.0.bb</a>} (63%)<br>
+<br>
+diff --git a/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a> b/meta/reci=
+pes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank">libtasn1_4.20.0.bb</a><br>
+similarity index 63%<br>
+rename from meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a><br>
+rename to meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a><br>
+index 5fb8b54c06..8127ba5b1d 100644<br>
+--- a/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.19.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">libtasn1_4.19.0.bb</a><br>
++++ b/meta/recipes-support/gnutls/<a href=3D"http://libtasn1_4.20.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">libtasn1_4.20.0.bb</a><br>
+@@ -6,9 +6,8 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.gnu.org/software/l=
+ibtasn1/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/software/=
+libtasn1/</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;GPL-3.0-or-later &amp; LGPL-2.1-or-later&quot;<br>
+=C2=A0LICENSE:${PN}-bin =3D &quot;GPL-3.0-or-later&quot;<br>
+=C2=A0LICENSE:${PN} =3D &quot;LGPL-2.1-or-later&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://doc/COPYING;md5=3Dd32239bcb673463ab874e8=
+0d47fae504 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://doc/COPYING.LESSER;md5=3D4fbd65380cdd255951079008b364516c \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://COPYING;md5=3D75ac100ec923f959898182307970c360&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e=
+440464 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://COPYING.LESSERv2;md5=3D4bf661c1e3793e55c8d1051bc5e0ae21&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dont-depend-on-help2man.pa=
+tch \<br>
+@@ -16,7 +15,7 @@ SRC_URI =3D &quot;${GNU_MIRROR}/libtasn1/libtasn1-${PV}.t=
+ar.gz \<br>
+<br>
+=C2=A0DEPENDS =3D &quot;bison-native&quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;1613f0ac1cf484d6ec0ce3b8c06d56263cc7242f1c23b=
+30d82d23de345a63f7a&quot;<br>
++SRC_URI[sha256sum] =3D &quot;92e0e3bd4c02d4aeee76036b2ddd83f0c732ba4cda5cb=
+71d583272b23587a76c&quot;<br>
+<br>
+=C2=A0inherit autotools texinfo lib_package gtk-doc<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div>
 
-Cheers,
-
-Richard
-
-
+--00000000000045f330062f319bf3--
 
