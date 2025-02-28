@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47325C19776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0E9C282C6
 	for <webhook@archiver.kernel.org>; Fri, 28 Feb 2025 14:43:49 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.17295.1740753821708598138
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.17298.1740753824919337511
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Feb 2025 06:43:41 -0800
+ Fri, 28 Feb 2025 06:43:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HkCpdRRU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2235908a30aso4395035ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 06:43:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hvFtX5no;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2234e5347e2so45296245ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 06:43:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740753821; x=1741358621; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1740753824; x=1741358624; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vgy2uuYC6gMF4V5dqjjMAl+iTc5ehZ673U+z+wetUSE=;
-        b=HkCpdRRU+Ye77WTkaAUr9OPkcvYN31whLw2F8fysF7m4WpYTv37u6G6VFzxyrJg8iE
-         X9T3RUc07Y4gkLRlFea+jKWIRFsIWKib6XpOErNMkaKcOSIhTo01XkjWu6RYjvW5IxM8
-         oB9E5A2msxRMRjfmngIoEKO7FobPlldbXOHWeMoRYnt7MjoJY9e/lQ/EgaTHSFDFFXSP
-         /UfTjRFofwTbBt9vtEtejxJPKEGwM64RDOrzJN1B74WvDVMSIzDUVEbluAtciG36wgQg
-         lGsDPP8OXeJgtqUzCzUuYTBjPuHa5zSdUBeGl2RHKRO4GidN75N9lTP+5lumIODaPsVv
-         SQPg==
+        bh=LNRtaSGzROqf3+1Z+2n1N/KUwZ63G+BOGBlVaqoJq8U=;
+        b=hvFtX5noeWONIspQx71gq3Ak2GSVakaAxcqnRR0snm9PRlboJ/tk/ErjRfz1DhYNLy
+         PjUVtwh6ECWDgS7HFDJ7Id8vAMhoPkCF9JLhM+kzvkShZqm6qsJ2iv5D6NoP9XHlAyA1
+         viLaTP9MrxkYBjCtTnUbeVSeAAcPJxSKsDVXFdWv/GKEPwvsdK6AHhBgrzqi6OvDhBth
+         97eE1Xyr3+XSaxALAsxBOxJbMAfVQ183654I404i1gEnKbYtPvly8WaI1/2jxt45qXgJ
+         NvqM9PBQhWJJPIsIHgnJTdmFI11JBRbluZMvfbviv6EvFZM0/bH2PTG7QBqAspJzseVG
+         ttMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740753821; x=1741358621;
+        d=1e100.net; s=20230601; t=1740753824; x=1741358624;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vgy2uuYC6gMF4V5dqjjMAl+iTc5ehZ673U+z+wetUSE=;
-        b=kKUQCZP2PdHPjVMVRyNifRzG2QSdwXZhIlpazEbjcZyGDlr1kQmi9VJyk/sSR3vF5a
-         bY/041g11TFRNZwQN7KNz187Uuh3gD2OYUSJ+nZ9YVSAJc6KiM4fR/MoRAShhEte537F
-         2+N26wD0h1wKRUGYbPwYK+a467cISjJOCzooWkMHGiHpuiW28kN2GbLpCCY7Hhc05HN7
-         qYHbnsK1mmqvxstwKMJ8CAqmo+xjNCx9QvYIhN4ZK5c9D4Zqr96mwo6EEO7iuXY+vOp0
-         6xM6R5vmP2MZmGE99aEGRdvVRtiHTvj/ix7ZU6VE+vQdo17ptwC2YS7E0xc2ITN0s8nb
-         uq7Q==
-X-Gm-Message-State: AOJu0YyotGqpKk8eCI8/dqVJl4dEHwy99khIJjk6ZTSbuBFNXGQDSjTn
-	3AJh5hkEAvOt2NcrsxnoUcOYfxJn6xkokAbnfBV4Wk1NAdAt1Xm2e1q+1Hv10I/M6lG3RfhxTOS
-	Z
-X-Gm-Gg: ASbGnctamN1RnqMLtzHLuk60Fju5Vy5Fk3MTZvulHh0awwfJ3+U+13wCBuQHPodHwhy
-	m4jbfpeS8OmFAI8pSaXBG6EuPEh73y6i7e6JRJPOUiP7VL9nqEj06kQGav2V9zuxBTddqA8OrPH
-	x9LWuRBV6pob6pgf5TbmPURSS6BWqHQniu6HQyAtV+2VunX+EImQJ1tRXuXZpzsUWV7L684qT0D
-	fPriCdyIhZ6PoEnPreBR38tv4FzkqVNkyI9nF2mqlm2uJZ10N6Vg4bF1stcm3ab+hyFA1gLvdhP
-	kl7fKZcbGuUIgiI=
-X-Google-Smtp-Source: AGHT+IHGexcCLL3DQi0X/8G+czpeXGyBYK3XOzg+ApDnGqCN3woCBiyx4ly6lw6Lhny71aSSqfpLRg==
-X-Received: by 2002:a17:902:e54e:b0:220:f449:7419 with SMTP id d9443c01a7336-22368f60a5emr60826235ad.7.1740753820825;
-        Fri, 28 Feb 2025 06:43:40 -0800 (PST)
+        bh=LNRtaSGzROqf3+1Z+2n1N/KUwZ63G+BOGBlVaqoJq8U=;
+        b=ZLQDqD6hJRihMV1sMR54JsSgrAwWyJKDhfcfYkttVS9DryyJjLbQMAt9I+kfENL7iq
+         QAJfh1SmPDawFBNSur03jmMI6urSsst5bqeUC4f236Qcp660X/+HqzXSjpEbyR4PsW6k
+         g9JPusAS7lQt0N6z3EvMZ8iOj2AJQ0BnWzhUhI8UZGg2Qvtljwfg1JaJMdVYOI7y+CMg
+         P5vhWYT4D7LCTOIZ67BIfDKRCty94W/v7kc6MO8WjtRped7en4HB48hiRWR02ElVil6J
+         K2yjPA3gNR18DrMgeonXg7uDFfArYY5hwTbWx9U+SC2NnbbuSIL7qm20+pG+icOqJ9Tx
+         twHA==
+X-Gm-Message-State: AOJu0YxuJQbYhiHhfJU4FXuPuebmAXXrMOWiMzOEtUmHcGDLnf/L/qd8
+	6UODEuCayv5icQaeZtgcVgnHHkSqxZKdCtmOdp2FkKHvP9fu5A2UoHFgWV3lt551jyqRhTqahSO
+	/
+X-Gm-Gg: ASbGncur17Z84RVNBz1scZ+oVNyFyXOl4uaJk/lfQYi4M68XfH28Dzbzw7BDI5elKHc
+	5yVVJ4a4nqrN4Hx35YLnhzvW0ixd80pMKxfiEqvzwALNbVga4UsG9sI5NjGQB30K7mB9SUTCLsA
+	7NxPN38PAzlp3SqSJrKruhIIyqa0ocF+ZemVQ4L1hBjEK4BlMB9iGp9mgRI5VvG+OfTVxdgfU2F
+	FkapN6Irl19IH5BjJwh1BxQoC8wqKTKxpB0oKqHTJM+EkH29dh5fpgxnEMPMNCa6SUYJGFowlS1
+	sOt4rwlfGGEpx8Q=
+X-Google-Smtp-Source: AGHT+IHtiSrUlhKFdurC161FW50ZFT5UXCz4rgjuuvTDa0GzbyPxW+uOMmysljdOWvrIooqmJuWHYQ==
+X-Received: by 2002:a17:903:1988:b0:223:47b4:aaf8 with SMTP id d9443c01a7336-2236921ed16mr48850045ad.52.1740753824066;
+        Fri, 28 Feb 2025 06:43:44 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7349fe6cd66sm3806559b3a.74.2025.02.28.06.43.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7349fe6cd66sm3806559b3a.74.2025.02.28.06.43.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 06:43:40 -0800 (PST)
+        Fri, 28 Feb 2025 06:43:43 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 2/4] u-boot: kernel-fitimage: Restore FIT_SIGN_INDIVIDUAL="1" behavior
-Date: Fri, 28 Feb 2025 06:42:58 -0800
-Message-ID: <699822a163a4efa32735f75d21fde4ffa195c0e0.1740753632.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/4] ccache.conf: Add include_file_ctime to sloppiness
+Date: Fri, 28 Feb 2025 06:43:00 -0800
+Message-ID: <c74a6d6afc52606825e583cae1162e13a5369498.1740753632.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1740753632.git.steve@sakoman.com>
 References: <cover.1740753632.git.steve@sakoman.com>
@@ -67,121 +67,54 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Feb 2025 14:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212062
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212064
 
-From: Marek Vasut <marex@denx.de>
+From: Fabio Berton <fabio.berton@criticaltechworks.com>
 
-OE FIT_SIGN_INDIVIDUAL is implemented in an unusual manner,
-where the resulting signed fitImage contains both signed
-images and signed configurations, possibly using different
-keys. This kind of signing of images is redundant, but so is
-the behavior of FIT_SIGN_INDIVIDUAL="1" and that is here to
-stay.
+When multiple recipes are built in parallel, Ccache sometimes refuses to
+lookup some objects in cache, leading to undesired cache misses. The
+root cause of this is an interaction between the way how bitbake
+constructs a recipe sysroot and Ccache's `include_file_ctime` check.
 
-Adjust the process of public key insertion into u-boot.dtb
-such that if FIT_SIGN_INDIVIDUAL==1, the image signing key
-is inserted into u-boot.dtb first, and in any case the
-configuration signing key is inserted into u-boot.dtb last.
+Whenever bitbake creates a recipe's sysroot it hardlinks the files
+provided by a recipes dependencies. Adding a hardlink to a file changes
+it's ctime which in turn leads Ccache to believe that the file was
+modified thus aborting the cache lookup.
 
-The verification of the keys inserted into u-boot.dtb against
-unused.itb is performed only for FIT_SIGN_INDIVIDUAL!=1 due to
-mkimage limitation, which does not allow mkimage -f auto-conf
-to update the generated unused.itb, and instead rewrites it.
+To avoid this situation, add `include_file_ctime` to the list of checks
+that should be ignored using the Ccache sloppiness configuration option
+[1].
 
-Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
-Signed-off-by: Marek Vasut <marex@denx.de>
+Example of a log entry that Ccache ignores a file:
+/
+|recipe-sysroot/usr/include/bits/pthread_stack_min.h had status change
+|near or after invocation (ctime 1739822508.107677255, invocation time
+|1739822507.970071107)
+\
+
+1 - https://ccache.dev/manual/4.10.2.html#config_sloppiness
+
+Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0106e5efab99c8016836a2ab71e2327ce58a9a9d)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+(cherry picked from commit 4899698297c7783e02aba5388e0469cc83bd2f70)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 60 ++++++++++++++++++++++----
- 1 file changed, 51 insertions(+), 9 deletions(-)
+ meta/conf/ccache.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 96c47ab016..5c579a9fb0 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -101,27 +101,69 @@ concat_dtb() {
- 	binary="$2"
- 
- 	if [ -e "${UBOOT_DTB_BINARY}" ]; then
--		# Re-sign the kernel in order to add the keys to our dtb
--		UBOOT_MKIMAGE_MODE="auto-conf"
- 		# Signing individual images is not recommended as that
- 		# makes fitImage susceptible to mix-and-match attack.
-+		#
-+		# OE FIT_SIGN_INDIVIDUAL is implemented in an unusual manner,
-+		# where the resulting signed fitImage contains both signed
-+		# images and signed configurations. This is redundant. In
-+		# order to prevent mix-and-match attack, it is sufficient
-+		# to sign configurations. The FIT_SIGN_INDIVIDUAL = "1"
-+		# support is kept to avoid breakage of existing layers, but
-+		# it is highly recommended to avoid FIT_SIGN_INDIVIDUAL = "1",
-+		# i.e. set FIT_SIGN_INDIVIDUAL = "0" .
- 		if [ "${FIT_SIGN_INDIVIDUAL}" = "1" ] ; then
--			UBOOT_MKIMAGE_MODE="auto"
-+			# Sign dummy image images in order to
-+			# add the image signing keys to our dtb
-+			${UBOOT_MKIMAGE_SIGN} \
-+				${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-+				-f auto \
-+				-k "${UBOOT_SIGN_KEYDIR}" \
-+				-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
-+				-g "${UBOOT_SIGN_IMG_KEYNAME}" \
-+				-K "${UBOOT_DTB_BINARY}" \
-+				-d /dev/null \
-+				-r ${B}/unused.itb \
-+				${UBOOT_MKIMAGE_SIGN_ARGS}
- 		fi
+diff --git a/meta/conf/ccache.conf b/meta/conf/ccache.conf
+index 4406ae561b..499e5327b8 100644
+--- a/meta/conf/ccache.conf
++++ b/meta/conf/ccache.conf
+@@ -1 +1,7 @@
+ max_size = 0
 +
-+		# Sign dummy image configurations in order to
-+		# add the configuration signing keys to our dtb
- 		${UBOOT_MKIMAGE_SIGN} \
- 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
--			-f $UBOOT_MKIMAGE_MODE \
-+			-f auto-conf \
- 			-k "${UBOOT_SIGN_KEYDIR}" \
- 			-o "${FIT_HASH_ALG},${FIT_SIGN_ALG}" \
--			-g "${UBOOT_SIGN_IMG_KEYNAME}" \
-+			-g "${UBOOT_SIGN_KEYNAME}" \
- 			-K "${UBOOT_DTB_BINARY}" \
- 			-d /dev/null \
- 			-r ${B}/unused.itb \
- 			${UBOOT_MKIMAGE_SIGN_ARGS}
--		# Verify the kernel image and u-boot dtb
--		${UBOOT_FIT_CHECK_SIGN} \
--			-k "${UBOOT_DTB_BINARY}" \
--			-f ${B}/unused.itb
-+
-+		# Verify the dummy fitImage signature against u-boot.dtb
-+		# augmented using public key material.
-+		#
-+		# This only works for FIT_SIGN_INDIVIDUAL = "0", because
-+		# mkimage -f auto-conf does not support -F to extend the
-+		# existing unused.itb , and instead rewrites unused.itb
-+		# from scratch.
-+		#
-+		# Using two separate unused.itb for mkimage -f auto and
-+		# mkimage -f auto-conf invocation above would not help, as
-+		# the signature verification process below checks whether
-+		# all keys inserted into u-boot.dtb /signature node pass
-+		# the verification. Separate unused.itb would each miss one
-+		# of the signatures.
-+		#
-+		# The FIT_SIGN_INDIVIDUAL = "1" support is kept to avoid
-+		# breakage of existing layers, but it is highly recommended
-+		# to not use FIT_SIGN_INDIVIDUAL = "1", i.e. set
-+		# FIT_SIGN_INDIVIDUAL = "0" .
-+		if [ "${FIT_SIGN_INDIVIDUAL}" != "1" ] ; then
-+			${UBOOT_FIT_CHECK_SIGN} \
-+				-k "${UBOOT_DTB_BINARY}" \
-+				-f ${B}/unused.itb
-+		fi
- 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
- 	fi
- 
++# Avoid spurious cache misses caused by recipe sysroot creation: Creating a
++# recipe sysroot hardlinks all dependent files into place. Hardlinking updates
++# the file's ctime which in turn interferes with ccache's include_file_ctime
++# check.
++sloppiness = include_file_ctime
 -- 
 2.43.0
 
