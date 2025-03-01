@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43485C35FEE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F81AC35FEF
 	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:28 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.7163.1740828318538724398
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.7164.1740828318892089703
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Mar 2025 03:25:20 -0800
+ Sat, 01 Mar 2025 03:25:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gOeNXfpi;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rrlDXCoq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195517422a3-539dfd13-ca32-41fa-b47d-64306846047f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bgOauCAS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bhDbFH7N;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019551742341-1f5babf8-5157-4304-99b8-77c6055ddf4a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1740828320;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=36zdehEcPLpjLmkcWz9Q9D+Ahx0aFOLJ5MT7eL3669o=;
-	b=gOeNXfpi0bHps/k/0S+Q92BB7FG0z7c6JiYs+omfpD5pSn/n6sfwm2PdGONvRY4M
-	ERTIRWpibjvRd3uRKACMuy6bVbdx4bx0EuXfUPF5LViawTxSw8BnAjSc/2NKPWga0yD
-	IWAWI30l3PO+wNM9eMoqFrt6qNpYIViKccPrXI80=
+	bh=QpCJjKwgCF1br6S7odAZkGN0+HDW7n6z6ETQzD8fLy8=;
+	b=bgOauCASIJ8gyw0DiVfk5iBRNH1JkTpCFqPAUavDB+Du4pltTCkEXuRLVMmLjd58
+	CPMMqtiGWzoe5Kbub95U6y0pl+EKP5vA4Iphi0yexgfQUllLDBZqt+LfJVoDr3mXz6x
+	u2aYX1Pb4NXw6HQP7Jxf2hdxaWsyxDh1/5iZ6O2g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828320;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=36zdehEcPLpjLmkcWz9Q9D+Ahx0aFOLJ5MT7eL3669o=;
-	b=rrlDXCoqo911i1hdVC5pS+fh2406pwPgsn/XG9NEEv9fVSSj3aMqWbrs5bnHioTt
-	fmDMKRF2p0yt8OSlgP2MuhYyHE1hA0VhxEVXKKYX23hZ5O9YjHfJE90q6acCQMtbokm
-	k+BUoZnxKCmBRHZdZ1zKO5k9haeGvY86RRsihRfU=
-Content-Type: multipart/mixed; boundary="===============5046783554633236481=="
+	bh=QpCJjKwgCF1br6S7odAZkGN0+HDW7n6z6ETQzD8fLy8=;
+	b=bhDbFH7NjYRgYgTz1JsSGa4mnu9MckkTjuT1KQ9m2GP7SlTLvNimhw/BpLIrEtu/
+	o9Bd85lkBiKwtHBA40B/w3WubyrToM3Q2Q2b3T6Ja0JM1bcmpE9mL5ZW2ZWNdnsgCWL
+	PeVVADal5pslpPJwUwartABPk7nIWfFb/dODkvXo=
+Content-Type: multipart/mixed; boundary="===============5380145903006147594=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tom Rini <trini@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] inetutils: upgrading to 2.6 SUCCEEDED
-Message-ID: <01010195517422a3-539dfd13-ca32-41fa-b47d-64306846047f-000000@us-west-2.amazonses.com>
+Subject: [AUH] sysvinit: upgrading to 3.14 SUCCEEDED
+Message-ID: <0101019551742341-1f5babf8-5157-4304-99b8-77c6055ddf4a-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Mar 2025 11:25:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.193
+X-SES-Outgoing: 2025.03.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212106
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212107
 
---===============5046783554633236481==
+--===============5380145903006147594==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *inetutils* to *2.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *sysvinit* to *3.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-inetutils-upgrade-2.5-2.6.patch
+    - apply the patch: git am 0001-sysvinit-upgrade-3.13-3.14.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,155 +72,133 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 87a71924437a904494bd95d8f68902ed4d8e104e Mon Sep 17 00:00:00 2001
+From 6638532a26e3ca1cdf45e5ce3795fd248b1a58cc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 06:45:30 +0000
-Subject: [PATCH] inetutils: upgrade 2.5 -> 2.6
+Date: Sat, 1 Mar 2025 07:09:40 +0000
+Subject: [PATCH] sysvinit: upgrade 3.13 -> 3.14
 
 ---
- .../inetutils/{inetutils_2.5.bb => inetutils_2.6.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/inetutils/{inetutils_2.5.bb => inetutils_2.6.bb} (99%)
+ meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch           | 4 ++--
+ .../sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb}           | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/sysvinit/{sysvinit_3.13.bb => sysvinit_3.14.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb b/meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-similarity index 99%
-rename from meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-rename to meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-index 19bf7e1539..ef453d3bb2 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.6.bb
-@@ -11,7 +11,7 @@ LICENSE = "GPL-3.0-only"
+diff --git a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+index ece870c269..3383165430 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+@@ -1,4 +1,4 @@
+-From 19a8777c81bc451d65a4071528e4715e19941e0a Mon Sep 17 00:00:00 2001
++From 5b14182641901799a1711e79558f62ab81803f75 Mon Sep 17 00:00:00 2001
+ From: Jeff Dike <jdike@x86_64.user-mode-linux.org>
+ Date: Wed, 14 Jul 2010 14:35:52 -0400
+ Subject: [PATCH] sysvinit - Remove sulogin dependency on /usr/lib*/libcrypt.a
+@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate [configuration]
+  1 file changed, 2 insertions(+), 10 deletions(-)
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c7051aef9219dc7237f206c5c4179a7"
+ diff --git a/src/Makefile b/src/Makefile
+-index 4ce4889..1611c1c 100644
++index 6d9f01c..b12a233 100644
+ --- a/src/Makefile
+ +++ b/src/Makefile
+ @@ -97,16 +97,8 @@ else
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.13.bb b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
+similarity index 98%
+rename from meta/recipes-core/sysvinit/sysvinit_3.13.bb
+rename to meta/recipes-core/sysvinit/sysvinit_3.14.bb
+index d935b0edfd..521eda0bfb 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.13.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
+            file://bootlogd.init \
+            file://01_bootlogd \
+            "
+-SRC_URI[sha256sum] = "cbaeabddc35a6511b87c87452ee5e87c678a26329c7d7d17fb69a2b42a314d86"
++SRC_URI[sha256sum] = "c90874b8c054a35991fb8c4d30c443ed1e9b1815ff6165c7b483f558be4e4b53"
  
--SRC_URI[sha256sum] = "87697d60a31e10b5cb86a9f0651e1ec7bee98320d048c0739431aac3d5764fb6"
-+SRC_URI[sha256sum] = "68bedbfeaf73f7d86be2a7d99bcfbd4093d829f52770893919ae174c0b2357ca"
- SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://rexec.xinetd.inetutils \
-            file://rlogin.xinetd.inetutils \
+ S = "${WORKDIR}/sysvinit-${PV}"
+ 
 -- 
 2.44.1
 
 
---===============5046783554633236481==
+--===============5380145903006147594==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sysvinit-upgrade-3.13-3.14.patch"
+
+RnJvbSA2NjM4NTMyYTI2ZTNjYTFjZGY0NWU1Y2UzNzk1ZmQyNDhiMWE1OGNjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNzowOTo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN5
+c3Zpbml0OiB1cGdyYWRlIDMuMTMgLT4gMy4xNAoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS9zeXN2
+aW5pdC9zeXN2aW5pdC9jcnlwdC1saWIucGF0Y2ggICAgICAgICAgIHwgNCArKy0tCiAuLi4vc3lz
+dmluaXQve3N5c3Zpbml0XzMuMTMuYmIgPT4gc3lzdmluaXRfMy4xNC5iYn0gICAgICAgICAgIHwg
+MiArLQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQve3N5c3Zpbml0XzMuMTMuYmIgPT4gc3lz
+dmluaXRfMy4xNC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN2
+aW5pdC9zeXN2aW5pdC9jcnlwdC1saWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN2aW5p
+dC9zeXN2aW5pdC9jcnlwdC1saWIucGF0Y2gKaW5kZXggZWNlODcwYzI2OS4uMzM4MzE2NTQzMCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXQvY3J5cHQtbGli
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3Zpbml0L3N5c3Zpbml0L2NyeXB0LWxp
+Yi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTlhODc3N2M4MWJjNDUxZDY1YTQwNzE1Mjhl
+NDcxNWUxOTk0MWUwYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWIxNDE4MjY0MTkw
+MTc5OWExNzExZTc5NTU4ZjYyYWI4MTgwM2Y3NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IEplZmYgRGlrZSA8amRpa2VAeDg2XzY0LnVzZXItbW9kZS1saW51eC5vcmc+CiBEYXRlOiBX
+ZWQsIDE0IEp1bCAyMDEwIDE0OjM1OjUyIC0wNDAwCiBTdWJqZWN0OiBbUEFUQ0hdIHN5c3Zpbml0
+IC0gUmVtb3ZlIHN1bG9naW4gZGVwZW5kZW5jeSBvbiAvdXNyL2xpYiovbGliY3J5cHQuYQpAQCAt
+MTQsNyArMTQsNyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW2NvbmZpZ3VyYXRp
+b25dCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCiAK
+IGRpZmYgLS1naXQgYS9zcmMvTWFrZWZpbGUgYi9zcmMvTWFrZWZpbGUKLWluZGV4IDRjZTQ4ODku
+LjE2MTFjMWMgMTAwNjQ0CitpbmRleCA2ZDlmMDFjLi5iMTJhMjMzIDEwMDY0NAogLS0tIGEvc3Jj
+L01ha2VmaWxlCiArKysgYi9zcmMvTWFrZWZpbGUKIEBAIC05NywxNiArOTcsOCBAQCBlbHNlCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN2aW5pdC9zeXN2aW5pdF8zLjEzLmJiIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXRfMy4xNC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9zeXN2aW5pdC9zeXN2aW5pdF8z
+LjEzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9zeXN2aW5pdC9zeXN2aW5pdF8zLjE0
+LmJiCmluZGV4IGQ5MzViMGVkZmQuLjUyMWVkYTBiZmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL3N5c3Zpbml0L3N5c3Zpbml0XzMuMTMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUv
+c3lzdmluaXQvc3lzdmluaXRfMy4xNC5iYgpAQCAtMTgsNyArMTgsNyBAQCBTUkNfVVJJID0gIiR7
+R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQfS50YXIueHogXAogICAgICAgICAg
+ICBmaWxlOi8vYm9vdGxvZ2QuaW5pdCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMV9ib290bG9nZCBc
+CiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjYmFlYWJkZGMzNWE2NTExYjg3
+Yzg3NDUyZWU1ZTg3YzY3OGEyNjMyOWM3ZDdkMTdmYjY5YTJiNDJhMzE0ZDg2IgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImM5MDg3NGI4YzA1NGEzNTk5MWZiOGM0ZDMwYzQ0M2VkMWU5YjE4MTVmZjYx
+NjVjN2I0ODNmNTU4YmU0ZTRiNTMiCiAKIFMgPSAiJHtXT1JLRElSfS9zeXN2aW5pdC0ke1BWfSIK
+IAotLSAKMi40NC4xCgo=
+
+--===============5380145903006147594==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/inetutils/inetutils-dbg: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-dbg: PKGSIZE changed from 5240136 to 5335976 (+2%)
-packages/core2-64-poky-linux/inetutils/inetutils-dbg: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-dev: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-dev: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-doc: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-doc: PKGSIZE changed from 265045 to 271401 (+2%)
-packages/core2-64-poky-linux/inetutils/inetutils-doc: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-ftp: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-ftp: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-ftpd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-ftpd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-hostname: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-hostname: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-ifconfig: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-ifconfig: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-inetd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-inetd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-locale: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-locale: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-logger: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-logger: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-ping: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-ping: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-ping6: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-ping6: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-rsh: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-rsh: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-rshd-dbg: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-rshd-dbg: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-rshd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-rshd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-src: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-src: PKGSIZE changed from 3176340 to 3593248 (+13%)
-packages/core2-64-poky-linux/inetutils/inetutils-src: FILELIST: directory renamed /usr/src/debug/inetutils/2.5/ftpd -> /usr/src/debug/inetutils/2.6/ftpd, directory renamed /usr/src/debug/inetutils/2.5/lib/malloc -> /usr/src/debug/inetutils/2.6/lib/malloc, directory renamed /usr/src/debug/inetutils/2.5/telnetd -> /usr/src/debug/inetutils/2.6/telnetd, directory renamed /usr/src/debug/inetutils/2.5/ping -> /usr/src/debug/inetutils/2.6/ping, directory renamed /usr/src/debug/inetutils/2.5/ftp -> /usr/src/debug/inetutils/2.6/ftp, directory renamed /usr/src/debug/inetutils/2.5/talkd -> /usr/src/debug/inetutils/2.6/talkd, directory renamed /usr/src/debug/inetutils/2.5/ifconfig/system -> /usr/src/debug/inetutils/2.6/ifconfig/system, directory renamed /usr/src/debug/inetutils/2.5/telnet -> /usr/src/debug/inetutils/2.6/telnet, directory renamed /usr/src/debug/inetutils/2.5/talk -> /usr/src/debug/inetutils/2.6/talk, directory renamed /usr/src/debug/inetutils/2.5/libtelnet -> /usr/src/debug/inetu
- tils/2.6/libtelnet, directory renamed /usr/src/debug/inetutils/2.5/libls -> /usr/src/debug/inetutils/2.6/libls, directory renamed /usr/src/debug/inetutils/2.5/ifconfig -> /usr/src/debug/inetutils/2.6/ifconfig, directory renamed /usr/src/debug/inetutils/2.5/libicmp -> /usr/src/debug/inetutils/2.6/libicmp, directory renamed /usr/src/debug/inetutils/2.5/lib/sys -> /usr/src/debug/inetutils/2.6/lib/sys, directory renamed /usr/src/debug/inetutils/2.5/libinetutils -> /usr/src/debug/inetutils/2.6/libinetutils, directory renamed /usr/src/debug/inetutils/2.5/whois -> /usr/src/debug/inetutils/2.6/whois, directory renamed /usr/src/debug/inetutils/2.5/src -> /usr/src/debug/inetutils/2.6/src, removed "/usr/src/debug/inetutils/2.5/lib/fts.c /usr/src/debug/inetutils/2.5/lib/memchr.c /usr/src/debug/inetutils/2.5/lib/getopt.c /usr/src/debug/inetutils/2.5/lib/i-ring.c /usr/src/debug/inetutils/2.5/lib/getcwd.c /usr/src/debug/inetutils/2.5/lib/stdlib.h /usr/src/debug/inetutils/2.5/lib/unistd-safer.h /us
- r/src/debug/inetutils/2.5/lib/fcntl.h /usr/src/debug/inetutils/2.5/lib/argp-version-etc.h /usr/src/debug/inetutils/2.5/lib/dup-safer.c /usr/src/debug/inetutils/2.5/lib/string.h /usr/src/debug/inetutils/2.5/lib/unistd.h /usr/src/debug/inetutils/2.5/lib/ialloc.h /usr/src/debug/inetutils/2.5/lib/i-ring.h /usr/src/debug/inetutils/2.5/lib/argp-version-etc.c /usr/src/debug/inetutils/2.5/lib/bitrotate.h /usr/src/debug/inetutils/2.5/lib/fcntl.c /usr/src/debug/inetutils/2.5/lib/mbsrtowcs-state.c /usr/src/debug/inetutils/2.5/lib/open-safer.c /usr/src/debug/inetutils/2.5/lib/openat-safer.c /usr/src/debug/inetutils/2.5/lib/strnlen1.c /usr/src/debug/inetutils/2.5/lib/strnlen1.h /usr/src/debug/inetutils/2.5/lib/glob-libc.gl.h /usr/src/debug/inetutils/2.5/lib/filemode.c /usr/src/debug/inetutils/2.5/lib/progname.c /usr/src/debug/inetutils/2.5/lib/filemode.h /usr/src/debug/inetutils/2.5/lib/progname.h /usr/src/debug/inetutils/2.5/lib/ioctl.c /usr/src/debug/inetutils/2.5/lib/idx.h /usr/src/debug/inet
- utils/2.5/lib/mbsrtowcs-impl.h /usr/src/debug/inetutils/2.5/lib/hash.c /usr/src/debug/inetutils/2.5/lib/regex.h /usr/src/debug/inetutils/2.5/lib/hash.h /usr/src/debug/inetutils/2.5/lib/fnmatch.c /usr/src/debug/inetutils/2.5/lib/regcomp.c /usr/src/debug/inetutils/2.5/lib/regexec.c /usr/src/debug/inetutils/2.5/lib/xgetcwd.c /usr/src/debug/inetutils/2.5/lib/xmalloc.c /usr/src/debug/inetutils/2.5/lib/boot-time-aux.h /usr/src/debug/inetutils/2.5/lib/dev-ino.h /usr/src/debug/inetutils/2.5/lib/fnmatch.h /usr/src/debug/inetutils/2.5/lib/xgetcwd.h /usr/src/debug/inetutils/2.5/lib/argp-pvh.c /usr/src/debug/inetutils/2.5/lib/hard-locale.h /usr/src/debug/inetutils/2.5/lib/hard-locale.c /usr/src/debug/inetutils/2.5/lib/getugroups.h /usr/src/debug/inetutils/2.5/lib/mgetgroups.h /usr/src/debug/inetutils/2.5/lib/mbsrtowcs.c /usr/src/debug/inetutils/2.5/lib/mgetgroups.c /usr/src/debug/inetutils/2.5/lib/getopt_int.h /usr/src/debug/inetutils/2.5/lib/getopt-ext.h /usr/src/debug/inetutils/2.5/lib/versio
- n-etc.c /usr/src/debug/inetutils/2.5/lib/wchar.h /usr/src/debug/inetutils/2.5/lib/version-etc.h /usr/src/debug/inetutils/2.5/lib/fd-safer.c /usr/src/debug/inetutils/2.5/lib/fopen.c /usr/src/debug/inetutils/2.5/lib/opendirat.h /usr/src/debug/inetutils/2.5/lib/xvasprintf.c /usr/src/debug/inetutils/2.5/lib/readutmp.h /usr/src/debug/inetutils/2.5/lib/opendirat.c /usr/src/debug/inetutils/2.5/lib/readutmp.c /usr/src/debug/inetutils/2.5/lib/xvasprintf.h /usr/src/debug/inetutils/2.5/lib/argp-eexst.c /usr/src/debug/inetutils/2.5/lib/xgetaname-impl.h /usr/src/debug/inetutils/2.5/lib/cycle-check.h /usr/src/debug/inetutils/2.5/lib/fseeko.c /usr/src/debug/inetutils/2.5/lib/cycle-check.c /usr/src/debug/inetutils/2.5/lib/xalloc.h /usr/src/debug/inetutils/2.5/lib/dirent.h /usr/src/debug/inetutils/2.5/lib/regex_internal.h /usr/src/debug/inetutils/2.5/lib/globfree.c /usr/src/debug/inetutils/2.5/lib/btowc.c /usr/src/debug/inetutils/2.5/lib/regex_internal.c /usr/src/debug/inetutils/2.5/lib/memset_expli
- cit.c /usr/src/debug/inetutils/2.5/lib/read-file.h /usr/src/debug/inetutils/2.5/lib/xasprintf.c /usr/src/debug/inetutils/2.5/lib/read-file.c /usr/src/debug/inetutils/2.5/lib/fts-cycle.c /usr/src/debug/inetutils/2.5/lib/stdio.h /usr/src/debug/inetutils/2.5/lib/xalloc-die.c /usr/src/debug/inetutils/2.5/lib/glob_internal.h /usr/src/debug/inetutils/2.5/lib/obstack.c /usr/src/debug/inetutils/2.5/lib/argp-ba.c /usr/src/debug/inetutils/2.5/lib/argp-pv.c /usr/src/debug/inetutils/2.5/lib/argp-help.c /usr/src/debug/inetutils/2.5/lib/mbrtowc.c /usr/src/debug/inetutils/2.5/lib/basename-lgpl.c /usr/src/debug/inetutils/2.5/lib/getopt1.c /usr/src/debug/inetutils/2.5/lib/obstack.h /usr/src/debug/inetutils/2.5/lib/basename-lgpl.h /usr/src/debug/inetutils/2.5/lib/xsize.h /usr/src/debug/inetutils/2.5/lib/fcntl-safer.h /usr/src/debug/inetutils/2.5/lib/xgethostname.h /usr/src/debug/inetutils/2.5/lib/exitfail.h /usr/src/debug/inetutils/2.5/lib/exitfail.c /usr/src/debug/inetutils/2.5/lib/fts_.h /usr/src/d
- ebug/inetutils/2.5/lib/glob.c /usr/src/debug/inetutils/2.5/lib/setlocale_null.c /usr/src/debug/inetutils/2.5/lib/glob.h /usr/src/debug/inetutils/2.5/lib/getopt-core.h /usr/src/debug/inetutils/2.5/lib/argp-parse.c /usr/src/debug/inetutils/2.5/lib/setlocale_null.h /usr/src/debug/inetutils/2.5/lib/stat-time.h /usr/src/debug/inetutils/2.5/lib/argp.h /usr/src/debug/inetutils/2.5/lib/version-etc-fsf.c /usr/src/debug/inetutils/2.5/lib/inttostr.h /usr/src/debug/inetutils/2.5/lib/argp-fmtstream.h /usr/src/debug/inetutils/2.5/lib/argp-fmtstream.c /usr/src/debug/inetutils/2.5/lib/xgetdomainname.h /usr/src/debug/inetutils/2.5/lib/anytostr.c /usr/src/debug/inetutils/2.5/lib/fnmatch_loop.c", added "/usr/src/debug/inetutils/2.6/lib/fts.c /usr/src/debug/inetutils/2.6/lib/memchr.c /usr/src/debug/inetutils/2.6/lib/getopt.c /usr/src/debug/inetutils/2.6/lib/i-ring.c /usr/src/debug/inetutils/2.6/lib/getcwd.c /usr/src/debug/inetutils/2.6/lib/strtol.c /usr/src/debug/inetutils/2.6/lib/stdlib.h /usr/src/deb
- ug/inetutils/2.6/lib/unistd-safer.h /usr/src/debug/inetutils/2.6/lib/fcntl.h /usr/src/debug/inetutils/2.6/lib/argp-version-etc.h /usr/src/debug/inetutils/2.6/lib/dup-safer.c /usr/src/debug/inetutils/2.6/lib/string.h /usr/src/debug/inetutils/2.6/lib/unistd.h /usr/src/debug/inetutils/2.6/lib/ialloc.h /usr/src/debug/inetutils/2.6/lib/i-ring.h /usr/src/debug/inetutils/2.6/lib/argp-version-etc.c /usr/src/debug/inetutils/2.6/lib/bitrotate.h /usr/src/debug/inetutils/2.6/lib/fcntl.c /usr/src/debug/inetutils/2.6/lib/mbsrtowcs-state.c /usr/src/debug/inetutils/2.6/lib/open-safer.c /usr/src/debug/inetutils/2.6/lib/strnlen1.c /usr/src/debug/inetutils/2.6/lib/reallocarray.c /usr/src/debug/inetutils/2.6/lib/timespec.h /usr/src/debug/inetutils/2.6/lib/strnlen1.h /usr/src/debug/inetutils/2.6/lib/glob-libc.gl.h /usr/src/debug/inetutils/2.6/lib/filemode.c /usr/src/debug/inetutils/2.6/lib/printf-args.c /usr/src/debug/inetutils/2.6/lib/progname.c /usr/src/debug/inetutils/2.6/lib/printf-args.h /usr/src/d
- ebug/inetutils/2.6/lib/filemode.h /usr/src/debug/inetutils/2.6/lib/progname.h /usr/src/debug/inetutils/2.6/lib/ioctl.c /usr/src/debug/inetutils/2.6/lib/idx.h /usr/src/debug/inetutils/2.6/lib/mbsrtowcs-impl.h /usr/src/debug/inetutils/2.6/lib/hash.c /usr/src/debug/inetutils/2.6/lib/regex.h /usr/src/debug/inetutils/2.6/lib/hash.h /usr/src/debug/inetutils/2.6/lib/fnmatch.c /usr/src/debug/inetutils/2.6/lib/regcomp.c /usr/src/debug/inetutils/2.6/lib/regexec.c /usr/src/debug/inetutils/2.6/lib/xgetcwd.c /usr/src/debug/inetutils/2.6/lib/xmalloc.c /usr/src/debug/inetutils/2.6/lib/xstrtol.c /usr/src/debug/inetutils/2.6/lib/boot-time-aux.h /usr/src/debug/inetutils/2.6/lib/dev-ino.h /usr/src/debug/inetutils/2.6/lib/fnmatch.h /usr/src/debug/inetutils/2.6/lib/xgetcwd.h /usr/src/debug/inetutils/2.6/lib/xstrtol.h /usr/src/debug/inetutils/2.6/lib/timespec-add.c /usr/src/debug/inetutils/2.6/lib/printf-parse.c /usr/src/debug/inetutils/2.6/lib/timespec-sub.c /usr/src/debug/inetutils/2.6/lib/argp-pvh.c /
- usr/src/debug/inetutils/2.6/lib/hard-locale.h /usr/src/debug/inetutils/2.6/lib/printf-parse.h /usr/src/debug/inetutils/2.6/lib/hard-locale.c /usr/src/debug/inetutils/2.6/lib/getugroups.h /usr/src/debug/inetutils/2.6/lib/mgetgroups.h /usr/src/debug/inetutils/2.6/lib/mbsrtowcs.c /usr/src/debug/inetutils/2.6/lib/mgetgroups.c /usr/src/debug/inetutils/2.6/lib/getopt_int.h /usr/src/debug/inetutils/2.6/lib/getopt-ext.h /usr/src/debug/inetutils/2.6/lib/version-etc.c /usr/src/debug/inetutils/2.6/lib/wchar.h /usr/src/debug/inetutils/2.6/lib/version-etc.h /usr/src/debug/inetutils/2.6/lib/fd-safer.c /usr/src/debug/inetutils/2.6/lib/fopen.c /usr/src/debug/inetutils/2.6/lib/opendirat.h /usr/src/debug/inetutils/2.6/lib/vasnprintf.c /usr/src/debug/inetutils/2.6/lib/readutmp.h /usr/src/debug/inetutils/2.6/lib/opendirat.c /usr/src/debug/inetutils/2.6/lib/vaszprintf.c /usr/src/debug/inetutils/2.6/lib/xvasprintf.c /usr/src/debug/inetutils/2.6/lib/readutmp.c /usr/src/debug/inetutils/2.6/lib/xvasprintf.h
-  /usr/src/debug/inetutils/2.6/lib/vasnprintf.h /usr/src/debug/inetutils/2.6/lib/argp-eexst.c /usr/src/debug/inetutils/2.6/lib/xgetaname-impl.h /usr/src/debug/inetutils/2.6/lib/cycle-check.h /usr/src/debug/inetutils/2.6/lib/fseeko.c /usr/src/debug/inetutils/2.6/lib/cycle-check.c /usr/src/debug/inetutils/2.6/lib/dirent.h /usr/src/debug/inetutils/2.6/lib/xalloc.h /usr/src/debug/inetutils/2.6/lib/setlocale_null-unlocked.c /usr/src/debug/inetutils/2.6/lib/regex_internal.h /usr/src/debug/inetutils/2.6/lib/globfree.c /usr/src/debug/inetutils/2.6/lib/btowc.c /usr/src/debug/inetutils/2.6/lib/regex_internal.c /usr/src/debug/inetutils/2.6/lib/memset_explicit.c /usr/src/debug/inetutils/2.6/lib/read-file.h /usr/src/debug/inetutils/2.6/lib/xasprintf.c /usr/src/debug/inetutils/2.6/lib/fts-cycle.c /usr/src/debug/inetutils/2.6/lib/read-file.c /usr/src/debug/inetutils/2.6/lib/stdio.h /usr/src/debug/inetutils/2.6/lib/xalloc-die.c /usr/src/debug/inetutils/2.6/lib/glob_internal.h /usr/src/debug/inetutil
- s/2.6/lib/obstack.c /usr/src/debug/inetutils/2.6/lib/argp-ba.c /usr/src/debug/inetutils/2.6/lib/argp-pv.c /usr/src/debug/inetutils/2.6/lib/argp-help.c /usr/src/debug/inetutils/2.6/lib/mbrtowc.c /usr/src/debug/inetutils/2.6/lib/basename-lgpl.c /usr/src/debug/inetutils/2.6/lib/getopt1.c /usr/src/debug/inetutils/2.6/lib/gettime.c /usr/src/debug/inetutils/2.6/lib/obstack.h /usr/src/debug/inetutils/2.6/lib/basename-lgpl.h /usr/src/debug/inetutils/2.6/lib/xsize.h /usr/src/debug/inetutils/2.6/lib/fcntl-safer.h /usr/src/debug/inetutils/2.6/lib/xgethostname.h /usr/src/debug/inetutils/2.6/lib/exitfail.h /usr/src/debug/inetutils/2.6/lib/exitfail.c /usr/src/debug/inetutils/2.6/lib/fts_.h /usr/src/debug/inetutils/2.6/lib/glob.c /usr/src/debug/inetutils/2.6/lib/setlocale_null.c /usr/src/debug/inetutils/2.6/lib/glob.h /usr/src/debug/inetutils/2.6/lib/getopt-core.h /usr/src/debug/inetutils/2.6/lib/argp-parse.c /usr/src/debug/inetutils/2.6/lib/setlocale_null.h /usr/src/debug/inetutils/2.6/lib/stat-t
- ime.h /usr/src/debug/inetutils/2.6/lib/argp.h /usr/src/debug/inetutils/2.6/lib/version-etc-fsf.c /usr/src/debug/inetutils/2.6/lib/inttostr.h /usr/src/debug/inetutils/2.6/lib/argp-fmtstream.h /usr/src/debug/inetutils/2.6/lib/argp-fmtstream.c /usr/src/debug/inetutils/2.6/lib/xgetdomainname.h /usr/src/debug/inetutils/2.6/lib/anytostr.c /usr/src/debug/inetutils/2.6/lib/fnmatch_loop.c"
-packages/core2-64-poky-linux/inetutils/inetutils-src: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-staticdev: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-staticdev: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-syslogd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-syslogd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-telnet: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-telnet: PKGSIZE changed from 144968 to 161352 (+11%)
-packages/core2-64-poky-linux/inetutils/inetutils-telnet: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-telnetd-dbg: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-telnetd-dbg: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-telnetd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-telnetd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-tftp: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-tftp: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-tftpd-dbg: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-tftpd-dbg: PKGSIZE changed from 219856 to 219456 (-0%)
-packages/core2-64-poky-linux/inetutils/inetutils-tftpd-dbg: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-tftpd: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-tftpd: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils-traceroute: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils-traceroute: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils/inetutils: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils/inetutils: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/inetutils: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/inetutils: SRC_URI changed from "https://ftp.gnu.org/gnu/inetutils/inetutils-2.5.tar.xz file://rexec.xinetd.inetutils file://rlogin.xinetd.inetutils file://rsh.xinetd.inetutils file://telnet.xinetd.inetutils file://tftpd.xinetd.inetutils" to "https://ftp.gnu.org/gnu/inetutils/inetutils-2.6.tar.xz file://rexec.xinetd.inetutils file://rlogin.xinetd.inetutils file://rsh.xinetd.inetutils file://telnet.xinetd.inetutils file://tftpd.xinetd.inetutils"
-packages/core2-64-poky-linux/inetutils: PKGV changed from 2.5 [default] to 2.6 [default]
+packages/core2-64-poky-linux/sysvinit: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit: SRC_URI changed from "https://github.com/slicer69/sysvinit/releases//download/3.13/sysvinit-3.13.tar.xz file://crypt-lib.patch file://rcS-default file://rc file://rcS file://bootlogd.init file://01_bootlogd" to "https://github.com/slicer69/sysvinit/releases//download/3.14/sysvinit-3.14.tar.xz file://crypt-lib.patch file://rcS-default file://rc file://rcS file://bootlogd.init file://01_bootlogd"
+packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PKGSIZE changed from 627632 to 630016 (+0%)
+packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-dbg: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-dev: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-dev: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PKGSIZE changed from 78276 to 78372 (+0%)
+packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-doc: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-locale: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-locale: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-pidof: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-pidof: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-src: PKGSIZE changed from 270597 to 272613 (+1%)
+packages/core2-64-poky-linux/sysvinit/sysvinit-src: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-src: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-staticdev: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-staticdev: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit-sulogin: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit-sulogin: PKGV changed from 3.13 [default] to 3.14 [default]
+packages/core2-64-poky-linux/sysvinit/sysvinit: PKGSIZE changed from 264487 to 265255 (+0%)
+packages/core2-64-poky-linux/sysvinit/sysvinit: PV changed from "3.13" to "3.14"
+packages/core2-64-poky-linux/sysvinit/sysvinit: PKGV changed from 3.13 [default] to 3.14 [default]
 
---===============5046783554633236481==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-inetutils-upgrade-2.5-2.6.patch"
-
-RnJvbSA4N2E3MTkyNDQzN2E5MDQ0OTRiZDk1ZDhmNjg5MDJlZDRkOGUxMDRlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNjo0NTozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlu
-ZXR1dGlsczogdXBncmFkZSAyLjUgLT4gMi42CgotLS0KIC4uLi9pbmV0dXRpbHMve2luZXR1dGls
-c18yLjUuYmIgPT4gaW5ldHV0aWxzXzIuNi5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvaW5ldHV0aWxzL3tpbmV0dXRpbHNfMi41LmJiID0+IGluZXR1dGlsc18y
-LjYuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pbmV0
-dXRpbHMvaW5ldHV0aWxzXzIuNS5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaW5ldHV0
-aWxzL2luZXR1dGlsc18yLjYuYmIKc2ltaWxhcml0eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pbmV0dXRpbHMvaW5ldHV0aWxzXzIuNS5iYgpyZW5hbWUg
-dG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pbmV0dXRpbHMvaW5ldHV0aWxzXzIuNi5iYgpp
-bmRleCAxOWJmN2UxNTM5Li5lZjQ1M2QzYmIyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L2luZXR1dGlscy9pbmV0dXRpbHNfMi41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvaW5ldHV0aWxzL2luZXR1dGlsc18yLjYuYmIKQEAgLTExLDcgKzExLDcgQEAg
-TElDRU5TRSA9ICJHUEwtMy4wLW9ubHkiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
-UFlJTkc7bWQ1PTBjNzA1MWFlZjkyMTlkYzcyMzdmMjA2YzVjNDE3OWE3IgogCi1TUkNfVVJJW3No
-YTI1NnN1bV0gPSAiODc2OTdkNjBhMzFlMTBiNWNiODZhOWYwNjUxZTFlYzdiZWU5ODMyMGQwNDhj
-MDczOTQzMWFhYzNkNTc2NGZiNiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2OGJlZGJmZWFmNzNm
-N2Q4NmJlMmE3ZDk5YmNmYmQ0MDkzZDgyOWY1Mjc3MDg5MzkxOWFlMTc0YzBiMjM1N2NhIgogU1JD
-X1VSSSA9ICIke0dOVV9NSVJST1J9L2luZXR1dGlscy9pbmV0dXRpbHMtJHtQVn0udGFyLnh6IFwK
-ICAgICAgICAgICAgZmlsZTovL3JleGVjLnhpbmV0ZC5pbmV0dXRpbHMgXAogICAgICAgICAgICBm
-aWxlOi8vcmxvZ2luLnhpbmV0ZC5pbmV0dXRpbHMgXAotLSAKMi40NC4xCgo=
-
---===============5046783554633236481==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/inetutils/inetutils-src: PKGSIZE changed from 3176340 to 3593248 (+13%)
-packages/core2-64-poky-linux/inetutils/inetutils-telnet: PKGSIZE changed from 144968 to 161352 (+11%)
-
---===============5046783554633236481==--
+--===============5380145903006147594==--
 
