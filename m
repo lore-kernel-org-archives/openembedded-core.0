@@ -2,48 +2,50 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD53C021B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A0BC282D2
 	for <webhook@archiver.kernel.org>; Sat,  1 Mar 2025 11:25:27 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.7163.1740828318538724398
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.7045.1740828318040449150
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Mar 2025 03:25:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G0iXw7jN;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SaLDsTLA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010195517417fa-1ad9d2c3-1fd2-4b27-ab27-5fbf57b6f5df-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SFbfqCsR;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2l2Y/rE0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010195517415f4-b3a8eef1-a228-4404-9f87-ffe24f094f6b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1740828317;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BLnJ/WNO2Lzbr1tEfev6pyqeRG2GIdQ3sHWa1xUjsLY=;
-	b=G0iXw7jNFv5ks2dD0bxGVtjPsD5PopMFZqnRfhKgg6FwfPOuWQg76We6pombfDYF
-	7TUfVRiFPl9LfjseRjytjHve6TdWO59CbI26Z0jeAbhJ6jo+qPKWz9jq15T5XNASszn
-	EgdYVxWsz7hqSur9JpOPT3ztUL2TLDENO14p+uVA=
+	bh=AqitmsmGHCjaFT9V3BhFe24gcFXxXx2tyY896DDEInE=;
+	b=SFbfqCsRWAdEPvt1vSwXJe5L+P4jBqTsaxCdhfudAuZ4SuFBDoUKQQzFSyq1mmX6
+	ApsJ0FizSg8LYPmzp4iWTOBi7n+7uyB7ynvOPUt2QwdIyN83HaafNfXPf4bw0eola/6
+	8c/XXHe7udHKga4OSoqwFIkm+Nothw0mq4SSDfUM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1740828317;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BLnJ/WNO2Lzbr1tEfev6pyqeRG2GIdQ3sHWa1xUjsLY=;
-	b=SaLDsTLAv9ff1So+XLS0XMeg9SWFDnTFQGcR6WKn8YpqN+6Fgh3BRej6LuotRqXH
-	BMZsS1GlIY6ukn0W6/yNuCK9+it/T9scdliROYUNZYbZ0lVPEuAh3dgU06FafTKtvg8
-	CgbUT/NERxRxq7IBqqyieJUsq33fBAe71sj6CCCM=
-Content-Type: multipart/mixed; boundary="===============8107776054656860515=="
+	bh=AqitmsmGHCjaFT9V3BhFe24gcFXxXx2tyY896DDEInE=;
+	b=2l2Y/rE0JwD9SPpZkX+X1f974pgkboEE5aoK4nrFBBHb8VG7C5ydv2ioi5QeSc8e
+	U2B0sBnz0EUmd9Jup2TRwlBYTUlSpRbAqwzaQB0ri4fkq0INQQnOZHTjuiLt3bhsEpR
+	e+w3mL8SrZ9J0Go51DA9xEroYwLDar0PUVBpYNqo=
+Content-Type: multipart/mixed; boundary="===============0707767401260408451=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] dhcpcd: upgrading to 10.2.2 SUCCEEDED
-Message-ID: <01010195517417fa-1ad9d2c3-1fd2-4b27-ab27-5fbf57b6f5df-000000@us-west-2.amazonses.com>
+To: Tim Orling <tim.orling@konsulko.com>, 
+	Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-cryptography,python3-cryptography-vectors: upgrading to
+ 44.0.1,44.0.1 SUCCEEDED
+Message-ID: <01010195517415f4-b3a8eef1-a228-4404-9f87-ffe24f094f6b-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Mar 2025 11:25:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.03.01-54.240.27.193
+X-SES-Outgoing: 2025.03.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Mar 2025 11:25:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/212099
 
---===============8107776054656860515==
+--===============0707767401260408451==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +53,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dhcpcd* to *10.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-cryptography,python3-cryptography-vectors* to *44.0.1,44.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dhcpcd-upgrade-10.1.0-10.2.2.patch
+    - apply the patch: git am 0001-python3-cryptography-python3-cryptography-vectors-up.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,261 +74,303 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5c46cfdd0b3cf88c131b159e198fa713028ad8aa Mon Sep 17 00:00:00 2001
+From 96c79e8675de5bd08ab0180ea2f9aa7577e4677a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Mar 2025 06:40:56 +0000
-Subject: [PATCH] dhcpcd: upgrade 10.1.0 -> 10.2.2
+Date: Sat, 1 Mar 2025 05:52:48 +0000
+Subject: [PATCH] python3-cryptography,python3-cryptography-vectors: upgrade
+ 44.0.0 -> 44.0.1,44.0.0 -> 44.0.1
 
 ---
- .../{dhcpcd_10.1.0.bb => dhcpcd_10.2.2.bb}    | 23 +++++++++++++++++--
- ...mprove-the-sitation-of-working-with-.patch |  5 +---
- ...-conflict-error-when-enable-multilib.patch |  4 ++--
- ...e-INCLUDEDIR-to-prevent-build-issues.patch |  4 ++--
- 4 files changed, 26 insertions(+), 10 deletions(-)
- rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.1.0.bb => dhcpcd_10.2.2.bb} (73%)
+ .../python/python3-cryptography-common.inc    |  2 +-
+ .../python/python3-cryptography-crates.inc    | 20 +++++++++----------
+ .../python/python3-cryptography-vectors.bb    |  2 +-
+ .../python/python3-cryptography.bb            |  2 +-
+ ...toml-remove-benchmark-disable-option.patch |  4 ++--
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
-similarity index 73%
-rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
-index 3f806bb187..4d123d6208 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.1.0.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.2.2.bb
-@@ -1,3 +1,22 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,4 +1,4 @@
-+# -Copyright (c) 2006-2024 Roy Marples <roy@marples.name>
-+# +Copyright (c) 2006-2025 Roy Marples <roy@marples.name>
-+#  All rights reserved.
-+#  
-+#  Redistribution and use in source and binary forms, with or without
-+# 
-+#
-+
- SECTION = "console/network"
- SUMMARY = "dhcpcd - a DHCP client"
- DESCRIPTION = "dhcpcd runs on your machine and silently configures your \
-@@ -7,7 +26,7 @@ DESCRIPTION = "dhcpcd runs on your machine and silently configures your \
- HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
+index 4220c7d62c..b821f910e8 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-common.inc
++++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
+@@ -3,4 +3,4 @@
+ #
+ # Additionally AUH will detect that they share this .inc file and
+ # perform a lockstep upgrade for both.
+-PV = "44.0.0"
++PV = "44.0.1"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-crates.inc b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+index 18f346aed4..ccb729cf3c 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-crates.inc
++++ b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+@@ -24,11 +24,11 @@ SRC_URI += " \
+     crate://crates.io/pkg-config/0.3.31 \
+     crate://crates.io/portable-atomic/1.10.0 \
+     crate://crates.io/proc-macro2/1.0.92 \
+-    crate://crates.io/pyo3/0.23.2 \
+-    crate://crates.io/pyo3-build-config/0.23.2 \
+-    crate://crates.io/pyo3-ffi/0.23.2 \
+-    crate://crates.io/pyo3-macros/0.23.2 \
+-    crate://crates.io/pyo3-macros-backend/0.23.2 \
++    crate://crates.io/pyo3/0.23.4 \
++    crate://crates.io/pyo3-build-config/0.23.4 \
++    crate://crates.io/pyo3-ffi/0.23.4 \
++    crate://crates.io/pyo3-macros/0.23.4 \
++    crate://crates.io/pyo3-macros-backend/0.23.4 \
+     crate://crates.io/quote/1.0.37 \
+     crate://crates.io/self_cell/1.0.4 \
+     crate://crates.io/shlex/1.3.0 \
+@@ -61,11 +61,11 @@ SRC_URI[pem-3.0.4.sha256sum] = "8e459365e590736a54c3fa561947c84837534b8e9af6fc5b
+ SRC_URI[pkg-config-0.3.31.sha256sum] = "953ec861398dccce10c670dfeaf3ec4911ca479e9c02154b3a215178c5f566f2"
+ SRC_URI[portable-atomic-1.10.0.sha256sum] = "280dc24453071f1b63954171985a0b0d30058d287960968b9b2aca264c8d4ee6"
+ SRC_URI[proc-macro2-1.0.92.sha256sum] = "37d3544b3f2748c54e147655edb5025752e2303145b5aefb3c3ea2c78b973bb0"
+-SRC_URI[pyo3-0.23.2.sha256sum] = "f54b3d09cbdd1f8c20650b28e7b09e338881482f4aa908a5f61a00c98fba2690"
+-SRC_URI[pyo3-build-config-0.23.2.sha256sum] = "3015cf985888fe66cfb63ce0e321c603706cd541b7aec7ddd35c281390af45d8"
+-SRC_URI[pyo3-ffi-0.23.2.sha256sum] = "6fca7cd8fd809b5ac4eefb89c1f98f7a7651d3739dfb341ca6980090f554c270"
+-SRC_URI[pyo3-macros-0.23.2.sha256sum] = "34e657fa5379a79151b6ff5328d9216a84f55dc93b17b08e7c3609a969b73aa0"
+-SRC_URI[pyo3-macros-backend-0.23.2.sha256sum] = "295548d5ffd95fd1981d2d3cf4458831b21d60af046b729b6fd143b0ba7aee2f"
++SRC_URI[pyo3-0.23.4.sha256sum] = "57fe09249128b3173d092de9523eaa75136bf7ba85e0d69eca241c7939c933cc"
++SRC_URI[pyo3-build-config-0.23.4.sha256sum] = "1cd3927b5a78757a0d71aa9dff669f903b1eb64b54142a9bd9f757f8fde65fd7"
++SRC_URI[pyo3-ffi-0.23.4.sha256sum] = "dab6bb2102bd8f991e7749f130a70d05dd557613e39ed2deeee8e9ca0c4d548d"
++SRC_URI[pyo3-macros-0.23.4.sha256sum] = "91871864b353fd5ffcb3f91f2f703a22a9797c91b9ab497b1acac7b07ae509c7"
++SRC_URI[pyo3-macros-backend-0.23.4.sha256sum] = "43abc3b80bc20f3facd86cd3c60beed58c3e2aa26213f3cda368de39c60a27e4"
+ SRC_URI[quote-1.0.37.sha256sum] = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
+ SRC_URI[self_cell-1.0.4.sha256sum] = "d369a96f978623eb3dc28807c4852d6cc617fed53da5d3c400feff1ef34a714a"
+ SRC_URI[shlex-1.3.0.sha256sum] = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+index 8eae2c3cbe..bcdec46e53 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI[sha256sum] = "106228766c45b9a5ffd1a8b3e254f0560c821da79d5cd7fd113a17e3753580ab"
++SRC_URI[sha256sum] = "5a9866b14465dcfaf12bcdfbc3392987bb559f37ac8b8a4c9b6359be7a3d7ea0"
  
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d296c4bec306f351e676705aaf237c8c"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4dda5beb433a809f2e0aeffbf9da3d91"
+ PYPI_PACKAGE = "cryptography_vectors"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index 69329ec954..0e6eb12f3b 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI[sha256sum] = "cd4e834f340b4293430701e772ec543b0fbe6c2dea510a5286fe0acabe153a02"
++SRC_URI[sha256sum] = "f51f5705ab27898afda1aaa430f34ad90dc117421057782022edf0600bec5f14"
  
- SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master \
-            file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch \
-@@ -17,7 +36,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            "
- 
--SRCREV = "57c3506a5622e199cf0e3fc1ef26a71cdedc9521"
-+SRCREV = "f6983c18dbf7989f43a2838beeaf62a54c53ff1d"
- S = "${WORKDIR}/git"
- 
- inherit pkgconfig autotools-brokensep systemd useradd
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
-index 8d1ed6671a..8d9d528019 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+             file://check-memfree.py \
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
+index b9659eb059..2589f2c22e 100644
+--- a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
++++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
 @@ -1,4 +1,4 @@
--From 02acc4d875ee81e6fd19ef66d69c9f55b4b4a7e7 Mon Sep 17 00:00:00 2001
-+From 3e5214f14ada88bd27bb372f484519780019a8d1 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Wed, 9 Nov 2022 16:33:18 +0800
- Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
-@@ -77,6 +77,3 @@ index 7c29e276..becc019f 100644
-  		"$resolvconf" -d "$ifname" -f
-  	else
-  		if [ -e "$resolv_conf_dir/$ifname" ]; then
---- 
--2.17.1
--
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-index b958110ef1..59184ed950 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
-@@ -1,4 +1,4 @@
--From 1115784dfdf2e7095cf599f9becef705ac57f80e Mon Sep 17 00:00:00 2001
-+From c2ddea4d58b2eedd082aa61c75ab359f1ee008aa Mon Sep 17 00:00:00 2001
- From: Lei Maohui <leimaohui@fujitsu.com>
- Date: Fri, 10 Mar 2023 03:48:46 +0000
- Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
-@@ -29,7 +29,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+-From b8d6e70280367b84af1fc776d35554ffd6996994 Mon Sep 17 00:00:00 2001
++From 2dba7d19a3e13f8afdbc4a4865e95b5e680d7ce2 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Tue, 17 May 2022 17:22:48 +0800
+ Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
+@@ -26,7 +26,7 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/src/dhcpcd.8.in b/src/dhcpcd.8.in
--index 04bf7d90..9cf10d24 100644
-+index 91fdde2c..b467dc3b 100644
- --- a/src/dhcpcd.8.in
- +++ b/src/dhcpcd.8.in
- @@ -826,7 +826,7 @@ Configuration file for dhcpcd.
-diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-index 8890c2d7dc..62634e0fe9 100644
---- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-+++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
-@@ -1,4 +1,4 @@
--From 69babef33b0ee4c60d8821797777b9affedd47da Mon Sep 17 00:00:00 2001
-+From dff30e7b5a9bf71424361ae961a2a76c7d0cb570 Mon Sep 17 00:00:00 2001
- From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
- Date: Sun, 13 Jan 2019 01:50:52 +0100
- Subject: [PATCH] remove INCLUDEDIR to prevent build issues
-@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
-  1 file changed, 5 deletions(-)
- 
- diff --git a/configure b/configure
--index 1a772b02..0f915b39 100755
-+index a60da137..3673de8b 100755
- --- a/configure
- +++ b/configure
- @@ -26,7 +26,6 @@ BUILD=
+ diff --git a/pyproject.toml b/pyproject.toml
+-index 949d684..8c62432 100644
++index 759ceba..68bea99 100644
+ --- a/pyproject.toml
+ +++ b/pyproject.toml
+ @@ -118,7 +118,7 @@ exclude = [
 -- 
 2.44.1
 
 
---===============8107776054656860515==
+--===============0707767401260408451==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dhcpcd-upgrade-10.1.0-10.2.2.patch"
+ filename="0001-python3-cryptography-python3-cryptography-vectors-up.patch"
 
-RnJvbSA1YzQ2Y2ZkZDBiM2NmODhjMTMxYjE1OWUxOThmYTcxMzAyOGFkOGFhIE1vbiBTZXAgMTcg
+RnJvbSA5NmM3OWU4Njc1ZGU1YmQwOGFiMDE4MGVhMmY5YWE3NTc3ZTQ2NzdhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNjo0MDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRo
-Y3BjZDogdXBncmFkZSAxMC4xLjAgLT4gMTAuMi4yCgotLS0KIC4uLi97ZGhjcGNkXzEwLjEuMC5i
-YiA9PiBkaGNwY2RfMTAuMi4yLmJifSAgICB8IDIzICsrKysrKysrKysrKysrKysrLS0KIC4uLm1w
-cm92ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaCB8ICA1ICstLS0KIC4uLi1j
-b25mbGljdC1lcnJvci13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaCB8ICA0ICsrLS0KIC4uLmUt
-SU5DTFVERURJUi10by1wcmV2ZW50LWJ1aWxkLWlzc3Vlcy5wYXRjaCB8ICA0ICsrLS0KIDQgZmls
-ZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2Qve2RoY3BjZF8xMC4xLjAuYmIgPT4gZGhjcGNk
-XzEwLjIuMi5iYn0gKDczJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
-L2RoY3BjZC9kaGNwY2RfMTAuMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNw
-Y2QvZGhjcGNkXzEwLjIuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDczJQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAuMS4wLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAuMi4yLmJiCmluZGV4IDNm
-ODA2YmIxODcuLjRkMTIzZDYyMDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvZGhjcGNkL2RoY3BjZF8xMC4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9kaGNwY2QvZGhjcGNkXzEwLjIuMi5iYgpAQCAtMSwzICsxLDIyIEBACisjIEZJWE1FOiB0aGUg
-TElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBn
-cmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xk
-IGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2
-YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1p
-dCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5z
-ZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgor
-IworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw0ICsxLDQgQEAKKyMgLUNv
-cHlyaWdodCAoYykgMjAwNi0yMDI0IFJveSBNYXJwbGVzIDxyb3lAbWFycGxlcy5uYW1lPgorIyAr
-Q29weXJpZ2h0IChjKSAyMDA2LTIwMjUgUm95IE1hcnBsZXMgPHJveUBtYXJwbGVzLm5hbWU+Cisj
-ICBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyAgCisjICBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGlu
-IHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKKyMgCisjCisKIFNFQ1RJ
-T04gPSAiY29uc29sZS9uZXR3b3JrIgogU1VNTUFSWSA9ICJkaGNwY2QgLSBhIERIQ1AgY2xpZW50
-IgogREVTQ1JJUFRJT04gPSAiZGhjcGNkIHJ1bnMgb24geW91ciBtYWNoaW5lIGFuZCBzaWxlbnRs
-eSBjb25maWd1cmVzIHlvdXIgXApAQCAtNyw3ICsyNiw3IEBAIERFU0NSSVBUSU9OID0gImRoY3Bj
-ZCBydW5zIG9uIHlvdXIgbWFjaGluZSBhbmQgc2lsZW50bHkgY29uZmlndXJlcyB5b3VyIFwKIEhP
-TUVQQUdFID0gImh0dHA6Ly9yb3kubWFycGxlcy5uYW1lL3Byb2plY3RzL2RoY3BjZC8iCiAKIExJ
-Q0VOU0UgPSAiQlNELTItQ2xhdXNlIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
-RTttZDU9ZDI5NmM0YmVjMzA2ZjM1MWU2NzY3MDVhYWYyMzdjOGMiCitMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT00ZGRhNWJlYjQzM2E4MDlmMmUwYWVmZmJmOWRhM2Q5MSIK
-IAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05ldHdvcmtDb25maWd1cmF0aW9uL2RoY3Bj
-ZDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEt
-cmVtb3ZlLUlOQ0xVREVESVItdG8tcHJldmVudC1idWlsZC1pc3N1ZXMucGF0Y2ggXApAQCAtMTcs
-NyArMzYsNyBAQCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vTmV0d29ya0NvbmZpZ3VyYXRp
-b24vZGhjcGNkO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYQogICAgICAgICAgICBmaWxlOi8vMDAw
-MS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIucGF0Y2gg
-XAogICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICI1N2MzNTA2YTU2MjJlMTk5Y2YwZTNmYzFlZjI2
-YTcxY2RlZGM5NTIxIgorU1JDUkVWID0gImY2OTgzYzE4ZGJmNzk4OWY0M2EyODM4YmVlYWY2MmE1
-NGM1M2ZmMWQiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCiBpbmhlcml0IHBrZ2NvbmZpZyBhdXRv
-dG9vbHMtYnJva2Vuc2VwIHN5c3RlbWQgdXNlcmFkZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3ZlLXRo
-ZS1zaXRhdGlvbi1vZi13b3JraW5nLXdpdGgtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9kaGNwY2QvZmlsZXMvMDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3ZlLXRoZS1zaXRhdGlv
-bi1vZi13b3JraW5nLXdpdGgtLnBhdGNoCmluZGV4IDhkMWVkNjY3MWEuLjhkOWQ1MjgwMTkgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtMjAt
-cmVzb2x2LmNvbmYtaW1wcm92ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLTIwLXJlc29s
-di5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmctd2l0aC0ucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDAyYWNjNGQ4NzVlZTgxZTZmZDE5ZWY2NmQ2OWM5ZjU1YjRiNGE3ZTcg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDNlNTIxNGYxNGFkYTg4YmQyN2JiMzcyZjQ4
-NDUxOTc4MDAxOWE4ZDEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaGVuIFFpIDxR
-aS5DaGVuQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDkgTm92IDIwMjIgMTY6MzM6MTggKzA4
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gMjAtcmVzb2x2LmNvbmY6IGltcHJvdmUgdGhlIHNpdGF0aW9u
-IG9mIHdvcmtpbmcgd2l0aCBzeXN0ZW1kCkBAIC03Nyw2ICs3NywzIEBAIGluZGV4IDdjMjllMjc2
-Li5iZWNjMDE5ZiAxMDA2NDQKICAJCSIkcmVzb2x2Y29uZiIgLWQgIiRpZm5hbWUiIC1mCiAgCWVs
-c2UKICAJCWlmIFsgLWUgIiRyZXNvbHZfY29uZl9kaXIvJGlmbmFtZSIgXTsgdGhlbgotLS0gCi0y
-LjE3LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmls
-ZXMvMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hlbi1lbmFibGUtbXVsdGlsaWIu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLWRoY3Bj
-ZC44LUZpeC1jb25mbGljdC1lcnJvci13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaAppbmRleCBi
-OTU4MTEwZWYxLi41OTE4NGVkOTUwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2RoY3BjZC9maWxlcy8wMDAxLWRoY3BjZC44LUZpeC1jb25mbGljdC1lcnJvci13aGVuLWVu
-YWJsZS1tdWx0aWxpYi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3Bj
-ZC9maWxlcy8wMDAxLWRoY3BjZC44LUZpeC1jb25mbGljdC1lcnJvci13aGVuLWVuYWJsZS1tdWx0
-aWxpYi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTExNTc4NGRmZGYyZTcwOTVjZjU5OWY5
-YmVjZWY3MDVhYzU3ZjgwZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzJkZGVhNGQ1
-OGIyZWVkZDA4MmFhNjFjNzVhYjM1OWYxZWUwMDhhYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-IEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBmdWppdHN1LmNvbT4KIERhdGU6IEZyaSwgMTAg
-TWFyIDIwMjMgMDM6NDg6NDYgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZGhjcGNkLjg6IEZpeCBj
-b25mbGljdCBlcnJvciB3aGVuIGVuYWJsZSBtdWx0aWxpYi4KQEAgLTI5LDcgKzI5LDcgQEAgU2ln
-bmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPgogIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvc3Jj
-L2RoY3BjZC44LmluIGIvc3JjL2RoY3BjZC44LmluCi1pbmRleCAwNGJmN2Q5MC4uOWNmMTBkMjQg
-MTAwNjQ0CitpbmRleCA5MWZkZGUyYy4uYjQ2N2RjM2IgMTAwNjQ0CiAtLS0gYS9zcmMvZGhjcGNk
-LjguaW4KICsrKyBiL3NyYy9kaGNwY2QuOC5pbgogQEAgLTgyNiw3ICs4MjYsNyBAQCBDb25maWd1
-cmF0aW9uIGZpbGUgZm9yIGRoY3BjZC4KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVItdG8tcHJldmVudC1idWls
-ZC1pc3N1ZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8w
-MDAxLXJlbW92ZS1JTkNMVURFRElSLXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoCmluZGV4
-IDg4OTBjMmQ3ZGMuLjYyNjM0ZTBmZTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVItdG8tcHJldmVudC1idWls
-ZC1pc3N1ZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmls
-ZXMvMDAwMS1yZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50LWJ1aWxkLWlzc3Vlcy5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gNjliYWJlZjMzYjBlZTRjNjBkODgyMTc5Nzc3N2I5YWZmZWRk
-NDdkYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGZmMzBlN2I1YTliZjcxNDI0MzYx
-YWU5NjFhMmE3NmM3ZDBjYjU3MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFN0ZWZh
-bm8gQ2FwcGEgPHN0ZWZhbm8uY2FwcGEua3M4OUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDEzIEph
-biAyMDE5IDAxOjUwOjUyICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJlbW92ZSBJTkNMVURFRElS
-IHRvIHByZXZlbnQgYnVpbGQgaXNzdWVzCkBAIC0xMSw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6
-IFN0ZWZhbm8gQ2FwcGEgPHN0ZWZhbm8uY2FwcGEua3M4OUBnbWFpbC5jb20+CiAgMSBmaWxlIGNo
-YW5nZWQsIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9jb25maWd1
-cmUKLWluZGV4IDFhNzcyYjAyLi4wZjkxNWIzOSAxMDA3NTUKK2luZGV4IGE2MGRhMTM3Li4zNjcz
-ZGU4YiAxMDA3NTUKIC0tLSBhL2NvbmZpZ3VyZQogKysrIGIvY29uZmlndXJlCiBAQCAtMjYsNyAr
-MjYsNiBAQCBCVUlMRD0KLS0gCjIuNDQuMQoK
+CkRhdGU6IFNhdCwgMSBNYXIgMjAyNSAwNTo1Mjo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtY3J5cHRvZ3JhcGh5LHB5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnM6IHVwZ3JhZGUK
+IDQ0LjAuMCAtPiA0NC4wLjEsNDQuMC4wIC0+IDQ0LjAuMQoKLS0tCiAuLi4vcHl0aG9uL3B5dGhv
+bjMtY3J5cHRvZ3JhcGh5LWNvbW1vbi5pbmMgICAgfCAgMiArLQogLi4uL3B5dGhvbi9weXRob24z
+LWNyeXB0b2dyYXBoeS1jcmF0ZXMuaW5jICAgIHwgMjAgKysrKysrKysrLS0tLS0tLS0tLQogLi4u
+L3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzLmJiICAgIHwgIDIgKy0KIC4uLi9w
+eXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIgICAgICAgICAgICB8ICAyICstCiAuLi50b21s
+LXJlbW92ZS1iZW5jaG1hcmstZGlzYWJsZS1vcHRpb24ucGF0Y2ggfCAgNCArKy0tCiA1IGZpbGVz
+IGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktY29tbW9u
+LmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkt
+Y29tbW9uLmluYwppbmRleCA0MjIwYzdkNjJjLi5iODIxZjkxMGU4IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LWNvbW1vbi5pbmMK
+KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS1j
+b21tb24uaW5jCkBAIC0zLDQgKzMsNCBAQAogIwogIyBBZGRpdGlvbmFsbHkgQVVIIHdpbGwgZGV0
+ZWN0IHRoYXQgdGhleSBzaGFyZSB0aGlzIC5pbmMgZmlsZSBhbmQKICMgcGVyZm9ybSBhIGxvY2tz
+dGVwIHVwZ3JhZGUgZm9yIGJvdGguCi1QViA9ICI0NC4wLjAiCitQViA9ICI0NC4wLjEiCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5
+LWNyYXRlcy5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRv
+Z3JhcGh5LWNyYXRlcy5pbmMKaW5kZXggMThmMzQ2YWVkNC4uY2NiNzI5Y2YzYyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS1jcmF0
+ZXMuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9n
+cmFwaHktY3JhdGVzLmluYwpAQCAtMjQsMTEgKzI0LDExIEBAIFNSQ19VUkkgKz0gIiBcCiAgICAg
+Y3JhdGU6Ly9jcmF0ZXMuaW8vcGtnLWNvbmZpZy8wLjMuMzEgXAogICAgIGNyYXRlOi8vY3JhdGVz
+LmlvL3BvcnRhYmxlLWF0b21pYy8xLjEwLjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3Byb2Mt
+bWFjcm8yLzEuMC45MiBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy8wLjIzLjIgXAotICAg
+IGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtYnVpbGQtY29uZmlnLzAuMjMuMiBcCi0gICAgY3JhdGU6
+Ly9jcmF0ZXMuaW8vcHlvMy1mZmkvMC4yMy4yIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8z
+LW1hY3Jvcy8wLjIzLjIgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFjcm9zLWJhY2tl
+bmQvMC4yMy4yIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLzAuMjMuNCBcCisgICAgY3Jh
+dGU6Ly9jcmF0ZXMuaW8vcHlvMy1idWlsZC1jb25maWcvMC4yMy40IFwKKyAgICBjcmF0ZTovL2Ny
+YXRlcy5pby9weW8zLWZmaS8wLjIzLjQgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFj
+cm9zLzAuMjMuNCBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1tYWNyb3MtYmFja2VuZC8w
+LjIzLjQgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3F1b3RlLzEuMC4zNyBcCiAgICAgY3JhdGU6
+Ly9jcmF0ZXMuaW8vc2VsZl9jZWxsLzEuMC40IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9zaGxl
+eC8xLjMuMCBcCkBAIC02MSwxMSArNjEsMTEgQEAgU1JDX1VSSVtwZW0tMy4wLjQuc2hhMjU2c3Vt
+XSA9ICI4ZTQ1OTM2NWU1OTA3MzZhNTRjM2ZhNTYxOTQ3Yzg0ODM3NTM0YjhlOWFmNmZjNWIKIFNS
+Q19VUklbcGtnLWNvbmZpZy0wLjMuMzEuc2hhMjU2c3VtXSA9ICI5NTNlYzg2MTM5OGRjY2NlMTBj
+NjcwZGZlYWYzZWM0OTExY2E0NzllOWMwMjE1NGIzYTIxNTE3OGM1ZjU2NmYyIgogU1JDX1VSSVtw
+b3J0YWJsZS1hdG9taWMtMS4xMC4wLnNoYTI1NnN1bV0gPSAiMjgwZGMyNDQ1MzA3MWYxYjYzOTU0
+MTcxOTg1YTBiMGQzMDA1OGQyODc5NjA5NjhiOWIyYWNhMjY0YzhkNGVlNiIKIFNSQ19VUklbcHJv
+Yy1tYWNybzItMS4wLjkyLnNoYTI1NnN1bV0gPSAiMzdkMzU0NGIzZjI3NDhjNTRlMTQ3NjU1ZWRi
+NTAyNTc1MmUyMzAzMTQ1YjVhZWZiM2MzZWEyYzc4Yjk3M2JiMCIKLVNSQ19VUklbcHlvMy0wLjIz
+LjIuc2hhMjU2c3VtXSA9ICJmNTRiM2QwOWNiZGQxZjhjMjA2NTBiMjhlN2IwOWUzMzg4ODE0ODJm
+NGFhOTA4YTVmNjFhMDBjOThmYmEyNjkwIgotU1JDX1VSSVtweW8zLWJ1aWxkLWNvbmZpZy0wLjIz
+LjIuc2hhMjU2c3VtXSA9ICIzMDE1Y2Y5ODU4ODhmZTY2Y2ZiNjNjZTBlMzIxYzYwMzcwNmNkNTQx
+YjdhZWM3ZGRkMzVjMjgxMzkwYWY0NWQ4IgotU1JDX1VSSVtweW8zLWZmaS0wLjIzLjIuc2hhMjU2
+c3VtXSA9ICI2ZmNhN2NkOGZkODA5YjVhYzRlZWZiODljMWY5OGY3YTc2NTFkMzczOWRmYjM0MWNh
+Njk4MDA5MGY1NTRjMjcwIgotU1JDX1VSSVtweW8zLW1hY3Jvcy0wLjIzLjIuc2hhMjU2c3VtXSA9
+ICIzNGU2NTdmYTUzNzlhNzkxNTFiNmZmNTMyOGQ5MjE2YTg0ZjU1ZGM5M2IxN2IwOGU3YzM2MDlh
+OTY5YjczYWEwIgotU1JDX1VSSVtweW8zLW1hY3Jvcy1iYWNrZW5kLTAuMjMuMi5zaGEyNTZzdW1d
+ID0gIjI5NTU0OGQ1ZmZkOTVmZDE5ODFkMmQzY2Y0NDU4ODMxYjIxZDYwYWYwNDZiNzI5YjZmZDE0
+M2IwYmE3YWVlMmYiCitTUkNfVVJJW3B5bzMtMC4yMy40LnNoYTI1NnN1bV0gPSAiNTdmZTA5MjQ5
+MTI4YjMxNzNkMDkyZGU5NTIzZWFhNzUxMzZiZjdiYTg1ZTBkNjllY2EyNDFjNzkzOWM5MzNjYyIK
+K1NSQ19VUklbcHlvMy1idWlsZC1jb25maWctMC4yMy40LnNoYTI1NnN1bV0gPSAiMWNkMzkyN2I1
+YTc4NzU3YTBkNzFhYTlkZmY2NjlmOTAzYjFlYjY0YjU0MTQyYTliZDlmNzU3ZjhmZGU2NWZkNyIK
+K1NSQ19VUklbcHlvMy1mZmktMC4yMy40LnNoYTI1NnN1bV0gPSAiZGFiNmJiMjEwMmJkOGY5OTFl
+Nzc0OWYxMzBhNzBkMDVkZDU1NzYxM2UzOWVkMmRlZWVlOGU5Y2EwYzRkNTQ4ZCIKK1NSQ19VUklb
+cHlvMy1tYWNyb3MtMC4yMy40LnNoYTI1NnN1bV0gPSAiOTE4NzE4NjRiMzUzZmQ1ZmZjYjNmOTFm
+MmY3MDNhMjJhOTc5N2M5MWI5YWI0OTdiMWFjYWM3YjA3YWU1MDljNyIKK1NSQ19VUklbcHlvMy1t
+YWNyb3MtYmFja2VuZC0wLjIzLjQuc2hhMjU2c3VtXSA9ICI0M2FiYzNiODBiYzIwZjNmYWNkODZj
+ZDNjNjBiZWVkNThjM2UyYWEyNjIxM2YzY2RhMzY4ZGUzOWM2MGEyN2U0IgogU1JDX1VSSVtxdW90
+ZS0xLjAuMzcuc2hhMjU2c3VtXSA9ICJiNWI5ZDM0Yjg5OTFkMTlkOTgwODFiNDZlYWNkZDhlYjU4
+YzZmMmIyMDExMzlmN2M1ZjY0M2NjMTU1YTYzM2FmIgogU1JDX1VSSVtzZWxmX2NlbGwtMS4wLjQu
+c2hhMjU2c3VtXSA9ICJkMzY5YTk2Zjk3ODYyM2ViM2RjMjg4MDdjNDg1MmQ2Y2M2MTdmZWQ1M2Rh
+NWQzYzQwMGZlZmYxZWYzNGE3MTRhIgogU1JDX1VSSVtzaGxleC0xLjMuMC5zaGEyNTZzdW1dID0g
+IjBmZGEyZmYwZDA4NDAxOWJhNGQ3YzZmMzcxYzk1ZDhmZDc1Y2UzNTI0YzNjYjhmYjY1M2EzMDIz
+ZjYzMjNlNjQiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnMuYmIKaW5kZXggOGVhZTJjM2NiZS4uYmNkZWM0
+NmU1MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNy
+eXB0b2dyYXBoeS12ZWN0b3JzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9ycy5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9OGMzNjE3ZGI0ZmI2ZmFlMDFmMWQyNTNhYjkx
+NTExZTQgXAogIyBOT1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lwZSBhdCB0aGUgc2Ft
+ZSB2ZXJzaW9uIGFzIHB5dGhvbjMtY3J5cHRvZ3JhcGh5CiAjICAgICAgIFVwZ3JhZGUgYm90aCBy
+ZWNpcGVzIGF0IHRoZSBzYW1lIHRpbWUKIHJlcXVpcmUgcHl0aG9uMy1jcnlwdG9ncmFwaHktY29t
+bW9uLmluYwotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjEwNjIyODc2NmM0NWI5YTVmZmQxYThiM2Uy
+NTRmMDU2MGM4MjFkYTc5ZDVjZDdmZDExM2ExN2UzNzUzNTgwYWIiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiNWE5ODY2YjE0NDY1ZGNmYWYxMmJjZGZiYzMzOTI5ODdiYjU1OWYzN2FjOGI4YTRjOWI2
+MzU5YmU3YTNkN2VhMCIKIAogUFlQSV9QQUNLQUdFID0gImNyeXB0b2dyYXBoeV92ZWN0b3JzIgog
+VVBTVFJFQU1fQ0hFQ0tfUFlQSV9QQUNLQUdFID0gIiR7UFlQSV9QQUNLQUdFfSIKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LmJiCmlu
+ZGV4IDY5MzI5ZWM5NTQuLjBlNmViMTJmM2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS5iYgpAQCAtMTEsNyArMTEsNyBAQCBM
+RFNIQVJFRCArPSAiLXB0aHJlYWQiCiAjIE5PVEU6IE1ha2Ugc3VyZSB0byBrZWVwIHRoaXMgcmVj
+aXBlIGF0IHRoZSBzYW1lIHZlcnNpb24gYXMgcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9ycwog
+IyAgICAgICBVcGdyYWRlIGJvdGggcmVjaXBlcyBhdCB0aGUgc2FtZSB0aW1lCiByZXF1aXJlIHB5
+dGhvbjMtY3J5cHRvZ3JhcGh5LWNvbW1vbi5pbmMKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjZDRl
+ODM0ZjM0MGI0MjkzNDMwNzAxZTc3MmVjNTQzYjBmYmU2YzJkZWE1MTBhNTI4NmZlMGFjYWJlMTUz
+YTAyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY1MWY1NzA1YWIyNzg5OGFmZGExYWFhNDMwZjM0
+YWQ5MGRjMTE3NDIxMDU3NzgyMDIyZWRmMDYwMGJlYzVmMTQiCiAKIFNSQ19VUkkgKz0gImZpbGU6
+Ly8wMDAxLXB5cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1hcmstZGlzYWJsZS1vcHRpb24ucGF0
+Y2ggXAogICAgICAgICAgICAgZmlsZTovL2NoZWNrLW1lbWZyZWUucHkgXApkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5
+cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1hcmstZGlzYWJsZS1vcHRpb24ucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LzAwMDEtcHlwcm9q
+ZWN0LnRvbWwtcmVtb3ZlLWJlbmNobWFyay1kaXNhYmxlLW9wdGlvbi5wYXRjaAppbmRleCBiOTY1
+OWViMDU5Li4yNTg5ZjJjMjJlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LzAwMDEtcHlwcm9qZWN0LnRvbWwtcmVtb3ZlLWJlbmNo
+bWFyay1kaXNhYmxlLW9wdGlvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LzAwMDEtcHlwcm9qZWN0LnRvbWwtcmVtb3ZlLWJlbmNo
+bWFyay1kaXNhYmxlLW9wdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYjhkNmU3MDI4
+MDM2N2I4NGFmMWZjNzc2ZDM1NTU0ZmZkNjk5Njk5NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gMmRiYTdkMTlhM2UxM2Y4YWZkYmM0YTQ4NjVlOTViNWU2ODBkN2NlMiBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IE1pbmdsaSBZdSA8bWluZ2xpLnl1QHdpbmRyaXZlci5jb20+
+CiBEYXRlOiBUdWUsIDE3IE1heSAyMDIyIDE3OjIyOjQ4ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IHB5cHJvamVjdC50b21sOiByZW1vdmUgLS1iZW5jaG1hcmstZGlzYWJsZSBvcHRpb24KQEAgLTI2
+LDcgKzI2LDcgQEAgU2lnbmVkLW9mZi1ieTogVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxr
+by5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
+IGRpZmYgLS1naXQgYS9weXByb2plY3QudG9tbCBiL3B5cHJvamVjdC50b21sCi1pbmRleCA5NDlk
+Njg0Li44YzYyNDMyIDEwMDY0NAoraW5kZXggNzU5Y2ViYS4uNjhiZWE5OSAxMDA2NDQKIC0tLSBh
+L3B5cHJvamVjdC50b21sCiArKysgYi9weXByb2plY3QudG9tbAogQEAgLTExOCw3ICsxMTgsNyBA
+QCBleGNsdWRlID0gWwotLSAKMi40NC4xCgo=
 
---===============8107776054656860515==
+--===============0707767401260408451==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1308736 to 1336424 (+2%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGSIZE changed from 65175 to 66983 (+3%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1100832 to 1117821 (+2%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGSIZE changed from 432552 to 436664 (+1%)
-packages/core2-64-poky-linux/dhcpcd: PV changed from "10.1.0" to "10.2.2"
-packages/core2-64-poky-linux/dhcpcd: PKGV changed from 10.1.0 [default] to 10.2.2 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-44.0.0.tar.gz;downloadfilename=cryptography_vectors-44.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-44.0.1.tar.gz;downloadfilename=cryptography_vectors-44.0.1.tar.gz"
+packages/core2-64-poky-linux/python3-cryptography-vectors: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+Changes to packages/core2-64-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.13/site-packages/cryptography_vectors-44.0.0.dist-info moved to /usr/lib/python3.13/site-packages/cryptography_vectors-44.0.1.dist-info
+packages/core2-64-poky-linux/python3-cryptography: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-44.0.0.tar.gz;downloadfilename=cryptography-44.0.0.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.20.0 crate://crates.io/asn1_derive/0.20.0 crate://crates.io/autocfg/1.4.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/2.6.0 crate://crates.io/cc/1.2.1 crate://crates.io/cfg-if/1.0.0 crate://crates.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate://crates.io/heck/0.5.0 crate://crates.io/indoc/2.0.5 crate://crates.io/itoa/1.0.14 crate://crates.io/libc/0.2.166 crate://crates.io/memoffset/0.9.1 crate://crates.io/once_cell/1.20.2 crate://crates.io/openssl/0.10.68 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.104 crate://crates.io/pem/3.0.4 crate://crates.io/pkg-config/0.3.31 crate://crates.io
+ /portable-atomic/1.10.0 crate://crates.io/proc-macro2/1.0.92 crate://crates.io/pyo3/0.23.2 crate://crates.io/pyo3-build-config/0.23.2 crate://crates.io/pyo3-ffi/0.23.2 crate://crates.io/pyo3-macros/0.23.2 crate://crates.io/pyo3-macros-backend/0.23.2 crate://crates.io/quote/1.0.37 crate://crates.io/self_cell/1.0.4 crate://crates.io/shlex/1.3.0 crate://crates.io/syn/2.0.89 crate://crates.io/target-lexicon/0.12.16 crate://crates.io/unicode-ident/1.0.14 crate://crates.io/unindent/0.2.3 crate://crates.io/vcpkg/0.2.15" to "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-44.0.1.tar.gz;downloadfilename=cryptography-44.0.1.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.20.0 crate://crates.io/asn1_derive/0.20.0 crate://crates.io/autocfg/1.4.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/2.6.0 crate://crates.io/cc/1.2.1 crate://crates.io/cfg-if/1.0.0 crate://crate
+ s.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate://crates.io/heck/0.5.0 crate://crates.io/indoc/2.0.5 crate://crates.io/itoa/1.0.14 crate://crates.io/libc/0.2.166 crate://crates.io/memoffset/0.9.1 crate://crates.io/once_cell/1.20.2 crate://crates.io/openssl/0.10.68 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.104 crate://crates.io/pem/3.0.4 crate://crates.io/pkg-config/0.3.31 crate://crates.io/portable-atomic/1.10.0 crate://crates.io/proc-macro2/1.0.92 crate://crates.io/pyo3/0.23.4 crate://crates.io/pyo3-build-config/0.23.4 crate://crates.io/pyo3-ffi/0.23.4 crate://crates.io/pyo3-macros/0.23.4 crate://crates.io/pyo3-macros-backend/0.23.4 crate://crates.io/quote/1.0.37 crate://crates.io/self_cell/1.0.4 crate://crates.io/shlex/1.3.0 crate://crates.io/syn/2.0.89 crate://crates.io/target-lexicon/0.12.16 crate://crates.io/unicode-ident/1.0.14 crate://crates.io/unindent/0.2.3 crate://crates.io/vcpkg/0.2.15"
+packages/core2-64-poky-linux/python3-cryptography: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-dbg: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGSIZE changed from 1102544 to 1105384 (+0%)
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-dev: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-dev: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-doc: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-doc: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-locale: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-locale: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-ptest: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-ptest: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-src: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-src: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-staticdev: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography-staticdev: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography: PV changed from "44.0.0" to "44.0.1"
+packages/core2-64-poky-linux/python3-cryptography/python3-cryptography: PKGV changed from 44.0.0 [default] to 44.0.1 [default]
+Changes to packages/core2-64-poky-linux/python3-cryptography (sysroot):
+  /usr/lib/python3.13/site-packages/cryptography-44.0.0.dist-info moved to /usr/lib/python3.13/site-packages/cryptography-44.0.1.dist-info
 
---===============8107776054656860515==--
+--===============0707767401260408451==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.13/site-packages/cryptography_vectors-44.0.0.dist-info moved to /usr/lib/python3.13/site-packages/cryptography_vectors-44.0.1.dist-info
+Changes to packages/core2-64-poky-linux/python3-cryptography (sysroot):
+  /usr/lib/python3.13/site-packages/cryptography-44.0.0.dist-info moved to /usr/lib/python3.13/site-packages/cryptography-44.0.1.dist-info
+
+--===============0707767401260408451==--
 
